@@ -24,6 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
+#include <cstdio>
+#include <memory>
 #include <stdexcept>
 #include "FileGetLine.hpp"
 #include "FileSeek.hpp"
@@ -31,7 +33,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define BUFFER_LINE_SIZE 4096
+#define BUFFER_LINE_SIZE (4096 * 4)
 //=============================================================================
 bool
 FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
@@ -48,62 +50,73 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     if (!fileptr) {
         return false;
     }
-    bool bEOF = true;
+    if (feof(fileptr) || ferror(fileptr)) {
+        return false;
+    }
+    bool bEOF = false;
+    bool haveError = false;
     std::string readline;
     char buffer[BUFFER_LINE_SIZE];
-    strcpy(buffer, "");
-    char* read = fgets(buffer, BUFFER_LINE_SIZE, fileptr);
-    while (read != nullptr) {
-        readline += buffer;
-        if (readline.length() > 0) {
-            int sizeRemove = 1;
-            size_t index = readline.find('\r');
-            if (index != std::string::npos) {
-                if (readline.length() > index + 1 && readline[index + 1] == '\n') {
-                    sizeRemove = 2;
-                } else {
-                    size_t temp = readline.find('\n');
-                    if (temp != std::string::npos && temp < index) {
-                        index = temp;
-                    }
-                }
-            } else {
-                index = readline.find('\n');
-            }
-            if (index == std::string::npos) {
-                if (!feof(fileptr)) {
-                    read = fgets(buffer, BUFFER_LINE_SIZE, fileptr);
-                } else {
-                    bEOF = false;
-                    break;
-                }
-            } else {
-                index += sizeRemove;
-                FileSeek(fp, static_cast<int64>(index - readline.length()), 0);
-                readline.erase(readline.begin() + index, readline.end());
-                bEOF = false;
-                break;
-            }
-        } else {
+    memset(buffer, '\0', sizeof(char) * BUFFER_LINE_SIZE);
+    bool continueToReadLine = true;
+    do {
+        if (feof(fileptr)) {
             bEOF = true;
+            continueToReadLine = false;
             break;
         }
-    }
-    if (!bWithNewLine) {
-        if (readline.length() > 0) {
-            if (readline[readline.length() - 1] == '\n') {
-                readline.pop_back();
-                if (readline.length() > 0) {
-                    if (readline[readline.length() - 1] == '\r') {
-                        readline.pop_back();
+        if (ferror(fileptr)) {
+            haveError = true;
+            continueToReadLine = false;
+            break;
+        }
+        if (fgets(buffer, BUFFER_LINE_SIZE, fileptr)) {
+            readline.append(buffer);
+            memset(buffer, '\0', sizeof(char) * BUFFER_LINE_SIZE);
+            if (readline.length() > 0) {
+                int sizeRemove = 1;
+                size_t index = readline.find('\r');
+                if (index != std::string::npos) {
+                    if (readline.length() > index + 1 && readline[index + 1] == '\n') {
+                        sizeRemove = 2;
+                    } else {
+                        size_t temp = readline.find('\n');
+                        if (temp != std::string::npos && temp < index) {
+                            index = temp;
+                        }
+                    }
+                } else {
+                    index = readline.find('\n');
+                }
+                if (index != std::string::npos) {
+                    index += sizeRemove;
+                    FileSeek(fp, static_cast<int64>(index - readline.length()), 0);
+                    readline.erase(readline.begin() + index, readline.end());
+                    continueToReadLine = false;
+                }
+            } else {
+                continueToReadLine = false;
+            }
+        } else {
+            continueToReadLine = false;
+        }
+    } while (continueToReadLine);
+
+    if (haveError) {
+        bOK = false;
+    } else {
+        if (!bWithNewLine) {
+            if (readline.length() > 0) {
+                if (readline[readline.length() - 1] == '\n') {
+                    readline.pop_back();
+                    if (readline.length() > 0) {
+                        if (readline[readline.length() - 1] == '\r') {
+                            readline.pop_back();
+                        }
                     }
                 }
             }
         }
-    }
-    if (bEOF) {
-        bOK = false;
-    } else {
         if (nchar == 0) {
             result.clear();
             return true;
@@ -119,9 +132,9 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
             if (nchar > 0) {
                 if (nchar < static_cast<indexType>(result.length())) {
                     std::wstring w = result;
-                    result.resize(nchar);
+                    result.resize((size_t)(nchar));
                     try {
-                        w = w.substr(nchar);
+                        w = w.substr((size_t)(nchar));
                     } catch (const std::out_of_range&) {
                     }
                     std::string u = wstring_to_utf8(w);

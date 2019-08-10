@@ -59,11 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
-    <None Include="..\..\..\modules.nls.vc" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\modules.nls.vc" />
   </ItemGroup>
 </Project>

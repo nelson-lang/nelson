@@ -31,7 +31,7 @@ found = false;
 while ischar(line)
   line = fgets(fid);
   if (~isnumeric(line))
-    if (contains(line, 'Eg. ［＃ここから３字下げ］'))
+    if (startsWith(line, 'Eg. ［＃ここから３字下げ］'))
       found = true;
       break;
     end

@@ -34,7 +34,7 @@ found = false;
 while ischar(line)
   line = fgetl(fid);
   if (~isnumeric(line))
-    if (contains(line, 'Eg. ［＃ここから３字下げ］'))
+    if (startsWith(line, 'Eg. ［＃ここから３字下げ］'))
       found = true;
       break;
     end
@@ -51,7 +51,7 @@ found = false;
 while ischar(line)
   line = fgetl(fid);
   if (~isnumeric(line))
-    if (contains(line, 'P.S. Когато преглеждах първата'))
+    if (startsWith(line, 'P.S. Когато преглеждах първата'))
       found = true;
       break;
     end
