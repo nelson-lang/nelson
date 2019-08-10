@@ -76,8 +76,7 @@ MapFileRead(const std::wstring& filename, const std::wstring& eol, const std::ws
                 }
                 res = true;
                 content = utf8_to_wstring(asUtf8);
-            }
-            else if (encoding == L"UTF-8") {
+            } else if (encoding == L"UTF-8") {
                 boost::replace_all(data, L"\r\n", L"\n");
                 if (eol != L"\n") {
                     boost::replace_all(data, L"\n", eol);

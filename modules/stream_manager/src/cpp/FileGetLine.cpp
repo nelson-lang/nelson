@@ -23,17 +23,49 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include <cstring>
 #include <cstdio>
 #include <memory>
 #include <stdexcept>
+#include <algorithm>
 #include "FileGetLine.hpp"
 #include "FileSeek.hpp"
+#include "FileTell.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define BUFFER_LINE_SIZE (4096 * 4)
+#define BUFFER_LINE_SIZE (64 * 2)
+//=============================================================================
+static bool
+getline(std::string& line, FILE* fp, bool& isCRLF)
+{
+    isCRLF = false;
+    line.clear();
+    if (fp == NULL) {
+        return false;
+    }
+    auto posBegin = NLSFTELL(fp);
+    char chunk[BUFFER_LINE_SIZE];
+    memset(chunk, '\0', sizeof(char) * BUFFER_LINE_SIZE);
+    size_t len = BUFFER_LINE_SIZE;
+    while (fgets(chunk, sizeof(chunk), fp) != NULL) {
+        line.append(chunk);
+        memset(chunk, '\0', sizeof(char) * BUFFER_LINE_SIZE);
+        if (line[line.size() - 1] == '\n') {
+            auto posEnd = NLSFTELL(fp);
+            isCRLF = (posEnd - posBegin) > line.size();
+            return true;
+        }
+        if (feof(fp)) {
+            auto posEnd = NLSFTELL(fp);
+            isCRLF = (posEnd - posBegin) > line.size();
+            return true;
+        }
+    }
+    return false;
+}
 //=============================================================================
 bool
 FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
@@ -53,101 +85,66 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     if (feof(fileptr) || ferror(fileptr)) {
         return false;
     }
-    bool bEOF = false;
-    bool haveError = false;
     std::string readline;
-    char buffer[BUFFER_LINE_SIZE];
-    memset(buffer, '\0', sizeof(char) * BUFFER_LINE_SIZE);
-    bool continueToReadLine = true;
-    do {
-        if (feof(fileptr)) {
-            bEOF = true;
-            continueToReadLine = false;
-            break;
-        }
-        if (ferror(fileptr)) {
-            haveError = true;
-            continueToReadLine = false;
-            break;
-        }
-        if (fgets(buffer, BUFFER_LINE_SIZE, fileptr)) {
-            readline.append(buffer);
-            memset(buffer, '\0', sizeof(char) * BUFFER_LINE_SIZE);
-            if (readline.length() > 0) {
-                int sizeRemove = 1;
-                size_t index = readline.find('\r');
-                if (index != std::string::npos) {
-                    if (readline.length() > index + 1 && readline[index + 1] == '\n') {
-                        sizeRemove = 2;
-                    } else {
-                        size_t temp = readline.find('\n');
-                        if (temp != std::string::npos && temp < index) {
-                            index = temp;
-                        }
-                    }
-                } else {
-                    index = readline.find('\n');
-                }
-                if (index != std::string::npos) {
-                    index += sizeRemove;
-                    FileSeek(fp, static_cast<int64>(index - readline.length()), 0);
-                    readline.erase(readline.begin() + index, readline.end());
-                    continueToReadLine = false;
-                }
-            } else {
-                continueToReadLine = false;
-            }
-        } else {
-            continueToReadLine = false;
-        }
-    } while (continueToReadLine);
-
-    if (haveError) {
+    bool isCRLF = false;
+#ifdef _MSC_VER
+    if (nchar != -1) {
+        // Very old bug in CRT. it will be certainly never fixed for compatibility ...
+        // https://developercommunity.visualstudio.com/content/problem/425878/fseek-ftell-fail-in-text-mode-for-unix-style-text.html
+        setvbuf(fileptr, NULL, _IONBF, 0);
+    }
+#endif
+    if (!getline(readline, fileptr, isCRLF)) {
         bOK = false;
     } else {
         if (!bWithNewLine) {
             if (readline.length() > 0) {
                 if (readline[readline.length() - 1] == '\n') {
                     readline.pop_back();
-                    if (readline.length() > 0) {
-                        if (readline[readline.length() - 1] == '\r') {
-                            readline.pop_back();
-                        }
-                    }
                 }
             }
         }
         if (nchar == 0) {
             result.clear();
             return true;
+        }
+        std::string encoding = wstring_to_utf8(fp->getEncoding());
+        if (encoding == "UTF-8") {
+            result = utf8_to_wstring(readline);
+            bOK = true;
         } else {
-            std::string encoding = wstring_to_utf8(fp->getEncoding());
-            if (encoding == "UTF-8") {
-                result = utf8_to_wstring(readline);
-            } else {
-                std::string asUtf8;
-                bOK = charsetToUtf8Converter(readline, encoding, asUtf8);
-                result = utf8_to_wstring(asUtf8);
+            std::string asUtf8;
+            bOK = charsetToUtf8Converter(readline, encoding, asUtf8);
+            result = utf8_to_wstring(asUtf8);
+        }
+        if (nchar == -1) {
+            return bOK;
+        }
+        size_t nbChars = std::min((size_t)nchar, (size_t)result.length());
+        std::wstring w = result;
+        result.resize(nbChars);
+        try {
+            w = w.substr(nbChars);
+            if (isCRLF) {
+                boost::replace_all(w, L"\n", L"\r\n");
             }
-            if (nchar > 0) {
-                if (nchar < static_cast<indexType>(result.length())) {
-                    std::wstring w = result;
-                    result.resize((size_t)(nchar));
-                    try {
-                        w = w.substr((size_t)(nchar));
-                    } catch (const std::out_of_range&) {
-                    }
-                    std::string u = wstring_to_utf8(w);
-                    auto nseek = static_cast<int64>(u.length());
-                    FileSeek(fp, -nseek, 0);
-                }
-                bOK = true;
-            } else if (nchar == -1) {
-                bOK = true;
-            } else {
-                bOK = false;
+        } catch (const std::out_of_range&) {
+            result.clear();
+            return false;
+        }
+        std::string u;
+        if (encoding == "UTF-8") {
+            u = wstring_to_utf8(w);
+        } else {
+            std::string asUtf8 = wstring_to_utf8(w);
+            if (!utf8ToCharsetConverter(asUtf8, u, encoding)) {
+                result.clear();
+                return false;
             }
         }
+        auto nseek = static_cast<int64>(u.length());
+        FileSeek(fp, -nseek, 0);
+        bOK = true;
     }
     return bOK;
 }

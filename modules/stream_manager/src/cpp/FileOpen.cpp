@@ -111,7 +111,7 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
     }
     std::wstring _mode = filemode;
     if (_mode == L"w") {
-        _mode = L"wb"; 
+        _mode = L"wb";
     }
     if (_mode == L"r") {
         _mode = L"rb";

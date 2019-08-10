@@ -150,7 +150,7 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (argIn.size() > 2) {
         ArrayOf param3 = argIn[2];
         machineFormat = param3.getContentAsWideString();
-        if (machineFormat != L"n") {
+        if (machineFormat != L"n" && machineFormat != L"native") {
             Warning(_W("machine format option ignored."));
         }
     }

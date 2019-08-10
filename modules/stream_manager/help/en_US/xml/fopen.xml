@@ -107,6 +107,9 @@ fclose(F);]]>
     <see_also_item>
       <link linkend="${stream_manager}fclose">fclose</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}feof">feof</link>
+    </see_also_item>
   </see_also>
 
   <history>

@@ -23,28 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "native2unicodeBuiltin.hpp"
-#include "unicode2nativeBuiltin.hpp"
-#include "nativecharsetBuiltin.hpp"
+assert_isequal(nargin('feof'), 1);
+assert_isequal(nargout('feof'), 1);
 //=============================================================================
-using namespace Nelson;
+filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
+fid = fopen(filename, 'rt', 'n', 'UTF-8');
+assert_isequal(feof(fid), 0);
+while ~feof(fid)
+  assert_isequal(feof(fid), 0);
+  l = fgetl(fid);
+end
+assert_isequal(feof(fid), 1);
+fclose(fid);
 //=============================================================================
-const std::wstring gatewayName = L"characters_encoding";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "unicode2native", Nelson::CharactersEncodingGateway::unicode2nativeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "native2unicode", Nelson::CharactersEncodingGateway::native2unicodeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "nativecharset", Nelson::CharactersEncodingGateway::nativecharsetBuiltin, 1, 1, CPP_BUILTIN },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+assert_checkerror('feof(1000)', _('Invalid file identifier.'));
 //=============================================================================

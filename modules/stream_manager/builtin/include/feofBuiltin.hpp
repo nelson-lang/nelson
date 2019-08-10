@@ -23,28 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "native2unicodeBuiltin.hpp"
-#include "unicode2nativeBuiltin.hpp"
-#include "nativecharsetBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"characters_encoding";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "unicode2native", Nelson::CharactersEncodingGateway::unicode2nativeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "native2unicode", Nelson::CharactersEncodingGateway::native2unicodeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "nativecharset", Nelson::CharactersEncodingGateway::nativecharsetBuiltin, 1, 1, CPP_BUILTIN },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+namespace Nelson {
+namespace StreamGateway {
+    ArrayOfVector
+    feofBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
+} // namespace Nelson
 //=============================================================================

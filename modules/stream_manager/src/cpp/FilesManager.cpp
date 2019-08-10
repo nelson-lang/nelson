@@ -33,16 +33,22 @@ FilesManager::FilesManager(Interface* io)
     STD_IN->setFilePointer((void*)io);
     STD_IN->setFileName(L"stdin");
     STD_IN->setFileMode(L"rb");
+    STD_IN->setEncoding(L"UTF-16");
+    STD_IN->setMachineFormat(L"native");
     addFile(STD_IN);
     File* STD_OUT = new File(false);
     STD_OUT->setFilePointer((void*)io);
     STD_OUT->setFileName(L"stdout");
     STD_OUT->setFileMode(L"wb");
+    STD_OUT->setEncoding(L"UTF-16");
+    STD_OUT->setMachineFormat(L"native");
     addFile(STD_OUT);
     File* STD_ERR = new File(false);
     STD_ERR->setFilePointer((void*)io);
     STD_ERR->setFileName(L"stderr");
     STD_ERR->setFileMode(L"wb");
+    STD_ERR->setEncoding(L"UTF-16");
+    STD_ERR->setMachineFormat(L"native");
     addFile(STD_ERR);
 }
 //=============================================================================

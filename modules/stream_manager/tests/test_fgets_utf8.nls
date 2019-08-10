@@ -26,11 +26,10 @@
 filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
 assert_isequal(isfile(filename), true);
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
-line = fgets(fid);
 found = false;
-while ischar(line)
+while ~feof(fid)
   line = fgets(fid);
-  if (~isnumeric(line))
+  if (~isdouble(line))
     if (startsWith(line, 'Eg. ［＃ここから３字下げ］'))
       found = true;
       break;
