@@ -15,6 +15,8 @@ Features:
 
   * fopen, fprintf, fgetl, fgets, fread, and fwrite builtin extended to manage characters encoding.
 
+  * feof builtin: check for end of file.
+
   * test_run uses nh5 files as result file (previously json)
 
 Compilation:

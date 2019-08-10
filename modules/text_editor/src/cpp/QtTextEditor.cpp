@@ -389,12 +389,11 @@ QtTextEditor::saveFile(const QString& filename)
     QApplication::setOverrideCursor(Qt::WaitCursor);
     bool res = saveFileWithEncoding(filename, currentEditor()->toPlainText(), currentEncoding());
     QApplication::restoreOverrideCursor();
-    if (res){
+    if (res) {
         setCurrentFile(filename);
         statusBar()->showMessage(TR("File saved"), DEFAULT_DELAY_MSG);
     } else {
-        QMessageBox::warning(this, TR("Nelson"),
-            TR("Cannot write file:\n%1.").arg(filename));
+        QMessageBox::warning(this, TR("Nelson"), TR("Cannot write file:\n%1.").arg(filename));
         statusBar()->showMessage(TR("File not saved"), DEFAULT_DELAY_MSG);
     }
     return res;

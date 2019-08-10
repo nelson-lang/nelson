@@ -45,13 +45,13 @@ public:
     QtTextEdit*
     getEditor();
     void
-    setFileName(const QString &filename);
+    setFileName(const QString& filename);
     QString
     getFileName();
     QString
     getEncoding();
     void
-    setEncoding(const QString &encoding);
+    setEncoding(const QString& encoding);
 
 private:
     Highlighter* highlight;

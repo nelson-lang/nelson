@@ -72,7 +72,6 @@ detectBestEncoding(const std::string& data)
         UCharsetDetector* detector = ucsdet_open(&status);
         std::string s = data;
         ucsdet_setText(detector, s.c_str(), (int32_t)s.length(), &status);
-        int32_t matches_count;
         const UCharsetMatch* match = ucsdet_detect(detector, &status);
         if (match != NULL) {
             encoding = ucsdet_getName(match, &status);

@@ -7,12 +7,12 @@
 	<short_description>Read data in binary form to the file specified by the file descriptor fid.</short_description>
 
 	<syntax>
-		<syntax_item>res = fwrite(fid)</syntax_item>
-		<syntax_item>res = fwrite(fid, sz, precision)</syntax_item>
-		<syntax_item>res = fwrite(fid, sz, precision, skip)</syntax_item>
-		<syntax_item>res = fwrite(fid, sz, precision, arch)</syntax_item>
-		<syntax_item>res = fwrite(fid, sz, precision, skip, arch)</syntax_item>
-		<syntax_item>[res, count] = fwrite(fid, sz, precision, skip, arch)</syntax_item>
+		<syntax_item>res = fread(fid)</syntax_item>
+		<syntax_item>res = fread(fid, sz, precision)</syntax_item>
+		<syntax_item>res = fread(fid, sz, precision, skip)</syntax_item>
+		<syntax_item>res = fread(fid, sz, precision, arch)</syntax_item>
+		<syntax_item>res = fread(fid, sz, precision, skip, arch)</syntax_item>
+		<syntax_item>[res, count] = fread(fid, sz, precision, skip, arch)</syntax_item>
 	</syntax>
 	
 	<param_input>

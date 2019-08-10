@@ -26,29 +26,29 @@
 assert_isequal(nargin('fgets'), 2);
 assert_isequal(nargout('fgets'), 1);
 //=============================================================================
-fid = fopen([nelsonroot(), '/etc/startup.nls']);
-tline = fgets(fid);
-i = 0;
-while ischar(tline)
-  disp(tline)
-  if (~isempty(tline))
-    i = i + 1;
-  end
-  tline = fgets(fid);
-end
-fclose(fid);
-assert_istrue(i > 70)
+f = [nelsonroot(), '/etc/startup.nls'];
 //=============================================================================
-fid = fopen([nelsonroot(), '/etc/startup.nls']);
+fid = fopen(f, 'rt');
 i = 0;
-tline = fgets(fid, 5);
-while ischar(tline)
-  if (~isempty(tline))
+while ~feof(fid)
+  tline = fgets(fid);
+  if (~isnumeric(tline))
+%    disp(tline)
     i = i + 1;
   end
-  disp(tline)
-  tline = fgets(fid, 5);
 end
 fclose(fid);
-assert_istrue(i > 700)
+assert_isequal(i,  75);
+//=============================================================================
+fid = fopen(f, 'rt');
+i = 0;
+while ~feof(fid)
+  tline = fgets(fid, 5);
+  if (~isnumeric(tline))
+%    disp(tline)
+    i = i + 1;
+  end
+end
+fclose(fid);
+assert_isequal(i, 697);
  //=============================================================================

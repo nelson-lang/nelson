@@ -23,28 +23,33 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "native2unicodeBuiltin.hpp"
-#include "unicode2nativeBuiltin.hpp"
-#include "nativecharsetBuiltin.hpp"
+#include "feofBuiltin.hpp"
+#include "Error.hpp"
+#include "FilesManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"characters_encoding";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "unicode2native", Nelson::CharactersEncodingGateway::unicode2nativeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "native2unicode", Nelson::CharactersEncodingGateway::native2unicodeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "nativecharset", Nelson::CharactersEncodingGateway::nativecharsetBuiltin, 1, 1, CPP_BUILTIN },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+ArrayOfVector
+Nelson::StreamGateway::feofBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    FilesManager* fm = static_cast<FilesManager*>(eval->FileManager);
+    if (fm == nullptr) {
+        Error(_W("Problem with file manager."));
+    }
+    ArrayOf param1 = argIn[0];
+    int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));
+    if (!fm->isOpened(iValue)) {
+        Error(_W("Invalid file identifier."));
+    }
+    FILE* fileptr = static_cast<FILE*>(fm->getFilePointer(iValue));
+    retval.push_back(ArrayOf::doubleConstructor(feof(fileptr)));
+    return retval;
+}
 //=============================================================================

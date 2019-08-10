@@ -3,16 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>fclose</keyword>
-  <short_description>Close an opened file.</short_description>
+  <keyword>feof</keyword>
+  <short_description>Checks end of file.</short_description>
 
   <syntax>
-    <syntax_item>fclose(fid)</syntax_item>
-    <syntax_item>fclose('all')</syntax_item>
-    <syntax_item>status = fclose(fid)</syntax_item>
-    <syntax_item>status = fclose('all')</syntax_item>
+    <syntax_item>status = feof(fid)</syntax_item>
   </syntax>
-  
   <param_input>
 
     <param_input_item>
@@ -25,15 +21,13 @@
 
     <param_output_item>
       <param_name>status</param_name>
-      <param_description>an integer value: 0 if file is closed or -1 if not.</param_description>
+      <param_description>an integer value: 1 if file is closed or 0 if not.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
-    <p><b>fclose</b> must be used to close a file opened by <b>fopen</b>.</p>
-    <p><b>fclose('all')</b> closes all opened file with <b>fopen</b>.</p>
-
-</description>
+    <p><b>feof</b> checks if end of file has been reached.</p>
+  </description>
 
   <used_function></used_function>
   <bibliography></bibliography>
@@ -43,13 +37,14 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[
-
-fd = fopen([tempdir(), filesep(), 'fclose_tst'],'wt');
-status = fclose(fd)
-status = fclose(fd)
-
-]]>
+    <example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.nls'], 'rt');
+feof(fid)
+while ~feof(fid)
+  tline = fgetl(fid);
+  disp(tline);
+end
+feof(fid)
+fclose(fid);]]>
     </example_item_data>
   
   </example_item>
@@ -62,12 +57,8 @@ status = fclose(fd)
     </see_also_item>
     
     <see_also_item>
-      <link linkend="${stream_manager}fread">fread</link>
+      <link linkend="${stream_manager}fgetl">fgetl</link>
     </see_also_item>
-    <see_also_item>
-      <link linkend="${stream_manager}feof">feof</link>
-    </see_also_item>
-
   </see_also>
 
   <history>

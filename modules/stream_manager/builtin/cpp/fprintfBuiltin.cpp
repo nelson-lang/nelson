@@ -112,7 +112,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                         Error(_W("Cannot use encoding: ") + encoding);
                     }
                 }
-                
+
             } else {
                 Error(_W("ID not supported."));
             }

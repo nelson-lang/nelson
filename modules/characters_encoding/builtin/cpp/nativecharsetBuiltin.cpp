@@ -64,7 +64,7 @@ Nelson::CharactersEncodingGateway::nativecharsetBuiltin(
             } else {
                 data = std::string();
             }
-            
+
         } else {
             data = param1.getContentAsCString();
         }

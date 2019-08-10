@@ -43,6 +43,7 @@
 #include "fwriteBuiltin.hpp"
 #include "loadBuiltin.hpp"
 #include "saveBuiltin.hpp"
+#include "feofBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -65,7 +66,8 @@ static const nlsGateway gateway[] = { { "diary", Nelson::StreamGateway::diaryBui
     { "fileread", Nelson::StreamGateway::filereadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "filewrite", Nelson::StreamGateway::filewriteBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "load", Nelson::StreamGateway::loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "save", Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR } };
+    { "save", Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "feof", Nelson::StreamGateway::feofBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 static bool
 initializeModule(Nelson::Evaluator* eval)

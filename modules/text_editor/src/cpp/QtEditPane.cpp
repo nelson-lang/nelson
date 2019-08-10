@@ -61,7 +61,7 @@ QtEditPane::getEditor()
 }
 //=============================================================================
 void
-QtEditPane::setFileName(const QString &filename)
+QtEditPane::setFileName(const QString& filename)
 {
     currentFilename = filename;
     if (filename.endsWith(".nls") || filename.endsWith(".nlf")) {

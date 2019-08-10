@@ -35,8 +35,8 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip,
-    bool bIsLittleEndian, int& sizeReallyRead)
+FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIsLittleEndian,
+    int& sizeReallyRead)
 {
     ArrayOf toRead;
     sizeReallyRead = -1;
