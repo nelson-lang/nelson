@@ -42,15 +42,19 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
 {
     if (!isExistingDirectory(rootpath)) {
         try {
+#ifdef _MSC_VER
             boost::filesystem::path p = rootpath;
+#else
+            boost::filesystem::path p = wstring_to_utf8(rootpath);
+#endif
             boost::filesystem::create_directories(p);
         } catch (const boost::filesystem::filesystem_error&) {
             Error(_W("Cannot create directory."));
         }
     }
-    boost::filesystem::path rootPath = getRootPath(rootpath);
+    std::wstring fullRootPath = getRootPath(rootpath);
 
-    unzFile* zipfile = (unzFile*)unzOpen64(wstring_to_utf8(zipFilename).c_str());
+    unzFile* zipfile = static_cast<unzFile*>(unzOpen64(wstring_to_utf8(zipFilename).c_str()));
     if (zipfile == nullptr) {
         Error(_W("Cannot read file:") + L" " + zipFilename);
     }
@@ -71,34 +75,36 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         }
         const size_t filename_length = strlen(filename);
         if (filename[filename_length - 1] == '/') {
-            boost::filesystem::path p = filename;
-            boost::filesystem::path completePath = rootPath / p;
-            if (!isExistingDirectory(completePath.generic_wstring())) {
+            std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
+            if (!isExistingDirectory(completePath)) {
                 try {
+#ifdef _MSC_VER
                     boost::filesystem::create_directories(completePath);
+#else
+                    boost::filesystem::create_directories(wstring_to_utf8(completePath));
+#endif
                 } catch (const boost::filesystem::filesystem_error& e) {
                     boost::system::error_code error_code = e.code();
                 }
             }
-            filenames.push_back(completePath.generic_wstring());
+            filenames.push_back(completePath);
         } else {
             if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
                 unzClose(zipfile);
                 Error(_W("Cannot open file."));
             }
-            boost::filesystem::path f = utf8_to_wstring(filename);
-            boost::filesystem::path completePath = rootPath / f;
+            std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
 #ifdef _MSC_VER
-            FILE* out = _wfopen(completePath.generic_wstring().c_str(), L"wb");
+            FILE* out = _wfopen(completePath.c_str(), L"wb");
 #else
-            FILE* out = fopen(completePath.generic_string().c_str(), "wb");
+            FILE* out = fopen(wstring_to_utf8(completePath).c_str(), "wb");
 #endif
             if (out == nullptr) {
                 unzCloseCurrentFile(zipfile);
                 unzClose(zipfile);
                 Error(_W("Cannot open destination file."));
             }
-            filenames.push_back(completePath.generic_wstring());
+            filenames.push_back(completePath);
 
             int error = UNZ_OK;
             char read_buffer[MAX_FILENAME];
@@ -107,7 +113,10 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 if (error < 0) {
                     unzCloseCurrentFile(zipfile);
                     unzClose(zipfile);
-                    fclose(out);
+                    if (out) {
+                        fclose(out);
+                        out = nullptr;
+                    }
                     Error(_W("Cannot read data."));
                 }
                 if (error > 0) {
@@ -115,9 +124,12 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 }
             } while (error > 0);
             unzCloseCurrentFile(zipfile);
-            fclose(out);
-            changeFileDate(completePath.generic_wstring(), file_info.tmu_date, file_info.dosDate);
-            changeFileOrFolderAttributes(completePath.generic_wstring(), file_info.external_fa);
+            if (out) {
+              fclose(out);
+              out = nullptr;
+            }
+            changeFileDate(completePath, file_info.tmu_date, file_info.dosDate);
+            changeFileOrFolderAttributes(completePath, file_info.external_fa);
         }
         if ((i + 1) < global_info.number_entry) {
             if (unzGoToNextFile(zipfile) != UNZ_OK) {
