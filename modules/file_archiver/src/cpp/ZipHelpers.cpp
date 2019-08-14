@@ -50,7 +50,11 @@ namespace Nelson {
 bool
 isExistingDirectory(const std::wstring& name)
 {
+#ifdef _MSC_VER
     boost::filesystem::path p = name;
+#else
+    boost::filesystem::path p = wstring_to_utf8(name);
+#endif
     bool res = false;
     try {
         res = boost::filesystem::is_directory(p);
@@ -63,7 +67,11 @@ isExistingDirectory(const std::wstring& name)
 bool
 isExistingFile(const std::wstring& name)
 {
+#ifdef _MSC_VER
     boost::filesystem::path p = name;
+#else
+    boost::filesystem::path p = wstring_to_utf8(name);
+#endif
     bool res = false;
     try {
         res = boost::filesystem::is_regular_file(p);
@@ -76,7 +84,11 @@ isExistingFile(const std::wstring& name)
 std::wstring
 normalizePath(const std::wstring& path)
 {
+#ifdef _MSC_VER
     boost::filesystem::path p = path;
+#else
+    boost::filesystem::path p = wstring_to_utf8(path);
+#endif
     p = p.generic_path().lexically_normal();
     if (boost::algorithm::starts_with(p.wstring(), L"./")) {
         p = p.wstring().substr(2);
@@ -91,7 +103,11 @@ getRootPath(const std::wstring& rootpath)
     if (rootpath == L".") {
         p = boost::filesystem::current_path();
     } else {
+#ifdef _MSC_VER
         p = rootpath;
+#else
+        p = wstring_to_utf8(rootpath);
+#endif
     }
     return normalizePath(p.wstring());
 }
