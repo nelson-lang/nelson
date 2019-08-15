@@ -26,7 +26,7 @@
 assert_isequal(nargin('h5writeatt'), -1);
 assert_isequal(nargout('h5writeatt'), 0);
 //=============================================================================
-h5filename = [tempdir(), '/test_h5writeatt.h5'];
+h5filename = [tempdir(), 'test_h5writeatt.h5'];
 if isfile(h5filename) rmfile(h5filename) end
 h5create(h5filename, '/value',[100 200]);
 //=============================================================================

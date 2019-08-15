@@ -27,40 +27,40 @@
 //=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), '/test_load.mat'], 'A', 'B');
-assert_istrue(ismatfile([tempdir(), '/test_load.mat']));
+save([tempdir(), 'test_load.mat'], 'A', 'B');
+assert_istrue(ismatfile([tempdir(), 'test_load.mat']));
 clear A B;
-st = load([tempdir(), '/test_load.mat']);
+st = load([tempdir(), 'test_load.mat']);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
 assert_isequal(st, ref);
 //=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), '/test_load.nh5'], 'A', 'B');
-assert_istrue(isnh5file([tempdir(), '/test_load.nh5']));
+save([tempdir(), 'test_load.nh5'], 'A', 'B');
+assert_istrue(isnh5file([tempdir(), 'test_load.nh5']));
 clear A B;
-st = load([tempdir(), '/test_load.nh5']);
+st = load([tempdir(), 'test_load.nh5']);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
 assert_isequal(st, ref);
 //=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), '/test_load.nh5'], 'A', 'B', '-mat');
-assert_istrue(ismatfile([tempdir(), '/test_load.nh5']));
+save([tempdir(), 'test_load.nh5'], 'A', 'B', '-mat');
+assert_istrue(ismatfile([tempdir(), 'test_load.nh5']));
 clear A B;
-st = load([tempdir(), '/test_load.nh5']);
+st = load([tempdir(), 'test_load.nh5']);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
 assert_isequal(st, ref);
 //=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), '/test_load.mat'], 'A', 'B', '-nh5');
-assert_istrue(isnh5file([tempdir(), '/test_load.mat']));
+save([tempdir(), 'test_load.mat'], 'A', 'B', '-nh5');
+assert_istrue(isnh5file([tempdir(), 'test_load.mat']));
 clear A B;
-st = load([tempdir(), '/test_load.mat']);
+st = load([tempdir(), 'test_load.mat']);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
 assert_isequal(st, ref);

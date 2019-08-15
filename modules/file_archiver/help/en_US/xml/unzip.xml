@@ -44,8 +44,8 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[zip([tempdir(), '/test.zip'], [nelsonroot(), '/module_skeleton']);
-r = unzip([tempdir(), '/test.zip'], [tempdir(), '/', createGUID()])]]>
+    <example_item_data><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton']);
+r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]>
     </example_item_data>
   </example_item>
 

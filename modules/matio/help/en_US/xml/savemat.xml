@@ -62,15 +62,15 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
-savemat([tempdir(), '/example_loadmat.mat'], 'A', 'B')
+savemat([tempdir(), 'example_loadmat.mat'], 'A', 'B')
 clear;
-st = loadmat([tempdir(), '/example_loadmat.mat']);
+st = loadmat([tempdir(), 'example_loadmat.mat']);
 who
 st.A
 st.B
 clear
 who
-loadmat([tempdir(), '/example_loadmat.mat']);
+loadmat([tempdir(), 'example_loadmat.mat']);
 who
 A
 B
@@ -82,16 +82,16 @@ B
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>append variables</example_item_description>
 		<example_item_data><![CDATA[C = eye(3, 4);
-savemat([tempdir(), '/example_loadmat.mat'], 'C', '-append')
+savemat([tempdir(), 'example_loadmat.mat'], 'C', '-append')
 clear;
-st = loadmat([tempdir(), '/example_loadmat.mat']);
+st = loadmat([tempdir(), 'example_loadmat.mat']);
 who
 st.A
 st.B
 st.C
 clear
 who
-loadmat([tempdir(), '/example_loadmat.mat']);
+loadmat([tempdir(), 'example_loadmat.mat']);
 who
 A
 B
@@ -104,10 +104,10 @@ C
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>compression</example_item_description>
 		<example_item_data><![CDATA[C = eye(1000, 1000);
-savemat([tempdir(), '/example_savemat_with_compression.mat'], 'C')
-savemat([tempdir(), '/example_savemat_no_compression.mat'], 'C', '-nocompression')
-with_compression = dir([tempdir(), '/example_savemat_with_compression.mat'])
-no_compression = dir([tempdir(), '/example_savemat_no_compression.mat'])]]>
+savemat([tempdir(), 'example_savemat_with_compression.mat'], 'C')
+savemat([tempdir(), 'example_savemat_no_compression.mat'], 'C', '-nocompression')
+with_compression = dir([tempdir(), 'example_savemat_with_compression.mat'])
+no_compression = dir([tempdir(), 'example_savemat_no_compression.mat'])]]>
 		</example_item_data>
 	</example_item>
 

@@ -49,10 +49,10 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = ones(3, 4);
-savemat([tempdir(), '/example_isnh5.mat'], 'A')
-R = isnh5file([tempdir(), '/example_isnh5.mat'])
-h5save([tempdir(), '/example_isnh5.nh5'], 'A')
-[R, VER, HE] = isnh5file([tempdir(), '/example_isnh5.nh5'])]]>
+savemat([tempdir(), 'example_isnh5.mat'], 'A')
+R = isnh5file([tempdir(), 'example_isnh5.mat'])
+h5save([tempdir(), 'example_isnh5.nh5'], 'A')
+[R, VER, HE] = isnh5file([tempdir(), 'example_isnh5.nh5'])]]>
 		</example_item_data>
 	</example_item>
 

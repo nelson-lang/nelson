@@ -51,13 +51,13 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>Creates two .nls in temp directory to use as example:</example_item_description>
-		<example_item_data><![CDATA[fd = fopen([tempdir(), '/example_run_ok.nls'], 'wt');
+		<example_item_data><![CDATA[fd = fopen([tempdir(), 'example_run_ok.nls'], 'wt');
 fprintf(fd, ['A = 1;', char(10)]);
 fprintf(fd, ['B = 2;', char(10)]);
 fprintf(fd, ['C = A + B', char(10)]);
 fclose(fd);
 
-fd = fopen([tempdir(), '/example_run_not_ok.nls'], 'wt');
+fd = fopen([tempdir(), 'example_run_not_ok.nls'], 'wt');
 fprintf(fd, ['AA = 1;', char(10)]);
 fprintf(fd, ['CC = AA + BB', char(10)]);
 fclose(fd);
@@ -68,21 +68,21 @@ fclose(fd);
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>run a script without error.</example_item_description>
-		<example_item_data><![CDATA[run([tempdir(), '/example_run_ok.nls']);]]>
+		<example_item_data><![CDATA[run([tempdir(), 'example_run_ok.nls']);]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>run a script and catch error (no error).</example_item_description>
-		<example_item_data><![CDATA[bsuccess = run([tempdir(), '/example_run_ok.nls'], 'errcatch')]]>
+		<example_item_data><![CDATA[bsuccess = run([tempdir(), 'example_run_ok.nls'], 'errcatch')]]>
 		</example_item_data>
 	</example_item>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>run a script and catch error (with error).</example_item_description>
-		<example_item_data><![CDATA[bsuccess = run([tempdir(), '/example_run_not_ok.nls'], 'errcatch')]]>
+		<example_item_data><![CDATA[bsuccess = run([tempdir(), 'example_run_not_ok.nls'], 'errcatch')]]>
 		</example_item_data>
 	</example_item>
 
@@ -90,7 +90,7 @@ fclose(fd);
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>run a script and no catch error.</example_item_description>
-		<example_item_data><![CDATA[run([tempdir(), '/example_run_not_ok.nls'], 'nocatch');]]>
+		<example_item_data><![CDATA[run([tempdir(), 'example_run_not_ok.nls'], 'nocatch');]]>
 		</example_item_data>
 	</example_item>
 

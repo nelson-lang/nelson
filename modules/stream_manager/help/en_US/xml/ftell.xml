@@ -40,7 +40,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[TXT = 'example about ftell.';
-fileID = fopen([tempdir(), '/ftell.txt'],'wt');
+fileID = fopen([tempdir(), 'ftell.txt'],'wt');
 fprintf(fileID, TXT);
 p1 = ftell(fileID)
 fseek(fileID, SEEK_CUR, 'bof');

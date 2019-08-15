@@ -45,12 +45,13 @@ GetSystemTemporaryDirectory()
     if (tempDir == L"") {
         path pwd = temp_directory_path();
         tempDir = pwd.generic_wstring();
-        if (boost::algorithm::ends_with(tempDir, L"\\")
-            || (boost::algorithm::ends_with(tempDir, L"/"))) {
-            tempDir.pop_back();
+        if (!boost::algorithm::ends_with(tempDir, L"\\")
+            && (!boost::algorithm::ends_with(tempDir, L"/"))) {
+            tempDir.append(L"/");
         }
     }
     return tempDir;
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

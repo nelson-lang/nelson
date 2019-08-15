@@ -24,8 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 dlgenerateloader(tempdir, 'test_c');
-assert_istrue(isfile([tempdir(), '/loader.nls']));
-txt = fileread([tempdir(), '/loader.nls']);
+assert_istrue(isfile([tempdir(), 'loader.nls']));
+txt = fileread([tempdir(), 'loader.nls']);
 line = 'dlopen([fileparts(nfilename(''fullpathext'')), ''/'', ''test_c'', getdynlibext()]);';
 assert_istrue(contains(txt, line));
 //=============================================================================

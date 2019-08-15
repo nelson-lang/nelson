@@ -50,7 +50,7 @@ NIG_FUNCTION.VARIABLES(IDX).NAME = 'OUTPUT';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
 //=============================================================================
-dir_dest = [tempdir(), '/test_nig'];
+dir_dest = [tempdir(), 'test_nig'];
 if isdir(dir_dest)
   rmdir(dir_dest, 's');
 end

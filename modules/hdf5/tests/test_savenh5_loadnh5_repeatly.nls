@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-test_nh5_file = [tempdir(), '/test_nh5saveload.nh5'];
+test_nh5_file = [tempdir(), 'test_nh5saveload.nh5'];
 if isfile(test_nh5_file)
   rmfile(test_nh5_file);
 end

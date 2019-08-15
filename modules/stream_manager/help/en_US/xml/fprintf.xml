@@ -148,11 +148,11 @@ table, th, td {
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[
-fileID = fopen([tempdir(), '/fprintf.txt'],'wt');
+fileID = fopen([tempdir(), 'fprintf.txt'],'wt');
 fprintf(fileID, 'an example of %s.', 'text');
 fclose(fileID);
 
-R = fileread([tempdir(), '/fprintf.txt'])]]>
+R = fileread([tempdir(), 'fprintf.txt'])]]>
     </example_item_data>
   
   </example_item>

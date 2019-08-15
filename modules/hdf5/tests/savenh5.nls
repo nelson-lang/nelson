@@ -25,7 +25,7 @@
 //=============================================================================
 // creates ref h5 file with all types supported by Nelson
 //=============================================================================
-current_schema_file = [tempdir(), '/schema.nh5'];
+current_schema_file = [tempdir(), 'schema.nh5'];
 if isfile(current_schema_file)
   rmfile(current_schema_file);
 end

@@ -29,7 +29,7 @@ assert_isequal(nargout('profsave'), 0);
 profile('on')
 run('script_to_profile.nls');
 profile('off')
-destdir = [tempdir(), '/profsave_test'];
+destdir = [tempdir(), 'profsave_test'];
 if isdir(destdir)
   rmdir(destdir, 's');
 end

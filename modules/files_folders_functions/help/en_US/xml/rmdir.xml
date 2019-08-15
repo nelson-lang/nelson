@@ -56,8 +56,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[
-mkdir([tempdir(), '/test'])
-rmdir([tempdir(), '/test'])
+mkdir([tempdir(), 'test'])
+rmdir([tempdir(), 'test'])
 ]]>
     </example_item_data>
   

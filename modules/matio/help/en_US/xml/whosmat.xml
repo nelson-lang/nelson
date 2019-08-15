@@ -51,9 +51,9 @@
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savemat([tempdir(), '/example_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
-whosmat([tempdir(), '/example_whosmat-v7.3.mat'])
-st = whosmat([tempdir(), '/example_whosmat-v7.3.mat'])]]>
+savemat([tempdir(), 'example_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
+whosmat([tempdir(), 'example_whosmat-v7.3.mat'])
+st = whosmat([tempdir(), 'example_whosmat-v7.3.mat'])]]>
 		</example_item_data>
 	</example_item>
 

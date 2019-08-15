@@ -29,24 +29,24 @@ R = fprintf('hello');
 REF = 5;
 assert_isequal(R, REF);
 //=============================================================================
-fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+fileID = fopen([tempdir(), 'test_fprintf.txt'], 'wt');
 fprintf(fileID, '%s','hello');
 fclose(fileID);
-R = fileread([tempdir(), '/test_fprintf.txt']);
+R = fileread([tempdir(), 'test_fprintf.txt']);
 REF = 'hello';
 assert_isequal(R, REF);
 //=============================================================================
-fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+fileID = fopen([tempdir(), 'test_fprintf.txt'], 'wt');
 R = fprintf(fileID, '%s %s', 'hello', 'Nelson');
 fclose(fileID);
-R = fileread([tempdir(), '/test_fprintf.txt']);
+R = fileread([tempdir(), 'test_fprintf.txt']);
 REF = 'hello Nelson';
 assert_isequal(R, REF);
 //=============================================================================
-fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+fileID = fopen([tempdir(), 'test_fprintf.txt'], 'wt');
 R = fprintf(fileID, '%f', -53);
 fclose(fileID);
-R = fileread([tempdir(), '/test_fprintf.txt']);
+R = fileread([tempdir(), 'test_fprintf.txt']);
 REF = '-53.000000';
 assert_isequal(R, REF);
 //=============================================================================
@@ -56,10 +56,10 @@ assert_isequal(R, REF);
 //=============================================================================
 fprintf(2, "an value %g.", pi);
 //=============================================================================
-fileID = fopen([tempdir(), '/test_fprintf_encoding.txt'], 'wt', 'n', 'Windows-1251');
+fileID = fopen([tempdir(), 'test_fprintf_encoding.txt'], 'wt', 'n', 'Windows-1251');
 fprintf(fileID, '%s','Виртуальная');
 fclose(fileID);
-F = fopen([tempdir(), '/test_fprintf_encoding.txt'], 'rt');
+F = fopen([tempdir(), 'test_fprintf_encoding.txt'], 'rt');
 R = fread(F, 'uint8');
 fclose(F);
 ce = nativecharset(R');

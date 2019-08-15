@@ -19,6 +19,12 @@ Features:
 
   * test_run uses nh5 files as result file (previously json)
 
+Bug Fixes:
+---------
+
+  * [#226](http://github.com/Nelson-numerical-software/nelson/issues/226): tempdir() did not include a final slash.
+
+
 Compilation:
 ------------
 

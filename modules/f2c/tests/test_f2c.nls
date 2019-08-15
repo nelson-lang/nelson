@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-TEST_DIR = [tempdir(), '/f2c'];
+TEST_DIR = [tempdir(), 'f2c'];
 mkdir(TEST_DIR);
 DEST_FILE = [TEST_DIR, '/dgemm.c'];
 REF_FILE = [modulepath(nelsonroot(),'f2c','root'), '/tests/dgemm.c'];

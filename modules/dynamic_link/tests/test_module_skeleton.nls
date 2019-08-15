@@ -33,7 +33,7 @@ end
 sourcedir = [nelsonroot(),'/module_skeleton'];
 files = dir(sourcedir, '-s');
 //=============================================================================
-destinationdir = [tempdir(), '/module_skeleton'];
+destinationdir = [tempdir(), 'module_skeleton'];
 if isdir(destinationdir)
   rmdir(destinationdir, 's');
 end

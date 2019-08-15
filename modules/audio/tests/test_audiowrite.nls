@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-dest_path = [tempdir(), '/test_audiowrite'];
+dest_path = [tempdir(), 'test_audiowrite'];
 if isdir(dest_path)
   rmdir(dest_path, 's');
 end

@@ -23,18 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-__dir1  = [tempdir(), '/bug_dir_1'];
+__dir1  = [tempdir(), 'bug_dir_1'];
 mkdir(__dir1);
 for k = 1:10
-  file_name_to_create = [tempdir(), '/bug_dir_1/file_', int2str(k)];
+  file_name_to_create = [tempdir(), 'bug_dir_1/file_', int2str(k)];
   if ~isfile(file_name_to_create)
     fp = fopen(file_name_to_create, 'wt');
     fclose(fp);
   end
 end
 
-A = dir([tempdir(), '/bug_dir_1']);
-B = dir([tempdir(), '/bug_dir_1/']);
+A = dir([tempdir(), 'bug_dir_1']);
+B = dir([tempdir(), 'bug_dir_1/']);
 assert_isequal(A, B);
 assert_isequal(size(A), [12 1]);
 //=============================================================================

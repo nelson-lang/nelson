@@ -31,7 +31,7 @@ h = warndlg();
 REF = struct();
 //=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), '/test_save_handle', v{1}, '.mat'];
+  test_file_mat = [tempdir(), 'test_save_handle', v{1}, '.mat'];
   savemat(test_file_mat, 'h', v{1});
   clear h;
   loadmat(test_file_mat);

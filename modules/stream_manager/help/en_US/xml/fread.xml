@@ -78,11 +78,11 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[
 A = rand(3,1)
-fileID = fopen([tempdir(), '/doubledata.bin'],'w');
+fileID = fopen([tempdir(), 'doubledata.bin'],'w');
 fwrite(fileID, A,'double');
 fclose(fileID);
 
-fileID = fopen([tempdir(), '/doubledata.bin'],'r');
+fileID = fopen([tempdir(), 'doubledata.bin'],'r');
 R = fread(fileID, 'double')
 fclose(fileID);
 ]]>
@@ -93,11 +93,11 @@ fclose(fileID);
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[
-fileID = fopen([tempdir(), '/uint16nine.bin'],'w');
+fileID = fopen([tempdir(), 'uint16nine.bin'],'w');
 fwrite(fileID,[1:9],'uint16');
 fclose(fileID);
 
-fileID = fopen([tempdir(), '/uint16nine.bin'],'r');
+fileID = fopen([tempdir(), 'uint16nine.bin'],'r');
 A = fread(fileID,[4,Inf],'uint16')
 fclose(fileID);
 ]]>

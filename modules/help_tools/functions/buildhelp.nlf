@@ -58,10 +58,10 @@ function buildhelp_from_path(module, module_path)
     src = [module_path, '/help/', k{1}, '/xml'];
     if isdir(src)
       if ispc() || ismac()
-        dstbuild = [tempdir(), '/build_help/modules/', module, '/help/', k{1}, '/'];
+        dstbuild = [tempdir(), 'build_help/modules/', module, '/help/', k{1}, '/'];
       else
         username = getenv('USER');
-        dstbuild = [tempdir(), '/', username, '/build_help/modules/', module, '/help/', k{1}, '/'];
+        dstbuild = [tempdir(), '', username, '/build_help/modules/', module, '/help/', k{1}, '/'];
       end
       if isdir(dstbuild)
         [res, msg] = rmdir(dstbuild, 's');

@@ -23,9 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-__dir1  = [tempdir(), '/dir1'];
-__dir11 = [tempdir(), '/dir1/dir1.1'];
-__dir12 = [tempdir(), '/dir1/dir1.2'];
+__dir1  = [tempdir(), 'dir1'];
+__dir11 = [tempdir(), 'dir1/dir1.1'];
+__dir12 = [tempdir(), 'dir1/dir1.2'];
 __file1  = [__dir1, '/file1.txt'];
 __file11 = [__dir11,'/file11.txt'];
 __file12 =  [__dir12,'/file12.txt'];

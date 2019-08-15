@@ -26,22 +26,22 @@
 assert_isequal(nargin('whonh5'), 1);
 assert_isequal(nargout('whonh5'), 1);
 //=============================================================================
-if (isfile([tempdir(), '/test_whonh5.nh5']))
-  rmfile([tempdir(), '/test_whonh5.nh5'])
+if (isfile([tempdir(), 'test_whonh5.nh5']))
+  rmfile([tempdir(), 'test_whonh5.nh5'])
 end  
 A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savenh5([tempdir(), '/test_whonh5.nh5'], 'A', 'B', 'C', 'D')
-c = whonh5([tempdir(), '/test_whonh5.nh5']);
+savenh5([tempdir(), 'test_whonh5.nh5'], 'A', 'B', 'C', 'D')
+c = whonh5([tempdir(), 'test_whonh5.nh5']);
 REF = {'A'; 'B'; 'C'; 'D'}
 assert_isequal(c, REF);
 //=============================================================================
-c = whonh5([tempdir(), '/test_whonh5.nh5'], 'A', 'C');
+c = whonh5([tempdir(), 'test_whonh5.nh5'], 'A', 'C');
 REF = {'A'; 'C'}
 assert_isequal(c, REF);
 //=============================================================================
-whonh5([tempdir(), '/test_whonh5.nh5'], 'A', 'C');
-whonh5([tempdir(), '/test_whonh5.nh5']);
+whonh5([tempdir(), 'test_whonh5.nh5'], 'A', 'C');
+whonh5([tempdir(), 'test_whonh5.nh5']);
 //=============================================================================

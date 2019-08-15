@@ -46,7 +46,7 @@ EXTENSIONS_SRC_NELSON = {'*.c' '*.h' '*.cpp' '*.cxx' '*.hxx' '*.hpp'};
 EXTENSIONS_MACROS_NELSON = {'*.nls', '*.nlf'};
 EXTENSIONS = [EXTENSIONS_SRC_NELSON, EXTENSIONS_MACROS_NELSON];
 DOMAIN ='nelson';
-TARGETDIR = [tempdir(), '/', DOMAIN, '_pot'];
+TARGETDIR = [tempdir(), '', DOMAIN, '_pot'];
 if isdir(TARGETDIR)
   rmdir(TARGETDIR, 's');
 end  
