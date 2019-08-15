@@ -49,8 +49,8 @@ invoke(oElement, 'appendChild', oFirstname);
 
 
 % Save file
-invoke(xmlDoc, 'Save', [tempdir(), '/write.xml']);
-disp(fileread([tempdir(), '/write.xml']))
+invoke(xmlDoc, 'Save', [tempdir(), 'write.xml']);
+disp(fileread([tempdir(), 'write.xml']))
 
 delete(xmlDoc);
 clear xmlDoc

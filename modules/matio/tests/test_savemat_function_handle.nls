@@ -28,7 +28,7 @@ matver = {'-v7', '-v7.3'};
 f = str2func('cos');
 //=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), '/test_save_function_handle', v{1}, '.mat'];
+  test_file_mat = [tempdir(), 'test_save_function_handle', v{1}, '.mat'];
   savemat(test_file_mat, 'f', v{1});
   clear f;
   loadmat(test_file_mat);

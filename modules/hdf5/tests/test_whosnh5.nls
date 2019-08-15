@@ -27,9 +27,9 @@ assert_isequal(nargin('whosnh5'), 1);
 assert_isequal(nargout('whosnh5'), 1);
 //=============================================================================
 D = sparse(3i);		
-savenh5([tempdir(), '/test_whosnh5_1.nh5'],  'D');
+savenh5([tempdir(), 'test_whosnh5_1.nh5'],  'D');
 //=============================================================================
-S = whosnh5([tempdir(), '/test_whosnh5_1.nh5']);
+S = whosnh5([tempdir(), 'test_whosnh5_1.nh5']);
 assert_isequal(S.name, 'D');
 assert_isequal(S.size, [1 1]);
 assert_isequal(S.bytes, NaN);
@@ -44,6 +44,6 @@ A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savenh5([tempdir(), '/test_whosnh5.nh5'], 'A', 'B', 'C', 'D');
-whosnh5([tempdir(), '/test_whosnh5.nh5'])
+savenh5([tempdir(), 'test_whosnh5.nh5'], 'A', 'B', 'C', 'D');
+whosnh5([tempdir(), 'test_whosnh5.nh5'])
 //=============================================================================

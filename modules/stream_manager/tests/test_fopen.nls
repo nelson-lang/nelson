@@ -26,32 +26,32 @@
 assert_isequal(nargin('fopen'), 4);
 assert_isequal(nargout('fopen'), 4);
 //=============================================================================
-if (isfile([tempdir(), '/test_fopen.txt']))
-  rmfile([tempdir(), '/test_fopen.txt']);
+if (isfile([tempdir(), 'test_fopen.txt']))
+  rmfile([tempdir(), 'test_fopen.txt']);
 end
 //=============================================================================
-ID = fopen([tempdir(), '/test_fopen.txt']);
+ID = fopen([tempdir(), 'test_fopen.txt']);
 assert_isequal(ID, -1);
 //=============================================================================
-[ID, MSG] = fopen([tempdir(), '/test_fopen.txt']);
+[ID, MSG] = fopen([tempdir(), 'test_fopen.txt']);
 assert_isequal(ID, -1);
 assert_isequal(MSG, _('Impossible to open file.'));
 //=============================================================================
-ID = fopen([tempdir(), '/test_fopen.txt'], 'w');
+ID = fopen([tempdir(), 'test_fopen.txt'], 'w');
 assert_isequal(ID, 3);
 //=============================================================================
 filename = fopen(ID);
 if ismac()
   assert_istrue(endsWith(filename, '/test_fopen.txt'));
 else
-  assert_isequal(filename, [tempdir(), '/test_fopen.txt']);
+  assert_isequal(filename, [tempdir(), 'test_fopen.txt']);
 end
 //=============================================================================
 [filename, mode] = fopen(ID);
 if ismac()
   assert_istrue(endsWith(filename, '/test_fopen.txt'));
 else
-  assert_isequal(filename, [tempdir(), '/test_fopen.txt']);
+  assert_isequal(filename, [tempdir(), 'test_fopen.txt']);
 end
 assert_isequal(mode, 'wb');
 //=============================================================================
@@ -59,7 +59,7 @@ assert_isequal(mode, 'wb');
 if ismac()
   assert_istrue(endsWith(filename, '/test_fopen.txt'));
 else
-  assert_isequal(filename, [tempdir(), '/test_fopen.txt']);
+  assert_isequal(filename, [tempdir(), 'test_fopen.txt']);
 end
 assert_isequal(mode, 'wb');
 assert_istrue(strcmp(machine, 'ieee-le') || strcmp(machine, 'ieee-be'));
@@ -68,7 +68,7 @@ assert_istrue(strcmp(machine, 'ieee-le') || strcmp(machine, 'ieee-be'));
 if ismac()
   assert_istrue(endsWith(filename, '/test_fopen.txt'));
 else
-  assert_isequal(filename, [tempdir(), '/test_fopen.txt']);
+  assert_isequal(filename, [tempdir(), 'test_fopen.txt']);
 end
 assert_isequal(mode, 'wb');
 assert_istrue(strcmp(machine, 'ieee-le') || strcmp(machine, 'ieee-be'));

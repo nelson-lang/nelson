@@ -68,7 +68,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[A = [Inf, -Inf, NaN, 3];
-filename = [tempdir(), '/dlwrite_example.csv'];
+filename = [tempdir(), 'dlwrite_example.csv'];
 dlmwrite(filename, A);
 R = fileread(filename)
 A = eye(3, 2);

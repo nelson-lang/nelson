@@ -70,11 +70,11 @@
 		<example_item_data><![CDATA[
 A = rand(3,1)
 
-fileID = fopen([tempdir(), '/doubledata.bin'],'w');
+fileID = fopen([tempdir(), 'doubledata.bin'],'w');
 fwrite(fileID, A,'double');
 fclose(fileID);
 
-fileID = fopen([tempdir(), '/doubledata.bin'],'r');
+fileID = fopen([tempdir(), 'doubledata.bin'],'r');
 R = fread(fileID, 'double')
 fclose(fileID);
 ]]>

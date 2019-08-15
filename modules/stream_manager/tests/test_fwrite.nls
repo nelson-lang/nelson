@@ -27,7 +27,7 @@ assert_isequal(nargin('fwrite'), 3);
 assert_isequal(nargout('fwrite'), 1);
 //=============================================================================
 TEXT_REF = 'Виртуальная';
-filename = [tempdir(), '/fwrite_Windows-1251.txt'];
+filename = [tempdir(), 'fwrite_Windows-1251.txt'];
 F = fopen(filename, 'wt', 'n', 'windows-1251');
 W = fwrite(F, TEXT_REF, 'char');
 fclose(F);

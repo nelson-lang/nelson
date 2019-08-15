@@ -23,9 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GetUserDirectory.hpp"
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <string>
+#include "GetUserDirectory.hpp"
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
@@ -60,6 +61,11 @@ GetUserDirectory()
         path pwd = path(home);
 #endif
         userDir = pwd.generic_wstring();
+        if (!boost::algorithm::ends_with(userDir, L"\\")
+            && (!boost::algorithm::ends_with(userDir, L"/"))) {
+            userDir.append(L"/");
+        }
+
     }
     return userDir;
 }

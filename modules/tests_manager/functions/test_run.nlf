@@ -579,11 +579,11 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
     if (is_all_platforms || is_current_platform)
       testfile = test.filename;
       [p, f, e] = fileparts(testfile);
-      outputfile = [tempdir(), '/' , f, '.output'];
+      outputfile = [tempdir(), '' , f, '.output'];
       if isfile(outputfile)
         r = rmfile(outputfile);
       end
-      redirect_err = [tempdir(), '/' , f, '.err'];
+      redirect_err = [tempdir(), '' , f, '.err'];
       r = rmfile(redirect_err);
       if is_bench
         timeout = int2str(500);
@@ -592,7 +592,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       end
       cmd = '';
       
-      command_filename = [tempdir(), '/test_', createGUID(), '.nls'];
+      command_filename = [tempdir(), 'test_', createGUID(), '.nls'];
       content = {['res_struct = test_runfile(''', testfile, ''',', int2str(test_case_res.options.mpi_mode),');'];
                  ['savenh5(''', outputfile, ''', ''res_struct'');']};
       if test_case_res.options.mpi_mode

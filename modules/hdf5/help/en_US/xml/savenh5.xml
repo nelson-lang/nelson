@@ -50,15 +50,15 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
-savenh5([tempdir(), '/example_h5load.nh5'], 'A', 'B')
+savenh5([tempdir(), 'example_h5load.nh5'], 'A', 'B')
 clear;
-st = loadnh5([tempdir(), '/example_h5load.nh5']);
+st = loadnh5([tempdir(), 'example_h5load.nh5']);
 who
 st.A
 st.B
 clear
 who
-loadnh5([tempdir(), '/example_h5load.nh5']);
+loadnh5([tempdir(), 'example_h5load.nh5']);
 who
 A
 B]]>
@@ -69,16 +69,16 @@ B]]>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>append variables</example_item_description>
 		<example_item_data><![CDATA[C = eye(3, 4);
-savenh5([tempdir(), '/example_h5load.nh5'], 'C', '-append')
+savenh5([tempdir(), 'example_h5load.nh5'], 'C', '-append')
 clear;
-st = loadnh5([tempdir(), '/example_h5load.nh5']);
+st = loadnh5([tempdir(), 'example_h5load.nh5']);
 who
 st.A
 st.B
 st.C
 clear
 who
-loadnh5([tempdir(), '/example_h5load.nh5']);
+loadnh5([tempdir(), 'example_h5load.nh5']);
 who
 A
 B
@@ -90,10 +90,10 @@ C]]>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>compression</example_item_description>
 		<example_item_data><![CDATA[C = eye(1000, 1000);
-savenh5([tempdir(), '/example_h5save_with_compression.nh5'], 'C')
-savenh5([tempdir(), '/example_h5save_no_compression.nh5'], 'C', '-nocompression')
-with_compression = dir([tempdir(), '/example_h5save_with_compression.nh5'])
-no_compression = dir([tempdir(), '/example_h5save_no_compression.nh5'])]]>
+savenh5([tempdir(), 'example_h5save_with_compression.nh5'], 'C')
+savenh5([tempdir(), 'example_h5save_no_compression.nh5'], 'C', '-nocompression')
+with_compression = dir([tempdir(), 'example_h5save_with_compression.nh5'])
+no_compression = dir([tempdir(), 'example_h5save_no_compression.nh5'])]]>
 		</example_item_data>
 	</example_item>
 

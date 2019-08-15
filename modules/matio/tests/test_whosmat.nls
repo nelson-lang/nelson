@@ -42,6 +42,6 @@ A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savemat([tempdir(), '/test_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
-whosmat([tempdir(), '/test_whosmat-v7.3.mat'])
+savemat([tempdir(), 'test_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
+whosmat([tempdir(), 'test_whosmat-v7.3.mat'])
 //=============================================================================

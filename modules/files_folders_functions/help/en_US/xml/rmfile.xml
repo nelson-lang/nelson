@@ -47,11 +47,11 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[fd = fopen([tempdir(), '/test_rmfile.txt'], 'wt')
+    <example_item_data><![CDATA[fd = fopen([tempdir(), 'test_rmfile.txt'], 'wt')
 fclose(fd)
-isfile([tempdir(), '/test_rmfile.txt'])
-rmfile([tempdir(), '/test_rmfile.txt'])
-isfile([tempdir(), '/test_rmfile.txt'])
+isfile([tempdir(), 'test_rmfile.txt'])
+rmfile([tempdir(), 'test_rmfile.txt'])
+isfile([tempdir(), 'test_rmfile.txt'])
 ]]>
     </example_item_data>
   

@@ -90,7 +90,7 @@ status = fclose(fd)
     <example_item_description>characters encoding</example_item_description>
     <example_item_data><![CDATA[
 TEXT_REF = 'Виртуальная';
-filename = [tempdir(), '/fwrite_example_Windows-1251.txt'];
+filename = [tempdir(), 'fwrite_example_Windows-1251.txt'];
 F = fopen(filename, 'wt', 'n', 'windows-1251');
 W = fwrite(F, TEXT_REF, 'char')
 fclose(F);

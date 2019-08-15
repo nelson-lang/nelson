@@ -38,7 +38,7 @@
 		<example_item_description>See module skeleton for example</example_item_description>
 		<example_item_data><![CDATA[
 dlgenerateloader(tempdir(), {'c_dynamic_library_1',  'c_dynamic_library_2'});
-text = fileread([tempdir(), '/loader.nls'])]]>
+text = fileread([tempdir(), 'loader.nls'])]]>
 	</example_item_data>
 	
 	</example_item>

@@ -53,7 +53,7 @@ function struct_res = test_runfile(varargin)
     diary('off')
 
     [p, f, e] = fileparts(filename);
-    dia_res = [tempdir(), '/', f, '.res'];
+    dia_res = [tempdir(), '', f, '.res'];
     rm = rmfile(dia_res);
     diary(dia_res);
     diary('on');

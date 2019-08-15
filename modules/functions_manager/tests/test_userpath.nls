@@ -27,7 +27,7 @@ userpath('reset');
 up1 = userpath();
 userpath(tempdir);
 up2 = userpath();
-assert_isequal([tempdir, pathsep], up2);
+assert_isequal(replace([tempdir(),pathsep], ['/', pathsep], pathsep), up2);
 userpath('clear');
 up3 = userpath();
 assert_isequal('', up3);

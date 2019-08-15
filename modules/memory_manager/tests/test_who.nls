@@ -30,26 +30,26 @@ A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-save([tempdir(), '/test_who.mat'], 'A', 'B', 'C', 'D')
-save([tempdir(), '/test_who.nh5'], 'A', 'B', 'C', 'D')
+save([tempdir(), 'test_who.mat'], 'A', 'B', 'C', 'D')
+save([tempdir(), 'test_who.nh5'], 'A', 'B', 'C', 'D')
 //=============================================================================
-who('-file', [tempdir(), '/test_who.mat'])
-c = who('-file', [tempdir(), '/test_who.mat']);
+who('-file', [tempdir(), 'test_who.mat'])
+c = who('-file', [tempdir(), 'test_who.mat']);
 REF = {'A'; 'B'; 'C'; 'D'}
 assert_isequal(c, REF);
 //=============================================================================
-who('-file', [tempdir(), '/test_who.mat'], 'A', 'C')
-c = who('-file', [tempdir(), '/test_who.mat'], 'A', 'C');
+who('-file', [tempdir(), 'test_who.mat'], 'A', 'C')
+c = who('-file', [tempdir(), 'test_who.mat'], 'A', 'C');
 REF = {'A'; 'C'}
 assert_isequal(c, REF);
 //=============================================================================
-who('-file', [tempdir(), '/test_who.nh5'])
-c = who('-file', [tempdir(), '/test_who.nh5']);
+who('-file', [tempdir(), 'test_who.nh5'])
+c = who('-file', [tempdir(), 'test_who.nh5']);
 REF = {'A'; 'B'; 'C'; 'D'}
 assert_isequal(c, REF);
 //=============================================================================
-who('-file', [tempdir(), '/test_who.nh5'], 'A', 'C')
-c = who('-file', [tempdir(), '/test_who.nh5'], 'A', 'C');
+who('-file', [tempdir(), 'test_who.nh5'], 'A', 'C')
+c = who('-file', [tempdir(), 'test_who.nh5'], 'A', 'C');
 REF = {'A'; 'C'}
 assert_isequal(c, REF);
 //=============================================================================

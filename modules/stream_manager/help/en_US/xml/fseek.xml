@@ -60,12 +60,12 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[
-fileID = fopen([tempdir(), '/fseek.txt'],'wt');
+fileID = fopen([tempdir(), 'fseek.txt'],'wt');
 fprintf(fileID, 'son is beautiful.');
 fseek(fileID, SEEK_CUR, 'bof');
 fprintf(fileID, 'sun');
 fclose(fileID);
-R = fileread([tempdir(), '/fseek.txt'])]]>
+R = fileread([tempdir(), 'fseek.txt'])]]>
     </example_item_data>
   
   </example_item>

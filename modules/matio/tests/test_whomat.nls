@@ -36,15 +36,15 @@ A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savemat([tempdir(), '/test_whomat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
-c = whomat([tempdir(), '/test_whomat-v7.3.mat']);
+savemat([tempdir(), 'test_whomat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
+c = whomat([tempdir(), 'test_whomat-v7.3.mat']);
 REF = {'A'; 'B'; 'C'; 'D'}
 assert_isequal(c, REF);
 //=============================================================================
-c = whomat([tempdir(), '/test_whomat-v7.3.mat'], 'A', 'C');
+c = whomat([tempdir(), 'test_whomat-v7.3.mat'], 'A', 'C');
 REF = {'A'; 'C'}
 assert_isequal(c, REF);
 //=============================================================================
-whomat([tempdir(), '/test_whomat-v7.3.mat'], 'A', 'C');
-whomat([tempdir(), '/test_whomat-v7.3.mat']);
+whomat([tempdir(), 'test_whomat-v7.3.mat'], 'A', 'C');
+whomat([tempdir(), 'test_whomat-v7.3.mat']);
 //=============================================================================

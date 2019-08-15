@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 dlgenerateunloader(tempdir, 'test_c');
-assert_istrue(isfile([tempdir(), '/unloader.nls']));
-txt = fileread([tempdir(), '/unloader.nls']);
+assert_istrue(isfile([tempdir(), 'unloader.nls']));
+txt = fileread([tempdir(), 'unloader.nls']);
 assert_istrue(contains(txt, 'dlclose(lib)'));
 //=============================================================================

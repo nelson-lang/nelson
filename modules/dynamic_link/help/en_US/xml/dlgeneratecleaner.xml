@@ -38,7 +38,7 @@
 		<example_item_description>See module skeleton for example</example_item_description>
 		<example_item_data><![CDATA[
 dlgeneratecleaner(tempdir());
-text = fileread([tempdir(), '/cleaner.nls'])]]>
+text = fileread([tempdir(), 'cleaner.nls'])]]>
 	</example_item_data>
 	
 	</example_item>

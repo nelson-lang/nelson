@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 dlgeneratecleaner(tempdir);
-assert_istrue(isfile([tempdir(), '/cleaner.nls']));
-txt = fileread([tempdir(), '/cleaner.nls']);
+assert_istrue(isfile([tempdir(), 'cleaner.nls']));
+txt = fileread([tempdir(), 'cleaner.nls']);
 assert_istrue(contains(txt, 'rmfile(''CMakeLists.txt'');'));
 //=============================================================================

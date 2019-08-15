@@ -31,7 +31,7 @@ if ismac()
   TMPDIR = ['/private', TMPDIR];
 end
 //=============================================================================
-temp_dest = [TMPDIR, '/', createGUID()];
+temp_dest = [TMPDIR, createGUID()];
 mkdir(temp_dest);
 cd(temp_dest);
 R = unzip([nelsonroot(), '/modules/file_archiver/tests/test_zip.zip']);
@@ -63,7 +63,7 @@ end
 cd(nelsonroot());
 rmdir(temp_dest, 's');
 //=============================================================================
-temp_dest = [TMPDIR, '/', createGUID()];
+temp_dest = [TMPDIR, createGUID()];
 R = unzip([nelsonroot(), '/modules/file_archiver/tests/test_zip.zip'], temp_dest);
 REF = { [temp_dest, '/test_zip/'], ...
  [temp_dest, '/test_zip/dir_1/'], ...

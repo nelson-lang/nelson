@@ -71,9 +71,9 @@ str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[str = 'живете зело, земля, и иже и како люди';
-filewrite([tempdir(), '/example_fileread.txt'], str, 'native', 'windows-1251')
-T1 = fileread([tempdir(), '/example_fileread.txt'], 'char', 'native', 'windows-1251')
-T2 = fileread([tempdir(), '/example_fileread.txt'], 'string', 'native', 'auto')
+filewrite([tempdir(), 'example_fileread.txt'], str, 'native', 'windows-1251')
+T1 = fileread([tempdir(), 'example_fileread.txt'], 'char', 'native', 'windows-1251')
+T2 = fileread([tempdir(), 'example_fileread.txt'], 'string', 'native', 'auto')
 ]]>
     </example_item_data>
   </example_item>

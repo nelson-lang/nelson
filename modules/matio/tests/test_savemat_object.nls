@@ -32,7 +32,7 @@ REF.r = 3;
 REF.i = 4;
 //=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), '/test_save_function_object', v{1}, '.mat'];
+  test_file_mat = [tempdir(), 'test_save_function_object', v{1}, '.mat'];
   savemat(test_file_mat, 'cplx', v{1});
   clear cplx;
   loadmat(test_file_mat);

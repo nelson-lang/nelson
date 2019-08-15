@@ -27,66 +27,66 @@ addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 //=============================================================================
 // logical
 A = logical(eye(5, 4));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // double
 A = eye(5, 4);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // double complex
 A = eye(5,4) + 2i;
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // double empty
 A = ones(0,3);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // single
 A = single(eye(5,4));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // complex single
 A = single(eye(5,4) + 2i);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // single empty
 A = single(ones(0,3));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // unicode characters
 A = 'NelSon 象形字';
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // unicode
@@ -94,332 +94,332 @@ A = ['NelSon';
 'is    ';
 'not   ';
 'LensOn'];
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // function_handle
 A = str2func('sin');
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // sparse double
 A = sparse(eye(3,3));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // sparse double complex
 A = sparse(eye(3,3) + 2i );
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // sparse logical
 A = sparse(logical(eye(3,3)));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array double
 A = ones(3,4,2);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array double complex
 A = complex(ones(3,4,2), 2);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // empty 2D cell
 A = cell(3,4);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // cell
 A = {'jim', 89, [5 2 1] ; 'george', pi, 3i}; 
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array cell
 A = cell(3, 4, 2);
 A{1, 1} = 3;
 A{3, 4, 2} = 6; 
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array logical
 A = ones(3, 4, 6);
 A = logical(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array int8
 A = ones(3, 4, 6);
 A = int8(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array uint8
 A = ones(3, 4, 6);
 A = uint8(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array int16
 A = ones(3, 4, 6);
 A = int16(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array uint16
 A = ones(3, 4, 6);
 A = uint16(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array int32
 A = ones(3,4,6);
 A = int32(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array uint32
 A = ones(3, 4, 6);
 A = uint32(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array int64
 A = ones(3, 4, 6);
 A = int64(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array uint64
 A = ones(3, 4, 6);
 A = uint64(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array single
 A = ones(3, 4, 6);
 A = single(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array double
 A = ones(3, 4, 6);
 A = double(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array char
 A = ones(3, 4, 6);
 A = char(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // uint8
 A = ones(3, 4);
 A = uint8(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // int8
 A = ones(3, 4);
 A = int8(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // uint16
 A = ones(3, 4);
 A = uint16(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // int16
 A = ones(3, 4);
 A = int16(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // uint32
 A = ones(3, 4);
 A = uint32(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // int32
 A = ones(3, 4);
 A = int32(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // uint64
 A = ones(3, 4);
 A = uint64(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // int64
 A = ones(3, 4);
 A = int64(A);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 A = struct('name', {'Pierre', 'Anna', 'Roberta'}, 'age', {43, 21, 31});
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 A = struct();
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 A = struct([]);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 A = struct(ones(1,0));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 A = struct(ones(0,1));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin'])
+loadbin([tempdir(), 'test_saveload.bin'])
 assert_isequal(A, REF);
 //=============================================================================
 A = struct(ones(3, 0, 2));
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 c = {'tree', 37.4, 'birch'};
 f = {'category','height','name'};
 A = cell2struct(c, f, 2);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 c = {'birch','betula',65;  'maple','acer',50};
 f = {'name', 'genus', 'height'};
 A = cell2struct(c, f, 2);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 my_cell_array = {'Jimmy', 'Timothy', 'Charles'};
 A = cell2struct(cell(size(my_cell_array)), my_cell_array, 2);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 clear C;
@@ -427,10 +427,10 @@ C{1}='tim';
 C{2}='love';
 C{3}=1.73;
 A=cell2struct(C,{'firstname','familyname','height'},2);
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 clear C;
@@ -438,19 +438,19 @@ C{1}='tim';
 C{2}='love';
 C{3}=1.73;
 A=cell2struct(C,{'firstname'});
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 A = ["NelSon";
 "is";
 "not";
 "LensOn"];
-savebin([tempdir(), '/test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), '/test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================

@@ -26,7 +26,7 @@
 assert_isequal(nargin('h5write'), 3);
 assert_isequal(nargout('h5write'), 0);
 //=============================================================================
-h5filename = [tempdir(), '/test_h5write.h5'];
+h5filename = [tempdir(), 'test_h5write.h5'];
 if isfile(h5filename) rmfile(h5filename) end
 //=============================================================================
 REF = eye(3, 4);

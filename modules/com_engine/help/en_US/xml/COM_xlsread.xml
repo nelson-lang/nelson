@@ -62,8 +62,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[data = {'Time', 'Temp'; 12 98; 13 99; Inf 97};
-s = COM_xlswrite([tempdir(), '/example_xlswrite_2.xlsx'], data, 'Temperatures');
-[numeric_data, txt_data, raw_data] = COM_xlsread([tempdir(), '/example_xlswrite_2.xlsx'])]]>
+s = COM_xlswrite([tempdir(), 'example_xlswrite_2.xlsx'], data, 'Temperatures');
+[numeric_data, txt_data, raw_data] = COM_xlsread([tempdir(), 'example_xlswrite_2.xlsx'])]]>
     </example_item_data>
   </example_item>
 

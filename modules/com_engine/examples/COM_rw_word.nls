@@ -32,7 +32,7 @@ p = invoke( pDocs, 'Add')
 pSelection = invoke(pWord, 'Selection')
 pSelection.Text = 'Hello text in Word'
 pActiveDocument = pWord.ActiveDocument
-invoke(pActiveDocument, 'SaveAs', [tempdir(), '/foo.doc'])
+invoke(pActiveDocument, 'SaveAs', [tempdir(), 'foo.doc'])
 invoke(pWord, 'Quit')
 delete(pWord)
 clear pWord pDocs pSelection pActiveDocument
@@ -42,7 +42,7 @@ clear pWord pDocs pSelection pActiveDocument
 pWord = actxserver('Word.Application')
 pWord.Visible = true
 pDocuments = get(pWord, 'Documents')
-invoke(pDocuments, 'Open', [tempdir(), '/foo.doc']);
+invoke(pDocuments, 'Open', [tempdir(), 'foo.doc']);
 pActiveDocument = get(pWord, 'ActiveDocument');
 pContent  = invoke(pActiveDocument,'Content');
 pText = invoke(pContent,'Text');
