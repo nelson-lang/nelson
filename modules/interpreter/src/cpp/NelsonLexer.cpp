@@ -23,25 +23,28 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsInterpreter_exports.h"
-#include "characters_encoding.hpp"
+#include <boost/algorithm/string.hpp>
+#include <boost/unordered_map.hpp>
 #include <cctype>
 #include <cstdio>
 #include <sys/stat.h>
 #include <sys/types.h>
+//=============================================================================
 #define WS 999
-
+#define YYSTYPE Nelson::ParseRHS
+//=============================================================================
 #include "AST.hpp"
 #include "AstManager.hpp"
 #include "i18n.hpp"
-#define YYSTYPE Nelson::ParseRHS
-
+#include "nlsInterpreter_exports.h"
+#include "characters_encoding.hpp"
 #include "Exception.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
 #include "NelSonParser.h"
+//=============================================================================
 using namespace Nelson;
-
+//=============================================================================
 extern bool interactiveMode;
 extern int charcontext;
 static char* textbuffer = nullptr;
@@ -50,15 +53,16 @@ static char* linestart = nullptr;
 static int lineNumber;
 static int continuationCount;
 static int inBlock;
+//=============================================================================
 typedef enum
 {
     Initial,
     Scanning,
     SpecScan
 } LexingStates;
-
+//=============================================================================
 #define DEFAULT_BUFFER_SIZE_LEXER 256
-
+//=============================================================================
 LexingStates lexState;
 int bracketStack[DEFAULT_BUFFER_SIZE_LEXER];
 int bracketStackSize;
@@ -72,7 +76,7 @@ int vcFlag;
 int tokenActive;
 int tokenType;
 ParseRHS tokenValue;
-
+//=============================================================================
 keywordStruct tSearch, *pSearch;
 //=============================================================================
 void
@@ -149,58 +153,41 @@ popVCState()
 inline bool
 testSpecialFuncs()
 {
-    if (isalpha(datap[0]) == 0) {
+    std::string line = std::string(datap);
+    if (!std::isalpha(line[0])) {
         return false;
     }
-    // cd ..
-    // cd .
-    // dir *.txt
-    // dir ?
-    // cd c:/Windows
-    // dir c:/Windows
-    // dir ('c:/Windows')
-    // dir('c:/Windows')
-    // FIXME - this should check the current context to see if any of these have been
-    // masked or assigned
-    /*
-    bool test1 = ((strncmp(datap, "cd ", 3) == 0) ||
-                  (strncmp(datap, "ls ", 3) == 0) ||
-                 (strncmp(datap, "dir ", 4) == 0) ||
-                  (strncmp(datap, "global ", 7) == 0) ||
-                  (strncmp(datap, "persistent ", 11) == 0));
-    */
-    bool test1 = ((strncmp(datap, "cd ..", 5) == 0) || (strncmp(datap, "cd .", 4) == 0)
-        || (strncmp(datap, "dir ?", 4) == 0) || (strncmp(datap, "dir *", 4) == 0));
-    if (test1) {
-        return test1;
+    bool isHardcodedShorcut = boost::algorithm::starts_with(line, "ls ")
+        || boost::algorithm::starts_with(line, "cd ..")
+        || boost::algorithm::starts_with(line, "cd .")
+        || boost::algorithm::starts_with(line, "cd ")
+        || boost::algorithm::starts_with(line, "dir ?")
+        || boost::algorithm::starts_with(line, "dir *");
+
+    if (isHardcodedShorcut) {
+        return true;
     }
     // Check for non-keyword identifier followed by whitespace followed by alphanum
-    char keyword[IDENTIFIER_LENGTH_MAX + 1];
-    char* cp = datap;
-    while (isalnum(*cp) != 0) {
-        keyword[cp - datap] = *cp;
-        cp++;
+    size_t i = 0;
+    std::string keyword;
+    keyword.reserve(IDENTIFIER_LENGTH_MAX);
+    while (isalnum(line[i]) && i < line.size()) {
+        keyword.push_back(line[i]);
+        i++;
     }
-    size_t lenKeyword = strlen(datap) - strlen(cp);
-    if (lenKeyword > IDENTIFIER_LENGTH_MAX) {
+    if (keyword.length() > IDENTIFIER_LENGTH_MAX) {
         Error(_("Maximum name length exceeded."));
     }
-    keyword[cp - datap] = 0;
-    tSearch.word = keyword;
+    tSearch.word = keyword.c_str();
     pSearch = static_cast<keywordStruct*>(
         bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
     if (pSearch != nullptr) {
         return false;
     }
-    while ((*cp == ' ') || (*cp == '\t')) {
-        cp++;
+    while ((isspace(line[i]) || line[i] == '\t') && i < line.size()) {
+        i++;
     }
-    std::wstring w = utf8_to_wstring(&*cp);
-    const wchar_t* wcp = w.c_str();
-    if (iswalnum(*wcp) != 0) {
-        return true;
-    }
-    return false;
+    return (isalpha(line[i]) || isdigit(line[i]));
 }
 //=============================================================================
 inline void
@@ -403,7 +390,7 @@ lexCharacterArray()
     tokenValue.v.p = allocateAbstractSyntaxTree(
         const_character_array_node, stringval, static_cast<int>(ContextInt()));
 }
-
+//=============================================================================
 void
 lexIdentifier()
 {
