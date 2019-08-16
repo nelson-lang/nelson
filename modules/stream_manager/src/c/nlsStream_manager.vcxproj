@@ -188,6 +188,7 @@
     <ClInclude Include="..\include\DisplayVariable.hpp" />
     <ClInclude Include="..\include\Endian.hpp" />
     <ClInclude Include="..\include\FileClose.hpp" />
+    <ClInclude Include="..\include\FileError.hpp" />
     <ClInclude Include="..\include\FileGetLine.hpp" />
     <ClInclude Include="..\include\FileOpen.hpp" />
     <ClInclude Include="..\include\FileRead.hpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="..\cpp\DisplayVariable.cpp" />
     <ClCompile Include="..\cpp\Endian.cpp" />
     <ClCompile Include="..\cpp\FileClose.cpp" />
+    <ClCompile Include="..\cpp\FileError.cpp" />
     <ClCompile Include="..\cpp\FileGetLine.cpp" />
     <ClCompile Include="..\cpp\FileOpen.cpp" />
     <ClCompile Include="..\cpp\FileRead.cpp" />

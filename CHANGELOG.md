@@ -17,7 +17,10 @@ Features:
 
   * feof builtin: check for end of file.
 
+  * ferror builtin: test for i/o read/write errors.
+
   * test_run uses nh5 files as result file (previously json)
+
 
 Bug Fixes:
 ---------
