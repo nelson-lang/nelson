@@ -24,6 +24,8 @@ Bug Fixes:
 
   * [#226](http://github.com/Nelson-numerical-software/nelson/issues/226): tempdir() did not include a final slash.
 
+  * [#224](http://github.com/Nelson-numerical-software/nelson/issues/224): cd 當第一個按讚的人 crashed Nelson.
+
 
 Compilation:
 ------------
