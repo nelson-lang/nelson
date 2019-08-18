@@ -23,6 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'files_folders_functions', 'builtin'));
-addpath(modulepath(nelsonroot(), 'files_folders_functions', 'functions'));
+t = tempname();
+assert_istrue(startsWith(t, tempdir()));
+//=============================================================================
+d = [tempdir(), 'path1'];
+mkdir(d,'s');
+t = tempname(d);
+assert_istrue(startsWith(t, d));
+//=============================================================================
+d = [tempdir(), 'path1'];
+mkdir(d,'s');
+t = tempname(string(d));
+assert_istrue(startsWith(t, d));
+//=============================================================================
+assert_checkerror('t = tempname(1);', _('Invalid type for #1 input argument: ''char'' or ''string'' expected.'))
 //=============================================================================
