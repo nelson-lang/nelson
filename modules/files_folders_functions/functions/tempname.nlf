@@ -23,6 +23,35 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'files_folders_functions', 'builtin'));
-addpath(modulepath(nelsonroot(), 'files_folders_functions', 'functions'));
+function tempdest = tempname(varargin)
+    if nargin == 0
+        tempdirdest = tempdir();
+    else
+        if nargin == 1
+            tempdirdest = checkArgument(varargin{1});
+        else
+            error(_('Wrong number of input arguments.'));
+        end
+    end
+    if (strcmp(tempdirdest, tempdir()))
+        tempdest = [tempdirdest, 'tp', strrep(createGUID,'-','_')];
+    else
+        tempdest = [tempdirdest, '/', 'tp', strrep(createGUID,'-','_')];
+    end
+    if isdir(tempdest) || isfile(tempdest)
+        tempdest = tempname(tempdirdest);
+    end
+endfunction
+//=============================================================================
+function str = checkArgument(arg)
+    str = arg;
+    supported = (isstring(str) && isscalar(str)) || (ischar(str) && (size(str, 1) == 1));
+    if (~supported)
+        error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
+    end
+    str = convertStringsToChars(str);
+    if ~isdir(str)
+        error(_('Invalid value for #1 input argument: directory must exists.'));
+    end
+endfunction
 //=============================================================================

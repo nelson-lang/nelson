@@ -5,6 +5,7 @@ Features:
 
   * websave builtin: Save content from RESTful API web service to file.
 
+  * tempname function: Returns an unique temporary filename.
 
 # 0.3.8 (2019-08-XX)
 
