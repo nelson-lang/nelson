@@ -23,23 +23,138 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-varargout = webread(varargin)
+function varargout = webread(varargin)
     if nargin < 1
       error(_('Wrong number of input arguments.'));
     end
-    url = getArgumentAsCharactersVector(varargin, 1);
-    
+    url = getArgumentAsCharactersVector(varargin{1});
+    options = [];
+    options_position = -1;
+    for k = 2:nargin
+        p = varargin{k};
+        if isWebOptions(p)
+          options = p;
+          options_position = k;
+        end
+    end
+    if isempty(options)
+      options = weboptions();
+      options_position = -1;
+    end
+    if ~(options_position == -1 || options_position == nargin)
+        error(_('weboptions must be last argument.'));
+    end
+    tmpfile = buildTempFilename(url);
+    websave(tmpfile, url, varargin{2:nargin});
+    res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
+    if isfile(tmpfile)
+        rmfile(tmpfile)
+    end
+    nbElements = length(res);
+    switch nbElements
+    case 0
+        varargout{1} = [];
+    case 1
+        varargout{1} = res{1};
+    case 2
+        varargout{1} = res{1};
+        varargout{2} = res{2};
+    otherwise
+        error(_W('unmanaged case.'));
+    end
 endfunction
 //=============================================================================
-function str = getArgumentAsCharactersVector(varargin, position)
+function res = convertContentType(filename, contentType, characterEncoding)
+    res = {};
+    switch contentType
+        case 'auto'
+            res = autoConvert(filename, characterEncoding);
+        case 'text'
+            txt = fileread(filename, 'char', 'native', characterEncoding);
+            res = {txt};
+        case 'audio'
+            [y, fs] = audioread(filename);
+            res = {y, fs};
+        case 'binary'
+            fid = fopen(filename, 'r');
+            data = fread(fid, 'uint8');
+            res = {data};
+            fclose(fid);
+        case 'json'
+            txt = fileread(filename, 'char', 'native', characterEncoding);
+            json = jsondecode(txt);
+            res = {json};
+        case 'raw'
+            fid = fopen(filename, 'r');
+            data = fread(fid, 'uint8');
+            res = {data};
+            fclose(fid);
+        otherwise
+            fid = fopen(filename, 'r');
+            data = fread(fid, 'uint8');
+            res = {data};
+            fclose(fid);
+        end
+endfunction
+//=============================================================================
+function res = autoConvert(filename, characterEncoding)
+    res = {};
+    if isempty(res)
+        try
+            [y, fs] = audioread(filename);
+            res = {y, fs};
+        catch
+            res = {};
+        end
+    end        
+    if isempty(res)
+        try
+            txt = fileread(filename, 'char', 'native', characterEncoding);
+            json = jsondecode(txt);
+            res = {json};
+        catch
+            res = {};
+        end
+    end
+    if isempty(res)
+        try
+            txt = fileread(filename, 'char', 'native', characterEncoding);
+            res = {txt};
+        catch
+            res = {};
+        end
+    end
+    if isempty(res)
+        try
+            fid = fopen(filename, 'r');
+            data = fread(fid, 'uint8');
+            res = {data};
+            fclose(fid);
+        catch
+            res = {};
+        end
+    end
+endfunction
+//=============================================================================
+function str = getArgumentAsCharactersVector(arg)
+    str = arg;
+    supported = (isstring(str) && isscalar(str)) || (ischar(str) && (size(str, 1) == 1));
+    if (~supported)
+        error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
+    end
+    str = convertStringsToChars(str);
 endfunction
 //=============================================================================
 function tempfilename = buildTempFilename(url)
     [p, f, e] = fileparts(url);
-    if (contains(url, '?') || isempty(ext))
+    if (contains(url, '?') || isempty(e))
         tempfilename = tempname();
     else
-        tempfilename = [tempname(), ext];
+        tempfilename = [tempname(), e];
     end
+endfunction
+//=============================================================================
+function r = isWebOptions(arg)
+    r = strcmp(class(arg), 'weboptions');
 endfunction
 //=============================================================================

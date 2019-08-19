@@ -31,5 +31,5 @@ assert_isequal(R.url, 'https://httpbin.org/post');
 //=============================================================================
 filename = [tempdir(), 'test_websave_post.json'];
 cmd = 'fullname = websave(filename, ''http://httpbin.org/post'');';
-assert_checkerror(cmd, _('METHOD NOT ALLOWED (405)'));
+assert_checkerror(cmd, _('Method Not Allowed (405)'));
 //=============================================================================

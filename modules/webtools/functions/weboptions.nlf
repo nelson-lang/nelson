@@ -186,12 +186,9 @@ function [res, nameNormalized, valueNormalized] = checkContentType(argValue)
   nameNormalized = 'ContentType';
   value = convertStringsToChars(argValue);
   supportedContentType = {'text';
-    'image';
     'binary';
-    'table';
     'audio'; 
     'json';
-    'xmldom';
     'raw';
     'auto'};
   valueNormalized = convertStringsToChars(argValue);

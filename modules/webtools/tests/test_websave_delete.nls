@@ -38,5 +38,5 @@ assert_isequal(R, REF);
 //=============================================================================
 filename = [tempdir(), 'test_websave_delete.json'];
 cmd = 'fullname = websave(filename, ''http://httpbin.org/delete'');';
-assert_checkerror(cmd, _('METHOD NOT ALLOWED (405)'));
+assert_checkerror(cmd, _('Method Not Allowed (405)'));
 //=============================================================================
