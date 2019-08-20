@@ -260,7 +260,11 @@ function [res, nameNormalized, valueNormalized] = checkCertificateFilename(argVa
   if res
     if strcmp(valueNormalized, 'default') == 1
       res = true;
-      valueNormalized = [];
+      if isfile([modulepath('webtools'), '/resources/cacert.pem'])
+        valueNormalized = [modulepath('webtools'), '/resources/cacert.pem'];
+      else
+        valueNormalized = [];
+      end
     else
       res = isempty(valueNormalized) || isfile(valueNormalized);
     end
