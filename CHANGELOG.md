@@ -5,6 +5,8 @@ Features:
 
   * websave builtin: Save content from RESTful API web service to file.
 
+  * webread builtin: Read content from RESTful API web service to nelson's variable.
+
   * tempname function: Returns an unique temporary filename.
 
 # 0.3.8 (2019-08-XX)
