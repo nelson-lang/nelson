@@ -642,13 +642,13 @@ errorCodeToMessage(long response_code)
         return _W("Not Extended(510)");
     case 511:
         return _W("Network Authentication Required (511)");
-    default:{
+    default: {
         if (response_code >= 400 && response_code < 500) {
             _W("HTTP Client error code: ") + std::to_wstring(response_code);
-        } 
+        }
         if (response_code >= 500 && response_code < 600) {
             _W("HTTP Server error code: ") + std::to_wstring(response_code);
-        } 
+        }
     } break;
     }
     return message;
