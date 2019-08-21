@@ -246,41 +246,53 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 outputs[i] = a;
             }
         } else {
-            outputs = ArrayOfVector(nargout);
-            int explicitCount = static_cast<int>(returnVals.size()) - 1;
-            // For each explicit argument (that we have), insert it
-            // into the scope.
-            for (int i = 0; i < explicitCount; i++) {
-                if (!context->lookupVariableLocally(returnVals[i], a)) {
-                    if (!warningIssued) {
-                        Warning(_W("one or more outputs not assigned in call"));
-                        warningIssued = true;
-                    }
-                    a = ArrayOf::emptyConstructor();
-                }
-                outputs[i] = a;
+            ArrayOf varargout;
+            if (!context->lookupVariableLocally("varargout", varargout)) {
+                Error(_W("The special variable 'varargout' was not defined as expected"));
             }
-            // Are there any outputs not yet filled?
-            if (nargout > explicitCount) {
-                ArrayOf varargout;
-                // Yes, get a pointer to the "vargout" variable that should be defined
-                if (!context->lookupVariableLocally("varargout", varargout)) {
-                    Error(_W("The special variable 'varargout' was not defined as expected"));
-                }
-                if (varargout.getDataClass() != NLS_CELL_ARRAY) {
-                    Error(_W("The special variable 'varargout' was not defined as a "
-                             "cell-array"));
-                }
-                // Get the data pointer
+            if (varargout.getDataClass() != NLS_CELL_ARRAY) {
+                Error(_W("The special variable 'varargout' was not defined as a "
+                         "cell-array"));
+            }
+            indexType varlen = varargout.getLength();
+            int explicitCount = static_cast<int>(returnVals.size()) - 1;
+            if (explicitCount == 0 && varlen > 0) {
+                outputs = ArrayOfVector(varlen);
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
-                indexType varlen = varargout.getLength();
                 int toFill = nargout - explicitCount;
                 if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
                     Error(_W("Not enough outputs in varargout to satisfy call"));
                 }
-                for (int i = 0; i < toFill; i++) {
-                    outputs[explicitCount + i] = dp[i];
+                for (int i = 0; i < varlen; i++) {
+                    outputs[i] = dp[i];
+                }
+            } else {
+                outputs = ArrayOfVector(nargout);
+                // For each explicit argument (that we have), insert it
+                // into the scope.
+                for (int i = 0; i < explicitCount; i++) {
+                    if (!context->lookupVariableLocally(returnVals[i], a)) {
+                        if (!warningIssued) {
+                            Warning(_W("one or more outputs not assigned in call"));
+                            warningIssued = true;
+                        }
+                        a = ArrayOf::emptyConstructor();
+                    }
+                    outputs[i] = a;
+                }
+                // Are there any outputs not yet filled?
+                if (nargout > explicitCount) {
+                    // Get the data pointer
+                    const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
+                    // Get the length
+                    int toFill = nargout - explicitCount;
+                    if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
+                        Error(_W("Not enough outputs in varargout to satisfy call"));
+                    }
+                    for (int i = 0; i < toFill; i++) {
+                        outputs[explicitCount + i] = dp[i];
+                    }
                 }
             }
         }
