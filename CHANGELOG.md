@@ -1,3 +1,6 @@
+
+# 0.3.8 (2019-08-XX)
+
 Features:
 ---------
 
@@ -8,11 +11,6 @@ Features:
   * webread builtin: Read content from RESTful API web service to nelson's variable.
 
   * tempname function: Returns an unique temporary filename.
-
-# 0.3.8 (2019-08-XX)
-
-Features:
----------
 
   * unicode2native builtin: Converts unicode characters representation to bytes representation.
 
