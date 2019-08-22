@@ -163,7 +163,7 @@ setCurlURL(CURL* curlObject, std::string url)
 static size_t
 write_data(void* ptr, size_t size, size_t nmemb, void* stream)
 {
-    size_t written = fwrite(ptr, size, nmemb, (FILE*)stream);
+    size_t written = fwrite(ptr, size, nmemb, static_cast<FILE*>(stream));
     if (NelsonConfiguration::getInstance()->getInterruptPending()) {
         return 0;
     }
@@ -334,7 +334,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
     indexType nbElements = dims.getElementCount();
     switch (value.getDataClass()) {
     case NLS_LOGICAL: {
-        logical* ptr = (logical*)value.getDataPointer();
+        auto* ptr = (logical*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             std::string s = (ptr[k] ? "1" : "0");
             output = output
@@ -346,7 +346,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         output = std::string(curl_easy_escape(curlObject, output.c_str(), output.size()));
     } break;
     case NLS_STRING_ARRAY: {
-        ArrayOf* ptr = (ArrayOf*)value.getDataPointer();
+        auto* ptr = (ArrayOf*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             ArrayOf v = ptr[k];
             std::string s;
@@ -360,7 +360,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_CELL_ARRAY: {
-        ArrayOf* ptr = (ArrayOf*)value.getDataPointer();
+        auto* ptr = (ArrayOf*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             ArrayOf v = ptr[k];
             scalarValueToString(curlObject, v);
@@ -368,7 +368,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptr = (double*)value.getDataPointer();
+        auto* ptr = (double*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             double v = ptr[k];
             std::string s;
@@ -382,7 +382,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptr = (double*)value.getDataPointer();
+        auto* ptr = (double*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             std::complex<double> v(ptr[k], ptr[k + 1]);
             std::string s;
@@ -405,7 +405,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_SINGLE: {
-        single* ptr = (single*)value.getDataPointer();
+        auto* ptr = (single*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             single v = ptr[k];
             std::string s;
@@ -419,7 +419,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_SCOMPLEX: {
-        single* ptr = (single*)value.getDataPointer();
+        auto* ptr = (single*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             std::complex<single> v(ptr[k], ptr[k + 1]);
             std::string s;
@@ -442,7 +442,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_UINT8: {
-        uint8* ptr = (uint8*)value.getDataPointer();
+        auto* ptr = (uint8*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint8 v = ptr[k];
             std::string s = std::to_string(v);
@@ -460,7 +460,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_UINT16: {
-        uint16* ptr = (uint16*)value.getDataPointer();
+        auto* ptr = (uint16*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint16 v = ptr[k];
             std::string s = std::to_string(v);
@@ -469,7 +469,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_INT16: {
-        int16* ptr = (int16*)value.getDataPointer();
+        auto* ptr = (int16*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int16 v = ptr[k];
             std::string s = std::to_string(v);
@@ -478,7 +478,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_UINT32: {
-        uint32* ptr = (uint32*)value.getDataPointer();
+        auto* ptr = (uint32*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint32 v = ptr[k];
             std::string s = std::to_string(v);
@@ -487,7 +487,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_INT32: {
-        int32* ptr = (int32*)value.getDataPointer();
+        auto* ptr = (int32*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int32 v = ptr[k];
             std::string s = std::to_string(v);
@@ -496,7 +496,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_UINT64: {
-        uint64* ptr = (uint64*)value.getDataPointer();
+        auto* ptr = (uint64*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint64 v = ptr[k];
             std::string s = std::to_string(v);
@@ -505,7 +505,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     case NLS_INT64: {
-        int64* ptr = (int64*)value.getDataPointer();
+        auto* ptr = (int64*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int64 v = ptr[k];
             std::string s = std::to_string(v);
@@ -667,7 +667,7 @@ WebSave(const std::wstring& url, const std::wstring& filename, const ArrayOfVect
     std::string utfFilename = wstring_to_utf8(filename);
     fw = fopen(utfFilename.c_str(), "wb");
 #endif
-    if (!fw) {
+    if (fw == nullptr) {
         Error(_W("Cannot create destination file."));
     }
     boost::filesystem::path p(filename);

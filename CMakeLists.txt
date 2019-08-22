@@ -274,7 +274,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ENDIF()
 #==============================================================================
 IF (NOT ICU_INCLUDE_DIRS OR NOT ICU_LIBRARIES)
-  FIND_PACKAGE(ICU COMPONENTS uc i18n REQUIRED)
+  FIND_PACKAGE(icu COMPONENTS uc i18n REQUIRED)
 ENDIF()
 #==============================================================================
 IF (ICU_INCLUDE_DIRS AND ICU_LIBRARIES)
