@@ -247,22 +247,26 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             }
         } else {
             ArrayOf varargout;
-            if (!context->lookupVariableLocally("varargout", varargout)) {
-                Error(_W("The special variable 'varargout' was not defined as expected"));
-            }
-            if (varargout.getDataClass() != NLS_CELL_ARRAY) {
-                Error(_W("The special variable 'varargout' was not defined as a "
-                         "cell-array"));
+            bool haveVarargout = context->lookupVariableLocally("varargout", varargout);
+            if (haveVarargout) {
+                if (varargout.getDataClass() != NLS_CELL_ARRAY) {
+                    Error(_W("The special variable 'varargout' was not defined as a "
+                             "cell-array."));
+                }
             }
             indexType varlen = varargout.getLength();
             int explicitCount = static_cast<int>(returnVals.size()) - 1;
+            bool noArgs = (explicitCount == 0 && varlen == 0);
+            if (!noArgs && !haveVarargout) {
+               Error(_W("The special variable 'varargout' was not defined as expected."));
+            }
             if (explicitCount == 0 && varlen > 0) {
                 outputs = ArrayOfVector(varlen);
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
                 int toFill = nargout - explicitCount;
                 if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
-                    Error(_W("Not enough outputs in varargout to satisfy call"));
+                    Error(_W("Not enough outputs in varargout to satisfy call."));
                 }
                 for (int i = 0; i < varlen; i++) {
                     outputs[i] = dp[i];
@@ -274,7 +278,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 for (int i = 0; i < explicitCount; i++) {
                     if (!context->lookupVariableLocally(returnVals[i], a)) {
                         if (!warningIssued) {
-                            Warning(_W("one or more outputs not assigned in call"));
+                            Warning(_W("one or more outputs not assigned in call."));
                             warningIssued = true;
                         }
                         a = ArrayOf::emptyConstructor();
@@ -288,7 +292,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                     // Get the length
                     int toFill = nargout - explicitCount;
                     if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
-                        Error(_W("Not enough outputs in varargout to satisfy call"));
+                        Error(_W("Not enough outputs in varargout to satisfy call."));
                     }
                     for (int i = 0; i < toFill; i++) {
                         outputs[explicitCount + i] = dp[i];
