@@ -260,7 +260,8 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             if (!noArgs && !haveVarargout) {
                Error(_W("The special variable 'varargout' was not defined as expected."));
             }
-            if (explicitCount == 0 && varlen > 0) {
+            if (explicitCount == 0 && varlen > 0
+                && (context->getCurrentScope()->getName() == "base")) {
                 outputs = ArrayOfVector(varlen);
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
