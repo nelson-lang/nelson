@@ -23,7 +23,9 @@
 # License along with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
+MESSAGE(STATUS "CMake version ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}")
+#==============================================================================
+CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
 #============================================================================== 
 set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
@@ -183,7 +185,7 @@ ELSE()
   ENDIF()
 ENDIF()
 #==============================================================================
-find_package(MPI REQUIRED)
+FIND_PACKAGE(MPI REQUIRED)
 IF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
   MESSAGE(STATUS "MPI_COMPILE_FLAGS=${MPI_COMPILE_FLAGS}")
   MESSAGE(STATUS "MPI_LINK_FLAGS=${MPI_LINK_FLAGS}")
@@ -274,7 +276,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ENDIF()
 #==============================================================================
 IF (NOT ICU_INCLUDE_DIRS OR NOT ICU_LIBRARIES)
-  FIND_PACKAGE(icu COMPONENTS uc i18n REQUIRED)
+  FIND_PACKAGE(ICU COMPONENTS uc i18n REQUIRED)
 ENDIF()
 #==============================================================================
 IF (ICU_INCLUDE_DIRS AND ICU_LIBRARIES)
@@ -353,7 +355,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   FIND_PACKAGE(LAPACKE REQUIRED)
 ENDIF()
 #==============================================================================
-find_package(MATIO REQUIRED)
+FIND_PACKAGE(MATIO REQUIRED)
 if(MATIO_FOUND)
     message(STATUS "Found Matio lib: ${MATIO_LIBRARIES}")
 endif()
