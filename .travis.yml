@@ -41,7 +41,7 @@ branches:
 matrix:
   include:
     - os: linux
-      group: travis_latest
+      dist: bionic
       env: ARCH="x86_64"
       compiler: gcc
       addons:
@@ -92,7 +92,7 @@ before_install:
       sudo apt -y install libcurl4-openssl-dev;
       fi
     - if [ `uname` = "Linux" ];
-      then sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial;
+      then sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.0-bionic;
       sudo apt update;
       sudo apt -y install qt512-meta-full;
       fi

@@ -4,29 +4,24 @@
 Features:
 ---------
 
-  * weboptions function: Set parameters for RESTful API web service.
+  * RESTfull API webservice for Nelson: 
+    - weboptions function: Set parameters for RESTful API web service.
+    - websave builtin: Save content from RESTful API web service to file.
+    - webread builtin: Read content from RESTful API web service to nelson's variable.
 
-  * websave builtin: Save content from RESTful API web service to file.
-
-  * webread builtin: Read content from RESTful API web service to nelson's variable.
-
-  * tempname function: Returns an unique temporary filename.
-
-  * unicode2native builtin: Converts unicode characters representation to bytes representation.
-
-  * native2unicode builtin: Converts bytes representation representation to unicode string representation.
-
-  * nativecharset builtin: Find all charset matches that appear to be consistent with the input.
- 
-  * text editor detects files charset and open files with it.
-
-  * fileread / filewrite builtin extended to use an characters encoding.
-
-  * fopen, fprintf, fgetl, fgets, fread, and fwrite builtin extended to manage characters encoding.
+  * UNICODE support extended in Nelson:
+    - unicode2native builtin: Converts unicode characters representation to bytes representation.
+    - native2unicode builtin: Converts bytes representation representation to unicode string representation.
+    - nativecharset builtin: Find all charset matches that appear to be consistent with the input.
+    - text editor detects files charset and open files with it.
+    - fileread / filewrite builtin extended to use an characters encoding.
+    - fopen, fprintf, fgetl, fgets, fread, and fwrite builtin extended to manage characters encoding.
 
   * feof builtin: check for end of file.
 
   * ferror builtin: test for i/o read/write errors.
+
+  * tempname function: Returns an unique temporary filename.
 
   * test_run uses nh5 files as result file (previously json)
 
@@ -42,9 +37,13 @@ Bug Fixes:
 Compilation:
 ------------
 
-* Visual studio 15.9.14
+* Visual studio 15.9.14.
 
-* Qt 5.12.4 on Windows
+* Qt 5.12.4 on Windows.
+
+* CMake 3.9 required on linux and MacOS.
+
+* CircleCI moved to Arch Linux build.
 
 
 

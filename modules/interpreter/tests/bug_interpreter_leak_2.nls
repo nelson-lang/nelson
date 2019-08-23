@@ -43,7 +43,8 @@ filtered = { 'buildhelp';
  'test_run';
  'vswhere';
  'warndlg';
- 'qcollectiongenerator'};
+ 'qcollectiongenerator';
+ 'license'};
 
 
 for k = 1:length(macro_list)

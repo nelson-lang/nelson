@@ -2,60 +2,51 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:buster
+      - image: archlinux/base:latest
     environment:
-      DISPLAY: ""      
+      DISPLAY: ""
+      OMPI_ALLOW_RUN_AS_ROOT: 1
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
     steps:
-      - run: apt-get update
-      - run: apt-get -y upgrade      
-      - run: apt-get install -y build-essential;
-      - run: apt-get install -y autotools-dev;
-      - run: apt-get install -y libtool;
-      - run: apt-get install -y automake;
-      - run: apt-get install -y xvfb;
-      - run: apt-get install -y git;
-      - run: apt-get install -y libboost-all-dev;
-      - run: apt-get install -y libopenmpi-dev;
-      - run: apt-get install -y openmpi-bin;
-      - run: apt-get install -y gettext;
-      - run: apt-get install -y pkg-config;
-      - run: apt-get install -y cmake;
-      - run: apt-get install -y libffi-dev;
-      - run: apt-get install -y libicu-dev;
-      - run: apt-get install -y libxml2-dev;
-      - run: apt-get install -y liblapack-dev;
-      - run: apt-get install -y liblapacke-dev;
-      - run: apt-get install -y fftw3;
-      - run: apt-get install -y fftw3-dev;
-      - run: apt-get install -y libasound-dev;
-      - run: apt-get install -y portaudio19-dev;
-      - run: apt-get install -y libsndfile1-dev;
-      - run: apt-get install -y libtag1-dev;
-      - run: apt-get install -y alsa-utils;
-      - run: apt-get install -y qtbase5-dev;
-      - run: apt-get install -y qtdeclarative5-dev;
-      - run: apt-get install -y libqt5webkit5-dev;
-      - run: apt-get install -y libsqlite3-dev;
-      - run: apt-get install -y qt5-default qttools5-dev-tools;
-      - run: apt-get install -y libqt5opengl5-dev;
-      - run: apt-get install -y qtbase5-private-dev;
-      - run: apt-get install -y qtdeclarative5-dev;
-      - run: apt-get install -y libslicot0;
-      - run: apt-get install -y zlib1g-dev;
-      - run: apt-get install -y libcurl4-openssl-dev;
+      - run: pacman -Syu --noconfirm
+      - run: pacman -S base-devel --noconfirm
+      - run: pacman -S inetutils --noconfirm
+      - run: pacman -S gawk --noconfirm
+      - run: pacman -S m4 --noconfirm
+      - run: pacman -S pkg-config --noconfirm
+      - run: pacman -S boost-libs boost --noconfirm
+      - run: pacman -S cmake --noconfirm
+      - run: pacman -S libffi --noconfirm
+      - run: pacman -S icu --noconfirm
+      - run: pacman -S qt5-base --noconfirm
+      - run: pacman -S qt5-tools --noconfirm
+      - run: pacman -S qt5-webkit --noconfirm
+      - run: pacman -S libxml2 --noconfirm
+      - run: pacman -S gcc --noconfirm
+      - run: pacman -S make --noconfirm
+      - run: pacman -S blas --noconfirm
+      - run: pacman -S lapack --noconfirm
+      - run: pacman -S lapacke --noconfirm
+      - run: pacman -S fftw --noconfirm
+      - run: pacman -S openmpi --noconfirm
+      - run: pacman -S hdf5 --noconfirm
+      - run: pacman -S libmatio --noconfirm
+      - run: pacman -S taglib --noconfirm
+      - run: pacman -S portaudio --noconfirm
+      - run: pacman -S libsndfile --noconfirm
+      - run: pacman -S git --noconfirm
+      - run: pacman -S zlib --noconfirm
+      - run: pacman -S curl --noconfirm
+      - run: git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5 
+      - run: cd /tmp/hdf5_1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && make install -C src
+      - run: git clone https://github.com/tbeu/matio /tmp/matio 
+      - run: cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5_1_10_5/hdf5 && make && make install;
       - run: git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen
       - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.7 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
-      - run: git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5
-      - run: cd /tmp/hdf5_1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && make install -C src;
-      - run: git clone https://github.com/tbeu/matio /tmp/matio
-      - run: cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5_1_10_5/hdf5 && make && make install;
-      - run: apt-get install -y libhdf5-dev;
-      - run: apt-get install -y hdf5-tools;
-      - checkout
+      - checkout      
       - run: cmake -G "Unix Makefiles" .
       - run: make -j4
       - run: make buildhelp
       - run: make tests_minimal
       - run: make package
       - run: make tests_all_no_display
-      
