@@ -366,10 +366,6 @@ PathFuncManager::resetUserPath()
     std::wstring userPathFile = prefDir + L"/userpath.conf";
     try {
         boost::filesystem::path p = userPathFile;
-        boost::filesystem::permissions(p,
-            boost::filesystem::add_perms | boost::filesystem::owner_write
-                | boost::filesystem::group_write | boost::filesystem::others_write);
-
         boost::filesystem::remove(p);
     } catch (const boost::filesystem::filesystem_error&) {
     }

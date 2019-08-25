@@ -55,10 +55,6 @@ deleteFile(boost::filesystem::path p)
 {
     if (boost::filesystem::exists(p)) {
         try {
-            boost::filesystem::permissions(p,
-                boost::filesystem::add_perms | boost::filesystem::owner_write
-                    | boost::filesystem::group_write | boost::filesystem::others_write);
-
             boost::filesystem::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {

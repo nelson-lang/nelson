@@ -179,20 +179,16 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
     if (!fileExistPreviously) {
         fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());
     } else {
-        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str()))
+        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
             Error(_W("HDF5 format file expected."));
-        else {
+        } else {
             if (append) {
                 fid = H5Fopen(
                     wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
             } else {
                 try {
-                    boost::filesystem::path p = hdf5_filename;
-                    boost::filesystem::permissions(p,
-                        boost::filesystem::add_perms | boost::filesystem::owner_write
-                            | boost::filesystem::group_write | boost::filesystem::others_write);
-
-                    boost::filesystem::remove(p);
+                  boost::filesystem::path p = hdf5_filename;
+                  boost::filesystem::remove(p);
                 } catch (const boost::filesystem::filesystem_error& e) {
                     Error(_W("Cannot replace file"));
                     boost::system::error_code error_code = e.code();
