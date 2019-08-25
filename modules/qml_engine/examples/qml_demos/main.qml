@@ -65,10 +65,6 @@ ApplicationWindow {
             page: "qcharts_demo"
         }
         ListElement {
-            title: "threejs <--> Nelson"
-            page: "threejs_demo"
-        }
-        ListElement {
             title: "clock"
             page: "clock"
         }

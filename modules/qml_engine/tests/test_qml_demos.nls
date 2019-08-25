@@ -72,11 +72,12 @@ qml_file = [modulepath('qml_engine'), '/examples/qml_demos/main.qml'];
 addpath([modulepath('qml_engine'), '/examples/qml_demos/']);
 qobj = qml_loadfile(qml_file);
 //=============================================================================
-if ispc()
-  qml_file = [modulepath('qml_engine'), '/examples/threejs_demo/main.qml'];
-  qobj = qml_loadfile(qml_file);
-  qobj.title = 'Nelson - ThreeJS - BufferGeometry - Lines';
-end
+// QtCanvas3D no more supported by >= Qt 5.13
+// if ispc()
+//  qml_file = [modulepath('qml_engine'), '/examples/threejs_demo/main.qml'];
+//   qobj = qml_loadfile(qml_file);
+//   qobj.title = 'Nelson - ThreeJS - BufferGeometry - Lines';
+// end
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/examples/widget_gallery/main.qml'];
 qobj = qml_loadfile(qml_file);
