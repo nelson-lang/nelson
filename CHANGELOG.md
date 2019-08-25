@@ -1,3 +1,14 @@
+# 0.3.X (2019-09-XX)
+
+  * [#227](http://github.com/Nelson-numerical-software/nelson/issues/227): Qt 5.13 support.
+
+
+Compilation:
+------------
+
+* Qt 5.13.0 on Windows.
+
+
 
 # 0.3.8 (2019-08-24)
 
