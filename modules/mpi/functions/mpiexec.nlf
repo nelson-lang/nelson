@@ -48,7 +48,12 @@ function varargout = mpiexec(varargin)
     error(_('An .nls filename extension expected.'));
   end
   run_cmd = ['run(''', filename, ''');exit()'];
-  cmd = ['mpiexec', ' -n ', int2str(nb_process), ' ','nelson-cli', ' -q', ' -e ', '"', run_cmd, '"'];
+  if strcmp(getenv('OMPI_ALLOW_RUN_AS_ROOT'), '1') && strcmp(getenv('OMPI_ALLOW_RUN_AS_ROOT_CONFIRM'), '1')
+    assume_as_root = ' --allow-run-as-root ';
+  else
+    assume_as_root = '';
+  end
+  cmd = ['mpiexec', assume_as_root, ' -n ', int2str(nb_process), ' ','nelson-cli', ' -q', ' -e ', '"', run_cmd, '"'];
   [res, msg] = unix(cmd);
   if nargout == 0
     disp(msg)
