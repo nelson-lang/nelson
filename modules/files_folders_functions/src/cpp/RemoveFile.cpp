@@ -37,18 +37,28 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     bool res = false;
     message = L"";
     if (IsFile(filename)) {
+        boost::filesystem::path p = filename;
         try {
-            boost::filesystem::path p = filename;
-            boost::filesystem::permissions(p,
-                boost::filesystem::add_perms | boost::filesystem::owner_write
-                    | boost::filesystem::group_write | boost::filesystem::others_write);
-
             boost::filesystem::remove(p);
             res = !IsFile(filename);
         } catch (const boost::filesystem::filesystem_error& e) {
-            res = false;
             boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
+            if (e.code() == boost::system::errc::permission_denied) {
+                try {
+                    boost::filesystem::permissions(p,
+                        boost::filesystem::add_perms | boost::filesystem::owner_write
+                            | boost::filesystem::group_write | boost::filesystem::others_write);
+                    boost::filesystem::remove(p);
+                    res = !IsFile(filename);
+                } catch (const boost::filesystem::filesystem_error& e) {
+                    error_code = e.code();
+                    res = false;
+                    message = utf8_to_wstring(error_code.message());
+                }
+            } else {
+                res = false;
+                message = utf8_to_wstring(error_code.message());
+            }
         }
     } else {
         res = false;
