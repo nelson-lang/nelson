@@ -38,7 +38,7 @@ function options = weboptions(varargin)
     if ~r
       error(sprintf(_('invalid value for ''%s'' field.'), fieldname));
     end
-    eval(sprintf('webtools_options.%s = fieldvalue;', fieldname));
+    webtools_options.(fieldname) = fieldvalue;
   end
   options = class(webtools_options, 'weboptions');
 endfunction

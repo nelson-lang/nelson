@@ -7,6 +7,9 @@
   * revert b22ae88a6536cd614f555af7fbd865cc607bea7f due to HDFFV-10579.
 
   * changes file or directory permission have a speed cost.
+  
+  * [#220](http://github.com/Nelson-numerical-software/nelson/issues/220): setfield function added.
+
 
 Compilation:
 ------------
