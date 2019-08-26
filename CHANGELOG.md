@@ -2,6 +2,8 @@
 
   * [#227](http://github.com/Nelson-numerical-software/nelson/issues/227): Qt 5.13 support.
 
+  * [#220](http://github.com/Nelson-numerical-software/nelson/issues/220): setfield function added.
+
 
 Compilation:
 ------------
