@@ -78,8 +78,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     }
     ArrayOf param5 = argIn[4];
-    if (ClassName(param5) != "weboptions")
-    {
+    if (ClassName(param5) != "weboptions") {
         Error(_W("Wrong type for argument #5. weboptions object expected."));
     }
     WebOptions options(param5);

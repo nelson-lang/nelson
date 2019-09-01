@@ -32,8 +32,9 @@
 namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP std::wstring
-WebREST(const std::wstring& url, const std::wstring &data, std::wstring& filename, const stringVector& names,
-    const ArrayOfVector& values, WebOptions& options, bool haveEventsLoop);
+WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filename,
+    const stringVector& names, const ArrayOfVector& values, WebOptions& options,
+    bool haveEventsLoop);
 //=============================================================================
 };
 //=============================================================================

@@ -1,5 +1,14 @@
 # 0.3.X (2019-09-XX)
 
+Features:
+---------
+
+* webwrite function: Write data to RESTful web service
+
+
+Bug Fixes:
+---------
+
   * [#236](http://github.com/Nelson-numerical-software/nelson/issues/236): mpiexec returned warning on docker as root user.
 
   * [#227](http://github.com/Nelson-numerical-software/nelson/issues/227): Qt 5.13 support.

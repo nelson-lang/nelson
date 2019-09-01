@@ -77,7 +77,7 @@ WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
 
     res = webOptionsArrayOf.getField("MediaType");
     _mediaType = res.getContentAsWideString();
-  
+
     res = webOptionsArrayOf.getField("RequestMethod");
     _requestMethod = res.getContentAsWideString();
 
@@ -194,5 +194,5 @@ WebOptions::getCertificateFilename()
     return _certificateFilename;
 }
 //=============================================================================
-}  // namespace Nelson;
+} // namespace Nelson;
 //=============================================================================
