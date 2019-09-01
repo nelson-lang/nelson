@@ -23,45 +23,59 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function varargout = webread(varargin)
-    if nargin < 1
+function varargout = webwrite(varargin)
+    if nargin < 2
       error(_('Wrong number of input arguments.'));
     end
-    if nargout > 2
+    if nargout > 1
       error(_('Wrong number of output arguments.'));
     end
-    url = getArgumentAsCharactersVector(varargin{1});
     options = [];
-    options_position = -1;
-    for k = 2:nargin
-        p = varargin{k};
-        if isWebOptions(p)
-          options = p;
-          options_position = k;
-          break;
-        end
-    end
-    if isempty(options)
-      options = weboptions();
-      options_position = -1;
-    end
-    if ~(options_position == -1 || options_position == nargin)
-        error(_('weboptions must be last argument.'));
-    end
-    if options_position == -1
-        last = nargin;
-    else
-        last = nargin - 1;
-    end
-    st = struct();
-    for k= 2:2:last
-        st.(varargin{k}) = varargin{k + 1};
-    end
+    url = getArgumentAsCharactersVector(varargin{1});
     tmpfile = buildTempFilename(url);
+    st = struct();    
+    if nargin == 2
+        if ischar(varargin{2}) || (isstring(varargin{2}) && isscalar(varargin{2}))
+            data = varargin{2};
+        else
+            data = jsonencode(varargin{2});
+        end
+        options = weboptions();
+    else
+        options_position = -1;
+        for k = 2:nargin
+            p = varargin{k};
+            if isWebOptions(p)
+                options = p;
+                options_position = k;
+                break;
+            end
+        end
+        if isempty(options)
+            options = weboptions();
+            options_position = -1;
+        end
+        if ~(options_position == -1 || options_position == nargin)
+            error(_('weboptions must be last argument.'));
+        end
+        if options_position == -1
+            last = nargin;
+        else
+            last = nargin - 1;
+        end
+        st = struct();
+        for k = [2:2:last]
+            st.(varargin{k}) = varargin{k + 1};
+        end
+        data = '__WEBWRITE__';
+    end
+    if strcmp(options.RequestMethod, 'auto')
+        options.RequestMethod = 'post';
+    end
     if strcmp(options.MediaType, 'auto') == 1
         options.MediaType = 'application/x-www-form-urlencoded';
     end
-    tmpfile = webREST(url, [], tmpfile, st, options);
+    tmpfile = webREST(url, data, tmpfile, st, options);
     res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
     if isfile(tmpfile)
         rmfile(tmpfile)
@@ -69,7 +83,7 @@ function varargout = webread(varargin)
     nbElements = length(res);
     switch nbElements
     case 0
-        varargout{1} = [];
+        varargout{1} = res{1};
     case 1
         varargout{1} = res{1};
     case 2
@@ -120,7 +134,6 @@ function res = autoConvert(filename, characterEncoding)
             [y, fs] = audioread(filename);
             res = {y, fs};
         catch
-            lasterror('reset');
             res = {};
         end
     end        
@@ -130,7 +143,6 @@ function res = autoConvert(filename, characterEncoding)
             json = jsondecode(txt);
             res = {json};
         catch
-            lasterror('reset');
             res = {};
         end
     end
@@ -139,7 +151,6 @@ function res = autoConvert(filename, characterEncoding)
             txt = fileread(filename, 'char', 'native', characterEncoding);
             res = {txt};
         catch
-            lasterror('reset');
             res = {};
         end
     end
@@ -150,7 +161,6 @@ function res = autoConvert(filename, characterEncoding)
             res = {data};
             fclose(fid);
         catch
-            lasterror('reset');
             res = {};
         end
     end

@@ -23,22 +23,63 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "webRESTBuiltin.hpp"
+#include "ProcessEventsDynamic.hpp"
+#include "dynamic_library.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"webtools";
+static library_handle nlsGuiHandleDynamicLibrary = nullptr;
+static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "webREST", Nelson::WebtoolsGateway::webRESTBuiltin, 1, 5 },
-};
+static void
+initGuiDynamicLibrary()
+{
+    if (bFirstDynamicLibraryCall) {
+        std::string fullpathGuiSharedLibrary
+            = "libnlsGui" + Nelson::get_dynamic_library_extension();
+#ifdef _MSC_VER
+        char* buf;
+        try {
+            buf = new char[MAX_PATH];
+        } catch (const std::bad_alloc&) {
+            buf = nullptr;
+        }
+        if (buf != nullptr) {
+            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
+            if (dwRet != 0U) {
+                fullpathGuiSharedLibrary
+                    = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
+            }
+            delete[] buf;
+        }
+#else
+        char const* tmp = getenv("NELSON_BINARY_PATH");
+        if (tmp != nullptr) {
+            fullpathGuiSharedLibrary
+                = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
+        }
+#endif
+        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
+        if (nlsGuiHandleDynamicLibrary != nullptr) {
+            bFirstDynamicLibraryCall = false;
+        }
+    }
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+void
+ProcessEventsDynamicFunction(bool bWait)
+{
+    using PROC_ProcessEvents = void (*)(bool);
+    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
+    initGuiDynamicLibrary();
+    if (ProcessEventsPtr == nullptr) {
+        ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
+            Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
+    }
+    if (ProcessEventsPtr != nullptr) {
+        ProcessEventsPtr(bWait);
+    }
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================

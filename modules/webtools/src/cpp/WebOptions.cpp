@@ -77,10 +77,7 @@ WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
 
     res = webOptionsArrayOf.getField("MediaType");
     _mediaType = res.getContentAsWideString();
-    if (_mediaType == L"auto") {
-        _mediaType = L"application/x-www-form-urlencoded";
-    }
-
+  
     res = webOptionsArrayOf.getField("RequestMethod");
     _requestMethod = res.getContentAsWideString();
 

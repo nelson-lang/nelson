@@ -35,7 +35,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\websaveBuiltin.cpp">
+    <ClCompile Include="..\cpp\webRESTBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,7 +43,7 @@
     <ClInclude Include="..\include\nlsWebtools_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\websaveBuiltin.hpp">
+    <ClInclude Include="..\include\webRESTBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

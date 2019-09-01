@@ -31,21 +31,268 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/unordered_map.hpp>
-#include "WebSave.hpp"
-#include "WebOptions.hpp"
+#include <boost/algorithm/string.hpp>
+#include "WebREST.hpp"
 #include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
 #include "NelsonConfiguration.hpp"
+#include "ResponseCodeToMessage.hpp"
+#include "i18n.hpp"
+#include "ProcessEventsDynamic.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static library_handle nlsGuiHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
 static bool bHaveEventsLoop = false;
 static boost::unordered_map<std::string, std::string> unsafeCharacters;
 //=============================================================================
 static std::string
-protectCharacters(std::string str)
+protectCharacters(const std::string& str);
+static CURLcode
+buildHeader(CURL* curlObject, WebOptions& options);
+static CURLcode
+setCurlWebOptions(CURL* curlObject, WebOptions& options);
+static CURLcode
+setCurlURL(CURL* curlObject, const std::string& url);
+static size_t
+write_data(void* ptr, size_t size, size_t nmemb, void* stream);
+static std::string
+scalarValueToString(CURL* curlObject, ArrayOf& value);
+static std::string
+convertToOutputFormat(CURL* curlObject, const std::string& name, indexType k, indexType nbElements,
+    const std::wstring& arrayOutputFormat, const std::string& s);
+static std::string
+arrayOfToString(CURL* curlObject, const std::string& name, ArrayOf& value, WebOptions& options);
+static std::string
+encodeUrl(CURL* curlObject, const std::wstring& url, const stringVector& names,
+    const ArrayOfVector& values, WebOptions& options);
+static std::string
+formEncode(
+    CURL* curlObject, const stringVector& names, const ArrayOfVector& values, WebOptions& options);
+//=============================================================================
+std::wstring
+WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filename,
+    const stringVector& names, const ArrayOfVector& values, WebOptions& options,
+    bool haveEventsLoop)
+{
+    bool isWrite = !data.empty();
+    std::wstring fullFilename;
+    FILE* fw;
+#ifdef _MSC_VER
+    fw = _wfopen(filename.c_str(), L"wb");
+#else
+    std::string utfFilename = wstring_to_utf8(filename);
+    fw = fopen(utfFilename.c_str(), "wb");
+#endif
+    if (fw == nullptr) {
+        Error(_W("Cannot create destination file."));
+    }
+    boost::filesystem::path p(filename);
+    try {
+        p = boost::filesystem::absolute(p);
+        fullFilename = p.generic_wstring();
+    } catch (const boost::filesystem::filesystem_error&) {
+        fullFilename = p.generic_wstring();
+    }
+    CURL* curlObject = curl_easy_init();
+    if (curlObject == nullptr) {
+        fclose(fw);
+        if (isWrite) {
+            Error(_W("Cannot initialize webwrite."));
+        } else {
+            Error(_W("Cannot initialize websave."));
+        }
+    }
+    CURLcode curlCode = setCurlWebOptions(curlObject, options);
+    if (curlCode != CURLE_OK) {
+        fclose(fw);
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+    if (isWrite) {
+        curlCode = setCurlURL(curlObject, wstring_to_utf8(url));
+    } else {
+        curlCode = setCurlURL(curlObject, encodeUrl(curlObject, url, names, values, options));
+    }
+    if (curlCode != CURLE_OK) {
+        fclose(fw);
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+
+    if (options.getRequestMethod() == L"auto") {
+        if (isWrite) {
+            curlCode = curl_easy_setopt(curlObject, CURLOPT_POST, 1L);
+            if (curlCode != CURLE_OK) {
+                fclose(fw);
+                std::string msg = curl_easy_strerror(curlCode);
+                curl_easy_cleanup(curlObject);
+                Error(msg);
+            }
+        }
+    } else if (options.getRequestMethod() == L"post") {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_POST, 1L);
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    } else if (options.getRequestMethod() == L"get") {
+        // NOTHING TO DO
+    } else if (options.getRequestMethod() == L"delete") {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "DELETE");
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    } else if (options.getRequestMethod() == L"put") {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "PUT");
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    } else if (options.getRequestMethod() == L"patch") {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "PATCH");
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    } else if (options.getRequestMethod() == L"post") {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_POST, 1L);
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    }
+
+    std::wstring certificateFilename = options.getCertificateFilename();
+    if (!certificateFilename.empty()) {
+        curlCode = curl_easy_setopt(
+            curlObject, CURLOPT_CAINFO, wstring_to_utf8(certificateFilename).c_str());
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_SSL_VERIFYPEER, 1L);
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    } else {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_SSL_VERIFYPEER, 0L);
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    }
+
+    curlCode = curl_easy_setopt(curlObject, CURLOPT_WRITEFUNCTION, write_data);
+    if (curlCode != CURLE_OK) {
+        fclose(fw);
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+    curlCode = curl_easy_setopt(curlObject, CURLOPT_WRITEDATA, fw);
+    if (curlCode != CURLE_OK) {
+        fclose(fw);
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+
+    double timeout = options.getTimeout();
+    long ltimeout = 0;
+    if (!std::isinf(timeout)) {
+        ltimeout = (long)(timeout * 1000);
+    } else {
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_NOSIGNAL, 1);
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    }
+
+    curlCode = curl_easy_setopt(curlObject, CURLOPT_TIMEOUT_MS, ltimeout);
+    if (curlCode != CURLE_OK) {
+        fclose(fw);
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+
+    curlCode = curl_easy_setopt(curlObject, CURLOPT_FOLLOWLOCATION, 1L);
+    if (curlCode != CURLE_OK) {
+        fclose(fw);
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+    std::string utfData;
+    if (isWrite) {
+        if (data == L"__WEBWRITE__") {
+            utfData = formEncode(curlObject, names, values, options);
+        } else {
+            utfData = wstring_to_utf8(data);
+        }
+        curlCode = curl_easy_setopt(curlObject, CURLOPT_POSTFIELDS, utfData.c_str());
+        if (curlCode != CURLE_OK) {
+            fclose(fw);
+            std::string msg = curl_easy_strerror(curlCode);
+            curl_easy_cleanup(curlObject);
+            Error(msg);
+        }
+    }
+
+    curlCode = curl_easy_perform(curlObject);
+    fclose(fw);
+    if (curlCode != CURLE_OK) {
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+
+    long response_code;
+    curlCode = curl_easy_getinfo(curlObject, CURLINFO_RESPONSE_CODE, &response_code);
+    if (curlCode != CURLE_OK) {
+        std::string msg = curl_easy_strerror(curlCode);
+        curl_easy_cleanup(curlObject);
+        Error(msg);
+    }
+
+    curl_easy_cleanup(curlObject);
+    std::wstring msg = responseCodeToMessage(response_code);
+    if (!msg.empty()) {
+        // remove file if error detected.
+        try {
+            boost::filesystem::path p = filename;
+            boost::filesystem::remove(p);
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
+        Error(msg);
+    }
+    return fullFilename;
+}
+//=============================================================================
+static std::string
+protectCharacters(const std::string& str)
 {
     // http://www.blooberry.com/indexdot/html/topics/urlencoding.htm
     std::string safeString;
@@ -81,11 +328,6 @@ protectCharacters(std::string str)
     return safeString;
 }
 //=============================================================================
-static void
-initGuiDynamicLibrary();
-static void
-ProcessEventsDynamicFunction(bool bWait);
-//=============================================================================
 static CURLcode
 buildHeader(CURL* curlObject, WebOptions& options)
 {
@@ -115,7 +357,7 @@ buildHeader(CURL* curlObject, WebOptions& options)
         }
     }
 
-    if (options.getMediaType().empty()) {
+    if (!options.getMediaType().empty()) {
         lines.push_back("Content-Type: " + wstring_to_utf8(options.getMediaType()));
     }
 
@@ -151,7 +393,7 @@ setCurlWebOptions(CURL* curlObject, WebOptions& options)
 }
 //=============================================================================
 static CURLcode
-setCurlURL(CURL* curlObject, std::string url)
+setCurlURL(CURL* curlObject, const std::string& url)
 {
     CURLcode res = CURLE_FAILED_INIT;
     if (curlObject != nullptr) {
@@ -272,7 +514,7 @@ scalarValueToString(CURL* curlObject, ArrayOf& value)
         Error(_W("Type not managed."));
     } break;
     }
-    return curl_easy_escape(curlObject, s.c_str(), s.size());
+    return curl_easy_escape(curlObject, s.c_str(), (int)s.size());
 }
 //=============================================================================
 static std::string
@@ -328,7 +570,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
 {
     std::string output;
     if (arrayOutputFormat == L"csv" || arrayOutputFormat == L"json") {
-        output = std::string(curl_easy_escape(curlObject, name.c_str(), name.size())) + "=";
+        output = std::string(curl_easy_escape(curlObject, name.c_str(), (int)name.size())) + "=";
     }
     Dimensions dims = value.getDimensions();
     indexType nbElements = dims.getElementCount();
@@ -343,7 +585,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
     } break;
     case NLS_CHAR: {
         output = name + "=" + value.getContentAsCString();
-        output = std::string(curl_easy_escape(curlObject, output.c_str(), output.size()));
+        output = std::string(curl_easy_escape(curlObject, output.c_str(), (int)output.size()));
     } break;
     case NLS_STRING_ARRAY: {
         auto* ptr = (ArrayOf*)value.getDataPointer();
@@ -536,348 +778,36 @@ arrayOfToString(CURL* curlObject, const std::string& name, ArrayOf& value, WebOp
 }
 //=============================================================================
 static std::string
-encodeUrl(CURL* curlObject, const std::wstring& url, const ArrayOfVector& names,
+formEncode(
+    CURL* curlObject, const stringVector& names, const ArrayOfVector& values, WebOptions& options)
+{
+    std::string form;
+    for (size_t k = 0; k < names.size(); ++k) {
+        ArrayOf valueArrayOf = values[k];
+        std::string name = names[k];
+        name = curl_easy_escape(curlObject, name.c_str(), (int)name.size());
+        std::string value = arrayOfToString(curlObject, name, valueArrayOf, options);
+        if (k != 0) {
+            form.append("&");
+        }
+        form.append(value);
+    }
+    return form;
+}
+//=============================================================================
+static std::string
+encodeUrl(CURL* curlObject, const std::wstring& url, const stringVector& names,
     const ArrayOfVector& values, WebOptions& options)
 {
     std::string urlEncoded(wstring_to_utf8(url));
+    std::string form = formEncode(curlObject, names, values, options);
 
-    for (size_t k = 0; k < names.size(); ++k) {
-        ArrayOf nameArrayOf = names[k];
-        ArrayOf valueArrayOf = values[k];
-        std::string name = nameArrayOf.getContentAsCString();
-        name = curl_easy_escape(curlObject, name.c_str(), name.size());
-        std::string value = arrayOfToString(curlObject, name, valueArrayOf, options);
-        if (k == 0) {
-            urlEncoded.append("?");
-        } else {
-            urlEncoded.append("&");
-        }
-        urlEncoded.append(value);
+    if (!boost::algorithm::ends_with(urlEncoded, L"?")) {
+        urlEncoded.append("?");
     }
+    urlEncoded.append(form);
     return urlEncoded;
 }
 //=============================================================================
-static std::wstring
-errorCodeToMessage(long response_code)
-{
-    std::wstring message;
-    switch (response_code) {
-    case 400:
-        return _W("Bad Request (400)");
-    case 401:
-        return _W("Unauthorized (401)");
-    case 402:
-        return _W("Payment Required (402)");
-    case 403:
-        return _W("Forbidden (403)");
-    case 404:
-        return _W("Not Found (404)");
-    case 405:
-        return _W("Method Not Allowed (405)");
-    case 406:
-        return _W("Not Acceptable (406)");
-    case 407:
-        return _W("Proxy Authentication Required (407)");
-    case 408:
-        return _W("Request Timeout (408)");
-    case 409:
-        return _W("Conflict (409)");
-    case 410:
-        return _W("Gone (410)");
-    case 411:
-        return _W("Length Required (411)");
-    case 412:
-        return _W("Precondition Failed (412)");
-    case 413:
-        return _W("Payload Too Large (413)");
-    case 414:
-        return _W("URI Too Long (414)");
-    case 415:
-        return _W("Unsupported Media Type (415)");
-    case 416:
-        return _W("Range Not Satisfiable (416)");
-    case 417:
-        return _W("Expectation Failed (417)");
-    case 418:
-        return _W("I'm a teapot (418)");
-    case 421:
-        return _W("Misdirected Request (421)");
-    case 422:
-        return _W("Unprocessable Entity (422)");
-    case 423:
-        return _W("Locked (423)");
-    case 424:
-        return _W("Failed Dependency (424)");
-    case 425:
-        return _W("Too Early (425)");
-    case 426:
-        return _W("Upgrade Required (426)");
-    case 428:
-        return _W("Precondition Required (428)");
-    case 429:
-        return _W("Too Many Requests (429)");
-    case 431:
-        return _W("Request Header Fields Too Large (431)");
-    case 451:
-        return _W("Unavailable For Legal Reasons (451)");
-    case 500:
-        return _W("Internal Server Error (500)");
-    case 501:
-        return _W("Not Implemented (501)");
-    case 502:
-        return _W("Bad Gateway (502)");
-    case 503:
-        return _W("Service Unavailable (503)");
-    case 504:
-        return _W("Gateway Timeout (504)");
-    case 505:
-        return _W("HTTP Version Not Supported (505)");
-    case 506:
-        return _W("Variant Also Negotiates (506)");
-    case 507:
-        return _W("Insufficient Storage (507)");
-    case 508:
-        return _W("Loop Detected (508)");
-    case 510:
-        return _W("Not Extended(510)");
-    case 511:
-        return _W("Network Authentication Required (511)");
-    default: {
-        if (response_code >= 400 && response_code < 500) {
-            _W("HTTP Client error code: ") + std::to_wstring(response_code);
-        }
-        if (response_code >= 500 && response_code < 600) {
-            _W("HTTP Server error code: ") + std::to_wstring(response_code);
-        }
-    } break;
-    }
-    return message;
 }
-//=============================================================================
-ArrayOf
-WebSave(const std::wstring& url, const std::wstring& filename, const ArrayOfVector& names,
-    const ArrayOfVector& values, WebOptions& options, bool haveEventsLoop)
-{
-    bHaveEventsLoop = haveEventsLoop;
-    FILE* fw;
-    std::wstring fullFilename;
-#ifdef _MSC_VER
-    fw = _wfopen(filename.c_str(), L"wb");
-#else
-    std::string utfFilename = wstring_to_utf8(filename);
-    fw = fopen(utfFilename.c_str(), "wb");
-#endif
-    if (fw == nullptr) {
-        Error(_W("Cannot create destination file."));
-    }
-    boost::filesystem::path p(filename);
-    try {
-        p = boost::filesystem::absolute(p);
-        fullFilename = p.generic_wstring();
-    } catch (const boost::filesystem::filesystem_error&) {
-        fullFilename = p.generic_wstring();
-    }
-    CURL* curlObject = curl_easy_init();
-    if (curlObject == nullptr) {
-        fclose(fw);
-        Error(_W("Cannot initialize websave."));
-    }
-    CURLcode curlCode = setCurlWebOptions(curlObject, options);
-    if (curlCode != CURLE_OK) {
-        fclose(fw);
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-    curlCode = setCurlURL(curlObject, encodeUrl(curlObject, url, names, values, options));
-    if (curlCode != CURLE_OK) {
-        fclose(fw);
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-
-    if (options.getRequestMethod() == L"auto" || options.getRequestMethod() == L"get") {
-
-    } else if (options.getRequestMethod() == L"delete") {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "DELETE");
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-    } else if (options.getRequestMethod() == L"put") {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "PUT");
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-    } else if (options.getRequestMethod() == L"patch") {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "PATCH");
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-    } else if (options.getRequestMethod() == L"post") {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_POST, 1L);
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-    }
-
-    std::wstring certificateFilename = options.getCertificateFilename();
-    if (!certificateFilename.empty()) {
-        curlCode = curl_easy_setopt(
-            curlObject, CURLOPT_CAINFO, wstring_to_utf8(certificateFilename).c_str());
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_SSL_VERIFYPEER, 1L);
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-    } else {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_SSL_VERIFYPEER, 0L);
-        if (curlCode != CURLE_OK) {
-            fclose(fw);
-            std::string msg = curl_easy_strerror(curlCode);
-            curl_easy_cleanup(curlObject);
-            Error(msg);
-        }
-    }
-
-    curlCode = curl_easy_setopt(curlObject, CURLOPT_WRITEFUNCTION, write_data);
-    if (curlCode != CURLE_OK) {
-        fclose(fw);
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-    curlCode = curl_easy_setopt(curlObject, CURLOPT_WRITEDATA, fw);
-    if (curlCode != CURLE_OK) {
-        fclose(fw);
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-
-    double timeout = options.getTimeout();
-    if (!std::isinf(timeout)) {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_CONNECTTIMEOUT_MS, (long)timeout * 1000);
-    } else {
-        curlCode = curl_easy_setopt(curlObject, CURLOPT_CONNECTTIMEOUT_MS, (long)0);
-        if (curlCode == CURLE_OK) {
-            curlCode = curl_easy_setopt(curlObject, CURLOPT_NOSIGNAL, 1);
-        }
-    }
-    if (curlCode != CURLE_OK) {
-        fclose(fw);
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-
-    curlCode = curl_easy_setopt(curlObject, CURLOPT_FOLLOWLOCATION, 1L);
-    if (curlCode != CURLE_OK) {
-        fclose(fw);
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-
-    curlCode = curl_easy_perform(curlObject);
-    fclose(fw);
-    if (curlCode != CURLE_OK) {
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-
-    long response_code;
-    curlCode = curl_easy_getinfo(curlObject, CURLINFO_RESPONSE_CODE, &response_code);
-    if (curlCode != CURLE_OK) {
-        std::string msg = curl_easy_strerror(curlCode);
-        curl_easy_cleanup(curlObject);
-        Error(msg);
-    }
-
-    curl_easy_cleanup(curlObject);
-    std::wstring msg = errorCodeToMessage(response_code);
-    if (!msg.empty()) {
-        // remove file if error detected.
-        try {
-            boost::filesystem::path p = filename;
-            boost::filesystem::remove(p);
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
-        Error(msg);
-    }
-    return ArrayOf::characterArrayConstructor(fullFilename);
-}
-//=============================================================================
-static void
-initGuiDynamicLibrary()
-{
-    if (bFirstDynamicLibraryCall) {
-        std::string fullpathGuiSharedLibrary
-            = "libnlsGui" + Nelson::get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf != nullptr) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet != 0U) {
-                fullpathGuiSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
-            }
-            delete[] buf;
-        }
-#else
-        char const* tmp = getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathGuiSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
-        }
-#endif
-        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
-}
-//=============================================================================
-static void
-ProcessEventsDynamicFunction(bool bWait)
-{
-    using PROC_ProcessEvents = void (*)(bool);
-    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
-    initGuiDynamicLibrary();
-    if (ProcessEventsPtr == nullptr) {
-        ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
-            Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
-    }
-    if (ProcessEventsPtr != nullptr) {
-        ProcessEventsPtr(bWait);
-    }
-}
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

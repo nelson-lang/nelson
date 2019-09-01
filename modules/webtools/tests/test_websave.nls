@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('websave'), -3);
+assert_isequal(nargin('websave'), -1);
 assert_isequal(nargout('websave'), 1);
 //=============================================================================
 url = 'http://heritage.stsci.edu/2007/14/images/p0714aa.jpg';

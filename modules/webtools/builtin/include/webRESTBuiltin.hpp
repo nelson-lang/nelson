@@ -23,22 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "webRESTBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"webtools";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "webREST", Nelson::WebtoolsGateway::webRESTBuiltin, 1, 5 },
-};
+namespace WebtoolsGateway {
+    //=============================================================================
+    ArrayOfVector
+    webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================

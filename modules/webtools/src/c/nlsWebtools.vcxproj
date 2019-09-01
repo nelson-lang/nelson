@@ -193,14 +193,18 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\ProcessEventsDynamic.cpp" />
+    <ClCompile Include="..\cpp\ResponseCodeToMessage.cpp" />
     <ClCompile Include="..\cpp\WebOptions.cpp" />
-    <ClCompile Include="..\cpp\WebSave.cpp" />
+    <ClCompile Include="..\cpp\WebREST.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\ProcessEventsDynamic.hpp" />
+    <ClInclude Include="..\cpp\ResponseCodeToMessage.hpp" />
     <ClInclude Include="..\include\nlsWebtools_exports.h" />
     <ClInclude Include="..\include\WebOptions.hpp" />
-    <ClInclude Include="..\include\WebSave.hpp" />
+    <ClInclude Include="..\include\WebREST.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

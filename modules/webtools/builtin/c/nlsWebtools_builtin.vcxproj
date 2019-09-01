@@ -198,12 +198,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\websaveBuiltin.cpp" />
+    <ClCompile Include="..\cpp\webRESTBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsWebtools_builtin_exports.h" />
-    <ClInclude Include="..\include\websaveBuiltin.hpp" />
+    <ClInclude Include="..\include\webRESTBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
