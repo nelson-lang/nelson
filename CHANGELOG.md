@@ -13,6 +13,7 @@ Compilation:
 
 * Qt 5.13.0 on Windows.
 
+* GitHub Actions CI (Ubuntu 18.04)
 
 
 # 0.3.8 (2019-08-24)
