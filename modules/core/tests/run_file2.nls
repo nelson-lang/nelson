@@ -1,0 +1,17 @@
+%
+%
+%
+//
+//
+//
+
+switch TEST_CONDITION
+    case 1
+        clc(1)
+    case 2
+        fun_run()
+    case 3
+        error('g')    
+end
+%
+%

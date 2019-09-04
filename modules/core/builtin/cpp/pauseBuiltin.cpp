@@ -56,7 +56,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             return retval;
         }
         Interface* io = eval->getInterface();
-        if (io) {
+        if (io != nullptr) {
             io->getInput(L"");
         }
     } else {
@@ -132,7 +132,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                             ProcessEventsDynamicFunctionWithoutWait();
                         }
                     } while (!NelsonConfiguration::getInstance()->getInterruptPending()
-                        && (bContinue == true));
+                        && (static_cast<int>(bContinue) == true));
                 }
             }
         } else {

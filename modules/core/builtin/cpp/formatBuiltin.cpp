@@ -66,7 +66,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring str = argIn[0].getContentAsWideString();
-            if (str.compare(L"get") == 0) {
+            if (str == L"get") {
                 if (nLhs > 1) {
                     Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
@@ -94,15 +94,15 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 if (nLhs != 0) {
                     Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
-                if (str.compare(L"short") == 0) {
+                if (str == L"short") {
                     NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORT);
-                } else if (str.compare(L"long") == 0) {
+                } else if (str == L"long") {
                     NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_LONG);
-                } else if (str.compare(L"shortE") == 0) {
+                } else if (str == L"shortE") {
                     NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORTE);
-                } else if (str.compare(L"longE") == 0) {
+                } else if (str == L"longE") {
                     NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_LONGE);
-                } else if (str.compare(L"hex") == 0) {
+                } else if (str == L"hex") {
                     NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_HEX);
                 } else {
                     Error(_W("unexpected format."));

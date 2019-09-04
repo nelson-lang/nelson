@@ -23,47 +23,57 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "echoBuiltin.hpp"
-#include "Error.hpp"
+// <--ENGLISH IMPOSED-->
 //=============================================================================
-using namespace Nelson;
+assert_isequal(nargin('run'), 3);
+assert_isequal(nargout('pause'), 1);
 //=============================================================================
-ArrayOfVector
-Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOfVector retval;
-    if (argIn.empty()) {
-        bool toggle = eval->getEchoMode();
-        if (nLhs == 0) {
-            eval->setEchoMode(!toggle);
-        } else {
-            if (toggle) {
-                retval.push_back(ArrayOf::characterArrayConstructor("on"));
-            } else {
-                retval.push_back(ArrayOf::characterArrayConstructor("off"));
-            }
-        }
-    } else if (argIn.size() == 1) {
-        if (argIn[0].isRowVectorCharacterArray()) {
-            bool bMode = false;
-            std::wstring arg = argIn[0].getContentAsWideString();
-            if (arg == L"on") {
-                bMode = true;
-            } else if (arg == L"off") {
-                bMode = false;
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
-            }
-            eval->setEchoMode(bMode);
-        } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-        }
-    } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    return retval;
-}
+addpath([modulepath('core'), '/tests']);
+//=============================================================================
+R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+REF = '
+Error: 
+Undefined variable: TEST_CONDITION
+
+at line     8 of ''run_file2.nls''
+at line     6 of ''run_file1.nls''
+at line    33 of ''test_run.nls''
+';
+assert_isequal(R, REF);
+//=============================================================================
+TEST_CONDITION = 1;
+R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+REF = '
+Error in clc
+Wrong number of input arguments.
+
+at line    10 of ''run_file2.nls''
+at line     6 of ''run_file1.nls''
+at line    38 of ''test_run.nls''
+';
+assert_isequal(R, REF);
+//=============================================================================
+TEST_CONDITION = 2;
+R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+REF = '
+Error in fun_run (line 7)
+qqq
+
+at line    12 of ''run_file2.nls''
+at line     6 of ''run_file1.nls''
+at line    43 of ''test_run.nls''
+';
+assert_isequal(R, REF);
+//=============================================================================
+TEST_CONDITION = 3;
+R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+REF = '
+Error: 
+g
+
+at line    14 of ''run_file2.nls''
+at line     6 of ''run_file1.nls''
+at line    48 of ''test_run.nls''
+'
+assert_isequal(R, REF);
 //=============================================================================

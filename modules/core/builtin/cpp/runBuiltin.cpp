@@ -23,7 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
+#endif
+//=============================================================================
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -42,26 +45,63 @@ using namespace Nelson;
 static std::wstring
 getBackTraceMessage(Exception& e)
 {
-    std::wstring message;
-    message = e.getMessage();
+    std::wstring message = e.getMessage();
     std::vector<PositionScript> traces = e.getTrace();
     size_t nbTraces = traces.size();
-    if (nbTraces > 0) {
-        PositionScript trace = traces[0];
-        if (trace.getLine() == 0) {
+
+    std::wstring functionName;
+    std::wstring lineAsString;
+
+    int i = -1;
+    if (nbTraces != 0) {
+        if (traces[0].getFunctionName() != L"error") {
+            i = 0;
+        } else {
             if (nbTraces > 1) {
-                trace = traces[1];
+                if (traces[1].getFunctionName() != L"run") {
+                    i = 1;
+                }
             }
         }
-        if (trace.getLine() != 0) {
-            if (trace.getFilename().size() > 50) {
-                message = message + L"\n"
-                    + StringFormat(_W("at line %5d\nof \'%ls\'\n").c_str(), trace.getLine(),
-                          trace.getFilename().c_str());
-            } else {
-                message = message + L"\n"
-                    + StringFormat(_W("at line %5d of \'%ls\'\n").c_str(), trace.getLine(),
-                          trace.getFilename().c_str());
+    }
+
+    if (i != -1) {
+        if (traces[i + 1].getFunctionName() != L"run") {
+            functionName = traces[i].getFunctionName();
+            if (traces[i].getLine() != 0) {
+                lineAsString = std::to_wstring(traces[i].getLine());
+            }
+        }
+    }
+
+    if (functionName.empty()) {
+        message = L"\n" + _W("Error: ") + L"\n" + message + L"\n";
+    } else {
+        if (!lineAsString.empty()) {
+            message = L"\n" + _W("Error in ") + functionName + L" (" + _W("line") + L" "
+                + lineAsString + L")\n" + message + L"\n";
+        } else {
+            message = L"\n" + _W("Error in ") + functionName + L"\n" + message + L"\n";
+        }
+    }
+    if (nbTraces > 0) {
+        message = message + L"\n";
+    }
+
+    for (size_t k = 0; k < nbTraces; k++) {
+        if (traces[k].getFunctionName() == L"run") {
+            if ((k >= 1) && traces[k - 1].getLine() != 0) {
+                size_t pos = k - 1;
+                boost::filesystem::path pf = boost::filesystem::path(traces[pos].getFilename());
+                std::wstring filename;
+                if (traces[pos].getFilename().size() > 50) {
+                    filename = pf.filename().wstring();
+                } else {
+                    filename = pf.wstring();
+                }
+                message = message
+                    + StringFormat(_W("at line %5d of \'%ls\'\n").c_str(), traces[pos].getLine(),
+                          filename.c_str());
             }
         }
     }

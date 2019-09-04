@@ -187,8 +187,8 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
                     wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
             } else {
                 try {
-                  boost::filesystem::path p = hdf5_filename;
-                  boost::filesystem::remove(p);
+                    boost::filesystem::path p = hdf5_filename;
+                    boost::filesystem::remove(p);
                 } catch (const boost::filesystem::filesystem_error& e) {
                     Error(_W("Cannot replace file"));
                     boost::system::error_code error_code = e.code();

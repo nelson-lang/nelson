@@ -58,20 +58,20 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (option.compare(L"-date") == 0) {
+        if (option == L"-date") {
             retval.push_back(ArrayOf::characterArrayConstructor(__TIMESTAMP__));
-        } else if (option.compare(L"-description") == 0) {
+        } else if (option == L"-description") {
             retval.push_back(ArrayOf::characterArrayConstructor(L""));
-        } else if (option.compare(L"-release") == 0) {
+        } else if (option == L"-release") {
             retval.push_back(ArrayOf::characterArrayConstructor(NELSON_RELEASE_NAME));
-        } else if (option.compare(L"-compiler") == 0) {
+        } else if (option == L"-compiler") {
             retval.push_back(ToCellStringAsRow(VersionCompilerFlags()));
-        } else if (option.compare(L"-commit_hash") == 0) {
+        } else if (option == L"-commit_hash") {
             retval.push_back(ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH));
-        } else if (option.compare(L"-number") == 0) {
+        } else if (option == L"-number") {
             ArrayOf vectRes = ArrayOf::doubleVectorConstructor(4);
             auto* vectAsDouble = static_cast<double*>(vectRes.getReadWriteDataPointer());
-            if (vectAsDouble) {
+            if (vectAsDouble != nullptr) {
                 vectAsDouble[0] = NELSON_VERSION_MAJOR;
                 vectAsDouble[1] = NELSON_VERSION_MINOR;
                 vectAsDouble[2] = NELSON_VERSION_MAINTENANCE;

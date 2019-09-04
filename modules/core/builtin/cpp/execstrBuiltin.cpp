@@ -51,8 +51,8 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         if (argIn[1].isRowVectorCharacterArray()) {
             std::wstring catchstr;
             catchstr = argIn[1].getContentAsWideString();
-            if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0)) {
-                if (catchstr.compare(L"errcatch") == 0) {
+            if ((catchstr == L"errcatch") || (catchstr == L"nocatch")) {
+                if (catchstr == L"errcatch") {
                     bErrorCatch = true;
                 } else {
                     bErrorCatch = false;

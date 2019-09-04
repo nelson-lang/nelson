@@ -60,7 +60,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         bIsFile = false;
     }
     if (!bIsFile) {
-        Error(_W("File does not exist."));
+        Error(_W("File does not exist.") + L"\n" + filename);
     }
     if (IsEmptyScriptFile(filename)) {
         return true;

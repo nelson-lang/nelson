@@ -258,18 +258,19 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             int explicitCount = static_cast<int>(returnVals.size()) - 1;
             bool noArgs = (explicitCount == 0 && varlen == 0);
             if (!noArgs && !haveVarargout) {
-               Error(_W("The special variable 'varargout' was not defined as expected."));
+                Error(_W("The special variable 'varargout' was not defined as expected."));
             }
             if (explicitCount == 0 && varlen > 0
-                && (context->getCurrentScope()->getName() == "base")) {
-                outputs = ArrayOfVector(varlen);
+                && (context->getCurrentScope()->getName() == this->name)) {
+                outputs = ArrayOfVector(nargout);
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
-                int toFill = nargout - explicitCount;
-                if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
+                indexType toFill = nargout;
+                if (static_cast<indexType>(toFill)
+                    > static_cast<indexType>(varargout.getDimensions().getElementCount())) {
                     Error(_W("Not enough outputs in varargout to satisfy call."));
                 }
-                for (int i = 0; i < varlen; i++) {
+                for (indexType i = 0; i < nargout; i++) {
                     outputs[i] = dp[i];
                 }
             } else {

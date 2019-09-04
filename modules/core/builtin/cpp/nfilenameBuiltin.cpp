@@ -44,11 +44,11 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring argstr = argIn[0].getContentAsWideString();
-            if ((argstr.compare(L"fullpath") == 0) || (argstr.compare(L"fullpathext") == 0)) {
-                if (argstr.compare(L"fullpath") == 0) {
+            if ((argstr == L"fullpath") || (argstr == L"fullpathext")) {
+                if (argstr == L"fullpath") {
                     iExt = 1;
                 }
-                if (argstr.compare(L"fullpathext") == 0) {
+                if (argstr == L"fullpathext") {
                     iExt = 2;
                 }
             } else {
