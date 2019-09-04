@@ -1,0 +1,50 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: install dependencies
+      run: sudo apt -y install libopenmpi-dev;
+      run: sudo apt -y install autotools-dev;
+      run: sudo apt -y install libtool;
+      run: sudo apt -y install automake;
+      run: sudo apt -y install openmpi-bin;
+      run: sudo apt -y install gettext;
+      run: sudo apt -y install pkg-config;
+      run: sudo apt -y install cmake;
+      run: sudo apt -y install libffi-dev;
+      run: sudo apt -y install libicu-dev;
+      run: sudo apt -y install libxml2-dev;
+      run: sudo apt -y install liblapack-dev;
+      run: sudo apt -y install liblapacke-dev;
+      run: sudo apt -y install fftw3;
+      run: sudo apt -y install fftw3-dev;
+      run: sudo apt -y install libasound-dev;
+      run: sudo apt -y install portaudio19-dev;
+      run: sudo apt -y install libsndfile1-dev;
+      run: sudo apt -y install libtag1-dev;
+      run: sudo apt -y install alsa-utils;
+      run: sudo apt -y install libslicot-dev;
+      run: sudo apt -y install libsqlite3-dev;
+      run: sudo apt -y install libgl-dev;
+      run: sudo apt -y install hdf5-tools;
+      run: sudo apt -y install zlib1g-dev;
+      run: sudo apt -y install libcurl4-openssl-dev;
+    - name: configure (CMake)
+      run: cmake -G "Unix Makefiles" . ;
+    - name: make
+      run: make -j4
+    - name: make help
+      run: make buildhelp
+    - name: make tests (minimal)
+      run: make tests_minimal
+    - name: package
+      run: make package
+    - name: make tests (all)
+      run: make tests_all
