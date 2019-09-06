@@ -47,7 +47,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
         retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
     }
     if (!bSuccess) {
-        if (param1.isClassStruct()) {
+        if (param1.isClassStruct() && !param1.isFunctionHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
             if (bSuccess) {
                 return retval;

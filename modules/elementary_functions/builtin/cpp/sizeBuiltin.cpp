@@ -77,7 +77,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
             }
         }
         ArrayOf param1 = argIn[0];
-        if (param1.isClassStruct()) {
+        if (param1.isClassStruct() && !param1.isFunctionHandle()) {
             Error(_("Undefined function 'size' for input arguments of type") + " '"
                 + ClassName(param1) + "'.");
         }

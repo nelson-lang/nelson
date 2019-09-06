@@ -55,7 +55,9 @@ getBackTraceMessage(Exception& e)
     int i = -1;
     if (nbTraces != 0) {
         if (traces[0].getFunctionName() != L"error") {
-            i = 0;
+            if (nbTraces > 1) {
+                i = 0;
+            }
         } else {
             if (nbTraces > 1) {
                 if (traces[1].getFunctionName() != L"run") {
