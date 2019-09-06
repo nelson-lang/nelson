@@ -64,10 +64,19 @@ function varargout = webwrite(varargin)
             last = nargin - 1;
         end
         st = struct();
-        for k = [2:2:last]
-            st.(varargin{k}) = varargin{k + 1};
+        if nargin == 3 && options_position == nargin
+            if strcmp(options.MediaType, 'application/json') == 1
+                data = jsonencode(varargin{2});
+            else
+                data = varargin{2};
+            end
+        else
+            for k = [2:2:last]
+                st.(varargin{k}) = varargin{k + 1};
+            end
+            data = '__WEBWRITE__';
         end
-        data = '__WEBWRITE__';
+
     end
     if strcmp(options.RequestMethod, 'auto')
         options.RequestMethod = 'post';

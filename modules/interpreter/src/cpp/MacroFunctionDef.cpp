@@ -260,19 +260,16 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             if (!noArgs && !haveVarargout) {
                 Error(_W("The special variable 'varargout' was not defined as expected."));
             }
-            if (explicitCount == 0 && varlen > 0
-                && (context->getCurrentScope()->getName() == this->name)) {
-                outputs = ArrayOfVector(varlen);
+            if (explicitCount == 0 && varlen > 0 && nargout == 1) {
+                indexType toFill = 1;
+                outputs = ArrayOfVector(toFill);
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
-                indexType toFill = varlen;
                 if (static_cast<indexType>(toFill)
                     > static_cast<indexType>(varargout.getDimensions().getElementCount())) {
                     Error(_W("Not enough outputs in varargout to satisfy call."));
                 }
-                for (indexType i = 0; i < varlen; i++) {
-                    outputs[i] = dp[i];
-                }
+                outputs[0] = dp[0];
             } else {
                 outputs = ArrayOfVector(nargout);
                 // For each explicit argument (that we have), insert it

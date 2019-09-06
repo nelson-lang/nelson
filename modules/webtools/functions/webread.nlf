@@ -80,7 +80,6 @@ function varargout = webread(varargin)
         end
     else
         res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
-        nbElements = length(res)
         switch nargout
             case 0
                 if length(res) > 0

@@ -30,15 +30,33 @@ assert_isequal(nargout('pause'), 1);
 //=============================================================================
 addpath([modulepath('core'), '/tests']);
 //=============================================================================
+PATH_REF_1 = [modulepath('core'), '/tests/run_file1.nls'];
+if length(PATH_REF_1) > 50
+    PATH_REF_1 = 'run_file1.nls';
+end
+//=============================================================================
+PATH_REF_2 = [modulepath('core'), '/tests/run_file2.nls'];
+if length(PATH_REF_2) > 50
+    PATH_REF_2 = 'run_file2.nls';
+end
+//=============================================================================
+PATH_REF_3 = [modulepath('core'), '/tests/test_run.nls'];
+if length(PATH_REF_3) > 50
+    PATH_REF_3 = 'test_run.nls';
+end
+//=============================================================================
 R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
 REF = '
 Error: 
 Undefined variable: TEST_CONDITION
 
-at line     8 of ''run_file2.nls''
-at line     6 of ''run_file1.nls''
-at line    33 of ''test_run.nls''
+at line     8 of ''PATH_REF_2''
+at line     6 of ''PATH_REF_1''
+at line    48 of ''PATH_REF_3''
 ';
+REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
+REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
+REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
 assert_isequal(R, REF);
 //=============================================================================
 TEST_CONDITION = 1;
@@ -47,10 +65,13 @@ REF = '
 Error in clc
 Wrong number of input arguments.
 
-at line    10 of ''run_file2.nls''
-at line     6 of ''run_file1.nls''
-at line    38 of ''test_run.nls''
+at line    10 of ''PATH_REF_2''
+at line     6 of ''PATH_REF_1''
+at line    56 of ''PATH_REF_3''
 ';
+REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
+REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
+REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
 assert_isequal(R, REF);
 //=============================================================================
 TEST_CONDITION = 2;
@@ -59,10 +80,13 @@ REF = '
 Error in fun_run (line 7)
 qqq
 
-at line    12 of ''run_file2.nls''
-at line     6 of ''run_file1.nls''
-at line    43 of ''test_run.nls''
+at line    12 of ''PATH_REF_2''
+at line     6 of ''PATH_REF_1''
+at line    64 of ''PATH_REF_3''
 ';
+REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
+REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
+REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
 assert_isequal(R, REF);
 //=============================================================================
 TEST_CONDITION = 3;
@@ -71,9 +95,12 @@ REF = '
 Error: 
 g
 
-at line    14 of ''run_file2.nls''
-at line     6 of ''run_file1.nls''
-at line    48 of ''test_run.nls''
-'
+at line    14 of ''PATH_REF_2''
+at line     6 of ''PATH_REF_1''
+at line    72 of ''PATH_REF_3''
+';
+REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
+REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
+REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
 assert_isequal(R, REF);
 //=============================================================================

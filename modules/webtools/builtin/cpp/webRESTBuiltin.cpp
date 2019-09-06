@@ -30,6 +30,7 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+// webREST is an private function not documented used by
 // webwrite
 // filename = webREST(url, data, filename, struct(n1, v1, ..., nN, vN), options)
 // websave, webread
