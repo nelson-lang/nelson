@@ -62,21 +62,43 @@ function varargout = webread(varargin)
         options.MediaType = 'application/x-www-form-urlencoded';
     end
     tmpfile = webREST(url, [], tmpfile, st, options);
-    res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
+    if isa(options.ContentReader, 'function_handle')
+        reader = options.ContentReader;
+        switch nargout
+            case 0
+                res1 = reader(tmpfile);
+                varargout = {res1};
+            case 1
+                res1 = reader(tmpfile);
+                varargout{1} = res1;
+            case 2
+                [res1, res2] = reader(tmpfile);
+                varargout{1} = res1;
+                varargout{2} = res2;
+            otherwise
+              error(_('Wrong number of output arguments.'));
+        end
+    else
+        res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
+        nbElements = length(res)
+        switch nargout
+            case 0
+                if length(res) > 0
+                    varargout{1} = res{1};
+                else
+                    varargout = {};
+                end
+            case 1
+                varargout{1} = res{1};
+            case 2
+                varargout{1} = res{1};
+                varargout{2} = res{2};
+            otherwise
+              error(_('Wrong number of output arguments.'));
+        end
+    end
     if isfile(tmpfile)
         rmfile(tmpfile)
-    end
-    nbElements = length(res);
-    switch nbElements
-    case 0
-        varargout{1} = [];
-    case 1
-        varargout{1} = res{1};
-    case 2
-        varargout{1} = res{1};
-        varargout{2} = res{2};
-    otherwise
-        error(_W('unmanaged case.'));
     end
 endfunction
 //=============================================================================

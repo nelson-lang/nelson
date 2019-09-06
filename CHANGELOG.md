@@ -3,13 +3,19 @@
 Features:
 ---------
 
-* webwrite function: Write data to RESTful web service
+* webwrite function: Write data to RESTful web service.
+
+* improves error message raised by 'run' builtin.
+
+* extends size, length, ndims to manage function_handle type.
 
 
 Bug Fixes:
 ---------
 
   * [#236](http://github.com/Nelson-numerical-software/nelson/issues/236): mpiexec returned warning on docker as root user.
+
+  * [#235](http://github.com/Nelson-numerical-software/nelson/issues/235): add example about function_handle with webread
 
   * [#227](http://github.com/Nelson-numerical-software/nelson/issues/227): Qt 5.13 support.
 
