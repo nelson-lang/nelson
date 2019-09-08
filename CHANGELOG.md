@@ -1,38 +1,19 @@
 # 0.3.X (2019-09-XX)
 
-Features:
----------
-
-* webwrite function: Write data to RESTful web service.
-
-* improves error message raised by 'run' builtin.
-
-* extends size, length, ndims to manage function_handle type.
-
-
-Bug Fixes:
----------
-
   * [#236](http://github.com/Nelson-numerical-software/nelson/issues/236): mpiexec returned warning on docker as root user.
-
-  * [#235](http://github.com/Nelson-numerical-software/nelson/issues/235): add example about function_handle with webread.
-
-  * [#233](http://github.com/Nelson-numerical-software/nelson/issues/233): fix typo in native2unicode help file.
 
   * [#227](http://github.com/Nelson-numerical-software/nelson/issues/227): Qt 5.13 support.
 
   * revert b22ae88a6536cd614f555af7fbd865cc607bea7f due to HDFFV-10579.
 
-  * changes file or directory permission had a speed cost.
-  
-  * [#220](http://github.com/Nelson-numerical-software/nelson/issues/220): setfield function added.
-
+  * changes file or directory permission have a speed cost.
 
 Compilation:
 ------------
 
 * Qt 5.13.0 on Windows.
 
+* GitHub Actions CI (Ubuntu 18.04)
 
 
 # 0.3.8 (2019-08-24)
