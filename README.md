@@ -9,6 +9,7 @@
 [![Total alerts](https://img.shields.io/lgtm/grade/cpp/g/Nelson-numerical-software/nelson.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Nelson-numerical-software/nelson/alerts/)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602)
 
+[![Build Status](https://github.com/Nelson-numerical-software/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)](https://github.com/Nelson-numerical-software/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)
 [![Build Status](https://travis-ci.org/Nelson-numerical-software/nelson.svg?branch=master)](https://travis-ci.org/Nelson-numerical-software/nelson)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/Nelson-numerical-software/nelson?svg=true)](https://ci.appveyor.com/project/Nelson-numerical-software/nelson)
 [![CircleCI](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master.svg?style=svg)](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master)
@@ -129,6 +130,7 @@ The systems listed here without CI or binaries are known to build and operate, b
 | Windows 7+       | x86-64 (64-bit)  | ✓  | ✓        |
 |                  | i686 (32-bit)    | ✓  | ✓        |
 | MacOS 10.10+     | x86-64 (64-bit)  | ✓  |          |
+| Ubuntu 18.04     | x86-64 (64-bit)  | ✓  |          |
 | Ubuntu 16.04     | x86-64 (64-bit)  | ✓  |          |
 | Debian 10        | x86-64 (64-bit)  | ✓  |          |
 | Fedora 30        | x86-64 (64-bit)  | ✓  |          |
