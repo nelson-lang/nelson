@@ -25,11 +25,15 @@
 //=============================================================================
 function varargout = varargoutlhs_function(count)
   disp(nargout);
-  if count == 0
-    varargout = {};
-  else
-    varargout{1} = 1;
-    varargout{2} = 2;
-  end
+  switch count
+    case 0
+      disp('ok');
+      varargout = {};
+    case 1
+      varargout{1} = 1;
+    otherwise
+      varargout{1} = 1;
+      varargout{2} = 2;
+    end
 endfunction
 //=============================================================================
