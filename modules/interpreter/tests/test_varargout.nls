@@ -40,7 +40,9 @@ varargoutlhs_function(1)
 assert_checkerror('A = varargoutlhs_function(0)', _('Not enough outputs in varargout to satisfy call.'));
 A = varargoutlhs_function(1)
 assert_isequal(A, 1);
-[A, B] = varargoutlhs_function(1);
+A = varargoutlhs_function(2);
+assert_isequal(A, 1);
+[A, B] = varargoutlhs_function(2);
 assert_isequal(A, 1);
 assert_isequal(B, 2);
 //=============================================================================
