@@ -23,9 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "PrintfHelper.hpp"
-
 #include <utility>
+#include "PrintfHelper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

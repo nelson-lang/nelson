@@ -321,10 +321,13 @@ ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar)
 bool
 ArrayOf::isIntegerType() const
 {
-    return ((dp->dataClass == NLS_UINT8) || (dp->dataClass == NLS_UINT16)
-        || (dp->dataClass == NLS_UINT32) || (dp->dataClass == NLS_UINT64)
-        || (dp->dataClass == NLS_INT8) || (dp->dataClass == NLS_INT16)
-        || (dp->dataClass == NLS_INT32) || (dp->dataClass == NLS_INT64));
+    if (dp) {
+        return ((dp->dataClass == NLS_UINT8) || (dp->dataClass == NLS_UINT16)
+            || (dp->dataClass == NLS_UINT32) || (dp->dataClass == NLS_UINT64)
+            || (dp->dataClass == NLS_INT8) || (dp->dataClass == NLS_INT16)
+            || (dp->dataClass == NLS_INT32) || (dp->dataClass == NLS_INT64));
+    }
+    return false;
 }
 //=============================================================================
 bool

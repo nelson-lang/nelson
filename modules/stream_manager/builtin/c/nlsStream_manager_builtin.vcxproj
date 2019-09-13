@@ -181,6 +181,7 @@
     <ClCompile Include="..\cpp\fprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\freadBuiltin.cpp" />
     <ClCompile Include="..\cpp\frewindBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fscanfBuiltin.cpp" />
     <ClCompile Include="..\cpp\fseekBuiltin.cpp" />
     <ClCompile Include="..\cpp\fsizeBuiltin.cpp" />
     <ClCompile Include="..\cpp\ftellBuiltin.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="..\include\fprintfBuiltin.hpp" />
     <ClInclude Include="..\include\freadBuiltin.hpp" />
     <ClInclude Include="..\include\frewindBuiltin.hpp" />
+    <ClInclude Include="..\include\fscanfBuiltin.hpp" />
     <ClInclude Include="..\include\fseekBuiltin.hpp" />
     <ClInclude Include="..\include\fsizeBuiltin.hpp" />
     <ClInclude Include="..\include\ftellBuiltin.hpp" />
