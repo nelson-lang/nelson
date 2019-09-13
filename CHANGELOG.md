@@ -15,6 +15,8 @@ Features:
 
  * extends size, length, ndims to manage function_handle type.
 
+ * fscanf builtin: Read data from text file.
+
 
 Bug Fixes:
 ---------

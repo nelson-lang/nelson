@@ -44,4 +44,5 @@ Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\loadsavebin\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\tests\loadsavebin\; Flags: recursesubdirs
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.bin; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.json; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================

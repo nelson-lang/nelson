@@ -35,13 +35,19 @@ namespace Nelson {
 bool
 ArrayOf::isStringArray() const
 {
-    return (dp->dataClass == NLS_STRING_ARRAY);
+    if (dp) {
+        return (dp->dataClass == NLS_STRING_ARRAY);
+    }
+    return false;
 }
 //=============================================================================
 bool
 ArrayOf::isNdArrayString() const
 {
-    return (dp->dataClass == NLS_STRING_ARRAY) && !is2D();
+    if (dp) {
+        return (dp->dataClass == NLS_STRING_ARRAY) && !is2D();
+    }
+    return false;
 }
 //=============================================================================
 ArrayOf
