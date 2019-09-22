@@ -36,7 +36,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
 {
     ArrayOfVector retval;
     bool bChooseDimension = false;
-    indexType dimval = 0;
+    std::vector<indexType> dimsVal;
     switch (argIn.size()) {
     case 1: {
         bChooseDimension = false;
@@ -48,15 +48,31 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
             std::wstring str = param1.getContentAsWideString();
             if ((str == L"r") || (str == L"c")) {
                 if (str == L"r") {
-                    dimval = 1;
+                    dimsVal.push_back(1);
                 } else {
-                    dimval = 2;
+                    dimsVal.push_back(2);
                 }
             } else {
                 Error(_W("Wrong value for argument #2. 'r' or 'c' expected"));
             }
         } else {
-            dimval = param1.getContentAsScalarIndex(false);
+            if (param1.isScalar()) {
+                dimsVal.push_back(param1.getContentAsScalarIndex(false));
+            } else {
+                if (param1.isRowVector()) {
+                    if (param1.isNumeric()) {
+                        Dimensions dims = param1.getDimensions();
+                        indexType* values = (indexType*)param1.getContentAsIndexPointer();
+                        for (indexType k = 0; k < dims.getElementCount(); k++) {
+                            dimsVal.push_back(values[k]);
+                        }
+                    } else {
+                        Error(_W("Wrong type for argument #2. numeric values expected"));
+                    }
+                } else {
+                    Error(_W("Wrong size for argument #2. row vector or scalar expected"));
+                }
+            }
         }
     } break;
     default:
@@ -87,11 +103,17 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
             if (nLhs > 1) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (dimval - 1 >= maxDims) {
-                retval.push_back(ArrayOf::doubleConstructor((1.0)));
-            } else {
-                retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(sze[dimval - 1])));
+            double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsVal.size());
+            Dimensions outDims(1, dimsVal.size());
+            ArrayOf res = ArrayOf(NLS_DOUBLE, outDims, ptr);
+            for (indexType k = 0; k < dimsVal.size(); k++) {
+                if (dimsVal[k] - 1 >= maxDims) {
+                    ptr[k] = 1.0;
+                } else {
+                    ptr[k] = sze[dimsVal[k] - 1];
+                }
             }
+            retval.push_back(res);
         } else {
             if (nLhs > 1) {
                 for (int i = 0; i < nLhs; i++) {

@@ -9,6 +9,7 @@
 	<syntax>
 		<syntax_item>s = size(X)</syntax_item>
 		<syntax_item>sdim = size(X, dim)</syntax_item>
+		<syntax_item>vec = size(X, dims)</syntax_item>
 		<syntax_item>[r, c] = size(X)</syntax_item>
 		<syntax_item>[s1, ... , sn] = size(X)</syntax_item>
 
@@ -23,6 +24,10 @@
 			<param_name>dim</param_name>
 			<param_description>a variable: a positive integer to get the dimth dimension.</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>dims</param_name>
+			<param_description>a variable: a vector of  positive integer to get the dimth dimensions.</param_description>
+		</param_input_item>
 	</param_input>
 
 	<param_output>
@@ -35,6 +40,12 @@
 			<param_name>sdim</param_name>
 			<param_description>the length of dimension dim.</param_description>
 		</param_output_item>
+
+		<param_output_item>
+			<param_name>vec</param_name>
+			<param_description>length of dimensions dims.</param_description>
+		</param_output_item>
+
 
 		<param_output_item>
 			<param_name>[r, c]</param_name>
@@ -65,6 +76,7 @@
 			<![CDATA[X = rand(3, 4, 5, 6);
 size(X)
 size(X, 3)
+size(X, [2 4])
 [r, c] =size(X)
 [s1, s2, s3, s4] = size(X)]]>
 		</example_item_data>

@@ -3,6 +3,8 @@
 Features:
 ---------
 
+ * extends 'size' builtin to find lengths of multiple array dimensions at a time.
+
  * matches builtin: Determine if pattern matches with strings.
 
  * webwrite function: Write data to RESTful web service.
