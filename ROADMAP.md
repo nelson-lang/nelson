@@ -29,16 +29,17 @@ Please feel free to file issues on this repository if you have questions, concer
 - graphics output,
 - some basic openCV functions,
 - dynamic link functions (Nelson external modules) (DONE v0.2.6),
-- Nelson on cloud (DONE v0.2.11)
+- Nelson on cloud (DONE v0.2.11),
+- RESTful API web service (DONE v0.3.9)
 
-### How can I help?
+### How can I help ?
 
 Short term objectives are listed above. Our goal is to split down the workload in such way that anybody can jump in and help.
 Please comment on issues if you want to take it to avoid duplicating effort!
 Similarly, if a maintainer is already assigned on an issue you'd like to participate in, pinging him on GitHub to offer your help is
 the best way to go.
 
-### How can I add something to the roadmap?
+### How can I add something to the roadmap ?
 
 The roadmap process is new to Nelson: we are only beginning to structure and document the project objectives.
 Our immediate goal is to be more transparent, and work with our community to
