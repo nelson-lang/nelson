@@ -1,7 +1,9 @@
-# 0.3.9 (2019-09-23)
+# 0.3.9 (2019-09-XX)
 
 Features:
 ---------
+
+ * matches builtin: Determine if pattern matches with strings.
 
  * webwrite function: Write data to RESTful web service.
 

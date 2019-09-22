@@ -176,6 +176,7 @@
     <ClCompile Include="..\cpp\StringEndsWith.cpp" />
     <ClCompile Include="..\cpp\StringFind.cpp" />
     <ClCompile Include="..\cpp\StringLength.cpp" />
+    <ClCompile Include="..\cpp\StringMatches.cpp" />
     <ClCompile Include="..\cpp\StringPrintf.cpp" />
     <ClCompile Include="..\cpp\StringReplace.cpp" />
     <ClCompile Include="..\cpp\StringStartsWith.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\include\StringFind.hpp" />
     <ClInclude Include="..\include\StringFormat.hpp" />
     <ClInclude Include="..\include\StringLength.hpp" />
+    <ClInclude Include="..\include\StringMatches.hpp" />
     <ClInclude Include="..\include\StringPrintf.hpp" />
     <ClInclude Include="..\include\StringReplace.hpp" />
     <ClInclude Include="..\include\StringStartsWith.hpp" />
