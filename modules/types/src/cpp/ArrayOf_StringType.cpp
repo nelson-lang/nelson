@@ -346,8 +346,22 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                 needToOverload = true;
                 return ArrayOf();
             }
-            if (el.isScalar() || el.isEmpty()) {
-                elementsOutput[k] = ArrayOf::characterArrayConstructor(el.getContentAsWideString());
+            if (el.isEmpty()) {
+                elementsOutput[k] = ArrayOf::characterArrayConstructor("");
+            } else if (el.isScalar()) {
+                if (el.isStringArray()) {
+                    ArrayOf* p = (ArrayOf*)el.getDataPointer();
+                    ArrayOf p0 = p[0];
+                    if (p0.isEmpty()) {
+                        elementsOutput[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                    } else {
+                        elementsOutput[k]
+                            = ArrayOf::characterArrayConstructor(p0.getContentAsWideString());
+                    }
+                } else {
+                    elementsOutput[k]
+                        = ArrayOf::characterArrayConstructor(el.getContentAsWideString());
+                }
             } else {
                 Error(_W("Unable to convert supplied object to a string."));
             }

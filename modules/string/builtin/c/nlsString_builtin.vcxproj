@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
+    <ClCompile Include="..\cpp\matchesBuiltin.cpp" />
     <ClCompile Include="..\cpp\replaceBuiltin.cpp" />
     <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\startsWithBuiltin.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />
+    <ClInclude Include="..\include\matchesBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />
     <ClInclude Include="..\include\replaceBuiltin.hpp" />
     <ClInclude Include="..\include\sprintfBuiltin.hpp" />

@@ -48,6 +48,7 @@
 #include "convertStringsToCharsBuiltin.hpp"
 #include "convertCharsToStringsBuiltin.hpp"
 #include "blanksBuiltin.hpp"
+#include "matchesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -59,6 +60,7 @@ static const nlsGateway gateway[] = {
     { "strcmpi", Nelson::StringGateway::strcmpiBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "strncmp", Nelson::StringGateway::strncmpBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "strncmpi", Nelson::StringGateway::strncmpiBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "matches", Nelson::StringGateway::matchesBuiltin, 1, 2, CPP_BUILTIN },
     { "tolower", Nelson::StringGateway::tolowerBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "lower", Nelson::StringGateway::tolowerBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "toupper", Nelson::StringGateway::toupperBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },

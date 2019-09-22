@@ -124,7 +124,19 @@ ArrayOf::summarizeStringArray(Interface* io) const
             io->outputMessage("<missing>");
         }
     } else {
-        if (dp->dataClass == NLS_CHAR) {
+        if (dp->dataClass == NLS_DOUBLE) {
+            bool isOk = false;
+            if (isScalar()) {
+                double* v = (double*)dp->getData();
+                if (std::isnan(v[0])) {
+                    io->outputMessage("<missing>");
+                    isOk = true;
+                }
+            }
+            if (!isOk) {
+                Error(_W("character array expected."));
+            }
+        } else if (dp->dataClass == NLS_CHAR) {
             Dimensions dims = dp->dimensions;
             if (dims.isRowVector()) {
                 if (dims.getColumns() < static_cast<indexType>(io->getTerminalWidth() - 3)) {
