@@ -57,7 +57,7 @@ Nelson::StringGateway::matchesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
-      retval = OverloadFunction(eval, nLhs, argIn, "matches", bSuccess);
+        retval = OverloadFunction(eval, nLhs, argIn, "matches", bSuccess);
     }
     if (!bSuccess) {
         ArrayOf A = argIn[0];
