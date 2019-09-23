@@ -175,6 +175,7 @@
     <ClCompile Include="..\cpp\iscellstrBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp" />
+    <ClCompile Include="..\cpp\namedargs2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\structBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\include\fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\iscellstrBuiltin.hpp" />
     <ClInclude Include="..\include\isfieldBuiltin.hpp" />
+    <ClInclude Include="..\include\namedargs2cellBuiltin.hpp" />
     <ClInclude Include="..\include\nlsData_structures_builtin_exports.h" />
     <ClInclude Include="..\include\struct2cellBuiltin.hpp" />
     <ClInclude Include="..\include\structBuiltin.hpp" />

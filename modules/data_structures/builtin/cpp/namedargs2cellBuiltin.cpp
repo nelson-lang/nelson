@@ -23,38 +23,48 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "structBuiltin.hpp"
-#include "iscellstrBuiltin.hpp"
-#include "cellBuiltin.hpp"
-#include "fieldnamesBuiltin.hpp"
-#include "struct2cellBuiltin.hpp"
-#include "cell2structBuiltin.hpp"
-#include "cellfunBuiltin.hpp"
-#include "isfieldBuiltin.hpp"
 #include "namedargs2cellBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"data_structures";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "struct", Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
-    { "iscellstr", Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },
-    { "cell", Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },
-    { "fieldnames", Nelson::DataStructuresGateway::fieldnamesBuiltin, 1, 1 },
-    { "struct2cell", Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
-    { "cell2struct", Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
-    { "cellfun", Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1 },
-    { "isfield", Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
-    { "namedargs2cell", Nelson::DataStructuresGateway::namedargs2cellBuiltin, 1, 1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+ArrayOfVector
+Nelson::DataStructuresGateway::namedargs2cellBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "namedargs2cell", bSuccess);
+    }
+    if (!bSuccess) {
+        if (argIn.size() != 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        ArrayOf param1 = argIn[0];
+        if (!param1.isStruct()) {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+        }
+        if (!param1.isScalar()) {
+            Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
+        }
+        stringVector fieldnames = param1.getFieldNames();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, fieldnames.size() * 2);
+        Dimensions dims(1, fieldnames.size() * 2);
+        ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+        indexType k = 0;
+        for (std::string name : fieldnames) {
+            elements[k] = ArrayOf::characterArrayConstructor(name);
+            elements[k + 1] = param1.getField(name);
+            k = k + 2;
+        }
+        retval.push_back(res);
+    }
+    return retval;
+}
 //=============================================================================

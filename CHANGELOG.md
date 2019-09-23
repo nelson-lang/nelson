@@ -3,6 +3,8 @@
 Features:
 ---------
 
+ * namedargs2cell builtin: Converts a struct containing name-value pairs to a cell.
+
  * extends 'size' builtin to find lengths of multiple array dimensions at a time.
 
  * matches builtin: Determine if pattern matches with strings.
@@ -14,7 +16,7 @@ Features:
  * extends size, length, ndims to manage function_handle type.
 
 
- Bug Fixes:
+Bug Fixes:
 ---------
 
   * [#236](http://github.com/Nelson-numerical-software/nelson/issues/236): mpiexec returned warning on docker as root user.
