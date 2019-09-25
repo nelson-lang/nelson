@@ -56,7 +56,7 @@ h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
     Class outputClass;
@@ -147,94 +147,10 @@ h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data, si
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
-    Class outputClass;
-    hsize_t msizeType = H5Tget_size(mType);
-    switch (msizeType) {
-    case 1: {
-        if (H5Tget_sign(mType) == H5T_SGN_NONE) {
-            outputClass = NLS_UINT8;
-        } else {
-            outputClass = NLS_INT8;
-        }
-    } break;
-    case 2: {
-        if (H5Tget_sign(mType) == H5T_SGN_NONE) {
-            outputClass = NLS_UINT16;
-        } else {
-            outputClass = NLS_INT16;
-        }
-    } break;
-    case 4: {
-        if (H5Tget_sign(mType) == H5T_SGN_NONE) {
-            outputClass = NLS_UINT32;
-        } else {
-            outputClass = NLS_INT32;
-        }
-    } break;
-    case 8: {
-        if (H5Tget_sign(mType) == H5T_SGN_NONE) {
-            outputClass = NLS_UINT64;
-        } else {
-            outputClass = NLS_INT64;
-        }
-    } break;
-    default: {
-        if (H5Tget_sign(mType) == H5T_SGN_NONE) {
-            outputClass = NLS_UINT8;
-        } else {
-            outputClass = NLS_INT8;
-        }
-    } break;
-    }
-    void* ptrVoid = nullptr;
-    try {
-        ptrVoid
-            = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
-        return ArrayOf();
-    }
-    ArrayOf fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
-        switch (outputClass) {
-        case NLS_UINT8: {
-            auto* ptrUINT8 = static_cast<uint8*>(ptrVoid);
-            ptrUINT8[k] = ((uint8*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_UINT16: {
-            auto* ptrUINT16 = static_cast<uint16*>(ptrVoid);
-            ptrUINT16[k] = ((uint16*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_UINT32: {
-            auto* ptrUINT32 = static_cast<uint32*>(ptrVoid);
-            ptrUINT32[k] = ((uint32*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_UINT64: {
-            auto* ptrUINT64 = static_cast<uint64*>(ptrVoid);
-            ptrUINT64[k] = ((uint64*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_INT8: {
-            int8* ptrINT8 = static_cast<int8*>(ptrVoid);
-            ptrINT8[k] = ((int8*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_INT16: {
-            auto* ptrINT16 = static_cast<int16*>(ptrVoid);
-            ptrINT16[k] = ((int16*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_INT32: {
-            auto* ptrINT32 = static_cast<int32*>(ptrVoid);
-            ptrINT32[k] = ((int32*)(data + offset + (sizeType * k)))[0];
-        } break;
-        case NLS_INT64: {
-            auto* ptrINT64 = static_cast<int64*>(ptrVoid);
-            ptrINT64[k] = ((int64*)(data + offset + (sizeType * k)))[0];
-        } break;
-        }
-    }
-    return fieldvalue;
+    return h5ReadCompoundIntegerMember(sizeType, mType, data, offset, dims, error);
 }
 //=============================================================================
 static ArrayOf

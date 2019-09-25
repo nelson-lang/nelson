@@ -224,7 +224,6 @@
     <ClCompile Include="..\cpp\audioplayer_ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_pauseBuiltin.cpp" />
-    <ClCompile Include="..\cpp\audioplayer_playblockingBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_playBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_resumeBuiltin.cpp" />
@@ -255,7 +254,6 @@
     <ClInclude Include="..\include\audioplayer_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_pauseBuiltin.hpp" />
-    <ClInclude Include="..\include\audioplayer_playblockingBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_playBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_resumeBuiltin.hpp" />

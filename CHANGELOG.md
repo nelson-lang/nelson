@@ -21,6 +21,8 @@ Features:
 Bug Fixes:
 ---------
 
+  * [#249](http://github.com/Nelson-numerical-software/nelson/issues/249): refactor code.
+
   * [#236](http://github.com/Nelson-numerical-software/nelson/issues/236): mpiexec returned warning on docker as root user.
 
   * [#235](http://github.com/Nelson-numerical-software/nelson/issues/235): add example about function_handle with webread.
