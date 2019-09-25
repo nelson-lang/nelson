@@ -38,7 +38,6 @@
 #include "audioplayer_isvalidBuiltin.hpp"
 #include "audioplayer_pauseBuiltin.hpp"
 #include "audioplayer_playBuiltin.hpp"
-#include "audioplayer_playblockingBuiltin.hpp"
 #include "audioplayer_propertiesBuiltin.hpp"
 #include "audioplayer_resumeBuiltin.hpp"
 #include "audioplayer_setBuiltin.hpp"

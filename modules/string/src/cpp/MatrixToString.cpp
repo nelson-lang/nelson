@@ -37,6 +37,59 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <typename T>
+  static std::wstring
+complexToString(T complexValue, const std::wstring &formatNumber)
+{
+    wchar_t buffer[1024];
+    std::wstring res;
+    std::wstring realPartStr;
+    std::wstring imagPartStr;
+    if (std::isnan(complexValue.real())) {
+        realPartStr = L"NaN";
+    } else {
+        if (std::isinf(complexValue.real())) {
+            if (complexValue.real() > 0) {
+                realPartStr = L"Inf";
+            } else {
+                realPartStr = L"-Inf";
+            }
+        } else {
+            swprintf(buffer, 1024, formatNumber.c_str(), complexValue.real());
+            realPartStr = buffer;
+        }
+    }
+    if (std::isnan(complexValue.imag())) {
+        imagPartStr = L"NaN";
+    } else {
+        if (std::isinf(complexValue.imag())) {
+            if (complexValue.imag() > 0) {
+                imagPartStr = L"Inf";
+            } else {
+                imagPartStr = L"-Inf";
+            }
+        } else {
+            swprintf(buffer, 1024, formatNumber.c_str(), complexValue.imag());
+            imagPartStr = buffer;
+        }
+    }
+    if (imagPartStr.compare(L"NaN") == 0 || imagPartStr.compare(L"Inf") == 0
+        || imagPartStr.compare(L"-Inf") == 0) {
+        if (imagPartStr.compare(L"-Inf") == 0) {
+            res = realPartStr + L"-1i*" + L"Inf";
+        } else {
+            res = realPartStr + L"+1i*" + imagPartStr;
+        }
+    } else {
+        if (complexValue.imag() > 0) {
+            res = realPartStr + L"+" + imagPartStr + L"i";
+        } else {
+            res = realPartStr + imagPartStr + L"i";
+        }
+    }
+    return res;
+}
+//=============================================================================
 std::wstring
 MatrixToString(ArrayOf A, indexType precision, bool withClass)
 {
@@ -73,50 +126,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     singlecomplex complexVal = pComplexValue[x + y * dims.getRows()];
-                    std::wstring realPartStr;
-                    std::wstring imagPartStr;
-                    if (std::isnan(complexVal.real())) {
-                        realPartStr = L"NaN";
-                    } else {
-                        if (std::isinf(complexVal.real())) {
-                            if (complexVal.real() > 0) {
-                                realPartStr = L"Inf";
-                            } else {
-                                realPartStr = L"-Inf";
-                            }
-                        } else {
-                            swprintf(buffer, 1024, formatNumber.c_str(), complexVal.real());
-                            realPartStr = buffer;
-                        }
-                    }
-                    if (std::isnan(complexVal.imag())) {
-                        imagPartStr = L"NaN";
-                    } else {
-                        if (std::isinf(complexVal.imag())) {
-                            if (complexVal.imag() > 0) {
-                                imagPartStr = L"Inf";
-                            } else {
-                                imagPartStr = L"-Inf";
-                            }
-                        } else {
-                            swprintf(buffer, 1024, formatNumber.c_str(), complexVal.imag());
-                            imagPartStr = buffer;
-                        }
-                    }
-                    if (imagPartStr.compare(L"NaN") == 0 || imagPartStr.compare(L"Inf") == 0
-                        || imagPartStr.compare(L"-Inf") == 0) {
-                        if (imagPartStr.compare(L"-Inf") == 0) {
-                            res = realPartStr + L"-1i*" + L"Inf";
-                        } else {
-                            res = realPartStr + L"+1i*" + imagPartStr;
-                        }
-                    } else {
-                        if (complexVal.imag() > 0) {
-                            res = realPartStr + L"+" + imagPartStr + L"i";
-                        } else {
-                            res = realPartStr + imagPartStr + L"i";
-                        }
-                    }
+                    res = complexToString<singlecomplex>(complexVal, formatNumber);
                 }
                 if (boost::algorithm::ends_with(res, L" ")) {
                     res.pop_back();
@@ -130,50 +140,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     doublecomplex complexVal = pComplexValue[x + y * dims.getRows()];
-                    std::wstring realPartStr;
-                    std::wstring imagPartStr;
-                    if (std::isnan(complexVal.real())) {
-                        realPartStr = L"NaN";
-                    } else {
-                        if (std::isinf(complexVal.real())) {
-                            if (complexVal.real() > 0) {
-                                realPartStr = L"Inf";
-                            } else {
-                                realPartStr = L"-Inf";
-                            }
-                        } else {
-                            swprintf(buffer, 1024, formatNumber.c_str(), complexVal.real());
-                            realPartStr = buffer;
-                        }
-                    }
-                    if (std::isnan(complexVal.imag())) {
-                        imagPartStr = L"NaN";
-                    } else {
-                        if (std::isinf(complexVal.imag())) {
-                            if (complexVal.imag() > 0) {
-                                imagPartStr = L"Inf";
-                            } else {
-                                imagPartStr = L"-Inf";
-                            }
-                        } else {
-                            swprintf(buffer, 1024, formatNumber.c_str(), complexVal.imag());
-                            imagPartStr = buffer;
-                        }
-                    }
-                    if (imagPartStr.compare(L"NaN") == 0 || imagPartStr.compare(L"Inf") == 0
-                        || imagPartStr.compare(L"-Inf") == 0) {
-                        if (imagPartStr.compare(L"-Inf") == 0) {
-                            res = realPartStr + L"-1i*" + L"Inf";
-                        } else {
-                            res = realPartStr + L"+1i*" + imagPartStr;
-                        }
-                    } else {
-                        if (complexVal.imag() > 0) {
-                            res = realPartStr + L"+" + imagPartStr + L"i";
-                        } else {
-                            res = realPartStr + imagPartStr + L"i";
-                        }
-                    }
+                    res = complexToString<doublecomplex>(complexVal, formatNumber);
                 }
                 if (boost::algorithm::ends_with(res, L" ")) {
                     res.pop_back();

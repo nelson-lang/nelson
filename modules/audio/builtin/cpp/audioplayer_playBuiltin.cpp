@@ -28,11 +28,13 @@
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool blocking)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
@@ -89,6 +91,30 @@ Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const A
             objPlayer->play(static_cast<int>(start), static_cast<int>(end));
         }
     }
+    if (blocking) {
+        do {
+            if (eval->haveEventsLoop()) {
+                ProcessEventsDynamicFunctionWithoutWait();
+            }
+        } while (
+            !NelsonConfiguration::getInstance()->getInterruptPending() && objPlayer->getRunning());
+        objPlayer->stop();
+    }
     return retval;
+}
+//=============================================================================
+ArrayOfVector
+Nelson::AudioGateway::audioplayer_playblockingBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    return audioplayer_playCommonBuiltin(eval, nLhs, argIn, true);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    return audioplayer_playCommonBuiltin(eval, nLhs, argIn, false);
+}
+//=============================================================================
 }
 //=============================================================================
