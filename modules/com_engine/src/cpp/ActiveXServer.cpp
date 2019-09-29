@@ -26,7 +26,6 @@
 #include "ActiveXServer.hpp"
 #include "Error.hpp"
 #include <Ole2.h>
-#include <Windows.h>
 #include <atlconv.h>
 #include <boost/algorithm/string.hpp>
 //=============================================================================

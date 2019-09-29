@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ComHelpers.hpp"
+#include <windows.h>
 #include <atlconv.h>
 #include <boost/algorithm/string.hpp>
 //=============================================================================

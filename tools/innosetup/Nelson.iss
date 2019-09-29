@@ -43,15 +43,15 @@
 #endif
 #ifdef NELSON_X64
 #ifdef NELSON_DEBUG
-#define BOOST_TARGET  "vc141-mt-gd-x64-1_70"
+#define BOOST_TARGET  "vc142-mt-gd-x64-1_71"
 #else
-#define BOOST_TARGET  "vc141-mt-x64-1_70"
+#define BOOST_TARGET  "vc142-mt-x64-1_71"
 #endif
 #else
 #ifdef NELSON_DEBUG
-#define BOOST_TARGET  "vc141-mt-gd-x32-1_70"
+#define BOOST_TARGET  "vc142-mt-gd-x32-1_71"
 #else
-#define BOOST_TARGET  "vc141-mt-x32-1_70"
+#define BOOST_TARGET  "vc142-mt-x32-1_71"
 #endif
 #endif
 ;==============================================================================
