@@ -39,15 +39,15 @@
 #ifdef _MSC_VER
 #ifdef _DEBUG
 #ifdef _WIN64
-#define BOOST_TARGET "vc141-mt-gd-x64-1_70"
+#define BOOST_TARGET "vc142-mt-gd-x64-1_71"
 #else
-#define BOOST_TARGET "vc141-mt-gd-x32-1_70"
+#define BOOST_TARGET "vc142-mt-gd-x32-1_71"
 #endif
 #else
 #ifdef _WIN64
-#define BOOST_TARGET "vc141-mt-x64-1_70"
+#define BOOST_TARGET "vc142-mt-x64-1_71"
 #else
-#define BOOST_TARGET "vc141-mt-x32-1_70"
+#define BOOST_TARGET "vc142-mt-x32-1_71"
 #endif
 #endif
 #endif

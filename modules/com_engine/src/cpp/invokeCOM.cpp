@@ -23,9 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <stdexcept>
+#include <atlconv.h>
 #include "invokeCOM.hpp"
 #include "Error.hpp"
-#include <atlconv.h>
 //=============================================================================
 bool
 invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch* pDisp,

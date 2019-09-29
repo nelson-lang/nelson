@@ -1,10 +1,10 @@
 version: 0.3.9.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 environment:
-  VS_VERSION: vs2017
-  QTDIR64: C:\Qt\5.13.0\msvc2017_64
-  QTDIR32: C:\Qt\5.13.0\msvc2017
+  VS_VERSION: vs2019
+  QTDIR64: c:\build_chain\qt_x64\msvc2017_64
+  QTDIR32: c:\build_chain\qt_win32\msvc2017
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
 branches:
@@ -23,15 +23,17 @@ install:
 - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\build_chain\MSMpiSetup.exe")
 - C:/build_chain/MSMpiSetup.exe -unattend -minimal
 - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
-- SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 5;%PATH%
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
+- SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
 
 before_build:
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
 - if %platform%==x64 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
 - if %platform%==x64 (set NELSON_PLATFORM=x64) else (set NELSON_PLATFORM=win32)
+- git clone https://github.com/Nelson-numerical-software/qt-5-%NELSON_PLATFORM%.git c:\build_chain\qt_%NELSON_PLATFORM%
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%NELSON_PLATFORM%.git c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%
 - cd "c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%"
+- git checkout vs_2019
 - install.bat
 
 build_script:
