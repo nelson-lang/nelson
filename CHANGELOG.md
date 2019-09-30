@@ -3,13 +3,16 @@
 Compilation:
 ------------
 
-* Visual studio 2019 upgrade
+* Visual studio 2019 Community and Pro upgrade
 
 * ICU 64.2 on Windows
 
 * libffi updated VS 2019 build
 
 * appveyor script updated to build with VS 2019
+
+* CMake 5.15.3 update for Windows
+
 
 
 # 0.3.9 (2019-09-25)
