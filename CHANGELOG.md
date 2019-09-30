@@ -1,3 +1,17 @@
+# 0.3.10 (2019-10-XX)
+
+Compilation:
+------------
+
+* Visual studio 2019 upgrade
+
+* ICU 64.2 on Windows
+
+* libffi updated VS 2019 build
+
+* appveyor script updated to build with VS 2019
+
+
 # 0.3.9 (2019-09-25)
 
 Features:
