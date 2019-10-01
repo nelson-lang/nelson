@@ -11,6 +11,8 @@ Compilation:
 
 * libxml 2.9.9 VS 2019 build
 
+* libcurl 7.66.0_2
+
 * appveyor script updated to build with VS 2019
 
 * CMake 5.15.3 update for Windows
