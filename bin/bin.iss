@@ -42,13 +42,8 @@ Source: {#RootPath}bin\{#BinPath}\boost_bzip2-{#BOOST_TARGET}.dll; DestDir: {app
 ;==============================================================================
 ; xml libraries
 Source: {#RootPath}bin\{#BinPath}\zlib.dll; DestDir: {app}\bin\{#BinPath}\ 
-#ifdef NELSON_X64
-Source: {#RootPath}bin\{#BinPath}\libiconv-2.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\libxml2-2.dll; DestDir: {app}\bin\{#BinPath}\
-#else
 Source: {#RootPath}bin\{#BinPath}\libiconv.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libxml2.dll; DestDir: {app}\bin\{#BinPath}\
-#endif
 ;==============================================================================
 ; vc & intel runtime
 #ifdef NELSON_X64
