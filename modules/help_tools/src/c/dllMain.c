@@ -27,11 +27,7 @@
 #include <Windows.h>
 //=============================================================================
 #pragma comment(lib, "Bcrypt.lib")
-#ifdef _WIN64
-#pragma comment(lib, "libxml2-2.lib")
-#else
 #pragma comment(lib, "libxml2.lib")
-#endif
 #pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_regex-", BOOST_TARGET, ".lib"))

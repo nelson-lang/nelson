@@ -9,10 +9,13 @@ Compilation:
 
 * libffi updated VS 2019 build
 
+* libxml 2.9.9 VS 2019 build
+
 * appveyor script updated to build with VS 2019
 
 * CMake 5.15.3 update for Windows
 
+* Innosetup 6 support
 
 
 # 0.3.9 (2019-09-25)
