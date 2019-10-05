@@ -19,6 +19,14 @@ Compilation:
 
 * Innosetup 6 support
 
+* MKL 2019 update 5
+
+Bug Fixes:
+---------
+
+  * [#245](http://github.com/Nelson-numerical-software/nelson/issues/245): Update MKL 2019 dependencies.
+
+
 
 # 0.3.9 (2019-09-25)
 
