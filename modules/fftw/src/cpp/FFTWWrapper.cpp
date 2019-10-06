@@ -181,9 +181,14 @@ freeFFTWLibrary()
         fftwf_import_wisdom_from_stringPtr = nullptr;
         fftwf_mallocPtr = nullptr;
         fftwf_freePtr = nullptr;
-
-        close_dynamic_library(fftw_handle);
-        close_dynamic_library(fftwf_handle);
+        if (fftwf_handle) {
+            close_dynamic_library(fftwf_handle);
+            fftwf_handle = nullptr;
+        }
+        if (fftw_handle) {
+            close_dynamic_library(fftw_handle);
+            fftw_handle = nullptr;
+        }
         return true;
     }
     return false;

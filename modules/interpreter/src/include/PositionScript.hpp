@@ -43,8 +43,8 @@ public:
     PositionScript(
         const std::wstring& functionname = L"", const std::wstring& filename = L"", int line = -1)
     {
-        this->filename = std::move(filename);
-        this->functionname = std::move(functionname);
+        this->filename = filename;
+        this->functionname = functionname;
         this->line = line;
     }
     //=============================================================================
@@ -94,7 +94,7 @@ public:
     void
     setFunctionName(const std::wstring& functionname)
     {
-        this->functionname = std::move(functionname);
+        this->functionname = functionname;
     }
     //=============================================================================
     std::wstring
