@@ -30,7 +30,6 @@
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 //=============================================================================
 #pragma comment(lib, "hdf5.lib")
-#pragma comment(lib, "hdf5_cpp.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
