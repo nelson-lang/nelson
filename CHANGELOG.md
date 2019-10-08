@@ -3,23 +3,21 @@
 Compilation:
 ------------
 
-* Visual studio 2019 Community and Pro upgrade
-
-* ICU 64.2 on Windows
-
-* libffi updated VS 2019 build
-
-* libxml 2.9.9 VS 2019 build
-
-* libcurl 7.66.0_2
+* Visual studio 2019 Community and Pro upgrade (required)
+  Dependencies updated: 
+  - ICU 64.2 on Windows
+  - libffi updated VS 2019 build
+  - libxml 2.9.9 VS 2019 build
+  - libcurl 7.66.0_2
+  - CMake 5.15.3 update for Windows
+  - MKL 2019 update 5
+  - HDF5 1.10.5 VS 2019 build
+  - MATIO 1.5.17 VS 2019 build
 
 * appveyor script updated to build with VS 2019
 
-* CMake 5.15.3 update for Windows
-
 * Innosetup 6 support
 
-* MKL 2019 update 5
 
 Bug Fixes:
 ---------
