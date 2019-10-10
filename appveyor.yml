@@ -3,8 +3,8 @@ image: Visual Studio 2019
 
 environment:
   VS_VERSION: vs2019
-  QTDIR64: c:\build_chain\qt_x64\msvc2017_64
-  QTDIR32: c:\build_chain\qt_win32\msvc2017
+  QTDIR64: C:\Qt\5.13.1\msvc2017_64
+  QTDIR32: C:\Qt\5.13.1\msvc2017
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
 branches:
@@ -30,7 +30,6 @@ before_build:
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
 - if %platform%==x64 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
 - if %platform%==x64 (set NELSON_PLATFORM=x64) else (set NELSON_PLATFORM=win32)
-- git clone https://github.com/Nelson-numerical-software/qt-5-%NELSON_PLATFORM%.git c:\build_chain\qt_%NELSON_PLATFORM%
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%NELSON_PLATFORM%.git c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%
 - cd "c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%"
 - git checkout vs_2019
