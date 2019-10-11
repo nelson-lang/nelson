@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function [status, message] = configuremsvc()
-  // currently only VS 2017 (compatibility with previous vs on demand)
+  // currently only VS 2017 and VS 2019 (compatibility with previous vs on demand)
   status = false;
   message = '';
   clear('havecompiler');  // clear persistent variable

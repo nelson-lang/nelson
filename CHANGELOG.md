@@ -24,6 +24,7 @@ Bug Fixes:
 
   * [#245](http://github.com/Nelson-numerical-software/nelson/issues/245): Update MKL 2019 dependencies.
 
+  * [#202](http://github.com/Nelson-numerical-software/nelson/issues/202): Migrate to VS 2019.
 
 
 # 0.3.9 (2019-09-25)
