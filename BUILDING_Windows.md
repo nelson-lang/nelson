@@ -3,7 +3,7 @@
 
 * Prerequirements:
  Git for Windows
- Visual studio 2017 (C++)
+ Visual studio 2019 (C++)
  Qt 5.x for Windows
 
 * Creates Nelson main directory
@@ -32,7 +32,7 @@
     
     launch win32-environment.bat (win32 build) or win64-environment.bat (win64 build)
     
-    start build with VS 2017 
+    start build with VS 2019 
 
 
 [Previous (Building)](BUILDING.md)

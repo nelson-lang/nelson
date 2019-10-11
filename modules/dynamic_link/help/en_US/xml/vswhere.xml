@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>vswhere</keyword>
-	<short_description>Locate Visual Studio 2017 and newer installations</short_description>
+	<short_description>Locate Visual Studio 2017, 2019 and newer installations</short_description>
 
 	<syntax>
 		<syntax_item>res = vswhere()</syntax_item>
