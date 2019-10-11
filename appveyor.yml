@@ -32,7 +32,6 @@ before_build:
 - if %platform%==x64 (set NELSON_PLATFORM=x64) else (set NELSON_PLATFORM=win32)
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%NELSON_PLATFORM%.git c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%
 - cd "c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%"
-- git checkout vs_2019
 - install.bat
 
 build_script:
