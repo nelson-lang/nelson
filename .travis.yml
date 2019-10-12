@@ -90,6 +90,7 @@ before_install:
       sudo apt -y install hdf5-tools;
       sudo apt -y install zlib1g-dev;
       sudo apt -y install libcurl4-openssl-dev;
+      sudo apt -y install libgit2-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.0-bionic;
@@ -144,6 +145,7 @@ before_install:
       brew install portaudio;
       brew install libsndfile;
       brew install taglib;
+      brew install libgit2;
       fi
 
 install:

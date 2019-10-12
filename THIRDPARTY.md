@@ -261,3 +261,12 @@ libcurl - the multiprotocol file transfer library
 
 > https://curl.haxx.se/docs/copyright.html
 
+
+- libgit2
+
+libgit2 is a portable, pure C implementation of the Git core methods.
+
+> https://libgit2.org/
+
+> https://github.com/libgit2/libgit2/blob/master/COPYING  GPL with LINKING EXCEPTION
+
