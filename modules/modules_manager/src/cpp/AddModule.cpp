@@ -29,6 +29,7 @@
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
+#include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
 //=============================================================================
@@ -43,7 +44,7 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
         if (boost::filesystem::exists(pathmainloader)
             && !boost::filesystem::is_directory(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(modulerootpath)) {
-                RegisterModule(moduleshortname, modulerootpath);
+                RegisterModule(moduleshortname, modulerootpath, !NelsonConfiguration::getInstance()->isModulesProtected());
                 EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
             } else {
                 if ((IsExistingModuleName(moduleshortname)

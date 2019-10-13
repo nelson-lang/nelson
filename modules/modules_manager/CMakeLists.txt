@@ -38,6 +38,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
@@ -58,6 +59,7 @@ nlsError_manager
 nlsCore
 nlsDynamic_link
 nlsInterpreter
+nlsNelson_manager
 nlsI18n
 ${BOOST_LIBRARIES}
 )

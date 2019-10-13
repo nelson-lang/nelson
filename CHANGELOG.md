@@ -1,5 +1,8 @@
 # 0.3.10 (2019-10-XX)
 
+* all core's modules are protected and cannot removed during an nelson's session.
+
+
 Compilation:
 ------------
 

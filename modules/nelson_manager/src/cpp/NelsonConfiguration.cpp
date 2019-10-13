@@ -34,6 +34,7 @@ NelsonConfiguration::NelsonConfiguration()
 {
     InterruptPending = false;
     currentOutputFormatDisplay = NLS_FORMAT_SHORT;
+    modulesProtected = false;
 }
 //=============================================================================
 NelsonConfiguration*
@@ -84,6 +85,24 @@ OutputFormatDisplay
 NelsonConfiguration::getOutputFormatDisplay()
 {
     return currentOutputFormatDisplay;
+}
+//=============================================================================
+void
+NelsonConfiguration::enableModulesProtection()
+{
+    modulesProtected = true;
+}
+//=============================================================================
+void
+NelsonConfiguration::disableModulesProtection()
+{
+    modulesProtected = false;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isModulesProtected()
+{
+    return modulesProtected;
 }
 //=============================================================================
 } // namespace Nelson

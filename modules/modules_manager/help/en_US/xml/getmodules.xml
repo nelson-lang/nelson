@@ -8,7 +8,7 @@
 
   <syntax>
     <syntax_item>modules_name = getmodules()</syntax_item>
-    <syntax_item>[modules_name, modules_root_path] = getmodules()</syntax_item>
+    <syntax_item>[modules_name, modules_root_path, modules_protected] = getmodules()</syntax_item>
 
   </syntax>
   
@@ -24,10 +24,17 @@
       <param_description>a cell of strings: path of modules.</param_description>
     </param_output_item>
 
+    <param_output_item>
+      <param_name>modules_protected</param_name>
+      <param_description>a vector of logical: true if module can be removed or not.</param_description>
+    </param_output_item>
+
   </param_output>
 
 
-  <description><p><b>getmodules</b> returns list of modules loaded in Nelson.</p>
+  <description>
+  <p><b>getmodules</b> returns list of modules loaded in Nelson.</p>
+  <p>all core's modules are protected and cannot removed during an nelson's session.</p>
   </description>
 
   <used_function></used_function>

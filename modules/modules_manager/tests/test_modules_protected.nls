@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
+// Copyright (c) 2017 Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -23,44 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FinishNelsonMainScript.hpp"
-#include "CloseAllFiles.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "GetNelsonPath.hpp"
-#include "Interface.hpp"
-#include "NelsonConfiguration.hpp"
-#include <boost/filesystem.hpp>
+// <--C/C++ COMPILER REQUIRED--> 
 //=============================================================================
-bool
-FinishNelsonMainScript(Evaluator* eval)
-{
-    Context* ctx = eval->getContext();
-    if (ctx != nullptr) {
-        std::wstring rootPath = Nelson::GetRootPath();
-        boost::filesystem::path path(rootPath);
-        path += L"/etc/finish.nls";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile) {
-            NelsonConfiguration::getInstance()->disableModulesProtection();
-            std::wstring wstr = path.generic_wstring();
-            try {
-                EvaluateScriptFile(eval, wstr.c_str());
-            } catch (const Exception& e) {
-                CloseAllFiles();
-                Interface* io = eval->getInterface();
-                eval->setLastErrorException(e);
-                std::wstring errmsg = _W("Main finish.nls failed to run.");
-                if (io != nullptr) {
-                    io->errorMessage(errmsg);
-                } else {
-                    errmsg = errmsg + L"\n";
-                    fwprintf(stderr, L"%ls", errmsg.c_str());
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-    return false;
-}
+cd([nelsonroot(), '/module_skeleton/']);
+run('builder.nls');
+run('loader.nls');
+[modules_loaded, modules_path, modules_protected] = getmodules();
+assert_isequal(strcmp(modules_loaded(end), 'module_skeleton'), true);
+assert_isequal(modules_protected(end), false);
 //=============================================================================
+
