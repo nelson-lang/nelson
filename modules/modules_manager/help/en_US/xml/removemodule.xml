@@ -18,7 +18,9 @@
     </param_input_item>
   </param_input>
 
-  <description><p><b>removemodule</b> remove a module designed by his short name.</p>
+  <description>
+  <p><b>removemodule</b> remove a module designed by his short name.</p>
+  <p>all core's modules are protected and cannot removed during an nelson's session.</p>
   </description>
 
   <used_function></used_function>

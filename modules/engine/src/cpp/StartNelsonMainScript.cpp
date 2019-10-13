@@ -28,6 +28,7 @@
 #include "EvaluateScriptFile.hpp"
 #include "GetNelsonPath.hpp"
 #include "Interface.hpp"
+#include "NelsonConfiguration.hpp"
 #include <boost/filesystem.hpp>
 //=============================================================================
 bool
@@ -40,6 +41,7 @@ StartNelsonMainScript(Evaluator* eval)
         path += L"/etc/startup.nls";
         bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
         if (bIsFile) {
+            NelsonConfiguration::getInstance()->disableModulesProtection();
             std::wstring wstr = path.generic_wstring();
             try {
                 EvaluateScriptFile(eval, wstr.c_str());
@@ -59,6 +61,7 @@ StartNelsonMainScript(Evaluator* eval)
                     fwprintf(stderr, L"%ls", L"\n");
                 }
             }
+            NelsonConfiguration::getInstance()->enableModulesProtection();
             return true;
         }
         return false;

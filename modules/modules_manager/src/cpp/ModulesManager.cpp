@@ -40,11 +40,13 @@ ModulesManager::Instance()
     return m_pInstance;
 }
 //=============================================================================
-ModulesManager::ModulesManager(){
-#define MODULETAB 4096
-    // modulesMap.reserve(MODULETAB);
+ModulesManager::ModulesManager()
+{
+#define MODULETAB 128
+modulesMap.reserve(MODULETAB);
 } //=============================================================================
-size_t ModulesManager::getNumberOfModules()
+size_t
+ModulesManager::getNumberOfModules()
 {
     return modulesMap.size();
 }
@@ -54,12 +56,16 @@ ModulesManager::getModulesPathList(bool bReverse)
 {
     wstringVector retlist;
     if (bReverse) {
-        for (auto it = modulesMap.rbegin(); it != modulesMap.rend(); ++it) {
-            retlist.push_back(it->second);
+        if (!modulesMap.empty()) {
+            for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+                std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+                retlist.push_back(std::get<1>(elem));
+            }
         }
     } else {
-        for (auto it = modulesMap.begin(); it != modulesMap.end(); ++it) {
-            retlist.push_back(it->second);
+        for (size_t i = 0; i < modulesMap.size(); i++) {
+            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            retlist.push_back(std::get<1>(elem));
         }
     }
     return retlist;
@@ -70,21 +76,46 @@ ModulesManager::getModulesList(bool bReverse)
 {
     wstringVector retlist;
     if (bReverse) {
-        for (auto it = modulesMap.rbegin(); it != modulesMap.rend(); ++it) {
-            retlist.push_back(it->first);
+        if (!modulesMap.empty()) {
+            for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+                std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+                retlist.push_back(std::get<0>(elem));
+            }
         }
     } else {
-        for (auto it = modulesMap.begin(); it != modulesMap.end(); ++it) {
-            retlist.push_back(it->first);
+        for (size_t i = 0; i < modulesMap.size(); i++) {
+            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            retlist.push_back(std::get<0>(elem));
+        }
+    }
+    return retlist;
+}
+//=============================================================================
+std::vector<bool>
+ModulesManager::getModulesProtectedList(bool bReverse)
+{
+    std::vector<bool> retlist;
+    if (bReverse) {
+        if (!modulesMap.empty()) {
+            for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+                std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+                retlist.push_back(std::get<2>(elem));
+            }
+        }
+    } else {
+        for (size_t i = 0; i < modulesMap.size(); i++) {
+            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            retlist.push_back(std::get<2>(elem));
         }
     }
     return retlist;
 }
 //=============================================================================
 void
-ModulesManager::insertModule(const std::wstring& modulename, const std::wstring& path)
+ModulesManager::insertModule(
+    const std::wstring& modulename, const std::wstring& path, bool protectedModule)
 {
-    modulesMap.push_back(std::make_pair(modulename, path));
+    modulesMap.push_back(std::make_tuple(modulename, path, protectedModule));
 }
 //=============================================================================
 void
@@ -96,12 +127,18 @@ ModulesManager::deleteAllModules()
 bool
 ModulesManager::deleteModule(const std::wstring& modulename)
 {
-    auto it = std::find_if(modulesMap.begin(), modulesMap.end(),
-        [&modulename](std::pair<std::wstring, std::wstring> const& elem) {
-            return elem.first == modulename;
-        });
-    if (it != modulesMap.end()) {
-        modulesMap.erase(it);
+    bool found = false;
+    size_t pos = 0;
+    for (size_t i = 0; i < modulesMap.size(); i++) {
+        std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+        if (std::get<0>(elem) == modulename) {
+            pos = i;
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        modulesMap.erase(modulesMap.begin() + pos);
         return true;
     }
     return false;
@@ -110,12 +147,19 @@ ModulesManager::deleteModule(const std::wstring& modulename)
 bool
 ModulesManager::findModule(const std::wstring& modulename, std::wstring& path)
 {
-    auto it = std::find_if(modulesMap.begin(), modulesMap.end(),
-        [&modulename](std::pair<std::wstring, std::wstring> const& elem) {
-            return elem.first == modulename;
-        });
-    if (it != modulesMap.end()) {
-        path = it->second;
+    bool found = false;
+    size_t pos = 0;
+    for (size_t i = 0; i < modulesMap.size(); i++) {
+        std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+        if (std::get<0>(elem) == modulename) {
+            pos = i;
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[pos];
+        path = std::get<1>(elem);
         return true;
     }
     return false;
@@ -124,20 +168,36 @@ ModulesManager::findModule(const std::wstring& modulename, std::wstring& path)
 std::wstring
 ModulesManager::findModuleNameByPath(const std::wstring& filename)
 {
-    std::wstring moduleName = L"";
-    for (auto it = modulesMap.rbegin(); it != modulesMap.rend(); ++it) {
-        if (boost::algorithm::starts_with(filename, it->second)) {
-            moduleName = it->first;
-            return moduleName;
+    if (!modulesMap.empty()) {
+        for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            if (boost::algorithm::starts_with(filename, std::get<1>(elem))) {
+                return std::get<0>(elem);
+            }
         }
     }
-    return moduleName;
+    return std::wstring();
 }
 //=============================================================================
 bool
-RegisterModule(const std::wstring& moduleshortname, const std::wstring& modulerootpath)
+ModulesManager::isProtectedModule(const std::wstring& modulename)
 {
-    ModulesManager::Instance().insertModule(moduleshortname, modulerootpath);
+    if (!modulesMap.empty()) {
+        for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            if (std::get<0>(elem) == modulename) {
+                return std::get<2>(elem);
+            }
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
+RegisterModule(
+    const std::wstring& moduleshortname, const std::wstring& modulerootpath, bool protectedModule)
+{
+    ModulesManager::Instance().insertModule(moduleshortname, modulerootpath, protectedModule);
     return true;
 }
 //=============================================================================
@@ -157,13 +217,13 @@ IsExistingModuleName(const std::wstring& moduleshortname)
 bool
 IsExistingModulePath(const std::wstring& modulerootpath)
 {
-    wstringVector listPaths = GetModulesPath(false);
-    for (size_t k = 0; k < listPaths.size(); k++) {
-        if (listPaths[k] == modulerootpath) {
-            return true;
-        }
-    }
-    return false;
+    return ModulesManager::Instance().findModuleNameByPath(modulerootpath) != L"";
+}
+//=============================================================================
+bool
+IsProtectedModuleName(const std::wstring& moduleshortname)
+{
+    return ModulesManager::Instance().isProtectedModule(moduleshortname);
 }
 //=============================================================================
 boost::container::vector<module>
@@ -171,12 +231,14 @@ GetModules(bool bReverse)
 {
     wstringVector listPaths = GetModulesPath(bReverse);
     wstringVector listNames = GetModulesName(bReverse);
+    std::vector<bool> listProtected = GetModulesProtected(bReverse);
     boost::container::vector<module> modules;
     modules.reserve(listNames.size());
     for (size_t k = 0; k < listNames.size(); k++) {
         module m;
         m.modulename = listNames[k];
         m.modulepath = listPaths[k];
+        m.isprotected = listProtected[k];
         modules.push_back(m);
     }
     return modules;
@@ -192,6 +254,12 @@ wstringVector
 GetModulesPath(bool bReverse)
 {
     return ModulesManager::Instance().getModulesPathList(bReverse);
+}
+//=============================================================================
+std::vector<bool>
+GetModulesProtected(bool bReverse)
+{
+    return ModulesManager::Instance().getModulesProtectedList(bReverse);
 }
 //=============================================================================
 std::wstring

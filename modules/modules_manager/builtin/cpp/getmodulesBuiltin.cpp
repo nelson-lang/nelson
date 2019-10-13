@@ -38,7 +38,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2) {
+    if (nLhs > 3) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bReverse = false;
@@ -56,6 +56,16 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
     retval.push_back(ToCellStringAsColumn(GetModulesName(bReverse)));
     if (nLhs > 1) {
         retval.push_back(ToCellStringAsColumn(GetModulesPath(bReverse)));
+    }
+    if (nLhs > 2) {
+        std::vector<bool> protectedList = GetModulesProtected(bReverse);
+        logical* pData = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, protectedList.size());
+        Dimensions dims(protectedList.size(), 1);
+        ArrayOf data = ArrayOf(NLS_LOGICAL, dims, pData);
+        for (size_t i = 0; i < protectedList.size(); i++) {
+            pData[i] = protectedList[i];
+        }
+        retval.push_back(data);
     }
     return retval;
 }

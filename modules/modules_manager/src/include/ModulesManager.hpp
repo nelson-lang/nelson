@@ -34,6 +34,7 @@ typedef struct
 {
     std::wstring modulename;
     std::wstring modulepath;
+    bool isprotected;
 } module;
 //=============================================================================
 namespace Nelson {
@@ -49,8 +50,10 @@ public:
     getModulesPathList(bool bReverse);
     wstringVector
     getModulesList(bool bReverse);
+    std::vector<bool>
+    getModulesProtectedList(bool bReverse);
     void
-    insertModule(const std::wstring& modulename, const std::wstring& path);
+    insertModule(const std::wstring& modulename, const std::wstring& path, bool protectedModule);
     bool
     findModule(const std::wstring& modulename, std::wstring& path);
     void
@@ -59,20 +62,25 @@ public:
     deleteModule(const std::wstring& modulename);
     std::wstring
     findModuleNameByPath(const std::wstring& filename);
+    bool
+    isProtectedModule(const std::wstring& modulename);
 
 private:
     ModulesManager();
     ModulesManager(ModulesManager const& /*unused*/){};
     static ModulesManager m_pInstance;
-    boost::container::vector<std::pair<std::wstring, std::wstring>> modulesMap;
+    boost::container::vector<std::tuple<std::wstring, std::wstring, bool>> modulesMap;
 };
 //=============================================================================
 NLSMODULES_MANAGER_IMPEXP bool
-RegisterModule(const std::wstring& moduleshortname, const std::wstring& modulerootpath);
+RegisterModule(
+    const std::wstring& moduleshortname, const std::wstring& modulerootpath, bool protectedModule);
 NLSMODULES_MANAGER_IMPEXP bool
 UnregisterModule(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP bool
 IsExistingModuleName(const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP bool
+IsProtectedModuleName(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP bool
 IsExistingModulePath(const std::wstring& modulerootpath);
 NLSMODULES_MANAGER_IMPEXP boost::container::vector<module>
@@ -81,6 +89,8 @@ NLSMODULES_MANAGER_IMPEXP wstringVector
 GetModulesName(bool bReverse = false);
 NLSMODULES_MANAGER_IMPEXP wstringVector
 GetModulesPath(bool bReverse = false);
+NLSMODULES_MANAGER_IMPEXP std::vector<bool>
+GetModulesProtected(bool bReverse = false);
 NLSMODULES_MANAGER_IMPEXP std::wstring
 GetModulePath(const std::wstring& moduleshortname);
 //=============================================================================

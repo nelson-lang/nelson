@@ -27,6 +27,7 @@
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ModulesManager.hpp"
+#include "NelsonConfiguration.hpp"
 #include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
@@ -35,6 +36,12 @@ bool
 RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
 {
     if (IsExistingModuleName(moduleshortname)) {
+        bool isProtected = IsProtectedModuleName(moduleshortname);
+        if (isProtected && NelsonConfiguration::getInstance()->isModulesProtected()) {
+            Warning(L"Nelson:module:protected",
+                _W("Cannot remove module (protected): ") + moduleshortname);
+            return false;
+        }
         std::wstring rootpathmodule = GetModulePath(moduleshortname);
         if (rootpathmodule.empty()) {
             Error(moduleshortname + _W(": This module is registered but it has no path."));

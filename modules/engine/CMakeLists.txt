@@ -40,6 +40,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../memory_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../terminal/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
@@ -69,6 +70,7 @@ nlsModules_manager
 nlsTerminal
 nlsCharacters_encoding
 nlsMemory_manager
+nlsNelson_manager
 nlsLocalization
 nlsI18n
 nlsTime
