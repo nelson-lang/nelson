@@ -23,5 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addmodule(fileparts(nfilename('fullpath')), 'module_skeleton');
-
+if ~ismodule('module_skeleton')
+  addmodule(fileparts(nfilename('fullpath')), 'module_skeleton');
+else
+  error(sprintf(_('Module ''%s'' already loaded.'), 'module_skeleton'));
+end
+//=============================================================================
