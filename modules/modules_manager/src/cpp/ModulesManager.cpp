@@ -26,9 +26,13 @@
 #include <unordered_map>
 #include <map>
 #include <algorithm>
-#include <boost/container/vector.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include "ModulesManager.hpp"
+#include "Nelson_VERSION.h"
+#include "characters_encoding.hpp"
+#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,7 +47,7 @@ ModulesManager::Instance()
 ModulesManager::ModulesManager()
 {
 #define MODULETAB 128
-modulesMap.reserve(MODULETAB);
+    modulesMap.reserve(MODULETAB);
 } //=============================================================================
 size_t
 ModulesManager::getNumberOfModules()
@@ -58,13 +62,13 @@ ModulesManager::getModulesPathList(bool bReverse)
     if (bReverse) {
         if (!modulesMap.empty()) {
             for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
-                std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+                mapElement elem = modulesMap[i];
                 retlist.push_back(std::get<1>(elem));
             }
         }
     } else {
         for (size_t i = 0; i < modulesMap.size(); i++) {
-            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            mapElement elem = modulesMap[i];
             retlist.push_back(std::get<1>(elem));
         }
     }
@@ -78,13 +82,13 @@ ModulesManager::getModulesList(bool bReverse)
     if (bReverse) {
         if (!modulesMap.empty()) {
             for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
-                std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+                mapElement elem = modulesMap[i];
                 retlist.push_back(std::get<0>(elem));
             }
         }
     } else {
         for (size_t i = 0; i < modulesMap.size(); i++) {
-            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            mapElement elem = modulesMap[i];
             retlist.push_back(std::get<0>(elem));
         }
     }
@@ -98,14 +102,96 @@ ModulesManager::getModulesProtectedList(bool bReverse)
     if (bReverse) {
         if (!modulesMap.empty()) {
             for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
-                std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+                mapElement elem = modulesMap[i];
                 retlist.push_back(std::get<2>(elem));
             }
         }
     } else {
         for (size_t i = 0; i < modulesMap.size(); i++) {
-            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            mapElement elem = modulesMap[i];
             retlist.push_back(std::get<2>(elem));
+        }
+    }
+    return retlist;
+}
+//=============================================================================
+static std::ifstream&
+safegetline(std::ifstream& os, std::string& line)
+{
+    std::string myline;
+    if (getline(os, myline)) {
+        if (!myline.empty() && myline[myline.size() - 1] == '\r') {
+            line = myline.substr(0, myline.size() - 1);
+        } else {
+            line = myline;
+        }
+    }
+    return os;
+}
+//=============================================================================
+versionElement
+ModulesManager::readVersionFromJson(const std::wstring& path)
+{
+    std::vector<double> version;
+    std::wstring moduleJsonFilename;
+    if (boost::algorithm::ends_with(path, L"\\") || boost::algorithm::ends_with(path, L"/")) {
+        moduleJsonFilename = path + L"module.json";
+    } else {
+        moduleJsonFilename = path + L"/module.json";
+    }
+    std::string jsonString;
+#ifdef _MSC_VER
+    std::ifstream jsonFile(moduleJsonFilename);
+#else
+    std::ifstream jsonFile(wstring_to_utf8(langsconf));
+#endif
+    if (jsonFile.is_open()) {
+        std::string tmpline;
+        while (safegetline(jsonFile, tmpline)) {
+            jsonString += tmpline + '\n';
+        }
+        jsonFile.close();
+        boost::property_tree::ptree root;
+        std::istringstream is(jsonString);
+        try {
+            boost::property_tree::read_json(is, root);
+            for (boost::property_tree::ptree::value_type& element : root.get_child("version")) {
+                double d = element.second.get_value<double>();
+                int di = (int)d;
+                if ((double)di == d) {
+                    version.push_back(d);
+                } else {
+                    version.clear();
+                    break;
+                }
+            }
+        } catch (const boost::property_tree::json_parser::json_parser_error&) {
+            version.clear();
+        }
+    }
+    if (version.size() == 3) {
+        return std::make_tuple(version[0], version[1], version[2]);
+    } else {
+        Warning(L"module_manager:modulejson", _W("Please check: ") + moduleJsonFilename);
+    }
+    return std::make_tuple(std::nan("NaN"), std::nan("NaN"), std::nan("NaN"));
+}
+//=============================================================================
+std::vector<versionElement>
+ModulesManager::getModulesVersionList(bool bReverse)
+{
+    std::vector<versionElement> retlist;
+    if (bReverse) {
+        if (!modulesMap.empty()) {
+            for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
+                mapElement elem = modulesMap[i];
+                retlist.push_back(std::get<3>(elem));
+            }
+        }
+    } else {
+        for (size_t i = 0; i < modulesMap.size(); i++) {
+            mapElement elem = modulesMap[i];
+            retlist.push_back(std::get<3>(elem));
         }
     }
     return retlist;
@@ -115,7 +201,14 @@ void
 ModulesManager::insertModule(
     const std::wstring& modulename, const std::wstring& path, bool protectedModule)
 {
-    modulesMap.push_back(std::make_tuple(modulename, path, protectedModule));
+    versionElement version;
+    if (protectedModule) {
+        version = std::make_tuple((double)NELSON_VERSION_MAJOR, (double)NELSON_VERSION_MINOR,
+            (double)NELSON_VERSION_MAINTENANCE);
+    } else {
+        version = readVersionFromJson(path);
+    }
+    modulesMap.push_back(std::make_tuple(modulename, path, protectedModule, version));
 }
 //=============================================================================
 void
@@ -130,7 +223,7 @@ ModulesManager::deleteModule(const std::wstring& modulename)
     bool found = false;
     size_t pos = 0;
     for (size_t i = 0; i < modulesMap.size(); i++) {
-        std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+        mapElement elem = modulesMap[i];
         if (std::get<0>(elem) == modulename) {
             pos = i;
             found = true;
@@ -150,7 +243,7 @@ ModulesManager::findModule(const std::wstring& modulename, std::wstring& path)
     bool found = false;
     size_t pos = 0;
     for (size_t i = 0; i < modulesMap.size(); i++) {
-        std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+        mapElement elem = modulesMap[i];
         if (std::get<0>(elem) == modulename) {
             pos = i;
             found = true;
@@ -158,7 +251,7 @@ ModulesManager::findModule(const std::wstring& modulename, std::wstring& path)
         }
     }
     if (found) {
-        std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[pos];
+        mapElement elem = modulesMap[pos];
         path = std::get<1>(elem);
         return true;
     }
@@ -170,7 +263,7 @@ ModulesManager::findModuleNameByPath(const std::wstring& filename)
 {
     if (!modulesMap.empty()) {
         for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
-            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            mapElement elem = modulesMap[i];
             if (boost::algorithm::starts_with(filename, std::get<1>(elem))) {
                 return std::get<0>(elem);
             }
@@ -184,7 +277,7 @@ ModulesManager::isProtectedModule(const std::wstring& modulename)
 {
     if (!modulesMap.empty()) {
         for (int64 i = (int64)modulesMap.size() - 1; i >= 0; i--) {
-            std::tuple<std::wstring, std::wstring, bool> elem = modulesMap[i];
+            mapElement elem = modulesMap[i];
             if (std::get<0>(elem) == modulename) {
                 return std::get<2>(elem);
             }
@@ -260,6 +353,12 @@ std::vector<bool>
 GetModulesProtected(bool bReverse)
 {
     return ModulesManager::Instance().getModulesProtectedList(bReverse);
+}
+//=============================================================================
+std::vector<versionElement>
+GetModulesVersion(bool bReverse)
+{
+    return ModulesManager::Instance().getModulesVersionList(bReverse);
 }
 //=============================================================================
 std::wstring

@@ -39,7 +39,7 @@ static const nlsGateway gateway[]
     = { { "removemodule", Nelson::ModulesManagerGateway::removemoduleBuiltin, 0, 1 },
           { "addmodule", Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2 },
           { "modulepath", Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
-          { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 2 },
+          { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
           { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
           { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 } };
 //=============================================================================

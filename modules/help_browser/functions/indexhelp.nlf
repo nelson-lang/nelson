@@ -72,7 +72,7 @@ function modules_help_list = getModulesHelpList()
 endfunction
 //=============================================================================
 function external_modules = getExternalModules()
-  [m, p, pm] = getmodules();
+  [m, p, v, pm] = getmodules();
   external_modules = m(pm == false);
 endfunction
 //=============================================================================
