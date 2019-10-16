@@ -25,10 +25,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
+#include <tuple>
+#include <boost/container/vector.hpp>
 #include "Evaluator.hpp"
 #include "nlsModules_manager_exports.h"
-#include <boost/container/vector.hpp>
-#include <string>
 //=============================================================================
 typedef struct
 {
@@ -38,6 +39,9 @@ typedef struct
 } module;
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+typedef std::tuple<double, double, double> versionElement;
+typedef std::tuple<std::wstring, std::wstring, bool, versionElement> mapElement;
 //=============================================================================
 class NLSMODULES_MANAGER_IMPEXP ModulesManager
 {
@@ -52,6 +56,8 @@ public:
     getModulesList(bool bReverse);
     std::vector<bool>
     getModulesProtectedList(bool bReverse);
+    std::vector <versionElement>
+    getModulesVersionList(bool bReverse);
     void
     insertModule(const std::wstring& modulename, const std::wstring& path, bool protectedModule);
     bool
@@ -69,7 +75,9 @@ private:
     ModulesManager();
     ModulesManager(ModulesManager const& /*unused*/){};
     static ModulesManager m_pInstance;
-    boost::container::vector<std::tuple<std::wstring, std::wstring, bool>> modulesMap;
+    std::vector<mapElement> modulesMap;
+    versionElement
+    readVersionFromJson(const std::wstring& path);
 };
 //=============================================================================
 NLSMODULES_MANAGER_IMPEXP bool
@@ -91,6 +99,8 @@ NLSMODULES_MANAGER_IMPEXP wstringVector
 GetModulesPath(bool bReverse = false);
 NLSMODULES_MANAGER_IMPEXP std::vector<bool>
 GetModulesProtected(bool bReverse = false);
+NLSMODULES_MANAGER_IMPEXP std::vector<versionElement>
+GetModulesVersion(bool bReverse = false);
 NLSMODULES_MANAGER_IMPEXP std::wstring
 GetModulePath(const std::wstring& moduleshortname);
 //=============================================================================

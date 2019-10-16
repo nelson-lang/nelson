@@ -1,5 +1,7 @@
 # 0.3.10 (2019-10-XX)
 
+* extends 'getmodules' to return module versions using new required 'module.json' (see module's template).
+
 * all core's modules are protected and cannot removed during an nelson's session.
 
 * increase max execution time for tests (2 minutes) and benchs (6 minutes).

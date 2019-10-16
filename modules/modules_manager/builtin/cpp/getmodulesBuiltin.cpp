@@ -38,7 +38,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 3) {
+    if (nLhs > 4) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bReverse = false;
@@ -49,15 +49,31 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (param.compare(L"reverse") == 0) {
-            bReverse = true;
+        if (param.compare(L"reverse") != 0) {
+            Error(_W("Wrong value for #1 argument, \'reverse\' expected."));
         }
+        bReverse = true;
     }
     retval.push_back(ToCellStringAsColumn(GetModulesName(bReverse)));
     if (nLhs > 1) {
         retval.push_back(ToCellStringAsColumn(GetModulesPath(bReverse)));
     }
     if (nLhs > 2) {
+        std::vector<versionElement> versionList = GetModulesVersion(bReverse);
+        ArrayOf* pCells = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, versionList.size());
+        Dimensions dims(versionList.size(), 1);
+        ArrayOf data = ArrayOf(NLS_CELL_ARRAY, dims, pCells);
+        for (size_t i = 0; i < versionList.size(); i++) {
+            double* pData = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 3);
+            Dimensions dims(1, 3);
+            pCells[i] = ArrayOf(NLS_DOUBLE, dims, pData);
+            pData[0] = std::get<0>(versionList[i]);
+            pData[1] = std::get<1>(versionList[i]);
+            pData[2] = std::get<2>(versionList[i]);
+        }
+        retval.push_back(data);
+    }
+    if (nLhs > 3) {
         std::vector<bool> protectedList = GetModulesProtected(bReverse);
         logical* pData = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, protectedList.size());
         Dimensions dims(protectedList.size(), 1);
