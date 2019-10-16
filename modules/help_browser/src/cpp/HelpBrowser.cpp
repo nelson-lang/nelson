@@ -112,6 +112,7 @@ HelpBrowser::getAttributes()
 {
     wstringVector attributes;
 #if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
+    boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(500)));
     std::wstring database_path = getCacheFile();
     if (!database_path.empty()) {
         QSqlDatabase m_db;

@@ -26,6 +26,8 @@ Compilation:
 Bug Fixes:
 ---------
 
+  * [#252](http://github.com/Nelson-numerical-software/nelson/issues/252): help files of external modules were not loaded.
+
   * [#245](http://github.com/Nelson-numerical-software/nelson/issues/245): Update MKL 2019 dependencies.
 
   * [#202](http://github.com/Nelson-numerical-software/nelson/issues/202): Migrate to VS 2019.
