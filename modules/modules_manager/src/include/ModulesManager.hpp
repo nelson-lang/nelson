@@ -56,7 +56,7 @@ public:
     getModulesList(bool bReverse);
     std::vector<bool>
     getModulesProtectedList(bool bReverse);
-    std::vector <versionElement>
+    std::vector<versionElement>
     getModulesVersionList(bool bReverse);
     void
     insertModule(const std::wstring& modulename, const std::wstring& path, bool protectedModule);
