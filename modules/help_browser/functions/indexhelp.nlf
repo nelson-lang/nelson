@@ -41,23 +41,39 @@ function r = indexhelp(varargin)
   end
   pref_help = [prefdir(), '/help_index.nh5'];
   attributes = helpbrowser('-attributes');
+  needToIndex = false;
   if ~isfile(pref_help) || force || isempty(attributes)
-    r = reindexhelp(pref_help);
+    needToIndex = true;
   else
     load(pref_help);
-    if ~isvar('modules_help_available')
-      modules_help_available = {};
-    end
-    if ~isvar('version_help')
-      version_help = [0, 0, 0];
-    end
-    current_version = version('-number');
-    if (compareVersion(version_help, current_version) ~= 0) || ~isequal(attributes, modules_help_available) || isempty(modules_help_available)
-      r = reindexhelp(pref_help);
+    if ~isvar('modules_help_available') || ~isvar('version_help')
+      needToIndex = true;
     else
-      r = false;
+      current_version = version('-number');
+      if (compareVersion(version_help, current_version) ~= 0)
+        needToIndex = true;
+      else
+        modules_help_list = getModulesHelpList();
+        needToIndex = ~isequal(modules_help_available, ['Nelson'; modules_help_list]);
+      end
     end
   end
+
+  if needToIndex
+    r = reindexhelp(pref_help);
+  else
+    r = false;    
+  end
+endfunction
+//=============================================================================
+function modules_help_list = getModulesHelpList()
+    run([nelsonroot() '/modules/' 'modules.nls']);
+    modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
+endfunction
+//=============================================================================
+function external_modules = getExternalModules()
+  [m, p, pm] = getmodules();
+  external_modules = m(pm == false);
 endfunction
 //=============================================================================
 function r = compareVersion(previous, current)
@@ -102,38 +118,44 @@ function r = reindexhelp(pref_help)
       forceaddmodule('Nelson', homepage);
     end
     helpbrowser('-identifier', 'Nelson::homepage');
-    run([nelsonroot() '/modules/' 'modules.nls']);
+    modules_help_list = getModulesHelpList();
     len = length(modules_help_list);
     modules_help_available = {'Nelson'};
     for idx = [1:len]
       module_name = modules_help_list{idx};
-      module_path = [nelsonroot() , '/modules/', module_name];
-      if isdir(module_path)
-        help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
-        if ~isfile(help_file)
-          help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
-        end
-        if isfile(help_file)
-          modules_help_available{end+1, 1} = module_name;
-          forceaddmodule(module_name, help_file);
-        end
-        fprintf(stdout,'.');
+      help_file = getHelpFile(module_name);
+      modules_help_available{end+1, 1} = module_name;
+      if isfile(help_file)
+        forceaddmodule(module_name, help_file);
+        fprintf(stdout,'.');       
       end
     end
-    fprintf(stdout, char(13))
+    fprintf(stdout, char(13));
     version_help = version('-number');
     save(pref_help, 'modules_help_available', 'version_help');
     r = true;
 endfunction
 //=============================================================================
+function help_file = getHelpFile(module_name)
+  help_file = '';
+  module_path = [nelsonroot() , '/modules/', module_name];
+  if ismodule(module_name)
+    module_path = modulepath(module_name);
+    help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
+  end    
+  if ~isfile(help_file)
+    help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
+  end
+endfunction
+//=============================================================================
 function forceaddmodule(module_name, help_file)
   for i = 1:5
+    helpbrowser();
+    helpbrowser('-register', help_file);
     attributes = helpbrowser('-attributes');
     if any(strcmp(attributes, module_name))
       break;
     end
-    helpbrowser();
-    helpbrowser('-register', help_file);
-    sleep(0.5)
   end
 endfunction
+//=============================================================================
