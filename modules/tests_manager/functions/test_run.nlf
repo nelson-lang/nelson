@@ -586,9 +586,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       redirect_err = [tempdir(), '' , f, '.err'];
       r = rmfile(redirect_err);
       if is_bench
-        timeout = int2str(500);
+        timeout = int2str(360);
       else
-        timeout = int2str(50);
+        timeout = int2str(120);
       end
       cmd = '';
       
