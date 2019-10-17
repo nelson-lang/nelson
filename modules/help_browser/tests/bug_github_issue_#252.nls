@@ -28,6 +28,7 @@
 // <-- Short Description -->
 // help files of external modules were not loaded.
 //=============================================================================
+// <--INTERACTIVE TEST-->
 // <--GUI MODE--> 
 // <--C/C++ COMPILER REQUIRED-->
 if ~ismodule('module_skeleton')
