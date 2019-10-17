@@ -143,7 +143,7 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
 #ifdef _MSC_VER
     std::ifstream jsonFile(moduleJsonFilename);
 #else
-    std::ifstream jsonFile(wstring_to_utf8(langsconf));
+    std::ifstream jsonFile(wstring_to_utf8(moduleJsonFilename));
 #endif
     if (jsonFile.is_open()) {
         std::string tmpline;
