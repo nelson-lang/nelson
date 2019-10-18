@@ -28,6 +28,8 @@ Compilation:
 Bug Fixes:
 ---------
 
+  * [#254](http://github.com/Nelson-numerical-software/nelson/issues/254): fix Innosetup 6 warnings.
+
   * [#252](http://github.com/Nelson-numerical-software/nelson/issues/252): help files of external modules were not loaded.
 
   * [#245](http://github.com/Nelson-numerical-software/nelson/issues/245): Update MKL 2019 dependencies.
