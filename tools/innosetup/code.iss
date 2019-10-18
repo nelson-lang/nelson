@@ -94,7 +94,7 @@ end;
 //=============================================================================
 procedure updateModulesList();
 	begin;
-    if not IsComponentSelected('slicot') then
+    if not WizardIsComponentSelected('slicot') then
       begin;
         FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.nls', 
         'modules_list = [modules_list, "slicot"];', 
@@ -249,7 +249,7 @@ begin
      begin
       if PageID = SecondLicensePage.ID then
         begin
-          Result := not IsComponentSelected('SLICOT');
+          Result := not WizardIsComponentSelected('SLICOT');
         end;
      end;
 end;
