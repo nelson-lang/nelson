@@ -30,6 +30,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 ${Boost_INCLUDE_DIRS}
 ${CURL_INCLUDE_DIRS}
+${LIBGIT2_INCLUDE_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/c
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -66,7 +67,7 @@ nlsTypes
 nlsI18n
 nlsCharacters_encoding
 ${CURL_LIBRARIES}
-
+${LIBGIT2_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -84,6 +85,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
@@ -100,6 +102,7 @@ nlsError_manager
 nlsInterpreter
 nlsOverload
 nlsTypes
+nlsApi_nelson
 nlsI18n
 )
 #==============================================================================
