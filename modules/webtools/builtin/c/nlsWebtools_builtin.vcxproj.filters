@@ -38,12 +38,18 @@
     <ClCompile Include="..\cpp\webRESTBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\repoBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsWebtools_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\webRESTBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\repoBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
