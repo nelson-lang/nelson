@@ -627,8 +627,8 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         const git_signature* author = git_commit_author(c);
         authors.push_back(ArrayOf::characterArrayConstructor(
             std::string(author->name) + " <" + std::string(author->email) + ">"));
-        git_time_t time = git_commit_time(c);
-        std::string strtime = ctime(&time);
+        time_t time = git_commit_time(c);
+        std::string strtime = std::string(ctime(&time));
         if (boost::algorithm::ends_with(strtime, "\n")) {
             strtime.pop_back();
         }
