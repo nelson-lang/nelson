@@ -6,6 +6,8 @@
 
 * increase max execution time for tests (2 minutes) and benchs (6 minutes).
 
+* split benchs and tests execution for CI.
+
 Compilation:
 ------------
 

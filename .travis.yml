@@ -181,6 +181,9 @@ script:
   - make missing_help
   - make tests_minimal
   - make package
+  - if [ $TRAVIS_OS_NAME == linux ];
+    then make benchs_all;
+    fi
   - make tests_all
 
   

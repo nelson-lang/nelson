@@ -98,6 +98,7 @@ RUN make -j4
 RUN make buildhelp
 RUN make tests_minimal
 RUN make package
+RUN make benchs_all_no_display
 RUN make tests_all_no_display
     
 
