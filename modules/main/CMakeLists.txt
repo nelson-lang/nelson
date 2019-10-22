@@ -112,8 +112,18 @@ add_custom_target(tests_all
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
+add_custom_target(benchs_all
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.nls"
+    DEPENDS nelson-cli-exec
+)
+#==============================================================================
 add_custom_target(tests_all_no_display
     COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
+    DEPENDS nelson-cli-exec
+)
+#==============================================================================
+add_custom_target(benchs_all_no_display
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================

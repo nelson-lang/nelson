@@ -79,5 +79,7 @@ jobs:
       run: make tests_minimal
     - name: package
       run: make package
+    - name: all benchs
+      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run make benchs_all
     - name: all tests
       run: source /opt/qt512/bin/qt512-env.sh && xvfb-run make tests_all
