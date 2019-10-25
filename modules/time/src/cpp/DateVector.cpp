@@ -82,8 +82,8 @@ DateVector(
         }
         Y = y;
         int iy = static_cast<int>(y);
-        int leap = ((iy % 4 == 0) && (iy % 100 != 0) || (iy % 400 == 0));
-        double* cdm = (leap ? leap_year : common_year);
+        int leap = static_cast<int>((iy % 4 == 0) && (iy % 100 != 0) || (iy % 400 == 0));
+        double* cdm = (leap != 0 ? leap_year : common_year);
         int mon = static_cast<int>(dateSerial / 29. - 1);
         if (dateSerial > cdm[mon + 1]) {
             mon++;
