@@ -23,33 +23,33 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "nlsWebtools_exports.h"
-#include "ArrayOf.hpp"
+#include <git2.h>
+#include "characters_encoding.hpp"
+#include "RepositoryHelpers.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag,
-    std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryCheckout(
-    const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP
-ArrayOf RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
+std::wstring
+gitErrorCodeToMessage(int errorCode)
+{
+#define BUFFER_SIZE 4096
+    std::wstring errorMessage;
+    if (errorCode != 0) {
+        const git_error* e = giterr_last();
+        wchar_t buffer[BUFFER_SIZE];
+        if (e) {
+            std::wstring msg = utf8_to_wstring(e->message);
+            swprintf(buffer, BUFFER_SIZE, _W("repository error %d/%d: %ls").c_str(), errorCode,
+                e->klass,
+                msg.c_str());
+        } else {
+            swprintf(buffer, BUFFER_SIZE, _W("repository error %d").c_str(), errorCode);
+        }
+        errorMessage = std::wstring(buffer);
+    }
+    return errorMessage;
+}
 //=============================================================================
 };
 //=============================================================================

@@ -26,30 +26,11 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "nlsWebtools_exports.h"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag,
-    std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryCheckout(
-    const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP
-ArrayOf RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
+bool
+RepositoryIsSHA1(const std::wstring& localPath, const std::wstring& sha1Str);
 //=============================================================================
 };
 //=============================================================================

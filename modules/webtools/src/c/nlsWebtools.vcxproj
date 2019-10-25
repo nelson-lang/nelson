@@ -194,7 +194,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ProcessEventsDynamic.cpp" />
-    <ClCompile Include="..\cpp\Repository.cpp" />
+    <ClCompile Include="..\cpp\RepositoryBranchList.cpp" />
+    <ClCompile Include="..\cpp\RepositoryCheckout.cpp" />
+    <ClCompile Include="..\cpp\RepositoryClone.cpp" />
+    <ClCompile Include="..\cpp\RepositoryCreateBranch.cpp" />
+    <ClCompile Include="..\cpp\RepositoryFetch.cpp" />
+    <ClCompile Include="..\cpp\RepositoryHelpers.cpp" />
+    <ClCompile Include="..\cpp\RepositoryIsBranch.cpp" />
+    <ClCompile Include="..\cpp\RepositoryIsSHA1.cpp" />
+    <ClCompile Include="..\cpp\RepositoryIsTag.cpp" />
+    <ClCompile Include="..\cpp\RepositoryLog.cpp" />
+    <ClCompile Include="..\cpp\RepositoryMerge.cpp" />
+    <ClCompile Include="..\cpp\RepositoryPull.cpp" />
+    <ClCompile Include="..\cpp\RepositorySwitchBranch.cpp" />
+    <ClCompile Include="..\cpp\RepositoryTagList.cpp" />
     <ClCompile Include="..\cpp\ResponseCodeToMessage.cpp" />
     <ClCompile Include="..\cpp\WebOptions.cpp" />
     <ClCompile Include="..\cpp\WebREST.cpp" />
@@ -202,6 +215,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\ProcessEventsDynamic.hpp" />
+    <ClInclude Include="..\cpp\RepositoryBranchList.hpp" />
+    <ClInclude Include="..\cpp\RepositoryCheckout.hpp" />
+    <ClInclude Include="..\cpp\RepositoryClone.hpp" />
+    <ClInclude Include="..\cpp\RepositoryCreateBranch.hpp" />
+    <ClInclude Include="..\cpp\RepositoryFetch.hpp" />
+    <ClInclude Include="..\cpp\RepositoryHelpers.hpp" />
+    <ClInclude Include="..\cpp\RepositoryIsBranch.hpp" />
+    <ClInclude Include="..\cpp\RepositoryIsSHA1.hpp" />
+    <ClInclude Include="..\cpp\RepositoryIsTag.hpp" />
+    <ClInclude Include="..\cpp\RepositoryLog.hpp" />
+    <ClInclude Include="..\cpp\RepositoryMerge.hpp" />
+    <ClInclude Include="..\cpp\RepositoryPull.hpp" />
+    <ClInclude Include="..\cpp\RepositorySwitchBranch.hpp" />
+    <ClInclude Include="..\cpp\RepositoryTagList.hpp" />
     <ClInclude Include="..\cpp\ResponseCodeToMessage.hpp" />
     <ClInclude Include="..\include\nlsWebtools_exports.h" />
     <ClInclude Include="..\include\Repository.hpp" />

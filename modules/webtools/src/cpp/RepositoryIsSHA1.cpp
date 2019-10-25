@@ -23,33 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "nlsWebtools_exports.h"
-#include "ArrayOf.hpp"
+#include <git2.h>
+#include "RepositoryIsTag.hpp"
+#include "characters_encoding.hpp"
+#include "RepositoryHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag,
-    std::wstring& localPath, std::wstring& errorMessage);
+bool
+RepositoryIsSHA1(const std::wstring& localPath, const std::wstring& sha1Str)
+{
+    bool found = false;
+    git_object* treeish = NULL;
+
+    std::string localPathUtf8 = wstring_to_utf8(localPath);
+    git_repository* repo = NULL;
+    git_libgit2_init();
+
+    int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
+    if (errorCode != 0) {
+        git_libgit2_shutdown();
+        return found;
+    }
+    errorCode = git_revparse_single(&treeish, repo, wstring_to_utf8(sha1Str).c_str());
+    if (errorCode != 0) {
+        git_libgit2_shutdown();
+        return found;
+    }
+    git_object_free(treeish);
+    git_repository_free(repo);
+    git_libgit2_shutdown();
+    return true;
+}
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryCheckout(
-    const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP
-ArrayOf RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-};
+}
 //=============================================================================
