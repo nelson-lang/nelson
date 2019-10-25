@@ -46,7 +46,12 @@ Calendar::Calendar()
 //=============================================================================
 Calendar::Calendar(double dateserial)
 {
-    double y = 0., m = 0., d = 0., h = 0., mm = 0., s = 0.;
+    double y = 0.;
+    double m = 0.;
+    double d = 0.;
+    double h = 0.;
+    double mm = 0.;
+    double s = 0.;
     DateVector(dateserial, y, m, d, h, mm, s);
     this->m = static_cast<uint8>(m);
     this->y = static_cast<uint64>(y);
