@@ -41,8 +41,7 @@ gitErrorCodeToMessage(int errorCode)
         if (e) {
             std::wstring msg = utf8_to_wstring(e->message);
             swprintf(buffer, BUFFER_SIZE, _W("repository error %d/%d: %ls").c_str(), errorCode,
-                e->klass,
-                msg.c_str());
+                e->klass, msg.c_str());
         } else {
             swprintf(buffer, BUFFER_SIZE, _W("repository error %d").c_str(), errorCode);
         }

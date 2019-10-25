@@ -30,8 +30,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-RepositoryIsTag(
-    const std::wstring& localPath, const std::wstring& tagName);
+RepositoryIsTag(const std::wstring& localPath, const std::wstring& tagName);
 //=============================================================================
 };
 //=============================================================================
