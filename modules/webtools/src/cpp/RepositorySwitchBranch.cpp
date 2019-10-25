@@ -40,7 +40,6 @@ RepositorySwitchBranch(
     git_object* tree = NULL;
     git_checkout_options opts;
 
-
     git_libgit2_init();
 
     int errorCode = git_repository_open_ext(&repo, localPathUtf8.c_str(), 0, NULL);
@@ -74,7 +73,7 @@ RepositorySwitchBranch(
         return;
     }
 
-    std::string ref = "refs/heads/" + branchUtf8; 
+    std::string ref = "refs/heads/" + branchUtf8;
     errorCode = git_repository_set_head(repo, ref.c_str());
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);

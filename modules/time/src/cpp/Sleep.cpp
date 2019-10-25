@@ -62,8 +62,8 @@ Sleep(Evaluator* eval, double tValue)
                 if (eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
-            } while (
-                !NelsonConfiguration::getInstance()->getInterruptPending() && (static_cast<int>(bContinue) == true));
+            } while (!NelsonConfiguration::getInstance()->getInterruptPending()
+                && (static_cast<int>(bContinue) == true));
         }
     }
     return true;

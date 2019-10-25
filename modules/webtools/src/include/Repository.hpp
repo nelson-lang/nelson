@@ -32,12 +32,18 @@
 namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
-RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag,
-    std::wstring& localPath, std::wstring& errorMessage);
+RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag, std::wstring& localPath,
+    std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryCheckout(
     const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
+//=============================================================================
+NLSWEBTOOLS_IMPEXP void
+RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage);
+//=============================================================================
+NLSWEBTOOLS_IMPEXP void
+RepositoryMerge(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
@@ -49,7 +55,8 @@ NLSWEBTOOLS_IMPEXP wstringVector
 RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP
-ArrayOf RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
+ArrayOf
+RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 };
 //=============================================================================

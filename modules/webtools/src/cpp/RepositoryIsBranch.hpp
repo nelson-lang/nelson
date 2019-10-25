@@ -30,16 +30,13 @@
 namespace Nelson {
 //=============================================================================
 bool
-RepositoryIsBranch(
-    const std::wstring& localPath, const std::wstring& branch);
+RepositoryIsBranch(const std::wstring& localPath, const std::wstring& branch);
 //=============================================================================
 bool
-RepositoryIsLocalBranch(
-    const std::wstring& localPath, const std::wstring& branch);
+RepositoryIsLocalBranch(const std::wstring& localPath, const std::wstring& branch);
 //=============================================================================
 bool
-RepositoryIsRemoteBranch(
-    const std::wstring& localPath, const std::wstring& branch);
+RepositoryIsRemoteBranch(const std::wstring& localPath, const std::wstring& branch);
 //=============================================================================
 };
 //=============================================================================
