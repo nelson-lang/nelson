@@ -23,33 +23,35 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "nlsWebtools_exports.h"
-#include "ArrayOf.hpp"
+#include <git2.h>
+#include "RepositorySwitchBranch.hpp"
+#include "characters_encoding.hpp"
+#include "RepositoryClone.hpp"
+#include "RepositoryHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag,
-    std::wstring& localPath, std::wstring& errorMessage);
+void
+RepositoryClone(const std::wstring& url, const std::wstring& branch, std::wstring& localPath,
+    std::wstring& errorMessage)
+{
+    std::string localPathUtf8 = wstring_to_utf8(localPath);
+    std::string urlutf8 = wstring_to_utf8(url);
+    std::string branchUtf8 = wstring_to_utf8(branch);
+    git_libgit2_init();
+    git_repository* repo = NULL;
+    git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
+    git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+    if (!branchUtf8.empty()) {
+        clone_opts.checkout_branch = branchUtf8.c_str();
+    }
+    checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE;
+    clone_opts.checkout_opts = checkout_opts;
+    int errorCode = git_clone(&repo, urlutf8.c_str(), localPathUtf8.c_str(), &clone_opts);
+    errorMessage = gitErrorCodeToMessage(errorCode);
+    git_repository_free(repo);
+    git_libgit2_shutdown();
+}
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryCheckout(
-    const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP
-ArrayOf RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-};
+}
 //=============================================================================
