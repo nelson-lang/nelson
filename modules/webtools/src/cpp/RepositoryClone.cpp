@@ -45,7 +45,7 @@ RepositoryClone(const std::wstring& url, const std::wstring& branch, std::wstrin
     if (!branchUtf8.empty()) {
         clone_opts.checkout_branch = branchUtf8.c_str();
     }
-    checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE;
+    checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE | GIT_CHECKOUT_REMOVE_UNTRACKED;
     clone_opts.checkout_opts = checkout_opts;
     int errorCode = git_clone(&repo, urlutf8.c_str(), localPathUtf8.c_str(), &clone_opts);
     errorMessage = gitErrorCodeToMessage(errorCode);
