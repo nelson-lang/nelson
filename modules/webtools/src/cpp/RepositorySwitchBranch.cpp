@@ -39,32 +39,29 @@ RepositorySwitchBranch(
     git_repository* repo;
     git_object* tree = NULL;
     git_checkout_options opts;
-
     git_libgit2_init();
-
     int errorCode = git_repository_open_ext(&repo, localPathUtf8.c_str(), 0, NULL);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_libgit2_shutdown();
         return;
     }
-
     errorCode = git_checkout_init_options(&opts, GIT_CHECKOUT_OPTIONS_VERSION);
+    opts.checkout_strategy = GIT_CHECKOUT_FORCE | GIT_CHECKOUT_REMOVE_UNTRACKED;
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
-
-    errorCode = git_revparse_single(&tree, repo, branchUtf8.c_str());
+    std::string src = "origin/" + branchUtf8;
+    errorCode = git_revparse_single(&tree, repo, src.c_str());
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
-
     errorCode = git_checkout_tree(repo, tree, &opts);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
@@ -72,7 +69,6 @@ RepositorySwitchBranch(
         git_libgit2_shutdown();
         return;
     }
-
     std::string ref = "refs/heads/" + branchUtf8;
     errorCode = git_repository_set_head(repo, ref.c_str());
     if (errorCode != 0) {
@@ -82,6 +78,5 @@ RepositorySwitchBranch(
     git_libgit2_shutdown();
 }
 //=============================================================================
-
 }
 //=============================================================================

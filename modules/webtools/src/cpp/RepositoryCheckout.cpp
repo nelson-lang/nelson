@@ -31,83 +31,141 @@
 #include "RepositoryIsTag.hpp"
 #include "RepositoryIsSHA1.hpp"
 #include "RepositorySwitchBranch.hpp"
-#include "RepositoryCreateBranch.hpp"
 #include "characters_encoding.hpp"
+#include "RepositoryCreateBranch.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static void
+RepositoryCreateAndCheckoutBranch(
+    const std::wstring& localPath, const std::wstring& branchName, std::wstring& errorMessage)
+{
+    git_libgit2_init();
+    git_repository* repo = NULL;
+    std::string localPathUtf8 = wstring_to_utf8(localPath);
+    std::string branchNameUtf8 = wstring_to_utf8(branchName);
+    int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+    checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE | GIT_CHECKOUT_REMOVE_UNTRACKED;
+    errorCode = git_checkout_head(repo, &checkout_opts);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    errorCode = git_checkout_index(repo, NULL, &checkout_opts);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_object* treeish = NULL;
+    errorCode = git_revparse_single(&treeish, repo, branchNameUtf8.c_str());
+    if (errorCode != 0) {
+        std::string branchTempName = std::string("origin/") + branchNameUtf8;
+        errorCode = git_revparse_single(&treeish, repo, branchTempName.c_str());
+    }
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    errorCode = git_checkout_tree(repo, treeish, &checkout_opts);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    const git_oid* commit_oid = git_object_id(treeish);
+    git_commit* commit;
+    errorCode = git_commit_lookup(&commit, repo, commit_oid);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_object_free(treeish);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_reference* branch;
+    errorCode = git_branch_create(&branch, repo, branchNameUtf8.c_str(), commit, 0);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_object_free(treeish);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_object_free(treeish);
+    git_repository_free(repo);
+    git_libgit2_shutdown();
+    RepositorySwitchBranch(localPath, branchName, errorMessage);
+}
 //=============================================================================
 static void
 RepositoryCheckout(const std::wstring& localPath, const std::wstring& branchName, bool detach,
     std::wstring& errorMessage)
 {
-    if (detach) {
-        git_libgit2_init();
-        git_repository* repo = NULL;
-        std::string localPathUtf8 = wstring_to_utf8(localPath);
-        std::string branchNameUtf8 = wstring_to_utf8(branchName);
+    git_libgit2_init();
+    git_repository* repo = NULL;
+    std::string localPathUtf8 = wstring_to_utf8(localPath);
+    std::string branchNameUtf8 = wstring_to_utf8(branchName);
 
-        int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
-        if (errorCode != 0) {
-            errorMessage = gitErrorCodeToMessage(errorCode);
-            git_libgit2_shutdown();
-            return;
-        }
-
-        git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-        checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE;
-        errorCode = git_checkout_head(repo, &checkout_opts);
-        if (errorCode != 0) {
-            errorMessage = gitErrorCodeToMessage(errorCode);
-            git_repository_free(repo);
-            git_libgit2_shutdown();
-            return;
-        }
-        errorCode = git_checkout_index(repo, NULL, &checkout_opts);
-        if (errorCode != 0) {
-            errorMessage = gitErrorCodeToMessage(errorCode);
-            git_repository_free(repo);
-            git_libgit2_shutdown();
-            return;
-        }
-        git_object* treeish = NULL;
-        errorCode = git_revparse_single(&treeish, repo, branchNameUtf8.c_str());
-        if (errorCode != 0) {
-            std::string branchTempName = std::string("origin/") + branchNameUtf8;
-            errorCode = git_revparse_single(&treeish, repo, branchTempName.c_str());
-        }
-        if (errorCode != 0) {
-            errorMessage = gitErrorCodeToMessage(errorCode);
-            git_repository_free(repo);
-            git_libgit2_shutdown();
-            return;
-        }
-        errorCode = git_checkout_tree(repo, treeish, &checkout_opts);
-        if (errorCode != 0) {
-            errorMessage = gitErrorCodeToMessage(errorCode);
-            git_repository_free(repo);
-            git_libgit2_shutdown();
-            return;
-        }
-        if (detach) {
-            errorCode = git_repository_set_head_detached(repo, git_object_id(treeish));
-        }
+    int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
+    if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
-        git_object_free(treeish);
+        git_libgit2_shutdown();
+        return;
+    }
+
+    git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+    checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE | GIT_CHECKOUT_REMOVE_UNTRACKED;
+    errorCode = git_checkout_head(repo, &checkout_opts);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
         git_repository_free(repo);
         git_libgit2_shutdown();
-    } else {
-        if (RepositoryIsRemoteBranch(localPath, branchName)) {
-            if (!RepositoryIsLocalBranch(localPath, branchName)) {
-                RepositoryCreateBranch(localPath, branchName, errorMessage);
-                if (!errorMessage.empty()) {
-                    return;
-                }
-            }
-            RepositorySwitchBranch(localPath, branchName, errorMessage);
-        } else {
-            errorMessage = _W("remote branch does not exist.");
-        }
+        return;
     }
+    errorCode = git_checkout_index(repo, NULL, &checkout_opts);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_object* treeish = NULL;
+    errorCode = git_revparse_single(&treeish, repo, branchNameUtf8.c_str());
+    if (errorCode != 0) {
+        std::string branchTempName = std::string("origin/") + branchNameUtf8;
+        errorCode = git_revparse_single(&treeish, repo, branchTempName.c_str());
+    }
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    errorCode = git_checkout_tree(repo, treeish, &checkout_opts);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    errorCode = git_repository_set_head_detached(repo, git_object_id(treeish));
+    errorMessage = gitErrorCodeToMessage(errorCode);
+    git_object_free(treeish);
+    git_repository_free(repo);
+    git_libgit2_shutdown();
 }
 //=============================================================================
 void
@@ -116,15 +174,22 @@ RepositoryCheckout(
 {
     bool isBranch = RepositoryIsBranch(localPath, branchOrTag);
     if (isBranch) {
-        RepositoryCheckout(localPath, branchOrTag, false, errorMessage);
+        if (RepositoryIsLocalBranch(localPath, branchOrTag)) {
+            RepositorySwitchBranch(localPath, branchOrTag, errorMessage);
+        } else if (RepositoryIsRemoteBranch(localPath, branchOrTag)) {
+            RepositoryCreateAndCheckoutBranch(localPath, branchOrTag, errorMessage);
+        } else {
+            errorMessage = _W("remote branch does not exist.");
+            return;
+        }
     } else {
         bool isTag = RepositoryIsTag(localPath, branchOrTag);
         if (isTag) {
-            RepositoryCheckout(localPath, branchOrTag, true, errorMessage);
+            RepositoryCheckout(localPath, branchOrTag, errorMessage);
         } else {
             bool isSHA1 = RepositoryIsSHA1(localPath, branchOrTag);
             if (isSHA1) {
-                RepositoryCheckout(localPath, branchOrTag, true, errorMessage);
+                RepositoryCheckout(localPath, branchOrTag, errorMessage);
             } else {
                 errorMessage = _W("Valid tag or branch name expected.");
             }
