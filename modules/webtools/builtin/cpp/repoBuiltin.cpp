@@ -33,7 +33,6 @@ using namespace Nelson;
 // repo - basic git command
 // repo('clone', http_path, destination_path)
 // repo('checkout', local_path, branch_tag_name)
-// repo('pull', local_path)
 // branches = repo('branch', local_path)
 // tags = repo('tag', local_path)
 //=============================================================================
