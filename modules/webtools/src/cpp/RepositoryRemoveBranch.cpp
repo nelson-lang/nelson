@@ -23,15 +23,50 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "nlsWebtools_exports.h"
+#include <git2.h>
+#include "i18n.hpp"
+#include "RepositoryRemoveBranch.hpp"
+#include "RepositoryHelpers.hpp"
+#include "RepositoryIsBranch.hpp"
+#include "RepositoryIsTag.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
+void
+RepositoryRemoveBranch(
+    const std::wstring& localPath, const std::wstring& branchName, std::wstring& errorMessage)
+{
+    if (RepositoryIsLocalBranch(localPath, branchName)) {
+        git_libgit2_init();
+        git_repository* repo = NULL;
+        std::string localPathUtf8 = wstring_to_utf8(localPath);
+        int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
+        if (errorCode != 0) {
+            errorMessage = gitErrorCodeToMessage(errorCode);
+            git_libgit2_shutdown();
+            return;
+        }
+        std::string branchNameUtf8 = wstring_to_utf8(branchName);
+        git_reference* ref;
+        errorCode = git_branch_lookup(&ref, repo, branchNameUtf8.c_str(), GIT_BRANCH_LOCAL);
+        if (errorCode != 0) {
+            errorMessage = gitErrorCodeToMessage(errorCode);
+            git_libgit2_shutdown();
+            return;
+        }
+
+        errorCode = git_branch_delete(ref);
+        if (errorCode != 0) {
+            errorMessage = gitErrorCodeToMessage(errorCode);
+        }
+        git_reference_free(ref);
+        git_libgit2_shutdown();
+
+    } else {
+        errorMessage = _W("local branch name does not exist.");
+    }
+}
 //=============================================================================
-};
+}
 //=============================================================================

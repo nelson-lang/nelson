@@ -26,17 +26,14 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "Types.hpp"
 #include "nlsWebtools_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
+NLSWEBTOOLS_IMPEXP
+  void
+RepositoryFetch(
+    const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
-NLSWEBTOOLS_IMPEXP std::wstring
-RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-
 };
 //=============================================================================

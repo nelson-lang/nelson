@@ -76,15 +76,6 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         std::wstring localPath = argIn[1].getContentAsWideString();
         std::wstring branchOrTag = argIn[2].getContentAsWideString();
         RepositoryCheckout(localPath, branchOrTag, errorMessage);
-    } else if (command == L"pull") {
-        if (nLhs > 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 2) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        RepositoryPull(localPath, errorMessage);
     } else if (command == L"branch") {
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -105,10 +96,29 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         std::wstring localPath = argIn[1].getContentAsWideString();
-        wstringVector tags = RepositoryTagList(localPath, errorMessage);
+        wstringVector branches = RepositoryTagList(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval.push_back(ToCellStringAsColumn(tags));
+            retval.push_back(ToCellStringAsColumn(branches));
         }
+    } else if (command == L"remove_branch") {
+        if (nLhs > 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        if (argIn.size() != 3) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        std::wstring localPath = argIn[1].getContentAsWideString();
+        std::wstring branchName = argIn[2].getContentAsWideString();
+        RepositoryRemoveBranch(localPath, branchName, errorMessage);
+    } else if (command == L"fetch") {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        if (argIn.size() != 2) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        std::wstring localPath = argIn[1].getContentAsWideString();
+        RepositoryFetch(localPath, errorMessage);
     } else if (command == L"log") {
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -120,6 +130,18 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         ArrayOf logs = RepositoryLog(localPath, errorMessage);
         if (errorMessage.empty()) {
             retval.push_back(logs);
+        }
+    } else if (command == L"current_branch") {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        if (argIn.size() != 2) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        std::wstring localPath = argIn[1].getContentAsWideString();
+        std::wstring currentBranchName = RepositoryGetCurrentBranchName(localPath, errorMessage);
+        if (errorMessage.empty()) {
+            retval.push_back(ArrayOf::characterArrayConstructor(currentBranchName));
         }
     } else {
         Error(_W("Wrong value for #1 argument."));

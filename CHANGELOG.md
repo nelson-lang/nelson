@@ -8,6 +8,8 @@
 
 * split benchs and tests execution for CI.
 
+* repo builtin: clone, checkout branch or tag, ... from an GIT repository.
+
 Compilation:
 ------------
 

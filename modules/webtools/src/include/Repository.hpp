@@ -39,14 +39,16 @@ NLSWEBTOOLS_IMPEXP void
 RepositoryCheckout(
     const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
 //=============================================================================
+NLSWEBTOOLS_IMPEXP
+void
+RepositoryRemoveBranch(
+    const std::wstring& localPath, const std::wstring& branchName, std::wstring& errorMessage);
+//=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryMerge(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP void
-RepositoryPull(const std::wstring& localPath, std::wstring& errorMessage);
+NLSWEBTOOLS_IMPEXP std::wstring
+RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP wstringVector
 RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
