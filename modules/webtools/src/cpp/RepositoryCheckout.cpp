@@ -111,8 +111,8 @@ RepositoryCreateAndCheckoutBranch(
 }
 //=============================================================================
 static void
-RepositoryCheckoutDetached(const std::wstring& localPath, const std::wstring& sha1OrTag,
-    std::wstring& errorMessage)
+RepositoryCheckoutDetached(
+    const std::wstring& localPath, const std::wstring& sha1OrTag, std::wstring& errorMessage)
 {
     git_libgit2_init();
     git_repository* repo = NULL;
