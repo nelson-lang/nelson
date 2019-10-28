@@ -23,20 +23,49 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsWebtools_exports.h"
+#include <git2.h>
+#include "characters_encoding.hpp"
+#include "RepositoryFetch.hpp"
+#include "RepositoryHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSWEBTOOLS_IMPEXP wstringVector
-RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
-NLSWEBTOOLS_IMPEXP std::wstring
-RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& errorMessage);
-//=============================================================================
+void
+RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage)
+{
+    git_libgit2_init();
+    git_repository* repo = NULL;
+    std::string localPathUtf8 = wstring_to_utf8(localPath);
 
+    int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_remote* origin = NULL;
+    errorCode = git_remote_lookup(&origin, repo, "origin");
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
+    errorCode = git_remote_fetch(origin, nullptr, &opts, nullptr);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    errorCode = git_repository_state_cleanup(repo);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+    }
+    git_repository_free(repo);
+    git_libgit2_shutdown();
+}
+//=============================================================================
 };
 //=============================================================================

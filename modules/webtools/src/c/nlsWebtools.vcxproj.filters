@@ -74,7 +74,10 @@
     <ClCompile Include="..\cpp\RepositoryCheckout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\RepositoryPull.cpp">
+    <ClCompile Include="..\cpp\RepositoryRemoveBranch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\RepositoryFetch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,7 +133,10 @@
     <ClInclude Include="..\cpp\RepositoryCheckout.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\RepositoryPull.hpp">
+    <ClInclude Include="..\cpp\RepositoryRemoveBranch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\RepositoryFetch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
