@@ -1,4 +1,4 @@
-# 0.3.10 (2019-10-XX)
+# 0.3.10 (2019-10-29)
 
 * extends 'getmodules' to return module versions using new required 'module.json' (see module's template).
 
