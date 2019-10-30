@@ -543,6 +543,12 @@ msgstr ""
 msgid "Wrong value for argument #2. 'r' or 'c' expected"
 msgstr ""
 
+msgid "Wrong type for argument #2. numeric values expected"
+msgstr ""
+
+msgid "Wrong size for argument #2. row vector or scalar expected"
+msgstr ""
+
 msgid "Undefined function 'size' for input arguments of type"
 msgstr ""
 
@@ -2135,6 +2141,9 @@ msgstr ""
 msgid "Filename does not exist."
 msgstr ""
 
+msgid "Wrong value for #1 argument, 'reverse' expected."
+msgstr ""
+
 msgid "invalid module name."
 msgstr ""
 
@@ -2163,6 +2172,12 @@ msgid "Path does not exist:"
 msgstr ""
 
 msgid "Wrong option."
+msgstr ""
+
+msgid "Please check: "
+msgstr ""
+
+msgid "Cannot remove module (protected): "
 msgstr ""
 
 msgid ": This module is registered but it has no path."
@@ -2768,6 +2783,18 @@ msgstr ""
 msgid "Rewind failed."
 msgstr ""
 
+msgid "Wrong value >= 0 expected."
+msgstr ""
+
+msgid "Wrong size. scalar or [a, b] expected."
+msgstr ""
+
+msgid "Wrong type. double expected."
+msgstr ""
+
+msgid "Not implemented for 'stdout', 'stderr' or 'stdin'."
+msgstr ""
+
 msgid "Invalid origin."
 msgstr ""
 
@@ -2823,6 +2850,12 @@ msgstr ""
 msgid "Unable to open file "
 msgstr ""
 
+msgid "Invalid format."
+msgstr ""
+
+msgid "Unsupported fscanf format."
+msgstr ""
+
 msgid "Format string had no usable format specs."
 msgstr ""
 
@@ -2862,6 +2895,9 @@ msgstr ""
 msgid "Second input argument must be a real positive integers."
 msgstr ""
 
+msgid "Wrong value for #3: 'IgnoreCase' expected."
+msgstr ""
+
 msgid "Invalid input argument(s): cell or string expected."
 msgstr ""
 
@@ -2886,6 +2922,16 @@ msgid "A 2D matrix expected."
 msgstr ""
 
 msgid "Same size or scalar expected."
+msgstr ""
+
+msgid ""
+"Wrong type for argument #1: string array or character vector or cell array "
+"of character vectors expected."
+msgstr ""
+
+msgid ""
+"Wrong type for argument #2: string array or character vector or cell array "
+"of character vectors expected."
 msgstr ""
 
 msgid "wrong file extension .nls expected."
@@ -3569,6 +3615,26 @@ msgstr ""
 msgid "Wrong type for argument #5. weboptions object expected."
 msgstr ""
 
+msgid "HEAD detached at "
+msgstr ""
+
+msgid "remote branch does not exist."
+msgstr ""
+
+msgid "Valid tag or branch name expected."
+msgstr ""
+
+#, c-format
+msgid "repository error %d/%d: %ls"
+msgstr ""
+
+#, c-format
+msgid "repository error %d"
+msgstr ""
+
+msgid "local branch name does not exist."
+msgstr ""
+
 msgid "Bad Request (400)"
 msgstr ""
 
@@ -4226,6 +4292,9 @@ msgstr ""
 msgid "Undefined function char for input arguments of type"
 msgstr ""
 
+msgid "Wrong value for #3: IgnoreCase expected."
+msgstr ""
+
 msgid "Undefined function acos for input arguments of type "
 msgstr ""
 
@@ -4267,6 +4336,10 @@ msgid "%s is not a recognized parameter."
 msgstr ""
 
 msgid "Please install and configure a C/C++ compiler"
+msgstr ""
+
+#, python-format
+msgid "Module %s already loaded."
 msgstr ""
 
 msgid "help build failed."
