@@ -47,6 +47,7 @@ jobs:
       - checkout      
       - run: cmake -G "Unix Makefiles" .
       - run: make -j4
+      - run: make get_module_skeleton
       - run: make buildhelp
       - run: make tests_minimal
       - run: make package

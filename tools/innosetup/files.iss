@@ -31,5 +31,4 @@
 #include RootPath + "bin/qt.iss"
 #include RootPath + "modules/modules.iss"
 #include RootPath + "tools/tools.iss"
-#include RootPath + "module_skeleton/module.iss"
 ;==============================================================================

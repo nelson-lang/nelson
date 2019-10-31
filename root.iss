@@ -34,3 +34,22 @@ Source: {#RootPath}CHANGELOG-0.2.x.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG-0.1.x.md; DestDir: {app}\
 Source: {#RootPath}CLA.md; DestDir: {app}\
 ;==============================================================================
+#define MODULE_NAME "module_skeleton"
+;==============================================================================
+Source: {#RootPath}\{#MODULE_NAME}\loader.nls; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\builder.nls; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\module.json; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
+;==============================================================================
+Source: {#RootPath}\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
+;==============================================================================
+Source: {#RootPath}\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\{#MODULE_NAME}\functions\; Flags: skipifsourcedoesntexist
+;==============================================================================
+Source: {#RootPath}\{#MODULE_NAME}\help\en_US\images\*.png; DestDir: {app}\{#MODULE_NAME}\help\en_US\images\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\help\en_US\xml\; Flags: skipifsourcedoesntexist
+;==============================================================================
+Source: {#RootPath}\{#MODULE_NAME}\src\*.*; DestDir: {app}\{#MODULE_NAME}\src\; Flags: recursesubdirs skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\builtin\*.*; DestDir: {app}\{#MODULE_NAME}\builtin\; Flags: recursesubdirs skipifsourcedoesntexist
+;==============================================================================
+Source: {#RootPath}\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\{#MODULE_NAME}\tests\; Flags: recursesubdirs skipifsourcedoesntexist
+;==============================================================================

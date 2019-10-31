@@ -23,7 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function C = nelson_sum(A, B)
-	C = A + B;
-endfunction
+DESTINATION = [nelsonroot(), '/module_skeleton'];
+if isdir(DESTINATION)
+  rmdir(DESTINATION, 's');
+end
+mkdir(DESTINATION);
+URL = 'https://github.com/Nelson-numerical-software/module_skeleton.git';
+repo('clone', URL, DESTINATION);
+if isdir([DESTINATION, '/.git'])
+  rmdir([DESTINATION, '/.git'], 's');
+end
+exit();
 //=============================================================================
