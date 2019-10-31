@@ -73,6 +73,8 @@ jobs:
       run: source /opt/qt512/bin/qt512-env.sh && cmake -G "Unix Makefiles" . 
     - name: make
       run: make -j4
+    - name: get module skeleton
+      run: make get_module_skeleton
     - name: build help
       run: make buildhelp
     - name: minimal tests

@@ -177,6 +177,7 @@ script:
     ${TRAVIS_BUILD_DIR}/bin/macosx64/nelson-cli --quiet -f build_slicot.nls;
     fi
   - cd ${TRAVIS_BUILD_DIR} 
+  - make get_module_skeleton
   - make buildhelp
   - make missing_help
   - make tests_minimal
