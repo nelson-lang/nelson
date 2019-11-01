@@ -7,6 +7,8 @@
 * Module skeleton moved to an dedicated git repository
   https://github.com/Nelson-numerical-software/module_skeleton
 
+* repo('export', ...) exports an git repository without .git directory.
+
 
 # 0.3.10 (2019-10-29)
 

@@ -9,6 +9,8 @@
   <syntax>
     <syntax_item>repo('clone', url, branch, destination)</syntax_item>
     <syntax_item>repo('clone', url, destination)</syntax_item> 
+    <syntax_item>repo('export', url, branch, destination)</syntax_item>
+    <syntax_item>repo('export', url, destination)</syntax_item> 
     <syntax_item>repo('checkout', destination, branch_tag_sha1)</syntax_item>
     <syntax_item>ce = repo('branch', destination)</syntax_item>
     <syntax_item>ce = repo('tag', destination)</syntax_item>    
@@ -64,6 +66,7 @@
   <description>
     <p><b>repo()</b> allows to clone, checkout, fetch a git repository.</p>
     <p>checkout command will be forced and remove untracked filed.</p>
+    <p>report('export', ...) clone and remove .git directory.</p>
   </description>
   <used_function>libgit2 (https://libgit2.org/)</used_function>
   <bibliography></bibliography>

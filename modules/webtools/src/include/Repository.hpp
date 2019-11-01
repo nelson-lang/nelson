@@ -36,6 +36,10 @@ RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag, std::w
     std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
+RepositoryExport(const std::wstring& url, const std::wstring& branchOrTag, std::wstring& localPath,
+    std::wstring& errorMessage);
+//=============================================================================
+NLSWEBTOOLS_IMPEXP void
 RepositoryCheckout(
     const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
 //=============================================================================

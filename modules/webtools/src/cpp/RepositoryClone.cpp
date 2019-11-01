@@ -24,6 +24,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include "RemoveDirectory.hpp"
 #include "RepositorySwitchBranch.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryClone.hpp"
@@ -51,6 +54,23 @@ RepositoryClone(const std::wstring& url, const std::wstring& branch, std::wstrin
     errorMessage = gitErrorCodeToMessage(errorCode);
     git_repository_free(repo);
     git_libgit2_shutdown();
+}
+//=============================================================================
+void
+RepositoryExport(const std::wstring& url, const std::wstring& branchOrTag, std::wstring& localPath,
+    std::wstring& errorMessage)
+{
+    RepositoryClone(url, branchOrTag, localPath, errorMessage);
+    if (errorMessage.empty()) {
+        boost::filesystem::path p;
+        if (!boost::algorithm::ends_with(localPath, L"\\")
+            && (!boost::algorithm::ends_with(localPath, L"/"))) {
+            p = localPath + std::wstring(L"/.git");
+        } else {
+            p = localPath + std::wstring(L".git");
+        }
+        RemoveDirectory(p.generic_wstring(), true, errorMessage);
+    }
 }
 //=============================================================================
 }

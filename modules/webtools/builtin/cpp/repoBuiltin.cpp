@@ -65,6 +65,25 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             localPath = argIn[2].getContentAsWideString();
         }
         RepositoryClone(url, branchOrTag, localPath, errorMessage);
+    } else if (command == L"export") {
+        if (nLhs > 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        if (argIn.size() < 3 || argIn.size() > 4) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        std::wstring url;
+        std::wstring localPath;
+        std::wstring branchOrTag;
+
+        url = argIn[1].getContentAsWideString();
+        if (argIn.size() == 4) {
+            branchOrTag = argIn[2].getContentAsWideString();
+            localPath = argIn[3].getContentAsWideString();
+        } else {
+            localPath = argIn[2].getContentAsWideString();
+        }
+        RepositoryExport(url, branchOrTag, localPath, errorMessage);
     } else if (command == L"checkout") {
         if (nLhs > 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
