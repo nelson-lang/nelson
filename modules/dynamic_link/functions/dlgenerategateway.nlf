@@ -115,7 +115,7 @@ function txt = template(module_name, builtin_table)
     txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);']];
   end
   txt = [txt; '//============================================================================='];
-  txt = [txt; 'const std::wstring gatewayName = L"module_skeleton";'];
+  txt = [txt; 'const std::wstring gatewayName = L"', module_name, '";'];
   txt = [txt; '//============================================================================='];
   txt = [txt; 'static const nlsGateway gateway[] ='];
   txt = [txt; '{'];
