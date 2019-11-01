@@ -4332,6 +4332,7 @@ Evaluator::extractClass(const ArrayOf& r, const std::string& fieldname, const Ar
         }
         return funcDef->evaluateFunction(this, argIn, nLhs);
     }
+    return ArrayOfVector();
 }
 //=============================================================================
 void

@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -23,17 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <-- Issue URL -->
-// https://github.com/Nelson-numerical-software/nelson/issues/34
-// <-- Short Description -->
-// Windows installer did not copy module_skeleton help files at the good place.
+#include "toolboxdirBuiltin.hpp"
+#include "Error.hpp"
+#include "ModulePath.hpp"
+#include "ModulesHelpers.hpp"
+#include "ModulesManager.hpp"
 //=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
-if ~isdir(sourcedir)
-  return
-end
+using namespace Nelson;
 //=============================================================================
-assert_istrue(isdir([nelsonroot(), '/module_skeleton/help/en_US/xml']));
-assert_istrue(isfile([nelsonroot(), '/module_skeleton/help/en_US/xml/nelson_sum.xml']));
-assert_istrue(isfile([nelsonroot(), '/module_skeleton/help/en_US/xml/chapter.xml']));
+ArrayOfVector
+Nelson::ModulesManagerGateway::toolboxdirBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    std::wstring moduleshortname;
+    if (argIn[0].isRowVectorCharacterArray()) {
+        moduleshortname = argIn[0].getContentAsWideString();
+    } else {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    }
+    if (IsExistingModuleName(moduleshortname)) {
+        retval.push_back(ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname)));
+    } else {
+        Error(_W("invalid module name."));
+    }
+    return retval;
+}
 //=============================================================================

@@ -645,7 +645,12 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
           test_timing = 0;
           if isfile(outputfile)
             s = jsondecode(fileread(outputfile));
-            test_case_res.msg = s.msg;
+            if isempty(s)
+              test_case_res.status = 'Skip';
+              test_case_res.time = 0.;
+            else
+              test_case_res.msg = s.msg;
+            end
           end
         else
           if isfile(outputfile)
