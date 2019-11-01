@@ -28,4 +28,9 @@
 // <-- Short Description -->
 // module_skeleton does not build/load
 //=============================================================================
+sourcedir = [nelsonroot(),'/module_skeleton'];
+if ~isdir(sourcedir)
+  return
+end
+//=============================================================================
 run([nelsonroot(), '/module_skeleton/loader.nls'])

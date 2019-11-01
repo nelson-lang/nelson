@@ -26,6 +26,11 @@
 assert_isequal(nargin('zip'), -3);
 assert_isequal(nargout('zip'), -1);
 //=============================================================================
+sourcedir = [nelsonroot(),'/module_skeleton'];
+if ~isdir(sourcedir)
+  return
+end
+//=============================================================================
 TMPDIR = tempdir();
 if ismac()
   TMPDIR = ['/private', TMPDIR];
