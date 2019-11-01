@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -23,17 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <-- Issue URL -->
-// https://github.com/Nelson-numerical-software/nelson/issues/34
-// <-- Short Description -->
-// Windows installer did not copy module_skeleton help files at the good place.
+#pragma once
 //=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
-if ~isdir(sourcedir)
-  return
-end
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-assert_istrue(isdir([nelsonroot(), '/module_skeleton/help/en_US/xml']));
-assert_istrue(isfile([nelsonroot(), '/module_skeleton/help/en_US/xml/nelson_sum.xml']));
-assert_istrue(isfile([nelsonroot(), '/module_skeleton/help/en_US/xml/chapter.xml']));
+namespace Nelson {
+namespace ModulesManagerGateway {
+    ArrayOfVector
+    toolboxdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
+} // namespace Nelson
 //=============================================================================

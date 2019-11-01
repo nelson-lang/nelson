@@ -64,6 +64,7 @@ Try it !
 - Nelson cloud:
   Instant access to Nelson anywhere from an web browser. 
 
+- Module skeleton to extend Nelson available [here](http://github.com/Nelson-numerical-software/module_skeleton).
 
 * * *
 

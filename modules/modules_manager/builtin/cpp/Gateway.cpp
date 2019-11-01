@@ -30,6 +30,7 @@
 #include "modulepathBuiltin.hpp"
 #include "removemoduleBuiltin.hpp"
 #include "requiremoduleBuiltin.hpp"
+#include "toolboxdirBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -41,6 +42,7 @@ static const nlsGateway gateway[]
           { "modulepath", Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
           { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
           { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
+          { "toolboxdir", Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
           { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

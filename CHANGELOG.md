@@ -1,7 +1,10 @@
 # 0.3.11 (2019-11-XX)
 
+* toolboxdir builtin: Root folder for specified toolbox.
+
 * Module skeleton moved to an dedicated git repository
   https://github.com/Nelson-numerical-software/module_skeleton
+
 
 # 0.3.10 (2019-10-29)
 
