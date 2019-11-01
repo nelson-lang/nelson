@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -23,10 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('toolboxdir'), 1);
-assert_isequal(nargout('toolboxdir'), 1);
+#include <boost/filesystem.hpp>
+#include "usermodulesdirBuiltin.hpp"
+#include "Error.hpp"
+#include "GetExternalModulesPath.hpp"
 //=============================================================================
-REF = modulepath('core');
-R = toolboxdir('core');
-assert_isequal(R, REF);
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::ModulesManagerGateway::usermodulesdirBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 0) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+
+    std::wstring externalModulesPath = GetExternalModulesPath();
+    bool haveError = false;
+    try {
+        haveError = !boost::filesystem::is_directory(externalModulesPath);
+    } catch (const boost::filesystem::filesystem_error&) {
+        haveError = true; 
+    }
+    if (haveError) {
+        Error(_W("Impossible to get external modules directory."));
+    }
+    retval.push_back(ArrayOf::characterArrayConstructor(externalModulesPath));
+    return retval;
+}
 //=============================================================================

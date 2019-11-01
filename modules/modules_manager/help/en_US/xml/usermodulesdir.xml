@@ -3,30 +3,26 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>toolboxdir</keyword>
-  <short_description>Returns path of a module.</short_description>
+  <keyword>usermodulesdir</keyword>
+  <short_description>Returns path where external modules are saved.</short_description>
 
   <syntax>
-    <syntax_item>p = toolboxdir(module_short_name)</syntax_item>
+    <syntax_item>p = usermodulesdir()</syntax_item>
   </syntax>
   
 
-  <param_input>
-    <param_input_item>
-      <param_name>module_short_name</param_name>
-      <param_description>a string: short module's name.</param_description>
-    </param_input_item>
-  </param_input>
 
   <param_output>
     <param_output_item>
       <param_name>p</param_name>
-      <param_description>a string: path of the module.</param_description>
+      <param_description>a string: path where are external modules.</param_description>
     </param_output_item>
   </param_output>
 
 
-  <description><p><b>toolboxdir</b> is an helper's function to return module root path.</p>
+  <description>
+  <p><b>usermodulesdir</b> is an helper's function to return path where users modules are saved.</p>
+  <p>This path can be overloaded by defining NELSON_EXTERNAL_MODULES_PATH environment variable on your system.</p>
   </description>
 
   <used_function></used_function>
@@ -36,7 +32,7 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[toolboxdir('core')]]>
+    <example_item_data><![CDATA[usermodulesdir()]]>
     </example_item_data>
   </example_item>
 
@@ -44,12 +40,11 @@
 
   <see_also>
     <see_also_item>
-      <link linkend="${modules_manager}modulepath">modulepath</link>
+      <link linkend="${modules_manager}toolboxdir">toolboxdir</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${modules_manager}getmodules">getmodules</link>
     </see_also_item>
-
   </see_also>
 
   <history>

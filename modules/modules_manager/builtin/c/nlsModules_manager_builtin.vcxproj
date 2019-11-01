@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\removemoduleBuiltin.cpp" />
     <ClCompile Include="..\cpp\requiremoduleBuiltin.cpp" />
     <ClCompile Include="..\cpp\toolboxdirBuiltin.cpp" />
+    <ClCompile Include="..\cpp\usermodulesdirBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="..\include\removemoduleBuiltin.hpp" />
     <ClInclude Include="..\include\requiremoduleBuiltin.hpp" />
     <ClInclude Include="..\include\toolboxdirBuiltin.hpp" />
+    <ClInclude Include="..\include\usermodulesdirBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />
