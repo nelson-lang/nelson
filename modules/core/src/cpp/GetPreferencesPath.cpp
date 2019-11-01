@@ -76,7 +76,7 @@ buildPreferencesPath()
         if (bOK) {
             boost::filesystem::path path_1(strPath);
             std::wstring NelSonDir = utf8_to_wstring(NELSON_PRODUCT_NAME) + std::wstring(L"\\")
-                + utf8_to_wstring(NELSON_VERSION_STRING);
+                + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
             boost::filesystem::path path_2(NelSonDir);
             boost::filesystem::path path = path_1;
             path /= path_2;
@@ -107,7 +107,7 @@ buildPreferencesPath()
         }
         if (homedir != nullptr) {
             std::string NelSonDir = std::string(".") + std::string(NELSON_PRODUCT_NAME)
-                + std::string("/") + std::string(NELSON_VERSION_STRING);
+                + std::string("/") + std::string(NELSON_SEMANTIC_VERSION_STRING);
             boost::filesystem::path path_1(homedir);
             try {
                 if (boost::filesystem::is_directory(path_1)) {

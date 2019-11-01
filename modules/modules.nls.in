@@ -24,8 +24,8 @@
 // LICENCE_BLOCK_END
 // ============================================================================
 modules_list = [
-"modules_manager";
 "functions_manager";
+"modules_manager";
 "engine";
 "core";
 "localization";
