@@ -1,5 +1,7 @@
 # 0.3.11 (2019-11-XX)
 
+* usermodulesdir builtin: returns directory where user's modules are saved.
+
 * toolboxdir builtin: Root folder for specified toolbox.
 
 * Module skeleton moved to an dedicated git repository

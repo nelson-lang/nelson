@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -23,10 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('toolboxdir'), 1);
-assert_isequal(nargout('toolboxdir'), 1);
+#pragma once
 //=============================================================================
-REF = modulepath('core');
-R = toolboxdir('core');
-assert_isequal(R, REF);
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+namespace ModulesManagerGateway {
+    ArrayOfVector
+    usermodulesdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

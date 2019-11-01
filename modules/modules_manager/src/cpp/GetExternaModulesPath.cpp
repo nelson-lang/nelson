@@ -23,48 +23,69 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include "GetExternalModulesPath.hpp"
-#include "NelsonGateway.hpp"
-#include "addmoduleBuiltin.hpp"
-#include "getmodulesBuiltin.hpp"
-#include "ismoduleBuiltin.hpp"
-#include "modulepathBuiltin.hpp"
-#include "removemoduleBuiltin.hpp"
-#include "requiremoduleBuiltin.hpp"
-#include "toolboxdirBuiltin.hpp"
-#include "usermodulesdirBuiltin.hpp"
+#include "Nelson_VERSION.h"
+#include "characters_encoding.hpp"
+#include "GetVariableEnvironment.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"modules_manager";
+static std::wstring externalModulesPath;
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "removemodule", Nelson::ModulesManagerGateway::removemoduleBuiltin, 0, 1 },
-          { "addmodule", Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2 },
-          { "modulepath", Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
-          { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
-          { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
-          { "toolboxdir", Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
-          { "usermodulesdir", Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
-          { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 } };
-//=============================================================================
-NLSGATEWAYNAME()
-//=============================================================================
-static bool
-initializeModulesManagerModule(Nelson::Evaluator* eval)
+static std::wstring
+getUserDir()
 {
-    return CreateIfRequiredExternalModulesPath();
+    std::wstring envValue;
+#ifdef _MSC_VER
+    envValue = GetVariableEnvironment(L"USERPROFILE");
+#else
+    envValue = GetVariableEnvironment(L"HOME");
+#endif
+    boost::filesystem::path pwd = boost::filesystem::path(envValue);
+    std::wstring userDir = pwd.generic_wstring();
+    if (!boost::algorithm::ends_with(userDir, L"\\")
+        && (!boost::algorithm::ends_with(userDir, L"/"))) {
+        userDir.append(L"/");
+    }
+    return userDir;
 }
 //=============================================================================
-static bool
-finishModulesManagerModule(Nelson::Evaluator* eval)
+bool
+CreateIfRequiredExternalModulesPath()
 {
-    return true;
+    std::wstring defaultExternalModulesDirectory = getUserDir() + std::wstring(L"nelson/")
+        + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
+    externalModulesPath
+        = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
+    boost::filesystem::path modulesPath = boost::filesystem::path(externalModulesPath);
+    externalModulesPath = modulesPath.generic_wstring();
+    if (!boost::algorithm::ends_with(externalModulesPath, L"\\")
+        && (!boost::algorithm::ends_with(externalModulesPath, L"/"))) {
+        externalModulesPath = externalModulesPath + L"/";
+    }
+  
+    bool bOK = false;
+    try {
+        bool bIsDir = boost::filesystem::is_directory(externalModulesPath);
+        if (!bIsDir) {
+            bOK = boost::filesystem::create_directories(externalModulesPath);
+        } else {
+            bOK = true;
+        }
+
+    } catch (const boost::filesystem::filesystem_error&) {
+        bOK = false;
+    }
+    return bOK;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeModulesManagerModule)
+std::wstring
+GetExternalModulesPath()
+{
+    return externalModulesPath;
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModulesManagerModule)
+} // namespace Nelson
 //=============================================================================

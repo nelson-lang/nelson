@@ -60,6 +60,8 @@ nlsCore
 nlsDynamic_link
 nlsInterpreter
 nlsNelson_manager
+nlsOs_functions
+nlsCharacters_encoding
 nlsI18n
 ${BOOST_LIBRARIES}
 )
