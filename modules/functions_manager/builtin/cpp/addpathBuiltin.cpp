@@ -23,13 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "StringFormat.hpp"
 #include "Warning.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "NormalizePath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -82,7 +83,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
-    for (const auto& param : params) {
+    for (const std::wstring& param : params) {
         boost::filesystem::path data_dir(param);
         bool bRes = false;
         try {
@@ -94,7 +95,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
             bRes = false;
         }
         if (bRes) {
-            if (PathFuncManager::getInstance()->addPath(param, begin)) {
+            std::wstring normalizedPath = NormalizePath(param);
+            if (PathFuncManager::getInstance()->addPath(normalizedPath, begin)) {
                 stringVector exceptedFunctionsName = eval->getCallers(true);
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }

@@ -55,8 +55,8 @@ getUserDir()
 bool
 CreateIfRequiredExternalModulesPath()
 {
-    std::wstring defaultExternalModulesDirectory = getUserDir() + std::wstring(L"nelson/")
-        + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
+    std::wstring defaultExternalModulesDirectory
+        = getUserDir() + std::wstring(L"nelson/") + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
     externalModulesPath
         = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
     boost::filesystem::path modulesPath = boost::filesystem::path(externalModulesPath);
@@ -65,7 +65,7 @@ CreateIfRequiredExternalModulesPath()
         && (!boost::algorithm::ends_with(externalModulesPath, L"/"))) {
         externalModulesPath = externalModulesPath + L"/";
     }
-  
+
     bool bOK = false;
     try {
         bool bIsDir = boost::filesystem::is_directory(externalModulesPath);

@@ -47,7 +47,7 @@ Nelson::ModulesManagerGateway::usermodulesdirBuiltin(
     try {
         haveError = !boost::filesystem::is_directory(externalModulesPath);
     } catch (const boost::filesystem::filesystem_error&) {
-        haveError = true; 
+        haveError = true;
     }
     if (haveError) {
         Error(_W("Impossible to get external modules directory."));

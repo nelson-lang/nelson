@@ -236,5 +236,11 @@ DynamicLinkLibraryObject::getEnvironmentPaths(const std::wstring& environPath)
     return result;
 }
 //=============================================================================
+std::wstring
+DynamicLinkLibraryObject::getLibraryPath()
+{
+    return _libraryPath;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

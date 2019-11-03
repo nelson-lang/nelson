@@ -23,4 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/files_folders_functions/etc/startup.nls']);
+addmodule([nelsonroot() '/modules/' 'files_folders_functions'], 'files_folders_functions');
+//=============================================================================

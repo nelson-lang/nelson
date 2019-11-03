@@ -114,6 +114,7 @@ ProgramOptions::ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode)
     _isversion = false;
     _startup = false;
     _userstartup = false;
+    _usermodules = false;
     _quietmode = false;
     _error.clear();
     _file.clear();
@@ -133,6 +134,7 @@ ProgramOptions::~ProgramOptions()
     _isversion = false;
     _startup = false;
     _userstartup = false;
+    _usermodules = false;
     _quietmode = false;
     _error.clear();
     _file.clear();
@@ -243,6 +245,7 @@ ProgramOptions::parse()
     Option versionOption(L"version", L"v", _W("display the version number"), false, false);
     Option nostartupOption(L"nostartup", L"", _W("no main startup file"), false, false);
     Option nouserstartupOption(L"nouserstartup", L"", _W("no user startup file"), false, false);
+    Option nousermodulesOption(L"nousermodules", L"", _W("no user modules loaded"), false, false);
     Option commandtoexecuteOption(L"execute", L"e", _W("command to execute"), false, true);
     Option filetoexecuteOption(L"file", L"f", _W("file to execute"), false, true);
     Option languageOption(L"language", L"l", _W("language used in current session"), false, true);
@@ -257,6 +260,7 @@ ProgramOptions::parse()
     _options = _options + versionOption.getFullDescription() + L"\n";
     _options = _options + nostartupOption.getFullDescription() + L"\n";
     _options = _options + nouserstartupOption.getFullDescription() + L"\n";
+    _options = _options + nousermodulesOption.getFullDescription() + L"\n";
     _options = _options + commandtoexecuteOption.getFullDescription() + L"\n";
     _options = _options + filetoexecuteOption.getFullDescription() + L"\n";
     _options = _options + languageOption.getFullDescription() + L"\n";
@@ -271,6 +275,7 @@ ProgramOptions::parse()
     bRes = bRes && parseOption(versionOption, _isversion);
     bRes = bRes && parseOption(nostartupOption, _startup);
     bRes = bRes && parseOption(nouserstartupOption, _userstartup);
+    bRes = bRes && parseOption(nousermodulesOption, _usermodules);
     bRes = bRes && parseOptionWithValues(openFilesOption, _filesToOpen);
     bRes = bRes && parseOptionWithValues(loadFilesOption, _filesToLoad);
     bool bFind = false;
@@ -374,6 +379,15 @@ ProgramOptions::haveNoUserStartup()
 {
     if (_isvalid) {
         return _userstartup;
+    }
+    return false;
+}
+//=============================================================================
+bool
+ProgramOptions::haveNoUserModules()
+{
+    if (_isvalid) {
+        return _usermodules;
     }
     return false;
 }

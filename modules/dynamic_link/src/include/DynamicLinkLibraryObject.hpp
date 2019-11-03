@@ -57,6 +57,8 @@ public:
     isProperty(const std::wstring& propertyName) override;
     bool
     isMethod(const std::wstring& methodName) override;
+    std::wstring
+    getLibraryPath();
 
 private:
     wstringVector _propertiesNames;

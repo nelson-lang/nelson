@@ -36,6 +36,9 @@
     <ClCompile Include="..\cpp\GetExternaModulesPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\ReadUserModules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\AddModule.hpp">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\GetExternalModulesPath.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ReadUserModules.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

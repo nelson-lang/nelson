@@ -23,4 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/hdf5/etc/startup.nls']);
+addmodule([nelsonroot() '/modules/' 'hdf5'], 'hdf5');
+//=============================================================================

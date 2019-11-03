@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string/predicate.hpp>
 #include "addmoduleBuiltin.hpp"
 #include "AddModule.hpp"
 #include "Error.hpp"
@@ -44,6 +45,10 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
     std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {
         modulerootpath = argIn[0].getContentAsWideString();
+        if (!boost::algorithm::ends_with(modulerootpath, L"\\")
+            && (!boost::algorithm::ends_with(modulerootpath, L"/"))) {
+            modulerootpath.append(L"/");
+        }
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

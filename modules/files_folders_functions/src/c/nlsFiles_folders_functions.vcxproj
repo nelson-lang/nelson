@@ -177,6 +177,7 @@
     <ClInclude Include="..\include\FileParts.hpp" />
     <ClInclude Include="..\include\ListFiles.hpp" />
     <ClInclude Include="..\include\MakeDirectory.hpp" />
+    <ClInclude Include="..\include\NormalizePath.hpp" />
     <ClInclude Include="..\include\RelativePath.hpp" />
     <ClInclude Include="..\include\RemoveDirectory.hpp" />
     <ClInclude Include="..\include\RemoveFile.hpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="..\cpp\IsFile.cpp" />
     <ClCompile Include="..\cpp\ListFiles.cpp" />
     <ClCompile Include="..\cpp\MakeDirectory.cpp" />
+    <ClCompile Include="..\cpp\NormalizePath.cpp" />
     <ClCompile Include="..\cpp\RelativePath.cpp" />
     <ClCompile Include="..\cpp\RemoveDirectory.cpp" />
     <ClCompile Include="..\cpp\RemoveFile.cpp" />

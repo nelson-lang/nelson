@@ -23,4 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/core/etc/startup.nls']);
+addmodule([nelsonroot() '/modules/' 'core'], 'core');
+//=============================================================================

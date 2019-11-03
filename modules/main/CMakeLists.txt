@@ -38,8 +38,16 @@ ADD_EXECUTABLE(
 	${MAINCLI_SRC}
 )
 #==============================================================================	
+# force some dependencies here, to force build order
+#==============================================================================	
 target_link_libraries(nelson-cli-exec
 nlsEngine
+nlsModules_manager
+nlsModules_manager_builtin
+nlsMemory_manager
+nlsMemory_manager_builtin
+nlsHelp_tools
+nlsHelp_tools_builtin
 )
 #==============================================================================
 FILE(
@@ -88,27 +96,27 @@ nlsEngine
 )
 #==============================================================================
 add_custom_target(Name ALL
-    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(updatelocalization
-    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.nls"
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(get_module_skeleton
-    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.nls"
+    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --nousermodules --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(buildhelp
-    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
+    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --nousermodules --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(missing_help
-    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.nls"
+    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli  --nousermodules --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
@@ -133,7 +141,7 @@ add_custom_target(benchs_all_no_display
 )
 #==============================================================================
 add_custom_target(tests_minimal
-    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.nls"
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.nls"
     DEPENDS nelson-cli-exec
 )
 #==============================================================================
