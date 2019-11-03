@@ -23,5 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/fftw/etc/startup.nls']);
+addmodule([nelsonroot() '/modules/' 'fftw'], 'fftw');
 //=============================================================================

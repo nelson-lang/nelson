@@ -40,6 +40,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
 )
 #==============================================================================	
 FILE(
@@ -63,6 +64,7 @@ nlsNelson_manager
 nlsOs_functions
 nlsCharacters_encoding
 nlsI18n
+nlsFiles_folders_functions
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	

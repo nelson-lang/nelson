@@ -25,44 +25,8 @@
 //=============================================================================
 run([nelsonroot() '/modules/' 'modules.nls']);
 for k = modules_list'
-  switch k{1}
-    case 'text_editor'
-      if (strcmp(getnelsonmode(), 'GUI') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-        addmodule([nelsonroot() '/modules/' k{1}], k{1});
-      end
-    case 'gui'
-      if (strcmp(getnelsonmode(), 'GUI') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-        addmodule([nelsonroot() '/modules/' k{1}], k{1});
-      end
-    case 'help_browser'
-      if (strcmp(getnelsonmode(), 'GUI') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-        addmodule([nelsonroot() '/modules/' k{1}], k{1});
-      end
-    case 'qml_engine'
-      if (strcmp(getnelsonmode(), 'GUI') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-        addmodule([nelsonroot() '/modules/' k{1}], k{1});
-      end
-    case 'audio'
-      if (strcmp(getenv('AUDIODEV'), 'null') == false)
-        addmodule([nelsonroot() '/modules/' k{1}], k{1});
-      end 
-	case 'sio_client'
-	  if (strcmp(getnelsonmode(), 'BASIC_SIO_CLIENT') == true || ...
-        strcmp(getnelsonmode(), 'ADVANCED_SIO_CLIENT') == true)
-        addmodule([nelsonroot() '/modules/' k{1}], k{1});
-	  end
-    otherwise
-      addmodule([nelsonroot() '/modules/' k{1}], k{1});
-    end
-  end
+  run([nelsonroot() '/modules/' k{1} '/loader.nls']);
+end
 %==============================================================================
 if (isquietmode() == false)
   banner();

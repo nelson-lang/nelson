@@ -9,6 +9,12 @@
 
 * repo('export', ...) exports an git repository without .git directory.
 
+* nmm_build_help, nmm_build_loader: helper's functions to build module skeleton.
+
+* executable option added: '--nousermodules' disables load of user's modules.
+
+* add capability to load some user's modules.
+
 
 # 0.3.10 (2019-10-29)
 

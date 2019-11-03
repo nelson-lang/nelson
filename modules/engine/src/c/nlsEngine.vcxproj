@@ -182,6 +182,7 @@
     <ClCompile Include="..\cpp\SetNelSonEnvironmentVariables.cpp" />
     <ClCompile Include="..\cpp\StartNelson.cpp" />
     <ClCompile Include="..\cpp\StartNelsonMainScript.cpp" />
+    <ClCompile Include="..\cpp\StartNelsonUserModules.cpp" />
     <ClCompile Include="..\cpp\StartNelsonUserScript.cpp" />
     <ClCompile Include="..\cpp\TimeoutThread.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\include\ProgramOptions.hpp" />
     <ClInclude Include="..\include\RecursionStack.hpp" />
     <ClInclude Include="..\include\StartNelsonMainScript.hpp" />
+    <ClInclude Include="..\include\StartNelsonUserModules.hpp" />
     <ClInclude Include="..\include\StartNelsonUserScript.hpp" />
     <ClInclude Include="..\include\TimeoutThread.hpp" />
   </ItemGroup>

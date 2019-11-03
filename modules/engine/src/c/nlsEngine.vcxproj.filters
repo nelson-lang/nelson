@@ -66,6 +66,9 @@
     <ClCompile Include="..\cpp\LoadFilesAssociated.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\StartNelsonUserModules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\StartNelson.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\LoadFilesAssociated.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StartNelsonUserModules.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

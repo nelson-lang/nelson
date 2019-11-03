@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/filesystem.hpp>
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -31,32 +33,40 @@
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
-#include <boost/filesystem.hpp>
+#include "NormalizePath.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstring& moduleshortname)
 {
-    if (boost::filesystem::is_directory(modulerootpath)) {
-        boost::filesystem::path pathmainloader(modulerootpath);
+    std::wstring _modulerootpath = NormalizePath(modulerootpath);
+    if (boost::algorithm::ends_with(_modulerootpath, L"\\")
+        || (boost::algorithm::ends_with(_modulerootpath, L"/"))) {
+        _modulerootpath.pop_back();
+    }
+    if (boost::filesystem::is_directory(_modulerootpath)) {
+        boost::filesystem::path pathmainloader(_modulerootpath);
         pathmainloader += L"/etc/startup.nls";
         if (boost::filesystem::exists(pathmainloader)
             && !boost::filesystem::is_directory(pathmainloader)) {
-            if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(modulerootpath)) {
-                RegisterModule(moduleshortname, modulerootpath,
+            if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
+                RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());
                 EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
             } else {
                 if ((IsExistingModuleName(moduleshortname)
-                        && IsExistingModulePath(modulerootpath))) {
-                    Error(moduleshortname + _W(": This module is already used."));
+                        && IsExistingModulePath(_modulerootpath))) {
+                    Error(
+                        moduleshortname + _W(": This module is already used: ") + moduleshortname);
                 } else {
                     if (IsExistingModuleName(moduleshortname)) {
-                        Error(_W("An existing module with the same name already used."));
+                        Error(_W("An existing module with the same name already used: ")
+                            + moduleshortname);
                     }
-                    if (IsExistingModulePath(modulerootpath)) {
-                        Error(_W("An existing module with the same path already defined."));
+                    if (IsExistingModulePath(_modulerootpath)) {
+                        Error(_W("An existing module with the same path already defined: \n")
+                            + _modulerootpath);
                     }
                 }
             }

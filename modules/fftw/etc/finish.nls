@@ -24,5 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 FFTWwrapper('free');
+rmpath(modulepath(nelsonroot(), 'fftw', 'functions'));
 removegateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
 //=============================================================================

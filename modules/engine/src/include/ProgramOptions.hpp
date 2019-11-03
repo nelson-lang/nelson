@@ -100,6 +100,8 @@ public:
     bool
     haveNoUserStartup();
     bool
+    haveNoUserModules();
+    bool
     haveQuietMode();
     bool
     haveTimeout();
@@ -124,6 +126,7 @@ private:
     bool _isversion;
     bool _startup;
     bool _userstartup;
+    bool _usermodules;
     bool _quietmode;
     std::wstring _error;
     std::wstring _file;
