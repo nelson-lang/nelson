@@ -46,7 +46,7 @@ assert_istrue(isfile(DEST_1));
 DEST_2 = [TMPDIR, 'zip_test_2.zip'];
 cd([nelsonroot(), '/module_skeleton'])
 R = zip(DEST_2, [nelsonroot(), '/module_skeleton/*.nls']);
-REF = {'builder.nls',};
+REF = {'builder.nls'};
 assert_isequal(R, REF);
 assert_istrue(isfile(DEST_2));
 //=============================================================================
