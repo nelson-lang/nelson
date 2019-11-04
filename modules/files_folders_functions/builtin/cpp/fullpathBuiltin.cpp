@@ -23,31 +23,42 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "fullpathBuiltin.hpp"
+#include "Error.hpp"
 #include "NormalizePath.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "IsCellOfStrings.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
-namespace Nelson {
+using namespace Nelson;
 //=============================================================================
-std::wstring
-NormalizePath(const std::wstring& path)
+ArrayOfVector
+Nelson::FilesFoldersGateway::fullpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    boost::filesystem::path absPath = boost::filesystem::absolute(path);
-    boost::filesystem::path::iterator it = absPath.begin();
-    boost::filesystem::path result = *it++;
-    for (; exists(result / *it) && it != absPath.end(); ++it) {
-        result /= *it;
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    result = boost::filesystem::canonical(result);
-    for (; it != absPath.end(); ++it) {
-        if (*it == "..") {
-            result = result.parent_path();
-        } else if (*it != ".") {
-            result /= *it;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    if (IsCellOfString(param1) || param1.isStringArray()) {
+        Dimensions dims = param1.getDimensions();
+        wstringVector paths = param1.getContentAsWideStringVector();
+        wstringVector normalizedPaths;
+        normalizedPaths.reserve(dims.getElementCount());
+        for (std::wstring s : paths) {
+            normalizedPaths.push_back(NormalizePath(s));
         }
+        if (param1.isStringArray()) {
+            retval.push_back(ArrayOf::stringArrayConstructor(normalizedPaths, dims));
+        } else {
+            retval.push_back(ToCellStringAsColumn(normalizedPaths));
+        }
+    } else {
+        std::wstring path = argIn[0].getContentAsWideString();
+        retval.push_back(ArrayOf::characterArrayConstructor(NormalizePath(path)));
     }
-    return result.generic_wstring();
-}
-//=============================================================================
+    return retval;
 }
 //=============================================================================

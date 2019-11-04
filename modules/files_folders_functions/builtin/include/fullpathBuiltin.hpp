@@ -23,31 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NormalizePath.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
-NormalizePath(const std::wstring& path)
-{
-    boost::filesystem::path absPath = boost::filesystem::absolute(path);
-    boost::filesystem::path::iterator it = absPath.begin();
-    boost::filesystem::path result = *it++;
-    for (; exists(result / *it) && it != absPath.end(); ++it) {
-        result /= *it;
-    }
-    result = boost::filesystem::canonical(result);
-    for (; it != absPath.end(); ++it) {
-        if (*it == "..") {
-            result = result.parent_path();
-        } else if (*it != ".") {
-            result /= *it;
-        }
-    }
-    return result.generic_wstring();
+namespace FilesFoldersGateway {
+    ArrayOfVector
+    fullpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
