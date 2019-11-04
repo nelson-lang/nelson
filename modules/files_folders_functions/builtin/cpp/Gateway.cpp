@@ -40,6 +40,7 @@
 #include "rmfileBuiltin.hpp"
 #include "tempdirBuiltin.hpp"
 #include "userdirBuiltin.hpp"
+#include "fullpathBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -63,7 +64,7 @@ static const nlsGateway gateway[] = {
     { "rmfile", Nelson::FilesFoldersGateway::rmfileBuiltin, 2, 1 },
     { "pathsep", Nelson::FilesFoldersGateway::pathsepBuiltin, 1, 0 },
     { "filesep", Nelson::FilesFoldersGateway::filesepBuiltin, 1, 0 },
-
+    { "fullpath", Nelson::FilesFoldersGateway::fullpathBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

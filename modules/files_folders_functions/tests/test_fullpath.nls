@@ -23,31 +23,35 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NormalizePath.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+REF1 = [tempdir(), 'level1/T1.txt'];
+REF2 = [tempdir(), 'level1/level2/T2.txt'];
+REF3 = [tempdir(), 'level1/level2/level3/T3.txt'];
 //=============================================================================
-namespace Nelson {
+TMP = [tempdir(), 'level1/level2/level3'];
+if ~isdir(TMP)
+  mkdir(TMP);
+end
+cd(TMP);
 //=============================================================================
-std::wstring
-NormalizePath(const std::wstring& path)
-{
-    boost::filesystem::path absPath = boost::filesystem::absolute(path);
-    boost::filesystem::path::iterator it = absPath.begin();
-    boost::filesystem::path result = *it++;
-    for (; exists(result / *it) && it != absPath.end(); ++it) {
-        result /= *it;
-    }
-    result = boost::filesystem::canonical(result);
-    for (; it != absPath.end(); ++it) {
-        if (*it == "..") {
-            result = result.parent_path();
-        } else if (*it != ".") {
-            result /= *it;
-        }
-    }
-    return result.generic_wstring();
-}
+M = {REF1; REF2; REF3};
+R = {'../../T1.txt', '../T2.txt', 'T3.txt'};
+assert_isequal(M, fullpath(R));
 //=============================================================================
-}
+R1 = fullpath('../../T1.txt');
+assert_isequal(R1, REF1);
+//=============================================================================
+R2 = fullpath('../T2.txt');
+assert_isequal(R2, REF2);
+//=============================================================================
+R3 = fullpath('T3.txt');
+assert_isequal(R3, REF3);
+//=============================================================================
+R4 = fullpath(REF1);
+assert_isequal(R4, REF1);
+//=============================================================================
+R5 = fullpath(REF2);
+assert_isequal(R5, REF2);
+//=============================================================================
+R6 = fullpath(REF3);
+assert_isequal(R6, REF3);
 //=============================================================================
