@@ -23,30 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "errorBuiltin.hpp"
-#include "lasterrorBuiltin.hpp"
-#include "lastwarnBuiltin.hpp"
-#include "warningBuiltin.hpp"
 #include "getLastReportBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"error_manager";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "error", Nelson::ErrorManagerGateway::errorBuiltin, 0, 1 },
-    { "warning", Nelson::ErrorManagerGateway::warningBuiltin, 1, -1 },
-    { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 },
-    { "lastwarn", Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2 },
-    { "getLastReport", Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+ArrayOfVector
+Nelson::ErrorManagerGateway::getLastReportBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 0) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    Exception e = eval->getLastErrorException();
+    if (e.getMessage().empty()) {
+        retval.push_back(ArrayOf::characterArrayConstructor(""));
+    } else {
+        retval.push_back(ArrayOf::characterArrayConstructor(e.getFormattedErrorMessage()));
+    }
+    return retval;
+}
 //=============================================================================

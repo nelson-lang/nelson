@@ -1913,24 +1913,6 @@ Evaluator::statement(ASTPtr t)
     } catch (const Exception&) {
         popID();
         throw;
-        /*
-        if (autostop && !InCLI)
-        {
-        e.printMe(io);
-        stackTrace(true);
-        debugCLI();
-        if (state < NLS_STATE_QUIT)
-        {
-        resetState();
-        }
-        popID();
-        }
-        else
-        {
-        popID();
-        throw;
-        }
-        */
     }
 }
 

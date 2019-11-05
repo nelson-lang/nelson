@@ -2,6 +2,8 @@
 
 * fullpath builtin: converts an relative path to full path name.
 
+* getLastReport builtin: returns last formatted error message.
+
 * usermodulesdir builtin: returns directory where user's modules are saved.
 
 * toolboxdir builtin: Root folder for specified toolbox.
