@@ -25,10 +25,17 @@
 //=============================================================================
 if ispc()
   blas_library_name = ['libnlsblaslapack', getdynlibext()];
+  lib = dlopen(blas_library_name)
 else
   blas_library_name = ['libblas', getdynlibext()];
+  try
+    lib = dlopen(blas_library_name)
+  catch
+    blas_library_name = ['libblas', getdynlibext(), '.3'];
+    lib = dlopen(blas_library_name)
+  end
 end
-lib = dlopen(blas_library_name)
+
 V = [ -2, 1, 3, -5, 4, 0, -1, -3]
 N = length(V)
 // load DASUM blas symbol (L1 Norm)
