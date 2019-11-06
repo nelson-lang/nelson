@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--C/C++ COMPILER REQUIRED--> 
+// <--NO USER MODULES-->
 //=============================================================================
 sourcedir = [nelsonroot(),'/module_skeleton'];
 if ~isdir(sourcedir)

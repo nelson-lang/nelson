@@ -24,6 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--GUI MODE--> 
+// <--NO USER MODULES-->
+//=============================================================================
 modules_loaded = getmodules();
 run([nelsonroot(), '/modules/modules.nls']);
 if ~ispc()

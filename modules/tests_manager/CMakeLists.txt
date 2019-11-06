@@ -37,6 +37,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 )
 #==============================================================================	
 FILE(

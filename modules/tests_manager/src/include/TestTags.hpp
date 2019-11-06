@@ -50,6 +50,7 @@ namespace Nelson {
 #define AUDIO_OUTPUT_REQUIRED_TAG "<--AUDIO OUTPUT REQUIRED-->"
 #define C_COMPILER_REQUIRED_TAG "<--C/C++ COMPILER REQUIRED-->"
 #define INDEX_64_BIT_REQUIRED_TAG "<--INDEX 64 BIT REQUIRED-->"
+#define NO_USER_MODULES_TAG "<--NO USER MODULES-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -72,6 +73,7 @@ private:
     bool _audioOutputRequired;
     bool _cCompilerRequired;
     bool _index64BitRequired;
+    bool _noUserModules;
 
 public:
     TestTags()
@@ -94,6 +96,7 @@ public:
         _audioOutputRequired = false;
         _cCompilerRequired = false;
         _index64BitRequired = false;
+        _noUserModules = false;
     }
 
     bool
@@ -185,6 +188,11 @@ public:
     isIndex64BitRequired()
     {
         return _index64BitRequired;
+    }
+    bool
+    isNoUserModules()
+    {
+        return _noUserModules;
     }
 
     void
@@ -278,6 +286,12 @@ public:
     {
         _index64BitRequired = val;
     }
+    void
+    setNoUserModules(bool val)
+    {
+        _noUserModules = val;
+    }
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

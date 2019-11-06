@@ -19,6 +19,9 @@
 
 * add capability to load some user's modules.
 
+* add // <--NO USER MODULES--> tag for test_run (disable load of user modules for a test)
+
+
 
 # 0.3.10 (2019-10-29)
 
