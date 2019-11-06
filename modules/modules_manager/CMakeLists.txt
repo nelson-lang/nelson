@@ -30,6 +30,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/src/c/semver
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -47,6 +48,7 @@ FILE(
 GLOB
 MODULES_MANAGER_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/c/semver/*.c"
 )
 #==============================================================================	
 ADD_LIBRARY(
