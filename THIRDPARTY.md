@@ -270,3 +270,12 @@ libgit2 is a portable, pure C implementation of the Git core methods.
 
 > https://github.com/libgit2/libgit2/blob/master/COPYING  GPL with LINKING EXCEPTION
 
+
+- semver.c
+
+Semantic version v2.0 parser and render written in ANSI C with zero dependencies.
+
+> https://github.com/h2non/semver.c
+
+> https://github.com/h2non/semver.c/blob/master/LICENSE MIT license
+

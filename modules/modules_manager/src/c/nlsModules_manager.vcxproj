@@ -168,6 +168,7 @@
     <ClCompile Include="..\cpp\ReadUserModules.cpp" />
     <ClCompile Include="..\cpp\RemoveModule.cpp" />
     <ClCompile Include="dllMain.c" />
+    <ClCompile Include="semver\semver.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\AddModule.hpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="..\include\GetExternalModulesPath.hpp" />
     <ClInclude Include="..\include\ReadUserModules.hpp" />
     <ClInclude Include="..\include\RemoveModule.hpp" />
+    <ClInclude Include="semver\semver.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
