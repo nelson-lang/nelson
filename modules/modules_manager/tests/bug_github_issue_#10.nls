@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--NO USER MODULES-->
+//=============================================================================
 // <-- Issue URL -->
 // https://github.com/Nelson-numerical-software/nelson/issues/10
 // <-- Short Description -->
@@ -33,4 +35,9 @@ if ~isdir(sourcedir)
   return
 end
 //=============================================================================
+if ~isfile([nelsonroot(), '/module_skeleton/loader.nls'])
+  return
+end
+//=============================================================================
 run([nelsonroot(), '/module_skeleton/loader.nls'])
+//=============================================================================

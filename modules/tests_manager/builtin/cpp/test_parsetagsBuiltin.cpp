@@ -85,6 +85,8 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isCCompilerRequired()));
     fieldnames.push_back(L"index_64_bit_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIndex64BitRequired()));
+    fieldnames.push_back(L"no_user_modules");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNoUserModules()));
     ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;

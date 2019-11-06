@@ -605,6 +605,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       if test_case_res.options.english_imposed
         cmd = [' --language', ' ', 'en_US'];
       end
+      if test_case_res.options.no_user_modules
+        cmd = [cmd, ' ', '--nousermodules'];
+      end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
 
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
