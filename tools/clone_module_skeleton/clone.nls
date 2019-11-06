@@ -28,8 +28,22 @@ if isdir(DESTINATION)
   rmdir(DESTINATION, 's');
 end
 mkdir(DESTINATION);
+
 URL = 'https://github.com/Nelson-numerical-software/module_skeleton.git';
-repo('clone', URL, DESTINATION);
+try
+  repo('clone', URL, DESTINATION);
+  bSuccess = true;
+catch
+  bSuccess = false;
+end  
+if ~bSuccess
+  try
+    unix(['git clone ', URL, ' ', DESTINATION]);
+    bSuccess = true;
+  catch
+    bSuccess = false;
+  end  
+end
 if isdir([DESTINATION, '/.git'])
   rmdir([DESTINATION, '/.git'], 's');
 end
