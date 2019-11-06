@@ -25,4 +25,5 @@
 //=============================================================================
 run([modulepath('dynamic_link'), '/examples/call_fortran.nls']);
 run([modulepath('dynamic_link'), '/examples/call_c.nls']);
-run([modulepath('dynamic_link'), '/examples/dllibinfo.nls']);
+run([modulepath('dynamic_link'), '/examples/dllibinfo_demo.nls']);
+//=============================================================================
