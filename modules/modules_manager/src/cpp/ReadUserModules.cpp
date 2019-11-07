@@ -65,12 +65,10 @@ ReadUserModules(
         }
         jsonFile.close();
         boost::property_tree::ptree root;
-        boost::property_tree::ptree root2;
         std::istringstream is(jsonString);
         bool parse;
         try {
             boost::property_tree::read_json(is, root);
-            root2 = root;
             parse = true;
         } catch (const boost::property_tree::json_parser::json_parser_error&) {
             parse = false;
