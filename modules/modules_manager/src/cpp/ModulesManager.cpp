@@ -29,6 +29,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <semver.h>
 #include "ModulesManager.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
@@ -155,16 +156,16 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
         std::istringstream is(jsonString);
         try {
             boost::property_tree::read_json(is, root);
-            for (boost::property_tree::ptree::value_type& element : root.get_child("version")) {
-                double d = element.second.get_value<double>();
-                int di = (int)d;
-                if ((double)di == d) {
-                    version.push_back(d);
-                } else {
-                    version.clear();
-                    break;
-                }
+            std::string versionString = root.get<std::string>("version");
+            semver_t semVersion = {};
+            if (semver_parse(versionString.c_str(), &semVersion)) {
+                version.clear();
+            } else {
+                version.push_back(semVersion.major);
+                version.push_back(semVersion.minor);
+                version.push_back(semVersion.patch);
             }
+
         } catch (const boost::property_tree::json_parser::json_parser_error&) {
             version.clear();
         }
