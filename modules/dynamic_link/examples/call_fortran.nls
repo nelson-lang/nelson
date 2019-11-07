@@ -29,17 +29,40 @@ if ispc()
 else
   blas_library_name = ['libblas', getdynlibext()];
   try
-    lib = dlopen(blas_library_name)
+    lib = dlopen(blas_library_name);
   catch
-    blas_library_name = ['libblas', getdynlibext(), '.3'];
-    lib = dlopen(blas_library_name)
+    if isfile('/usr/lib/x86_64-linux-gnu/libblas.so')
+      blas_library_name = '/usr/lib/x86_64-linux-gnu/libblas.so';
+    else
+      blas_library_name = ['libblas', getdynlibext(), '.3'];    
+    end
+    try
+      lib = dlopen(blas_library_name)
+    catch
+      error('libblas not found.');
+    end
+  end
+end
+
+DASUM_SYMBOL = 'DASUM';
+c = dllibinfo(lib);
+if ~any(contains(c, DASUM_SYMBOL))
+  DASUM_SYMBOL = '_DASUM';
+  if ~any(contains(c, DASUM_SYMBOL))
+    DASUM_SYMBOL = 'dasum';
+    if ~any(contains(c, DASUM_SYMBOL))
+      DASUM_SYMBOL = '_dasum';
+      if ~any(contains(c, DASUM_SYMBOL))
+        error('DASUM symbol not found.');
+      end
+    end
   end
 end
 
 V = [ -2, 1, 3, -5, 4, 0, -1, -3]
 N = length(V)
 // load DASUM blas symbol (L1 Norm)
-f = dlsym(lib,'DASUM','double',{'int32Ptr','doublePtr','int32Ptr'})
+f = dlsym(lib, DASUM_SYMBOL,'double',{'int32Ptr','doublePtr','int32Ptr'})
 // call DASUM blas symbol with arguments
 r = dlcall(f, int32(N), V, int32(1))
 assert(r == 19)
