@@ -23,11 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-REF1 = [tempdir(), 'level1/T1.txt'];
-REF2 = [tempdir(), 'level1/level2/T2.txt'];
-REF3 = [tempdir(), 'level1/level2/level3/T3.txt'];
+TMPDIR = tempdir();
+if ismac()
+  TMPDIR = ['/private', TMPDIR];
+end
 //=============================================================================
-TMP = [tempdir(), 'level1/level2/level3'];
+REF1 = [TMPDIR, 'level1/T1.txt'];
+REF2 = [TMPDIR, 'level1/level2/T2.txt'];
+REF3 = [TMPDIR, 'level1/level2/level3/T3.txt'];
+//=============================================================================
+TMP = [TMPDIR, 'level1/level2/level3'];
 if ~isdir(TMP)
   mkdir(TMP);
 end
