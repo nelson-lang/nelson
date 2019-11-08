@@ -45,15 +45,17 @@ else
 end
 
 DASUM_SYMBOL = 'DASUM';
-c = dllibinfo(lib);
-if ~any(contains(c, DASUM_SYMBOL))
-  DASUM_SYMBOL = '_DASUM';
+if isunix() 
+  c = dllibinfo(lib);
   if ~any(contains(c, DASUM_SYMBOL))
-    DASUM_SYMBOL = 'dasum';
+    DASUM_SYMBOL = '_DASUM';
     if ~any(contains(c, DASUM_SYMBOL))
-      DASUM_SYMBOL = '_dasum';
+      DASUM_SYMBOL = 'dasum';
       if ~any(contains(c, DASUM_SYMBOL))
-        error('DASUM symbol not found.');
+        DASUM_SYMBOL = '_dasum';
+        if ~any(contains(c, DASUM_SYMBOL))
+          error('DASUM symbol not found.');
+        end
       end
     end
   end
