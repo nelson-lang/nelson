@@ -33,6 +33,7 @@
 #include "requiremoduleBuiltin.hpp"
 #include "toolboxdirBuiltin.hpp"
 #include "usermodulesdirBuiltin.hpp"
+#include "semverBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -46,7 +47,8 @@ static const nlsGateway gateway[]
           { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
           { "toolboxdir", Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
           { "usermodulesdir", Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
-          { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 } };
+          { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 },
+          { "semver", Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 } };
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

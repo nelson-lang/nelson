@@ -42,6 +42,9 @@
     <ClCompile Include="semver\semver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\CompareVersions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\AddModule.hpp">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="semver\semver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CompareVersions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
