@@ -45,7 +45,12 @@ Nelson::DynamicLinkGateway::dllibinfoBuiltin(Evaluator* eval, int nLhs, const Ar
         Error(_W("dllib handle expected."));
     }
     auto* obj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
-    retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
+    std::string errorMessage;
+    stringVector symbols = obj->getAvailableSymbols(errorMessage);
+    if (!errorMessage.empty()) {
+        Error(_("Cannot get library symbols: ") + errorMessage);
+    }
+    retval.push_back(ToCellStringAsColumn(symbols));
     return retval;
 }
 //=============================================================================

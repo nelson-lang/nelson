@@ -44,7 +44,7 @@ public:
     bool
     disp(Evaluator* eval);
     stringVector
-    getAvailableSymbols();
+    getAvailableSymbols(std::string &errorMessage);
     void*
     getFunctionPointer(const std::string& symbolName);
     bool
