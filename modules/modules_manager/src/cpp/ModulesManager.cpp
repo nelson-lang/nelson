@@ -161,6 +161,7 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
             if (semver_parse(versionString.c_str(), &semVersion)) {
                 version.clear();
             } else {
+                semver_free(&semVersion);
                 version.push_back(semVersion.major);
                 version.push_back(semVersion.minor);
                 version.push_back(semVersion.patch);

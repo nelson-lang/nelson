@@ -1,5 +1,7 @@
 # 0.3.11 (2019-11-XX)
 
+* semver builtin: semantic versioner.
+
 * fullpath builtin: converts an relative path to full path name.
 
 * getLastReport builtin: returns last formatted error message.

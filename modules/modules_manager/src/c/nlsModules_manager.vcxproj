@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AddModule.cpp" />
+    <ClCompile Include="..\cpp\CompareVersions.cpp" />
     <ClCompile Include="..\cpp\GetExternaModulesPath.cpp" />
     <ClCompile Include="..\cpp\ModulePath.cpp" />
     <ClCompile Include="..\cpp\ModulesHelpers.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="..\..\src\include\ModulesHelpers.hpp" />
     <ClInclude Include="..\..\src\include\ModulesManager.hpp" />
     <ClInclude Include="..\..\src\include\nlsModules_manager_exports.h" />
+    <ClInclude Include="..\include\CompareVersions.hpp" />
     <ClInclude Include="..\include\GetExternalModulesPath.hpp" />
     <ClInclude Include="..\include\ReadUserModules.hpp" />
     <ClInclude Include="..\include\RemoveModule.hpp" />
