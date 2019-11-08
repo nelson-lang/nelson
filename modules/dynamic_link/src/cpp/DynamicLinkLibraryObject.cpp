@@ -77,14 +77,19 @@ DynamicLinkLibraryObject::disp(Evaluator* eval)
 }
 //=============================================================================
 stringVector
-DynamicLinkLibraryObject::getAvailableSymbols()
+DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
 {
     stringVector symbols;
-    boost::dll::library_info libinfo(_libraryPath, false);
-    std::vector<std::string> stdSymbols = libinfo.symbols();
-    symbols.reserve(stdSymbols.size());
-    for (std::string s : stdSymbols) {
-        symbols.push_back(s);
+    try {
+        boost::dll::library_info libinfo(_libraryPath, false);
+        std::vector<std::string> stdSymbols = libinfo.symbols();
+        symbols.reserve(stdSymbols.size());
+        for (std::string s : stdSymbols) {
+            symbols.push_back(s);
+        }
+    }
+    catch (const std::runtime_error &e) {
+        errorMessage = e.what();
     }
     return symbols;
 }
