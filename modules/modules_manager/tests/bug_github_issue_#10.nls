@@ -30,8 +30,8 @@
 // <-- Short Description -->
 // module_skeleton does not build/load
 //=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
-if ~isdir(sourcedir)
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
   return
 end
 //=============================================================================

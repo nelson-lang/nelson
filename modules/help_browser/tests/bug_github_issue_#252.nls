@@ -32,8 +32,8 @@
 // <--GUI MODE--> 
 // <--C/C++ COMPILER REQUIRED-->
 //=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
-if ~isdir(sourcedir)
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
   return
 end
 //=============================================================================
