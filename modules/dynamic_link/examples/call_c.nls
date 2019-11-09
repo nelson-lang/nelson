@@ -27,7 +27,15 @@ if ispc()
   lib_c_name = ['msvcrt', getdynlibext()];
   getpid_symbol = '_getpid';
 else
-  lib_c_name = ['libc', getdynlibext()];
+  if isunix()
+    if isfile('/usr/lib/x86_64-linux-gnu/libc.so.6')
+      lib_c_name = '/usr/lib/x86_64-linux-gnu/libc.so.6';
+    else
+      lib_c_name = ['libc', getdynlibext()];
+    end
+  else
+    lib_c_name = ['libc', getdynlibext()];
+  end
   getpid_symbol = 'getpid';  
 end
 libc = dlopen(lib_c_name)
