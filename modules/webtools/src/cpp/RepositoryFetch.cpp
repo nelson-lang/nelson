@@ -30,12 +30,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::string _username;
+static std::string _password;
+//=============================================================================
+static int
+credentialsCallback(git_cred** cred, const char* url, const char* username_from_url,
+    unsigned int allowed_types, void* payload)
+{
+    if ((allowed_types & GIT_CREDTYPE_USERPASS_PLAINTEXT) != 0) {
+        return git_cred_userpass_plaintext_new(cred, _username.c_str(), _password.c_str());
+    } else {
+        return -1;
+    }
+    return 1;
+}
+//=============================================================================
 void
-RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage)
+RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
+    const std::wstring& password, std::wstring& errorMessage)
 {
     git_libgit2_init();
     git_repository* repo = NULL;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
+    _username = wstring_to_utf8(user);
+    _password = wstring_to_utf8(password);
 
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
     if (errorCode != 0) {
@@ -52,6 +70,8 @@ RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage)
         return;
     }
     git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
+    opts.callbacks.credentials = credentialsCallback;
+
     errorCode = git_remote_fetch(origin, nullptr, &opts, nullptr);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
