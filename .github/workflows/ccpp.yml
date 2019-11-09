@@ -82,6 +82,6 @@ jobs:
     - name: package
       run: make package
     - name: all benchs
-      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run make benchs_all
+      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a make benchs_all
     - name: all tests
-      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run make tests_all
+      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a make tests_all
