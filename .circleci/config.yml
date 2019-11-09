@@ -52,4 +52,6 @@ jobs:
       - run: make tests_minimal
       - run: make package
       - run: make benchs_all_no_display
+      - run: rm -rf ~/.gitconfig 2> /dev/null
+      - run: rm -rf /etc/gitconfig 2> /dev/null
       - run: make tests_all_no_display
