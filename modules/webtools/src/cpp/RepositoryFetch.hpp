@@ -32,7 +32,8 @@ namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP
 void
-RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage);
+RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
+    const std::wstring& password, std::wstring& errorMessage);
 //=============================================================================
 };
 //=============================================================================

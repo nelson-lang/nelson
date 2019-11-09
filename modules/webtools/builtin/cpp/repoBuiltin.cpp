@@ -64,7 +64,7 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         } else {
             localPath = argIn[2].getContentAsWideString();
         }
-        RepositoryClone(url, branchOrTag, localPath, errorMessage);
+        RepositoryClone(url, L"", L"", branchOrTag, localPath, errorMessage);
     } else if (command == L"export") {
         if (nLhs > 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -83,7 +83,7 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         } else {
             localPath = argIn[2].getContentAsWideString();
         }
-        RepositoryExport(url, branchOrTag, localPath, errorMessage);
+        RepositoryExport(url, L"", L"", branchOrTag, localPath, errorMessage);
     } else if (command == L"checkout") {
         if (nLhs > 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -136,7 +136,7 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         std::wstring localPath = argIn[1].getContentAsWideString();
-        RepositoryFetch(localPath, errorMessage);
+        RepositoryFetch(localPath, L"", L"", errorMessage);
     } else if (command == L"log") {
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
