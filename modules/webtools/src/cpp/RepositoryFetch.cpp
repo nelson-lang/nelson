@@ -37,12 +37,7 @@ static int
 credentialsCallback(git_cred** cred, const char* url, const char* username_from_url,
     unsigned int allowed_types, void* payload)
 {
-    if ((allowed_types & GIT_CREDTYPE_USERPASS_PLAINTEXT) != 0) {
-        return git_cred_userpass_plaintext_new(cred, _username.c_str(), _password.c_str());
-    } else {
-        return -1;
-    }
-    return 1;
+    return git_cred_userpass_plaintext_new(cred, _username.c_str(), _password.c_str());
 }
 //=============================================================================
 void
