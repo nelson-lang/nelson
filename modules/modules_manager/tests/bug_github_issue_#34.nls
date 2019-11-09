@@ -28,8 +28,8 @@
 // <-- Short Description -->
 // Windows installer did not copy module_skeleton help files at the good place.
 //=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
-if ~isdir(sourcedir)
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
   return
 end
 //=============================================================================
