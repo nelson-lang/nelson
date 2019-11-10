@@ -50,12 +50,42 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         if (nLhs > 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (argIn.size() < 3 || argIn.size() > 4) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
         std::wstring url;
         std::wstring localPath;
         std::wstring branchOrTag;
+        std::wstring username;
+        std::wstring password;
+        switch (argIn.size()) {
+        case 3: {
+            // repo('clone', url, destination)
+            url = argIn[1].getContentAsWideString();
+            localPath = argIn[2].getContentAsWideString();
+        } break;
+        case 4: {
+            // repo('clone', url, branch, destination)
+            url = argIn[1].getContentAsWideString();
+            branchOrTag = argIn[2].getContentAsWideString();
+            localPath = argIn[3].getContentAsWideString();
+        } break;
+        case 5: {
+            // repo('clone', url, destination, username, password)
+            url = argIn[1].getContentAsWideString();
+            localPath = argIn[2].getContentAsWideString();
+            username = argIn[3].getContentAsWideString();
+            password = argIn[4].getContentAsWideString();
+        } break;
+        case 6: {
+            // repo('clone', url, branch, destination, username, password)
+            url = argIn[1].getContentAsWideString();
+            branchOrTag = argIn[2].getContentAsWideString();
+            localPath = argIn[3].getContentAsWideString();
+            username = argIn[4].getContentAsWideString();
+            password = argIn[5].getContentAsWideString();
+        } break;
+        default: {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        } break;
+        }
 
         url = argIn[1].getContentAsWideString();
         if (argIn.size() == 4) {
@@ -64,26 +94,49 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         } else {
             localPath = argIn[2].getContentAsWideString();
         }
-        RepositoryClone(url, L"", L"", branchOrTag, localPath, errorMessage);
+        RepositoryClone(url, username, password, branchOrTag, localPath, errorMessage);
     } else if (command == L"export") {
         if (nLhs > 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (argIn.size() < 3 || argIn.size() > 4) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
         std::wstring url;
         std::wstring localPath;
         std::wstring branchOrTag;
+        std::wstring username;
+        std::wstring password;
 
-        url = argIn[1].getContentAsWideString();
-        if (argIn.size() == 4) {
+        switch (argIn.size()) {
+        case 3: {
+            // repo('export', url, destination)
+            url = argIn[1].getContentAsWideString();
+            localPath = argIn[2].getContentAsWideString();
+        } break;
+        case 4: {
+            // repo('export', url, branch, destination)
+            url = argIn[1].getContentAsWideString();
             branchOrTag = argIn[2].getContentAsWideString();
             localPath = argIn[3].getContentAsWideString();
-        } else {
+        } break;
+        case 5: {
+            // repo('export', url, destination, username, password)
+            url = argIn[1].getContentAsWideString();
             localPath = argIn[2].getContentAsWideString();
+            username = argIn[3].getContentAsWideString();
+            password = argIn[4].getContentAsWideString();
+        } break;
+        case 6: {
+            // repo('export', url, branch, destination, username, password)
+            url = argIn[1].getContentAsWideString();
+            branchOrTag = argIn[2].getContentAsWideString();
+            localPath = argIn[3].getContentAsWideString();
+            username = argIn[4].getContentAsWideString();
+            password = argIn[5].getContentAsWideString();
+        } break;
+        default: {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
-        RepositoryExport(url, L"", L"", branchOrTag, localPath, errorMessage);
+        }
+        RepositoryExport(url, username, username, branchOrTag, localPath, errorMessage);
     } else if (command == L"checkout") {
         if (nLhs > 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -129,14 +182,23 @@ Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         std::wstring branchName = argIn[2].getContentAsWideString();
         RepositoryRemoveBranch(localPath, branchName, errorMessage);
     } else if (command == L"fetch") {
+        // repo('fetch', destination)
+        // repo('fetch', destination, username, password)
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (argIn.size() != 2) {
+        bool checkNbArgsIn = (argIn.size() == 2) || (argIn.size() == 4);
+        if (!checkNbArgsIn) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
+        std::wstring username;
+        std::wstring password;
+        if (argIn.size() == 4) {
+            username = argIn[2].getContentAsWideString();
+            password = argIn[3].getContentAsWideString();
+        }
         std::wstring localPath = argIn[1].getContentAsWideString();
-        RepositoryFetch(localPath, L"", L"", errorMessage);
+        RepositoryFetch(localPath, username, password, errorMessage);
     } else if (command == L"log") {
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

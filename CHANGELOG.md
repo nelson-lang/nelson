@@ -15,6 +15,8 @@
 
 * repo('export', ...) exports an git repository without .git directory.
 
+* extends repo to manage plain text authentification.
+
 * nmm_build_help, nmm_build_loader: helper's functions to build module skeleton.
 
 * executable option added: '--nousermodules' disables load of user's modules.

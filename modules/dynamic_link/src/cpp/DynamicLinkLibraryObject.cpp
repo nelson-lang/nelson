@@ -87,8 +87,7 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
         for (std::string s : stdSymbols) {
             symbols.push_back(s);
         }
-    }
-    catch (const std::runtime_error &e) {
+    } catch (const std::runtime_error& e) {
         errorMessage = e.what();
     }
     return symbols;

@@ -31,7 +31,8 @@
 namespace Nelson {
 //=============================================================================
 NLSMODULES_MANAGER_IMPEXP int
-CompareVersions(const std::string& versionA, const std::string& versionB, std::string &errorMessage);
+CompareVersions(
+    const std::string& versionA, const std::string& versionB, std::string& errorMessage);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

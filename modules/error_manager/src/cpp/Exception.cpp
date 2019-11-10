@@ -235,15 +235,13 @@ Exception::getFormattedErrorMessage()
                     filename = pf.wstring();
                 }
 
-               
                 message = message
                     + StringFormat(_W("at line %5d of \'%ls\'\n").c_str(), traces[pos].getLine(),
-                        filename.c_str());
+                          filename.c_str());
             }
         }
     }
     return message;
-
 
     /*
     std::wstring formattedMessage;
