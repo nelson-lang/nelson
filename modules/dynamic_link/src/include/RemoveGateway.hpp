@@ -28,9 +28,10 @@
 #include "Evaluator.hpp"
 #include "nlsDynamic_link_exports.h"
 //=============================================================================
-#define REMOVEGATEWAY_ENTRY "RemoveGateway"
 namespace Nelson {
+//=============================================================================
 NLSDYNAMIC_LINK_IMPEXP void
-RemoveGateway(Evaluator* eval, std::wstring dynlibname);
+RemoveGateway(Evaluator* eval, const std::wstring& dynlibname);
+//=============================================================================
 }
 //=============================================================================

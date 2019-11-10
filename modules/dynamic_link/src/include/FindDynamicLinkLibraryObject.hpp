@@ -23,30 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function varargout = dllibisloaded(libraryname)
-  if ~ischar(libraryname)
-    error(_('Wrong type for argument #1: string expected.'));
-  end
-  used = dllib_used();
-  if isempty(used)
-    varargout{1} = false;
-    varargout{2} = [];
-  else
-    try
-      lib = dlopen(libraryname);
-      fullname = lib.Path;
-      dlclose(lib);
-      for l = used
-        if strcmp(l.Path, fullname) == true
-          varargout{1} = true;
-          varargout{2} = l;
-          break;
-        end
-      end
-    catch
-      varargout{1} = false;
-      varargout{2} = [];
-    end
-  end
-endfunction
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "nlsDynamic_link_exports.h"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSDYNAMIC_LINK_IMPEXP ArrayOfVector
+findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

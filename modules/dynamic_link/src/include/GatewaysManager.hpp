@@ -23,23 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <-- NO USER MODULES -->
+#pragma once
 //=============================================================================
-path_1 = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
-path_2 = [modulepath(nelsonroot(),'core','bin'), '/libnlsCore', getdynlibext()];
-assert_isequal(size(dllib_used()), [0 0]);
-lib1 = dlopen(path_1);
-assert_isequal(size(dllib_used()), [1 1]);
-lib2 = dlopen(path_2);
-assert_isequal(size(dllib_used()), [1 2]);
-assert_isfalse(dllibisloaded(['nlscore2', getdynlibext()]));
-assert_isequal(size(dllib_used()), [1 2]);
-assert_istrue(dllibisloaded(path_1));
-assert_isequal(size(dllib_used()), [1 2]);
-assert_istrue(dllibisloaded(path_2));
-assert_isequal(size(dllib_used()), [1 2]);
-[t, lib] = dllibisloaded(path_1);
-assert_isequal(lib1, lib);
-assert_isequal(size(dllib_used()), [1 2]);
-assert_checkerror('dllibisloaded(3);', _('Unable to convert supplied object to a string.'));
+#include <string>
+#include "nlsDynamic_link_exports.h"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+class NLSDYNAMIC_LINK_IMPEXP GatewaysManager
+{
+    //=============================================================================
+public:
+    //=============================================================================
+    static GatewaysManager*
+    getInstance();
+    //=============================================================================
+    void
+    destroy();
+    //=============================================================================
+    bool
+    addGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage);
+    //=============================================================================
+    bool
+    removeGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage);
+    //=============================================================================
+private:
+    GatewaysManager();
+    //=============================================================================
+    static GatewaysManager* m_pInstance;
+    //=============================================================================
+};
+//=============================================================================
+}
 //=============================================================================

@@ -25,7 +25,6 @@
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'slicot', 'builtin'));
 if ~SLICOTWrapper('load')
-  removegateway(modulepath(nelsonroot(), 'slicot', 'builtin'));
   removemodule('slicot');
 end
 //=============================================================================

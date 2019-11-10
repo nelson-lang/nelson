@@ -23,10 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
-if FFTWwrapper('load')
-  addpath(modulepath(nelsonroot(), 'fftw', 'functions'))
-else
-  removemodule('fftw');
-end
+#include "dllibisloadedBuiltin.hpp"
+#include "FindDynamicLinkLibraryObject.hpp"
+#include "Error.hpp"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::DynamicLinkGateway::dllibisloadedBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 2) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    std::wstring libraryname = argIn[0].getContentAsWideString();
+    return findDynamicLinkLibraryObject(libraryname, nLhs);
+}
 //=============================================================================

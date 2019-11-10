@@ -168,6 +168,7 @@
     <ClCompile Include="..\cpp\dlcallBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlcloseBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllibinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllibisloadedBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_fieldnamesBuiltin.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="..\include\dlcallBuiltin.hpp" />
     <ClInclude Include="..\include\dlcloseBuiltin.hpp" />
     <ClInclude Include="..\include\dllibinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\dllibisloadedBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_dispBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_fieldnamesBuiltin.hpp" />
