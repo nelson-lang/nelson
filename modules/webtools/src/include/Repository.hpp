@@ -33,13 +33,11 @@ namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryClone(const std::wstring& url, const std::wstring& user, const std::wstring& password,
-    const std::wstring& branchOrTag, std::wstring& localPath,
-    std::wstring& errorMessage);
+    const std::wstring& branchOrTag, std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryExport(const std::wstring& url, const std::wstring& user, const std::wstring& password,
-    const std::wstring& branchOrTag, std::wstring& localPath,
-    std::wstring& errorMessage);
+    const std::wstring& branchOrTag, std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryCheckout(
