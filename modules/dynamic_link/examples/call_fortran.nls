@@ -46,7 +46,7 @@ end
 
 // system dependant
 DASUM_SYMBOLS = ["DASUM", "DASUM_", "dasum", "dasum_"];
-if ~isunix()
+if ispc() || ismac()
   DASUM_SYMBOL = char(DASUM_SYMBOLS(1))
 else
  DASUM_SYMBOL = '';

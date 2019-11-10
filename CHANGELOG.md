@@ -25,6 +25,10 @@
 
 * add // <--NO USER MODULES--> tag for test_run (disable load of user modules for a test)
 
+Bug Fixes:
+---------
+
+  * [#257](http://github.com/Nelson-numerical-software/nelson/issues/257): dllibisloaded optimized.
 
 
 # 0.3.10 (2019-10-29)

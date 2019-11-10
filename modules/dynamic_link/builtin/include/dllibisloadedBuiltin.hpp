@@ -23,10 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
-if FFTWwrapper('load')
-  addpath(modulepath(nelsonroot(), 'fftw', 'functions'))
-else
-  removemodule('fftw');
-end
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+namespace DynamicLinkGateway {
+    //=============================================================================
+    ArrayOfVector
+    dllibisloadedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

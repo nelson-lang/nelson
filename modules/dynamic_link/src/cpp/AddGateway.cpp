@@ -25,52 +25,16 @@
 //=============================================================================
 #include "AddGateway.hpp"
 #include "Error.hpp"
-#include "FindDynamicLibraryName.hpp"
-#include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
-#include <boost/filesystem.hpp>
+#include "GatewaysManager.hpp"
 //=============================================================================
 namespace Nelson {
 void
-AddGateway(Evaluator* eval, std::wstring dynlibname)
+AddGateway(Evaluator* eval, const std::wstring& dynlibname)
 {
-    /* to simplify some dependencies resolution, we move in the directory and restore it after */
-    boost::filesystem::path p = dynlibname;
-    p = p.generic_wstring();
-    std::wstring filename;
-    boost::filesystem::path dir = p.parent_path();
-    if (dir.generic_wstring().compare(L"") == 0) {
-        dir = boost::filesystem::current_path();
-    }
-    const std::wstring dirname = dir.generic_wstring();
-    filename = p.filename().generic_wstring();
-    filename = FindDynamicLibraryName(dirname, filename, false);
-    if (filename.empty()) {
-        Error(_W("File not found."));
-    } else {
-        boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
-        boost::filesystem::current_path(dir);
-        library_handle nlsModuleHandleDynamicLibrary = nullptr;
-#ifdef _MSC_VER
-        nlsModuleHandleDynamicLibrary = load_dynamic_libraryW(filename);
-#else
-        nlsModuleHandleDynamicLibrary = load_dynamic_library(wstring_to_utf8(filename));
-#endif
-        if (nlsModuleHandleDynamicLibrary) {
-            using PROC_AddGateway = bool (*)(const void*, const wchar_t*);
-            PROC_AddGateway AddGatewayPtr = reinterpret_cast<PROC_AddGateway>(
-                get_function(nlsModuleHandleDynamicLibrary, GATEWAY_ENTRY));
-            boost::filesystem::current_path(currentdirbackup);
-            if (!AddGatewayPtr) {
-                Error(_W("Module not loaded: symbol not found."));
-            }
-            AddGatewayPtr((void*)eval, dynlibname.c_str());
-        } else {
-            std::string error_msg = get_dynamic_library_error();
-            boost::filesystem::current_path(currentdirbackup);
-            Error(_W("Module not loaded: library not loaded.\n") + dynlibname + L"\n"
-                + utf8_to_wstring(error_msg) + L"\n");
-        }
+    std::wstring errorMessage;
+    GatewaysManager::getInstance()->addGateway(eval, dynlibname, errorMessage);
+    if (!errorMessage.empty()) {
+        Error(errorMessage);
     }
 }
 //=============================================================================
