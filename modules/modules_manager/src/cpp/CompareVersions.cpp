@@ -35,7 +35,7 @@ CompareVersions(const std::string& versionA, const std::string& versionB, std::s
 {
     semver_t semVersionA = {};
     semver_t semVersionB = {};
- 
+
     std::string cleanVersionA = versionA;
     if (boost::algorithm::starts_with(versionA, "v")) {
         cleanVersionA = cleanVersionA.erase(0, 1);
@@ -46,7 +46,7 @@ CompareVersions(const std::string& versionA, const std::string& versionB, std::s
     }
 
     std::string operatorSatifies;
- 
+
     if (boost::algorithm::starts_with(cleanVersionB, "=")) {
         operatorSatifies = "=";
         cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());

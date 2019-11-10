@@ -13,6 +13,8 @@
     <syntax_item>repo('clone', url, destination, username, password)</syntax_item> 
     <syntax_item>repo('export', url, branch, destination)</syntax_item>
     <syntax_item>repo('export', url, destination)</syntax_item> 
+    <syntax_item>repo('export', url, branch, destination, username, password)</syntax_item>
+    <syntax_item>repo('export', url, destination, username, password)</syntax_item> 
     <syntax_item>repo('checkout', destination, branch_tag_sha1)</syntax_item>
     <syntax_item>ce = repo('branch', destination)</syntax_item>
     <syntax_item>ce = repo('tag', destination)</syntax_item>    

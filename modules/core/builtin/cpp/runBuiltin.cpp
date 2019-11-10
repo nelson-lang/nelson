@@ -35,8 +35,8 @@
 using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
-runBuiltinCommon(Evaluator* eval, const std::wstring& filename,
-  bool errorCatch, bool changeDirectory)
+runBuiltinCommon(
+    Evaluator* eval, const std::wstring& filename, bool errorCatch, bool changeDirectory)
 {
     ArrayOfVector retval;
     bool bSuccess = false;

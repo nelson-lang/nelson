@@ -28,7 +28,8 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ErrorManagerGateway::getLastReportBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ErrorManagerGateway::getLastReportBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {
