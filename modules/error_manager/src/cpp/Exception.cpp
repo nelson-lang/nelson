@@ -201,10 +201,13 @@ Exception::getFormattedErrorMessage()
     }
 
     if (i != -1) {
-        if (traces[i + 1].getFunctionName() != L"run") {
-            functionName = traces[i].getFunctionName();
-            if (traces[i].getLine() != 0) {
-                lineAsString = std::to_wstring(traces[i].getLine());
+        size_t idx = i + 1; 
+        if (idx < nbTraces) {
+            if (traces[idx].getFunctionName() != L"run") {
+                functionName = traces[i].getFunctionName();
+                if (traces[i].getLine() != 0) {
+                    lineAsString = std::to_wstring(traces[i].getLine());
+                }
             }
         }
     }
@@ -242,33 +245,6 @@ Exception::getFormattedErrorMessage()
         }
     }
     return message;
-
-    /*
-    std::wstring formattedMessage;
-    if (!msg.empty()) {
-        formattedMessage.append(msg);
-    }
-    if (!backtrace.empty()) {
-        std::wstring filename = backtrace[0].getFilename();
-        std::wstring functionName = backtrace[0].getFunctionName();
-        int line = backtrace[0].getLine();
-        formattedMessage.append(L"\n");
-        if (line == 0) {
-            if (!filename.empty()) {
-                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L"\n";
-            }
-        } else {
-            if (!functionName.empty()) {
-                formattedMessage = formattedMessage + std::wstring(L"In ") + filename
-                    + L" function " + functionName + L" (line " + std::to_wstring(line) + L")\n";
-            } else {
-                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L" (line "
-                    + std::to_wstring(line) + L")\n";
-            }
-        }
-    }
-    return formattedMessage;
-    */
 }
 //=============================================================================
 bool
