@@ -8,7 +8,7 @@
 
 	<syntax>
 		<syntax_item>f = tempname()</syntax_item>
-		<syntax_item>f = tempdir(path)</syntax_item>
+		<syntax_item>f = tempname(path)</syntax_item>
 	</syntax>
 	
 	<param_input>
