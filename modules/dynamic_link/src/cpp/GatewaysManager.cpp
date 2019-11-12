@@ -158,8 +158,8 @@ GatewaysManager::removeGateway(
             boost::filesystem::current_path(currentdirbackup);
             if (RemoveGatewayPtr) {
                 bool res = RemoveGatewayPtr((void*)eval, libraryFullName.c_str());
-                close_dynamic_library(nlsModuleHandleDynamicLibrary);
                 libraryMap.erase(libraryFullName);
+                close_dynamic_library(nlsModuleHandleDynamicLibrary);
                 return res;
             } else {
                 errorMessage = _W("Module not loaded: symbol not found.");

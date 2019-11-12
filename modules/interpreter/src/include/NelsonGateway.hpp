@@ -25,9 +25,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "BuiltInFunctionDefManager.hpp"
 #include "Evaluator.hpp"
-#include <string>
+#include "GatewayHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -56,29 +57,12 @@ typedef struct nlsGatewayStructType
 #define EXTERN_AS_C extern "C"
 #endif
 //=============================================================================
-using PROC_InitializeGateway = bool (*)(Nelson::Evaluator*);
-using PROC_FinishGateway = bool (*)(Nelson::Evaluator*);
-//=============================================================================
 #define NLSGATEWAYFUNCEXTENDED(gateway, ptrInitializeFunction)                                     \
-    EXTERN_AS_C EXPORTSYMBOL bool AddGateway(void* eval, const wchar_t* moduleFilename)            \
+    EXTERN_AS_C EXPORTSYMBOL int AddGateway(void* eval, const wchar_t* moduleFilename)             \
     {                                                                                              \
-        Nelson::Evaluator* _eval = (Nelson::Evaluator*)eval;                                       \
-        Context* ctx = _eval->getContext();                                                        \
-        if (ctx) {                                                                                 \
-            size_t nbBuiltins = sizeof(gateway) / sizeof(nlsGateway);                              \
-            for (size_t k = 0; k < nbBuiltins; k++) {                                              \
-                Nelson::BuiltInFunctionDefManager::getInstance()->add(                             \
-                    gateway[k].functionName.c_str(), gateway[k].fptr, gateway[k].nRhs,             \
-                    gateway[k].nLhs, moduleFilename, gatewayName);                                 \
-            }                                                                                      \
-            if ((void*)ptrInitializeFunction) {                                                    \
-                PROC_InitializeGateway ptrFunc                                                     \
-                    = reinterpret_cast<PROC_InitializeGateway>(ptrInitializeFunction);             \
-                return ptrFunc(_eval);                                                             \
-            }                                                                                      \
-            return true;                                                                           \
-        }                                                                                          \
-        return false;                                                                              \
+        return NelsonAddGatewayWithEvaluator(eval, moduleFilename, (void*)gateway,                 \
+            sizeof(gateway) / sizeof(nlsGateway), gatewayName.c_str(),                             \
+            (void*)ptrInitializeFunction);                                                         \
     }
 //=============================================================================
 #define NLSGATEWAYFUNC(gateway) NLSGATEWAYFUNCEXTENDED(gateway, NULL)
@@ -101,22 +85,8 @@ using PROC_FinishGateway = bool (*)(Nelson::Evaluator*);
 #define NLSGATEWAYREMOVEEXTENDED(gateway, ptrFinishFunction)                                       \
     EXTERN_AS_C EXPORTSYMBOL bool RemoveGateway(void* eval, const wchar_t* moduleFilename)         \
     {                                                                                              \
-        Nelson::Evaluator* _eval = (Nelson::Evaluator*)eval;                                       \
-        Context* ctx = _eval->getContext();                                                        \
-        if (ctx) {                                                                                 \
-            size_t nbBuiltins = sizeof(gateway) / sizeof(nlsGateway);                              \
-            for (size_t k = 0; k < nbBuiltins; k++) {                                              \
-                Nelson::BuiltInFunctionDefManager::getInstance()->remove(                          \
-                    gateway[nbBuiltins - k].fptr);                                                 \
-            }                                                                                      \
-            if ((void*)ptrFinishFunction) {                                                        \
-                PROC_FinishGateway ptrFunc                                                         \
-                    = reinterpret_cast<PROC_FinishGateway>(ptrFinishFunction);                     \
-                return ptrFunc(_eval);                                                             \
-            }                                                                                      \
-            return true;                                                                           \
-        }                                                                                          \
-        return false;                                                                              \
+        return NelsonRemoveGatewayWithEvaluator(eval, moduleFilename, (void*)gateway,              \
+            sizeof(gateway) / sizeof(nlsGateway), gatewayName.c_str(), (void*)ptrFinishFunction);  \
     }
 //=============================================================================
 #define NLSGATEWAYREMOVE(gateway) NLSGATEWAYREMOVEEXTENDED(gateway, NULL)
