@@ -158,7 +158,7 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
             boost::property_tree::read_json(is, root);
             std::string versionString = root.get<std::string>("version");
             semver_t semVersion = {};
-            if (semver_parse(versionString.c_str(), &semVersion)) {
+            if (semver_parse(versionString.c_str(), &semVersion) != 0) {
                 version.clear();
             } else {
                 semver_free(&semVersion);
