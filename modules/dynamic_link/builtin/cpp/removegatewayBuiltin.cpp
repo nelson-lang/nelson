@@ -26,6 +26,8 @@
 #include "removegatewayBuiltin.hpp"
 #include "Error.hpp"
 #include "RemoveGateway.hpp"
+#include "PathFuncManager.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -43,6 +45,7 @@ Nelson::DynamicLinkGateway::removegatewayBuiltin(
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         RemoveGateway(eval, dynlibName);
+        eval->getContext()->getCurrentScope()->clearCache();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
