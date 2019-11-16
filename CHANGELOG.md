@@ -1,29 +1,39 @@
 # 0.3.11 (2019-11-XX)
 
-* semver builtin: semantic versioner.
+* nmm: Nelson Modules Manager (package manager for Nelson)
+  - list : get list of installed modules,
+  - load : load an installed module for current session,
+  - autoload : load modules "marked" as autoload at startup,
+  - install : install a distant module,
+  - uninstall : uninstall an installed module.
 
-* fullpath builtin: converts an relative path to full path name.
+* Module skeleton moved to an dedicated git repository
 
-* getLastReport builtin: returns last formatted error message.
+  - template with builtin and macros: https://github.com/Nelson-numerical-software/module_skeleton
+  - template with macros only: https://github.com/Nelson-numerical-software/module_skeleton_basic
 
 * usermodulesdir builtin: returns directory where user's modules are saved.
 
 * toolboxdir builtin: Root folder for specified toolbox.
 
-* Module skeleton moved to an dedicated git repository
-  https://github.com/Nelson-numerical-software/module_skeleton
-
-* repo('export', ...) exports an git repository without .git directory.
-
-* extends repo to manage plain text authentification.
-
 * nmm_build_help, nmm_build_loader: helper's functions to build module skeleton.
+
+* semver builtin: semantic versioner.
 
 * executable option added: '--nousermodules' disables load of user's modules.
 
 * add capability to load some user's modules.
 
 * add // <--NO USER MODULES--> tag for test_run (disable load of user modules for a test)
+
+* fullpath builtin: converts an relative path to full path name.
+
+* getLastReport builtin: returns last formatted error message.
+
+* extends repo to manage plain text authentification.
+
+* repo('export', ...) exports an git repository without .git directory.
+
 
 Bug Fixes:
 ---------

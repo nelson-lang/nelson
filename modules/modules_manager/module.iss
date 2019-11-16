@@ -33,6 +33,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\module
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\internal\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\internal\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
