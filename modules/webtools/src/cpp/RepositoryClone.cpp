@@ -31,6 +31,7 @@
 #include "characters_encoding.hpp"
 #include "RepositoryClone.hpp"
 #include "RepositoryHelpers.hpp"
+#include "RepositoryCheckout.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -73,14 +74,23 @@ void
 RepositoryExport(const std::wstring& url, const std::wstring& user, const std::wstring& password,
     const std::wstring& branchOrTag, std::wstring& localPath, std::wstring& errorMessage)
 {
-    RepositoryClone(url, user, password, branchOrTag, localPath, errorMessage);
+    RepositoryClone(url, user, password, L"", localPath, errorMessage);
+
     if (errorMessage.empty()) {
+        if (!branchOrTag.empty()) {
+            RepositoryCheckout(
+                localPath, branchOrTag, errorMessage);
+        }
         boost::filesystem::path p;
-        if (!boost::algorithm::ends_with(localPath, L"\\")
-            && (!boost::algorithm::ends_with(localPath, L"/"))) {
-            p = localPath + std::wstring(L"/.git");
+        if (errorMessage.empty()) {
+            if (!boost::algorithm::ends_with(localPath, L"\\")
+                && (!boost::algorithm::ends_with(localPath, L"/"))) {
+                p = localPath + std::wstring(L"/.git");
+            } else {
+                p = localPath + std::wstring(L".git");
+            }
         } else {
-            p = localPath + std::wstring(L".git");
+            p = localPath;
         }
         RemoveDirectory(p.generic_wstring(), true, errorMessage);
     }
