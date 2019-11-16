@@ -23,8 +23,19 @@
 
   </param_input>
 
+   <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>a double: -1, 0 or 1.</param_description>
+    </param_output_item>
+  </param_output>
+
+
   <description>
-  <p><b>semver</b> compares a version string to an range version.</p>
+  <p><b>semver</b> compares a version string to an version or an range version.</p>
+  <p>if an range version is used, <b>r</b> return 0 (not satisfied) or 1 (satisfied).</p>
+  <p>if an simple version is used, an comparaison value <b>r</b> is returned -1 (inferior), 0 (equal) or 1 (superior).</p>
+
   <p>supported range operators:</p>
   <p><b>=</b> - Equality</p>
   <p><b>&gt;=</b> - Higher or equal to</p>

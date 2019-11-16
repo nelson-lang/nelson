@@ -23,20 +23,45 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nmm_build_help(_MODULE_NAME, _MODULE_PATH)
-    if ~ismodule(_MODULE_NAME)
-        try 
-            run([_MODULE_PATH '/loader.nls']);
-            loaded = true;
-        catch
-            loaded = false;
+function [r, msg] = nmm_is_supported_platform(plaforms)
+    r = false;
+    msg = sprintf(_('Platform not supported: %s'), sprintf('%s ', string(plaforms')));
+    validPlatforms = ["all", "win32" , "win64", "maci64", "maci32", "glnxa64", "glnxa32"];
+    if all(contains(plaforms, validPlatforms))
+       currentArch = computer('arch');
+    else
+       return
+    end
+    currentArch = computer('arch');
+    if ischar(plaforms)
+        if any(contains(validPlatforms, plaforms))
+            if strcmp(plaforms, "all")
+                r = true;
+                msg = '';
+            else
+                if strcmp(plaforms, currentArch)
+                    r = true;
+                else
+                    r = false;
+                    msg = sprintf(_('Platform not supported: %s'), plaforms);
+                end
+            end
+        else
+            r = false;
+            msg = sprintf(_('Platform not supported: %s'), plaforms);
         end
     else
-        loaded = true;
+        if iscell(plaforms) 
+            if any(contains(validPlatforms, plaforms))
+                r = true;
+                msg = '';
+            else
+                r = false;
+                msg = sprintf(_('Platform not supported: %s'), plaforms);
+            end
+        else
+            msg = _('Invalid type in platforms');
+        end
     end
-    if loaded
-        buildhelp(_MODULE_NAME);
-        removemodule(_MODULE_NAME);
-    end        
 endfunction
 //=============================================================================

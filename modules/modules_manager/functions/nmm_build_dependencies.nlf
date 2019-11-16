@@ -23,20 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nmm_build_help(_MODULE_NAME, _MODULE_PATH)
-    if ~ismodule(_MODULE_NAME)
-        try 
-            run([_MODULE_PATH '/loader.nls']);
-            loaded = true;
-        catch
-            loaded = false;
-        end
-    else
-        loaded = true;
+function nmm_build_dependencies(MODULE_PATH)
+    module_json = [MODULE_PATH, '/module.json'];
+    if ~isfile(module_json)
+        error(_('module.json is missing.'));
     end
-    if loaded
-        buildhelp(_MODULE_NAME);
-        removemodule(_MODULE_NAME);
-    end        
+    content = fileread(module_json);
+    data = jsondecode(content);
+    if any(contains(fieldnames(data), 'dependencies'))
+        dependencies = data.dependencies;
+        names = fieldnames(dependencies);
+        for n = names'
+            r = nmm_is_http_repository(dependencies.(n{1}));
+            if r || isdir(dependencies.(n{1}))
+                nmm('install', dependencies.(n{1}))
+            else
+                nmm('install', n, dependencies.(n{1}))
+            end                
+        end
+    end
 endfunction
 //=============================================================================

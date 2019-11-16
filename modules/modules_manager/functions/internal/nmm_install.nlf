@@ -1,0 +1,145 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of the Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// Alternatively, you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation; either version 2 of
+// the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this program. If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function nmm_install(varargin)
+    switch length(varargin)
+        case 1
+            nmm_install_one_rhs(varargin{1});
+        case 2
+            nmm_install_two_rhs(varargin{1}, varargin{2});
+        otherwise
+            error(_('Wrong number of input arguments.'));
+        end
+endfunction
+//=============================================================================
+// nmm('install', module_name)
+// nmm('install', local_module_directory)
+// nmm('install', http_git_repository)
+function nmm_install_one_rhs(param1)
+    removeSourceDirectory = true;
+    if isdir(param1)
+        removeSourceDirectory = false;
+        res = false;
+    else         
+        [res, url, tag_branch] = nmm_is_http_repository(param1);
+    end
+
+    if ~(res || isdir(param1))
+        error(_('An valid git url or local directory expected.'))
+    end
+    if res
+        destinationTempPath = [tempdir(), createGUID(), '/'];
+        repo('export', url, tag_branch, destinationTempPath);
+    else
+        destinationTempPath = param1;
+    end        
+    if ~is_local_module(destinationTempPath)
+        error(_('Valid module repository expected.'));
+    end
+    module_description = read_module_json(destinationTempPath);
+    if is_already_installed(module_description.module)
+        if removeSourceDirectory
+            rmdir(destinationTempPath, 's');
+        end            
+        warning(sprintf(_('%s already installed.'), module_description.module));
+        return
+    end
+    [r, msg] = nmm_is_supported_platform(module_description.platforms);
+    if ~r
+        if removeSourceDirectory
+            rmdir(destinationTempPath, 's');
+        end            
+        error(msg);
+    end
+    if (module_description.builtin && ~havecompiler())
+        if removeSourceDirectory
+            rmdir(destinationTempPath, 's');
+        end            
+        error(sprintf(_('An C/C++ compiler is required by %s'), module_description.module));
+    end
+    destination_dir = copyModule(destinationTempPath, module_description.module, module_description.version);
+    if removeSourceDirectory
+        rmdir(destinationTempPath, 's');
+    end            
+
+    try
+        run([destination_dir, 'builder.nls']);
+        saveInstalledModule(module_description.module, destination_dir);
+    catch
+        e = lasterror();
+        if removeSourceDirectory
+            rmdir(destinationTempPath, 's');
+        end            
+        error(e);
+    end
+endfunction
+//=============================================================================
+// nmm('install', module_name, module_version)
+function nmm_install_two_rhs(module_name, module_version)
+    error('Currently not managed.')
+endfunction
+//=============================================================================
+function r = is_local_module(param)
+    r  = false;
+    if isdir(param)
+        path = fullpath(param);
+        if ~endsWith(path, '/')
+            path = [path, '/'];
+        end
+        r = isfile([path, 'module.json']) && isfile([path, 'builder.nls']);
+    end
+endfunction
+//=============================================================================
+function st = read_module_json(directory)
+    module_json_path = [directory, 'module.json'];
+    txt = fileread(module_json_path);
+    st = jsondecode(txt);
+endfunction
+//=============================================================================
+function r = is_already_installed(module_name)
+    modules = nmm_list();
+    r = contains(fieldnames(modules), module_name);
+endfunction
+//=============================================================================
+function destination_dir = copyModule(source, module_name, module_version)
+    p = usermodulesdir();
+    destination_dir = [p, module_name, '/', module_version, '/'];
+    if ~isdir(destination_dir)
+        mkdir(destination_dir);
+    end
+    copyfile(source, destination_dir, 'f');
+endfunction
+//=============================================================================
+function saveInstalledModule(module_name, module_path)
+    element.path = module_path;
+    element.load = false;
+    modules = nmm_list();
+    modules.(module_name) = element;
+    p = usermodulesdir();
+    modules_json_path = [p, 'modules.json'];
+    txt = jsonprettyprint(jsonencode(modules));
+    filewrite(modules_json_path, txt);
+endfunction
+//=============================================================================

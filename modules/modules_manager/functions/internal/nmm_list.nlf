@@ -23,20 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nmm_build_help(_MODULE_NAME, _MODULE_PATH)
-    if ~ismodule(_MODULE_NAME)
-        try 
-            run([_MODULE_PATH '/loader.nls']);
-            loaded = true;
-        catch
-            loaded = false;
+function st = nmm_list()
+    p = usermodulesdir();
+    modules_json_path = [p, 'modules.json'];
+    if isfile(modules_json_path)
+        txt = fileread(modules_json_path);
+        st = jsondecode(txt);
+        if isempty(st) && isdouble(st)
+            st = struct([]);
         end
     else
-        loaded = true;
+        st = struct([]);
     end
-    if loaded
-        buildhelp(_MODULE_NAME);
-        removemodule(_MODULE_NAME);
-    end        
-endfunction
+ endfunction
 //=============================================================================

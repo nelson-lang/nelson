@@ -23,20 +23,30 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nmm_build_help(_MODULE_NAME, _MODULE_PATH)
-    if ~ismodule(_MODULE_NAME)
-        try 
-            run([_MODULE_PATH '/loader.nls']);
-            loaded = true;
-        catch
-            loaded = false;
-        end
-    else
-        loaded = true;
-    end
-    if loaded
-        buildhelp(_MODULE_NAME);
-        removemodule(_MODULE_NAME);
-    end        
+function [module_name, module_data] = nmm_find_installed_module(module_or_path)
+   module_name = [];
+   module_data = struct([]);
+
+   modules = nmm_list();
+   if ~isempty(modules)
+      if isfield(modules, module_or_path)
+         module_name = module_or_path;
+         module_data = getfield(modules, module_or_path);
+      else
+         if isdir(module_or_path)
+            module_or_path = fullpath(module_or_path);
+            if ~endsWith(module_or_path, '/')
+               module_or_path = [module_or_path, '/'];
+            end
+            for m = fieldnames(modules)'
+               s = getfield(modules, m{1});
+               if strcmp(s.path, module_or_path)
+                  module_name = m{1};
+                  module_data = s;
+                  break;
+               end
+            end
+         end        
+      end
+   end
 endfunction
-//=============================================================================
