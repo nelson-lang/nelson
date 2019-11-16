@@ -295,6 +295,10 @@ PathFuncManager::removePath(const std::wstring& path)
         if (pf) {
             boost::filesystem::path p1{ pf->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
+                PathFunc* pf = *it;
+                if (pf) {
+                    delete pf;
+                }
                 _pathFuncVector.erase(it);
                 return true;
             }
