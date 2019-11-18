@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellfunBuiltin.cpp" />
     <ClCompile Include="..\cpp\fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\iscellstrBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\include\cellfunBuiltin.hpp" />
     <ClInclude Include="..\include\cell_vertcat_cellBuiltin.hpp" />
     <ClInclude Include="..\include\fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\getfieldBuiltin.hpp" />
     <ClInclude Include="..\include\iscellstrBuiltin.hpp" />
     <ClInclude Include="..\include\isfieldBuiltin.hpp" />
     <ClInclude Include="..\include\namedargs2cellBuiltin.hpp" />

@@ -60,7 +60,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(_W("Wrong type for argument #4. struct expected."));
     }
     if (!param4.isScalar()) {
-        Error(_W("Wrong size for argument #4. scalr struct expected."));
+        Error(_W("Wrong size for argument #4. scalar struct expected."));
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;

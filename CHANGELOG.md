@@ -34,6 +34,8 @@
 
 * repo('export', ...) exports an git repository without .git directory.
 
+* getfield macro replaced by an builtin.
+
 
 Bug Fixes:
 ---------

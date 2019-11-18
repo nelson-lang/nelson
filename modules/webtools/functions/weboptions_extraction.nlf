@@ -25,6 +25,6 @@
 //=============================================================================
 function r = weboptions_extraction(obj, fieldname)
   s = struct(obj);
-  r = s.getfield(s, fieldname);
+  r = getfield(s, fieldname);
 endfunction
 //=============================================================================
