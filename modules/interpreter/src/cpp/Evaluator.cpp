@@ -2403,7 +2403,9 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
             Error(_W("Case not managed."));
         }
     } else {
+        std::vector<StackEntry> cstack = this->cstack;
         m = functionExpression(fptr, fAST, (int)lhsCount, false);
+        this->cstack = cstack;
     }
     s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
@@ -3028,7 +3030,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                     if (isVar) {
                         if (r.isClassStruct()) {
                             s = t->down;
-                            if (s->opNum == (OP_DOT)) {
+                            if (s->opNum == (OP_DOT) || s->opNum == (OP_DOTDYN)) {
                                 s = s->down;
                                 return scalarArrayOfToArrayOfVector(r.getField(s->text));
                             }
@@ -3630,7 +3632,9 @@ Evaluator::rhsExpression(ASTPtr t)
             std::string extractionFunctionName = className + "_extraction";
             isFun = lookupFunction(extractionFunctionName, funcDef);
             if (isFun) {
+                std::vector<StackEntry> cstack = this->cstack;
                 m = functionExpression(funcDef, t, 1, false);
+                this->cstack = cstack;
                 popID();
                 return m;
             } else {
@@ -4288,7 +4292,9 @@ Evaluator::simpleAssignClass(
     argIn.push_back(r);
     argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
     argIn.push_back(fieldvalue[0]);
+    std::vector<StackEntry> cstack = this->cstack;
     ArrayOfVector res = funcDef->evaluateFunction(this, argIn, nLhs);
+    this->cstack = cstack;
     return res;
 }
 //=============================================================================
@@ -4312,7 +4318,10 @@ Evaluator::extractClass(const ArrayOf& r, const std::string& fieldname, const Ar
         for (ArrayOf a : params) {
             argIn.push_back(a);
         }
-        return funcDef->evaluateFunction(this, argIn, nLhs);
+        std::vector<StackEntry> cstack = this->cstack;
+        ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+        this->cstack = cstack;
+        return rv;
     }
     return ArrayOfVector();
 }
