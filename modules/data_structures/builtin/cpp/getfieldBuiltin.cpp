@@ -57,7 +57,12 @@ Nelson::DataStructuresGateway::getfieldBuiltin(Evaluator* eval, int nLhs, const 
         }
         if (param1.isStruct()) {
             std::wstring fieldname = param2.getContentAsWideString();
-            retval.push_back(param1.getField(wstring_to_utf8(fieldname)));
+            if (param1.isScalar()) {
+                retval.push_back(param1.getField(wstring_to_utf8(fieldname)));
+            } else {
+                ArrayOfVector rv = param1.getFieldAsList(wstring_to_utf8(fieldname));
+                retval.push_back(rv[0]);
+            }
         } else {
             Error(_W("Wrong type for argument #1. struct expected."));
         }
