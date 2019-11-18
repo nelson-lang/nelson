@@ -44,25 +44,5 @@ api = 'https://zzxuhwtog6.execute-api.us-east-1.amazonaws.com/mwparticle';
 url = [api, '/photon1'];
 input = struct('data','on');
 userInfo = webwrite(url, input);
-assert_isequal(userInfo, input);
-//=============================================================================
-api = 'https://zzxuhwtog6.execute-api.us-east-1.amazonaws.com/mwparticle';
-url = [api, '/photon1'];
-input = struct('data','on');
-opts = weboptions('MediaType','application/json');
-userInfo = webwrite(url, input, opts);
-assert_isequal(userInfo, input);
-//=============================================================================
-api = 'https://zzxuhwtog6.execute-api.us-east-1.amazonaws.com/mwparticle';
-url = [api, '/photon1'];
-input = [1 2];
-userInfo = webwrite(url, input);
-assert_isequal(userInfo, [1 2]');
-//=============================================================================
-api = 'https://zzxuhwtog6.execute-api.us-east-1.amazonaws.com/mwparticle';
-url = [api, '/photon1'];
-input = [1 2];
-opts = weboptions('MediaType','application/json');
-userInfo = webwrite(url, input, opts);
-assert_isequal(userInfo, [1 2]');
+assert_istrue(contains(userInfo.errorMessage, 'Task timed out after'));
 //=============================================================================
