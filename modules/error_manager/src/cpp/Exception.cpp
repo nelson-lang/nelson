@@ -201,7 +201,7 @@ Exception::getFormattedErrorMessage()
     }
 
     if (i != -1) {
-        size_t idx = i + 1; 
+        size_t idx = i + 1;
         if (idx < nbTraces) {
             if (traces[idx].getFunctionName() != L"run") {
                 functionName = traces[i].getFunctionName();

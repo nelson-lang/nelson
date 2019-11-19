@@ -78,8 +78,7 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
 
     if (errorMessage.empty()) {
         if (!branchOrTag.empty()) {
-            RepositoryCheckout(
-                localPath, branchOrTag, errorMessage);
+            RepositoryCheckout(localPath, branchOrTag, errorMessage);
         }
         boost::filesystem::path p;
         if (errorMessage.empty()) {
