@@ -24,8 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if (strcmp(getnelsonmode(), 'GUI') == true || ...
-    strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-    strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-    addmodule([nelsonroot() '/modules/' 'help_browser'], 'help_browser');
+  strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
+  strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
+  addmodule([nelsonroot() '/modules/' 'help_browser'], 'help_browser');
 end
 //=============================================================================
