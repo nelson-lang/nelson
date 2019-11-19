@@ -36,6 +36,8 @@
 
 * getfield macro replaced by an builtin.
 
+* extends isequal, isequaln, isequalto for structure arrays.
+
 
 Bug Fixes:
 ---------
