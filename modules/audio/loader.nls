@@ -24,6 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if (strcmp(getenv('AUDIODEV'), 'null') == false)
-    addmodule([nelsonroot() '/modules/' 'audio'], 'audio');
+  addmodule([nelsonroot() '/modules/' 'audio'], 'audio');
 end
 //=============================================================================
