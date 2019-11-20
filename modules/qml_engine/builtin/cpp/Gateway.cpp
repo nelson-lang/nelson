@@ -24,6 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "QmlEngine.hpp"
+//=============================================================================
 #include "qml_addimportpathBuiltin.hpp"
 #include "qml_addpluginpathBuiltin.hpp"
 #include "qml_clearcomponentcacheBuiltin.hpp"
@@ -100,11 +102,18 @@ static const nlsGateway gateway[] = {
 
 };
 //=============================================================================
+static bool
+finishQmlEngineModule(Nelson::Evaluator* eval)
+{
+    QmlEngine::getInstance()->destroy();
+    return true;
+}
+//=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishQmlEngineModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

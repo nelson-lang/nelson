@@ -54,6 +54,19 @@ QmlEngine::getInstance()
     return m_pInstance;
 }
 //=============================================================================
+void
+QmlEngine::destroy()
+{
+    if (qmlengine) {
+        qmlengine->deleteLater();
+        qmlengine = nullptr;
+    }
+    if (m_pInstance) {
+        delete m_pInstance;
+        m_pInstance = nullptr;
+    }
+}
+//=============================================================================
 static QmlHandleObject*
 allocateQmlHandle(QObject* qobj)
 {
@@ -106,12 +119,14 @@ QmlEngine::loadQmlFile(const std::wstring& filename)
             component->deleteLater();
             Error(QStringTowstring(component->errorString()));
         }
-        std::string classname = std::string(topLevel->metaObject()->className());
-        if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
-            QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
-            topLevel->setParent(QMainWindowParent);
+        if (topLevel) {
+            std::string classname = std::string(topLevel->metaObject()->className());
+            if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
+                QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
+                topLevel->setParent(QMainWindowParent);
+            }
+            return allocateQmlHandle(topLevel);
         }
-        return allocateQmlHandle(topLevel);
     }
     return nullptr;
 }
@@ -121,11 +136,17 @@ QmlEngine::createQQuickView(const std::wstring& filename)
 {
     QObject* topLevel = nullptr;
     QFile qf(wstringToQString(filename));
+
     if (qf.exists()) {
+        QUrl qUrlLocal = QUrl::fromLocalFile(wstringToQString(filename));
         qmlengine->clearComponentCache();
         QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
         QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
-        view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
+        try {
+            view->setSource(qUrlLocal);
+        } catch (std::runtime_error& e) {
+            e.what();
+        }
         topLevel = view->rootObject();
         if (topLevel == nullptr) {
             view->deleteLater();
@@ -133,9 +154,13 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         }
         topLevel->setParent(view);
         view->show();
-        topLevel = topLevel->parent();
-        topLevel->setParent(QMainWindowParent);
-        return allocateQmlHandle(topLevel);
+        if (topLevel) {
+            topLevel = topLevel->parent();
+            topLevel->setParent(QMainWindowParent);
+            return allocateQmlHandle(topLevel);
+        } else {
+            Error(_W("Cannot set parent."));
+        }
     } else {
         Error(_W("File does not exist:") + L"\n" + filename);
     }
@@ -147,11 +172,12 @@ QmlEngine::QmlEngine()
     qmlengine = new QQmlEngine();
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        nelsonObject* qobjnelson = new nelsonObject();
+        QQmlContext* ctxt = qmlengine->rootContext();
+        ctxt->setContextProperty("nelson", qobjnelson);
+        QQmlEngine::setObjectOwnership(qobjnelson, QQmlEngine::CppOwnership);
     }
-    nelsonObject* qobjnelson = new nelsonObject();
-    QQmlContext* ctxt = qmlengine->rootContext();
-    ctxt->setContextProperty("nelson", qobjnelson);
-    QQmlEngine::setObjectOwnership(qobjnelson, QQmlEngine::CppOwnership);
 }
 //=============================================================================
 void
@@ -159,8 +185,9 @@ QmlEngine::clearComponentCache()
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        qmlengine->clearComponentCache();
     }
-    qmlengine->clearComponentCache();
 }
 //=============================================================================
 wstringVector
@@ -169,10 +196,11 @@ QmlEngine::importPathList()
     wstringVector res;
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
-    }
-    QStringList list = qmlengine->importPathList();
-    for (int k = 0; k < list.size(); k++) {
-        res.push_back(QStringTowstring(list[k]));
+    } else {
+        QStringList list = qmlengine->importPathList();
+        for (int k = 0; k < list.size(); k++) {
+            res.push_back(QStringTowstring(list[k]));
+        }
     }
     return res;
 }
@@ -184,9 +212,11 @@ QmlEngine::pluginPathList()
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
     }
-    QStringList list = qmlengine->pluginPathList();
-    for (int k = 0; k < list.size(); k++) {
-        res.push_back(QStringTowstring(list[k]));
+    if (qmlengine) {
+        QStringList list = qmlengine->pluginPathList();
+        for (int k = 0; k < list.size(); k++) {
+            res.push_back(QStringTowstring(list[k]));
+        }
     }
     return res;
 }
@@ -196,8 +226,9 @@ QmlEngine::addImportPath(const std::wstring& path)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        qmlengine->addImportPath(wstringToQString(path));
     }
-    qmlengine->addImportPath(wstringToQString(path));
 }
 //=============================================================================
 void
@@ -205,17 +236,21 @@ QmlEngine::addPluginPath(const std::wstring& path)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        qmlengine->addPluginPath(wstringToQString(path));
     }
-    qmlengine->addPluginPath(wstringToQString(path));
 }
 //=============================================================================
 std::wstring
 QmlEngine::offlineStoragePath()
 {
+    std::wstring result;
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        result = QStringTowstring(qmlengine->offlineStoragePath());
     }
-    return QStringTowstring(qmlengine->offlineStoragePath());
+    return result;
 }
 //=============================================================================
 void
@@ -223,8 +258,9 @@ QmlEngine::setOfflineStoragePath(const std::wstring& dir)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        qmlengine->setOfflineStoragePath(wstringToQString(dir));
     }
-    qmlengine->setOfflineStoragePath(wstringToQString(dir));
 }
 //=============================================================================
 void
@@ -232,8 +268,9 @@ QmlEngine::collectGarbage()
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
+    } else {
+        qmlengine->collectGarbage();
     }
-    qmlengine->collectGarbage();
 }
 //=============================================================================
 static void
