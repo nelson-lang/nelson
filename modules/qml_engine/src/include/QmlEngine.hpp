@@ -65,7 +65,8 @@ public:
     void
     setOfflineStoragePath(const std::wstring& dir);
 
-    void destroy();
+    void
+    destroy();
 
 private:
     QmlEngine();

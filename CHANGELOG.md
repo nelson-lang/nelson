@@ -44,6 +44,14 @@ Bug Fixes:
 
   * [#257](http://github.com/Nelson-numerical-software/nelson/issues/257): dllibisloaded optimized.
 
+  * [#49](http://github.com/Nelson-numerical-software/nelson/issues/49): Some qml demos crashed on Windows 32 bits.
+
+
+Compilation:
+------------
+
+* Qt 5.13.2 on Windows.
+
 
 # 0.3.10 (2019-10-29)
 

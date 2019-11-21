@@ -91,9 +91,11 @@ QmlEngine::setData(const std::wstring& data)
         QString qdata = wstringToQString(data).toUtf8();
         component->setData(qdata.toUtf8(), QUrl::fromLocalFile(wstringToQString(L"")));
         QObject* topLevel = component->create();
-        if (!topLevel && component->isError()) {
-            component->deleteLater();
-            Error(QStringTowstring(component->errorString()));
+        if (topLevel == nullptr) {
+            if (component->isError()) {
+                component->deleteLater();
+                Error(QStringTowstring(component->errorString()));
+            }
         } else {
             std::string classname = std::string(topLevel->metaObject()->className());
             if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
