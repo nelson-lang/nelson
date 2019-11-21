@@ -25,7 +25,6 @@
 //=============================================================================
 // <--WITH DISPLAY-->
 // <--GUI MODE-->
-// <--RELEASE ONLY-->
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/tests/test_qvariant.qml'];
 qobj = qml_loadfile(qml_file);
