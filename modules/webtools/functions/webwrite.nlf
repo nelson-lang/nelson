@@ -34,50 +34,51 @@ function varargout = webwrite(varargin)
     url = getArgumentAsCharactersVector(varargin{1});
     tmpfile = buildTempFilename(url);
     st = struct();    
-    if nargin == 2
-        if ischar(varargin{2}) || (isstring(varargin{2}) && isscalar(varargin{2}))
-            data = varargin{2};
-        else
-            data = jsonencode(varargin{2});
-        end
-        options = weboptions();
-    else
-        options_position = -1;
-        for k = 2:nargin
-            p = varargin{k};
-            if isWebOptions(p)
-                options = p;
-                options_position = k;
-                break;
-            end
-        end
-        if isempty(options)
-            options = weboptions();
-            options_position = -1;
-        end
-        if ~(options_position == -1 || options_position == nargin)
-            error(_('weboptions must be last argument.'));
-        end
-        if options_position == -1
-            last = nargin;
-        else
-            last = nargin - 1;
-        end
-        st = struct();
-        if nargin == 3 && options_position == nargin
-            if strcmp(options.MediaType, 'application/json') == 1
-                data = jsonencode(varargin{2});
-            else
+    switch nargin
+        case 2
+            if ischar(varargin{2}) || (isstring(varargin{2}) && isscalar(varargin{2}))
                 data = varargin{2};
+            else
+                data = jsonencode(varargin{2});
             end
-        else
+            options = weboptions();
+        case 3
+            if ~isWebOptions(varargin{3})
+                error(_W('Invalid #3 Argument: weboptions expected.'));
+            end
+            options = varargin{3};
+            if ischar(varargin{2}) || (isstring(varargin{2}) && isscalar(varargin{2}))
+                data = varargin{2};
+            else
+                data = jsonencode(varargin{2});
+            end
+        otherwise
+            options_position = -1;
+            for k = 2:nargin
+                p = varargin{k};
+                if isWebOptions(p)
+                    options = p;
+                    options_position = k;
+                    break;
+                end
+            end
+            if isempty(options)
+                options = weboptions();
+                options_position = -1;
+            end
+            if ~(options_position == -1 || options_position == nargin)
+                error(_('weboptions must be last argument.'));
+            end
+            if options_position == -1
+                last = nargin;
+            else
+                last = nargin - 1;
+            end
             for k = [2:2:last]
                 st.(varargin{k}) = varargin{k + 1};
             end
             data = '__WEBWRITE__';
         end
-
-    end
     if strcmp(options.RequestMethod, 'auto')
         options.RequestMethod = 'post';
     end
