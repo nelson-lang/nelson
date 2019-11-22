@@ -803,22 +803,20 @@ function pc = prefixCommand(withMPI)
 endfunction
 //=============================================================================
 function [res, msg] = call_nelson_cli(command, withMPI)
-  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
-  nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
-  cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
-  [res, msg] = unix(cmd);
+  [res, msg] = call_nelson_mode('nelson-cli', command, withMPI);
 endfunction
 //=============================================================================
 function [res, msg] = call_nelson_adv_cli(command, withMPI)
-  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
-  nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-adv-cli', '"'];
-  cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
-  [res, msg] = unix(cmd);
+  [res, msg] = call_nelson_mode('nelson-adv-cli', command, withMPI);
 endfunction
 //=============================================================================
 function [res, msg] = call_nelson_gui(command, withMPI)
+  [res, msg] = call_nelson_mode('nelson-gui', command, withMPI);
+endfunction
+//=============================================================================
+function [res, msg] = call_nelson_mode(exe, command, withMPI)
   nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
-  nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
+  nelson_exe_path = ['"', nelson_bin_path, '/', exe, '"'];
   cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
   [res, msg] = unix(cmd);
 endfunction
