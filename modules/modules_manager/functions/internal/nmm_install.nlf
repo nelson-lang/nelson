@@ -74,10 +74,18 @@ function nmm_install_one_rhs(param1)
         error(msg);
     end
     if (module_description.builtin && ~havecompiler())
-        if removeSourceDirectory
-            rmdir(destinationTempPath, 's');
-        end            
-        error(sprintf(_('An C/C++ compiler is required by %s'), module_description.module));
+        installCompiler = false;
+        if ispc()
+            [installCompiler, message] = configuremsvc();
+        end
+        if installCompiler
+            warning(_('Visual studio detected and configured to be used with Nelson.'));
+        else
+            if removeSourceDirectory
+                rmdir(destinationTempPath, 's');
+            end
+            error(sprintf(_('An C/C++ compiler is required by %s'), module_description.module));
+        end
     end
     destination_dir = copyModule(destinationTempPath, module_description.module, module_description.version);
     if removeSourceDirectory
@@ -120,7 +128,13 @@ endfunction
 //=============================================================================
 function r = is_already_installed(module_name)
     modules = nmm_list();
-    r = contains(fieldnames(modules), module_name);
+    for n = fieldnames(modules)'
+        if strcmp(n{1}, module_name)
+            r = true;
+            return;
+        end
+    end
+    r = false;
 endfunction
 //=============================================================================
 function destination_dir = copyModule(source, module_name, module_version)
