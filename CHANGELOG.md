@@ -22,7 +22,7 @@
 
 * executable option added: '--nousermodules' disables load of user's modules.
 
-* add capability to load some user's modules.
+* add capability to load some user's modules: see nmm('autoload', ...) and nmm('load', ...)
 
 * add // <--NO USER MODULES--> tag for test_run (disable load of user modules for a test)
 
@@ -41,6 +41,8 @@
 
 Bug Fixes:
 ---------
+
+  * [#261](http://github.com/Nelson-numerical-software/nelson/issues/261): add a detailed documentation about module.json used in external modules.
 
   * [#257](http://github.com/Nelson-numerical-software/nelson/issues/257): dllibisloaded optimized.
 
