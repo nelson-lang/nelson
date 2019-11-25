@@ -1,3 +1,10 @@
+Bug Fixes:
+---------
+
+  * [#259](http://github.com/Nelson-numerical-software/nelson/issues/259): extraction decomplexify values.
+
+
+
 # 0.3.11 (2019-11-XX)
 
 * nmm: Nelson Modules Manager (package manager for Nelson)

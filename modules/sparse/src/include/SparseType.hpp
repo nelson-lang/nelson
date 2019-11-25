@@ -119,5 +119,6 @@ extern "C"
     Eigen_CopyResizeSparseMatrix(Class dclass, const void* src, indexType rows, indexType cols,
         indexType maxrow, indexType maxcol);
     //=============================================================================
+
 };
 //=============================================================================

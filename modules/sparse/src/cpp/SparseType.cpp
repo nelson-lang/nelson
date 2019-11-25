@@ -25,11 +25,11 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
+#include <Eigen/Dense>
+#include <Eigen/Sparse>
 #include "SparseType.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
-#include <Eigen/Dense>
-#include <Eigen/Sparse>
 //=============================================================================
 template <class T>
 void*
@@ -660,7 +660,7 @@ Eigen_CreateSparseScalarElement(doublecomplex v)
         pMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
     }
-    if ((v.real() != 0.) && (v.imag() != 0.)) {
+    if ((v.real() != 0.) || (v.imag() != 0.)) {
         pMat->coeffRef(0, 0) = v;
     }
     pMat->finalize();
