@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Dimensions.hpp"
@@ -31,6 +32,49 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static ArrayOf
+decomplexify(const ArrayOf& A)
+{
+    ArrayOf res;
+    Class classA = A.getDataClass();
+    if (classA == NLS_DCOMPLEX || classA == NLS_SCOMPLEX) {
+        if (A.allReal()) {
+            if (classA == NLS_DCOMPLEX) {
+                if (A.isSparse()) {
+                    indexType rows = A.getDimensionLength(0);
+                    indexType cols = A.getDimensionLength(1);
+                    Eigen::SparseMatrix<double, 0, signedIndexType>* spmatDST
+                        = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
+                    Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmatSRC
+                        = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
+                              A.getSparseDataPointer();
+                    for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
+                        for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
+                                 it(*spmatSRC, k);
+                             it; ++it) {
+                            spmatDST->coeffRef(it.row(), it.col()) = it.value().real();
+                        }
+                    }
+                    spmatDST->finalize();
+                    spmatDST->makeCompressed();
+                    void* pRes = (void*)spmatDST;
+                    res = ArrayOf(NLS_DOUBLE, A.getDimensions(), pRes, true);
+                } else {
+                    res = A;
+                    res.promoteType(NLS_DOUBLE);
+                }
+            }
+            if (classA == NLS_SCOMPLEX) {
+                res = A;
+                res.promoteType(NLS_SINGLE);
+            }
+        }
+    } else {
+        res = A;
+    }
+    return res;
+}
 //=============================================================================
 // Get functions
 //=============================================================================
@@ -41,28 +85,28 @@ namespace Nelson {
 ArrayOf
 ArrayOf::getValueAtIndex(uint64 index)
 {
-    auto length = static_cast<uint64>(this->getLength());
-    if (index >= length) {
-        Error(_W("Index exceeds matrix dimensions."));
-    }
     // call extration overloading here for not supported types
+    ArrayOf res;
     Dimensions retdims(1, 1);
     if (isSparse()) {
         auto indx = static_cast<indexType>(index - 1);
         auto row = static_cast<indexType>(indx % getDimensionLength(0));
         auto col = static_cast<indexType>(indx / getDimensionLength(0));
-        return ArrayOf(dp->dataClass, retdims,
+        res = ArrayOf(dp->dataClass, retdims,
             GetSparseScalarElementDynamicFunction(dp->dataClass, getDimensionLength(0),
                 getDimensionLength(1), dp->getData(), row + 1, col + 1),
             true);
+    } else {
+        auto length = static_cast<uint64>(this->getLength());
+        if (index >= length) {
+            Error(_W("Index exceeds matrix dimensions."));
+        }
+        int ndx = static_cast<int>(index);
+        void* qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames, false);
+        copyElements(ndx, qp, 0, 1);
+        res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
     }
-    int ndx = static_cast<int>(index);
-    void* qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames, false);
-    copyElements(ndx, qp, 0, 1);
-    return ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
-
-    // never here
-    return ArrayOf();
+    return decomplexify(res);
 }
 //=============================================================================
 /**
@@ -112,23 +156,24 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         Dimensions retdims(index.dp->dimensions);
         retdims.simplify();
         if (isSparse()) {
+            ArrayOf res;
             if (index.getLength() == 1) {
                 indexType indx = index.getContentAsInteger32Scalar() - 1;
                 indexType row = indx % getDimensionLength(0);
                 indexType col = indx / getDimensionLength(0);
-                return ArrayOf(dp->dataClass, retdims,
+                res = ArrayOf(dp->dataClass, retdims,
                     GetSparseScalarElementDynamicFunction(dp->dataClass, getDimensionLength(0),
                         getDimensionLength(1), dp->getData(), row + 1, col + 1),
                     true);
-            }
-            {
-                return ArrayOf(dp->dataClass, retdims,
+            } else {
+                res = ArrayOf(dp->dataClass, retdims,
                     GetSparseVectorSubsetsDynamicFunction(dp->dataClass, getDimensionLength(0),
                         getDimensionLength(1), dp->getData(),
                         static_cast<const indexType*>(index.dp->getData()),
                         index.getDimensionLength(0), index.getDimensionLength(1)),
                     true);
             }
+            return decomplexify(res);
         }
         //
         // The output is the same size as the _index_, not the
@@ -147,7 +192,8 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             }
             copyElements(ndx, qp, i, 1);
         }
-        return ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
+        ArrayOf res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
+        return decomplexify(res);
 
     } catch (const Exception&) {
         deleteArrayOf(qp, dp->dataClass);
@@ -217,19 +263,23 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 Error(_W("multidimensional indexing (more than 2 dimensions) not "
                          "legal for sparse arrays"));
             }
+            ArrayOf res;
             if ((outDims[0] == 1) && (outDims[1] == 1)) {
-                return ArrayOf(dp->dataClass, outDims,
+                res = ArrayOf(dp->dataClass, outDims,
                     GetSparseScalarElementDynamicFunction(dp->dataClass, getDimensionLength(0),
                         getDimensionLength(1), dp->getData(),
                         *(static_cast<const indexType*>(indx[0])),
                         *(static_cast<const indexType*>(indx[1]))),
                     true);
+            } else {
+                res = ArrayOf(dp->dataClass, outDims,
+                    GetSparseNDimSubsetsDynamicFunction(dp->dataClass, getDimensionLength(0),
+                        getDimensionLength(1), dp->getData(),
+                        static_cast<const indexType*>(indx[0]), outDims[0],
+                        static_cast<const indexType*>(indx[1]), outDims[1]),
+                    true);
             }
-            return ArrayOf(dp->dataClass, outDims,
-                GetSparseNDimSubsetsDynamicFunction(dp->dataClass, getDimensionLength(0),
-                    getDimensionLength(1), dp->getData(), static_cast<const indexType*>(indx[0]),
-                    outDims[0], static_cast<const indexType*>(indx[1]), outDims[1]),
-                true);
+            return decomplexify(res);
         }
         qp = allocateArrayOf(dp->dataClass, outDims.getElementCount(), dp->fieldNames, true);
         Dimensions argPointer(L);
@@ -248,7 +298,9 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
         delete[] indx;
         indx = nullptr;
         outDims.simplify();
-        return ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
+        ArrayOf res;
+        res = ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
+        return decomplexify(res);
 
     } catch (const Exception&) {
         delete[] indx;
