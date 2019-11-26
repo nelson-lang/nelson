@@ -1,9 +1,3 @@
-Bug Fixes:
----------
-
-  * [#259](http://github.com/Nelson-numerical-software/nelson/issues/259): extraction decomplexify values.
-
-
 
 # 0.3.11 (2019-11-XX)
 
@@ -50,6 +44,8 @@ Bug Fixes:
 ---------
 
   * [#261](http://github.com/Nelson-numerical-software/nelson/issues/261): add a detailed documentation about module.json used in external modules.
+
+  * [#259](http://github.com/Nelson-numerical-software/nelson/issues/259): extraction decomplexify values.
 
   * [#257](http://github.com/Nelson-numerical-software/nelson/issues/257): dllibisloaded optimized.
 

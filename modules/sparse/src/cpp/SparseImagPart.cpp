@@ -69,7 +69,9 @@ SparseImagPart(ArrayOf a)
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                      it; ++it) {
-                    spmatDST->coeffRef(it.row(), it.col()) = it.value().imag();
+                    if (it.value().imag() != 0.) {
+                        spmatDST->coeffRef(it.row(), it.col()) = it.value().imag();
+                    }
                 }
             }
             spmatDST->finalize();
