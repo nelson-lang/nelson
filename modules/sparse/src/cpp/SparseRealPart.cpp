@@ -53,7 +53,9 @@ SparseRealPart(ArrayOf a)
                 for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                      it; ++it) {
-                    spmatDST->coeffRef(it.row(), it.col()) = it.value() == 0 ? 0 : 1;
+                    if (it.value() != 0) {
+                        spmatDST->coeffRef(it.row(), it.col()) = it.value() == 1;
+                    }
                 }
             }
             spmatDST->finalize();
@@ -80,7 +82,9 @@ SparseRealPart(ArrayOf a)
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                      it; ++it) {
-                    spmatDST->coeffRef(it.row(), it.col()) = it.value().real();
+                    if (it.value().real() != 0.) {
+                        spmatDST->coeffRef(it.row(), it.col()) = it.value().real();
+                    }
                 }
             }
             spmatDST->finalize();
