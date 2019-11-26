@@ -1,5 +1,5 @@
 
-# 0.3.11 (2019-11-XX)
+# 0.3.11 (2019-11-26)
 
 * nmm: Nelson Modules Manager (package manager for Nelson)
   - list : get list of installed modules,
