@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if strcmp(getenv('AUDIODEV'), 'null') == false
-  addpath(modulepath(nelsonroot(), 'audio', 'functions'))
-  addgateway(modulepath(nelsonroot(), 'audio', 'builtin'))
+  addpath(modulepath(nelsonroot(), 'audio', 'functions'), '-frozen');
+  addgateway(modulepath(nelsonroot(), 'audio', 'builtin'));
 end
 //=============================================================================

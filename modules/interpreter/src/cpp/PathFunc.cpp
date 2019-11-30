@@ -49,11 +49,13 @@ PathFunc::isdir(const std::wstring& path)
     return bRes;
 }
 //=============================================================================
-PathFunc::PathFunc(const std::wstring& path)
+PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
     if (isdir(path)) {
         _path = uniformizePathName(path);
-        FileWatcherManager::getInstance()->addWacth(_path);
+        if (withWatcher) {
+            FileWatcherManager::getInstance()->addWatch(_path);
+        }
     } else {
         _path.clear();
     }

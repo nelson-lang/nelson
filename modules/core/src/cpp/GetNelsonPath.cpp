@@ -31,17 +31,16 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <MacTypes.h>
 #endif
+#include <boost/filesystem.hpp>
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include <boost/filesystem.hpp>
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static std::wstring NelSonPath;
 //=============================================================================
 #ifdef _MSC_VER
 std::wstring
@@ -111,15 +110,17 @@ GetRootFolder()
 std::wstring
 GetRootPath()
 {
-    if (NelSonPath.empty()) {
+    std::wstring NelsonPath = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
+    if (NelsonPath.empty()) {
         std::wstring p;
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
         if (penv != L"") {
             boost::filesystem::path path(penv);
             if (boost::filesystem::is_directory(path)) {
-                NelSonPath = path.generic_wstring();
-                return NelSonPath;
+                NelsonPath = path.generic_wstring();
+                NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
+                return NelsonPath;
             }
         }
 #ifdef _MSC_VER
@@ -135,13 +136,14 @@ GetRootPath()
         nelsonpath = path.parent_path().parent_path();
 #endif
         if (boost::filesystem::is_directory(nelsonpath)) {
-            NelSonPath = nelsonpath.generic_wstring();
-            return NelSonPath;
+            NelsonPath = nelsonpath.generic_wstring();
+            NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
+            return NelsonPath;
         }
         fprintf(stderr, "%s\n", _("Error: we cannot find Nelson root path.").c_str());
-        NelSonPath.clear();
+        NelsonConfiguration::getInstance()->setNelsonRootDirectory(L"");
     }
-    return NelSonPath;
+    return NelsonPath;
 }
 //=============================================================================
 } // namespace Nelson

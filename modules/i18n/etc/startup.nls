@@ -24,4 +24,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'i18n', 'builtin'));
-addpath(modulepath(nelsonroot(), 'i18n', 'functions'))
+addpath(modulepath(nelsonroot(), 'i18n', 'functions'), '-frozen');

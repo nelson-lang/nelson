@@ -80,7 +80,7 @@ public:
     find(size_t hashid, std::wstring& functionname);
 
     bool
-    addPath(const std::wstring& path, bool begin);
+    addPath(const std::wstring& path, bool begin, bool frozen);
     bool
     removePath(const std::wstring& path);
     wstringVector

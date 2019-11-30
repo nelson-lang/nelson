@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'));
+addpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'), '-frozen');
 //=============================================================================
 loadcompilerconf();
 //=============================================================================

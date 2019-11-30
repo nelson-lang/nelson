@@ -115,7 +115,7 @@ FileWatcherManager::getInstance()
 }
 //=============================================================================
 void
-FileWatcherManager::addWacth(const std::wstring& directory)
+FileWatcherManager::addWatch(const std::wstring& directory)
 {
     auto* watcher = new UpdatePathListener();
     WatchID id = -1;

@@ -23,5 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-//addpath(modulepath(nelsonroot(), 'json', 'functions'))
+//addpath(modulepath(nelsonroot(), 'json', 'functions'), '-frozen');
 addgateway(modulepath(nelsonroot(), 'json', 'builtin'))

@@ -24,4 +24,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'text_editor', 'builtin'));
-addpath(modulepath(nelsonroot(), 'text_editor', 'functions'));
+addpath(modulepath(nelsonroot(), 'text_editor', 'functions'), '-frozen');

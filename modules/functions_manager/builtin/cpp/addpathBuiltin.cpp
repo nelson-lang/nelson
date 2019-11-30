@@ -44,35 +44,59 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (argIn.size() == 0) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    bool begin = true;
-    bool withOption = false;
+    bool beginOption = true;
+    bool frozenOption = false;
+    bool withOption = true;
+    size_t lastpos = argIn.size();
     if (argIn.size() > 1) {
-        size_t lastpos = argIn.size() - 1;
+        lastpos = argIn.size() - 1;
         ArrayOf lastParam = argIn[lastpos];
         if (lastParam.isRowVectorCharacterArray()) {
             std::wstring option = lastParam.getContentAsWideString();
-            if ((option == L"-begin") || (option == L"-end")) {
-                if (option == L"-begin") {
-                    begin = true;
-                } else {
-                    begin = false;
-                }
+            if ((option == L"-begin") || (option == L"-end") || option == L"-frozen") {
                 withOption = true;
+                if (option == L"-begin") {
+                    beginOption = true;
+                }
+                if (option == L"-end") {
+                    beginOption = false;
+                }
+                if (option == L"-frozen") {
+                    frozenOption = true;
+                }
             } else {
                 withOption = false;
+                lastpos = argIn.size();
             }
         } else {
             Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),
                 static_cast<int>(lastpos) + 1));
         }
+        if (withOption) {
+            lastpos = argIn.size() - 2;
+            ArrayOf lastParam = argIn[lastpos];
+            if (lastParam.isRowVectorCharacterArray()) {
+                std::wstring option = lastParam.getContentAsWideString();
+                if ((option == L"-begin") || (option == L"-end") || option == L"-frozen") {
+                    if (option == L"-begin") {
+                        beginOption = true;
+                    }
+                    if (option == L"-end") {
+                        beginOption = false;
+                    }
+                    if (option == L"-frozen") {
+                        frozenOption = true;
+                    }
+                } else {
+                    lastpos = argIn.size() - 1;
+                }
+            } else {
+                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),
+                    static_cast<int>(lastpos) + 1));
+            }
+        }
     }
     wstringVector params;
-    size_t lastpos;
-    if (withOption) {
-        lastpos = argIn.size() - 1;
-    } else {
-        lastpos = argIn.size();
-    }
     for (size_t k = 0; k < lastpos; k++) {
         ArrayOf param = argIn[k];
         if (param.isRowVectorCharacterArray()) {
@@ -96,7 +120,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
         if (bRes) {
             std::wstring normalizedPath = NormalizePath(param);
-            if (PathFuncManager::getInstance()->addPath(normalizedPath, begin)) {
+            if (PathFuncManager::getInstance()->addPath(normalizedPath, beginOption, frozenOption)) {
                 stringVector exceptedFunctionsName = eval->getCallers(true);
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
