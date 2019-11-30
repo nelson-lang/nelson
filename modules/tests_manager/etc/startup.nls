@@ -24,4 +24,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'tests_manager', 'builtin'));
-addpath(modulepath(nelsonroot(), 'tests_manager', 'functions'));
+addpath(modulepath(nelsonroot(), 'tests_manager', 'functions'), '-frozen');

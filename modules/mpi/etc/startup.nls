@@ -35,7 +35,7 @@ if ispc()
 end
 if with_dl_mpi == true
   addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
-  addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
+  addpath(modulepath(nelsonroot(), 'mpi', 'functions'), '-frozen');
 else
   fprintf(stderr, _('MPI dependency not loaded.'));
   removemodule('mpi');

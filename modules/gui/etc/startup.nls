@@ -24,4 +24,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'gui', 'builtin'));
-addpath(modulepath(nelsonroot(), 'gui', 'functions'));
+addpath(modulepath(nelsonroot(), 'gui', 'functions'), '-frozen');

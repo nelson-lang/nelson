@@ -35,6 +35,7 @@ NelsonConfiguration::NelsonConfiguration()
     InterruptPending = false;
     currentOutputFormatDisplay = NLS_FORMAT_SHORT;
     modulesProtected = false;
+    nelsonRootPath = L"";
 }
 //=============================================================================
 NelsonConfiguration*
@@ -103,6 +104,18 @@ bool
 NelsonConfiguration::isModulesProtected()
 {
     return modulesProtected;
+}
+//=============================================================================
+void
+NelsonConfiguration::setNelsonRootDirectory(const std::wstring& nelsonroot)
+{
+    nelsonRootPath = nelsonroot;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getNelsonRootDirectory()
+{
+    return nelsonRootPath;
 }
 //=============================================================================
 } // namespace Nelson

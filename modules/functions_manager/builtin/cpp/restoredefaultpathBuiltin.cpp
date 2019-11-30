@@ -60,7 +60,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(
             bRes = false;
         }
         if (bRes) {
-            PathFuncManager::getInstance()->addPath(_path, true);
+            PathFuncManager::getInstance()->addPath(_path, true, false);
         }
     }
     return retval;

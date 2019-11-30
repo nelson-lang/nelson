@@ -1,4 +1,14 @@
 
+# 0.3.12 (2019-12-XX)
+
+* '-frozen' option added to addpath builtin.
+
+Bug Fixes:
+---------
+
+  * [#260](http://github.com/Nelson-numerical-software/nelson/issues/260): disable files watch for internal modules.
+
+
 # 0.3.11 (2019-11-26)
 
 * nmm: Nelson Modules Manager (package manager for Nelson)

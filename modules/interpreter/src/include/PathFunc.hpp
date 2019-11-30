@@ -35,7 +35,7 @@ namespace Nelson {
 class PathFunc
 {
 public:
-    PathFunc(const std::wstring& path);
+    PathFunc(const std::wstring& path, bool withWatcher = true);
     ~PathFunc();
     wstringVector
     getFunctionsName(const std::wstring& prefix = L"");
