@@ -273,11 +273,9 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
     if (frozen) {
         withWatch = false;
     } else {
-        boost::filesystem::path pathRoot
-            = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
         boost::filesystem::path pathToAdd = path;
-        withWatch = !boost::algorithm::starts_with(
-            pathToAdd.generic_path().generic_wstring(), pathRoot.generic_path().generic_wstring());
+        withWatch = !boost::algorithm::starts_with(pathToAdd.generic_path().generic_wstring(),
+            NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     }
     PathFunc* pf;
     try {
