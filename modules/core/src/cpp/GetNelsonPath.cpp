@@ -118,7 +118,7 @@ GetRootPath()
         if (penv != L"") {
             boost::filesystem::path path(penv);
             if (boost::filesystem::is_directory(path)) {
-                NelsonPath = path.generic_wstring();
+                NelsonPath = path.generic_path().generic_wstring();
                 NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
                 return NelsonPath;
             }
@@ -136,7 +136,7 @@ GetRootPath()
         nelsonpath = path.parent_path().parent_path();
 #endif
         if (boost::filesystem::is_directory(nelsonpath)) {
-            NelsonPath = nelsonpath.generic_wstring();
+            NelsonPath = nelsonpath.generic_path().generic_wstring();
             NelsonConfiguration::getInstance()->setNelsonRootDirectory(NelsonPath);
             return NelsonPath;
         }

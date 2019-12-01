@@ -24,8 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function struct_res = test_runfile(varargin)
-// internal function
-// not documented
+  // internal function
+  // not documented
   with_mpi = false;
   filename = varargin{1};
   if length(varargin) == 2
@@ -34,24 +34,24 @@ function struct_res = test_runfile(varargin)
   if ~isfile(filename)
     error(_('An existing filename expected.'));
   end
-
+  
   r = false;
   msg = '';
   timing = 0;
   test_run_options = test_parsetags(filename);
-
+  
   if (test_run_options.check_ref)
     [p, f, e] = fileparts(filename);
     dia_ref = [p, '/', f, '.ref'];
     if ~isfile(dia_ref)
       error(_('reference diary expected.'));
     end
-
+    
     // save previous diary
     previousDiaryFile = diary('get','DiaryFile');
     previousDiaryMode = diary('get','Diary');
     diary('off')
-
+    
     [p, f, e] = fileparts(filename);
     dia_res = [tempdir(), '', f, '.res'];
     rm = rmfile(dia_res);
@@ -63,11 +63,12 @@ function struct_res = test_runfile(varargin)
   // 'test_run_options' variable protected of clear('all') in test files
   varlock('local', 'test_run_options')
   varlock('local', 'current_path_test_runfile')
-
-  tic();
+  ticBeginRunFile = tic;
+  varlock('local', 'ticBeginRunFile');
   r = run(filename, 'errcatch');
-  timing = toc();
-  
+  ticEndRunFile = tic;
+  timing = (double(ticEndRunFile) - double(ticBeginRunFile)) * 1e-9;
+  varunlock('local','ticBeginRunFile');
   varunlock('local','test_run_options');
   varunlock('local', 'current_path_test_runfile')
   path(current_path_test_runfile);

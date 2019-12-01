@@ -35,64 +35,65 @@ function status = test_run(varargin)
   status = true;
   modules_list = [];
   file_to_test = [];
-  output_file = [];
-  options = 'all';
+  result_outputfile = '';
+  options = [];
   supported_options = {'all', 'all_tests', 'unitary_tests', 'nonreg_tests', 'benchs'};
-  is_minimal_tests = false;
-  
   if (nargin == 0)
     modules_list = getmodules();
-  else
+    options = 'all';
+  end
+  if (nargin > 0)
     param1 = varargin{1};
-    if isequal(size(param1), [0 0]) && (strcmp(class(param1), 'double') == true)
-      modules_list = getmodules();
-    else
-      if ischar(param1)
-        if strcmp('minimal_tests', param1)
-          run([nelsonroot(), '/modules/tests_manager/minimal_tests.nls']);
-          is_minimal_tests = true;
-        else
-          if ~ismodule(param1)
-            if isfile(param1)
-              file_to_test = param1;
-            else
-              error(_('a valid module name expected.'));
-            end
-          else
-            modules_list = {param1};
-          end
-        end
+    if isequal(size(param1), [0 0]) && isdouble(param1)
+      if isdouble(param1)
+        modules_list = getmodules();
+        options = 'all';
       else
-        if iscell(param1)
-          for p = param1(:)'
-            if ~ischar(p{1})
-              error(_('a valid module name expected.'));
-            else
-              if ~ismodule(p{1})
-                error(_('a valid module name expected.'));
-              end
-            end
+        error(_('[] expected.'));
+      end
+    end
+    if ischar(param1)
+      if strcmp('minimal_tests', param1)
+        run([nelsonroot(), '/modules/tests_manager/minimal_tests.nls']);
+        modules_list = minimal_tests;
+        options = 'unitary_tests';
+      else
+        if ~ismodule(param1)
+          if isfile(param1)
+            file_to_test = param1;
+            options = 'all';
+          else
+            error(_('a valid module name expected.'));
           end
-          modules_list = param1;
         else
-          error(_('a cell of modules name.'));
+          modules_list = {param1};
+          options = 'all';
         end
       end
     end
-  end
-  
-  if (nargin > 1)
-    param2 = varargin{2};
-    if isequal(size(param2),[0 0]) && (strcmp(class(param2), 'double') == true)
-      options = 'all';
-    else
-      if ischar(param2)
-        found_option = false;
-        for k = 1:length(supported_options)
-          if strcmp(param2, supported_options{k}) == 1
-            found_option = true;
+    if iscell(param1)
+      for p = param1(:)'
+        if ~ischar(p{1})
+          error(_('a valid module name expected.'));
+        else
+          if ~ismodule(p{1})
+            error(_('a valid module name expected.'));
           end
         end
+      end
+      modules_list = param1;
+      options = 'all';
+    end
+  end
+  if (nargin > 1)
+    param2 = varargin{2};
+    if isequal(size(param2),[0 0]) && isdouble(param2)
+      if isempty(options)
+        options = 'all';
+      end
+    else
+      if ischar(param2)
+        found_option = any(contains(supported_options, param2));
         if ~found_option
           error(_('"all", "all_tests", "unitary_tests", "nonreg_tests", "benchs" expected as second input arguments.'));
         else
@@ -104,7 +105,6 @@ function status = test_run(varargin)
     end
   end
   
-  result_outputfile = '';
   if (nargin > 2)
     param3 = varargin{3};
     if ischar(param3)
@@ -114,53 +114,31 @@ function status = test_run(varargin)
     end
   end
   
+  __totalTimeBegin = tic;
   test_suites = create_test_suites();
-  
-  if is_minimal_tests
+  if isfile(file_to_test)
+    test_suite = create_test_suite();
+    test_case = create_test_case(file_to_test);
+    test_suite.test_cases_list = test_case;
+    test_suites.tests_list = test_suite;
+    nbTestCasesMax = 1;
+  else
     nelson_version = version('-number');
-    nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
-    for m = minimal_tests(:)'
-      if length(m) == 1
-        if length(m{1}) == 1
-          if ~ismodule(m{1}{1})
-            error(_('a valid module name expected.'));
-          end
-          test_suite = create_test_suite();
-          test_suite.name = m{1}{1};
-          tests_list = [];
-          tests_dir = [modulepath(m{1}{1}), '/tests/'];
-          if isdir(tests_dir)
-            tests_list = dir([tests_dir, 'test_*.nls']);
-          end
-        else
-          if length(m{1}) == 2
-            if ~ismodule(m{1}{1})
-              error(_('a valid module name expected.'));
-            end
-            test_suite = create_test_suite();
-            test_suite.name = m{1}{1};
-            tests_dir = [modulepath(m{1}{1}), '/tests/'];
-            k = 1;
-            for f = m{1}{2}(:)'
-              filename = [tests_dir, [f{1}, '.nls']];
-              if isfile(filename)
-                tests_list(k) = dir(filename);
-                k = k + 1;
-              else
-                error([_('invalid filename:'), filename]);
-              end
-            end
-          else
-            error('minimal tests file not valid.');
-          end
-        end
-      else
-        error('minimal tests file not valid.');
-      end
+    nelson_version_str = sprintf('Nelson-%d.%d.%d.%d', nelson_version(1), nelson_version(2), nelson_version(3), nelson_version(4));
+    nbTestCasesMax = 0;
+    empty_test_suite = create_test_suite();
+    for m = modules_list(:)'
+      test_suite = empty_test_suite;
+      test_suite.name = m{1};
+      tests_list = [];
+      tests_dir = [modulepath(m{1}), '/tests/'];
       
+      if isdir(tests_dir)
+        tests_list = getFilesListByOption(tests_dir, options);
+      end
       nbTestCasesMax = 0;
       if ~isempty(tests_list)
-        for t = tests_list(:)'
+        for t = tests_list
           test_case = create_test_case([tests_dir, t.name]);
           test_case.classname = [nelson_version_str, '.', test_suite.name];
           if isempty(test_suite.test_cases_list)
@@ -180,154 +158,112 @@ function status = test_run(varargin)
         test_suites.tests_list = [test_suites.tests_list, test_suite];
       end
     end
-  else
-    
-    if isfile(file_to_test)
-      test_suite = create_test_suite();
-      test_case = create_test_case(file_to_test);
-      test_suite.test_cases_list = test_case; 
-      test_suites.tests_list = test_suite;
-      nbTestCasesMax = 1;
-    else
-      nelson_version = version('-number');
-      nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
-      nbTestCasesMax = 0;
-
-      empty_test_suite = create_test_suite(); 
-      for m = modules_list(:)'
-        test_suite = empty_test_suite;
-        test_suite.name = m{1};
-        tests_list = [];
-        tests_dir = [modulepath(m{1}), '/tests/'];
-        
-        if isdir(tests_dir)
-          switch (options)
-            case 'all'
-              unitary_tests = dir([tests_dir, 'test_*.nls']);
-              nonreg_tests = dir([tests_dir, 'bug_*.nls']);
-              bench_tests = dir([tests_dir, 'bench_*.nls']);
-              all_tests = [unitary_tests; nonreg_tests; bench_tests];
-              tests_list = all_tests;
-              
-            case 'all_tests'
-              unitary_tests = dir([tests_dir, 'test_*.nls']);
-              nonreg_tests = dir([tests_dir, 'bug_*.nls']);
-              all_tests = [unitary_tests; nonreg_tests];
-              tests_list = all_tests;
-              
-            case 'unitary_tests'
-              tests_list = dir([tests_dir, 'test_*.nls']);
-              
-            case 'nonreg_tests'
-              tests_list = dir([tests_dir, 'nonreg_*.nls']);
-              
-            case 'benchs'
-              tests_list = dir([tests_dir, 'bench_*.nls']);
-              
-            otherwise
-              error(_('option not managed.'));
-            end
-          end
-          nbTestCasesMax = 0;
-          if ~isempty(tests_list)
-            for t = tests_list(:)'
-              test_case = create_test_case([tests_dir, t.name]);
-              test_case.classname = [nelson_version_str, '.', test_suite.name];
-              if isempty(test_suite.test_cases_list)
-                test_suite.test_cases_list = test_case; 
-              else
-                test_suite.test_cases_list = [test_suite.test_cases_list, test_case];
-              end
-              nbTestCases = length(test_suite.test_cases_list);
-              if nbTestCases > nbTestCasesMax
-                nbTestCasesMax = nbTestCases;
-              end
-            end
-          end
-          if isempty(test_suites.tests_list)
-            test_suites.tests_list = test_suite;
-          else
-            test_suites.tests_list = [test_suites.tests_list, test_suite];
-          end
+  end
+  
+  nbTestSuites = length(test_suites.tests_list);
+  
+  lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
+  lenCharsTestSuitesMaxAsString = int2str(length(int2str(nbTestSuites)));
+  k = 1;
+  for ts = test_suites.tests_list
+    fmt = [' %', '0', lenCharsTestSuitesMaxAsString , 'd/%d - [%s]:', newline];
+    fprintf(stdout, fmt, k, nbTestSuites, ts.name);
+    l = 1;
+    nbTestCases = length(ts.test_cases_list);
+    for tc = ts.test_cases_list
+      tc = run_test_case(tc, ts.name, l, nbTestCases);
+      test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
+      if tc.isbench
+        test_suites.tests_list(k).bench = test_suites.tests_list(k).bench + 1;
+        test_suites.bench = test_suites.bench + 1;
+        if strcmp(tc.status, 'Fail') == true
+          status = false;
         end
-      end
-    end
-    
-    nbTestSuites = length(test_suites.tests_list);
-    
-    lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
-    lenCharsTestSuitesMaxAsString = int2str(length(int2str(nbTestSuites)));
-    tic();
-    k = 1;
-    for ts = test_suites.tests_list(:)'
-      fmt = [' %', '0', lenCharsTestSuitesMaxAsString , 'd/%d - [%s]:', newline];
-      fprintf(stdout, fmt, k, nbTestSuites, ts.name);
-      l = 1;
-      nbTestCases = length(ts.test_cases_list);
-      for tc = ts.test_cases_list(:)'
-        tc = run_test_case(tc, ts.name, l, nbTestCases);
-        test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
-        if tc.isbench
-          test_suites.tests_list(k).bench = test_suites.tests_list(k).bench + 1;
-          test_suites.bench = test_suites.bench + 1;
-          if strcmp(tc.status, 'Fail') == true
-            status = false;
-          end
-        else
-          test_suites.tests_list(k).tests = test_suites.tests_list(k).tests + 1;
-          test_suites.tests = test_suites.tests + 1;
-          if strcmp(tc.status, 'Pass') == true
-            test_suites.tests_list(k).passed = test_suites.tests_list(k).passed + 1;
-            test_suites.passed = test_suites.passed + 1;
-          else
-            if strcmp(tc.status, 'Fail') == true
-              test_suites.tests_list(k).errors = test_suites.tests_list(k).errors + 1;
-              test_suites.errors = test_suites.errors + 1;
-              status = false;
-            else
-              if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
-                test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
-                test_suites.disabled = test_suites.disabled + 1;
-              else
-                status = false;
-                error([tc.status, ' ', _('not managed.')]);
-              end
-            end
-          end
-        end
-        if strcmp(tc.status, 'Pass') == true
-          // remove msg if test is 'pass'
-          tc.msg = '';
-        end
-        test_suites.tests_list(k).test_cases_list(l) = tc;
-        l = l + 1;
-      end
-      test_suites.time = test_suites.time + test_suites.tests_list(k).time;
-      k = k + 1;
-      fprintf(stdout, newline);
-    end
-    test_suites.total_time = toc();
-    disp_summary(test_suites);
-    
-    if strcmp(result_outputfile, '') == false
-      [p, f, e] = fileparts(result_outputfile);
-      if strcmp(e, '.*') == true
-        res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
-      	res = save_as_json(test_suites, [p, filesep, f, '.json']);
       else
-        if strcmp(e, '.xml') == true
-          res = save_as_xml(test_suites, result_outputfile);
+        test_suites.tests_list(k).tests = test_suites.tests_list(k).tests + 1;
+        test_suites.tests = test_suites.tests + 1;
+        if strcmp(tc.status, 'Pass') == true
+          test_suites.tests_list(k).passed = test_suites.tests_list(k).passed + 1;
+          test_suites.passed = test_suites.passed + 1;
         else
-        	if strcmp(e, '.json') == true
-      	    res = save_as_json(test_suites, result_outputfile);
+          if strcmp(tc.status, 'Fail') == true
+            test_suites.tests_list(k).errors = test_suites.tests_list(k).errors + 1;
+            test_suites.errors = test_suites.errors + 1;
+            status = false;
           else
-            res = save_as_xml(test_suites, result_outputfile);
+            if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
+              test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
+              test_suites.disabled = test_suites.disabled + 1;
+            else
+              status = false;
+              error([tc.status, ' ', _('not managed.')]);
+            end
           end
         end
       end
+      if strcmp(tc.status, 'Pass') == true
+        // remove msg if test is 'pass'
+        tc.msg = '';
+      end
+      test_suites.tests_list(k).test_cases_list(l) = tc;
+      l = l + 1;
     end
- endfunction
+    test_suites.time = test_suites.time + test_suites.tests_list(k).time;
+    k = k + 1;
+    fprintf(stdout, newline);
+  end
+  __totalTimeEnd = tic;
+  test_suites.total_time = (double(__totalTimeEnd) - double(__totalTimeBegin)) * 1e-9;
+  disp_summary(test_suites);
+  
+  if strcmp(result_outputfile, '') == false
+    [p, f, e] = fileparts(result_outputfile);
+    if strcmp(e, '.*') == true
+      res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
+      res = save_as_json(test_suites, [p, filesep, f, '.json']);
+    else
+      if strcmp(e, '.xml') == true
+        res = save_as_xml(test_suites, result_outputfile);
+      else
+        if strcmp(e, '.json') == true
+          res = save_as_json(test_suites, result_outputfile);
+        else
+          res = save_as_xml(test_suites, result_outputfile);
+        end
+      end
+    end
+  end
+  
+endfunction
 //=============================================================================
+function tests_list = getFilesListByOption(tests_dir, options)
+  tests_list = [];
+  switch options
+    case 'all'
+      unitary_tests = dir([tests_dir, 'test_*.nls']);
+      nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      bench_tests = dir([tests_dir, 'bench_*.nls']);
+      all_tests = [unitary_tests; nonreg_tests; bench_tests];
+      tests_list = all_tests;
+      
+    case 'all_tests'
+      unitary_tests = dir([tests_dir, 'test_*.nls']);
+      nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      all_tests = [unitary_tests; nonreg_tests];
+      tests_list = all_tests;
+      
+    case 'unitary_tests'
+      tests_list = dir([tests_dir, 'test_*.nls']);
+      
+    case 'nonreg_tests'
+      tests_list = dir([tests_dir, 'nonreg_*.nls']);
+      
+    case 'benchs'
+      tests_list = dir([tests_dir, 'bench_*.nls']);
+    end
+    tests_list = tests_list(:)';
+  endfunction
+  //=============================================================================
 function res = save_as_json(test_suites, jsonFileDestination)
   filewrite(jsonFileDestination, jsonprettyprint(jsonencode(test_suites)))
   res = isfile(jsonFileDestination);
@@ -341,13 +277,13 @@ function res = save_as_xml(test_suites, xmlFileDestination)
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
     fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
     
-    for t = test_suites.tests_list(:)'
+    for t = test_suites.tests_list
       fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', mat2str(t.time, 2), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
       fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
       
-      for tc = t.test_cases_list(:)'
+      for tc = t.test_cases_list
         if tc.isbench
           if strcmp(tc.status, 'Fail') == true
             fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
@@ -594,14 +530,14 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       
       command_filename = [tempdir(), 'test_', createGUID(), '.nls'];
       content = {['res_struct = test_runfile(''', testfile, ''',', int2str(test_case_res.options.mpi_mode),');'];
-                 ['filewrite(''', outputfile, ''', jsonencode(res_struct));']};
+      ['filewrite(''', outputfile, ''', jsonencode(res_struct));']};
       if test_case_res.options.mpi_mode
         content = [content; 'exit();'];
       else
         content = [content; 'exit(double(res_struct.r));'];
       end           
       filewrite(command_filename, content);
-
+      
       if test_case_res.options.english_imposed
         cmd = [' --language', ' ', 'en_US'];
       end
@@ -609,7 +545,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
         cmd = [cmd, ' ', '--nousermodules'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-
+      
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case_res.options.cli_mode
         [res, msg] = call_nelson_cli(cmd, test_case_res.options.mpi_mode);
