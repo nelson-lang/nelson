@@ -58,8 +58,8 @@ function nmm_install_one_rhs(param1)
     if ~is_local_module(destinationTempPath)
         error(_('Valid module repository expected.'));
     end
-    module_description = read_module_json(destinationTempPath);
-    if is_already_installed(module_description.module)
+    module_description = nmm_read_module_json(destinationTempPath);
+    if nmm_is_installed(module_description.module)
         if removeSourceDirectory
             rmdir(destinationTempPath, 's');
         end            
@@ -118,23 +118,6 @@ function r = is_local_module(param)
         end
         r = isfile([path, 'module.json']) && isfile([path, 'builder.nls']);
     end
-endfunction
-//=============================================================================
-function st = read_module_json(directory)
-    module_json_path = [directory, 'module.json'];
-    txt = fileread(module_json_path);
-    st = jsondecode(txt);
-endfunction
-//=============================================================================
-function r = is_already_installed(module_name)
-    modules = nmm_list();
-    for n = fieldnames(modules)'
-        if strcmp(n{1}, module_name)
-            r = true;
-            return;
-        end
-    end
-    r = false;
 endfunction
 //=============================================================================
 function destination_dir = copyModule(source, module_name, module_version)
