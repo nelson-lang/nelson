@@ -23,50 +23,47 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function varargout = nmm(varargin)
-    varargout = {};
-    firstParameter = varargin{1};
-    if ~isSupportedFirstParameter(firstParameter)
-        error('#1 value or type not managed.');
+function package_file = nmm_package(varargin)
+    if (length(varargin) ~= 2)
+      error(_('Wrong number of input arguments.'));
     end
-    addpath([modulepath(nelsonroot(), 'modules_manager', 'root'), '/functions/internal']);
-    try
-        switch firstParameter
-            case 'list'
-                if nargin ~= 1
-                    error(_('Wrong number of input arguments.'));
-                end
-                varargout{1} = nmm_list();
-            case 'load'
-                if nargout ~= 0
-                    error(_('Wrong number of output arguments.'));
-                end
-                nmm_load(varargin{2:end});
-            case 'autoload'
-                varargout{1} = nmm_autoload(varargin{2:end});
-            case 'uninstall'
-                nmm_uninstall(varargin{2:end});
-            case 'install'
-                nmm_install(varargin{2:end});
-            case 'package'
-                varargout{1} = nmm_package(varargin{2:end});
-            otherwise
-                error('#1 value or type not managed.')
-        end
-        rmpath([modulepath(nelsonroot(), 'modules_manager', 'root'), '/functions/internal']);
-    catch
-        e = lasterror();
-        rmpath([modulepath(nelsonroot(), 'modules_manager', 'root'), '/functions/internal']);
-        error(e);
+    module_name = varargin{1};
+    destination_dir = varargin{2};
+    package_file = [];
+    if ~nmm_is_installed(module_name)
+      error(_('an valid module name expected.'))
     end
+    if ~isdir(destination_dir)
+      error(_('an existing directory expected.'))
+    end
+    modules = nmm_list();
+    module_info = getfield(modules, module_name);
+    module_path = module_info.path;
+    info = nmm_read_module_json(module_path);
+    package_file = buildDestinationFilename(destination_dir, module_name, info);
+    zip(package_file, module_path);
 endfunction
 //=============================================================================
-function r = isSupportedFirstParameter(param)
-    if ischar(param)
-        supported = ["list", "load", "autoload", "install", "uninstall", "package"];
-        r = any(contains(supported, param));
+function package_file = buildDestinationFilename(destination_dir, module_name, info)
+    universal = false;
+    if info.builtin
+        arch = computer('arch');
+    else 
+        platforms = info.platforms;
+        if ischar(platforms)
+            universal = strcmp(info.platforms, 'all');
+        end
+    end 
+    if universal
+        arch = 'all';
     else
-        r = false;
+        arch = computer('arch');
     end
+    version = info.version;
+    if endsWith(fullpath(destination_dir), '/') 
+      package_file = sprintf('%s%s-%s-%s.zip', fullpath(destination_dir), module_name, arch, version);
+    else
+      package_file = sprintf('%s/%s-%s-%s.zip', fullpath(destination_dir), module_name, arch, version);
+    end      
 endfunction
 //=============================================================================

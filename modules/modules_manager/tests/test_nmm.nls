@@ -54,6 +54,9 @@ assert_istrue(r.module_skeleton_basic.load);
 R = nmm('autoload', 'module_skeleton_basic');
 assert_istrue(R);
 //=============================================================================
+filename = nmm('package','module_skeleton_basic', tempdir());
+assert_istrue(isfile(filename));
+//=============================================================================
 nmm('uninstall','module_skeleton_basic');
 r = nmm('list');
 r = contains(fieldnames(r), 'module_skeleton_basic');

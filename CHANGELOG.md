@@ -1,6 +1,8 @@
 
 # 0.3.12 (2019-12-XX)
 
+* nmm('package', module_name, destination_dir) package an external module.
+
 * '-frozen' option added to addpath builtin.
 
 Bug Fixes:
