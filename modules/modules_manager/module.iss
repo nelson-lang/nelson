@@ -36,6 +36,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\module
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\internal\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\internal\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nmz; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================

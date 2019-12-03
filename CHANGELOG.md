@@ -1,7 +1,12 @@
 
 # 0.3.12 (2019-12-XX)
 
+
+* .nmz file extension used as module container.
+
 * nmm('package', module_name, destination_dir) package an external module.
+
+* nmm('install', module.nmz) installs a prebuilt external module.
 
 * '-frozen' option added to addpath builtin.
 

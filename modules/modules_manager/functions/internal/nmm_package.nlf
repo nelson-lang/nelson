@@ -45,6 +45,7 @@ function package_file = nmm_package(varargin)
 endfunction
 //=============================================================================
 function package_file = buildDestinationFilename(destination_dir, module_name, info)
+    package_file_extension = 'nmz';
     universal = false;
     if info.builtin
         arch = computer('arch');
@@ -61,9 +62,10 @@ function package_file = buildDestinationFilename(destination_dir, module_name, i
     end
     version = info.version;
     if endsWith(fullpath(destination_dir), '/') 
-      package_file = sprintf('%s%s-%s-%s.zip', fullpath(destination_dir), module_name, arch, version);
+      buffer_format = '%s%s-%s-%s.%s';
     else
-      package_file = sprintf('%s/%s-%s-%s.zip', fullpath(destination_dir), module_name, arch, version);
-    end      
+      buffer_format = '%s/%s-%s-%s.%s';
+    end
+    package_file = sprintf(buffer_format, fullpath(destination_dir), module_name, arch, version, package_file_extension);
 endfunction
 //=============================================================================
