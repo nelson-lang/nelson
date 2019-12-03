@@ -64,6 +64,8 @@
     <p>The commit-ish can be a tag (exact version), and an sha1 (exac commit) or an branch name.</p>
     <p>Without commit-ish, master branch will be used.</p>
     <p></p>
+    <p><b>nmm('install', filename_nmz)</b> install an prebuilt external module.</p>
+    <p></p>
     <p><b>nmm('load', module_name)</b> load an installed module for current session.</p>
     <p></p>
     <p><b>l = nmm('autoload', module_name</b> returns current state autoload for <b>module_name</b>.</p>
