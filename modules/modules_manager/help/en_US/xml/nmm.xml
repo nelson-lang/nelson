@@ -71,6 +71,7 @@
     <p><b>l = nmm('autoload', module_name</b> returns current state autoload for <b>module_name</b>.</p>
     <p></p>
     <p><b>nmm('autoload', module_name, state)</b> marks an installed modules "marked" as autoload at startup.</p>
+    <p>By default modules are marked as autoload.</p>
     <p></p>
     <p><b>nmm('uninstall', module_name)</b> uninstall an installed module.</p>
     <p></p>
@@ -87,7 +88,6 @@
     <example_item_description>Deploy module_skeleton_basic template</example_item_description>
     <example_item_data><![CDATA[if ~ismodule('module_skeleton_basic')
     nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v1.0.0');
-    nmm('load', 'module_skeleton_basic')
     macro_sum(3, 4)
     nmm('uninstall', 'module_skeleton_basic')
 end]]>

@@ -37,16 +37,17 @@ nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_bas
 r = nmm('list');
 r = any(contains(fieldnames(r), 'module_skeleton_basic'));
 assert_istrue(r);
+assert_istrue(ismodule('module_skeleton_basic'));
 //=============================================================================
 nmm('load', 'module_skeleton_basic');
 assert_istrue(ismodule('module_skeleton_basic'));
 r = nmm('list');
 assert_istrue(isstruct(r.module_skeleton_basic));
 assert_istrue(isdir(r.module_skeleton_basic.path));
-assert_isfalse(r.module_skeleton_basic.load);
+assert_istrue(r.module_skeleton_basic.load);
 //=============================================================================
 R = nmm('autoload', 'module_skeleton_basic');
-assert_isfalse(R);
+assert_istrue(R);
 //=============================================================================
 nmm('autoload', 'module_skeleton_basic', true);
 r = nmm('list');
