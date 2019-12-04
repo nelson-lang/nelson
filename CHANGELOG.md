@@ -1,6 +1,7 @@
 
 # 0.3.12 (2019-12-XX)
 
+* modules installed with nmm are 'autoload' by default.
 
 * .nmz file extension used as module container.
 

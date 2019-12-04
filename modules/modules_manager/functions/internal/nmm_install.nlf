@@ -72,23 +72,24 @@ function nmm_install_file(filename)
   info = readModuleLockJson(lockFile);
   if nmm_is_installed(info.module)
     warning(sprintf(_('%s already installed.'), info.module));
-    rmdir(destinationTempPath, 's');
+    [r, msg] = rmdir(destinationTempPath, 's');
     return
   end  
   for m = fieldnames(info.dependencies)'
     if ~nmm_is_installed(m{1})
-      rmdir(destinationTempPath, 's');
+      [r, msg] = rmdir(destinationTempPath, 's');
       error(sprintf(_('%s not installed.'), m{1}));
     end
   end
   isSupported = strcmp(info.platform, 'all') || strcmp(info.platform, computer('arch'));
   if ~isSupported
-    rmdir(destinationTempPath, 's');
+    [r, msg] = rmdir(destinationTempPath, 's');
     error(_('platform not supported.'));
   end
   destination_dir = copyModule(destinationTempPath, info.module, info.version);
-  saveInstalledModule(info.module, destination_dir);
-  rmdir(destinationTempPath, 's');
+  saveInstalledModule(info.module, destination_dir, info.version);
+  nmm_load(info.module);
+  [r, msg] = rmdir(destinationTempPath, 's');
 endfunction
 //=============================================================================
 function info = readModuleLockJson(lockfile)
@@ -125,7 +126,8 @@ function nmm_install_directory(directory)
   try
     run([destination_dir, 'builder.nls']);
     createModuleLockJson(destination_dir);
-    saveInstalledModule(module_description.module, destination_dir);
+    saveInstalledModule(module_description.module, destination_dir, module_description.version);
+    nmm_load(module_description.module);
   catch
     e = lasterror();
     error(e);
@@ -137,13 +139,13 @@ function nmm_install_repository(url, tag_branch)
   repo('export', url, tag_branch, destinationTempPath);
   module_description = nmm_read_module_json(destinationTempPath);
   if nmm_is_installed(module_description.module)
-    rmdir(destinationTempPath, 's');
+    [r, msg] = rmdir(destinationTempPath, 's');
     warning(sprintf(_('%s already installed.'), module_description.module));
     return
   end
   [r, msg] = nmm_is_supported_platform(module_description.platforms);
   if ~r
-    rmdir(destinationTempPath, 's');
+    [r, msg] = rmdir(destinationTempPath, 's');
     error(msg);
   end
   if (module_description.builtin && ~havecompiler())
@@ -154,19 +156,20 @@ function nmm_install_repository(url, tag_branch)
     if installCompiler
       warning(_('Visual studio detected and configured to be used with Nelson.'));
     else
-      rmdir(destinationTempPath, 's');
+      [r, msg] = rmdir(destinationTempPath, 's');
       error(sprintf(_('An C/C++ compiler is required by %s'), module_description.module));
     end
   end
   destination_dir = copyModule(destinationTempPath, module_description.module, module_description.version);
-  rmdir(destinationTempPath, 's');
+  [r, msg] = rmdir(destinationTempPath, 's');
   try
     run([destination_dir, 'builder.nls']);
     createModuleLockJson(destination_dir);
-    saveInstalledModule(module_description.module, destination_dir);
+    saveInstalledModule(module_description.module, destination_dir, module_description.version);
+    nmm_load(module_description.module);
   catch
     e = lasterror();
-    rmdir(destinationTempPath, 's');
+    [r, msg] = rmdir(destinationTempPath, 's');
     error(e);
   end
 endfunction
@@ -191,9 +194,10 @@ function destination_dir = copyModule(source, module_name, module_version)
   copyfile(source, destination_dir, 'f');
 endfunction
 //=============================================================================
-function saveInstalledModule(module_name, module_path)
+function saveInstalledModule(module_name, module_path, version)
   element.path = module_path;
-  element.load = false;
+  element.load = true;
+  element.version = version;
   modules = nmm_list();
   modules.(module_name) = element;
   p = usermodulesdir();
@@ -215,8 +219,23 @@ function createModuleLockJson(module_path)
     st.platform = computer('arch');
   end
   st.builtin = info.builtin;
-  st.dependencies = info.dependencies;
+  modules = readModulesJson();
+  dependencies = struct();
+  for m = fieldnames(info.dependencies)'
+    dependencies.(m{1}) = dependencies.(m{1}).version;
+  end
+  st.dependencies = dependencies;
   content = jsonprettyprint(jsonencode(st));
   filewrite(moduleLockJson, content);
+endfunction
+//=============================================================================
+function data = readModulesJson()
+  p = usermodulesdir();
+  modules_json_path = [p, 'modules.json'];
+  if isfile(modules_json_path)
+    data = jsondecode(fileread(modules_json_path));
+  else
+    data = struct();
+  end
 endfunction
 //=============================================================================
