@@ -11,6 +11,9 @@
 
 * '-frozen' option added to addpath builtin.
 
+* rmfield builtin: Remove fields from structure.
+
+
 Bug Fixes:
 ---------
 
