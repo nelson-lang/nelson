@@ -23,35 +23,34 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nmm_uninstall(varargin)
-  if (length(varargin) ~= 1)
-    error(_('Wrong number of input arguments.'));
-  end
-  module_or_directory = varargin{1};
-  if ~ischar(module_or_directory)
-    error(_('#2 argument: characters expected.'));
-  end
-  [module_name, module_data] = nmm_find_installed_module(module_or_directory);
-  if isempty(module_data)
-    error(_('module name or existing directory installed is expected.'))
-  end
-  if ismodule(module_name)
-    removemodule(module_name);
-  end
-
-  modified_modules = rmfield(nmm_list(), module_name);
-  p = usermodulesdir();
-  modules_json_path = [p, 'modules.json'];
-  txt = jsonprettyprint(jsonencode(modified_modules));
-  filewrite(modules_json_path, txt);
-  if startsWith(module_data.path, p)
-    parent_dir = [module_data.path, '..'];
-    d = dir(parent_dir);
-    if length(d) == 3
-      [r, msg] = rmdir(parent_dir, 's');
-    else
-      [r, msg] = rmdir(module_data.path, 's');
-    end
-  end
-endfunction
+assert_isequal(nargin('rmfield'), 2);
+assert_isequal(nargout('rmfield'), 1);
+//=============================================================================
+S.first = 1;
+S.second = 2;
+S.third = 3;
+S.fourth = 4;
+fields = {'second','fourth'};
+R = rmfield(S, fields);
+REF.first = 1;
+REF.third = 3;
+assert_isequal(R, REF);
+//=============================================================================
+A(1,1).first = 1;
+A(1,1).second = 2;
+A(1,1).third = 3;
+A(2,1).first = 4;
+A(2,1).second = 5;
+A(2,1).third = 6;
+A(2,2).first = 7;
+A(2,2).second = 8;
+A(2,2).third = 9;
+R = rmfield(A, 'second');
+REF2(1,1).first = 1;
+REF2(1,1).third = 3;
+REF2(2,1).first = 4;
+REF2(2,1).third = 6;
+REF2(2,2).first = 7;
+REF2(2,2).third = 9;
+assert_isequal(R, REF2);
 //=============================================================================
