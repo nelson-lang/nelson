@@ -75,7 +75,7 @@ public:
     std::wstring
     getNelsonRootDirectory();
     //=============================================================================
-  private:
+private:
     NelsonConfiguration();
     //=============================================================================
     static NelsonConfiguration* m_pInstance;
