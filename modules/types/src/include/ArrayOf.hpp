@@ -515,7 +515,19 @@ public:
      * Throwsn an exception if the argument is not a vector.
      */
     static ArrayOf
-    diagonalConstructor(ArrayOf src, int diagonalOrder);
+    diagonalConstructor(ArrayOf src, int64 diagonalOrder);
+
+    /**
+     * Get the diagonal elements of an array.  Only applicable to 2-dimensional arrays.
+     * The diagonal part of a rectangular matrix
+     * is a vector of length K.  For an M x N matrix, the L order diagonal has a length
+     * that can be calculated as:
+     *    K = min(M,N-L) for L > 0 or
+     *    K = min(M+L,N) for L < 0
+     * Throws an exception for multi-dimensional arrays.
+     */
+    ArrayOf
+    getDiagonal(int64 diagonalOrder);
 
     /**
      * Empty constructor
