@@ -35,7 +35,64 @@ namespace Nelson {
 ArrayOf::ArrayOf(const ArrayOf& copy) { copyObject(copy); }
 //=============================================================================
 ArrayOf
-ArrayOf::diagonalConstructor(ArrayOf src, int diagonalOrder)
+ArrayOf::getDiagonal(int64 diagonalOrder)
+{
+    if (!is2D()) {
+        Error(_W("Input must be 2-D"));
+    }
+    if (isSparse()) {
+        Error(_W("Sparse matrix not managed."));
+    }
+    if (isEmpty(true)) {
+        Dimensions dims(0, 0);
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(dp->dataClass);
+        return res;
+    }
+    indexType rows = dp->dimensions.getRows();
+    indexType cols = dp->dimensions.getColumns();
+    int64 outLen;
+    Dimensions outDims;
+    int64 srcIndex;
+    void* qp;
+    if (diagonalOrder < 0) {
+        outLen = (rows + diagonalOrder) < cols ? (rows + diagonalOrder) : cols;
+        outLen = (outLen < 0) ? 0 : outLen;
+        if (outLen == 0) {
+            Dimensions dims(0, 1);
+            ArrayOf res = ArrayOf::emptyConstructor(dims);
+            res.promoteType(dp->dataClass);
+            return res;
+        }
+        outDims[0] = outLen;
+        outDims[1] = 1;
+        qp = allocateArrayOf(dp->dataClass, outLen, dp->fieldNames);
+        for (int64 i = 0; i < outLen; i++) {
+            srcIndex = -diagonalOrder + i * (rows + 1);
+            copyElements(srcIndex, qp, i, 1);
+        }
+    } else {
+        outLen = rows < (cols - diagonalOrder) ? rows : (cols - diagonalOrder);
+        outLen = (outLen < 0) ? 0 : outLen;
+        if (outLen == 0) {
+            Dimensions dims(0, 1);
+            ArrayOf res = ArrayOf::emptyConstructor(dims);
+            res.promoteType(dp->dataClass);
+            return res;
+        }
+        outDims[0] = outLen;
+        outDims[1] = 1;
+        qp = allocateArrayOf(dp->dataClass, outLen, dp->fieldNames);
+        for (int64 i = 0; i < outLen; i++) {
+            srcIndex = diagonalOrder * rows + i * (rows + 1);
+            copyElements(srcIndex, qp, i, 1);
+        }
+    }
+    return ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
 {
     ArrayOf retval;
     if (!src.isVector()) {
@@ -43,13 +100,10 @@ ArrayOf::diagonalConstructor(ArrayOf src, int diagonalOrder)
     }
     indexType length = src.getLength();
     indexType M = 0;
-    // Calculate the size of the output matrix (square of size outLen +
-    // abs(diagonalOrder)).
     M = length + abs(diagonalOrder);
     Dimensions dims;
     dims[0] = M;
     dims[1] = M;
-    // Allocate space for the output
     void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
     indexType i = 0;
     indexType dstIndex = 0;
