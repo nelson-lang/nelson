@@ -1,7 +1,9 @@
 
 # 0.3.12 (2019-12-XX)
 
-* diag builtin: Get diagonal elements of matrix or create diagonal matrix
+* diag builtin: Get diagonal elements of matrix or create diagonal matrix.
+
+* Continous Integration tools for external modules (see module skeleton example). 
 
 * modules installed with nmm are 'autoload' by default.
 
