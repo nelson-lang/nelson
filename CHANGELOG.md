@@ -19,6 +19,9 @@
 
 * extends sprintf and fprintf to manage backspace characters.
 
+* fix display of vector with NaN or Inf as first element.
+
+
 Bug Fixes:
 ---------
 
