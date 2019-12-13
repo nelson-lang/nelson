@@ -17,6 +17,7 @@
 
 * rmfield builtin: Remove fields from structure.
 
+* extends sprintf and fprintf to manage backspace characters.
 
 Bug Fixes:
 ---------
