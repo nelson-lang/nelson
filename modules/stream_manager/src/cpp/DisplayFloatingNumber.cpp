@@ -244,7 +244,7 @@ DisplayFloatingNumberInternal(
         switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
         case NLS_FORMAT_SHORT: {
             if (asInteger && !bIsComplex) {
-                std::wstring str; 
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
                     str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
@@ -274,7 +274,7 @@ DisplayFloatingNumberInternal(
         } break;
         case NLS_FORMAT_LONG:
             if (asInteger && !bIsComplex) {
-                std::wstring str; 
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
                     str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
@@ -292,7 +292,7 @@ DisplayFloatingNumberInternal(
             break;
         case NLS_FORMAT_SHORTE:
             if (asInteger && !bIsComplex) {
-                std::wstring str; 
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
                     str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
