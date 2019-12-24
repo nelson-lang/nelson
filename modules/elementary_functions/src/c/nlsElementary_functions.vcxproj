@@ -189,6 +189,9 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
+    <ClCompile Include="..\cpp\Sort.cpp" />
+    <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
+    <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
     <ClCompile Include="..\cpp\SwapBytes.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
     <ClCompile Include="..\cpp\Exponential.cpp" />
@@ -236,6 +239,12 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\SortCellHelpers.hpp" />
+    <ClInclude Include="..\cpp\SortComplexHelpers.hpp" />
+    <ClInclude Include="..\cpp\SortHelpers.hpp" />
+    <ClInclude Include="..\cpp\SortIntegerHelpers.hpp" />
+    <ClInclude Include="..\cpp\SortRealHelpers.hpp" />
+    <ClInclude Include="..\cpp\SortStringHelpers.hpp" />
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
     <ClInclude Include="..\include\Addition.hpp" />
     <ClInclude Include="..\include\All.hpp" />
@@ -283,6 +292,7 @@
     <ClInclude Include="..\include\RelationOperator.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
+    <ClInclude Include="..\include\Sort.hpp" />
     <ClInclude Include="..\include\Sqrt.hpp" />
     <ClInclude Include="..\include\StringArrayAddition.hpp" />
     <ClInclude Include="..\include\Subtraction.hpp" />

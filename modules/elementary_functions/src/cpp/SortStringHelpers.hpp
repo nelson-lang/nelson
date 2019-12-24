@@ -23,40 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Not.hpp"
-#include "Exception.hpp"
-#include "Error.hpp"
+#pragma once
+//=============================================================================
+#include "Sort.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static void
-boolean_not(indexType N, logical* C, const logical* A)
-{
-    for (indexType i = 0; i < N; i++) {
-        C[i] = static_cast<Nelson::logical>(static_cast<Nelson::logical>(A[i]) == 0u);
-    }
-}
+ArrayOfVector
+sortString(const ArrayOf& arrayIn, bool withIndex, indexType linesize, indexType planecount,
+    indexType planesize, Dimensions& outDim, indexType dim, MISSING_PLACEMENT placement,
+    bool ascend);
 //=============================================================================
-ArrayOf
-Not(ArrayOf& A, bool& needToOverload)
-{
-    ArrayOf C;
-    needToOverload = false;
-    if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
-        Error(_W("Input argument must be real."));
-    }
-    try {
-        A.promoteType(NLS_LOGICAL);
-    } catch (Exception&) {
-        needToOverload = true;
-        return ArrayOf();
-    }
-    logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false));
-    boolean_not(A.getLength(), Cp, static_cast<const logical*>(A.getDataPointer()));
-    C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
-    return C;
 }
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

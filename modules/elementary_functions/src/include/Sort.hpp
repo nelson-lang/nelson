@@ -23,40 +23,29 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Not.hpp"
-#include "Exception.hpp"
-#include "Error.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static void
-boolean_not(indexType N, logical* C, const logical* A)
+typedef enum
 {
-    for (indexType i = 0; i < N; i++) {
-        C[i] = static_cast<Nelson::logical>(static_cast<Nelson::logical>(A[i]) == 0u);
-    }
-}
+    AUTO_PLACEMENT,
+    FIRST_PLACEMENT,
+    LAST_PLACEMENT
+} MISSING_PLACEMENT;
 //=============================================================================
-ArrayOf
-Not(ArrayOf& A, bool& needToOverload)
+typedef enum
 {
-    ArrayOf C;
-    needToOverload = false;
-    if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
-        Error(_W("Input argument must be real."));
-    }
-    try {
-        A.promoteType(NLS_LOGICAL);
-    } catch (Exception&) {
-        needToOverload = true;
-        return ArrayOf();
-    }
-    logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false));
-    boolean_not(A.getLength(), Cp, static_cast<const logical*>(A.getDataPointer()));
-    C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
-    return C;
-}
+    AUTO_METHOD,
+    REAL_METHOD,
+    ABS_METHOD
+} COMPARISON_METHOD;
 //=============================================================================
-} // namespace Nelson
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
+Sort(ArrayOf arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,
+    MISSING_PLACEMENT placement, COMPARISON_METHOD comparisonMethod, bool& needToOverload);
+}
 //=============================================================================

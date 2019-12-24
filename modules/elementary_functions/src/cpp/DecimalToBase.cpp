@@ -27,7 +27,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <boost/unordered_map.hpp>
 #include <boost/algorithm/string.hpp>
@@ -51,7 +51,7 @@ ullToBaseGeneric(unsigned long long v, size_t b, size_t len)
 {
     std::wstring res;
     int d = 1;
-    unsigned long long m = static_cast<unsigned long long>(b);
+    auto m = static_cast<unsigned long long>(b);
     while (m <= v) {
         unsigned long long tmp = m * b;
         d++;

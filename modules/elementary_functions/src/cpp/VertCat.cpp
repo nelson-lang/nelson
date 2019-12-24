@@ -97,11 +97,9 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
                 return C;
             }
             return ArrayOf::toCell(B);
-
-        } else {
-            ArrayOf C(B);
-            return C;
         }
+        ArrayOf C(B);
+        return C;
     }
     if (B.isEmpty(false)) {
         bSuccess = true;
@@ -111,11 +109,9 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
                 return C;
             }
             return ArrayOf::toCell(A);
-
-        } else {
-            ArrayOf C(A);
-            return C;
         }
+        ArrayOf C(A);
+        return C;
     }
     Class classCommon = FindCommonType(A, B, false);
     if (A.isStringArray() || B.isStringArray()) {
