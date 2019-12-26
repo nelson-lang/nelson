@@ -25,9 +25,9 @@
 //=============================================================================
 // <--GUI MODE-->
 // <--WITH DISPLAY-->
-// <--INDEX 64 BIT REQUIRED-->
+// <--INTERACTIVE TEST-->
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
-qobj = qml_createqquickview(qml_file)
+qobj = qml_createqquickview(qml_file);
 qobj.title = 'Nelson <--> qcharts demo';
 //=============================================================================
