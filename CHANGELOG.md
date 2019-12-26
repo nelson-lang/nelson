@@ -1,5 +1,5 @@
 
-# 0.3.12 (2019-12-XX)
+# 0.3.12 (2019-12-27)
 
 * sort builtin: sort double, single, integers, cell and strings.
 
