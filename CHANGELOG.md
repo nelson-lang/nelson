@@ -1,3 +1,11 @@
+# 0.4.1 (2020-01-XX)
+
+
+Compilation:
+------------
+
+* uses ASIO C++ library in place of BOOST ASIO 
+
 
 # 0.3.12 (2019-12-27)
 

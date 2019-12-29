@@ -66,7 +66,7 @@ comparisonStringGreaterPlacementLast(const StringEntry& a, const StringEntry& b)
     return a.x.compare(b.x) > 0;
 }
 //=============================================================================
-using PROC_Comparison = bool (*)(const StringEntry &, const StringEntry &);
+using PROC_Comparison = bool (*)(const StringEntry&, const StringEntry&);
 //=============================================================================
 static PROC_Comparison
 getComparisonMethod(MISSING_PLACEMENT placement, bool ascend, bool& missingFirst)

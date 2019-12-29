@@ -279,3 +279,12 @@ Semantic version v2.0 parser and render written in ANSI C with zero dependencies
 
 > https://github.com/h2non/semver.c/blob/master/LICENSE MIT license
 
+
+- asio
+
+Asio C++ Library
+
+> http://think-async.com/Asio/
+
+> https://github.com/chriskohlhoff/asio/blob/master/asio/COPYING (Boost 1.0)
+

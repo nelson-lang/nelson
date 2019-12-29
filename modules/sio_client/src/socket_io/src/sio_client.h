@@ -23,13 +23,13 @@ namespace sio
             close_reason_drop
         };
         
-        using con_listener = std::function<void ()>;
+        typedef std::function<void(void)> con_listener;
         
-        using close_listener = std::function<void (const close_reason &)>;
+        typedef std::function<void(close_reason const& reason)> close_listener;
 
-        using reconnect_listener = std::function<void (unsigned int, unsigned int)>;
+        typedef std::function<void(unsigned, unsigned)> reconnect_listener;
         
-        using socket_listener = std::function<void (const std::string &)>;
+        typedef std::function<void(std::string const& nsp)> socket_listener;
         
         client();
         ~client();
@@ -80,13 +80,13 @@ namespace sio
         
     private:
         //disable copy constructor and assign operator.
-        client(client const& /*unused*/){}
-        void operator=(client const& /*unused*/){}
+        client(client const& cl){}
+        void operator=(client const& cl){}
         
         client_impl* m_impl;
     };
     
-}  // namespace sio
+}
 
 
 #endif // __SIO_CLIENT__H__
