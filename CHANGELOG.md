@@ -4,7 +4,9 @@
 Compilation:
 ------------
 
-* uses ASIO C++ library in place of BOOST ASIO 
+* uses ASIO C++ library in place of BOOST ASIO.
+
+* Add Qt 5.14.0 support.
 
 
 # 0.3.12 (2019-12-27)

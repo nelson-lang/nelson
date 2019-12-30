@@ -23,13 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ProcessEvents.hpp"
-#include <QtCore/QTime>
+#include <QtCore/QElapsedTimer>
 #include <QtWidgets/QApplication>
+#include "ProcessEvents.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static QTime timerLoopEvents;
+static QElapsedTimer timerLoopEvents;
 static bool doOnce = true;
 //=============================================================================
 void
@@ -48,6 +48,7 @@ ProcessEvents(bool bWaitEvents)
         }
     }
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
 void
