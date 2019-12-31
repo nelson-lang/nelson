@@ -61,6 +61,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
     git_revwalk_sorting(walk, GIT_SORT_TOPOLOGICAL | GIT_SORT_TIME);
     errorCode = git_revwalk_push_head(walk);
     if (errorCode != 0) {
+        git_revwalk_free(walk);
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_repository_free(repo);
         git_libgit2_shutdown();
@@ -71,7 +72,6 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
     ArrayOfVector msgs;
     ArrayOfVector times;
     ArrayOfVector authors;
-
     while (git_revwalk_next(&oid, walk) == 0) {
         git_commit* c;
 
@@ -95,6 +95,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         times.push_back(ArrayOf::characterArrayConstructor(strtime));
         git_commit_free(c);
     }
+    git_revwalk_free(walk);
     git_repository_free(repo);
     git_libgit2_shutdown();
 

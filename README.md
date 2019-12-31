@@ -91,6 +91,12 @@ these own data types and operations on these data types by using overload.
 - [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
   Instant access to Nelson anywhere from an web browser. 
 
+- Module skeleton to extend Nelson available here: 
+   - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
+   - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
+
+ - Nelson Modules Manager (nmm) : package manager for Nelson
+
 
 ## Licenses
 

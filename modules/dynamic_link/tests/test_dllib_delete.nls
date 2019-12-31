@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <-- NO USER MODULES -->
+//=============================================================================
 assert_isequal(nargin('dllib_delete'), 1);
 assert_isequal(nargout('dllib_delete'), 0);
 //=============================================================================

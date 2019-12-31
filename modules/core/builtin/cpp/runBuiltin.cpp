@@ -27,93 +27,38 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
-#include <vector>
 #include "runBuiltin.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
-#include "StringFormat.hpp"
 #include "characters_encoding.hpp"
-#include "PositionScript.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static std::wstring
-getBackTraceMessage(Exception& e)
+static ArrayOfVector
+runBuiltinCommon(
+    Evaluator* eval, const std::wstring& filename, bool errorCatch, bool changeDirectory)
 {
-    std::wstring message = e.getMessage();
-    std::vector<PositionScript> traces = e.getTrace();
-    size_t nbTraces = traces.size();
-
-    std::wstring functionName;
-    std::wstring lineAsString;
-
-    int i = -1;
-    if (nbTraces != 0) {
-        if (traces[0].getFunctionName() != L"error") {
-            if (nbTraces > 1) {
-                i = 0;
-            }
+    ArrayOfVector retval;
+    bool bSuccess = false;
+    try {
+        bSuccess = EvaluateScriptFile(eval, filename.c_str(), changeDirectory);
+    } catch (Exception& e) {
+        if (errorCatch) {
+            eval->setLastErrorException(e);
+            bSuccess = false;
         } else {
-            if (nbTraces > 1) {
-                if (traces[1].getFunctionName() != L"run") {
-                    i = 1;
-                }
-            }
+            throw;
         }
     }
-
-    if (i != -1) {
-        if (traces[i + 1].getFunctionName() != L"run") {
-            functionName = traces[i].getFunctionName();
-            if (traces[i].getLine() != 0) {
-                lineAsString = std::to_wstring(traces[i].getLine());
-            }
-        }
+    if (errorCatch) {
+        retval.push_back(ArrayOf::logicalConstructor(bSuccess));
     }
-
-    if (functionName.empty()) {
-        message = L"\n" + _W("Error: ") + L"\n" + message + L"\n";
-    } else {
-        if (!lineAsString.empty()) {
-            message = L"\n" + _W("Error in ") + functionName + L" (" + _W("line") + L" "
-                + lineAsString + L")\n" + message + L"\n";
-        } else {
-            message = L"\n" + _W("Error in ") + functionName + L"\n" + message + L"\n";
-        }
-    }
-    if (nbTraces > 0) {
-        message = message + L"\n";
-    }
-
-    for (size_t k = 0; k < nbTraces; k++) {
-        if (traces[k].getFunctionName() == L"run") {
-            if ((k >= 1) && traces[k - 1].getLine() != 0) {
-                size_t pos = k - 1;
-                boost::filesystem::path pf = boost::filesystem::path(traces[pos].getFilename());
-                std::wstring filename;
-                if (traces[pos].getFilename().size() > 50) {
-                    filename = pf.filename().wstring();
-                } else {
-                    filename = pf.wstring();
-                }
-                message = message
-                    + StringFormat(_W("at line %5d of \'%ls\'\n").c_str(), traces[pos].getLine(),
-                          filename.c_str());
-            }
-        }
-    }
-    return message;
+    return retval;
 }
 //=============================================================================
 static ArrayOfVector
 runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     bool bErrorCatch = false;
     bool bChangeDir = true;
     std::wstring wpath;
@@ -142,30 +87,12 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    bool bSuccess = false;
-    try {
-        bSuccess = EvaluateScriptFile(eval, wpath.c_str(), bChangeDir);
-    } catch (Exception& e) {
-        eval->setLastErrorException(e);
-        if (bErrorCatch) {
-            bSuccess = false;
-        } else {
-            Interface* io = eval->getInterface();
-            std::wstring message = getBackTraceMessage(e);
-            io->errorMessage(message);
-            Error("");
-        }
-    }
-    if (bErrorCatch) {
-        retval.push_back(ArrayOf::logicalConstructor(bSuccess));
-    }
-    return retval;
+    return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
 //=============================================================================
 static ArrayOfVector
 runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     bool bErrorCatch = false;
     bool bChangeDir = true;
     std::wstring wpath;
@@ -196,48 +123,22 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    bool bSuccess = false;
-    try {
-        bSuccess = EvaluateScriptFile(eval, wpath.c_str(), bChangeDir);
-    } catch (Exception& e) {
-        eval->setLastErrorException(e);
-        if (bErrorCatch) {
-            bSuccess = false;
-        } else {
-            Interface* io = eval->getInterface();
-            std::wstring message = getBackTraceMessage(e);
-            io->errorMessage(message);
-            Error("");
-        }
-    }
-    if (bErrorCatch) {
-        retval.push_back(ArrayOf::logicalConstructor(bSuccess));
-    }
-    return retval;
+    return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
 //=============================================================================
 static ArrayOfVector
 runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    std::wstring wpath;
     if (argIn[0].isRowVectorCharacterArray()) {
-        std::wstring wpath = argIn[0].getContentAsWideString();
-        try {
-            EvaluateScriptFile(eval, wpath.c_str(), true);
-        } catch (Exception& e) {
-            Interface* io = eval->getInterface();
-            eval->setLastErrorException(e);
-            std::wstring message = getBackTraceMessage(e);
-            io->errorMessage(message);
-            Error("");
-        }
+        wpath = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    return retval;
+    return runBuiltinCommon(eval, wpath, false, true);
 }
 //=============================================================================
 ArrayOfVector

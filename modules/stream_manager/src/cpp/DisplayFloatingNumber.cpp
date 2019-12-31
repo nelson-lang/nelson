@@ -25,6 +25,7 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <cstdio>
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <memory> // For std::unique_ptr
@@ -42,12 +43,7 @@ template <class T>
 bool
 isInteger(T val)
 {
-    uint64_t valAsInt = *reinterpret_cast<uint64_t*>(&val);
-    int exponent = ((valAsInt >> 52) & 0x7FF) - 1023;
-    int bitsInFraction = 52 - exponent;
-    uint64_t mask
-        = exponent < 0 ? 0x7FFFFFFFFFFFFFFFLL : exponent > 52 ? 0x00 : (1LL << bitsInFraction) - 1;
-    return !(valAsInt & mask);
+    return fmod(val, 1) == (T)0.0;
 }
 //=============================================================================
 template <class T>
@@ -83,7 +79,7 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
         if (pValueA) {
             maxVal = pValueA[0];
             for (indexType k = 0; k < dimsA.getElementCount(); k++) {
-                if (!isInteger(pValueA[k])) {
+                if (!isInteger(pValueA[k]) && std::isfinite(pValueA[k])) {
                     return false;
                 } else {
                     if (maxVal < pValueA[k]) {
@@ -241,19 +237,32 @@ DisplayFloatingNumberInternal(
         }
         io->outputMessage(strNumber);
         io->outputMessage(L"\n");
-    } else // matrix
-    {
+    } else {
+        // matrix
         indexType format_width = 8;
         bool bIsComplex = A.isComplex();
         switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
         case NLS_FORMAT_SHORT: {
             if (asInteger && !bIsComplex) {
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
+                    str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
-                    format_width = str.size() + 3;
+                    if (std::isnan(maxFloatingNumber)) {
+                        str = L"NaN";
+                        format_width = str.size() + 1;
+                    } else if (std::isinf(maxFloatingNumber)) {
+                        if (maxFloatingNumber > 0) {
+                            str = L"Inf";
+                        } else {
+                            str = L"-Inf";
+                        }
+                        format_width = str.size() + 1;
+                    } else {
+                        str = std::to_wstring((int64)maxFloatingNumber);
+                        format_width = str.size() + 3;
+                    }
                 }
             } else {
                 if (bIsComplex) {
@@ -265,8 +274,9 @@ DisplayFloatingNumberInternal(
         } break;
         case NLS_FORMAT_LONG:
             if (asInteger && !bIsComplex) {
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
+                    str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
                     std::wstring str = std::to_wstring((int64)maxFloatingNumber);
@@ -282,12 +292,25 @@ DisplayFloatingNumberInternal(
             break;
         case NLS_FORMAT_SHORTE:
             if (asInteger && !bIsComplex) {
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
+                    str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
-                    format_width = str.size() + 3;
+                    if (std::isnan(maxFloatingNumber)) {
+                        str = L"NaN";
+                        format_width = str.size() + 1;
+                    } else if (std::isinf(maxFloatingNumber)) {
+                        if (maxFloatingNumber > 0) {
+                            str = L"Inf";
+                        } else {
+                            str = L"-Inf";
+                        }
+                        format_width = str.size() + 1;
+                    } else {
+                        str = std::to_wstring((int64)maxFloatingNumber);
+                        format_width = str.size() + 3;
+                    }
                 }
             } else {
                 if (bIsComplex) {
@@ -299,12 +322,25 @@ DisplayFloatingNumberInternal(
             break;
         case NLS_FORMAT_LONGE:
             if (asInteger && !bIsComplex) {
+                std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
+                    str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
-                    format_width = str.size() + 3;
+                    if (std::isnan(maxFloatingNumber)) {
+                        str = L"NaN";
+                        format_width = str.size() + 1;
+                    } else if (std::isinf(maxFloatingNumber)) {
+                        if (maxFloatingNumber > 0) {
+                            str = L"Inf";
+                        } else {
+                            str = L"-Inf";
+                        }
+                        format_width = str.size() + 1;
+                    } else {
+                        str = std::to_wstring((int64)maxFloatingNumber);
+                        format_width = str.size() + 3;
+                    }
                 }
             } else {
                 if (bIsComplex) {

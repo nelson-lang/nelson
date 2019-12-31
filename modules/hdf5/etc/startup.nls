@@ -24,4 +24,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'hdf5', 'builtin'))
-addpath(modulepath(nelsonroot(), 'hdf5', 'functions'))
+addpath(modulepath(nelsonroot(), 'hdf5', 'functions'), '-frozen')

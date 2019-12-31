@@ -1,10 +1,10 @@
-version: 0.3.10.{build}
+version: 0.3.12.{build}
 image: Visual Studio 2019
 
 environment:
   VS_VERSION: vs2019
-  QTDIR64: C:\Qt\5.13.1\msvc2017_64
-  QTDIR32: C:\Qt\5.13.1\msvc2017
+  QTDIR64: C:\Qt\5.13.2\msvc2017_64
+  QTDIR32: C:\Qt\5.13.2\msvc2017
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
 branches:
@@ -46,6 +46,7 @@ after_build:
 - if %platform%==x64 (set RESULT_BENCHS_XML=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.xml) else (set RESULT_BENCHS_XML=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.xml)
 - if %platform%==x64 (set RESULT_BENCHS_JSON=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.json) else (set RESULT_BENCHS_JSON=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.json)
 
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.nls"
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.nls"
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.nls"
 

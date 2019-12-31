@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "GetExternalModulesPath.hpp"
 #include "NelsonGateway.hpp"
 #include "addmoduleBuiltin.hpp"
 #include "getmodulesBuiltin.hpp"
@@ -30,6 +31,9 @@
 #include "modulepathBuiltin.hpp"
 #include "removemoduleBuiltin.hpp"
 #include "requiremoduleBuiltin.hpp"
+#include "toolboxdirBuiltin.hpp"
+#include "usermodulesdirBuiltin.hpp"
+#include "semverBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -41,13 +45,28 @@ static const nlsGateway gateway[]
           { "modulepath", Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
           { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
           { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
-          { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 } };
+          { "toolboxdir", Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
+          { "usermodulesdir", Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
+          { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 },
+          { "semver", Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 } };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLSGATEWAYNAME()
+//=============================================================================
+static bool
+initializeModulesManagerModule(Nelson::Evaluator* eval)
+{
+    return CreateIfRequiredExternalModulesPath();
+}
+//=============================================================================
+static bool
+finishModulesManagerModule(Nelson::Evaluator* eval)
+{
+    return true;
+}
+//=============================================================================
+NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeModulesManagerModule)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModulesManagerModule)
 //=============================================================================

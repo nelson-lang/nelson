@@ -229,6 +229,7 @@
     <ClCompile Include="..\cpp\shortcutandBuiltin.cpp" />
     <ClCompile Include="..\cpp\shortcutorBuiltin.cpp" />
     <ClCompile Include="..\cpp\sizeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sortBuiltin.cpp" />
     <ClCompile Include="..\cpp\sqrtBuiltin.cpp" />
     <ClCompile Include="..\cpp\subsindexBuiltin.cpp" />
     <ClCompile Include="..\cpp\swapbytesBuiltin.cpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="..\include\shortcutandBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutorBuiltin.hpp" />
     <ClInclude Include="..\include\sizeBuiltin.hpp" />
+    <ClInclude Include="..\include\sortBuiltin.hpp" />
     <ClInclude Include="..\include\sqrtBuiltin.hpp" />
     <ClInclude Include="..\include\subsindexBuiltin.hpp" />
     <ClInclude Include="..\include\swapbytesBuiltin.hpp" />

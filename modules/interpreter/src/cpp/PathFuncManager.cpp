@@ -41,6 +41,7 @@
 #include "OverloadCache.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -255,7 +256,7 @@ PathFuncManager::find(size_t hashid, std::wstring& functionname)
 }
 //=============================================================================
 bool
-PathFuncManager::addPath(const std::wstring& path, bool begin)
+PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
     for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
@@ -268,9 +269,17 @@ PathFuncManager::addPath(const std::wstring& path, bool begin)
             }
         }
     }
+    bool withWatch;
+    if (frozen) {
+        withWatch = false;
+    } else {
+        boost::filesystem::path pathToAdd = path;
+        withWatch = !boost::algorithm::starts_with(pathToAdd.generic_path().generic_wstring(),
+            NelsonConfiguration::getInstance()->getNelsonRootDirectory());
+    }
     PathFunc* pf;
     try {
-        pf = new PathFunc(path);
+        pf = new PathFunc(path, withWatch);
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
@@ -295,6 +304,10 @@ PathFuncManager::removePath(const std::wstring& path)
         if (pf) {
             boost::filesystem::path p1{ pf->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
+                PathFunc* pf = *it;
+                if (pf) {
+                    delete pf;
+                }
                 _pathFuncVector.erase(it);
                 return true;
             }

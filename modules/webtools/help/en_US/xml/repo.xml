@@ -9,11 +9,18 @@
   <syntax>
     <syntax_item>repo('clone', url, branch, destination)</syntax_item>
     <syntax_item>repo('clone', url, destination)</syntax_item> 
+    <syntax_item>repo('clone', url, branch, destination, username, password)</syntax_item>
+    <syntax_item>repo('clone', url, destination, username, password)</syntax_item> 
+    <syntax_item>repo('export', url, branch_tag_sha1, destination)</syntax_item>
+    <syntax_item>repo('export', url, destination)</syntax_item> 
+    <syntax_item>repo('export', url, branch_tag_sha1, destination, username, password)</syntax_item>
+    <syntax_item>repo('export', url, destination, username, password)</syntax_item> 
     <syntax_item>repo('checkout', destination, branch_tag_sha1)</syntax_item>
     <syntax_item>ce = repo('branch', destination)</syntax_item>
     <syntax_item>ce = repo('tag', destination)</syntax_item>    
     <syntax_item>st = repo('log', destination)</syntax_item>        
     <syntax_item>repo('fetch', destination)</syntax_item>            
+    <syntax_item>repo('fetch', destination, username, password)</syntax_item>            
     <syntax_item>repo('remove_branch', destination, branch)</syntax_item>            
     <syntax_item>current_branch = repo('current_branch', destination)</syntax_item>            
   </syntax>
@@ -40,6 +47,16 @@
       <param_description>a string: a branch name, tag or sha1.</param_description>
     </param_input_item>
 
+    <param_input_item>
+      <param_name>username</param_name>
+      <param_description>a string: username used if an authentification is required.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description>a string: password used  if an authentification is required.</param_description>
+    </param_input_item>
+
   </param_input>
 
   <param_output>
@@ -64,6 +81,17 @@
   <description>
     <p><b>repo()</b> allows to clone, checkout, fetch a git repository.</p>
     <p>checkout command will be forced and remove untracked filed.</p>
+    <p>git https protocol works on all platforms. git ssh protocol works currently on macos and linux platforms.</p>
+    <p>report('export', ...) clone and remove .git directory.</p>
+    <p></p>
+    <p>Tips:</p>
+    <p></p>
+    <p>If you have this error: <b>callback returned unsupported credentials type</b> , checks your ~/.gitconfig file.</p>
+    <p>You don't have some  ssh or https redirection.</p>
+    <p>Remove entries:</p>
+    <p>[url "git@github.com:"]</p>
+    <p>  insteadOf = https://github.com/</p>
+
   </description>
   <used_function>libgit2 (https://libgit2.org/)</used_function>
   <bibliography></bibliography>

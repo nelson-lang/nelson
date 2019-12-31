@@ -32,8 +32,12 @@
 namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
-RepositoryClone(const std::wstring& url, const std::wstring& branchOrTag, std::wstring& localPath,
-    std::wstring& errorMessage);
+RepositoryClone(const std::wstring& url, const std::wstring& user, const std::wstring& password,
+    const std::wstring& branchOrTag, std::wstring& localPath, std::wstring& errorMessage);
+//=============================================================================
+NLSWEBTOOLS_IMPEXP void
+RepositoryExport(const std::wstring& url, const std::wstring& user, const std::wstring& password,
+    const std::wstring& branchOrTag, std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
 RepositoryCheckout(
@@ -45,7 +49,8 @@ RepositoryRemoveBranch(
     const std::wstring& localPath, const std::wstring& branchName, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP void
-RepositoryFetch(const std::wstring& localPath, std::wstring& errorMessage);
+RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
+    const std::wstring& password, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP std::wstring
 RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& errorMessage);

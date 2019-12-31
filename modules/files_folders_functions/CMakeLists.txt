@@ -34,6 +34,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
 )
@@ -76,6 +77,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -87,10 +90,12 @@ ADD_LIBRARY(
 target_link_libraries(${module_library_builtin_name}
 ${module_library_name}
 nlsError_manager
+nlsApi_nelson
 nlsNelson_manager
 nlsInterpreter
 nlsI18n
 nlsTypes
+nlsData_structures
 nlsString)
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

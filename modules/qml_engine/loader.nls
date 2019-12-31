@@ -23,4 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/qml_engine/etc/startup.nls']);
+if (strcmp(getnelsonmode(), 'GUI') == true || ...
+  strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
+  strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
+  addmodule([nelsonroot() '/modules/' 'qml_engine'], 'qml_engine');
+end
+//=============================================================================

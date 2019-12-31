@@ -166,38 +166,37 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
         QObject* qobj = (QObject*)qmlHandle->getPointer();
         if (qobj) {
             std::wstring msg;
-            for (size_t k = 0; k < wfieldnames.size(); k++) {
-                if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
+            for (std::wstring wfieldname : wfieldnames) {
+                if (wfieldname == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
                     dispParent(qobj, msg);
-                } else if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
+                } else if (wfieldname == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
                     dispChildren(qobj, msg);
-                } else if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
+                } else if (wfieldname == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
                     std::string name = qobj->metaObject()->className();
-                    msg = msg + L"\t" + wfieldnames[k] + L": " + utf8_to_wstring(name) + L"\n";
+                    msg = msg + L"\t" + wfieldname + L": " + utf8_to_wstring(name) + L"\n";
                 } else {
-                    QVariant propertyValue
-                        = qobj->property(wstring_to_utf8(wfieldnames[k]).c_str());
+                    QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldname).c_str());
                     if (propertyValue.isValid()) {
                         switch (propertyValue.type()) {
                         case QVariant::Type::Rect: {
                             QRect qrect = propertyValue.toRect();
-                            dispQRect(qrect, wfieldnames[k], msg);
+                            dispQRect(qrect, wfieldname, msg);
                         } break;
                         case QVariant::Type::RectF: {
                             QRectF qrect = propertyValue.toRectF();
-                            dispQRectF(qrect, wfieldnames[k], msg);
+                            dispQRectF(qrect, wfieldname, msg);
                         } break;
                         case QVariant::Type::Point: {
                             QPoint qpoint = propertyValue.toPoint();
-                            dispQPoint(qpoint, wfieldnames[k], msg);
+                            dispQPoint(qpoint, wfieldname, msg);
                         } break;
                         case QVariant::Type::PointF: {
                             QPointF qpointf = propertyValue.toPointF();
-                            dispQPointF(qpointf, wfieldnames[k], msg);
+                            dispQPointF(qpointf, wfieldname, msg);
                         } break;
                         case QVariant::Type::Color: {
                             QColor qcolor = qvariant_cast<QColor>(propertyValue);
-                            dispQColor(qcolor, wfieldnames[k], msg);
+                            dispQColor(qcolor, wfieldname, msg);
                         } break;
                         case QVariant::Type::Bool:
                         case QVariant::Type::Int:
@@ -228,11 +227,11 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
                         case QVariant::Type::Quaternion:
                         default: {
                             if (propertyValue.canConvert<QString>()) {
-                                msg = msg + L"\t" + wfieldnames[k] + L": "
+                                msg = msg + L"\t" + wfieldname + L": "
                                     + QStringTowstring(propertyValue.typeName()) + L" "
                                     + QStringTowstring(propertyValue.toString()) + L"\n";
                             } else {
-                                msg = msg + L"\t" + wfieldnames[k] + L": "
+                                msg = msg + L"\t" + wfieldname + L": "
                                     + QStringTowstring(propertyValue.typeName()) + L" " + L"handle"
                                     + L"\n";
                             }

@@ -24,9 +24,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--C/C++ COMPILER REQUIRED--> 
+// <--NO USER MODULES-->
 //=============================================================================
-if ismodule('module_skeleton')
-  assert_isequal(cpp_sum(3, 4), 7);
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
   return
 end
 //=============================================================================
@@ -40,11 +41,13 @@ end
 mkdir(destinationdir);
 for f = files(:)'
   sourcefile = f.name;
-  destinationfile = replace(f.name, sourcedir, destinationdir);
-  if isdir(sourcefile)
-    mkdir(destinationfile);
-  else
-    copyfile(sourcefile, destinationfile);
+  if ~endsWith(sourcefile, 'CMakeCache.txt')
+    destinationfile = replace(f.name, sourcedir, destinationdir);
+    if isdir(sourcefile)
+      mkdir(destinationfile);
+    else
+      copyfile(sourcefile, destinationfile);
+    end
   end
 end
 run([destinationdir, '/builder.nls']);

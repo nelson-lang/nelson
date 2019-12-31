@@ -132,6 +132,9 @@ Nelson::MarkdownFile(
 bool
 Nelson::MarkdownString(const std::string& inputMarkdownString, std::string& outputHtmlString)
 {
+    if (inputMarkdownString.empty()) {
+        return true;
+    }
     hoedown_buffer *ib, *ob;
     hoedown_renderer* renderer = nullptr;
     void (*renderer_free)(hoedown_renderer*) = nullptr;

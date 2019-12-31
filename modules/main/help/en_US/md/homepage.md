@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.3.10.0
+### Nelson 0.3.12.0
 
 This is an pre-release of Nelson.
 
@@ -64,6 +64,11 @@ Try it !
 - Nelson cloud:
   Instant access to Nelson anywhere from an web browser. 
 
+- Module skeleton to extend Nelson available here: 
+   - [template macros and builtin](http://github.com/Nelson-numerical-software/module_skeleton),
+   - [basic template macros only](http://github.com/Nelson-numerical-software/module_skeleton_basic).
+
+- Nelson Modules Manager (nmm) : package manager for Nelson
 
 * * *
 

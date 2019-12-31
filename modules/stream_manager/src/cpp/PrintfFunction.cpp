@@ -73,6 +73,9 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                 case L'r': {
                     *(nbuff + nbuf_ind) = L'\r';
                 } break;
+                case L'b': {
+                    *(nbuff + nbuf_ind) = L'\b';
+                } break;
                 case L'v': {
                     *(nbuff + nbuf_ind) = L'\v';
                 } break;

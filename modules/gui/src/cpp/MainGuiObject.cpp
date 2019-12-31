@@ -138,7 +138,7 @@ DestroyMainGuiObject(void* term)
 {
     if (NelSonQtApp) {
         if (NelSonQtMainWindow) {
-            delete NelSonQtMainWindow;
+            NelSonQtMainWindow->deleteLater();
             NelSonQtMainWindow = nullptr;
         }
         if (term) {
@@ -146,7 +146,7 @@ DestroyMainGuiObject(void* term)
             delete nlsTerm;
             nlsTerm = nullptr;
         }
-        delete NelSonQtApp;
+        NelSonQtApp->deleteLater();
         NelSonQtApp = nullptr;
     }
     DestroyConsole();

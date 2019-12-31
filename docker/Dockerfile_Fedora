@@ -94,6 +94,7 @@ ENV HDF5_ROOT="/tmp/hdf5_1_10_5/hdf5"
 ENV LD_LIBRARY_PATH="${HDF5_LIBRARIES}:/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 RUN cmake -G "Unix Makefiles" .
 RUN make -j4
+RUN make get_module_skeleton
 
 RUN make buildhelp
 RUN make tests_minimal

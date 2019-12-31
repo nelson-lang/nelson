@@ -23,5 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'data_structures', 'builtin'))
-addpath(modulepath(nelsonroot(), 'data_structures', 'functions'))
+addgateway(modulepath(nelsonroot(), 'data_structures', 'builtin'));
+addpath(modulepath(nelsonroot(), 'data_structures', 'functions'), '-frozen');

@@ -50,7 +50,7 @@ REF = uint8([   82;   73;   70;   70;   90;   52;   32;    0;   87;   65]);
 assert_isequal(R(1:10), REF(1:10));
 //=============================================================================
 o = weboptions('ContentType', 'raw');
-o.Timeout = 10;
+o.Timeout = 20;
 R = webread('https://ccrma.stanford.edu/~jos/wav/Latin.wav', o);
 assert_isequal(size(R), [2110562           1]);
 REF = uint8([   82;   73;   70;   70;   90;   52;   32;    0;   87;   65]);

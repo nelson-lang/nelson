@@ -235,6 +235,7 @@
     <ClCompile Include="..\cpp\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
+    <ClCompile Include="..\cpp\GatewayHelpers.cpp" />
     <ClCompile Include="..\cpp\GeOperator.cpp" />
     <ClCompile Include="..\cpp\GetNelsonMainEvaluatorDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\GtOperator.cpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="..\include\FileParser.hpp" />
     <ClInclude Include="..\include\FileWatcherManager.hpp" />
     <ClInclude Include="..\include\FunctionDef.hpp" />
+    <ClInclude Include="..\include\GatewayHelpers.hpp" />
     <ClInclude Include="..\include\GetNelsonMainEvaluatorDynamicFunction.hpp" />
     <ClInclude Include="..\include\HorzCatOperator.hpp" />
     <ClInclude Include="..\include\Keywords.hpp" />

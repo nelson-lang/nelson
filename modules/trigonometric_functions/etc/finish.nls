@@ -23,4 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+rmpath(modulepath(nelsonroot(), 'trigonometric_functions', 'functions'));
 removegateway(modulepath(nelsonroot(), 'trigonometric_functions', 'builtin'));

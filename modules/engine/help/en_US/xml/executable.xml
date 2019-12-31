@@ -50,6 +50,11 @@
     </param_input_item>
 
     <param_input_item>
+      <param_name>--nousermodules</param_name>
+      <param_description>disable the load of user's modules. loaded before user's script.</param_description>
+    </param_input_item>
+
+    <param_input_item>
       <param_name>--nouserstartup</param_name>
       <param_description>disable the user script file executed at startup after the main startup file.</param_description>
     </param_input_item>

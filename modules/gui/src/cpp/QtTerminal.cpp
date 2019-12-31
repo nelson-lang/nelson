@@ -475,7 +475,17 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
     } break;
     }
     cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
-    cur.insertText(msg, format);
+    if (msg.contains("\b")) {
+        for (auto c : msg) {
+            if (c == '\b') {
+                cur.deletePreviousChar();
+            } else {
+                cur.insertText(c, format);
+            }
+        }
+    } else {
+        cur.insertText(msg, format);
+    }
     setTextCursor(cur);
 }
 //=============================================================================

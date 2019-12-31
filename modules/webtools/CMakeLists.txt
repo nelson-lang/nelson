@@ -43,6 +43,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
 )
 #==============================================================================	
 FILE(
@@ -66,6 +67,7 @@ nlsElementary_functions
 nlsTypes
 nlsI18n
 nlsCharacters_encoding
+nlsFiles_folders_functions
 ${CURL_LIBRARIES}
 ${LIBGIT2_LIBRARIES}
 )

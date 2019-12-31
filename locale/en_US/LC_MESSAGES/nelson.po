@@ -84,589 +84,4082 @@ msgid ""
 "%2."
 msgstr ""
 
+msgid "Cannot apply numeric operation "
+msgstr ""
+
+msgid " to reference types."
+msgstr ""
+
+msgid "Same reference type expected."
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator "
+msgstr ""
+
+msgid "Cannot apply matrix operation "
+msgstr ""
+
+msgid " to N-Dimensional arrays."
+msgstr ""
+
+msgid "Size mismatch on arguments to "
+msgstr ""
+
+msgid "empty string not allowed as expected message."
+msgstr ""
+
+msgid "Assertion failed : expected error message ="
+msgstr ""
+
+msgid "computed error message ="
+msgstr ""
+
+msgid "No error was produced while evaluating command."
+msgstr ""
+
+msgid "isapprox returns more than one output argument."
+msgstr ""
+
+msgid "isapprox must return an logical."
+msgstr ""
+
+msgid "Assertion failed: expected and computed values are too different."
+msgstr ""
+
+msgid "isequalto returns more than one output argument."
+msgstr ""
+
+msgid "isequalto must return an logical."
+msgstr ""
+
+msgid "isequalto returns an unexpected error."
+msgstr ""
+
+msgid "Assertion failed: expected and computed values are different."
+msgstr ""
+
+msgid "Assertion failed: found false entry in condition = true."
+msgstr ""
+
+msgid "Assertion failed: found false entry in condition = false."
+msgstr ""
+
+msgid "Wrong value for #1 argument."
+msgstr ""
+
+msgid "Wrong value for #3 argument."
+msgstr ""
+
+msgid "Cannot create audioplayer handle."
+msgstr ""
+
+msgid "audioplayer handle expected."
+msgstr ""
+
+msgid "start >= 1 expected."
+msgstr ""
+
+msgid "Index >= 1 expected."
+msgstr ""
+
+msgid "scalar or [start, end] vector expected."
+msgstr ""
+
+msgid "Invalid range."
+msgstr ""
+
+msgid "No property for class: audioplayer."
+msgstr ""
+
+msgid "Properties for class: audioplayer:"
+msgstr ""
+
+msgid "Cannot set a read only property."
+msgstr ""
+
+msgid "[start, end] vector expected."
+msgstr ""
+
+msgid "Wrong value for #2 argument."
+msgstr ""
+
+msgid "Wrong value for #1 or #2 argument."
+msgstr ""
+
+msgid "Wrong value for #4 argument."
+msgstr ""
+
+msgid "Invalid filename."
+msgstr ""
+
+msgid "No tags available."
+msgstr ""
+
+msgid "Cannot save file."
+msgstr ""
+
+msgid "Wrong device ID."
+msgstr ""
+
+msgid "Empty matrix not allowed."
+msgstr ""
+
+msgid "Vector or matrix 2D expected."
+msgstr ""
+
+msgid "Too many output channels."
+msgstr ""
+
+msgid "Type not supported."
+msgstr ""
+
+msgid "'native' or 'double' expected."
+msgstr ""
+
+msgid "Cannot read audio file."
+msgstr ""
+
+msgid "Invalid file extension."
+msgstr ""
+
+msgid "Invalid BitsPerSample value."
+msgstr ""
+
+msgid "Write failed."
+msgstr ""
+
+msgid "Filename must have an extension."
+msgstr ""
+
+msgid "audioplayer valid handle expected."
+msgstr ""
+
+msgid "Sparse type not supported."
+msgstr ""
+
+msgid "'machine' value expected."
+msgstr ""
+
+msgid "Not implemented on this platform."
+msgstr ""
+
+msgid "Unrecognized option. \"-full\" expected."
+msgstr ""
+
+msgid "Error CLSIDFromString."
+msgstr ""
+
+msgid "Error CLSIDFromProgID."
+msgstr ""
+
+msgid "Error CoCreateInstanceEx."
+msgstr ""
+
+msgid "Invalid PROGID."
+msgstr ""
+
+msgid "Server is not running on this system."
+msgstr ""
+
+msgid "Fails to connect to server."
+msgstr ""
+
+msgid "COM handle expected."
+msgstr ""
+
+msgid "COM valid handle expected."
+msgstr ""
+
+msgid "IDispatch not defined."
+msgstr ""
+
+msgid "method not found."
+msgstr ""
+
+msgid "Error detected:"
+msgstr ""
+
+msgid "Only 7 input parameters expected."
+msgstr ""
+
+msgid "VARIANT conversion fails."
+msgstr ""
+
+msgid "Sparse not supported."
+msgstr ""
+
+msgid "N dimensions array not supported."
+msgstr ""
+
+msgid "Unrecognized option. \"s\" expected."
+msgstr ""
+
+msgid "Type 'double' or 'single' expected."
+msgstr ""
+
+msgid "N-dimensional arrays are not supported."
+msgstr ""
+
+msgid "Size vector should be a row vector with real elements."
+msgstr ""
+
+msgid "A supported type expected at last argument."
+msgstr ""
+
+msgid "'like' expected at n - 2 argument."
+msgstr ""
+
+msgid "Too many dimensions! Current limit is"
+msgstr ""
+
+msgid "sparse not supported."
+msgstr ""
+
+msgid "Input following 'like'' is not a numeric array."
+msgstr ""
+
+msgid "Input following 'like' is not a numeric array."
+msgstr ""
+
+msgid "#1 string expected."
+msgstr ""
+
+msgid "#2 string expected."
+msgstr ""
+
+msgid "Argument #1 : 'base', 'local' or 'caller' expected."
+msgstr ""
+
+msgid "#2 'errcatch' or 'nocatch' expected."
+msgstr ""
+
+msgid "unexpected format."
+msgstr ""
+
+msgid "not allowed in base scope."
+msgstr ""
+
+msgid "Wrong value for #1 argument, 'fullpathext' or  'fullpath' expected."
+msgstr ""
+
+msgid "Unknow option."
+msgstr ""
+
+msgid "Invalid use of statement list."
+msgstr ""
+
+msgid "'local', 'caller', 'base' scope expected."
+msgstr ""
+
+msgid "input function not allowed from evalc."
+msgstr ""
+
+msgid "Cannot change directory '"
+msgstr ""
+
+msgid "File does not exist."
+msgstr ""
+
+msgid "An valid script expected."
+msgstr ""
+
+msgid "Memory allocation."
+msgstr ""
+
+msgid "Error: we cannot find Nelson binaries path."
+msgstr ""
+
+msgid "Error: we cannot find Nelson root path."
+msgstr ""
+
+msgid "Error: we cannot create preferences path."
+msgstr ""
+
+msgid "Error: we cannot find Nelson preferences path."
+msgstr ""
+
+msgid "function not found."
+msgstr ""
+
+msgid "Not yet implemented with dim > 2"
+msgstr ""
+
+msgid "Number of field names must match number of fields in new structure."
+msgstr ""
+
+msgid "function returned fewer outputs than expected"
+msgstr ""
+
+msgid "function returned non-scalar result"
+msgstr ""
+
+msgid "Error wrong type expected."
+msgstr ""
+
+msgid "Error already defined."
+msgstr ""
+
+msgid "wrong type #1"
+msgstr ""
+
+msgid "A valid function name expected."
+msgstr ""
+
+msgid "cell expected."
+msgstr ""
+
+msgid "not defined."
+msgstr ""
+
+msgid "struct([]) expected."
+msgstr ""
+
+msgid "requires pairs of field names and values."
+msgstr ""
+
+msgid "requires a valid fieldname."
+msgstr ""
+
+msgid "'-completenames' expected."
+msgstr ""
+
+msgid "'-completenames' expected or scalar integer value required."
+msgstr ""
+
+msgid "dlsym handle expected."
+msgstr ""
+
+msgid "dllib handle expected."
+msgstr ""
+
+msgid "libpointer handle expected."
+msgstr ""
+
+msgid "File not found."
+msgstr ""
+
+msgid "Module not loaded: symbol not found."
+msgstr ""
+
+msgid "Module not loaded: library not loaded.\n"
+msgstr ""
+
+msgid "Wrong type for argument #1: dllib scalar handle expected."
+msgstr ""
+
+msgid "Valid handle expected."
+msgstr ""
+
+msgid "Invalid argument type:"
+msgstr ""
+
+msgid "Invalid symbol name."
+msgstr ""
+
+msgid "dllib valid handle expected."
+msgstr ""
+
+msgid "dlsym valid handle expected."
+msgstr ""
+
+msgid "libpointer valid handle expected."
+msgstr ""
+
+msgid "Cannot load library: "
+msgstr ""
+
+#, c-format
+msgid "import type %s not defined in FFI type table."
+msgstr ""
+
+msgid "'void' not allowed as input type."
+msgstr ""
+
+msgid "error memory allocation."
+msgstr ""
+
+msgid "Unable to import function through FFI."
+msgstr ""
+
+msgid "cell array"
+msgstr ""
+
+msgid "Module not loaded: library not loaded."
+msgstr ""
+
+msgid "Invalid #2 argument type expected:"
+msgstr ""
+
+msgid "Invalid #2 argument scalar expected."
+msgstr ""
+
+msgid "The datatype and size of the value must be defined."
+msgstr ""
+
+msgid "Offset must not be greater than the size of the pointer."
+msgstr ""
+
+msgid "null pointer cannot be incremented."
+msgstr ""
+
+msgid "void cannot be incremented."
+msgstr ""
+
+msgid "voidPtr cannot be incremented."
+msgstr ""
+
+msgid "libpointer cannot be incremented."
+msgstr ""
+
+msgid "cannot be incremented."
+msgstr ""
+
+msgid "Invalid type."
+msgstr ""
+
+msgid "Incompatible types"
+msgstr ""
+
+msgid "Only numericPtr can be reshaped."
+msgstr ""
+
+msgid "Numerics types expected."
+msgstr ""
+
+msgid "overload of isequal must return a logical."
+msgstr ""
+
+msgid "overload of isequaln must return a logical."
+msgstr ""
+
+msgid "overload of isequalto must return a logical."
+msgstr ""
+
+msgid "Undefined function 'length' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'ndims' for input arguments of type"
+msgstr ""
+
+msgid "Too many dimensions!"
+msgstr ""
+
+msgid "An row vector expected."
+msgstr ""
+
+msgid "Undefined function 'reshape' for input arguments of overloaded type."
+msgstr ""
+
+msgid ""
+"Undefined function 'reshape' for input arguments of type 'function_handle'."
+msgstr ""
+
+msgid "finite value expected."
+msgstr ""
+
+msgid "real integer expected."
+msgstr ""
+
+msgid "real positive integer expected."
+msgstr ""
+
+msgid "only one unknown dimension allowed."
+msgstr ""
+
+msgid "Reshape operation cannot change the number of elements in array."
+msgstr ""
+
+msgid "Wrong value for argument #2. 'r' or 'c' expected"
+msgstr ""
+
+msgid "Wrong type for argument #2. numeric values expected"
+msgstr ""
+
+msgid "Wrong size for argument #2. row vector or scalar expected"
+msgstr ""
+
+msgid "Undefined function 'size' for input arguments of type"
+msgstr ""
+
+msgid "Integer type not managed."
+msgstr ""
+
+msgid "Invalid conversion from complex."
+msgstr ""
+
+msgid "Colon input arguments must have same type."
+msgstr ""
+
+msgid "Array used as scalar."
+msgstr ""
+
+msgid "Undefined function 'conj' for input arguments of type"
+msgstr ""
+
+msgid "Input arguments must be full."
+msgstr ""
+
+msgid "Input arguments must be numeric."
+msgstr ""
+
+msgid "Input arguments must be real."
+msgstr ""
+
+msgid "Input arguments must have the same size."
+msgstr ""
+
+msgid "Undefined function '"
+msgstr ""
+
+msgid "ctranspose on N-D array is undefined."
+msgstr ""
+
+msgid "Size mismatch on arguments to power (^) operator."
+msgstr ""
+
+msgid "Only positive integers expected."
+msgstr ""
+
+msgid "Unhandled type for second argument to A^B"
+msgstr ""
+
+msgid "Unhandled type combination for A^B"
+msgstr ""
+
+msgid "Positive integral powers expected."
+msgstr ""
+
+msgid "integers of the same class, or scalar doubles expected."
+msgstr ""
+
+msgid "Complex integer not allowed for arithmetic operator "
+msgstr ""
+
+msgid "function"
+msgstr ""
+
+msgid "undefined."
+msgstr ""
+
+msgid "Cannot promote to string array."
+msgstr ""
+
+msgid "Undefined function 'isfinite' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'isinf' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'isnan' for input arguments of type"
+msgstr ""
+
+msgid "LeftDivide currently not implemented in Nelson."
+msgstr ""
+
+msgid "At least one input argument must be scalar."
+msgstr ""
+
+msgid ""
+"using operator '*' \n"
+" Matrix dimensions must agree."
+msgstr ""
+
+msgid "Undefined function 'mod' for complex input argument."
+msgstr ""
+
+msgid "Undefined function 'mod' for sparse input argument."
+msgstr ""
+
+msgid "Integers type not managed."
+msgstr ""
+
+msgid "Integers must be combined with integers of the same class."
+msgstr ""
+
+msgid "Input argument must be real."
+msgstr ""
+
+msgid "Undefined function 'rem' for complex input argument."
+msgstr ""
+
+msgid "Undefined function 'rem' for sparse input argument."
+msgstr ""
+
+msgid "transpose on N-D array is undefined."
+msgstr ""
+
+msgid "unknown mode."
+msgstr ""
+
+msgid "Main finish.nls failed to run."
+msgstr ""
+
+msgid "User finish.nls failed to run."
+msgstr ""
+
+msgid "This mode is not yet implemented.\n"
+msgstr ""
+
+msgid "unknow engine.\n"
+msgstr ""
+
+msgid "Gui module not loaded."
+msgstr ""
+
+msgid "Gui Function not loaded."
+msgstr ""
+
+msgid "no value after "
+msgstr ""
+
+msgid "multiple option "
+msgstr ""
+
+msgid "display this help message"
+msgstr ""
+
+msgid "display the version number"
+msgstr ""
+
+msgid "no main startup file"
+msgstr ""
+
+msgid "no user startup file"
+msgstr ""
+
+msgid "command to execute"
+msgstr ""
+
+msgid "file to execute"
+msgstr ""
+
+msgid "language used in current session"
+msgstr ""
+
+msgid "socket.io uri address"
+msgstr ""
+
+msgid "does not print banner and version at startup"
+msgstr ""
+
+msgid "kill nelson process after n seconds"
+msgstr ""
+
+msgid "opens files in text editor"
+msgstr ""
+
+msgid "socketio address required."
+msgstr ""
+
+msgid "wrong value for timeout option."
+msgstr ""
+
+msgid "Error: could not find the function NtOpenFile in library ntdll.dll.\n"
+msgstr ""
+
+msgid "'nostartup' and  'startup' are mutual exclusive.\n"
+msgstr ""
+
+msgid "too many arguments -f and -e are exclusive."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "ERROR: too many arguments -f and -e are exclusive."
+msgstr ""
+
+msgid "Nelson paths not initialized."
+msgstr ""
+
+msgid "Nelson paths not initialized.\n"
+msgstr ""
+
+msgid "Nelson interpreter not initialized."
+msgstr ""
+
+msgid "Nelson interpreter not initialized.\n"
+msgstr ""
+
+msgid ""
+"Recursion stack not enough.\n"
+"Please set C recursion stack to "
+msgstr ""
+
+msgid "Current C stack is: "
+msgstr ""
+
+msgid "Nelson cannot load base modules.\n"
+msgstr ""
+
+msgid "Main startup.nls failed to run."
+msgstr ""
+
+msgid "User startup.nls failed to run."
+msgstr ""
+
+msgid "Wrong value for #2 input argument."
+msgstr ""
+
+msgid "'reset' expected."
+msgstr ""
+
+msgid "a structure or the string 'reset' expected."
+msgstr ""
+
+msgid "By default, warnings are enabled ('on'):"
+msgstr ""
+
+msgid "Wrong value for #1 argument: valid warning struct expected."
+msgstr ""
+
+msgid "warning('query') does not require an second argument."
+msgstr ""
+
+msgid "Cannot apply wisdom."
+msgstr ""
+
+msgid "Undefined function 'fft' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'ifft' for input arguments of type"
+msgstr ""
+
+msgid "Impossible to get current directory."
+msgstr ""
+
+msgid "Not a file or a directory."
+msgstr ""
+
+msgid ""
+"Argument #2 must contain a valid string 'path', 'filename' or 'extension' "
+"expected."
+msgstr ""
+
+msgid "Cannot change directory: '"
+msgstr ""
+
+msgid "File source does not exist."
+msgstr ""
+
+msgid "Directory source does not exist."
+msgstr ""
+
+msgid "Directory destination does not exist."
+msgstr ""
+
+msgid "A cell of existing filenames expected."
+msgstr ""
+
+msgid "Permission denied."
+msgstr ""
+
+msgid "Directory already exists."
+msgstr ""
+
+msgid "an existing directory expected."
+msgstr ""
+
+msgid "an existing file expected."
+msgstr ""
+
+msgid "Cannot open file."
+msgstr ""
+
+msgid "Warning: Not a directory:"
+msgstr ""
+
+msgid "function handle not defined."
+msgstr ""
+
+msgid "function '"
+msgstr ""
+
+msgid "' is not a builtin."
+msgstr ""
+
+msgid "' is not a function."
+msgstr ""
+
+msgid "function macro name not found."
+msgstr ""
+
+msgid "The path is empty. Please restore path."
+msgstr ""
+
+msgid "Nelson's search path contains the following directories:"
+msgstr ""
+
+msgid "Warning: Not in path:"
+msgstr ""
+
+msgid "Not an existing directory:"
+msgstr ""
+
+msgid "built-in"
+msgstr ""
+
+msgid "not found."
+msgstr ""
+
+msgid "Shadowed"
+msgstr ""
+
+msgid "#2 Argument must be '-all' or  '-module'."
+msgstr ""
+
+msgid "#1 Argument must contain a valid function_handle."
+msgstr ""
+
+msgid "Function does not exist."
+msgstr ""
+
+msgid "Argument #1 must be a valid function_handle."
+msgstr ""
+
+msgid "FunctionHandleDisplay method: function_handle expected."
+msgstr ""
+
+msgid "function_handle not valid."
+msgstr ""
+
+msgid "Nelson"
+msgstr ""
+
+msgid "Execute..."
+msgstr ""
+
+msgid "Interpreter currently runs."
+msgstr ""
+
+msgid "Nelson (*.nls)"
+msgstr ""
+
+msgid "About Nelson..."
+msgstr ""
+
+msgid "Text editor"
+msgstr ""
+
+msgid "&File"
+msgstr ""
+
+msgid "&Execute..."
+msgstr ""
+
+msgid "Execute a .nls file"
+msgstr ""
+
+msgid "&Change current directory"
+msgstr ""
+
+msgid "Change current directory"
+msgstr ""
+
+msgid "&Display current directory"
+msgstr ""
+
+msgid "Display current directory"
+msgstr ""
+
+msgid "E&xit"
+msgstr ""
+
+msgid "Exit the application"
+msgstr ""
+
+msgid "&Edit"
+msgstr ""
+
+msgid "C&ut"
+msgstr ""
+
+msgid "Cut"
+msgstr ""
+
+msgid "&Copy"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "&Paste"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "&Select all"
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "&Empty clipboard"
+msgstr ""
+
+msgid "Empty clipboard"
+msgstr ""
+
+msgid "Clear c&onsole"
+msgstr ""
+
+msgid "Clear console"
+msgstr ""
+
+msgid "&Help"
+msgstr ""
+
+msgid "&Documentation"
+msgstr ""
+
+msgid "Documentation"
+msgstr ""
+
+msgid "Nelson &website"
+msgstr ""
+
+msgid "Nelson website"
+msgstr ""
+
+msgid "B&ugs and Requests"
+msgstr ""
+
+msgid "Bugs and Requests"
+msgstr ""
+
+msgid "&About"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "&Text editor"
+msgstr ""
+
+msgid "Close confirmation"
+msgstr ""
+
+msgid "Are you sure to quit?"
+msgstr ""
+
+msgid "Help on Selection"
+msgstr ""
+
+msgid "Ctrl + X"
+msgstr ""
+
+msgid "Ctrl + Ins"
+msgstr ""
+
+msgid "Ctrl + V"
+msgstr ""
+
+msgid "Select All"
+msgstr ""
+
+msgid "Ctrl + A"
+msgstr ""
+
+msgid "Clear Command Window"
+msgstr ""
+
+msgid "Stop execution"
+msgstr ""
+
+msgid "Invalid handle."
+msgstr ""
+
+msgid "handle expected."
+msgstr ""
+
+msgid "Handles being catenated have incompatible classes."
+msgstr ""
+
+msgid "Type not managed."
+msgstr ""
+
+msgid "Scalar value expected."
+msgstr ""
+
+msgid "Unsupported value type."
+msgstr ""
+
+msgid "Wrong text encoding parameter."
+msgstr ""
+
+msgid "Invalid parameter."
+msgstr ""
+
+msgid "'TextEncoding' expected."
+msgstr ""
+
+msgid "Valid deflate value expected."
+msgstr ""
+
+msgid "Valid filename expected."
+msgstr ""
+
+msgid "Valid data set name expected."
+msgstr ""
+
+msgid "ChunkSize required."
+msgstr ""
+
+msgid "FillValue and data set class must be same."
+msgstr ""
+
+msgid "Length ChunkSize and Size must be equal."
+msgstr ""
+
+msgid "ChunkSize larger than Size."
+msgstr ""
+
+msgid "ChunkSize expected."
+msgstr ""
+
+msgid "HDF5 format file expected."
+msgstr ""
+
+msgid "Open file failed."
+msgstr ""
+
+msgid "data set already exists."
+msgstr ""
+
+msgid "H5Screate_simple fails."
+msgstr ""
+
+msgid "H5Pset_layout fails."
+msgstr ""
+
+msgid "H5Pset_chunk fails."
+msgstr ""
+
+msgid "H5Dcreate fails."
+msgstr ""
+
+msgid "Cannot read attribute."
+msgstr ""
+
+msgid "Cannot read data set."
+msgstr ""
+
+msgid "Valid location expected."
+msgstr ""
+
+msgid "Valid attribute name expected."
+msgstr ""
+
+msgid "file does not exist."
+msgstr ""
+
+msgid "Specified HDF5 object location could not be opened."
+msgstr ""
+
+msgid "Attribute name not found."
+msgstr ""
+
+msgid "Attribute have an invalid type."
+msgstr ""
+
+msgid "Impossible to open hdf5 file."
+msgstr ""
+
+msgid "Impossible to read dimensions and maximum size of data set."
+msgstr ""
+
+msgid "Valid text encoding expected."
+msgstr ""
+
+msgid "Specified HDF5 object location does not exist."
+msgstr ""
+
+msgid "Could not delete existing attribute."
+msgstr ""
+
+msgid "Could not check if attribute exists."
+msgstr ""
+
+msgid "Cannot write attribute."
+msgstr ""
+
+msgid "Cannot open HDF5 file expected."
+msgstr ""
+
+msgid "Cannot create data set."
+msgstr ""
+
+msgid "Cannot write data set."
+msgstr ""
+
+msgid "row vector characters expected."
+msgstr ""
+
+msgid "Complex number not supported."
+msgstr ""
+
+msgid "String class not supported."
+msgstr ""
+
+msgid "Qt Assistant not found."
+msgstr ""
+
+msgid "help collection file not found."
+msgstr ""
+
+msgid "built-in have no comments."
+msgstr ""
+
+msgid "function does not exist."
+msgstr ""
+
+msgid "A valid function expected."
+msgstr ""
+
+msgid "Cannot not open destination file."
+msgstr ""
+
+msgid "pdf file not generated."
+msgstr ""
+
+msgid "pdf cannot generated in this engine mode."
+msgstr ""
+
+msgid "Error markdown generation."
+msgstr ""
+
+msgid "Existing directory expected."
+msgstr ""
+
+msgid "format not supported: 'help', 'html' or 'md' expected."
+msgstr ""
+
+msgid "Errors:"
+msgstr ""
+
+msgid "Error:"
+msgstr ""
+
+msgid "No error."
+msgstr ""
+
+msgid "Warnings:"
+msgstr ""
+
+msgid "Warning:"
+msgstr ""
+
+msgid "No warning."
+msgstr ""
+
+msgid ""
+"Wrong value for argument #1: An existing .xml documentation file expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: .xml documentation file expected."
+msgstr ""
+
+msgid "HtmlFileToPdfFile not loaded."
+msgstr ""
+
+msgid "HtmlStreamToPdfFile not loaded."
+msgstr ""
+
+msgid "Authors"
+msgstr ""
+
+msgid "Author"
+msgstr ""
+
+msgid "Bibliography"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "File does not exist:"
+msgstr ""
+
+msgid "XmlDocDirectory not created."
+msgstr ""
+
+msgid "line "
+msgstr ""
+
+msgid ": "
+msgstr ""
+
+msgid "not managed."
+msgstr ""
+
+msgid "missing."
+msgstr ""
+
+msgid "duplicated."
+msgstr ""
+
+msgid "invalid."
+msgstr ""
+
+msgid "is empty."
+msgstr ""
+
+msgid "has child."
+msgstr ""
+
+msgid "has no child."
+msgstr ""
+
+msgid "cannot allocate memory."
+msgstr ""
+
+msgid "not supported."
+msgstr ""
+
+msgid "malformed."
+msgstr ""
+
+msgid "has no property."
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "Example"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "Tag malformed."
+msgstr ""
+
+msgid "multiple chapter.xml definition."
+msgstr ""
+
+msgid "Error in file:"
+msgstr ""
+
+msgid "chapter.xml file is missing."
+msgstr ""
+
+msgid "chapter.xml is missing."
+msgstr ""
+
+msgid "Input argument"
+msgstr ""
+
+msgid "Output argument"
+msgstr ""
+
+msgid "See also"
+msgstr ""
+
+msgid "Syntax"
+msgstr ""
+
+msgid "Used function(s)"
+msgstr ""
+
+msgid "Cannot create a parser context"
+msgstr ""
+
+msgid "History manager not enabled."
+msgstr ""
+
+msgid "The name of an integer class expected."
+msgstr ""
+
+msgid "Conversion to '"
+msgstr ""
+
+msgid "' from sparse matrix is not possible."
+msgstr ""
+
+msgid "Invalid conversion from complex matrix to '"
+msgstr ""
+
+msgid "' matrix."
+msgstr ""
+
+msgid "' from handle is not possible."
+msgstr ""
+
+msgid "' from string is not possible."
+msgstr ""
+
+msgid "' from cell is not possible."
+msgstr ""
+
+msgid "' for input arguments of type '"
+msgstr ""
+
+msgid "' from struct is not possible."
+msgstr ""
+
+msgid "Invalid conversion."
+msgstr ""
+
+msgid "Argument #1: 'max' expected."
+msgstr ""
+
+msgid "Argument #1: valid value expected."
+msgstr ""
+
+msgid "Integers of the same class expected."
+msgstr ""
+
+msgid "Complex cannot be converted to logical."
+msgstr ""
+
+msgid "Unable to convert variable type to test for if/while statement"
+msgstr ""
+
+msgid "System error detected: "
+msgstr ""
+
+msgid "System error detected."
+msgstr ""
+
+msgid "Error code:"
+msgstr ""
+
+msgid "mpower function not found."
+msgstr ""
+
+msgid "Type function not valid."
+msgstr ""
+
+msgid "mpower returned fewer outputs than expected."
+msgstr ""
+
+msgid "Illegal use of the ':' operator"
+msgstr ""
+
+msgid "Redefining permanent variable."
+msgstr ""
+
+#, c-format
+msgid "Finished stepping to %s, line %d\n"
+msgstr ""
+
+#, c-format
+msgid "Encountered breakpoint at %s, line %d\n"
+msgstr ""
+
 #, c-format
 msgid ""
-"Assertion failed: expected (%ls) and computed (%ls) values are different."
+"\n"
+"%d of %d:\n"
+msgstr ""
+
+msgid "unable to resolve "
+msgstr ""
+
+msgid " to a function call"
+msgstr ""
+
+msgid "Undefined function"
+msgstr ""
+
+msgid "Insufficient number of outputs."
+msgstr ""
+
+msgid "Case not managed."
+msgstr ""
+
+msgid "Function"
+msgstr ""
+
+msgid "out-of-order argument /"
+msgstr ""
+
+msgid " is not defined in the called function!"
+msgstr ""
+
+#, c-format
+msgid "%d   %s line %d\n"
+msgstr ""
+
+#, c-format
+msgid "Unable to delete breakpoint %d"
+msgstr ""
+
+msgid "Unable to step the specified number of lines, execution will continue\n"
+msgstr ""
+
+#, c-format
+msgid "Failed to set breakpoint in %s at line %d - breakpoint is disabled\n"
+msgstr ""
+
+msgid "Undefined variable:"
+msgstr ""
+
+msgid "Undefined function:"
+msgstr ""
+
+msgid "Undefined variable or function:"
+msgstr ""
+
+msgid "Cannot reindex an expression that returns multiple values."
+msgstr ""
+
+msgid "index expected."
+msgstr ""
+
+msgid "Please define: "
+msgstr ""
+
+msgid "dynamic field reference to structure requires a string argument"
+msgstr ""
+
+msgid "a valid script expected."
+msgstr ""
+
+msgid "Right hand values must satisfy left hand side expression."
+msgstr ""
+
+msgid "Function not found."
+msgstr ""
+
+#, c-format
+msgid "Function name:%s\n"
+msgstr ""
+
+msgid "Function class: Compiled M function\n"
+msgstr ""
+
+msgid "returnVals: "
+msgstr ""
+
+msgid "arguments: "
 msgstr ""
 
 #, c-format
 msgid ""
-"Assertion failed: expected '%ls' and computed '%ls' values are different."
+"Lexical error '%s'\n"
+"\tat line %d of file %s"
+msgstr ""
+
+#, c-format
+msgid "Lexical error '%s'"
+msgstr ""
+
+msgid "Lexical error"
+msgstr ""
+
+msgid "mismatched parenthesis"
+msgstr ""
+
+msgid "Maximum name length exceeded."
+msgstr ""
+
+msgid "unterminated string"
+msgstr ""
+
+msgid "unterminated character array"
+msgstr ""
+
+#, c-format
+msgid "exceeds the Nelson maximum name length of %d characters."
+msgstr ""
+
+msgid "malformed floating point constant"
+msgstr ""
+
+#, c-format
+msgid "Value of errno: %d"
+msgstr ""
+
+#, c-format
+msgid "Error opening file: %s"
+msgstr ""
+
+msgid "Cannot open:"
+msgstr ""
+
+msgid "a valid function definition expected."
+msgstr ""
+
+msgid "filename and function name are not same ("
+msgstr ""
+
+msgid " vs "
+msgstr ""
+
+msgid "function not loaded."
+msgstr ""
+
+msgid "Operand to && operator must be convertible to logical scalar values."
+msgstr ""
+
+msgid "Operand to || operator must be convertible to logical scalar values."
 msgstr ""
 
 #, c-format
 msgid ""
-"Assertion failed: expected \"%ls\" and computed \"%ls\" values are different."
+"Expecting %s\n"
+"\tat line %d, column %d of file %s"
+msgstr ""
+
+#, c-format, python-format
+msgid "Expecting %s"
+msgstr ""
+
+msgid "bison-runtime"
+msgstr ""
+
+msgid "legal function name or return declaration after 'function'"
+msgstr ""
+
+msgid "argument list or statement list after identifier '"
+msgstr ""
+
+msgid "(possibly empty) argument list after '('"
+msgstr ""
+
+msgid "statement list after ')'"
+msgstr ""
+
+msgid "function name for function declared"
+msgstr ""
+
+msgid "argument list or statement list following function name :"
+msgstr ""
+
+msgid "an '=' symbol after identifier in return declaration"
+msgstr ""
+
+msgid "a valid list of return arguments in return declaration"
+msgstr ""
+
+msgid "matching ']' in return declaration for '['"
+msgstr ""
+
+msgid "an '=' symbol after return declaration"
+msgstr ""
+
+msgid "matching 'end' to 'try' clause from line "
+msgstr ""
+
+msgid "matching 'end' to 'switch' clause from line "
+msgstr ""
+
+msgid "'end' to match 'for' statement from line "
+msgstr ""
+
+msgid "matching right parenthesis"
+msgstr ""
+
+msgid "indexing expression"
+msgstr ""
+
+msgid "equals operator after loop index"
+msgstr ""
+
+msgid "identifier that is the loop variable"
+msgstr ""
+
+msgid "identifier or assignment (id = expr) after 'for' "
+msgstr ""
+
+msgid "test expression after 'while'"
+msgstr ""
+
+msgid "'end' to match 'while' statement from line "
+msgstr ""
+
+msgid "condition expression for 'if'"
+msgstr ""
+
+msgid "'end' to match 'if' statement from line "
+msgstr ""
+
+msgid "test condition for 'elseif' clause"
+msgstr ""
+
+msgid "statement list for 'else' clause"
+msgstr ""
+
+msgid "expression in assignment"
+msgstr ""
+
+msgid "matching right bracket"
+msgstr ""
+
+msgid "indexing list"
+msgstr ""
+
+msgid "left parenthesis"
+msgstr ""
+
+msgid "an expression after ':'"
+msgstr ""
+
+msgid "an expression after '+'"
+msgstr ""
+
+msgid "an expression after '-'"
+msgstr ""
+
+msgid "an expression after '*'"
+msgstr ""
+
+msgid "an expression after '/'"
+msgstr ""
+
+msgid "an expression after '\\'"
+msgstr ""
+
+msgid "an expression after '|'"
+msgstr ""
+
+msgid "an expression after '&'"
+msgstr ""
+
+msgid "an expression after '||'"
+msgstr ""
+
+msgid "an expression after '&&'"
+msgstr ""
+
+msgid "an expression after '<'"
+msgstr ""
+
+msgid "an expression after '<='"
+msgstr ""
+
+msgid "an expression after '>'"
+msgstr ""
+
+msgid "an expression after '>='"
+msgstr ""
+
+msgid "an expression after '=='"
+msgstr ""
+
+msgid "an expression after '~='"
+msgstr ""
+
+msgid "an expression after '.*'"
+msgstr ""
+
+msgid "an expression after './'"
+msgstr ""
+
+msgid "an expression after '.\\'"
+msgstr ""
+
+msgid "an expression after logical not"
+msgstr ""
+
+msgid "an expression after '^'"
+msgstr ""
+
+msgid "an expression after '.^'"
+msgstr ""
+
+msgid "a right parenthesis after expression to match this one"
+msgstr ""
+
+msgid "an expression after left parenthesis"
+msgstr ""
+
+msgid "a matrix definition followed by a right bracket"
+msgstr ""
+
+msgid "a cell-array definition followed by a right brace"
+msgstr ""
+
+msgid "matching right brace"
+msgstr ""
+
+msgid "expecting expression after '=' in keyword assignment"
+msgstr ""
+
+msgid "expecting keyword identifier after '/' in keyword assignment"
+msgstr ""
+
+msgid "Wrong value for argument #2: 'ConvertInfAndNaN' expected."
+msgstr ""
+
+msgid "Invalid character inside JSON string."
+msgstr ""
+
+msgid "Not enough tokens were provided."
+msgstr ""
+
+msgid "The string is not a full JSON packet, more bytes expected."
+msgstr ""
+
+msgid "Unknow error."
+msgstr ""
+
+msgid "valid JSON Object expected."
+msgstr ""
+
+msgid "Unsupported type to convert as JSON."
+msgstr ""
+
+msgid "Second input must be 'skew' or 'nonskew'."
+msgstr ""
+
+msgid "Second input must be finite and >= 0."
+msgstr ""
+
+msgid "Second input argument must be 'real' or 'complex'."
+msgstr ""
+
+msgid "svd(X, 0) or svd(X, 'econ') expected."
+msgstr ""
+
+msgid "Undefined function 'expm' for input arguments of type"
+msgstr ""
+
+msgid "Square matrix expected."
+msgstr ""
+
+msgid "Undefined function 'inv' for input arguments of type"
+msgstr ""
+
+msgid "Input must be finite."
+msgstr ""
+
+msgid "Undefined function 'sqrtm' for input arguments of type"
+msgstr ""
+
+msgid "Power (^) currently not implemented in Nelson."
+msgstr ""
+
+msgid "Cannot apply exponential operation to N-Dimensional arrays."
+msgstr ""
+
+msgid "Power (^) operator can only be applied to scalar and square arguments."
+msgstr ""
+
+msgid "LAPACK_dgetrf error."
+msgstr ""
+
+msgid "LAPACK_dgecon error."
+msgstr ""
+
+msgid "LAPACK_zgetrf error."
+msgstr ""
+
+msgid "LAPACK_zgecon error."
+msgstr ""
+
+msgid "LAPACK_sgetrf error."
+msgstr ""
+
+msgid "LAPACK_sgecon error."
+msgstr ""
+
+msgid "LAPACK_cgetrf error."
+msgstr ""
+
+msgid "LAPACK_cgecon error."
+msgstr ""
+
+msgid "Undefined function 'rcond' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'schur' for input arguments of type"
+msgstr ""
+
+msgid "Input argument must not contain NaN or Inf."
+msgstr ""
+
+msgid "svd: cannot take svd of matrix containing Inf or NaN values."
+msgstr ""
+
+msgid "LAPACKE_dgesvd error."
+msgstr ""
+
+msgid "LAPACKE_zgesvd error."
+msgstr ""
+
+msgid "LAPACKE_sgesvd error."
+msgstr ""
+
+msgid "LAPACKE_cgesvd error."
+msgstr ""
+
+msgid "Undefined function 'svd' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'trace' for input arguments of type"
+msgstr ""
+
+msgid "Core Function not loaded."
+msgstr ""
+
+msgid "Input following 'like' is not a logical array."
+msgstr ""
+
+msgid "N-dimensional sparse arrays are not supported."
+msgstr ""
+
+msgid "Conversion to logical from single is not possible."
+msgstr ""
+
+msgid "Conversion to logical with NaN is not possible."
+msgstr ""
+
+msgid "Conversion to logical from sparse integer is not possible."
+msgstr ""
+
+msgid "Conversion to logical from handle is not possible."
+msgstr ""
+
+msgid "Conversion to logical from string is not possible."
+msgstr ""
+
+msgid "Conversion to logical from cell is not possible."
+msgstr ""
+
+msgid "Undefined function 'logical' for input arguments of type '"
+msgstr ""
+
+msgid "Conversion to logical from struct is not possible."
+msgstr ""
+
+msgid "Conversion to logical from complex is not possible."
+msgstr ""
+
+msgid "Size mismatch on arguments."
+msgstr ""
+
+msgid ""
+"#1 Argument must contain a string: 'global', 'base', 'local' or 'caller' "
+"expected."
+msgstr ""
+
+msgid "#2 Argument must contain a valid variable name."
+msgstr ""
+
+msgid "variable not found."
+msgstr ""
+
+msgid "A valid variable name expected."
+msgstr ""
+
+msgid "variable is locked:"
+msgstr ""
+
+msgid "Argument must contain a valid variable name."
+msgstr ""
+
+msgid "variable is locked."
+msgstr ""
+
+msgid "Argument #1 : 'global', 'base', 'local' or 'caller' expected."
+msgstr ""
+
+msgid "Physical Memory used by Nelson:"
+msgstr ""
+
+msgid "Virtual Memory used by Nelson:"
+msgstr ""
+
+msgid "Physical Memory:"
+msgstr ""
+
+msgid "Virtual Memory:"
+msgstr ""
+
+msgid "A 'persistent' declaration is only allowed in a script file function."
+msgstr ""
+
+msgid "#2 Argument must be an existing variable name."
+msgstr ""
+
+msgid "Wrong scope."
+msgstr ""
+
+msgid "Wrong value for #1 argument, 'reverse' expected."
+msgstr ""
+
+msgid "invalid module name."
+msgstr ""
+
+msgid "Argument #3 must be a valid option."
+msgstr ""
+
+msgid " is not installed."
+msgstr ""
+
+msgid ": This module is already used."
+msgstr ""
+
+msgid "An existing module with the same name already used."
+msgstr ""
+
+msgid "An existing module with the same path already defined."
+msgstr ""
+
+msgid "Path does not exist:"
+msgstr ""
+
+msgid "Wrong option."
+msgstr ""
+
+msgid "Please check: "
+msgstr ""
+
+msgid "Cannot remove module (protected): "
+msgstr ""
+
+msgid ": This module is registered but it has no path."
+msgstr ""
+
+msgid "finish.nls does not exist."
+msgstr ""
+
+msgid "An existing module root path expected."
+msgstr ""
+
+msgid "MPI must be initialized."
+msgstr ""
+
+msgid "Unsupported type to reduce."
+msgstr ""
+
+msgid "Unsupported operator type."
+msgstr ""
+
+msgid "Unsupported Type: must be a numerical type."
+msgstr ""
+
+msgid "MPI_Comm handle expected."
+msgstr ""
+
+msgid "MPI_COMM_NULL not allowed."
+msgstr ""
+
+msgid " not allowed."
+msgstr ""
+
+msgid "MPI_Comm_split fails."
+msgstr ""
+
+msgid "Attempting to use an MPI routine before initializing MPI."
+msgstr ""
+
+msgid "Wrong engine mode."
+msgstr ""
+
+msgid "MPI_Comm valid handle expected."
+msgstr ""
+
+msgid "Invalid evaluator."
+msgstr ""
+
+msgid "String expected."
+msgstr ""
+
+msgid "Invalid communicator"
+msgstr ""
+
+msgid "Unknown command option."
+msgstr ""
+
+msgid "Cannot set environment variable."
+msgstr ""
+
+msgid "Unrecognized option. \"-echo\" expected."
+msgstr ""
+
+msgid "Filename not associated to an application."
+msgstr ""
+
+msgid "'name' argument requires 3 input arguments."
+msgstr ""
+
+msgid "Invalid ROOTKEY value."
+msgstr ""
+
+msgid "Cannot get KEY information."
+msgstr ""
+
+msgid "Invalid SUBKEY value."
+msgstr ""
+
+msgid "Cannot convert RegQueryValueEx."
+msgstr ""
+
+msgid "option not managed."
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "QObject handle expected."
+msgstr ""
+
+msgid "No property for class: QObject."
+msgstr ""
+
+msgid "Properties for class: QObject:"
+msgstr ""
+
+msgid "QObject scalar handle expected."
+msgstr ""
+
+msgid "QObject valid handle expected."
+msgstr ""
+
+msgid "No parent."
+msgstr ""
+
+msgid "Only 10 input parameters expected."
+msgstr ""
+
+msgid "Invalid parameters"
+msgstr ""
+
+msgid "Cannot create QQuickView."
+msgstr ""
+
+msgid "QML engine not initialized."
+msgstr ""
+
+msgid "Uncaught exception at line"
+msgstr ""
+
+msgid "Uncaught exception in"
+msgstr ""
+
+msgid "at line"
+msgstr ""
+
+msgid "QVariant invalid."
+msgstr ""
+
+msgid "property type not managed."
+msgstr ""
+
+msgid "vector expected."
+msgstr ""
+
+msgid "vector 1x3 expected."
+msgstr ""
+
+msgid "vector 1x4 expected."
+msgstr ""
+
+msgid "vector 1x7 expected."
+msgstr ""
+
+msgid "vector 1x2 expected."
+msgstr ""
+
+msgid "vector 1x6 expected."
+msgstr ""
+
+msgid "matrix 3x3 expected."
+msgstr ""
+
+msgid "matrix 4x4 expected."
+msgstr ""
+
+msgid "structs expected."
+msgstr ""
+
+msgid "QVariant type not managed."
+msgstr ""
+
+msgid "Type conversion to QVariant not managed."
+msgstr ""
+
+msgid "Empty matrix not managed."
+msgstr ""
+
+msgid "QObject parent egals to the child."
+msgstr ""
+
+msgid "'children' can not modified."
+msgstr ""
+
+msgid "'className' can not modified."
+msgstr ""
+
+msgid "'parent' can not modified."
+msgstr ""
+
+msgid "'"
+msgstr ""
+
+msgid "'single' or 'double' expected at last argument."
+msgstr ""
+
+msgid "random engine not initialized."
+msgstr ""
+
+msgid "'default', 'shuffle' or 'enginelist' expected."
+msgstr ""
+
+msgid "A valid generator name expected."
+msgstr ""
+
+msgid "'shuffle' expected."
+msgstr ""
+
+msgid "Must contain generator settings captured previously."
+msgstr ""
+
+msgid "A valid generator expected."
+msgstr ""
+
+msgid "dimensions of state must be"
+msgstr ""
+
+msgid "type of state must be uint32."
+msgstr ""
+
+msgid "type of state must be uint64."
+msgstr ""
+
+msgid "name already register."
+msgstr ""
+
+msgid "reserved name"
+msgstr ""
+
+msgid "Input argument #1: scalar expected."
+msgstr ""
+
+msgid "Input argument #2: scalar expected."
+msgstr ""
+
+msgid "Input argument #3: scalar expected."
+msgstr ""
+
+msgid "Input argument #4: wrong size."
+msgstr ""
+
+msgid "Input argument #5: wrong size."
+msgstr ""
+
+msgid "Input argument #6: wrong size."
+msgstr ""
+
+msgid "Input argument #7: scalar expected."
+msgstr ""
+
+msgid "Input argument #8: scalar expected."
+msgstr ""
+
+msgid "Input argument #9: wrong size."
+msgstr ""
+
+msgid "Input argument #10: scalar expected."
+msgstr ""
+
+msgid "Input argument #7: wrong size."
+msgstr ""
+
+msgid "Input argument #1: wrong size."
+msgstr ""
+
+msgid "Input argument #2: wrong size."
+msgstr ""
+
+msgid "Input argument #3: wrong size."
+msgstr ""
+
+msgid "Input argument #4: scalar expected."
+msgstr ""
+
+msgid "Input argument #9: scalar expected."
+msgstr ""
+
+msgid "Input argument #5: scalar expected."
+msgstr ""
+
+msgid "Input argument #6: scalar expected."
+msgstr ""
+
+msgid "Input argument #13: scalar expected."
+msgstr ""
+
+msgid "Input argument #10: wrong size."
+msgstr ""
+
+msgid "Input argument #11: wrong size."
+msgstr ""
+
+msgid "Input argument #13: wrong size."
+msgstr ""
+
+msgid "Input argument #14: wrong size."
+msgstr ""
+
+msgid "Input argument #16: scalar expected."
+msgstr ""
+
+msgid "Undefined function 'full' for input arguments."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'string'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'cell'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments of type 'struct'."
+msgstr ""
+
+msgid "Undefined function 'nnz' for input arguments."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments of type 'string'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments of type 'cell'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments of type 'struct'."
+msgstr ""
+
+msgid "Undefined function 'nzmax' for input arguments."
+msgstr ""
+
+msgid ""
+"in I, J, V format, all three vectors must be the same size or be scalars."
+msgstr ""
+
+msgid "Index exceeds matrix dimensions."
+msgstr ""
+
+#, c-format
+msgid "\tAll zero sparse: %d-by-%d\n"
+msgstr ""
+
+#, c-format
+msgid "\tAll zero sparse: %lu-by-%lu\n"
+msgstr ""
+
+msgid "Sparse expected."
+msgstr ""
+
+msgid "Cannot do imag with current type '"
+msgstr ""
+
+msgid "type not supported."
+msgstr ""
+
+msgid "Cannot do real with current type '"
+msgstr ""
+
+msgid "Unsupported type in EyeSparseMatrixConstructor."
+msgstr ""
+
+msgid "Unsupported type in MakeSparseArrayOf."
+msgstr ""
+
+msgid "Unsupported type in MakeDenseArrayOf."
+msgstr ""
+
+msgid "Unsupported type in MakeSparseArrayOf"
+msgstr ""
+
+msgid "Unsupported type in CopySparseMatrix."
+msgstr ""
+
+msgid "Unsupported type in CountNonzeros."
+msgstr ""
+
+msgid "Unsupported type in CountNonzerosMax."
+msgstr ""
+
+msgid "Unsupported type in SparseMatrixConstructor."
+msgstr ""
+
+msgid "Index exceeds variable dimensions."
+msgstr ""
+
+msgid "Unsupported type in SetSparseNDimSubsets."
+msgstr ""
+
+msgid "Eigen_DeleteSparseMatrixVectorSubset advanced not yet implemented."
+msgstr ""
+
+msgid "Eigen_SetSparseNDimSubsets advanced not yet implemented."
+msgstr ""
+
+msgid "Unsupported type in SparseToIJV."
+msgstr ""
+
+msgid "Repeated indices are not supported for sparse logical matrices."
+msgstr ""
+
+msgid "Eigen_DeleteSparseMatrixCols not yet implemented."
+msgstr ""
+
+msgid "Eigen_DeleteSparseMatrixRows not yet implemented."
+msgstr ""
+
+msgid "Eigen_DeleteSparseMatrixVectorSubset not yet implemented."
+msgstr ""
+
+msgid "Unsupported type in TypeConvertSparse."
+msgstr ""
+
+msgid "Unsupported type in TypeConvertSparse (complex to logical)."
+msgstr ""
+
+msgid "Unsupported type in TypeConvertSparse (complex to double)."
+msgstr ""
+
+msgid "Unsupported type in ReshapeSparseMatrix."
+msgstr ""
+
+msgid "Cannot do uminus with current type"
+msgstr ""
+
+msgid "Input argument must be dense and real."
+msgstr ""
+
+msgid "Error using diary."
+msgstr ""
+
+msgid "#1 Argument 'get' expected."
+msgstr ""
+
+msgid "#2 Argument 'Diary' or 'DiaryFile' expected."
+msgstr ""
+
+msgid "#1 Argument 'set' expected."
+msgstr ""
+
+msgid "#3 Argument 'on' or 'off' expected."
+msgstr ""
+
+msgid "#3 Argument a string expected."
+msgstr ""
+
+msgid "'-append' expected."
+msgstr ""
+
+msgid "a valid delimiter expected."
+msgstr ""
+
+msgid "'pc' or 'unix' expected."
+msgstr ""
+
+msgid "cell2mat returns more than one output argument."
+msgstr ""
+
+msgid "Problem with file manager."
+msgstr ""
+
+msgid "Invalid file identifier."
+msgstr ""
+
+msgid "Cannot close files."
+msgstr ""
+
+msgid "Wrong value for #1: 'all' expected."
+msgstr ""
+
+msgid "Not implemented for requested file identifier."
+msgstr ""
+
+msgid "Second argument must be greater than zero."
+msgstr ""
+
+msgid "A valid filename expected."
+msgstr ""
+
+msgid "Invalid name."
+msgstr ""
+
+msgid "Invalid file mode."
+msgstr ""
+
+msgid "Impossible to add file."
+msgstr ""
+
+msgid "Impossible to open file."
+msgstr ""
+
+msgid "valid format expected."
+msgstr ""
+
+msgid "ID not supported."
+msgstr ""
+
+msgid "Wrong value for #1 argument: a valid file ID expected."
+msgstr ""
+
+msgid "Wrong value for machine format."
+msgstr ""
+
+msgid "Wrong value for #3 argument: not supported precision."
+msgstr ""
+
+msgid "Problem to read data."
+msgstr ""
+
+msgid "Rewind failed."
+msgstr ""
+
+msgid "Wrong value >= 0 expected."
+msgstr ""
+
+msgid "Wrong size. scalar or [a, b] expected."
+msgstr ""
+
+msgid "Wrong type. double expected."
+msgstr ""
+
+msgid "Not implemented for 'stdout', 'stderr' or 'stdin'."
+msgstr ""
+
+msgid "Invalid origin."
+msgstr ""
+
+msgid "Cannot write references type."
+msgstr ""
+
+msgid "Cannot write sparse type."
+msgstr ""
+
+msgid "Memory allocation error... You may have run out of memory!"
+msgstr ""
+
+msgid "Endian conversion not supported for this file identifier."
+msgstr ""
+
+msgid "An numeric matrix expected."
+msgstr ""
+
+msgid "   Empty matrix : "
+msgstr ""
+
+msgid "-by-"
 msgstr ""
 
 #, c-format
 msgid ""
-"Assertion failed: expected (%lg) and computed (%lg) values are different."
+"\n"
+"  Columns %d to %d\n"
+"\n"
 msgstr ""
 
-msgid "Cannot convert to unicode."
+msgid "Unable to open file "
 msgstr ""
 
-msgid "Invalid charset: "
+msgid "Invalid format."
 msgstr ""
 
-msgid "Cannot convert string to expected charset."
+msgid "Unsupported fscanf format."
 msgstr ""
 
-msgid "Error: "
+msgid "Format string had no usable format specs."
 msgstr ""
 
-msgid "Error in "
+msgid "Erroneous format specification "
 msgstr ""
 
-msgid "line"
+msgid "No more data."
 msgstr ""
 
-#, c-format
-msgid "at line %5d of '%ls'\n"
+msgid "NaN and Inf not allowed."
 msgstr ""
 
-msgid "#1 'double' or 'single' expected."
+msgid "Attempt to convert to unimplemented sparse type."
 msgstr ""
 
-#, c-format
-msgid "Invalid type for #%zu input argument: %ls expected."
+msgid "Undefined function 'char' for input arguments."
 msgstr ""
 
-msgid "Cannot convert: "
+msgid "Undefined function 'char' for input arguments of type"
 msgstr ""
 
-msgid "The base must be an integer value between 2 and 36."
+msgid "Conversion to char from complex is not possible."
 msgstr ""
 
-msgid "2D char array expected."
+msgid "char vector or cell of strings expected."
 msgstr ""
 
-msgid "Binary character vector may consist only of characters 0 and 1."
+msgid "'class' argument expected."
 msgstr ""
 
-msgid "Invalid string length: 1, 32, 64 expected."
+msgid "Second input argument must be a real positive integers."
 msgstr ""
 
-msgid "An array of integers values, 0 <= D <= flintmax expected."
+msgid "Wrong value for #3: 'IgnoreCase' expected."
 msgstr ""
 
-msgid "#3 parameter: positive integer value expected."
+msgid "Invalid input argument(s): cell or string expected."
 msgstr ""
 
-msgid "First argument must be real."
+msgid "'ForceCellOutput' expected as third input argument."
 msgstr ""
 
-msgid "load .nh5, .mat files in Nelson"
-msgstr ""
-
-msgid "Wrong value for #1: 'load' or 'free' expected."
-msgstr ""
-
-msgid "Wrong value for #1: 'load' expected."
-msgstr ""
-
-msgid "Cannot create directory."
-msgstr ""
-
-msgid "Cannot read file:"
-msgstr ""
-
-msgid "Cannot read file global info."
-msgstr ""
-
-msgid "Cannot read file info."
-msgstr ""
-
-msgid "Cannot open destination file."
-msgstr ""
-
-msgid "Cannot read data."
-msgstr ""
-
-msgid "Cannot read next file."
-msgstr ""
-
-msgid "Invalid value."
-msgstr ""
-
-msgid "Invalid root path."
-msgstr ""
-
-msgid "Nothing to zip."
-msgstr ""
-
-msgid "Cannot write file:"
-msgstr ""
-
-msgid "Cannot add entry:"
-msgstr ""
-
-msgid "Load workspace..."
-msgstr ""
-
-msgid "Nelson (*.nh5 *.mat)"
-msgstr ""
-
-msgid "Save workspace..."
-msgstr ""
-
-msgid "Nelson (*.nh5);;MAT files (*.mat)"
-msgstr ""
-
-msgid "&Load Workspace..."
-msgstr ""
-
-msgid "Load a .nh5 file"
-msgstr ""
-
-msgid "&Save Workspace..."
-msgstr ""
-
-msgid "Save a .nh5 file"
-msgstr ""
-
-msgid "Invalid file format."
-msgstr ""
-
-msgid "Variable not found:"
-msgstr ""
-
-msgid "Cannot read variable:"
-msgstr ""
-
-msgid "Invalid variable name:"
-msgstr ""
-
-msgid "Variable does not exist:"
-msgstr ""
-
-msgid "Cannot replace file"
-msgstr ""
-
-msgid "Invalid file version."
-msgstr ""
-
-msgid "Cannot save variable:"
-msgstr ""
-
-msgid "Your variables are:"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Size"
-msgstr ""
-
-msgid "Bytes"
-msgstr ""
-
-msgid "Class"
-msgstr ""
-
-msgid "Attributes"
-msgstr ""
-
-msgid "Invalid LHS."
-msgstr ""
-
-msgid "The special variable 'varargout' was not defined as a cell-array."
-msgstr ""
-
-msgid "The special variable 'varargout' was not defined as expected."
-msgstr ""
-
-msgid "Not enough outputs in varargout to satisfy call."
-msgstr ""
-
-msgid "one or more outputs not assigned in call."
-msgstr ""
-
-msgid "Invalid option:"
-msgstr ""
-
-msgid "Cannot read matio variable of type: function."
-msgstr ""
-
-msgid "Cannot open .mat file."
-msgstr ""
-
-msgid "Cannot read matio variable of type: object."
-msgstr ""
-
-msgid "Unknown save format."
-msgstr ""
-
-msgid "Cannot append variable (-v7.3 required)."
-msgstr ""
-
-msgid "handle not saved."
-msgstr ""
-
-msgid "Valid .mat file expected."
-msgstr ""
-
-msgid "filename expected after '-file'."
-msgstr ""
-
-msgid "-file must be the first argument."
-msgstr ""
-
-msgid "who file function expected."
-msgstr ""
-
-msgid "whos file function expected."
-msgstr ""
-
-msgid "Filename does not exist."
-msgstr ""
-
-msgid "startup.nls does not exist"
-msgstr ""
-
-msgid "An existing module root path expected"
-msgstr ""
-
-msgid "Profile struct expected."
-msgstr ""
-
-msgid "Summary"
-msgstr ""
-
-msgid "Profile Summary"
-msgstr ""
-
-msgid "Filename"
-msgstr ""
-
-msgid "Number of Calls"
-msgstr ""
-
-msgid "Total Time (s)"
-msgstr ""
-
-msgid "Coverage %"
-msgstr ""
-
-msgid "Lines where the most time was spent"
-msgstr ""
-
-msgid "Line Number"
-msgstr ""
-
-msgid "Code"
-msgstr ""
-
-msgid "Calls"
-msgstr ""
-
-msgid "Total time (s)"
-msgstr ""
-
-msgid "Coverage results"
-msgstr ""
-
-msgid "Total lines in file"
-msgstr ""
-
-msgid "Non-code lines (comments, blank lines)"
-msgstr ""
-
-msgid "Code lines that did run"
-msgstr ""
-
-msgid "Code lines (lines that can run)"
-msgstr ""
-
-msgid "Code lines (Code lines that did not run)"
-msgstr ""
-
-msgid "Coverage (did run/can run)"
-msgstr ""
-
-msgid "Function listing"
-msgstr ""
-
-msgid "Line"
-msgstr ""
-
-msgid "Time (s)"
-msgstr ""
-
-msgid "Source code"
-msgstr ""
-
-msgid "lines"
-msgstr ""
-
-msgid "Profile and Coverage"
-msgstr ""
-
-msgid "Time"
-msgstr ""
-
-msgid "NumCalls"
-msgstr ""
-
-msgid "TotalTime (s)"
-msgstr ""
-
-msgid "PerCall (s)"
-msgstr ""
-
-msgid "Filename:LinePosition(FunctionName)"
-msgstr ""
-
-msgid "'clear' expected as second argument."
-msgstr ""
-
-msgid "Encoding not supported."
-msgstr ""
-
-msgid "Invalid machine format."
-msgstr ""
-
-msgid "Invalid encoding."
-msgstr ""
-
-msgid "machine format option ignored."
-msgstr ""
-
-msgid "Cannot use encoding: "
-msgstr ""
-
-msgid "encoding conversion not supported for this file identifier."
-msgstr ""
-
-msgid "Filename is empty"
-msgstr ""
-
-msgid "Valid option expected."
-msgstr ""
-
-msgid "Valid variable name expected."
-msgstr ""
-
-msgid "load function expected."
-msgstr ""
-
-msgid "save function expected."
-msgstr ""
-
-msgid "Cannot to use encoding:"
-msgstr ""
-
-msgid "Expected a integer value."
-msgstr ""
-
-msgid "Number of Input arguments must the same as output."
+msgid "Second argument a single string expected."
 msgstr ""
 
 msgid ""
-"Cannot write file:\n"
-"%1."
+"First argument must be a cell of strings (or a string) and second argument a "
+"string."
 msgstr ""
 
-msgid "Cannot convert unknown type to indices."
+msgid "Input strings must have one row."
 msgstr ""
 
-msgid "String array expected."
+msgid "Type not managed in this case."
 msgstr ""
 
-msgid "Conversion <missing> to character vector is not supported."
+msgid "A 2D matrix expected."
 msgstr ""
 
-msgid "Wrong type for argument #4. struct expected."
+msgid "Same size or scalar expected."
 msgstr ""
 
-msgid "Wrong size for argument #4. scalr struct expected."
+msgid ""
+"Wrong type for argument #1: string array or character vector or cell array "
+"of character vectors expected."
 msgstr ""
 
-msgid "Type not supported. Only char, string, numeric or logical allowed."
+msgid ""
+"Wrong type for argument #2: string array or character vector or cell array "
+"of character vectors expected."
 msgstr ""
 
-msgid "Wrong type for argument #5. weboptions object expected."
+msgid "wrong file extension .nls expected."
 msgstr ""
 
-msgid "Bad Request (400)"
+msgid "wrong file prefix 'test_' or 'bug_' expected."
 msgstr ""
 
-msgid "Unauthorized (401)"
+msgid "duplicated tag detected: <--WITH DISPLAY-->."
 msgstr ""
 
-msgid "Payment Required (402)"
+msgid "duplicated tag detected: <--NOT FIXED-->."
 msgstr ""
 
-msgid "Forbidden (403)"
+msgid "duplicated tag detected: <--INTERACTIVE TEST-->."
 msgstr ""
 
-msgid "Not Found (404)"
+msgid "duplicated tag detected: <--ENGLISH IMPOSED-->."
 msgstr ""
 
-msgid "Method Not Allowed (405)"
+msgid "Check tags used."
 msgstr ""
 
-msgid "Not Acceptable (406)"
+msgid "duplicated tag detected: <--CLI MODE-->."
 msgstr ""
 
-msgid "Proxy Authentication Required (407)"
+msgid "duplicated tag detected: <--ADV-CLI MODE-->."
 msgstr ""
 
-msgid "Request Timeout (408)"
+msgid "Multiple exclusive tags detected: <--GUI MODE-->."
 msgstr ""
 
-msgid "Conflict (409)"
+msgid "duplicated tag detected: <--GUI MODE-->."
 msgstr ""
 
-msgid "Gone (410)"
+msgid "duplicated tag detected: <--CHECK REF-->."
 msgstr ""
 
-msgid "Length Required (411)"
+msgid "Multiple exclusive tags detected: <--WINDOWS ONLY-->."
 msgstr ""
 
-msgid "Precondition Failed (412)"
+msgid "duplicated tag detected: <--WINDOWS ONLY-->."
 msgstr ""
 
-msgid "Payload Too Large (413)"
+msgid "Multiple exclusive tags detected: <--MACOS ONLY-->."
 msgstr ""
 
-msgid "URI Too Long (414)"
+msgid "duplicated tag detected: <--MACOS ONLY-->."
 msgstr ""
 
-msgid "Unsupported Media Type (415)"
+msgid "Multiple exclusive tags detected: <--UNIX ONLY-->."
 msgstr ""
 
-msgid "Range Not Satisfiable (416)"
+msgid "duplicated tag detected: <--UNIX ONLY-->."
 msgstr ""
 
-msgid "Expectation Failed (417)"
+msgid "duplicated tag detected: <--RELEASE ONLY-->."
 msgstr ""
 
-msgid "I'm a teapot (418)"
+msgid "duplicated tag detected: <--EXCEL REQUIRED-->."
 msgstr ""
 
-msgid "Misdirected Request (421)"
+msgid "duplicated tag detected: <--MPI MODE-->."
 msgstr ""
 
-msgid "Unprocessable Entity (422)"
+msgid "duplicated tag detected: <--AUDIO INPUT REQUIRED-->."
 msgstr ""
 
-msgid "Locked (423)"
+msgid "duplicated tag detected: <--AUDIO OUTPUT REQUIRED-->."
 msgstr ""
 
-msgid "Failed Dependency (424)"
+msgid "duplicated tag detected: <--C/C++ COMPILER REQUIRED-->."
 msgstr ""
 
-msgid "Too Early (425)"
+msgid "duplicated tag detected: <--INDEX 64 BIT REQUIRED-->."
 msgstr ""
 
-msgid "Upgrade Required (426)"
+msgid "Cannot edit the directory: %1"
 msgstr ""
 
-msgid "Precondition Required (428)"
+msgid "File %1 does not exists. Do you want to create it?"
 msgstr ""
 
-msgid "Too Many Requests (429)"
+msgid "&New"
 msgstr ""
 
-msgid "Request Header Fields Too Large (431)"
+msgid "&Open"
 msgstr ""
 
-msgid "Unavailable For Legal Reasons (451)"
+msgid "&Save"
 msgstr ""
 
-msgid "Internal Server Error (500)"
+msgid "Save &As"
 msgstr ""
 
-msgid "Not Implemented (501)"
+msgid "Save A&ll"
 msgstr ""
 
-msgid "Bad Gateway (502)"
+msgid "&Close"
 msgstr ""
 
-msgid "Service Unavailable (503)"
+msgid "Close &All"
 msgstr ""
 
-msgid "Gateway Timeout (504)"
+msgid "&Quit Editor"
 msgstr ""
 
-msgid "HTTP Version Not Supported (505)"
+msgid "&Undo"
 msgstr ""
 
-msgid "Variant Also Negotiates (506)"
+msgid "&Redo"
 msgstr ""
 
-msgid "Insufficient Storage (507)"
+msgid "&Font"
 msgstr ""
 
-msgid "Loop Detected (508)"
+msgid "Copy Full Path"
 msgstr ""
 
-msgid "Not Extended(510)"
+msgid "Comment"
 msgstr ""
 
-msgid "Network Authentication Required (511)"
+msgid "Uncomment"
 msgstr ""
 
-msgid "HTTP Client error code: "
+msgid "&Go To Line ..."
 msgstr ""
 
-msgid "HTTP Server error code: "
+msgid "&Run file"
 msgstr ""
 
-msgid "weboptions object expected."
+msgid "&Stop execution"
 msgstr ""
 
-msgid "Cannot create destination file."
+msgid "Smart Indent"
 msgstr ""
 
-msgid "Cannot initialize webwrite."
+msgid "Print"
 msgstr ""
 
-msgid "Cannot initialize websave."
+msgid "Evaluate selection"
 msgstr ""
 
-msgid "Wrong type for #2 argument: numeric value expected."
+msgid "Edit"
+msgstr ""
+
+msgid "Ready"
+msgstr ""
+
+msgid "&%1 %2"
+msgstr ""
+
+msgid ""
+"The document %1 has been modified.\n"
+"Do you want to save your changes ?"
+msgstr ""
+
+msgid "File saved"
+msgstr ""
+
+msgid "File not saved"
+msgstr ""
+
+msgid ""
+"Cannot read file %1:\n"
+"%2."
+msgstr ""
+
+msgid "File loaded"
+msgstr ""
+
+msgid "Nelson Editor"
+msgstr ""
+
+msgid "Save File"
+msgstr ""
+
+msgid "Nelson (*.nls *.nlf)"
+msgstr ""
+
+msgid "Open file ..."
+msgstr ""
+
+msgid ""
+"Nelson (*.nls *.nlf);;Text files (*.txt);;Markdown files (*.md);;All files "
+"(*.*)"
+msgstr ""
+
+msgid "Go To Line ..."
+msgstr ""
+
+msgid "Enter a line number to go to: "
+msgstr ""
+
+msgid "Run file ..."
+msgstr ""
+
+msgid ""
+"File %1 was modified by an external software.\n"
+"Do you want to reopen it?"
+msgstr ""
+
+msgid "Calendar not initialized."
+msgstr ""
+
+msgid "Year value is wrong [1400, 9999] expected."
+msgstr ""
+
+msgid "Month value is wrong [1, 12] expected."
+msgstr ""
+
+#, c-format
+msgid "Elapsed time is %f seconds."
+msgstr ""
+
+msgid "Cannot call toc."
+msgstr ""
+
+msgid ""
+"You must call 'tic' without an output argument before calling 'toc' without "
+"an input argument."
+msgstr ""
+
+msgid "Sun"
+msgstr ""
+
+msgid "M"
+msgstr ""
+
+msgid "Tu"
+msgstr ""
+
+msgid "W"
+msgstr ""
+
+msgid "Th"
+msgstr ""
+
+msgid "F"
+msgstr ""
+
+msgid "Sat"
+msgstr ""
+
+msgid "Jan"
+msgstr ""
+
+msgid "Feb"
+msgstr ""
+
+msgid "Mar"
+msgstr ""
+
+msgid "Apr"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "Jun"
+msgstr ""
+
+msgid "Jul"
+msgstr ""
+
+msgid "Aug"
+msgstr ""
+
+msgid "Sep"
+msgstr ""
+
+msgid "Oct"
+msgstr ""
+
+msgid "Nov"
+msgstr ""
+
+msgid "Dec"
+msgstr ""
+
+msgid "Undefined function 'acos' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'asin' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'atan' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'cos' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'cosh' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'cosm' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'sin' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'sinh' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'sinm' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'tan' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'tanh' for input arguments of type"
+msgstr ""
+
+msgid "Undefined function 'tanm' for input arguments of type"
+msgstr ""
+
+msgid "This declaration is only allowed from a class constructor."
+msgstr ""
+
+msgid "Matrix index is out of range."
+msgstr ""
+
+msgid "Illegal zero or negative index"
+msgstr ""
+
+msgid "Cannot convert string data types to indices."
+msgstr ""
+
+msgid "Imaginary part of complex index ignored.\n"
+msgstr ""
+
+msgid "index must either be real positive integers or logicals."
+msgstr ""
+
+msgid "Zero or negative index encountered."
+msgstr ""
+
+msgid "Too big index encountered."
+msgstr ""
+
+msgid "Cannot convert handle arrays to indices."
+msgstr ""
+
+msgid "Cannot convert cell arrays to indices."
+msgstr ""
+
+msgid "Cannot convert string arrays to indices."
+msgstr ""
+
+msgid "Cannot convert structure arrays to indices."
+msgstr ""
+
+msgid "operation does not support sparse matrix arguments."
+msgstr ""
+
+msgid "Warning: sparse matrix converted to full for operation."
+msgstr ""
+
+msgid "Cannot resize sparse arrays."
+msgstr ""
+
+msgid "Reshape operation not allowed for overloaded type."
+msgstr ""
+
+msgid "Reshape operation not allowed for 'function_handle' type."
+msgstr ""
+
+msgid "Reshape operation not allowed with N Dimensions sparse arrays."
+msgstr ""
+
+msgid "Invalid data class."
+msgstr ""
+
+msgid "Byte size calculation not supported for sparse arrays."
+msgstr ""
+
+msgid "isPositive not supported for sparse arrays."
+msgstr ""
+
+msgid "Switch argument must be a scalar or a string"
+msgstr ""
+
+msgid "Switch argument cannot be a reference type (struct or cell array)"
+msgstr ""
+
+msgid "Case arguments must either be a scalar or a cell array"
+msgstr ""
+
+msgid "copyElements not supported for sparse arrays."
+msgstr ""
+
+msgid "Cannot convert handle-arrays to any other type."
+msgstr ""
+
+msgid "Cannot convert cell-arrays to any other type."
+msgstr ""
+
+msgid "Cannot convert string-arrays to any other type."
+msgstr ""
+
+msgid ""
+"Cannot combine structures with different fields if the combination requires "
+"fields to be deleted from one of the structures."
+msgstr ""
+
+msgid "Cannot convert struct-arrays to any other type."
+msgstr ""
+
+msgid "Cannot convert base types to reference types."
+msgstr ""
+
+msgid "Invalid index value > limit max."
+msgstr ""
+
+msgid "Expected a positive integer scalar."
+msgstr ""
+
+msgid "Expected a integer."
+msgstr ""
+
+msgid ""
+"Dimension argument must be a positive integer scalar within indexing range."
+msgstr ""
+
+msgid "Expected integer index."
+msgstr ""
+
+msgid "Index exceeds array bounds."
+msgstr ""
+
+msgid "Field names must be valid."
+msgstr ""
+
+msgid "Duplicated field detected."
+msgstr ""
+
+msgid "Size mismatch in assignment A(I1,I2,...,In) = B."
+msgstr ""
+
+msgid "Empty matrix of type double expected."
+msgstr ""
+
+msgid ""
+"Multidimensional indexing not legal for sparse arrays in assignment A(I1,"
+"I2,...,IN) = B"
+msgstr ""
+
+msgid "Assignment A(:) = B requires A and B to be the same size"
+msgstr ""
+
+msgid "Cell definition must have same number of elements in each row"
+msgstr ""
+
+msgid "Attempt to apply contents-indexing to non-cell array object."
+msgstr ""
+
+msgid "Empty contents indexing is not defined."
+msgstr ""
+
+msgid "getVectorContents not supported for sparse arrays."
+msgstr ""
+
+msgid "Content indexing must return a single value."
+msgstr ""
+
+msgid "Index exceeds cell array dimensions"
+msgstr ""
+
+msgid "getNDimContents not supported for sparse arrays."
+msgstr ""
+
+msgid "Attempt to apply contents-indexing to non cell-array object."
+msgstr ""
+
+msgid "getVectorContentsAsList not supported for sparse arrays."
+msgstr ""
+
+msgid "ArrayOf index exceeds bounds of cell-array"
+msgstr ""
+
+msgid "Attempt to apply contents-indexing to non cell or string array object."
+msgstr ""
+
+msgid "getNDimContentsAsList not supported for sparse arrays."
+msgstr ""
+
+msgid "Conversion from <missing> to character vector is not supported."
+msgstr ""
+
+msgid "setVectorContents not supported for sparse arrays."
+msgstr ""
+
+msgid ""
+"In expression A{I} = B, I must reference a single element of cell-array A."
+msgstr ""
+
+msgid "Illegal negative index in expression A{I} = B."
+msgstr ""
+
+msgid "setNDimContents not supported for sparse arrays."
+msgstr ""
+
+msgid ""
+"In expression A{I1,I2,...,IN} = B, (I1,...,IN) must reference a single "
+"element of cell-array A."
+msgstr ""
+
+msgid "setVectorContentsAsList not supported for sparse arrays."
+msgstr ""
+
+msgid "Not enough right hand side values to satisy left hand side expression."
+msgstr ""
+
+msgid "{} assignment expects a character vector."
+msgstr ""
+
+msgid "setNDimContentsAsList not supported for sparse arrays."
+msgstr ""
+
+msgid "Not enough right hand side values to satisfy left hand side expression"
+msgstr ""
+
+msgid "Unable to convert supplied object to a string."
+msgstr ""
+
+msgid "Unable to convert supplied object to a single string."
+msgstr ""
+
+msgid "A cell or string array expected."
+msgstr ""
+
+msgid "A cell of string expected."
+msgstr ""
+
+msgid "A vector expected."
+msgstr ""
+
+msgid "A cell expected."
+msgstr ""
+
+msgid "A column vector expected."
+msgstr ""
+
+msgid "Argument to diagonal constructor must by a vector!"
+msgstr ""
+
+msgid "Invalid dimensions."
+msgstr ""
+
+msgid "Statement A(...) = [] can only contain one non-colon index."
+msgstr ""
+
+msgid "sparse matrices do not support deleting n-dimensional planes - Only 2-D"
+msgstr ""
+
+msgid "character array expected."
+msgstr ""
+
+#, c-format
+msgid "\tMatrix is sparse with %d nonzeros\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"\n"
+"Columns %d to %d\n"
+msgstr ""
+
+msgid "Expected a real value scalar."
+msgstr ""
+
+msgid "Expected a real valued scalar"
+msgstr ""
+
+msgid "Cannot index into empty variable."
+msgstr ""
+
+msgid ""
+"multidimensional indexing (more than 2 dimensions) not legal for sparse "
+"arrays"
+msgstr ""
+
+msgid "Expected a function_handle."
+msgstr ""
+
+msgid "Expected a handle scalar."
+msgstr ""
+
+msgid "Expected a valid handle."
+msgstr ""
+
+msgid "Cannot make n-dimensional arrays sparse."
+msgstr ""
+
+msgid "Cannot make strings or reference types sparse."
+msgstr ""
+
+msgid "Cannot make sparse."
+msgstr ""
+
+msgid ""
+"Number of field names must match number of values in structure constructor."
+msgstr ""
+
+msgid ""
+"ArrayOf dimensions of non-scalar entries must agree in structure "
+"construction."
+msgstr ""
+
+msgid "Cannot dereference a field of a multi-element structure array."
+msgstr ""
+
+msgid "getField not supported for sparse arrays."
+msgstr ""
+
+msgid "Reference to non-existent field"
+msgstr ""
+
+msgid "Attempt to apply field-indexing to non structure-array object."
+msgstr ""
+
+msgid "getFieldAsList not supported for sparse arrays."
+msgstr ""
+
+msgid "setField not supported for sparse arrays."
+msgstr ""
+
+msgid "Cannot apply A.field_name = B to multi-element structure array A."
+msgstr ""
+
+msgid "setFieldAsList not supported for sparse arrays."
+msgstr ""
+
+msgid "Not enough right hand values to satisfy left hand side expression."
+msgstr ""
+
+msgid "insertFieldName not supported for sparse arrays."
+msgstr ""
+
+msgid "Illegal argument to Dimensions constructor"
+msgstr ""
+
+msgid "Index exceeds dimensions."
+msgstr ""
+
+msgid "handle must have a type."
+msgstr ""
+
+msgid "handle must have a pointer."
+msgstr ""
+
+msgid "Sparse Function not loaded."
+msgstr ""
+
+msgid "input must be a valid class name."
+msgstr ""
+
+msgid "HEAD detached at "
+msgstr ""
+
+msgid "remote branch does not exist."
+msgstr ""
+
+msgid "Valid tag or branch name expected."
+msgstr ""
+
+#, c-format
+msgid "repository error %d/%d: %ls"
+msgstr ""
+
+#, c-format
+msgid "repository error %d"
+msgstr ""
+
+msgid "local branch name does not exist."
+msgstr ""
+
+msgid "Allowable stack depth exceeded..."
+msgstr ""
+
+msgid "Attempt to pop global scope off of context stack!"
+msgstr ""
+
+msgid "AST - syntax error!"
+msgstr ""
+
+msgid "END keyword illegal!"
+msgstr ""
+
+msgid "Unrecognized reserved node in expression tree!"
+msgstr ""
+
+msgid "Unrecognized expression!"
+msgstr ""
+
+msgid "Empty expression!"
+msgstr ""
+
+msgid "Illegal use of the ':' keyword in indexing expression"
+msgstr ""
+
+msgid "Switch statements support scalar and string arguments only."
+msgstr ""
+
+msgid "endfunction cannot used here."
+msgstr ""
+
+msgid "Unrecognized statement type."
+msgstr ""
+
+msgid "Expected indexing expression!"
+msgstr ""
+
+msgid "Need to Overload!"
+msgstr ""
+
+msgid "NEED TO IMPLEMENT ASSIGNATION FOR OBJECT."
+msgstr ""
+
+msgid "Cannot apply A.field_name = B to non struct-array object A."
+msgstr ""
+
+msgid "Illegal left hand side in multifunction expression"
+msgstr ""
+
+msgid "Multiple rows not allowed in left hand side of multifunction expression"
+msgstr ""
+
+msgid ""
+"Parenthetical expression in the left hand side of a function call must "
+"resolve to a single element."
+msgstr ""
+
+msgid "Cannot use arguments in a call to a script."
+msgstr ""
+
+msgid "Cannot assign outputs in a call to a script."
+msgstr ""
+
+msgid "Illegal expression in function expression"
+msgstr ""
+
+msgid "Must have lvalue in argument passed by reference"
+msgstr ""
+
+msgid "Invalid file id."
+msgstr ""
+
+msgid "Wrong numbers of output arguments."
+msgstr ""
+
+msgid "Wrong number of input arguments."
+msgstr ""
+
+msgid "Wrong type for argument #1: string expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: string expected."
+msgstr ""
+
+msgid "Wrong type for argument #3: string expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong type for argument #%d: string expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: cell of strings expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: cell of strings expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong type for argument #%d: cell of strings expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: logical expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: logical expected."
+msgstr ""
+
+msgid "Wrong type for argument #3: logical expected."
+msgstr ""
+
+msgid "Wrong type for argument #4: logical expected."
+msgstr ""
+
+msgid "Wrong size for argument #1. logical matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #2. logical matrix expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: sparse logical expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: sparse logical expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: double expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: double expected."
+msgstr ""
+
+msgid "Wrong type for argument #3: double expected."
+msgstr ""
+
+msgid "Wrong type for argument #4: double expected."
+msgstr ""
+
+msgid "Wrong type for argument #5: double expected."
+msgstr ""
+
+msgid "Wrong type for argument #6: double expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong type for argument #%d: double expected."
+msgstr ""
+
+msgid "Wrong size for argument #1. double matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #2. double matrix expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: sparse double expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: sparse double expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: sparse expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: sparse expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: single expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: single expected."
+msgstr ""
+
+msgid "Wrong size for argument #1. single matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #2. single matrix expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. integer expected."
+msgstr ""
+
+msgid "Wrong type for argument #2. integer expected."
+msgstr ""
+
+msgid "Wrong size for argument #1. integer matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #2. integer matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #1. integer n-d matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #2. integer n-d matrix expected."
+msgstr ""
+
+msgid "Same integer type expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. int8 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. uint8 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. int16 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. uint16 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. int32 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. uint32 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. int64 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. uint64 expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: function handle expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong type for argument #%d: function handle expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: string or function handle expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: string or double expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: string or cell expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: string or cell expected."
+msgstr ""
+
+msgid "Wrong type for #1 argument: numeric value expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. cell expected."
+msgstr ""
+
+msgid "Wrong type for argument #2. cell expected."
+msgstr ""
+
+msgid "Wrong type for argument #1. struct expected."
+msgstr ""
+
+msgid "Wrong type for argument #2. struct expected."
+msgstr ""
+
+msgid "Wrong types for inputs arguments."
+msgstr ""
+
+msgid "Wrong type: #1 argument."
+msgstr ""
+
+msgid "Wrong type: #2 argument."
+msgstr ""
+
+msgid "Wrong type for input arguments: double expected."
+msgstr ""
+
+msgid "Wrong type for input arguments: single expected."
+msgstr ""
+
+msgid "logical expected."
+msgstr ""
+
+msgid "struct expected."
+msgstr ""
+
+msgid "cell of strings expected."
+msgstr ""
+
+msgid "type reserved."
+msgstr ""
+
+msgid "Wrong size for input arguments: full matrix expected."
+msgstr ""
+
+msgid "Wrong size for input arguments: 2D matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #1: full matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #1: 2D matrix expected."
+msgstr ""
+
+msgid "Wrong size for argument #1: scalar expected."
+msgstr ""
+
+msgid "Wrong size for argument #2: scalar expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong size for argument #%d: scalar expected."
+msgstr ""
+
+msgid "Wrong size for #1 argument. a scalar or a row vector expected."
+msgstr ""
+
+msgid "Wrong size for #1 argument. [a, b] expected."
+msgstr ""
+
+msgid "Wrong size for #2 argument. [a, b] expected."
+msgstr ""
+
+msgid "Wrong size for #1 argument. row vector expected."
+msgstr ""
+
+msgid "Wrong size for #2 argument. row vector expected."
+msgstr ""
+
+msgid "Same size expected."
+msgstr ""
+
+msgid "A scalar expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong value for #%d argument."
+msgstr ""
+
+msgid "Wrong value for argument #1. Scalar integer value expected."
+msgstr ""
+
+msgid "Wrong value for argument #2. Scalar integer value expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong value for argument #%d. Scalar integer value expected."
+msgstr ""
+
+msgid "Wrong value for argument #1. A finite scalar integer value expected."
+msgstr ""
+
+msgid "Wrong value for argument #2. A finite scalar integer value expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong value for argument #%d. A finite scalar integer value expected."
+msgstr ""
+
+msgid ""
+"Wrong value for argument #1. A finite vector of integer values expected."
+msgstr ""
+
+msgid "Wrong value for #1 :Invalid size."
+msgstr ""
+
+msgid "Wrong value for #2 :Invalid size."
+msgstr ""
+
+#, c-format
+msgid "Wrong value for #%d :Invalid size."
+msgstr ""
+
+msgid "Wrong value for #1 argument. positive value expected."
+msgstr ""
+
+msgid "Wrong value for #2 argument. positive value expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong value for #%d argument. positive value expected."
+msgstr ""
+
+msgid "Wrong value for #1 argument. a must be higher than b ([a,b])."
+msgstr ""
+
+msgid "Wrong value for #2 argument. a must be higher than b ([a,b])."
+msgstr ""
+
+msgid "Interrupt (ctrl-c) encountered."
+msgstr ""
+
+msgid "Warning! one or more outputs not assigned in call."
+msgstr ""
+
+msgid "Dimensions concatenated are not consistent."
+msgstr ""
+
+msgid "Fieldnames in structs must match."
+msgstr ""
+
+msgid "Wrong type for argument #1: handle expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: handle expected."
+msgstr ""
+
+msgid "Wrong type for argument #3: handle expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong type for argument #%d: handle expected."
+msgstr ""
+
+msgid "Wrong Overloading::OverloadClass."
+msgstr ""
+
+msgid "Builtin"
+msgstr ""
+
+msgid "Macro"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "File or directory"
+msgstr ""
+
+msgid "assert_checkerror fails."
+msgstr ""
+
+msgid "assert_isfalse fails."
+msgstr ""
+
+msgid "your error message"
+msgstr ""
+
+msgid "assert_istrue fails."
+msgstr ""
+
+msgid "Welcome to COM Interface for Nelson !"
+msgstr ""
+
+msgid "statement list or function definition"
+msgstr ""
+
+msgid "an expression after +"
+msgstr ""
+
+msgid "Cell must be string scalars or character arrays."
+msgstr ""
+
+msgid "Invalid type for #2 input argument: doublePtr expected."
+msgstr ""
+
+msgid "Incompatible types double --> int32"
+msgstr ""
+
+msgid "Incompatible types doublePtr --> int32Ptr"
+msgstr ""
+
+msgid "vswhere not found."
+msgstr ""
+
+msgid "All values of N must be integer values."
+msgstr ""
+
+msgid "#1 input argument: must be real positive integer values."
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator >="
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator <="
+msgstr ""
+
+msgid "warning(query) does not require an second argument."
+msgstr ""
+
+msgid "Wrong value for #3 argument. A valid icon or mode expected."
+msgstr ""
+
+msgid "Wrong value for #4 argument. A valid mode expected."
+msgstr ""
+
+msgid "function single_minus_int16 undefined."
+msgstr ""
+
+msgid "function int16_minus_single undefined."
 msgstr ""
 
 #, python-format
-msgid "Assertion failed: expected (%g) and computed (%g) values are different."
+msgid "function %s undefined."
 msgstr ""
 
-msgid "Input should be a string or character array."
+msgid "function single_plus_int16 undefined."
+msgstr ""
+
+msgid "function int16_plus_single undefined."
+msgstr ""
+
+msgid "MPI dependency not loaded."
+msgstr ""
+
+msgid "Undefined function char for input arguments of type"
+msgstr ""
+
+msgid "Wrong value for #3: IgnoreCase expected."
+msgstr ""
+
+msgid "Undefined function acos for input arguments of type "
+msgstr ""
+
+msgid "Undefined function asin for input arguments of type "
+msgstr ""
+
+msgid "Undefined function atan for input arguments of type "
+msgstr ""
+
+msgid "Undefined function cos for input arguments of type "
+msgstr ""
+
+msgid "Undefined function cosh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function cosm for input arguments of type "
+msgstr ""
+
+msgid "Undefined function sin for input arguments of type "
+msgstr ""
+
+msgid "Undefined function sinh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function sinm for input arguments of type "
+msgstr ""
+
+msgid "Undefined function tan for input arguments of type "
+msgstr ""
+
+msgid "Undefined function tanh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function tanm for input arguments of type "
+msgstr ""
+
+msgid "Please install and configure a C/C++ compiler"
 msgstr ""
 
 #, python-format
-msgid "function %s_num2bin undefined."
+msgid "Module %s already loaded."
 msgstr ""
 
-#, python-format
-msgid "function %s_swapbytes undefined."
+msgid "help build failed."
 msgstr ""
 
-msgid "Invalid type for #1 input argument: char or string expected."
+msgid "Update translations:"
 msgstr ""
 
-#, python-format
-msgid "%s is not a recognized parameter."
+msgid "Translations up-to-date:"
 msgstr ""
 
-msgid "Invalid Input struct expected."
+msgid "update .po for:"
 msgstr ""
 
-msgid "Invalid value for #1 input argument: directory must exists."
+msgid "Number of undocumented functions"
 msgstr ""
 
-#, python-format
-msgid "invalid value for %s field."
+msgid " : "
 msgstr ""
 
-msgid "String or characters expected."
+msgid "Number of existing help files"
 msgstr ""
 
-msgid "weboptions must be last argument."
+msgid "Congratulations all functions are documented."
 msgstr ""
 
-msgid "unmanaged case."
+msgid "Summary:"
+msgstr ""
+
+msgid "Tests:"
+msgstr ""
+
+msgid "Passed:"
+msgstr ""
+
+msgid "Failed:"
+msgstr ""
+
+msgid "Skipped:"
+msgstr ""
+
+msgid "Benchs:"
+msgstr ""
+
+msgid "Tests time:"
+msgstr ""
+
+msgid "Total time:"
+msgstr ""
+
+msgid "Excel application expected."
+msgstr ""
+
+msgid "format not found."
+msgstr ""
+
+msgid "A valid range expected."
+msgstr ""
+
+msgid "A scalar integer value expected."
+msgstr ""
+
+msgid "An absolute path expected."
+msgstr ""
+
+msgid "sheet name not found."
+msgstr ""
+
+msgid "Wrong number of output arguments."
+msgstr ""
+
+msgid "No empty matrix expected."
+msgstr ""
+
+msgid "Only 2D matrix supported."
+msgstr ""
+
+msgid ""
+"Argument #2 must contain a valid string var, builtin, dir or file expected."
+msgstr ""
+
+msgid "minargs must be a numeric scalar"
+msgstr ""
+
+msgid "maxargs must be a numeric scalar"
+msgstr ""
+
+msgid "minargs cannot be larger than maxargs"
+msgstr ""
+
+msgid "not enough input arguments"
+msgstr ""
+
+msgid "too many input arguments"
+msgstr ""
+
+msgid "Cannot convert missing element."
+msgstr ""
+
+msgid "Matrix 2D expected."
+msgstr ""
+
+msgid "vertcat does not support cell-struct."
+msgstr ""
+
+msgid "Wrong numbers of input arguments."
+msgstr ""
+
+msgid "Invalid Input(s) must be strings or cell arrays."
+msgstr ""
+
+msgid "cmake not found."
+msgstr ""
+
+msgid "only string expected as input argument."
+msgstr ""
+
+msgid "environment variable does not exist."
+msgstr ""
+
+msgid "does not exist."
+msgstr ""
+
+msgid "A valid destination directory expected."
+msgstr ""
+
+msgid "Valid files list expected."
+msgstr ""
+
+msgid "Invalid directory."
+msgstr ""
+
+msgid "Invalid builtin list."
+msgstr ""
+
+msgid "#2 input argument: A string or cell of strings expected."
+msgstr ""
+
+msgid "At least 4 input arguments expected."
+msgstr ""
+
+msgid "A valid destination library name expected."
+msgstr ""
+
+msgid "A valid list of c/cpp files expected."
+msgstr ""
+
+msgid "A valid list of includes directories expected."
+msgstr ""
+
+msgid "A valid list of define expected."
+msgstr ""
+
+msgid "A valid list of external libraries expected."
+msgstr ""
+
+msgid "A valid build configuration value expected."
+msgstr ""
+
+msgid "A valid c_flags configuration value expected."
+msgstr ""
+
+msgid "A valid cxx_flags configuration value expected."
+msgstr ""
+
+msgid "template file is missing."
+msgstr ""
+
+msgid "CMakeLists.txt is missing."
+msgstr ""
+
+msgid "No compiler configured."
+msgstr ""
+
+msgid "Cannot read vswhere result."
+msgstr ""
+
+msgid "N must be a scalar if DIM is specified."
+msgstr ""
+
+msgid "N must be a vector."
+msgstr ""
+
+msgid "nelson_f2c not found."
+msgstr ""
+
+msgid "Input argument #1: existing file expected."
+msgstr ""
+
+msgid "Input argument #2: existing directory expected."
+msgstr ""
+
+msgid "X must be a vector or matrix."
+msgstr ""
+
+msgid "All values of DIM must be integer values."
+msgstr ""
+
+msgid "This is the default error string."
+msgstr ""
+
+msgid "Error Dialog"
+msgstr ""
+
+msgid "Wrong value for argument #3: modal, nonmodal, on expected."
+msgstr ""
+
+msgid "This is the default help string."
+msgstr ""
+
+msgid "Help Dialog"
+msgstr ""
+
+msgid "Wrong value for #3 argument. A valid icon expected."
+msgstr ""
+
+msgid "Wrong type for text argument. A string name expected."
+msgstr ""
+
+msgid "Wrong type for icon argument. A icon name expected."
+msgstr ""
+
+msgid "Wrong type for title argument. A string expected."
+msgstr ""
+
+msgid "Wrong type for mode argument. A string expected."
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "default value is not an existing button name."
+msgstr ""
+
+msgid "This is the default warning string."
+msgstr ""
+
+msgid "Second argument must start with /."
+msgstr ""
+
+msgid "Indexing help files"
+msgstr ""
+
+msgid "helpproject.qhp is missing."
+msgstr ""
+
+msgid "#2 argument: integer value expected."
+msgstr ""
+
+msgid "A existing filename expected."
+msgstr ""
+
+msgid "An .nls filename extension expected."
+msgstr ""
+
+msgid "Wrong type for argument #1: MPI_Comm expected."
+msgstr ""
+
+msgid "Undefined function gamma for input arguments of type int32."
+msgstr ""
+
+msgid "An existing filename expected."
+msgstr ""
+
+msgid "file format not a supported file."
+msgstr ""
+
+msgid "version not a supported file."
+msgstr ""
+
+msgid "Wrong type for argument #1. string expected."
+msgstr ""
+
+msgid "not yet implemented."
+msgstr ""
+
+msgid "Impossible to open: "
+msgstr ""
+
+msgid "<--CHECK REF--> tag expected."
+msgstr ""
+
+msgid "a valid module name expected."
+msgstr ""
+
+msgid "a cell of modules name."
+msgstr ""
+
+msgid ""
+"\"all\", \"all_tests\", \"unitary_tests\", \"nonreg_tests\", \"benchs\" "
+"expected as second input arguments."
+msgstr ""
+
+msgid "invalid filename:"
+msgstr ""
+
+msgid "test failed"
+msgstr ""
+
+msgid "reference diary expected."
+msgstr ""
+
+msgid "output res and ref are not equal."
+msgstr ""
+
+msgid "Cannot edit the directory: "
 msgstr ""

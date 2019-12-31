@@ -33,7 +33,7 @@ static void
 boolean_not(indexType N, logical* C, const logical* A)
 {
     for (indexType i = 0; i < N; i++) {
-        C[i] = static_cast<Nelson::logical>(A[i]) == 0u;
+        C[i] = static_cast<Nelson::logical>(static_cast<Nelson::logical>(A[i]) == 0u);
     }
 }
 //=============================================================================

@@ -23,4 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/sio_client/etc/startup.nls']);
+if (strcmp(getnelsonmode(), 'BASIC_SIO_CLIENT') == true || ...
+  strcmp(getnelsonmode(), 'ADVANCED_SIO_CLIENT') == true)
+  addmodule([nelsonroot() '/modules/' 'sio_client'], 'sio_client');
+end
+//=============================================================================

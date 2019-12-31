@@ -24,4 +24,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'help_browser', 'builtin'));
-addpath(modulepath(nelsonroot(), 'help_browser', 'functions'));
+addpath(modulepath(nelsonroot(), 'help_browser', 'functions'), '-frozen');

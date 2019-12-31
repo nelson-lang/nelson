@@ -44,7 +44,7 @@ public:
     bool
     disp(Evaluator* eval);
     stringVector
-    getAvailableSymbols();
+    getAvailableSymbols(std::string& errorMessage);
     void*
     getFunctionPointer(const std::string& symbolName);
     bool
@@ -57,6 +57,8 @@ public:
     isProperty(const std::wstring& propertyName) override;
     bool
     isMethod(const std::wstring& methodName) override;
+    std::wstring
+    getLibraryPath();
 
 private:
     wstringVector _propertiesNames;

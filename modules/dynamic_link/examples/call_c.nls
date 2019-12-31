@@ -26,11 +26,33 @@
 if ispc()
   lib_c_name = ['msvcrt', getdynlibext()];
   getpid_symbol = '_getpid';
+  libc = dlopen(lib_c_name)
 else
-  lib_c_name = ['libc', getdynlibext()];
+  if isunix()
+    // arch vs debian vs others
+    lib_c_names = [string(['libc', getdynlibext()]), ...
+                string(['libc', getdynlibext(), '.6']), ...
+                string(['/usr/lib/x86_64-linux-gnu/libc', getdynlibext()]), ...
+                string(['/lib/x86_64-linux-gnu/libc', getdynlibext(), '.6'])];
+    for l = lib_c_names
+      lib_c_name = char(l);
+      try
+        libc = dlopen(lib_c_name);
+        break
+      catch
+        libc = [];
+      end
+    end
+    if isempty(libc)
+      libc = dlopen(['libc', getdynlibext()]);
+    end
+  else
+    // macos
+    lib_c_name = ['libc', getdynlibext()];
+    libc = dlopen(lib_c_name)
+  end
   getpid_symbol = 'getpid';  
 end
-libc = dlopen(lib_c_name)
 // getpid C function from standard libc library
 f = dlsym(libc, getpid_symbol, 'int32', {})
 // call getpid

@@ -119,7 +119,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
         ret = ffiTypesMap[type];
     } else {
         Error(StringFormat(
-            _W("import type %s not defined in FFI type table.").c_str(), type.c_str()));
+            _W("import type %ls not defined in FFI type table.").c_str(), type.c_str()));
     }
     return ret.NelsonClass;
 }

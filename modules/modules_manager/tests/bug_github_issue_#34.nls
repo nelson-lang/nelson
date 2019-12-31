@@ -28,6 +28,12 @@
 // <-- Short Description -->
 // Windows installer did not copy module_skeleton help files at the good place.
 //=============================================================================
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
+  return
+end
+//=============================================================================
 assert_istrue(isdir([nelsonroot(), '/module_skeleton/help/en_US/xml']));
 assert_istrue(isfile([nelsonroot(), '/module_skeleton/help/en_US/xml/nelson_sum.xml']));
 assert_istrue(isfile([nelsonroot(), '/module_skeleton/help/en_US/xml/chapter.xml']));
+//=============================================================================

@@ -28,6 +28,7 @@
 #include "lasterrorBuiltin.hpp"
 #include "lastwarnBuiltin.hpp"
 #include "warningBuiltin.hpp"
+#include "getLastReportBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,6 +39,7 @@ static const nlsGateway gateway[] = {
     { "warning", Nelson::ErrorManagerGateway::warningBuiltin, 1, -1 },
     { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 },
     { "lastwarn", Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2 },
+    { "getLastReport", Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

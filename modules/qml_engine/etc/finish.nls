@@ -23,5 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+delete(QObject_used())
+rmpath(modulepath(nelsonroot(), 'qml_engine', 'functions'));
 removegateway(modulepath(nelsonroot(), 'qml_engine', 'builtin'));
 //=============================================================================

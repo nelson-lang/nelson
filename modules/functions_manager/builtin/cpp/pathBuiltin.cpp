@@ -23,13 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
+#endif
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
 #include "pathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "ToCellString.hpp"
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -82,7 +84,7 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         PathFuncManager::getInstance()->clear();
         wstringVector::reverse_iterator it;
         for (it = paths.rbegin(); it != paths.rend(); ++it) {
-            PathFuncManager::getInstance()->addPath(*it, true);
+            PathFuncManager::getInstance()->addPath(*it, true, false);
         }
     }
     if (argIn.size() == 2) {
@@ -113,10 +115,10 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         wstringVector::reverse_iterator rit;
         wstringVector::iterator it;
         for (rit = paths1.rbegin(); rit != paths1.rend(); ++rit) {
-            PathFuncManager::getInstance()->addPath(*rit, true);
+            PathFuncManager::getInstance()->addPath(*rit, true, false);
         }
         for (it = paths2.begin(); it != paths2.end(); ++it) {
-            PathFuncManager::getInstance()->addPath(*it, false);
+            PathFuncManager::getInstance()->addPath(*it, false, false);
         }
     }
     return retval;

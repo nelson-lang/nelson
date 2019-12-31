@@ -28,6 +28,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
+#include "StringFormat.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,19 +43,19 @@ createDynamicLinkSymbolObject(ArrayOf dllibObject, const std::wstring& symbol,
     }
     auto* obj = (DynamicLinkLibraryObject*)hlObj;
     if (!obj->getPointer()) {
-        Exception(_W("Valid handle expected."));
+        Error(_W("Valid handle expected."));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
-        Error(_W("Invalid argument type:") + returnType);
+        Error(StringFormat(_W("Invalid argument type: %ls.").c_str(), returnType.c_str()));
     }
     for (std::wstring arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
-            Error(_W("Invalid argument type:") + arg);
+            Error(StringFormat(_W("Invalid argument type: %ls.").c_str(), arg.c_str()));
         }
     }
     void* ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
     if (!ptr) {
-        Error(_W("Invalid symbol name."));
+        Error(StringFormat(_W("Invalid symbol name: %ls").c_str(), symbol.c_str()));
     }
     DynamicLinkSymbolObject* dlSymbolObject
         = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);

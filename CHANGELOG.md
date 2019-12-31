@@ -1,3 +1,104 @@
+# 0.4.1 (2020-01-XX)
+
+
+Compilation:
+------------
+
+* uses ASIO C++ library in place of BOOST ASIO.
+
+* Add Qt 5.14.0 support.
+
+
+# 0.3.12 (2019-12-27)
+
+* sort builtin: sort double, single, integers, cell and strings.
+
+* diag builtin: Get diagonal elements of matrix or create diagonal matrix.
+
+* Continous Integration tools for external modules (see module skeleton example). 
+
+* modules installed with nmm are 'autoload' by default.
+
+* .nmz file extension used as module container.
+
+* nmm('package', module_name, destination_dir) package an external module.
+
+* nmm('install', module.nmz) installs a prebuilt external module.
+
+* '-frozen' option added to addpath builtin.
+
+* rmfield builtin: Remove fields from structure.
+
+* extends sprintf and fprintf to manage backspace characters.
+
+* fix display of vector with NaN or Inf as first element.
+
+
+Bug Fixes:
+---------
+
+  * [#260](http://github.com/Nelson-numerical-software/nelson/issues/260): disable files watch for internal modules.
+
+
+# 0.3.11 (2019-11-26)
+
+* nmm: Nelson Modules Manager (package manager for Nelson)
+  - list : get list of installed modules,
+  - load : load an installed module for current session,
+  - autoload : load modules "marked" as autoload at startup,
+  - install : install a distant module,
+  - uninstall : uninstall an installed module.
+
+* Module skeleton moved to an dedicated git repository
+
+  - template with builtin and macros: https://github.com/Nelson-numerical-software/module_skeleton
+  - template with macros only: https://github.com/Nelson-numerical-software/module_skeleton_basic
+
+* usermodulesdir builtin: returns directory where user's modules are saved.
+
+* toolboxdir builtin: Root folder for specified toolbox.
+
+* nmm_build_help, nmm_build_loader: helper's functions to build module skeleton.
+
+* semver builtin: semantic versioner.
+
+* executable option added: '--nousermodules' disables load of user's modules.
+
+* add capability to load some user's modules: see nmm('autoload', ...) and nmm('load', ...)
+
+* add // <--NO USER MODULES--> tag for test_run (disable load of user modules for a test)
+
+* fullpath builtin: converts an relative path to full path name.
+
+* getLastReport builtin: returns last formatted error message.
+
+* extends repo to manage plain text authentification.
+
+* repo('export', ...) exports an git repository without .git directory.
+
+* getfield macro replaced by an builtin.
+
+* extends isequal, isequaln, isequalto for structure arrays.
+
+
+Bug Fixes:
+---------
+
+  * [#261](http://github.com/Nelson-numerical-software/nelson/issues/261): add a detailed documentation about module.json used in external modules.
+
+  * [#259](http://github.com/Nelson-numerical-software/nelson/issues/259): extraction decomplexify values.
+
+  * [#257](http://github.com/Nelson-numerical-software/nelson/issues/257): dllibisloaded optimized.
+
+  * [#49](http://github.com/Nelson-numerical-software/nelson/issues/49): Some qml demos crashed on Windows 32 bits.
+
+
+Compilation:
+------------
+
+* Qt 5.13.2 on Windows.
+
+
 # 0.3.10 (2019-10-29)
 
 * extends 'getmodules' to return module versions using new required 'module.json' (see module's template).

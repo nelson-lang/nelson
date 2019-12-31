@@ -92,6 +92,7 @@
 #include "swapbytesBuiltin.hpp"
 #include "base2decBuiltin.hpp"
 #include "dec2baseBuiltin.hpp"
+#include "sortBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -172,6 +173,7 @@ static const nlsGateway gateway[] = {
     { "dec2base", Nelson::ElementaryFunctionsGateway::dec2baseBuiltin, 1, 3 },
     { "dec2bin", Nelson::ElementaryFunctionsGateway::dec2binBuiltin, 1, 2 },
     { "dec2hex", Nelson::ElementaryFunctionsGateway::dec2hexBuiltin, 1, 2 },
+    { "sort", Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

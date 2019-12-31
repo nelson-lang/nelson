@@ -25,11 +25,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Evaluator.hpp"
 #include "TestTags.hpp"
 #include "Types.hpp"
 #include "nlsTests_manager_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
 NLSTESTS_MANAGER_IMPEXP bool

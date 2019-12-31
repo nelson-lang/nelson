@@ -172,10 +172,12 @@
     <ClCompile Include="..\cpp\cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellfunBuiltin.cpp" />
     <ClCompile Include="..\cpp\fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\iscellstrBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\namedargs2cellBuiltin.cpp" />
+    <ClCompile Include="..\cpp\rmfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\structBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -221,10 +223,12 @@
     <ClInclude Include="..\include\cellfunBuiltin.hpp" />
     <ClInclude Include="..\include\cell_vertcat_cellBuiltin.hpp" />
     <ClInclude Include="..\include\fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\getfieldBuiltin.hpp" />
     <ClInclude Include="..\include\iscellstrBuiltin.hpp" />
     <ClInclude Include="..\include\isfieldBuiltin.hpp" />
     <ClInclude Include="..\include\namedargs2cellBuiltin.hpp" />
     <ClInclude Include="..\include\nlsData_structures_builtin_exports.h" />
+    <ClInclude Include="..\include\rmfieldBuiltin.hpp" />
     <ClInclude Include="..\include\struct2cellBuiltin.hpp" />
     <ClInclude Include="..\include\structBuiltin.hpp" />
     <ClInclude Include="..\include\struct_horzcat_structBuiltin.hpp" />

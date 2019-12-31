@@ -45,62 +45,86 @@ if length(PATH_REF_3) > 50
     PATH_REF_3 = 'test_run.nls';
 end
 //=============================================================================
-R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+try
+  run([modulepath('core'), '/tests/run_file1.nls']);
+  msg = '';
+catch
+  msg = getLastReport();
+end
+//=============================================================================
 REF = '
 Error: 
 Undefined variable: TEST_CONDITION
 
 at line     8 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    48 of ''PATH_REF_3''
+at line    49 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(R, REF);
+assert_isequal(msg, REF);
 //=============================================================================
 TEST_CONDITION = 1;
-R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+try
+  run([modulepath('core'), '/tests/run_file1.nls']);
+  msg = '';
+catch
+  msg = getLastReport();
+end
+//=============================================================================
 REF = '
 Error in clc
 Wrong number of input arguments.
 
 at line    10 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    56 of ''PATH_REF_3''
+at line    63 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(R, REF);
+assert_isequal(msg, REF);
 //=============================================================================
 TEST_CONDITION = 2;
-R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+try
+  run([modulepath('core'), '/tests/run_file1.nls']);
+  msg = '';
+catch
+  msg = getLastReport();
+end
+//=============================================================================
 REF = '
 Error in fun_run (line 7)
 qqq
 
 at line    12 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    64 of ''PATH_REF_3''
+at line    77 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(R, REF);
+assert_isequal(msg, REF);
 //=============================================================================
 TEST_CONDITION = 3;
-R = evalc('run([modulepath(''core''), ''/tests/run_file1.nls''])');
+try
+  run([modulepath('core'), '/tests/run_file1.nls']);
+  msg = '';
+catch
+  msg = getLastReport();
+end
+//=============================================================================
 REF = '
 Error: 
 g
 
 at line    14 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    72 of ''PATH_REF_3''
+at line    91 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(R, REF);
+assert_isequal(msg, REF);
 //=============================================================================

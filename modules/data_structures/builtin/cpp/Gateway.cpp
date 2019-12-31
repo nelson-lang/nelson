@@ -33,6 +33,8 @@
 #include "cellfunBuiltin.hpp"
 #include "isfieldBuiltin.hpp"
 #include "namedargs2cellBuiltin.hpp"
+#include "getfieldBuiltin.hpp"
+#include "rmfieldBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,6 +50,8 @@ static const nlsGateway gateway[] = {
     { "cellfun", Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1 },
     { "isfield", Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
     { "namedargs2cell", Nelson::DataStructuresGateway::namedargs2cellBuiltin, 1, 1 },
+    { "getfield", Nelson::DataStructuresGateway::getfieldBuiltin, 1, 2 },
+    { "rmfield", Nelson::DataStructuresGateway::rmfieldBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

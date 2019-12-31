@@ -293,7 +293,8 @@ elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             }
             A.promoteType(B.getDataClass());
             return elementWiseMultiplication(A, B, needToOverload);
-        } else if (isIntegerA && isIntegerB) {
+        }
+        if (isIntegerA && isIntegerB) {
             if (A.getDataClass() != B.getDataClass()) {
                 needToOverload = true;
             } else {

@@ -25,9 +25,8 @@
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
 if FFTWwrapper('load')
-  addpath(modulepath(nelsonroot(), 'fftw', 'functions'))
+  addpath(modulepath(nelsonroot(), 'fftw', 'functions'), '-frozen');
 else
-  removegateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
   removemodule('fftw');
 end
 //=============================================================================

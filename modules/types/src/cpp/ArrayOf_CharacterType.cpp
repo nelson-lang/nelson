@@ -429,33 +429,35 @@ wstringVector
 ArrayOf::getContentAsWideStringColumnVector() const
 {
     wstringVector res;
-    if (!isCell() || !isStringArray()) {
-        Error(_W("A cell expected."));
+    if (!isCell() && !isStringArray()) {
+        Error(_W("A cell or string array expected."));
     }
-    if (isColumnVector()) {
-        auto* arg = (ArrayOf*)(getDataPointer());
-        indexType nbElements = getDimensions().getElementCount();
-        res.reserve(nbElements);
-        if (isCell()) {
-            for (indexType k = 0; k < nbElements; k++) {
-                if (arg[k].getDataClass() != NLS_CHAR) {
-                    res.clear();
-                    Error(_W("A cell of string expected."));
-                } else {
-                    res.push_back(arg[k].getContentAsWideString());
+    if (!isEmpty()) {
+        if (isColumnVector()) {
+            auto* arg = (ArrayOf*)(getDataPointer());
+            indexType nbElements = getDimensions().getElementCount();
+            res.reserve(nbElements);
+            if (isCell()) {
+                for (indexType k = 0; k < nbElements; k++) {
+                    if (arg[k].getDataClass() != NLS_CHAR) {
+                        res.clear();
+                        Error(_W("A cell of string expected."));
+                    } else {
+                        res.push_back(arg[k].getContentAsWideString());
+                    }
+                }
+            } else {
+                for (indexType k = 0; k < nbElements; k++) {
+                    if (arg[k].getDataClass() != NLS_CHAR) {
+                        res.push_back(L"");
+                    } else {
+                        res.push_back(arg[k].getContentAsWideString());
+                    }
                 }
             }
         } else {
-            for (indexType k = 0; k < nbElements; k++) {
-                if (arg[k].getDataClass() != NLS_CHAR) {
-                    res.push_back(L"");
-                } else {
-                    res.push_back(arg[k].getContentAsWideString());
-                }
-            }
+            Error(_W("A column vector expected."));
         }
-    } else {
-        Error(_W("A column vector expected."));
     }
     return res;
 }

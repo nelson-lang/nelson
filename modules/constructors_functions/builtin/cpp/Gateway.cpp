@@ -32,6 +32,7 @@
 #include "onesBuiltin.hpp"
 #include "piBuiltin.hpp"
 #include "zerosBuiltin.hpp"
+#include "diagBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,7 +49,8 @@ static const nlsGateway gateway[]
           { "eps", Nelson::ConstructorsGateway::epsBuiltin, 1, 0, CPP_BUILTIN },
           { "pi", Nelson::ConstructorsGateway::piBuiltin, 1, 0, CPP_BUILTIN },
           { "ones", Nelson::ConstructorsGateway::onesBuiltin, -1, 1, CPP_BUILTIN },
-          { "zeros", Nelson::ConstructorsGateway::zerosBuiltin, -1, 1, CPP_BUILTIN } };
+          { "zeros", Nelson::ConstructorsGateway::zerosBuiltin, -1, 1, CPP_BUILTIN },
+          { "diag", Nelson::ConstructorsGateway::diagBuiltin, 1, 2, CPP_BUILTIN } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

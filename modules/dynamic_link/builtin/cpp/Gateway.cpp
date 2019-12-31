@@ -62,6 +62,7 @@
 #include "libpointer_setdatatypeBuiltin.hpp"
 #include "libpointer_usedBuiltin.hpp"
 #include "removegatewayBuiltin.hpp"
+#include "dllibisloadedBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -106,7 +107,8 @@ static const nlsGateway gateway[] = { { "addgateway", Nelson::DynamicLinkGateway
     { "libpointer_fieldnames", Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin, 1, 1 },
     { "libpointer_isvalid", Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin, 1, 1 },
     { "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
-    { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 } };
+    { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 },
+    { "dllibisloaded", Nelson::DynamicLinkGateway::dllibisloadedBuiltin, 1, 1 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

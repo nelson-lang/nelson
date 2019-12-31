@@ -44,6 +44,7 @@
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
 #include <Eigen/Dense>
+#include <Eigen/Sparse>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <cinttypes>
@@ -1210,10 +1211,18 @@ ArrayOf::allReal() const
         if (isEmpty(true)) {
             res = true;
         } else {
-            double* pdouble = (double*)dp->getData();
-            doublecomplex* Bz = reinterpret_cast<doublecomplex*>(pdouble);
-            Eigen::Map<Eigen::MatrixXcd> mat(Bz, 1, dp->getDimensions().getElementCount());
-            res = mat.imag().isZero(0);
+            if (isSparse()) {
+                Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spCplxMat
+                    = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)dp->getData();
+                Eigen::SparseMatrix<double, 0, signedIndexType> spImgMat = spCplxMat->imag();
+                Eigen::Map<Eigen::MatrixXd> mat(spImgMat.valuePtr(), 1, spImgMat.nonZeros());
+                res = mat.isZero(0);
+            } else {
+                double* pdouble = (double*)dp->getData();
+                doublecomplex* Bz = reinterpret_cast<doublecomplex*>(pdouble);
+                Eigen::Map<Eigen::MatrixXcd> mat(Bz, 1, dp->getDimensions().getElementCount());
+                res = mat.imag().isZero(0);
+            }
         }
     } break;
     case NLS_GO_HANDLE:

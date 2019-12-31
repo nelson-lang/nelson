@@ -23,6 +23,7 @@
 # License along with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
+component_depth: 6
 languages:
 - cpp
 exclude:
@@ -33,3 +34,6 @@ exclude:
 - /modules/types/src/cpp/.*
 - /modules/random/src/include/.*
 - /modules/sio_client/src/socket_io/.*
+- /modules/file_archiver/src/c/minizip/.*
+- /modules/help_tools/src/c/hoedown/.*
+

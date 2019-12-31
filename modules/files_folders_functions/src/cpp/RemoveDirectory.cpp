@@ -60,9 +60,8 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
             if (bSubfolder) {
                 updatePermissions(p.wstring());
                 boost::filesystem::remove_all(p);
-            } else {
-                boost::filesystem::remove(p);
             }
+            boost::filesystem::remove(p);
             res = true;
         } catch (const boost::filesystem::filesystem_error& e) {
             res = false;

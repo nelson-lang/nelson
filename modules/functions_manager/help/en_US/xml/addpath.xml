@@ -11,6 +11,7 @@
 		<syntax_item>addpath(dirname, ..., dirname)</syntax_item>
 		<syntax_item>addpath(dirname, ..., dirname, '-begin')</syntax_item>
 		<syntax_item>addpath(dirname, ..., dirname, '-end')</syntax_item>
+		<syntax_item>addpath(dirname, ..., dirname, '-frozen')</syntax_item>
 		<syntax_item>previous = addpath(dirname)</syntax_item>
 		<syntax_item>previous = addpath(dirname, ..., dirname)</syntax_item>
 		<syntax_item>previous = addpath(dirname, ..., dirname, '-begin')</syntax_item>
@@ -26,6 +27,10 @@
 			<param_name>'-end' or '-begin'</param_name>
 			<param_description>append dirname at the end or begin of the list.</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>'-frozen'</param_name>
+			<param_description> disables folder change detection for the folders being added or modified.</param_description>
+		</param_input_item>
 	</param_input>
 
 	<param_output>
@@ -38,6 +43,7 @@
 	<description><p><b>addpath</b> add directories to search path.</p>
 <p>It is also possible to add lists of directory names separated by pathsep.</p>
 <p>Non-existent path will not be added and a warning will be issued.</p>
+<p>files watchers is disabled for internal modules.</p>
 </description>
 
 	<used_function></used_function>
@@ -54,8 +60,6 @@ rmpath(tempdir())
 path]]>
 		</example_item_data>
 	</example_item>
-
-
 </examples>
 
 	<see_also>

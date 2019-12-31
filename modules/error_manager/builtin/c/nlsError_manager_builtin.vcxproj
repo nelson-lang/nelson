@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\errorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getLastReportBuiltin.cpp" />
     <ClCompile Include="..\cpp\IsErrorStruct.cpp" />
     <ClCompile Include="..\cpp\IsWarningStruct.cpp" />
     <ClCompile Include="..\cpp\lasterrorBuiltin.cpp" />
@@ -202,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\errorBuiltin.hpp" />
+    <ClInclude Include="..\include\getLastReportBuiltin.hpp" />
     <ClInclude Include="..\include\IsErrorStruct.hpp" />
     <ClInclude Include="..\include\IsWarningStruct.hpp" />
     <ClInclude Include="..\include\lasterrorBuiltin.hpp" />

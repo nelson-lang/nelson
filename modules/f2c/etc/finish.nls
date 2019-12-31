@@ -23,4 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+rmpath(modulepath(nelsonroot(), 'f2c', 'functions'));
 //removegateway(modulepath(nelsonroot(), 'f2c', 'builtin'));

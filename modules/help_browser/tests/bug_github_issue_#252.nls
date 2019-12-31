@@ -31,6 +31,12 @@
 // <--INTERACTIVE TEST-->
 // <--GUI MODE--> 
 // <--C/C++ COMPILER REQUIRED-->
+//=============================================================================
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
+  return
+end
+//=============================================================================
 if ~ismodule('module_skeleton')
   cd([nelsonroot(), '/module_skeleton']);
   run('builder.nls');

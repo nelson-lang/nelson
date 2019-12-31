@@ -90,6 +90,7 @@ ENV AUDIODEV null
 
 RUN cmake -G "Unix Makefiles" .
 RUN make -j4
+RUN make get_module_skeleton
 
 RUN make buildhelp
 RUN make tests_minimal

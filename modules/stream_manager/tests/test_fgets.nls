@@ -38,7 +38,7 @@ while ~feof(fid)
   end
 end
 fclose(fid);
-assert_isequal(i,  81);
+assert_isequal(i,  39);
 //=============================================================================
 fid = fopen(f, 'rt');
 i = 0;
@@ -50,5 +50,5 @@ while ~feof(fid)
   end
 end
 fclose(fid);
-assert_isequal(i, 754);
+assert_isequal(i, 382);
  //=============================================================================

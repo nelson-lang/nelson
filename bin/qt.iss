@@ -67,6 +67,8 @@ Source: {#RootPath}bin\{#BinPath}\Qt5WebChannel.dll; DestDir: {app}\bin\{#BinPat
 Source: {#RootPath}bin\{#BinPath}\Qt5WebEngine.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineCore.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineWidgets.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt5QmlWorkerScript.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt5QmlModels.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}bin\{#BinPath}\Qt5WebSockets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WebView.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\

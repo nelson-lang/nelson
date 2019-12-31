@@ -27,6 +27,6 @@
 // <--WITH DISPLAY-->
 //=============================================================================
 h = msgbox({'Operation' 'Completed'});
-assert_istrue(isequal(h.parent, QObject_root()));
-assert_isequal(h.parent, QObject_root());
+assert_istrue(h.isWindow);
+assert_isequal(h.visible, true);
 //=============================================================================

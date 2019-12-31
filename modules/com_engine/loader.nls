@@ -24,8 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ispc()
-  run([nelsonroot() '/modules/com_engine/etc/startup.nls']);
-else
-  removemodule('com_engine');
+  addmodule([nelsonroot() '/modules/' 'com_engine'], 'com_engine');
 end
 //=============================================================================

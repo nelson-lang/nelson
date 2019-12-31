@@ -1,0 +1,46 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of the Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// Alternatively, you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation; either version 2 of
+// the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this program. If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function nmm_build_dependencies(MODULE_PATH)
+    module_json = [MODULE_PATH, '/module.json'];
+    if ~isfile(module_json)
+        error(_('module.json is missing.'));
+    end
+    content = fileread(module_json);
+    data = jsondecode(content);
+    if any(contains(fieldnames(data), 'dependencies'))
+        dependencies = data.dependencies;
+        names = fieldnames(dependencies);
+        for n = names'
+            r = nmm_is_http_repository(dependencies.(n{1}));
+            if r || isdir(dependencies.(n{1}))
+                nmm('install', dependencies.(n{1}))
+            else
+                nmm('install', n, dependencies.(n{1}))
+            end                
+        end
+    end
+endfunction
+//=============================================================================

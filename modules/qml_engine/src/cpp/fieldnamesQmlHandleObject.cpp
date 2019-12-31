@@ -93,24 +93,23 @@ fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVect
         std::sort(allFields.begin(), allFields.end());
     }
     if (fullList) {
-        for (size_t k = 0; k < allFields.size(); k++) {
-            fieldnames.push_back(utf8_to_wstring(allFields[k]));
+        for (std::string allField : allFields) {
+            fieldnames.push_back(utf8_to_wstring(allField));
         }
     } else {
-        for (size_t k = 0; k < allFields.size(); k++) {
-            if (allFields[k] == QOBJECT_PROPERTY_PARENT_STR
-                || allFields[k] == QOBJECT_PROPERTY_CHILDREN_STR
-                || allFields[k] == QOBJECT_PROPERTY_CLASSNAME_STR) {
-                fieldnames.push_back(utf8_to_wstring(allFields[k]));
+        for (std::string allField : allFields) {
+            if (allField == QOBJECT_PROPERTY_PARENT_STR || allField == QOBJECT_PROPERTY_CHILDREN_STR
+                || allField == QOBJECT_PROPERTY_CLASSNAME_STR) {
+                fieldnames.push_back(utf8_to_wstring(allField));
             } else {
-                QVariant propertyValue = qobj->property(allFields[k].c_str());
+                QVariant propertyValue = qobj->property(allField.c_str());
                 if (propertyValue.isValid()) {
                     if (canBeConvertedToArrayOf(propertyValue)) {
-                        fieldnames.push_back(utf8_to_wstring(allFields[k]));
+                        fieldnames.push_back(utf8_to_wstring(allField));
                     } else {
                         QObject* obj = qvariant_cast<QObject*>(propertyValue);
                         if (obj != nullptr) {
-                            fieldnames.push_back(utf8_to_wstring(allFields[k]));
+                            fieldnames.push_back(utf8_to_wstring(allField));
                         }
                     }
                 }

@@ -24,6 +24,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--C/C++ COMPILER REQUIRED--> 
+// <--NO USER MODULES-->
+//=============================================================================
+builderFile = [nelsonroot(),'/module_skeleton/builder.nls'];
+if ~isfile(builderFile)
+  return
+end
 //=============================================================================
 cd([nelsonroot(), '/module_skeleton/']);
 run('builder.nls');

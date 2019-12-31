@@ -30,6 +30,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/src/c/semver
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -40,12 +41,14 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
 )
 #==============================================================================	
 FILE(
 GLOB
 MODULES_MANAGER_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/c/semver/*.c"
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -60,7 +63,10 @@ nlsCore
 nlsDynamic_link
 nlsInterpreter
 nlsNelson_manager
+nlsOs_functions
+nlsCharacters_encoding
 nlsI18n
+nlsFiles_folders_functions
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	
@@ -80,6 +86,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -91,6 +98,7 @@ ADD_LIBRARY(
 target_link_libraries(${module_library_builtin_name}
 ${module_library_name}
 nlsError_manager
+nlsCharacters_encoding
 nlsInterpreter
 nlsApi_nelson
 nlsI18n
@@ -106,9 +114,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls DESTINA
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions/internal DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/functions FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nmz")
 #==============================================================================
-
-
-

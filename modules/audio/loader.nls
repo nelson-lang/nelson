@@ -23,4 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([nelsonroot() '/modules/' 'audio' '/etc/startup.nls']);
+if (strcmp(getenv('AUDIODEV'), 'null') == false)
+  addmodule([nelsonroot() '/modules/' 'audio'], 'audio');
+end
+//=============================================================================
