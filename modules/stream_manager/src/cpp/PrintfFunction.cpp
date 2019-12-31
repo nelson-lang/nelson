@@ -92,7 +92,14 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
         *(nbuff + nbuf_ind) = 0;
         int nprn = nbuf_ind;
         result = result + nbuff;
-
+        if (*dp == L'%' && (*(dp + 1) == L'\0' || *(dp + 1) == L'%')) {
+            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
+            nbuff[std::min(nprn + 1, BUFFER_SIZE_MAX - 1)] = L'\0';
+            result = result + nbuff;
+            if (*(dp + 1) == L'\0') {
+                return true;
+            }
+        }
         if (*dp == L'%' && *(dp + 1)) {
             np = PrintfHelper::validateFormatSpec(dp + 1);
             if (!np) {

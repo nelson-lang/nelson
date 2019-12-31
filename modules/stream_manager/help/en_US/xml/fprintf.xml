@@ -46,11 +46,6 @@
   <p>If fid equals 1 redirection in stdout.</p>
   <p>If fid equals 2 redirection in stderr.</p>
   <p>The <b>format</b> follows C fprintf syntax.</p>
-    <style>
-table, th, td {
-    border: 1px solid black;
-}
-  </style>
     <table style="width:100%">
   <tr>
     <th>Value type</th>
