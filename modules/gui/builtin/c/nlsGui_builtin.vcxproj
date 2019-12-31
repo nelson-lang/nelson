@@ -192,7 +192,7 @@
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\src\c\nlsGui.vcxproj">
-      <Project>{bc919c8e-9b81-48aa-b41c-c13eafa7f239}</Project>
+      <Project>{075f60ad-38ba-4531-9d46-7453e3416e15}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
