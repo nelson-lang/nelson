@@ -27,6 +27,7 @@
 #include "GOProperty.hpp"
 #include "ClassName.hpp"
 #include "GOFigure.hpp"
+#include "GORoot.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,6 +46,11 @@ graphicObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrGO
                         auto* goFigure = (GOFigure*)go;
                         io->outputMessage(
                             "  " + GOType + " (" + std::to_string(goFigure->id()) + ")\n");
+                        io->outputMessage(goFigure->displayProperties());
+                    } else if (GOType == ROOT_TYPE_STR) {
+                        io->outputMessage("  " + GOType + "\n");
+                        auto* goRoot = (GORoot*)go;
+                        io->outputMessage(goRoot->displayProperties());
                     } else {
                         io->outputMessage("  " + GOType + "\n");
                     }

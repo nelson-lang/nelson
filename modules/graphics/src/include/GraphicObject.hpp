@@ -76,6 +76,8 @@ public:
     addProperty(const std::string& propertyName, GOProperty* goPropertyPtr);
     GOProperty*
     searchProperty(const std::string& name);
+    std::wstring
+    displayProperties();
     stringVector
     getPropertiesName();
     void

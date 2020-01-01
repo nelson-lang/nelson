@@ -32,6 +32,7 @@
 #include "GOScalarLogicalProperty.hpp"
 #include "GOOnOffSwitchProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -98,6 +99,18 @@ GraphicObject::getPropertiesName()
         names.push_back(p.first);
     }
     return names;
+}
+//=============================================================================
+std::wstring
+GraphicObject::displayProperties()
+{
+    std::wstring content;
+    for (auto p : properties) {
+        auto propertyValue = p.second;
+        auto propertyName = p.first;
+        content = content + utf8_to_wstring(propertyValue->print(propertyName)) + L"\n";
+    }
+    return content;
 }
 //=============================================================================
 void

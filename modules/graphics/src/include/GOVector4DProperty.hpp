@@ -69,7 +69,7 @@ public:
     std::string
     print(const std::string& propertyName) override
     {
-        return "\t" + propertyName + ":\t [" + std::to_string(m_data[0]) + " "
+        return "\t" + propertyName + ":\t [ " + std::to_string(m_data[0]) + " "
             + std::to_string(m_data[1]) + " " + std::to_string(m_data[2]) + " "
             + std::to_string(m_data[3]) + " ]";
     }
