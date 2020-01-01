@@ -112,8 +112,7 @@ function r = reindexhelp(pref_help)
     if ~isfile(homepage) 
       homepage = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch']; 
     end
-    fprintf(stdout, [char(10), _('Indexing help files'), ' ']);
-    fprintf(stdout, '.');
+    lastDisplayedPercent = dispPercentLevel(0, '');
     if isfile(homepage)
       forceaddmodule('Nelson', homepage);
     end
@@ -127,13 +126,26 @@ function r = reindexhelp(pref_help)
       modules_help_available{end+1, 1} = module_name;
       if isfile(help_file)
         forceaddmodule(module_name, help_file);
-        fprintf(stdout,'.');       
+        percent = (idx * 100) * inv(len);
+        lastDisplayedPercent = dispPercentLevel(percent, lastDisplayedPercent);
       end
     end
+    dispPercentLevel(100, lastDisplayedPercent);
     fprintf(stdout, char(13));
     version_help = version('-number');
     save(pref_help, 'modules_help_available', 'version_help');
     r = true;
+endfunction
+//=============================================================================
+function newPrevious = dispPercentLevel(percent, previous)
+  if ~isempty(previous)
+    backspace = repmat(sprintf('\b'), 1, length(previous));
+    newPrevious = sprintf('%d %', percent);
+    fprintf(stdout, '%s%s', backspace, newPrevious);
+  else
+    newPrevious = sprintf('%d %', percent);
+    fprintf(stdout, '\n%s %s', _('Indexing help files:'), newPrevious);
+  end
 endfunction
 //=============================================================================
 function help_file = getHelpFile(module_name)

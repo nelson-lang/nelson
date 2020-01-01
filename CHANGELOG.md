@@ -1,5 +1,9 @@
 # 0.4.1 (2020-01-XX)
 
+* replaces dot animation by percent display about help indexing.
+
+* html style about table simplified.
+
 
 Compilation:
 ------------
