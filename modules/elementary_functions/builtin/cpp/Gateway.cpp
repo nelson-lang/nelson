@@ -93,6 +93,7 @@
 #include "base2decBuiltin.hpp"
 #include "dec2baseBuiltin.hpp"
 #include "sortBuiltin.hpp"
+#include "linspaceBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -174,6 +175,7 @@ static const nlsGateway gateway[] = {
     { "dec2bin", Nelson::ElementaryFunctionsGateway::dec2binBuiltin, 1, 2 },
     { "dec2hex", Nelson::ElementaryFunctionsGateway::dec2hexBuiltin, 1, 2 },
     { "sort", Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1 },
+    { "linspace", Nelson::ElementaryFunctionsGateway::linspaceBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

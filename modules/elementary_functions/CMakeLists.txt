@@ -28,7 +28,7 @@ set(module_library_name nlsElementary_functions)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
-    ${EIGEN3_INCLUDE_DIR}
+  ${EIGEN3_INCLUDE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../integer/src/include
@@ -80,6 +80,7 @@ ELEMENTARY_FUNCTIONS_BUILTIN
 )
 #==============================================================================	
 include_directories(
+${EIGEN3_INCLUDE_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
