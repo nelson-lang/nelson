@@ -189,6 +189,8 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
+    <ClCompile Include="..\cpp\Logarithm10.cpp" />
+    <ClCompile Include="..\cpp\Logarithm1p.cpp" />
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
@@ -277,6 +279,8 @@
     <ClInclude Include="..\include\LeftDivide.hpp" />
     <ClInclude Include="..\include\LessEquals.hpp" />
     <ClInclude Include="..\include\LessThan.hpp" />
+    <ClInclude Include="..\include\Logarithm10.hpp" />
+    <ClInclude Include="..\include\Logarithm1p.hpp" />
     <ClInclude Include="..\include\MatrixMultiplication.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
     <ClInclude Include="..\include\NaturalLogarithm.hpp" />
