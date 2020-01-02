@@ -1,5 +1,13 @@
 # 0.4.1 (2020-01-XX)
 
+* linspace builtin: linearly spaced vector constructor.
+
+* logspace builtin: logarithmically spaced vectors constructor.
+
+* log10 builtin: Common logarithm (base 10).
+
+* log1p builtin: log(1+x) accurately for small values of x.
+
 * replaces dot animation by percent display about help indexing.
 
 * html style about table simplified.

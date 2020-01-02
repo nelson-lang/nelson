@@ -203,6 +203,8 @@
     <ClCompile Include="..\cpp\leBuiltin.cpp" />
     <ClCompile Include="..\cpp\lengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\linspaceBuiltin.cpp" />
+    <ClCompile Include="..\cpp\log10Builtin.cpp" />
+    <ClCompile Include="..\cpp\log1pBuiltin.cpp" />
     <ClCompile Include="..\cpp\logBuiltin.cpp" />
     <ClCompile Include="..\cpp\ltBuiltin.cpp" />
     <ClCompile Include="..\cpp\minusBuiltin.cpp" />
@@ -302,6 +304,8 @@
     <ClInclude Include="..\include\leBuiltin.hpp" />
     <ClInclude Include="..\include\lengthBuiltin.hpp" />
     <ClInclude Include="..\include\linspaceBuiltin.hpp" />
+    <ClInclude Include="..\include\log10Builtin.hpp" />
+    <ClInclude Include="..\include\log1pBuiltin.hpp" />
     <ClInclude Include="..\include\logBuiltin.hpp" />
     <ClInclude Include="..\include\ltBuiltin.hpp" />
     <ClInclude Include="..\include\minusBuiltin.hpp" />

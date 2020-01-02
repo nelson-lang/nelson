@@ -85,6 +85,8 @@
 #include "normBuiltin.hpp"
 #include "expBuiltin.hpp"
 #include "logBuiltin.hpp"
+#include "log10Builtin.hpp"
+#include "log1pBuiltin.hpp"
 #include "sqrtBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
 #include "num2binBuiltin.hpp"
@@ -163,6 +165,8 @@ static const nlsGateway gateway[] = {
     { "norm", Nelson::ElementaryFunctionsGateway::normBuiltin, 1, 1 },
     { "exp", Nelson::ElementaryFunctionsGateway::expBuiltin, 1, 1 },
     { "log", Nelson::ElementaryFunctionsGateway::logBuiltin, 1, 1 },
+    { "log10", Nelson::ElementaryFunctionsGateway::log10Builtin, 1, 1 },
+    { "log1p", Nelson::ElementaryFunctionsGateway::log1pBuiltin, 1, 1 },
     { "sqrt", Nelson::ElementaryFunctionsGateway::sqrtBuiltin, 1, 1 },
     { "ismissing", Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1 },
     { "num2bin", Nelson::ElementaryFunctionsGateway::num2binBuiltin, 1, 1 },

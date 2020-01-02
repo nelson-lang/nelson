@@ -100,9 +100,15 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(
         if (param3.isComplex()) {
             Error(_W("Third argument should be an integer value."));
         } else {
-            param3.promoteType(NLS_INT64);
-            int64 nn = param3.getContentAsInteger64Scalar();
-            n = (Eigen::Index)nn;
+            // special case about NaN
+            double nd = param3.getContentAsDoubleScalar();
+            if (std::isnan(nd)) {
+                n = (Eigen::Index)1;
+            } else {
+                param3.promoteType(NLS_INT64);
+                int64 nn = param3.getContentAsInteger64Scalar();
+                n = (Eigen::Index)nn;
+            }
         }
     }
     ArrayOf param1 = argIn[0];
