@@ -37,7 +37,7 @@ Nelson::ElementaryFunctionsGateway::rdivideBuiltin(
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "rdivide"));
+    retval.push_back(eval->dotRightDivideOperator(argIn[0], argIn[1]));
     return retval;
 }
 //=============================================================================

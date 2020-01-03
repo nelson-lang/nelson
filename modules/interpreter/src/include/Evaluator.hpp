@@ -793,6 +793,18 @@ public:
     mtimesOperator(ArrayOf A, ArrayOf B);
 
     ArrayOf
+    rightDivideOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    leftDivideOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    dotRightDivideOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    dotLeftDivideOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
     eqOperator(ArrayOf A, ArrayOf B);
     ArrayOf
     gtOperator(ArrayOf A, ArrayOf B);
@@ -862,6 +874,18 @@ private:
     timesOperator(ASTPtr t);
     ArrayOf
     mtimesOperator(ASTPtr t);
+
+    ArrayOf
+    leftDivideOperator(ASTPtr t);
+
+    ArrayOf
+    rightDivideOperator(ASTPtr t);
+
+    ArrayOf
+    dotLeftDivideOperator(ASTPtr t);
+
+    ArrayOf
+    dotRightDivideOperator(ASTPtr t);
 
     ArrayOf
     eqOperator(ASTPtr t);

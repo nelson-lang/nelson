@@ -64,8 +64,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     try {
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
-    } catch (const std::bad_alloc& e) {
-        e.what();
+    } catch (const std::bad_alloc&) {
         spMatC = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
     }

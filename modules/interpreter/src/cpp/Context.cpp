@@ -87,8 +87,7 @@ Context::pushScope(const std::string& name)
     }
     try {
         sc = new Scope(name);
-    } catch (const std::bad_alloc& e) {
-        e.what();
+    } catch (const std::bad_alloc&) {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     if (sc != nullptr) {

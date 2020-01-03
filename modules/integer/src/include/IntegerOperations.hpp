@@ -27,8 +27,68 @@
 //=============================================================================
 #include <type_traits>
 #include <limits>
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+isIntegerClass(Class variableClass)
+{
+    return variableClass >= NLS_UINT8 && variableClass <= NLS_INT64;
+}
+//=============================================================================
+static bool
+mustCastIntegerAsLongDouble(Class variableClass)
+{
+    return isIntegerClass(variableClass) && (variableClass >= NLS_UINT64);
+}
+//=============================================================================
+static bool
+mustCastIntegerAsDouble(Class variableClass)
+{
+    return (isIntegerClass(variableClass)
+        && (variableClass == NLS_UINT32 || variableClass == NLS_INT32));
+}
+//=============================================================================
+template <typename TIN, typename TOUT>
+inline TOUT
+numeric_cast(TIN value)
+{
+    const bool positive_overflow_possible
+        = std::numeric_limits<TOUT>::max() < std::numeric_limits<TIN>::max();
+    const bool negative_overflow_possible = std::numeric_limits<TIN>::is_signed
+        || (std::numeric_limits<TOUT>::lowest() > std::numeric_limits<TIN>::lowest());
+
+    // unsigned <-- unsigned
+    if ((!std::numeric_limits<TOUT>::is_signed) && (!std::numeric_limits<TIN>::is_signed)) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        }
+    }
+    // unsigned <-- signed
+    else if ((!std::numeric_limits<TOUT>::is_signed) && std::numeric_limits<TIN>::is_signed) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        } else if (negative_overflow_possible && (value < 0)) {
+            return std::numeric_limits<TOUT>::min();
+        }
+    }
+    // signed <-- unsigned
+    else if (std::numeric_limits<TOUT>::is_signed && (!std::numeric_limits<TIN>::is_signed)) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        }
+    }
+    // signed <-- signed
+    else if (std::numeric_limits<TOUT>::is_signed && std::numeric_limits<TIN>::is_signed) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        } else if (negative_overflow_possible && (value < std::numeric_limits<TOUT>::lowest())) {
+            return std::numeric_limits<TOUT>::min();
+        }
+    }
+    return static_cast<TOUT>(value);
+}
 //=============================================================================
 template <class T>
 T

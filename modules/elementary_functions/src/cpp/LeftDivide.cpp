@@ -26,8 +26,9 @@
 #include "LeftDivide.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 ArrayOf
-LeftDivide(ArrayOf A, ArrayOf B)
+LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 {
     if (A.isEmpty() || B.isEmpty()) {
         return ArrayOf::emptyConstructor();

@@ -151,8 +151,7 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
         sb03od_(DICO_ptr, FACT_ptr, TRANS_ptr, N_ptr, M_ptr, A_ptr, LDA_ptr, Q_output_ptr, LDQ_ptr,
             B_output_ptr, LDB_ptr, SCALE_output_ptr, WR_output_ptr, WI_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("sb03od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

@@ -233,8 +233,7 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     try {
         ptrI = new indexType[nnz];
         ptrJ = new indexType[nnz];
-    } catch (const std::bad_alloc& e) {
-        e.what();
+    } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     int nz = 0;

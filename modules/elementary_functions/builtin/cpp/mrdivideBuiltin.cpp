@@ -26,6 +26,7 @@
 #include "mrdivideBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadBinaryOperator.hpp"
+#include "RightDivide.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,7 +38,7 @@ Nelson::ElementaryFunctionsGateway::mrdivideBuiltin(
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "mrdivide"));
+    retval.push_back(eval->rightDivideOperator(argIn[0], argIn[1]));
     return retval;
 }
 //=============================================================================

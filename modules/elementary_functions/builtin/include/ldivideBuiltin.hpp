@@ -29,8 +29,11 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 namespace ElementaryFunctionsGateway {
     ArrayOfVector
     ldivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

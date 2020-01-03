@@ -33,4 +33,6 @@ namespace ElementaryFunctionsGateway {
     ArrayOfVector
     mrdivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

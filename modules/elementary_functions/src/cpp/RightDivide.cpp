@@ -29,18 +29,18 @@
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 ArrayOf
-RightDivide(ArrayOf A, ArrayOf B)
+RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 {
     if (A.isEmpty() || B.isEmpty()) {
         return ArrayOf::emptyConstructor();
     }
-    // Process our arguments
     if (!MatrixCheck(A, B, "/")) {
-        // Its really a vector product, pass...
-        return DotRightDivide(A, B);
+        return DotRightDivide(A, B, needToOverload);
     }
-    return LeftDivide(B, A);
+    return LeftDivide(B, A, needToOverload);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

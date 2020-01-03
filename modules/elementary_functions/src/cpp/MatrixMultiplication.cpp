@@ -276,8 +276,9 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     bool isVector = ((A.isVector() && B.isScalar()) || (B.isVector() && A.isScalar())
-        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector()));
-    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && !isVector
+        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())
+        || (A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector()));
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && isVector
         && dimsA.getColumns() != dimsB.getRows()) {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }

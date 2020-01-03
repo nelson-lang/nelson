@@ -39,20 +39,30 @@ matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
 {
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = new_with_exception<T>(Clen, false);
-    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
-        T* C = (T*)Cp;
-        T* A = (T*)a.getDataPointer();
-        T* B = (T*)b.getDataPointer();
-        for (indexType k = 0; k < Clen; k++) {
-            C[k] = scalarInteger_plus_scalarInteger<T>(A[k], B[k]);
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+        (T*)a.getDataPointer(), 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+        (T*)b.getDataPointer(), 1, Clen);
+    if (isIntegerClass(classDestination)) {
+        if (mustCastIntegerAsLongDouble(classDestination)) {
+            matC = (matA.cast<long double>() + matB.cast<long double>())
+                       .array()
+                       .round()
+                       .unaryExpr(std::ref(numeric_cast<long double, T>));
+        } else if (mustCastIntegerAsDouble(classDestination)) {
+            matC = (matA.cast<double>() + matB.cast<double>())
+                       .array()
+                       .round()
+                       .unaryExpr(std::ref(numeric_cast<double, T>));
+        } else {
+            matC = (matA.cast<single>() + matB.cast<single>())
+                       .array()
+                       .round()
+                       .unaryExpr(std::ref(numeric_cast<single, T>));
         }
     } else {
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-            (T*)a.getDataPointer(), 1, Clen);
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-            (T*)b.getDataPointer(), 1, Clen);
         matC = matA + matB;
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -308,16 +318,16 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
         } else {
             if (a.isVector() || b.isVector()) {
                 if (a.isRowVector() && b.isColumnVector()) {
-                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    dimsC = Dimensions(std::max(dimsA.getMax(), dimsB.getMax()),
+                        std::min(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
                     vector_addition(classDestination, (T*)Cp, (const T*)a.getDataPointer(),
                         dimsA.getElementCount(), (const T*)b.getDataPointer(),
                         dimsB.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
-                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    dimsC = Dimensions(std::max(dimsA.getMax(), dimsB.getMax()),
+                        std::min(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
                     vector_addition<T>(classDestination, (T*)Cp, (const T*)b.getDataPointer(),
@@ -473,8 +483,7 @@ single_plus_single(const ArrayOf& a, const ArrayOf& b)
 ArrayOf
 integer_plus_integer(const ArrayOf& a, const ArrayOf& b)
 {
-    Class classA = a.getDataClass();
-    switch (classA) {
+    switch (a.getDataClass()) {
     case NLS_INT8:
         return addition<int8>(NLS_INT8, a, b);
     case NLS_UINT8:

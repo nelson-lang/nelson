@@ -631,29 +631,25 @@ Evaluator::expression(ASTPtr t)
             if (ticProfiling) {
                 operatorName = "mrdivide";
             }
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mrdivide");
+            retval = rightDivideOperator(t);
         } break;
         case OP_LDIV: {
             if (ticProfiling) {
                 operatorName = "mldivide";
             }
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mldivide");
+            retval = leftDivideOperator(t);
         } break;
         case OP_DOT_RDIV: {
             if (ticProfiling) {
                 operatorName = "rdivide";
             }
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "rdivide");
+            retval = dotRightDivideOperator(t);
         } break;
         case OP_DOT_LDIV: {
             if (ticProfiling) {
                 operatorName = "ldivide";
             }
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "ldivide");
+            retval = dotLeftDivideOperator(t);
         } break;
         case OP_POWER: {
             if (ticProfiling) {

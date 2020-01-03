@@ -178,10 +178,9 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     try {
         buffer = new char[size_t(cpos) + size_t(2)];
         memset(buffer, 0, size_t(cpos) + size_t(2));
-    } catch (const std::bad_alloc& ba) {
+    } catch (const std::bad_alloc&) {
         deleteAstVector(pt);
         resetAstBackupPosition();
-        ba.what();
         fclose(fr);
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);

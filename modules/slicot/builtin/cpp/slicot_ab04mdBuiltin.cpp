@@ -162,8 +162,7 @@ Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int nLhs, const Arr
         ab04md_(TYPE_ptr, N_ptr, M_ptr, P_ptr, ALPHA_ptr, BETA_ptr, A_output_ptr, LDA_ptr,
             B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, D_output_ptr, LDD_ptr, IWORK_ptr,
             DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("ab04md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

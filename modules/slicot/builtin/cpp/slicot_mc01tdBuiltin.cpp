@@ -91,8 +91,7 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(Evaluator* eval, int nLhs, const Arr
     try {
         mc01td_(DICO_ptr, DP_output_ptr, P_ptr, STABLE_output_ptr, NZ_output_ptr, DWORK_ptr,
             IWARN_output_ptr, INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("mc01td function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

@@ -90,8 +90,7 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int nLhs, const Arr
     // CALL EXTERN FUNCTION
     try {
         mb04md_(N_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr, SCALE_output_ptr, INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("mb04md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

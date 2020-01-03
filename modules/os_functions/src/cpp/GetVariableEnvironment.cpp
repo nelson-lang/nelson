@@ -42,8 +42,7 @@ GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defau
     wchar_t* buf = nullptr;
     try {
         buf = new wchar_t[DEFAULT_SIZE_ENV];
-    } catch (const std::bad_alloc& e) {
-        e.what();
+    } catch (const std::bad_alloc&) {
         return str;
     }
     DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, DEFAULT_SIZE_ENV);
@@ -60,8 +59,7 @@ GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defau
         delete[] buf;
         try {
             buf = new wchar_t[dwRet + 1];
-        } catch (const std::bad_alloc& e) {
-            e.what();
+        } catch (const std::bad_alloc&) {
             return str;
         }
         dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, dwRet);
