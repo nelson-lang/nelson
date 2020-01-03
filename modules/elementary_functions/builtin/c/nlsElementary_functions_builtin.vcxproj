@@ -235,6 +235,7 @@
     <ClCompile Include="..\cpp\sortBuiltin.cpp" />
     <ClCompile Include="..\cpp\sqrtBuiltin.cpp" />
     <ClCompile Include="..\cpp\subsindexBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sumBuiltin.cpp" />
     <ClCompile Include="..\cpp\swapbytesBuiltin.cpp" />
     <ClCompile Include="..\cpp\timesBuiltin.cpp" />
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
@@ -337,6 +338,7 @@
     <ClInclude Include="..\include\sortBuiltin.hpp" />
     <ClInclude Include="..\include\sqrtBuiltin.hpp" />
     <ClInclude Include="..\include\subsindexBuiltin.hpp" />
+    <ClInclude Include="..\include\sumBuiltin.hpp" />
     <ClInclude Include="..\include\swapbytesBuiltin.hpp" />
     <ClInclude Include="..\include\timesBuiltin.hpp" />
     <ClInclude Include="..\include\transposeBuiltin.hpp" />

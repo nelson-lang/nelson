@@ -1,5 +1,9 @@
 # 0.4.1 (2020-01-XX)
 
+* rework times and divide operators.
+
+* sum builtin: sum of array elements.
+
 * linspace builtin: linearly spaced vector constructor.
 
 * logspace builtin: logarithmically spaced vectors constructor.

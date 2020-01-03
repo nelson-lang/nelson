@@ -23,28 +23,59 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Prod.hpp"
+#include <algorithm>
+#include "Sum.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
-#include <algorithm>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T>
-void
-RealProdT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
+static void
+signedIntegerSumAsDouble(const int64 *sp, double* dp, size_t planes, size_t planesize, size_t linesize)
 {
     for (size_t i = 0; i < planes; i++) {
         for (size_t j = 0; j < planesize; j++) {
-            T accum = 1;
+            double accum = 0;
+            for (size_t k = 0; k < linesize; k++) {
+                int64 val = sp[i * planesize * linesize + j + k * planesize];
+                accum += val;
+            }
+            dp[i * planesize + j] = accum;
+        }
+    }
+}
+//=============================================================================
+static void
+unsignedIntegerSumAsDouble(
+    const uint64* sp, double* dp, size_t planes, size_t planesize, size_t linesize)
+{
+    for (size_t i = 0; i < planes; i++) {
+        for (size_t j = 0; j < planesize; j++) {
+            double accum = 0;
+            for (size_t k = 0; k < linesize; k++) {
+                uint64 val = sp[i * planesize * linesize + j + k * planesize];
+                accum += val;
+            }
+            dp[i * planesize + j] = accum;
+        }
+    }
+}
+//=============================================================================
+template <class T>
+void
+RealSumT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
+{
+    for (size_t i = 0; i < planes; i++) {
+        for (size_t j = 0; j < planesize; j++) {
+            T accum = 0;
             for (size_t k = 0; k < linesize; k++) {
                 T val = sp[i * planesize * linesize + j + k * planesize];
                 if (!withnan) {
                     if (!std::isnan(val)) {
-                        accum *= val;
+                        accum += val;
                     }
                 } else {
-                    accum *= val;
+                    accum += val;
                 }
             }
             dp[i * planesize + j] = accum;
@@ -54,27 +85,23 @@ RealProdT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, 
 //=============================================================================
 template <class T>
 void
-ComplexProdT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
+ComplexSumT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
 {
     for (size_t i = 0; i < planes; i++) {
         for (size_t j = 0; j < planesize; j++) {
-            T accum_r = 1;
+            T accum_r = 0;
             T accum_i = 0;
             for (size_t k = 0; k < linesize; k++) {
                 T vr = sp[2 * (i * planesize * linesize + j + k * planesize)];
                 T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
                 if (!withnan) {
                     if (!std::isnan(vr) && !std::isnan(vi)) {
-                        T t1 = accum_r * vr - accum_i * vi;
-                        T t2 = accum_r * vi + accum_i * vr;
-                        accum_r = t1;
-                        accum_i = t2;
+                        accum_r = vr;
+                        accum_i = vi;
                     }
                 } else {
-                    T t1 = accum_r * vr - accum_i * vi;
-                    T t2 = accum_r * vi + accum_i * vr;
-                    accum_r = t1;
-                    accum_i = t2;
+                    accum_r = vr;
+                    accum_i = vi;
                 }
             }
             dp[2 * (i * planesize + j)] = accum_r;
@@ -84,18 +111,18 @@ ComplexProdT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesiz
 }
 //=============================================================================
 ArrayOf
-Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
+Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
 {
     ArrayOf res;
     Class classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse() || classA == NLS_CHAR) {
         std::wstring classname;
         ClassName(A, classname);
-        std::wstring msg = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");
+        std::wstring msg = _W("function") + L" " + classname + L"_sum" + L" " + _W("undefined.");
         Error(msg);
     }
     if (A.isEmpty(true) && A.is2D()) {
-        res = ArrayOf::doubleConstructor(1);
+        res = ArrayOf::doubleConstructor(0);
     } else if (A.isScalar()) {
         res = A;
     } else {
@@ -126,48 +153,52 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         switch (classA) {
         case NLS_LOGICAL:
         case NLS_UINT8:
-        case NLS_INT8:
         case NLS_UINT16:
-        case NLS_INT16:
         case NLS_UINT32:
-        case NLS_INT32:
-        case NLS_UINT64:
-        case NLS_INT64: {
-            A.promoteType(NLS_DOUBLE);
+        case NLS_UINT64: {
+            A.promoteType(NLS_UINT64);
             double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
-            RealProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
-                planesize, linesize, false);
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            if (classA != NLS_LOGICAL) {
-                res.promoteType(classA);
-            }
+            unsignedIntegerSumAsDouble(static_cast<const uint64*>(A.getDataPointer()), ptr,
+                planecount, planesize, linesize);
+        } break;
+        case NLS_INT8:
+        case NLS_INT16:
+        case NLS_INT32:
+        case NLS_INT64: {
+            A.promoteType(NLS_INT64);
+            double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
+            res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
+            signedIntegerSumAsDouble(static_cast<const int64*>(A.getDataPointer()), ptr,
+                planecount, planesize, linesize);
         } break;
         case NLS_SINGLE: {
             single* ptr = static_cast<single*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            RealProdT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
+            RealSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DOUBLE: {
             double* ptr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            RealProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
+            RealSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_SCOMPLEX: {
             single* ptr = static_cast<single*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            ComplexProdT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
+            ComplexSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DCOMPLEX: {
             double* ptr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            ComplexProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
+            ComplexSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
@@ -175,7 +206,7 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             std::wstring classname;
             ClassName(A, classname);
             std::wstring msg
-                = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");
+                = _W("function") + L" " + classname + L"_sum" + L" " + _W("undefined.");
             Error(msg);
         } break;
         }

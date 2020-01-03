@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
+    <ClCompile Include="..\cpp\Sum.cpp" />
     <ClCompile Include="..\cpp\SwapBytes.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
     <ClCompile Include="..\cpp\Exponential.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="..\include\StringArrayAddition.hpp" />
     <ClInclude Include="..\include\Subtraction.hpp" />
     <ClInclude Include="..\include\ElementWiseMultiplication.hpp" />
+    <ClInclude Include="..\include\Sum.hpp" />
     <ClInclude Include="..\include\SwapBytes.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
