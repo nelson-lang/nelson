@@ -858,6 +858,21 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
     }
 }
 //=============================================================================
+void
+ArrayOf::changeInPlaceDimensions(const Dimensions& a)
+{
+    if (isClassStruct()) {
+        Error(_W("changeDimensions operation not allowed for overloaded type."));
+    }
+    if (isFunctionHandle()) {
+        Error(_W("changeDimensions operation not allowed for 'function_handle' type."));
+    }
+    if (a.getElementCount() != getLength()) {
+        Error(_W("changeDimensions operation cannot change the number of elements in array."));
+    }
+    dp->dimensions = a;
+}
+//=============================================================================
 /**
  * Get our data class (of type Class).
  */

@@ -31,7 +31,8 @@
 namespace Nelson {
 //=============================================================================
 static void
-signedIntegerSumAsDouble(const int64 *sp, double* dp, size_t planes, size_t planesize, size_t linesize)
+signedIntegerSumAsDouble(
+    const int64* sp, double* dp, size_t planes, size_t planesize, size_t linesize)
 {
     for (size_t i = 0; i < planes; i++) {
         for (size_t j = 0; j < planesize; j++) {
@@ -171,8 +172,8 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            signedIntegerSumAsDouble(static_cast<const int64*>(A.getDataPointer()), ptr,
-                planecount, planesize, linesize);
+            signedIntegerSumAsDouble(static_cast<const int64*>(A.getDataPointer()), ptr, planecount,
+                planesize, linesize);
         } break;
         case NLS_SINGLE: {
             single* ptr = static_cast<single*>(

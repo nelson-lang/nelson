@@ -53,8 +53,10 @@ void
 initializeDefaultWarningIdsList()
 {
     setWarningId(L"all", WARNING_STATE::ENABLED, false);
-    setWarningId(L"Nelson:colon:array-as-scalar", WARNING_STATE::ENABLED, false);
-    setWarningId(L"Nelson:matio:type-not-supported", WARNING_STATE::ENABLED, false);
+    setWarningId(WARNING_COLON_ARRAY_AS_SCALAR, WARNING_STATE::ENABLED, false);
+    setWarningId(WARNING_MATIO_TYPE_NOT_SUPPORTED, WARNING_STATE::ENABLED, false);
+    setWarningId(WARNING_RANK_DEFICIENT_MATRIX, WARNING_STATE::ENABLED, false);
+    setWarningId(WARNING_NEARLY_SINGULAR_MATRIX, WARNING_STATE::ENABLED, false);
 }
 //=============================================================================
 void

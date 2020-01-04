@@ -47,20 +47,20 @@ matrix_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         (T*)b.getDataPointer(), 1, Clen);
     if (isIntegerClass(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
-            matC = matA.cast<long double>()
-                       .cwiseProduct(matB.cast<long double>())
+            matC = matA.template cast<long double>()
+                       .cwiseProduct(matB.template cast<long double>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<long double, T>));
         } else if (mustCastIntegerAsDouble(classDestination)) {
-            matC = matA.cast<double>()
-                       .cwiseProduct(matB.cast<double>())
+            matC = matA.template cast<double>()
+                       .cwiseProduct(matB.template cast<double>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<double, T>));
         } else {
-            matC = matA.cast<single>()
-                       .cwiseProduct(matB.cast<single>())
+            matC = matA.template cast<single>()
+                       .cwiseProduct(matB.template cast<single>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<single, T>));
@@ -102,17 +102,17 @@ scalar_matrix_elementWiseMultiplication(Class classDestination, ArrayOf& a, Arra
     T* ptrA = (T*)a.getDataPointer();
     if (isIntegerClass(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
-            matC = ((long double)ptrA[0] * matB.cast<long double>().array())
+            matC = ((long double)ptrA[0] * matB.template cast<long double>().array())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<long double, T>));
         } else if (mustCastIntegerAsDouble(classDestination)) {
-            matC = ((double)ptrA[0] * matB.cast<double>().array())
+            matC = ((double)ptrA[0] * matB.template cast<double>().array())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<double, T>));
         } else {
-            matC = ((single)ptrA[0] * matB.cast<single>().array())
+            matC = ((single)ptrA[0] * matB.template cast<single>().array())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<single, T>));

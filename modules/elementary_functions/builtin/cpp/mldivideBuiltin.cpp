@@ -37,7 +37,7 @@ Nelson::ElementaryFunctionsGateway::mldivideBuiltin(
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(eval->dotLeftDivideOperator(argIn[0], argIn[1]));
+    retval.push_back(eval->leftDivideOperator(argIn[0], argIn[1]));
     return retval;
 }
 //=============================================================================

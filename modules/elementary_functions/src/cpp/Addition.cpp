@@ -47,17 +47,17 @@ matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
         (T*)b.getDataPointer(), 1, Clen);
     if (isIntegerClass(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
-            matC = (matA.cast<long double>() + matB.cast<long double>())
+            matC = (matA.template cast<long double>() + matB.template cast<long double>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<long double, T>));
         } else if (mustCastIntegerAsDouble(classDestination)) {
-            matC = (matA.cast<double>() + matB.cast<double>())
+            matC = (matA.template cast<double>() + matB.template cast<double>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<double, T>));
         } else {
-            matC = (matA.cast<single>() + matB.cast<single>())
+            matC = (matA.template cast<single>() + matB.template cast<single>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<single, T>));

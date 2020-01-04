@@ -47,20 +47,20 @@ matrix_matrix_dotRightDivide(Class classDestination, const ArrayOf& a, const Arr
         (T*)b.getDataPointer(), 1, Clen);
     if (isIntegerClass(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
-            matC = matA.cast<long double>()
-                       .cwiseQuotient(matB.cast<long double>())
+            matC = matA.template cast<long double>()
+                       .cwiseQuotient(matB.template cast<long double>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<long double, T>));
         } else if (mustCastIntegerAsDouble(classDestination)) {
-            matC = matA.cast<double>()
-                       .cwiseQuotient(matB.cast<double>())
+            matC = matA.template cast<double>()
+                       .cwiseQuotient(matB.template cast<double>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<double, T>));
         } else {
-            matC = matA.cast<single>()
-                       .cwiseQuotient(matB.cast<single>())
+            matC = matA.template cast<single>()
+                       .cwiseQuotient(matB.template cast<single>())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<single, T>));
@@ -101,23 +101,57 @@ scalar_matrix_dotRightDivide(Class classDestination, ArrayOf& a, ArrayOf& b)
     T* ptrA = (T*)a.getDataPointer();
     if (isIntegerClass(classDestination)) {
         if (mustCastIntegerAsLongDouble(classDestination)) {
-            matC = ((long double)ptrA[0] / matB.cast<long double>().array())
+            matC = ((long double)ptrA[0] / matB.template cast<long double>().array())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<long double, T>));
         } else if (mustCastIntegerAsDouble(classDestination)) {
-            matC = ((double)ptrA[0] / matB.cast<double>().array())
+            matC = ((double)ptrA[0] / matB.template cast<double>().array())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<double, T>));
         } else {
-            matC = ((single)ptrA[0] / matB.cast<single>().array())
+            matC = ((single)ptrA[0] / matB.template cast<single>().array())
                        .array()
                        .round()
                        .unaryExpr(std::ref(numeric_cast<single, T>));
         }
     } else {
         matC = ptrA[0] / matB.array();
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_scalar_dotRightDivide(Class classDestination, ArrayOf& a, ArrayOf& b)
+{
+    Dimensions dimsC = a.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen, false);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+        (T*)a.getDataPointer(), 1, Clen);
+    T* ptrB = (T*)b.getDataPointer();
+    if (isIntegerClass(classDestination)) {
+        if (mustCastIntegerAsLongDouble(classDestination)) {
+            matC = (matA.template cast<long double>().array() / (long double)ptrB[0])
+                       .array()
+                       .round()
+                       .unaryExpr(std::ref(numeric_cast<long double, T>));
+        } else if (mustCastIntegerAsDouble(classDestination)) {
+            matC = (matA.template cast<double>().array() / (double)ptrB[0])
+                       .array()
+                       .round()
+                       .unaryExpr(std::ref(numeric_cast<double, T>));
+        } else {
+            matC = (matA.template cast<single>().array() / (single)ptrB[0])
+                       .array()
+                       .round()
+                       .unaryExpr(std::ref(numeric_cast<single, T>));
+        }
+    } else {
+        matC = matA.array() / ptrB[0];
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
@@ -136,6 +170,32 @@ complex_scalar_matrix_dotRightDivide(Class classDestination, ArrayOf& a, ArrayOf
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
     matC = Az[0] / matB.array();
+    if (b.isRowVector()) {
+        indexType r = dimsC.getRows();
+        indexType c = dimsC.getColumns();
+        dimsC[0] = c;
+        dimsC[1] = r;
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+            Cz, c, r);
+        matTransposed = matC.transpose().eval();
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complex_matrix_scalar_dotRightDivide(Class classDestination, ArrayOf& a, ArrayOf& b)
+{
+    Dimensions dimsC = a.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen * 2, false);
+    T* da = (T*)a.getDataPointer();
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(da);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.getDataPointer());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, 1, Clen);
+    matC = matA.array() / Bz[0];
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -201,8 +261,52 @@ vector_matrix_dotRightDivide(Class classDestination, const ArrayOf& a, const Arr
 {
     const T* ptrA = (const T*)a.getDataPointer();
     const T* ptrB = (const T*)b.getDataPointer();
-    indexType q = 0;
     Dimensions dimsC = b.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen, false);
+    T* C = (T*)Cp;
+    if (isIntegerClass(classDestination)) {
+        if (mustCastIntegerAsLongDouble(classDestination)) {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = numeric_cast<long double, T>(
+                        roundl((long double)ptrA[j] / (long double)ptrB[m]));
+                }
+            }
+        } else if (mustCastIntegerAsDouble(classDestination)) {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = numeric_cast<double, T>(round((double)ptrA[j] / (double)ptrB[m]));
+                }
+            }
+        } else {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = numeric_cast<single, T>(roundf((single)ptrA[j] / (single)ptrB[m]));
+                }
+            }
+        }
+    } else {
+        for (indexType i = 0; i < dimsC.getRows(); i++) {
+            for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                indexType m = i + j * b.getDimensions().getRows();
+                C[m] = ptrA[j] / ptrB[m];
+            }
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_vector_dotRightDivide(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    const T* ptrA = (const T*)a.getDataPointer();
+    const T* ptrB = (const T*)b.getDataPointer();
+    Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
@@ -212,34 +316,30 @@ vector_matrix_dotRightDivide(Class classDestination, const ArrayOf& a, const Arr
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
                     indexType m = i + j * a.getDimensions().getRows();
                     C[m] = numeric_cast<long double, T>(
-                        roundl((long double)ptrB[m] / (long double)ptrA[q]));
+                        roundl((long double)ptrA[m] / (long double)ptrB[j]));
                 }
-                q++;
             }
         } else if (mustCastIntegerAsDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
                     indexType m = i + j * a.getDimensions().getRows();
-                    C[m] = numeric_cast<double, T>(round((double)ptrB[m] / (double)ptrA[q]));
+                    C[m] = numeric_cast<double, T>(round((double)ptrA[m] / (double)ptrB[j]));
                 }
-                q++;
             }
         } else {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
                     indexType m = i + j * a.getDimensions().getRows();
-                    C[m] = numeric_cast<single, T>(roundf((single)ptrB[m] / (single)ptrA[q]));
+                    C[m] = numeric_cast<single, T>(roundf((single)ptrA[m] / (single)ptrB[j]));
                 }
-                q++;
             }
         }
     } else {
         for (indexType i = 0; i < dimsC.getRows(); i++) {
             for (indexType j = 0; j < dimsC.getColumns(); j++) {
                 indexType m = i + j * a.getDimensions().getRows();
-                C[m] = ptrB[m] / ptrA[q];
+                C[m] = ptrA[m] / ptrB[j];
             }
-            q++;
         }
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -248,75 +348,6 @@ vector_matrix_dotRightDivide(Class classDestination, const ArrayOf& a, const Arr
 template <class T>
 static ArrayOf
 complex_vector_matrix_dotRightDivide(Class classDestination, const ArrayOf& a, const ArrayOf& b)
-{
-    Dimensions dimsC = b.getDimensions();
-    indexType q = 0;
-    indexType Clen = dimsC.getElementCount();
-    T* ptrA = (T*)a.getDataPointer();
-    T* ptrB = (T*)b.getDataPointer();
-    void* Cp = new_with_exception<T>(Clen * 2, false);
-    T* C = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getRows();
-            Cz[m] = Bz[m] / Az[q];
-        }
-        q++;
-    }
-    return ArrayOf(classDestination, dimsC, Cp, false);
-}
-//=============================================================================
-template <class T>
-static ArrayOf
-vector_column_dotRightDivide(Class classDestination, const ArrayOf& a, const ArrayOf& b)
-{
-    const T* ptrA = (const T*)a.getDataPointer();
-    const T* ptrB = (const T*)b.getDataPointer();
-    Dimensions dimsC = b.getDimensions();
-    indexType Clen = dimsC.getElementCount();
-    void* Cp = new_with_exception<T>(Clen, false);
-    T* C = (T*)Cp;
-    if (isIntegerClass(classDestination)) {
-        if (mustCastIntegerAsLongDouble(classDestination)) {
-            for (indexType i = 0; i < dimsC.getRows(); i++) {
-                for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * b.getDimensions().getRows();
-                    C[m] = numeric_cast<long double, T>(
-                        roundl((long double)ptrB[m] / (long double)ptrA[j]));
-                }
-            }
-        } else if (mustCastIntegerAsDouble(classDestination)) {
-            for (indexType i = 0; i < dimsC.getRows(); i++) {
-                for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * b.getDimensions().getRows();
-                    C[m] = numeric_cast<double, T>(round((double)ptrB[m] / (double)ptrA[j]));
-                }
-            }
-        } else {
-            for (indexType i = 0; i < dimsC.getRows(); i++) {
-                for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * b.getDimensions().getRows();
-                    C[m] = numeric_cast<single, T>(roundf((single)ptrB[m] / (single)ptrA[j]));
-                }
-            }
-        }
-    } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * b.getDimensions().getRows();
-                C[m] = ptrB[m] / ptrA[j];
-            }
-        }
-    }
-    return ArrayOf(classDestination, dimsC, Cp, false);
-}
-//=============================================================================
-template <class T>
-static ArrayOf
-complex_vector_column_dotRightDivide(Class classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     indexType q = 0;
     Dimensions dimsC = b.getDimensions();
@@ -331,7 +362,30 @@ complex_vector_column_dotRightDivide(Class classDestination, const ArrayOf& a, c
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * b.getDimensions().getRows();
-            Cz[m] = Bz[m] / Az[j];
+            Cz[m] = Az[j] / Bz[m];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complex_matrix_vector_dotRightDivide(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    indexType q = 0;
+    Dimensions dimsC = a.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    T* ptrA = (T*)a.getDataPointer();
+    T* ptrB = (T*)b.getDataPointer();
+    void* Cp = new_with_exception<T>(Clen * 2, false);
+    T* C = (T*)Cp;
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * a.getDimensions().getRows();
+            Cz[m] = Az[m] / Bz[j];
         }
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -387,7 +441,7 @@ dotRightDivide(Class classDestination, ArrayOf a, ArrayOf b)
                 return scalar_matrix_dotRightDivide<T>(classDestination, a, b);
             } else {
                 // b.isScalar()
-                return scalar_matrix_dotRightDivide<T>(classDestination, b, a);
+                return matrix_scalar_dotRightDivide<T>(classDestination, a, b);
             }
         } else {
             if (a.isVector() || b.isVector()) {
@@ -411,17 +465,13 @@ dotRightDivide(Class classDestination, ArrayOf a, ArrayOf b)
                     || (a.isColumnVector() && b.isColumnVector())) {
                     Error(_W("Size mismatch on arguments to arithmetic operator ") + L"./");
                 } else {
-                    if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
+                    bool supportedSize
+                        = ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) || (dimsA[1] == dimsB[1]);
+                    if (supportedSize) {
                         if (a.isVector()) {
                             return vector_matrix_dotRightDivide<T>(classDestination, a, b);
                         } else {
-                            return vector_matrix_dotRightDivide<T>(classDestination, b, a);
-                        }
-                    } else if (dimsA[1] == dimsB[1]) {
-                        if (a.isVector()) {
-                            return vector_column_dotRightDivide<T>(classDestination, a, b);
-                        } else {
-                            return vector_column_dotRightDivide<T>(classDestination, b, a);
+                            return matrix_vector_dotRightDivide<T>(classDestination, a, b);
                         }
                     } else {
                         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"./");
@@ -479,7 +529,7 @@ complex_dotRightDivide(Class classDestination, ArrayOf a, ArrayOf b)
                 return complex_scalar_matrix_dotRightDivide<T>(classDestination, a, b);
             } else {
                 // b.isScalar()
-                return complex_scalar_matrix_dotRightDivide<T>(classDestination, b, a);
+                return complex_matrix_scalar_dotRightDivide<T>(classDestination, a, b);
             }
         } else {
             if (a.isVector() || b.isVector()) {
@@ -503,18 +553,13 @@ complex_dotRightDivide(Class classDestination, ArrayOf a, ArrayOf b)
                 } else {
                     T* ptrA = (T*)a.getDataPointer();
                     T* ptrB = (T*)b.getDataPointer();
-
-                    if (dimsA[0] == dimsB[0]) {
+                    bool supportedSize
+                        = ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) || (dimsA[1] == dimsB[1]);
+                    if (supportedSize) {
                         if (a.isVector()) {
                             return complex_vector_matrix_dotRightDivide<T>(classDestination, a, b);
                         } else {
-                            return complex_vector_matrix_dotRightDivide<T>(classDestination, b, a);
-                        }
-                    } else if (dimsA[1] == dimsB[1]) {
-                        if (a.isVector()) {
-                            return complex_vector_column_dotRightDivide<T>(classDestination, a, b);
-                        } else {
-                            return complex_vector_column_dotRightDivide<T>(classDestination, b, a);
+                            return complex_matrix_vector_dotRightDivide<T>(classDestination, a, b);
                         }
                     } else {
                         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"./");

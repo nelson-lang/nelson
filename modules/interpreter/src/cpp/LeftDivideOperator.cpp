@@ -50,7 +50,7 @@ Evaluator::leftDivideOperator(ArrayOf A, ArrayOf B)
     }
     if (!bSuccess) {
         bool needToOverload = false;
-        // res = matrixMultiplication(A, B, needToOverload);
+        res = LeftDivide(A, B, needToOverload);
         if (needToOverload) {
             res = OverloadBinaryOperator(this, A, B, "mldivide");
         }

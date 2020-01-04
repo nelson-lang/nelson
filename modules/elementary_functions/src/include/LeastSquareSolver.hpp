@@ -26,22 +26,32 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "nlsError_manager_exports.h"
-#include "WarningIds.hpp"
+#include <complex>
+#include "nlsElementary_functions_exports.h"
+#include "Types.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(const std::wstring& id, const std::wstring& message);
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareDouble(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(const std::wstring& message);
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareDoubleComplex(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(const std::string& id, const std::string& message);
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareSingle(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(const std::string& message);
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareSingleComplex(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================
