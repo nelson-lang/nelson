@@ -255,6 +255,9 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\AdditionComplex.hpp" />
+    <ClInclude Include="..\cpp\AdditionInteger.hpp" />
+    <ClInclude Include="..\cpp\AdditionReal.hpp" />
     <ClInclude Include="..\cpp\SortCellHelpers.hpp" />
     <ClInclude Include="..\cpp\SortComplexHelpers.hpp" />
     <ClInclude Include="..\cpp\SortHelpers.hpp" />
