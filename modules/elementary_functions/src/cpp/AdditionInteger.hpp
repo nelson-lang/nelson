@@ -41,25 +41,12 @@ scalar_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+
     T* ptrA = (T*)A.getDataPointer();
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)B.getDataPointer(), 1, Clen);
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        matC = (matB.template cast<long double>().array() + (long double)ptrA[0])
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<long double, T>));
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        matC = (matB.template cast<double>().array() + (double)ptrA[0])
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<double, T>));
-    } else {
-        matC = (matB.template cast<single>().array() + (single)ptrA[0])
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<single, T>));
+    T* ptrB = (T*)B.getDataPointer();
+    T* ptrC = (T*)res.getDataPointer();
+    for (indexType k = 0; k < dimsC.getElementCount(); ++k) {
+        ptrC[k] = scalar_scalar_integer_addition(ptrA[0], ptrB[k]);
     }
     return res;
 }
@@ -73,25 +60,11 @@ matrix_scalar_integer_addition(Class classDestination, const ArrayOf& A, const A
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), 1, Clen);
+    T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        matC = (matA.template cast<long double>().array() + (long double)ptrB[0])
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<long double, T>));
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        matC = (matA.template cast<double>().array() + (double)ptrB[0])
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<double, T>));
-    } else {
-        matC = (matA.template cast<single>().array() + (single)ptrB[0])
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<single, T>));
+    T* ptrC = (T*)res.getDataPointer();
+    for (indexType k = 0; k < dimsC.getElementCount(); ++k) {
+        ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[0]);
     }
     return res;
 }
@@ -105,26 +78,11 @@ matrix_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)B.getDataPointer(), 1, Clen);
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        matC = (matA.template cast<long double>() + matB.template cast<long double>())
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<long double, T>));
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        matC = (matA.template cast<double>() + matB.template cast<double>())
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<double, T>));
-    } else {
-        matC = (matA.template cast<single>() + matB.template cast<single>())
-                   .array()
-                   .round()
-                   .unaryExpr(std::ref(numeric_cast<single, T>));
+    T* ptrA = (T*)A.getDataPointer();
+    T* ptrB = (T*)B.getDataPointer();
+    T* ptrC = (T*)res.getDataPointer();
+    for (indexType k = 0; k < dimsC.getElementCount(); ++k) {
+        ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[k]);
     }
     return res;
 }
@@ -145,31 +103,12 @@ row_matrix_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)res.getDataPointer();
     indexType q = 0;
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsA.getRows();
-                ptrC[m] = numeric_cast<long double, T>(
-                    roundl((long double)ptrA[q] + (long double)ptrB[m]));
-            }
-            q++;
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * dimsA.getRows();
+            ptrC[m] = scalar_scalar_integer_addition(ptrA[q], ptrB[m]);
         }
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsA.getRows();
-                ptrC[m] = numeric_cast<double, T>(round((double)ptrA[q] + (double)ptrB[m]));
-            }
-            q++;
-        }
-    } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsA.getRows();
-                ptrC[m] = numeric_cast<single, T>(roundf((single)ptrA[q] + (single)ptrB[m]));
-            }
-            q++;
-        }
+        q++;
     }
     return res;
 }
@@ -188,28 +127,10 @@ column_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)res.getDataPointer();
-
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsB.getRows();
-                ptrC[m] = numeric_cast<long double, T>(
-                    roundl((long double)ptrA[j] + (long double)ptrB[m]));
-            }
-        }
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsB.getRows();
-                ptrC[m] = numeric_cast<double, T>(round((double)ptrA[j] + (double)ptrB[m]));
-            }
-        }
-    } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsB.getRows();
-                ptrC[m] = numeric_cast<single, T>(roundf((single)ptrA[j] + (single)ptrB[m]));
-            }
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * dimsB.getRows();
+            ptrC[m] = scalar_scalar_integer_addition(ptrA[j], ptrB[m]);
         }
     }
     return res;
@@ -232,32 +153,12 @@ matrix_row_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     T* ptrC = (T*)res.getDataPointer();
 
     indexType q = 0;
-
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsB.getRows();
-                ptrC[m] = numeric_cast<long double, T>(
-                    roundl((long double)ptrA[m] + (long double)ptrB[q]));
-            }
-            q++;
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * dimsB.getRows();
+            ptrC[m] = scalar_scalar_integer_addition(ptrA[m], ptrB[q]);
         }
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsB.getRows();
-                ptrC[m] = numeric_cast<double, T>(round((double)ptrA[m] + (double)ptrB[q]));
-            }
-            q++;
-        }
-    } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsB.getRows();
-                ptrC[m] = numeric_cast<single, T>(roundf((single)ptrA[m] + (single)ptrB[q]));
-            }
-            q++;
-        }
+        q++;
     }
     return res;
 }
@@ -277,30 +178,12 @@ matrix_column_integer_addition(Class classDestination, const ArrayOf& A, const A
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)res.getDataPointer();
 
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsA.getRows();
-                ptrC[m] = numeric_cast<long double, T>(
-                    roundl((long double)ptrA[m] + (long double)ptrB[j]));
-            }
-        }
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsA.getRows();
-                ptrC[m] = numeric_cast<double, T>(round((double)ptrA[m] + (double)ptrB[j]));
-            }
-        }
-    } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * dimsA.getRows();
-                ptrC[m] = numeric_cast<single, T>(roundf((single)ptrA[m] + (single)ptrB[j]));
-            }
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * dimsA.getRows();
+            ptrC[m] = scalar_scalar_integer_addition(ptrA[m], ptrB[j]);
         }
     }
-
     return res;
 }
 //=============================================================================
@@ -320,33 +203,13 @@ row_column_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)res.getDataPointer();
-
     indexType m = 0;
-
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        for (indexType i = 0; i < dimsA.getColumns(); i++) {
-            for (indexType j = 0; j < dimsB.getRows(); j++) {
-                ptrC[m] = numeric_cast<long double, T>(
-                    roundl((long double)ptrA[i] + (long double)ptrB[j]));
-                m++;
-            }
-        }
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        for (indexType i = 0; i < dimsA.getColumns(); i++) {
-            for (indexType j = 0; j < dimsB.getRows(); j++) {
-                ptrC[m] = numeric_cast<long double, T>(round((double)ptrA[i] + (double)ptrB[j]));
-                m++;
-            }
-        }
-    } else {
-        for (indexType i = 0; i < dimsA.getColumns(); i++) {
-            for (indexType j = 0; j < dimsB.getRows(); j++) {
-                ptrC[m] = numeric_cast<single, T>(roundf((single)ptrA[i] + (single)ptrB[j]));
-                m++;
-            }
+    for (indexType i = 0; i < dimsA.getColumns(); i++) {
+        for (indexType j = 0; j < dimsB.getRows(); j++) {
+            ptrC[m] = scalar_scalar_integer_addition(ptrA[i], ptrB[j]);
+            m++;
         }
     }
-
     return res;
 }
 //=============================================================================
@@ -368,27 +231,10 @@ column_row_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     T* ptrC = (T*)res.getDataPointer();
 
     indexType m = 0;
-    if (mustCastIntegerAsLongDouble(classDestination)) {
-        for (indexType i = 0; i < dimsB.getElementCount(); i++) {
-            for (indexType j = 0; j < dimsA.getElementCount(); j++) {
-                ptrC[m] = numeric_cast<long double, T>(
-                    roundl((long double)ptrA[j] + (long double)ptrB[i]));
-                m++;
-            }
-        }
-    } else if (mustCastIntegerAsDouble(classDestination)) {
-        for (indexType i = 0; i < dimsB.getElementCount(); i++) {
-            for (indexType j = 0; j < dimsA.getElementCount(); j++) {
-                ptrC[m] = numeric_cast<double, T>(round((double)ptrA[j] + (double)ptrB[i]));
-                m++;
-            }
-        }
-    } else {
-        for (indexType i = 0; i < dimsB.getElementCount(); i++) {
-            for (indexType j = 0; j < dimsA.getElementCount(); j++) {
-                ptrC[m] = numeric_cast<single, T>(roundf((single)ptrA[j] + (single)ptrB[i]));
-                m++;
-            }
+    for (indexType i = 0; i < dimsB.getElementCount(); i++) {
+        for (indexType j = 0; j < dimsA.getElementCount(); j++) {
+            ptrC[m] = scalar_scalar_integer_addition(ptrA[j], ptrB[i]);
+            m++;
         }
     }
 

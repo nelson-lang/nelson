@@ -50,7 +50,7 @@ scalar_matrix_complex_addition(Class classDestination, const ArrayOf& A, const A
         (std::complex<T>*)Cz, 1, Clen);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (std::complex<T>*)Bz, 1, Clen);
-    matC = matB.array() + Az[0];
+    matC = Az[0] + matB.array();
     return res;
 }
 //=============================================================================

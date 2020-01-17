@@ -33,7 +33,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-scalar_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+scalar_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -44,13 +44,13 @@ scalar_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     T* ptrA = (T*)A.getDataPointer();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)B.getDataPointer(), 1, Clen);
-    matC = ptrA[0] + matB.array();
+    matC = ptrA[0] - matB.array();
     return res;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_scalar_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_scalar_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -61,13 +61,13 @@ matrix_scalar_real_addition(Class classDestination, const ArrayOf& A, const Arra
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), 1, Clen);
     T* ptrB = (T*)B.getDataPointer();
-    matC = matA.array() + ptrB[0];
+    matC = matA.array() - ptrB[0];
     return res;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -79,13 +79,13 @@ matrix_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
         (T*)A.getDataPointer(), 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)B.getDataPointer(), 1, Clen);
-    matC = matA + matB;
+    matC = matA - matB;
     return res;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+row_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -102,7 +102,7 @@ row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
-            ptrC[m] = ptrA[q] + ptrB[m];
+            ptrC[m] = ptrA[q] - ptrB[m];
         }
         q++;
     }
@@ -111,7 +111,7 @@ row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
 //=============================================================================
 template <class T>
 ArrayOf
-column_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+column_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -126,7 +126,7 @@ column_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
-            ptrC[m] = ptrA[j] + ptrB[m];
+            ptrC[m] = ptrA[j] - ptrB[m];
         }
     }
     return res;
@@ -134,7 +134,7 @@ column_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_row_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -152,7 +152,7 @@ matrix_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
-            ptrC[m] = ptrA[m] + ptrB[q];
+            ptrC[m] = ptrA[m] - ptrB[q];
         }
         q++;
     }
@@ -161,7 +161,7 @@ matrix_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_column_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -176,7 +176,7 @@ matrix_column_real_addition(Class classDestination, const ArrayOf& A, const Arra
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
-            ptrC[m] = ptrA[m] + ptrB[j];
+            ptrC[m] = ptrA[m] - ptrB[j];
         }
     }
     return res;
@@ -184,7 +184,7 @@ matrix_column_real_addition(Class classDestination, const ArrayOf& A, const Arra
 //=============================================================================
 template <class T>
 ArrayOf
-row_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+row_column_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -202,7 +202,7 @@ row_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     indexType m = 0;
     for (indexType i = 0; i < dimsA.getColumns(); i++) {
         for (indexType j = 0; j < dimsB.getRows(); j++) {
-            ptrC[m] = ptrA[i] + ptrB[j];
+            ptrC[m] = ptrA[i] - ptrB[j];
             m++;
         }
     }
@@ -211,7 +211,7 @@ row_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
 //=============================================================================
 template <class T>
 ArrayOf
-column_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+column_row_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -229,7 +229,7 @@ column_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     indexType m = 0;
     for (indexType i = 0; i < dimsB.getElementCount(); i++) {
         for (indexType j = 0; j < dimsA.getElementCount(); j++) {
-            ptrC[m] = ptrA[j] + ptrB[i];
+            ptrC[m] = ptrA[j] - ptrB[i];
             m++;
         }
     }
@@ -238,7 +238,7 @@ column_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
 //=============================================================================
 template <class T>
 ArrayOf
-real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -249,52 +249,52 @@ real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
         // A.isColumnVector() && B.isColumnVector() with same size
         // A.isScalar() && B.isScalar() with same size
         // A.isMatrix() && B.isMatrix() with same size
-        res = matrix_matrix_real_addition<T>(classDestination, A, B);
+        res = matrix_matrix_real_subtraction<T>(classDestination, A, B);
     } else {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
-                res = scalar_matrix_real_addition<T>(classDestination, A, B);
+                res = scalar_matrix_real_subtraction<T>(classDestination, A, B);
             } else {
-                res = matrix_scalar_real_addition<T>(classDestination, A, B);
+                res = matrix_scalar_real_subtraction<T>(classDestination, A, B);
             }
         } else {
             if (A.isVector() || B.isVector()) {
                 if ((A.isRowVector() && B.isRowVector())
                     || (A.isColumnVector() && B.isColumnVector())) {
-                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                 } else if (A.isRowVector() && B.isColumnVector()) {
-                    res = row_column_real_addition<T>(classDestination, A, B);
+                    res = row_column_real_subtraction<T>(classDestination, A, B);
                 } else if (A.isColumnVector() && B.isRowVector()) {
-                    res = column_row_real_addition<T>(classDestination, A, B);
+                    res = column_row_real_subtraction<T>(classDestination, A, B);
                 } else if (dimsA.getRows() == dimsB.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                         }
-                        res = row_matrix_real_addition<T>(classDestination, A, B);
+                        res = row_matrix_real_subtraction<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                         }
-                        res = matrix_row_real_addition<T>(classDestination, A, B);
+                        res = matrix_row_real_subtraction<T>(classDestination, A, B);
                     }
                 } else if (dimsA.getColumns() == dimsB.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                         }
-                        res = column_matrix_real_addition<T>(classDestination, A, B);
+                        res = column_matrix_real_subtraction<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                         }
-                        res = matrix_column_real_addition<T>(classDestination, A, B);
+                        res = matrix_column_real_subtraction<T>(classDestination, A, B);
                     }
                 } else {
-                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                 }
             } else {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
             }
         }
     }

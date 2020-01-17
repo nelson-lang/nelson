@@ -264,6 +264,9 @@
     <ClInclude Include="..\cpp\SortIntegerHelpers.hpp" />
     <ClInclude Include="..\cpp\SortRealHelpers.hpp" />
     <ClInclude Include="..\cpp\SortStringHelpers.hpp" />
+    <ClInclude Include="..\cpp\SubtractionComplex.hpp" />
+    <ClInclude Include="..\cpp\SubtractionInteger.hpp" />
+    <ClInclude Include="..\cpp\SubtractionReal.hpp" />
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
     <ClInclude Include="..\include\Addition.hpp" />
     <ClInclude Include="..\include\All.hpp" />
