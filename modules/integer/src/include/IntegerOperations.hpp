@@ -150,6 +150,26 @@ scalar_scalar_integer_subtraction(T a, T b)
 //=============================================================================
 template <class T>
 T
+scalar_scalar_integer_divide(T a, T b)
+{
+    if (b == 0) {
+        if (a > 0) {
+            return std::numeric_limits<T>::max();
+        } else {
+            return std::numeric_limits<T>::min();
+        }
+    }
+    if (a == std::numeric_limits<T>::min() && b == -1) {
+        return std::numeric_limits<T>::max();
+    }
+    if (a == std::numeric_limits<T>::max() && b == -1) {
+        return std::numeric_limits<T>::min();
+    }
+    return numeric_cast<long double, T>(roundl((long double)a / (long double)b));
+}
+//=============================================================================
+template <class T>
+T
 scalarInteger_times_scalarInteger(T a, T b)
 {
     if (std::is_signed<T>()) {
@@ -187,26 +207,6 @@ scalarInteger_times_scalarInteger(T a, T b)
         return std::numeric_limits<T>::min();
     }
     return (T)(a * b);
-}
-//=============================================================================
-template <class T>
-T
-scalarInteger_division_scalarInteger(T a, T b)
-{
-    if (b == 0) {
-        if (a > 0) {
-            return std::numeric_limits<T>::max();
-        } else {
-            return std::numeric_limits<T>::min();
-        }
-    }
-    if (a == std::numeric_limits<T>::min() && b == -1) {
-        return std::numeric_limits<T>::max();
-    }
-    if (a == std::numeric_limits<T>::max() && b == -1) {
-        return std::numeric_limits<T>::min();
-    }
-    return (T)(a / b);
 }
 //=============================================================================
 } // namespace Nelson
