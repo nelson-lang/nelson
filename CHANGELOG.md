@@ -1,6 +1,6 @@
 # 0.4.1 (2020-01-XX)
 
-* rework times and divide operators.
+* rework times, divide, addition, subtraction operators.
 
 * sum builtin: sum of array elements.
 

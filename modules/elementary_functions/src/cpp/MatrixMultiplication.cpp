@@ -119,11 +119,11 @@ integer_mtimes(ArrayOf& A, ArrayOf& B)
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
         for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
-            ptrC[k] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[k]);
+            ptrC[k] = scalar_scalar_integer_times(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
         for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-            ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[0]);
+            ptrC[k] = scalar_scalar_integer_times(ptrA[k], ptrB[0]);
         }
     } else {
         Error(_W("At least one input argument must be scalar."));
@@ -287,7 +287,7 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
         size_t nA = dimsA.getColumns();
         if (mA == nA) {
             if (B.isScalar()) {
-                // [] + X returns []
+                // [] * X returns []
                 return ArrayOf(B.getDataClass());
             } else {
                 Error(_W("using operator '*' \n Matrix dimensions must agree."));
@@ -368,7 +368,7 @@ integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
         size_t nA = dimsA.getColumns();
         if (mA == nA) {
             if (B.isScalar()) {
-                // [] + X returns []
+                // [] * X returns []
                 return ArrayOf(B.getDataClass());
             } else {
                 Error(_W("using operator '*' \n Matrix dimensions must agree."));

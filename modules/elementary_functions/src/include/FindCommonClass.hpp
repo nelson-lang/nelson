@@ -26,14 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * Element-wise divide of two arrays
- */
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
-} // namespace Nelson
+Class
+FindCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+//=============================================================================
+}
 //=============================================================================

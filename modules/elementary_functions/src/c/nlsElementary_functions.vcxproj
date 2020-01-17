@@ -189,6 +189,7 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
+    <ClCompile Include="..\cpp\FindCommonClass.cpp" />
     <ClCompile Include="..\cpp\LeastSquareSolver.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -258,6 +259,9 @@
     <ClInclude Include="..\cpp\AdditionComplex.hpp" />
     <ClInclude Include="..\cpp\AdditionInteger.hpp" />
     <ClInclude Include="..\cpp\AdditionReal.hpp" />
+    <ClInclude Include="..\cpp\DotRightDivideComplex.hpp" />
+    <ClInclude Include="..\cpp\DotRightDivideInteger.hpp" />
+    <ClInclude Include="..\cpp\DotRightDivideReal.hpp" />
     <ClInclude Include="..\cpp\SortCellHelpers.hpp" />
     <ClInclude Include="..\cpp\SortComplexHelpers.hpp" />
     <ClInclude Include="..\cpp\SortHelpers.hpp" />
@@ -286,6 +290,7 @@
     <ClInclude Include="..\include\DotRightDivide.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\Exponential.hpp" />
+    <ClInclude Include="..\include\FindCommonClass.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
     <ClInclude Include="..\include\HorzCat.hpp" />
