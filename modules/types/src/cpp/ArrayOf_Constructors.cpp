@@ -108,17 +108,11 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
     indexType i = 0;
     indexType dstIndex = 0;
     if (diagonalOrder < 0) {
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (i = 0; i < length; i++) {
             dstIndex = -diagonalOrder + i * (M + 1);
             src.copyElements(i, rp, dstIndex, 1);
         }
     } else {
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (i = 0; i < length; i++) {
             dstIndex = diagonalOrder * M + i * (M + 1);
             src.copyElements(i, rp, dstIndex, 1);

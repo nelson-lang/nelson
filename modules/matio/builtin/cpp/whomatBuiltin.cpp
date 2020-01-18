@@ -40,7 +40,7 @@ Nelson::MatioGateway::whomatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     std::wstring filename = argIn[0].getContentAsWideString();
     wstringVector names;
-    for (indexType k = 1; k < argIn.size(); k++) {
+    for (indexType k = 1; k < (indexType)argIn.size(); k++) {
         names.push_back(argIn[k].getContentAsWideString());
     }
     Interface* io = eval->getInterface();

@@ -38,9 +38,6 @@ ArrayOfDoubleToChar(const ArrayOf& A)
     std::wstring res;
     res.reserve(A.getLength());
     auto* pDouble = (double*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
     for (indexType k = 0; k < A.getLength(); k++) {
         double v = pDouble[k];
         if (IsFinite(v)) {

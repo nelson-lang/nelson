@@ -98,7 +98,6 @@
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,7 +116,6 @@
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,7 +136,6 @@
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,7 +158,6 @@
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

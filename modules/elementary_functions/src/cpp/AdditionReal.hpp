@@ -25,6 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
@@ -40,11 +41,20 @@ scalar_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
     T* ptrA = (T*)A.getDataPointer();
+#if defined(__NLS_WITH_OPENMP)
+    T* ptrB = (T*)B.getDataPointer();
+    T* ptrC = (T*)Cp;
+#pragma omp parallel for
+    for (indexType k = 0; k < Clen; ++k) {
+        ptrC[k] = ptrA[0] + ptrB[k];
+    }
+#else
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)B.getDataPointer(), 1, Clen);
     matC = ptrA[0] + matB.array();
+#endif
     return res;
 }
 //=============================================================================
@@ -57,11 +67,21 @@ matrix_scalar_real_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
+#if defined(__NLS_WITH_OPENMP)
+    T* ptrA = (T*)A.getDataPointer();
+    T* ptrB = (T*)B.getDataPointer();
+    T* ptrC = (T*)Cp;
+#pragma omp parallel for
+    for (indexType k = 0; k < Clen; ++k) {
+        ptrC[k] = ptrA[k] + ptrB[0];
+    }
+#else
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), 1, Clen);
     T* ptrB = (T*)B.getDataPointer();
     matC = matA.array() + ptrB[0];
+#endif
     return res;
 }
 //=============================================================================
@@ -74,12 +94,22 @@ matrix_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
+#if defined(__NLS_WITH_OPENMP)
+    T* ptrA = (T*)A.getDataPointer();
+    T* ptrB = (T*)B.getDataPointer();
+    T* ptrC = (T*)Cp;
+#pragma omp parallel for
+    for (indexType k = 0; k < Clen; ++k) {
+        ptrC[k] = ptrA[k] + ptrB[k];
+    }
+#else
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)B.getDataPointer(), 1, Clen);
     matC = matA + matB;
+#endif
     return res;
 }
 //=============================================================================
@@ -97,7 +127,7 @@ row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
 
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -122,7 +152,7 @@ column_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
@@ -146,7 +176,7 @@ matrix_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
 
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
@@ -172,7 +202,7 @@ matrix_column_real_addition(Class classDestination, const ArrayOf& A, const Arra
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
@@ -197,7 +227,7 @@ row_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
 
     indexType m = 0;
     for (indexType i = 0; i < dimsA.getColumns(); i++) {
@@ -224,7 +254,7 @@ column_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
 
     indexType m = 0;
     for (indexType i = 0; i < dimsB.getElementCount(); i++) {

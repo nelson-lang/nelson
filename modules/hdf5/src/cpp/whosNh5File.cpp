@@ -187,7 +187,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             nestingArray.reserve(dims[0]);
             persistentArray.reserve(dims[0]);
 
-            for (indexType i = 0; i < _names.size(); ++i) {
+            for (indexType i = 0; i < (indexType)_names.size(); ++i) {
                 nameArray.push_back(ArrayOf::characterArrayConstructor(_names[i]));
                 ArrayOf s = ArrayOf::doubleVectorConstructor(_size[i].getLength());
                 double* ptrDouble = (double*)s.getDataPointer();
@@ -229,7 +229,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             ssLine << std::endl;
             ssLine << std::endl;
             io->outputMessage(ssLine.str());
-            for (indexType i = 0; i < _names.size(); ++i) {
+            for (indexType i = 0; i < (indexType)_names.size(); ++i) {
                 ssLine.str("");
 
                 std::string bytes = std::isnan(_bytes[i]) ? "-" : std::to_string((int)_bytes[i]);

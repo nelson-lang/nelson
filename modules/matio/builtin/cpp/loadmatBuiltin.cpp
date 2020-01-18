@@ -40,7 +40,7 @@ Nelson::MatioGateway::loadmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     std::wstring filename = argIn[0].getContentAsWideString();
     wstringVector names;
-    for (indexType k = 1; k < argIn.size(); k++) {
+    for (indexType k = 1; k < (indexType)argIn.size(); k++) {
         names.push_back(argIn[k].getContentAsWideString());
     }
     ArrayOf st = LoadMatioFile(eval, filename, names, nLhs == 1);

@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include <algorithm>
 #include "Atan2.hpp"
 #include "ArrayOf.hpp"
@@ -42,6 +43,9 @@ matrix_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* C = (T*)Cp;
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
     for (indexType k = 0; k < Clen; k++) {
         C[k] = atan2(ptrA[k], ptrB[k]);
     }
@@ -58,6 +62,9 @@ scalar_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
     for (indexType k = 0; k < Clen; k++) {
         ptrC[k] = atan2(ptrA[0], ptrB[k]);
     }
@@ -74,6 +81,9 @@ matrix_scalar_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
     for (indexType k = 0; k < Clen; k++) {
         ptrC[k] = atan2(ptrA[k], ptrB[0]);
     }

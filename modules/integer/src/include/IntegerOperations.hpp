@@ -170,7 +170,7 @@ scalar_scalar_integer_divide(T a, T b)
 //=============================================================================
 template <class T>
 T
-scalar_scalar_integer_divide(T a, T b)
+scalar_scalar_integer_times(T a, T b)
 {
     if (std::is_signed<T>()) {
         if (a > 0 && b > 0 && a > std::numeric_limits<T>::max() / b) {

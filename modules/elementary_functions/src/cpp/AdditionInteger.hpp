@@ -25,6 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
@@ -44,8 +45,11 @@ scalar_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
 
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-    for (indexType k = 0; k < dimsC.getElementCount(); ++k) {
+    T* ptrC = (T*)Cp;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (indexType k = 0; k < Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[0], ptrB[k]);
     }
     return res;
@@ -62,8 +66,11 @@ matrix_scalar_integer_addition(Class classDestination, const ArrayOf& A, const A
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-    for (indexType k = 0; k < dimsC.getElementCount(); ++k) {
+    T* ptrC = (T*)Cp;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (indexType k = 0; k < Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[0]);
     }
     return res;
@@ -80,8 +87,11 @@ matrix_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-    for (indexType k = 0; k < dimsC.getElementCount(); ++k) {
+    T* ptrC = (T*)Cp;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (indexType k = 0; k < Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[k]);
     }
     return res;
@@ -101,7 +111,7 @@ row_matrix_integer_addition(Class classDestination, const ArrayOf& A, const Arra
 
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -126,7 +136,7 @@ column_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
@@ -150,7 +160,7 @@ matrix_row_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
 
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
@@ -176,7 +186,7 @@ matrix_column_integer_addition(Class classDestination, const ArrayOf& A, const A
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -202,7 +212,7 @@ row_column_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrC = (T*)Cp;
     indexType m = 0;
     for (indexType i = 0; i < dimsA.getColumns(); i++) {
         for (indexType j = 0; j < dimsB.getRows(); j++) {
@@ -228,8 +238,7 @@ column_row_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-
+    T* ptrC = (T*)Cp;
     indexType m = 0;
     for (indexType i = 0; i < dimsB.getElementCount(); i++) {
         for (indexType j = 0; j < dimsA.getElementCount(); j++) {
@@ -237,7 +246,6 @@ column_row_integer_addition(Class classDestination, const ArrayOf& A, const Arra
             m++;
         }
     }
-
     return res;
 }
 //=============================================================================

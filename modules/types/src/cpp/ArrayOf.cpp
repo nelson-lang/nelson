@@ -156,11 +156,10 @@ ArrayOf::toOrdinalType()
         const logical* rp = (const logical*)dp->getData();
         int indexCount = 0;
         indexType len = getLength();
-        indexType i = 0;
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (i = 0; i < len; i++)
+        for (indexType i = 0; i < len; i++)
             if (rp[i] != 0) {
                 indexCount++;
             }
@@ -170,7 +169,7 @@ ArrayOf::toOrdinalType()
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (i = 0; i < len; i++)
+        for (indexType i = 0; i < len; i++)
             if (rp[i] != 0) {
                 *qp++ = (indexType)(i + 1);
             }
@@ -1445,7 +1444,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
     // field structures, but have to be rearranged.
     if (dp->dataClass == NLS_STRUCT_ARRAY)
         if (dstClass == NLS_STRUCT_ARRAY) {
-            // TODO(mcallan): Generalize this code to allow for one more field in destination
+            // TODO: Generalize this code to allow for one more field in destination
             // than in source...
             if (dp->fieldNames.size() > fNames.size()) {
                 Error(_W("Cannot combine structures with different fields if the "
@@ -1459,9 +1458,6 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             int extraCount = 0;
             int matchCount = 0;
             indexType i;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
             for (i = 0; i < (int)fNames.size(); i++) {
                 int64 ndx = getFieldIndex(fNames[i]);
                 if (ndx == -1) {

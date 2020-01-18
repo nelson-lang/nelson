@@ -48,7 +48,7 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
-    for (indexType i = 0; i < dimsC.getElementCount(); i++) {
+    for (indexType i = 0; i < Clen; i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
             Cp[i] = (*stringRelationOperator)(classA, ptrA, ptrB, i, i);

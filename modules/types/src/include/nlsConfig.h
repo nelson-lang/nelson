@@ -25,10 +25,8 @@
 //=============================================================================
 #pragma once
 
-#ifdef __INTEL_COMPILER
 #if defined(_OPENMP)
-#define __NLS_WITH_OPENMP
-#endif
+//#define __NLS_WITH_OPENMP
 #endif
 
 #if (defined(_LP64) || defined(_WIN64))

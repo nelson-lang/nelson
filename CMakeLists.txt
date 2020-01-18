@@ -351,11 +351,17 @@ FIND_PACKAGE(HDF5 REQUIRED)
 FIND_PACKAGE(ZLIB REQUIRED)
 FIND_PACKAGE(CURL REQUIRED)
 FIND_PACKAGE(Libgit2 REQUIRED)
+FIND_PACKAGE(OpenMP REQUIRED)
 #==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   FIND_PACKAGE(LAPACKE REQUIRED)
 ENDIF()
 #==============================================================================
+IF(OPENMP_FOUND)
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+ENDIF()
+#==============================================================================  
 FIND_PACKAGE(MATIO REQUIRED)
 if(MATIO_FOUND)
     message(STATUS "Found Matio lib: ${MATIO_LIBRARIES}")

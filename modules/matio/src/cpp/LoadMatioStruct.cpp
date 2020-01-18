@@ -64,7 +64,7 @@ LoadMatioStruct(matvar_t* matVariable, ArrayOf& VariableValue)
         VariableValue = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         indexType offset = 0;
         for (indexType j = 0; j < nbElements; j++) {
-            for (indexType i = 0; i < (sizeType)fieldnames.size(); i++) {
+            for (indexType i = 0; i < (indexType)fieldnames.size(); i++) {
                 std::string name = fieldnames[i];
                 matvar_t* fieldMatVar = Mat_VarGetStructFieldByName(matVariable, name.c_str(), j);
                 bool bSuccess = LoadMatioVariable(fieldMatVar, true, elements[offset]);
