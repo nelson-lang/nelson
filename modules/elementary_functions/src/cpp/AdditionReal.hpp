@@ -42,11 +42,11 @@ scalar_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_OPENMP)
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
 #pragma omp parallel for
-    for (indexType k = 0; k < Clen; ++k) {
+    for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[0] + ptrB[k];
     }
 #else
@@ -67,12 +67,12 @@ matrix_scalar_real_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_OPENMP)
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
 #pragma omp parallel for
-    for (indexType k = 0; k < Clen; ++k) {
+    for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] + ptrB[0];
     }
 #else
@@ -94,12 +94,12 @@ matrix_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_OPENMP)
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
 #pragma omp parallel for
-    for (indexType k = 0; k < Clen; ++k) {
+    for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] + ptrB[k];
     }
 #else

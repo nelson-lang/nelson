@@ -25,7 +25,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
@@ -50,7 +49,7 @@ scalar_matrix_integer_dotRightDivide(Class classDestination, const ArrayOf& A, c
 #pragma omp parallel for
 #endif
     for (indexType k = 0; k < Clen; ++k) {
-        ptrC[k] = scalar_scalar_integer_divide<T>(ptrA[0], ptrB[k]);
+        ptrC[k] = scalar_scalar_integer_divide(ptrA[0], ptrB[k]);
     }
     return res;
 }
@@ -71,7 +70,7 @@ matrix_scalar_integer_dotRightDivide(Class classDestination, const ArrayOf& A, c
 #pragma omp parallel for
 #endif
     for (indexType k = 0; k < Clen; ++k) {
-        ptrC[k] = scalar_scalar_integer_divide<T>(ptrA[k], ptrB[0]);
+        ptrC[k] = scalar_scalar_integer_divide(ptrA[k], ptrB[0]);
     }
     return res;
 }
@@ -116,7 +115,7 @@ row_matrix_integer_dotRightDivide(Class classDestination, const ArrayOf& A, cons
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
-            ptrC[m] = scalar_scalar_integer_divide<T>(ptrA[q], ptrB[m]);
+            ptrC[m] = scalar_scalar_integer_divide(ptrA[q], ptrB[m]);
         }
         q++;
     }
@@ -140,7 +139,7 @@ column_matrix_integer_dotRightDivide(Class classDestination, const ArrayOf& A, c
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsB.getRows();
-            ptrC[m] = scalar_scalar_integer_divide<T>(ptrA[j], ptrB[m]);
+            ptrC[m] = scalar_scalar_integer_divide(ptrA[j], ptrB[m]);
         }
     }
     return res;
@@ -191,7 +190,7 @@ matrix_column_integer_dotRightDivide(Class classDestination, const ArrayOf& A, c
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * dimsA.getRows();
-            ptrC[m] = scalar_scalar_integer_divide<T>(ptrA[m], ptrB[j]);
+            ptrC[m] = scalar_scalar_integer_divide(ptrA[m], ptrB[j]);
         }
     }
     return res;
@@ -216,7 +215,7 @@ row_column_integer_dotRightDivide(Class classDestination, const ArrayOf& A, cons
     indexType m = 0;
     for (indexType i = 0; i < dimsA.getColumns(); i++) {
         for (indexType j = 0; j < dimsB.getRows(); j++) {
-            ptrC[m] = scalar_scalar_integer_divide<T>(ptrA[i], ptrB[j]);
+            ptrC[m] = scalar_scalar_integer_divide(ptrA[i], ptrB[j]);
             m++;
         }
     }
@@ -243,7 +242,7 @@ column_row_integer_dotRightDivide(Class classDestination, const ArrayOf& A, cons
     indexType m = 0;
     for (indexType i = 0; i < dimsB.getElementCount(); i++) {
         for (indexType j = 0; j < dimsA.getElementCount(); j++) {
-            ptrC[m] = scalar_scalar_integer_divide<T>(ptrA[j], ptrB[i]);
+            ptrC[m] = scalar_scalar_integer_divide(ptrA[j], ptrB[i]);
             m++;
         }
     }
