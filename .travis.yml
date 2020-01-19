@@ -147,6 +147,7 @@ before_install:
       brew install hdf5;
       brew install libmatio;
       brew install eigen;
+      brew install libomp;
       fi
 
 install:
