@@ -88,10 +88,10 @@ matrix_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType k = 0; k < Clen; ++k) {
+    for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[k]);
     }
     return res;

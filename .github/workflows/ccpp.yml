@@ -44,7 +44,7 @@ jobs:
         sudo apt -y install qt512-meta-full;
         sudo add-apt-repository --yes ppa:mhier/libboost-latest;
         sudo apt update;
-        sudo apt install libboost1.68-dev; 
+        sudo apt install libboost1.70-dev; 
         git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen;
         mkdir /tmp/eigen-build;
         cd /tmp/eigen;
