@@ -50,10 +50,10 @@ powi(T a, T b)
         }
         for (u = (unsigned long)n;;) {
             if (u & 01) {
-                p = scalar_scalar_integer_times<T>(p, x);
+                p = scalar_scalar_integer_times(p, x);
             }
             if (u >>= 1) {
-                x = scalar_scalar_integer_times<T>(x, x);
+                x = scalar_scalar_integer_times(x, x);
             } else {
                 break;
             }
