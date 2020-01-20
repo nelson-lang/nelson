@@ -217,8 +217,8 @@ row_column_integer_subtraction(Class classDestination, const ArrayOf& A, const A
     T* ptrC = (T*)Cp;
 
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getColumns(); i++) {
-        for (indexType j = 0; j < dimsB.getRows(); j++) {
+    for (indexType i = 0; i < dimsC.getColumns(); i++) {
+        for (indexType j = 0; j < dimsC.getRows(); j++) {
             ptrC[m] = scalar_scalar_integer_subtraction<T>(ptrA[i], ptrB[j]);
             m++;
         }

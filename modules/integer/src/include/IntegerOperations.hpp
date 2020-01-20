@@ -92,22 +92,6 @@ numeric_cast(TIN value)
 //=============================================================================
 template <class T>
 T
-scalarInteger_minus_scalarInteger(T a, T b)
-{
-    T op = a - b;
-    if ((op < a) != (b > 0)) {
-        if (op > 0) {
-            return std::numeric_limits<T>::min();
-        } else {
-            return std::numeric_limits<T>::max();
-        }
-    } else {
-        return (T)op;
-    }
-}
-//=============================================================================
-template <class T>
-T
 scalar_scalar_integer_addition(T a, T b)
 {
     if (std::is_signed<T>()) {
@@ -136,15 +120,16 @@ template <class T>
 T
 scalar_scalar_integer_subtraction(T a, T b)
 {
-    T op = a - b;
-    if ((op < a) != (b > 0)) {
-        if (op > 0) {
-            return std::numeric_limits<T>::min();
-        } else {
-            return std::numeric_limits<T>::max();
-        }
+    bool negativeOverflow = a <= std::numeric_limits<T>::max() + b;
+    bool positiveOverflow = a >= std::numeric_limits<T>::min() + b;
+    if (b > 0 ? positiveOverflow : negativeOverflow) {
+        return a - b;
     } else {
-        return (T)op;
+        if (positiveOverflow) {
+            return std::numeric_limits<T>::max();
+        } else {
+            return std::numeric_limits<T>::min();
+        }
     }
 }
 //=============================================================================

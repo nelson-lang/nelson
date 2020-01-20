@@ -30,7 +30,6 @@
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
 #include "SubtractionReal.hpp"
-#include "SubtractionReal.hpp"
 #include "SubtractionComplex.hpp"
 #include "SubtractionInteger.hpp"
 #include "FindCommonClass.hpp"
