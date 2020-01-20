@@ -91,8 +91,6 @@ matrix_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const A
     matC = matA - matB;
 #endif
 
-
-
     return res;
 }
 //=============================================================================
