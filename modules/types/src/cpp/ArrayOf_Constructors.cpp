@@ -105,16 +105,20 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
     dims[0] = M;
     dims[1] = M;
     void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
-    indexType i = 0;
-    indexType dstIndex = 0;
     if (diagonalOrder < 0) {
-        for (i = 0; i < length; i++) {
-            dstIndex = -diagonalOrder + i * (M + 1);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)length; i++) {
+            indexType dstIndex = -diagonalOrder + i * (M + 1);
             src.copyElements(i, rp, dstIndex, 1);
         }
     } else {
-        for (i = 0; i < length; i++) {
-            dstIndex = diagonalOrder * M + i * (M + 1);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)length; i++) {
+            indexType dstIndex = diagonalOrder * M + i * (M + 1);
             src.copyElements(i, rp, dstIndex, 1);
         }
     }

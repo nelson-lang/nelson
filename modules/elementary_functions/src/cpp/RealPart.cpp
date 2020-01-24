@@ -26,6 +26,7 @@
 #include "RealPart.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,7 +43,10 @@ RealPart(ArrayOf arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_SINGLE, len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = sp[2 * i];
         }
         res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
@@ -52,7 +56,10 @@ RealPart(ArrayOf arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = dp[2 * i];
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
@@ -69,7 +76,10 @@ RealPart(ArrayOf arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = static_cast<double>(dp[i]);
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
@@ -79,7 +89,10 @@ RealPart(ArrayOf arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = (dp[i] == 0 ? 0 : 1);
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);

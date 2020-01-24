@@ -26,13 +26,17 @@
 #include "Not.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static void
 boolean_not(indexType N, logical* C, const logical* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = static_cast<Nelson::logical>(static_cast<Nelson::logical>(A[i]) == 0u);
     }
 }

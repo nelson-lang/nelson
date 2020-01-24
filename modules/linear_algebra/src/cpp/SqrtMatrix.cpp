@@ -26,6 +26,7 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
 #include "SqrtMatrix.hpp"
@@ -54,7 +55,10 @@ sqrtmComplex(ArrayOf& A)
             solver(matA.template cast<std::complex<T>>());
         auto evects = solver.eigenvectors();
         auto evals = solver.eigenvalues();
-        for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
             evals(i) = std::sqrt(evals(i));
         }
         auto evalsdiag = evals.asDiagonal();

@@ -43,10 +43,10 @@ matrix_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* C = (T*)Cp;
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType k = 0; k < Clen; k++) {
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         C[k] = atan2(ptrA[k], ptrB[k]);
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -62,10 +62,10 @@ scalar_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType k = 0; k < Clen; k++) {
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         ptrC[k] = atan2(ptrA[0], ptrB[k]);
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -81,10 +81,10 @@ matrix_scalar_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType k = 0; k < Clen; k++) {
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         ptrC[k] = atan2(ptrA[k], ptrB[0]);
     }
     return ArrayOf(classDestination, dimsC, Cp, false);

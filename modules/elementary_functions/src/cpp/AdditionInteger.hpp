@@ -46,10 +46,10 @@ scalar_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType k = 0; k < Clen; ++k) {
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[0], ptrB[k]);
     }
     return res;
@@ -67,10 +67,10 @@ matrix_scalar_integer_addition(Class classDestination, const ArrayOf& A, const A
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType k = 0; k < Clen; ++k) {
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         ptrC[k] = scalar_scalar_integer_addition(ptrA[k], ptrB[0]);
     }
     return res;

@@ -142,10 +142,10 @@ ToDouble(ArrayOf A, bool& needToOverload)
             NLS_SCOMPLEX, A.getLength() * 2, stringVector(), false);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pDouble, A.isSparse());
         auto* pSingle = (float*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (indexType k = 0; k < A.getLength() * 2; k++) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getLength() * 2; k++) {
             pDouble[k] = static_cast<double>(pSingle[k]);
         }
         return r;

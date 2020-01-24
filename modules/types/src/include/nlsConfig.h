@@ -26,7 +26,7 @@
 #pragma once
 
 #if defined(_OPENMP)
-//#define __NLS_WITH_OPENMP
+#define _NLS_WITH_OPENMP
 #endif
 
 #if (defined(_LP64) || defined(_WIN64))

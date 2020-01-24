@@ -72,25 +72,25 @@ void
 modfunc(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
 {
     if ((stride1 == 1) && (stride2 == 1)) {
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (indexType i = 0; i < N; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = nelson_mod(A[i], B[i]);
         }
     } else {
         if (stride1) {
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (indexType i = 0; i < N; i++) {
+            for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 C[i] = nelson_mod(A[i], B[0]);
             }
         } else {
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (indexType i = 0; i < N; i++) {
+            for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 C[i] = nelson_mod(A[0], B[i]);
             }
         }
@@ -102,25 +102,25 @@ void
 modfunc_integer(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
 {
     if ((stride1 == 1) && (stride2 == 1)) {
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (indexType i = 0; i < N; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             C[i] = nelson_mod_integer(A[i], B[i]);
         }
     } else {
         if (stride1) {
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (indexType i = 0; i < N; i++) {
+            for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 C[i] = nelson_mod_integer(A[i], B[0]);
             }
         } else {
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (indexType i = 0; i < N; i++) {
+            for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 C[i] = nelson_mod_integer(A[0], B[i]);
             }
         }

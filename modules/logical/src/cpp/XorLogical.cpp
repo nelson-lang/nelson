@@ -27,6 +27,7 @@
 #include "MatrixCheck.hpp"
 #include "Types.hpp"
 #include "Exception.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,7 +43,10 @@ boolXor(
 {
     size_t m = 0;
     size_t p = 0;
-    for (size_t i = 0; i < n; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
         c[i] = NLSXOR(a[m], b[p]);
         m += (size_t)stride1;
         p += (size_t)stride2;
