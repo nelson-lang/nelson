@@ -437,9 +437,9 @@ Evaluator::expression(ASTPtr t)
                 operatorName = "colon";
             }
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
-                retval = doubleColon(t);
+                retval = colonOperator(t);
             } else {
-                retval = unitColon(t);
+                retval = colonUnitOperator(t);
             }
             break;
         case OP_EMPTY: {
@@ -702,97 +702,6 @@ Evaluator::expression(ASTPtr t)
             internalProfileFunction stack
                 = computeProfileStack(this, operatorName, utf8_to_wstring(cstack.back().cname));
             Profiler::getInstance()->toc(ticProfiling, stack);
-        }
-    }
-    popID();
-    return retval;
-}
-
-//!
-//@Module COLON Index Generation Operator
-//@@Section OPERATORS
-//@@Usage
-// There are two distinct syntaxes for the colon @|:| operator - the two argument form
-//@[
-//  y = a : c
-//@]
-// and the three argument form
-//@[
-//  y = a : b : c
-//@]
-// The two argument form is exactly equivalent to @|a:1:c|.  The output @|y| is the vector
-//\[
-//  y = [a,a+b,a+2b,\ldots,a+nb]
-//\]
-// where @|a+nb <= c|.  There is a third form of the colon operator, the
-// no-argument form used in indexing (see @|indexing| for more details).
-//@@Examples
-// Some simple examples of index generation.
-//@<
-// y = 1:4
-//@>
-// Now by half-steps:
-//@<
-// y = 1:.5:4
-//@>
-// Now going backwards (negative steps)
-//@<
-// y = 4:-.5:1
-//@>
-// If the endpoints are the same, one point is generated, regardless of the step size (middle
-// argument)
-//@<
-// y = 4:1:4
-//@>
-// If the endpoints define an empty interval, the output is an empty matrix:
-//@<
-// y = 5:4
-//@>
-//!
-ArrayOf
-Evaluator::unitColon(ASTPtr t)
-{
-    ArrayOf a;
-    ArrayOf b;
-    pushID(t->context());
-    a = expression(t->down);
-    b = expression(t->down->right);
-    bool bSuccess = false;
-    ArrayOf retval;
-    if (mustOverloadBasicTypes()) {
-        retval = OverloadBinaryOperator(this, a, b, "colon", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        retval = Colon(a, b, needToOverload);
-        if (needToOverload) {
-            retval = OverloadBinaryOperator(this, a, b, "colon");
-        }
-    }
-    popID();
-    return retval;
-}
-
-ArrayOf
-Evaluator::doubleColon(ASTPtr t)
-{
-    ArrayOf a;
-    ArrayOf b;
-    ArrayOf c;
-    pushID(t->context());
-    a = expression(t->down->down);
-    b = expression(t->down->down->right);
-    c = expression(t->down->right);
-    ArrayOf retval;
-    bool bSuccess = false;
-    if (mustOverloadBasicTypes()) {
-        retval = OverloadTernaryOperator(this, a, b, c, "colon", bSuccess);
-    }
-    if (!bSuccess) {
-        bool needToOverload;
-        retval = Colon(a, b, c, needToOverload);
-        if (needToOverload) {
-            retval = OverloadTernaryOperator(this, a, b, c, "colon");
         }
     }
     popID();

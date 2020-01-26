@@ -29,7 +29,6 @@
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "Warning.hpp"
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -69,7 +68,7 @@ integer_colon(Class destinationClass, T low, T high, T step)
     indexType n = (indexType)std::trunc(dn);
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     pV[0] = low;
-    for (ompIndexType k = 1; k < (ompIndexType)n; k++) {
+    for (indexType k = 1; k < n; k++) {
         pV[k] = pV[k - 1] + step;
     }
     return ArrayOf(destinationClass, Dimensions(1, n), pV);
@@ -178,11 +177,10 @@ real_colon(Class destinationClass, T low, T high, T step)
         nSize++;
         n = (indexType)nSize;
     }
-
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
     pV[0] = low;
-    for (ompIndexType k = 1; k < (ompIndexType)n; k++) {
+    for (indexType k = 1; k < n; k++) {
         pV[k] = pV[k - 1] + step;
     }
     return V;
