@@ -1,6 +1,6 @@
 # 0.4.1 (2020-01-XX)
 
-* rework times, divide, addition, subtraction operators.
+* rework and speed optimization for times, divide, addition, subtraction operators.
 
 * sum builtin: sum of array elements.
 
@@ -23,6 +23,8 @@ Compilation:
 * uses ASIO C++ library in place of BOOST ASIO.
 
 * Add Qt 5.14.0 support.
+
+* OPEN MP support added.
 
 
 Previous changelog:
