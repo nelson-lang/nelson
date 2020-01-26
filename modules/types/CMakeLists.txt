@@ -60,7 +60,9 @@ nlsCharacters_encoding
 nlsError_manager
 nlsNelson_manager
 nlsI18n
-${CMAKE_DL_LIBS})
+${CMAKE_DL_LIBS}
+${OpenMP_CXX_LIBRARIES}
+)
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 
