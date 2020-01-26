@@ -27,7 +27,7 @@ o = weboptions('RequestMethod', 'put');
 filename = [tempdir(), 'test_websave_put.json'];
 fullname = websave(filename, 'http://httpbin.org/put', o);
 R = jsondecode(fileread(fullname));
-assert_isequal(R.url, 'https://httpbin.org/put');
+assert_isequal(R.url, 'http://httpbin.org/put');
 //=============================================================================
 filename = [tempdir(), 'test_websave_put.json'];
 cmd = 'fullname = websave(filename, ''http://httpbin.org/put'');';
