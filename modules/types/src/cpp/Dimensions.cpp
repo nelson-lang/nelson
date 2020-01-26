@@ -87,7 +87,7 @@ indexType
 Dimensions::getMax()
 {
     sizeType maxL = 0;
-    for (sizeType i = 0; i < length; i++) {
+    for (indexType i = 0; i < length; i++) {
         maxL = (maxL > data[i]) ? maxL : data[i];
     }
     return maxL;
@@ -101,9 +101,6 @@ indexType& Dimensions::operator[](indexType i)
     }
     if (i >= length) {
         indexType new_length = i + 1;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (indexType j = length; j < new_length; j++) {
             data[j] = 1;
         }
@@ -126,7 +123,7 @@ Dimensions::getElementCount() const
         return 0;
     }
     retval = 1;
-    for (sizeType i = 0; i < length; i++) {
+    for (indexType i = 0; i < length; i++) {
         retval *= data[i];
     }
     return retval;
@@ -154,7 +151,7 @@ Dimensions::getColumns() const
 }
 //=============================================================================
 indexType
-Dimensions::getDimensionLength(sizeType arg) const
+Dimensions::getDimensionLength(indexType arg) const
 {
     if (length <= arg) {
         return 1;
@@ -184,7 +181,7 @@ Dimensions::mapPoint(const Dimensions& point)
         retval += nextCoeff * point.data[i];
         nextCoeff *= data[i];
     }
-    for (sizeType j = testableDims; j < point.length; j++) {
+    for (indexType j = testableDims; j < point.length; j++) {
         if (point.data[j] != 0) {
             Error(_W("Index exceeds dimensions."));
         }
@@ -237,7 +234,7 @@ Dimensions::expandToCover(const Dimensions& a)
 void
 Dimensions::incrementModulo(const Dimensions& limit, int ordinal)
 {
-    sizeType n;
+    indexType n;
     data[ordinal]++;
     for (n = ordinal; n < length - 1; n++) {
         if (data[n] >= limit.data[n]) {
@@ -271,7 +268,7 @@ Dimensions::equals(const Dimensions& alt)
 {
     bool retval;
     retval = (length == alt.length);
-    for (sizeType i = 0; i < length; i++) {
+    for (indexType i = 0; i < length; i++) {
         retval = retval && (data[i] == alt.data[i]);
     }
     return retval;
@@ -318,7 +315,7 @@ Dimensions::reset()
 void
 Dimensions::zeroOut()
 {
-    for (sizeType i = 0; i < length; i++) {
+    for (indexType i = 0; i < length; i++) {
         data[i] = 0;
     }
 }

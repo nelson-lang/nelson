@@ -30,6 +30,85 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::wstring
+formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
+{
+    std::wstring message;
+    bool doDefaultMessage = false;
+    if ((computedArray.isCharacterArray()
+            && (computedArray.isRowVector() || computedArray.isScalar() || computedArray.isEmpty()))
+        && (expectedArray.isCharacterArray()
+               && (expectedArray.isRowVector() || expectedArray.isScalar()
+                      || expectedArray.isEmpty()))) {
+        std::wstring computed = computedArray.getContentAsWideString();
+        std::wstring expected = expectedArray.getContentAsWideString();
+        message = StringFormat(
+            _W("Assertion failed: expected '%ls' and computed '%ls' values are different.").c_str(),
+            expected.c_str(), computed.c_str());
+    } else {
+        if (computedArray.isScalar() && expectedArray.isScalar()) {
+            if (computedArray.getDataClass() == expectedArray.getDataClass()) {
+                switch (expectedArray.getDataClass()) {
+                case NLS_LOGICAL: {
+                    logical computed = computedArray.getContentAsLogicalScalar();
+                    logical expected = expectedArray.getContentAsLogicalScalar();
+                    message = StringFormat(_W("Assertion failed: expected (%ls) and computed (%ls) "
+                                              "values are different.")
+                                               .c_str(),
+                        expected ? L"true" : L"false", computed ? L"true" : L"false");
+                } break;
+                case NLS_STRING_ARRAY: {
+                    std::wstring computed = computedArray.getContentAsWideString();
+                    std::wstring expected = expectedArray.getContentAsWideString();
+                    message
+                        = StringFormat(_W("Assertion failed: expected \"%ls\" and computed \"%ls\" "
+                                          "values are different.")
+                                           .c_str(),
+                            expected.c_str(), computed.c_str());
+
+                } break;
+                case NLS_DOUBLE: {
+                    double computed = ArrayOf(computedArray).getContentAsDoubleScalar();
+                    double expected = ArrayOf(expectedArray).getContentAsDoubleScalar();
+                    message = StringFormat(_W("Assertion failed: expected (%lg) and computed (%lg) "
+                                              "values are different.")
+                                               .c_str(),
+                        expected, computed);
+                } break;
+                case NLS_INT32: {
+                    int32 computed = ArrayOf(computedArray).getContentAsInteger32Scalar();
+                    int32 expected = ArrayOf(expectedArray).getContentAsInteger32Scalar();
+                    message = StringFormat(_W("Assertion failed: expected (%ls) and computed (%ls) "
+                                              "values are different.")
+                                               .c_str(),
+                        std::to_wstring(expected).c_str(), std::to_wstring(computed).c_str());
+                } break;
+                case NLS_UINT64: {
+                    uint64 computed = ArrayOf(computedArray).getContentAsUnsignedInt64Scalar();
+                    uint64 expected = ArrayOf(expectedArray).getContentAsUnsignedInt64Scalar();
+                    message = StringFormat(_W("Assertion failed: expected (%ls) and computed (%ls) "
+                                              "values are different.")
+                                               .c_str(),
+                        std::to_wstring(expected).c_str(), std::to_wstring(computed).c_str());
+                } break;
+                default: {
+                    doDefaultMessage = true;
+                } break;
+                }
+            } else {
+                doDefaultMessage = true;
+            }
+        } else {
+            doDefaultMessage = true;
+        }
+    }
+
+    if (doDefaultMessage) {
+        message = _W("Assertion failed: expected and computed values are different.");
+    }
+    return message;
+}
+//=============================================================================
 bool
 Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, std::wstring& msg)
 {
@@ -61,45 +140,7 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
         Error("isequalto function not found.");
     }
     if (!bRes) {
-        if ((computedArray.isLogical() && expectedArray.isLogical())
-            && (computedArray.isScalar() && expectedArray.isScalar())) {
-            double computed = computedArray.getContentAsLogicalScalar();
-            double expected = expectedArray.getContentAsLogicalScalar();
-            msg = StringFormat(
-                _W("Assertion failed: expected (%ls) and computed (%ls) values are different.")
-                    .c_str(),
-                expected ? L"true" : L"false", computed ? L"true" : L"false");
-        } else if ((computedArray.isCharacterArray()
-                       && (computedArray.isRowVector() || computedArray.isScalar()
-                              || computedArray.isEmpty()))
-            && (expectedArray.isCharacterArray()
-                   && (expectedArray.isRowVector() || expectedArray.isScalar()
-                          || expectedArray.isEmpty()))) {
-            std::wstring computed = computedArray.getContentAsWideString();
-            std::wstring expected = expectedArray.getContentAsWideString();
-            msg = StringFormat(
-                _W("Assertion failed: expected '%ls' and computed '%ls' values are different.")
-                    .c_str(),
-                expected.c_str(), computed.c_str());
-        } else if ((computedArray.isStringArray() && computedArray.isScalar())
-            && (expectedArray.isStringArray() && expectedArray.isScalar())) {
-            std::wstring computed = computedArray.getContentAsWideString();
-            std::wstring expected = expectedArray.getContentAsWideString();
-            msg = StringFormat(
-                _W("Assertion failed: expected \"%ls\" and computed \"%ls\" values are different.")
-                    .c_str(),
-                expected.c_str(), computed.c_str());
-        } else if ((computedArray.isDoubleType(true) && expectedArray.isDoubleType(true))
-            && (computedArray.isScalar() && expectedArray.isScalar())) {
-            double computed = computedArray.getContentAsDoubleScalar();
-            double expected = expectedArray.getContentAsDoubleScalar();
-            msg = StringFormat(
-                _W("Assertion failed: expected (%lg) and computed (%lg) values are different.")
-                    .c_str(),
-                expected, computed);
-        } else {
-            msg = _W("Assertion failed: expected and computed values are different.");
-        }
+        msg = formatMessage(computedArray, expectedArray);
     } else {
         msg.clear();
     }

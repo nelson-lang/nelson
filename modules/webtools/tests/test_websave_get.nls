@@ -31,10 +31,10 @@ o = weboptions('RequestMethod', 'get');
 filename = [tempdir(), 'test_websave_get.json'];
 fullname = websave(filename, 'http://httpbin.org/get', o);
 R = jsondecode(fileread(fullname));
-assert_isequal(R.url, 'https://httpbin.org/get');
+assert_isequal(R.url, 'http://httpbin.org/get');
 //=============================================================================
 filename = [tempdir(), 'test_websave_get.json'];
 fullname = websave(filename, 'http://httpbin.org/get');
 R = jsondecode(fileread(fullname));
-assert_isequal(R.url, 'https://httpbin.org/get');
+assert_isequal(R.url, 'http://httpbin.org/get');
 //=============================================================================

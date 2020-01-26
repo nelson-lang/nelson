@@ -79,7 +79,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         } else {
             names.push_back(wstring_to_utf8(param1));
         }
-        for (indexType k = start; k < argIn.size(); ++k) {
+        for (indexType k = start; k < (indexType)argIn.size(); ++k) {
             std::string param = argIn[k].getContentAsCString();
             if (param.compare("-file") == 0) {
                 Error(_W("-file must be the first argument."));

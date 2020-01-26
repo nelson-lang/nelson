@@ -130,8 +130,7 @@ Nelson::SlicotGateway::slicot_mb03odBuiltin(Evaluator* eval, int nLhs, const Arr
         mb03od_(JOBQR_ptr, M_ptr, N_ptr, A_output_ptr, LDA_ptr, JPVT_output_ptr, RCOND_ptr,
             SVLMAX_ptr, TAU_output_ptr, RANK_output_ptr, SVAL_output_ptr, DWORK_ptr, LDWORK_ptr,
             INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("mb03od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

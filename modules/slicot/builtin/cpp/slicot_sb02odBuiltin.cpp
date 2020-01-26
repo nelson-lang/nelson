@@ -246,8 +246,7 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(Evaluator* eval, int nLhs, const Arr
             RCOND_output_ptr, X_output_ptr, LDX_ptr, ALFAR_output_ptr, ALFAI_output_ptr,
             BETA_output_ptr, S_output_ptr, LDS_ptr, T_output_ptr, LDT_ptr, U_output_ptr, LDU_ptr,
             TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, BWORK_ptr, INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("sb02od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

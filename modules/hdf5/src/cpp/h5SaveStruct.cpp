@@ -63,7 +63,7 @@ h5SaveStruct(hid_t fid, const std::string& location, const std::string& variable
     auto* elements = (ArrayOf*)VariableValue.getDataPointer();
     indexType offset = 0;
     for (indexType j = 0; j < length; j++)
-        for (indexType i = 0; i < (sizeType)fNames.size(); i++) {
+        for (indexType i = 0; i < (indexType)fNames.size(); i++) {
             ArrayOf element = elements[offset];
             std::string name = std::to_string(offset);
             bSuccess

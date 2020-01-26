@@ -47,51 +47,10 @@ Evaluator::subtractionOperator(ArrayOf A, ArrayOf B)
         res = OverloadBinaryOperator(this, A, B, "minus", bSuccess);
     }
     if (!bSuccess) {
-        bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
-        bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
-        bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());
-        bool isSingleB = (B.isSingleType() || B.isNdArraySingleType());
-        if ((isDoubleA || isSingleA) && (isDoubleB || isSingleB)) {
-            if (isDoubleA && isDoubleB) {
-                res = double_minus_double(A, B);
-            } else if (isSingleA && isSingleB) {
-                res = single_minus_single(A, B);
-            } else {
-                if (A.getDataClass() == NLS_DOUBLE) {
-                    A.promoteType(NLS_SINGLE);
-                } else {
-                    A.promoteType(NLS_SCOMPLEX);
-                }
-                if (B.getDataClass() == NLS_DOUBLE) {
-                    B.promoteType(NLS_SINGLE);
-                } else {
-                    B.promoteType(NLS_SCOMPLEX);
-                }
-                res = single_minus_single(A, B);
-            }
-        } else {
-            bool isIntegerA = A.isIntegerType() || A.isNdArrayIntegerType();
-            bool isIntegerB = B.isIntegerType() || B.isNdArrayIntegerType();
-            if (isIntegerA && isIntegerB) {
-                if (A.getDataClass() == B.getDataClass()) {
-                    Class classA = A.getDataClass();
-                    res = integer_minus_integer(A, B);
-                } else {
-                    Error(_W("Integers of the same class expected."));
-                }
-            } else {
-                if (isIntegerA && isDoubleB && B.isScalar()) {
-                    Class classA = A.getDataClass();
-                    B.promoteType(classA);
-                    res = integer_minus_integer(A, B);
-                } else if (isIntegerB && isDoubleA && A.isScalar()) {
-                    Class classB = B.getDataClass();
-                    A.promoteType(classB);
-                    res = integer_minus_integer(A, B);
-                } else {
-                    res = OverloadBinaryOperator(this, A, B, "minus");
-                }
-            }
+        bool needToOverload;
+        res = Subtraction(A, B, needToOverload);
+        if (needToOverload) {
+            return OverloadBinaryOperator(this, A, B, "minus");
         }
     }
     return res;

@@ -33,6 +33,7 @@ namespace Nelson {
  * Element-wise divide of two arrays
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotRightDivide(ArrayOf A, ArrayOf B);
+DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

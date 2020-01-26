@@ -139,7 +139,9 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             RealProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, false);
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            res.promoteType(classA);
+            if (classA != NLS_LOGICAL) {
+                res.promoteType(classA);
+            }
         } break;
         case NLS_SINGLE: {
             single* ptr = static_cast<single*>(

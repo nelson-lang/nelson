@@ -732,7 +732,7 @@ ArrayOf::printMe(Interface* io) const
             while (wdims.inside(dp->dimensions)) {
                 snprintf(msgBuffer, MSGBUFLEN, "(:,:");
                 io->outputMessage(msgBuffer);
-                for (sizeType m = 2; m < dp->dimensions.getLength(); m++) {
+                for (indexType m = 2; m < dp->dimensions.getLength(); m++) {
                     snprintf(msgBuffer, MSGBUFLEN, ",%d", static_cast<int>(wdims[m]) + 1);
                     io->outputMessage(msgBuffer);
                 }

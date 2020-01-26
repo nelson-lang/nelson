@@ -67,8 +67,9 @@ integer_colon(Class destinationClass, T low, T high, T step)
     double dn = (double)((((high - low) / step) + 1));
     indexType n = (indexType)std::trunc(dn);
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
-    for (indexType k = 0; k < n; k++) {
-        pV[k] = (k == 0) ? low : pV[k - 1] + step;
+    pV[0] = low;
+    for (indexType k = 1; k < n; k++) {
+        pV[k] = pV[k - 1] + step;
     }
     return ArrayOf(destinationClass, Dimensions(1, n), pV);
 }
@@ -94,8 +95,9 @@ char_colon(charType low, charType high, charType step)
     auto dn = static_cast<double>((((high - low) / step) + 1));
     auto n = static_cast<indexType>(std::trunc(dn));
     charType* pV = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false);
-    for (indexType k = 0; k < n; k++) {
-        pV[k] = (k == 0) ? low : pV[k - 1] + step;
+    pV[0] = low;
+    for (ompIndexType k = 1; k < (ompIndexType)n; k++) {
+        pV[k] = pV[k - 1] + step;
     }
     return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
 }
@@ -177,8 +179,9 @@ real_colon(Class destinationClass, T low, T high, T step)
     }
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
-    for (indexType k = 0; k < n; k++) {
-        pV[k] = (k == 0) ? low : pV[k - 1] + step;
+    pV[0] = low;
+    for (indexType k = 1; k < n; k++) {
+        pV[k] = pV[k - 1] + step;
     }
     return V;
 }
@@ -296,7 +299,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<uint8>(NLS_UINT8, low, high, step);
         } break;
@@ -323,7 +326,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<int8>(NLS_INT8, low, high, step);
         } break;
@@ -350,7 +353,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<uint16>(NLS_UINT16, low, high, step);
         } break;
@@ -377,7 +380,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<int16>(NLS_INT16, low, high, step);
         } break;
@@ -404,7 +407,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<uint32>(NLS_UINT32, low, high, step);
         } break;
@@ -431,7 +434,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<int32>(NLS_INT32, low, high, step);
         } break;
@@ -458,7 +461,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<uint64>(NLS_UINT64, low, high, step);
         } break;
@@ -485,7 +488,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return integer_colon<int64>(NLS_INT64, low, high, step);
         } break;
@@ -512,7 +515,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return real_colon<single>(NLS_SINGLE, low, high, step);
         } break;
@@ -539,7 +542,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return real_colon<double>(NLS_DOUBLE, low, high, step);
         } break;
@@ -572,7 +575,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return real_colon<single>(NLS_SINGLE, low, high, step);
         } break;
@@ -605,7 +608,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return real_colon<double>(NLS_DOUBLE, low, high, step);
         } break;
@@ -635,7 +638,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                 }
             }
             if (warningArrayAsScalar) {
-                Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+                Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
             }
             return char_colon(low, high, step);
         } break;

@@ -67,6 +67,7 @@
 #include "plusBuiltin.hpp"
 #include "powerBuiltin.hpp"
 #include "prodBuiltin.hpp"
+#include "sumBuiltin.hpp"
 #include "rdivideBuiltin.hpp"
 #include "realBuiltin.hpp"
 #include "remBuiltin.hpp"
@@ -157,6 +158,7 @@ static const nlsGateway gateway[] = {
     { "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
     { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
     { "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
+    { "sum", Nelson::ElementaryFunctionsGateway::sumBuiltin, 1, 3 },
     { "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
     { "abs", Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1 },
     { "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },

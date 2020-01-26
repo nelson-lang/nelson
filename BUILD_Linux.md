@@ -81,6 +81,13 @@
     sudo apt-get install libboost1.68-dev;
     ```
 
+    Boost 1.70 requires CMake 3.16 to be correctly detected (see https://apt.kitware.com/).
+
+
+    ```bash
+    sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+    sudo apt-get update;
+    ```
 
     or you need to build it:
     

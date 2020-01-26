@@ -43,6 +43,7 @@ namespace Nelson {
 using sizeType = size_t;
 using indexType = size_t;
 using signedIndexType = ptrdiff_t;
+using ompIndexType = long long;
 
 #define SIZE_TYPE_MAX 281474976710655UL
 #define INDEX_TYPE_MAX 281474976710655UL
@@ -52,6 +53,7 @@ using signedIndexType = ptrdiff_t;
 using sizeType = int;
 using signedIndexType = int;
 using indexType = int;
+using ompIndexType = int;
 
 #define SIZE_TYPE_MAX 2147483647UL
 #define INDEX_TYPE_MAX 2147483647UL

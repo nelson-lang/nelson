@@ -99,8 +99,8 @@ ArrayOf::structScalarConstructor(const stringVector& fNames, ArrayOfVector& valu
          */
         indexType length = dims.getElementCount();
         indexType offset = 0;
-        for (sizeType j = 0; j < length; j++) {
-            for (sizeType i = 0; i < (sizeType)fNames.size(); i++) {
+        for (indexType j = 0; j < length; j++) {
+            for (indexType i = 0; i < (indexType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
                 qp[offset] = rval;
@@ -122,7 +122,7 @@ ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
 {
     const ArrayOf* rptr;
     Dimensions dims;
-    sizeType i, j;
+    indexType i, j;
     ArrayOf* qp = nullptr;
     try {
         if (fNames.size() != values.size()) {
@@ -136,7 +136,7 @@ ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
          *  3.  single values.
          */
         bool nonSingularFound = false;
-        for (i = 0; i < (sizeType)values.size(); i++) {
+        for (i = 0; i < (indexType)values.size(); i++) {
             /**
              * Check the type of the entry.  If its a non-cell array, then
              * then ignore this entry.
@@ -177,7 +177,7 @@ ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
         indexType length = dims.getElementCount();
         indexType offset = 0;
         for (j = 0; j < length; j++)
-            for (i = 0; i < (sizeType)fNames.size(); i++) {
+            for (i = 0; i < (indexType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
                 if (rval.dp->dataClass == NLS_CELL_ARRAY

@@ -94,7 +94,7 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
                         double* ptrValues = (double*)dimVector.getDataPointer();
-                        for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                        for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
                             if (ptrValues[k] > 0) {
                                 dims[k] = (indexType)ptrValues[k];
                             } else {

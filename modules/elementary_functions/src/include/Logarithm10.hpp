@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Logarithm10(const ArrayOf &arrayIn, bool& needToOverload);
+Logarithm10(const ArrayOf& arrayIn, bool& needToOverload);
 }
 //=============================================================================

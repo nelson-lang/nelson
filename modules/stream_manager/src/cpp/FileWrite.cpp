@@ -85,8 +85,7 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                         char* skipdata;
                         try {
                             skipdata = new char[skip];
-                        } catch (const std::bad_alloc& e) {
-                            e.what();
+                        } catch (const std::bad_alloc&) {
                             skipdata = nullptr;
                             Error(ERROR_MEMORY_ALLOCATION);
                         }

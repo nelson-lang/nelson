@@ -27,7 +27,7 @@ o = weboptions('RequestMethod', 'delete');
 filename = [tempdir(), 'test_websave_delete.json'];
 fullname = websave(filename, 'http://httpbin.org/delete', o);
 R = jsondecode(fileread(fullname));
-assert_isequal(R.url, 'https://httpbin.org/delete');
+assert_isequal(R.url, 'http://httpbin.org/delete');
 //=============================================================================
 o = weboptions('RequestMethod', 'delete');
 filename = [tempdir(), 'test_websave_delete.json'];

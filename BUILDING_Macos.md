@@ -38,6 +38,7 @@
       brew install libmatio; 
       brew install curl; 
       brew install libgit2; 
+      brew install libomp;
          ```
     - Install LAPACKE
     By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).

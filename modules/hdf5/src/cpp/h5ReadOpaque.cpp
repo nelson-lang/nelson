@@ -88,7 +88,7 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
             error = e.getMessage();
             return res;
         }
-        for (indexType l = 0; l < sizeType; l++) {
+        for (indexType l = 0; l < (indexType)sizeType; l++) {
             values[l] = temp[pos];
             pos++;
         }

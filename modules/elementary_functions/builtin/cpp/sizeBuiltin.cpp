@@ -106,11 +106,11 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
             double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsVal.size());
             Dimensions outDims(1, dimsVal.size());
             ArrayOf res = ArrayOf(NLS_DOUBLE, outDims, ptr);
-            for (indexType k = 0; k < dimsVal.size(); k++) {
+            for (indexType k = 0; k < (indexType)dimsVal.size(); k++) {
                 if (dimsVal[k] - 1 >= maxDims) {
                     ptr[k] = 1.0;
                 } else {
-                    ptr[k] = sze[dimsVal[k] - 1];
+                    ptr[k] = (double)(sze[dimsVal[k] - 1]);
                 }
             }
             retval.push_back(res);

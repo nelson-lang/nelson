@@ -48,7 +48,7 @@ log1pComplex(Class destinationClass, T* values, Dimensions& dims)
 }
 //=============================================================================
 ArrayOf
-Logarithm1p(const ArrayOf &A, bool& needToOverload)
+Logarithm1p(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;

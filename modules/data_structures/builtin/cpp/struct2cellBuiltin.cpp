@@ -51,8 +51,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
     try {
         indexType nbElements = dimsStruct.getElementCount() * nbFields;
         elements = new ArrayOf[nbElements];
-    } catch (const std::bad_alloc& e) {
-        e.what();
+    } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     try {
@@ -70,9 +69,8 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
             }
         }
         delete[] v;
-    } catch (const std::bad_alloc& e) {
+    } catch (const std::bad_alloc&) {
         delete[] elements;
-        e.what();
         Error(ERROR_MEMORY_ALLOCATION);
     }
     Dimensions dims;

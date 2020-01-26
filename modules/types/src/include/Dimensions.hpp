@@ -151,7 +151,7 @@ public:
      * the class.
      */
     indexType
-    getDimensionLength(sizeType arg) const;
+    getDimensionLength(indexType arg) const;
     /**
      * A synonym for (*this)[dim] = len.
      */

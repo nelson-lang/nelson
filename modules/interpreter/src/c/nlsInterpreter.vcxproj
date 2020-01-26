@@ -216,10 +216,13 @@
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
     <ClCompile Include="..\cpp\CheckIfWhileCondition.cpp" />
+    <ClCompile Include="..\cpp\ColonOperator.cpp" />
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
     <ClCompile Include="..\cpp\DebugStack.cpp" />
+    <ClCompile Include="..\cpp\DotLeftDivideOperator.cpp" />
+    <ClCompile Include="..\cpp\DotRightDivideOperator.cpp" />
     <ClCompile Include="..\cpp\EqOperator.cpp" />
     <ClCompile Include="..\cpp\ErrorEmitter.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
@@ -241,6 +244,7 @@
     <ClCompile Include="..\cpp\GtOperator.cpp" />
     <ClCompile Include="..\cpp\HorzCatOperator.cpp" />
     <ClCompile Include="..\cpp\Keywords.cpp" />
+    <ClCompile Include="..\cpp\LeftDivideOperator.cpp" />
     <ClCompile Include="..\cpp\LeOperator.cpp" />
     <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
     <ClCompile Include="..\cpp\LtOperator.cpp" />
@@ -258,6 +262,7 @@
     <ClCompile Include="..\cpp\PathFuncManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\ProfilerHelpers.cpp" />
+    <ClCompile Include="..\cpp\RightDivideOperator.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
     <ClCompile Include="..\cpp\ShortCutAndOperator.cpp" />
     <ClCompile Include="..\cpp\ShortCutOrOperator.cpp" />

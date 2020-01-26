@@ -67,6 +67,7 @@ ${BLAS_LIBRARIES}
 ${LAPACK_LIBRARIES}
 ${LAPACKE_LIBRARIES}
 ${MAC_LAPACKE_LIBRARY}
+${OpenMP_CXX_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

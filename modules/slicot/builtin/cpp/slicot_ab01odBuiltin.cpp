@@ -203,8 +203,7 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const Arr
             LDB_ptr, U_output_ptr, LDU_ptr, V_output_ptr, LDV_ptr, NCONT_output_ptr,
             INDCON_output_ptr, KSTAIR_output_ptr, TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr,
             INFO_output_ptr);
-    } catch (const std::runtime_error& e) {
-        e.what();
+    } catch (const std::runtime_error&) {
         Error("ab01od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

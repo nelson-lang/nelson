@@ -23,24 +23,101 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
 #include "RightDivide.hpp"
 #include "DotRightDivide.hpp"
 #include "LeftDivide.hpp"
 #include "MatrixCheck.hpp"
+#include "ComplexTranspose.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static void
+complexTransposeInPlace(ArrayOf& A, bool& needToOverload);
+//=============================================================================
 ArrayOf
-RightDivide(ArrayOf A, ArrayOf B)
+RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 {
     if (A.isEmpty() || B.isEmpty()) {
-        return ArrayOf::emptyConstructor();
+        Dimensions dims(0, 1);
+        return ArrayOf::emptyConstructor(dims);
     }
-    // Process our arguments
-    if (!MatrixCheck(A, B, "/")) {
-        // Its really a vector product, pass...
-        return DotRightDivide(A, B);
+
+    if (B.isScalar()) {
+        return DotRightDivide(A, B, needToOverload);
     }
-    return LeftDivide(B, A);
+    ArrayOf R;
+    A = ComplexTranspose(A, needToOverload);
+    if (needToOverload) {
+        return R;
+    }
+    B = ComplexTranspose(B, needToOverload);
+    if (needToOverload) {
+        return R;
+    }
+    R = LeftDivide(B, A, needToOverload);
+    if (needToOverload) {
+        return R;
+    }
+    complexTransposeInPlace(R, needToOverload);
+    return R;
 }
+//=============================================================================
+template <class T>
+void
+complexTransposeInPlaceRealTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+{
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
+        (T*)ptrA, dimsA.getRows(), dimsA.getColumns());
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+        (T*)ptrRes, dimsA.getColumns(), dimsA.getRows());
+    matTransposed = matOrigin.conjugate().transpose().eval();
+}
+//=============================================================================
+template <class T>
+void
+complexTransposeInPlaceComplexTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+{
+    std::complex<T>* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
+    std::complex<T>* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
+        matCplxA, dimsA.getRows(), dimsA.getColumns());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+        matCplxRes, dimsA.getColumns(), dimsA.getRows());
+    matTransposed = matOrigin.conjugate().transpose().eval();
+}
+//=============================================================================
+void
+complexTransposeInPlace(ArrayOf& A, bool& needToOverload)
+{
+    needToOverload = false;
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsTranspose(dimsA.getColumns(), dimsA.getRows());
+    switch (A.getDataClass()) {
+    case NLS_DOUBLE: {
+        auto* ptrA = (double*)A.getDataPointer();
+        complexTransposeInPlaceRealTemplate<double>(dimsA, (double*)ptrA, (double*)ptrA);
+    } break;
+    case NLS_SINGLE: {
+        auto* ptrA = (single*)A.getDataPointer();
+        complexTransposeInPlaceRealTemplate<single>(dimsA, (single*)ptrA, (single*)ptrA);
+    } break;
+    case NLS_DCOMPLEX: {
+        auto* ptrA = (double*)A.getDataPointer();
+        complexTransposeInPlaceComplexTemplate<double>(dimsA, (double*)ptrA, (double*)ptrA);
+    } break;
+    case NLS_SCOMPLEX: {
+        auto* ptrA = (single*)A.getDataPointer();
+        complexTransposeInPlaceComplexTemplate<single>(dimsA, (single*)ptrA, (single*)ptrA);
+    } break;
+    default: {
+        needToOverload = true;
+    } break;
+    }
+    if (!needToOverload) {
+        A.changeInPlaceDimensions(dimsTranspose);
+    }
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

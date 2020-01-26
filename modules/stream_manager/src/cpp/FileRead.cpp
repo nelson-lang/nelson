@@ -108,8 +108,7 @@ FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIs
         char* str = nullptr;
         try {
             str = new char[static_cast<indexType>(sizeToRead + 1)];
-        } catch (const std::bad_alloc& e) {
-            e.what();
+        } catch (const std::bad_alloc&) {
             str = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
         }
@@ -124,8 +123,7 @@ FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIs
             char* resizestr = nullptr;
             try {
                 resizestr = new char[(size_t)sizeReallyRead + (size_t)1];
-            } catch (const std::bad_alloc& e) {
-                e.what();
+            } catch (const std::bad_alloc&) {
                 delete[] str;
                 str = nullptr;
             }

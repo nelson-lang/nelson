@@ -66,7 +66,7 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         } else {
             names.push_back(param1);
         }
-        for (indexType k = start; k < argIn.size(); ++k) {
+        for (indexType k = start; k < (indexType)argIn.size(); ++k) {
             std::string param = argIn[k].getContentAsCString();
             if (param == "-file") {
                 Error(_W("-file must be the first argument."));

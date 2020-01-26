@@ -67,7 +67,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint8*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -75,7 +75,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         int8* ptr = (int8*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -83,7 +83,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint16*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -91,7 +91,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int16*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -99,7 +99,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint32*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -107,7 +107,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int32*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -115,7 +115,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint64*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -123,7 +123,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int64*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -131,7 +131,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (single*)res.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
             ptr[k] = swapSingle(ptr[k]);
         }
     } break;
@@ -142,7 +142,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
             res = A;
             res.ensureSingleOwner();
             auto* ptr = (double*)res.getDataPointer();
-            for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
+            for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
                 ptr[k] = swapDouble(ptr[k]);
             }
         }

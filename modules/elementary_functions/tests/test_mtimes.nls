@@ -77,3 +77,16 @@ assert_checkerror('M * N', [_('Size mismatch on arguments to arithmetic operator
 M = ones(3, 3, 3);
 assert_checkerror('M * M', _('Wrong size for input arguments: 2D matrix expected.'));
 //=============================================================================
+A = 1:2;
+B = (1:3)';
+assert_checkerror('R = A * B', [_('Size mismatch on arguments to arithmetic operator '), '*']);
+//=============================================================================
+A = 1:2;
+B = (1:3)';
+R = B * A;
+REF = [    1     2;2     4;3     6];
+assert_isequal(R, REF);
+//=============================================================================
+R = intmax('int32') * intmax('int32');
+REF = intmax('int32');
+assert_isequal(R, REF);
