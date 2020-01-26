@@ -58,6 +58,7 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     }
     indexType Clen = Cdim.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
+    T *ptrC = (T*)Cp;
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, mC, nC);
@@ -70,11 +71,29 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     if (A.isScalar()) {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
         T* ptrA = (T*)A.getDataPointer();
+        T* ptrB = (T*)B.getDataPointer();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+            ptrC[k] = ptrA[0] * ptrB[k];
+        }
+#else
         matC = ptrA[0] * matB.array();
+#endif
     } else if (B.isScalar()) {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
+        T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
         matC = matA.array() * ptrB[0];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+            ptrC[k] = ptrA[k] * ptrB[0];
+        }
+#else
+        matC = matA.array() * ptrB[0];
+#endif
+
     } else {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
@@ -119,11 +138,18 @@ integer_mtimes(ArrayOf& A, ArrayOf& B)
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
-        for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
             ptrC[k] = scalar_scalar_integer_times(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
             ptrC[k] = scalar_scalar_integer_times(ptrA[k], ptrB[0]);
         }
     } else {
@@ -195,8 +221,15 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+            for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+                Cz[k] = Az[0] * Bz[k];
+            }
+#else
             Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
             matC = Az[0] * matB.array();
+#endif
         }
     } else if (B.isScalar()) {
         std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
@@ -211,7 +244,14 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
                 A.getDataClass(), Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(A.getDataClass(), Cdim, Cp);
         } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+            for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+                Cz[k] = Az[k] * Bz[0];
+            }
+#else
             matC = matA.array() * Bz[0];
+#endif
         }
     } else {
         std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
