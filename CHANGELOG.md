@@ -1,4 +1,4 @@
-# 0.4.1 (2020-01-XX)
+# 0.4.1 (2020-01-27)
 
 * rework and speed optimization for times, divide, addition, subtraction operators.
 
