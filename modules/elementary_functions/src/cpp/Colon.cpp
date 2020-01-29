@@ -29,6 +29,7 @@
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "Warning.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -67,9 +68,11 @@ integer_colon(Class destinationClass, T low, T high, T step)
     double dn = (double)((((high - low) / step) + 1));
     indexType n = (indexType)std::trunc(dn);
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
-    pV[0] = low;
-    for (indexType k = 1; k < n; k++) {
-        pV[k] = pV[k - 1] + step;
+#if defined(_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
+        pV[k] = low + (k * step);
     }
     return ArrayOf(destinationClass, Dimensions(1, n), pV);
 }
@@ -95,9 +98,11 @@ char_colon(charType low, charType high, charType step)
     auto dn = static_cast<double>((((high - low) / step) + 1));
     auto n = static_cast<indexType>(std::trunc(dn));
     charType* pV = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false);
-    pV[0] = low;
-    for (ompIndexType k = 1; k < (ompIndexType)n; k++) {
-        pV[k] = pV[k - 1] + step;
+#if defined(_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
+        pV[k] = low + (k * step);
     }
     return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
 }
@@ -179,9 +184,11 @@ real_colon(Class destinationClass, T low, T high, T step)
     }
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
-    pV[0] = low;
-    for (indexType k = 1; k < n; k++) {
-        pV[k] = pV[k - 1] + step;
+#if defined(_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
+        pV[k] = low + (k * step);
     }
     return V;
 }

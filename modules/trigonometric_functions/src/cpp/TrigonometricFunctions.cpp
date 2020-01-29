@@ -812,10 +812,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         auto* ptrA = (double*)A.getDataPointer();
         bool needToConvertAsComplex = false;
-        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++)
-        {
-            if (std::abs(ptrA[i]) > 1)
-            {
+        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+            if (std::abs(ptrA[i]) > 1) {
                 needToConvertAsComplex = true;
                 break;
             }

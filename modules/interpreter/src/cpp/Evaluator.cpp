@@ -387,29 +387,37 @@ approximatelyEqual(double a, double b, double epsilon)
 ArrayOf
 Evaluator::expression(ASTPtr t)
 {
-    pushID(t->context());
     ArrayOf retval;
     // by default as the target we create double
-    if (t->type == const_int_node) {
+    pushID(t->context());
+    switch (t->type) {
+    case const_int_node: {
         retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
-    } else if (t->type == const_uint64_node) {
+    } break;
+    case const_uint64_node: {
         char* endptr = nullptr;
         unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
         auto r = static_cast<uint64>(v);
         retval = ArrayOf::uint64Constructor(r);
-    } else if (t->type == const_float_node) {
+    } break;
+    case const_float_node: {
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");
         retval = ArrayOf::singleConstructor(((float)atof(t->text.c_str())));
-    } else if (t->type == const_double_node) {
+    } break;
+    case const_double_node: {
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");
         retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
-    } else if (t->type == const_character_array_node) {
+    } break;
+    case const_character_array_node: {
         retval = ArrayOf::characterArrayConstructor(std::string(t->text.c_str()));
-    } else if (t->type == const_string_node) {
+    } break;
+    case const_string_node: {
         retval = ArrayOf::stringArrayConstructor(std::string(t->text.c_str()));
-    } else if (t->type == const_complex_node || t->type == const_dcomplex_node) {
+    } break;
+    case const_complex_node:
+    case const_dcomplex_node: {
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");
         double val = atof(t->text.c_str());
@@ -418,7 +426,8 @@ Evaluator::expression(ASTPtr t)
         } else {
             retval = ArrayOf::dcomplexConstructor(0, val);
         }
-    } else if (t->type == reserved_node) {
+    } break;
+    case reserved_node: {
         if (t->tokenNumber == NLS_KEYWORD_END) {
             if (endStack.empty()) {
                 Error(ERROR_END_ILLEGAL);
@@ -428,7 +437,8 @@ Evaluator::expression(ASTPtr t)
         } else {
             Error(ERROR_UNRECOGNIZED_NODE);
         }
-    } else {
+    } break;
+    default: {
         uint64 ticProfiling = Profiler::getInstance()->tic();
         std::string operatorName;
         switch (t->opNum) {
@@ -695,14 +705,16 @@ Evaluator::expression(ASTPtr t)
                 }
             }
         } break;
-        default:
+        default: {
             Error(ERROR_UNRECOGNIZED_EXPRESSION);
+        } break;
         }
         if (ticProfiling != 0 && !operatorName.empty()) {
             internalProfileFunction stack
                 = computeProfileStack(this, operatorName, utf8_to_wstring(cstack.back().cname));
             Profiler::getInstance()->toc(ticProfiling, stack);
         }
+    } break;
     }
     popID();
     return retval;

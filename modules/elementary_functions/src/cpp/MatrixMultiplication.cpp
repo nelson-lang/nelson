@@ -58,7 +58,7 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     }
     indexType Clen = Cdim.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    T *ptrC = (T*)Cp;
+    T* ptrC = (T*)Cp;
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, mC, nC);

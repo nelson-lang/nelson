@@ -1,3 +1,8 @@
+# 0.4.2 (2020-02-XX)
+
+* colon operator optimized.
+
+
 # 0.4.1 (2020-01-27)
 
 * rework and speed optimization for times, divide, addition, subtraction operators.
