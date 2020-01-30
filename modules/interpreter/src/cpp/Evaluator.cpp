@@ -208,9 +208,7 @@ Evaluator::rowDefinition(ASTPtr t)
     if (t->opNum != OP_SEMICOLON) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
-    ASTPtr s = t->down;
-    ArrayOfVector expl = expressionList(s);
-    ArrayOfVector retval(expl);
+    ArrayOfVector retval = expressionList(t->down);
     popID();
     return retval;
 }
@@ -291,8 +289,7 @@ Evaluator::matrixDefinition(ASTPtr t)
     ArrayOfVector v;
     v.reserve(m.size());
     for (size_t k = 0; k < m.size(); k++) {
-        ArrayOf h = HorzCatOperator(this, m[k]);
-        v.push_back(h);
+        v.push_back(HorzCatOperator(this, m[k]));
     }
     ArrayOf res = VertCatOperator(this, v);
     popID();
@@ -443,7 +440,7 @@ Evaluator::expression(ASTPtr t)
         std::string operatorName;
         switch (t->opNum) {
         case OP_COLON:
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "colon";
             }
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
@@ -467,92 +464,92 @@ Evaluator::expression(ASTPtr t)
             retval = cellDefinition(t);
         } break;
         case OP_PLUS: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "plus";
             }
             retval = additionOperator(t);
         } break;
         case OP_SUBTRACT: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "minus";
             }
             retval = subtractionOperator(t);
         } break;
         case OP_TIMES: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "mtimes";
             }
             retval = mtimesOperator(t);
         } break;
         case OP_SOR: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "shorcutor";
             }
             retval = shortCutOrOperator(t);
         } break;
         case OP_OR: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "or";
             }
             retval = orOperator(t);
         } break;
         case OP_SAND: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "shorcutand";
             }
             retval = shortCutAndOperator(t);
         } break;
         case OP_AND: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "and";
             }
             retval = andOperator(t);
         } break;
         case OP_LT: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "lt";
             }
             retval = ltOperator(t);
         } break;
         case OP_LEQ: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "le";
             }
             retval = leOperator(t);
         } break;
         case OP_GT: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "gt";
             }
             retval = gtOperator(t);
         } break;
         case OP_GEQ: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "ge";
             }
             retval = geOperator(t);
         } break;
         case OP_EQ: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "eq";
             }
             retval = eqOperator(t);
         } break;
         case OP_NEQ: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "ne";
             }
             retval = neOperator(t);
         } break;
         case OP_DOT_TIMES: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "time";
             }
             retval = timesOperator(t);
         } break;
         case OP_POS: {
             bool bSuccess = false;
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "uplus";
             }
             ArrayOf a = expression(t->down);
@@ -568,7 +565,7 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_NEG: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "uminus";
             }
             bool bSuccess = false;
@@ -585,13 +582,13 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_NOT: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "not";
             }
             retval = notOperator(t);
         } break;
         case OP_TRANSPOSE: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "ctranspose";
             }
             bool bSuccess = false;
@@ -608,7 +605,7 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_DOT_TRANSPOSE: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "transpose";
             }
             bool bSuccess = false;
@@ -638,31 +635,31 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_RDIV: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "mrdivide";
             }
             retval = rightDivideOperator(t);
         } break;
         case OP_LDIV: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "mldivide";
             }
             retval = leftDivideOperator(t);
         } break;
         case OP_DOT_RDIV: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "rdivide";
             }
             retval = dotRightDivideOperator(t);
         } break;
         case OP_DOT_LDIV: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "ldivide";
             }
             retval = dotLeftDivideOperator(t);
         } break;
         case OP_POWER: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "mpower";
             }
             FunctionDef* mpowerFuncDef = nullptr;
@@ -684,7 +681,7 @@ Evaluator::expression(ASTPtr t)
             retval = res[0];
         } break;
         case OP_DOT_POWER: {
-            if (ticProfiling) {
+            if (ticProfiling != 0u) {
                 operatorName = "power";
             }
             ArrayOf A = expression(t->down);
@@ -730,35 +727,36 @@ ArrayOfVector
 Evaluator::expressionList(ASTPtr t)
 {
     ArrayOfVector m;
-    ArrayOfVector n;
-    ASTPtr root;
-    indexType tmp = 0;
-    indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
     pushID(t->context());
-    root = t;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
             t = t->right;
             continue;
         }
-        if (t->type == non_terminal && t->opNum == (OP_RHS)) {
-            try {
-                n = rhsExpression(t->down);
-            } catch (Exception& e) {
-                if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
-                    throw;
+        if (t->type == non_terminal) {
+            if (t->opNum == (OP_RHS)) {
+                ArrayOfVector n;
+                try {
+                    n = rhsExpression(t->down);
+                } catch (Exception& e) {
+                    if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
+                        throw;
+                    }
+                    n = ArrayOfVector();
                 }
-                n = ArrayOfVector();
+                m.reserve(n.size());
+                for (size_t i = 0; i < n.size(); i++) {
+                    m.push_back(n[i]);
+                }
+            } else if (t->opNum == (OP_ALL)) {
+                Error(_W("Illegal use of the ':' operator"));
+            } else {
+                // Call the expression
+                m.push_back(expression(t));
             }
-            m.reserve(n.size());
-            for (size_t i = 0; i < n.size(); i++) {
-                m.push_back(n[i]);
-            }
-        } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
-            Error(_W("Illegal use of the ':' operator"));
         } else {
             // Call the expression
             m.push_back(expression(t));
@@ -773,24 +771,20 @@ ArrayOfVector
 Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
 {
     ArrayOfVector m;
-    ArrayOfVector n;
-    ASTPtr root;
-    indexType index = 0;
-    indexType tmp = 0;
-    indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
     pushID(t->context());
     size_t count = countSubExpressions(t);
-    root = t;
-    index = 0;
+    ASTPtr root = t;
+    indexType index = 0;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
             t = t->right;
             continue;
         }
         if (t->type == non_terminal && t->opNum == (OP_RHS)) {
+            ArrayOfVector n;
             try {
                 n = rhsExpression(t->down);
             } catch (Exception& e) {
@@ -807,14 +801,14 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
             Dimensions dim = subRoot.getDimensions();
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
-                tmp = dim.getElementCount();
+                indexType tmp = dim.getElementCount();
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
                 }
             } else {
-                tmp = dim.getDimensionLength(index);
+                indexType tmp = dim.getDimensionLength(index);
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
