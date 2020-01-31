@@ -26,6 +26,7 @@
 #include "nlsConfig.h"
 #include <Windows.h>
 //=============================================================================
+#pragma comment(lib, "libnlsblaslapack.lib")
 #pragma comment(lib, CAT_3_STRINGS("boost_regex-", BOOST_TARGET, ".lib"))
 //=============================================================================
 int WINAPI
