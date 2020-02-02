@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "cell2structBuiltin.hpp"
 #include "Error.hpp"
 //=============================================================================

@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <set>
+#include <algorithm>
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
