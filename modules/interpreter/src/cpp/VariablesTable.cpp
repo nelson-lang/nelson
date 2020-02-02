@@ -25,30 +25,41 @@
 //=============================================================================
 #include <algorithm>
 #include "VariablesTable.hpp"
-//=============================================================================
-#define SYMTAB (4096 * 2)
+#include "GenericTable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 VariablesTable::VariablesTable()
 {
-    // variablesMap.reserve(SYMTAB);
-    // lockedVariables.reserve(SYMTAB);
+    GenericTable<ArrayOf>* genericTable = nullptr;
+    try {
+        genericTable = new GenericTable<ArrayOf>;
+    } catch (const std::bad_alloc&) {
+        genericTable = nullptr;
+    }
+    variablesTable = (void*)genericTable;
 }
 //=============================================================================
 VariablesTable::~VariablesTable()
 {
-    variablesMap.clear();
+    if (variablesTable != nullptr) {
+        GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        delete genericTable;
+        genericTable = nullptr;
+    }
     lockedVariables.clear();
 }
 //=============================================================================
 bool
 VariablesTable::findVariable(const key_type& key, value_type& dest)
 {
-    auto it = variablesMap.find(key);
-    if (it != variablesMap.end()) {
-        dest = it->second;
-        return true;
+    if (variablesTable != nullptr) {
+        GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        value_type* v = genericTable->findSymbol(key);
+        if (v) {
+            dest = v[0];
+            return true;
+        }
     }
     return false;
 }
@@ -56,8 +67,12 @@ VariablesTable::findVariable(const key_type& key, value_type& dest)
 bool
 VariablesTable::isVariable(const key_type& key)
 {
-    if (variablesMap.count(key) > 0) {
-        return true;
+    if (variablesTable != nullptr) {
+        GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        value_type* v = genericTable->findSymbol(key);
+        if (v) {
+            return true;
+        }
     }
     return false;
 }
@@ -67,8 +82,11 @@ VariablesTable::deleteVariable(const key_type& key)
 {
     if (!isLockedVariable(key)) {
         if (isVariable(key)) {
-            variablesMap.erase(key);
-            return true;
+            if (variablesTable != nullptr) {
+                GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+                genericTable->deleteSymbol(key);
+                return true;
+            }
         }
     }
     return false;
@@ -77,30 +95,37 @@ VariablesTable::deleteVariable(const key_type& key)
 bool
 VariablesTable::insertVariable(const key_type& key, const value_type& val)
 {
-    if (lockedVariables.empty()) {
-        variablesMap[key] = val;
-        return true;
-    }
     // insert only in a not locked variable
-    if (!isLockedVariable(key)) {
-        variablesMap[key] = val;
-        return true;
+    if (!isLockedVariable(key) || lockedVariables.empty()) {
+        if (variablesTable != nullptr) {
+            GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+            genericTable->insertSymbol(key, val);
+            return true;
+        }
     }
-
     return false;
 }
 //=============================================================================
 stringVector
 VariablesTable::getVariablesList(bool withPersistent)
 {
+    if (variablesTable == nullptr) {
+        return stringVector();
+    }
+    GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+    stringVector list = genericTable->getAllSymbols();
+    if (withPersistent) {
+        return list;
+    }
     stringVector retlist;
-    for (auto& it : variablesMap) {
+
+    for (auto e : list) {
         if (!withPersistent) {
-            if (it.first.at(0) != '_') {
-                retlist.push_back(it.first);
+            if (e.at(0) != '_') {
+                retlist.push_back(e);
             }
         } else {
-            retlist.push_back(it.first);
+            retlist.push_back(e);
         }
     }
     return retlist;
@@ -127,8 +152,6 @@ VariablesTable::lockVariable(const std::string& key)
         return true;
     }
     return true;
-
-    return false;
 }
 //=============================================================================
 bool

@@ -2,6 +2,10 @@
 
 * colon operator optimized.
 
+* replaces hashmap used for variables.
+
+* some few speed optimization about evaluator.
+
 
 # 0.4.1 (2020-01-27)
 
