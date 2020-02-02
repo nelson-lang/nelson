@@ -54,7 +54,6 @@
 #include "ArrayOf.hpp"
 #include "FunctionDef.hpp"
 #include "VariablesTable.hpp"
-#include "SymbolTable.hpp"
 #include "LocalFunctionsTable.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================

@@ -727,36 +727,35 @@ ArrayOfVector
 Evaluator::expressionList(ASTPtr t)
 {
     ArrayOfVector m;
+    ArrayOfVector n;
+    ASTPtr root;
+    indexType tmp = 0;
+    indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
     pushID(t->context());
+    root = t;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
             t = t->right;
             continue;
         }
-        if (t->type == non_terminal) {
-            if (t->opNum == (OP_RHS)) {
-                ArrayOfVector n;
-                try {
-                    n = rhsExpression(t->down);
-                } catch (Exception& e) {
-                    if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
-                        throw;
-                    }
-                    n = ArrayOfVector();
+        if (t->type == non_terminal && t->opNum == (OP_RHS)) {
+            try {
+                n = rhsExpression(t->down);
+            } catch (Exception& e) {
+                if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
+                    throw;
                 }
-                m.reserve(n.size());
-                for (size_t i = 0; i < n.size(); i++) {
-                    m.push_back(n[i]);
-                }
-            } else if (t->opNum == (OP_ALL)) {
-                Error(_W("Illegal use of the ':' operator"));
-            } else {
-                // Call the expression
-                m.push_back(expression(t));
+                n = ArrayOfVector();
             }
+            m.reserve(n.size());
+            for (size_t i = 0; i < n.size(); i++) {
+                m.push_back(n[i]);
+            }
+        } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
+            Error(_W("Illegal use of the ':' operator"));
         } else {
             // Call the expression
             m.push_back(expression(t));
@@ -771,20 +770,24 @@ ArrayOfVector
 Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
 {
     ArrayOfVector m;
+    ArrayOfVector n;
+    ASTPtr root;
+    indexType index = 0;
+    indexType tmp = 0;
+    indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
     pushID(t->context());
     size_t count = countSubExpressions(t);
-    ASTPtr root = t;
-    indexType index = 0;
+    root = t;
+    index = 0;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
             t = t->right;
             continue;
         }
         if (t->type == non_terminal && t->opNum == (OP_RHS)) {
-            ArrayOfVector n;
             try {
                 n = rhsExpression(t->down);
             } catch (Exception& e) {
@@ -801,14 +804,14 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
             Dimensions dim = subRoot.getDimensions();
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
-                indexType tmp = dim.getElementCount();
+                tmp = dim.getElementCount();
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
                 }
             } else {
-                indexType tmp = dim.getDimensionLength(index);
+                tmp = dim.getDimensionLength(index);
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
@@ -1272,6 +1275,7 @@ Evaluator::forStatement(ASTPtr t)
         elementCount = indexSet.getDimensions().getColumns();
     }
     context->enterLoop();
+
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
         if (isRowVector) {
             indexVar = indexSet.getValueAtIndex(elementNumber);
@@ -3244,6 +3248,12 @@ Evaluator::getCallers(bool includeCurrent)
             std::string functionname = this->cstack[j - 1].detail;
             if (boost::algorithm::starts_with(functionname, "built-in ")) {
                 boost::algorithm::replace_all(functionname, "built-in ", "");
+            } else if (boost::algorithm::starts_with(functionname, "filename ")) {
+                boost::algorithm::replace_all(functionname, "filename ", "");
+                if (boost::algorithm::ends_with(functionname, ".nlf")) {
+                    boost::filesystem::path p(functionname);
+                    functionname = p.stem().generic_string();
+                }
             } else {
                 // remove all that is not functions
                 bool bOK = !boost::algorithm::contains(functionname, "(")

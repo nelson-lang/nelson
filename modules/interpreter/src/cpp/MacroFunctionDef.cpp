@@ -149,8 +149,9 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
     ArrayOf a;
     size_t minCount = 0;
     Context* context = eval->getContext();
+    std::string filenameUtf8 = wstring_to_utf8(fileName);
     context->pushScope(name);
-    eval->pushDebug(wstring_to_utf8(fileName), name);
+    eval->pushDebug(filenameUtf8, name);
     // Push our local functions onto the function scope
     MacroFunctionDef* cp;
     // Walk up until we get to the head of the list

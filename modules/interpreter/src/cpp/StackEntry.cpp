@@ -26,7 +26,7 @@
 #include "StackEntry.hpp"
 //=============================================================================
 namespace Nelson {
-StackEntry::StackEntry(std::string cntxt, std::string det, int id)
+StackEntry::StackEntry(const std::string& cntxt, const std::string& det, int id)
 {
     cname.assign(cntxt);
     detail.assign(det);
