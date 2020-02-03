@@ -93,7 +93,7 @@ realComparatorNotEquals(Class commonClass, void* vptrA, void* vptrB, indexType i
         return static_cast<Nelson::logical>(ptrA[idxA] != ptrB[idxB]);
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -114,7 +114,7 @@ complexComparatorNotEquals(
             (ptrA[2 * idxA] != ptrB[2 * idxB]) || (ptrA[2 * idxA + 1] != ptrB[2 * idxB + 1]));
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -129,7 +129,7 @@ stringArrayComparatorNotEquals(
                 ptrA[idxA].getContentAsWideString() != ptrB[idxB].getContentAsWideString());
         }
     }
-    return true;
+    return 1;
 }
 //=============================================================================
 ArrayOf

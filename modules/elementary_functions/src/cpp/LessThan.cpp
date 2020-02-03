@@ -95,7 +95,7 @@ realComparatorLessThan(Class commonClass, void* vptrA, void* vptrB, indexType id
         return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -116,7 +116,7 @@ complexComparatorLessThan(
             < complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -131,7 +131,7 @@ stringArrayComparatorLessThan(
                 ptrA[idxA].getContentAsWideString() < ptrB[idxB].getContentAsWideString());
         }
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 ArrayOf

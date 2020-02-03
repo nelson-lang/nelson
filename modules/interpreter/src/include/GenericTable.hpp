@@ -26,11 +26,12 @@
 #pragma once
 //=============================================================================
 #include <cstring>
+#include <utility>
 #include <vector>
 #include <functional>
 #include "Types.hpp"
 //=============================================================================
-typedef std::string key_type;
+using key_type = std::string;
 //=============================================================================
 #define SYMTAB 8192
 //=============================================================================
@@ -40,14 +41,14 @@ template <class T> class GenericTable
 {
 private:
     //=============================================================================
-    typedef T value_type;
+    using value_type = T;
     //=============================================================================
     struct Entry
     {
         key_type key;
         value_type val;
         Entry* next;
-        Entry(key_type k, value_type v, Entry* n) : key(k), val(v), next(n) {}
+        Entry(key_type k, value_type v, Entry* n) : key(std::move(k)), val(v), next(n) {}
     };
     //=============================================================================
     Entry* hashTable[SYMTAB];
@@ -64,10 +65,11 @@ public:
     //=============================================================================
     ~GenericTable()
     {
-        for (int i = 0; i < SYMTAB; i++) {
-            if (hashTable[i] != NULL) {
-                Entry *ptr, *nxt;
-                ptr = hashTable[i];
+        for (auto & i : hashTable) {
+            if (i != nullptr) {
+                Entry *ptr;
+                Entry *nxt;
+                ptr = i;
                 while (ptr) {
                     nxt = ptr;
                     ptr = ptr->next;
@@ -84,11 +86,12 @@ public:
         Entry* ptr;
         ptr = hashTable[i];
         while (ptr) {
-            if (ptr->key == key)
+            if (ptr->key == key) {
                 return (&ptr->val);
+}
             ptr = ptr->next;
         }
-        return NULL;
+        return nullptr;
     }
     //=============================================================================
     void
@@ -97,8 +100,9 @@ public:
         size_t i = hashKey(key) % SYMTAB; // Hash
         Entry* ptr;
         ptr = hashTable[i];
-        if (!ptr)
+        if (!ptr) {
             return;
+}
         // Check for the first element in the table matching
         // the key.
         if (ptr->key == key) {
@@ -109,7 +113,7 @@ public:
         // No - its not, set a next pointer
         Entry* nxt;
         nxt = ptr->next;
-        while (nxt != NULL) {
+        while (nxt != nullptr) {
             if (nxt->key == key) {
                 ptr->next = nxt->next;
                 delete nxt;
@@ -127,7 +131,7 @@ public:
         Entry* ptr;
         ptr = hashTable[i];
         if (!ptr) {
-            hashTable[i] = new Entry(key, val, NULL);
+            hashTable[i] = new Entry(key, val, nullptr);
             return;
         }
         while (ptr) {
@@ -144,11 +148,11 @@ public:
     getAllSymbols()
     {
         stringVector retlist;
-        for (int i = 0; i < SYMTAB; i++) {
-            if (hashTable[i] != NULL) {
+        for (auto & i : hashTable) {
+            if (i != nullptr) {
                 Entry* ptr;
-                ptr = hashTable[i];
-                while (ptr != NULL) {
+                ptr = i;
+                while (ptr != nullptr) {
                     retlist.push_back(ptr->key);
                     ptr = ptr->next;
                 }

@@ -43,7 +43,7 @@ VariablesTable::VariablesTable()
 VariablesTable::~VariablesTable()
 {
     if (variablesTable != nullptr) {
-        GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
         delete genericTable;
         genericTable = nullptr;
     }
@@ -54,9 +54,9 @@ bool
 VariablesTable::findVariable(const key_type& key, value_type& dest)
 {
     if (variablesTable != nullptr) {
-        GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
         value_type* v = genericTable->findSymbol(key);
-        if (v) {
+        if (v != nullptr) {
             dest = v[0];
             return true;
         }
@@ -68,9 +68,9 @@ bool
 VariablesTable::isVariable(const key_type& key)
 {
     if (variablesTable != nullptr) {
-        GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
         value_type* v = genericTable->findSymbol(key);
-        if (v) {
+        if (v != nullptr) {
             return true;
         }
     }
@@ -83,7 +83,7 @@ VariablesTable::deleteVariable(const key_type& key)
     if (!isLockedVariable(key)) {
         if (isVariable(key)) {
             if (variablesTable != nullptr) {
-                GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+                auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
                 genericTable->deleteSymbol(key);
                 return true;
             }
@@ -98,7 +98,7 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
     // insert only in a not locked variable
     if (!isLockedVariable(key) || lockedVariables.empty()) {
         if (variablesTable != nullptr) {
-            GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+            auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
             genericTable->insertSymbol(key, val);
             return true;
         }
@@ -112,7 +112,7 @@ VariablesTable::getVariablesList(bool withPersistent)
     if (variablesTable == nullptr) {
         return stringVector();
     }
-    GenericTable<ArrayOf>* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+    auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
     stringVector list = genericTable->getAllSymbols();
     if (withPersistent) {
         return list;

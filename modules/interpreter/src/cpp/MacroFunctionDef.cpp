@@ -59,7 +59,7 @@ MacroFunctionDef::~MacroFunctionDef()
         nextFunction = nullptr;
     }
     for (auto p : ptAst) {
-        if (p) {
+        if (p != nullptr) {
             deleteAst(p, ptAst);
             p = nullptr;
         }

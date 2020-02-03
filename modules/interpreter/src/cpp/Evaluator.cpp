@@ -440,7 +440,7 @@ Evaluator::expression(ASTPtr t)
         std::string operatorName;
         switch (t->opNum) {
         case OP_COLON:
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "colon";
             }
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
@@ -464,92 +464,92 @@ Evaluator::expression(ASTPtr t)
             retval = cellDefinition(t);
         } break;
         case OP_PLUS: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "plus";
             }
             retval = additionOperator(t);
         } break;
         case OP_SUBTRACT: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "minus";
             }
             retval = subtractionOperator(t);
         } break;
         case OP_TIMES: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "mtimes";
             }
             retval = mtimesOperator(t);
         } break;
         case OP_SOR: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "shorcutor";
             }
             retval = shortCutOrOperator(t);
         } break;
         case OP_OR: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "or";
             }
             retval = orOperator(t);
         } break;
         case OP_SAND: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "shorcutand";
             }
             retval = shortCutAndOperator(t);
         } break;
         case OP_AND: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "and";
             }
             retval = andOperator(t);
         } break;
         case OP_LT: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "lt";
             }
             retval = ltOperator(t);
         } break;
         case OP_LEQ: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "le";
             }
             retval = leOperator(t);
         } break;
         case OP_GT: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "gt";
             }
             retval = gtOperator(t);
         } break;
         case OP_GEQ: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "ge";
             }
             retval = geOperator(t);
         } break;
         case OP_EQ: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "eq";
             }
             retval = eqOperator(t);
         } break;
         case OP_NEQ: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "ne";
             }
             retval = neOperator(t);
         } break;
         case OP_DOT_TIMES: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "time";
             }
             retval = timesOperator(t);
         } break;
         case OP_POS: {
             bool bSuccess = false;
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "uplus";
             }
             ArrayOf a = expression(t->down);
@@ -565,7 +565,7 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_NEG: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "uminus";
             }
             bool bSuccess = false;
@@ -582,13 +582,13 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_NOT: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "not";
             }
             retval = notOperator(t);
         } break;
         case OP_TRANSPOSE: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "ctranspose";
             }
             bool bSuccess = false;
@@ -605,7 +605,7 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_DOT_TRANSPOSE: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "transpose";
             }
             bool bSuccess = false;
@@ -635,31 +635,31 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_RDIV: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "mrdivide";
             }
             retval = rightDivideOperator(t);
         } break;
         case OP_LDIV: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "mldivide";
             }
             retval = leftDivideOperator(t);
         } break;
         case OP_DOT_RDIV: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "rdivide";
             }
             retval = dotRightDivideOperator(t);
         } break;
         case OP_DOT_LDIV: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "ldivide";
             }
             retval = dotLeftDivideOperator(t);
         } break;
         case OP_POWER: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "mpower";
             }
             FunctionDef* mpowerFuncDef = nullptr;
@@ -681,7 +681,7 @@ Evaluator::expression(ASTPtr t)
             retval = res[0];
         } break;
         case OP_DOT_POWER: {
-            if (ticProfiling != 0u) {
+            if (ticProfiling != 0U) {
                 operatorName = "power";
             }
             ArrayOf A = expression(t->down);

@@ -20,7 +20,7 @@
     THE SOFTWARE.
 */
 
-#include <FileWatcherWin32.h>
+#include "FileWatcherWin32.h"
 #include "characters_encoding.hpp"
 
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_WIN32

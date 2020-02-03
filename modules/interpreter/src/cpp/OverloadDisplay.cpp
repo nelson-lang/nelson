@@ -57,7 +57,7 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
         bool needToOverload;
         uint64 ticProfile = Profiler::getInstance()->tic();
         DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
-        if (ticProfile) {
+        if (ticProfile != 0u) {
             internalProfileFunction stack = computeProfileStack(eval, "disp", L"evaluator");
             Profiler::getInstance()->toc(ticProfile, stack);
         }
