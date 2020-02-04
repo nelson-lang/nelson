@@ -135,7 +135,7 @@ stringArrayComparatorGreaterThan(
 }
 //=============================================================================
 ArrayOf
-GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+GreaterThan(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     return relationOperator(A, B, L">", &realComparatorGreaterThan, &complexComparatorGreaterThan,

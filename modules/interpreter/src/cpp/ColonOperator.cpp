@@ -92,7 +92,7 @@ Evaluator::colonUnitOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::colonUnitOperator(ArrayOf A, ArrayOf B)
+Evaluator::colonUnitOperator(const ArrayOf &A, const ArrayOf &B)
 {
     ArrayOf res;
     bool bSuccess = false;
@@ -110,7 +110,7 @@ Evaluator::colonUnitOperator(ArrayOf A, ArrayOf B)
 }
 //=============================================================================
 ArrayOf
-Evaluator::colonOperator(ArrayOf A, ArrayOf B, ArrayOf C)
+Evaluator::colonOperator(const ArrayOf &A, const ArrayOf &B, const ArrayOf &C)
 {
     ArrayOf res;
     bool bSuccess = false;

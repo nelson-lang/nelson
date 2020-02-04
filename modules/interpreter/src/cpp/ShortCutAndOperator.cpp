@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::shortCutAndOperator(ArrayOf A, ArrayOf B)
+Evaluator::shortCutAndOperator(const ArrayOf &A, const ArrayOf &B)
 {
     ArrayOf retval;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))

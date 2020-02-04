@@ -593,7 +593,7 @@ integer_elementWiseMultiplication_integer(const ArrayOf& a, const ArrayOf& b)
 }
 //=============================================================================
 ArrayOf
-elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
     bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
@@ -606,17 +606,19 @@ elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         } else if (isSingleA && isSingleB) {
             res = single_elementWiseMultiplication_single(A, B);
         } else {
+            ArrayOf AA = A;
+            ArrayOf BB = B;
             if (A.getDataClass() == NLS_DOUBLE) {
-                A.promoteType(NLS_SINGLE);
+                AA.promoteType(NLS_SINGLE);
             } else {
-                A.promoteType(NLS_SCOMPLEX);
+                AA.promoteType(NLS_SCOMPLEX);
             }
             if (B.getDataClass() == NLS_DOUBLE) {
-                B.promoteType(NLS_SINGLE);
+                BB.promoteType(NLS_SINGLE);
             } else {
-                B.promoteType(NLS_SCOMPLEX);
+                BB.promoteType(NLS_SCOMPLEX);
             }
-            res = single_elementWiseMultiplication_single(A, B);
+            res = single_elementWiseMultiplication_single(AA, BB);
         }
     } else {
         bool isIntegerA = A.isIntegerType() || A.isNdArrayIntegerType();
@@ -629,10 +631,12 @@ elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             }
         } else {
             if (isIntegerA && isDoubleB && B.isScalar()) {
-                B.promoteType(A.getDataClass());
-                res = integer_elementWiseMultiplication_integer(A, B);
+                ArrayOf BB = B;
+                BB.promoteType(A.getDataClass());
+                res = integer_elementWiseMultiplication_integer(A, BB);
             } else if (isIntegerB && isDoubleA && A.isScalar()) {
-                A.promoteType(B.getDataClass());
+                ArrayOf AA = A;
+                AA.promoteType(B.getDataClass());
                 res = integer_elementWiseMultiplication_integer(A, B);
             } else {
                 needToOverload = true;

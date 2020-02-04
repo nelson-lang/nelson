@@ -133,7 +133,7 @@ stringArrayComparatorNotEquals(
 }
 //=============================================================================
 ArrayOf
-NotEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+NotEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     void* ptrA = const_cast<void*>(A.getDataPointer());

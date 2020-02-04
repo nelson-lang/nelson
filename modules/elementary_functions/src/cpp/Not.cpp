@@ -42,22 +42,23 @@ boolean_not(indexType N, logical* C, const logical* A)
 }
 //=============================================================================
 ArrayOf
-Not(ArrayOf& A, bool& needToOverload)
+Not(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf C;
     needToOverload = false;
     if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
         Error(_W("Input argument must be real."));
     }
+    ArrayOf AA = A;
     try {
-        A.promoteType(NLS_LOGICAL);
+        AA.promoteType(NLS_LOGICAL);
     } catch (Exception&) {
         needToOverload = true;
         return ArrayOf();
     }
     logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(
         NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false));
-    boolean_not(A.getLength(), Cp, static_cast<const logical*>(A.getDataPointer()));
+    boolean_not(A.getLength(), Cp, static_cast<const logical*>(AA.getDataPointer()));
     C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
     return C;
 }

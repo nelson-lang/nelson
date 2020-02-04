@@ -39,7 +39,7 @@ Evaluator::geOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::geOperator(ArrayOf A, ArrayOf B)
+Evaluator::geOperator(const ArrayOf &A, const ArrayOf &B)
 {
     ArrayOf res;
     bool bSuccess = false;

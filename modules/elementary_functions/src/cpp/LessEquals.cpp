@@ -136,7 +136,7 @@ stringArrayComparatorLessEquals(
 }
 //=============================================================================
 ArrayOf
-LessEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+LessEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     void* ptrA = const_cast<void*>(A.getDataPointer());

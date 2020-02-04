@@ -135,7 +135,7 @@ stringArrayComparatorLessThan(
 }
 //=============================================================================
 ArrayOf
-LessThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+LessThan(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     return relationOperator(A, B, L"<", &realComparatorLessThan, &complexComparatorLessThan,

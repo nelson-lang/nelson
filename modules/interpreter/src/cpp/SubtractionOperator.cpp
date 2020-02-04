@@ -39,7 +39,7 @@ Evaluator::subtractionOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::subtractionOperator(ArrayOf A, ArrayOf B)
+Evaluator::subtractionOperator(const ArrayOf &A, const ArrayOf &B)
 {
     ArrayOf res;
     bool bSuccess = false;
