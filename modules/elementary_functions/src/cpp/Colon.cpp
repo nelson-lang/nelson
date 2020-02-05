@@ -203,37 +203,37 @@ Colon(const ArrayOf& J, const ArrayOf& K, bool& needToOverload)
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload)
 {
+    ArrayOf _I = I;
+    ArrayOf _J = J;
+    ArrayOf _K = K;
     needToOverload = false;
-    ArrayOf II = I;
-    ArrayOf JJ = J;
-    ArrayOf KK = K;
-    if (J.isSparse() || I.isSparse() || K.isSparse()) {
+    if (_J.isSparse() || _I.isSparse() || _K.isSparse()) {
         needToOverload = true;
     } else {
-        if (J.isDoubleType() && K.isDoubleType()) {
+        if (_J.isDoubleType() && _K.isDoubleType()) {
             try {
-                JJ.promoteType(I.getDataClass());
+                _J.promoteType(_I.getDataClass());
             } catch (const Exception&) {
                 needToOverload = true;
                 return ArrayOf();
             }
             try {
-                KK.promoteType(I.getDataClass());
+                _K.promoteType(_I.getDataClass());
             } catch (const Exception&) {
                 needToOverload = true;
                 return ArrayOf();
             }
-        } else if ((J.getDataClass() != K.getDataClass())) {
-            if (J.isDoubleType() || K.isDoubleType()) {
-                if (J.isDoubleType()) {
-                    if (K.isIntegerType()) {
-                        double d = JJ.getContentAsDoubleScalar(true);
+        } else if ((_J.getDataClass() != _K.getDataClass())) {
+            if (_J.isDoubleType() || _K.isDoubleType()) {
+                if (_J.isDoubleType()) {
+                    if (_K.isIntegerType()) {
+                        double d = _J.getContentAsDoubleScalar(true);
                         if (int64(d) != d) {
                             Error(_W("Colon input arguments must have same type."));
                         }
-                        if (d < 0 && K.isUnsignedIntegerType()) {
+                        if (d < 0 && _K.isUnsignedIntegerType()) {
                             try {
-                                KK.promoteType(static_cast<Class>(K.getDataClass() + 1));
+                                _K.promoteType(static_cast<Class>(_K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
                                 return ArrayOf();
@@ -241,20 +241,20 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                         }
                     }
                     try {
-                        JJ.promoteType(K.getDataClass());
+                        _J.promoteType(_K.getDataClass());
                     } catch (const Exception&) {
                         needToOverload = true;
                         return ArrayOf();
                     }
                 } else {
-                    if (J.isIntegerType()) {
-                        double d = KK.getContentAsDoubleScalar(true);
+                    if (_J.isIntegerType()) {
+                        double d = _K.getContentAsDoubleScalar(true);
                         if (int64(d) != d) {
                             Error(_W("Colon input arguments must have same type."));
                         }
-                        if (d < 0 && K.isUnsignedIntegerType()) {
+                        if (d < 0 && _K.isUnsignedIntegerType()) {
                             try {
-                                KK.promoteType(static_cast<Class>(K.getDataClass() + 1));
+                                _K.promoteType(static_cast<Class>(_K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
                                 return ArrayOf();
@@ -262,7 +262,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                         }
                     }
                     try {
-                        KK.promoteType(J.getDataClass());
+                        _K.promoteType(_J.getDataClass());
                     } catch (const Exception&) {
                         needToOverload = true;
                         return ArrayOf();
@@ -272,10 +272,10 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                 Error(_W("Colon input arguments must have same type."));
             }
         }
-        if (I.getDataClass() != J.getDataClass()) {
-            if (I.isDoubleType()) {
+        if (_I.getDataClass() != _J.getDataClass()) {
+            if (_I.isDoubleType()) {
                 try {
-                    II.promoteType(J.getDataClass());
+                    _I.promoteType(_J.getDataClass());
                 } catch (const Exception&) {
                     needToOverload = true;
                     return ArrayOf();
@@ -285,26 +285,26 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             }
         }
         bool warningArrayAsScalar = false;
-        switch (J.getDataClass()) {
+        switch (_J.getDataClass()) {
         case NLS_UINT8: {
             uint8 step;
             uint8 low;
             uint8 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 low = static_cast<uint8>(1);
                 high = static_cast<uint8>(0);
                 step = static_cast<uint8>(1);
             } else {
-                step = II.getContentAsUnsignedInteger8Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsUnsignedInteger8Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsUnsignedInteger8Scalar(true);
+                low = _J.getContentAsUnsignedInteger8Scalar(true);
                 if (!J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsUnsignedInteger8Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsUnsignedInteger8Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -317,21 +317,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             int8 step;
             int8 low;
             int8 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 low = static_cast<int8>(1);
                 high = static_cast<int8>(0);
                 step = static_cast<int8>(1);
             } else {
-                step = II.getContentAsInteger8Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsInteger8Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsInteger8Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsInteger8Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsInteger8Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsInteger8Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -344,21 +344,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             uint16 step;
             uint16 low;
             uint16 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<uint16>(1);
                 low = static_cast<uint16>(1);
                 high = static_cast<uint16>(0);
             } else {
-                step = II.getContentAsUnsignedInteger16Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsUnsignedInteger16Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsUnsignedInteger16Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsUnsignedInteger16Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsUnsignedInteger16Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsUnsignedInteger16Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -371,21 +371,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             int16 step;
             int16 low;
             int16 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<int16>(1);
                 low = static_cast<int16>(1);
                 high = static_cast<int16>(0);
             } else {
-                step = II.getContentAsInteger16Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsInteger16Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsInteger16Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsInteger16Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsInteger16Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsInteger16Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -398,21 +398,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             uint32 step;
             uint32 low;
             uint32 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<uint32>(1);
                 low = static_cast<uint32>(1);
                 high = static_cast<uint32>(0);
             } else {
-                step = II.getContentAsUnsignedInteger32Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsUnsignedInteger32Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsUnsignedInteger32Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsUnsignedInteger32Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsUnsignedInteger32Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsUnsignedInteger32Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -425,21 +425,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             auto step = static_cast<int32>(1);
             int32 low;
             int32 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<int32>(1);
                 low = static_cast<int32>(1);
                 high = static_cast<int32>(0);
             } else {
-                step = II.getContentAsInteger32Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsInteger32Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsInteger32Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsInteger32Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsInteger32Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsInteger32Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -452,21 +452,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             auto step = static_cast<uint64>(1);
             uint64 low;
             uint64 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<uint64>(1);
                 low = static_cast<uint64>(1);
                 high = static_cast<uint64>(0);
             } else {
-                step = II.getContentAsUnsignedInt64Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsUnsignedInt64Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsUnsignedInt64Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsUnsignedInt64Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsUnsignedInt64Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsUnsignedInt64Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -479,21 +479,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             int64 step;
             int64 low;
             int64 high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<int64>(1);
                 low = static_cast<int64>(1);
                 high = static_cast<int64>(0);
             } else {
-                step = II.getContentAsInteger32Scalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsInteger32Scalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsInteger32Scalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsInteger32Scalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsInteger32Scalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsInteger32Scalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -506,21 +506,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             single step;
             single low;
             single high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<single>(1);
                 low = static_cast<single>(1);
                 high = static_cast<single>(0);
             } else {
-                step = II.getContentAsSingleScalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsSingleScalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsSingleScalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsSingleScalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsSingleScalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsSingleScalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -533,21 +533,21 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             double step;
             double low;
             double high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<double>(1);
                 low = static_cast<double>(1);
                 high = static_cast<double>(0);
             } else {
-                step = II.getContentAsDoubleScalar(true);
-                if (!I.isScalar()) {
+                step = _I.getContentAsDoubleScalar(true);
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = JJ.getContentAsDoubleScalar(true);
-                if (!J.isScalar()) {
+                low = _J.getContentAsDoubleScalar(true);
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = KK.getContentAsDoubleScalar(true);
-                if (!K.isScalar()) {
+                high = _K.getContentAsDoubleScalar(true);
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -560,24 +560,27 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             single step;
             single low;
             single high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<single>(1);
                 low = static_cast<single>(1);
                 high = static_cast<single>(0);
             } else {
+                ArrayOf JJ(_J);
+                ArrayOf KK(_K);
+                ArrayOf II(_I);
                 II.promoteType(NLS_SINGLE);
                 JJ.promoteType(NLS_SINGLE);
                 KK.promoteType(NLS_SINGLE);
                 step = II.getContentAsSingleScalar(true);
-                if (!I.isScalar()) {
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
                 low = JJ.getContentAsSingleScalar(true);
-                if (!J.isScalar()) {
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
                 high = KK.getContentAsSingleScalar(true);
-                if (!K.isScalar()) {
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -590,24 +593,27 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             double step;
             double low;
             double high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<double>(1);
                 low = static_cast<double>(1);
                 high = static_cast<double>(0);
             } else {
+                ArrayOf II(_I);
+                ArrayOf JJ(_J);
+                ArrayOf KK(_K);
                 II.promoteType(NLS_DOUBLE);
                 JJ.promoteType(NLS_DOUBLE);
                 KK.promoteType(NLS_DOUBLE);
                 step = II.getContentAsDoubleScalar(true);
-                if (!I.isScalar()) {
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
                 low = JJ.getContentAsDoubleScalar(true);
-                if (!J.isScalar()) {
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
                 high = KK.getContentAsDoubleScalar(true);
-                if (!K.isScalar()) {
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }
@@ -620,24 +626,24 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
             charType step;
             charType low;
             charType high;
-            if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
+            if (_J.isEmpty() || _K.isEmpty() || _I.isEmpty()) {
                 step = static_cast<charType>(1);
                 low = static_cast<charType>(1);
                 high = static_cast<charType>(0);
             } else {
-                std::wstring content = II.getContentAsWideString();
+                std::wstring content = _I.getContentAsWideString();
                 step = content[0];
-                if (!I.isScalar()) {
+                if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                content = JJ.getContentAsWideString();
+                content = _J.getContentAsWideString();
                 low = content[0];
-                if (!J.isScalar()) {
+                if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                content = KK.getContentAsWideString();
+                content = _K.getContentAsWideString();
                 high = content[0];
-                if (!K.isScalar()) {
+                if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }
             }

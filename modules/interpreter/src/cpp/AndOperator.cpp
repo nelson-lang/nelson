@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::andOperator(const ArrayOf &A, const ArrayOf &B)
+Evaluator::andOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf retval;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))

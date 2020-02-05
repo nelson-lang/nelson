@@ -65,10 +65,10 @@ public:
     //=============================================================================
     ~GenericTable()
     {
-        for (auto & i : hashTable) {
+        for (auto& i : hashTable) {
             if (i != nullptr) {
-                Entry *ptr;
-                Entry *nxt;
+                Entry* ptr;
+                Entry* nxt;
                 ptr = i;
                 while (ptr) {
                     nxt = ptr;
@@ -88,7 +88,7 @@ public:
         while (ptr) {
             if (ptr->key == key) {
                 return (&ptr->val);
-}
+            }
             ptr = ptr->next;
         }
         return nullptr;
@@ -102,7 +102,7 @@ public:
         ptr = hashTable[i];
         if (!ptr) {
             return;
-}
+        }
         // Check for the first element in the table matching
         // the key.
         if (ptr->key == key) {
@@ -148,7 +148,7 @@ public:
     getAllSymbols()
     {
         stringVector retlist;
-        for (auto & i : hashTable) {
+        for (auto& i : hashTable) {
             if (i != nullptr) {
                 Entry* ptr;
                 ptr = i;

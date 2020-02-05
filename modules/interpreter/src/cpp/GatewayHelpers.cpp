@@ -33,8 +33,7 @@ int
 NelsonAddGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void* gateway,
     int nbBuiltins, const wchar_t* gatewayName, void* ptrVoidInitializeFunction)
 {
-    auto ptrInitializeFunction
-        = (PROC_InitializeGateway)ptrVoidInitializeFunction;
+    auto ptrInitializeFunction = (PROC_InitializeGateway)ptrVoidInitializeFunction;
     const Nelson::nlsGateway* _gateway = (Nelson::nlsGateway*)gateway;
     auto* _eval = (Nelson::Evaluator*)eval;
     Context* ctx = _eval->getContext();
@@ -44,8 +43,7 @@ NelsonAddGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void* g
                 _gateway[k].fptr, _gateway[k].nRhs, _gateway[k].nLhs, moduleFilename, gatewayName);
         }
         if ((void*)ptrInitializeFunction != nullptr) {
-            auto ptrFunc
-                = reinterpret_cast<PROC_InitializeGateway>(ptrInitializeFunction);
+            auto ptrFunc = reinterpret_cast<PROC_InitializeGateway>(ptrInitializeFunction);
             return ptrFunc(_eval) ? 1 : 0;
         }
         return 1;

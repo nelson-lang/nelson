@@ -138,7 +138,8 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
 }
 //=============================================================================
 inline ArrayOf
-OverloadBinaryOperator(Evaluator* eval, const ArrayOf &a, const ArrayOf &b, const std::string& functionName)
+OverloadBinaryOperator(
+    Evaluator* eval, const ArrayOf& a, const ArrayOf& b, const std::string& functionName)
 {
     bool bSuccess = false;
     return OverloadBinaryOperator(eval, a, b, functionName, true, bSuccess, "");

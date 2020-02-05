@@ -39,7 +39,7 @@ Evaluator::timesOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::timesOperator(const ArrayOf &A, const ArrayOf &B)
+Evaluator::timesOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

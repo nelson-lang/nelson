@@ -39,7 +39,7 @@ Evaluator::gtOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::gtOperator(const ArrayOf &A, const ArrayOf &B)
+Evaluator::gtOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

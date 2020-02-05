@@ -39,7 +39,7 @@ Evaluator::eqOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::eqOperator(const ArrayOf &A, const ArrayOf &B)
+Evaluator::eqOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

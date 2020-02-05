@@ -39,7 +39,7 @@ Evaluator::mtimesOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::mtimesOperator(const ArrayOf &A, const ArrayOf &B)
+Evaluator::mtimesOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

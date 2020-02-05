@@ -29,8 +29,8 @@
 #include "NelsonGateway.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
-using PROC_InitializeGateway = bool (*)(Nelson::Evaluator *);
-using PROC_FinishGateway = bool (*)(Nelson::Evaluator *);
+using PROC_InitializeGateway = bool (*)(Nelson::Evaluator*);
+using PROC_FinishGateway = bool (*)(Nelson::Evaluator*);
 //=============================================================================
 extern "C"
 {
