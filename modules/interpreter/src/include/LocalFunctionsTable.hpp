@@ -25,7 +25,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <unordered_map>
 #include <utility>
 #include <string>
 #include "Types.hpp"
@@ -36,7 +35,7 @@ namespace Nelson {
 class LocalFunctionsTable
 {
 private:
-    std::unordered_map<std::string, FuncPtr> cachedLocalMacro;
+    void* cachedLocalFunctionsTable;
 
 public:
     LocalFunctionsTable();
