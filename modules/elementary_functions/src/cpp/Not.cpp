@@ -26,34 +26,39 @@
 #include "Not.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static void
 boolean_not(indexType N, logical* C, const logical* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = static_cast<Nelson::logical>(static_cast<Nelson::logical>(A[i]) == 0u);
     }
 }
 //=============================================================================
 ArrayOf
-Not(ArrayOf& A, bool& needToOverload)
+Not(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf C;
     needToOverload = false;
     if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
         Error(_W("Input argument must be real."));
     }
+    ArrayOf AA = A;
     try {
-        A.promoteType(NLS_LOGICAL);
+        AA.promoteType(NLS_LOGICAL);
     } catch (Exception&) {
         needToOverload = true;
         return ArrayOf();
     }
     logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(
         NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false));
-    boolean_not(A.getLength(), Cp, static_cast<const logical*>(A.getDataPointer()));
+    boolean_not(A.getLength(), Cp, static_cast<const logical*>(AA.getDataPointer()));
     C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
     return C;
 }

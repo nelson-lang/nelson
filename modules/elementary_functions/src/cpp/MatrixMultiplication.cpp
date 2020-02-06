@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "MatrixMultiplication.hpp"
@@ -35,7 +36,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 static ArrayOf
-real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
+real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
     if (A.isVector() && B.isScalar()) {
@@ -57,6 +58,7 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     }
     indexType Clen = Cdim.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
+    T* ptrC = (T*)Cp;
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, mC, nC);
@@ -69,11 +71,29 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     if (A.isScalar()) {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
         T* ptrA = (T*)A.getDataPointer();
+        T* ptrB = (T*)B.getDataPointer();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+            ptrC[k] = ptrA[0] * ptrB[k];
+        }
+#else
         matC = ptrA[0] * matB.array();
+#endif
     } else if (B.isScalar()) {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
+        T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
         matC = matA.array() * ptrB[0];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+        for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+            ptrC[k] = ptrA[k] * ptrB[0];
+        }
+#else
+        matC = matA.array() * ptrB[0];
+#endif
+
     } else {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
@@ -84,7 +104,7 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
-integer_mtimes(ArrayOf& A, ArrayOf& B)
+integer_mtimes(const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
     if (A.isVector() && B.isScalar()) {
@@ -118,12 +138,19 @@ integer_mtimes(ArrayOf& A, ArrayOf& B)
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
-        for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
-            ptrC[k] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[k]);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+            ptrC[k] = scalar_scalar_integer_times(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-            ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[0]);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+            ptrC[k] = scalar_scalar_integer_times(ptrA[k], ptrB[0]);
         }
     } else {
         Error(_W("At least one input argument must be scalar."));
@@ -133,11 +160,13 @@ integer_mtimes(ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
-complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
+complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
-    A.promoteType(currentClass);
-    B.promoteType(currentClass);
+    ArrayOf AA = A;
+    ArrayOf BB = B;
+    AA.promoteType(currentClass);
+    BB.promoteType(currentClass);
     if (A.isVector() && B.isScalar()) {
         Cdim = A.getDimensions();
     } else if (B.isVector() && A.isScalar()) {
@@ -168,9 +197,9 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     size_t mB = dimB.getRows();
     size_t nB = dimB.getColumns();
     if (A.isScalar() && B.isScalar()) {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         std::complex<T> cxa = Az[0];
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
         std::complex<T> cxb = Bz[0];
         if ((cxa.real() == 0.) && (cxa.imag() == 0.) || (cxb.real() == 0.) && (cxb.imag() == 0.)) {
             T* pd = (T*)Cp;
@@ -185,8 +214,8 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             Cz[0] = cxa * cxb;
         }
     } else if (A.isScalar()) {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
         if ((Az[0].real() == 0.) && (Az[0].imag() == 0.)) {
             T* pd = (T*)Cp;
             delete[] pd;
@@ -194,12 +223,19 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+            for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+                Cz[k] = Az[0] * Bz[k];
+            }
+#else
             Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
             matC = Az[0] * matB.array();
+#endif
         }
     } else if (B.isScalar()) {
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(Az, mA, nA);
         matC = matA.array() * Bz[0];
         if ((Bz[0].real() == 0.) && (Bz[0].imag() == 0.)) {
@@ -210,12 +246,19 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
                 A.getDataClass(), Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(A.getDataClass(), Cdim, Cp);
         } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+            for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+                Cz[k] = Az[k] * Bz[0];
+            }
+#else
             matC = matA.array() * Bz[0];
+#endif
         }
     } else {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(Az, mA, nA);
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
         matC = matA * matB;
     }
@@ -224,7 +267,7 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 ArrayOf
-T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
+T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -276,8 +319,9 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     bool isVector = ((A.isVector() && B.isScalar()) || (B.isVector() && A.isScalar())
-        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector()));
-    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && !isVector
+        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())
+        || (A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector()));
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && isVector
         && dimsA.getColumns() != dimsB.getRows()) {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
@@ -286,7 +330,7 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
         size_t nA = dimsA.getColumns();
         if (mA == nA) {
             if (B.isScalar()) {
-                // [] + X returns []
+                // [] * X returns []
                 return ArrayOf(B.getDataClass());
             } else {
                 Error(_W("using operator '*' \n Matrix dimensions must agree."));
@@ -305,7 +349,7 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 ArrayOf
-integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
+integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -367,7 +411,7 @@ integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
         size_t nA = dimsA.getColumns();
         if (mA == nA) {
             if (B.isScalar()) {
-                // [] + X returns []
+                // [] * X returns []
                 return ArrayOf(B.getDataClass());
             } else {
                 Error(_W("using operator '*' \n Matrix dimensions must agree."));
@@ -378,7 +422,7 @@ integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
@@ -397,15 +441,17 @@ matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             if (B.isComplex()) {
                 Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
             }
-            B.promoteType(A.getDataClass());
-            return matrixMultiplication(A, B, needToOverload);
+            ArrayOf BB = B;
+            BB.promoteType(A.getDataClass());
+            return matrixMultiplication(A, BB, needToOverload);
         }
         if (isIntegerB && (A.isDoubleType() && A.isScalar())) {
             if (A.isComplex()) {
                 Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
             }
-            A.promoteType(B.getDataClass());
-            return matrixMultiplication(A, B, needToOverload);
+            ArrayOf AA = A;
+            AA.promoteType(B.getDataClass());
+            return matrixMultiplication(AA, B, needToOverload);
         }
         if (isIntegerA && isIntegerB) {
             if (A.getDataClass() != B.getDataClass()) {

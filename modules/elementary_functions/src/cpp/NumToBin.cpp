@@ -64,14 +64,14 @@ NumToBin(ArrayOf A, bool& needToOverload)
         switch (A.getDataClass()) {
         case NLS_LOGICAL: {
             auto* values = (logical*)A.getDataPointer();
-            for (size_t k = 0; k < dims.getElementCount(); ++k) {
+            for (indexType k = 0; k < dims.getElementCount(); ++k) {
                 std::string cstr = std::bitset<1>(values[k]).to_string();
                 vs.push_back(cstr);
             }
         } break;
         case NLS_DOUBLE: {
             auto* values = (double*)A.getDataPointer();
-            for (size_t k = 0; k < dims.getElementCount(); ++k) {
+            for (indexType k = 0; k < dims.getElementCount(); ++k) {
                 unsigned long long bits = *reinterpret_cast<unsigned long long*>(&values[k]);
                 std::string cstr = std::bitset<64>(bits).to_string();
                 vs.push_back(cstr);
@@ -79,7 +79,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
         } break;
         case NLS_SINGLE: {
             auto* values = (single*)A.getDataPointer();
-            for (size_t k = 0; k < dims.getElementCount(); ++k) {
+            for (indexType k = 0; k < dims.getElementCount(); ++k) {
                 unsigned long bits = *reinterpret_cast<unsigned long*>(&values[k]);
                 std::string cstr = std::bitset<32>(bits).to_string();
                 vs.push_back(cstr);

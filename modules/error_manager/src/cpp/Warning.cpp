@@ -26,7 +26,6 @@
 #include <cstdlib>
 #include "Warning.hpp"
 #include "Error.hpp"
-#include "WarningIds.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
 //=============================================================================

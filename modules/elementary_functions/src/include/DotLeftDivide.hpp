@@ -35,5 +35,9 @@ namespace Nelson {
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 DotLeftDivide(ArrayOf A, ArrayOf B);
+
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+DotLeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -11,6 +11,19 @@ jobs:
     - name: install dependencies
       run: |
         sudo apt update;
+        sudo apt install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+        sudo apt -y autoremove cmake-data;        
+        sudo apt -y remove --purge --auto-remove cmake;
+        sudo rm -rf /usr/local/bin/cmake
+        version=3.16
+        build=2
+        mkdir ~/temp
+        cd ~/temp
+        wget https://cmake.org/files/v$version/cmake-$version.$build-Linux-x86_64.sh 
+        sudo mkdir /opt/cmake
+        sudo sh cmake-$version.$build-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
+        sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+        cmake --version
         sudo apt -y install xvfb;
         sudo apt -y install libopenmpi-dev;
         sudo apt -y install autotools-dev;
@@ -19,7 +32,6 @@ jobs:
         sudo apt -y install openmpi-bin;
         sudo apt -y install gettext;
         sudo apt -y install pkg-config;
-        sudo apt -y install cmake;
         sudo apt -y install libffi-dev;
         sudo apt -y install libicu-dev;
         sudo apt -y install libxml2-dev;
@@ -42,9 +54,11 @@ jobs:
         sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.0-bionic;
         sudo apt update;
         sudo apt -y install qt512-meta-full;
+        sudo apt remove 'libboost.*-dev' --yes
+        sudo rm -rf /usr/local/share/boost
         sudo add-apt-repository --yes ppa:mhier/libboost-latest;
         sudo apt update;
-        sudo apt install libboost1.68-dev; 
+        sudo apt install libboost1.70-dev; 
         git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen;
         mkdir /tmp/eigen-build;
         cd /tmp/eigen;

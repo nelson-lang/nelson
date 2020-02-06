@@ -184,9 +184,8 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         // Get a pointer to the index data set
         const auto* index_p = static_cast<const indexType*>(index.dp->getData());
         indexType bound = getLength();
-        indexType ndx = 0;
         for (indexType i = 0; i < length; i++) {
-            ndx = index_p[i] - 1;
+            indexType ndx = index_p[i] - 1;
             if (ndx < 0 || ndx >= bound) {
                 Error(_W("Index exceeds variable dimensions."));
             }

@@ -58,8 +58,7 @@ GetQmlHandleObject(ArrayOf A, const std::wstring& propertyName)
                 QmlHandleObject* qmlHandle = nullptr;
                 try {
                     qmlHandle = new QmlHandleObject(qparent);
-                } catch (const std::bad_alloc& e) {
-                    e.what();
+                } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
                     Error(ERROR_MEMORY_ALLOCATION);
                 }
@@ -91,8 +90,7 @@ GetQmlHandleObject(ArrayOf A, const std::wstring& propertyName)
                     QmlHandleObject* qmlHandle = nullptr;
                     try {
                         qmlHandle = new QmlHandleObject(childs[k]);
-                    } catch (const std::bad_alloc& e) {
-                        e.what();
+                    } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
                         Error(ERROR_MEMORY_ALLOCATION);
                     }

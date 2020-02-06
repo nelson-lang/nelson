@@ -49,7 +49,6 @@
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
-#include <complex>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -297,6 +296,14 @@ public:
      */
     void
     reshape(Dimensions& a, bool checkValidDimension = true);
+
+    /** change dimensions of array (in place)
+     * class and struct not supported
+     * Throws an exception if the new dimension has a different number of elements
+     * than we currently have.
+     */
+    void
+    changeInPlaceDimensions(const Dimensions& a);
 
     /**
      * Get our data class (of type Class).

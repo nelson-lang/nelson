@@ -36,34 +36,16 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    bool needToOverload;
-    bool bSuccess = false;
     ArrayOf res;
     if (argIn.size() == 2) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (eval->mustOverloadBasicTypes()) {
-            res = OverloadBinaryOperator(eval, A, B, "colon", false, bSuccess, "");
-        }
-        if (!bSuccess) {
-            res = Colon(A, B, needToOverload);
-            if (needToOverload) {
-                res = OverloadBinaryOperator(eval, A, B, "colon");
-            }
-        }
+        res = eval->colonUnitOperator(argIn[0], argIn[1]);
     } else if (argIn.size() == 3) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
         ArrayOf C = argIn[2];
-        if (eval->mustOverloadBasicTypes()) {
-            res = OverloadTernaryOperator(eval, A, B, C, "colon", false, bSuccess, "");
-        }
-        if (!bSuccess) {
-            res = Colon(A, B, C, needToOverload);
-            if (needToOverload) {
-                res = OverloadTernaryOperator(eval, A, B, C, "colon");
-            }
-        }
+        res = eval->colonOperator(argIn[0], argIn[1], argIn[2]);
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

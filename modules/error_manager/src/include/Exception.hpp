@@ -158,8 +158,7 @@ new_with_exception(size_t len, bool initializeToZero = true)
             if (initializeToZero) {
                 memset(ptr, 0, sizeof(T) * len);
             }
-        } catch (const std::bad_alloc& e) {
-            e.what();
+        } catch (const std::bad_alloc&) {
             ptr = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
         }

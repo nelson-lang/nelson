@@ -48,7 +48,7 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
-    for (indexType i = 0; i < dimsC.getElementCount(); i++) {
+    for (indexType i = 0; i < Clen; i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
             Cp[i] = (*stringRelationOperator)(classA, ptrA, ptrB, i, i);
@@ -101,7 +101,7 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
 }
 //=============================================================================
 static ArrayOf
-scalar_matrix_operator(ArrayOf& A, ArrayOf& B,
+scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
     logical (*realRelationOperator)(
         Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
@@ -168,7 +168,7 @@ scalar_matrix_operator(ArrayOf& A, ArrayOf& B,
 }
 //=============================================================================
 static ArrayOf
-matrix_scalar_operator(ArrayOf& A, ArrayOf& B,
+matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
     logical (*realRelationOperator)(
         Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
@@ -664,7 +664,7 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
 }
 //=============================================================================
 ArrayOf
-relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
+relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(
         Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
@@ -673,37 +673,39 @@ relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
         Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     bool& needToOverload)
 {
+    ArrayOf _A = A;
+    ArrayOf _B = B;
     needToOverload = false;
-    if (A.isSparse() || B.isSparse()) {
+    if (_A.isSparse() || _B.isSparse()) {
         needToOverload = true;
         return ArrayOf();
     }
-    bool asStringArray = (A.isStringArray() && B.isStringArray())
-        || (A.isStringArray() && B.isRowVectorCharacterArray())
-        || (B.isStringArray() && A.isRowVectorCharacterArray());
-    if ((A.isReferenceType() || B.isReferenceType()) && !asStringArray) {
+    bool asStringArray = (_A.isStringArray() && _B.isStringArray())
+        || (_A.isStringArray() && _B.isRowVectorCharacterArray())
+        || (_B.isStringArray() && _A.isRowVectorCharacterArray());
+    if ((_A.isReferenceType() || _B.isReferenceType()) && !asStringArray) {
         needToOverload = true;
         return ArrayOf();
     }
-    Class classCommon = FindCommonType(A, B, false);
+    Class classCommon = FindCommonType(_A, _B, false);
     if (asStringArray) {
-        if (!A.isStringArray()) {
-            A = ArrayOf::toStringArray(A, needToOverload);
+        if (!_A.isStringArray()) {
+            _A = ArrayOf::toStringArray(_A, needToOverload);
         }
-        if (!B.isStringArray()) {
-            B = ArrayOf::toStringArray(B, needToOverload);
+        if (!_B.isStringArray()) {
+            _B = ArrayOf::toStringArray(_B, needToOverload);
         }
     } else {
-        A.promoteType(classCommon);
-        B.promoteType(classCommon);
+        _A.promoteType(classCommon);
+        _B.promoteType(classCommon);
     }
 
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsA = _A.getDimensions();
+    Dimensions dimsB = _B.getDimensions();
     Dimensions dimsC;
-    if (A.isEmpty() || B.isEmpty()) {
-        if (A.isScalar() || B.isScalar()) {
-            if (A.isScalar()) {
+    if (_A.isEmpty() || _B.isEmpty()) {
+        if (_A.isScalar() || _B.isScalar()) {
+            if (_A.isScalar()) {
                 ArrayOf res = ArrayOf::emptyConstructor(dimsB);
                 res.promoteType(NLS_LOGICAL);
                 return res;
@@ -721,54 +723,54 @@ relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
     }
     if (SameSizeCheck(dimsA, dimsB)) {
         return matrix_matrix_operator(
-            A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+            _A, _B, realRelationOperator, complexRelationOperator, stringRelationOperator);
     }
-    if (A.isScalar() || B.isScalar()) {
-        if (A.isScalar()) {
+    if (_A.isScalar() || _B.isScalar()) {
+        if (_A.isScalar()) {
             return scalar_matrix_operator(
-                A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+                _A, _B, realRelationOperator, complexRelationOperator, stringRelationOperator);
         }
         return matrix_scalar_operator(
-            A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+            _A, _B, realRelationOperator, complexRelationOperator, stringRelationOperator);
     }
-    if (A.isVector() || B.isVector()) {
-        if (A.isRowVector() && B.isColumnVector()) {
+    if (_A.isVector() || _B.isVector()) {
+        if (_A.isRowVector() && _B.isColumnVector()) {
             dimsC = Dimensions(
                 std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
-            return vector_row_column_operator(
-                dimsC, A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+            return vector_row_column_operator(dimsC, _A, _B, realRelationOperator,
+                complexRelationOperator, stringRelationOperator);
         }
-        if (A.isColumnVector() && B.isRowVector()) {
+        if (_A.isColumnVector() && _B.isRowVector()) {
             dimsC = Dimensions(
                 std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
-            return vector_column_row_operator(
-                dimsC, A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+            return vector_column_row_operator(dimsC, _A, _B, realRelationOperator,
+                complexRelationOperator, stringRelationOperator);
         }
-        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+        if ((_A.isRowVector() && _B.isRowVector())
+            || (_A.isColumnVector() && _B.isColumnVector())) {
             Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
         } else {
             if (dimsA[1] == dimsB[1]) {
                 if (A.isVector()) {
-                    return vector_column_matrix_operator(A, B, realRelationOperator,
+                    return vector_column_matrix_operator(_A, _B, realRelationOperator,
                         complexRelationOperator, stringRelationOperator);
                 }
                 return matrix_vector_column_operator(
-                    A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+                    _A, _B, realRelationOperator, complexRelationOperator, stringRelationOperator);
             }
             if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
-                if (A.isVector()) {
-                    return vector_matrix_operator(A, B, realRelationOperator,
+                if (_A.isVector()) {
+                    return vector_matrix_operator(_A, _B, realRelationOperator,
                         complexRelationOperator, stringRelationOperator);
                 }
                 return matrix_vector_operator(
-                    A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+                    _A, _B, realRelationOperator, complexRelationOperator, stringRelationOperator);
             }
             Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
         }
     } else {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
     }
-
     needToOverload = true;
     return ArrayOf();
 }

@@ -23,36 +23,35 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "OverloadExtraction.hpp"
-#include "ClassName.hpp"
-#include "Error.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include <complex>
+#include "nlsElementary_functions_exports.h"
+#include "Types.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-ArrayOfVector
-OverloadExtraction(Evaluator* eval, const std::string& ClassName, ArrayOfVector args)
-{
-    /*
-    Context *context = eval->getContext();
-    FunctionDef *funcDef = nullptr;
-    std::string OverloadName = ClassName(a) + "_" + functionName;
-    if (!context->lookupFunction(OverloadName, funcDef))
-    {
-        Error(std::string("function ") + OverloadName + " undefined.");
-    }
-    ArrayOfVector argsIn;
-    argsIn.push_back(a);
-    int nargout = 1;
-    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
-    if (res.size() != 1)
-    {
-        Error(std::string("function ") + OverloadName + " only one output argument
-    expected.");
-    }
-    return res[0];
-    */
-    ArrayOfVector res;
-    return res;
-}
 //=============================================================================
-} // namespace Nelson
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareDouble(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareDoubleComplex(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareSingle(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP
+ArrayOf
+solveLeastSquareSingleComplex(
+    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+//=============================================================================
+}
 //=============================================================================

@@ -38,7 +38,6 @@ HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
     } break;
     case 1: {
         res = v[0];
-        res.ensureSingleOwner();
     } break;
     default: {
         res = v[0];

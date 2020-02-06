@@ -323,31 +323,6 @@ public:
     ArrayOf
     expression(ASTPtr t);
     /**
-     * Evaluate a unit colon expression.  The AST input should look like:
-     *   :
-     *   |
-     *   expr1->expr2
-     *
-     * The output is the expression expr1:expr2, which is the vector
-     * [expr1,expr1+1,expr1+2,...,expr1+n], where n is the largest
-     * integer such that expr1+n <= expr2.
-     */
-    ArrayOf
-    unitColon(ASTPtr t);
-    /**
-     * Evaluate a double colon expression.  The AST input should look like:
-     *   :
-     *   |
-     *   :->expr3
-     *   |
-     *   expr1->expr2
-     * The output is the expression expr1:expr2:expr3, which is the
-     * vector [expr1,expr1+expr2,expr1+2*expr2,...,expr1+n*expr2], where
-     * n is the largest integer such that expr1+n*expr2 <= expr3.
-     */
-    ArrayOf
-    doubleColon(ASTPtr t);
-    /**
      * Process a sequence of expressions into a vector of ArrayOfs.
      * The input AST must be:
      *   expr1->expr2->expr3...->NULL
@@ -784,37 +759,54 @@ public:
         ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName);
 
     ArrayOf
-    additionOperator(ArrayOf A, ArrayOf B);
+    colonUnitOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    subtractionOperator(ArrayOf A, ArrayOf B);
-    ArrayOf
-    timesOperator(ArrayOf A, ArrayOf B);
-    ArrayOf
-    mtimesOperator(ArrayOf A, ArrayOf B);
+    colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C);
 
     ArrayOf
-    eqOperator(ArrayOf A, ArrayOf B);
+    additionOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    gtOperator(ArrayOf A, ArrayOf B);
+    subtractionOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    geOperator(ArrayOf A, ArrayOf B);
+    timesOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    leOperator(ArrayOf A, ArrayOf B);
-    ArrayOf
-    ltOperator(ArrayOf A, ArrayOf B);
-    ArrayOf
-    neOperator(ArrayOf A, ArrayOf B);
+    mtimesOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    shortCutOrOperator(ArrayOf A, ArrayOf B);
+    rightDivideOperator(const ArrayOf& A, const ArrayOf& B);
+
     ArrayOf
-    shortCutAndOperator(ArrayOf A, ArrayOf B);
+    leftDivideOperator(const ArrayOf& A, const ArrayOf& B);
+
     ArrayOf
-    orOperator(ArrayOf A, ArrayOf B);
+    dotRightDivideOperator(const ArrayOf& A, const ArrayOf& B);
+
     ArrayOf
-    andOperator(ArrayOf A, ArrayOf B);
+    dotLeftDivideOperator(const ArrayOf& A, const ArrayOf& B);
+
     ArrayOf
-    notOperator(ArrayOf A);
+    eqOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    gtOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    geOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    leOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    ltOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    neOperator(const ArrayOf& A, const ArrayOf& B);
+
+    ArrayOf
+    shortCutOrOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    shortCutAndOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    orOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    andOperator(const ArrayOf& A, const ArrayOf& B);
+    ArrayOf
+    notOperator(const ArrayOf& A);
 
 private:
     ArrayOfVector
@@ -854,6 +846,33 @@ private:
     ArrayOf
     andOperator(ASTPtr t);
 
+    /**
+     * Evaluate a unit colon expression.  The AST input should look like:
+     *   :
+     *   |
+     *   expr1->expr2
+     *
+     * The output is the expression expr1:expr2, which is the vector
+     * [expr1,expr1+1,expr1+2,...,expr1+n], where n is the largest
+     * integer such that expr1+n <= expr2.
+     */
+    ArrayOf
+    colonUnitOperator(ASTPtr t);
+
+    /**
+     * Evaluate a double colon expression.  The AST input should look like:
+     *   :
+     *   |
+     *   :->expr3
+     *   |
+     *   expr1->expr2
+     * The output is the expression expr1:expr2:expr3, which is the
+     * vector [expr1,expr1+expr2,expr1+2*expr2,...,expr1+n*expr2], where
+     * n is the largest integer such that expr1+n*expr2 <= expr3.
+     */
+    ArrayOf
+    colonOperator(ASTPtr t);
+
     ArrayOf
     additionOperator(ASTPtr t);
     ArrayOf
@@ -862,6 +881,18 @@ private:
     timesOperator(ASTPtr t);
     ArrayOf
     mtimesOperator(ASTPtr t);
+
+    ArrayOf
+    leftDivideOperator(ASTPtr t);
+
+    ArrayOf
+    rightDivideOperator(ASTPtr t);
+
+    ArrayOf
+    dotLeftDivideOperator(ASTPtr t);
+
+    ArrayOf
+    dotRightDivideOperator(ASTPtr t);
 
     ArrayOf
     eqOperator(ASTPtr t);

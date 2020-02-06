@@ -162,14 +162,14 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
             indexType pos = 0;
             for (indexType k = 0; k < nbElements; k++) {
                 str.clear();
-                for (indexType l = 0; l < sizeType; l++) {
+                for (indexType l = 0; l < (indexType)sizeType; l++) {
                     str.push_back(temp[pos]);
                     pos++;
                 }
                 elements[k] = ArrayOf::characterArrayConstructor(str);
             }
         } else {
-            for (indexType l = 0; l < sizeType; l++) {
+            for (indexType l = 0; l < (indexType)sizeType; l++) {
                 if (temp[l] != 0) {
                     str.push_back(temp[l]);
                 } else {
@@ -181,7 +181,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
         indexType pos = 0;
         for (indexType k = 0; k < nbElements; k++) {
             str.clear();
-            for (indexType l = 0; l < sizeType + 1; l++) {
+            for (indexType l = 0; l < (indexType)(sizeType + 1); l++) {
                 if (temp[pos] != 0) {
                     str.push_back(temp[pos]);
                 } else {

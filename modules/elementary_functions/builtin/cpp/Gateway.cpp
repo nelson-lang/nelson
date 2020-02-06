@@ -67,6 +67,7 @@
 #include "plusBuiltin.hpp"
 #include "powerBuiltin.hpp"
 #include "prodBuiltin.hpp"
+#include "sumBuiltin.hpp"
 #include "rdivideBuiltin.hpp"
 #include "realBuiltin.hpp"
 #include "remBuiltin.hpp"
@@ -85,6 +86,8 @@
 #include "normBuiltin.hpp"
 #include "expBuiltin.hpp"
 #include "logBuiltin.hpp"
+#include "log10Builtin.hpp"
+#include "log1pBuiltin.hpp"
 #include "sqrtBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
 #include "num2binBuiltin.hpp"
@@ -93,6 +96,7 @@
 #include "base2decBuiltin.hpp"
 #include "dec2baseBuiltin.hpp"
 #include "sortBuiltin.hpp"
+#include "linspaceBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -154,6 +158,7 @@ static const nlsGateway gateway[] = {
     { "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
     { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
     { "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
+    { "sum", Nelson::ElementaryFunctionsGateway::sumBuiltin, 1, 3 },
     { "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
     { "abs", Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1 },
     { "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
@@ -162,6 +167,8 @@ static const nlsGateway gateway[] = {
     { "norm", Nelson::ElementaryFunctionsGateway::normBuiltin, 1, 1 },
     { "exp", Nelson::ElementaryFunctionsGateway::expBuiltin, 1, 1 },
     { "log", Nelson::ElementaryFunctionsGateway::logBuiltin, 1, 1 },
+    { "log10", Nelson::ElementaryFunctionsGateway::log10Builtin, 1, 1 },
+    { "log1p", Nelson::ElementaryFunctionsGateway::log1pBuiltin, 1, 1 },
     { "sqrt", Nelson::ElementaryFunctionsGateway::sqrtBuiltin, 1, 1 },
     { "ismissing", Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1 },
     { "num2bin", Nelson::ElementaryFunctionsGateway::num2binBuiltin, 1, 1 },
@@ -174,6 +181,7 @@ static const nlsGateway gateway[] = {
     { "dec2bin", Nelson::ElementaryFunctionsGateway::dec2binBuiltin, 1, 2 },
     { "dec2hex", Nelson::ElementaryFunctionsGateway::dec2hexBuiltin, 1, 2 },
     { "sort", Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1 },
+    { "linspace", Nelson::ElementaryFunctionsGateway::linspaceBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

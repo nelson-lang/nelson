@@ -33,6 +33,6 @@ namespace Nelson {
  * Element-wise compare (ge) of two arrays: C = A >= B
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-GreaterEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+GreaterEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 }
 //=============================================================================

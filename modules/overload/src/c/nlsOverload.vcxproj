@@ -175,7 +175,6 @@
     <ClInclude Include="..\include\OverloadHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\OverloadExtraction.cpp" />
     <ClCompile Include="..\cpp\OverloadFunction.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

@@ -80,21 +80,22 @@ OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionNam
 }
 //=============================================================================
 inline ArrayOf
-OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionName)
+OverloadUnaryOperator(Evaluator* eval, const ArrayOf& a, const std::string& functionName)
 {
     bool bSuccess = false;
     return OverloadUnaryOperator(eval, a, functionName, true, bSuccess, "");
 }
 //=============================================================================
 inline ArrayOf
-OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionName, bool& bSuccess)
+OverloadUnaryOperator(
+    Evaluator* eval, const ArrayOf& a, const std::string& functionName, bool& bSuccess)
 {
     return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, "");
 }
 //=============================================================================
 inline ArrayOf
-OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionName, bool& bSuccess,
-    const std::string& forcedFunctionName)
+OverloadUnaryOperator(Evaluator* eval, const ArrayOf& a, const std::string& functionName,
+    bool& bSuccess, const std::string& forcedFunctionName)
 {
     return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, forcedFunctionName);
 }

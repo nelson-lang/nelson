@@ -33,6 +33,6 @@ namespace Nelson {
  * Element-wise compare (gt).
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+GreaterThan(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 }
 //=============================================================================

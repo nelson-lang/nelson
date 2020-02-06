@@ -39,7 +39,7 @@ Evaluator::neOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::neOperator(ArrayOf A, ArrayOf B)
+Evaluator::neOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

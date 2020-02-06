@@ -96,7 +96,7 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         }
     } else {
         Dimensions dims(argIn.size());
-        for (sizeType k = 0; k < static_cast<sizeType>(argIn.size()); k++) {
+        for (indexType k = 0; k < static_cast<indexType>(argIn.size()); k++) {
             if (argIn[k].getDataClass() == NLS_DOUBLE) {
                 if (argIn[k].isScalar()) {
                     ArrayOf arg = argIn[k];

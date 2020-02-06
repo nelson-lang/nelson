@@ -31,16 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-double_plus_double(const ArrayOf& a, const ArrayOf& b);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-single_plus_single(const ArrayOf& a, const ArrayOf& b);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-integer_plus_integer(const ArrayOf& a, const ArrayOf& b);
+Addition(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

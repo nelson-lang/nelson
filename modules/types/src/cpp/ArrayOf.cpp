@@ -43,6 +43,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include "lapack_eigen.hpp"
+#include <Eigen/src/misc/lapacke.h>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>
@@ -156,21 +158,14 @@ ArrayOf::toOrdinalType()
         const logical* rp = (const logical*)dp->getData();
         int indexCount = 0;
         indexType len = getLength();
-        indexType i = 0;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (i = 0; i < len; i++)
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++)
             if (rp[i] != 0) {
                 indexCount++;
             }
         // Allocate space to hold the new type.
         indexType* lp = new_with_exception<indexType>(indexCount, false);
         indexType* qp = lp;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (i = 0; i < len; i++)
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++)
             if (rp[i] != 0) {
                 *qp++ = (indexType)(i + 1);
             }
@@ -305,10 +300,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             if (rp[i] > std::numeric_limits<indexType>::max()) {
                 Error(_W("Too big index encountered."));
             }
@@ -330,10 +322,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -352,10 +341,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -374,10 +360,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -396,10 +379,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -418,10 +398,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -440,10 +417,7 @@ ArrayOf::toOrdinalType()
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType i = 0; i < len; i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -861,6 +835,21 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
     }
 }
 //=============================================================================
+void
+ArrayOf::changeInPlaceDimensions(const Dimensions& a)
+{
+    if (isClassStruct()) {
+        Error(_W("changeDimensions operation not allowed for overloaded type."));
+    }
+    if (isFunctionHandle()) {
+        Error(_W("changeDimensions operation not allowed for 'function_handle' type."));
+    }
+    if (a.getElementCount() != getLength()) {
+        Error(_W("changeDimensions operation cannot change the number of elements in array."));
+    }
+    dp->dimensions = a;
+}
+//=============================================================================
 /**
  * Get our data class (of type Class).
  */
@@ -1274,6 +1263,42 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
             }
         }
     } break;
+    case NLS_SCOMPLEX: {
+        single* src = (single*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            single* dst = (single*)dstPtr;
+            int one = 1;
+            BLASFUNC(ccopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        double* src = (double*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            double* dst = (double*)dstPtr;
+            int one = 1;
+            BLASFUNC(zcopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
+        }
+    } break;
+    case NLS_SINGLE: {
+        single* src = (single*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            single* dst = (single*)dstPtr;
+            int one = 1;
+            BLASFUNC(scopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        double* src = (double*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            double* dst = (double*)dstPtr;
+            int one = 1;
+            BLASFUNC(dcopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
+        }
+    } break;
     default: {
         const char* sp = (const char*)dp->getData();
         if (sp != nullptr) {
@@ -1444,7 +1469,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
     // field structures, but have to be rearranged.
     if (dp->dataClass == NLS_STRUCT_ARRAY)
         if (dstClass == NLS_STRUCT_ARRAY) {
-            // TODO(mcallan): Generalize this code to allow for one more field in destination
+            // TODO: Generalize this code to allow for one more field in destination
             // than in source...
             if (dp->fieldNames.size() > fNames.size()) {
                 Error(_W("Cannot combine structures with different fields if the "
@@ -1458,9 +1483,6 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             int extraCount = 0;
             int matchCount = 0;
             indexType i;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
             for (i = 0; i < (int)fNames.size(); i++) {
                 int64 ndx = getFieldIndex(fNames[i]);
                 if (ndx == -1) {
@@ -1483,9 +1505,6 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             indexType newFieldCount(fNames.size());
             ;
             // Now we have to copy our existing fields into the new order...
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
             for (i = 0; i < fieldCount; i++) {
                 int64 newNdx = getFieldIndexFromList(dp->fieldNames[i], fNames);
                 for (indexType j = 0; j < elCount; j++) {
@@ -2053,10 +2072,10 @@ DoCountNNZReal(const void* dp, indexType len)
 {
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType i = 0; i < len; i++)
+    for (ompIndexType i = 0; i < (ompIndexType)len; i++)
         if (cp[i]) {
             accum++;
         }
@@ -2069,10 +2088,10 @@ DoCountNNZComplex(const void* dp, indexType len)
 {
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
-#if defined(__NLS_WITH_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (indexType i = 0; i < len; i++)
+    for (ompIndexType i = 0; i < (ompIndexType)len; i++)
         if (cp[2 * i] || cp[2 * i + 1]) {
             accum++;
         }

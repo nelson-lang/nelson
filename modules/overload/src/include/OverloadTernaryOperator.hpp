@@ -34,7 +34,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-callOverloadedFunction(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
+callOverloadedFunction(Evaluator* eval, const ArrayOf& a, const ArrayOf& b, const ArrayOf& c,
     const std::string& OverloadNameDesired, bool wasFound, FunctionDef* funcDef, bool bRaiseError)
 {
     ArrayOfVector argsIn;
@@ -46,7 +46,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
 }
 //=============================================================================
 static ArrayOf
-OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
+OverloadTernaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b, const ArrayOf& c,
     const std::string& functionName, bool bRaiseError, bool& bSuccess,
     const std::string& forcedFunctionName)
 {
@@ -310,22 +310,22 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
 }
 //=============================================================================
 inline ArrayOf
-OverloadTernaryOperator(
-    Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string& functionName)
+OverloadTernaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b, const ArrayOf& c,
+    const std::string& functionName)
 {
     bool bSuccess = false;
     return OverloadTernaryOperator(eval, a, b, c, functionName, true, bSuccess, "");
 }
 //=============================================================================
 inline ArrayOf
-OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
+OverloadTernaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b, const ArrayOf& c,
     const std::string& functionName, bool& bSuccess)
 {
     return OverloadTernaryOperator(eval, a, b, c, functionName, false, bSuccess, "");
 }
 //=============================================================================
 inline ArrayOf
-OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
+OverloadTernaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b, const ArrayOf& c,
     const std::string& functionName, bool& bSuccess, const std::string& forcedFunctionName)
 {
     return OverloadTernaryOperator(

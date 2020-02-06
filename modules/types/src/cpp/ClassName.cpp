@@ -67,7 +67,7 @@ stringVector
 ClassName(const ArrayOfVector& In)
 {
     stringVector strs;
-    for (sizeType k = 0; k < (sizeType)In.size(); k++) {
+    for (indexType k = 0; k < (indexType)In.size(); k++) {
         strs.push_back(ClassName(In[k]));
     }
     return strs;

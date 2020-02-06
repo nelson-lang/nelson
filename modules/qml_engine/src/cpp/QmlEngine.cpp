@@ -73,8 +73,7 @@ allocateQmlHandle(QObject* qobj)
     QmlHandleObject* qmlHandle = nullptr;
     try {
         qmlHandle = new QmlHandleObject(qobj);
-    } catch (const std::bad_alloc& e) {
-        e.what();
+    } catch (const std::bad_alloc&) {
         qmlHandle = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
     }
@@ -146,8 +145,7 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
         try {
             view->setSource(qUrlLocal);
-        } catch (std::runtime_error& e) {
-            e.what();
+        } catch (std::runtime_error&) {
         }
         topLevel = view->rootObject();
         if (topLevel == nullptr) {

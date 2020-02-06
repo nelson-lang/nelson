@@ -118,7 +118,7 @@ BinToNum(ArrayOf A, bool& needToOverload)
             if (!isValidLength(commonLength)) {
                 Error(_W("Invalid string length: 1, 32, 64 expected."));
             }
-            for (size_t k = 0; k < dims.getElementCount(); k = k + commonLength) {
+            for (indexType k = 0; k < dims.getElementCount(); k = k + commonLength) {
                 std::string s = wstring_to_utf8(wstr.substr(k, k + commonLength));
                 strs.push_back(s);
             }

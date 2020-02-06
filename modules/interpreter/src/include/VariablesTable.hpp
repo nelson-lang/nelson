@@ -37,8 +37,8 @@ class VariablesTable
 private:
     using key_type = std::string;
     using value_type = ArrayOf;
-    std::unordered_map<key_type, value_type> variablesMap;
     stringVector lockedVariables;
+    void* variablesTable;
     //=============================================================================
 public:
     VariablesTable();

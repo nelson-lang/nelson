@@ -154,7 +154,7 @@ Nelson::ConstructorsGateway::onesBuiltin(Evaluator* eval, int nLhs, const ArrayO
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
                         auto* ptrValues = (double*)dimVector.getDataPointer();
-                        for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                        for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
                             if (ptrValues[k] > 0) {
                                 dims[k] = static_cast<indexType>(ptrValues[k]);
                             } else {

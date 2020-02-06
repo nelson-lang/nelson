@@ -31,6 +31,6 @@
 res = run([modulepath(nelsonroot, 'error_manager', 'root'), '/tests/error_script_issue_#14.nls'], 'errcatch');
 assert_isequal(res, false);
 a = lasterror();
-assert_isequal(a.message, 'function double_mrdivide_double undefined.');
+assert_isequal(a.message, 'Requested divide operation requires arguments to have correct dimensions.');
 //=============================================================================
 

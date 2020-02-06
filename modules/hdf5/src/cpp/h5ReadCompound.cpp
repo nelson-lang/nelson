@@ -177,7 +177,7 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
             char* value = (char*)(data + offset + (sizeType * k));
             std::string str;
             str.reserve((size_t)lengthString);
-            for (indexType l = 0; l < lengthString; l++) {
+            for (indexType l = 0; l < (indexType)lengthString; l++) {
                 str.push_back(value[l]);
             }
             ptrArrayOf[k] = ArrayOf::characterArrayConstructor(str);

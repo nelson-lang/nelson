@@ -95,7 +95,7 @@ realComparatorGreaterThan(
         return static_cast<Nelson::logical>(ptrA[idxA] > ptrB[idxB]);
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -116,7 +116,7 @@ complexComparatorGreaterThan(
             > complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -131,11 +131,11 @@ stringArrayComparatorGreaterThan(
                 ptrA[idxA].getContentAsWideString() > ptrB[idxB].getContentAsWideString());
         }
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 ArrayOf
-GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+GreaterThan(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     return relationOperator(A, B, L">", &realComparatorGreaterThan, &complexComparatorGreaterThan,

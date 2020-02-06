@@ -34,6 +34,7 @@ namespace Nelson {
  * via: B/A = (A'\B')'.
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-RightDivide(ArrayOf A, ArrayOf B);
+RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

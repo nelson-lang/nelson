@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "MatrixSinus.hpp"
 #include "ClassName.hpp"
 #include "lapack_eigen.hpp"
@@ -46,7 +47,10 @@ sinmComplex(const ArrayOf& A)
         solver(matA.template cast<std::complex<T>>());
     auto evects = solver.eigenvectors();
     auto evals = solver.eigenvalues();
-    for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
         evals(i) = sin(evals(i));
     }
     auto evalsdiag = evals.asDiagonal();

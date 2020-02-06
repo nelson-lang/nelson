@@ -26,6 +26,7 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
+#include "nlsConfig.h"
 #include "ExpMatrix.hpp"
 #include "ClassName.hpp"
 #include "lapack_eigen.hpp"
@@ -87,7 +88,10 @@ ExpMatrix(ArrayOf A)
             Eigen::ComplexEigenSolver<Eigen::MatrixXcd> es(matA);
             auto evects = es.eigenvectors();
             auto evals = es.eigenvalues();
-            for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
                 evals(i) = std::exp(evals(i));
             }
             auto evalsdiag = evals.asDiagonal();
@@ -133,7 +137,10 @@ ExpMatrix(ArrayOf A)
             Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
             auto evects = es.eigenvectors();
             auto evals = es.eigenvalues();
-            for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
                 evals(i) = std::exp(evals(i));
             }
             auto evalsdiag = evals.asDiagonal();

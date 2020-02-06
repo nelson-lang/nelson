@@ -29,6 +29,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
+void
+transposeRealTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+{
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
+        (T*)ptrA, dimsA.getRows(), dimsA.getColumns());
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+        (T*)ptrRes, dimsA.getColumns(), dimsA.getRows());
+    matTransposed = matOrigin.transpose().eval();
+}
+//=============================================================================
+template <class T>
+void
+transposeComplexTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+{
+    std::complex<T>* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
+    std::complex<T>* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
+        matCplxA, dimsA.getRows(), dimsA.getColumns());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+        matCplxRes, dimsA.getColumns(), dimsA.getRows());
+    matTransposed = matOrigin.transpose().eval();
+}
+//=============================================================================
 ArrayOf
 Transpose(const ArrayOf& A, bool& needToOverload)
 {
@@ -54,125 +78,75 @@ Transpose(const ArrayOf& A, bool& needToOverload)
     }
     switch (classA) {
     case NLS_LOGICAL: {
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (logical*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (logical*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<logical>(
+            dimsA, (logical*)A.getDataPointer(), (logical*)Res.getDataPointer());
     } break;
     case NLS_UINT8: {
-        Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (uint8*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (uint8*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<uint8>(
+            dimsA, (uint8*)A.getDataPointer(), (uint8*)Res.getDataPointer());
     } break;
     case NLS_INT8: {
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int8*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (int8*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<int8>(dimsA, (int8*)A.getDataPointer(), (int8*)Res.getDataPointer());
     } break;
     case NLS_UINT16: {
-        Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (uint16*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (uint16*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<uint16>(
+            dimsA, (uint16*)A.getDataPointer(), (uint16*)Res.getDataPointer());
     } break;
     case NLS_INT16: {
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int16*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (int16*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<int16>(
+            dimsA, (int16*)A.getDataPointer(), (int16*)Res.getDataPointer());
     } break;
     case NLS_UINT32: {
-        Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (uint32*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (uint32*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<uint32>(
+            dimsA, (uint32*)A.getDataPointer(), (uint32*)Res.getDataPointer());
     } break;
     case NLS_INT32: {
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int32*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (int32*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<int32>(
+            dimsA, (int32*)A.getDataPointer(), (int32*)Res.getDataPointer());
     } break;
     case NLS_UINT64: {
-        Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (uint64*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (uint64*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<uint64>(
+            dimsA, (uint64*)A.getDataPointer(), (uint64*)Res.getDataPointer());
     } break;
     case NLS_INT64: {
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int64*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (int64*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<int64>(
+            dimsA, (int64*)A.getDataPointer(), (int64*)Res.getDataPointer());
     } break;
     case NLS_SINGLE: {
-        Eigen::Map<Eigen::MatrixXf> matOrigin(
-            (single*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::MatrixXf> matTransposed(
-            (single*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<single>(
+            dimsA, (single*)A.getDataPointer(), (single*)Res.getDataPointer());
     } break;
     case NLS_DOUBLE: {
-        Eigen::Map<Eigen::MatrixXd> matOrigin(
-            (double*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::MatrixXd> matTransposed(
-            (double*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<double>(
+            dimsA, (double*)A.getDataPointer(), (double*)Res.getDataPointer());
     } break;
     case NLS_SCOMPLEX: {
-        auto* matCplxA = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        auto* matCplxRes = reinterpret_cast<singlecomplex*>((single*)Res.getDataPointer());
-        Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            matCplxA, dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            matCplxRes, dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeComplexTemplate<single>(
+            dimsA, (single*)A.getDataPointer(), (single*)Res.getDataPointer());
     } break;
     case NLS_DCOMPLEX: {
-        auto* matCplxA = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        auto* matCplxRes = reinterpret_cast<doublecomplex*>((double*)Res.getDataPointer());
-        Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            matCplxA, dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            matCplxRes, dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeComplexTemplate<double>(
+            dimsA, (double*)A.getDataPointer(), (double*)Res.getDataPointer());
     } break;
     case NLS_CHAR: {
-        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (charType*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-            (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
-        matTransposed = matOrigin.transpose().eval();
+        transposeRealTemplate<charType>(
+            dimsA, (charType*)A.getDataPointer(), (charType*)Res.getDataPointer());
     } break;
     case NLS_STRUCT_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
-        Dimensions dimsA = A.getDimensions();
-        indexType rowCount = dimsA[0];
-        indexType colCount = dimsA[1];
-        Dimensions dimsRes(colCount, rowCount);
-        ArrayOf res(A);
-        void* dstPtr = res.getReadWriteDataPointer();
-        int ptr = 0;
+        void* destPtr = (void*)Res.getDataPointer();
+        indexType rowCount = dimsA.getRows();
+        indexType colCount = dimsA.getColumns();
+        ArrayOf RR = A;
+        int ptr;
+        ptr = 0;
         for (indexType i = 0; i < rowCount; i++) {
             for (indexType j = 0; j < colCount; j++) {
-                res.copyElements(i + j * rowCount, dstPtr, ptr, 1);
+                RR.copyElements(i + j * rowCount, destPtr, ptr, 1);
                 ptr++;
             }
         }
-        res.reshape(dimsRes);
-        return res;
     } break;
     default: {
         needToOverload = true;

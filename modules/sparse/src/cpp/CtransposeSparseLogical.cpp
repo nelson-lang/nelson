@@ -43,8 +43,7 @@ CtransposeSparseLogical(ArrayOf A)
         try {
             spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(
                 spMatA->cols(), spMatA->rows());
-        } catch (const std::bad_alloc& e) {
-            e.what();
+        } catch (const std::bad_alloc&) {
             spMatC = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
         }

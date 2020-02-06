@@ -33,19 +33,17 @@ int
 NelsonAddGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void* gateway,
     int nbBuiltins, const wchar_t* gatewayName, void* ptrVoidInitializeFunction)
 {
-    PROC_InitializeGateway ptrInitializeFunction
-        = (PROC_InitializeGateway)ptrVoidInitializeFunction;
+    auto ptrInitializeFunction = (PROC_InitializeGateway)ptrVoidInitializeFunction;
     const Nelson::nlsGateway* _gateway = (Nelson::nlsGateway*)gateway;
-    Nelson::Evaluator* _eval = (Nelson::Evaluator*)eval;
+    auto* _eval = (Nelson::Evaluator*)eval;
     Context* ctx = _eval->getContext();
-    if (ctx) {
+    if (ctx != nullptr) {
         for (size_t k = 0; k < nbBuiltins; k++) {
-            Nelson::BuiltInFunctionDefManager::getInstance()->add(_gateway[k].functionName.c_str(),
+            Nelson::BuiltInFunctionDefManager::getInstance()->add(_gateway[k].functionName,
                 _gateway[k].fptr, _gateway[k].nRhs, _gateway[k].nLhs, moduleFilename, gatewayName);
         }
-        if ((void*)ptrInitializeFunction) {
-            PROC_InitializeGateway ptrFunc
-                = reinterpret_cast<PROC_InitializeGateway>(ptrInitializeFunction);
+        if ((void*)ptrInitializeFunction != nullptr) {
+            auto ptrFunc = reinterpret_cast<PROC_InitializeGateway>(ptrInitializeFunction);
             return ptrFunc(_eval) ? 1 : 0;
         }
         return 1;
@@ -57,16 +55,16 @@ int
 NelsonRemoveGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void* gateway,
     int nbBuiltins, const wchar_t* gatewayName, void* ptrVoidFinishFunction)
 {
-    PROC_FinishGateway ptrFinishFunction = (PROC_FinishGateway)ptrVoidFinishFunction;
+    auto ptrFinishFunction = (PROC_FinishGateway)ptrVoidFinishFunction;
     const Nelson::nlsGateway* _gateway = (Nelson::nlsGateway*)gateway;
-    Nelson::Evaluator* _eval = (Nelson::Evaluator*)eval;
+    auto* _eval = (Nelson::Evaluator*)eval;
     Context* ctx = _eval->getContext();
-    if (ctx) {
+    if (ctx != nullptr) {
         for (size_t k = 0; k < nbBuiltins; ++k) {
             Nelson::BuiltInFunctionDefManager::getInstance()->remove(_gateway[k].fptr);
         }
-        if ((void*)ptrFinishFunction) {
-            PROC_FinishGateway ptrFunc = reinterpret_cast<PROC_FinishGateway>(ptrFinishFunction);
+        if ((void*)ptrFinishFunction != nullptr) {
+            auto ptrFunc = reinterpret_cast<PROC_FinishGateway>(ptrFinishFunction);
             return ptrFunc(_eval) ? 1 : 0;
         }
         return 1;

@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::orOperator(ArrayOf A, ArrayOf B)
+Evaluator::orOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf retval;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))

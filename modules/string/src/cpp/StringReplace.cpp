@@ -109,8 +109,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                 } else {
                     try {
                         elements = new ArrayOf[nbOutput];
-                    } catch (const std::bad_alloc& e) {
-                        e.what();
+                    } catch (const std::bad_alloc&) {
                         Error(ERROR_MEMORY_ALLOCATION);
                     }
                     elements[0] = ArrayOf::characterArrayConstructor(result);
@@ -135,8 +134,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[nbOutput];
-            } catch (const std::bad_alloc& e) {
-                e.what();
+            } catch (const std::bad_alloc&) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             for (size_t i = 0; i < nbOutput; i++) {
@@ -230,8 +228,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
-            } catch (const std::bad_alloc& e) {
-                e.what();
+            } catch (const std::bad_alloc&) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
@@ -254,8 +251,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
-            } catch (const std::bad_alloc& e) {
-                e.what();
+            } catch (const std::bad_alloc&) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
@@ -372,8 +368,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                     } else {
                         try {
                             elements = new ArrayOf[nbOutput];
-                        } catch (const std::bad_alloc& e) {
-                            e.what();
+                        } catch (const std::bad_alloc&) {
                             Error(ERROR_MEMORY_ALLOCATION);
                         }
                         elements[0] = ArrayOf::characterArrayConstructor(result);
@@ -393,8 +388,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         ArrayOf* elements = nullptr;
                         try {
                             elements = new ArrayOf[nbOutput];
-                        } catch (const std::bad_alloc& e) {
-                            e.what();
+                        } catch (const std::bad_alloc&) {
                             Error(ERROR_MEMORY_ALLOCATION);
                         }
                         res = ArrayOf(outputClass, outputDims, elements);
@@ -409,8 +403,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 ArrayOf* elements = nullptr;
                 try {
                     elements = new ArrayOf[nbOutput];
-                } catch (const std::bad_alloc& e) {
-                    e.what();
+                } catch (const std::bad_alloc&) {
                     Error(ERROR_MEMORY_ALLOCATION);
                 }
                 if (wold.size() == wnew.size() && wnew.size() > 1) {

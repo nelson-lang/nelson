@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Eye.hpp"
+#include "nlsConfig.h"
 #include "SparseDynamicFunctions.hpp"
 #include <Eigen/Dense>
 //=============================================================================
@@ -55,7 +56,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             } else {
                 double* mat = static_cast<double*>(
                     ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, stringVector(), true));
-                for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                     mat[i * n + i] = 1;
                 }
                 vmat = (void*)mat;
@@ -79,7 +83,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             single* mat = static_cast<single*>(
                 ArrayOf::allocateArrayOf(NLS_SINGLE, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (single)1;
             }
             vmat = (void*)mat;
@@ -90,7 +97,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             } else {
                 logical* mat = static_cast<logical*>(
                     ArrayOf::allocateArrayOf(NLS_LOGICAL, m * n, stringVector(), true));
-                for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                     mat[i * n + i] = (logical)1;
                 }
                 vmat = (void*)mat;
@@ -102,7 +112,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             int8* mat = static_cast<int8*>(
                 ArrayOf::allocateArrayOf(NLS_INT8, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (int8)1;
             }
             vmat = (void*)mat;
@@ -113,7 +126,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             int16* mat = static_cast<int16*>(
                 ArrayOf::allocateArrayOf(NLS_INT16, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (int16)1;
             }
             vmat = (void*)mat;
@@ -124,7 +140,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             int32* mat = static_cast<int32*>(
                 ArrayOf::allocateArrayOf(NLS_INT32, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (int32)1;
             }
             vmat = (void*)mat;
@@ -135,7 +154,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             int64* mat = static_cast<int64*>(
                 ArrayOf::allocateArrayOf(NLS_INT64, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (int64)1;
             }
             vmat = (void*)mat;
@@ -146,7 +168,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             uint8* mat = static_cast<uint8*>(
                 ArrayOf::allocateArrayOf(NLS_UINT8, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (uint8)1;
             }
             vmat = (void*)mat;
@@ -157,7 +182,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             uint16* mat = static_cast<uint16*>(
                 ArrayOf::allocateArrayOf(NLS_UINT16, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (uint16)1;
             }
             vmat = (void*)mat;
@@ -168,7 +196,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             uint32* mat = static_cast<uint32*>(
                 ArrayOf::allocateArrayOf(NLS_UINT32, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (uint32)1;
             }
             vmat = (void*)mat;
@@ -179,7 +210,10 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             }
             uint64* mat = static_cast<uint64*>(
                 ArrayOf::allocateArrayOf(NLS_UINT64, m * n, stringVector(), true));
-            for (indexType i = 0; i < std::min(m, n); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)std::min(m, n); i++) {
                 mat[i * n + i] = (int8)1;
             }
             vmat = (void*)mat;
