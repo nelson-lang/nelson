@@ -759,54 +759,54 @@ public:
         ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName);
 
     ArrayOf
-    colonUnitOperator(ArrayOf A, ArrayOf B);
+    colonUnitOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    colonOperator(ArrayOf A, ArrayOf B, ArrayOf C);
+    colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C);
 
     ArrayOf
-    additionOperator(ArrayOf A, ArrayOf B);
+    additionOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    subtractionOperator(ArrayOf A, ArrayOf B);
+    subtractionOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    timesOperator(ArrayOf A, ArrayOf B);
+    timesOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    mtimesOperator(ArrayOf A, ArrayOf B);
+    mtimesOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    rightDivideOperator(ArrayOf A, ArrayOf B);
+    rightDivideOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    leftDivideOperator(ArrayOf A, ArrayOf B);
+    leftDivideOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    dotRightDivideOperator(ArrayOf A, ArrayOf B);
+    dotRightDivideOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    dotLeftDivideOperator(ArrayOf A, ArrayOf B);
+    dotLeftDivideOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    eqOperator(ArrayOf A, ArrayOf B);
+    eqOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    gtOperator(ArrayOf A, ArrayOf B);
+    gtOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    geOperator(ArrayOf A, ArrayOf B);
+    geOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    leOperator(ArrayOf A, ArrayOf B);
+    leOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    ltOperator(ArrayOf A, ArrayOf B);
+    ltOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    neOperator(ArrayOf A, ArrayOf B);
+    neOperator(const ArrayOf& A, const ArrayOf& B);
 
     ArrayOf
-    shortCutOrOperator(ArrayOf A, ArrayOf B);
+    shortCutOrOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    shortCutAndOperator(ArrayOf A, ArrayOf B);
+    shortCutAndOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    orOperator(ArrayOf A, ArrayOf B);
+    orOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    andOperator(ArrayOf A, ArrayOf B);
+    andOperator(const ArrayOf& A, const ArrayOf& B);
     ArrayOf
-    notOperator(ArrayOf A);
+    notOperator(const ArrayOf& A);
 
 private:
     ArrayOfVector

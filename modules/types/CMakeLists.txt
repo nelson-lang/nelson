@@ -34,6 +34,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
@@ -61,6 +62,10 @@ nlsError_manager
 nlsNelson_manager
 nlsI18n
 ${CMAKE_DL_LIBS}
+${BLAS_LIBRARIES}
+${LAPACK_LIBRARIES}
+${LAPACKE_LIBRARIES}
+${MAC_LAPACKE_LIBRARY}
 ${OpenMP_CXX_LIBRARIES}
 )
 #==============================================================================	

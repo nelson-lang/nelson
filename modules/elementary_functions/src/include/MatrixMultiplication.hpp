@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

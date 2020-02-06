@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
+relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(
         Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(

@@ -35,7 +35,7 @@ namespace Nelson {
 //=============================================================================
 typedef std::tuple<std::string, uint64> profileParent;
 //=============================================================================
-typedef std::vector<profileParent> profileParentStack;
+using profileParentStack = std::vector<profileParent>;
 //=============================================================================
 typedef std::tuple<profileParentStack, std::string, std::wstring, bool> internalProfileFunction;
 //=============================================================================

@@ -40,7 +40,7 @@ Evaluator::dotLeftDivideOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::dotLeftDivideOperator(ArrayOf A, ArrayOf B)
+Evaluator::dotLeftDivideOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

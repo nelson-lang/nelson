@@ -39,7 +39,7 @@ Evaluator::notOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::notOperator(ArrayOf A)
+Evaluator::notOperator(const ArrayOf& A)
 {
     ArrayOf res;
     bool bSuccess = false;

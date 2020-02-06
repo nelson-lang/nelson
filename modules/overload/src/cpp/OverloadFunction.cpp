@@ -32,7 +32,7 @@ ArrayOfVector
 OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
     const std::string& functionName, bool& bSuccess)
 {
-    if (functionName != "") {
+    if (!functionName.empty()) {
         if (eval->isOverloadAllowed()) {
             Context* context = eval->getContext();
             FunctionDef* funcDef = nullptr;

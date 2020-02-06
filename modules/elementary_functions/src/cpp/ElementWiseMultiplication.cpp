@@ -593,47 +593,49 @@ integer_elementWiseMultiplication_integer(const ArrayOf& a, const ArrayOf& b)
 }
 //=============================================================================
 ArrayOf
-elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
-    bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
-    bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
-    bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());
-    bool isSingleB = (B.isSingleType() || B.isNdArraySingleType());
+    ArrayOf _A = A;
+    ArrayOf _B = B;
+    bool isDoubleA = (_A.isDoubleType() || _A.isNdArrayDoubleType());
+    bool isDoubleB = (_B.isDoubleType() || _B.isNdArrayDoubleType());
+    bool isSingleA = (_A.isSingleType() || _A.isNdArraySingleType());
+    bool isSingleB = (_B.isSingleType() || _B.isNdArraySingleType());
     if ((isDoubleA || isSingleA) && (isDoubleB || isSingleB)) {
         if (isDoubleA && isDoubleB) {
-            res = double_elementWiseMultiplication_double(A, B);
+            res = double_elementWiseMultiplication_double(_A, _B);
         } else if (isSingleA && isSingleB) {
-            res = single_elementWiseMultiplication_single(A, B);
+            res = single_elementWiseMultiplication_single(_A, _B);
         } else {
-            if (A.getDataClass() == NLS_DOUBLE) {
-                A.promoteType(NLS_SINGLE);
+            if (_A.getDataClass() == NLS_DOUBLE) {
+                _A.promoteType(NLS_SINGLE);
             } else {
-                A.promoteType(NLS_SCOMPLEX);
+                _A.promoteType(NLS_SCOMPLEX);
             }
-            if (B.getDataClass() == NLS_DOUBLE) {
-                B.promoteType(NLS_SINGLE);
+            if (_B.getDataClass() == NLS_DOUBLE) {
+                _B.promoteType(NLS_SINGLE);
             } else {
-                B.promoteType(NLS_SCOMPLEX);
+                _B.promoteType(NLS_SCOMPLEX);
             }
-            res = single_elementWiseMultiplication_single(A, B);
+            res = single_elementWiseMultiplication_single(_A, _B);
         }
     } else {
-        bool isIntegerA = A.isIntegerType() || A.isNdArrayIntegerType();
-        bool isIntegerB = B.isIntegerType() || B.isNdArrayIntegerType();
+        bool isIntegerA = _A.isIntegerType() || _A.isNdArrayIntegerType();
+        bool isIntegerB = _B.isIntegerType() || _B.isNdArrayIntegerType();
         if (isIntegerA && isIntegerB) {
-            if (A.getDataClass() == B.getDataClass()) {
-                res = integer_elementWiseMultiplication_integer(A, B);
+            if (_A.getDataClass() == _B.getDataClass()) {
+                res = integer_elementWiseMultiplication_integer(_A, _B);
             } else {
                 Error(_W("Integers of the same class expected."));
             }
         } else {
-            if (isIntegerA && isDoubleB && B.isScalar()) {
-                B.promoteType(A.getDataClass());
-                res = integer_elementWiseMultiplication_integer(A, B);
-            } else if (isIntegerB && isDoubleA && A.isScalar()) {
-                A.promoteType(B.getDataClass());
-                res = integer_elementWiseMultiplication_integer(A, B);
+            if (isIntegerA && isDoubleB && _B.isScalar()) {
+                _B.promoteType(_A.getDataClass());
+                res = integer_elementWiseMultiplication_integer(_A, _B);
+            } else if (isIntegerB && isDoubleA && _A.isScalar()) {
+                _A.promoteType(_B.getDataClass());
+                res = integer_elementWiseMultiplication_integer(_A, _B);
             } else {
                 needToOverload = true;
             }

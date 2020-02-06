@@ -40,7 +40,7 @@ Evaluator::leftDivideOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::leftDivideOperator(ArrayOf A, ArrayOf B)
+Evaluator::leftDivideOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;

@@ -39,18 +39,17 @@ scalar_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
 #if defined(_OPENMP)
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
 #pragma omp parallel for
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[0] + ptrB[k];
     }
 #else
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)ptrC, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
         (T*)B.getDataPointer(), 1, Clen);
     matC = ptrA[0] + matB.array();
@@ -65,18 +64,17 @@ matrix_scalar_real_addition(Class classDestination, const ArrayOf& A, const Arra
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
 #if defined(_OPENMP)
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
 #pragma omp parallel for
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] + ptrB[0];
     }
 #else
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)ptrC, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), 1, Clen);
     T* ptrB = (T*)B.getDataPointer();
@@ -92,18 +90,17 @@ matrix_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
 #if defined(_OPENMP)
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
 #pragma omp parallel for
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] + ptrB[k];
     }
 #else
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)ptrC, 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), 1, Clen);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(

@@ -36,7 +36,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 static ArrayOf
-real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
+real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
     if (A.isVector() && B.isScalar()) {
@@ -104,7 +104,7 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
-integer_mtimes(ArrayOf& A, ArrayOf& B)
+integer_mtimes(const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
     if (A.isVector() && B.isScalar()) {
@@ -160,11 +160,13 @@ integer_mtimes(ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
-complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
+complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
-    A.promoteType(currentClass);
-    B.promoteType(currentClass);
+    ArrayOf AA = A;
+    ArrayOf BB = B;
+    AA.promoteType(currentClass);
+    BB.promoteType(currentClass);
     if (A.isVector() && B.isScalar()) {
         Cdim = A.getDimensions();
     } else if (B.isVector() && A.isScalar()) {
@@ -195,9 +197,9 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     size_t mB = dimB.getRows();
     size_t nB = dimB.getColumns();
     if (A.isScalar() && B.isScalar()) {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         std::complex<T> cxa = Az[0];
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
         std::complex<T> cxb = Bz[0];
         if ((cxa.real() == 0.) && (cxa.imag() == 0.) || (cxb.real() == 0.) && (cxb.imag() == 0.)) {
             T* pd = (T*)Cp;
@@ -212,8 +214,8 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             Cz[0] = cxa * cxb;
         }
     } else if (A.isScalar()) {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
         if ((Az[0].real() == 0.) && (Az[0].imag() == 0.)) {
             T* pd = (T*)Cp;
             delete[] pd;
@@ -232,8 +234,8 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 #endif
         }
     } else if (B.isScalar()) {
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(Az, mA, nA);
         matC = matA.array() * Bz[0];
         if ((Bz[0].real() == 0.) && (Bz[0].imag() == 0.)) {
@@ -254,9 +256,9 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 #endif
         }
     } else {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(Az, mA, nA);
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
         matC = matA * matB;
     }
@@ -265,7 +267,7 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 ArrayOf
-T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
+T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -347,7 +349,7 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 ArrayOf
-integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
+integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -420,7 +422,7 @@ integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
@@ -439,15 +441,17 @@ matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             if (B.isComplex()) {
                 Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
             }
-            B.promoteType(A.getDataClass());
-            return matrixMultiplication(A, B, needToOverload);
+            ArrayOf BB = B;
+            BB.promoteType(A.getDataClass());
+            return matrixMultiplication(A, BB, needToOverload);
         }
         if (isIntegerB && (A.isDoubleType() && A.isScalar())) {
             if (A.isComplex()) {
                 Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
             }
-            A.promoteType(B.getDataClass());
-            return matrixMultiplication(A, B, needToOverload);
+            ArrayOf AA = A;
+            AA.promoteType(B.getDataClass());
+            return matrixMultiplication(AA, B, needToOverload);
         }
         if (isIntegerA && isIntegerB) {
             if (A.getDataClass() != B.getDataClass()) {

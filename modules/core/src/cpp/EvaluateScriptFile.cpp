@@ -215,7 +215,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             }
             return false;
         }
-        eval->pushDebug(wstring_to_utf8(filename), buffer);
+        std::string filenameUtf8 = wstring_to_utf8(filename);
+        eval->pushDebug(filenameUtf8, "filename " + filenameUtf8);
         try {
             eval->block(tree);
         } catch (const Exception&) {

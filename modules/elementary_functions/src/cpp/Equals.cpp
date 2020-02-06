@@ -94,7 +94,7 @@ realComparatorEquals(Class commonClass, void* vptrA, void* vptrB, indexType idxA
         return static_cast<Nelson::logical>(ptrA[idxA] == ptrB[idxB]);
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -114,7 +114,7 @@ complexComparatorEquals(Class commonClass, void* vptrA, void* vptrB, indexType i
             (ptrA[2 * idxA] == ptrB[2 * idxB]) && (ptrA[2 * idxA + 1] == ptrB[2 * idxB + 1]));
     } break;
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 logical
@@ -129,11 +129,11 @@ stringArrayComparatorEquals(
                 ptrA[idxA].getContentAsWideString() == ptrB[idxB].getContentAsWideString());
         }
     }
-    return false;
+    return 0;
 }
 //=============================================================================
 ArrayOf
-Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+Equals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     void* ptrA = const_cast<void*>(A.getDataPointer());

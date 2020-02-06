@@ -43,6 +43,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include "lapack_eigen.hpp"
+#include <Eigen/src/misc/lapacke.h>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>
@@ -1251,6 +1253,42 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
             if (qp->getDataClass() == NLS_STRUCT_ARRAY) {
                 qp->setStructType(dp->getStructTypeName());
             }
+        }
+    } break;
+    case NLS_SCOMPLEX: {
+        single* src = (single*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            single* dst = (single*)dstPtr;
+            int one = 1;
+            BLASFUNC(ccopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        double* src = (double*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            double* dst = (double*)dstPtr;
+            int one = 1;
+            BLASFUNC(zcopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
+        }
+    } break;
+    case NLS_SINGLE: {
+        single* src = (single*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            single* dst = (single*)dstPtr;
+            int one = 1;
+            BLASFUNC(scopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        double* src = (double*)dp->getData();
+        if (src != nullptr) {
+            int iSize = (int)count;
+            double* dst = (double*)dstPtr;
+            int one = 1;
+            BLASFUNC(dcopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
         }
     } break;
     default: {

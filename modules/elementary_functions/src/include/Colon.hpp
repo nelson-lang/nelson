@@ -31,10 +31,10 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Colon(ArrayOf& J, ArrayOf& K, bool& needToOverload);
+Colon(const ArrayOf& J, const ArrayOf& K, bool& needToOverload);
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload);
+Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

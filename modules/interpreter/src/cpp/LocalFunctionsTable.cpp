@@ -25,20 +25,40 @@
 //=============================================================================
 #include "LocalFunctionsTable.hpp"
 #include "BuiltInFunctionDef.hpp"
+#include "GenericTable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-LocalFunctionsTable::LocalFunctionsTable() { cachedLocalMacro.clear(); }
+LocalFunctionsTable::LocalFunctionsTable()
+{
+    GenericTable<FuncPtr>* genericTable = nullptr;
+    try {
+        genericTable = new GenericTable<FuncPtr>;
+    } catch (const std::bad_alloc&) {
+        genericTable = nullptr;
+    }
+    cachedLocalFunctionsTable = (void*)genericTable;
+}
 //=============================================================================
-LocalFunctionsTable::~LocalFunctionsTable() { cachedLocalMacro.clear(); }
+LocalFunctionsTable::~LocalFunctionsTable()
+{
+    if (cachedLocalFunctionsTable != nullptr) {
+        auto* genericTable = (GenericTable<FuncPtr>*)cachedLocalFunctionsTable;
+        delete genericTable;
+        genericTable = nullptr;
+    }
+}
 //=============================================================================
 bool
 LocalFunctionsTable::find(const std::string& key, FuncPtr& dest)
 {
-    std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedLocalMacro.find(key);
-    if (found != cachedLocalMacro.end()) {
-        dest = found->second;
-        return true;
+    if (cachedLocalFunctionsTable != nullptr) {
+        auto* genericTable = (GenericTable<FuncPtr>*)cachedLocalFunctionsTable;
+        FuncPtr *v = genericTable->findSymbol(key);
+        if (v != nullptr) {
+            dest = v[0];
+            return true;
+        }
     }
     return false;
 }
@@ -50,8 +70,12 @@ LocalFunctionsTable::add(const std::string& key, const FuncPtr val)
     if (find(key, v)) {
         return false;
     }
-    cachedLocalMacro.emplace(key, val);
-    return true;
+    if (cachedLocalFunctionsTable != nullptr) {
+        auto* genericTable = (GenericTable<FuncPtr>*)cachedLocalFunctionsTable;
+        genericTable->insertSymbol(key, val);
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

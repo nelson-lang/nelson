@@ -39,7 +39,7 @@ Evaluator::additionOperator(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::additionOperator(ArrayOf A, ArrayOf B)
+Evaluator::additionOperator(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     bool bSuccess = false;
