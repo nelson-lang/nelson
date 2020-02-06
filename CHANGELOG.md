@@ -2,7 +2,7 @@
 
 * colon operator optimized.
 
-* replaces hashmap used for variables.
+* replaces hashmap used for functions and variables.
 
 * some few speed optimization about evaluator.
 
