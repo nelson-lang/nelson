@@ -41,7 +41,11 @@ isMissing(const ArrayOf& A, bool& needToOverload)
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* elements = (ArrayOf*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             resultAslogical[k] = static_cast<Nelson::logical>(!elements[k].isCharacterArray());
         }
     } break;
@@ -49,7 +53,11 @@ isMissing(const ArrayOf& A, bool& needToOverload)
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* elements = (ArrayOf*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             resultAslogical[k] = static_cast<Nelson::logical>(
                 elements[k].isCharacterArray() && elements[k].isEmpty());
         }
@@ -58,7 +66,11 @@ isMissing(const ArrayOf& A, bool& needToOverload)
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (double*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             resultAslogical[k] = static_cast<Nelson::logical>(std::isnan(ptrA[k]));
         }
     } break;
@@ -66,7 +78,11 @@ isMissing(const ArrayOf& A, bool& needToOverload)
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (single*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             resultAslogical[k] = static_cast<Nelson::logical>(std::isnan(ptrA[k]));
         }
     } break;
@@ -74,25 +90,35 @@ isMissing(const ArrayOf& A, bool& needToOverload)
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (single*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
-            resultAslogical[k]
+        ompIndexType elementCount = dimsA.getElementCount() * 2;
+        ompIndexType q = 0;
+        for (ompIndexType k = 0; k < elementCount; k = k + 2) {
+            resultAslogical[q]
                 = static_cast<Nelson::logical>(std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]));
+            q++;
         }
     } break;
     case NLS_DCOMPLEX: {
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (double*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
-            resultAslogical[k]
+        ompIndexType elementCount = dimsA.getElementCount() * 2;
+        ompIndexType q = 0;
+        for (ompIndexType k = 0; k < elementCount; k = k + 2) {
+            resultAslogical[q]
                 = static_cast<Nelson::logical>(std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]));
+            q++;
         }
     } break;
     case NLS_CHAR: {
         resultAslogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
         auto* ptrA = (charType*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             resultAslogical[k] = static_cast<Nelson::logical>(ptrA[k] == L' ');
         }
     } break;

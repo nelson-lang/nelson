@@ -48,7 +48,7 @@ setMaxNumCompThreads(unsigned int _nbOfCores)
 {
     unsigned int previousValue = nbOfCoresToUse;
     nbOfCoresToUse = _nbOfCores;
-#if defined(_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
     omp_set_num_threads(_nbOfCores);
 #endif
     Eigen::setNbThreads(_nbOfCores);

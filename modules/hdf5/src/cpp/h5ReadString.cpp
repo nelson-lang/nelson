@@ -79,7 +79,8 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
         return res;
     }
     indexType pos = 0;
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         std::string str;
         if (temp != nullptr) {
             str = temp[k];

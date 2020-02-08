@@ -28,6 +28,7 @@
 #include "cellBuiltin.hpp"
 #include "Error.hpp"
 #include "StringFormat.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,7 +52,11 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                 NLS_CELL_ARRAY, argIn[0].getDimensions().getElementCount(), stringVector(), false));
 
             auto* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
-            for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+            ompIndexType elementCount = argIn[0].getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < elementCount; k++) {
                 if (elementsStringArray[k].isCharacterArray()) {
                     elementsCell[k] = elementsStringArray[k];
                 }
@@ -99,8 +104,12 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                         dims.setDimensionLength(k, index);
                     }
                     dims.simplify();
-                    auto* elements = new ArrayOf[dims.getElementCount()];
-                    for (indexType k = 0; k < dims.getElementCount(); k++) {
+                    ompIndexType elementCount = dims.getElementCount();
+                    auto* elements = new ArrayOf[elementCount];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                    for (ompIndexType k = 0; k < elementCount; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
                     ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
@@ -143,7 +152,11 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
         }
         dims.simplify();
         auto* elements = new ArrayOf[dims.getElementCount()];
-        for (indexType k = 0; k < dims.getElementCount(); k++) {
+        ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             elements[k] = ArrayOf::emptyConstructor();
         }
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);

@@ -40,7 +40,8 @@ IsValidHandle(Evaluator* eval, ArrayOf A)
         if (qp != nullptr) {
             logical* resArray = static_cast<logical*>(ArrayOf::allocateArrayOf(
                 NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
-            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+            indexType elementCount = dimsA.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj != nullptr) {

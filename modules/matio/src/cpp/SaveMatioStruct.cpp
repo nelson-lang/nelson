@@ -52,7 +52,8 @@ SaveMatioStruct(const std::string& variableName, ArrayOf variableValue, mat_ft m
     }
 
     auto* elements = (ArrayOf*)variableValue.getDataPointer();
-    for (indexType i = 0; i < variableDims.getElementCount(); ++i) {
+    indexType elementCount = variableDims.getElementCount();
+    for (indexType i = 0; i < elementCount; ++i) {
         for (indexType j = 0; j < static_cast<indexType>(nbFielnames); ++j) {
             ArrayOf element = elements[i * nbFielnames + j];
             structElements[i * nbFielnames + j]

@@ -77,7 +77,7 @@ matrix_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const A
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] - ptrB[k];
@@ -238,8 +238,10 @@ column_row_real_subtraction(Class classDestination, const ArrayOf& A, const Arra
     T* ptrC = (T*)res.getDataPointer();
 
     indexType m = 0;
-    for (indexType i = 0; i < dimsB.getElementCount(); i++) {
-        for (indexType j = 0; j < dimsA.getElementCount(); j++) {
+    indexType elementCountA = dimsA.getElementCount();
+    indexType elementCountB = dimsB.getElementCount();
+    for (indexType i = 0; i < elementCountB; i++) {
+        for (indexType j = 0; j < elementCountA; j++) {
             ptrC[m] = ptrA[j] - ptrB[i];
             m++;
         }

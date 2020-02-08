@@ -26,6 +26,7 @@
 #include "IsInf.hpp"
 #include "ClassName.hpp"
 #include <Eigen/Dense>
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +34,10 @@ template <class T>
 void
 boolean_isinf(indexType N, logical* C, const T* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType) N; i++) {
         C[i] = std::isinf(A[i]);
     }
 }
@@ -42,7 +46,10 @@ template <class T>
 void
 boolean_isinf_cplx(indexType N, logical* C, const T* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType) N; i++) {
         C[i] = std::isinf(A[i].real()) || std::isinf(A[i].imag());
     }
 }
@@ -97,7 +104,10 @@ IsInf(ArrayOf A)
         void* Cp
             = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
-        for (indexType i = 0; i < A.getLength(); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType) A.getLength(); i++) {
             CpLogical[i] = static_cast<logical>(0);
         }
         C.setDataPointer(Cp);

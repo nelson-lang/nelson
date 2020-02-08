@@ -168,7 +168,8 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
         status = H5Dread(attr_id, H5T_STD_REF_DSETREG, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
 #if H5_VERS_MAJOR <= 1 && H5_VERS_MINOR < 9
         hid_t dset2 = H5Rdereference(attr_id, H5R_DATASET_REGION, &rdata[k]);
 #else

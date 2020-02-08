@@ -59,7 +59,8 @@ h5SaveStringArray(hid_t fid, const std::string& location, const std::string& var
     }
     Dimensions dims = VariableValue.getDimensions();
     auto* elements = (ArrayOf*)VariableValue.getDataPointer();
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
         if (element.isCharacterArray()) {

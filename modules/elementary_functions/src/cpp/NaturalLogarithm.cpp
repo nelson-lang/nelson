@@ -26,6 +26,7 @@
 #include "NaturalLogarithm.hpp"
 #include <Eigen/Dense>
 #include <complex>
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -68,7 +69,11 @@ NaturalLogarithmReal(Class classDestination, const ArrayOf& A)
     T* ptrIn = (T*)A.getDataPointer();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
         classDestination, dimsA.getElementCount(), stringVector(), false);
-    for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < elementCount; k++) {
         ptrOut[k] = NaturalLogarithmRealScalar<T>(ptrIn[k]);
     }
     return ArrayOf(classDestination, dimsA, ptrOut);
@@ -84,7 +89,11 @@ NaturalLogarithmComplex(Class classDestination, const ArrayOf& A)
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
     T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < elementCount; k++) {
         Cz[k] = NaturalLogarithmComplexScalar<T>(Az[k]);
     }
     return ArrayOf(classDestination, dimsA, ptrOut);

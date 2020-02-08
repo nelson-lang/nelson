@@ -614,77 +614,121 @@ ArrayOf::scalarToMatrix(Dimensions& newDimensions)
     case NLS_LOGICAL: {
         logical* ptr = (logical*)dp->getWriteableData();
         logical symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_UINT8: {
         uint8* ptr = (uint8*)dp->getWriteableData();
         uint8 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_INT8: {
         int8* ptr = (int8*)dp->getWriteableData();
         int8 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_UINT16: {
         uint16* ptr = (uint16*)dp->getWriteableData();
         uint16 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_INT16: {
         int16* ptr = (int16*)dp->getWriteableData();
         int16 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_UINT32: {
         uint32* ptr = (uint32*)dp->getWriteableData();
         uint32 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_INT32: {
         int32* ptr = (int32*)dp->getWriteableData();
         int32 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_UINT64: {
         uint64* ptr = (uint64*)dp->getWriteableData();
         uint64 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_INT64: {
         int64* ptr = (int64*)dp->getWriteableData();
         int64 symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_SINGLE: {
         single* ptr = (single*)dp->getWriteableData();
         single symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
     case NLS_DOUBLE: {
         double* ptr = (double*)dp->getWriteableData();
         double symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;
@@ -692,7 +736,11 @@ ArrayOf::scalarToMatrix(Dimensions& newDimensions)
         single* ptr = (single*)dp->getWriteableData();
         single symbolR = ptr[0];
         single symbolI = ptr[1];
-        for (indexType k = 0; k < getDimensions().getElementCount() * 2; k = k + 2) {
+        ompIndexType elementCount = getDimensions().getElementCount() * 2;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k = k + 2) {
             ptr[k] = symbolR;
             ptr[k + 1] = symbolI;
         }
@@ -701,7 +749,11 @@ ArrayOf::scalarToMatrix(Dimensions& newDimensions)
         double* ptr = (double*)dp->getWriteableData();
         double symbolR = ptr[0];
         double symbolI = ptr[1];
-        for (indexType k = 0; k < getDimensions().getElementCount() * 2; k = k + 2) {
+        ompIndexType elementCount = getDimensions().getElementCount() * 2;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k = k + 2) {
             ptr[k] = symbolR;
             ptr[k + 1] = symbolI;
         }
@@ -709,7 +761,11 @@ ArrayOf::scalarToMatrix(Dimensions& newDimensions)
     case NLS_CHAR: {
         charType* ptr = (charType*)dp->getWriteableData();
         charType symbol = ptr[0];
-        for (indexType k = 0; k < getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptr[k] = symbol;
         }
     } break;

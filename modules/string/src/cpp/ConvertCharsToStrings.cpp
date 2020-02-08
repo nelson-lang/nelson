@@ -26,6 +26,7 @@
 #include "ConvertCharsToStrings.hpp"
 #include "Exception.hpp"
 #include "IsCellOfStrings.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector
@@ -58,7 +59,11 @@ ConvertCharsToStrings(const ArrayOfVector& A)
             auto* elementsString = new_with_exception<ArrayOf>(dims.getElementCount(), false);
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
             auto* elementsCell = (ArrayOf*)value.getDataPointer();
-            for (indexType q = 0; q < dims.getElementCount(); q++) {
+            ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType q = 0; q < elementCount; q++) {
                 elementsString[q] = elementsCell[q];
             }
             res.push_back(valueAsString);
@@ -66,41 +71,6 @@ ConvertCharsToStrings(const ArrayOfVector& A)
             res.push_back(value);
         }
     }
-
-    /*
-    for (auto value : A) {
-        if (value.isStringArray()) {
-            Dimensions dims = value.getDimensions();
-            if (dims.isEmpty(false)) {
-                ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, nullptr);
-                res.push_back(valueAsCell);
-            } else if (dims.isScalar()) {
-                auto* elementsStr = (ArrayOf*)value.getDataPointer();
-                ArrayOf element = elementsStr[0];
-                if (element.getDataClass() == NLS_CHAR) {
-                    res.push_back(
-                        ArrayOf::characterArrayConstructor(element.getContentAsWideString()));
-                } else {
-                    res.push_back(ArrayOf::characterArrayConstructor(""));
-                }
-            } else {
-                auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
-                ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
-                auto* elementsStr = (ArrayOf*)value.getDataPointer();
-                for (indexType q = 0; q < dims.getElementCount(); q++) {
-                    if (elementsStr[q].getDataClass() == NLS_CHAR) {
-                        elementsCell[q] = elementsStr[q];
-                    } else {
-                        elementsCell[q] = ArrayOf::characterArrayConstructor("");
-                    }
-                }
-                res.push_back(valueAsCell);
-            }
-        } else {
-            res.push_back(value);
-        }
-    }
-    */
     return res;
 }
 //=============================================================================

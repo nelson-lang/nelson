@@ -36,7 +36,8 @@ HandleDelete(Evaluator* eval, ArrayOf A)
     if (A.isHandle()) {
         Dimensions dimsA = A.getDimensions();
         auto* qp = (nelson_handle*)A.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        indexType elementCount = dimsA.getElementCount();
+        for (indexType k = 0; k < elementCount; k++) {
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {

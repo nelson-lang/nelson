@@ -26,6 +26,7 @@
 #include <Eigen/Dense>
 #include <complex>
 #include "Logarithm10.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,7 +35,11 @@ void
 log10Complex(Class destinationClass, T* values, Dimensions& dims)
 {
     std::complex<T>* cz = reinterpret_cast<std::complex<T>*>(values);
-    for (indexType k = 0; k < dims.getElementCount(); ++k) {
+    ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < elementCount; ++k) {
         std::complex<T> current = cz[k];
         if (current.imag() == 0.) {
             std::complex<T> v(std::log10(cz[k].real()), 0);

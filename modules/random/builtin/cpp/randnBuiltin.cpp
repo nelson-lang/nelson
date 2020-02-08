@@ -26,6 +26,7 @@
 #include "randnBuiltin.hpp"
 #include "Error.hpp"
 #include "RandNormal.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -94,7 +95,11 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
                         double* ptrValues = (double*)dimVector.getDataPointer();
-                        for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                        ompIndexType elementCount = argIn[0].getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                        for (ompIndexType k = 0; k < elementCount; k++) {
                             if (ptrValues[k] > 0) {
                                 dims[k] = (indexType)ptrValues[k];
                             } else {

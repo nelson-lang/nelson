@@ -228,7 +228,8 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (IsCellOfString(arg2)) {
                 ArrayOf cell(arg2);
                 auto* arg = (ArrayOf*)(cell.getDataPointer());
-                for (indexType k = 0; k < arg2.getDimensions().getElementCount(); k++) {
+                indexType elementCount = arg2.getDimensions().getElementCount();
+                for (indexType k = 0; k < elementCount; k++) {
                     ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
             } else {

@@ -72,9 +72,10 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
         T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
+        ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
-        for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptrC[k] = ptrA[0] * ptrB[k];
         }
 #else
@@ -85,9 +86,10 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
         T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
         matC = matA.array() * ptrB[0];
+        ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
-        for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+        for (ompIndexType k = 0; k < elementCount; k++) {
             ptrC[k] = ptrA[k] * ptrB[0];
         }
 #else
@@ -138,18 +140,19 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
-
+        ompIndexType elementCountB = (ompIndexType)dimB.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+        for (ompIndexType k = 0; k < elementCountB; k++) {
             ptrC[k] = scalar_scalar_integer_times(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
+        ompIndexType elementCountA = (ompIndexType)dimA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+        for (ompIndexType k = 0; k < elementCountA; k++) {
             ptrC[k] = scalar_scalar_integer_times(ptrA[k], ptrB[0]);
         }
     } else {
@@ -223,9 +226,10 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
+            ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
-            for (ompIndexType k = 0; k < (ompIndexType)dimB.getElementCount(); k++) {
+            for (ompIndexType k = 0; k < elementCount; k++) {
                 Cz[k] = Az[0] * Bz[k];
             }
 #else
@@ -246,9 +250,10 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
                 A.getDataClass(), Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(A.getDataClass(), Cdim, Cp);
         } else {
+            ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
-            for (ompIndexType k = 0; k < (ompIndexType)dimA.getElementCount(); k++) {
+            for (ompIndexType k = 0; k < elementCount; k++) {
                 Cz[k] = Az[k] * Bz[0];
             }
 #else

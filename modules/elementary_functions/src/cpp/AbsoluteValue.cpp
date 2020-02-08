@@ -27,6 +27,7 @@
 #include "AbsoluteValue.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -126,7 +127,11 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
         double* dp = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, dimsArrayIn.getElementCount(), stringVector(), false));
         auto* matzArrayIn = reinterpret_cast<doublecomplex*>((double*)arrayIn.getDataPointer());
-        for (indexType k = 0; k < dimsArrayIn.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsArrayIn.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real())
                 + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
         }
@@ -137,7 +142,11 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
         single* dp = static_cast<single*>(ArrayOf::allocateArrayOf(
             NLS_SINGLE, dimsArrayIn.getElementCount(), stringVector(), false));
         auto* matzArrayIn = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
-        for (indexType k = 0; k < dimsArrayIn.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsArrayIn.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real())
                 + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
         }

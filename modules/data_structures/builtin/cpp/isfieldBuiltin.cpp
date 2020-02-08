@@ -72,7 +72,8 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
                     auto* elements = (ArrayOf*)(param2.getDataPointer());
                     logical* res = static_cast<logical*>(ArrayOf::allocateArrayOf(
                         NLS_LOGICAL, dims2.getElementCount(), stringVector(), false));
-                    for (indexType k = 0; k < dims2.getElementCount(); ++k) {
+                    ompIndexType elementCount = dims2.getElementCount();
+                    for (ompIndexType k = 0; k < elementCount; ++k) {
                         res[k] = false;
                         if (elements[k].isRowVectorCharacterArray()) {
                             std::string name = elements[k].getContentAsCString();

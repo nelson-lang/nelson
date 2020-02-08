@@ -26,6 +26,7 @@
 #include "zerosBuiltin.hpp"
 #include "Error.hpp"
 #include "Zeros.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -154,7 +155,11 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
                         auto* ptrValues = (double*)dimVector.getDataPointer();
-                        for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                        ompIndexType elementCount = argIn[0].getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                        for (ompIndexType k = 0; k < elementCount; k++) {
                             if (ptrValues[k] > 0) {
                                 dims[k] = static_cast<indexType>(ptrValues[k]);
                             } else {

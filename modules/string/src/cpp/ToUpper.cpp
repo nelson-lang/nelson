@@ -29,6 +29,7 @@
 #include <boost/algorithm/string.hpp>
 #include <cctype>
 #include <string>
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -47,7 +48,8 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
         res = ArrayOf(A);
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+        indexType elementCount = A.getDimensions().getElementCount();
+        for (indexType k = 0; k < elementCount; k++) {
             if (!element[k].isRowVectorCharacterArray()) {
                 Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
             }
@@ -63,7 +65,11 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
         res = ArrayOf(A);
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = A.getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             if (!element[k].isRowVectorCharacterArray()) {
                 element[k] = ArrayOf::emptyConstructor();
             } else {
