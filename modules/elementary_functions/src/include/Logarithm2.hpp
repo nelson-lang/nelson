@@ -25,52 +25,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsError_manager_exports.h"
-#include <string>
-#include <vector>
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define WARNING_COLON_ARRAY_AS_SCALAR L"Nelson:colon:array-as-scalar"
-#define WARNING_MATIO_TYPE_NOT_SUPPORTED L"Nelson:matio:type-not-supported"
-#define WARNING_RANK_DEFICIENT_MATRIX L"Nelson:rankDeficientMatrix"
-#define WARNING_NEARLY_SINGULAR_MATRIX L"Nelson:nearlySingularMatrix"
-#define WARNING_IMAGINARY_PART_IGNORED L"Nelson:imaginaryPartIgnored"
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Logarithm2(const ArrayOf& arrayIn, bool& needToOverload);
 //=============================================================================
-typedef enum
-{
-    DISABLED,
-    ENABLED,
-    AS_ERROR,
-    NOT_FOUND
-} WARNING_STATE;
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
+Frexp(const ArrayOf& arrayIn, bool& needToOverload);
 //=============================================================================
-typedef struct
-{
-    std::vector<std::wstring> IDs;
-    std::vector<WARNING_STATE> states;
-} WARNING_IDS_STATES;
+}
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP WARNING_STATE
-warningCheckState(const std::wstring& id);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-initializeDefaultWarningIdsList();
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-clearWarningIdsList();
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-disableWarning(const std::wstring& id);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-enableWarning(const std::wstring& id);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-setWarningId(const std::wstring& id, WARNING_STATE state, bool withClear = true);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP WARNING_IDS_STATES
-getAllWarningState();
-//=============================================================================
-} // namespace Nelson
-  //=============================================================================

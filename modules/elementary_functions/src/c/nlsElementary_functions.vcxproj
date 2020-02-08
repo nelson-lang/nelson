@@ -195,6 +195,7 @@
     <ClCompile Include="..\cpp\LinearEquationSolver.cpp" />
     <ClCompile Include="..\cpp\Logarithm10.cpp" />
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
+    <ClCompile Include="..\cpp\Logarithm2.cpp" />
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
@@ -304,6 +305,7 @@
     <ClInclude Include="..\include\LinearEquationSolver.hpp" />
     <ClInclude Include="..\include\Logarithm10.hpp" />
     <ClInclude Include="..\include\Logarithm1p.hpp" />
+    <ClInclude Include="..\include\Logarithm2.hpp" />
     <ClInclude Include="..\include\MatrixMultiplication.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
     <ClInclude Include="..\include\NaturalLogarithm.hpp" />

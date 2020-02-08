@@ -1,5 +1,7 @@
 # 0.4.2 (2020-02-XX)
 
+* log2 builtin: Base 2 logarithm and floating-point number dissection.
+
 * colon operator optimized.
 
 * replaces hashmap used for functions and variables.
