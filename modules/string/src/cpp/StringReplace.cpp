@@ -223,9 +223,6 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
         ompIndexType elementCount = OLD.getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (ompIndexType k = 0; k < elementCount; k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
         }
@@ -250,9 +247,6 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCharacterArray() || NEW.isStringArray())) {
         ompIndexType elementCount = OLD.getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (ompIndexType k = 0; k < elementCount; k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }

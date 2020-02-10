@@ -112,9 +112,6 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
                 NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
             ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
             ompIndexType elementCount = param1.getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
             for (ompIndexType k = 0; k < elementCount; k++) {
                 qp[k] = arg[k];
             }

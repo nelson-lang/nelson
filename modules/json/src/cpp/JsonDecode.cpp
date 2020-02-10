@@ -347,9 +347,6 @@ jsonVariableToNelsonCellType(JsonVariable& jsVar)
     ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
         NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
     ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
     for (ompIndexType k = 0; k < elementCount; k++) {
         dptr[k] = jsonVariableToNelson(jsVar.vectorJsonVariable[k]);
     }

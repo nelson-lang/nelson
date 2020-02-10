@@ -265,9 +265,6 @@ jsonEncodeDouble(const ArrayOf& ValueToEncode, bool convertNanInf)
     auto* ptr = (double*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (ompIndexType i = 0; i < elementCount; i++) {
             encode_double(ptr[i], convertNanInf);
         }
@@ -307,9 +304,6 @@ jsonEncodeSingle(const ArrayOf& ValueToEncode, bool convertNanInf)
     auto* ptr = (single*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (ompIndexType i = 0; i < elementCount; i++) {
             encode_single(ptr[i], convertNanInf);
         }
@@ -392,9 +386,6 @@ jsonEncodeLogical(const ArrayOf& ValueToEncode)
     auto* ptr = (logical*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (ompIndexType i = 0; i < elementCount; i++) {
             if (ptr[i] == 0) {
                 json_append_string("false,");
