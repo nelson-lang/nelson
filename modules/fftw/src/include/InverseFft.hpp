@@ -30,10 +30,10 @@
 //=============================================================================
 namespace Nelson {
 NLSFFTW_IMPEXP ArrayOf
-InverseFft(ArrayOf X, indexType n, indexType dim);
+InverseFft(const ArrayOf &X, indexType n, indexType dim);
 NLSFFTW_IMPEXP ArrayOf
-InverseFft(ArrayOf X, indexType n);
+InverseFft(const ArrayOf &X, indexType n);
 NLSFFTW_IMPEXP ArrayOf
-InverseFft(ArrayOf X);
+InverseFft(const ArrayOf &X);
 } // namespace Nelson
 //=============================================================================

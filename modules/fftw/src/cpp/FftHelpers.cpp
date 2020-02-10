@@ -29,22 +29,26 @@
 #include "FFTWWrapper.hpp"
 #include "FftHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 #define DEFAULT_FFT_METHOD FftPlannerMethod::ESTIMATE
 static FftPlannerMethod currentFftMethod = DEFAULT_FFT_METHOD;
 //=============================================================================
+bool asForwardDouble = true;
+bool asForwardSingle = true;
+//=============================================================================
 static fftw_complex* in = nullptr;
 static fftw_complex* out = nullptr;
-static fftw_plan p_forward;
-static fftw_plan p_backward;
+static fftw_plan p_forward = nullptr;
+static fftw_plan p_backward = nullptr;
 static int zN = 0;
 //=============================================================================
 static fftwf_complex* inf = nullptr;
 static fftwf_complex* outf = nullptr;
-static fftwf_plan pf_forward;
-static fftwf_plan pf_backward;
+static fftwf_plan pf_forward = nullptr;
+static fftwf_plan pf_backward = nullptr;
 static int cN = 0;
 //=============================================================================
 static size_t sizeOfDouble = sizeof(double);
@@ -141,31 +145,39 @@ resetPlanner()
 }
 //=============================================================================
 static void
-scomplex_fft_init(int Narg)
+scomplex_fft_init(int Narg, bool forward)
 {
-    if (cN == Narg) {
+    if (cN == Narg && asForwardSingle == forward) {
         return;
     }
     if (cN != 0) {
-        dyn_fftwf_destroy_plan(pf_forward);
-        dyn_fftwf_destroy_plan(pf_backward);
+        if (pf_forward) {
+            dyn_fftwf_destroy_plan(pf_forward);
+            pf_forward = nullptr;
+        }
+        if (pf_backward) {
+            dyn_fftwf_destroy_plan(pf_backward);
+            pf_backward = nullptr;
+        }
         dyn_fftwf_free(inf);
         dyn_fftwf_free(outf);
     }
     inf = (fftwf_complex*)dyn_fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
     outf = (fftwf_complex*)dyn_fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
     int flags = getFftFlags(currentFftMethod, Narg);
-    pf_forward = dyn_fftwf_plan_dft_1d(Narg, inf, outf, FFTW_FORWARD, flags);
-    pf_backward = dyn_fftwf_plan_dft_1d(Narg, inf, outf, FFTW_BACKWARD, flags);
+    if (forward) {
+        pf_forward = dyn_fftwf_plan_dft_1d(Narg, inf, outf, FFTW_FORWARD, flags);
+    } else {
+        pf_backward = dyn_fftwf_plan_dft_1d(Narg, inf, outf, FFTW_BACKWARD, flags);
+    }
+    asForwardSingle = forward;
     cN = Narg;
 }
 //=============================================================================
 static void
 scomplex_fft_forward(int Narg, float* dp)
 {
-    if (cN != Narg) {
-        scomplex_fft_init(Narg);
-    }
+    scomplex_fft_init(Narg, true);
     memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
     dyn_fftwf_execute(pf_forward);
     memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
@@ -174,43 +186,52 @@ scomplex_fft_forward(int Narg, float* dp)
 static void
 scomplex_fft_backward(int Narg, single* dp)
 {
-    if (cN != Narg) {
-        scomplex_fft_init(Narg);
-    }
+    scomplex_fft_init(Narg, false);
     memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
     dyn_fftwf_execute(pf_backward);
     memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
-    for (size_t i = 0; i < ((size_t)2 * (size_t)cN); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < ompIndexType(2) * ompIndexType(cN); i++) {
         dp[i] /= ((single)Narg);
     }
 }
 //=============================================================================
 static void
-dcomplex_fft_init(int Narg)
+dcomplex_fft_init(int Narg, bool forward)
 {
-    if (zN == Narg) {
+    if (cN == Narg && asForwardDouble == forward) {
         return;
     }
     if (zN != 0) {
-        dyn_fftw_destroy_plan(p_forward);
-        dyn_fftw_destroy_plan(p_backward);
+        if (p_forward) {
+            dyn_fftw_destroy_plan(p_forward);
+            p_forward = nullptr;
+        }
+        if (p_backward) {
+            dyn_fftw_destroy_plan(p_backward);
+            p_backward = nullptr;
+        }
         dyn_fftw_free(in);
         dyn_fftw_free(out);
     }
     in = (fftw_complex*)dyn_fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
     out = (fftw_complex*)dyn_fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
     int flags = getFftFlags(currentFftMethod, Narg);
-    p_forward = dyn_fftw_plan_dft_1d(Narg, in, out, FFTW_FORWARD, flags);
-    p_backward = dyn_fftw_plan_dft_1d(Narg, in, out, FFTW_BACKWARD, flags);
+    if (forward) {
+        p_forward = dyn_fftw_plan_dft_1d(Narg, in, out, FFTW_FORWARD, flags);
+    } else {
+        p_backward = dyn_fftw_plan_dft_1d(Narg, in, out, FFTW_BACKWARD, flags);
+    }
+    asForwardDouble = forward;
     zN = Narg;
 }
 //=============================================================================
 static void
 dcomplex_fft_forward(int Narg, double* dp)
 {
-    if (zN != Narg) {
-        dcomplex_fft_init(Narg);
-    }
+    dcomplex_fft_init(Narg, true);
     memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
     dyn_fftw_execute(p_forward);
     memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
@@ -219,20 +240,22 @@ dcomplex_fft_forward(int Narg, double* dp)
 static void
 dcomplex_fft_backward(int Narg, double* dp)
 {
-    if (zN != Narg) {
-        dcomplex_fft_init(Narg);
-    }
+    dcomplex_fft_init(Narg, false);
     memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
     dyn_fftw_execute(p_backward);
     memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
-    for (size_t i = 0; i < size_t(2) * size_t(zN); i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < ompIndexType(2) * ompIndexType(zN); i++) {
         dp[i] /= ((double)Narg);
     }
 }
 //=============================================================================
 ArrayOf
-scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
+scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
 {
+    bool needToConvertToComplex = (X.getDataClass() == NLS_SINGLE);
     Dimensions inDim = X.getDimensions();
     Dimensions outDim(inDim);
     outDim[dim] = n;
@@ -245,9 +268,11 @@ scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
     for (indexType d = 0; d < dim; d++) {
         planesize *= inDim[d];
     }
-    single* ob = (single*)ArrayOf::allocateArrayOf(
-        NLS_SINGLE, 2 * outDim.getElementCount(), stringVector(), false);
-    single* buffer = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n * 2, stringVector(), true);
+    single* ob = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount());
+    outDim.simplify();
+    ArrayOf res = ArrayOf(NLS_SCOMPLEX, outDim, ob);
+
+    single* buffer = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, n);
     indexType copyIn = n;
     if (inDim[dim] < n) {
         copyIn = inDim[dim];
@@ -255,18 +280,29 @@ scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
     single* datapointer = (single*)X.getDataPointer();
     for (indexType i = 0; i < planecount; i++) {
         for (indexType j = 0; j < planesize; j++) {
-            for (indexType k = 0; k < copyIn; k++) {
-                indexType idxBuffer = 2 * k;
-                indexType idxDataPointer = 2 * (i * planesize * linesize + j + k * planesize);
-                buffer[idxBuffer] = datapointer[idxDataPointer];
-                buffer[idxBuffer + 1] = datapointer[idxDataPointer + 1];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)copyIn; k++) {
+                if (needToConvertToComplex) {
+                    indexType idxBuffer = 2 * k;
+                    indexType idxDataPointer = (i * planesize * linesize + j + k * planesize);
+                    buffer[idxBuffer] = datapointer[idxDataPointer];
+                    buffer[idxBuffer + 1] = 0;
+                } else {
+                    indexType idxBuffer = 2 * k;
+                    indexType idxDataPointer = 2 * (i * planesize * linesize + j + k * planesize);
+                    buffer[idxBuffer] = datapointer[idxDataPointer];
+                    buffer[idxBuffer + 1] = datapointer[idxDataPointer + 1];
+                }
             }
-            if (asInverse) {
-                scomplex_fft_backward((int)n, buffer);
-            } else {
-                scomplex_fft_forward((int)n, buffer);
-            }
-            for (indexType k = 0; k < n; k++) {
+            asInverse ? scomplex_fft_backward((int)n, buffer)
+                      : scomplex_fft_forward((int)n, buffer);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
                 indexType idxOb = 2 * (i * planesize * n + j + k * planesize);
                 ob[idxOb] = buffer[2 * k];
                 ob[idxOb + 1] = buffer[2 * k + 1];
@@ -275,8 +311,6 @@ scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
     }
     delete[] buffer;
     buffer = nullptr;
-    outDim.simplify();
-    ArrayOf res = ArrayOf(NLS_SCOMPLEX, outDim, ob);
     if (res.allReal()) {
         res.promoteType(NLS_SINGLE);
     }
@@ -284,8 +318,9 @@ scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
 }
 //=============================================================================
 ArrayOf
-dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
+dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
 {
+    bool needToConvertToComplex = (X.getDataClass() == NLS_DOUBLE);
     Dimensions inDim = X.getDimensions();
     Dimensions outDim(inDim);
     outDim[dim] = n;
@@ -298,9 +333,12 @@ dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
     for (indexType d = 0; d < dim; d++) {
         planesize *= inDim[d];
     }
-    double* ob = (double*)ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, 2 * outDim.getElementCount(), stringVector(), false);
-    double* buffer = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n * 2, stringVector(), true);
+    double* ob = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, outDim.getElementCount());
+
+    outDim.simplify();
+    ArrayOf res = ArrayOf(NLS_DCOMPLEX, outDim, ob);
+
+    double* buffer = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, n);
     indexType copyIn = n;
     if (inDim[dim] < n) {
         copyIn = inDim[dim];
@@ -308,18 +346,29 @@ dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
     double* datapointer = (double*)X.getDataPointer();
     for (indexType i = 0; i < planecount; i++) {
         for (indexType j = 0; j < planesize; j++) {
-            for (indexType k = 0; k < copyIn; k++) {
-                indexType idxBuffer = 2 * k;
-                indexType idxDataPointer = 2 * (i * planesize * linesize + j + k * planesize);
-                buffer[idxBuffer] = datapointer[idxDataPointer];
-                buffer[idxBuffer + 1] = datapointer[idxDataPointer + 1];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)copyIn; k++) {
+                if (needToConvertToComplex) {
+                    indexType idxBuffer = 2 * k;
+                    indexType idxDataPointer = (i * planesize * linesize + j + k * planesize);
+                    buffer[idxBuffer] = datapointer[idxDataPointer];
+                    buffer[idxBuffer + 1] = 0;
+                } else {
+                    indexType idxBuffer = 2 * k;
+                    indexType idxDataPointer = 2 * (i * planesize * linesize + j + k * planesize);
+                    buffer[idxBuffer] = datapointer[idxDataPointer];
+                    buffer[idxBuffer + 1] = datapointer[idxDataPointer + 1];
+                }
             }
-            if (asInverse) {
-                dcomplex_fft_backward((int)n, buffer);
-            } else {
-                dcomplex_fft_forward((int)n, buffer);
-            }
-            for (indexType k = 0; k < n; k++) {
+            asInverse ? dcomplex_fft_backward((int)n, buffer)
+                      : dcomplex_fft_forward((int)n, buffer);
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
                 indexType idxOb = 2 * (i * planesize * n + j + k * planesize);
                 indexType idxBuffer = 2 * k;
                 ob[idxOb] = buffer[idxBuffer];
@@ -329,8 +378,6 @@ dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
     }
     delete[] buffer;
     buffer = nullptr;
-    outDim.simplify();
-    ArrayOf res = ArrayOf(NLS_DCOMPLEX, outDim, ob);
     if (res.allReal()) {
         res.promoteType(NLS_DOUBLE);
     }

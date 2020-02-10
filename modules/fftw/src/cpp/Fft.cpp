@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Fft(ArrayOf X, indexType n, indexType dim)
+Fft(const ArrayOf &X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
         Error(
@@ -40,30 +40,21 @@ Fft(ArrayOf X, indexType n, indexType dim)
     if (X.isScalar() || X.isEmpty()) {
         return ArrayOf(X);
     }
-    Class classX = X.getDataClass();
-    if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE) {
-        X.promoteType(NLS_SCOMPLEX);
-    } else {
-        X.promoteType(NLS_DCOMPLEX);
+    if (X.getDataClass() == NLS_SCOMPLEX || X.getDataClass() == NLS_SINGLE) {
+        return scomplexFFTW(X, n, dim, false);
     }
-    ArrayOf res;
-    if (X.getDataClass() == NLS_SCOMPLEX) {
-        res = scomplexFFTW(X, n, dim, false);
-    } else {
-        res = dcomplexFFTW(X, n, dim, false);
-    }
-    return res;
+    return dcomplexFFTW(X, n, dim, false);
 }
 //=============================================================================
 ArrayOf
-Fft(ArrayOf X, indexType n)
+Fft(const ArrayOf &X, indexType n)
 {
     indexType dim = computeDim(X);
     return Fft(X, n, dim);
 }
 //=============================================================================
 ArrayOf
-Fft(ArrayOf X)
+Fft(const ArrayOf &X)
 {
     indexType dim = computeDim(X);
     indexType n = X.getDimensionLength(static_cast<int>(dim));

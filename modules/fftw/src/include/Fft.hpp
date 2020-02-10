@@ -31,13 +31,13 @@
 namespace Nelson {
 //=============================================================================
 NLSFFTW_IMPEXP ArrayOf
-Fft(ArrayOf X, indexType n, indexType dim);
+Fft(const ArrayOf &X, indexType n, indexType dim);
 //=============================================================================
 NLSFFTW_IMPEXP ArrayOf
-Fft(ArrayOf X, indexType n);
+Fft(const ArrayOf &X, indexType n);
 //=============================================================================
 NLSFFTW_IMPEXP ArrayOf
-Fft(ArrayOf X);
+Fft(const ArrayOf &X);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
