@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Fft(const ArrayOf &X, indexType n, indexType dim)
+Fft(const ArrayOf& X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
         Error(
@@ -47,14 +47,14 @@ Fft(const ArrayOf &X, indexType n, indexType dim)
 }
 //=============================================================================
 ArrayOf
-Fft(const ArrayOf &X, indexType n)
+Fft(const ArrayOf& X, indexType n)
 {
     indexType dim = computeDim(X);
     return Fft(X, n, dim);
 }
 //=============================================================================
 ArrayOf
-Fft(const ArrayOf &X)
+Fft(const ArrayOf& X)
 {
     indexType dim = computeDim(X);
     indexType n = X.getDimensionLength(static_cast<int>(dim));

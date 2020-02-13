@@ -65,8 +65,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
         case NLS_LOGICAL: {
             auto* values = (logical*)A.getDataPointer();
             indexType elementCount = dims.getElementCount();
-            for (indexType k = 0; k < elementCount; ++k)
-            {
+            for (indexType k = 0; k < elementCount; ++k) {
                 std::string cstr = std::bitset<1>(values[k]).to_string();
                 vs.push_back(cstr);
             }

@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-InverseFft(const ArrayOf &X, indexType n, indexType dim)
+InverseFft(const ArrayOf& X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
         Error(_("Undefined function 'ifft' for input arguments of type") + " '" + ClassName(X)
@@ -47,14 +47,14 @@ InverseFft(const ArrayOf &X, indexType n, indexType dim)
 }
 //=============================================================================
 ArrayOf
-InverseFft(const ArrayOf &X, indexType n)
+InverseFft(const ArrayOf& X, indexType n)
 {
     indexType dim = computeDim(X);
     return InverseFft(X, n, dim);
 }
 //=============================================================================
 ArrayOf
-InverseFft(const ArrayOf &X)
+InverseFft(const ArrayOf& X)
 {
     indexType dim = computeDim(X);
     indexType n = X.getDimensionLength(static_cast<int>(dim));

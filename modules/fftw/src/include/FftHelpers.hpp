@@ -43,10 +43,10 @@ indexType
 computeDim(const ArrayOf& X);
 //=============================================================================
 ArrayOf
-scomplexFFTW(const ArrayOf &X, indexType n, indexType dim, bool asInverse);
+scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse);
 //=============================================================================
 ArrayOf
-dcomplexFFTW(const ArrayOf &X, indexType n, indexType dim, bool asInverse);
+dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse);
 //=============================================================================
 NLSFFTW_IMPEXP std::wstring
 getDoubleWisdomInformation();

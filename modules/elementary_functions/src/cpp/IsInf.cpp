@@ -37,7 +37,7 @@ boolean_isinf(indexType N, logical* C, const T* A)
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType i = 0; i < (ompIndexType) N; i++) {
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isinf(A[i]);
     }
 }
@@ -49,7 +49,7 @@ boolean_isinf_cplx(indexType N, logical* C, const T* A)
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType i = 0; i < (ompIndexType) N; i++) {
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isinf(A[i].real()) || std::isinf(A[i].imag());
     }
 }
@@ -107,7 +107,7 @@ IsInf(ArrayOf A)
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType i = 0; i < (ompIndexType) A.getLength(); i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)A.getLength(); i++) {
             CpLogical[i] = static_cast<logical>(0);
         }
         C.setDataPointer(Cp);
