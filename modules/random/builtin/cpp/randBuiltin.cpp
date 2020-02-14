@@ -96,9 +96,6 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         dimVector.promoteType(NLS_DOUBLE);
                         double* ptrValues = (double*)dimVector.getDataPointer();
                         ompIndexType elementCount = argIn[0].getDimensions().getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
                         for (ompIndexType k = 0; k < elementCount; k++) {
                             if (ptrValues[k] > 0) {
                                 dims[k] = (indexType)ptrValues[k];
