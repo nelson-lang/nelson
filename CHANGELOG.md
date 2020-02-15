@@ -4,6 +4,8 @@
 
 * colon operator optimized.
 
+* faster algorithm to convert variable to different data type.
+
 * replaces hashmap used for functions and variables.
 
 * some few speed optimization about evaluator.
