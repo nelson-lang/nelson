@@ -39,7 +39,8 @@ IsEqualHandle(ArrayOf A, ArrayOf B)
         if (dimsA.equals(dimsB)) {
             auto* ptrA = (nelson_handle*)A.getDataPointer();
             auto* ptrB = (nelson_handle*)B.getDataPointer();
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            indexType elementCount = A.getDimensions().getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 if (ptrA[k] != ptrB[k]) {
                     return false;
                 }

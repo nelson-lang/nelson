@@ -683,10 +683,11 @@ sortComplex(const ArrayOf& arrayIn, Class dataClass, bool withIndex, indexType l
         double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
         if (isVector) {
+            ompIndexType elementCount = (ompIndexType)outDim.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (ompIndexType k = 0; k < (ompIndexType)outDim.getElementCount(); ++k) {
+            for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptrIndex[k] = (double)1;
             }
         }

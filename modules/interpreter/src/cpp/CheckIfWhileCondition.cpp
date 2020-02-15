@@ -40,7 +40,8 @@ checkIfWhileCondition(const ArrayOf& A)
         if (!first) {
             return false;
         }
-        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+        indexType elementCount = A.getDimensions().getElementCount();
+        for (indexType i = 0; i < elementCount; i++) {
             T valueToCompare = ((T*)A.getDataPointer())[i];
             if (!valueToCompare) {
                 res = false;

@@ -63,7 +63,8 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
                     if (param1.isNumeric()) {
                         Dimensions dims = param1.getDimensions();
                         indexType* values = (indexType*)param1.getContentAsIndexPointer();
-                        for (indexType k = 0; k < dims.getElementCount(); k++) {
+                        indexType elementCount = dims.getElementCount();
+                        for (indexType k = 0; k < elementCount; k++) {
                             dimsVal.push_back(values[k]);
                         }
                     } else {

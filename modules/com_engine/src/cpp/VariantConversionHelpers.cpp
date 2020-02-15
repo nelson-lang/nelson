@@ -29,6 +29,7 @@
 #include "HandleManager.hpp"
 #include <Propvarutil.h>
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -179,7 +180,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                     errorMessage = L"Failed accessing array data.";
                     return false;
                 }
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                indexType elementCount = dims.getElementCount();
+                for (indexType k = 0; k < elementCount; k++) {
                     ArrayOf element;
                     if (ComVariantToNelson(&pvar[k], element, errorMessage)) {
                         pCell[k] = element;
@@ -437,7 +439,8 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 VARIANT* data;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                indexType elementCount = dims.getElementCount();
+                for (indexType k = 0; k < elementCount; k++) {
                     if (!NelsonToComVariant(cell[k], &data[k], errorMessage)) {
                         return false;
                     }
@@ -551,7 +554,8 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 VARIANT* data;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                indexType elementCount = dims.getElementCount();
+                for (indexType k = 0; k < elementCount; k++) {
                     if (!NelsonToComVariant(cell[k], &data[k], errorMessage)) {
                         return false;
                     }
@@ -569,7 +573,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 double* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pDouble[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -585,7 +593,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 single* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pSingle[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -601,7 +613,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 logical* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pLogical[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -617,7 +633,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint8* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pUint8[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -633,7 +653,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int8* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pInt8[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -649,7 +673,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint16* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pUint16[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -665,7 +693,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int16* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pInt16[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -681,7 +713,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint32* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pUint32[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -697,7 +733,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int32* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pInt32[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -713,7 +753,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint64* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pUint64[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -729,7 +773,11 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int64* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (indexType k = 0; k < dims.getElementCount(); k++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     data[k] = pInt64[k];
                 }
                 SafeArrayUnaccessData(arr);

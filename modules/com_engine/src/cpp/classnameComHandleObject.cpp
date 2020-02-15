@@ -121,7 +121,8 @@ classnameComHandle(ArrayOf A, wstringVector& classname)
     Dimensions dimsA = A.getDimensions();
     auto* qp = (nelson_handle*)A.getDataPointer();
     if (qp) {
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+        indexType elementCount = dimsA.getElementCount();
+        for (indexType k = 0; k < elementCount; k++) {
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {

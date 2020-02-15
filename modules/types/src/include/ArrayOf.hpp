@@ -1165,9 +1165,6 @@ public:
     isNumeric() const;
 
     void
-    scalarToMatrix(Dimensions& newDimensions);
-
-    void
     deleteArrayOf(void* dp, Class dataclass);
 
     /*

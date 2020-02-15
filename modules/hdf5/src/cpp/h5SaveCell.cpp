@@ -52,7 +52,8 @@ h5SaveCell(hid_t fid, const std::string& location, const std::string& variableNa
     }
     Dimensions dims = VariableValue.getDimensions();
     auto* elements = (ArrayOf*)VariableValue.getDataPointer();
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
         bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);

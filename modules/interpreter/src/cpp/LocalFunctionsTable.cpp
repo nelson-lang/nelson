@@ -54,7 +54,7 @@ LocalFunctionsTable::find(const std::string& key, FuncPtr& dest)
 {
     if (cachedLocalFunctionsTable != nullptr) {
         auto* genericTable = (GenericTable<FuncPtr>*)cachedLocalFunctionsTable;
-        FuncPtr *v = genericTable->findSymbol(key);
+        FuncPtr* v = genericTable->findSymbol(key);
         if (v != nullptr) {
             dest = v[0];
             return true;

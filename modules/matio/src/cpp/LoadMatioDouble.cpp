@@ -57,7 +57,8 @@ LoadMatioDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             double* ptrR = (double*)(cplx->Re);
             double* ptrI = (double*)(cplx->Im);
             indexType i = 0;
-            for (indexType k = 0; k < dims.getElementCount(); k++) {
+            indexType elementCount = dims.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 ptrDouble[i] = ptrR[k];
                 ptrDouble[i + 1] = ptrI[k];
                 i = i + 2;

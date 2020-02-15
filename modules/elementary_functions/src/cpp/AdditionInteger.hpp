@@ -88,7 +88,7 @@ matrix_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
-#if defined(_OPENMP)
+#if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (long long k = 0; k < (long long)Clen; ++k) {
@@ -240,8 +240,10 @@ column_row_integer_addition(Class classDestination, const ArrayOf& A, const Arra
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     indexType m = 0;
-    for (indexType i = 0; i < dimsB.getElementCount(); i++) {
-        for (indexType j = 0; j < dimsA.getElementCount(); j++) {
+    indexType elementCountA = dimsA.getElementCount();
+    indexType elementCountB = dimsB.getElementCount();
+    for (indexType i = 0; i < elementCountB; i++) {
+        for (indexType j = 0; j < elementCountA; j++) {
             ptrC[m] = scalar_scalar_integer_addition(ptrA[j], ptrB[i]);
             m++;
         }

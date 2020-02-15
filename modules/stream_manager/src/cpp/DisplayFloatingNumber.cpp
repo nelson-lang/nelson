@@ -57,7 +57,8 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
         if (pValueA) {
             maxVal = pValueA[0];
             minVal = pValueA[0];
-            for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
+            indexType elementCount = dimsA.getElementCount() * 2;
+            for (indexType k = 0; k < elementCount; k++) {
                 if (!isInteger(pValueA[k])) {
                     return false;
                 } else {
@@ -78,7 +79,8 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
         T* pValueA = (T*)A.getDataPointer();
         if (pValueA) {
             maxVal = pValueA[0];
-            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+            indexType elementCount = dimsA.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 if (!isInteger(pValueA[k]) && std::isfinite(pValueA[k])) {
                     return false;
                 } else {

@@ -30,6 +30,7 @@
 #include "Dimensions.hpp"
 #include "Types.hpp"
 #include "SparseDynamicFunctions.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -79,11 +80,7 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
 {
     const TIN* sp = (const TIN*)pIn;
     TOUT* qp = (TOUT*)pOut;
-    if (classIn == classOut) {
-        for (indexType i = 0; i < count; i++) {
-            qp[i] = (TOUT)sp[i];
-        }
-    } else {
+    if (classIn != classOut) {
         bool checkNaN = false;
         if (typeid(TOUT) != typeid(single) || typeid(TOUT) != typeid(double)) {
             if (typeid(TIN) == typeid(single) || typeid(TIN) == typeid(double)) {
@@ -91,7 +88,10 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
             }
         }
         if (checkNaN) {
-            for (indexType i = 0; i < count; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
                 if (std::isnan((double)sp[i])) {
                     qp[i] = (TOUT)0;
                 } else {
@@ -99,7 +99,10 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
                 }
             }
         } else {
-            for (indexType i = 0; i < count; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
                 qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
             }
         }
@@ -137,47 +140,160 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
  *    - real dest = real(source)
  */
 //=============================================================================
-#undef caseMacro
+template <class TIN, class TOUT>
+TOUT*
+promoteAsReal(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+        dstPtr[i] = (TOUT)ptr[i];
+    }
+    return dstPtr;
+}
 //=============================================================================
-#define caseMacro(caseLabel, dpType, convCode)                                                     \
-    case caseLabel: {                                                                              \
-        dpType* qp = (dpType*)dstPtr;                                                              \
-        for (indexType i = 0; i < count; i++)                                                      \
-            convCode;                                                                              \
-    } break;
+template <class TIN, class TOUT>
+TOUT*
+promoteAsLogical(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+        dstPtr[i] = (ptr[i] == 0) ? 0 : 1;
+    }
+    return dstPtr;
+}
+//=============================================================================
+template <class TIN, class TOUT>
+TOUT*
+promoteComplexAsLogical(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+        dstPtr[i] = (ptr[i * 2] == 0) ? 0 : 1;
+    }
+    return dstPtr;
+}
+//=============================================================================
+template <class TIN, class TOUT>
+TOUT*
+promoteComplexAsReal(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i = i + 1) {
+        dstPtr[i] = (TOUT)ptr[i * 2];
+    }
+    return dstPtr;
+}
+//=============================================================================
+template <class TIN, class TOUT>
+TOUT*
+promoteComplexAsComplex(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count * 2; i = i + 2) {
+        dstPtr[i] = (TOUT)ptr[i];
+        dstPtr[i + 1] = (TOUT)ptr[i + 1];
+    }
+    return dstPtr;
+}
+//=============================================================================
+template <class TIN, class TOUT>
+TOUT*
+promoteAsComplex(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count, stringVector(), true);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i = i + 1) {
+        dstPtr[i << 1] = (TOUT)ptr[i];
+    }
+    return dstPtr;
+}
+//=============================================================================
+template <class TIN, class TOUT>
+TOUT*
+promoteComplexAsInteger(Class dstClass, const TIN* ptr, indexType count)
+{
+    TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
+    bool checkNaN = false;
+    if (typeid(TOUT) != typeid(single) || typeid(TOUT) != typeid(double)) {
+        if (typeid(TIN) == typeid(single) || typeid(TIN) == typeid(double)) {
+            checkNaN = true;
+        }
+    }
+    if (checkNaN) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+            if (std::isnan((double)ptr[i*2])) {
+                dstPtr[i] = (TOUT)0;
+            } else {
+                dstPtr[i] = (TOUT)numeric_cast<TIN, TOUT>(ptr[i*2]);
+            }
+        }
+    } else {
+        for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+            dstPtr[i] = numeric_cast<TIN, TOUT>(ptr[i*2]);
+        }
+    }
+    return dstPtr;
+}
 //=============================================================================
 void
 ArrayOf::promoteType(Class dstClass, stringVector fNames)
 {
-    indexType elCount = 0;
-    void* dstPtr = nullptr;
     if (isEmpty()) {
         dp = dp->putData(dstClass, dp->dimensions, NULL, isSparse(), fNames);
         return;
     }
-    if (dp->dataClass == NLS_HANDLE)
+    if (dp->dataClass != dstClass) {
+        if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
+            || (dstClass == NLS_STRUCT_ARRAY)) {
+            Error(_W("Cannot convert base types to reference types."));
+        }
+    }
+    // Do nothing for promoting to same class (no-op).
+    if (isSparse()) {
+        dp = dp->putData(dstClass, dp->dimensions,
+            TypeConvertSparseDynamicFunction(
+                dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData(), dstClass),
+            true);
+        return;
+    }
+    indexType count = getLength();
+    void* dstPtr = nullptr;
+    switch (dp->dataClass) {
+    case NLS_HANDLE: {
         if (dstClass == NLS_HANDLE) {
             return;
         } else {
             Error(_W("Cannot convert handle-arrays to any other type."));
         }
-    // Handle the reference types.
-    // Cell arrays can be promoted with no effort to cell arrays.
-    if (dp->dataClass == NLS_CELL_ARRAY)
+    } break;
+    case NLS_CELL_ARRAY: {
         if (dstClass == NLS_CELL_ARRAY) {
             return;
         } else {
             Error(_W("Cannot convert cell-arrays to any other type."));
         }
-    if (dp->dataClass == NLS_STRING_ARRAY)
-        if (dstClass == NLS_STRING_ARRAY) {
-            return;
-        } else {
-            Error(_W("Cannot convert string-arrays to any other type."));
-        }
-    // Structure arrays can be promoted to structure arrays with different
-    // field structures, but have to be rearranged.
-    if (dp->dataClass == NLS_STRUCT_ARRAY)
+    } break;
+    case NLS_STRUCT_ARRAY: {
         if (dstClass == NLS_STRUCT_ARRAY) {
             // TODO: Generalize this code to allow for one more field in destination
             // than in source...
@@ -226,465 +342,796 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         } else {
             Error(_W("Cannot convert struct-arrays to any other type."));
         }
-    // Catch attempts to convert data types to reference types.
-    if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
-        || (dstClass == NLS_STRUCT_ARRAY)) {
-        Error(_W("Cannot convert base types to reference types."));
-    }
-    // Do nothing for promoting to same class (no-op).
-    if (isSparse()) {
-        dp = dp->putData(dstClass, dp->dimensions,
-            TypeConvertSparseDynamicFunction(
-                dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData(), dstClass),
-            true);
-        return;
-    }
-    if (dstClass == dp->dataClass) {
-        return;
-    }
-    elCount = getLength();
-    // We have to promote...
-    dstPtr = allocateArrayOf(dstClass, elCount, stringVector(), true);
-    indexType count = elCount;
-    switch (dp->dataClass) {
-    case NLS_CHAR: {
-        charType* sp = (charType*)dp->getData();
-        switch (dstClass) {
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
-            caseMacro(NLS_UINT8, uint8, qp[i] = (uint8)sp[i]);
-            caseMacro(NLS_INT8, int8, qp[i] = (int8)sp[i]);
-            caseMacro(NLS_UINT16, uint16, qp[i] = (uint16)sp[i]);
-            caseMacro(NLS_INT16, int16, qp[i] = (int16)sp[i]);
-            caseMacro(NLS_UINT32, uint32, qp[i] = (uint32)sp[i]);
-            caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i]);
-            caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
-            caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-        default: {
-        } break;
+    } break;
+    case NLS_STRING_ARRAY: {
+        if (dstClass == NLS_STRING_ARRAY) {
+            return;
+        } else {
+            Error(_W("Cannot convert string-arrays to any other type."));
         }
     } break;
     case NLS_LOGICAL: {
         const logical* sp = (const logical*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
-            caseMacro(NLS_UINT8, uint8, qp[i] = (uint8)sp[i]);
-            caseMacro(NLS_INT8, int8, qp[i] = (int8)sp[i]);
-            caseMacro(NLS_UINT16, uint16, qp[i] = (uint16)sp[i]);
-            caseMacro(NLS_INT16, int16, qp[i] = (int16)sp[i]);
-            caseMacro(NLS_UINT32, uint32, qp[i] = (uint32)sp[i]);
-            caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i]);
-            caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
-            caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
+        case NLS_LOGICAL: {
+            return;
+        } break;
+        case NLS_UINT8: {
+            dstPtr = (void*)promoteAsReal<logical, uint8>(dstClass, sp, count);
+        } break;
+        case NLS_INT8: {
+            dstPtr = (void*)promoteAsReal<logical, int8>(dstClass, sp, count);
+        } break;
+        case NLS_UINT16: {
+            dstPtr = (void*)promoteAsReal<logical, uint16>(dstClass, sp, count);
+        } break;
+        case NLS_INT16: {
+            dstPtr = (void*)promoteAsReal<logical, int16>(dstClass, sp, count);
+        } break;
+        case NLS_UINT32: {
+            dstPtr = (void*)promoteAsReal<logical, uint32>(dstClass, sp, count);
+        } break;
+        case NLS_INT32: {
+            dstPtr = (void*)promoteAsReal<logical, int32>(dstClass, sp, count);
+        } break;
+        case NLS_UINT64: {
+            dstPtr = (void*)promoteAsReal<logical, uint64>(dstClass, sp, count);
+        } break;
+        case NLS_INT64: {
+            dstPtr = (void*)promoteAsReal<logical, int64>(dstClass, sp, count);
+        } break;
+        case NLS_SINGLE: {
+            dstPtr = (void*)promoteAsReal<logical, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = (void*)promoteAsReal<logical, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<logical, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<logical, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = (void*)promoteAsReal<logical, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_UINT8: {
         const uint8* sp = (const uint8*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<uint8, logical>(dstClass, sp, count);
+        } break;
+        case NLS_UINT8: {
+            return;
+        } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<uint8, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<uint8, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<uint8, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<uint8, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<uint8, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_INT8: {
         const int8* sp = (const int8*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<int8, logical>(dstClass, sp, count);
+        } break;
+        case NLS_INT8: {
+            return;
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<int8, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<int8, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<int8, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<int8, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsComplex<int8, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_UINT16: {
         const uint16* sp = (const uint16*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsReal<uint16, logical>(dstClass, sp, count);
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_UINT16: {
+            return;
+        } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<uint16, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<uint16, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<uint16, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<uint16, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<uint16, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_INT16: {
         const int16* sp = (const int16*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<int16, logical>(dstClass, sp, count);
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_INT16: {
+            return;
+        } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<int16, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<int16, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<int16, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<int16, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<int16, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_UINT32: {
         const uint32* sp = (const uint32*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
-        case NLS_INT8: {
-            saturate<uint32, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<uint32, logical>(dstClass, sp, count);
         } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint32, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<uint32, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint32, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint32, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_UINT32: {
+            return;
+        } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint32, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint32, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<uint32, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<uint32, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<uint32, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<uint32, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<uint32, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_INT32: {
         const int32* sp = (const int32*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<int32, logical>(dstClass, sp, count);
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_INT32: {
+            return;
+        } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<int32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: {
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<int32, single>(dstClass, sp, count);
         } break;
-        }
-    } break;
-    case NLS_INT64: {
-        const int64* sp = (const int64*)dp->getData();
-        switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
-        case NLS_UINT8: {
-            saturate<int64, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<int32, double>(dstClass, sp, count);
         } break;
-        case NLS_INT8: {
-            saturate<int64, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<int32, single>(dstClass, sp, count);
         } break;
-        case NLS_UINT16: {
-            saturate<int64, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<int32, double>(dstClass, sp, count);
         } break;
-        case NLS_INT16: {
-            saturate<int64, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
-        } break;
-        case NLS_UINT32: {
-            saturate<int64, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
-        } break;
-        case NLS_INT32: {
-            saturate<int64, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
-        } break;
-        case NLS_UINT64: {
-            saturate<int64, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<int32, charType>(dstClass, sp, count);
         } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_UINT64: {
         const uint64* sp = (const uint64*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<uint64, logical>(dstClass, sp, count);
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_UINT64: {
+            return;
+        } break;
         case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<uint64, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<uint64, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<uint64, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<uint64, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<uint64, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<uint64, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
+        } break;
+        }
+    } break;
+    case NLS_INT64: {
+        const int64* sp = (const int64*)dp->getData();
+        switch (dstClass) {
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<int64, logical>(dstClass, sp, count);
+        } break;
+        case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT64: {
+            return;
+        } break;
+        case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<int64, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<int64, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<int64, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<int64, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<int64, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<int64, charType>(dstClass, sp, count);
+        } break;
+        default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_SINGLE: {
         const single* sp = (const single*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<single, logical>(dstClass, sp, count);
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        case NLS_INT64: {
-            saturate<single, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
-        } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<single, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<single, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_SINGLE: {
+            return;
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteAsReal<single, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<single, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<single, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<single, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_DOUBLE: {
         const double* sp = (const double*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-            caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-            caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
-            caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+        case NLS_LOGICAL: {
+            dstPtr = promoteAsLogical<double, logical>(dstClass, sp, count);
+        } break;
         case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
         case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        case NLS_INT64: {
-            saturate<double, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
-        } break;
         case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
             saturate<double, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
+        case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<double, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteAsReal<double, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            return;
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteAsComplex<double, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteAsComplex<double, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteAsReal<double, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_SCOMPLEX: {
         const single* sp = (const single*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i << 1]);
-            caseMacro(NLS_LOGICAL, logical,
-                qp[i] = ((sp[i << 1] == 0.0) && (sp[(i << 1) + 1] == 0.0)) ? 0 : 1);
-        case NLS_SINGLE: {
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)sp);
-            single* qp = (single*)dstPtr;
-            Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, dp->dimensions.getElementCount());
-            Eigen::Map<Eigen::MatrixXf> matB(qp, 1, dp->dimensions.getElementCount());
-            matB = matA.real();
+        case NLS_LOGICAL: {
+            dstPtr = promoteComplexAsLogical<single, logical>(dstClass, sp, count);
         } break;
-            caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i << 1]);
-            caseMacro(NLS_DCOMPLEX, double, {
-                qp[i << 1] = (double)sp[i << 1];
-                qp[(i << 1) + 1] = (double)sp[(i << 1) + 1];
-            });
         case NLS_UINT8: {
-            saturate<single, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+            dstPtr = promoteComplexAsInteger<single, uint8>(dstClass, sp, count);
+        } break;
+        case NLS_INT8: {
+            dstPtr = promoteComplexAsInteger<single, int8>(dstClass, sp, count);
+        } break;
+        case NLS_UINT16: {
+            dstPtr = promoteComplexAsInteger<single, uint16>(dstClass, sp, count);
+        } break;
+        case NLS_INT16: {
+            dstPtr = promoteComplexAsInteger<single, int16>(dstClass, sp, count);
+        } break;
+        case NLS_UINT32: {
+            dstPtr = promoteComplexAsInteger<single, uint32>(dstClass, sp, count);
+        } break;
+        case NLS_INT32: {
+            dstPtr = promoteComplexAsInteger<single, int32>(dstClass, sp, count);
+        } break;
+        case NLS_UINT64: {
+            dstPtr = promoteComplexAsInteger<single, uint64>(dstClass, sp, count);
+        } break;
+        case NLS_INT64: {
+            dstPtr = promoteComplexAsInteger<single, int64>(dstClass, sp, count);
+        } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteComplexAsReal<single, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteComplexAsReal<single, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            return;
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = promoteComplexAsComplex<single, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteComplexAsReal<single, charType>(dstClass, sp, count);
         } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
     } break;
     case NLS_DCOMPLEX: {
         const double* sp = (const double*)dp->getData();
         switch (dstClass) {
-            caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i << 1]);
-            caseMacro(NLS_LOGICAL, logical,
-                qp[i] = ((sp[i << 1] == 0.0) && (sp[(i << 1) + 1] == 0.0)) ? 0 : 1);
-            caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i << 1]);
-        case NLS_DOUBLE: {
-            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)sp);
-            double* qp = (double*)dstPtr;
-            Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, dp->dimensions.getElementCount());
-            Eigen::Map<Eigen::MatrixXd> matB(qp, 1, dp->dimensions.getElementCount());
-            matB = matA.real();
+        case NLS_LOGICAL: {
+            dstPtr = promoteComplexAsLogical<double, logical>(dstClass, sp, count);
         } break;
-            caseMacro(NLS_SCOMPLEX, single, {
-                qp[i << 1] = (single)sp[i << 1];
-                qp[(i << 1) + 1] = (single)sp[(i << 1) + 1];
-            });
-            caseMacro(NLS_UINT8, uint8, qp[i] = (uint8)sp[i << 1]);
-            caseMacro(NLS_INT8, int8, qp[i] = (int8)sp[i << 1]);
-            caseMacro(NLS_UINT16, uint16, qp[i] = (uint16)sp[i << 1]);
-            caseMacro(NLS_INT16, int16, qp[i] = (int16)sp[i << 1]);
-            caseMacro(NLS_UINT32, uint32, qp[i] = (uint32)sp[i << 1]);
-            caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i << 1]);
-            caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
-            caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
+        case NLS_UINT8: {
+            dstPtr = promoteComplexAsInteger<double, uint8>(dstClass, sp, count);
+        } break;
+        case NLS_INT8: {
+            dstPtr = promoteComplexAsInteger<double, int8>(dstClass, sp, count);
+        } break;
+        case NLS_UINT16: {
+            dstPtr = promoteComplexAsInteger<double, uint16>(dstClass, sp, count);
+        } break;
+        case NLS_INT16: {
+            dstPtr = promoteComplexAsInteger<double, int16>(dstClass, sp, count);
+        } break;
+        case NLS_UINT32: {
+            dstPtr = promoteComplexAsInteger<double, uint32>(dstClass, sp, count);
+        } break;
+        case NLS_INT32: {
+            dstPtr = promoteComplexAsInteger<double, int32>(dstClass, sp, count);
+        } break;
+        case NLS_UINT64: {
+            dstPtr = promoteComplexAsInteger<double, uint64>(dstClass, sp, count);
+        } break;
+        case NLS_INT64: {
+            dstPtr = promoteComplexAsInteger<double, int64>(dstClass, sp, count);
+        } break;
+        case NLS_SINGLE: {
+            dstPtr = promoteComplexAsReal<double, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = promoteComplexAsReal<double, double>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            return;
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = promoteComplexAsComplex<double, single>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            dstPtr = promoteComplexAsReal<double, charType>(dstClass, sp, count);
+        } break;
         default: {
+            Error(_("Type not managed."));
         } break;
         }
+    } break;
+    case NLS_CHAR: {
+        charType* sp = (charType*)dp->getData();
+        switch (dstClass) {
+        case NLS_LOGICAL: {
+            dstPtr = (void*)promoteAsLogical<charType, logical>(dstClass, sp, count);
+        } break;
+        case NLS_UINT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT8: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_UINT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT16: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_UINT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT32: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_UINT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_INT64: {
+            dstPtr = ArrayOf::allocateArrayOf(dstClass, count);
+            saturate<charType, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
+        } break;
+        case NLS_SINGLE: {
+            dstPtr = (void*)promoteAsReal<charType, single>(dstClass, sp, count);
+        } break;
+        case NLS_DOUBLE: {
+            dstPtr = (void*)promoteAsReal<charType, double>(dstClass, sp, count);
+        } break;
+        case NLS_SCOMPLEX: {
+            dstPtr = (void*)promoteAsComplex<charType, single>(dstClass, sp, count);
+        } break;
+        case NLS_DCOMPLEX: {
+            dstPtr = (void*)promoteAsComplex<charType, double>(dstClass, sp, count);
+        } break;
+        case NLS_CHAR: {
+            return;
+        } break;
+        default: {
+            Error(_("Type not managed."));
+        } break;
+        }
+    } break;
+    default: {
+        Error(_W("Type not managed."));
     } break;
     }
     dp = dp->putData(dstClass, dp->dimensions, dstPtr);

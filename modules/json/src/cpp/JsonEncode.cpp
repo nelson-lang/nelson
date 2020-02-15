@@ -29,6 +29,7 @@
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
 #include <sstream>
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -215,7 +216,8 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, std::string format)
 {
     auto* ptr = (T*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+        indexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        for (indexType i = 0; i < elementCount; i++) {
             char buff[1024];
             snprintf(buff, sizeof(buff), format.c_str(), ptr[i]);
             std::string buffAsStdStr = buff;
@@ -262,7 +264,8 @@ jsonEncodeDouble(const ArrayOf& ValueToEncode, bool convertNanInf)
 {
     auto* ptr = (double*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+        ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        for (ompIndexType i = 0; i < elementCount; i++) {
             encode_double(ptr[i], convertNanInf);
         }
     } else if (ValueToEncode.is2D()) {
@@ -300,7 +303,8 @@ jsonEncodeSingle(const ArrayOf& ValueToEncode, bool convertNanInf)
 {
     auto* ptr = (single*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+        ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        for (ompIndexType i = 0; i < elementCount; i++) {
             encode_single(ptr[i], convertNanInf);
         }
     } else if (ValueToEncode.is2D()) {
@@ -381,7 +385,8 @@ jsonEncodeLogical(const ArrayOf& ValueToEncode)
 {
     auto* ptr = (logical*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+        ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        for (ompIndexType i = 0; i < elementCount; i++) {
             if (ptr[i] == 0) {
                 json_append_string("false,");
             } else {
@@ -451,14 +456,16 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY: {
             auto* elements = (ArrayOf*)ValueToEncode.getDataPointer();
-            for (int i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+            indexType elementCount = ValueToEncode.getDimensions().getElementCount();
+            for (indexType i = 0; i < elementCount; i++) {
                 jsonEncodeInternal(elements[i], convertNanInf, errorMessage);
                 json_append_char(',');
             }
         } break;
         case NLS_STRUCT_ARRAY: {
             stringVector fieldnames = ValueToEncode.getFieldNames();
-            for (int i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+            indexType elementCount = ValueToEncode.getDimensions().getElementCount();
+            for (int i = 0; i < elementCount; i++) {
                 json_append_char('{');
                 for (auto fieldname : fieldnames) {
                     ArrayOfVector values = ValueToEncode.getFieldAsList(fieldname);

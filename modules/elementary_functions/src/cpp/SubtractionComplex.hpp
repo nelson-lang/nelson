@@ -151,8 +151,10 @@ column_row_complex_subtraction(Class classDestination, const ArrayOf& A, const A
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     indexType m = 0;
-    for (indexType i = 0; i < dimsB.getElementCount(); i++) {
-        for (indexType j = 0; j < dimsA.getElementCount(); j++) {
+    indexType elementCountA = dimsA.getElementCount();
+    indexType elementCountB = dimsB.getElementCount();
+    for (indexType i = 0; i < elementCountB; i++) {
+        for (indexType j = 0; j < elementCountA; j++) {
             Cz[m] = Az[j] - Bz[i];
             m++;
         }

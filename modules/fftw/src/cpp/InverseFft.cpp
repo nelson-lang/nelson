@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-InverseFft(ArrayOf X, indexType n, indexType dim)
+InverseFft(const ArrayOf& X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
         Error(_("Undefined function 'ifft' for input arguments of type") + " '" + ClassName(X)
@@ -40,30 +40,21 @@ InverseFft(ArrayOf X, indexType n, indexType dim)
     if (X.isScalar() || X.isEmpty()) {
         return ArrayOf(X);
     }
-    Class classX = X.getDataClass();
-    if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE) {
-        X.promoteType(NLS_SCOMPLEX);
-    } else {
-        X.promoteType(NLS_DCOMPLEX);
+    if (X.getDataClass() == NLS_SCOMPLEX || X.getDataClass() == NLS_SINGLE) {
+        return scomplexFFTW(X, n, dim, true);
     }
-    ArrayOf res;
-    if (X.getDataClass() == NLS_SCOMPLEX) {
-        res = scomplexFFTW(X, n, dim, true);
-    } else {
-        res = dcomplexFFTW(X, n, dim, true);
-    }
-    return res;
+    return dcomplexFFTW(X, n, dim, true);
 }
 //=============================================================================
 ArrayOf
-InverseFft(ArrayOf X, indexType n)
+InverseFft(const ArrayOf& X, indexType n)
 {
     indexType dim = computeDim(X);
     return InverseFft(X, n, dim);
 }
 //=============================================================================
 ArrayOf
-InverseFft(ArrayOf X)
+InverseFft(const ArrayOf& X)
 {
     indexType dim = computeDim(X);
     indexType n = X.getDimensionLength(static_cast<int>(dim));

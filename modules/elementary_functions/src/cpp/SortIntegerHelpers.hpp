@@ -30,6 +30,7 @@
 #include "Types.hpp"
 #include "SortHelpers.hpp"
 #include "Sort.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -175,7 +176,11 @@ sortInteger(const ArrayOf& arrayIn, Class dataClass, bool withIndex, indexType l
         double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
         if (isVector) {
-            for (indexType k = 0; k < outDim.getElementCount(); ++k) {
+            ompIndexType elementCount = outDim.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptrIndex[k] = (double)1;
             }
         }

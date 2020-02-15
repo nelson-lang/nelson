@@ -323,8 +323,10 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     indexType m = 0;
-    for (indexType i = 0; i < B.getDimensions().getElementCount(); i++) {
-        for (indexType j = 0; j < A.getDimensions().getElementCount(); j++) {
+    indexType elementCountA = A.getDimensions().getElementCount();
+    indexType elementCountB = B.getDimensions().getElementCount();
+    for (indexType i = 0; i < elementCountB; i++) {
+        for (indexType j = 0; j < elementCountA; j++) {
             switch (classA) {
             case NLS_STRING_ARRAY: {
                 Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, i);

@@ -32,6 +32,7 @@
 #include "IsCellOfStrings.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -221,7 +222,8 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
-        for (indexType k = 0; k < OLD.getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = OLD.getDimensions().getElementCount();
+        for (ompIndexType k = 0; k < elementCount; k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
         }
         if (STR.isCell() || STR.isStringArray()) {
@@ -244,7 +246,8 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     }
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCharacterArray() || NEW.isStringArray())) {
-        for (indexType k = 0; k < OLD.getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = OLD.getDimensions().getElementCount();
+        for (ompIndexType k = 0; k < elementCount; k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }
         if (STR.isCell() || STR.isStringArray()) {
