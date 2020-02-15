@@ -101,7 +101,7 @@ ArrayOf::getValueAtIndex(uint64 index)
         if (index >= length) {
             Error(_W("Index exceeds matrix dimensions."));
         }
-        int ndx = static_cast<int>(index);
+        indexType ndx = static_cast<indexType>(index);
         void* qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames, false);
         copyElements(ndx, qp, 0, 1);
         res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
