@@ -48,8 +48,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,4,1,0
- PRODUCTVERSION 0,4,1,0
+ FILEVERSION 0,4,2,0
+ PRODUCTVERSION 0,4,2,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,8 +68,8 @@ BEGIN
             VALUE "InternalName", "logical_builtin"
             VALUE "OriginalFilename", "libnlslogical_builtin.dll"
             VALUE "ProductName", "Nelson (logical_builtin)"
-            VALUE "ProductVersion", "0,4,1,0"
-            VALUE "FileVersion", "0,4,1,0"
+            VALUE "ProductVersion", "0,4,2,0"
+            VALUE "FileVersion", "0,4,2,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
