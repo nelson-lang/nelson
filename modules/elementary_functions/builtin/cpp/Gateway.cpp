@@ -98,6 +98,8 @@
 #include "sortBuiltin.hpp"
 #include "linspaceBuiltin.hpp"
 #include "log2Builtin.hpp"
+#include "maxBuiltin.hpp"
+#include "minBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -184,6 +186,8 @@ static const nlsGateway gateway[] = {
     { "sort", Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1 },
     { "linspace", Nelson::ElementaryFunctionsGateway::linspaceBuiltin, 1, 3 },
     { "log2", Nelson::ElementaryFunctionsGateway::log2Builtin, 2, 1 },
+    { "max", Nelson::ElementaryFunctionsGateway::maxBuiltin, 2, 3 },
+    { "min", Nelson::ElementaryFunctionsGateway::minBuiltin, 2, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

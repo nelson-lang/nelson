@@ -1,5 +1,11 @@
 # 0.4.2 (2020-02-XX)
 
+* min, max builtin: Minimum/Maximum elements of an array
+
+* flip: Flip order of elements.
+
+* flipdim: Flip array along specified dimension?
+
 * log2 builtin: Base 2 logarithm and floating-point number dissection.
 
 * colon operator optimized.

@@ -271,6 +271,9 @@ template <class T>
 indexType
 Eigen_CountNonzeros(const void* cp)
 {
+    if (cp == nullptr) {
+        Error(_W("Invalid sparse."));
+    }
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
     return spMat->nonZeros();
@@ -357,12 +360,6 @@ Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, Arra
             for (ArrayOfVector::iterator j = i->begin(); j != i->end(); ++j) {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* src
                     = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(j->getDataPointer());
-                //                    spMat->block(X, Y, j->getDimensions().getRows(),
-                //                    j->getDimensions().getColumns()) = src->block(0, 0,
-                //                    src->rows(), src->cols());
-                // TO DO
-                // A = sparse(1)
-                // B=[A;A]
             }
         }
         return spMat;

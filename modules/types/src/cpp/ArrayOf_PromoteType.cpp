@@ -241,15 +241,15 @@ promoteComplexAsInteger(Class dstClass, const TIN* ptr, indexType count)
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
-            if (std::isnan((double)ptr[i*2])) {
+            if (std::isnan((double)ptr[i * 2])) {
                 dstPtr[i] = (TOUT)0;
             } else {
-                dstPtr[i] = (TOUT)numeric_cast<TIN, TOUT>(ptr[i*2]);
+                dstPtr[i] = (TOUT)numeric_cast<TIN, TOUT>(ptr[i * 2]);
             }
         }
     } else {
         for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
-            dstPtr[i] = numeric_cast<TIN, TOUT>(ptr[i*2]);
+            dstPtr[i] = numeric_cast<TIN, TOUT>(ptr[i * 2]);
         }
     }
     return dstPtr;
