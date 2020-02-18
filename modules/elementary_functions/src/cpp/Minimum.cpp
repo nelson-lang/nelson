@@ -119,8 +119,10 @@ TMinReal(
     T minval;
     double mindex = 0;
     bool init = false;
-
-    for (indexType i = 0; i < planes; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for ordered
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
         for (indexType j = 0; j < planesize; j++) {
             init = false;
             mindex = 0;
@@ -162,8 +164,10 @@ TMinComplex(
     T tstval;
     double mindex;
     bool init = false;
-
-    for (indexType i = 0; i < planes; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for ordered
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
         for (indexType j = 0; j < planesize; j++) {
             init = false;
             mindex = 0;

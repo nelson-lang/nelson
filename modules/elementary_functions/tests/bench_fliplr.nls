@@ -23,18 +23,6 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Fliplr(const ArrayOf& arrayIn, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Flipud(const ArrayOf& arrayIn, bool& needToOverload);
-//=============================================================================
-}
+A = rand(9000, 9000);
+tic();R = fliplr(A);toc();
 //=============================================================================

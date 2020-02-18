@@ -25,8 +25,89 @@
 //=============================================================================
 #include <Eigen/Dense>
 #include "Flip.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+template <class T>
+void
+TFlipLR2dReal(T* ptrIn, T* ptrOut, indexType m, indexType n)
+{
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matIn(ptrIn, m, n);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOut(ptrOut, m, n);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for 
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for 
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
+            matOut(i, j) = matIn(i, n - 1 - j);
+        }
+    }
+}
+//=============================================================================
+template <class T>
+void
+TFlipLR2dComplex(T* ptrIn, T* ptrOut, indexType m, indexType n)
+{
+    auto* Az = reinterpret_cast<std::complex<T>*>(ptrIn);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matIn(Az, m, n);
+    auto* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOut(Cz, m, n);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
+            matOut(i, j) = matIn(i, n - 1 - j);
+        }
+    }
+}
+//=============================================================================
+template <class T>
+void
+TFlipUD2dReal(T* ptrIn, T* ptrOut, indexType m, indexType n)
+{
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matIn(ptrIn, m, n);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOut(ptrOut, m, n);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
+            matOut(i, j) = matIn(m - 1 - i, j);
+        }
+    }
+}
+//=============================================================================
+template <class T>
+void
+TFlipUD2dComplex(T* ptrIn, T* ptrOut, indexType m, indexType n)
+{
+    auto* Az = reinterpret_cast<std::complex<T>*>(ptrIn);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matIn(Az, m, n);
+    auto* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOut(Cz, m, n);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
+            matOut(i, j) = matIn(m - 1 - i, j);
+        }
+    }
+}
 //=============================================================================
 ArrayOf
 Fliplr(const ArrayOf& arrayIn, bool& needToOverload)
@@ -55,145 +136,99 @@ Fliplr(const ArrayOf& arrayIn, bool& needToOverload)
         needToOverload = false;
         logical* ptr = (logical*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (logical*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<logical>(
+            (logical*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT8: {
         needToOverload = false;
         uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint8*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<uint8>(
+            (uint8*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT8: {
         needToOverload = false;
         int8* ptr = (int8*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int8*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<int8>(
+            (int8*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT16: {
         needToOverload = false;
         uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint16*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<uint16>(
+            (uint16*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT16: {
         needToOverload = false;
         int16* ptr = (int16*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int16*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<int16>(
+            (int16*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT32: {
         needToOverload = false;
         uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint32*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<uint32>(
+            (uint32*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT32: {
         needToOverload = false;
         int32* ptr = (int32*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int32*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<int32>(
+            (int32*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT64: {
         needToOverload = false;
         uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint64*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<uint64>(
+            (uint64*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT64: {
         needToOverload = false;
         int64* ptr = (int64*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int64*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<int64>(
+            (int64*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_SINGLE: {
         needToOverload = false;
         single* ptr = (single*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (single*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<single>(
+            (single*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_DOUBLE: {
         needToOverload = false;
         double* ptr = (double*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (double*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<double>(
+            (double*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_SCOMPLEX: {
         needToOverload = false;
         single* ptr = (single*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
-        Eigen::Map<Eigen::Matrix<std::complex<single>, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            Az, dims.getRows(), dims.getColumns());
-        auto* Cz = reinterpret_cast<singlecomplex*>(ptr);
-        Eigen::Map<Eigen::Matrix<std::complex<single>, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            Cz, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dComplex<single>(
+            (single*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_DCOMPLEX: {
         needToOverload = false;
         double* ptr = (double*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        auto* Az = reinterpret_cast<doublecomplex*>((single*)arrayIn.getDataPointer());
-        Eigen::Map<Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            Az, dims.getRows(), dims.getColumns());
-        auto* Cz = reinterpret_cast<doublecomplex*>(ptr);
-        Eigen::Map<Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            Cz, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dComplex<double>(
+            (double*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_CHAR: {
         needToOverload = false;
         charType* ptr = (charType*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (charType*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.rowwise().reverse().eval();
+        TFlipLR2dReal<charType>(
+            (charType*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     }
     return res;
@@ -226,145 +261,99 @@ Flipud(const ArrayOf& arrayIn, bool& needToOverload)
         needToOverload = false;
         logical* ptr = (logical*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (logical*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<logical>(
+            (logical*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT8: {
         needToOverload = false;
         uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint8*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<uint8>(
+            (uint8*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT8: {
         needToOverload = false;
         int8* ptr = (int8*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int8*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<int8>(
+            (int8*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT16: {
         needToOverload = false;
         uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint16*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<uint16>(
+            (uint16*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT16: {
         needToOverload = false;
         int16* ptr = (int16*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int16*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<int16>(
+            (int16*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT32: {
         needToOverload = false;
         uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint32*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<uint32>(
+            (uint32*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT32: {
         needToOverload = false;
         int32* ptr = (int32*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int32*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<int32>(
+            (int32*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_UINT64: {
         needToOverload = false;
         uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (uint64*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<uint64>(
+            (uint64*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_INT64: {
         needToOverload = false;
         int64* ptr = (int64*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (int64*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<int64>(
+            (int64*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_SINGLE: {
         needToOverload = false;
         single* ptr = (single*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (single*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<single>(
+            (single*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_DOUBLE: {
         needToOverload = false;
         double* ptr = (double*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (double*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<double>(
+            (double*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_SCOMPLEX: {
         needToOverload = false;
         single* ptr = (single*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
-        Eigen::Map<Eigen::Matrix<std::complex<single>, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            Az, dims.getRows(), dims.getColumns());
-        auto* Cz = reinterpret_cast<singlecomplex*>(ptr);
-        Eigen::Map<Eigen::Matrix<std::complex<single>, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            Cz, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dComplex<single>(
+            (single*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_DCOMPLEX: {
         needToOverload = false;
         double* ptr = (double*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        auto* Az = reinterpret_cast<doublecomplex*>((single*)arrayIn.getDataPointer());
-        Eigen::Map<Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            Az, dims.getRows(), dims.getColumns());
-        auto* Cz = reinterpret_cast<doublecomplex*>(ptr);
-        Eigen::Map<Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            Cz, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dComplex<double>(
+            (double*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     case NLS_CHAR: {
         needToOverload = false;
         charType* ptr = (charType*)ArrayOf::allocateArrayOf(outType, elementCount);
         res = ArrayOf(outType, dims, ptr);
-        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matIn(
-            (charType*)arrayIn.getDataPointer(), dims.getRows(), dims.getColumns());
-        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matOut(
-            ptr, dims.getRows(), dims.getColumns());
-        matOut = matIn.colwise().reverse().eval();
+        TFlipUD2dReal<charType>(
+            (charType*)arrayIn.getDataPointer(), ptr, dims.getRows(), dims.getColumns());
     } break;
     }
     return res;
