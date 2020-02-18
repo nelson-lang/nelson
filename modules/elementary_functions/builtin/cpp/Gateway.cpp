@@ -100,6 +100,8 @@
 #include "log2Builtin.hpp"
 #include "maxBuiltin.hpp"
 #include "minBuiltin.hpp"
+#include "fliplrBuiltin.hpp"
+#include "flipudBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -188,6 +190,8 @@ static const nlsGateway gateway[] = {
     { "log2", Nelson::ElementaryFunctionsGateway::log2Builtin, 2, 1 },
     { "max", Nelson::ElementaryFunctionsGateway::maxBuiltin, 2, 3 },
     { "min", Nelson::ElementaryFunctionsGateway::minBuiltin, 2, 3 },
+    { "fliplr", Nelson::ElementaryFunctionsGateway::fliplrBuiltin, 1, 1 },
+    { "flipud", Nelson::ElementaryFunctionsGateway::flipudBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -23,43 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = eye(2, 3);
-B = flipdim(A, 1);
-REF = [ 0     1     0;1     0     0];
-assert_isequal(B, REF);
+#pragma once
 //=============================================================================
-B = flipdim(A, 2);
-REF = [ 0     0     1;0     1     0];
-assert_isequal(B, REF);
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
-B = flipdim(A, 3);
-REF = [1     0     0;0     1     0];
-assert_isequal(B, REF);
+namespace Nelson {
 //=============================================================================
-A = [];
-A(1:2,1:2,1) = [5 6; 7 8];
-A(1:2,1:2,2) = [1 2; 3 4];
-B = flipdim(A, 1);
-REF = [];
-REF(1:2,1:2,1) = [7     8;5     6];
-REF(1:2,1:2,2) = [3     4;1     2];
-assert_isequal(B, REF);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Fliplr(const ArrayOf &arrayIn, bool &needToOverload);
 //=============================================================================
-A = [];
-A(1:2,1:2,1) = [5 6; 7 8];
-A(1:2,1:2,2) = [1 2; 3 4];
-B = flipdim(A, 2);
-REF = [];
-REF(1:2,1:2,1) = [6 5;8 7];
-REF(1:2,1:2,2) = [2 1;4 3];
-assert_isequal(B, REF);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Flipud(const ArrayOf& arrayIn, bool& needToOverload);
 //=============================================================================
-A = [];
-A(1:2,1:2,1) = [5 6; 7 8];
-A(1:2,1:2,2) = [1 2; 3 4];
-B = flipdim(A, 3);
-REF = [];
-REF(1:2,1:2,1) = [1 2;3 4];
-REF(1:2,1:2,2) = [5 6;7 8];
-assert_isequal(B, REF);
+}
 //=============================================================================

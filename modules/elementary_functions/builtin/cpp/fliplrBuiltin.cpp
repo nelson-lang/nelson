@@ -23,43 +23,49 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = eye(2, 3);
-B = flipdim(A, 1);
-REF = [ 0     1     0;1     0     0];
-assert_isequal(B, REF);
+#include "fliplrBuiltin.hpp"
+#include "Flip.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "TruncateFunctions.hpp"
 //=============================================================================
-B = flipdim(A, 2);
-REF = [ 0     0     1;0     1     0];
-assert_isequal(B, REF);
+using namespace Nelson;
 //=============================================================================
-B = flipdim(A, 3);
-REF = [1     0     0;0     1     0];
-assert_isequal(B, REF);
-//=============================================================================
-A = [];
-A(1:2,1:2,1) = [5 6; 7 8];
-A(1:2,1:2,2) = [1 2; 3 4];
-B = flipdim(A, 1);
-REF = [];
-REF(1:2,1:2,1) = [7     8;5     6];
-REF(1:2,1:2,2) = [3     4;1     2];
-assert_isequal(B, REF);
-//=============================================================================
-A = [];
-A(1:2,1:2,1) = [5 6; 7 8];
-A(1:2,1:2,2) = [1 2; 3 4];
-B = flipdim(A, 2);
-REF = [];
-REF(1:2,1:2,1) = [6 5;8 7];
-REF(1:2,1:2,2) = [2 1;4 3];
-assert_isequal(B, REF);
-//=============================================================================
-A = [];
-A(1:2,1:2,1) = [5 6; 7 8];
-A(1:2,1:2,2) = [1 2; 3 4];
-B = flipdim(A, 3);
-REF = [];
-REF(1:2,1:2,1) = [1 2;3 4];
-REF(1:2,1:2,2) = [5 6;7 8];
-assert_isequal(B, REF);
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::fliplrBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "fliplr", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload = false;
+        ArrayOf res = Fliplr(argIn[0], needToOverload);
+        if (needToOverload) {
+            ArrayOfVector args = argIn;
+            args.push_back(ArrayOf::doubleConstructor(2.));
+            Context* context = eval->getContext();
+            if (context != nullptr) {
+                FunctionDef* funcDef = nullptr;
+                if (context->lookupFunction("flip", funcDef)) {
+                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+                        return funcDef->evaluateFunction(eval, args, nLhs);
+                    }
+                }
+            }
+        } else {
+            retval.push_back(res);
+        }
+    }
+    return retval;
+}
 //=============================================================================

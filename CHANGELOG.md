@@ -2,6 +2,10 @@
 
 * min, max builtin: Minimum/Maximum elements of an array
 
+* flipud: Flip array up to down.
+
+* fliplr: Flip array left to right.
+
 * flip: Flip order of elements.
 
 * flipdim: Flip array along specified dimension?

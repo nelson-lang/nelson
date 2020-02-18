@@ -185,6 +185,8 @@
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
     <ClCompile Include="..\cpp\expBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fliplrBuiltin.cpp" />
+    <ClCompile Include="..\cpp\flipudBuiltin.cpp" />
     <ClCompile Include="..\cpp\floorBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\geBuiltin.cpp" />
@@ -291,6 +293,8 @@
     <ClInclude Include="..\include\eqBuiltin.hpp" />
     <ClInclude Include="..\include\expBuiltin.hpp" />
     <ClInclude Include="..\include\fixBuiltin.hpp" />
+    <ClInclude Include="..\include\fliplrBuiltin.hpp" />
+    <ClInclude Include="..\include\flipudBuiltin.hpp" />
     <ClInclude Include="..\include\floorBuiltin.hpp" />
     <ClInclude Include="..\include\geBuiltin.hpp" />
     <ClInclude Include="..\include\gtBuiltin.hpp" />

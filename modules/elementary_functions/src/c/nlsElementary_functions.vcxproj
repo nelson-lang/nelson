@@ -186,6 +186,7 @@
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
     <ClCompile Include="..\cpp\FindCommonClass.cpp" />
+    <ClCompile Include="..\cpp\Flip.cpp" />
     <ClCompile Include="..\cpp\LeastSquareSolver.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -290,6 +291,7 @@
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\FindCommonClass.hpp" />
+    <ClInclude Include="..\include\Flip.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
     <ClInclude Include="..\include\HorzCat.hpp" />
