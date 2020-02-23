@@ -35,15 +35,18 @@ namespace Nelson {
 //=============================================================================
 // C = min(A, B);
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 // [M, i] = min(A)
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Minimum(const ArrayOf& A, int nLhs, bool& needToOverload);
+Minimum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload);
 //=============================================================================
 // [M, i] = min(A, [], dim)
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
+Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+MinimumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

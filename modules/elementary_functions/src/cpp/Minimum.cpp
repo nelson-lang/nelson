@@ -33,36 +33,140 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 void
-TMinLessReal(
+TMinLessInteger(
     const T* spx, const T* spy, T* dp, indexType count, indexType stridex, indexType stridey)
 {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
-        dp[i] = (spx[stridex * i] < spy[stridey * i]) ? spx[stridex * i] : spy[stridey * i];
+        T x = spx[stridex * i];
+        T y = spy[stridey * i];
+        dp[i] = (x < y) ? x : y;
     }
 }
 //=============================================================================
 template <class T>
 void
-TMinLessComplex(
-    const T* spx, const T* spy, T* dp, indexType count, indexType stridex, indexType stridey)
+TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, indexType stridex,
+    indexType stridey)
 {
+    if (omitnan) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
-        T xmag = complex_abs(spx[2 * stridex * i], spx[2 * stridex * i + 1]);
-        T ymag = complex_abs(spy[2 * stridey * i], spy[2 * stridey * i + 1]);
-        if (xmag < ymag) {
-            dp[2 * i] = spx[2 * stridex * i];
-            dp[2 * i + 1] = spx[2 * stridex * i + 1];
-        } else {
-            dp[2 * i] = spy[2 * stridey * i];
-            dp[2 * i + 1] = spy[2 * stridey * i + 1];
+        for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+            T x = spx[stridex * i];
+            T y = spy[stridey * i];
+            if (std::isnan(x) && std::isnan(y)) {
+                dp[i] = (T)std::nan("NaN");
+            } else if (std::isnan(x) && !std::isnan(y)) {
+                dp[i] = y;
+            } else if (std::isnan(y) && !std::isnan(x)) {
+                dp[i] = x;
+            } else {
+                dp[i] = (x < y) ? x : y;
+            }
+        }
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+            T x = spx[stridex * i];
+            T y = spy[stridey * i];
+            if (std::isnan(x) || std::isnan(y)) {
+                dp[i] = (T)std::nan("NaN");
+            } else {
+                dp[i] = (x < y) ? x : y;
+            }
         }
     }
+}
+//=============================================================================
+template <class T>
+void
+TMinLessComplex(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, indexType stridex,
+    indexType stridey)
+{
+    if (omitnan) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+            T xre = spx[2 * stridex * i];
+            T xim = spx[2 * stridex * i + 1];
+            T yre = spy[2 * stridey * i];
+            T yim = spy[2 * stridey * i + 1];
+
+            T xmag = complex_abs(xre, xim);
+            T ymag = complex_abs(yre, yim);
+            if (std::isnan(xmag) && std::isnan(ymag)) {
+                dp[2 * i] = xre;
+                dp[2 * i + 1] = xim;
+            } else if (std::isnan(xmag)) {
+                dp[2 * i] = yre;
+                dp[2 * i + 1] = yim;
+            } else if (std::isnan(ymag)) {
+                dp[2 * i] = xre;
+                dp[2 * i + 1] = xim;
+            } else {
+                if (xmag < ymag) {
+                    dp[2 * i] = xre;
+                    dp[2 * i + 1] = xim;
+                } else {
+                    dp[2 * i] = yre;
+                    dp[2 * i + 1] = yim;
+                }
+            }
+        }
+    } else {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
+            T xre = spx[2 * stridex * i];
+            T xim = spx[2 * stridex * i + 1];
+            T yre = spy[2 * stridey * i];
+            T yim = spy[2 * stridey * i + 1];
+            T xmag = complex_abs(xre, xim);
+            T ymag = complex_abs(yre, yim);
+            if (std::isnan(xmag) && std::isnan(ymag)) {
+                dp[2 * i] = xre;
+                dp[2 * i + 1] = xim;
+            } else if (std::isnan(xmag)) {
+                dp[2 * i] = xre;
+                dp[2 * i + 1] = xim;
+            } else if (std::isnan(ymag)) {
+                dp[2 * i] = yre;
+                dp[2 * i + 1] = yim;
+            } else {
+                if (xmag < ymag) {
+                    dp[2 * i] = xre;
+                    dp[2 * i + 1] = xim;
+                } else {
+                    dp[2 * i] = yre;
+                    dp[2 * i + 1] = yim;
+                }
+            }
+        }
+    }
+}
+//=============================================================================
+template <class T>
+void
+TMinAllInteger(const T* sp, T* dp, indexType elementCount)
+{
+    T minval = sp[0];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for shared(minval)
+#endif
+    for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {
+        if (sp[k] < minval) {
+            minval = sp[k];
+        }
+    }
+    dp[0] = minval;
 }
 //=============================================================================
 template <class T>
@@ -72,33 +176,136 @@ TMinInteger(
 {
     T minval;
     double mindex;
-    if (planes == 1 && planesize == 1) {
-        minval = sp[0];
-        mindex = 0;
+    for (indexType i = 0; i < planes; i++) {
+        for (indexType j = 0; j < planesize; j++) {
+            minval = sp[i * planesize * linesize + j];
+            mindex = 0;
 #if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered
+#pragma omp parallel for shared(minval, mindex, i, j)
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
-            if (sp[k] < minval) {
+            for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
+                T val = sp[i * planesize * linesize + j + k * planesize];
+                if (val < minval) {
+                    minval = val;
+                    mindex = (double)k;
+                }
+            }
+            dp[i * planesize + j] = minval;
+            if (iptr != nullptr) {
+                iptr[i * planesize + j] = mindex + 1;
+            }
+        }
+    }
+}
+//=============================================================================
+template <class T>
+void
+TMinAllReal(bool omitnan, const T* sp, T* dp, indexType elementCount)
+{
+    if (omitnan) {
+        T minval;
+        bool init = false;
+        for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
+            if (!std::isnan(sp[k])) {
                 minval = sp[k];
-                mindex = (double)k;
+                init = true;
+                break;
+            }
+        }
+        if (!init) {
+            minval = sp[0];
+        }
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for ordered shared(minval)
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
+            T val = sp[k];
+            if (!std::isnan(val)) {
+                if (val < minval) {
+                    minval = val;
+                }
+            }
+        }
+        if (init) {
+            dp[0] = minval;
+        } else {
+            dp[0] = (T)std::nan("NaN");
+        }
+    } else {
+        T minval;
+        minval = sp[0];
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for ordered shared(minval)
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
+            T val = sp[k];
+            if (val < minval || std::isnan(val)) {
+                minval = val;
             }
         }
         dp[0] = minval;
-        if (iptr != nullptr) {
-            iptr[0] = mindex + 1;
-        }
-    } else {
-        for (indexType i = 0; i < planes; i++) {
+    }
+}
+//=============================================================================
+template <class T>
+void
+TMinReal(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, indexType planesize,
+    indexType linesize)
+{
+    if (omitnan) {
+        T minval;
+        for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
             for (indexType j = 0; j < planesize; j++) {
-                minval = sp[i * planesize * linesize + j];
-                mindex = 0;
+                bool init = false;
+                double mindex = 0;
+                for (indexType k = 0; k < linesize; k++) {
+                    T val = sp[i * planesize * linesize + j + k * planesize];
+                    if (!std::isnan(val)) {
+                        minval = val;
+                        mindex = (double)k;
+                        init = true;
+                        break;
+                    }
+                }
+                if (init) {
+                    for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
+                        T val = sp[i * planesize * linesize + j + k * planesize];
+                        if (!std::isnan(val)) {
+                            if (val < minval) {
+                                minval = val;
+                                mindex = (double)k;
+                            }
+                        }
+                    }
+                }
+                if (init) {
+                    dp[i * planesize + j] = minval;
+                    if (iptr != nullptr) {
+                        iptr[i * planesize + j] = mindex + 1;
+                    }
+                } else {
+                    dp[i * planesize + j] = (T)std::nan("NaN");
+                    if (iptr != nullptr) {
+                        iptr[i * planesize + j] = 0;
+                    }
+                }
+            }
+        }
+
+    } else {
+        T minval;
+        for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
+            for (indexType j = 0; j < planesize; j++) {
+                double mindex = 0;
+                minval = sp[i * planesize * linesize + j + 0 * planesize];
+                mindex = (double)0;
 #if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered
+#pragma omp parallel for ordered shared(minval)
 #endif
                 for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
-                    if (sp[i * planesize * linesize + j + k * planesize] < minval) {
-                        minval = sp[i * planesize * linesize + j + k * planesize];
+                    T val = sp[i * planesize * linesize + j + k * planesize];
+                    if (val < minval || std::isnan(val)) {
+                        minval = val;
                         mindex = (double)k;
                     }
                 }
@@ -113,94 +320,165 @@ TMinInteger(
 //=============================================================================
 template <class T>
 void
-TMinReal(
-    const T* sp, T* dp, double* iptr, indexType planes, indexType planesize, indexType linesize)
+TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
 {
-    T minval;
-    double mindex = 0;
-    bool init = false;
+    if (omitnan) {
+        T minval;
+        T minval_r;
+        T minval_i;
+        T tstval;
+        bool init = false;
+        for (indexType k = 0; k < elementCount; ++k) {
+            T val_re = sp[2 * k];
+            T val_im = sp[(2 * k) + 1];
+            if ((!std::isnan(val_re)) && (!std::isnan(val_im))) {
+                tstval = complex_abs(val_re, val_im);
+                init = true;
+                break;
+            }
+        }
+
+        if (init) {
 #if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered
+#pragma omp parallel for ordered shared(minval)
 #endif
-    for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            init = false;
-            mindex = 0;
-            for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
-                if (!std::isnan(sp[i * planesize * linesize + j + k * planesize])) {
-                    if (!init) {
-                        init = true;
-                        minval = sp[i * planesize * linesize + j + k * planesize];
-                        mindex = (double)k;
-                    } else if (sp[i * planesize * linesize + j + k * planesize] < minval) {
-                        minval = sp[i * planesize * linesize + j + k * planesize];
-                        mindex = (double)k;
+            for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
+                T val_re = sp[2 * k];
+                T val_im = sp[(2 * k) + 1];
+                if ((!std::isnan(val_re)) && (!std::isnan(val_im))) {
+                    tstval = complex_abs(val_re, val_im);
+                    if (tstval < minval) {
+                        minval = tstval;
+                        minval_r = val_re;
+                        minval_i = val_im;
                     }
                 }
             }
-            if (init) {
-                dp[i * planesize + j] = minval;
-                if (iptr != nullptr) {
-                    iptr[i * planesize + j] = mindex + 1;
-                }
-            } else {
-                dp[i * planesize + j] = (T)atof("nan");
-                if (iptr != nullptr) {
-                    iptr[i * planesize + j] = 0;
-                }
+        }
+
+        if (init) {
+            dp[0] = minval_r;
+            dp[1] = minval_i;
+        } else {
+            dp[0] = (T)atof("nan");
+            dp[1] = (T)atof("nan");
+        }
+
+    } else {
+        T minval;
+        T minval_r;
+        T minval_i;
+        T tstval;
+        tstval = complex_abs(sp[0], sp[1]);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for ordered shared(minval)
+#endif
+        for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {
+            T val_re = sp[2 * k];
+            T val_im = sp[(2 * k) + 1];
+            tstval = complex_abs(val_re, val_im);
+            if (tstval < minval || std::isnan(tstval)) {
+                minval = tstval;
+                minval_r = val_re;
+                minval_i = val_im;
             }
         }
+        dp[0] = minval_r;
+        dp[1] = minval_i;
     }
 }
 //=============================================================================
 template <class T>
 void
-TMinComplex(
-    const T* sp, T* dp, double* iptr, indexType planes, indexType planesize, indexType linesize)
+TMinComplex(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, indexType planesize,
+    indexType linesize)
 {
-    T minval;
-    T minval_r;
-    T minval_i;
-    T tstval;
-    double mindex;
-    bool init = false;
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered
-#endif
-    for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            init = false;
-            mindex = 0;
-            for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
-                if ((!std::isnan(sp[2 * (i * planesize * linesize + j + k * planesize)]))
-                    && (!std::isnan(sp[2 * (i * planesize * linesize + j + k * planesize) + 1]))) {
-                    tstval = complex_abs(sp[2 * (i * planesize * linesize + j + k * planesize)],
-                        sp[2 * (i * planesize * linesize + j + k * planesize) + 1]);
-                    if (!init) {
+    if (omitnan) {
+        T minval;
+        T minval_r;
+        T minval_i;
+        T tstval;
+        double mindex;
+        bool init = false;
+        for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
+            for (indexType j = 0; j < planesize; j++) {
+                init = false;
+                mindex = 0;
+                for (indexType k = 0; k < linesize; k++) {
+                    T val_re = sp[2 * (i * planesize * linesize + j + k * planesize)];
+                    T val_im = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
+                    if ((!std::isnan(val_re)) && (!std::isnan(val_im))) {
+                        tstval = complex_abs(val_re, val_im);
                         init = true;
                         minval = tstval;
-                        mindex = (double)j;
-                        minval_r = sp[2 * (i * planesize * linesize + j + k * planesize)];
-                        minval_i = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
-                    } else if (tstval < minval) {
-                        minval = tstval;
-                        mindex = (double)j;
-                        minval_r = sp[2 * (i * planesize * linesize + j + k * planesize)];
-                        minval_i = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
+                        mindex = (double)k;
+                        minval_r = val_re;
+                        minval_i = val_im;
+                        break;
+                    }
+                }
+                if (init) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for ordered shared(minval)
+#endif
+                    for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
+                        T val_re = sp[2 * (i * planesize * linesize + j + k * planesize)];
+                        T val_im = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
+                        if ((!std::isnan(val_re)) && (!std::isnan(val_im))) {
+                            tstval = complex_abs(val_re, val_im);
+                            if (tstval < minval) {
+                                minval = tstval;
+                                mindex = (double)k;
+                                minval_r = val_re;
+                                minval_i = val_im;
+                            }
+                        }
+                    }
+                }
+                if (init) {
+                    dp[2 * (i * planesize + j)] = minval_r;
+                    dp[2 * (i * planesize + j) + 1] = minval_i;
+                    if (iptr != nullptr) {
+                        iptr[i * planesize + j] = mindex + 1;
+                    }
+                } else {
+                    dp[2 * (i * planesize + j)] = (T)std::nan("NaN");
+                    dp[2 * (i * planesize + j) + 1] = (T)std::nan("NaN");
+                    if (iptr != nullptr) {
+                        iptr[i * planesize + j] = 0;
                     }
                 }
             }
-            if (init) {
+        }
+
+    } else {
+        T minval;
+        T minval_r;
+        T minval_i;
+        T tstval;
+        double mindex;
+        for (indexType i = 0; i < planes; i++) {
+            for (indexType j = 0; j < planesize; j++) {
+                minval_r = sp[2 * (i * planesize * linesize + j + 0 * planesize)];
+                minval_i = sp[2 * (i * planesize * linesize + j + 0 * planesize) + 1];
+                minval = complex_abs(minval_r, minval_i);
+                mindex = 0;
+
+                for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
+                    T val_re = sp[2 * (i * planesize * linesize + j + k * planesize)];
+                    T val_im = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
+                    tstval = complex_abs(val_re, val_im);
+                    if (tstval < minval || std::isnan(tstval)) {
+                        minval = tstval;
+                        mindex = (double)k;
+                        minval_r = val_re;
+                        minval_i = val_im;
+                    }
+                }
                 dp[2 * (i * planesize + j)] = minval_r;
                 dp[2 * (i * planesize + j) + 1] = minval_i;
                 if (iptr != nullptr) {
                     iptr[i * planesize + j] = mindex + 1;
-                }
-            } else {
-                dp[2 * (i * planesize + j)] = (T)atof("nan");
-                dp[2 * (i * planesize + j) + 1] = (T)atof("nan");
-                if (iptr != nullptr) {
-                    iptr[i * planesize + j] = 0;
                 }
             }
         }
@@ -209,7 +487,7 @@ TMinComplex(
 //=============================================================================
 // C = min(A, B)
 ArrayOf
-Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     if (A.isEmpty()) {
@@ -268,7 +546,7 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         _B.promoteType(outType);
         logical* ptr = (logical*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<logical>((const logical*)_A.getDataPointer(),
+        TMinLessInteger<logical>((const logical*)_A.getDataPointer(),
             (const logical*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT8: {
@@ -276,7 +554,7 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         _B.promoteType(outType);
         uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<uint8>((const uint8*)_A.getDataPointer(), (const uint8*)_B.getDataPointer(),
+        TMinLessInteger<uint8>((const uint8*)_A.getDataPointer(), (const uint8*)_B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT8: {
@@ -284,23 +562,23 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         _B.promoteType(outType);
         int8* ptr = (int8*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<int8>((const int8*)_A.getDataPointer(), (const int8*)_B.getDataPointer(), ptr,
-            outDim.getElementCount(), AStride, BStride);
+        TMinLessInteger<int8>((const int8*)_A.getDataPointer(), (const int8*)_B.getDataPointer(),
+            ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT16: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<uint16>((const uint16*)_A.getDataPointer(), (const uint16*)_B.getDataPointer(),
-            ptr, outDim.getElementCount(), AStride, BStride);
+        TMinLessInteger<uint16>((const uint16*)_A.getDataPointer(),
+            (const uint16*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT16: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         int16* ptr = (int16*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<int16>((const int16*)_A.getDataPointer(), (const int16*)_B.getDataPointer(),
+        TMinLessInteger<int16>((const int16*)_A.getDataPointer(), (const int16*)_B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT32: {
@@ -308,15 +586,15 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         _B.promoteType(outType);
         uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<uint32>((const uint32*)_A.getDataPointer(), (const uint32*)_B.getDataPointer(),
-            ptr, outDim.getElementCount(), AStride, BStride);
+        TMinLessInteger<uint32>((const uint32*)_A.getDataPointer(),
+            (const uint32*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT32: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         int32* ptr = (int32*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<int32>((const int32*)_A.getDataPointer(), (const int32*)_B.getDataPointer(),
+        TMinLessInteger<int32>((const int32*)_A.getDataPointer(), (const int32*)_B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_UINT64: {
@@ -324,15 +602,15 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         _B.promoteType(outType);
         uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<uint64>((const uint64*)_A.getDataPointer(), (const uint64*)_B.getDataPointer(),
-            ptr, outDim.getElementCount(), AStride, BStride);
+        TMinLessInteger<uint64>((const uint64*)_A.getDataPointer(),
+            (const uint64*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_INT64: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         int64* ptr = (int64*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<int64>((const int64*)_A.getDataPointer(), (const int64*)_B.getDataPointer(),
+        TMinLessInteger<int64>((const int64*)_A.getDataPointer(), (const int64*)_B.getDataPointer(),
             ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_SINGLE: {
@@ -340,39 +618,45 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         _B.promoteType(outType);
         single* ptr = (single*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<single>((const single*)_A.getDataPointer(), (const single*)_B.getDataPointer(),
-            ptr, outDim.getElementCount(), AStride, BStride);
+        TMinLessReal<single>(omitNaN, (const single*)_A.getDataPointer(),
+            (const single*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_DOUBLE: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         double* ptr = (double*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<double>((const double*)_A.getDataPointer(), (const double*)_B.getDataPointer(),
-            ptr, outDim.getElementCount(), AStride, BStride);
+        TMinLessReal<double>(omitNaN, (const double*)_A.getDataPointer(),
+            (const double*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_SCOMPLEX: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         single* ptr = (single*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessComplex<single>((const single*)_A.getDataPointer(),
+        TMinLessComplex<single>(omitNaN, (const single*)_A.getDataPointer(),
             (const single*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
     } break;
     case NLS_DCOMPLEX: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         double* ptr = (double*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessComplex<double>((const double*)_A.getDataPointer(),
+        TMinLessComplex<double>(omitNaN, (const double*)_A.getDataPointer(),
             (const double*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
     } break;
     case NLS_CHAR: {
         _A.promoteType(outType);
         _B.promoteType(outType);
         charType* ptr = (charType*)ArrayOf::allocateArrayOf(outType, outDim.getElementCount());
         res = ArrayOf(outType, outDim, ptr);
-        TMinLessReal<charType>((const charType*)_A.getDataPointer(),
+        TMinLessInteger<charType>((const charType*)_A.getDataPointer(),
             (const charType*)_B.getDataPointer(), ptr, outDim.getElementCount(), AStride, BStride);
     } break;
     case NLS_HANDLE:
@@ -388,7 +672,7 @@ Minimum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 //=============================================================================
 // [M, i] = min(A)
 ArrayOfVector
-Minimum(const ArrayOf& A, int nLhs, bool& needToOverload)
+Minimum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload)
 {
     ArrayOfVector retval;
     needToOverload = false;
@@ -409,14 +693,14 @@ Minimum(const ArrayOf& A, int nLhs, bool& needToOverload)
             d++;
         }
         indexType dim = d + 1;
-        retval = Minimum(A, dim, nLhs, needToOverload);
+        retval = Minimum(omitNaN, A, dim, nLhs, needToOverload);
     }
     return retval;
 }
 //=============================================================================
 // [M, i] = min(A, [], dim)
 ArrayOfVector
-Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
+Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
 {
     ArrayOfVector retval;
     needToOverload = false;
@@ -459,6 +743,7 @@ Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
     ArrayOf index;
     double* iptr = nullptr;
     ArrayOf res;
+
     switch (A.getDataClass()) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
@@ -563,8 +848,8 @@ Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
         }
         single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
-        TMinReal<single>(
-            (const single*)A.getDataPointer(), (single*)ptr, iptr, planecount, planesize, linesize);
+        TMinReal<single>(omitNaN, (const single*)A.getDataPointer(), (single*)ptr, iptr, planecount,
+            planesize, linesize);
         res = ArrayOf(NLS_SINGLE, outDim, ptr);
     } break;
     case NLS_DOUBLE: {
@@ -573,8 +858,8 @@ Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
         }
         double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
-        TMinReal<double>(
-            (const double*)A.getDataPointer(), (double*)ptr, iptr, planecount, planesize, linesize);
+        TMinReal<double>(omitNaN, (const double*)A.getDataPointer(), (double*)ptr, iptr, planecount,
+            planesize, linesize);
         res = ArrayOf(NLS_DOUBLE, outDim, ptr);
     } break;
     case NLS_SCOMPLEX: {
@@ -583,9 +868,12 @@ Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
         }
         single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount());
-        TMinComplex<single>(
-            (const single*)A.getDataPointer(), (single*)ptr, iptr, planecount, planesize, linesize);
+        TMinComplex<single>(omitNaN, (const single*)A.getDataPointer(), (single*)ptr, iptr,
+            planecount, planesize, linesize);
         res = ArrayOf(NLS_SCOMPLEX, outDim, ptr);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
     } break;
     case NLS_DCOMPLEX: {
         if (nLhs > 1) {
@@ -593,9 +881,12 @@ Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
         }
         double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, outDim.getElementCount());
-        TMinComplex<double>(
-            (const double*)A.getDataPointer(), (double*)ptr, iptr, planecount, planesize, linesize);
+        TMinComplex<double>(omitNaN, (const double*)A.getDataPointer(), (double*)ptr, iptr,
+            planecount, planesize, linesize);
         res = ArrayOf(NLS_DCOMPLEX, outDim, ptr);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
     } break;
     case NLS_CHAR: {
         if (nLhs > 1) {
@@ -615,6 +906,116 @@ Minimum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload)
         retval.push_back(index);
     }
     return retval;
+}
+//=============================================================================
+ArrayOf
+MinimumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload)
+{
+    ArrayOf res;
+    needToOverload = false;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return res;
+    }
+    if (A.isEmpty()) {
+        return A;
+    }
+    if (A.isScalar()) {
+        return A;
+    }
+    Dimensions outDim(1, 1);
+    indexType elementCount = A.getDimensions().getElementCount();
+    switch (A.getDataClass()) {
+    case NLS_HANDLE:
+    case NLS_CELL_ARRAY:
+    case NLS_STRUCT_ARRAY:
+    case NLS_STRING_ARRAY:
+    default: {
+        needToOverload = true;
+    } break;
+
+    case NLS_LOGICAL: {
+        logical* ptr = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, outDim.getElementCount());
+        TMinAllInteger<logical>((const logical*)A.getDataPointer(), (logical*)ptr, elementCount);
+        res = ArrayOf(NLS_LOGICAL, outDim, ptr);
+    } break;
+    case NLS_UINT8: {
+        uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, outDim.getElementCount());
+        TMinAllInteger<uint8>((const uint8*)A.getDataPointer(), (uint8*)ptr, elementCount);
+        res = ArrayOf(NLS_UINT8, outDim, ptr);
+    } break;
+    case NLS_INT8: {
+        int8* ptr = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, outDim.getElementCount());
+        TMinAllInteger<int8>((const int8*)A.getDataPointer(), (int8*)ptr, elementCount);
+        res = ArrayOf(NLS_INT8, outDim, ptr);
+    } break;
+    case NLS_UINT16: {
+        uint16* ptr = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, outDim.getElementCount());
+        TMinAllInteger<uint16>((const uint16*)A.getDataPointer(), (uint16*)ptr, elementCount);
+        res = ArrayOf(NLS_UINT16, outDim, ptr);
+    } break;
+    case NLS_INT16: {
+        int16* ptr = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, outDim.getElementCount());
+        TMinAllInteger<int16>((const int16*)A.getDataPointer(), (int16*)ptr, elementCount);
+        res = ArrayOf(NLS_INT16, outDim, ptr);
+    } break;
+    case NLS_UINT32: {
+        uint32* ptr = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, outDim.getElementCount());
+        TMinAllInteger<uint32>((const uint32*)A.getDataPointer(), (uint32*)ptr, elementCount);
+        res = ArrayOf(NLS_UINT32, outDim, ptr);
+    } break;
+    case NLS_INT32: {
+        int32* ptr = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, outDim.getElementCount());
+        TMinAllInteger<int32>((const int32*)A.getDataPointer(), (int32*)ptr, elementCount);
+        res = ArrayOf(NLS_INT32, outDim, ptr);
+    } break;
+    case NLS_UINT64: {
+        uint64* ptr = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, outDim.getElementCount());
+        TMinAllInteger<uint64>((const uint64*)A.getDataPointer(), (uint64*)ptr, elementCount);
+        res = ArrayOf(NLS_UINT64, outDim, ptr);
+    } break;
+    case NLS_INT64: {
+        int64* ptr = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, outDim.getElementCount());
+        TMinAllInteger<int64>((const int64*)A.getDataPointer(), (int64*)ptr, elementCount);
+        res = ArrayOf(NLS_INT64, outDim, ptr);
+    } break;
+    case NLS_SINGLE: {
+        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
+        TMinAllReal<single>(omitNaN, (const single*)A.getDataPointer(), (single*)ptr, elementCount);
+        res = ArrayOf(NLS_SINGLE, outDim, ptr);
+    } break;
+    case NLS_DOUBLE: {
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+        TMinAllReal<double>(omitNaN, (const double*)A.getDataPointer(), (double*)ptr, elementCount);
+        res = ArrayOf(NLS_DOUBLE, outDim, ptr);
+    } break;
+    case NLS_SCOMPLEX: {
+        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount());
+        TMinAllComplex<single>(
+            omitNaN, (const single*)A.getDataPointer(), (single*)ptr, elementCount);
+        res = ArrayOf(NLS_SCOMPLEX, outDim, ptr);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, outDim.getElementCount());
+        TMinAllComplex<double>(
+            omitNaN, (const double*)A.getDataPointer(), (double*)ptr, elementCount);
+        res = ArrayOf(NLS_DCOMPLEX, outDim, ptr);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
+    } break;
+    case NLS_CHAR: {
+        ArrayOf _A(A);
+        _A.promoteType(NLS_DOUBLE);
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+        TMinAllInteger<double>((const double*)_A.getDataPointer(), (double*)ptr, elementCount);
+        res = ArrayOf(NLS_DOUBLE, outDim, ptr);
+    } break;
+    }
+    return res;
 }
 //=============================================================================
 }
