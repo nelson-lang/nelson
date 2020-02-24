@@ -186,6 +186,7 @@
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
     <ClCompile Include="..\cpp\FindCommonClass.cpp" />
+    <ClCompile Include="..\cpp\Flip.cpp" />
     <ClCompile Include="..\cpp\LeastSquareSolver.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -196,6 +197,8 @@
     <ClCompile Include="..\cpp\Logarithm10.cpp" />
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
     <ClCompile Include="..\cpp\Logarithm2.cpp" />
+    <ClCompile Include="..\cpp\Maximum.cpp" />
+    <ClCompile Include="..\cpp\Minimum.cpp" />
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
@@ -288,6 +291,7 @@
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\FindCommonClass.hpp" />
+    <ClInclude Include="..\include\Flip.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
     <ClInclude Include="..\include\HorzCat.hpp" />
@@ -307,6 +311,8 @@
     <ClInclude Include="..\include\Logarithm1p.hpp" />
     <ClInclude Include="..\include\Logarithm2.hpp" />
     <ClInclude Include="..\include\MatrixMultiplication.hpp" />
+    <ClInclude Include="..\include\Maximum.hpp" />
+    <ClInclude Include="..\include\Minimum.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
     <ClInclude Include="..\include\NaturalLogarithm.hpp" />
     <ClInclude Include="..\include\Negate.hpp" />
