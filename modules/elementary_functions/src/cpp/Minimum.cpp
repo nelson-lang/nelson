@@ -158,9 +158,6 @@ void
 TMinAllInteger(const T* sp, T* dp, indexType elementCount)
 {
     T minval = sp[0];
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for shared(minval)
-#endif
     for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {
         if (sp[k] < minval) {
             minval = sp[k];
@@ -180,9 +177,6 @@ TMinInteger(
         for (indexType j = 0; j < planesize; j++) {
             minval = sp[i * planesize * linesize + j];
             mindex = 0;
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for shared(minval, mindex, i, j)
-#endif
             for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
                 T val = sp[i * planesize * linesize + j + k * planesize];
                 if (val < minval) {
@@ -215,9 +209,6 @@ TMinAllReal(bool omitnan, const T* sp, T* dp, indexType elementCount)
         if (!init) {
             minval = sp[0];
         }
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered shared(minval)
-#endif
         for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
             T val = sp[k];
             if (!std::isnan(val)) {
@@ -234,9 +225,6 @@ TMinAllReal(bool omitnan, const T* sp, T* dp, indexType elementCount)
     } else {
         T minval;
         minval = sp[0];
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered shared(minval)
-#endif
         for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
             T val = sp[k];
             if (val < minval || std::isnan(val)) {
@@ -291,7 +279,6 @@ TMinReal(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, index
                 }
             }
         }
-
     } else {
         T minval;
         for (ompIndexType i = 0; i < (ompIndexType)planes; i++) {
@@ -299,12 +286,10 @@ TMinReal(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, index
                 double mindex = 0;
                 minval = sp[i * planesize * linesize + j + 0 * planesize];
                 mindex = (double)0;
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered shared(minval)
-#endif
                 for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
                     T val = sp[i * planesize * linesize + j + k * planesize];
                     if (val < minval || std::isnan(val)) {
+
                         minval = val;
                         mindex = (double)k;
                     }
@@ -339,9 +324,6 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
         }
 
         if (init) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered shared(minval)
-#endif
             for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
                 T val_re = sp[2 * k];
                 T val_im = sp[(2 * k) + 1];
@@ -370,9 +352,6 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
         T minval_i;
         T tstval;
         tstval = complex_abs(sp[0], sp[1]);
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered shared(minval)
-#endif
         for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {
             T val_re = sp[2 * k];
             T val_im = sp[(2 * k) + 1];
@@ -418,9 +397,6 @@ TMinComplex(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, in
                     }
                 }
                 if (init) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for ordered shared(minval)
-#endif
                     for (ompIndexType k = 0; k < (ompIndexType)linesize; k++) {
                         T val_re = sp[2 * (i * planesize * linesize + j + k * planesize)];
                         T val_im = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
@@ -743,6 +719,23 @@ Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
     ArrayOf index;
     double* iptr = nullptr;
     ArrayOf res;
+
+    if (dimsA.equals(outDim)) {
+        outDim.simplify();
+        retval.push_back(A);
+        if (nLhs > 1) {
+            iptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+            index = ArrayOf(NLS_DOUBLE, outDim, iptr);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < (ompIndexType)outDim.getElementCount(); ++k) {
+                iptr[k] = 1;
+            }
+            retval.push_back(index);
+        }
+        return retval;
+    }
 
     switch (A.getDataClass()) {
     case NLS_HANDLE:
