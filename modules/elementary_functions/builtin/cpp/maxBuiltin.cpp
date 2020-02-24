@@ -44,28 +44,118 @@ Nelson::ElementaryFunctionsGateway::maxBuiltin(
         retval = OverloadFunction(eval, nLhs, argIn, "max", bSuccess);
     }
     if (!bSuccess) {
+        bool omitNaN = true;
         bool needToOverload = false;
         switch (argIn.size()) {
         case 1: {
             // M = max(A);
             // [M, i] = max(A);
-            retval = Maximum(argIn[0], nLhs, needToOverload);
+            retval = Maximum(omitNaN, argIn[0], nLhs, needToOverload);
         } break;
         case 2: {
             // C = max(A, B)
-            ArrayOf res = Maximum(argIn[0], argIn[1], needToOverload);
+            ArrayOf res = Maximum(omitNaN, argIn[0], argIn[1], needToOverload);
             retval.push_back(res);
         } break;
         case 3: {
             // [M, I] = max(A, [], dim)
+            // [M, I] = max(A, [], nanflag)
+            // M = max(A, B, nanflag)
+            // M = max(A, [], 'all')
+            ArrayOf param1 = argIn[0];
+            ArrayOf param2 = argIn[1];
+            ArrayOf param3 = argIn[2];
+            Dimensions dimsA = param1.getDimensions();
+            Dimensions dimsB = param2.getDimensions();
+            if (dimsA.equals(dimsB)) {
+                if (nLhs > 1) {
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                }
+                if (param3.isRowVectorCharacterArray()
+                    || (param3.isStringArray() && param3.isScalar())) {
+                    std::wstring s = param3.getContentAsWideString();
+                    if (s == L"omitnan") {
+                        omitNaN = true;
+                    } else if (s == L"includenan") {
+                        omitNaN = false;
+                    } else {
+                        Error(_("Invalid third argument."));
+                    }
+                    ArrayOf res = Maximum(omitNaN, param1, param2, needToOverload);
+                    retval.push_back(res);
+                } else {
+                    Error(_("Invalid third argument."));
+                }
+            } else {
+                if (!param2.isEmpty()) {
+                    Error(_("Invalid second argument."));
+                }
+                indexType dim = 0;
+                bool isAll = false;
+                if (param3.isRowVectorCharacterArray()
+                    || (param3.isStringArray() && param3.isScalar())) {
+                    std::wstring s = param3.getContentAsWideString();
+                    if (s == L"omitnan") {
+                        omitNaN = true;
+                    } else if (s == L"includenan") {
+                        omitNaN = false;
+                    } else if (s == L"all") {
+                        isAll = true;
+                    } else {
+                        Error(_("Invalid third argument."));
+                    }
+                } else {
+                    dim = param3.getContentAsScalarIndex(false);
+                }
+                if (isAll) {
+                    if (nLhs > 1) {
+                        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    }
+                    ArrayOf res = MaximumAll(omitNaN, param1, needToOverload);
+                    retval.push_back(res);
+                } else if (dim == 0) {
+                    retval = Maximum(omitNaN, param1, nLhs, needToOverload);
+                } else {
+                    retval = Maximum(omitNaN, param1, dim, nLhs, needToOverload);
+                }
+            }
+        } break;
+        case 4: {
+            // [M, I] = max(A, [], dim, nanflag)
+            // M = max(A, [], 'all', nanflag)
+            ArrayOf param4 = argIn[3];
+            if (param4.isRowVectorCharacterArray()
+                || (param4.isStringArray() && param4.isScalar())) {
+                std::wstring s = param4.getContentAsWideString();
+                if (s == L"omitnan") {
+                    omitNaN = true;
+                } else if (s == L"includenan") {
+                    omitNaN = false;
+                } else {
+                    Error(_("Invalid 4th argument."));
+                }
+            }
             ArrayOf param1 = argIn[0];
             ArrayOf param2 = argIn[1];
             ArrayOf param3 = argIn[2];
             if (!param2.isEmpty()) {
                 Error(_("Invalid second argument."));
             }
-            indexType dim = param3.getContentAsScalarIndex(false);
-            retval = Maximum(param1, dim, nLhs, needToOverload);
+            if (param3.isRowVectorCharacterArray()
+                || (param3.isStringArray() && param3.isScalar())) {
+                std::wstring s = param3.getContentAsWideString();
+                if (s != L"all") {
+                    Error(_("Invalid third argument."));
+                }
+                if (nLhs > 1) {
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                }
+                ArrayOf res = MaximumAll(omitNaN, param1, needToOverload);
+                retval.push_back(res);
+            } else {
+                indexType dim = param3.getContentAsScalarIndex(false);
+                retval = Maximum(omitNaN, param1, dim, nLhs, needToOverload);
+            }
         } break;
         default: {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -35,15 +35,18 @@ namespace Nelson {
 //=============================================================================
 // C = max(A, B);
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Maximum(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+Maximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 // [M, i] = max(A)
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Maximum(const ArrayOf& A, int nLhs, bool& needToOverload);
+Maximum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload);
 //=============================================================================
 // [M, i] = max(A, [], dim)
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Maximum(const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
+Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+MaximumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

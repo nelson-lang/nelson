@@ -11,7 +11,14 @@
 		<syntax_item>[M, I] = min(A)</syntax_item>
 		<syntax_item>M = min(A, [], dim)</syntax_item>
 		<syntax_item>[M, I] = min(A, [], dim)</syntax_item>
+		<syntax_item>M = min(A, [], dim, 'omitnan')</syntax_item>
+		<syntax_item>[M, I] = min(A, [], dim, 'includenan')</syntax_item>
+		<syntax_item>[M, I] = min(A, [], 'all')</syntax_item>
+		<syntax_item>[M, I] = min(A, [], 'all', 'omitnan')</syntax_item>
+		<syntax_item>[M, I] = min(A, [], 'all', 'includenan')</syntax_item>
 		<syntax_item>C = min(A, B)</syntax_item>
+		<syntax_item>C = min(A, B, 'omitnan')</syntax_item>
+		<syntax_item>C = min(A, B, 'includenan')</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -23,6 +30,19 @@
 			<param_name>dim</param_name>
 			<param_description>a positive integer scalar (Dimension to operate along)</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>'omitnan'</param_name>
+			<param_description>ignore all NaN values. default behaviour. min will return the first element, if all elements are NaN.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>'includenan'</param_name>
+			<param_description>include the NaN values.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>'all'</param_name>
+			<param_description>it finds the minimum over all elements.</param_description>
+		</param_input_item>
+
 	</param_input>
 
 	<param_output>
@@ -57,7 +77,8 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = [1 2 3; 4 5 6];
-M = min(A)]]>
+M = min(A)
+M = min(A, [], 'all')]]>
 		</example_item_data>
 	</example_item>
 

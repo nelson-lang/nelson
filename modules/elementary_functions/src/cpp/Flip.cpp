@@ -36,11 +36,11 @@ TFlipLR2dReal(T* ptrIn, T* ptrOut, indexType m, indexType n)
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matIn(ptrIn, m, n);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOut(ptrOut, m, n);
 #if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for 
+#pragma omp parallel for
 #endif
     for (ompIndexType j = 0; j < (ompIndexType)n; ++j) {
 #if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for 
+#pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)m; ++i) {
             matOut(i, j) = matIn(i, n - 1 - j);

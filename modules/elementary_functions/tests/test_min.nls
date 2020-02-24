@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('min'), 3)
+assert_isequal(nargin('min'), 4)
 assert_isequal(nargout('min'), 2)
 //=============================================================================
 R = min([]);

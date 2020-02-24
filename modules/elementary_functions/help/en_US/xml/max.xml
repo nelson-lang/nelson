@@ -11,7 +11,14 @@
 		<syntax_item>[M, I] = max(A)</syntax_item>
 		<syntax_item>M = max(A, [], dim)</syntax_item>
 		<syntax_item>[M, I] = max(A, [], dim)</syntax_item>
+		<syntax_item>M = max(A, [], dim, 'omitnan')</syntax_item>
+		<syntax_item>[M, I] = max(A, [], dim, 'includenan')</syntax_item>
+		<syntax_item>[M, I] = max(A, [], 'all')</syntax_item>
+		<syntax_item>[M, I] = max(A, [], 'all', 'omitnan')</syntax_item>
+		<syntax_item>[M, I] = max(A, [], 'all', 'includenan')</syntax_item>
 		<syntax_item>C = max(A, B)</syntax_item>
+		<syntax_item>C = max(A, B, 'omitnan')</syntax_item>
+		<syntax_item>C = max(A, B, 'includenan')</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -22,6 +29,18 @@
 		<param_input_item>
 			<param_name>dim</param_name>
 			<param_description>a positive integer scalar (Dimension to operate along)</param_description>
+		</param_input_item>
+			<param_input_item>
+			<param_name>'omitnan'</param_name>
+			<param_description>ignore all NaN values. default behaviour. max will return the first element, if all elements are NaN.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>'includenan'</param_name>
+			<param_description>include the NaN values.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>'all'</param_name>
+			<param_description>it finds the maximum over all elements.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -57,7 +76,8 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = [1 2 3; 4 5 6];
-M = max(A)]]>
+M = max(A)
+M = max(A, [], 'all')]]>
 		</example_item_data>
 	</example_item>
 
