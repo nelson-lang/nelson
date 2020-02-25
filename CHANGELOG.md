@@ -1,4 +1,4 @@
-# 0.4.2 (2020-02-XX)
+# 0.4.2 (2020-02-25)
 
 * min, max builtin: Minimum/Maximum elements of an array with nanflag and 'all' support.
 
