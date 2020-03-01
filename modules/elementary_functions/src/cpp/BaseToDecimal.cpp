@@ -105,7 +105,8 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
                 std::wstring wstr = Transposed.getContentAsArrayOfCharacters();
                 size_t commonLength = dimsA.getColumns();
                 elements.reserve(dimsA.getElementCount() / commonLength);
-                for (indexType k = 0; k < dimsA.getElementCount(); k = k + commonLength) {
+                indexType elementCount = dimsA.getElementCount();
+                for (indexType k = 0; k < elementCount; k = k + commonLength) {
                     std::wstring s = wstr.substr(k, commonLength);
                     elements.push_back(s);
                 }

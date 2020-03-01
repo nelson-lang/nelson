@@ -86,14 +86,15 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_DCOMPLEX: {
-        float* pSingle = static_cast<float*>(
-            ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2, stringVector(), false));
+        ompIndexType elementCount = A.getDimensions().getElementCount();
+        single* pSingle = static_cast<single*>(
+            ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount, stringVector(), false));
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, A.isSparse());
         auto* pDouble = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength() * 2; k++) {
+        for (ompIndexType k = 0; k < elementCount * 2; k++) {
             pSingle[k] = static_cast<float>(pDouble[k]);
         }
         return r;

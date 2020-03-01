@@ -66,7 +66,8 @@ ArrayOf::stringArrayToCharacterArray(const ArrayOf& stringArray, bool missingAsE
     Dimensions dims = stringArray.getDimensions();
     wstringVector strs;
     strs.reserve(dims.getElementCount());
-    for (indexType k = 0; k < dims.getElementCount(); ++k) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; ++k) {
         if (ptr[k].isCharacterArray()) {
             strs.push_back(ptr[k].getContentAsWideString());
         } else {

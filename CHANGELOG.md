@@ -1,6 +1,20 @@
-# 0.4.2 (2020-02-XX)
+# 0.4.2 (2020-02-25)
+
+* min, max builtin: Minimum/Maximum elements of an array with nanflag and 'all' support.
+
+* flipud: Flip array up to down.
+
+* fliplr: Flip array left to right.
+
+* flip: Flip order of elements.
+
+* flipdim: Flip array along specified dimension.
+
+* log2 builtin: Base 2 logarithm and floating-point number dissection.
 
 * colon operator optimized.
+
+* faster algorithm to convert variable to different data type.
 
 * replaces hashmap used for functions and variables.
 

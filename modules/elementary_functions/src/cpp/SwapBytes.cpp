@@ -26,6 +26,7 @@
 #include <boost/endian/conversion.hpp>
 #include "SwapBytes.hpp"
 #include "Error.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -67,7 +68,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint8*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -75,7 +80,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         int8* ptr = (int8*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -83,7 +92,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint16*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -91,7 +104,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int16*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -99,7 +116,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint32*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -107,7 +128,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int32*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -115,7 +140,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint64*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -123,7 +152,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int64*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
     } break;
@@ -131,7 +164,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (single*)res.getDataPointer();
-        for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+        ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
             ptr[k] = swapSingle(ptr[k]);
         }
     } break;
@@ -142,7 +179,11 @@ SwapBytes(ArrayOf A, bool& needToOverload)
             res = A;
             res.ensureSingleOwner();
             auto* ptr = (double*)res.getDataPointer();
-            for (indexType k = 0; k < dimsA.getElementCount(); ++k) {
+            ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptr[k] = swapDouble(ptr[k]);
             }
         }

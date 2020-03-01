@@ -43,7 +43,8 @@ h5ReadVlenOpaque(
         return ArrayOf();
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsVector(rdata[k].len, 1);
         void* ptr = nullptr;
         try {
@@ -85,7 +86,8 @@ h5ReadVlenFloat(
         return ArrayOf();
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsVector(rdata[k].len, 1);
         void* ptr = nullptr;
         try {
@@ -149,7 +151,8 @@ h5ReadVlenInteger(
         return ArrayOf();
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsVector(rdata[k].len, 1);
         void* ptr = nullptr;
         try {

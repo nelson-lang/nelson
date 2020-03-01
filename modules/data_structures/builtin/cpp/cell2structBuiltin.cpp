@@ -26,6 +26,7 @@
 #include <algorithm>
 #include "cell2structBuiltin.hpp"
 #include "Error.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -110,7 +111,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
             auto* qp = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
                 NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
             ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
-            for (indexType k = 0; k < param1.getDimensions().getElementCount(); k++) {
+            ompIndexType elementCount = param1.getDimensions().getElementCount();
+            for (ompIndexType k = 0; k < elementCount; k++) {
                 qp[k] = arg[k];
             }
             ret.push_back(c);

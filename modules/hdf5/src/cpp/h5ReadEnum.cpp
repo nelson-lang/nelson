@@ -157,7 +157,8 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     } break;
     }
     indexType k = 0;
-    for (indexType i = 0; i < dims.getElementCount(); i++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType i = 0; i < elementCount; i++) {
         switch (outputClass) {
         case NLS_UINT8: {
             if (ptrAsUINT8) {

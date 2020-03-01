@@ -636,7 +636,8 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
                 if (B.getDataClass() == NLS_DOUBLE) {
                     bool allIntegerValue = true;
                     auto* ptrB = (double*)B.getDataPointer();
-                    for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
+                    indexType elementCount = B.getDimensions().getElementCount();
+                    for (indexType k = 0; k < elementCount; k++) {
                         double v = std::trunc(ptrB[k]);
                         if (v != ptrB[k]) {
                             allIntegerValue = false;

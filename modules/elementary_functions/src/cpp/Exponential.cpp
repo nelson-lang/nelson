@@ -26,6 +26,7 @@
 #include <complex>
 #include <Eigen/Dense>
 #include "Exponential.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -73,7 +74,11 @@ Exponential(ArrayOf A, bool& needToOverload)
                 auto* Az = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
                 Eigen::Map<Eigen::ArrayXcd> matOut(Cz, 1, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXcd> matIn(Az, 1, dimsA.getElementCount());
-                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     matOut[k] = ExponentialComplexScalar<std::complex<double>>(matIn[k]);
                 }
                 res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrOut);
@@ -100,7 +105,11 @@ Exponential(ArrayOf A, bool& needToOverload)
                 auto* Az = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
                 Eigen::Map<Eigen::ArrayXcf> matOut(Cz, 1, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXcf> matIn(Az, 1, dimsA.getElementCount());
-                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                ompIndexType elementCount = dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < elementCount; k++) {
                     matOut[k] = ExponentialComplexScalar<std::complex<single>>(matIn[k]);
                 }
                 res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrOut);

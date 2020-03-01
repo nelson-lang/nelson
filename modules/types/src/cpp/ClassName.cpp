@@ -43,7 +43,8 @@ ClassName(ArrayOf In)
         Dimensions dimsIn = In.getDimensions();
         auto* qp = (nelson_handle*)In.getDataPointer();
         if (qp) {
-            for (indexType k = 0; k < dimsIn.getElementCount(); k++) {
+            indexType elementCount = dimsIn.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj != nullptr) {

@@ -240,6 +240,21 @@
     <ClCompile Include="..\cpp\sumBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\log2Builtin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\maxBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\minBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\fliplrBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\flipudBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -476,6 +491,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\sumBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log2Builtin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\maxBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\minBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\fliplrBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\flipudBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

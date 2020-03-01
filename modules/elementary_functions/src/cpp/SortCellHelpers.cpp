@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <vector>
 #include "SortCellHelpers.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -60,7 +61,8 @@ sortCellWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecou
 {
     ArrayOfVector res;
     auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-    for (indexType k = 0; k < arrayIn.getDimensions().getElementCount(); k++) {
+    indexType elementCount = arrayIn.getDimensions().getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         if (!arg[k].isCharacterArray()) {
             needToOverload = true;
             return res;
@@ -106,7 +108,8 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
         wstringVector strs;
         strs.reserve(outDim.getElementCount());
         auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-        for (indexType k = 0; k < arrayIn.getDimensions().getElementCount(); k++) {
+        indexType elementCount = arrayIn.getDimensions().getElementCount();
+        for (indexType k = 0; k < elementCount; k++) {
             if (!arg[k].isCharacterArray()) {
                 needToOverload = true;
                 return res;
@@ -117,13 +120,18 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
         ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, outDim.getElementCount(), stringVector(), false);
         ArrayOf sortedValues = ArrayOf(NLS_CELL_ARRAY, outDim, ptrValue);
-        for (indexType k = 0; k < outDim.getElementCount(); ++k) {
+        ompIndexType elementCountOut = outDim.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCountOut; ++k) {
             ptrValue[k] = ArrayOf::characterArrayConstructor(strs[k]);
         }
         res.push_back(sortedValues);
     } else {
         auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-        for (indexType k = 0; k < arrayIn.getDimensions().getElementCount(); k++) {
+        indexType elementCount = arrayIn.getDimensions().getElementCount();
+        for (indexType k = 0; k < elementCount; k++) {
             if (!arg[k].isCharacterArray()) {
                 needToOverload = true;
                 return res;

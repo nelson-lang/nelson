@@ -25,6 +25,7 @@
 //=============================================================================
 #include "ConvertStringsToChars.hpp"
 #include "Exception.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector
@@ -50,7 +51,11 @@ ConvertStringsToChars(const ArrayOfVector& A)
                 auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
                 ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
                 auto* elementsStr = (ArrayOf*)value.getDataPointer();
-                for (indexType q = 0; q < dims.getElementCount(); q++) {
+                ompIndexType elementCount = dims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType q = 0; q < elementCount; q++) {
                     if (elementsStr[q].getDataClass() == NLS_CHAR) {
                         elementsCell[q] = elementsStr[q];
                     } else {

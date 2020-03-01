@@ -25,6 +25,7 @@
 //=============================================================================
 #include "StringLength.hpp"
 #include "Error.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +40,11 @@ StringLength(ArrayOf A)
         auto* elements = (ArrayOf*)A.getDataPointer();
         ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
-        for (indexType k = 0; k < outputDims.getElementCount(); k++) {
+        ompIndexType elementCount = outputDims.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             if (elements[k].isCharacterArray()) {
                 std::wstring wstr = elements[k].getContentAsWideString();
                 ptrLength[k] = static_cast<double>(wstr.length());
@@ -59,7 +64,11 @@ StringLength(ArrayOf A)
         }
         ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
             NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
-        for (size_t k = 0; k < wstr.size(); k++) {
+        ompIndexType s = (ompIndexType)wstr.size();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < s; k++) {
             ptrLength[k] = static_cast<double>(wstr[k].length());
         }
     }

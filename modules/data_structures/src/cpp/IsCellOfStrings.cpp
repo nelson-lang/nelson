@@ -37,7 +37,8 @@ IsCellOfString(ArrayOf cellarr)
         return true;
     }
     ArrayOf* arg = (ArrayOf*)(cellarr.getDataPointer());
-    for (indexType k = 0; k < cellarr.getDimensions().getElementCount(); k++) {
+    indexType elementCount = cellarr.getDimensions().getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         if (!arg[k].isCharacterArray()) {
             return false;
         }

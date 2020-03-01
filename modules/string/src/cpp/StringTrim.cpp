@@ -28,6 +28,7 @@
 #include <string>
 #include "StringTrim.hpp"
 #include "Error.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -69,7 +70,8 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
         res = ArrayOf(A);
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+        indexType elementCount = A.getDimensions().getElementCount();
+        for (indexType k = 0; k < elementCount; k++) {
             if (!element[k].isRowVectorCharacterArray()) {
                 Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
             }
@@ -85,7 +87,11 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
         res = ArrayOf(A);
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+        ompIndexType elementCount = A.getDimensions().getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; k++) {
             if (element[k].isRowVectorCharacterArray()) {
                 std::wstring str = element[k].getContentAsWideString();
                 element[k] = ArrayOf::characterArrayConstructor(Trim(str));

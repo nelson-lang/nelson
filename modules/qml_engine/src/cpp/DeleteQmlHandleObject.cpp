@@ -41,7 +41,8 @@ DeleteQmlHandleObject(ArrayOf A)
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
             nelson_handle* qp = (nelson_handle*)A.getDataPointer();
-            for (indexType k = 0; k < dims.getElementCount(); k++) {
+            indexType elementCount = dims.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {

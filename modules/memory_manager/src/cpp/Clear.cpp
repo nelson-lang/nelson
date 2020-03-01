@@ -39,7 +39,8 @@ callClearHandle(Evaluator* eval, Scope* scope, const std::string& variable)
         if (val.isHandle()) {
             Dimensions dimsVal = val.getDimensions();
             auto* qp = (nelson_handle*)val.getDataPointer();
-            for (indexType k = 0; k < dimsVal.getElementCount(); k++) {
+            indexType elementCount = dimsVal.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj != nullptr) {

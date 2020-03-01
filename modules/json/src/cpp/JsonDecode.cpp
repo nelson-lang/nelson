@@ -32,6 +32,7 @@
 #include "JsonDecode.hpp"
 #include "characters_encoding.hpp"
 #include "JsonVariable.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -283,8 +284,10 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
     ArrayOf* ptrStruct = (ArrayOf*)ArrayOf::allocateArrayOf(
         NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
     size_t offset = 0;
-    for (indexType j = 0; j < dims.getElementCount(); j++) {
-        for (size_t i = 0; i < jsVar.fieldnames.size(); i++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType j = 0; j < elementCount; j++) {
+        size_t s = jsVar.fieldnames.size();
+        for (size_t i = 0; i < s; i++) {
             ArrayOf rval = jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[i])[j]);
             const ArrayOf* rptr = (const ArrayOf*)rval.getDataPointer();
             ptrStruct[offset] = rval;
@@ -343,7 +346,8 @@ jsonVariableToNelsonCellType(JsonVariable& jsVar)
     Dimensions dims(jsVar.vectorJsonVariable.size(), 1);
     ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
         NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    ompIndexType elementCount = dims.getElementCount();
+    for (ompIndexType k = 0; k < elementCount; k++) {
         dptr[k] = jsonVariableToNelson(jsVar.vectorJsonVariable[k]);
     }
     return ArrayOf(NLS_CELL_ARRAY, dims, dptr);

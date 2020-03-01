@@ -77,7 +77,8 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
         return res;
     }
     indexType pos = 0;
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsElement((indexType)sizeType, 1);
         uint8* values;
         try {

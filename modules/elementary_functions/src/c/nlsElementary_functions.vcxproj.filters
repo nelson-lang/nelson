@@ -219,6 +219,18 @@
     <ClCompile Include="..\cpp\FindCommonClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\Logarithm2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Maximum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Minimum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Flip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp">
@@ -462,6 +474,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\DotRightDivideReal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Logarithm2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Maximum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Minimum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Flip.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -38,7 +38,8 @@ matrix_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
     ArrayOf* elementsC = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
         NLS_STRING_ARRAY, a.getDimensions().getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, a.getDimensions(), elementsC);
-    for (indexType i = 0; i < a.getDimensions().getElementCount(); i++) {
+    indexType elementCount = a.getDimensions().getElementCount();
+    for (indexType i = 0; i < elementCount; i++) {
         if (elementsA[i].isCharacterArray() && elementsB[i].isCharacterArray()) {
             std::wstring strA = elementsA[i].getContentAsWideString();
             std::wstring strB = elementsB[i].getContentAsWideString();
@@ -109,8 +110,10 @@ vector_string_addition(const ArrayOf& a, const ArrayOf& b)
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getElementCount(); i++) {
-        for (indexType j = 0; j < dimsB.getElementCount(); j++) {
+    indexType elementCountA = dimsA.getElementCount();
+    indexType elementCountB = dimsB.getElementCount();
+    for (indexType i = 0; i < elementCountA; i++) {
+        for (indexType j = 0; j < elementCountB; j++) {
             if (elementsA[0].isCharacterArray() && elementsB[j].isCharacterArray()) {
                 std::wstring strA = elementsA[i].getContentAsWideString();
                 std::wstring strB = elementsB[j].getContentAsWideString();
