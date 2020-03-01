@@ -102,6 +102,7 @@
 #include "minBuiltin.hpp"
 #include "fliplrBuiltin.hpp"
 #include "flipudBuiltin.hpp"
+#include "meanBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -192,6 +193,7 @@ static const nlsGateway gateway[] = {
     { "min", Nelson::ElementaryFunctionsGateway::minBuiltin, 2, 4 },
     { "fliplr", Nelson::ElementaryFunctionsGateway::fliplrBuiltin, 1, 1 },
     { "flipud", Nelson::ElementaryFunctionsGateway::flipudBuiltin, 1, 1 },
+    { "mean", Nelson::ElementaryFunctionsGateway::meanBuiltin, 1, 4 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
