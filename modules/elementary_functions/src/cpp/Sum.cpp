@@ -31,6 +31,22 @@
 namespace Nelson {
 //=============================================================================
 static void
+signedIntegerSumAsDouble(const int64* sp, double* dp, indexType elementCount)
+{
+    if (dp == nullptr) {
+        return;
+    }
+    double sum = 0;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for reduction(+ : sum)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
+        sum += (double)sp[i];
+    }
+    dp[0] = sum;
+}
+//=============================================================================
+static void
 signedIntegerSumAsDouble(
     const int64* sp, double* dp, size_t planes, size_t planesize, size_t linesize)
 {
@@ -47,6 +63,22 @@ signedIntegerSumAsDouble(
 }
 //=============================================================================
 static void
+unsignedIntegerSumAsDouble(const uint64* sp, double* dp, indexType elementCount)
+{
+    if (dp == nullptr) {
+        return;
+    }
+    double sum = 0;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for reduction(+ : sum)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
+        sum += (double)sp[i];
+    }
+    dp[0] = sum;
+}
+//=============================================================================
+static void
 unsignedIntegerSumAsDouble(
     const uint64* sp, double* dp, size_t planes, size_t planesize, size_t linesize)
 {
@@ -60,6 +92,30 @@ unsignedIntegerSumAsDouble(
             dp[i * planesize + j] = accum;
         }
     }
+}
+//=============================================================================
+template <class T>
+void
+RealSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
+{
+    if (dp == nullptr) {
+        return;
+    }
+    T sum = (T)0;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for reduction(+ : sum)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)elementCount; i++) {
+        T val = sp[i];
+        if (!withnan) {
+            if (!std::isnan(val)) {
+                sum += val;
+            }
+        } else {
+            sum += val;
+        }
+    }
+    dp[0] = sum;
 }
 //=============================================================================
 template <class T>
@@ -82,6 +138,35 @@ RealSumT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, b
             dp[i * planesize + j] = accum;
         }
     }
+}
+//=============================================================================
+template <class T>
+void
+ComplexSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
+{
+    if (dp == nullptr) {
+        return;
+    }
+    T sum_r = (T)0;
+    T sum_i = (T)0;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for reduction(+ : sum_r, sum_i)
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)elementCount; i++) {
+        T vr = sp[i];
+        T vi = sp[i + 1];
+        if (!withnan) {
+            if (!std::isnan(vr) && !std::isnan(vi)) {
+                sum_r += vr;
+                sum_i += vi;
+            }
+        } else {
+            sum_r += vr;
+            sum_i += vi;
+        }
+    }
+    dp[0] = sum_r;
+    dp[1] = sum_i;
 }
 //=============================================================================
 template <class T>
@@ -161,8 +246,13 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            unsignedIntegerSumAsDouble(static_cast<const uint64*>(A.getDataPointer()), ptr,
-                planecount, planesize, linesize);
+            if (A.isVector()) {
+                unsignedIntegerSumAsDouble(
+                    static_cast<const uint64*>(A.getDataPointer()), ptr, dimsA.getElementCount());
+            } else {
+                unsignedIntegerSumAsDouble(static_cast<const uint64*>(A.getDataPointer()), ptr,
+                    planecount, planesize, linesize);
+            }
         } break;
         case NLS_INT8:
         case NLS_INT16:
@@ -172,35 +262,60 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            signedIntegerSumAsDouble(static_cast<const int64*>(A.getDataPointer()), ptr, planecount,
-                planesize, linesize);
+            if (A.isVector()) {
+                signedIntegerSumAsDouble(
+                    static_cast<const int64*>(A.getDataPointer()), ptr, dimsA.getElementCount());
+            } else {
+                signedIntegerSumAsDouble(static_cast<const int64*>(A.getDataPointer()), ptr,
+                    planecount, planesize, linesize);
+            }
         } break;
         case NLS_SINGLE: {
             single* ptr = static_cast<single*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            RealSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
-                planesize, linesize, withnan);
+            if (A.isVector()) {
+                RealSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr,
+                    dimsA.getElementCount(), withnan);
+            } else {
+                RealSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
+                    planesize, linesize, withnan);
+            }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DOUBLE: {
             double* ptr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            RealSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
-                planesize, linesize, withnan);
+            if (A.isVector()) {
+                RealSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr,
+                    dimsA.getElementCount(), withnan);
+            } else {
+                RealSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
+                    planesize, linesize, withnan);
+            }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_SCOMPLEX: {
             single* ptr = static_cast<single*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            ComplexSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
-                planesize, linesize, withnan);
+            if (A.isVector()) {
+                ComplexSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr,
+                    dimsA.getElementCount(), withnan);
+            } else {
+                ComplexSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
+                    planesize, linesize, withnan);
+            }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DCOMPLEX: {
             double* ptr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            ComplexSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
-                planesize, linesize, withnan);
+            if (A.isVector()) {
+                ComplexSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr,
+                    dimsA.getElementCount(), withnan);
+            } else {
+                ComplexSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
+                    planesize, linesize, withnan);
+            }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         default: {
