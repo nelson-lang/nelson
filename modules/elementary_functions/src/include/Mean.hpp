@@ -33,8 +33,18 @@ namespace Nelson {
  * mean operation.
  */
 //=============================================================================
+enum MEAN_OUT_TYPE
+{
+    DEFAULT,
+    NATIVE,
+    DOUBLE
+};
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Mean(const ArrayOf& A, bool& needToOverload);
+MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

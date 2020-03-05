@@ -97,12 +97,12 @@ ComplexSumT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize
                 T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
                 if (!withnan) {
                     if (!std::isnan(vr) && !std::isnan(vi)) {
-                        accum_r = vr;
-                        accum_i = vi;
+                        accum_r += vr;
+                        accum_i += vi;
                     }
                 } else {
-                    accum_r = vr;
-                    accum_i = vi;
+                    accum_r += vr;
+                    accum_i += vi;
                 }
             }
             dp[2 * (i * planesize + j)] = accum_r;
