@@ -1,3 +1,10 @@
+# 0.4.3 (2020-03-XX)
+
+* mean builtin: Mean elements of an array with nanflag and 'all' support.
+
+* sum and prod optimized.
+
+
 # 0.4.2 (2020-02-25)
 
 * min, max builtin: Minimum/Maximum elements of an array with nanflag and 'all' support.
