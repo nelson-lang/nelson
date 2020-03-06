@@ -71,6 +71,11 @@ numeric_cast(TIN value)
             return std::numeric_limits<TOUT>::min();
         }
     }
+    if (typeid(TOUT) != typeid(single) || typeid(TOUT) != typeid(double)) {
+        if (typeid(TIN) == typeid(single) || typeid(TIN) == typeid(double)) {
+            return static_cast<TOUT>((long double)std::round(value));
+        }
+    }
     return static_cast<TOUT>(value);
 }
 //=============================================================================
