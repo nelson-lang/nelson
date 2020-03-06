@@ -48,12 +48,12 @@ signedIntegerSumAsDouble(const int64* sp, double* dp, indexType elementCount)
 //=============================================================================
 static void
 signedIntegerSumAsDouble(
-    const int64* sp, double* dp, size_t planes, size_t planesize, size_t linesize)
+    const int64* sp, double* dp, indexType planes, indexType planesize, indexType linesize)
 {
-    for (size_t i = 0; i < planes; i++) {
-        for (size_t j = 0; j < planesize; j++) {
+    for (indexType i = 0; i < planes; i++) {
+        for (indexType j = 0; j < planesize; j++) {
             double accum = 0;
-            for (size_t k = 0; k < linesize; k++) {
+            for (indexType k = 0; k < linesize; k++) {
                 int64 val = sp[i * planesize * linesize + j + k * planesize];
                 accum += val;
             }
@@ -80,12 +80,12 @@ unsignedIntegerSumAsDouble(const uint64* sp, double* dp, indexType elementCount)
 //=============================================================================
 static void
 unsignedIntegerSumAsDouble(
-    const uint64* sp, double* dp, size_t planes, size_t planesize, size_t linesize)
+    const uint64* sp, double* dp, indexType planes, indexType planesize, indexType linesize)
 {
-    for (size_t i = 0; i < planes; i++) {
-        for (size_t j = 0; j < planesize; j++) {
+    for (indexType i = 0; i < planes; i++) {
+        for (indexType j = 0; j < planesize; j++) {
             double accum = 0;
-            for (size_t k = 0; k < linesize; k++) {
+            for (indexType k = 0; k < linesize; k++) {
                 uint64 val = sp[i * planesize * linesize + j + k * planesize];
                 accum += val;
             }
@@ -120,12 +120,13 @@ RealSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
 //=============================================================================
 template <class T>
 void
-RealSumT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
+RealSumT(
+    const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    for (size_t i = 0; i < planes; i++) {
-        for (size_t j = 0; j < planesize; j++) {
+    for (indexType i = 0; i < planes; i++) {
+        for (indexType j = 0; j < planesize; j++) {
             T accum = 0;
-            for (size_t k = 0; k < linesize; k++) {
+            for (indexType k = 0; k < linesize; k++) {
                 T val = sp[i * planesize * linesize + j + k * planesize];
                 if (!withnan) {
                     if (!std::isnan(val)) {
@@ -153,8 +154,8 @@ ComplexSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
 #pragma omp parallel for reduction(+ : sum_r, sum_i)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)elementCount; i++) {
-        T vr = sp[i];
-        T vi = sp[i + 1];
+        T vr = sp[2 * i];
+        T vi = sp[(2 * i) + 1];
         if (!withnan) {
             if (!std::isnan(vr) && !std::isnan(vi)) {
                 sum_r += vr;
@@ -171,13 +172,14 @@ ComplexSumT(const T* sp, T* dp, indexType elementCount, bool withnan)
 //=============================================================================
 template <class T>
 void
-ComplexSumT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
+ComplexSumT(
+    const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    for (size_t i = 0; i < planes; i++) {
-        for (size_t j = 0; j < planesize; j++) {
+    for (indexType i = 0; i < planes; i++) {
+        for (indexType j = 0; j < planesize; j++) {
             T accum_r = 0;
             T accum_i = 0;
-            for (size_t k = 0; k < linesize; k++) {
+            for (indexType k = 0; k < linesize; k++) {
                 T vr = sp[2 * (i * planesize * linesize + j + k * planesize)];
                 T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
                 if (!withnan) {
@@ -215,7 +217,7 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Dimensions dimsA = A.getDimensions();
         indexType workDim;
         if (d == 0) {
-            size_t l = 0;
+            indexType l = 0;
             while (dimsA[l] == 1) {
                 l++;
             }
@@ -226,9 +228,9 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Dimensions dimsRes = dimsA;
         dimsRes.setDimensionLength(workDim, 1);
         dimsRes.simplify();
-        size_t planecount;
-        size_t planesize = 1;
-        size_t linesize = dimsA[workDim];
+        indexType planecount;
+        indexType planesize = 1;
+        indexType linesize = dimsA[workDim];
         for (indexType l = 0; l < workDim; l++) {
             planesize *= dimsA[l];
         }
@@ -327,22 +329,36 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         } break;
         }
     }
+    Class outputClass = classA;
     if (strtype == L"default") {
         if (classA == NLS_DOUBLE || classA == NLS_SINGLE || classA == NLS_DCOMPLEX
             || classA == NLS_SCOMPLEX) {
-            res.promoteType(classA);
+            outputClass = classA;
         } else {
-            res.promoteType(NLS_DOUBLE);
+            outputClass = NLS_DOUBLE;
         }
     } else if (strtype == L"native") {
-        res.promoteType(classA);
+        outputClass = classA;
     } else if (strtype == L"double") {
         if (res.getDataClass() == NLS_SCOMPLEX || res.getDataClass() == NLS_DCOMPLEX) {
-            res.promoteType(NLS_DCOMPLEX);
+            outputClass = NLS_DCOMPLEX;
         } else {
-            res.promoteType(NLS_DOUBLE);
+            outputClass = NLS_DOUBLE;
         }
     }
+    res.promoteType(outputClass);
+    switch (outputClass) {
+    case NLS_SCOMPLEX: {
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
+    } break;
+    default: { } break; }
     return res;
 }
 //=============================================================================
