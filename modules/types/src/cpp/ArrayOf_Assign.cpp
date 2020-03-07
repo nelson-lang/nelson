@@ -518,6 +518,14 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                     }
                 }
             }
+        } else {
+            for (size_t i = 0; i < index.size(); i++) {
+                if (isColonOperator(index[i])) {
+                    haveColonOperator = true;
+                    index[i] = ArrayOf::integerRangeConstructor(
+                        1, 1, rightData.getDimensionLength(static_cast<int>(i)), true);
+                }
+            }
         }
     }
     try {
@@ -543,13 +551,11 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 dataCount *= index[i].getLength();
             }
         }
-
         if (isEmpty()) {
             if ((dataCount > rightData.getDimensions().getElementCount()) && !haveColonOperator) {
                 Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
             }
         }
-
         // Next, we compute the dimensions of the right hand side
         indexType advance = 0;
         if (rightData.isSparse()) {
@@ -607,12 +613,10 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             dp = dp->putData(dp->dataClass, newdim, qp, true);
             return;
         }
-
         resize(a);
         if (a.getElementCount() < rightData.getDimensions().getElementCount()) {
             Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
-
         myDims = dp->dimensions;
         // Get a writable data pointer
         void* qp = getReadWriteDataPointer();
@@ -714,7 +718,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, dp->fieldNames.size(), advance);
             break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         delete[] indx;
         dp->dimensions.simplify();
     } catch (const Exception& e) {
