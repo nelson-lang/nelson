@@ -4,6 +4,12 @@
 
 * sum and prod optimized.
 
+Bug Fixes:
+---------
+
+  * [#284](http://github.com/Nelson-numerical-software/nelson/issues/284): Nth dimensions assignation of an empty array with 2d matrix did not work.
+
+
 
 # 0.4.2 (2020-02-25)
 
