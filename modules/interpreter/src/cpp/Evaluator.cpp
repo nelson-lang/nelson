@@ -2044,6 +2044,9 @@ indexType
 Evaluator::countLeftHandSides(ASTPtr t)
 {
     ArrayOf lhs;
+    if (t == nullptr) {
+        Error(_W("Syntax error."));
+    }
     if (!context->lookupVariable(t->text, lhs)) {
         lhs = ArrayOf::emptyConstructor();
     }
