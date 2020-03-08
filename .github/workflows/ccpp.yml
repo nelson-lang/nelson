@@ -76,7 +76,7 @@ jobs:
         sudo make install -C src;
         git clone https://github.com/tbeu/matio /tmp/matio;
         cd /tmp/matio;
-        git checkout v1.5.17;
+        git checkout v1.5.16;
         cd /tmp/matio;
         ./autogen.sh;
         ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/usr/local;

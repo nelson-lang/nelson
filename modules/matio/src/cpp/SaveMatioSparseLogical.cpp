@@ -47,7 +47,7 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
         nnz = spmat->nonZeros();
         njc = (int)spmat->outerSize();
     }
-    int nir = static_cast<int>(nnz);
+    mat_uint32_t nir = static_cast<mat_uint32_t>(nnz);
 #if MATIO_VERSION >= 1517
     mat_uint32_t* pI = nullptr;
 #else
@@ -115,7 +115,11 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
 
     sparse->nzmax = nzmax;
     sparse->nir = nir;
+#if MATIO_VERSION >= 1517
     sparse->ir = pI;
+#else
+    sparse->ir = (mat_int32_t*)pI;
+#endif
     sparse->njc = njc + 1;
     sparse->jc = pJ;
     sparse->ndata = (int)nnz;
