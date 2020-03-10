@@ -116,7 +116,11 @@ createNh5FileWithHeader(const std::wstring& filename, const std::wstring& header
         delete[] header_saturated;
         return fid;
     }
+#ifdef _MSC_VER
+    FILE* fp = _wfopen(filename.c_str(), L"r+b");
+#else
     FILE* fp = fopen(utf_filename.c_str(), "r+b");
+#endif
     if (fp == nullptr) {
         delete[] header_offset;
         delete[] header_saturated;
