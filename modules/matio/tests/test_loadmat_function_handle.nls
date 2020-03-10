@@ -32,5 +32,5 @@ assert_isequal(c, 0);
 assert_isequal(parabola, struct());
 assert_isequal(nCf, struct());
 assert_isequal(sqr, struct());
-assert_isequal(lastwarn(),_('Cannot read matio variable of type: function.'));
+assert_isequal(lastwarn(), [_('Cannot read variable:'), ' ', 'nCf']);
 //=============================================================================
