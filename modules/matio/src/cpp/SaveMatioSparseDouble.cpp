@@ -118,20 +118,22 @@ SaveMatioSparseDouble(const std::string& variableName, ArrayOf variableValue)
         return nullptr;
     }
 
-    sparse->nzmax = nzmax;
-    sparse->nir = nir;
 #if MATIO_VERSION >= 1517
-    sparse->ir = pI;
-#else
-    sparse->ir = (mat_int32_t*)pI;
-#endif
-    sparse->njc = njc + 1;
-    sparse->jc = pJ;
-#if MATIO_VERSION >= 1517
+    sparse->nzmax = (mat_uint32_t)nzmax;
+    sparse->nir = (mat_uint32_t)nir;
+    sparse->ir = (mat_uint32_t*)pI;
+    sparse->njc = (mat_uint32_t)(njc + 1);
+    sparse->jc = (mat_uint32_t*)pJ;
     sparse->ndata = (mat_uint32_t)nnz;
 #else
+    sparse->nzmax = (int)nzmax;
+    sparse->nir = (int)nir;
+    sparse->ir = (mat_int32_t*)pI;
+    sparse->njc = (int)(njc + 1);
+    sparse->jc = (int*)pJ;
     sparse->ndata = (mat_int32_t)nnz;
 #endif
+
     sparse->data = spmat->valuePtr();
 
     matvar_t* matVariableNoCopy = Mat_VarCreate(variableName.c_str(), MAT_C_SPARSE, MAT_T_DOUBLE,
