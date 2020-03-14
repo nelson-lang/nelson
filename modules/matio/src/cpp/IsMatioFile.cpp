@@ -73,7 +73,11 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
             std::string utf8filename = wstring_to_utf8(filename);
             mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
             if (matfile) {
+#if MATIO_VERSION >= 1515
                 const char* headermat = Mat_GetHeader(matfile);
+#else
+                const char* headermat = nullptr;
+#endif
                 if (headermat) {
                     std::string headertrimleft = std::string(headermat);
                     boost::algorithm::trim_right(headertrimleft);

@@ -25,6 +25,7 @@
 //=============================================================================
 #include "LoadMatioObject.hpp"
 #include "Warning.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,7 +33,11 @@ bool
 LoadMatioObject(matvar_t* matVariable, ArrayOf& VariableValue)
 {
     // Not managed by matio 1.5.13
-    Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read matio variable of type: object."));
+    if (matVariable != nullptr) {
+        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
+    } else {
+        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
+    }
     VariableValue = ArrayOf::emptyStructWithoutFields();
     return true;
 }

@@ -2058,13 +2058,7 @@ msgstr ""
 msgid "Invalid option:"
 msgstr ""
 
-msgid "Cannot read matio variable of type: function."
-msgstr ""
-
 msgid "Cannot open .mat file."
-msgstr ""
-
-msgid "Cannot read matio variable of type: object."
 msgstr ""
 
 msgid "Unknown save format."

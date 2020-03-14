@@ -23,14 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
-//=============================================================================
-loadmat([mat_dir, 'test_function_handle.mat']);
-assert_isequal(a, -3.9);
-assert_isequal(b, 52);
-assert_isequal(c, 0);
-assert_isequal(parabola, struct());
-assert_isequal(nCf, struct());
-assert_isequal(sqr, struct());
-assert_isequal(lastwarn(), [_('Cannot read variable:'), ' ', 'nCf']);
+A = 1:10;
+filename = [tempdir(), '漢字.mat'];
+save(filename, 'A');
+assert_istrue(isfile(filename));
+clear
+filename = [tempdir(), '漢字.mat'];
+assert_isfalse(isvar('A'));
+load(filename);
+assert_istrue(isvar('A'));
+assert_isequal(A, 1:10);
 //=============================================================================
