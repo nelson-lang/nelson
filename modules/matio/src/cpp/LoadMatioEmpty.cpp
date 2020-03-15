@@ -48,7 +48,8 @@ LoadMatioEmpty(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableVa
         bSuccess = true;
     } else {
         if (matVariable != nullptr) {
-        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
+            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+                _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
         } else {
             Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
         }
