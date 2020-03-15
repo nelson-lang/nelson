@@ -36,7 +36,7 @@ typedef enum
 {
     CPP_BUILTIN,
     CPP_BUILTIN_WITH_EVALUATOR
-} GATEWAY_PROTOTYPE;
+} BUILTIN_PROTOTYPE;
 //=============================================================================
 typedef struct nlsGatewayStructType
 {
@@ -44,7 +44,7 @@ typedef struct nlsGatewayStructType
     BuiltInFuncPtr fptr;
     int nLhs;
     int nRhs;
-    GATEWAY_PROTOTYPE gatewayPrototype;
+    BUILTIN_PROTOTYPE builtinPrototype;
 } nlsGateway;
 //=============================================================================
 } // namespace Nelson
