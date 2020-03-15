@@ -34,7 +34,8 @@ LoadMatioObject(matvar_t* matVariable, ArrayOf& VariableValue)
 {
     // Not managed by matio 1.5.13
     if (matVariable != nullptr) {
-        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
+        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+            _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
     } else {
         Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
     }

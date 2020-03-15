@@ -126,8 +126,7 @@ getVariableNames(hid_t fid)
 #else
         H5Oget_info_by_idx(fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, &object_info, H5P_DEFAULT);
 #endif
-            if (object_info.type == H5O_TYPE_DATASET || object_info.type == H5O_TYPE_GROUP)
-        {
+        if (object_info.type == H5O_TYPE_DATASET || object_info.type == H5O_TYPE_GROUP) {
             char* varName = nullptr;
             size_t sLen = 0;
             sLen = (size_t)H5Lget_name_by_idx(

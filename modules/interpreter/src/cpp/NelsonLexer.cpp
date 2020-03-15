@@ -159,7 +159,8 @@ testSpecialFuncs()
     }
     bool isHardcodedShorcut = boost::algorithm::starts_with(wline, L"ls ")
         || boost::algorithm::starts_with(wline, L"cd ..")
-        || boost::algorithm::starts_with(wline, L"cd .") || boost::algorithm::starts_with(wline, L"cd ")
+        || boost::algorithm::starts_with(wline, L"cd .")
+        || boost::algorithm::starts_with(wline, L"cd ")
         || boost::algorithm::starts_with(wline, L"dir ?")
         || boost::algorithm::starts_with(wline, L"dir *");
 

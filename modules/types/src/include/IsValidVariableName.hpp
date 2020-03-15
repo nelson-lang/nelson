@@ -30,8 +30,8 @@
 //=============================================================================
 namespace Nelson {
 NLSTYPES_IMPEXP bool
-IsValidVariableName(const std::string& varname);
+IsValidVariableName(const std::string& varname, bool withUnderscore = false);
 NLSTYPES_IMPEXP bool
-IsValidVariableName(const std::wstring& varname);
+IsValidVariableName(const std::wstring& varname, bool withUnderscore = false);
 } // namespace Nelson
 //=============================================================================

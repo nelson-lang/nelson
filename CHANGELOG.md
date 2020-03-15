@@ -9,6 +9,8 @@
 Bug Fixes:
 ---------
 
+  * [#287](http://github.com/Nelson-numerical-software/nelson/issues/287): Parser error message are not localized.
+
   * [#286](http://github.com/Nelson-numerical-software/nelson/issues/286): [end] = sin(1) did not return an syntax error.
 
   * [#284](http://github.com/Nelson-numerical-software/nelson/issues/284): Nth dimensions assignation of an empty array with 2d matrix did not work.
@@ -20,6 +22,8 @@ Compilation:
 * MATIO 1.5.17 with unicode support
 
 * HDF5 1.12.0 support
+
+* BISON 3.5.0 
 
 
 

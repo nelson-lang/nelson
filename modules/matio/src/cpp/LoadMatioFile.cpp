@@ -82,7 +82,8 @@ LoadMatioFile(
         ArrayOf value;
         matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
         if (matVariable == nullptr) {
-            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable:") + L" " + utf8_to_wstring(name));
+            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+                _W("Cannot read variable:") + L" " + utf8_to_wstring(name));
             values.push_back(ArrayOf::emptyStructWithoutFields());
         } else {
             bool bSuccess = LoadMatioVariable(matVariable, false, value);
