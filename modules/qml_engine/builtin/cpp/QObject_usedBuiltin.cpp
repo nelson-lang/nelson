@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::QmlEngineGateway::QObject_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::QmlEngineGateway::QObject_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 0) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

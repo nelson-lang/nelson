@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace FunctionsGateway {
     ArrayOfVector
-    rehashBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    rehashBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

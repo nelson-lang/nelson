@@ -26,6 +26,7 @@
 #pragma once
 //=============================================================================
 #include <cstdarg>
+#include <cstring>
 #include <string>
 #include <vector>
 #include <cwchar>

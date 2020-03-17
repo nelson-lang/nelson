@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace FileArchiverGateway {
     ArrayOfVector
-    zipBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    zipBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

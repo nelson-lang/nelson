@@ -36,6 +36,7 @@ BuiltInFunctionDef::BuiltInFunctionDef()
     retCount = 0;
     argCount = 0;
     fptr = nullptr;
+    builtinPrototype = 0;
 }
 //=============================================================================
 BuiltInFunctionDef::~BuiltInFunctionDef() = default;
@@ -50,7 +51,8 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
     uint64 tic = 0;
     try {
         tic = Profiler::getInstance()->tic();
-        outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
+        outputs
+            = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout, builtinPrototype);
         if (tic != 0) {
             internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
             Profiler::getInstance()->toc(tic, stack);

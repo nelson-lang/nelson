@@ -31,7 +31,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"elementary_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "gamma", Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1 },
+    { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

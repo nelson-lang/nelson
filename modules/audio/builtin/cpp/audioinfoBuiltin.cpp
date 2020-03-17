@@ -32,7 +32,7 @@ using namespace Nelson;
 // info = audiofile(filename)
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audioinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audioinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

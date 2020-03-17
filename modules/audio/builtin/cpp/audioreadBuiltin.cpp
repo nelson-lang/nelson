@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <limits>
 #include "audioreadBuiltin.hpp"
 #include "AudioRead.hpp"
 #include "Error.hpp"
@@ -30,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 2) {

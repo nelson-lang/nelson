@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TestsManagerGateway::test_parsetagsBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
@@ -44,7 +43,7 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(
     ArrayOf param1 = argIn[0];
     std::wstring value = param1.getContentAsWideString();
     std::wstring msg;
-    if (!ParseTags(eval, value, tags, msg)) {
+    if (!ParseTags(value, tags, msg)) {
         Error(msg);
     }
     wstringVector fieldnames;

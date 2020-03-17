@@ -38,7 +38,7 @@ using namespace Nelson;
 // devinfo = audiodevinfo(io, id, rate, bits, chans)
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace TimeGateway {
     ArrayOfVector
-    clockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    clockBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

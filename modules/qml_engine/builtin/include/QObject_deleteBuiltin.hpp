@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace QmlEngineGateway {
     ArrayOfVector
-    QObject_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    QObject_deleteBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 }; // namespace Nelson
 //=============================================================================

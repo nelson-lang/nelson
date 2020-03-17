@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() == 0 || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace ComEngineGateway {
     ArrayOfVector
-    COM_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    COM_deleteBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 }; // namespace Nelson
 //=============================================================================

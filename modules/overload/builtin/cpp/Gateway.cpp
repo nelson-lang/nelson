@@ -31,7 +31,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"overload";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "overloadbasictypes", Nelson::OverloadGateway::overloadbasictypesBuiltin, 1, -1 },
+    { "overloadbasictypes", (void*)Nelson::OverloadGateway::overloadbasictypesBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

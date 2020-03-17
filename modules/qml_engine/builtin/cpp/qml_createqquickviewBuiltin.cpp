@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::QmlEngineGateway::qml_createqquickviewBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::QmlEngineGateway::qml_createqquickviewBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

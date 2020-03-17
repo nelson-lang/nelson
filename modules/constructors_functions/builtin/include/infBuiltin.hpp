@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace ConstructorsGateway {
     ArrayOfVector
-    infBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    infBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

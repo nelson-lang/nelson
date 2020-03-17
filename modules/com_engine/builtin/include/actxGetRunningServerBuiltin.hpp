@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace ComEngineGateway {
     ArrayOfVector
-    actxGetRunningServerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    actxGetRunningServerBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 }; // namespace Nelson
 //=============================================================================

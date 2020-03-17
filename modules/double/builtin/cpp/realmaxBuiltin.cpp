@@ -24,13 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <float.h>
+#include <limits>
 #include "realmaxBuiltin.hpp"
 #include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DoubleGateway::realmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DoubleGateway::realmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {

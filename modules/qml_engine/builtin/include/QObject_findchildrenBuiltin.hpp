@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace QmlEngineGateway {
     ArrayOfVector
-    QObject_findchildrenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    QObject_findchildrenBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 }; // namespace Nelson
 //=============================================================================

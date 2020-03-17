@@ -34,10 +34,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"gui";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "banner", Nelson::GuiGateway::bannerBuiltin, 0, 0 },
-    { "inserthtml", Nelson::GuiGateway::inserthtmlBuiltin, 0, 1 },
-    { "uigetdir", Nelson::GuiGateway::uigetdirBuiltin, 1, 2 },
-    { "qt_verbose", Nelson::GuiGateway::qt_verboseBuiltin, 1, 1 },
+    { "banner", (void*)Nelson::GuiGateway::bannerBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
+    { "inserthtml", (void*)Nelson::GuiGateway::inserthtmlBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "uigetdir", (void*)Nelson::GuiGateway::uigetdirBuiltin, 1, 2, CPP_BUILTIN },
+    { "qt_verbose", (void*)Nelson::GuiGateway::qt_verboseBuiltin, 1, 1, CPP_BUILTIN },
 
 };
 //=============================================================================

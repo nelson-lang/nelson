@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::I18nGateway::gettextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::I18nGateway::gettextBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

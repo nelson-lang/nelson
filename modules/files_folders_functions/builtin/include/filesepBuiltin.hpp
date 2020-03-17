@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace FilesFoldersGateway {
     ArrayOfVector
-    filesepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    filesepBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

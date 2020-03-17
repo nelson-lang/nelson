@@ -31,7 +31,7 @@ using namespace Nelson;
 // isnh5file(filename)
 //=============================================================================
 ArrayOfVector
-Nelson::Hdf5Gateway::isnh5fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::isnh5fileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 3) {

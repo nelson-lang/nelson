@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace ComEngineGateway {
     ArrayOfVector
-    COM_rangeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    COM_rangeBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

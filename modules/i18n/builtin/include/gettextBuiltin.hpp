@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace I18nGateway {
     ArrayOfVector
-    gettextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    gettextBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::cell2structBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector ret;
     if (nLhs > 1) {

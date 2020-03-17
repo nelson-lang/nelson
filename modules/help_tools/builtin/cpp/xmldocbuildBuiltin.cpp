@@ -31,6 +31,7 @@
 #include "XmlDocListOfDirectories.hpp"
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
+#include "Exception.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 //=============================================================================
@@ -38,7 +39,7 @@ using namespace Nelson;
 //=============================================================================
 // xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)
 ArrayOfVector
-Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 5) {

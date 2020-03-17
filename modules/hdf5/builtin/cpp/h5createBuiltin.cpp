@@ -34,7 +34,7 @@ using namespace Nelson;
 // propertyValueN)
 //=============================================================================
 ArrayOfVector
-Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

@@ -32,7 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dlsym_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::dlsym_getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

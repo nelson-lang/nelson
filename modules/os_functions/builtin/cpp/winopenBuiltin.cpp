@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::OsFunctionsGateway::winopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::OsFunctionsGateway::winopenBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
 #ifdef _MSC_VER

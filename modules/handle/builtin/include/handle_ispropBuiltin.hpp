@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace HandleGateway {
     ArrayOfVector
-    handle_ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    handle_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

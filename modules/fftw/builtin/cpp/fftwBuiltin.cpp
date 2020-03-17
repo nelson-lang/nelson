@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     // str = fftw('dwisdom')
     // str = fftw('swisdom')

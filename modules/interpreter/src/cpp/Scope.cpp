@@ -85,7 +85,7 @@ bool
 Scope::deleteBuiltin(void* fptr)
 {
     clearCache();
-    return BuiltInFunctionDefManager::getInstance()->remove((BuiltInFuncPtr)(fptr));
+    return BuiltInFunctionDefManager::getInstance()->remove(fptr);
 }
 //=============================================================================
 void

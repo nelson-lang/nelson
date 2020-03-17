@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FileArchiverGateway::zipBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FileArchiverGateway::zipBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.empty() || argIn.size() > 3) {

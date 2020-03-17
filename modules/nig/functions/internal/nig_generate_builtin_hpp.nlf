@@ -31,18 +31,17 @@ function txt = nig_generate_builtin_hpp(NIG_FUNCTION)
   begin_txt = {'#pragma once';
   '//=============================================================================';
   '#include "ArrayOf.hpp"';
-  '#include "Evaluator.hpp"';
   '//=============================================================================';
   'namespace Nelson {';
   };
   txt = [txt; begin_txt];
   if isfield(NIG_FUNCTION, 'NELSON_NAMESPACE')
     txt{end + 1} = ['    ', 'namespace ' , NIG_FUNCTION.NELSON_NAMESPACE, 'Gateway {'];
-    txt{end + 1} = ['        ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);'];
+    txt{end + 1} = ['        ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(int nLhs, const ArrayOfVector& argIn);'];
     txt{end + 1} = ['    ', '}'];
     txt{end + 1} = '}';
   else
-   txt{end + 1} = ['    ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);'];
+   txt{end + 1} = ['    ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(int nLhs, const ArrayOfVector& argIn);'];
    txt{end + 1} = '}';
   end
   txt{end + 1} = '//=============================================================================';

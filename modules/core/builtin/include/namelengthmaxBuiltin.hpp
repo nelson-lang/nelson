@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace CoreGateway {
     ArrayOfVector
-    namelengthmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    namelengthmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

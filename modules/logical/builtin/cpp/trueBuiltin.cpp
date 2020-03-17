@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LogicalGateway::trueBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsSparse = false;
     ArrayOfVector retval;

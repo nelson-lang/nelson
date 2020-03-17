@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::maxNumCompThreadsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

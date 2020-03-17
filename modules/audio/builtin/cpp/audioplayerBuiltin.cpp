@@ -35,7 +35,7 @@ using namespace Nelson;
 // playerObj = audioplayer(Y, Fs, nBits, ID)
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

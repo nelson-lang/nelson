@@ -114,7 +114,7 @@ function txt = template(module_name, builtin_table)
     else
       name = k{1}{1};
     end
-    txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);']];
+    txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(int nLhs, const ArrayOfVector& argIn);']];
   end
   txt = [txt; '//============================================================================='];
   txt = [txt; 'const std::wstring gatewayName = L"', module_name, '";'];
@@ -131,7 +131,7 @@ function txt = template(module_name, builtin_table)
       nboutputs = k{1}{2};
       nbinputs = k{1}{3};
     end
-    txt = [txt; ['    { "', name, '", ', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ' },']];
+    txt = [txt; ['    { "', name, '", ', '(void*)' name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ' },']];
   end
   txt = [txt; '};'];
   txt = [txt; '//============================================================================='];

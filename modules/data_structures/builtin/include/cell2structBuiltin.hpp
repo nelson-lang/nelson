@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace DataStructuresGateway {
     ArrayOfVector
-    cell2structBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    cell2structBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

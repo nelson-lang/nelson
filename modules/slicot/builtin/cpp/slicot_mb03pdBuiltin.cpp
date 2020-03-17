@@ -43,7 +43,7 @@ extern "C"
 // [A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03pd(JOBRQ, A_IN, JPVT_IN, RCOND, SVLMAX)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_mb03pdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 6) {

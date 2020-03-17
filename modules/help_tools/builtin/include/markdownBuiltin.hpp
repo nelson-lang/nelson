@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace HelpToolsGateway {
     ArrayOfVector
-    markdownBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    markdownBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

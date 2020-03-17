@@ -29,12 +29,12 @@ fullname = websave(filename, 'http://httpbin.org/delete', o);
 R = jsondecode(fileread(fullname));
 assert_isequal(R.url, 'http://httpbin.org/delete');
 //=============================================================================
-o = weboptions('RequestMethod', 'delete');
-filename = [tempdir(), 'test_websave_delete.json'];
-fullname = websave(filename, 'http://jsonplaceholder.typicode.com/posts/1', o);
-R = jsondecode(fileread(fullname));
-REF = struct();
-assert_isequal(R, REF);
+// o = weboptions('RequestMethod', 'delete',);
+// filename = [tempdir(), 'test_websave_delete.json'];
+// fullname = websave(filename, 'http://jsonplaceholder.typicode.com/posts/1', o);
+// R = jsondecode(fileread(fullname));
+// REF = struct();
+// assert_isequal(R, REF);
 //=============================================================================
 filename = [tempdir(), 'test_websave_delete.json'];
 cmd = 'fullname = websave(filename, ''http://httpbin.org/delete'');';

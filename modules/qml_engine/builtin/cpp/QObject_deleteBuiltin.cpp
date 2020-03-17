@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::QmlEngineGateway::QObject_deleteBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::QmlEngineGateway::QObject_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -34,9 +34,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"sio_client";
 //=============================================================================
 static const nlsGateway gateway[]
-    = { { "sioemit", Nelson::SioClientGateway::sioemitBuiltin, 0, -1 },
-          { "sioregister", Nelson::SioClientGateway::sioregisterBuiltin, 0, 2 },
-          { "siounregister", Nelson::SioClientGateway::siounregisterBuiltin, 0, 1 } };
+    = { { "sioemit", (void*)Nelson::SioClientGateway::sioemitBuiltin, 0, -1, CPP_BUILTIN },
+          { "sioregister", (void*)Nelson::SioClientGateway::sioregisterBuiltin, 0, 2, CPP_BUILTIN },
+          { "siounregister", (void*)Nelson::SioClientGateway::siounregisterBuiltin, 0, 1, CPP_BUILTIN } };
 //=============================================================================
 static bool
 finishSioClientModule(Nelson::Evaluator* eval)

@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace TestsManagerGateway {
     ArrayOfVector
-    test_parsetagsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    test_parsetagsBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

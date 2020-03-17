@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::QmlEngineGateway::QObject_rootBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::QmlEngineGateway::QObject_rootBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 0) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

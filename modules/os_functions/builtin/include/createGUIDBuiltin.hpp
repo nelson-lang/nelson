@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace OsFunctionsGateway {
     ArrayOfVector
-    createGUIDBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    createGUIDBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

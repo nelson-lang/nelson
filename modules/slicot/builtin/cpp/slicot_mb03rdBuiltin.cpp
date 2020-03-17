@@ -44,7 +44,7 @@ extern "C"
 // [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, PMAX, A_IN, X_IN, TOL)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_mb03rdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 7) {

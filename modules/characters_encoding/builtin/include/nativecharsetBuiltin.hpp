@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 namespace CharactersEncodingGateway {
     ArrayOfVector
-    nativecharsetBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    nativecharsetBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

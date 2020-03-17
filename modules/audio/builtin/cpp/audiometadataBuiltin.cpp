@@ -34,7 +34,7 @@ using namespace Nelson;
 // info_previous = audiometadata(filename, info)
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

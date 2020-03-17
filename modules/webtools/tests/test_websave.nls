@@ -54,14 +54,18 @@ assert_istrue(info.bytes > 290000);
 //=============================================================================
 url = 'https://httpbin.org/get';
 filename = [tempdir(), 'test.txt'];
-destination_filename = websave(filename, url,weboptions('ContentType','json'));
+o = weboptions('ContentType','json');
+o.Timeout = 60;
+destination_filename = websave(filename, url, o);
 txt = fileread(filename);
 st = jsondecode(txt);
 assert_isequal(st.url, url);
 //=============================================================================
 url = 'https://stooq.com/q/d/l/?s=^aor&d1=20190401&d2=20190405&i=d/^aor_d.csv';
 filename = [tempdir(), 'test.csv'];
-destination_filename = websave(filename, url);
+o = weboptions();
+o.Timeout = 60;
+destination_filename = websave(filename, url, o);
 info = dir(destination_filename);
 assert_istrue(info.bytes > 200);
 //=============================================================================

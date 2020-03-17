@@ -32,7 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionsGateway::userpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() == 1) {
