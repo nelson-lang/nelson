@@ -53,11 +53,11 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "rmfield", (void*)Nelson::DataStructuresGateway::rmfieldBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "struct", (void*)Nelson::DataStructuresGateway::structBuiltin, 1, 1, CPP_BUILTIN },
-    { "iscellstr", (void*)Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1, CPP_BUILTIN },
-    { "cell", (void*)Nelson::DataStructuresGateway::cellBuiltin, 1, 0, CPP_BUILTIN },
-    { "struct2cell", (void*)Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1, CPP_BUILTIN },
-    { "cell2struct", (void*)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3, CPP_BUILTIN },
+    { "struct", (void*)Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
+    { "iscellstr", (void*)Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },
+    { "cell", (void*)Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },
+    { "struct2cell", (void*)Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
+    { "cell2struct", (void*)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

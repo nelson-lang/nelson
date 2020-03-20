@@ -35,8 +35,8 @@ const std::wstring gatewayName = L"logical";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "logical", (void*)Nelson::LogicalGateway::logicalBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "true", (void*)Nelson::LogicalGateway::trueBuiltin, 1, 1, CPP_BUILTIN },
-    { "false", (void*)Nelson::LogicalGateway::falseBuiltin, 1, 1, CPP_BUILTIN },
+    { "true", (void*)Nelson::LogicalGateway::trueBuiltin, 1, 1 },
+    { "false", (void*)Nelson::LogicalGateway::falseBuiltin, 1, 1 },
     { "xor", (void*)Nelson::LogicalGateway::xorBuiltin, 1, 2 },
 };
 //=============================================================================

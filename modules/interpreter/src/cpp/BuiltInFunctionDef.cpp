@@ -27,6 +27,7 @@
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
+#include "NelsonGateway.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,7 +37,7 @@ BuiltInFunctionDef::BuiltInFunctionDef()
     retCount = 0;
     argCount = 0;
     fptr = nullptr;
-    builtinPrototype = 0;
+    builtinPrototype = (size_t)BUILTIN_PROTOTYPE::CPP_BUILTIN;
 }
 //=============================================================================
 BuiltInFunctionDef::~BuiltInFunctionDef() = default;

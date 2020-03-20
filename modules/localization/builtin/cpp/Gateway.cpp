@@ -34,12 +34,11 @@ using namespace Nelson;
 const std::wstring gatewayName = L"localization";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "getavailablelanguages", (void*)Nelson::LocalizationGateway::getavailablelanguagesBuiltin, 1, 0,
-        CPP_BUILTIN },
-    { "setlanguage", (void*)Nelson::LocalizationGateway::setlanguageBuiltin, 1, 1, CPP_BUILTIN },
-    { "getlanguage", (void*)Nelson::LocalizationGateway::getlanguageBuiltin, 1, 0, CPP_BUILTIN },
-    { "getdefaultlanguage", (void*)Nelson::LocalizationGateway::getdefaultlanguageBuiltin, 1, 0,
-        CPP_BUILTIN },
+    { "getavailablelanguages", (void*)Nelson::LocalizationGateway::getavailablelanguagesBuiltin, 1,
+        0 },
+    { "setlanguage", (void*)Nelson::LocalizationGateway::setlanguageBuiltin, 1, 1 },
+    { "getlanguage", (void*)Nelson::LocalizationGateway::getlanguageBuiltin, 1, 0 },
+    { "getdefaultlanguage", (void*)Nelson::LocalizationGateway::getdefaultlanguageBuiltin, 1, 0 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

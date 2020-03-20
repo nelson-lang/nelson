@@ -61,12 +61,12 @@ static const nlsGateway gateway[] = {
     { "nargin", (void*)Nelson::CoreGateway::narginBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "nargout", (void*)Nelson::CoreGateway::nargoutBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "pause", (void*)Nelson::CoreGateway::pauseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "namelengthmax", (void*)Nelson::CoreGateway::namelengthmaxBuiltin, 1, 1, CPP_BUILTIN },
-    { "format", (void*)Nelson::CoreGateway::formatBuiltin, 1, 1, CPP_BUILTIN },
-    { "nelsonroot", (void*)Nelson::CoreGateway::nelsonrootBuiltin, 1, 0, CPP_BUILTIN },
-    { "version", (void*)Nelson::CoreGateway::versionBuiltin, 2, 1, CPP_BUILTIN },
-    { "prefdir", (void*)Nelson::CoreGateway::prefdirBuiltin, 1, 0, CPP_BUILTIN },
-    { "maxNumCompThreads", (void*)Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1, CPP_BUILTIN },
+    { "namelengthmax", (void*)Nelson::CoreGateway::namelengthmaxBuiltin, 1, 1 },
+    { "format", (void*)Nelson::CoreGateway::formatBuiltin, 1, 1 },
+    { "nelsonroot", (void*)Nelson::CoreGateway::nelsonrootBuiltin, 1, 0 },
+    { "version", (void*)Nelson::CoreGateway::versionBuiltin, 2, 1 },
+    { "prefdir", (void*)Nelson::CoreGateway::prefdirBuiltin, 1, 0 },
+    { "maxNumCompThreads", (void*)Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYNAME()

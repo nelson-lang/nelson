@@ -39,9 +39,10 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "xmldocchecker", (void*)Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "htmltopdf", (void*)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "markdown", (void*)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2, CPP_BUILTIN },
-    { "xmldocbuild", (void*)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5, CPP_BUILTIN },
+    { "htmltopdf", (void*)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "markdown", (void*)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
+    { "xmldocbuild", (void*)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
 
 };
 //=============================================================================

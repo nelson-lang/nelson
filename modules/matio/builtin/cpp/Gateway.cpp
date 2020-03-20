@@ -39,7 +39,7 @@ static const nlsGateway gateway[] = {
     { "loadmat", (void*)Nelson::MatioGateway::loadmatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "whosmat", (void*)Nelson::MatioGateway::whosmatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "whomat", (void*)Nelson::MatioGateway::whomatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "ismatfile", (void*)Nelson::MatioGateway::ismatfileBuiltin, 1, 1, CPP_BUILTIN },
+    { "ismatfile", (void*)Nelson::MatioGateway::ismatfileBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

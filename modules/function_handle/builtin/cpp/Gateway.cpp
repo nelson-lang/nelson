@@ -46,17 +46,15 @@ static const nlsGateway gateway[] = { { "str2func",
         CPP_BUILTIN_WITH_EVALUATOR },
     { "function_handle_disp", (void*)Nelson::FunctionHandleGateway::function_handle_dispBuiltin, 0,
         1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "isfunction_handle", (void*)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1, 1,
-        CPP_BUILTIN },
+    { "isfunction_handle", (void*)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1, 1 },
     { "function_handle_fieldnames",
-        (void*)Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1,
-        CPP_BUILTIN },
+        (void*)Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1 },
     { "function_handle_isequal",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2, CPP_BUILTIN },
+        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
     { "function_handle_isequaln",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2, CPP_BUILTIN },
+        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
     { "function_handle_isequalto",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2, CPP_BUILTIN } };
+        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

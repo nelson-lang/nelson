@@ -33,11 +33,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"characters_encoding";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "unicode2native", (void*)Nelson::CharactersEncodingGateway::unicode2nativeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "native2unicode", (void*)Nelson::CharactersEncodingGateway::native2unicodeBuiltin, 1, 2,
-        CPP_BUILTIN },
-    { "nativecharset", (void*)Nelson::CharactersEncodingGateway::nativecharsetBuiltin, 1, 1, CPP_BUILTIN },
+    { "unicode2native", (void*)Nelson::CharactersEncodingGateway::unicode2nativeBuiltin, 1, 2 },
+    { "native2unicode", (void*)Nelson::CharactersEncodingGateway::native2unicodeBuiltin, 1, 2 },
+    { "nativecharset", (void*)Nelson::CharactersEncodingGateway::nativecharsetBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

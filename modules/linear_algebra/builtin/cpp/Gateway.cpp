@@ -39,14 +39,18 @@ using namespace Nelson;
 const std::wstring gatewayName = L"linear_algebra";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "sqrtm", (void*)Nelson::LinearAlgebraGateway::sqrtmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sqrtm", (void*)Nelson::LinearAlgebraGateway::sqrtmBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "logm", (void*)Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "expm", (void*)Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "schur", (void*)Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "schur", (void*)Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "inv", (void*)Nelson::LinearAlgebraGateway::invBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "trace", (void*)Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "trace", (void*)Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "svd", (void*)Nelson::LinearAlgebraGateway::svdBuiltin, 3, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "rcond", (void*)Nelson::LinearAlgebraGateway::rcondBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "rcond", (void*)Nelson::LinearAlgebraGateway::rcondBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "issymmetric", (void*)Nelson::LinearAlgebraGateway::issymmetricBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
 };

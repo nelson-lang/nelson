@@ -56,7 +56,8 @@ static const nlsGateway gateway[] = {
     { "cosm", (void*)Nelson::TrigonometricGateway::cosmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "sinm", (void*)Nelson::TrigonometricGateway::sinmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "tanm", (void*)Nelson::TrigonometricGateway::tanmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "atan2", (void*)Nelson::TrigonometricGateway::atan2Builtin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "atan2", (void*)Nelson::TrigonometricGateway::atan2Builtin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

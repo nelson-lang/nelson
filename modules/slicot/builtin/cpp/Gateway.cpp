@@ -54,7 +54,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"slicot";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "SLICOTWrapper", (void*)Nelson::SlicotGateway::SLICOTWrapperBuiltin, 1, 2, CPP_BUILTIN },
+    { "SLICOTWrapper", (void*)Nelson::SlicotGateway::SLICOTWrapperBuiltin, 1, 2 },
     { "slicot_sb10jd", (void*)Nelson::SlicotGateway::slicot_sb10jdBuiltin, 7, 5 },
     { "slicot_mb02md", (void*)Nelson::SlicotGateway::slicot_mb02mdBuiltin, 6, 7 },
     { "slicot_sg02ad", (void*)Nelson::SlicotGateway::slicot_sg02adBuiltin, 10, 16 },

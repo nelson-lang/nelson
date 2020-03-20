@@ -38,19 +38,19 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"constructors_functions";
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "eye", (void*)Nelson::ConstructorsGateway::eyeBuiltin, 1, 0, CPP_BUILTIN },
-          { "i", (void*)Nelson::ConstructorsGateway::iBuiltin, 1, 0, CPP_BUILTIN },
-          { "j", (void*)Nelson::ConstructorsGateway::iBuiltin, 1, 0, CPP_BUILTIN },
-          { "nan", (void*)Nelson::ConstructorsGateway::nanBuiltin, 1, 0, CPP_BUILTIN },
-          { "NaN", (void*)Nelson::ConstructorsGateway::nanBuiltin, 1, 0, CPP_BUILTIN },
-          { "inf", (void*)Nelson::ConstructorsGateway::infBuiltin, 1, 0, CPP_BUILTIN },
-          { "Inf", (void*)Nelson::ConstructorsGateway::infBuiltin, 1, 0, CPP_BUILTIN },
-          { "eps", (void*)Nelson::ConstructorsGateway::epsBuiltin, 1, 0, CPP_BUILTIN },
-          { "pi", (void*)Nelson::ConstructorsGateway::piBuiltin, 1, 0, CPP_BUILTIN },
-          { "ones", (void*)Nelson::ConstructorsGateway::onesBuiltin, -1, 1, CPP_BUILTIN },
-          { "zeros", (void*)Nelson::ConstructorsGateway::zerosBuiltin, -1, 1, CPP_BUILTIN },
-          { "diag", (void*)Nelson::ConstructorsGateway::diagBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR } };
+static const nlsGateway gateway[] = { { "eye", (void*)Nelson::ConstructorsGateway::eyeBuiltin, 1,
+                                          0 },
+    { "i", (void*)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
+    { "j", (void*)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
+    { "nan", (void*)Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
+    { "NaN", (void*)Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
+    { "inf", (void*)Nelson::ConstructorsGateway::infBuiltin, 1, 0 },
+    { "Inf", (void*)Nelson::ConstructorsGateway::infBuiltin, 1, 0 },
+    { "eps", (void*)Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
+    { "pi", (void*)Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
+    { "ones", (void*)Nelson::ConstructorsGateway::onesBuiltin, -1, 1 },
+    { "zeros", (void*)Nelson::ConstructorsGateway::zerosBuiltin, -1, 1 },
+    { "diag", (void*)Nelson::ConstructorsGateway::diagBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
