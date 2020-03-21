@@ -44,7 +44,7 @@ static const nlsGateway gateway[] = {
     { "toc", (void*)Nelson::TimeGateway::tocBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
     { "sleep", (void*)Nelson::TimeGateway::sleepBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "datevec", (void*)Nelson::TimeGateway::datevecBuiltin, 6, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "calendar", (void*)Nelson::TimeGateway::calendarBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "calendar", (void*)Nelson::TimeGateway::calendarBuiltin, 1, 2, CPP_BUILTIN },
     { "now", (void*)Nelson::TimeGateway::nowBuiltin, 1, 0 },
     { "clock", (void*)Nelson::TimeGateway::clockBuiltin, 1, 0 },
     { "cputime", (void*)Nelson::TimeGateway::cputimeBuiltin, 1, 0 },

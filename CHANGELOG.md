@@ -8,6 +8,8 @@
 
 * simplify builtin default prototype (breaking change). Evaluator is no more required for builtin.
 
+* NelsonPrint internal function added.
+
 
 Bug Fixes:
 ---------

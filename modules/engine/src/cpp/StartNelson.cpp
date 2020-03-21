@@ -62,6 +62,7 @@
 #include "WarningIds.hpp"
 #include "WarningEmitter.h"
 #include "ErrorEmitter.h"
+#include "NelsonPrint.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -332,6 +333,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (eval != nullptr) {
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
+        setPrintInterface(eval->getInterface());
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);
         if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty()) {

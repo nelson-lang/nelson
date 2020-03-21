@@ -52,7 +52,6 @@ static const nlsGateway gateway[] = {
     { "exit", (void*)Nelson::CoreGateway::exitBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "run", (void*)Nelson::CoreGateway::runBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "nfilename", (void*)Nelson::CoreGateway::nfilenameBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "banner", (void*)Nelson::CoreGateway::bannerBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
     { "execstr", (void*)Nelson::CoreGateway::execstrBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "eval", (void*)Nelson::CoreGateway::evalBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "evalc", (void*)Nelson::CoreGateway::evalcBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
@@ -67,6 +66,7 @@ static const nlsGateway gateway[] = {
     { "version", (void*)Nelson::CoreGateway::versionBuiltin, 2, 1 },
     { "prefdir", (void*)Nelson::CoreGateway::prefdirBuiltin, 1, 0 },
     { "maxNumCompThreads", (void*)Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1 },
+    { "banner", (void*)Nelson::CoreGateway::bannerBuiltin, 0, 0 },
 };
 //=============================================================================
 NLSGATEWAYNAME()

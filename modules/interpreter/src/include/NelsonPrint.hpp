@@ -23,32 +23,34 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DisplayCharacters.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include "Interface.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
-{
-    if (A.isRowVectorCharacterArray()) {
-        std::wstring msg = A.getContentAsWideString();
-        if (msg.empty()) {
-            if (fromDispBuiltin) {
-                io->outputMessage("");
-            } else {
-                io->outputMessage("\'\'\n");
-            }
-        } else {
-            if (fromDispBuiltin) {
-                io->outputMessage(msg + L"\n");
-            } else {
-                io->outputMessage(L"\'" + msg + L"\'\n");
-            }
-        }
-    } else {
-        A.printMe(io);
-    }
+NLSINTERPRETER_IMPEXP void
+setPrintInterface(Interface* io);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+NelsonPrint(const std::wstring& msg);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+NelsonPrint(const std::string& msg);
+//=============================================================================
 }
 //=============================================================================
-} // namespace Nelson
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSINTERPRETER_IMPEXP int
+    NelsonPrint(const wchar_t* msg);
+//=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

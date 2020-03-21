@@ -251,6 +251,7 @@
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\MtimesOperator.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
+    <ClCompile Include="..\cpp\NelsonPrint.cpp" />
     <ClCompile Include="..\cpp\NeOperator.cpp" />
     <ClCompile Include="..\cpp\NotOperator.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />
@@ -352,6 +353,7 @@
     <ClInclude Include="..\include\PathFunc.hpp" />
     <ClInclude Include="..\include\PathFuncManager.hpp" />
     <ClInclude Include="..\include\PositionScript.hpp" />
+    <ClInclude Include="..\include\NelsonPrint.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
     <ClInclude Include="..\include\ProfilerHelpers.hpp" />
     <ClInclude Include="..\include\Scope.hpp" />

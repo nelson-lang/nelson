@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace FunctionsGateway {
     ArrayOfVector
-    pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    pathBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

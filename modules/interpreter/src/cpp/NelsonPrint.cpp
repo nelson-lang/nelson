@@ -23,32 +23,43 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DisplayCharacters.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static Interface* currentInterface = nullptr;
+//=============================================================================
 void
-DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+setPrintInterface(Interface* io)
 {
-    if (A.isRowVectorCharacterArray()) {
-        std::wstring msg = A.getContentAsWideString();
-        if (msg.empty()) {
-            if (fromDispBuiltin) {
-                io->outputMessage("");
-            } else {
-                io->outputMessage("\'\'\n");
-            }
-        } else {
-            if (fromDispBuiltin) {
-                io->outputMessage(msg + L"\n");
-            } else {
-                io->outputMessage(L"\'" + msg + L"\'\n");
-            }
-        }
-    } else {
-        A.printMe(io);
+    currentInterface = io;
+}
+//=============================================================================
+void
+NelsonPrint(const std::wstring& msg)
+{
+    if (currentInterface) {
+        currentInterface->outputMessage(msg);
     }
 }
 //=============================================================================
-} // namespace Nelson
+void
+NelsonPrint(const std::string& msg)
+{
+    if (currentInterface) {
+        currentInterface->outputMessage(msg);
+    }
+}
+//=============================================================================
+}
+//=============================================================================
+int
+NelsonPrint(const wchar_t* msg)
+{
+    if (Nelson::currentInterface) {
+        Nelson::currentInterface->outputMessage(msg);
+        return (int)wcslen(msg);
+    }
+    return -1;
+}
 //=============================================================================
