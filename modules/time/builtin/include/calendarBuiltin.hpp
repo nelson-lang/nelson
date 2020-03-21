@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace TimeGateway {
     ArrayOfVector
-    calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    calendarBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

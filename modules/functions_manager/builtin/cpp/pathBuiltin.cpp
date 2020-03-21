@@ -32,11 +32,12 @@
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "ToCellString.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() > 2) {
@@ -48,20 +49,14 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (argIn.size() == 0) {
         if (nLhs == 0) {
             wstringVector list = PathFuncManager::getInstance()->getPathNameVector();
-            Interface* io = eval->getInterface();
-            if (io != nullptr) {
-                if (list.empty()) {
-                    io->outputMessage(_W("The path is empty. Please restore path.") + L"\n");
-                } else {
-                    io->outputMessage(
-                        _W("Nelson's search path contains the following directories:") + L"\n");
-                    io->outputMessage(L"\n");
-                    for (size_t k = 0; k < list.size(); ++k) {
-                        io->outputMessage(L"	" + list[k] + L"\n");
-                    }
-                }
+            if (list.empty()) {
+                NelsonPrint(_W("The path is empty. Please restore path.") + L"\n");
             } else {
-                retval.push_back(ToCellStringAsColumn(list));
+                NelsonPrint(_W("Nelson's search path contains the following directories:") + L"\n");
+                NelsonPrint(L"\n");
+                for (size_t k = 0; k < list.size(); ++k) {
+                    NelsonPrint(L"	" + list[k] + L"\n");
+                }
             }
         } else {
             retval.push_back(ArrayOf::characterArrayConstructor(

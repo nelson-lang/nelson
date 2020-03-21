@@ -44,7 +44,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"functions_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "which", (void*)Nelson::FunctionsGateway::whichBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "which", (void*)Nelson::FunctionsGateway::whichBuiltin, 1, 1 },
     { "macroargs", (void*)Nelson::FunctionsGateway::macroargsBuiltin, 2, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "builtin", (void*)Nelson::FunctionsGateway::builtinBuiltin, -1, -1,
@@ -55,7 +55,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "clearfun", (void*)Nelson::FunctionsGateway::clearfunBuiltin, 1, 1 },
     { "rmpath", (void*)Nelson::FunctionsGateway::rmpathBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "path", (void*)Nelson::FunctionsGateway::pathBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "path", (void*)Nelson::FunctionsGateway::pathBuiltin, 1, 2 },
     { "ismacro", (void*)Nelson::FunctionsGateway::ismacroBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isbuiltin", (void*)Nelson::FunctionsGateway::isbuiltinBuiltin, 1, 1,

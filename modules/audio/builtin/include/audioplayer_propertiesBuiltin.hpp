@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace AudioGateway {
     ArrayOfVector
-    audioplayer_propertiesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

@@ -47,9 +47,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"files_folders_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "pwd", (void*)Nelson::FilesFoldersGateway::pwdBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
-    { "cd", (void*)Nelson::FilesFoldersGateway::cdBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "dir", (void*)Nelson::FilesFoldersGateway::dirBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "pwd", (void*)Nelson::FilesFoldersGateway::pwdBuiltin, 1, 0 },
+    { "dir", (void*)Nelson::FilesFoldersGateway::dirBuiltin, 1, 1 },
+    { "cd", (void*)Nelson::FilesFoldersGateway::cdBuiltin, 1, 1 },
     { "isdir", (void*)Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },
     { "isfolder", (void*)Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },
     { "isfile", (void*)Nelson::FilesFoldersGateway::isfileBuiltin, 1, 1 },

@@ -59,7 +59,7 @@ static const nlsGateway gateway[] = { { "clear", (void*)Nelson::MemoryGateway::c
     { "varislock", (void*)Nelson::MemoryGateway::varislockBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isvar", (void*)Nelson::MemoryGateway::isvarBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "memory", (void*)Nelson::MemoryGateway::memoryBuiltin, 2, 0, CPP_BUILTIN_WITH_EVALUATOR } };
+    { "memory", (void*)Nelson::MemoryGateway::memoryBuiltin, 2, 0, CPP_BUILTIN } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

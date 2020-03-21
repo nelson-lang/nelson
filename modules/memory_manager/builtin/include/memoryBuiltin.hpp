@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace MemoryGateway {
     ArrayOfVector
-    memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    memoryBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

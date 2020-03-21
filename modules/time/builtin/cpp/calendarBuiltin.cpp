@@ -26,13 +26,14 @@
 #include "calendarBuiltin.hpp"
 #include "Calendar.hpp"
 #include "Error.hpp"
+#include "NelsonPrint.hpp"
 #include "ToCellString.hpp"
 #include <boost/format.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     Calendar* cal = nullptr;
@@ -81,10 +82,7 @@ Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     case 0: {
         std::wstring msg = cal->getAsFormatedText();
         delete cal;
-        Interface* io = eval->getInterface();
-        if (io) {
-            io->outputMessage(msg);
-        }
+        NelsonPrint(msg);
     } break;
     case 1: {
         retval.push_back(cal->get());

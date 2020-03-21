@@ -30,11 +30,12 @@
 #include "StringFormat.hpp"
 #include <boost/container/vector.hpp>
 #include "NelsonConfiguration.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     std::wstring wpath;
@@ -73,11 +74,10 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     boost::container::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);
     if (nLhs == 0) {
-        Interface* io = eval->getInterface();
         if (res.empty()) {
             std::wstring msg = std::wstring(L"\'") + wpath + std::wstring(L"\' ")
                 + _W("Not a file or a directory.");
-            io->outputMessage(msg);
+            NelsonPrint(msg);
         } else {
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
@@ -86,12 +86,12 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                 }
                 if (it->isDir()) {
                     if (it->getName() == L"." || it->getName() == L"..") {
-                        io->outputMessage(it->getName() + L"\n");
+                        NelsonPrint(it->getName() + L"\n");
                     } else {
-                        io->outputMessage(it->getName() + L"/" + L"\n");
+                        NelsonPrint(it->getName() + L"/" + L"\n");
                     }
                 } else {
-                    io->outputMessage(it->getName() + L"\n");
+                    NelsonPrint(it->getName() + L"\n");
                 }
             }
         }

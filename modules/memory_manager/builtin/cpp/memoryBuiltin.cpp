@@ -26,11 +26,12 @@
 #include "memoryBuiltin.hpp"
 #include "Error.hpp"
 #include "MemoryInformation.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MemoryGateway::memoryBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 2) {
@@ -40,31 +41,26 @@ Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs == 0) {
-        Interface* io = eval->getInterface();
-        if (io != nullptr) {
-            std::wstring msg;
-            unsigned int val;
-            val = static_cast<unsigned int>(getTotalPhysicalMemoryByNelson() * 9.54e-7);
-            msg = _W("Physical Memory used by Nelson:") + L" " + std::to_wstring(val) + L" MB"
-                + L" (" + std::to_wstring(static_cast<uint64>(getTotalPhysicalMemoryByNelson()))
-                + L" bytes)" + L"\n";
-            io->outputMessage(msg);
-            val = static_cast<unsigned int>(getTotalVirtualMemoryByNelson() * 9.54e-7);
-            msg = _W("Virtual Memory used by Nelson:") + L" " + std::to_wstring(val) + L" MB"
-                + L" (" + std::to_wstring(static_cast<uint64>(getTotalVirtualMemoryByNelson()))
-                + L" bytes)" + L"\n";
-            io->outputMessage(msg);
-            val = static_cast<unsigned int>(getTotalPhysicalMemory() * 9.54e-7);
-            msg = _W("Physical Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
-                + std::to_wstring(static_cast<uint64>(getTotalPhysicalMemory())) + L" bytes)"
-                + L"\n";
-            io->outputMessage(msg);
-            val = static_cast<unsigned int>(getTotalVirtualMemory() * 9.54e-7);
-            msg = _W("Virtual Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
-                + std::to_wstring(static_cast<uint64>(getTotalVirtualMemory())) + L" bytes)"
-                + L"\n";
-            io->outputMessage(msg);
-        }
+        std::wstring msg;
+        unsigned int val;
+        val = static_cast<unsigned int>(getTotalPhysicalMemoryByNelson() * 9.54e-7);
+        msg = _W("Physical Memory used by Nelson:") + L" " + std::to_wstring(val) + L" MB" + L" ("
+            + std::to_wstring(static_cast<uint64>(getTotalPhysicalMemoryByNelson())) + L" bytes)"
+            + L"\n";
+        NelsonPrint(msg);
+        val = static_cast<unsigned int>(getTotalVirtualMemoryByNelson() * 9.54e-7);
+        msg = _W("Virtual Memory used by Nelson:") + L" " + std::to_wstring(val) + L" MB" + L" ("
+            + std::to_wstring(static_cast<uint64>(getTotalVirtualMemoryByNelson())) + L" bytes)"
+            + L"\n";
+        NelsonPrint(msg);
+        val = static_cast<unsigned int>(getTotalPhysicalMemory() * 9.54e-7);
+        msg = _W("Physical Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
+            + std::to_wstring(static_cast<uint64>(getTotalPhysicalMemory())) + L" bytes)" + L"\n";
+        NelsonPrint(msg);
+        val = static_cast<unsigned int>(getTotalVirtualMemory() * 9.54e-7);
+        msg = _W("Virtual Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
+            + std::to_wstring(static_cast<uint64>(getTotalVirtualMemory())) + L" bytes)" + L"\n";
+        NelsonPrint(msg);
     }
     if (nLhs > 0) {
         wstringVector fieldnames;

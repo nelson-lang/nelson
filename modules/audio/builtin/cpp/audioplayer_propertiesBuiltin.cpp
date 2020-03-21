@@ -29,12 +29,12 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "ToCellString.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audioplayer_propertiesBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
@@ -50,20 +50,17 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objPlayer->fieldnames();
     if (nLhs == 0) {
-        Interface* io = eval->getInterface();
-        if (io != nullptr) {
-            std::wstring msg;
-            if (fieldnames.empty()) {
-                msg = _W("No property for class: audioplayer.") + L"\n";
-            } else {
-                msg = _W("Properties for class: audioplayer:") + L"\n\n";
-                for (size_t k = 0; k < fieldnames.size(); k++) {
-                    msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
-                }
-                msg = msg + std::wstring(L"\n");
+        std::wstring msg;
+        if (fieldnames.empty()) {
+            msg = _W("No property for class: audioplayer.") + L"\n";
+        } else {
+            msg = _W("Properties for class: audioplayer:") + L"\n\n";
+            for (size_t k = 0; k < fieldnames.size(); k++) {
+                msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
             }
-            io->outputMessage(msg);
+            msg = msg + std::wstring(L"\n");
         }
+        NelsonPrint(msg);
     } else {
         retval.push_back(ToCellStringAsColumn(fieldnames));
     }

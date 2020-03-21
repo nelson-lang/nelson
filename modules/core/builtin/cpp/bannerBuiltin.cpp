@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::CoreGateway::bannerBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (!argIn.empty()) {
@@ -39,7 +39,7 @@ Nelson::CoreGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    Banner(eval);
+    Banner();
     return retval;
 }
 //=============================================================================
