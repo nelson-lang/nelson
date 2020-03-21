@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TextEditorGateway::smartindentBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TextEditorGateway::smartindentBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

@@ -26,6 +26,6 @@
 dlgenerategateway(tempdir(), 'test_gw', {{'cpp_sum', 1, 2}, {'cpp_sub', 3, 4}});
 assert_istrue(isfile([tempdir(), 'Gateway.cpp']));
 txt = fileread([tempdir(), 'Gateway.cpp']);
-assert_istrue(contains(txt, '{ "cpp_sum", cpp_sumBuiltin, 1, 2 },'));
-assert_istrue(contains(txt, '{ "cpp_sub", cpp_subBuiltin, 3, 4 },'));
+assert_istrue(contains(txt, '{ "cpp_sum", (void*)cpp_sumBuiltin, 1, 2 },'));
+assert_istrue(contains(txt, '{ "cpp_sub", (void*)cpp_subBuiltin, 3, 4 },'));
 //=============================================================================

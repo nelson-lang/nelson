@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace OsFunctionsGateway {
     ArrayOfVector
-    setenvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    setenvBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

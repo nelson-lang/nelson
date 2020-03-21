@@ -47,7 +47,7 @@ extern "C"
 // slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_ag08bdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 14) {

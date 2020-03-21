@@ -43,7 +43,7 @@ extern "C"
 // [DP_OUT, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_mc01tdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_mc01tdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 5) {

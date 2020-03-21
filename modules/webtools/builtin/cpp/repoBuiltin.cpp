@@ -37,7 +37,7 @@ using namespace Nelson;
 // tags = repo('tag', local_path)
 //=============================================================================
 ArrayOfVector
-Nelson::WebtoolsGateway::repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 2) {

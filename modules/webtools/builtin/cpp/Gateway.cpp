@@ -32,8 +32,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"webtools";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "webREST", Nelson::WebtoolsGateway::webRESTBuiltin, 1, 5 },
-    { "repo", Nelson::WebtoolsGateway::repoBuiltin, 1, 2 },
+    { "webREST", (void*)Nelson::WebtoolsGateway::webRESTBuiltin, 1, 5, CPP_BUILTIN_WITH_EVALUATOR },
+    { "repo", (void*)Nelson::WebtoolsGateway::repoBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

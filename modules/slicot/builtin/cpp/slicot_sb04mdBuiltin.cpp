@@ -43,7 +43,7 @@ extern "C"
 // [A_OUT, B_OUT, C_OUT, Z, INFO] = slicot_sb04md(A_IN, B_IN, C_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_sb04mdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_sb04mdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 5) {

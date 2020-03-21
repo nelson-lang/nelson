@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TimeGateway::nowBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TimeGateway::nowBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ComEngineGateway::COM_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ComEngineGateway::COM_setBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 3) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

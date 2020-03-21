@@ -42,21 +42,24 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"memory_manager";
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "clear", Nelson::MemoryGateway::clearBuiltin, 0, 1 },
-    { "who", Nelson::MemoryGateway::whoBuiltin, 1, 1 },
-    { "whos", Nelson::MemoryGateway::whosBuiltin, 1, 1 },
-    { "global", Nelson::MemoryGateway::globalBuiltin, 0, -1 },
-    { "isglobal", Nelson::MemoryGateway::isglobalBuiltin, 1, 1 },
-    { "persistent", Nelson::MemoryGateway::persistentBuiltin, 0, -1 },
-    { "assignin", Nelson::MemoryGateway::assigninBuiltin, 0, 3 },
-    { "acquirevar", Nelson::MemoryGateway::acquirevarBuiltin, 1, 3 },
-    { "varlock", Nelson::MemoryGateway::varlockBuiltin, -1, 2 },
-    { "varunlock", Nelson::MemoryGateway::varunlockBuiltin, 0, 2 },
-    { "varislock", Nelson::MemoryGateway::varislockBuiltin, 1, 2 },
-    { "memory", Nelson::MemoryGateway::memoryBuiltin, 2, 0 },
-    { "isvar", Nelson::MemoryGateway::isvarBuiltin, 1, -1 },
-};
+static const nlsGateway gateway[] = { { "clear", (void*)Nelson::MemoryGateway::clearBuiltin, 0, 1,
+                                          CPP_BUILTIN_WITH_EVALUATOR },
+    { "who", (void*)Nelson::MemoryGateway::whoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "whos", (void*)Nelson::MemoryGateway::whosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "global", (void*)Nelson::MemoryGateway::globalBuiltin, 0, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "isglobal", (void*)Nelson::MemoryGateway::isglobalBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "persistent", (void*)Nelson::MemoryGateway::persistentBuiltin, 0, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "assignin", (void*)Nelson::MemoryGateway::assigninBuiltin, 0, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "acquirevar", (void*)Nelson::MemoryGateway::acquirevarBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "varlock", (void*)Nelson::MemoryGateway::varlockBuiltin, -1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "varunlock", (void*)Nelson::MemoryGateway::varunlockBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "varislock", (void*)Nelson::MemoryGateway::varislockBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "isvar", (void*)Nelson::MemoryGateway::isvarBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "memory", (void*)Nelson::MemoryGateway::memoryBuiltin, 2, 0, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

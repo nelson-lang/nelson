@@ -44,19 +44,20 @@ using namespace Nelson;
 const std::wstring gatewayName = L"trigonometric_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "cos", Nelson::TrigonometricGateway::cosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sin", Nelson::TrigonometricGateway::sinBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "tan", Nelson::TrigonometricGateway::tanBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "cosh", Nelson::TrigonometricGateway::coshBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sinh", Nelson::TrigonometricGateway::sinhBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "tanh", Nelson::TrigonometricGateway::tanhBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "acos", Nelson::TrigonometricGateway::acosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "asin", Nelson::TrigonometricGateway::asinBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "atan", Nelson::TrigonometricGateway::atanBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sinm", Nelson::TrigonometricGateway::sinmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "tanm", Nelson::TrigonometricGateway::tanmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "atan2", Nelson::TrigonometricGateway::atan2Builtin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "cos", (void*)Nelson::TrigonometricGateway::cosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sin", (void*)Nelson::TrigonometricGateway::sinBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tan", (void*)Nelson::TrigonometricGateway::tanBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "cosh", (void*)Nelson::TrigonometricGateway::coshBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sinh", (void*)Nelson::TrigonometricGateway::sinhBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tanh", (void*)Nelson::TrigonometricGateway::tanhBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "acos", (void*)Nelson::TrigonometricGateway::acosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "asin", (void*)Nelson::TrigonometricGateway::asinBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "atan", (void*)Nelson::TrigonometricGateway::atanBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "cosm", (void*)Nelson::TrigonometricGateway::cosmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sinm", (void*)Nelson::TrigonometricGateway::sinmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tanm", (void*)Nelson::TrigonometricGateway::tanmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "atan2", (void*)Nelson::TrigonometricGateway::atan2Builtin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

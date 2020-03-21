@@ -33,8 +33,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"history_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "history_manager", Nelson::HistoryManagerGateway::history_managerBuiltin, 1, 1 },
-    { "history", Nelson::HistoryManagerGateway::historyBuiltin, 0, 0 },
+    { "history_manager", (void*)Nelson::HistoryManagerGateway::history_managerBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "history", (void*)Nelson::HistoryManagerGateway::historyBuiltin, 0, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 static bool

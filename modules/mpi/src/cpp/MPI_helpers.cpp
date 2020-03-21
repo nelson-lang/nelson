@@ -266,16 +266,16 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
     }
     if (dataClass == NLS_STRING_ARRAY) {
         auto* dp = new ArrayOf[outDim.getElementCount()];
-        int elementCount = outDim.getElementCount();
-        for (int i = 0; i < elementCount; i++) {
+        indexType elementCount = outDim.getElementCount();
+        for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_STRING_ARRAY, outDim, dp);
     }
     if (dataClass == NLS_CELL_ARRAY) {
         auto* dp = new ArrayOf[outDim.getElementCount()];
-        int elementCount = outDim.getElementCount();
-        for (int i = 0; i < elementCount; i++) {
+        indexType elementCount = outDim.getElementCount();
+        for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_CELL_ARRAY, outDim, dp);
@@ -317,9 +317,9 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 Error(_W("String expected."));
             }
         } else {
-            int elementCount = fieldcnt * outDim.getElementCount();
+            indexType elementCount = (indexType)(fieldcnt * outDim.getElementCount());
             auto* dp = new ArrayOf[elementCount];
-            for (int i = 0; i < elementCount; i++) {
+            for (indexType i = 0; i < elementCount; i++) {
                 dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
             }
             ArrayOf returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);

@@ -49,7 +49,7 @@ extern "C"
 // JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_sg02adBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 10) {

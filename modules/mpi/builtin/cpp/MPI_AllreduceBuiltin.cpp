@@ -34,7 +34,7 @@ using namespace Nelson;
 // x = MPI_Allreduce(A, operation, comm)
 //=============================================================================
 ArrayOfVector
-Nelson::MpiGateway::MPI_AllreduceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MpiGateway::MPI_AllreduceBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {

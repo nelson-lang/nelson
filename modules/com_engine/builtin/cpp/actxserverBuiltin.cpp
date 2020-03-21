@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ComEngineGateway::actxserverBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ComEngineGateway::actxserverBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
 #ifdef _MSC_VER

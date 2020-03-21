@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOfVector
-Nelson::MatioGateway::ismatfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MatioGateway::ismatfileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 3) {

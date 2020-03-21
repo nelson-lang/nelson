@@ -33,6 +33,7 @@
 #include "Error.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "i18n.hpp"
+#include "NelsonGateway.hpp"
 //=============================================================================
 #ifndef _MSC_VER
 static std::jmp_buf buf;
@@ -40,6 +41,9 @@ static int error_code = 0;
 #endif
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+using BuiltInWithEvaluatorFuncPtr = ArrayOfVector (*)(Evaluator*, int, const ArrayOfVector&);
+using BuiltInFuncPtr = ArrayOfVector (*)(int, const ArrayOfVector&);
 //=============================================================================
 #ifdef _MSC_VER
 class InfoFromSE
@@ -122,13 +126,23 @@ signal_handler(int signal_code)
 //=============================================================================
 ArrayOfVector
 EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, BuiltInFuncPtr fptr, ArrayOfVector& inputs, int nargout)
+    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
 {
     ArrayOfVector outputs;
 #ifdef _MSC_VER
     _set_se_translator(translator_SE);
+
     try {
-        outputs = fptr(eval, nargout, inputs);
+        switch (builtinPrototype) {
+        case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
+            BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+            outputs = builtinPtr(nargout, inputs);
+        } break;
+        case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
+            BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+            outputs = builtinPtr(eval, nargout, inputs);
+        } break;
+        default: { } break; }
     } catch (const std::runtime_error& e) {
         _set_se_translator(nullptr);
         Error(e.what());
@@ -140,7 +154,16 @@ EvaluateBuiltinCatchRuntimeException(
     signal(SIGFPE, signal_handler);
     signal(SIGILL, signal_handler);
     if (!(setjmp(buf))) {
-        outputs = fptr(eval, nargout, inputs);
+        switch (builtinPrototype) {
+        case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
+            BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+            outputs = builtinPtr(nargout, inputs);
+        } break;
+        case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
+            BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+            outputs = builtinPtr(eval, nargout, inputs);
+        } break;
+        default: { } break; }
     } else {
         std::string error_message = "";
         switch (error_code) {

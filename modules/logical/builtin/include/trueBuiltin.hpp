@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace LogicalGateway {
     ArrayOfVector
-    trueBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    trueBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

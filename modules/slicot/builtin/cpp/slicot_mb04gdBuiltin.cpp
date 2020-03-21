@@ -42,7 +42,7 @@ extern "C"
 // [A_OUT, JPVT_OUT, TAU, INFO] = slicot_mb04gd(A_IN, JPVT_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_mb04gdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 4) {

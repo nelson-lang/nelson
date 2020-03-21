@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ConstructorsGateway::nanBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     uint32 m = 1;
     uint32 n = 1;

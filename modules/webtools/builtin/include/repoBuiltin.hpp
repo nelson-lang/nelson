@@ -33,7 +33,7 @@ namespace Nelson {
 namespace WebtoolsGateway {
     //=============================================================================
     ArrayOfVector
-    repoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    repoBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

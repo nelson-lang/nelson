@@ -26,13 +26,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 namespace ModulesManagerGateway {
     ArrayOfVector
-    semverBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    semverBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

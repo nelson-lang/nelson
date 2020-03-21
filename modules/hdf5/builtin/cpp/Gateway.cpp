@@ -41,16 +41,16 @@ using namespace Nelson;
 const std::wstring gatewayName = L"hdf5";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "h5write", Nelson::Hdf5Gateway::h5writeBuiltin, 0, 3, CPP_BUILTIN },
-    { "h5writeatt", Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1, CPP_BUILTIN },
-    { "h5readatt", Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3, CPP_BUILTIN },
-    { "h5read", Nelson::Hdf5Gateway::h5readBuiltin, 1, 2, CPP_BUILTIN },
-    { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },
-    { "loadnh5", Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN },
-    { "savenh5", Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN },
-    { "isnh5file", Nelson::Hdf5Gateway::isnh5fileBuiltin, 1, 1, CPP_BUILTIN },
-    { "whosnh5", Nelson::Hdf5Gateway::whosnh5Builtin, 1, 1, CPP_BUILTIN },
-    { "whonh5", Nelson::Hdf5Gateway::whonh5Builtin, 1, 1, CPP_BUILTIN },
+    { "whosnh5", (void*)Nelson::Hdf5Gateway::whosnh5Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "whonh5", (void*)Nelson::Hdf5Gateway::whonh5Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "loadnh5", (void*)Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "savenh5", (void*)Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "h5write", (void*)Nelson::Hdf5Gateway::h5writeBuiltin, 0, 3 },
+    { "h5writeatt", (void*)Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1 },
+    { "h5readatt", (void*)Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3 },
+    { "h5read", (void*)Nelson::Hdf5Gateway::h5readBuiltin, 1, 2 },
+    { "h5create", (void*)Nelson::Hdf5Gateway::h5createBuiltin, 0, -4 },
+    { "isnh5file", (void*)Nelson::Hdf5Gateway::isnh5fileBuiltin, 1, 1 },
 };
 //=============================================================================
 static bool

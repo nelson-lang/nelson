@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace ConstructorsGateway {
     ArrayOfVector
-    piBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    piBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

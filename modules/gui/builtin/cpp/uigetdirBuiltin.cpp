@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GuiGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

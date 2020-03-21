@@ -32,7 +32,7 @@ using namespace Nelson;
 // attval = h5readatt(filename, location, attr)
 //=============================================================================
 ArrayOfVector
-Nelson::Hdf5Gateway::h5readattBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::h5readattBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

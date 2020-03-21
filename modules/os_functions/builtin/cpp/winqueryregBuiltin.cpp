@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::OsFunctionsGateway::winqueryregBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::OsFunctionsGateway::winqueryregBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
 #ifdef _MSC_VER

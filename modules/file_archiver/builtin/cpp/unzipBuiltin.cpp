@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FileArchiverGateway::unzipBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FileArchiverGateway::unzipBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.empty() || argIn.size() > 2) {

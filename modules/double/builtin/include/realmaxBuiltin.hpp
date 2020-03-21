@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace DoubleGateway {
     ArrayOfVector
-    realmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    realmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

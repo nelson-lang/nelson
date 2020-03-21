@@ -33,7 +33,7 @@ using namespace Nelson;
 // h5writeatt(filename, location, attname, attvalue, 'TextEncoding', encoding)
 //=============================================================================
 ArrayOfVector
-Nelson::Hdf5Gateway::h5writeattBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::h5writeattBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

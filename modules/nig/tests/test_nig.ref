@@ -30,7 +30,7 @@ const std::wstring gatewayName = L"example";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "example_nig_sum", Nelson::ExampleGateway::example_nig_sumBuiltin, 1, 2},
+    { "example_nig_sum", (void*)Nelson::ExampleGateway::example_nig_sumBuiltin, 1, 2},
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
@@ -67,11 +67,10 @@ ans =
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
     namespace ExampleGateway {
-        ArrayOfVector example_nig_sumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+        ArrayOfVector example_nig_sumBuiltin(int nLhs, const ArrayOfVector& argIn);
     }
 }
 //============================================================================='

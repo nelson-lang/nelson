@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace DoubleGateway {
     ArrayOfVector
-    flintmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

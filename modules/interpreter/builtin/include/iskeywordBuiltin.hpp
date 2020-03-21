@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace InterpreterGateway {
     ArrayOfVector
-    iskeywordBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    iskeywordBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
   //=============================================================================

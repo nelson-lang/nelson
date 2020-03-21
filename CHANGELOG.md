@@ -6,6 +6,9 @@
 
 * save and load with .mat, .nh5 files support unicode filename on all platforms.
 
+* simplify builtin default prototype (breaking change). Evaluator is no more required for builtin.
+
+
 Bug Fixes:
 ---------
 

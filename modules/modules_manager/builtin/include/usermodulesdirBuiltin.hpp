@@ -26,13 +26,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 namespace ModulesManagerGateway {
     ArrayOfVector
-    usermodulesdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    usermodulesdirBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

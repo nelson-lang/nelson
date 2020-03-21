@@ -40,15 +40,15 @@ using namespace Nelson;
 const std::wstring gatewayName = L"time";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "tic", Nelson::TimeGateway::ticBuiltin, 0, 0, CPP_BUILTIN },
-    { "toc", Nelson::TimeGateway::tocBuiltin, 1, 0, CPP_BUILTIN },
-    { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 2, CPP_BUILTIN },
-    { "sleep", Nelson::TimeGateway::sleepBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "now", Nelson::TimeGateway::nowBuiltin, 1, 0, CPP_BUILTIN },
-    { "clock", Nelson::TimeGateway::clockBuiltin, 1, 0, CPP_BUILTIN },
-    { "cputime", Nelson::TimeGateway::cputimeBuiltin, 1, 0, CPP_BUILTIN },
-    { "datenum", Nelson::TimeGateway::datenumBuiltin, 1, 6, CPP_BUILTIN },
-    { "datevec", Nelson::TimeGateway::datevecBuiltin, 6, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "tic", (void*)Nelson::TimeGateway::ticBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
+    { "toc", (void*)Nelson::TimeGateway::tocBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sleep", (void*)Nelson::TimeGateway::sleepBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "datevec", (void*)Nelson::TimeGateway::datevecBuiltin, 6, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "calendar", (void*)Nelson::TimeGateway::calendarBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "now", (void*)Nelson::TimeGateway::nowBuiltin, 1, 0 },
+    { "clock", (void*)Nelson::TimeGateway::clockBuiltin, 1, 0 },
+    { "cputime", (void*)Nelson::TimeGateway::cputimeBuiltin, 1, 0 },
+    { "datenum", (void*)Nelson::TimeGateway::datenumBuiltin, 1, 6 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

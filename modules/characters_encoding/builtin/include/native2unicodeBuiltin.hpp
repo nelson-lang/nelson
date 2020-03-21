@@ -26,13 +26,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 namespace CharactersEncodingGateway {
     ArrayOfVector
-    native2unicodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    native2unicodeBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson
