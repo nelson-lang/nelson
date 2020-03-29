@@ -23,14 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
-}
-//=============================================================================
+status = copyfile('mexPrintf.c', tempdir());
+assert_istrue(status);
+cd(tempdir()); 
+mex('mexPrintf.c');
+run('loader.nls');
+R = evalc('mexPrintf()');
+REF = 'Result 0
+Result 1
+
+ans =
+
+     []
+';
+assert_isequal(R, REF);

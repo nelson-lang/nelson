@@ -25,12 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
-}
+#ifdef _MSC_VER
+#ifdef NLSMEX_EXPORTS
+#define NLSMEX_IMPEXP __declspec(dllexport)
+#else
+#define NLSMEX_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSMEX_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

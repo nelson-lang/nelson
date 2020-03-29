@@ -34,6 +34,8 @@
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "i18n.hpp"
 #include "NelsonGateway.hpp"
+#include "mex.h"
+#include "MexConverters.hpp"
 //=============================================================================
 #ifndef _MSC_VER
 static std::jmp_buf buf;
@@ -44,6 +46,7 @@ namespace Nelson {
 //=============================================================================
 using BuiltInWithEvaluatorFuncPtr = ArrayOfVector (*)(Evaluator*, int, const ArrayOfVector&);
 using BuiltInFuncPtr = ArrayOfVector (*)(int, const ArrayOfVector&);
+using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================
 #ifdef _MSC_VER
 class InfoFromSE
@@ -124,31 +127,117 @@ signal_handler(int signal_code)
 }
 #endif
 //=============================================================================
+#ifdef _MSC_VER
 ArrayOfVector
 EvaluateBuiltinCatchRuntimeException(
     Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
 {
     ArrayOfVector outputs;
-#ifdef _MSC_VER
-    _set_se_translator(translator_SE);
-
-    try {
-        switch (builtinPrototype) {
-        case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
-            BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+    switch (builtinPrototype) {
+    case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
+        BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+        _set_se_translator(translator_SE);
+        try {
             outputs = builtinPtr(nargout, inputs);
-        } break;
-        case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
-            BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
-            outputs = builtinPtr(eval, nargout, inputs);
-        } break;
-        default: { } break; }
-    } catch (const std::runtime_error& e) {
+        } catch (const std::runtime_error& e) {
+            _set_se_translator(nullptr);
+            Error(e.what());
+        }
         _set_se_translator(nullptr);
-        Error(e.what());
+
+    } break;
+    case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
+        BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+        _set_se_translator(translator_SE);
+        try {
+            outputs = builtinPtr(eval, nargout, inputs);
+        } catch (const std::runtime_error& e) {
+            _set_se_translator(nullptr);
+            Error(e.what());
+        }
+        _set_se_translator(nullptr);
+
+    } break;
+    case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
+        mxArray** mxArgsIn = nullptr;
+        mxArray** mxArgsOut = nullptr;
+
+        try {
+            mxArgsIn = new mxArray*[inputs.size()];
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+        int nlhs = (int)inputs.size();
+        int lhsCount = nargout;
+        lhsCount = (lhsCount < 1) ? 1 : lhsCount;
+        try {
+            mxArgsOut = new mxArray*[lhsCount];
+            for (size_t i = 0; i < lhsCount; ++i) {
+                mxArgsOut[i] = nullptr;
+            }
+        } catch (const std::bad_alloc&) {
+            for (size_t i = 0; i < inputs.size(); i++) {
+                mxDestroyArray(mxArgsIn[i]);
+            }
+            delete[] mxArgsIn;
+            mxArgsIn = nullptr;
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+
+        for (size_t i = 0; i < inputs.size(); ++i) {
+            mxArgsIn[i] = ArrayOfToMxArray(inputs[i]);
+        }
+
+        MexFuncPtr builtinPtr = (MexFuncPtr)fptr;
+        _set_se_translator(translator_SE);
+
+        try {
+            builtinPtr(nargout, mxArgsOut, nlhs, (const mxArray**)mxArgsIn);
+        } catch (const std::runtime_error& e) {
+            _set_se_translator(nullptr);
+            for (size_t i = 0; i < inputs.size(); i++) {
+                mxDestroyArray(mxArgsIn[i]);
+            }
+            delete[] mxArgsIn;
+            mxArgsIn = nullptr;
+
+            for (int i = 0; i < lhsCount; i++) {
+                mxDestroyArray(mxArgsOut[i]);
+            }
+            delete[] mxArgsOut;
+            mxArgsOut = nullptr;
+
+            Error(e.what());
+        }
+        _set_se_translator(nullptr);
+        for (int i = 0; i < lhsCount; i++) {
+            outputs.push_back(MxArrayToArrayOf(mxArgsOut[i]));
+            mxDestroyArray(mxArgsOut[i]);
+        }
+        delete[] mxArgsOut;
+        mxArgsOut = nullptr;
+
+        for (int i = 0; i < inputs.size(); i++) {
+            mxDestroyArray(mxArgsIn[i]);
+        }
+        delete[] mxArgsIn;
+        mxArgsIn = nullptr;
+
+    } break;
+    default: {
+        Error(_("BUILTIN type not managed."));
+    } break;
     }
-    _set_se_translator(nullptr);
-#else
+    return outputs;
+}
+#endif
+//=============================================================================
+#ifndef _MSC_VER
+ArrayOfVector
+EvaluateBuiltinCatchRuntimeException(
+    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
+{
+    ArrayOfVector outputs;
     error_code = 0;
     signal(SIGSEGV, signal_handler);
     signal(SIGFPE, signal_handler);
@@ -163,7 +252,9 @@ EvaluateBuiltinCatchRuntimeException(
             BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
             outputs = builtinPtr(eval, nargout, inputs);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } else {
         std::string error_message = "";
         switch (error_code) {
@@ -189,9 +280,9 @@ EvaluateBuiltinCatchRuntimeException(
     signal(SIGSEGV, SIG_DFL);
     signal(SIGFPE, SIG_DFL);
     signal(SIGILL, SIG_DFL);
-#endif
     return outputs;
 }
+#endif
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

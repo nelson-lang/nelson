@@ -23,14 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "mex.h"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+   mxArray* pOut = NULL;
+  if(nrhs != 3)
+   {
+       mexErrMsgTxt("Wrong number or type of input argument");
+   }
+   if (!mxIsStruct(prhs[0]))
+   {
+     mexErrMsgTxt("Struct expected");
+   }
+   mwIndex index = (mwIndex)mxGetScalar(prhs[1]);
+   int fieldnumber = (int)mxGetScalar(prhs[2]);
+   pOut = mxGetFieldByNumber(prhs[0], index, fieldnumber);
+   if (pOut == NULL) pOut = mxCreateLogicalScalar(false);
+   plhs[0] = pOut;
 }
 //=============================================================================

@@ -23,54 +23,44 @@
 # License along with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-set(module_name interpreter)
-set(module_library_name nlsInterpreter)
+set(module_name mex)
+set(module_library_name nlsMex)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
-	${EIGEN3_INCLUDE_DIR}
-	${Boost_INCLUDE_DIRS}
-	${CMAKE_CURRENT_SOURCE_DIR}/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/src/grammar
-	${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/FileWatcher
-	${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../profiler/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
+${Boost_INCLUDE_DIRS}
+${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
 FILE(
 GLOB
-INTERPRETER_SRC
+FILE_ARCHIVER_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/FileWatcher/*.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp"
 )
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_name}
 	SHARED 
-	${INTERPRETER_SRC}
+	${FILE_ARCHIVER_SRC}
 )
 #==============================================================================	
 target_link_libraries(${module_library_name}
-nlsCharacters_encoding
+nlsInterpreter
 nlsNelson_manager
-nlsElementary_functions
-nlsError_manager
-nlsStream_manager
 nlsTypes
+nlsElementary_functions
+nlsElementary_mathematics
+nlsCharacters_encoding
 nlsI18n
-nlsOs_functions
-nlsProfiler
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	
@@ -80,31 +70,35 @@ set_target_properties(${module_library_name}
 #==============================================================================	
 FILE(
 GLOB
-INTERPRETER_BUILTIN
+MEX_BUILTIN
 "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp"
 )
 #==============================================================================	
 include_directories(
 ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_builtin_name}
 	SHARED 
-	${INTERPRETER_BUILTIN}
+	${MEX_BUILTIN}
 )
 #==============================================================================	
 target_link_libraries(${module_library_builtin_name}
 ${module_library_name}
 nlsError_manager
+nlsInterpreter
+nlsOverload
 nlsTypes
-nlsCharacters_encoding
+nlsApi_nelson
 nlsI18n
+nlsString
+${BOOST_LIBRARIES}
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
@@ -118,10 +112,6 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINAT
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.hpp")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.zip")
 #==============================================================================
-
-

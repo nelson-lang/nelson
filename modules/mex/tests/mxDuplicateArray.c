@@ -23,34 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "mex.h"
 //=============================================================================
-#include <string>
-#include "Interface.hpp"
-#include "nlsInterpreter_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-setPrintInterface(Interface* io);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-NelsonPrint(const std::wstring& msg);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-NelsonPrint(const std::string& msg);
-//=============================================================================
-}
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-#endif
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP int
-    NelsonPrint(const wchar_t* msg);
-//=============================================================================
-#ifdef __cplusplus
+   mxArray* pOut = NULL;;
+     if(nrhs != 1)
+   {
+       mexErrMsgTxt("Wrong number or type of input argument");
+   }
+   pOut = mxDuplicateArray(prhs[0]);
+   plhs[0] = pOut;
 }
-#endif
 //=============================================================================

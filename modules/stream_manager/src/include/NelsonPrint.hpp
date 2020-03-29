@@ -23,65 +23,34 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "BuiltInFunctionDef.hpp"
-#include "EvaluateBuiltinCatchRuntimeException.hpp"
-#include "Profiler.hpp"
-#include "ProfilerHelpers.hpp"
-#include "NelsonGateway.hpp"
-#include "mex.h"
+#pragma once
+//=============================================================================
+#include <string>
+#include "Interface.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-BuiltInFunctionDef::BuiltInFunctionDef()
-{
-    fileName.clear();
-    retCount = 0;
-    argCount = 0;
-    fptr = nullptr;
-    builtinPrototype = (size_t)BUILTIN_PROTOTYPE::CPP_BUILTIN;
+NLSSTREAM_MANAGER_IMPEXP void
+setPrintInterface(Interface* io);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP void
+NelsonPrint(const std::wstring& msg);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP void
+NelsonPrint(const std::string& msg);
+//=============================================================================
 }
 //=============================================================================
-BuiltInFunctionDef::~BuiltInFunctionDef() = default;
-//=============================================================================
-ArrayOfVector
-BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
+#ifdef __cplusplus
+extern "C"
 {
-    ArrayOfVector outputs;
-    eval->pushDebug(name, std::string("built-in ") + this->name);
-    size_t stackDepth = eval->cstack.size();
-    if (builtinPrototype == BUILTIN_PROTOTYPE::C_MEX_BUILTIN) {
-        setMexFunctionName(this->name.c_str());
-    }
-    uint64 tic = 0;
-    try {
-        tic = Profiler::getInstance()->tic();
-        outputs
-            = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout, builtinPrototype);
-        if (tic != 0) {
-            internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
-            Profiler::getInstance()->toc(tic, stack);
-        }
-        while (eval->cstack.size() > stackDepth) {
-            eval->cstack.pop_back();
-        }
-        eval->popDebug();
-        return outputs;
-    } catch (const Exception&) {
-        if (tic != 0) {
-            internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
-            Profiler::getInstance()->toc(tic, stack);
-        }
-        while (eval->cstack.size() > stackDepth) {
-            eval->cstack.pop_back();
-        }
-        eval->popDebug();
-        throw;
-    }
+#endif
+    //=============================================================================
+    NLSSTREAM_MANAGER_IMPEXP int
+    NelsonPrint(const wchar_t* msg);
+//=============================================================================
+#ifdef __cplusplus
 }
-//=============================================================================
-void
-BuiltInFunctionDef::printMe(Interface* io)
-{}
-//=============================================================================
-} // namespace Nelson
+#endif
 //=============================================================================

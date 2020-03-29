@@ -25,12 +25,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "mex.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsMex_exports.h"
 //=============================================================================
 namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
+//=============================================================================
+NLSMEX_IMPEXP
+mxArray*
+ArrayOfToMxArray(const ArrayOf& nlsArrayOf);
+//=============================================================================
+NLSMEX_IMPEXP
+ArrayOf
+MxArrayToArrayOf(mxArray* mtlbArray);
+//=============================================================================
 }
 //=============================================================================

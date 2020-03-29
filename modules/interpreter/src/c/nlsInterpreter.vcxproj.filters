@@ -184,9 +184,6 @@
     <ClCompile Include="..\cpp\ColonOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\NelsonPrint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
@@ -350,9 +347,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\GenericTable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\NelsonPrint.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

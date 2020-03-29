@@ -23,14 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+if ~isbuiltin('mxDuplicateArray')
+    status = copyfile('mxDuplicateArray.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxDuplicateArray.c');
+    run('loader.nls');
+end    
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+//REF = {1, single(2); '读写汉字 - 学中文', false};
+//R = mxDuplicateArray(REF);
+//assert_isequal(R, REF);
+
+
+ST.a = 1;
+ST.b = single(2);
+//ST.c = '读写汉字 - 学中文';
+//ST.d = false;
+R = mxDuplicateArray(ST);
+assert_isequal(R, ST);
 //=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
-}
-//=============================================================================
+

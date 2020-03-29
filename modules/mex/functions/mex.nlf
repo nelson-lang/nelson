@@ -23,14 +23,44 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
-}
-//=============================================================================
+function mex(varargin)
+    if nargin() == 0
+        error('blabla')
+    end
+    filenames = {};
+    functionName = '';
+    param1 = varargin{1};
+    idxFilenames = 1;
+    if strcmp(param1, '-output')
+        functionName = varargin{2};
+        idxFilenames = 3;
+    else
+        [p, f, e ] = fileparts(varargin{1});
+        functionName = f;
+    end
+    filenames = varargin(idxFilenames:end);
+    destinationPath = fileparts(varargin{idxFilenames}, 'path');
+    if isempty(destinationPath)
+        destinationPath = pwd();
+    end
+    builtin_table = {{functionName, -1, -1, 'C_MEX_BUILTIN'}};
+    dlgeneratecleaner(destinationPath);
+    dlgenerategateway(destinationPath, functionName, builtin_table);
+    filenames = [filenames, 'Gateway.cpp'];
+    [status, message] = dlgeneratemake(destinationPath, ...
+    functionName, ...
+    filenames, ...
+     [{destinationPath}; dlgetnelsonincludes()], ...
+     [], ...
+     dlgetnelsonlibraries());
+    if ~status
+        error(message);
+    end
+    dlgenerateloader(destinationPath, functionName, true);
+    dlgenerateunloader(destinationPath, functionName, true);
+    [status, message] = dlmake(destinationPath);
+    if ~status
+        error(message);
+    end
+
+endfunction

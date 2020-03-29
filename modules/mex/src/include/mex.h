@@ -25,12 +25,44 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include <matrix.h>
+#include <stdarg.h>
+#include "nlsMex_exports.h"
 //=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP int
+    mexPrintf(const char* format, ...);
+    //=============================================================================
+    NLSMEX_IMPEXP void
+    mexErrMsgTxt(const char* error_msg);
+    //=============================================================================
+    NLSMEX_IMPEXP void
+    mexErrMsgIdAndTxt(const char* identifier,
+        const char* err_msg,
+        ...);
+    //=============================================================================
+    NLSMEX_IMPEXP void
+    mexWarnMsgTxt(const char* warn_msg);
+    //=============================================================================
+    NLSMEX_IMPEXP void
+    mexWarnMsgIdAndTxt(const char* warningid, const char* warningmsg, ...);
+    //=============================================================================
+    NLSMEX_IMPEXP int
+    mexAtExit(void (*ExitFcn)(void));
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void 
+    setMexFunctionName(const char* functionName);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    const char*
+    mexFunctionName(void);
+    //=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================

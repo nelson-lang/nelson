@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NelSon-gui", "modules\main\nelson_gui\NelSon-gui.vcxproj", "{F34BD496-D9B3-4C25-A9E9-C91EB3E35C12}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -257,6 +257,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		modules\modules.nls.in = modules\modules.nls.in
 		modules\modules.nls.vc = modules\modules.nls.vc
 		tools\innosetup\Nelson.iss = tools\innosetup\Nelson.iss
+		modules\mex\src\c\nlsMex.vcxproj = modules\mex\src\c\nlsMex.vcxproj
 		etc\startup.nls = etc\startup.nls
 	EndProjectSection
 EndProject
@@ -403,6 +404,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsWebtools", "modules\webtools\src\c\nlsWebtools.vcxproj", "{F6495DD9-6FF5-485B-9393-767327A4DD79}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsWebtools_builtin", "modules\webtools\builtin\c\nlsWebtools_builtin.vcxproj", "{9CAC9DB7-E5FF-40F6-BB14-1A64A7A059B6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsMex", "modules\mex\src\c\nlsMex.vcxproj", "{A3EEB626-83DB-426D-B483-37A478EE8166}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1384,6 +1387,14 @@ Global
 		{9CAC9DB7-E5FF-40F6-BB14-1A64A7A059B6}.Release|Win32.Build.0 = Release|Win32
 		{9CAC9DB7-E5FF-40F6-BB14-1A64A7A059B6}.Release|x64.ActiveCfg = Release|x64
 		{9CAC9DB7-E5FF-40F6-BB14-1A64A7A059B6}.Release|x64.Build.0 = Release|x64
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Debug|Win32.Build.0 = Debug|Win32
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Debug|x64.ActiveCfg = Debug|x64
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Debug|x64.Build.0 = Debug|x64
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Release|Win32.ActiveCfg = Release|Win32
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Release|Win32.Build.0 = Release|Win32
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Release|x64.ActiveCfg = Release|x64
+		{A3EEB626-83DB-426D-B483-37A478EE8166}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -248,6 +248,9 @@
     <ProjectReference Include="..\..\..\sio_client\src\c\nlsSio_client.vcxproj">
       <Project>{31effd09-dc10-4163-bc2f-4f285f96a7d6}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\terminal\src\c\nlsTerminal.vcxproj">
       <Project>{636d4715-9889-4a8e-9404-3b05cb7734d1}</Project>
     </ProjectReference>
