@@ -1,4 +1,4 @@
-# 0.4.3 (2020-03-XX)
+# 0.4.3 (2020-03-30)
 
 * mean builtin: Mean elements of an array with nanflag and 'all' support.
 
@@ -28,7 +28,7 @@ Compilation:
 
 * HDF5 1.12.0 support
 
-* BISON 3.5.0 
+* BISON 3.5.0
 
 
 
