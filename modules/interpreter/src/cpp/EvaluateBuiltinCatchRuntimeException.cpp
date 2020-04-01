@@ -238,6 +238,9 @@ EvaluateBuiltinCatchRuntimeException(
     Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
 {
     ArrayOfVector outputs;
+    mxArray** mxArgsIn = nullptr;
+    mxArray** mxArgsOut = nullptr;
+    int lhsCount = 0;
     error_code = 0;
     signal(SIGSEGV, signal_handler);
     signal(SIGFPE, signal_handler);
@@ -252,10 +255,69 @@ EvaluateBuiltinCatchRuntimeException(
             BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
             outputs = builtinPtr(eval, nargout, inputs);
         } break;
+        case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
+            mxArray** mxArgsIn = nullptr;
+            mxArray** mxArgsOut = nullptr;
+
+            try {
+                mxArgsIn = new mxArray*[inputs.size()];
+            } catch (const std::bad_alloc&) {
+                Error(ERROR_MEMORY_ALLOCATION);
+            }
+            int nlhs = (int)inputs.size();
+            lhsCount = nargout;
+            lhsCount = (lhsCount < 1) ? 1 : lhsCount;
+            try {
+                mxArgsOut = new mxArray*[lhsCount];
+                for (size_t i = 0; i < lhsCount; ++i) {
+                    mxArgsOut[i] = nullptr;
+                }
+            } catch (const std::bad_alloc&) {
+                for (size_t i = 0; i < inputs.size(); i++) {
+                    mxDestroyArray(mxArgsIn[i]);
+                }
+                delete[] mxArgsIn;
+                mxArgsIn = nullptr;
+                Error(ERROR_MEMORY_ALLOCATION);
+            }
+
+            for (size_t i = 0; i < inputs.size(); ++i) {
+                mxArgsIn[i] = ArrayOfToMxArray(inputs[i]);
+            }
+
+            MexFuncPtr builtinPtr = (MexFuncPtr)fptr;
+            builtinPtr(nargout, mxArgsOut, nlhs, (const mxArray**)mxArgsIn);
+            for (int i = 0; i < lhsCount; i++) {
+                outputs.push_back(MxArrayToArrayOf(mxArgsOut[i]));
+                mxDestroyArray(mxArgsOut[i]);
+            }
+            delete[] mxArgsOut;
+            mxArgsOut = nullptr;
+
+            for (int i = 0; i < inputs.size(); i++) {
+                mxDestroyArray(mxArgsIn[i]);
+            }
+            delete[] mxArgsIn;
+            mxArgsIn = nullptr;
+        } break;
         default: {
         } break;
         }
     } else {
+        if (mxArgsIn) {
+            for (int i = 0; i < inputs.size(); i++) {
+                mxDestroyArray(mxArgsIn[i]);
+            }
+            delete[] mxArgsIn;
+            mxArgsIn = nullptr;
+        }
+        if (mxArgsOut) {
+            for (int i = 0; i < lhsCount; i++) {
+                mxDestroyArray(mxArgsOut[i]);
+            }
+            delete[] mxArgsOut;
+            mxArgsOut = nullptr;
+        }
         std::string error_message = "";
         switch (error_code) {
         case SIGSEGV: {

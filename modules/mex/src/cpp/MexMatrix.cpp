@@ -32,6 +32,7 @@
 #include <set>
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include "matrix.h"
 #include "characters_encoding.hpp"
 #include "mex.h"

@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <vector>
+#include <cstring>
 #include "mex.h"
 #include "NelsonPrint.hpp"
 #include "characters_encoding.hpp"
@@ -122,7 +123,7 @@ mexWarnMsgIdAndTxt(const char* warningid, const char* warningmsg, ...)
 #ifdef _MSC_VER
         int ret = _vsnprintf_s(buff.data(), size, _TRUNCATE, warningmsg, ap);
 #else
-        int ret = vsnprintf(buff.data(), size, err_msg, ap);
+        int ret = vsnprintf(buff.data(), size, warningmsg, ap);
 #endif
         if (ret != -1) {
             break;

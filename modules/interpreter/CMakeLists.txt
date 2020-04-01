@@ -71,6 +71,7 @@ nlsTypes
 nlsI18n
 nlsOs_functions
 nlsProfiler
+nlsMex
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	

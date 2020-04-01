@@ -30,13 +30,10 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
@@ -54,13 +51,12 @@ ADD_LIBRARY(
 )
 #==============================================================================	
 target_link_libraries(${module_library_name}
-nlsInterpreter
-nlsNelson_manager
-nlsTypes
-nlsElementary_functions
-nlsElementary_mathematics
 nlsCharacters_encoding
+nlsError_manager
 nlsI18n
+nlsNelson_manager
+nlsStream_manager
+nlsTypes
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	
@@ -68,45 +64,7 @@ set_target_properties(${module_library_name}
                       PROPERTIES 
                       VERSION ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE} SOVERSION ${Nelson_VERSION_MAJOR})
 #==============================================================================	
-FILE(
-GLOB
-MEX_BUILTIN
-"${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp"
-)
-#==============================================================================	
-include_directories(
-${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-${CMAKE_CURRENT_SOURCE_DIR}/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
-)
-#==============================================================================	
-ADD_LIBRARY(
-	${module_library_builtin_name}
-	SHARED 
-	${MEX_BUILTIN}
-)
-#==============================================================================	
-target_link_libraries(${module_library_builtin_name}
-${module_library_name}
-nlsError_manager
-nlsInterpreter
-nlsOverload
-nlsTypes
-nlsApi_nelson
-nlsI18n
-nlsString
-${BOOST_LIBRARIES}
-)
-#==============================================================================
-set_target_properties(${module_library_builtin_name}
-                      PROPERTIES 
-                      VERSION ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE} SOVERSION ${Nelson_VERSION_MAJOR})
-#==============================================================================	
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS ${module_library_builtin_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc) 
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
