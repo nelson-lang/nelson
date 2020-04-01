@@ -300,9 +300,7 @@ EvaluateBuiltinCatchRuntimeException(
             delete[] mxArgsIn;
             mxArgsIn = nullptr;
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     } else {
         if (mxArgsIn) {
             for (int i = 0; i < inputs.size(); i++) {

@@ -41,9 +41,7 @@ extern "C"
     mexErrMsgTxt(const char* error_msg);
     //=============================================================================
     NLSMEX_IMPEXP void
-    mexErrMsgIdAndTxt(const char* identifier,
-        const char* err_msg,
-        ...);
+    mexErrMsgIdAndTxt(const char* identifier, const char* err_msg, ...);
     //=============================================================================
     NLSMEX_IMPEXP void
     mexWarnMsgTxt(const char* warn_msg);
@@ -55,7 +53,7 @@ extern "C"
     mexAtExit(void (*ExitFcn)(void));
     //=============================================================================
     NLSMEX_IMPEXP
-    void 
+    void
     setMexFunctionName(const char* functionName);
     //=============================================================================
     NLSMEX_IMPEXP
