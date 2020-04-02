@@ -23,21 +23,44 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#include <cmath>
+#include <limits>
+#include "matrix.h"
+#include "MxHelpers.hpp"
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+bool
+mxIsInf(double value)
+{
+    return std::isinf(value);
+}
+//=============================================================================
+bool
+mxIsNaN(double value)
+{
+    return std::isnan(value);
+}
+//=============================================================================
+bool
+mxIsFinite(double value)
+{
+    return std::isfinite(value);
+}
+//=============================================================================
+double
+mxGetNaN(void)
+{
+    return std::nan("NaN");
+}
+//=============================================================================
+double
+mxGetInf(void)
+{
+    return std::numeric_limits<double>::infinity();
+}
+//=============================================================================
+double
+mxGetEps(void)
+{
+    return std::numeric_limits<double>::epsilon();
+}
 //=============================================================================

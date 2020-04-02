@@ -23,21 +23,41 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#pragma once
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+#include "nlsMex_exports.h"
+#include "mex.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsClass(const mxArray* pm, const char* classname);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxClassID
+    mxGetClassID(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    const char*
+    mxGetClassName(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxSetClassName(mxArray* array_ptr, const char* classname);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxGetProperty(const mxArray* pa, mwIndex index, const char* propname);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* value);
+    //=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

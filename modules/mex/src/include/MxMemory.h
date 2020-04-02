@@ -23,21 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#pragma once
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+#include "nlsMex_exports.h"
+#include "MxTypes.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void*
+    mxMalloc(mwSize n);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void*
+    mxCalloc(mwSize n, mwSize size);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void*
+    mxRealloc(void* ptr, mwSize size);
+    //=============================================================================
+    NLSMEX_IMPEXP void
+    mxFree(void* ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxDestroyArray(mxArray* pm);
+//=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

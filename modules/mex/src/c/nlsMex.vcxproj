@@ -162,7 +162,18 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Mex.cpp" />
     <ClCompile Include="..\cpp\MexConverters.cpp" />
-    <ClCompile Include="..\cpp\MexMatrix.cpp" />
+    <ClCompile Include="..\cpp\MxAsserts.cpp" />
+    <ClCompile Include="..\cpp\MxAttributes.cpp" />
+    <ClCompile Include="..\cpp\MxCell.cpp" />
+    <ClCompile Include="..\cpp\MxCharacter.cpp" />
+    <ClCompile Include="..\cpp\MxConstants.cpp" />
+    <ClCompile Include="..\cpp\MxHelpers.cpp" />
+    <ClCompile Include="..\cpp\MxLogical.cpp" />
+    <ClCompile Include="..\cpp\MxMemory.cpp" />
+    <ClCompile Include="..\cpp\MxNonComplexFloat.cpp" />
+    <ClCompile Include="..\cpp\MxNumericTypes.cpp" />
+    <ClCompile Include="..\cpp\MxObject.cpp" />
+    <ClCompile Include="..\cpp\MxStruct.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -194,9 +205,21 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\MxHelpers.hpp" />
     <ClInclude Include="..\include\matrix.h" />
     <ClInclude Include="..\include\MexConverters.hpp" />
-    <ClInclude Include="..\include\mxArray.h" />
+    <ClInclude Include="..\include\MxAsserts.h" />
+    <ClInclude Include="..\include\MxAttributes.h" />
+    <ClInclude Include="..\include\MxCell.h" />
+    <ClInclude Include="..\include\MxCharacter.h" />
+    <ClInclude Include="..\include\MxConstants.h" />
+    <ClInclude Include="..\include\MxLogical.h" />
+    <ClInclude Include="..\include\MxMemory.h" />
+    <ClInclude Include="..\include\MxNonComplexFloat.h" />
+    <ClInclude Include="..\include\MxNumericTypes.h" />
+    <ClInclude Include="..\include\MxObject.h" />
+    <ClInclude Include="..\include\MxStruct.h" />
+    <ClInclude Include="..\include\MxTypes.h" />
     <ClInclude Include="..\include\NLSMEX_EXPORTS.h" />
     <ClInclude Include="..\include\mex.h" />
   </ItemGroup>

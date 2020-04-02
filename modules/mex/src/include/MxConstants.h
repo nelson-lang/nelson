@@ -23,21 +23,42 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#pragma once
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
+#include "nlsMex_exports.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsInf(double value);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsNaN(double value);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsFinite(double value);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    double
+    mxGetNaN(void);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    double
+    mxGetInf(void);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    double
+    mxGetEps(void);
+    //=============================================================================
 
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+//=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

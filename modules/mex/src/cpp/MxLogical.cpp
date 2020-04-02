@@ -23,21 +23,29 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#include "matrix.h"
+#include "MxHelpers.hpp"
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+mxArray*
+mxCreateLogicalScalar(mxLogical value)
+{
+    mxArray* ret = mxCreateLogicalMatrix(1, 1);
+    ((mxLogical*)ret->realdata)[0] = value;
+    return ret;
+}
+//=============================================================================
+mxArray*
+mxCreateLogicalMatrix(mwSize m, mwSize n)
+{
+    mwSize dims[2];
+    dims[0] = m;
+    dims[1] = n;
+    return mxCreateLogicalArray(2, dims);
+}
+//=============================================================================
+mxArray*
+mxCreateLogicalArray(mwSize ndim, const mwSize* dims)
+{
+    return mxAllocateRealArray(ndim, dims, sizeof(mxLogical), mxLOGICAL_CLASS);
+}
 //=============================================================================

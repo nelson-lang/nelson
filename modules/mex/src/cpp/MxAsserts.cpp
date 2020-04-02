@@ -23,21 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#include "mex.h"
+#include "MxAsserts.h"
+#include "i18n.hpp"
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+void
+mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
+{
+    if (test != nullptr) {
+        if (message && message[0]) {
+            mexErrMsgIdAndTxt("Nelson:MEX",
+                _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
+                fname, message);
+        } else {
+            mexErrMsgIdAndTxt("Nelson:MEX",
+                _("Assertion failed: %s, at line %d of file \"%s\".\n").c_str(), test, linenum,
+                fname);
+        }
+    }
+}
 //=============================================================================

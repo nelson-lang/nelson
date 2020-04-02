@@ -23,21 +23,37 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#pragma once
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+#include "nlsMex_exports.h"
+#include "MxTypes.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** fieldnames);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateStructMatrix(mwSize m, mwSize n, int nfields, const char** fieldnames);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsStruct(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxGetNumberOfFields(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber);
+//=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

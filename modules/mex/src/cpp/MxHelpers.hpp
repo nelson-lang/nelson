@@ -23,21 +23,31 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mexPrintf.c');
-     run('loader.nls');
-end
+#pragma once
 //=============================================================================
-R = evalc('mexPrintf()');
-REF = 'Result 0
-Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
-';
-assert_isequal(R, REF);
+#include "ArrayOf.hpp"
+#include "matrix.h"
+//=============================================================================
+mxArray*
+mxNewArray();
+//=============================================================================
+mxArray*
+mxAllocateRealArray(
+    mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized = true);
+//=============================================================================
+mxArray*
+mxAllocateComplexArray(
+    mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized = true);
+//=============================================================================
+mwSize
+countElements(mwSize ndim, const mwSize* dims);
+//=============================================================================
+mwSize*
+copyDims(mwSize ndim, const mwSize* dims);
+//=============================================================================
+mwSize
+sizeFromClass(mxClassID classid);
+//=============================================================================
+mwSize*
+GetDimensions(const Nelson::ArrayOf& array, mwSize& numdims);
 //=============================================================================
