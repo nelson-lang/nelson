@@ -25,13 +25,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
+#include "nlsMex_exports.h"
+#include "mex.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr,
-    const std::string& functionName, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxCallBuiltin(void* fptr, const std::string& functionName, const Nelson::ArrayOfVector& argIn,
+        int nargout, Nelson::ArrayOfVector& argOut);
+    //=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================

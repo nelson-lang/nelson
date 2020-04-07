@@ -28,7 +28,6 @@
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "NelsonGateway.hpp"
-#include "mex.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,14 +48,11 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
     ArrayOfVector outputs;
     eval->pushDebug(name, std::string("built-in ") + this->name);
     size_t stackDepth = eval->cstack.size();
-    if (builtinPrototype == BUILTIN_PROTOTYPE::C_MEX_BUILTIN) {
-        setMexFunctionName(this->name.c_str());
-    }
     uint64 tic = 0;
     try {
         tic = Profiler::getInstance()->tic();
-        outputs
-            = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout, builtinPrototype);
+        outputs = EvaluateBuiltinCatchRuntimeException(
+            eval, fptr, this->name, inputs, nargout, builtinPrototype);
         if (tic != 0) {
             internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
             Profiler::getInstance()->toc(tic, stack);

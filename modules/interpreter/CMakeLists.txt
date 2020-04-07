@@ -44,7 +44,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../profiler/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
 )
 #==============================================================================	
 FILE(
@@ -71,7 +70,6 @@ nlsTypes
 nlsI18n
 nlsOs_functions
 nlsProfiler
-nlsMex
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	

@@ -161,9 +161,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Mex.cpp" />
-    <ClCompile Include="..\cpp\MexConverters.cpp" />
+    <ClCompile Include="..\cpp\MxArrayOf.cpp" />
     <ClCompile Include="..\cpp\MxAsserts.cpp" />
     <ClCompile Include="..\cpp\MxAttributes.cpp" />
+    <ClCompile Include="..\cpp\MxCall.cpp" />
+    <ClCompile Include="..\cpp\MxCallBuitin.cpp" />
     <ClCompile Include="..\cpp\MxCell.cpp" />
     <ClCompile Include="..\cpp\MxCharacter.cpp" />
     <ClCompile Include="..\cpp\MxConstants.cpp" />
@@ -184,6 +186,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
@@ -207,9 +212,11 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\MxHelpers.hpp" />
     <ClInclude Include="..\include\matrix.h" />
-    <ClInclude Include="..\include\MexConverters.hpp" />
+    <ClInclude Include="..\include\MxArrayOf.hpp" />
     <ClInclude Include="..\include\MxAsserts.h" />
     <ClInclude Include="..\include\MxAttributes.h" />
+    <ClInclude Include="..\include\MxCall.h" />
+    <ClInclude Include="..\include\MxCallBuiltin.hpp" />
     <ClInclude Include="..\include\MxCell.h" />
     <ClInclude Include="..\include\MxCharacter.h" />
     <ClInclude Include="..\include\MxConstants.h" />

@@ -25,13 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr,
-    const std::string& functionName, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
-}
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+CallMexBuiltin(void* fptr, const std::string& functionName, const ArrayOfVector& inputArgs,
+    int nargout, ArrayOfVector& outputArgs);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

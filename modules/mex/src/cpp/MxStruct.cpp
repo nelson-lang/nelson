@@ -26,7 +26,7 @@
 #include "mex.h"
 #include "matrix.h"
 #include "MxHelpers.hpp"
-#include "MexConverters.hpp"
+#include "MxArrayOf.hpp"
 //=============================================================================
 mxArray*
 mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** fieldnames)

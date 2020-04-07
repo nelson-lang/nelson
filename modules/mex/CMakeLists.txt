@@ -36,6 +36,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 )
 #==============================================================================	
 FILE(
@@ -57,6 +58,7 @@ nlsI18n
 nlsNelson_manager
 nlsStream_manager
 nlsTypes
+nlsInterpreter
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	

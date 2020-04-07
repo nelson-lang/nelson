@@ -25,13 +25,37 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsMex_exports.h"
+#include "mex.h"
 //=============================================================================
-namespace Nelson {
-ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr,
-    const std::string& functionName, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mexCallMATLAB(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mexCallMATLABWithTrap(
+        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mexEvalString(const char* command);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mexEvalStringWithTrap(const char* command);
+    //=============================================================================
+    /* private function */
+    NLSMEX_IMPEXP
+    void
+    mexSetEvaluator(void* eval);
+    //=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================
