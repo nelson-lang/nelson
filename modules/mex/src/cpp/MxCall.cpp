@@ -57,6 +57,7 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
                 for (int i = 0; i < nlhs; i++) {
                     plhs[i] = Nelson::ArrayOfToMxArray(argOut[i]);
                 }
+                return 0;
             }
         }
     }

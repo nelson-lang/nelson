@@ -38,6 +38,7 @@
 #include "MxNumericTypes.h"
 #include "MxStruct.h"
 #include "MxObject.h"
+#include "MxCall.h"
 //=============================================================================
 #ifdef __cplusplus
 extern "C"

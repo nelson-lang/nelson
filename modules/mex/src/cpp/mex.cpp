@@ -98,7 +98,8 @@ mexErrMsgIdAndTxt(const char* identifier, const char* err_msg, ...)
         buff.resize(size);
     }
     va_end(ap);
-    Nelson::Error(buff.data(), identifier);
+    std::string msg = buff.data();
+    Nelson::Error(msg, identifier);
 }
 //=============================================================================
 void

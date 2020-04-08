@@ -27,6 +27,7 @@
 #include "ArrayOf.hpp"
 #include "MxArrayOf.hpp"
 #include "Error.hpp"
+#include "Exception.hpp"
 #include "mex.h"
 //=============================================================================
 using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
@@ -81,8 +82,21 @@ mxCallBuiltin(
         }
         delete[] mxArgsOut;
         mxArgsOut = nullptr;
-
         Nelson::Error(e.what());
+    }
+    catch (Nelson::Exception &e) {
+        for (size_t i = 0; i < argIn.size(); i++) {
+            mxDestroyArray(mxArgsIn[i]);
+        }
+        delete[] mxArgsIn;
+        mxArgsIn = nullptr;
+
+        for (int i = 0; i < lhsCount; i++) {
+            mxDestroyArray(mxArgsOut[i]);
+        }
+        delete[] mxArgsOut;
+        mxArgsOut = nullptr;
+        throw e;
     }
     for (int i = 0; i < lhsCount; i++) {
         argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
