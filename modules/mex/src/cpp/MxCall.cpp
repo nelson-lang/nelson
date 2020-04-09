@@ -70,6 +70,29 @@ mexCallMATLAB(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
     return mexCallNELSON(nlhs, plhs, nrhs, prhs, functionName);
 }
 //=============================================================================
+static Nelson::ArrayOf
+createMexception(Nelson::Exception& e)
+{
+    Nelson::wstringVector fieldnames;
+    Nelson::ArrayOfVector fieldvalues;
+
+    fieldnames.push_back(L"identifier");
+    fieldnames.push_back(L"message");
+    fieldnames.push_back(L"cause");
+    fieldnames.push_back(L"stack");
+
+    fieldvalues.push_back(Nelson::ArrayOf::characterArrayConstructor(e.getIdentifier()));
+    fieldvalues.push_back(Nelson::ArrayOf::characterArrayConstructor(e.getMessage()));
+    fieldvalues.push_back(Nelson::ArrayOf::emptyConstructor());
+    Nelson::Dimensions emptyDims(1, 0);
+    fieldvalues.push_back(
+        Nelson::ArrayOf::emptyStructConstructor(Nelson::wstringVector(), emptyDims));
+    Nelson::ArrayOf res = Nelson::ArrayOf::structConstructor(fieldnames, fieldvalues);
+
+    res.setStructType("mexception");
+    return res;
+}
+//=============================================================================
 static mxArray*
 mexCallNELSONWithTrap(
     int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName)
@@ -87,8 +110,7 @@ mexCallNELSONWithTrap(
                 try {
                     argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
                 } catch (Nelson::Exception& e) {
-                    Nelson::ArrayOf error;
-                    return Nelson::ArrayOfToMxArray(error);
+                    return Nelson::ArrayOfToMxArray(createMexception(e));
                 }
                 for (int i = 0; i < nlhs; i++) {
                     plhs[i] = Nelson::ArrayOfToMxArray(argOut[i]);
@@ -97,8 +119,8 @@ mexCallNELSONWithTrap(
             }
         }
     }
-    Nelson::ArrayOf error;
-    return Nelson::ArrayOfToMxArray(error);
+    Nelson::Exception e("No evaluator.");
+    return Nelson::ArrayOfToMxArray(createMexception(e));
 }
 //=============================================================================
 NLSMEX_IMPEXP
@@ -127,8 +149,7 @@ mexEvalStringWithTrap(const char* command)
         try {
             bool res = mainEvaluator->evaluateString(command, false);
         } catch (Nelson::Exception& e) {
-            Nelson::ArrayOf error;
-            return Nelson::ArrayOfToMxArray(error);
+            return Nelson::ArrayOfToMxArray(createMexception(e));
         }
     }
     return nullptr;

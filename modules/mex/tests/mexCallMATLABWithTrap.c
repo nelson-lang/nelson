@@ -23,6 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-rmpath(modulepath(nelsonroot(), 'error_manager', 'functions'));
-removegateway(modulepath(nelsonroot(), 'error_manager', 'builtin'));
+#include "mex.h"
+//=============================================================================
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+    if (nrhs !=1) {
+        mexErrMsgIdAndTxt( "NELSON:minrhs",
+                "No input arguments required.");
+    } 
+    if(nlhs > 1){
+        mexErrMsgIdAndTxt( "NELSON:maxrhs",
+                "Too many output arguments.");
+    }
+
+    mxArray *res = mexCallMATLABWithTrap(1, plhs, 1, prhs, "sin"); 
+    if (res == NULL){
+        plhs[0] = mxCreateString("It works !!!");
+    } else {
+        plhs[0] = res;
+    }
+}
 //=============================================================================

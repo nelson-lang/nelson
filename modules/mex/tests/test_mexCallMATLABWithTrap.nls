@@ -23,6 +23,22 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-rmpath(modulepath(nelsonroot(), 'error_manager', 'functions'));
-removegateway(modulepath(nelsonroot(), 'error_manager', 'builtin'));
+// <--ENGLISH IMPOSED-->
+//=============================================================================
+if ~isbuiltin('mexCallMATLABWithTrap')
+    status = copyfile('mexCallMATLABWithTrap.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mexCallMATLABWithTrap.c');
+    run('loader.nls');
+end
+//=============================================================================
+R = mexCallMATLABWithTrap(pi);
+assert_isequal(R, 'It works !!!');
+//=============================================================================
+R = mexCallMATLABWithTrap('A');
+assert_isequal(class(R), 'mexception');
+//=============================================================================
+REF = 'Undefined function ''sin'' for input arguments of type ''char''.';
+assert_isequal(R.message, REF);
 //=============================================================================
