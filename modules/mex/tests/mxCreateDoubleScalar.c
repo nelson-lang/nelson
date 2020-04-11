@@ -23,34 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string.h>
 #include "mex.h"
-#include "MxAsserts.h"
-#include "i18n.hpp"
 //=============================================================================
 void
-mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    if (test != nullptr && strlen(test) > 0) {
-        if (message && message[0]) {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
-                fname, message);
-        } else {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n").c_str(), test, linenum,
-                fname);
-        }
-    } else {
-        if (message && message[0]) {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n%s\n").c_str(), linenum,
-                fname, message);
-        } else {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n").c_str(), linenum,
-                fname);
-        }
+    if(nrhs != 0)
+    {
+       mexErrMsgTxt("Wrong number or type of input argument");
     }
+    plhs[0] = mxCreateDoubleScalar(33.);
 }
 //=============================================================================

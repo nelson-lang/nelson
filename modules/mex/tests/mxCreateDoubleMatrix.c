@@ -23,34 +23,42 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string.h>
 #include "mex.h"
-#include "MxAsserts.h"
-#include "i18n.hpp"
 //=============================================================================
 void
-mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    if (test != nullptr && strlen(test) > 0) {
-        if (message && message[0]) {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
-                fname, message);
-        } else {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n").c_str(), test, linenum,
-                fname);
-        }
-    } else {
-        if (message && message[0]) {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n%s\n").c_str(), linenum,
-                fname, message);
-        } else {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n").c_str(), linenum,
-                fname);
-        }
+    if(nrhs != 1)
+    {
+       mexErrMsgTxt("Wrong number or type of input argument");
     }
+    int expr = (int)mxGetScalar(prhs[0]);
+    switch (expr){
+        case 0: {
+            plhs[0] = mxCreateDoubleMatrix(2, 3, mxREAL);
+        } break;
+        case 1: {
+            plhs[0] = mxCreateDoubleMatrix(2, 3, mxCOMPLEX);
+        } break;
+        case 2: {
+            plhs[0] = mxCreateDoubleMatrix(1, 2, mxREAL);
+            mxDouble *U = mxGetPr(plhs[0]);
+            U[0] = 1;
+            U[1] = 2;
+        } break;
+        case 3: {
+            plhs[0] = mxCreateDoubleMatrix(1, 2, mxCOMPLEX);
+            mxDouble *Ur = mxGetPr(plhs[0]);
+            mxDouble *Ui = mxGetPi(plhs[0]);
+            Ur[0] = 1;
+            Ur[1] = 2;
+            Ui[0] = 3;
+            Ui[1] = 4;
+        } break;
+        default:{
+            mexErrMsgTxt("Wrong input value.");
+        }break;
+    }
+
 }
 //=============================================================================

@@ -35,6 +35,7 @@
 #include "MxLogical.h"
 #include "MxMemory.h"
 #include "MxNonComplexFloat.h"
+#include "MxComplexFloat.h"
 #include "MxNumericTypes.h"
 #include "MxStruct.h"
 #include "MxObject.h"
@@ -121,23 +122,6 @@ extern "C"
     NLSMEX_IMPEXP
     bool
     mxIsFromGlobalWS(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateDoubleScalar(double value);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateNumericMatrix(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateUninitNumericMatrix(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateUninitNumericArray(
-        size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     bool

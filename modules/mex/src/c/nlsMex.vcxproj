@@ -168,6 +168,7 @@
     <ClCompile Include="..\cpp\MxCallBuitin.cpp" />
     <ClCompile Include="..\cpp\MxCell.cpp" />
     <ClCompile Include="..\cpp\MxCharacter.cpp" />
+    <ClCompile Include="..\cpp\MxComplexFloat.cpp" />
     <ClCompile Include="..\cpp\MxConstants.cpp" />
     <ClCompile Include="..\cpp\MxHelpers.cpp" />
     <ClCompile Include="..\cpp\MxLogical.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="..\include\MxCallBuiltin.hpp" />
     <ClInclude Include="..\include\MxCell.h" />
     <ClInclude Include="..\include\MxCharacter.h" />
+    <ClInclude Include="..\include\MxComplexFloat.h" />
     <ClInclude Include="..\include\MxConstants.h" />
     <ClInclude Include="..\include\MxLogical.h" />
     <ClInclude Include="..\include\MxMemory.h" />

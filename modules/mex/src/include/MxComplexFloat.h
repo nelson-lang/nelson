@@ -23,34 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string.h>
-#include "mex.h"
-#include "MxAsserts.h"
-#include "i18n.hpp"
+#pragma once
 //=============================================================================
-void
-mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
+#include "nlsMex_exports.h"
+#include "MxTypes.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
 {
-    if (test != nullptr && strlen(test) > 0) {
-        if (message && message[0]) {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
-                fname, message);
-        } else {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n").c_str(), test, linenum,
-                fname);
-        }
-    } else {
-        if (message && message[0]) {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n%s\n").c_str(), linenum,
-                fname, message);
-        } else {
-            mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n").c_str(), linenum,
-                fname);
-        }
-    }
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxDouble*
+    mxGetPi(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetPi(mxArray* pm, double* pr);
+//=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================

@@ -26,5 +26,51 @@
 #pragma once
 //=============================================================================
 #include "nlsMex_exports.h"
-#include "mex.h"
+#include "MxTypes.h"
+#include "MxAsserts.h"
+#include "MxAttributes.h"
+#include "MxCell.h"
+#include "MxCharacter.h"
+#include "MxConstants.h"
+#include "MxLogical.h"
+#include "MxMemory.h"
+#include "MxNonComplexFloat.h"
+#include "MxNumericTypes.h"
+#include "MxStruct.h"
+#include "MxObject.h"
+#include "MxCall.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateDoubleMatrix(mwSize m, mwSize n, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsNumeric(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateDoubleScalar(double value);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateNumericMatrix(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateUninitNumericMatrix(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateUninitNumericArray(
+        size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================
