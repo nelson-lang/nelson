@@ -147,7 +147,7 @@ mexEvalStringWithTrap(const char* command)
 {
     if (mainEvaluator) {
         try {
-            bool res = mainEvaluator->evaluateString(command, false);
+            bool res = mainEvaluator->evaluateString(command, true);
         } catch (Nelson::Exception& e) {
             return Nelson::ArrayOfToMxArray(createMexception(e));
         }
