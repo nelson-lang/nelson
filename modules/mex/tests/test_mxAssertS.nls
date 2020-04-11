@@ -25,22 +25,22 @@
 //=============================================================================
 // <--ENGLISH IMPOSED-->
 //=============================================================================
-if ~isbuiltin('mxAssert')
-     status = copyfile('mxAssert.c', tempdir());
+if ~isbuiltin('mxAssertS')
+     status = copyfile('mxAssertS.c', tempdir());
      assert_istrue(status);
      cd(tempdir()); 
-     mex('mxAssert.c');
+     mex('mxAssertS.c');
      run('loader.nls');
 end
 //=============================================================================
-R = mxAssert(1);
+R = mxAssertS(1);
 //=============================================================================
 M = [];
 try 
-   mxAssert(0);
+   mxAssertS(0);
 catch
    M = lasterror();
 end
 assert_isequal(M.identifier, 'Nelson:MEX');
-assert_istrue(contains(M.message, 'Assertion failed: (int)expr'));
+assert_istrue(contains(M.message, 'Assertion failed: at'));
 //=============================================================================

@@ -23,24 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--ENGLISH IMPOSED-->
+#include "mex.h"
 //=============================================================================
-if ~isbuiltin('mxAssert')
-     status = copyfile('mxAssert.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mxAssert.c');
-     run('loader.nls');
-end
-//=============================================================================
-R = mxAssert(1);
-//=============================================================================
-M = [];
-try 
-   mxAssert(0);
-catch
-   M = lasterror();
-end
-assert_isequal(M.identifier, 'Nelson:MEX');
-assert_istrue(contains(M.message, 'Assertion failed: (int)expr'));
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+    if(nrhs != 1)
+    {
+       mexErrMsgTxt("Wrong number or type of input argument");
+    }
+    double expr = mxGetScalar(prhs[0]);
+    mxAssertS((int)expr , "ERROR");
+    plhs[0] = mxCreateString("OK");
+}
 //=============================================================================

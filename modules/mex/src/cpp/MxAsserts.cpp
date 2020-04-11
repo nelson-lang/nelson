@@ -30,7 +30,7 @@
 void
 mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
 {
-    if (test != nullptr) {
+    if (test != nullptr && strlen(test) > 0) {
         if (message && message[0]) {
             mexErrMsgIdAndTxt("Nelson:MEX",
                 _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
@@ -38,6 +38,16 @@ mexPrintAssertion(const char* test, const char* fname, int linenum, const char* 
         } else {
             mexErrMsgIdAndTxt("Nelson:MEX",
                 _("Assertion failed: %s, at line %d of file \"%s\".\n").c_str(), test, linenum,
+                fname);
+        }
+    } else {
+        if (message && message[0]) {
+            mexErrMsgIdAndTxt("Nelson:MEX",
+                _("Assertion failed: at line %d of file \"%s\".\n%s\n").c_str(), linenum,
+                fname, message);
+        } else {
+            mexErrMsgIdAndTxt("Nelson:MEX",
+                _("Assertion failed: at line %d of file \"%s\".\n").c_str(), linenum,
                 fname);
         }
     }
