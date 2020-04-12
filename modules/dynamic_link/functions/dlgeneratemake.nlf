@@ -237,7 +237,7 @@ function [r, defines_modified] = checkAndPrepareDefines(defines)
         r = false;
         return
       end
-      defines_modified = [defines_modified, newline, ['add_definitions(-D', k{1}, ')']];
+      defines_modified = [defines_modified, newline, ['add_compile_definitions(', k{1}, ')']];
     end
     r = true;
   else

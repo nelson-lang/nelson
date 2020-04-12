@@ -27,6 +27,7 @@ function mex(varargin)
     if nargin() == 0
         error('blabla')
     end
+    interleavedComplex = '';
     filenames = {};
     functionName = '';
     param1 = varargin{1};
@@ -37,6 +38,18 @@ function mex(varargin)
     else
         [p, f, e ] = fileparts(varargin{1});
         functionName = f;
+    end
+    api = varargin{idxFilenames};
+    if strcmp(api, '-R2018a') || strcmp(api, '-R2017b')
+        idxFilenames = idxFilenames + 1;
+        if strcmp(api, '-R2018a')
+            interleavedComplex = 'MX_HAS_INTERLEAVED_COMPLEX';
+        end
+    end
+    if isempty(interleavedComplex)
+        defines = {};
+    else
+        defines = { interleavedComplex };
     end
     filenames = varargin(idxFilenames:end);
     destinationPath = fileparts(varargin{idxFilenames}, 'path');
@@ -51,7 +64,7 @@ function mex(varargin)
     functionName, ...
     filenames, ...
      [{destinationPath}; dlgetnelsonincludes()], ...
-     [], ...
+     defines, ...
      dlgetnelsonlibraries());
     if ~status
         error(message);

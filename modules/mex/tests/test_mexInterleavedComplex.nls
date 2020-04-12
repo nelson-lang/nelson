@@ -23,32 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+tmpPath = tempname();
+mkdir(tmpPath);
+status = copyfile('mxCreateDoubleMatrix.c', tmpPath);
+assert_istrue(status);
+cd(tmpPath); 
+M = [];
+try
+    mex('-output', 'mexInterleavedComplex', '-R2018a', 'mxCreateDoubleMatrix.c' );
+catch
+    M = lasterror();
+end
+assert_isfalse(isempty(M));
+assert_istrue(isstruct(M));
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "MxTypes.h"
+M = [];
+try
+    mex('-output', 'mexSeparatedComplex', '-R2017b', 'mxCreateDoubleMatrix.c' );
+catch
+    M = lasterror();
+end
+assert_istrue(isempty(M));
+assert_istrue(isdouble(M));
 //=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-#ifdef MX_HAS_INTERLEAVED_COMPLEX
-#define mxGetPi mxGetPiIsDeprecated
-#define mxSetPi mxSetPiIsDeprecated
-#else
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxDouble*
-    mxGetPi(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetPi(mxArray* pm, double* pr);
-    //=============================================================================
-#endif
-//=============================================================================
-#ifdef __cplusplus
-}
-#endif
-//=============================================================================
+
