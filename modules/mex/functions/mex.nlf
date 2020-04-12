@@ -56,6 +56,14 @@ function mex(varargin)
     if isempty(destinationPath)
         destinationPath = pwd();
     end
+    build_configuration = [];
+    if ~ispc()
+        c_flags = '-Werror=implicit-function-declaration';
+        cxx_flags = '-Werror=implicit-function-declaration';
+    else
+        c_flags = [];
+        cxx_flags = [];
+    end
     builtin_table = {{functionName, -1, -1, 'C_MEX_BUILTIN'}};
     dlgeneratecleaner(destinationPath);
     dlgenerategateway(destinationPath, functionName, builtin_table);
@@ -65,7 +73,10 @@ function mex(varargin)
     filenames, ...
      [{destinationPath}; dlgetnelsonincludes()], ...
      defines, ...
-     dlgetnelsonlibraries());
+     dlgetnelsonlibraries(), ...
+     build_configuration, ...
+     c_flags, ...
+     cxx_flags);
     if ~status
         error(message);
     end

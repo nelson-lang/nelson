@@ -51,7 +51,7 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
             if (context->lookupFunction(functionName, funcDef)) {
                 try {
                     argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
-                } catch (Nelson::Exception&) {
+                } catch (Nelson::Exception& e) {
                     return 1;
                 }
                 for (int i = 0; i < nlhs; i++) {
