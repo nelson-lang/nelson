@@ -136,7 +136,11 @@ function txt = template(module_name, builtin_table)
       builtinType = k{1}{4};
     end
     if strcmp(builtinType, 'C_MEX_BUILTIN') == true
-      txt = [txt; 'extern "C" void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]);'];
+      if ispc()
+        txt = [txt; 'extern "C" void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]);'];
+      else
+        txt = [txt; '__attribute__((visibility("hidden"))) void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]);'];
+      end
     else
       txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(int nLhs, const ArrayOfVector& argIn);']];
     end
