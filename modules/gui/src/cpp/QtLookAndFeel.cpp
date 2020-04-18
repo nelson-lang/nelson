@@ -23,31 +23,48 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "bannerBuiltin.hpp"
-#include "inserthtmlBuiltin.hpp"
-#include "qt_verboseBuiltin.hpp"
-#include "uigetdirBuiltin.hpp"
-#include "lookandfeelBuiltin.hpp"
+#include <QtWidgets/QStyleFactory>
+#include <QtCore/QStringList>
+#include "QtLookAndFeel.hpp"
+#include "QStringConverter.hpp"
+#include "MainGuiObject.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"gui";
+wstringVector
+GetLookAndFeelAvailable()
+{
+    wstringVector lfs;
+    QStringList qtLfs = QStyleFactory::keys();
+    for (int k = 0; k < qtLfs.size(); k++) {
+        lfs.push_back(QStringTowstring(qtLfs[k]));
+    }
+    return lfs;
+}
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "banner", (void*)Nelson::GuiGateway::bannerBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
-    { "inserthtml", (void*)Nelson::GuiGateway::inserthtmlBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "lookandfeel", (void*)Nelson::GuiGateway::lookandfeelBuiltin, 1, 2},
-    { "uigetdir", (void*)Nelson::GuiGateway::uigetdirBuiltin, 1, 2 },
-    { "qt_verbose", (void*)Nelson::GuiGateway::qt_verboseBuiltin, 1, 1 },
-};
+std::wstring
+GetCurrentLookAndFeel()
+{
+    return QtGetLookAndFeel();
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+bool
+SetCurrentLookAndFeel(const std::wstring &lf)
+{
+    return QtSetLookAndFeel(lf);
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+void
+SetCurrentStyleSheet(const std::wstring& styleSheet)
+{
+    QtSetStyleSheet(styleSheet);
+}
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+std::wstring
+GetCurrentStyleSheet()
+{
+    return QtGetStyleSheet();
+}
 //=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================

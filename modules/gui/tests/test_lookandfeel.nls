@@ -23,32 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//===================================================================================
-#include "NelSon_engine_mode.h"
-#include "nlsGui_exports.h"
-//===================================================================================
-extern "C"
-{
-    NLSGUI_IMPEXP void
-    InitGuiObjects(void);
-    NLSGUI_IMPEXP void*
-    CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode);
-    NLSGUI_IMPEXP void
-    DestroyMainGuiObject(void* term);
-    NLSGUI_IMPEXP void*
-    GetMainGuiObject(void);
-    NLSGUI_IMPEXP void
-    QtMessageVerbose(bool bVerbose);
-    NLSGUI_IMPEXP bool
-    IsQtMessageVerbose();
-    NLSGUI_IMPEXP bool
-    QtSetLookAndFeel(const std::wstring &lf);
-    NLSGUI_IMPEXP std::wstring
-    QtGetLookAndFeel();
-    NLSGUI_IMPEXP std::wstring
-    QtGetStyleSheet();
-    NLSGUI_IMPEXP void
-    QtSetStyleSheet(const std::wstring& styleSheet);
-};
-//===================================================================================
+// <--ADV-CLI MODE-->
+//=============================================================================
+assert_isequal(nargin('lookandfeel'), 2);
+assert_isequal(nargout('lookandfeel'), 1);
+//=============================================================================
+currentlf = lookandfeel();
+assert_istrue(ischar(currentlf));
+lfs = lookandfeel('available');
+assert_istrue(iscell(lfs));
+for lf = lfs'
+  c = lookandfeel(lf{1});
+end
+r = lookandfeel(currentlf);
+assert_istrue(ischar(r));
+//=============================================================================
+currentstylesheet = lookandfeel('stylesheet');
+assert_istrue(ischar(currentstylesheet));
+stylefilename = [modulepath('gui'), '/resources/darkstyle.qss'];
+newstyle = fileread(stylefilename);
+previousstylesheet = lookandfeel('stylesheet', newstyle);
+assert_isequal(currentstylesheet, previousstylesheet);
+r = lookandfeel('stylesheet', previousstylesheet);
+//=============================================================================

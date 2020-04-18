@@ -1,3 +1,10 @@
+# 0.4.4 (2020-04-XX)
+
+* lookandfeel builtin: default current application look and feel.
+
+* MEX C API is allow to access Nelson, GNU Octave and commercial software functions and extend it's functionality.
+
+
 # 0.4.3 (2020-03-30)
 
 * mean builtin: Mean elements of an array with nanflag and 'all' support.

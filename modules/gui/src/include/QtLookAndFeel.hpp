@@ -24,31 +24,27 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-//===================================================================================
-#include "NelSon_engine_mode.h"
+//=============================================================================
 #include "nlsGui_exports.h"
-//===================================================================================
-extern "C"
-{
-    NLSGUI_IMPEXP void
-    InitGuiObjects(void);
-    NLSGUI_IMPEXP void*
-    CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode);
-    NLSGUI_IMPEXP void
-    DestroyMainGuiObject(void* term);
-    NLSGUI_IMPEXP void*
-    GetMainGuiObject(void);
-    NLSGUI_IMPEXP void
-    QtMessageVerbose(bool bVerbose);
-    NLSGUI_IMPEXP bool
-    IsQtMessageVerbose();
-    NLSGUI_IMPEXP bool
-    QtSetLookAndFeel(const std::wstring &lf);
-    NLSGUI_IMPEXP std::wstring
-    QtGetLookAndFeel();
-    NLSGUI_IMPEXP std::wstring
-    QtGetStyleSheet();
-    NLSGUI_IMPEXP void
-    QtSetStyleSheet(const std::wstring& styleSheet);
-};
-//===================================================================================
+#include <string>
+#include "Types.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSGUI_IMPEXP wstringVector
+GetLookAndFeelAvailable();
+//=============================================================================
+NLSGUI_IMPEXP std::wstring
+GetCurrentLookAndFeel();
+//=============================================================================
+NLSGUI_IMPEXP bool
+SetCurrentLookAndFeel(const std::wstring &lf);
+//=============================================================================
+NLSGUI_IMPEXP void
+SetCurrentStyleSheet(const std::wstring &styleSheet);
+//=============================================================================
+NLSGUI_IMPEXP std::wstring
+GetCurrentStyleSheet();
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

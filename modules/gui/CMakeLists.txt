@@ -48,6 +48,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+
 )
 #==============================================================================	
 FILE(
@@ -72,6 +74,7 @@ nlsCore
 nlsHistory_manager
 nlsI18n
 nlsOs_functions
+nlsApi_nelson
 ${Qt5Widgets_LIBRARIES}
 ${Qt5PrintSupport_LIBRARIES}
 )
@@ -123,6 +126,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATI
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/qml DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.*")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources/darkstyle.qss DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/resources)
 #==============================================================================
 
 
