@@ -124,7 +124,7 @@ before_install:
       brew unlink libffi;
       brew install libffi;
       brew unlink libffi;
-      brew link --force libffi;
+      brew link libffi --force;
       brew uninstall icu4c;
       brew install icu4c;
       brew unlink icu4c;
@@ -134,7 +134,9 @@ before_install:
       brew install pkg-config;
       brew install pkgconfig;
       brew install gettext;
-      brew link --force gettext;
+      brew link gettext --force;
+      echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc;
+      source ~/.zshrc;
       brew install boost;
       brew install libxml2;
       brew install cmake;

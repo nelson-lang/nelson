@@ -57,7 +57,7 @@ for l = langs(:)'
       MSGFMT_CMD = [MSGFMT, ' --output-file="', modst, '" "', posrc, '"'];
       [r, errmsg] = unix(MSGFMT_CMD);
       if r != 0
-        error(errmsg);
+        warning(errmsg);
       end
     else
       disp([_('Translations up-to-date:'), ' ', l{1}]);
