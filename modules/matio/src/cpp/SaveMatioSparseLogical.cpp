@@ -48,13 +48,13 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
         njc = (int)spmat->outerSize();
     }
     mat_uint32_t nir = static_cast<mat_uint32_t>(nnz);
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
     mat_uint32_t* pI = nullptr;
 #else
     mat_int32_t* pI = nullptr;
 #endif
     try {
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
         pI = new mat_uint32_t[nir];
 #else
         pI = new mat_int32_t[nir];
@@ -62,13 +62,13 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
     } catch (const std::bad_alloc&) {
         return nullptr;
     }
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
     mat_uint32_t* pJ = nullptr;
 #else
     mat_int32_t* pJ = nullptr;
 #endif
     try {
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
         pJ = new mat_uint32_t[static_cast<mat_uint32_t>(njc + 1)];
 #else
         pJ = new mat_int32_t[static_cast<mat_int32_t>(njc + 1)];
@@ -81,7 +81,7 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
     if (spmat) {
         pInner = spmat->innerIndexPtr();
         for (signedIndexType k = 0; k < nir; ++k) {
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
             pI[k] = static_cast<mat_uint32_t>(pInner[k]);
 #else
             pI[k] = static_cast<mat_int32_t>(pInner[k]);
@@ -92,14 +92,14 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
     if (spmat) {
         pOuter = spmat->outerIndexPtr();
         for (signedIndexType k = 0; k < njc; ++k) {
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
             pJ[k] = static_cast<mat_uint32_t>(pOuter[k]);
 #else
             pJ[k] = static_cast<mat_int32_t>(pOuter[k]);
 #endif
         }
     }
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
     pJ[njc] = static_cast<mat_uint32_t>(nnz);
 #else
     pJ[njc] = static_cast<mat_int32_t>(nnz);
@@ -115,7 +115,7 @@ SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
 
     sparse->nzmax = nzmax;
     sparse->nir = nir;
-#if MATIO_VERSION >= 1517
+#if MATIO_VERSION > 1517
     sparse->ir = pI;
 #else
     sparse->ir = (mat_int32_t*)pI;
