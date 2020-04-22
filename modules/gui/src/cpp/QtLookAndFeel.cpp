@@ -49,7 +49,7 @@ GetCurrentLookAndFeel()
 }
 //=============================================================================
 bool
-SetCurrentLookAndFeel(const std::wstring &lf)
+SetCurrentLookAndFeel(const std::wstring& lf)
 {
     return QtSetLookAndFeel(lf);
 }

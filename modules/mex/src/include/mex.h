@@ -34,6 +34,44 @@ extern "C"
 {
 #endif
     //=============================================================================
+    typedef void (*mex_exit_fn)(void);
+    //=============================================================================
+#if !defined(NLSMEX_EXPORTS) && !defined(NLSENGINE_EXPORTS)
+#ifndef MEX_AT_EXIT_ONCE
+#define MEX_AT_EXIT_ONCE
+    extern mex_exit_fn _exitFcn;
+    extern bool _isLocked;
+    //=============================================================================
+    const char*
+    mexFunctionName(void);
+    //=============================================================================
+    static int
+    mexAtExit(mex_exit_fn exit_fcn)
+    {
+        _exitFcn = exit_fcn;
+        return 0;
+    }
+    //=============================================================================
+    static void
+    mexLock(void)
+    {
+        _isLocked = true;
+    }
+    //=============================================================================
+    static void
+    mexUnlock(void)
+    {
+        _isLocked = false;
+    }
+    //=============================================================================
+    static bool
+    mexIsLocked(void)
+    {
+        return _isLocked;
+    }
+#endif
+#endif
+    //=============================================================================
     void
     mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]);
     //=============================================================================
@@ -51,17 +89,6 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP void
     mexWarnMsgIdAndTxt(const char* warningid, const char* warningmsg, ...);
-    //=============================================================================
-    NLSMEX_IMPEXP int
-    mexAtExit(void (*ExitFcn)(void));
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    setMexFunctionName(const char* functionName);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    const char*
-    mexFunctionName(void);
     //=============================================================================
 #ifdef __cplusplus
 }

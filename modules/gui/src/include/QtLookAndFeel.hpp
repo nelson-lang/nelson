@@ -38,10 +38,10 @@ NLSGUI_IMPEXP std::wstring
 GetCurrentLookAndFeel();
 //=============================================================================
 NLSGUI_IMPEXP bool
-SetCurrentLookAndFeel(const std::wstring &lf);
+SetCurrentLookAndFeel(const std::wstring& lf);
 //=============================================================================
 NLSGUI_IMPEXP void
-SetCurrentStyleSheet(const std::wstring &styleSheet);
+SetCurrentStyleSheet(const std::wstring& styleSheet);
 //=============================================================================
 NLSGUI_IMPEXP std::wstring
 GetCurrentStyleSheet();

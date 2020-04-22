@@ -67,10 +67,10 @@ initMexDynamicLibrary()
 namespace Nelson {
 //=============================================================================
 void
-CallMexBuiltin(void* fptr, const std::string& functionName, const ArrayOfVector& inputArgs,
-    int nargout, ArrayOfVector& outputArgs)
+CallMexBuiltin(void* fptr, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector& outputArgs)
 {
-    using PROC_mxCallBuiltin = void (*)(void* fptr, const std::string& functionName, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector&outputArgs);
+    using PROC_mxCallBuiltin = void (*)(
+        void* fptr, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector& outputArgs);
     static PROC_mxCallBuiltin mxCallBuiltinPtr = nullptr;
     initMexDynamicLibrary();
     if (mxCallBuiltinPtr == nullptr) {
@@ -78,7 +78,7 @@ CallMexBuiltin(void* fptr, const std::string& functionName, const ArrayOfVector&
             Nelson::get_function(nlsMexHandleDynamicLibrary, "mxCallBuiltin"));
     }
     if (mxCallBuiltinPtr != nullptr) {
-        mxCallBuiltinPtr(fptr, functionName, inputArgs, nargout, outputArgs);
+        mxCallBuiltinPtr(fptr, inputArgs, nargout, outputArgs);
     }
 }
 //=============================================================================

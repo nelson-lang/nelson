@@ -31,7 +31,6 @@
 #include "Error.hpp"
 #include "Warning.hpp"
 //=============================================================================
-static void (*_exitFcn)(void);
 static std::string currentMexFunctionName;
 //=============================================================================
 int
@@ -134,27 +133,5 @@ mexWarnMsgIdAndTxt(const char* warningid, const char* warningmsg, ...)
     }
     va_end(ap);
     Nelson::Warning(warningid, buff.data());
-}
-//=============================================================================
-int
-mexAtExit(void (*ExitFcn)(void))
-{
-    _exitFcn = ExitFcn;
-    return 0;
-}
-//=============================================================================
-void
-setMexFunctionName(const char* functionName)
-{
-    currentMexFunctionName = std::string(functionName);
-}
-//=============================================================================
-const char*
-mexFunctionName(void)
-{
-    if (currentMexFunctionName.empty()) {
-        return nullptr;
-    }
-    return currentMexFunctionName.c_str();
 }
 //=============================================================================

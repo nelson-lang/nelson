@@ -31,8 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-CallMexBuiltin(void* fptr, const std::string& functionName, const ArrayOfVector& inputArgs,
-    int nargout, ArrayOfVector& outputArgs);
+CallMexBuiltin(void* fptr, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector& outputArgs);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

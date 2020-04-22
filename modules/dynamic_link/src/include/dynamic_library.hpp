@@ -112,7 +112,7 @@ load_dynamic_library(const std::string& library_name)
 {
     library_handle hl;
     try {
-        hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_GLOBAL);
+        hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_LOCAL);
     } catch (const std::runtime_error&) {
         hl = nullptr;
     }

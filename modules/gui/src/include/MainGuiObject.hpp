@@ -43,7 +43,7 @@ extern "C"
     NLSGUI_IMPEXP bool
     IsQtMessageVerbose();
     NLSGUI_IMPEXP bool
-    QtSetLookAndFeel(const std::wstring &lf);
+    QtSetLookAndFeel(const std::wstring& lf);
     NLSGUI_IMPEXP std::wstring
     QtGetLookAndFeel();
     NLSGUI_IMPEXP std::wstring

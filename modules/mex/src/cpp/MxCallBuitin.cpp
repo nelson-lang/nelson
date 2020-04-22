@@ -34,12 +34,11 @@ using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================
 int
 mxCallBuiltin(
-    void* fptr, const std::string &functionName, const Nelson::ArrayOfVector& argIn, int nargout, Nelson::ArrayOfVector& argOut)
+    void* fptr, const Nelson::ArrayOfVector& argIn, int nargout, Nelson::ArrayOfVector& argOut)
 {
     mxArray** mxArgsIn = nullptr;
     mxArray** mxArgsOut = nullptr;
 
-    setMexFunctionName(functionName.c_str());
     try {
         mxArgsIn = new mxArray*[argIn.size()];
     } catch (const std::bad_alloc&) {
@@ -83,8 +82,7 @@ mxCallBuiltin(
         delete[] mxArgsOut;
         mxArgsOut = nullptr;
         Nelson::Error(e.what());
-    }
-    catch (Nelson::Exception &e) {
+    } catch (Nelson::Exception& e) {
         for (size_t i = 0; i < argIn.size(); i++) {
             mxDestroyArray(mxArgsIn[i]);
         }

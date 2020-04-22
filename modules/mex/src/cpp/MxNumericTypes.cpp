@@ -82,7 +82,8 @@ mxArray*
 mxCreateUninitNumericArray(size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag)
 {
     if (ComplexFlag == mxREAL) {
-        return mxAllocateRealArray((mwSize)ndim, (const mwSize *)dims, sizeFromClass(classid), classid, false);
+        return mxAllocateRealArray(
+            (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
     }
     return mxAllocateComplexArray(
         (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);

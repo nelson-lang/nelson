@@ -23,46 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include "FinishNelsonMainScript.hpp"
-#include "CloseAllFiles.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "GetNelsonPath.hpp"
-#include "Interface.hpp"
-#include "NelsonConfiguration.hpp"
-#include "GatewaysManager.hpp"
+#include "mex.h"
 //=============================================================================
-bool
-FinishNelsonMainScript(Evaluator* eval)
+static void CallAtExit(void)   
+{   
+    mexPrintf ("Call at Exit");
+}   
+//=============================================================================   
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    Context* ctx = eval->getContext();
-    if (ctx != nullptr) {
-        std::wstring rootPath = Nelson::GetRootPath();
-        boost::filesystem::path path(rootPath);
-        path += L"/etc/finish.nls";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile) {
-            NelsonConfiguration::getInstance()->disableModulesProtection();
-            std::wstring wstr = path.generic_wstring();
-            try {
-                EvaluateScriptFile(eval, wstr.c_str());
-            } catch (const Exception& e) {
-                CloseAllFiles();
-                Interface* io = eval->getInterface();
-                eval->setLastErrorException(e);
-                std::wstring errmsg = _W("Main finish.nls failed to run.");
-                if (io != nullptr) {
-                    io->errorMessage(errmsg);
-                } else {
-                    errmsg = errmsg + L"\n";
-                    fwprintf(stderr, L"%ls", errmsg.c_str());
-                }
-            }
-            GatewaysManager::getInstance()->destroy(eval);
-            return true;
-        }
-        return false;
+    if(nrhs != 0)
+    {
+       mexErrMsgTxt("Wrong number or type of input argument");
     }
-    return false;
+    mexAtExit(CallAtExit); 
 }
 //=============================================================================

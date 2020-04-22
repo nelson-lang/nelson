@@ -2,6 +2,8 @@
 
 * lookandfeel builtin: default current application look and feel.
 
+* clear builtin extended to clear mex functions.
+
 * MEX C API is allow to access Nelson, GNU Octave and commercial software functions and extend it's functionality.
 
 

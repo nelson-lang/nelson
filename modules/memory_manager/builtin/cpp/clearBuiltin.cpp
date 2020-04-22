@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
 #include "clearBuiltin.hpp"
 #include "Clear.hpp"
 #include "ClearFunction.hpp"
@@ -31,9 +32,16 @@
 #include "IsValidVariableName.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
-#include <boost/filesystem.hpp>
+#include "GatewaysManager.hpp"
+#include "NelsonGateway.hpp"
+#include "BuiltInFunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static void
+ClearAllMex(Evaluator* eval);
+static bool
+ClearMex(Evaluator* eval, const std::wstring& functionName);
 //=============================================================================
 // clear keyword
 // clear varname
@@ -63,21 +71,26 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 ClearAllVariables(eval);
                 ClearAllGlobalVariables(eval);
                 ClearMacroCache(eval);
+                ClearAllMex(eval);
             } else if (arg1 == L"variables") {
                 ClearAllVariables(eval);
             } else if (arg1 == L"functions") {
                 ClearMacroCache(eval);
                 ClearAllPersistentVariables(eval);
+            } else if (arg1 == L"mex") {
+                ClearAllMex(eval);
             } else {
                 if (!IsValidVariableName(arg1)) {
                     Error(_W("A valid variable name expected."));
                 }
-                Context* ctxt = eval->getContext();
-                if (ctxt->isLockedVariable(wstring_to_utf8(arg1))) {
-                    Error(_W("variable is locked:") + arg1);
-                }
-                if (!ClearVariable(eval, arg1)) {
-                    ClearPersistentVariable(eval, arg1);
+                if (!ClearMex(eval, arg1)) {
+                    Context* ctxt = eval->getContext();
+                    if (ctxt->isLockedVariable(wstring_to_utf8(arg1))) {
+                        Error(_W("variable is locked:") + arg1);
+                    }
+                    if (!ClearVariable(eval, arg1)) {
+                        ClearPersistentVariable(eval, arg1);
+                    }
                 }
             }
         } else if (argIn.size() == 2) {
@@ -97,11 +110,14 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     if (!IsValidVariableName(arg)) {
                         Error(_W("A valid variable name expected."));
                     }
-                    if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-                        Error(_W("variable is locked:") + arg);
-                    }
-                    if (!ClearVariable(eval, arg)) {
-                        ClearPersistentVariable(eval, arg);
+                    FuncPtr funPtr = nullptr;
+                    if (!ClearMex(eval, arg)) {
+                        if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
+                            Error(_W("variable is locked:") + arg);
+                        }
+                        if (!ClearVariable(eval, arg)) {
+                            ClearPersistentVariable(eval, arg);
+                        }
                     }
                 }
             }
@@ -113,15 +129,40 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 if (!IsValidVariableName(arg)) {
                     Error(_W("A valid variable name expected."));
                 }
-                if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-                    Error(_W("variable is locked:") + arg);
-                }
-                if (!ClearVariable(eval, arg)) {
-                    ClearPersistentVariable(eval, arg);
+                if (!ClearMex(eval, arg)) {
+                    if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
+                        Error(_W("variable is locked:") + arg);
+                    }
+                    if (!ClearVariable(eval, arg)) {
+                        ClearPersistentVariable(eval, arg);
+                    }
                 }
             }
         }
     }
     return retval;
+}
+//=============================================================================
+void
+ClearAllMex(Evaluator* eval)
+{
+    wstringVector libnames = GatewaysManager::getInstance()->getLibraryNames();
+    for (auto name : libnames) {
+        GatewaysManager::getInstance()->clearMexGateway(eval, name);
+    }
+}
+//=============================================================================
+bool
+ClearMex(Evaluator* eval, const std::wstring& functionName)
+{
+    Context* ctxt = eval->getContext();
+    FuncPtr funPtr = nullptr;
+    if (ctxt->lookupFunction(functionName, funPtr, true)) {
+        if (funPtr->type() == NLS_BUILT_IN_FUNCTION) {
+            BuiltInFunctionDef* builtinFun = (BuiltInFunctionDef*)funPtr;
+            return GatewaysManager::getInstance()->clearMexGateway(eval, builtinFun->fileName);
+        }
+    }
+    return false;
 }
 //=============================================================================

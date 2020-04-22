@@ -128,7 +128,7 @@ signal_handler(int signal_code)
 #ifdef _MSC_VER
 ArrayOfVector
 EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, const std::string &functionName, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
+    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
 {
     ArrayOfVector outputs;
     switch (builtinPrototype) {
@@ -157,7 +157,7 @@ EvaluateBuiltinCatchRuntimeException(
 
     } break;
     case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
-        CallMexBuiltin(fptr, functionName, inputs, nargout, outputs);
+        CallMexBuiltin(fptr, inputs, nargout, outputs);
     } break;
     default: {
         Error(_("BUILTIN type not managed."));
@@ -169,8 +169,8 @@ EvaluateBuiltinCatchRuntimeException(
 //=============================================================================
 #ifndef _MSC_VER
 ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr,
-    const std::string& functionName, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
+EvaluateBuiltinCatchRuntimeException(
+    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
 {
     ArrayOfVector outputs;
     error_code = 0;
@@ -188,7 +188,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr,
             outputs = builtinPtr(eval, nargout, inputs);
         } break;
         case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
-            CallMexBuiltin(fptr, functionName, inputs, nargout, outputs);
+            CallMexBuiltin(fptr, inputs, nargout, outputs);
         } break;
         default: { } break; }
     } else {
