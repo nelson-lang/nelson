@@ -23,8 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <map>
 #include <boost/filesystem.hpp>
-#include <boost/container/map.hpp>
 #include "GatewaysManager.hpp"
 #include "characters_encoding.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -34,6 +34,7 @@ namespace Nelson {
 //=============================================================================
 #define GATEWAY_ENTRY "AddGateway"
 #define REMOVEGATEWAY_ENTRY "RemoveGateway"
+#define MEXCLEARATEXIT_ENTRY "mexClearAtExit"
 //=============================================================================
 static std::map<std::wstring, library_handle> libraryMap;
 //=============================================================================
@@ -197,7 +198,7 @@ GatewaysManager::clearMexGateway(Evaluator* eval, const std::wstring& libraryFul
         library_handle nlsModuleHandleDynamicLibrary = found->second;
         using PROC_ClearMex = void (*)(void);
         PROC_ClearMex ClearMexPtr = reinterpret_cast<PROC_ClearMex>(
-            get_function(nlsModuleHandleDynamicLibrary, "mexClearAtExit"));
+            get_function(nlsModuleHandleDynamicLibrary, MEXCLEARATEXIT_ENTRY));
         if (ClearMexPtr) {
             ClearMexPtr();
             return true;
