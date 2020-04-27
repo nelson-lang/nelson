@@ -164,7 +164,10 @@
     <ClCompile Include="..\cpp\MxArrayOf.cpp" />
     <ClCompile Include="..\cpp\MxAsserts.cpp" />
     <ClCompile Include="..\cpp\MxAttributes.cpp" />
-    <ClCompile Include="..\cpp\MxCall.cpp" />
+    <ClCompile Include="..\cpp\MxCall.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+    </ClCompile>
     <ClCompile Include="..\cpp\MxCallBuitin.cpp" />
     <ClCompile Include="..\cpp\MxCell.cpp" />
     <ClCompile Include="..\cpp\MxCharacter.cpp" />

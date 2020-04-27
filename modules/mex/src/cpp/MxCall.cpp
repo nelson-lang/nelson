@@ -49,15 +49,19 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
         if (context) {
             Nelson::FunctionDef* funcDef = nullptr;
             if (context->lookupFunction(functionName, funcDef)) {
-                try {
-                    argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
-                } catch (Nelson::Exception&) {
-                    return 1;
+                if (funcDef) {
+                    try {
+                        argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
+                    } catch (Nelson::Exception&) {
+                        return 1;
+                    }
+                    for (int i = 0; i < nlhs; i++) {
+                        if (i < argOut.size()) {
+                            plhs[i] = Nelson::ArrayOfToMxArray(argOut[i]);
+                        }
+                    }
+                    return 0;
                 }
-                for (int i = 0; i < nlhs; i++) {
-                    plhs[i] = Nelson::ArrayOfToMxArray(argOut[i]);
-                }
-                return 0;
             }
         }
     }
