@@ -53,6 +53,9 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
                     try {
                         argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
                     } catch (Nelson::Exception&) {
+                        for (int i = 0; i < nlhs; i++) {
+                            plhs[i] = nullptr;
+                        }
                         return 1;
                     }
                     for (int i = 0; i < nlhs; i++) {

@@ -103,7 +103,7 @@ mxCallBuiltin(
     delete[] mxArgsOut;
     mxArgsOut = nullptr;
 
-    for (int i = 0; i < argIn.size(); i++) {
+    for (size_t i = 0; i < argIn.size(); i++) {
         mxDestroyArray(mxArgsIn[i]);
     }
     delete[] mxArgsIn;
