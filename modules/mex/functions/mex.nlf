@@ -25,7 +25,7 @@
 //=============================================================================
 function mex(varargin)
     if nargin() == 0
-        error('blabla')
+        error(_('Wrong number of input arguments.'));
     end
     interleavedComplex = '';
     filenames = {};

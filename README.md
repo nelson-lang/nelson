@@ -64,6 +64,8 @@ these own data types and operations on these data types by using overload.
 
 - Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
 
+- MEX C API compatibility.
+
 - RESTful API web service.
 
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
@@ -136,6 +138,7 @@ The systems listed here without CI or binaries are known to build and operate, b
 | Windows 7+       | x86-64 (64-bit)  | ✓  | ✓        |
 |                  | i686 (32-bit)    | ✓  | ✓        |
 | MacOS 10.10+     | x86-64 (64-bit)  | ✓  |          |
+| Ubuntu 20.04     | x86-64 (64-bit)  |    |          |
 | Ubuntu 18.04     | x86-64 (64-bit)  | ✓  |          |
 | Ubuntu 16.04     | x86-64 (64-bit)  | ✓  |          |
 | Debian 10        | x86-64 (64-bit)  | ✓  |          |

@@ -1,10 +1,23 @@
-# 0.4.4 (2020-04-XX)
+# 0.4.4 (2020-04-29)
 
 * lookandfeel builtin: default current application look and feel.
 
 * clear builtin extended to clear mex functions.
 
-* MEX C API is allow to access Nelson, GNU Octave and commercial software functions and extend it's functionality.
+* mex function used to build MEX files.
+
+* [IN PROGRESS] MEX C API allows to access Nelson, GNU Octave and commercial software functions.
+
+  documentation and tests will be extended in next version.
+
+  Feedback and external tests are welcome.
+
+Compilation:
+------------
+
+* MacOs X Catalina fully working.
+
+* Ubuntu 20.04 LTS supported.
 
 
 # 0.4.3 (2020-03-30)
