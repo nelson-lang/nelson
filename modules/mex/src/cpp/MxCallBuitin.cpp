@@ -50,7 +50,15 @@ mxCallBuiltin(
     try {
         mxArgsOut = new mxArray*[lhsCount];
         for (size_t i = 0; i < lhsCount; ++i) {
-            mxArgsOut[i] = nullptr;
+            mxArgsOut[i] = new mxArray();
+            mxArgsOut[i]->classID = mxUNKNOWN_CLASS;
+            mxArgsOut[i]->dims = nullptr;
+            mxArgsOut[i]->number_of_dims = 0;
+            mxArgsOut[i]->issparse = false;
+            mxArgsOut[i]->iscomplex = false;
+            mxArgsOut[i]->realdata = nullptr;
+            mxArgsOut[i]->imagdata = nullptr;
+            mxArgsOut[i]->ptr = nullptr;
         }
     } catch (const std::bad_alloc&) {
         for (size_t i = 0; i < argIn.size(); i++) {
@@ -70,44 +78,53 @@ mxCallBuiltin(
     try {
         builtinPtr(nargout, mxArgsOut, nlhs, (const mxArray**)mxArgsIn);
     } catch (const std::runtime_error& e) {
-        for (size_t i = 0; i < argIn.size(); i++) {
-            mxDestroyArray(mxArgsIn[i]);
+        if (mxArgsIn) {
+            for (size_t i = 0; i < argIn.size(); i++) {
+                mxDestroyArray(mxArgsIn[i]);
+            }
+            delete[] mxArgsIn;
+            mxArgsIn = nullptr;
         }
-        delete[] mxArgsIn;
-        mxArgsIn = nullptr;
-
-        for (int i = 0; i < lhsCount; i++) {
-            mxDestroyArray(mxArgsOut[i]);
+        if (mxArgsOut) {
+            for (int i = 0; i < lhsCount; i++) {
+                mxDestroyArray(mxArgsOut[i]);
+            }
+            delete[] mxArgsOut;
+            mxArgsOut = nullptr;
         }
-        delete[] mxArgsOut;
-        mxArgsOut = nullptr;
         Nelson::Error(e.what());
     } catch (Nelson::Exception& e) {
+        if (mxArgsIn) {
+            for (size_t i = 0; i < argIn.size(); i++) {
+                mxDestroyArray(mxArgsIn[i]);
+            }
+            delete[] mxArgsIn;
+            mxArgsIn = nullptr;
+        }
+        if (mxArgsOut) {
+            for (int i = 0; i < lhsCount; i++) {
+                mxDestroyArray(mxArgsOut[i]);
+            }
+            delete[] mxArgsOut;
+            mxArgsOut = nullptr;
+        }
+        throw e;
+    }
+    if (mxArgsOut) {
+        for (int i = 0; i < lhsCount; i++) {
+            argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
+            mxDestroyArray(mxArgsOut[i]);
+        }
+        delete[] mxArgsOut;
+        mxArgsOut = nullptr;
+    }
+    if (mxArgsIn) {
         for (size_t i = 0; i < argIn.size(); i++) {
             mxDestroyArray(mxArgsIn[i]);
         }
         delete[] mxArgsIn;
         mxArgsIn = nullptr;
-
-        for (int i = 0; i < lhsCount; i++) {
-            mxDestroyArray(mxArgsOut[i]);
-        }
-        delete[] mxArgsOut;
-        mxArgsOut = nullptr;
-        throw e;
     }
-    for (int i = 0; i < lhsCount; i++) {
-        argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
-        mxDestroyArray(mxArgsOut[i]);
-    }
-    delete[] mxArgsOut;
-    mxArgsOut = nullptr;
-
-    for (size_t i = 0; i < argIn.size(); i++) {
-        mxDestroyArray(mxArgsIn[i]);
-    }
-    delete[] mxArgsIn;
-    mxArgsIn = nullptr;
     return 0;
 }
 //=============================================================================

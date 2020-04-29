@@ -196,7 +196,7 @@ ArrayOf
 MxArrayToArrayOf(mxArray* pm)
 {
     ArrayOf res;
-    if (pm == nullptr) {
+    if (pm == nullptr || (pm->dims == nullptr && pm->number_of_dims == 0)) {
         Dimensions dims(1, 0);
         return ArrayOf::emptyConstructor(dims);
     } else {
