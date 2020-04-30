@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <stdexcept>
 #include "MxCallBuiltin.hpp"
 #include "ArrayOf.hpp"
 #include "MxArrayOf.hpp"
