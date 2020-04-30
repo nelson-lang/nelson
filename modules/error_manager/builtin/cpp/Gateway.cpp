@@ -29,6 +29,7 @@
 #include "lastwarnBuiltin.hpp"
 #include "warningBuiltin.hpp"
 #include "getLastReportBuiltin.hpp"
+#include "mexception_extractionBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,6 +45,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "getLastReport", (void*)Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "mexception_extraction", (void*)Nelson::ErrorManagerGateway::mexception_extractionBuiltin, 0,
+        1, CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

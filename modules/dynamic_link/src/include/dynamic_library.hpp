@@ -107,12 +107,22 @@ get_dynamic_library_error()
 typedef void* library_handle;
 typedef void* generic_function_ptr;
 //=============================================================================
+inline int
+get_dlopen_flag(const std::string& library_name)
+{
+    // MPI needs to load library as DLD_GLOBAL
+    if (library_name.find("nlsMpi") != std::string::npos) {
+        return RTLD_NOW | RTLD_GLOBAL;
+    }
+    return RTLD_NOW | RTLD_LOCAL;
+}
+//=============================================================================
 inline library_handle
 load_dynamic_library(const std::string& library_name)
 {
     library_handle hl;
     try {
-        hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_GLOBAL);
+        hl = dlopen(library_name.c_str(), get_dlopen_flag(library_name));
     } catch (const std::runtime_error&) {
         hl = nullptr;
     }

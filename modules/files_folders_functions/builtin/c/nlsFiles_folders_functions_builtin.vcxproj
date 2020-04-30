@@ -207,6 +207,9 @@
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\string\src\c\nlsString.vcxproj">
       <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>
     </ProjectReference>

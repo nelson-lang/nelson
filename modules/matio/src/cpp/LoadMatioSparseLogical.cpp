@@ -74,7 +74,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
         }
         auto* iptC = static_cast<int32*>(ptrC);
         int ii = 0;
-        for (int p = 1; p < sparseData->njc; p++) {
+        for (uint32 p = 1; p < (uint32)sparseData->njc; p++) {
             for (unsigned n = 0; n < unsigned(sparseData->jc[p] - sparseData->jc[p - 1]); n++) {
                 iptC[ii] = p;
                 ii++;

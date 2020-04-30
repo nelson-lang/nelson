@@ -23,8 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <map>
 #include <boost/filesystem.hpp>
-#include <boost/unordered_map.hpp>
 #include "GatewaysManager.hpp"
 #include "characters_encoding.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -34,12 +34,13 @@ namespace Nelson {
 //=============================================================================
 #define GATEWAY_ENTRY "AddGateway"
 #define REMOVEGATEWAY_ENTRY "RemoveGateway"
+#define MEXCLEARATEXIT_ENTRY "mexClearAtExit"
 //=============================================================================
-boost::unordered_map<std::wstring, library_handle> libraryMap;
+static std::map<std::wstring, library_handle> libraryMap;
 //=============================================================================
 GatewaysManager* GatewaysManager::m_pInstance = nullptr;
 //=============================================================================
-GatewaysManager::GatewaysManager() { libraryMap.reserve(128); }
+GatewaysManager::GatewaysManager() {}
 //=============================================================================
 GatewaysManager*
 GatewaysManager::getInstance()
@@ -55,9 +56,17 @@ GatewaysManager::getInstance()
 }
 //=============================================================================
 void
-GatewaysManager::destroy()
+GatewaysManager::destroy(Evaluator* eval)
 {
     if (m_pInstance != nullptr) {
+        wstringVector names;
+        for (auto it = libraryMap.rbegin(); it != libraryMap.rend(); ++it) {
+            names.push_back(it->first);
+        }
+        for (auto n : names) {
+            std::wstring errorMessage;
+            removeGateway(eval, n, errorMessage);
+        }
         delete m_pInstance;
         m_pInstance = nullptr;
     }
@@ -87,8 +96,7 @@ GatewaysManager::addGateway(
 
         bool needToAdd = false;
         library_handle nlsModuleHandleDynamicLibrary = nullptr;
-        boost::unordered_map<std::wstring, library_handle>::iterator found
-            = libraryMap.find(libraryFullName);
+        std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
         if (found != libraryMap.end()) {
             nlsModuleHandleDynamicLibrary = found->second;
         } else {
@@ -147,8 +155,7 @@ GatewaysManager::removeGateway(
     boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
     boost::filesystem::current_path(dir);
 
-    boost::unordered_map<std::wstring, library_handle>::iterator found
-        = libraryMap.find(libraryFullName);
+    std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
     if (found != libraryMap.end()) {
         library_handle nlsModuleHandleDynamicLibrary = found->second;
         if (nlsModuleHandleDynamicLibrary) {
@@ -169,6 +176,33 @@ GatewaysManager::removeGateway(
         }
     } else {
         errorMessage = _W("Module not loaded: library handle not found.");
+    }
+    return false;
+}
+//=============================================================================
+wstringVector
+GatewaysManager::getLibraryNames()
+{
+    wstringVector names;
+    for (auto it = libraryMap.rbegin(); it != libraryMap.rend(); ++it) {
+        names.push_back(it->first);
+    }
+    return names;
+}
+//=============================================================================
+bool
+GatewaysManager::clearMexGateway(Evaluator* eval, const std::wstring& libraryFullName)
+{
+    std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
+    if (found != libraryMap.end()) {
+        library_handle nlsModuleHandleDynamicLibrary = found->second;
+        using PROC_ClearMex = void (*)(void);
+        PROC_ClearMex ClearMexPtr = reinterpret_cast<PROC_ClearMex>(
+            get_function(nlsModuleHandleDynamicLibrary, MEXCLEARATEXIT_ENTRY));
+        if (ClearMexPtr) {
+            ClearMexPtr();
+            return true;
+        }
     }
     return false;
 }

@@ -50,9 +50,11 @@ function [status, message] = dlgeneratemake(varargin)
   else
     external_libraries = [];
   end
+  build_configuration = [];
   if nargin > 6
     build_configuration = varargin{7};
-  else
+  end
+  if isempty(build_configuration)
     ver_comp = version('-compiler');
     if strcmp(ver_comp{2}, 'debug')
       build_configuration = 'Debug';
@@ -60,14 +62,18 @@ function [status, message] = dlgeneratemake(varargin)
       build_configuration = 'Release';
     end
   end
+  c_flags = [];
   if nargin > 7
     c_flags = varargin{8};
-  else
+  end
+  if isempty(c_flags)
     c_flags = '';
   end
+  cxx_flags = [];
   if nargin > 8
     cxx_flags = varargin{9};
-  else
+  end
+  if isempty(cxx_flags)
     cxx_flags = '';
   end
 
@@ -237,7 +243,7 @@ function [r, defines_modified] = checkAndPrepareDefines(defines)
         r = false;
         return
       end
-      defines_modified = [defines_modified, newline, ['add_definitions(-D', k{1}, ')']];
+      defines_modified = [defines_modified, newline, ['add_compile_definitions(', k{1}, ')']];
     end
     r = true;
   else

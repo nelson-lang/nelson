@@ -25,32 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Interface.hpp"
-#include "nlsInterpreter_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-setPrintInterface(Interface* io);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-NelsonPrint(const std::wstring& msg);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-NelsonPrint(const std::string& msg);
-//=============================================================================
+namespace ErrorManagerGateway {
+    ArrayOfVector
+    mexception_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP int
-    NelsonPrint(const wchar_t* msg);
-//=============================================================================
-#ifdef __cplusplus
-}
-#endif
+} // namespace Nelson
 //=============================================================================

@@ -39,13 +39,19 @@ public:
     getInstance();
     //=============================================================================
     void
-    destroy();
+    destroy(Evaluator* eval);
     //=============================================================================
     bool
     addGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage);
     //=============================================================================
     bool
     removeGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage);
+    //=============================================================================
+    wstringVector
+    getLibraryNames();
+    //=============================================================================
+    bool
+    clearMexGateway(Evaluator* eval, const std::wstring& libraryFullName);
     //=============================================================================
 private:
     GatewaysManager();

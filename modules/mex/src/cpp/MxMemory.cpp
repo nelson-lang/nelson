@@ -1,0 +1,179 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of the Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// Alternatively, you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation; either version 2 of
+// the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this program. If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+#include <cstdlib>
+#include <set>
+#include <cstring>
+#include "mex.h"
+#include "ArrayOf.hpp"
+#include "MxHelpers.hpp"
+//=============================================================================
+static std::set<void*> registeredMxPointers;
+//=============================================================================
+static void
+registerMexPointer(void* ptr)
+{
+    if (ptr) {
+        registeredMxPointers.insert(ptr);
+    }
+}
+//=============================================================================
+static void
+deRegisterMexPointer(void* ptr)
+{
+    if (ptr) {
+        registeredMxPointers.erase(ptr);
+    }
+}
+//=============================================================================
+void*
+mxCalloc(mwSize n, mwSize size)
+{
+    void* p = calloc(n, size);
+    registerMexPointer(p);
+    return p;
+}
+//=============================================================================
+void*
+mxMalloc(mwSize n)
+{
+    void* p = malloc(n);
+    registerMexPointer(p);
+    return p;
+}
+//=============================================================================
+void
+mxFree(void* ptr)
+{
+    if (ptr) {
+        deRegisterMexPointer(ptr);
+        free(ptr);
+    }
+}
+//=============================================================================
+void*
+mxRealloc(void* ptr, mwSize size)
+{
+    if (ptr) {
+        deRegisterMexPointer(ptr);
+    }
+    ptr = realloc(ptr, size);
+
+    if (ptr) {
+        registerMexPointer(ptr);
+    }
+    return ptr;
+}
+//=============================================================================
+void
+mxDestroyArray(mxArray* pm)
+{
+    if (pm) {
+        if (pm->classID == mxCELL_CLASS) {
+            mxArray** gp = (mxArray**)pm->realdata;
+            size_t L = mxGetNumberOfElements(pm);
+            for (size_t i = 0; i < L; i++) {
+                mxArray* p = gp[i];
+                mxDestroyArray(p);
+            }
+        }
+        if (pm->classID == mxSTRUCT_CLASS) {
+            Nelson::ArrayOf* ptr = (Nelson::ArrayOf*)pm->ptr;
+            delete ptr;
+            pm->ptr = nullptr;
+        }
+        mxFree(pm->realdata);
+        mxFree(pm->imagdata);
+        mxFree(pm);
+    }
+}
+//=============================================================================
+mxArray*
+mxDuplicateArray(const mxArray* in)
+{
+    if (in == nullptr) {
+        return nullptr;
+    }
+    size_t L = mxGetNumberOfElements(in);
+    mxArray* ret = nullptr;
+    switch (in->classID) {
+    case mxCELL_CLASS: {
+        ret = mxAllocateRealArray(
+            in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+        mxArray** g = (mxArray**)ret->realdata;
+        mxArray** h = (mxArray**)in->realdata;
+        for (size_t i = 0; i < L; i++) {
+            g[i] = mxDuplicateArray(h[i]);
+        }
+    } break;
+    case mxSTRUCT_CLASS: {
+        Nelson::ArrayOf* inPtr = (Nelson::ArrayOf*)in->ptr;
+        ret = (mxArray*)malloc(sizeof(mxArray));
+        if (ret) {
+            mwSize num_dim;
+            mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
+            ret->number_of_dims = num_dim;
+            ret->dims = dim_vec;
+            ret->classID = mxSTRUCT_CLASS;
+            ret->issparse = false;
+            ret->iscomplex = false;
+            ret->imagdata = nullptr;
+            ret->realdata = nullptr;
+            Nelson::ArrayOf* ptr = new Nelson::ArrayOf(*inPtr);
+            ptr->ensureSingleOwner();
+            ret->ptr = (uint64_t*)ptr;
+        }
+    } break;
+    case mxLOGICAL_CLASS:
+    case mxCHAR_CLASS:
+    case mxDOUBLE_CLASS:
+    case mxSINGLE_CLASS:
+    case mxINT8_CLASS:
+    case mxUINT8_CLASS:
+    case mxINT16_CLASS:
+    case mxUINT16_CLASS:
+    case mxINT32_CLASS:
+    case mxUINT32_CLASS:
+    case mxINT64_CLASS:
+    case mxUINT64_CLASS: {
+        if (in->iscomplex) {
+            ret = mxAllocateComplexArray(
+                in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+            memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+            memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+        } else {
+            ret = mxAllocateRealArray(
+                in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+            memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+        }
+        return ret;
+    } break;
+    default: {
+        mexErrMsgTxt("C MEX type not managed.");
+    } break;
+    }
+    return ret;
+}
+//=============================================================================

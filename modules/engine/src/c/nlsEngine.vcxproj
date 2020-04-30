@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -112,7 +112,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -132,7 +132,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -154,7 +154,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/localization/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/memory_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/time/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -236,6 +236,9 @@
     <ProjectReference Include="..\..\..\memory_manager\src\c\nlsMemory_manager.vcxproj">
       <Project>{02a292ac-2857-401c-8fd2-07dd0c529ca2}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\mex\src\c\nlsMex.vcxproj">
+      <Project>{a3eeb626-83db-426d-b483-37a478ee8166}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\modules_manager\src\c\nlsModules_manager.vcxproj">
       <Project>{f666ac18-eeda-4a00-acd2-4cafe3865c15}</Project>
     </ProjectReference>
@@ -247,6 +250,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\sio_client\src\c\nlsSio_client.vcxproj">
       <Project>{31effd09-dc10-4163-bc2f-4f285f96a7d6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\terminal\src\c\nlsTerminal.vcxproj">
       <Project>{636d4715-9889-4a8e-9404-3b05cb7734d1}</Project>

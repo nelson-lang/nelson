@@ -48,7 +48,6 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
     ArrayOfVector outputs;
     eval->pushDebug(name, std::string("built-in ") + this->name);
     size_t stackDepth = eval->cstack.size();
-
     uint64 tic = 0;
     try {
         tic = Profiler::getInstance()->tic();

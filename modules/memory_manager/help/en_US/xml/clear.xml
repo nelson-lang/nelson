@@ -11,9 +11,11 @@
     <syntax_item>clear variable_name</syntax_item>
     <syntax_item>clear global</syntax_item>
     <syntax_item>clear all</syntax_item>
+    <syntax_item>clear mex</syntax_item>
     <syntax_item>clear variables</syntax_item>
     <syntax_item>clear functions</syntax_item>
     <syntax_item>clear function_name</syntax_item>
+    <syntax_item>clear mexfunction_name</syntax_item>
     <syntax_item>clear variable_name_1 ... variable_name_N</syntax_item>
     <syntax_item>clear global variable_name</syntax_item>
 
@@ -34,6 +36,10 @@
       <param_description>clears all variables in all scopes</param_description>
     </param_input_item>
     <param_input_item>
+      <param_name>mex</param_name>
+      <param_description>clears all mex functions in all scopes</param_description>
+    </param_input_item>
+    <param_input_item>
       <param_name>variables</param_name>
       <param_description>clears all variables in current scope.</param_description>
     </param_input_item>
@@ -45,6 +51,11 @@
       <param_name>function_name</param_name>
       <param_description>clears persistent variables of a function.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>mexfunction_name</param_name>
+      <param_description>clears mex function (see mexAtExit).</param_description>
+    </param_input_item>
+
   </param_input>
 
   <description>

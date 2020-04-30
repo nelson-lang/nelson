@@ -184,7 +184,7 @@
     <ClCompile Include="..\cpp\ColonOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\NelsonPrint.cpp">
+    <ClCompile Include="..\cpp\CallMexBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -352,7 +352,7 @@
     <ClInclude Include="..\include\GenericTable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\NelsonPrint.hpp">
+    <ClInclude Include="..\cpp\CallMexBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

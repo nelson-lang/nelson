@@ -30,6 +30,7 @@
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include <string>
+#include "NelsonPrint.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -188,6 +189,7 @@ EvaluateConsoleCommand(
     } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
+    setPrintInterface(tempIO);
     eval->setInterface(tempIO);
     eval->getContext()->bypassScope(0);
     std::wstring buffer;
@@ -201,6 +203,7 @@ EvaluateConsoleCommand(
         retval = EvaluateCommand(eval, nbOutput, command, L"");
         buffer = tempIO->getOutputBuffer();
         eval->setInterface(io);
+        setPrintInterface(io);
         delete tempIO;
     } catch (const Exception&) {
         if (!catchCommand.empty()) {
@@ -208,14 +211,17 @@ EvaluateConsoleCommand(
                 retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
                 buffer = tempIO->getOutputBuffer();
                 eval->setInterface(io);
+                setPrintInterface(io);
                 delete tempIO;
             } catch (const Exception&) {
                 eval->setInterface(io);
+                setPrintInterface(io);
                 delete tempIO;
                 throw;
             }
         } else {
             eval->setInterface(io);
+            setPrintInterface(io);
             delete tempIO;
             throw;
         }
