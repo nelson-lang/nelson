@@ -126,6 +126,16 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
 }
 //=============================================================================
 ArrayOf
+ArrayOf::emptyCell(const Dimensions& dim)
+{
+    if (dim.getElementCount() == 0) {
+        return ArrayOf(NLS_CELL_ARRAY, dim, nullptr, false);
+    }
+    Error(_W("Invalid dimensions."));
+    return ArrayOf();
+}
+//=============================================================================
+ArrayOf
 ArrayOf::emptyConstructor(const Dimensions& dim, bool bIsSparse)
 {
     if (dim.getElementCount() == 0) {

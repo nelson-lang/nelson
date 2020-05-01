@@ -40,16 +40,16 @@ using namespace Nelson;
 const std::wstring gatewayName = L"integer";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "int8", Nelson::IntegerGateway::int8Builtin, 1, 1 },
-    { "int16", Nelson::IntegerGateway::int16Builtin, 1, 1 },
-    { "int32", Nelson::IntegerGateway::int32Builtin, 1, 1 },
-    { "int64", Nelson::IntegerGateway::int64Builtin, 1, 1 },
-    { "uint8", Nelson::IntegerGateway::uint8Builtin, 1, 1 },
-    { "uint16", Nelson::IntegerGateway::uint16Builtin, 1, 1 },
-    { "uint32", Nelson::IntegerGateway::uint32Builtin, 1, 1 },
-    { "uint64", Nelson::IntegerGateway::uint64Builtin, 1, 1 },
-    { "intmax", Nelson::IntegerGateway::intmaxBuiltin, -1, -1 },
-    { "intmin", Nelson::IntegerGateway::intminBuiltin, -1, -1 },
+    { "int8", (void*)Nelson::IntegerGateway::int8Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "int16", (void*)Nelson::IntegerGateway::int16Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "int32", (void*)Nelson::IntegerGateway::int32Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "int64", (void*)Nelson::IntegerGateway::int64Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "uint8", (void*)Nelson::IntegerGateway::uint8Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "uint16", (void*)Nelson::IntegerGateway::uint16Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "uint32", (void*)Nelson::IntegerGateway::uint32Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "uint64", (void*)Nelson::IntegerGateway::uint64Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "intmax", (void*)Nelson::IntegerGateway::intmaxBuiltin, -1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "intmin", (void*)Nelson::IntegerGateway::intminBuiltin, -1, -1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

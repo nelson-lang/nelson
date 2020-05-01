@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace MpiGateway {
     ArrayOfVector
-    MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

@@ -26,6 +26,7 @@
 #include <algorithm>
 #include "VariablesTable.hpp"
 #include "GenericTable.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -96,12 +97,19 @@ bool
 VariablesTable::insertVariable(const key_type& key, const value_type& val)
 {
     // insert only in a not locked variable
+    if (key.empty()) {
+        return false;
+    }
+    if (variablesTable == nullptr) {
+        return false;
+    }
+    if (!IsValidVariableName(key, true)) {
+        return false;
+    }
     if (!isLockedVariable(key) || lockedVariables.empty()) {
-        if (variablesTable != nullptr) {
-            auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
-            genericTable->insertSymbol(key, val);
-            return true;
-        }
+        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        genericTable->insertSymbol(key, val);
+        return true;
     }
     return false;
 }

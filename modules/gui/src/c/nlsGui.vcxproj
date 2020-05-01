@@ -28,6 +28,7 @@
     <ClCompile Include="..\cpp\moc_QtTerminal.cpp" />
     <ClCompile Include="..\cpp\ProcessEvents.cpp" />
     <ClCompile Include="..\cpp\QStringConverter.cpp" />
+    <ClCompile Include="..\cpp\QtLookAndFeel.cpp" />
     <ClCompile Include="..\cpp\QtMainWindow.cpp" />
     <ClCompile Include="..\cpp\QtTerminal.cpp" />
     <ClCompile Include="..\cpp\GuiTerminal.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\include\GetQtPath.hpp" />
     <ClInclude Include="..\include\HtmlToPdf.hpp" />
     <ClInclude Include="..\include\QStringConverter.hpp" />
+    <ClInclude Include="..\include\QtLookAndFeel.hpp" />
     <ClInclude Include="..\include\QtTranslation.hpp" />
     <ClInclude Include="..\include\UiGetDirectory.hpp" />
     <CustomBuild Include="..\cpp\QtTerminal.h">

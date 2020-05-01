@@ -198,6 +198,7 @@
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
     <ClCompile Include="..\cpp\Logarithm2.cpp" />
     <ClCompile Include="..\cpp\Maximum.cpp" />
+    <ClCompile Include="..\cpp\Mean.cpp" />
     <ClCompile Include="..\cpp\Minimum.cpp" />
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
@@ -312,6 +313,7 @@
     <ClInclude Include="..\include\Logarithm2.hpp" />
     <ClInclude Include="..\include\MatrixMultiplication.hpp" />
     <ClInclude Include="..\include\Maximum.hpp" />
+    <ClInclude Include="..\include\Mean.hpp" />
     <ClInclude Include="..\include\Minimum.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
     <ClInclude Include="..\include\NaturalLogarithm.hpp" />

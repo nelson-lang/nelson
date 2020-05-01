@@ -26,11 +26,12 @@
 #include "pwdBuiltin.hpp"
 #include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FilesFoldersGateway::pwdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (!argIn.empty()) {
@@ -44,10 +45,7 @@ Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(_W("Impossible to get current directory."));
     }
     if (nLhs == 0) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            io->outputMessage(pwd);
-        }
+        NelsonPrint(pwd);
     } else {
         retval.push_back(ArrayOf::characterArrayConstructor(pwd));
     }

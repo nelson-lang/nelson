@@ -29,6 +29,7 @@
 #include <unordered_map>
 #include <string>
 #include "BuiltInFunctionDef.hpp"
+#include "NelsonGateway.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -38,8 +39,8 @@ public:
     static BuiltInFunctionDefManager*
     getInstance();
     bool
-    add(const std::string& name, BuiltInFuncPtr fptr, int argc_in, int argc_out,
-        const std::wstring& dynlibname, const std::wstring& modulename);
+    add(const std::string& name, void* fptr, int argc_in, int argc_out,
+        const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype);
 
     bool
     remove(const std::string& name);
@@ -48,7 +49,7 @@ public:
     bool
     remove(BuiltInFunctionDef* ptr);
     bool
-    remove(BuiltInFuncPtr fptr);
+    remove(void* fptr);
     bool
     removeAll();
 

@@ -32,7 +32,7 @@ using namespace Nelson;
 // data = h5read(filename, datasetname)
 //=============================================================================
 ArrayOfVector
-Nelson::Hdf5Gateway::h5readBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::h5readBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

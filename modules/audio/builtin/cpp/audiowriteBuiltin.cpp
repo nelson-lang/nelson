@@ -32,7 +32,7 @@ using namespace Nelson;
 // audiowrite(filename, y, Fs, ...)
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

@@ -33,8 +33,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"file_archiver";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "zip", Nelson::FileArchiverGateway::zipBuiltin, -1, -3, CPP_BUILTIN },
-    { "unzip", Nelson::FileArchiverGateway::unzipBuiltin, -1, -2, CPP_BUILTIN },
+    { "zip", (void*)Nelson::FileArchiverGateway::zipBuiltin, -1, -3 },
+    { "unzip", (void*)Nelson::FileArchiverGateway::unzipBuiltin, -1, -2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

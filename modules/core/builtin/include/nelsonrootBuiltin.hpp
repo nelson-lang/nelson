@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace CoreGateway {
     ArrayOfVector
-    nelsonrootBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    nelsonrootBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

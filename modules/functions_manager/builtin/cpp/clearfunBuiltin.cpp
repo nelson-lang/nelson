@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionsGateway::clearfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionsGateway::clearfunBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 0) {

@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dllibisloadedBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::dllibisloadedBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {

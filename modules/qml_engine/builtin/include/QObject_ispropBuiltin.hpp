@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace QmlEngineGateway {
     ArrayOfVector
-    QObject_ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    QObject_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 }; // namespace Nelson
 //=============================================================================

@@ -33,8 +33,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

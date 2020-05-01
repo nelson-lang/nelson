@@ -27,6 +27,7 @@
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
+#include "NelsonGateway.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,6 +37,7 @@ BuiltInFunctionDef::BuiltInFunctionDef()
     retCount = 0;
     argCount = 0;
     fptr = nullptr;
+    builtinPrototype = (size_t)BUILTIN_PROTOTYPE::CPP_BUILTIN;
 }
 //=============================================================================
 BuiltInFunctionDef::~BuiltInFunctionDef() = default;
@@ -46,11 +48,11 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
     ArrayOfVector outputs;
     eval->pushDebug(name, std::string("built-in ") + this->name);
     size_t stackDepth = eval->cstack.size();
-
     uint64 tic = 0;
     try {
         tic = Profiler::getInstance()->tic();
-        outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
+        outputs
+            = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout, builtinPrototype);
         if (tic != 0) {
             internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
             Profiler::getInstance()->toc(tic, stack);

@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
+#include <wctype.h>
 #include <cctype>
 #include <cstdio>
 #include <sys/stat.h>
@@ -152,27 +153,29 @@ popVCState()
 inline bool
 testSpecialFuncs()
 {
-    std::string line = std::string(datap);
-    if (!std::isalpha(line[0])) {
+    std::wstring wline = utf8_to_wstring(std::string(datap));
+    if (!iswalpha(wline[0])) {
         return false;
     }
-    bool isHardcodedShorcut = boost::algorithm::starts_with(line, "ls ")
-        || boost::algorithm::starts_with(line, "cd ..")
-        || boost::algorithm::starts_with(line, "cd .") || boost::algorithm::starts_with(line, "cd ")
-        || boost::algorithm::starts_with(line, "dir ?")
-        || boost::algorithm::starts_with(line, "dir *");
+    bool isHardcodedShorcut = boost::algorithm::starts_with(wline, L"ls ")
+        || boost::algorithm::starts_with(wline, L"cd ..")
+        || boost::algorithm::starts_with(wline, L"cd .")
+        || boost::algorithm::starts_with(wline, L"cd ")
+        || boost::algorithm::starts_with(wline, L"dir ?")
+        || boost::algorithm::starts_with(wline, L"dir *");
 
     if (isHardcodedShorcut) {
         return true;
     }
     // Check for non-keyword identifier followed by whitespace followed by alphanum
     size_t i = 0;
-    std::string keyword;
-    keyword.reserve(IDENTIFIER_LENGTH_MAX);
-    while (isalnum(line[i]) && i < line.size()) {
-        keyword.push_back(line[i]);
+    std::wstring wkeyword;
+    wkeyword.reserve(IDENTIFIER_LENGTH_MAX);
+    while (iswalnum(wline[i]) && i < wline.size()) {
+        wkeyword.push_back(wline[i]);
         i++;
     }
+    std::string keyword = wstring_to_utf8(wkeyword);
     if (keyword.length() > IDENTIFIER_LENGTH_MAX) {
         Error(_("Maximum name length exceeded."));
     }
@@ -182,10 +185,10 @@ testSpecialFuncs()
     if (pSearch != nullptr) {
         return false;
     }
-    while ((isspace(line[i]) || line[i] == '\t') && i < line.size()) {
+    while ((iswspace(wline[i]) || wline[i] == L'\t') && i < wline.size()) {
         i++;
     }
-    return (isalpha(line[i]) || isdigit(line[i]));
+    return (iswalpha(wline[i]) || iswdigit(wline[i]));
 }
 //=============================================================================
 inline void

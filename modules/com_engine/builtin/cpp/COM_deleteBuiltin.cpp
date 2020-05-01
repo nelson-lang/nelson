@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ComEngineGateway::COM_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ComEngineGateway::COM_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -215,6 +215,7 @@
     <ClCompile Include="..\cpp\AstManager.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
+    <ClCompile Include="..\cpp\CallMexBuiltin.cpp" />
     <ClCompile Include="..\cpp\CheckIfWhileCondition.cpp" />
     <ClCompile Include="..\cpp\ColonOperator.cpp" />
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
@@ -315,6 +316,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
     <ClInclude Include="..\include\AST.hpp" />

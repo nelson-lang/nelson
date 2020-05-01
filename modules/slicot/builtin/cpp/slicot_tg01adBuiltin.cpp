@@ -45,7 +45,7 @@ extern "C"
 // C_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_tg01adBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 7) {

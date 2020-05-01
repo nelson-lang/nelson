@@ -211,6 +211,7 @@
     <ClCompile Include="..\cpp\logBuiltin.cpp" />
     <ClCompile Include="..\cpp\ltBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxBuiltin.cpp" />
+    <ClCompile Include="..\cpp\meanBuiltin.cpp" />
     <ClCompile Include="..\cpp\minBuiltin.cpp" />
     <ClCompile Include="..\cpp\minusBuiltin.cpp" />
     <ClCompile Include="..\cpp\mldivideBuiltin.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="..\include\logBuiltin.hpp" />
     <ClInclude Include="..\include\ltBuiltin.hpp" />
     <ClInclude Include="..\include\maxBuiltin.hpp" />
+    <ClInclude Include="..\include\meanBuiltin.hpp" />
     <ClInclude Include="..\include\minBuiltin.hpp" />
     <ClInclude Include="..\include\minusBuiltin.hpp" />
     <ClInclude Include="..\include\mldivideBuiltin.hpp" />

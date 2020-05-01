@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace AudioGateway {
     ArrayOfVector
-    audiodevinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

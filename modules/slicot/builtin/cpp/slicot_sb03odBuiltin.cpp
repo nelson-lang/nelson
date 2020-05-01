@@ -44,7 +44,7 @@ extern "C"
 // [Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 6) {

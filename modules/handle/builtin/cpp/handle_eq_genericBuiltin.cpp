@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_eq_genericBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::handle_eq_genericBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {

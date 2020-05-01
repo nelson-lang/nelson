@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SioClientGateway::sioregisterBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     switch (argIn.size()) {

@@ -26,11 +26,10 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace FilesFoldersGateway {
     ArrayOfVector
-    relativepathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    relativepathBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson

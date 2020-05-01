@@ -23,13 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
 #include "FinishNelsonMainScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "GetNelsonPath.hpp"
 #include "Interface.hpp"
 #include "NelsonConfiguration.hpp"
-#include <boost/filesystem.hpp>
+#include "GatewaysManager.hpp"
 //=============================================================================
 bool
 FinishNelsonMainScript(Evaluator* eval)
@@ -57,6 +58,7 @@ FinishNelsonMainScript(Evaluator* eval)
                     fwprintf(stderr, L"%ls", errmsg.c_str());
                 }
             }
+            GatewaysManager::getInstance()->destroy(eval);
             return true;
         }
         return false;

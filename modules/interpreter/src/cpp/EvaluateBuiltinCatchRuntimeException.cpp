@@ -33,6 +33,8 @@
 #include "Error.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "i18n.hpp"
+#include "NelsonGateway.hpp"
+#include "CallMexBuiltin.hpp"
 //=============================================================================
 #ifndef _MSC_VER
 static std::jmp_buf buf;
@@ -40,6 +42,9 @@ static int error_code = 0;
 #endif
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+using BuiltInWithEvaluatorFuncPtr = ArrayOfVector (*)(Evaluator*, int, const ArrayOfVector&);
+using BuiltInFuncPtr = ArrayOfVector (*)(int, const ArrayOfVector&);
 //=============================================================================
 #ifdef _MSC_VER
 class InfoFromSE
@@ -120,27 +125,72 @@ signal_handler(int signal_code)
 }
 #endif
 //=============================================================================
+#ifdef _MSC_VER
 ArrayOfVector
 EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, BuiltInFuncPtr fptr, ArrayOfVector& inputs, int nargout)
+    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
 {
     ArrayOfVector outputs;
-#ifdef _MSC_VER
-    _set_se_translator(translator_SE);
-    try {
-        outputs = fptr(eval, nargout, inputs);
-    } catch (const std::runtime_error& e) {
+    switch (builtinPrototype) {
+    case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
+        BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+        _set_se_translator(translator_SE);
+        try {
+            outputs = builtinPtr(nargout, inputs);
+        } catch (const std::runtime_error& e) {
+            _set_se_translator(nullptr);
+            Error(e.what());
+        }
         _set_se_translator(nullptr);
-        Error(e.what());
+
+    } break;
+    case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
+        BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+        _set_se_translator(translator_SE);
+        try {
+            outputs = builtinPtr(eval, nargout, inputs);
+        } catch (const std::runtime_error& e) {
+            _set_se_translator(nullptr);
+            Error(e.what());
+        }
+        _set_se_translator(nullptr);
+
+    } break;
+    case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
+        CallMexBuiltin(fptr, inputs, nargout, outputs);
+    } break;
+    default: {
+        Error(_("BUILTIN type not managed."));
+    } break;
     }
-    _set_se_translator(nullptr);
-#else
+    return outputs;
+}
+#endif
+//=============================================================================
+#ifndef _MSC_VER
+ArrayOfVector
+EvaluateBuiltinCatchRuntimeException(
+    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype)
+{
+    ArrayOfVector outputs;
     error_code = 0;
     signal(SIGSEGV, signal_handler);
     signal(SIGFPE, signal_handler);
     signal(SIGILL, signal_handler);
     if (!(setjmp(buf))) {
-        outputs = fptr(eval, nargout, inputs);
+        switch (builtinPrototype) {
+        case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
+            BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+            outputs = builtinPtr(nargout, inputs);
+        } break;
+        case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
+            BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+            outputs = builtinPtr(eval, nargout, inputs);
+        } break;
+        case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
+            CallMexBuiltin(fptr, inputs, nargout, outputs);
+        } break;
+        default: { } break; }
     } else {
         std::string error_message = "";
         switch (error_code) {
@@ -166,9 +216,9 @@ EvaluateBuiltinCatchRuntimeException(
     signal(SIGSEGV, SIG_DFL);
     signal(SIGFPE, SIG_DFL);
     signal(SIGILL, SIG_DFL);
-#endif
     return outputs;
 }
+#endif
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

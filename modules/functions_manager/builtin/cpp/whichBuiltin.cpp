@@ -29,11 +29,12 @@
 #include "ToCellString.hpp"
 #include "Which.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
@@ -45,20 +46,17 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
             if (nLhs == 0) {
-                Interface* io = eval->getInterface();
-                if (io != nullptr) {
-                    FuncPtr fptr = nullptr;
-                    bool found = BuiltInFunctionDefManager::getInstance()->find(
-                        wstring_to_utf8(wfunctionname), fptr);
-                    std::wstring path = Which(wfunctionname);
-                    if (found) {
-                        io->outputMessage(_W("built-in") + L" (" + path + L")");
+                FuncPtr fptr = nullptr;
+                bool found = BuiltInFunctionDefManager::getInstance()->find(
+                    wstring_to_utf8(wfunctionname), fptr);
+                std::wstring path = Which(wfunctionname);
+                if (found) {
+                    NelsonPrint(_W("built-in") + L" (" + path + L")");
+                } else {
+                    if (path.empty()) {
+                        NelsonPrint(L"'" + wfunctionname + L"' " + _W("not found."));
                     } else {
-                        if (path.empty()) {
-                            io->outputMessage(L"'" + wfunctionname + L"' " + _W("not found."));
-                        } else {
-                            io->outputMessage(path);
-                        }
+                        NelsonPrint(path);
                     }
                 }
             } else {
@@ -84,17 +82,12 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (wparam2 == L"-all") {
             wstringVector res = WhichAll(wfunctionname);
             if (nLhs == 0) {
-                Interface* io = eval->getInterface();
-                if (io != nullptr) {
-                    for (size_t k = 0; k < res.size(); k++) {
-                        if (k == 0) {
-                            io->outputMessage(res[k] + L"\n");
-                        } else {
-                            io->outputMessage(res[k] + L" % " + _W("Shadowed") + L"\n");
-                        }
+                for (size_t k = 0; k < res.size(); k++) {
+                    if (k == 0) {
+                        NelsonPrint(res[k] + L"\n");
+                    } else {
+                        NelsonPrint(res[k] + L" % " + _W("Shadowed") + L"\n");
                     }
-                } else {
-                    retval.push_back(ToCellStringAsColumn(res));
                 }
             } else {
                 retval.push_back(ToCellStringAsColumn(res));
@@ -102,13 +95,8 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         } else if (wparam2 == L"-module") {
             wstringVector res = WhichModule(wfunctionname);
             if (nLhs == 0) {
-                Interface* io = eval->getInterface();
-                if (io != nullptr) {
-                    for (const auto& re : res) {
-                        io->outputMessage(re + L"\n");
-                    }
-                } else {
-                    retval.push_back(ToCellStringAsColumn(res));
+                for (const auto& re : res) {
+                    NelsonPrint(re + L"\n");
                 }
             } else {
                 retval.push_back(ToCellStringAsColumn(res));

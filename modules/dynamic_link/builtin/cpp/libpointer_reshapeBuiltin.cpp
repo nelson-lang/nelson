@@ -32,8 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 3) {

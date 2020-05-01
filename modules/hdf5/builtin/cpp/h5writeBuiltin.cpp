@@ -32,7 +32,7 @@ using namespace Nelson;
 // h5write(filename, location, data)
 //=============================================================================
 ArrayOfVector
-Nelson::Hdf5Gateway::h5writeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::h5writeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

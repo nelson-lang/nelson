@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace ModulesManagerGateway {
     ArrayOfVector
-    requiremoduleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    requiremoduleBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

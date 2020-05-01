@@ -26,11 +26,12 @@
 #include "iskeywordBuiltin.hpp"
 #include "Error.hpp"
 #include "Keywords.hpp"
+#include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::InterpreterGateway::iskeywordBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

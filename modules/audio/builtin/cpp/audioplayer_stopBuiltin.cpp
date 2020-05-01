@@ -32,7 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audioplayer_stopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audioplayer_stopBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

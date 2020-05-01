@@ -541,6 +541,8 @@ public:
      * Empty constructor
      */
     static ArrayOf
+    emptyCell(const Dimensions& dim);
+    static ArrayOf
     emptyConstructor(const Dimensions& dim, bool bIsSparse = false);
     static ArrayOf
     emptyConstructor(indexType m = 0, indexType n = 0, bool bIsSparse = false);

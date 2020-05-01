@@ -34,7 +34,7 @@ using namespace Nelson;
 // [STAT, INFO] = MPI_Probe(rank, tag [, COMM])
 //=============================================================================
 ArrayOfVector
-Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MpiGateway::MPI_ProbeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {

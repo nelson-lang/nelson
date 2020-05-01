@@ -36,7 +36,7 @@ DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& n
             if (fromDispBuiltin) {
                 io->outputMessage("");
             } else {
-                io->outputMessage("\'\'");
+                io->outputMessage("\'\'\n");
             }
         } else {
             if (fromDispBuiltin) {

@@ -45,7 +45,7 @@ extern "C"
 // JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 8) {

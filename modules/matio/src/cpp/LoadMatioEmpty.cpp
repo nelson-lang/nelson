@@ -27,6 +27,7 @@
 #include "LoadMatioEmpty.hpp"
 #include "matioHelpers.hpp"
 #include "Warning.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,8 +47,12 @@ LoadMatioEmpty(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableVa
         VariableValue = ArrayOf::emptyConstructor();
         bSuccess = true;
     } else {
-        Warning(
-            WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read matio variable of type: function."));
+        if (matVariable != nullptr) {
+            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+                _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
+        } else {
+            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
+        }
     }
     VariableValue = ArrayOf::emptyStructWithoutFields();
     return true;

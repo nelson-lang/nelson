@@ -49,21 +49,6 @@ namespace Nelson {
 static Evaluator* mainEvaluator = nullptr;
 //=============================================================================
 Evaluator*
-createMainEvaluator(Interface* io, NELSON_ENGINE_MODE _mode, const std::wstring& lang)
-{
-    if (io != nullptr) {
-        if (mainEvaluator == nullptr) {
-            std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
-            auto* context = new Context;
-            setDefaultMaxNumCompThreads();
-            mainEvaluator = new Evaluator(context, io, _mode);
-            Localization::Instance()->setLanguage(effectiveLang, false);
-        }
-    }
-    return mainEvaluator;
-}
-//=============================================================================
-Evaluator*
 createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang)
 {
     setDefaultMaxNumCompThreads();

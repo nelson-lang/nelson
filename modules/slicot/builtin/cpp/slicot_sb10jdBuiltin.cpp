@@ -43,7 +43,7 @@ extern "C"
 // [A_OUT, B_OUT, C_OUT, D_OUT, E_OUT, NSYS, INFO] = slicot_sb10jd(A_IN, B_IN, C_IN, D_IN, E_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_sb10jdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 7) {

@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() == 2 || argIn.size() == 3) {

@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CharactersEncodingGateway::nativecharsetBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

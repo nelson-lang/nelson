@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::QmlEngineGateway::qml_pluginpathlistBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::QmlEngineGateway::qml_pluginpathlistBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 0) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::namelengthmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::CoreGateway::namelengthmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (!argIn.empty()) {

@@ -120,7 +120,12 @@ getVariableNames(hid_t fid)
     }
     for (hsize_t i = 0; i < group_info.nlinks; i++) {
         H5O_info_t object_info;
+#if H5_VERSION_GE(1, 12, 0)
+        H5Oget_info_by_idx3(
+            fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, &object_info, H5O_INFO_BASIC, H5P_DEFAULT);
+#else
         H5Oget_info_by_idx(fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, &object_info, H5P_DEFAULT);
+#endif
         if (object_info.type == H5O_TYPE_DATASET || object_info.type == H5O_TYPE_GROUP) {
             char* varName = nullptr;
             size_t sLen = 0;

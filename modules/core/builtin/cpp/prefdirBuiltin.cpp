@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::prefdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::CoreGateway::prefdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (!argIn.empty()) {

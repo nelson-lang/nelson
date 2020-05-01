@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dlsymBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::dlsymBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 4) {

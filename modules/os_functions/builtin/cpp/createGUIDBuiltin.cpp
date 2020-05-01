@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::OsFunctionsGateway::createGUIDBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

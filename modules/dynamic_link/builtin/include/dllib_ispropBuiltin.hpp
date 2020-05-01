@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace DynamicLinkGateway {
     ArrayOfVector
-    dllib_ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    dllib_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

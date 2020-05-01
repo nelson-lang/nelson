@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace LocalizationGateway {
     ArrayOfVector
-    getdefaultlanguageBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    getdefaultlanguageBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

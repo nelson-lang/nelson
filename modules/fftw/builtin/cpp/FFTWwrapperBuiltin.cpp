@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FftwGateway::FFTWwrapperBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FftwGateway::FFTWwrapperBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

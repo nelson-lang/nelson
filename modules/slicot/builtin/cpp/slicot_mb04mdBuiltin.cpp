@@ -42,7 +42,7 @@ extern "C"
 // [MAXRED_OUT, A_OUT, SCALE, INFO] = slicot_mb04md(MAXRED_IN, A_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 4) {

@@ -62,6 +62,8 @@
 #include "WarningIds.hpp"
 #include "WarningEmitter.h"
 #include "ErrorEmitter.h"
+#include "NelsonPrint.hpp"
+#include "MxCall.h"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -332,6 +334,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (eval != nullptr) {
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
+        setPrintInterface(eval->getInterface());
+        mexSetEvaluator(eval);
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);
         if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty()) {

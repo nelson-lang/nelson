@@ -48,7 +48,7 @@ filePartPath(std::wstring dirname)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::ProfilerGateway::profsaveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 0) {

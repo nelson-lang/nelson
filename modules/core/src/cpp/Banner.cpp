@@ -24,18 +24,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Banner.hpp"
+#include "NelsonPrint.hpp"
 //=============================================================================
 namespace Nelson {
 void
-Banner(Evaluator* eval)
+Banner()
 {
-    Interface* io = eval->getInterface();
-    io->outputMessage(L"\n");
-    io->outputMessage(L"     __     _  __\n");
-    io->outputMessage(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
-    io->outputMessage(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
-    io->outputMessage(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
-    io->outputMessage(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
+    NelsonPrint(L"\n");
+    NelsonPrint(L"     __     _  __\n");
+    NelsonPrint(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
+    NelsonPrint(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
+    NelsonPrint(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
+    NelsonPrint(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
 }
 //=============================================================================
 } // namespace Nelson

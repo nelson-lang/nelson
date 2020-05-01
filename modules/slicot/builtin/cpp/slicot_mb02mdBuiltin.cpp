@@ -44,7 +44,7 @@ extern "C"
 // [RANK_OUT, C_OUT, S, X, IWARN, INFO] = slicot_mb02md(JOB, M, N, L, RANK_IN, C_IN, TOL)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_mb02mdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_mb02mdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 6) {

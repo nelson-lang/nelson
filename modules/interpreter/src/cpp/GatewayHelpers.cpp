@@ -40,7 +40,8 @@ NelsonAddGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void* g
     if (ctx != nullptr) {
         for (size_t k = 0; k < nbBuiltins; k++) {
             Nelson::BuiltInFunctionDefManager::getInstance()->add(_gateway[k].functionName,
-                _gateway[k].fptr, _gateway[k].nRhs, _gateway[k].nLhs, moduleFilename, gatewayName);
+                _gateway[k].fptr, _gateway[k].nRhs, _gateway[k].nLhs, moduleFilename, gatewayName,
+                (size_t)_gateway[k].builtinPrototype);
         }
         if ((void*)ptrInitializeFunction != nullptr) {
             auto ptrFunc = reinterpret_cast<PROC_InitializeGateway>(ptrInitializeFunction);

@@ -241,7 +241,6 @@ ArrayOf::getFieldAsList(const std::string& fieldName)
     if (isSparse()) {
         Error(_W("getFieldAsList not supported for sparse arrays."));
     }
-    ArrayOfVector m;
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
     indexType N = getLength();
     indexType fieldCount = dp->fieldNames.size();
@@ -249,8 +248,8 @@ ArrayOf::getFieldAsList(const std::string& fieldName)
     if (ndx < 0) {
         Error(_("Reference to non-existent field") + " " + fieldName);
     }
-    indexType i = 0;
-    for (i = 0; i < N; i++) {
+    ArrayOfVector m;
+    for (indexType i = 0; i < N; i++) {
         m.push_back(qp[i * fieldCount + ndx]);
     }
     return m;

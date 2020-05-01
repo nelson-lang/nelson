@@ -51,7 +51,7 @@ Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 gtio->banner();
             } break;
             default: {
-                Banner(eval);
+                Banner();
             } break;
             }
         }

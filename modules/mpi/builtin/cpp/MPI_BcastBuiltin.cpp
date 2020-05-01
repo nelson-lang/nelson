@@ -32,7 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::MpiGateway::MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {

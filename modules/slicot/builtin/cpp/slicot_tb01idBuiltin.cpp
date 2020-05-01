@@ -43,7 +43,7 @@ extern "C"
 // [MAXRED_OUT, A_OUT, B_OUT, C_OUT, SCALE, INFO] = slicot_tb01id(JOB, MAXRED_IN, A_IN, B_IN, C_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_tb01idBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_tb01idBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 6) {

@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HelpBrowserGateway::helpbrowserBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() == 0) {
         if (nLhs != 0) {

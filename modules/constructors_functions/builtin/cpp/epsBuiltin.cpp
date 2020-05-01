@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ConstructorsGateway::epsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

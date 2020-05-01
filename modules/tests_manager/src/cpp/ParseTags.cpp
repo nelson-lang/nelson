@@ -77,7 +77,7 @@ compareTag(const std::string& line, const std::string& tag)
 }
 //=============================================================================
 bool
-ParseTags(Evaluator* eval, const std::wstring& filename, TestTags& options, std::wstring& msg)
+ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
 {
     if (!IsFile(filename)) {
         msg = _W("an existing file expected.");

@@ -48,7 +48,7 @@ extern "C"
 // P, A, B, Q, R, L, TOL)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_sb02odBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 9) {

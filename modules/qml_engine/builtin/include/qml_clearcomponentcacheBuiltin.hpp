@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace QmlEngineGateway {
     ArrayOfVector
-    qml_clearcomponentcacheBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    qml_clearcomponentcacheBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 }; // namespace Nelson
 //=============================================================================

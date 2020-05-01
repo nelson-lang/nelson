@@ -34,7 +34,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ConstructorsGateway::piBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ConstructorsGateway::piBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

@@ -31,7 +31,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"debugger";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "dbstack", Nelson::DebuggerGateway::dbstackBuiltin, -1, -1 },
+    { "dbstack", (void*)Nelson::DebuggerGateway::dbstackBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace DataStructuresGateway {
     ArrayOfVector
-    struct2cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    struct2cellBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

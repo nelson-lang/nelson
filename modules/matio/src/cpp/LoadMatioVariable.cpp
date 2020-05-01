@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "LoadMatioVariable.hpp"
+#include "Warning.hpp"
 #include "Exception.hpp"
 #include "LoadMatioCharacters.hpp"
 #include "LoadMatioDouble.hpp"
@@ -46,7 +47,9 @@ LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& Variabl
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {
-        return false;
+        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
+        VariableValue = ArrayOf::emptyStructWithoutFields();
+        return true;
     }
     switch (matVariable->class_type) {
     case MAT_C_EMPTY: {

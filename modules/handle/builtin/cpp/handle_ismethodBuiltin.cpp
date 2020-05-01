@@ -29,7 +29,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HandleGateway::handle_ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HandleGateway::handle_ismethodBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {

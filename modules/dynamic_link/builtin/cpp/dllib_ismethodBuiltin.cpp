@@ -32,8 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

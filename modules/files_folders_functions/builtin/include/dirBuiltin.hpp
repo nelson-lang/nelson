@@ -31,7 +31,7 @@
 namespace Nelson {
 namespace FilesFoldersGateway {
     ArrayOfVector
-    dirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    dirBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

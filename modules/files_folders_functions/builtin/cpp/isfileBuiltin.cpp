@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FilesFoldersGateway::isfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {

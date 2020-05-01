@@ -108,6 +108,7 @@
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 #include "ClassToString.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -1289,7 +1290,10 @@ Evaluator::forStatement(ASTPtr t)
         }
         bool bInserted = context->insertVariable(indexVarName, indexVar);
         if (!bInserted) {
-            Error(_W("Redefining permanent variable."));
+            if (IsValidVariableName(indexVarName, true)) {
+                Error(_W("Redefining permanent variable."));
+            }
+            Error(_W("Valid variable name expected."));
         }
         block(codeBlock);
         if (state == NLS_STATE_RETURN || state == NLS_STATE_ABORT || state == NLS_STATE_QUIT) {
@@ -1649,7 +1653,10 @@ Evaluator::statementType(ASTPtr t, bool printIt)
             ArrayOf b(expression(t->down->right));
             bool bInserted = context->insertVariable(t->down->text, b);
             if (!bInserted) {
-                Error(_W("Redefining permanent variable."));
+                if (IsValidVariableName(t->down->text, true)) {
+                    Error(_W("Redefining permanent variable."));
+                }
+                Error(_W("Valid variable name expected."));
             }
             if (printIt) {
                 io->outputMessage(std::string(t->down->text) + " =\n\n");
@@ -1661,7 +1668,10 @@ Evaluator::statementType(ASTPtr t, bool printIt)
             if (!c.isHandle()) {
                 bool bInserted = context->insertVariable(t->down->text, c);
                 if (!bInserted) {
-                    Error(_W("Redefining permanent variable."));
+                    if (IsValidVariableName(t->down->text, true)) {
+                        Error(_W("Redefining permanent variable."));
+                    }
+                    Error(_W("Valid variable name expected."));
                 }
                 if (printIt) {
                     io->outputMessage(std::string(t->down->text) + " =\n\n");
@@ -2045,6 +2055,9 @@ indexType
 Evaluator::countLeftHandSides(ASTPtr t)
 {
     ArrayOf lhs;
+    if (t == nullptr) {
+        Error(_W("Syntax error."));
+    }
     if (!context->lookupVariable(t->text, lhs)) {
         lhs = ArrayOf::emptyConstructor();
     }
@@ -2328,7 +2341,10 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
         ArrayOf c(assignExpression(s->down, m));
         bool bInserted = context->insertVariable(s->down->text, c);
         if (!bInserted) {
-            Error(_W("Redefining permanent variable."));
+            if (IsValidVariableName(s->down->text, true)) {
+                Error(_W("Redefining permanent variable."));
+            }
+            Error(_W("Valid variable name expected."));
         }
         if (printIt) {
             io->outputMessage(s->down->text);
@@ -3081,7 +3097,10 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                                     delete[] argTypeMap;
                                     argTypeMap = nullptr;
                                 }
-                                Error(_W("Redefining permanent variable."));
+                                if (IsValidVariableName(p->down->text, true)) {
+                                    Error(_W("Redefining permanent variable."));
+                                }
+                                Error(_W("Valid variable name expected."));
                                 return ArrayOfVector();
                             }
                         } else {
@@ -3092,7 +3111,10 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                                     delete[] argTypeMap;
                                     argTypeMap = nullptr;
                                 }
-                                Error(_W("Redefining permanent variable."));
+                                if (IsValidVariableName(p->down->text, true)) {
+                                    Error(_W("Redefining permanent variable."));
+                                }
+                                Error(_W("Valid variable name expected."));
                                 return ArrayOfVector();
                             }
                         }

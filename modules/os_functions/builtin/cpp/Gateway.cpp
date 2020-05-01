@@ -41,19 +41,20 @@ using namespace Nelson;
 const std::wstring gatewayName = L"os_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "system", Nelson::OsFunctionsGateway::systemBuiltin, 2, 1 },
-    { "dos", Nelson::OsFunctionsGateway::systemBuiltin, 2, 1 },
-    { "unix", Nelson::OsFunctionsGateway::systemBuiltin, 2, 1 },
-    { "getenv", Nelson::OsFunctionsGateway::getenvBuiltin, 1, 1 },
-    { "setenv", Nelson::OsFunctionsGateway::setenvBuiltin, 1, 2 },
-    { "searchenv", Nelson::OsFunctionsGateway::searchenvBuiltin, 1, 2 },
-    { "ispc", Nelson::OsFunctionsGateway::ispcBuiltin, 1, 0 },
-    { "isunix", Nelson::OsFunctionsGateway::isunixBuiltin, 1, 0 },
-    { "ismac", Nelson::OsFunctionsGateway::ismacBuiltin, 1, 0 },
-    { "computer", Nelson::OsFunctionsGateway::computerBuiltin, 1, 0 },
-    { "createGUID", Nelson::OsFunctionsGateway::createGUIDBuiltin, 1, 1 },
-    { "winopen", Nelson::OsFunctionsGateway::winopenBuiltin, 0, 1 },
-    { "winqueryreg", Nelson::OsFunctionsGateway::winqueryregBuiltin, 1, -2 },
+    { "system", (void*)Nelson::OsFunctionsGateway::systemBuiltin, 2, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "dos", (void*)Nelson::OsFunctionsGateway::systemBuiltin, 2, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "unix", (void*)Nelson::OsFunctionsGateway::systemBuiltin, 2, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "getenv", (void*)Nelson::OsFunctionsGateway::getenvBuiltin, 1, 1 },
+    { "setenv", (void*)Nelson::OsFunctionsGateway::setenvBuiltin, 1, 2 },
+    { "searchenv", (void*)Nelson::OsFunctionsGateway::searchenvBuiltin, 1, 2 },
+    { "ispc", (void*)Nelson::OsFunctionsGateway::ispcBuiltin, 1, 0 },
+    { "isunix", (void*)Nelson::OsFunctionsGateway::isunixBuiltin, 1, 0 },
+    { "ismac", (void*)Nelson::OsFunctionsGateway::ismacBuiltin, 1, 0 },
+    { "computer", (void*)Nelson::OsFunctionsGateway::computerBuiltin, 1, 0 },
+    { "createGUID", (void*)Nelson::OsFunctionsGateway::createGUIDBuiltin, 1, 1 },
+    { "winopen", (void*)Nelson::OsFunctionsGateway::winopenBuiltin, 0, 1 },
+    { "winqueryreg", (void*)Nelson::OsFunctionsGateway::winqueryregBuiltin, 1, -2 },
 
 };
 //=============================================================================

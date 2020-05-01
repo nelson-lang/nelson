@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ComEngineGateway::actxcontrollistBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ComEngineGateway::actxcontrollistBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

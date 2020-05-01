@@ -32,7 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MpiGateway::MPI_SendBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

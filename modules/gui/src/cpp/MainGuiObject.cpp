@@ -23,6 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QtGlobal>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStyleFactory>
+#include <QtWidgets/QStyle>
+#include <QtGui/QPalette>
 #include "MainGuiObject.hpp"
 #include "AddPathToEnvironmentVariable.hpp"
 #include "Console.hpp"
@@ -33,11 +38,13 @@
 #include "Warning.hpp"
 #include "Nelson_VERSION.h"
 #include "QtMainWindow.h"
-#include <QtCore/QtGlobal>
-#include <QtWidgets/QApplication>
+#include "QStringConverter.hpp"
+#include "GetNelsonPath.hpp"
 //===================================================================================
 static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
+static QPalette defaultPalette;
+static QStyle* defaultStyle = nullptr;
 static bool messageVerbose = false;
 //===================================================================================
 void
@@ -93,6 +100,7 @@ InitGuiObjects(void)
     qInstallMessageHandler(QtMessageOutput);
     if (NelSonQtApp == nullptr) {
         NelSonQtApp = new QApplication(argc, argv);
+        defaultPalette = NelSonQtApp->palette();
         QCoreApplication::setApplicationName("Nelson");
         QCoreApplication::setOrganizationDomain(
             "https://nelson-numerical-software.github.io/nelson-website/");
@@ -156,5 +164,52 @@ void*
 GetMainGuiObject(void)
 {
     return (void*)NelSonQtMainWindow;
+}
+//===================================================================================
+bool
+QtSetLookAndFeel(const std::wstring& lf)
+{
+    bool res = false;
+    QStyle* qStyle = QStyleFactory::create(wstringToQString(lf));
+    if (qStyle) {
+        if (NelSonQtApp) {
+            NelSonQtApp->setStyleSheet("");
+            NelSonQtApp->setStyle(qStyle);
+            NelSonQtApp->setPalette(defaultPalette);
+            res = true;
+        }
+    }
+    return res;
+}
+//===================================================================================
+std::wstring
+QtGetLookAndFeel()
+{
+    std::wstring lf;
+    if (NelSonQtApp) {
+        QStyle* qtStyle = NelSonQtApp->style();
+        if (qtStyle) {
+            lf = QStringTowstring(qtStyle->objectName());
+        }
+    }
+    return lf;
+}
+//===================================================================================
+std::wstring
+QtGetStyleSheet()
+{
+    std::wstring styleSheet;
+    if (NelSonQtApp) {
+        styleSheet = QStringTowstring(NelSonQtApp->styleSheet());
+    }
+    return styleSheet;
+}
+//===================================================================================
+void
+QtSetStyleSheet(const std::wstring& styleSheet)
+{
+    if (NelSonQtApp) {
+        NelSonQtApp->setStyleSheet(wstringToQString(styleSheet));
+    }
 }
 //===================================================================================

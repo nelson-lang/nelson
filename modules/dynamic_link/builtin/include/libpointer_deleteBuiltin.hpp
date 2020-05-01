@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace DynamicLinkGateway {
     ArrayOfVector
-    libpointer_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    libpointer_deleteBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

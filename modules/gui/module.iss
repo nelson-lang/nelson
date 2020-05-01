@@ -39,4 +39,5 @@ Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#M
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
-
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.qss; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+;==============================================================================

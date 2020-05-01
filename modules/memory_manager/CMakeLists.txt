@@ -76,6 +76,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -93,6 +95,8 @@ nlsApi_nelson
 nlsFunctions_manager
 nlsString
 nlsI18n
+nlsMex
+nlsDynamic_link
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

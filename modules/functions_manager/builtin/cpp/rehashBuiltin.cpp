@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionsGateway::rehashBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionsGateway::rehashBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0) {

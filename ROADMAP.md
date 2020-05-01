@@ -24,7 +24,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - MAT File I/O module (DONE v0.3.3),
 - HDF5 used as default data file format (.nh5) (DONE v0.3.2),
 - Profiling and Coverage Tools for Nelson's language (DONE v0.3.4),
-- Mex module,
+- Mex module (Part 1 - v0.4.4),
 - completion,
 - graphics output,
 - some basic openCV functions,

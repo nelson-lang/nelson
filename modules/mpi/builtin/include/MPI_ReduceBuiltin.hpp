@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace MpiGateway {
     ArrayOfVector
-    MPI_ReduceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    MPI_ReduceBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

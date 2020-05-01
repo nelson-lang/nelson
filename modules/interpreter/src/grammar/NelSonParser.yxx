@@ -153,9 +153,9 @@ using namespace Nelson;
 %%
 
 program:
-  statementList {mainAST = $1.v.p;} 
+  statementList {mainAST = $1.v.p;}
   | functionDefList |
-  | error {yyxpt("statement list or function definition",$1);}
+  | error {yyxpt(_("statement list or function definition"),$1);}
 ;
 
 functionDef:
@@ -284,12 +284,12 @@ statementType:
    assignmentStatement
    | expr
    | {$$.v.p = allocateAbstractSyntaxTree(null_node,"",-1);} 
-     | multiFunctionCall
-     | forStatement
-     | breakStatement
+   | multiFunctionCall
+   | forStatement
+   | breakStatement
    | continueStatement
-     | whileStatement
-     | ifStatement
+   | whileStatement
+   | ifStatement
    | switchStatement
    | tryStatement
    | pauseStatement

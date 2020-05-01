@@ -32,8 +32,7 @@ using namespace Nelson;
 // info = audiosupportedformats()
 //=============================================================================
 ArrayOfVector
-Nelson::AudioGateway::audiosupportedformatsBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::AudioGateway::audiosupportedformatsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

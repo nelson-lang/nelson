@@ -31,7 +31,7 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector
 Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+    int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

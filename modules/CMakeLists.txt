@@ -85,6 +85,7 @@ matio
 profiler
 file_archiver
 webtools
+mex
 )
 LIST(APPEND moduleslist main)
 #==============================================================================

@@ -35,11 +35,11 @@ using namespace Nelson;
 const std::wstring gatewayName = L"matio";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "loadmat", Nelson::MatioGateway::loadmatBuiltin, 1, 1, CPP_BUILTIN },
-    { "savemat", Nelson::MatioGateway::savematBuiltin, 0, 1, CPP_BUILTIN },
-    { "ismatfile", Nelson::MatioGateway::ismatfileBuiltin, 1, 1, CPP_BUILTIN },
-    { "whosmat", Nelson::MatioGateway::whosmatBuiltin, 1, 1, CPP_BUILTIN },
-    { "whomat", Nelson::MatioGateway::whomatBuiltin, 1, 1, CPP_BUILTIN },
+    { "savemat", (void*)Nelson::MatioGateway::savematBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "loadmat", (void*)Nelson::MatioGateway::loadmatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "whosmat", (void*)Nelson::MatioGateway::whosmatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "whomat", (void*)Nelson::MatioGateway::whomatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "ismatfile", (void*)Nelson::MatioGateway::ismatfileBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

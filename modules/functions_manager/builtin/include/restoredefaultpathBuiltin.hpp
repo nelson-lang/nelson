@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace FunctionsGateway {
     ArrayOfVector
-    restoredefaultpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    restoredefaultpathBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

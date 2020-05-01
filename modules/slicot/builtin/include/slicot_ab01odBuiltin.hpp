@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace SlicotGateway {
     ArrayOfVector
-    slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

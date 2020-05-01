@@ -71,9 +71,7 @@ LoadMatioFile(
         for (std::wstring uname : names) {
             std::string name = wstring_to_utf8(uname);
             if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
-                != variableNamesInFile.end()) {
-                variablesNamesToRead.push_back(name);
-            } else {
+                == variableNamesInFile.end()) {
                 std::string msg = _("Variable not found:") + std::string(" ") + name;
                 Warning(msg);
             }
@@ -84,21 +82,28 @@ LoadMatioFile(
         ArrayOf value;
         matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
         if (matVariable == nullptr) {
-            Mat_Close(matfile);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
-        }
-        bool bSuccess = LoadMatioVariable(matVariable, false, value);
-        Mat_VarFree(matVariable);
-        if (bSuccess) {
-            values.push_back(value);
+            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+                _W("Cannot read variable:") + L" " + utf8_to_wstring(name));
+            values.push_back(ArrayOf::emptyStructWithoutFields());
         } else {
-            Mat_Close(matfile);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
+            bool bSuccess = LoadMatioVariable(matVariable, false, value);
+            Mat_VarFree(matVariable);
+            matVariable = nullptr;
+            if (bSuccess) {
+                values.push_back(value);
+            } else {
+                Mat_Close(matfile);
+                matfile = nullptr;
+                std::string msg = _("Cannot read variable:") + std::string(" ") + name;
+                Error(msg);
+            }
         }
     }
-    Mat_Close(matfile);
+    if (matfile != nullptr) {
+        Mat_Close(matfile);
+        matfile = nullptr;
+    }
+
     if (asStruct) {
         res = ArrayOf::structScalarConstructor(variablesNamesToRead, values);
     } else {

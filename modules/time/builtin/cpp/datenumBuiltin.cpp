@@ -31,7 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

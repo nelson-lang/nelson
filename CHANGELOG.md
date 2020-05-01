@@ -1,3 +1,59 @@
+# 0.4.4 (2020-04-29)
+
+* lookandfeel builtin: default current application look and feel.
+
+* clear builtin extended to clear mex functions.
+
+* mex function used to build MEX files.
+
+* [IN PROGRESS] MEX C API allows to access Nelson, GNU Octave and commercial software functions.
+
+  documentation and tests will be extended in next version.
+
+  Feedback and external tests are welcome.
+
+Compilation:
+------------
+
+* MacOs X Catalina fully working.
+
+* Ubuntu 20.04 LTS supported.
+
+
+# 0.4.3 (2020-03-30)
+
+* mean builtin: Mean elements of an array with nanflag and 'all' support.
+
+* sum and prod optimized.
+
+* save and load with .mat, .nh5 files support unicode filename on all platforms.
+
+* simplify builtin default prototype (breaking change). Evaluator is no more required for builtin.
+
+* NelsonPrint internal function added.
+
+
+Bug Fixes:
+---------
+
+  * [#287](http://github.com/Nelson-numerical-software/nelson/issues/287): Parser error message are not localized.
+
+  * [#286](http://github.com/Nelson-numerical-software/nelson/issues/286): [end] = sin(1) did not return an syntax error.
+
+  * [#284](http://github.com/Nelson-numerical-software/nelson/issues/284): Nth dimensions assignation of an empty array with 2d matrix did not work.
+
+
+Compilation:
+------------
+
+* MATIO 1.5.17 with unicode support
+
+* HDF5 1.12.0 support
+
+* BISON 3.5.0
+
+
+
 # 0.4.2 (2020-02-25)
 
 * min, max builtin: Minimum/Maximum elements of an array with nanflag and 'all' support.

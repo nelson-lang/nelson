@@ -40,8 +40,7 @@ using namespace Nelson;
 
 //=============================================================================
 ArrayOfVector
-Nelson::ModulesManagerGateway::modulepathBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     // st = modulepath('existing_module')
     // return a struct with different paths of an existing module (shortname)

@@ -46,7 +46,7 @@ extern "C"
 // C_IN)
 //=============================================================================
 ArrayOfVector
-Nelson::SlicotGateway::slicot_sb03mdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 8) {
