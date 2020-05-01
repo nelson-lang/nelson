@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-url = 'http://heritage.stsci.edu/2007/14/images/p0714aa.jpg';
+url = 'https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/stsci-h-p2016a-m-2000x1374.png';
 filename = [tempdir(), 'p0714aa.jpg'];
 outfilename = websave(filename, url);
 //=============================================================================
