@@ -1,3 +1,14 @@
+# 0.4.5 (2020-05-XX)
+
+Compilation:
+------------
+
+* libcurl 7.70.0 on Windows.
+
+* cmake 3.17.2 on Windows.
+
+
+
 # 0.4.4 (2020-04-29)
 
 * lookandfeel builtin: default current application look and feel.
