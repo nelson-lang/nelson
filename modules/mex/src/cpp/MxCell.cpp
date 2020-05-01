@@ -45,7 +45,7 @@ mxCreateCellMatrix(mwSize m, mwSize n)
 bool
 mxIsCell(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (pm->classID == mxCELL_CLASS);
     }
     return false;
@@ -54,7 +54,7 @@ mxIsCell(const mxArray* pm)
 mxArray*
 mxGetCell(const mxArray* pm, mwIndex index)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (((mxArray**)pm->realdata)[index]);
     }
     return nullptr;

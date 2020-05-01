@@ -29,7 +29,7 @@
 mxDouble*
 mxGetPi(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (mxDouble*)pm->imagdata;
     }
     return nullptr;
@@ -38,7 +38,7 @@ mxGetPi(const mxArray* pm)
 void
 mxSetPi(mxArray* pm, double* pr)
 {
-    if (pm) {
+    if (pm != nullptr) {
         pm->imagdata = pr;
     }
 }

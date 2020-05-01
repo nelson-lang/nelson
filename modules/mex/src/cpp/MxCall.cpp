@@ -44,18 +44,15 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
     for (int r = 0; r < nrhs; ++r) {
         argIn.push_back(Nelson::MxArrayToArrayOf(prhs[r]));
     }
-    if (mainEvaluator) {
+    if (mainEvaluator != nullptr) {
         Nelson::Context* context = mainEvaluator->getContext();
-        if (context) {
+        if (context != nullptr) {
             Nelson::FunctionDef* funcDef = nullptr;
             if (context->lookupFunction(functionName, funcDef)) {
-                if (funcDef) {
+                if (funcDef != nullptr) {
                     try {
                         argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
                     } catch (Nelson::Exception&) {
-                        for (int i = 0; i < nlhs; i++) {
-                            plhs[i] = nullptr;
-                        }
                         return 1;
                     }
                     for (int i = 0; i < nlhs; i++) {
@@ -109,9 +106,9 @@ mexCallNELSONWithTrap(
     for (int r = 0; r < nrhs; ++r) {
         argIn.push_back(Nelson::MxArrayToArrayOf(prhs[r]));
     }
-    if (mainEvaluator) {
+    if (mainEvaluator != nullptr) {
         Nelson::Context* context = mainEvaluator->getContext();
-        if (context) {
+        if (context != nullptr) {
             Nelson::FunctionDef* funcDef = nullptr;
             if (context->lookupFunction(functionName, funcDef)) {
                 try {
@@ -141,7 +138,7 @@ mexCallMATLABWithTrap(
 int
 mexEvalString(const char* command)
 {
-    if (mainEvaluator) {
+    if (mainEvaluator != nullptr) {
         if (mainEvaluator->evaluateString(command, true)) {
             return 0;
         }
@@ -152,7 +149,7 @@ mexEvalString(const char* command)
 mxArray*
 mexEvalStringWithTrap(const char* command)
 {
-    if (mainEvaluator) {
+    if (mainEvaluator != nullptr) {
         try {
             bool res = mainEvaluator->evaluateString(command, true);
         } catch (Nelson::Exception& e) {

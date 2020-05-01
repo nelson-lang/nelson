@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string.h>
+#include <cstring>
 #include "mex.h"
 #include "MxObject.h"
 #include "MxTypes.h"
@@ -91,7 +91,7 @@ mxIsClass(const mxArray* pm, const char* classname)
 mxClassID
 mxGetClassID(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return pm->classID;
     }
     return mxUNKNOWN_CLASS;
@@ -100,9 +100,9 @@ mxGetClassID(const mxArray* pm)
 const char*
 mxGetClassName(const mxArray* pm)
 {
-    if (pm) {
-        if (pm->ptr) {
-            Nelson::ArrayOf* ptr = (Nelson::ArrayOf*)pm->ptr;
+    if (pm != nullptr) {
+        if (pm->ptr != nullptr) {
+            auto* ptr = (Nelson::ArrayOf*)pm->ptr;
             if (ptr->isClassStruct()) {
                 std::string name = Nelson::ClassName(*ptr);
                 return name.c_str();
@@ -115,15 +115,15 @@ mxGetClassName(const mxArray* pm)
 int
 mxSetClassName(mxArray* array_ptr, const char* classname)
 {
-    if (array_ptr) {
-        if (array_ptr->ptr) {
-            Nelson::ArrayOf* ptr = (Nelson::ArrayOf*)array_ptr->ptr;
+    if (array_ptr != nullptr) {
+        if (array_ptr->ptr != nullptr) {
+            auto* ptr = (Nelson::ArrayOf*)array_ptr->ptr;
             if (ptr->isStruct()) {
                 ptr->setStructType(classname);
                 return 0;
-            } else {
+            } 
                 return -3;
-            }
+            
         } else {
             return -2;
         }
@@ -135,8 +135,8 @@ mxArray*
 mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
 {
     mxArray* res = nullptr;
-    if (pa) {
-        if (pa->ptr) {
+    if (pa != nullptr) {
+        if (pa->ptr != nullptr) {
         }
     }
     return res;
@@ -145,8 +145,8 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
 void
 mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* value)
 {
-    if (pa) {
-        if (pa->ptr) {
+    if (pa != nullptr) {
+        if (pa->ptr != nullptr) {
         }
     }
 }

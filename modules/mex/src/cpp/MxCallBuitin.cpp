@@ -46,8 +46,7 @@ mxCallBuiltin(
         Nelson::Error(ERROR_MEMORY_ALLOCATION);
     }
     int nlhs = (int)argIn.size();
-    int lhsCount = nargout;
-    lhsCount = (lhsCount < 1) ? 1 : lhsCount;
+    int lhsCount = lhsCount = (nargout < 1) ? 1 : nargout;
     try {
         mxArgsOut = new mxArray*[lhsCount];
         for (size_t i = 0; i < lhsCount; ++i) {
@@ -74,19 +73,19 @@ mxCallBuiltin(
         mxArgsIn[i] = Nelson::ArrayOfToMxArray(argIn[i]);
     }
 
-    MexFuncPtr builtinPtr = (MexFuncPtr)fptr;
+    auto builtinPtr = (MexFuncPtr)fptr;
 
     try {
         builtinPtr(nargout, mxArgsOut, nlhs, (const mxArray**)mxArgsIn);
     } catch (const std::runtime_error& e) {
-        if (mxArgsIn) {
+        if (mxArgsIn != nullptr) {
             for (size_t i = 0; i < argIn.size(); i++) {
                 mxDestroyArray(mxArgsIn[i]);
             }
             delete[] mxArgsIn;
             mxArgsIn = nullptr;
         }
-        if (mxArgsOut) {
+        if (mxArgsOut != nullptr) {
             for (int i = 0; i < lhsCount; i++) {
                 mxDestroyArray(mxArgsOut[i]);
             }
@@ -95,15 +94,16 @@ mxCallBuiltin(
         }
         Nelson::Error(e.what());
     } catch (Nelson::Exception& e) {
-        if (mxArgsIn) {
+        if (mxArgsIn != nullptr) {
             for (size_t i = 0; i < argIn.size(); i++) {
                 mxDestroyArray(mxArgsIn[i]);
             }
             delete[] mxArgsIn;
             mxArgsIn = nullptr;
         }
-        if (mxArgsOut) {
-            for (int i = 0; i < lhsCount; i++) {
+        if (mxArgsOut != nullptr) {
+            const int protectLhsCount = lhsCount;
+            for (int i = 0; i < protectLhsCount; i++) {
                 mxDestroyArray(mxArgsOut[i]);
             }
             delete[] mxArgsOut;
@@ -111,7 +111,7 @@ mxCallBuiltin(
         }
         throw e;
     }
-    if (mxArgsOut) {
+    if (mxArgsOut != nullptr) {
         for (int i = 0; i < lhsCount; i++) {
             argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
             mxDestroyArray(mxArgsOut[i]);
@@ -119,7 +119,7 @@ mxCallBuiltin(
         delete[] mxArgsOut;
         mxArgsOut = nullptr;
     }
-    if (mxArgsIn) {
+    if (mxArgsIn != nullptr) {
         for (size_t i = 0; i < argIn.size(); i++) {
             mxDestroyArray(mxArgsIn[i]);
         }

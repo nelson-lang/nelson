@@ -51,7 +51,7 @@ mxArray*
 mxCreateDoubleScalar(double value)
 {
     mxArray* ret = mxCreateDoubleMatrix(1, 1, mxREAL);
-    if (ret) {
+    if (ret != nullptr) {
         ((double*)ret->realdata)[0] = value;
     }
     return ret;

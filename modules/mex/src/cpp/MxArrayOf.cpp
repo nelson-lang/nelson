@@ -31,7 +31,7 @@ static mwSize*
 GetDimensions(const ArrayOf& array, mwSize& numdims)
 {
     numdims = (int)array.getDimensions().getLength();
-    mwSize* dim_vec = new mwSize[numdims];
+    auto* dim_vec = new mwSize[numdims];
     for (mwSize i = 0; i < numdims; i++) {
         dim_vec[i] = array.getDimensions()[i];
     }
@@ -75,9 +75,9 @@ ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID)
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxCOMPLEX);
     free(dim_vec);
     dim_vec = nullptr;
-    nlsType* sp = (nlsType*)array.getDataPointer();
-    mxType* dp_r = (mxType*)ret->realdata;
-    mxType* dp_i = (mxType*)ret->imagdata;
+    auto* sp = (nlsType*)array.getDataPointer();
+    auto* dp_r = (mxType*)ret->realdata;
+    auto* dp_i = (mxType*)ret->imagdata;
     size_t N = mxGetNumberOfElements(ret);
     for (size_t i = 0; i < N; i++) {
         dp_r[i] = (mxType)sp[2 * i];
@@ -95,8 +95,8 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxREAL);
     free(dim_vec);
     dim_vec = nullptr;
-    nlsType* sp = (nlsType*)array.getDataPointer();
-    mxType* dp = (mxType*)ret->realdata;
+    auto* sp = (nlsType*)array.getDataPointer();
+    auto* dp = (mxType*)ret->realdata;
     size_t N = mxGetNumberOfElements(ret);
     for (size_t i = 0; i < N; i++) {
         dp[i] = (mxType)sp[i];
@@ -118,16 +118,16 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
         res = mxCreateCellArray(num_dim, dim_vec);
         free(dim_vec);
         dim_vec = nullptr;
-        ArrayOf* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
-        mxArray** dp = (mxArray**)res->realdata;
+        auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
+        auto** dp = (mxArray**)res->realdata;
         size_t N = mxGetNumberOfElements(res);
         for (size_t i = 0; i < N; i++) {
             dp[i] = ArrayOfToMxArray(sp[i]);
         }
     } break;
     case NLS_STRUCT_ARRAY: {
-        mxArray* ret = (mxArray*)malloc(sizeof(mxArray));
-        if (ret) {
+        auto* ret = (mxArray*)malloc(sizeof(mxArray));
+        if (ret != nullptr) {
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
             ret->number_of_dims = num_dim;
@@ -137,7 +137,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
             ret->iscomplex = false;
             ret->imagdata = nullptr;
             ret->realdata = nullptr;
-            ArrayOf* ptr = new ArrayOf(nlsArrayOf);
+            auto* ptr = new ArrayOf(nlsArrayOf);
             ptr->ensureSingleOwner();
             ret->ptr = (uint64_t*)ptr;
         }
@@ -199,7 +199,7 @@ MxArrayToArrayOf(mxArray* pm)
     if (pm == nullptr || (pm->dims == nullptr && pm->number_of_dims == 0)) {
         Dimensions dims(1, 0);
         return ArrayOf::emptyConstructor(dims);
-    } else {
+    } 
         Class destClass = NLS_NOT_TYPED;
         stringVector fieldnames;
         Dimensions dim;
@@ -211,22 +211,22 @@ MxArrayToArrayOf(mxArray* pm)
         switch (pm->classID) {
         case mxCELL_CLASS: {
             destClass = NLS_CELL_ARRAY;
-            mxArray** dp = (mxArray**)pm->realdata;
+            auto** dp = (mxArray**)pm->realdata;
             cp = ArrayOf::allocateArrayOf(destClass, N);
-            ArrayOf* elements = (ArrayOf*)cp;
+            auto* elements = (ArrayOf*)cp;
             for (size_t i = 0; i < N; i++) {
                 elements[i] = MxArrayToArrayOf(dp[i]);
             }
         } break;
         case mxSTRUCT_CLASS: {
-            ArrayOf* ptr = (ArrayOf*)pm->ptr;
+            auto* ptr = (ArrayOf*)pm->ptr;
             res = ArrayOf(*ptr);
             res.ensureSingleOwner();
             return res;
         } break;
         case mxLOGICAL_CLASS: {
             destClass = NLS_LOGICAL;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -234,14 +234,14 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxCHAR_CLASS: {
             destClass = NLS_CHAR;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
             MexRealToArrayOfReal<mxChar, charType>((mxChar*)pm->realdata, (charType*)cp, N);
         } break;
         case mxDOUBLE_CLASS: {
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 destClass = NLS_DCOMPLEX;
                 cp = ArrayOf::allocateArrayOf(destClass, N);
                 MexComplexToArrayOfComplex<mxDouble, double>(
@@ -253,7 +253,7 @@ MxArrayToArrayOf(mxArray* pm)
             }
         } break;
         case mxSINGLE_CLASS: {
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 destClass = NLS_SCOMPLEX;
                 cp = ArrayOf::allocateArrayOf(destClass, N);
                 MexComplexToArrayOfComplex<mxSingle, single>(
@@ -266,7 +266,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxINT8_CLASS: {
             destClass = NLS_INT8;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -274,7 +274,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxUINT8_CLASS: {
             destClass = NLS_UINT8;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -282,7 +282,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxINT16_CLASS: {
             destClass = NLS_INT16;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -290,7 +290,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxUINT16_CLASS: {
             destClass = NLS_UINT16;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -298,7 +298,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxINT32_CLASS: {
             destClass = NLS_INT32;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -306,7 +306,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxUINT32_CLASS: {
             destClass = NLS_UINT32;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -314,7 +314,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxINT64_CLASS: {
             destClass = NLS_INT64;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -322,7 +322,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         case mxUINT64_CLASS: {
             destClass = NLS_UINT64;
-            if (pm->iscomplex) {
+            if (pm->iscomplex != 0) {
                 Error(_("C MEX type not managed."));
             }
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -333,7 +333,7 @@ MxArrayToArrayOf(mxArray* pm)
         } break;
         }
         res = ArrayOf(destClass, dim, cp);
-    }
+    
     return res;
 }
 //=============================================================================
