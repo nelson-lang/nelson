@@ -141,16 +141,16 @@ ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
              * Check the type of the entry.  If its a non-cell array, then
              * then ignore this entry.
              */
-            if (values[i].dp->dataClass == NLS_CELL_ARRAY
-                || values[i].dp->dataClass == NLS_STRING_ARRAY) {
+            ArrayOf value = values[i];
+            if (value.dp->dataClass == NLS_CELL_ARRAY || value.dp->dataClass == NLS_STRING_ARRAY) {
                 /**
                  * This is a cell-array, so look for non-scalar cell-arrays.
                  */
-                if (!values[i].isScalar()) {
+                if (!value.isScalar()) {
                     if (!nonSingularFound) {
                         nonSingularFound = true;
-                        dims = values[i].dp->dimensions;
-                    } else if (!dims.equals(values[i].dp->dimensions)) {
+                        dims = value.dp->dimensions;
+                    } else if (!dims.equals(value.dp->dimensions)) {
                         Error(_W("ArrayOf dimensions of non-scalar entries must agree in "
                                  "structure construction."));
                     }

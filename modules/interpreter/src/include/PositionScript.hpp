@@ -42,10 +42,8 @@ public:
     //=============================================================================
     PositionScript(
         const std::wstring& functionname = L"", const std::wstring& filename = L"", int line = -1)
+        : filename(filename), functionname(functionname), line(line)
     {
-        this->filename = filename;
-        this->functionname = functionname;
-        this->line = line;
     }
     //=============================================================================
     PositionScript(const PositionScript& copy)

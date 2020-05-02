@@ -456,7 +456,7 @@ Profiler::save(
 
     std::unordered_map<std::wstring, std::wstring> filenameIndex;
 
-    int idx = 0;
+    size_t idx = 0;
     for (size_t k = 0; k < flatProfile.size(); ++k) {
         std::wstring filename = utf8_to_wstring(std::get<0>(flatProfile[k]));
         auto it = filenameIndex.find(filename);
@@ -509,7 +509,7 @@ findFunctionDefinitonLine(const stringVector& functionContent)
 static int
 findEndfunctionDefinitonLine(const stringVector& functionContent, int start)
 {
-    for (size_t k = start + 1; k < functionContent.size(); ++k) {
+    for (size_t k = (size_t)start + 1; k < functionContent.size(); ++k) {
         std::string line = boost::algorithm::trim_copy(functionContent[k]);
         if (boost::algorithm::starts_with(line, "endfunction")
             || boost::algorithm::starts_with(line, "function")) {
@@ -586,7 +586,7 @@ Profiler::getFiveLinesConsumingMostTime(
 static bool
 isKeyWordWithMaybeComments(std::string key)
 {
-    size_t index1 = key.find("%", 0);
+    size_t index1 = key.find('%', 0);
     size_t index2 = key.find("//", 0);
     if (index1 == std::string::npos) {
         index1 = key.length();

@@ -123,11 +123,8 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt)
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt)
     {
-        endArray = p;
-        index = ndx;
-        count = cnt;
     }
     ~endData() = default;
     ;
@@ -3262,12 +3259,12 @@ Evaluator::getCallers(bool includeCurrent)
     while (i < this->cstack.size()) {
         if (this->cstack[i].tokid == 0) {
             size_t j = i + 1;
-            while ((j < this->cstack.size()) && (this->cstack[j].cname == this->cstack[i].cname)
-                && (this->cstack[j].detail == this->cstack[i].detail)
-                && (this->cstack[j].tokid != 0)) {
+            std::vector<StackEntry> cstackRef = this->cstack;
+            while ((j < cstackRef.size()) && (cstackRef[j].cname == cstackRef[i].cname)
+                && (cstackRef[j].detail == cstackRef[i].detail) && (cstackRef[j].tokid != 0)) {
                 j++;
             }
-            std::string functionname = this->cstack[j - 1].detail;
+            std::string functionname = cstackRef[j - 1].detail;
             if (boost::algorithm::starts_with(functionname, "built-in ")) {
                 boost::algorithm::replace_all(functionname, "built-in ", "");
             } else if (boost::algorithm::starts_with(functionname, "filename ")) {
