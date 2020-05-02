@@ -7,6 +7,7 @@ Compilation:
 
 * cmake 3.17.2 on Windows.
 
+* CA certificate (Wed Jan 1 04:12:10 2020 GMT)
 
 
 # 0.4.4 (2020-04-29)
