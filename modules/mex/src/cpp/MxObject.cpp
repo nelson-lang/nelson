@@ -121,9 +121,9 @@ mxSetClassName(mxArray* array_ptr, const char* classname)
             if (ptr->isStruct()) {
                 ptr->setStructType(classname);
                 return 0;
-            } 
-                return -3;
-            
+            }
+            return -3;
+
         } else {
             return -2;
         }

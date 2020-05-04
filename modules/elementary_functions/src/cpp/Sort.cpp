@@ -42,21 +42,52 @@ Sort(ArrayOf arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,
 {
     ArrayOfVector res;
     needToOverload = false;
+    if (arrayIn.isClassStruct()) {
+        needToOverload = true;
+        return res;
+    }
     if (arrayIn.isEmpty()) {
-        res.push_back(ArrayOf::emptyConstructor(arrayIn.getDimensions()));
-        if (withIndex) {
+        switch (arrayIn.getDataClass()) {
+        case NLS_CELL_ARRAY: {
+            if (nargin != 1) {
+                Error(_W("Only one input parameter is supported for cell arrays."));
+            }
             res.push_back(ArrayOf::emptyConstructor(arrayIn.getDimensions()));
-        }
-    } else {
-        if (arrayIn.isClassStruct()) {
+        } break;
+        case NLS_STRING_ARRAY:
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            res.push_back(ArrayOf::emptyConstructor(arrayIn.getDimensions()));
+            if (withIndex) {
+                res.push_back(ArrayOf::emptyConstructor(arrayIn.getDimensions()));
+            }
+        } break;
+        case NLS_HANDLE:
+        case NLS_STRUCT_ARRAY:
+        default: {
             needToOverload = true;
             return res;
+        } break;
         }
+    } else {
         indexType dimOperate;
         Dimensions inDim(arrayIn.getDimensions());
         if (dim == 0) {
+            indexType lenInDim = inDim.getLength();
             indexType d = 0;
-            while (inDim[d] == 1) {
+            while (d < lenInDim && inDim.getAt(d) == 1) {
                 d++;
             }
             dimOperate = d;

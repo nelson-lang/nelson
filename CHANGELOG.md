@@ -1,5 +1,14 @@
 # 0.4.5 (2020-05-XX)
 
+* test_run: tests are sorted on all platforms.
+
+
+Bug Fixes:
+---------
+
+  * [#295](http://github.com/Nelson-numerical-software/nelson/issues/295): sort did not return an wrong error message for struct.
+
+
 Compilation:
 ------------
 
