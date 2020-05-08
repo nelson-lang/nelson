@@ -28,7 +28,8 @@
 void
 mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    for (size_t i = 0; i < 2; ++i){
+    size_t i = 0;
+    for (i = 0; i < 2; ++i){
         mexPrintf ("Result %d\n", i);
     }
 }

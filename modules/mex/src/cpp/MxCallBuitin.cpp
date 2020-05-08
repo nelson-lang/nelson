@@ -41,7 +41,9 @@ mxCallBuiltin(
     mxArray** mxArgsOut = nullptr;
 
     try {
-        mxArgsIn = new mxArray*[argIn.size()];
+        if (argIn.size() > 0) {
+            mxArgsIn = new mxArray*[argIn.size()];
+        }
     } catch (const std::bad_alloc&) {
         Nelson::Error(ERROR_MEMORY_ALLOCATION);
     }

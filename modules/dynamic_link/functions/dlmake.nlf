@@ -46,7 +46,12 @@ function [status, message] = dlmake(destinationdir)
     end
     if strcmp(compiler, 'mingw')
       options = '"MinGW Makefiles"';
-      make_name = 'make';
+      status = unix('mingw32-make --version');
+      if status == 0
+        make_name = 'mingw32-make';
+      else
+        make_name = 'make';
+      end
     end
   else
     options = '''Unix Makefiles''';

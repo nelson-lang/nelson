@@ -64,10 +64,9 @@ function mex(varargin)
         c_flags = [];
         cxx_flags = [];
     end
-    builtin_table = {{functionName, -1, -1, 'C_MEX_BUILTIN'}};
     dlgeneratecleaner(destinationPath);
-    dlgenerategateway(destinationPath, functionName, builtin_table);
-    filenames = [filenames, 'Gateway.cpp'];
+    dlgeneratemexgateway(destinationPath, functionName);
+    filenames = [filenames, 'mexGateway.c'];
     [status, message] = dlgeneratemake(destinationPath, ...
     functionName, ...
     filenames, ...

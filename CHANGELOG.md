@@ -2,6 +2,8 @@
 
 * test_run: tests are sorted on all platforms.
 
+* mex supports build with MinGW compiler.
+
 
 Bug Fixes:
 ---------

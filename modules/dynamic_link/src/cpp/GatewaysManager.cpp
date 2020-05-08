@@ -24,19 +24,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <map>
+#include <utility>
 #include <boost/filesystem.hpp>
+#include <boost/dll/library_info.hpp>
 #include "GatewaysManager.hpp"
 #include "characters_encoding.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "dynamic_library.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 #define GATEWAY_ENTRY "AddGateway"
 #define REMOVEGATEWAY_ENTRY "RemoveGateway"
 #define MEXCLEARATEXIT_ENTRY "mexClearAtExit"
+#define MEXFUNCTIONNAME_ENTRY "mexFunctionName"
+#define MEXFUNCTION_ENTRY "mexFunction"
 //=============================================================================
-static std::map<std::wstring, library_handle> libraryMap;
+static std::map<std::wstring, std::pair<library_handle, bool>> libraryMap;
 //=============================================================================
 GatewaysManager* GatewaysManager::m_pInstance = nullptr;
 //=============================================================================
@@ -95,10 +100,12 @@ GatewaysManager::addGateway(
         boost::filesystem::current_path(dir);
 
         bool needToAdd = false;
+        bool isMex = false;
         library_handle nlsModuleHandleDynamicLibrary = nullptr;
-        std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
+        std::map<std::wstring, std::pair<library_handle, bool>>::iterator found
+            = libraryMap.find(libraryFullName);
         if (found != libraryMap.end()) {
-            nlsModuleHandleDynamicLibrary = found->second;
+            nlsModuleHandleDynamicLibrary = found->second.first;
         } else {
 #ifdef _MSC_VER
             nlsModuleHandleDynamicLibrary = load_dynamic_libraryW(filename);
@@ -108,18 +115,41 @@ GatewaysManager::addGateway(
             needToAdd = true;
         }
 
-        if (nlsModuleHandleDynamicLibrary) {
+        if (nlsModuleHandleDynamicLibrary != nullptr) {
+            using PROC_mexFunctionName = const char* (*)(void);
             using PROC_AddGateway = bool (*)(const void*, const wchar_t*);
+            generic_function_ptr PROC_mexFunctionPtr = nullptr;
+            PROC_mexFunctionName PROC_mexFunctionNamePtr = nullptr;
+
             PROC_AddGateway AddGatewayPtr = reinterpret_cast<PROC_AddGateway>(
                 get_function(nlsModuleHandleDynamicLibrary, GATEWAY_ENTRY));
-            boost::filesystem::current_path(currentdirbackup);
             if (AddGatewayPtr) {
-                if (needToAdd) {
-                    libraryMap.emplace(libraryFullName, nlsModuleHandleDynamicLibrary);
-                }
-                return AddGatewayPtr((void*)eval, libraryFullName.c_str());
+                isMex = false;
             } else {
-                errorMessage = _W("Module not loaded: symbol not found.");
+                PROC_mexFunctionNamePtr = reinterpret_cast<PROC_mexFunctionName>(
+                    get_function(nlsModuleHandleDynamicLibrary, MEXFUNCTIONNAME_ENTRY));
+                PROC_mexFunctionPtr
+                    = get_function(nlsModuleHandleDynamicLibrary, MEXFUNCTION_ENTRY);
+                isMex = PROC_mexFunctionNamePtr != nullptr && PROC_mexFunctionPtr != nullptr;
+                if (!isMex) {
+                    boost::filesystem::current_path(currentdirbackup);
+                    errorMessage = _W("Module not loaded: symbol not found.");
+                    return false;
+                }
+            }
+            if (needToAdd) {
+                std::pair<library_handle, bool> pairHandleIsMex(
+                    nlsModuleHandleDynamicLibrary, isMex);
+                libraryMap.emplace(libraryFullName, pairHandleIsMex);
+            }
+            boost::filesystem::current_path(currentdirbackup);
+            if (isMex) {
+                std::string mexFunctionName = PROC_mexFunctionNamePtr();
+                return Nelson::BuiltInFunctionDefManager::getInstance()->add(mexFunctionName,
+                    PROC_mexFunctionPtr, -1, -1, libraryFullName, utf8_to_wstring(mexFunctionName),
+                    C_MEX_BUILTIN);
+            } else {
+                return AddGatewayPtr((void*)eval, libraryFullName.c_str());
             }
         } else {
             std::string error_msg = get_dynamic_library_error();
@@ -155,21 +185,30 @@ GatewaysManager::removeGateway(
     boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
     boost::filesystem::current_path(dir);
 
-    std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
+    std::map<std::wstring, std::pair<library_handle, bool>>::iterator found
+        = libraryMap.find(libraryFullName);
     if (found != libraryMap.end()) {
-        library_handle nlsModuleHandleDynamicLibrary = found->second;
+        library_handle nlsModuleHandleDynamicLibrary = found->second.first;
+        bool isMex = found->second.second;
         if (nlsModuleHandleDynamicLibrary) {
-            using PROC_RemoveGateway = bool (*)(void*, const wchar_t*);
-            PROC_RemoveGateway RemoveGatewayPtr = reinterpret_cast<PROC_RemoveGateway>(
-                get_function(nlsModuleHandleDynamicLibrary, REMOVEGATEWAY_ENTRY));
-            boost::filesystem::current_path(currentdirbackup);
-            if (RemoveGatewayPtr) {
-                bool res = RemoveGatewayPtr((void*)eval, libraryFullName.c_str());
+            if (isMex) {
+                clearMexGateway(libraryFullName);
+                boost::filesystem::current_path(currentdirbackup);
                 libraryMap.erase(libraryFullName);
                 close_dynamic_library(nlsModuleHandleDynamicLibrary);
-                return res;
             } else {
-                errorMessage = _W("Module not loaded: symbol not found.");
+                using PROC_RemoveGateway = bool (*)(void*, const wchar_t*);
+                PROC_RemoveGateway RemoveGatewayPtr = reinterpret_cast<PROC_RemoveGateway>(
+                    get_function(nlsModuleHandleDynamicLibrary, REMOVEGATEWAY_ENTRY));
+                boost::filesystem::current_path(currentdirbackup);
+                if (RemoveGatewayPtr) {
+                    bool res = RemoveGatewayPtr((void*)eval, libraryFullName.c_str());
+                    libraryMap.erase(libraryFullName);
+                    close_dynamic_library(nlsModuleHandleDynamicLibrary);
+                    return res;
+                } else {
+                    errorMessage = _W("Module not loaded: symbol not found.");
+                }
             }
         } else {
             errorMessage = _W("Module not loaded: library handle not found.");
@@ -191,11 +230,12 @@ GatewaysManager::getLibraryNames()
 }
 //=============================================================================
 bool
-GatewaysManager::clearMexGateway(Evaluator* eval, const std::wstring& libraryFullName)
+GatewaysManager::clearMexGateway(const std::wstring& libraryFullName)
 {
-    std::map<std::wstring, library_handle>::iterator found = libraryMap.find(libraryFullName);
+    std::map<std::wstring, std::pair<library_handle, bool>>::iterator found
+        = libraryMap.find(libraryFullName);
     if (found != libraryMap.end()) {
-        library_handle nlsModuleHandleDynamicLibrary = found->second;
+        library_handle nlsModuleHandleDynamicLibrary = found->second.first;
         using PROC_ClearMex = void (*)(void);
         PROC_ClearMex ClearMexPtr = reinterpret_cast<PROC_ClearMex>(
             get_function(nlsModuleHandleDynamicLibrary, MEXCLEARATEXIT_ENTRY));
