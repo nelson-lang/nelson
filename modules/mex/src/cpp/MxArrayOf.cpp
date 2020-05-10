@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "MxArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
@@ -42,7 +43,10 @@ template <class T, class S>
 void
 ArrayOfRealToMexReal(T* src, S* dst, size_t count)
 {
-    for (size_t i = 0; i < count; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
         dst[i] = (S)src[i];
     }
 }
@@ -51,7 +55,10 @@ template <class T, class S>
 void
 MexRealToArrayOfReal(T* src, S* dst, size_t count)
 {
-    for (size_t i = 0; i < count; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
         dst[i] = (S)src[i];
     }
 }
@@ -60,7 +67,10 @@ template <class T, class S>
 void
 MexComplexToArrayOfComplex(T* src_real, T* src_imag, S* dst, size_t count)
 {
-    for (size_t i = 0; i < count; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count; i++) {
         dst[2 * i] = (S)src_real[i];
         dst[2 * i + 1] = (S)src_imag[i];
     }
@@ -79,7 +89,10 @@ ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID)
     auto* dp_r = (mxType*)ret->realdata;
     auto* dp_i = (mxType*)ret->imagdata;
     size_t N = mxGetNumberOfElements(ret);
-    for (size_t i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         dp_r[i] = (mxType)sp[2 * i];
         dp_i[i] = (mxType)sp[2 * i + 1];
     }
@@ -98,7 +111,10 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     auto* sp = (nlsType*)array.getDataPointer();
     auto* dp = (mxType*)ret->realdata;
     size_t N = mxGetNumberOfElements(ret);
-    for (size_t i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         dp[i] = (mxType)sp[i];
     }
     return ret;
@@ -121,7 +137,10 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
         auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
         auto** dp = (mxArray**)res->realdata;
         size_t N = mxGetNumberOfElements(res);
-        for (size_t i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             dp[i] = ArrayOfToMxArray(sp[i]);
         }
     } break;
@@ -214,7 +233,10 @@ MxArrayToArrayOf(mxArray* pm)
         auto** dp = (mxArray**)pm->realdata;
         cp = ArrayOf::allocateArrayOf(destClass, N);
         auto* elements = (ArrayOf*)cp;
-        for (size_t i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             elements[i] = MxArrayToArrayOf(dp[i]);
         }
     } break;

@@ -4,6 +4,8 @@
 
 * mex supports build with MinGW compiler.
 
+* mxArray and ArrayOf conversion optimized.
+
 
 Bug Fixes:
 ---------
