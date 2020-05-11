@@ -118,8 +118,16 @@ mxSetSingles(mxArray* pa, mxSingle* dt)
     return 0;
 }
 //=============================================================================
+NLSMEX_IMPEXP
 mxDouble*
-mxGetPr(const mxArray* pm)
+mxGetPrInterleavedComplex(const mxArray* pm)
+{
+    mexErrMsgTxt(_("mxGetPr not allowed with interleaved complex.").c_str());
+    return nullptr;
+}
+//=============================================================================
+mxDouble*
+mxGetPrSeparatedComplex(const mxArray* pm)
 {
     if (pm != nullptr) {
         return (mxDouble*)pm->realdata;

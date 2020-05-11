@@ -45,9 +45,21 @@ extern "C"
 {
 #endif
     //=============================================================================
+    NLSMEX_IMPEXP mxArray*
+    mxCreateNumericArraySeparatedComplex(
+        mwSize ndim, const mwSize* dims, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP mxArray*
+    mxCreateNumericArrayInterleavedComplex(
+        mwSize ndim, const mwSize* dims, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateDoubleMatrix(mwSize m, mwSize n, mxComplexity ComplexFlag);
+    mxCreateDoubleMatrixSeparatedComplex(mwSize m, mwSize n, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateDoubleMatrixInterleavedComplex(mwSize m, mwSize n, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     bool
@@ -59,16 +71,41 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateNumericMatrix(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
+    mxCreateNumericMatrixSeparatedComplex(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateUninitNumericMatrix(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
+    mxCreateNumericMatrixInterleavedComplex(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateUninitNumericArray(
+    mxCreateUninitNumericMatrixSeparatedComplex(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateUninitNumericMatrixInterleavedComplex(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateUninitNumericArraySeparatedComplex(
         size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateUninitNumericArrayInterleavedComplex(
+        size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag);
+    //=============================================================================
+#ifdef MX_HAS_INTERLEAVED_COMPLEX
+#define mxCreateDoubleMatrix mxCreateDoubleMatrixInterleavedComplex
+#define mxCreateNumericMatrix mxCreateNumericMatrixInterleavedComplex
+#define mxCreateNumericArray mxCreateNumericArrayInterleavedComplex
+#define mxCreateUninitNumericArray mxCreateUninitNumericArrayInterleavedComplex
+#else
+#define mxCreateDoubleMatrix mxCreateDoubleMatrixSeparatedComplex
+#define mxCreateNumericMatrix mxCreateNumericMatrixSeparatedComplex
+#define mxCreateNumericArray mxCreateNumericArraySeparatedComplex
+#define mxCreateUninitNumericArray mxCreateUninitNumericArraySeparatedComplex
+#endif
     //=============================================================================
 #ifdef __cplusplus
 }

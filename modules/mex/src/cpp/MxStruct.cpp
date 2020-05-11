@@ -107,6 +107,6 @@ mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber)
     const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
     size_t fieldCount = ptr->getFieldNames().size();
     Nelson::ArrayOf field = qp[index * fieldCount + fieldnumber];
-    return Nelson::ArrayOfToMxArray(field);
+    return Nelson::ArrayOfToMxArray(field, pm->interleavedcomplex);
 }
 //=============================================================================

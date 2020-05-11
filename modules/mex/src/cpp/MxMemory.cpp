@@ -159,7 +159,7 @@ mxDuplicateArray(const mxArray* in)
     case mxINT64_CLASS:
     case mxUINT64_CLASS: {
         if (in->iscomplex != 0) {
-            ret = mxAllocateComplexArray(
+            ret = mxAllocateSeparatedComplexArray(
                 in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
             memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
             memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);

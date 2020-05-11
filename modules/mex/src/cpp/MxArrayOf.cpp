@@ -25,6 +25,7 @@
 //=============================================================================
 #include "nlsConfig.h"
 #include "MxArrayOf.hpp"
+#include "MxNumericTypes.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -78,7 +79,7 @@ MexComplexToArrayOfComplex(T* src_real, T* src_imag, S* dst, size_t count)
 //=============================================================================
 template <class mxType, class nlsType>
 mxArray*
-ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID)
+ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID, bool interleavedComplex)
 {
     mwSize num_dim;
     mwSize* dim_vec = GetDimensions(array, num_dim);
@@ -121,7 +122,7 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
 }
 //=============================================================================
 mxArray*
-ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
+ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res = nullptr;
     if (nlsArrayOf.isSparse()) {
@@ -141,7 +142,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
-            dp[i] = ArrayOfToMxArray(sp[i]);
+            dp[i] = ArrayOfToMxArray(sp[i], interleavedComplex);
         }
     } break;
     case NLS_STRUCT_ARRAY: {
@@ -153,6 +154,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
             ret->dims = dim_vec;
             ret->classID = mxSTRUCT_CLASS;
             ret->issparse = false;
+            ret->interleavedcomplex = interleavedComplex;
             ret->iscomplex = false;
             ret->imagdata = nullptr;
             ret->realdata = nullptr;
@@ -196,10 +198,12 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf)
         res = ArrayOfRealToMexArray<mxDouble, double>(nlsArrayOf, mxDOUBLE_CLASS);
     } break;
     case NLS_SCOMPLEX: {
-        res = ArrayOfComplexToMexArray<mxSingle, single>(nlsArrayOf, mxSINGLE_CLASS);
+        res = ArrayOfComplexToMexArray<mxSingle, single>(
+            nlsArrayOf, mxSINGLE_CLASS, interleavedComplex);
     } break;
     case NLS_DCOMPLEX: {
-        res = ArrayOfComplexToMexArray<mxDouble, double>(nlsArrayOf, mxDOUBLE_CLASS);
+        res = ArrayOfComplexToMexArray<mxDouble, double>(
+            nlsArrayOf, mxDOUBLE_CLASS, interleavedComplex);
     } break;
     case NLS_CHAR: {
         res = ArrayOfRealToMexArray<mxChar, charType>(nlsArrayOf, mxCHAR_CLASS);

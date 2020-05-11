@@ -63,7 +63,11 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     mxDouble*
-    mxGetPr(const mxArray* pm);
+    mxGetPrSeparatedComplex(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxDouble*
+    mxGetPrInterleavedComplex(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
     void
@@ -72,6 +76,12 @@ extern "C"
     NLSMEX_IMPEXP
     void*
     mxGetData(const mxArray* pm);
+    //=============================================================================
+#if MX_HAS_INTERLEAVED_COMPLEX
+#define mxGetPr mxGetPrInterleavedComplex
+#else
+#define mxGetPr mxGetPrSeparatedComplex
+#endif
     //=============================================================================
 #ifdef __cplusplus
 }

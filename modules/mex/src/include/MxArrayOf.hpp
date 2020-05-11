@@ -33,7 +33,7 @@ namespace Nelson {
 //=============================================================================
 NLSMEX_IMPEXP
 mxArray*
-ArrayOfToMxArray(const ArrayOf& nlsArrayOf);
+ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex);
 //=============================================================================
 NLSMEX_IMPEXP
 ArrayOf

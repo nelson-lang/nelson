@@ -149,6 +149,7 @@ typedef int mwSignedIndex;
         mwSize number_of_dims;
         bool issparse;
         int iscomplex;
+        bool interleavedcomplex;
         void* realdata;
         void* imagdata;
         uint64_t* ptr;

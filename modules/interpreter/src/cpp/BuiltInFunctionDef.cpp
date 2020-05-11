@@ -38,6 +38,7 @@ BuiltInFunctionDef::BuiltInFunctionDef()
     argCount = 0;
     fptr = nullptr;
     builtinPrototype = (size_t)BUILTIN_PROTOTYPE::CPP_BUILTIN;
+    interleavedComplex = true;
 }
 //=============================================================================
 BuiltInFunctionDef::~BuiltInFunctionDef() = default;
@@ -52,7 +53,7 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
     try {
         tic = Profiler::getInstance()->tic();
         outputs
-            = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout, builtinPrototype);
+            = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout, builtinPrototype, interleavedComplex);
         if (tic != 0) {
             internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
             Profiler::getInstance()->toc(tic, stack);

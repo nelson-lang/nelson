@@ -33,19 +33,28 @@ extern "C"
 {
 #endif
     //=============================================================================
+    NLSMEX_IMPEXP
+    mxDouble*
+    mxGetPiSeparatedComplex(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetPiSeparatedComplex(mxArray* pm, double* pr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxDouble*
+    mxGetPiInterleavedComplex(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetPiInterleavedComplex(mxArray* pm, double* pr);
+    //=============================================================================
 #ifdef MX_HAS_INTERLEAVED_COMPLEX
-#define mxGetPi mxGetPiIsDeprecated
-#define mxSetPi mxSetPiIsDeprecated
+#define mxGetPi mxGetPiInterleavedComplex
+#define mxSetPi mxSetPiInterleavedComplex
 #else
-//=============================================================================
-NLSMEX_IMPEXP
-mxDouble*
-mxGetPi(const mxArray* pm);
-//=============================================================================
-NLSMEX_IMPEXP
-void
-mxSetPi(mxArray* pm, double* pr);
-//=============================================================================
+#define mxGetPi mxGetPiSeparatedComplex
+#define mxSetPi mxSetPiSeparatedComplex
 #endif
 //=============================================================================
 #ifdef __cplusplus

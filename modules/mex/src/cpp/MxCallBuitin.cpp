@@ -35,7 +35,7 @@ using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================
 int
 mxCallBuiltin(
-    void* fptr, const Nelson::ArrayOfVector& argIn, int nargout, Nelson::ArrayOfVector& argOut)
+    void* fptr, const Nelson::ArrayOfVector& argIn, int nargout, Nelson::ArrayOfVector& argOut, bool interleavedComplex)
 {
     mxArray** mxArgsIn = nullptr;
     mxArray** mxArgsOut = nullptr;
@@ -72,7 +72,7 @@ mxCallBuiltin(
     }
 
     for (size_t i = 0; i < argIn.size(); ++i) {
-        mxArgsIn[i] = Nelson::ArrayOfToMxArray(argIn[i]);
+        mxArgsIn[i] = Nelson::ArrayOfToMxArray(argIn[i], interleavedComplex);
     }
 
     auto builtinPtr = (MexFuncPtr)fptr;

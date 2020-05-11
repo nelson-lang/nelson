@@ -56,7 +56,7 @@ mxAllocateRealArray(
 }
 //=============================================================================
 mxArray*
-mxAllocateComplexArray(
+mxAllocateSeparatedComplexArray(
     mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
 {
     mxArray* ret = mxNewArray();
@@ -66,12 +66,36 @@ mxAllocateComplexArray(
         ret->dims = copyDims(ndim, dims);
         ret->issparse = false;
         ret->iscomplex = true;
+        ret->interleavedcomplex = false;
         if (initialized) {
             ret->realdata = mxCalloc(countElements(ndim, dims), size);
             ret->imagdata = mxCalloc(countElements(ndim, dims), size);
         } else {
             ret->realdata = mxMalloc(countElements(ndim, dims));
             ret->imagdata = mxMalloc(countElements(ndim, dims));
+        }
+    }
+    return ret;
+}
+//=============================================================================
+mxArray*
+mxAllocateInterleavedComplexArray(
+  mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
+{
+    mxArray* ret = mxNewArray();
+    if (ret != nullptr) {
+        ret->classID = classID;
+        ret->interleavedcomplex = true;
+        ret->number_of_dims = ndim;
+        ret->dims = copyDims(ndim, dims);
+        ret->issparse = false;
+        ret->iscomplex = true;
+        if (initialized) {
+            ret->realdata = mxCalloc(countElements(ndim, dims) * 2, size);
+            ret->imagdata = nullptr;
+        } else {
+            ret->realdata = mxMalloc(countElements(ndim, dims) * 2);
+            ret->imagdata = nullptr;
         }
     }
     return ret;

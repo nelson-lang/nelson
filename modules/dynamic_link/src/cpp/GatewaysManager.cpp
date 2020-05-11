@@ -144,10 +144,11 @@ GatewaysManager::addGateway(
             }
             boost::filesystem::current_path(currentdirbackup);
             if (isMex) {
+                bool interleavedComplex = false;
                 std::string mexFunctionName = PROC_mexFunctionNamePtr();
                 return Nelson::BuiltInFunctionDefManager::getInstance()->add(mexFunctionName,
                     PROC_mexFunctionPtr, -1, -1, libraryFullName, utf8_to_wstring(mexFunctionName),
-                    C_MEX_BUILTIN);
+                    C_MEX_BUILTIN, interleavedComplex);
             } else {
                 return AddGatewayPtr((void*)eval, libraryFullName.c_str());
             }
