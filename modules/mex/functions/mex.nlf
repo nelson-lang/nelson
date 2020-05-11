@@ -40,10 +40,12 @@ function mex(varargin)
         functionName = f;
     end
     api = varargin{idxFilenames};
+    hasinterleavedcomplex = false;
     if strcmp(api, '-R2018a') || strcmp(api, '-R2017b')
         idxFilenames = idxFilenames + 1;
         if strcmp(api, '-R2018a')
             interleavedComplex = 'MX_HAS_INTERLEAVED_COMPLEX';
+            hasinterleavedcomplex = true;
         end
     end
     if isempty(interleavedComplex)
@@ -65,7 +67,7 @@ function mex(varargin)
         cxx_flags = [];
     end
     dlgeneratecleaner(destinationPath);
-    dlgeneratemexgateway(destinationPath, functionName);
+    dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
     filenames = [filenames, 'mexGateway.c'];
     [status, message] = dlgeneratemake(destinationPath, ...
     functionName, ...

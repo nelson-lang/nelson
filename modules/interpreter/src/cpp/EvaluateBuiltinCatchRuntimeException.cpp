@@ -127,8 +127,8 @@ signal_handler(int signal_code)
 //=============================================================================
 #ifdef _MSC_VER
 ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype, bool interleavedComplex)
+EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, ArrayOfVector& inputs,
+    int nargout, size_t builtinPrototype, bool interleavedComplex)
 {
     ArrayOfVector outputs;
     switch (builtinPrototype) {

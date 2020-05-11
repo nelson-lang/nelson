@@ -40,6 +40,7 @@
 #include "MxStruct.h"
 #include "MxObject.h"
 #include "MxCall.h"
+#include "MxInterleavedComplex.h"
 //=============================================================================
 #ifdef __cplusplus
 extern "C"
@@ -126,8 +127,6 @@ extern "C"
     mxChar*
     mxGetChars(const mxArray* array_ptr);
 //=============================================================================
-
-    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

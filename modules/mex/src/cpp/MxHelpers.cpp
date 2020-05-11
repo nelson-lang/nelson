@@ -80,7 +80,7 @@ mxAllocateSeparatedComplexArray(
 //=============================================================================
 mxArray*
 mxAllocateInterleavedComplexArray(
-  mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
+    mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
 {
     mxArray* ret = mxNewArray();
     if (ret != nullptr) {

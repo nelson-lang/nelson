@@ -35,11 +35,13 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     int
-    mexCallMATLABSeparatedComplex(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    mexCallMATLABSeparatedComplex(
+        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
     //=============================================================================
     NLSMEX_IMPEXP
     int
-    mexCallMATLABInterleavedComplex(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    mexCallMATLABInterleavedComplex(
+        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*

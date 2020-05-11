@@ -70,8 +70,8 @@ void
 CallMexBuiltin(void* fptr, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector& outputArgs,
     bool interleavedComplex)
 {
-    using PROC_mxCallBuiltin = void (*)(
-        void* fptr, const ArrayOfVector& inputArgs, int nargout, ArrayOfVector& outputArgs, bool interleavedComplex);
+    using PROC_mxCallBuiltin = void (*)(void* fptr, const ArrayOfVector& inputArgs, int nargout,
+        ArrayOfVector& outputArgs, bool interleavedComplex);
     static PROC_mxCallBuiltin mxCallBuiltinPtr = nullptr;
     initMexDynamicLibrary();
     if (mxCallBuiltinPtr == nullptr) {

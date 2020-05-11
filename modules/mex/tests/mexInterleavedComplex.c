@@ -28,12 +28,21 @@
 void
 mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    if(nrhs != 1)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument");
-    }
-    double expr = mxGetScalar(prhs[0]);
-    mxAssert((int)expr , "ERROR");
-    plhs[0] = mxCreateString("OK");
+  mxArray *v = mxCreateDoubleMatrix (1, 1, mxCOMPLEX);
+#if defined (MX_HAS_INTERLEAVED_COMPLEX)
+  mxComplexDouble *data = mxGetComplexDoubles (v);
+  data->real = 1.53;
+  data->imag = 1.63;
+#else
+  double *re_data = mxGetPr(v);
+  double *im_data = mxGetPi(v);
+  *re_data = 1.73;
+  *im_data = 4.76;
+#endif
+  plhs[0] = v;
+  int i;
+  for (i = 1; i < nlhs; i++) {
+      plhs[i] = mxCreateDoubleMatrix (0, 0, mxREAL);
+  }
 }
 //=============================================================================

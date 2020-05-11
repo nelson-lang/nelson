@@ -57,7 +57,8 @@ mxCreateCharMatrixFromStrings(mwSize m, const char** str)
     mxArray* res = mxCreateCharArray(2, dims);
     ptr = (mxChar*)res->realdata;
     for (i = 0; i < m; i++) {
-        for (j = 0; j < strlen(str[i]); j++) {
+        auto lenStr = (mwSize)strlen(str[i]);
+        for (j = 0; j < lenStr; j++) {
             ptr[i + j * m] = str[i][j];
         }
     }

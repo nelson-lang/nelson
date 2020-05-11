@@ -34,14 +34,14 @@
 using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================
 int
-mxCallBuiltin(
-    void* fptr, const Nelson::ArrayOfVector& argIn, int nargout, Nelson::ArrayOfVector& argOut, bool interleavedComplex)
+mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
+    Nelson::ArrayOfVector& argOut, bool interleavedComplex)
 {
     mxArray** mxArgsIn = nullptr;
     mxArray** mxArgsOut = nullptr;
 
     try {
-        if (argIn.size() > 0) {
+        if (!argIn.empty()) {
             mxArgsIn = new mxArray*[argIn.size()];
         }
     } catch (const std::bad_alloc&) {
@@ -53,6 +53,7 @@ mxCallBuiltin(
         mxArgsOut = new mxArray*[lhsCount];
         for (size_t i = 0; i < lhsCount; ++i) {
             mxArgsOut[i] = new mxArray();
+            mxArgsOut[i]->interleavedcomplex = interleavedComplex;
             mxArgsOut[i]->classID = mxUNKNOWN_CLASS;
             mxArgsOut[i]->dims = nullptr;
             mxArgsOut[i]->number_of_dims = 0;

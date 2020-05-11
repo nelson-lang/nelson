@@ -66,7 +66,19 @@ MexRealToArrayOfReal(T* src, S* dst, size_t count)
 //=============================================================================
 template <class T, class S>
 void
-MexComplexToArrayOfComplex(T* src_real, T* src_imag, S* dst, size_t count)
+MexComplexToArrayOfInterleavedComplex(T* src, S* dst, size_t count)
+{
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)count * 2; i++) {
+        dst[i] = (S)src[i];
+    }
+}
+//=============================================================================
+template <class T, class S>
+void
+MexComplexToArrayOfSeparatedComplex(T* src_real, T* src_imag, S* dst, size_t count)
 {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -224,7 +236,6 @@ MxArrayToArrayOf(mxArray* pm)
         return ArrayOf::emptyConstructor(dims);
     }
     Class destClass = NLS_NOT_TYPED;
-    stringVector fieldnames;
     Dimensions dim;
     void* cp = nullptr;
     for (mwSize i = 0; i < pm->number_of_dims; i++) {
@@ -270,8 +281,13 @@ MxArrayToArrayOf(mxArray* pm)
         if (pm->iscomplex != 0) {
             destClass = NLS_DCOMPLEX;
             cp = ArrayOf::allocateArrayOf(destClass, N);
-            MexComplexToArrayOfComplex<mxDouble, double>(
-                (mxDouble*)pm->realdata, (mxDouble*)pm->imagdata, (double*)cp, N);
+            if (pm->interleavedcomplex) {
+                MexComplexToArrayOfInterleavedComplex<mxDouble, double>(
+                    (mxDouble*)pm->realdata, (double*)cp, N);
+            } else {
+                MexComplexToArrayOfSeparatedComplex<mxDouble, double>(
+                    (mxDouble*)pm->realdata, (mxDouble*)pm->imagdata, (double*)cp, N);
+            }
         } else {
             destClass = NLS_DOUBLE;
             cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -282,8 +298,13 @@ MxArrayToArrayOf(mxArray* pm)
         if (pm->iscomplex != 0) {
             destClass = NLS_SCOMPLEX;
             cp = ArrayOf::allocateArrayOf(destClass, N);
-            MexComplexToArrayOfComplex<mxSingle, single>(
-                (mxSingle*)pm->realdata, (mxSingle*)pm->imagdata, (single*)cp, N);
+            if (pm->interleavedcomplex) {
+                MexComplexToArrayOfInterleavedComplex<mxSingle, single>(
+                    (mxSingle*)pm->realdata, (single*)cp, N);
+            } else {
+                MexComplexToArrayOfSeparatedComplex<mxSingle, single>(
+                    (mxSingle*)pm->realdata, (mxSingle*)pm->imagdata, (single*)cp, N);
+            }
         } else {
             destClass = NLS_SINGLE;
             cp = ArrayOf::allocateArrayOf(destClass, N);

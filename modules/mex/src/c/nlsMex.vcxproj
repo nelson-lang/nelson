@@ -171,6 +171,7 @@
     <ClCompile Include="..\cpp\MxComplexFloat.cpp" />
     <ClCompile Include="..\cpp\MxConstants.cpp" />
     <ClCompile Include="..\cpp\MxHelpers.cpp" />
+    <ClCompile Include="..\cpp\MxInterleavedComplex.cpp" />
     <ClCompile Include="..\cpp\MxLogical.cpp" />
     <ClCompile Include="..\cpp\MxMemory.cpp" />
     <ClCompile Include="..\cpp\MxNonComplexFloat.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\include\MxCharacter.h" />
     <ClInclude Include="..\include\MxComplexFloat.h" />
     <ClInclude Include="..\include\MxConstants.h" />
+    <ClInclude Include="..\include\MxInterleavedComplex.h" />
     <ClInclude Include="..\include\MxLogical.h" />
     <ClInclude Include="..\include\MxMemory.h" />
     <ClInclude Include="..\include\MxNonComplexFloat.h" />

@@ -23,20 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function dlgeneratemexgateway(destinationdir, functionname)
+function dlgeneratemexgateway(destinationdir, functionname, interleavedcomplex)
     if ~isdir(destinationdir)
       error(_('Invalid directory.'));
     end
     if ~ischar(functionname)
       error(_('Wrong type for argument #2: string expected.'));
     end
-    txt = template(functionname);
+    txt = template(functionname, interleavedcomplex);
     filewrite([destinationdir, '/mexGateway.c'], txt);
   endfunction
   //=============================================================================
-  function txt = template(functionname)
+  function txt = template(functionname, interleavedcomplex)
     txt = {'//============================================================================='};
-    txt = [txt; '// Copyright (c) 2018 Allan CORNET (Nelson)'];
+    txt = [txt; '// Copyright (c) 2020 - Present Allan CORNET (Nelson)'];
     txt = [txt; '//'];
     txt = [txt; '// Redistribution and use in source and binary forms, with or without'];
     txt = [txt; '// modification, are permitted provided that the following conditions are met:'];
@@ -69,7 +69,21 @@ function dlgeneratemexgateway(destinationdir, functionname)
     txt = [txt; 'mex_exit_fn _exitFcn = NULL;'];
     txt = [txt; '//============================================================================='];
     txt = [txt; 'void mexClearAtExit() {if (_exitFcn && !_isLocked) {_exitFcn();}}'];
-    txt = [txt; 'const char* mexFunctionName() { return "', functionname, '";}'];
+    txt = [txt; 'const char* mexFunctionName() {return "', functionname, '";}'];
+    txt = [txt; 'void mexLock(void) {_isLocked = true;}'];
+    txt = [txt; 'void mexUnlock(void) {_isLocked = false;}'];
+    txt = [txt; 'bool mexIsLocked(void) {return _isLocked;}'];
+    txt = [txt; 'int mexAtExit(mex_exit_fn exit_fcn) {_exitFcn = exit_fcn; return 0;}'];
+    txt = [txt; '//============================================================================='];
+    txt = [txt; 'void mexfilerequiredapiversion(unsigned int* built_by_rel, unsigned int* target_api_ver)'];
+    txt = [txt; '{'];
+    txt = [txt; '*built_by_rel = 0x0000a;'];
+    if interleavedcomplex
+      txt = [txt; '*target_api_ver = MX_CURRENT_API_VER;'];
+    else
+      txt = [txt; '*target_api_ver = MX_LAST_SEPARATE_COMPLEX_VER;'];
+    end
+    txt = [txt; '}'];    
     txt = [txt; '//============================================================================='];
     endfunction
   //=============================================================================

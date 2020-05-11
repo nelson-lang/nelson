@@ -71,19 +71,23 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateNumericMatrixSeparatedComplex(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
+    mxCreateNumericMatrixSeparatedComplex(
+        mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateNumericMatrixInterleavedComplex(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
+    mxCreateNumericMatrixInterleavedComplex(
+        mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateUninitNumericMatrixSeparatedComplex(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
+    mxCreateUninitNumericMatrixSeparatedComplex(
+        size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateUninitNumericMatrixInterleavedComplex(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
+    mxCreateUninitNumericMatrixInterleavedComplex(
+        size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*

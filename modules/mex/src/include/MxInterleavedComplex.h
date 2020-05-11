@@ -23,17 +23,41 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mex.h>
+#pragma once
 //=============================================================================
-void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+#include "nlsMex_exports.h"
+//=============================================================================
+#ifdef __cplusplus
+extern "C"
 {
-    if(nrhs != 1)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument");
-    }
-    double expr = mxGetScalar(prhs[0]);
-    mxAssert((int)expr , "ERROR");
-    plhs[0] = mxCreateString("OK");
+#endif
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxComplexDouble*
+    mxGetComplexDoublesInterleavedComplex(const mxArray* pa);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxDouble*
+    mxGetDoublesInterleavedComplex(const mxArray* pa);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxSetDoublesInterleavedComplex(mxArray* pa, mxDouble* dt);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxSetComplexDoublesInterleavedComplex(mxArray* pa, mxComplexDouble* dt);
+    //=============================================================================
+#ifdef MX_HAS_INTERLEAVED_COMPLEX
+#define mxGetComplexDoubles mxGetComplexDoublesInterleavedComplex
+#define mxGetDoubles mxGetDoublesInterleavedComplex
+#define mxSetDoubles mxSetDoublesInterleavedComplex
+#define mxSetComplexDoubles mxSetComplexDoublesInterleavedComplex
+#endif
+    //=============================================================================
+
+//=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================

@@ -37,7 +37,8 @@ mexSetEvaluator(void* eval)
 }
 //=============================================================================
 static int
-mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName, bool interleavedComplex)
+mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName,
+    bool interleavedComplex)
 {
     Nelson::ArrayOfVector argIn;
     Nelson::ArrayOfVector argOut;
@@ -70,13 +71,14 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
 //=============================================================================
 int
 mexCallMATLABSeparatedComplex(
-  int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName)
+    int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName)
 {
     return mexCallNELSON(nlhs, plhs, nrhs, prhs, functionName, false);
 }
 //=============================================================================
 int
-mexCallMATLABInterleavedComplex(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName)
+mexCallMATLABInterleavedComplex(
+    int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName)
 {
     return mexCallNELSON(nlhs, plhs, nrhs, prhs, functionName, true);
 }
@@ -105,8 +107,8 @@ createMexception(Nelson::Exception& e)
 }
 //=============================================================================
 static mxArray*
-mexCallNELSONWithTrap(
-    int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName, bool interleavedComplex)
+mexCallNELSONWithTrap(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[],
+    const char* functionName, bool interleavedComplex)
 {
     Nelson::ArrayOfVector argIn;
     Nelson::ArrayOfVector argOut;

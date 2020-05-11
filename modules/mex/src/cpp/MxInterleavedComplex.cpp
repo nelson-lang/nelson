@@ -23,17 +23,48 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mex.h>
+#include "matrix.h"
+#include "i18n.hpp"
 //=============================================================================
-void
-mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+mxComplexDouble*
+mxGetComplexDoublesInterleavedComplex(const mxArray* pa)
 {
-    if(nrhs != 1)
-    {
-       mexErrMsgTxt("Wrong number or type of input argument");
+    mxComplexDouble* result = nullptr;
+    if (pa != nullptr) {
+        if (pa->iscomplex != 0) {
+            result = reinterpret_cast<mxComplexDouble*>(pa->realdata);
+        } else {
+            mexErrMsgTxt(_("mxGetDoubles complex expected.").c_str());
+        }
     }
-    double expr = mxGetScalar(prhs[0]);
-    mxAssert((int)expr , "ERROR");
-    plhs[0] = mxCreateString("OK");
+    return result;
+}
+//=============================================================================
+mxDouble*
+mxGetDoublesInterleavedComplex(const mxArray* pa)
+{
+    mxDouble* result = nullptr;
+    if (pa != nullptr) {
+        if (pa->iscomplex != 0) {
+            mexErrMsgTxt(_("mxGetDoubles real expected.").c_str());
+        } else {
+            result = (mxDouble*)pa->realdata;
+        }
+    }
+    return result;
+}
+//=============================================================================
+int
+mxSetDoublesInterleavedComplex(mxArray* pa, mxDouble* dt)
+{
+    int retCode = 0;
+    return retCode;
+}
+//=============================================================================
+int
+mxSetComplexDoublesInterleavedComplex(mxArray* pa, mxComplexDouble* dt)
+{
+    int retCode = 0;
+    return retCode;
 }
 //=============================================================================

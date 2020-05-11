@@ -25,25 +25,17 @@
 //=============================================================================
 tmpPath = tempname();
 mkdir(tmpPath);
-status = copyfile('mxCreateDoubleMatrix.c', tmpPath);
+status = copyfile('mexInterleavedComplex.c', tmpPath);
 assert_istrue(status);
 cd(tmpPath); 
-M = [];
-try
-    mex('-output', 'mexInterleavedComplex', '-R2018a', 'mxCreateDoubleMatrix.c' );
-catch
-    M = lasterror();
-end
-assert_isfalse(isempty(M));
-assert_istrue(isstruct(M));
 //=============================================================================
-M = [];
-try
-    mex('-output', 'mexSeparatedComplex', '-R2017b', 'mxCreateDoubleMatrix.c' );
-catch
-    M = lasterror();
-end
-assert_istrue(isempty(M));
-assert_istrue(isdouble(M));
+mex('-output', 'mexInterleavedComplexOn', '-R2018a', 'mexInterleavedComplex.c' );
+mex('-output', 'mexInterleavedComplexOff', '-R2017b', 'mexInterleavedComplex.c' );
+run('loader.nls');
 //=============================================================================
-
+CplxOn = mexInterleavedComplexOn();
+assert_isequal(CplxOn, complex(1.53, 1.63));
+//=============================================================================
+CplxOff = mexInterleavedComplexOff();
+assert_isequal(CplxOff, complex(1.73, 4.76));
+//=============================================================================

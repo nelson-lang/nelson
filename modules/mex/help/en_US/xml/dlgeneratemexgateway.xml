@@ -20,6 +20,11 @@
 			<param_name>function_name</param_name>
 			<param_description>a string: function name exposed in Nelson.</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>interleavedcomplex</param_name>
+			<param_description>a logical: use interleaved complex representation.</param_description>
+		</param_input_item>
+
 	</param_input>
 
 	<description>
