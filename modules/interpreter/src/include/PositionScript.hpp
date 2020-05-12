@@ -41,8 +41,7 @@ private:
     //=============================================================================
 public:
     //=============================================================================
-    PositionScript(
-        std::wstring  functionname = L"", std::wstring  filename = L"", int line = -1)
+    PositionScript(std::wstring functionname = L"", std::wstring filename = L"", int line = -1)
         : filename(std::move(filename)), functionname(std::move(functionname)), line(line)
     {}
     //=============================================================================
