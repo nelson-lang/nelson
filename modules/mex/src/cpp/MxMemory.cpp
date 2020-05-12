@@ -32,6 +32,14 @@
 //=============================================================================
 static std::set<void*> registeredMxPointers;
 //=============================================================================
+bool
+mxIsRegisteredPointer(void* ptr)
+{
+    std::set<void*>::iterator it;
+    it = registeredMxPointers.find(ptr);
+    return it != registeredMxPointers.end();
+}
+//=============================================================================
 static void
 registerMexPointer(void* ptr)
 {
@@ -137,6 +145,7 @@ mxDuplicateArray(const mxArray* in)
             ret->number_of_dims = num_dim;
             ret->dims = dim_vec;
             ret->classID = mxSTRUCT_CLASS;
+            ret->interleavedcomplex = in->interleavedcomplex;
             ret->issparse = false;
             ret->iscomplex = false;
             ret->imagdata = nullptr;
@@ -158,11 +167,18 @@ mxDuplicateArray(const mxArray* in)
     case mxUINT32_CLASS:
     case mxINT64_CLASS:
     case mxUINT64_CLASS: {
-        if (in->iscomplex != 0) {
-            ret = mxAllocateSeparatedComplexArray(
-                in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-            memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
-            memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+        if (in->iscomplex) {
+            if (in->interleavedcomplex) {
+                ret = mxAllocateInterleavedComplexArray(
+                    in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+                memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L * 2);
+                ret->imagdata = nullptr;
+            } else {
+                ret = mxAllocateSeparatedComplexArray(
+                    in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+                memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+                memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+            }
         } else {
             ret = mxAllocateRealArray(
                 in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);

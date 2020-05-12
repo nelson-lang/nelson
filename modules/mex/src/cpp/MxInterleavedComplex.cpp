@@ -25,13 +25,14 @@
 //=============================================================================
 #include "matrix.h"
 #include "i18n.hpp"
+#include "MxHelpers.hpp"
 //=============================================================================
 mxComplexDouble*
 mxGetComplexDoublesInterleavedComplex(const mxArray* pa)
 {
     mxComplexDouble* result = nullptr;
     if (pa != nullptr) {
-        if (pa->iscomplex != 0) {
+        if (pa->iscomplex) {
             result = reinterpret_cast<mxComplexDouble*>(pa->realdata);
         } else {
             mexErrMsgTxt(_("mxGetDoubles complex expected.").c_str());
@@ -45,7 +46,7 @@ mxGetDoublesInterleavedComplex(const mxArray* pa)
 {
     mxDouble* result = nullptr;
     if (pa != nullptr) {
-        if (pa->iscomplex != 0) {
+        if (pa->iscomplex) {
             mexErrMsgTxt(_("mxGetDoubles real expected.").c_str());
         } else {
             result = (mxDouble*)pa->realdata;
@@ -58,6 +59,16 @@ int
 mxSetDoublesInterleavedComplex(mxArray* pa, mxDouble* dt)
 {
     int retCode = 0;
+    if (pa != nullptr) {
+        if (dt == nullptr || !mxIsRegisteredPointer(dt)) {
+            return retCode;
+        }
+        if (pa->classID != mxDOUBLE_CLASS || !pa->interleavedcomplex || pa->iscomplex == true) {
+            return retCode;
+        }
+        pa->realdata = dt;
+        retCode = 1;
+    }
     return retCode;
 }
 //=============================================================================
@@ -65,6 +76,16 @@ int
 mxSetComplexDoublesInterleavedComplex(mxArray* pa, mxComplexDouble* dt)
 {
     int retCode = 0;
+    if (pa != nullptr) {
+        if (dt == nullptr || !mxIsRegisteredPointer(dt)) {
+            return retCode;
+        }
+        if (pa->classID != mxDOUBLE_CLASS || !pa->interleavedcomplex || pa->iscomplex == false) {
+            return retCode;
+        }
+        pa->realdata = dt;
+        retCode = 1;
+    }
     return retCode;
 }
 //=============================================================================

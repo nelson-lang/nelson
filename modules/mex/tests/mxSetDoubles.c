@@ -23,40 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <mex.h>
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "MxTypes.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
+#if defined (MX_HAS_INTERLEAVED_COMPLEX)
+  mxArray *pa = mxCreateDoubleMatrix (2, 1, mxREAL);
+  mxDouble *pd  = mxGetDoubles(pa);
+  mxDouble *dt = mxMalloc(2 * sizeof(mxDouble));
+  dt[0] = 33;
+  dt[1] = 44;
+  mxFree(pd);  
+  mxSetDoubles(pa, dt);
+  plhs[0] = pa;
+  int i;
+  for (i = 1; i < nlhs; i++) {
+      plhs[i] = mxCreateDoubleMatrix (0, 0, mxREAL);
+  }
 #endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxMalloc(mwSize n);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxCalloc(mwSize n, mwSize size);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxRealloc(void* ptr, mwSize size);
-    //=============================================================================
-    NLSMEX_IMPEXP void
-    mxFree(void* ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP bool
-    mxIsRegisteredPointer(void* ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxDestroyArray(mxArray* pm);
-    //=============================================================================
-
-#ifdef __cplusplus
 }
-#endif
 //=============================================================================

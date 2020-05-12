@@ -23,40 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+if ~isbuiltin('mxSetDoubles')
+    status = copyfile('mxSetDoubles.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxSetDoubles.c', '-R2018a');
+    run('loader.nls');
+end
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "MxTypes.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxMalloc(mwSize n);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxCalloc(mwSize n, mwSize size);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxRealloc(void* ptr, mwSize size);
-    //=============================================================================
-    NLSMEX_IMPEXP void
-    mxFree(void* ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP bool
-    mxIsRegisteredPointer(void* ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxDestroyArray(mxArray* pm);
-    //=============================================================================
-
-#ifdef __cplusplus
-}
-#endif
+R = mxSetDoubles();
+REF = [33; 44];
+assert_isequal(R, REF);
 //=============================================================================

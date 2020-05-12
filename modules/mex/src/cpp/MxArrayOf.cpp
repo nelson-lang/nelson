@@ -263,7 +263,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxLOGICAL_CLASS: {
         destClass = NLS_LOGICAL;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -271,14 +271,14 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxCHAR_CLASS: {
         destClass = NLS_CHAR;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxChar, charType>((mxChar*)pm->realdata, (charType*)cp, N);
     } break;
     case mxDOUBLE_CLASS: {
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             destClass = NLS_DCOMPLEX;
             cp = ArrayOf::allocateArrayOf(destClass, N);
             if (pm->interleavedcomplex) {
@@ -295,7 +295,7 @@ MxArrayToArrayOf(mxArray* pm)
         }
     } break;
     case mxSINGLE_CLASS: {
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             destClass = NLS_SCOMPLEX;
             cp = ArrayOf::allocateArrayOf(destClass, N);
             if (pm->interleavedcomplex) {
@@ -313,7 +313,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxINT8_CLASS: {
         destClass = NLS_INT8;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -321,7 +321,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxUINT8_CLASS: {
         destClass = NLS_UINT8;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -329,7 +329,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxINT16_CLASS: {
         destClass = NLS_INT16;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -337,7 +337,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxUINT16_CLASS: {
         destClass = NLS_UINT16;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -345,7 +345,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxINT32_CLASS: {
         destClass = NLS_INT32;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -353,7 +353,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxUINT32_CLASS: {
         destClass = NLS_UINT32;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -361,7 +361,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxINT64_CLASS: {
         destClass = NLS_INT64;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
@@ -369,7 +369,7 @@ MxArrayToArrayOf(mxArray* pm)
     } break;
     case mxUINT64_CLASS: {
         destClass = NLS_UINT64;
-        if (pm->iscomplex != 0) {
+        if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);

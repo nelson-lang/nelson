@@ -123,10 +123,8 @@ mxSetClassName(mxArray* array_ptr, const char* classname)
                 return 0;
             }
             return -3;
-
-        } 
-            return -2;
-        
+        }
+        return -2;
     }
     return -1;
 }

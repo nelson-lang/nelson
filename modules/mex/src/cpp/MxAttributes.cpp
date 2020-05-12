@@ -46,7 +46,7 @@ mxIsComplex(const mxArray* pm)
     if (pm == nullptr) {
         return false;
     }
-    return (pm->iscomplex != 0);
+    return (pm->iscomplex);
 }
 //=============================================================================
 mwSize
