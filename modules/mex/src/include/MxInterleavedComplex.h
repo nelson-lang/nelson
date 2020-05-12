@@ -48,11 +48,32 @@ extern "C"
     int
     mxSetComplexDoublesInterleavedComplex(mxArray* pa, mxComplexDouble* dt);
     //=============================================================================
+
+    NLSMEX_IMPEXP
+    mxComplexSingle*
+    mxGetComplexSinglesInterleavedComplex(const mxArray* pa);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxSingle*
+    mxGetSinglesInterleavedComplex(const mxArray* pa);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxSetSinglesInterleavedComplex(mxArray* pa, mxSingle* dt);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxSetComplexSinglesInterleavedComplex(mxArray* pa, mxComplexSingle* dt);
+    //=============================================================================
 #ifdef MX_HAS_INTERLEAVED_COMPLEX
 #define mxGetComplexDoubles mxGetComplexDoublesInterleavedComplex
 #define mxGetDoubles mxGetDoublesInterleavedComplex
 #define mxSetDoubles mxSetDoublesInterleavedComplex
 #define mxSetComplexDoubles mxSetComplexDoublesInterleavedComplex
+#define mxGetComplexSingles mxGetComplexSinglesInterleavedComplex
+#define mxGetSingles mxGetSinglesInterleavedComplex
+#define mxSetSingles mxSetSinglesInterleavedComplex
+#define mxSetComplexSingles mxSetComplexSinglesInterleavedComplex
 #endif
     //=============================================================================
 
