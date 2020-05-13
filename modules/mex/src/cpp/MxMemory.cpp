@@ -76,8 +76,10 @@ void
 mxFree(void* ptr)
 {
     if (ptr != nullptr) {
-        deRegisterMexPointer(ptr);
-        free(ptr);
+        if (mxIsRegisteredPointer(ptr)) {
+            deRegisterMexPointer(ptr);
+            free(ptr);
+        }
     }
 }
 //=============================================================================

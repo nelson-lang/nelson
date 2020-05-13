@@ -32,7 +32,9 @@ mxGetComplexDoublesInterleavedComplex(const mxArray* pa)
 {
     mxComplexDouble* result = nullptr;
     if (pa != nullptr) {
-        if (pa->iscomplex && pa->classID == mxDOUBLE_CLASS) {
+        bool isExpectedType = pa->iscomplex && pa->classID == mxDOUBLE_CLASS
+            && pa->issparse == false;
+        if (isExpectedType) {
             result = reinterpret_cast<mxComplexDouble*>(pa->realdata);
         } else {
             mexErrMsgTxt(_("mxGetDoubles complex expected.").c_str());
@@ -46,10 +48,12 @@ mxGetDoublesInterleavedComplex(const mxArray* pa)
 {
     mxDouble* result = nullptr;
     if (pa != nullptr) {
-        if (pa->iscomplex || pa->classID != mxDOUBLE_CLASS) {
-            mexErrMsgTxt(_("mxGetDoubles real expected.").c_str());
-        } else {
+        bool isExpectedType
+            = pa->iscomplex == false && pa->classID == mxDOUBLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
             result = (mxDouble*)pa->realdata;
+        } else {
+            mexErrMsgTxt(_("mxGetDoubles real expected.").c_str());
         }
     }
     return result;
@@ -63,11 +67,12 @@ mxSetDoublesInterleavedComplex(mxArray* pa, mxDouble* dt)
         if (dt == nullptr || !mxIsRegisteredPointer(dt)) {
             return retCode;
         }
-        if (pa->classID != mxDOUBLE_CLASS || !pa->interleavedcomplex || pa->iscomplex == true) {
-            return retCode;
+        bool isExpectedType
+            = pa->iscomplex == false && pa->classID == mxDOUBLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
+            pa->realdata = dt;
+            retCode = 1;
         }
-        pa->realdata = dt;
-        retCode = 1;
     }
     return retCode;
 }
@@ -80,11 +85,12 @@ mxSetComplexDoublesInterleavedComplex(mxArray* pa, mxComplexDouble* dt)
         if (dt == nullptr || !mxIsRegisteredPointer(dt)) {
             return retCode;
         }
-        if (pa->classID != mxDOUBLE_CLASS || !pa->interleavedcomplex || pa->iscomplex == false) {
-            return retCode;
+        bool isExpectedType
+            = pa->iscomplex == true && pa->classID == mxDOUBLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
+            pa->realdata = dt;
+            retCode = 1;
         }
-        pa->realdata = dt;
-        retCode = 1;
     }
     return retCode;
 }
@@ -94,7 +100,9 @@ mxGetComplexSinglesInterleavedComplex(const mxArray* pa)
 {
     mxComplexSingle* result = nullptr;
     if (pa != nullptr) {
-        if (pa->iscomplex && pa->classID == mxSINGLE_CLASS) {
+        bool isExpectedType
+            = pa->iscomplex == true && pa->classID == mxSINGLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
             result = reinterpret_cast<mxComplexSingle*>(pa->realdata);
         } else {
             mexErrMsgTxt(_("mxGetSingles complex expected.").c_str());
@@ -108,10 +116,12 @@ mxGetSinglesInterleavedComplex(const mxArray* pa)
 {
     mxSingle* result = nullptr;
     if (pa != nullptr) {
-        if (pa->iscomplex || pa->classID != mxSINGLE_CLASS) {
-            mexErrMsgTxt(_("mxGetSingles real expected.").c_str());
-        } else {
+        bool isExpectedType
+            = pa->iscomplex == false && pa->classID == mxSINGLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
             result = (mxSingle*)pa->realdata;
+        } else {
+            mexErrMsgTxt(_("mxGetSingles real expected.").c_str());
         }
     }
     return result;
@@ -125,11 +135,12 @@ mxSetSinglesInterleavedComplex(mxArray* pa, mxSingle* dt)
         if (dt == nullptr || !mxIsRegisteredPointer(dt)) {
             return retCode;
         }
-        if (pa->classID != mxSINGLE_CLASS || !pa->interleavedcomplex || pa->iscomplex == true) {
-            return retCode;
+        bool isExpectedType
+            = pa->iscomplex == false && pa->classID == mxSINGLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
+            pa->realdata = dt;
+            retCode = 1;
         }
-        pa->realdata = dt;
-        retCode = 1;
     }
     return retCode;
 }
@@ -142,11 +153,12 @@ mxSetComplexSinglesInterleavedComplex(mxArray* pa, mxComplexSingle* dt)
         if (dt == nullptr || !mxIsRegisteredPointer(dt)) {
             return retCode;
         }
-        if (pa->classID != mxSINGLE_CLASS || !pa->interleavedcomplex || pa->iscomplex == false) {
-            return retCode;
+        bool isExpectedType
+            = pa->iscomplex == true && pa->classID == mxSINGLE_CLASS && pa->issparse == false;
+        if (isExpectedType) {
+            pa->realdata = dt;
+            retCode = 1;
         }
-        pa->realdata = dt;
-        retCode = 1;
     }
     return retCode;
 }
