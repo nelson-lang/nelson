@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::graphic_object_getBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::graphic_object_getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf param = argIn[0];

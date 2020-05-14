@@ -25,7 +25,7 @@
 ;==============================================================================
 #define MODULE_NAME "graphics"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libnlGraphics.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libnlsGraphics.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsGraphics_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;

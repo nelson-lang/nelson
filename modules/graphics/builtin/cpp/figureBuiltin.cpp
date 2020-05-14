@@ -33,7 +33,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::figureBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::figureBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf res;
     switch (argIn.size()) {

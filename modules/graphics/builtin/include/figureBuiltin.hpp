@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 namespace GraphicsGateway {
     ArrayOfVector
-    figureBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    figureBuiltin(int nLhs, const ArrayOfVector& argIn);
 };
 //=============================================================================
 }; // namespace Nelson

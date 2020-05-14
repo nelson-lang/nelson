@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::grootBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::grootBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {

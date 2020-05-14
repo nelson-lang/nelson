@@ -46,6 +46,7 @@ graphicObjectDelete(GraphicObject* goPtr)
             delete goWinPtr;
         }
         goPtr->dereference();
+        return true;
     }
     return false;
 }

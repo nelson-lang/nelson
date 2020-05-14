@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::graphic_object_deleteBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::graphic_object_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf param = argIn[0];
