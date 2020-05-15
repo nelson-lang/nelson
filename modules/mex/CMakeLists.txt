@@ -37,6 +37,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
 )
 #==============================================================================	
 FILE(
@@ -59,6 +60,7 @@ nlsNelson_manager
 nlsStream_manager
 nlsTypes
 nlsInterpreter
+nlsSparse
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	

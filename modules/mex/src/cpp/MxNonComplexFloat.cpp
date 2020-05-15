@@ -85,18 +85,6 @@ mxIsDouble(const mxArray* pm)
     return false;
 }
 //=============================================================================
-mxDouble*
-mxGetDoubles(const mxArray* pa)
-{
-    return nullptr;
-}
-//=============================================================================
-int
-mxSetDoubles(mxArray* pa, mxDouble* dt)
-{
-    return 0;
-}
-//=============================================================================
 bool
 mxIsSingle(const mxArray* pm)
 {
@@ -104,18 +92,6 @@ mxIsSingle(const mxArray* pm)
         return (pm->classID == mxSINGLE_CLASS);
     }
     return false;
-}
-//=============================================================================
-mxSingle*
-mxGetSingles(const mxArray* pa)
-{
-    return nullptr;
-}
-//=============================================================================
-int
-mxSetSingles(mxArray* pa, mxSingle* dt)
-{
-    return 0;
 }
 //=============================================================================
 NLSMEX_IMPEXP

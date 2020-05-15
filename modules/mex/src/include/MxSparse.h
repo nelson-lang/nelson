@@ -26,7 +26,7 @@
 #pragma once
 //=============================================================================
 #include "nlsMex_exports.h"
-#include "mex.h"
+#include "MxTypes.h"
 //=============================================================================
 #ifdef __cplusplus
 extern "C"
@@ -35,19 +35,49 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     bool
-    mxIsLogical(const mxArray* pm);
+    mxIsSparse(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateLogicalScalar(mxLogical value);
+    mxCreateSparseInterleavedComplex(mwSize m, mwSize n, mwSize nzmax, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateLogicalMatrix(mwSize m, mwSize n);
+    mxCreateSparseSeparatedComplex(mwSize m, mwSize n, mwSize nzmax, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mxCreateLogicalArray(mwSize ndim, const mwSize* dims);
+    mxCreateSparseLogicalMatrix(mwSize m, mwSize n, mwSize nzmax);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mwIndex*
+    mxGetJc(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mwIndex*
+    mxGetIr(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mwSize
+    mxGetNzmax(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetNzmax(mxArray* pm, mwSize nzmax);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetIr(mxArray* pm, mwIndex* ir);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetJc(mxArray* pm, mwIndex* ir);
+    //=============================================================================
+#ifdef MX_HAS_INTERLEAVED_COMPLEX
+#define mxCreateSparse mxCreateSparseInterleavedComplex
+#else
+#define mxCreateSparse mxCreateSparseMatrixSeparatedComplex
+#endif
     //=============================================================================
 #ifdef __cplusplus
 }

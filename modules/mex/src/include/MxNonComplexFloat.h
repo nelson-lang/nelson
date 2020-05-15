@@ -42,24 +42,8 @@ extern "C"
     mxIsDouble(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
-    mxDouble*
-    mxGetDoubles(const mxArray* pa);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxSetDoubles(mxArray* pa, mxDouble* dt);
-    //=============================================================================
-    NLSMEX_IMPEXP
     bool
     mxIsSingle(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxSingle*
-    mxGetSingles(const mxArray* pa);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxSetSingles(mxArray* pa, mxSingle* dt);
     //=============================================================================
     NLSMEX_IMPEXP
     mxDouble*

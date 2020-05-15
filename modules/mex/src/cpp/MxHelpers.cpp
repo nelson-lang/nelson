@@ -51,6 +51,11 @@ mxAllocateRealArray(
             ret->realdata = mxMalloc(countElements(ndim, dims));
         }
         ret->imagdata = nullptr;
+        ret->Ir = nullptr;
+        ret->Jc = nullptr;
+        ret->nzmax = 0;
+        ret->nIr = 0;
+        ret->nJc = 0;
     }
     return ret;
 }
@@ -74,6 +79,11 @@ mxAllocateSeparatedComplexArray(
             ret->realdata = mxMalloc(countElements(ndim, dims));
             ret->imagdata = mxMalloc(countElements(ndim, dims));
         }
+        ret->Ir = nullptr;
+        ret->Jc = nullptr;
+        ret->nzmax = 0;
+        ret->nIr = 0;
+        ret->nJc = 0;
     }
     return ret;
 }
@@ -97,6 +107,11 @@ mxAllocateInterleavedComplexArray(
             ret->realdata = mxMalloc(countElements(ndim, dims) * 2);
             ret->imagdata = nullptr;
         }
+        ret->Ir = nullptr;
+        ret->Jc = nullptr;
+        ret->nzmax = 0;
+        ret->nIr = 0;
+        ret->nJc = 0;
     }
     return ret;
 }

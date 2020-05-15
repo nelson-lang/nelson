@@ -58,4 +58,28 @@ ST.d = false;
 R = mxDuplicateArray(ST);
 assert_isequal(R, ST);
 //=============================================================================
-
+i = [800 1100 20];
+j = [900 1000 30];
+v = [10 100 20];
+S = sparse(i, j, v, 1300, 1500, 30);
+R = mxDuplicateArray(S);
+assert_isequal(R, S);
+assert_isequal(nzmax(R), nzmax(S));
+//=============================================================================
+i = [800 1100 20];
+j = [900 1000 30];
+v = [true true true];
+S = sparse(i, j, v, 1300, 1500, 30);
+R = mxDuplicateArray(S);
+assert_isequal(R, S);
+assert_isequal(nzmax(R), nzmax(S));
+//=============================================================================
+// separated complex representation
+i = [800 1100 20];
+j = [900 1000 30];
+v = complex([10 100 20], 1);
+S = sparse(i, j, v, 1300, 1500, 30);
+R = mxDuplicateArray(S);
+assert_isequal(R, S);
+assert_isequal(nzmax(R), nzmax(S));
+//=============================================================================

@@ -62,6 +62,11 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             mxArgsOut[i]->realdata = nullptr;
             mxArgsOut[i]->imagdata = nullptr;
             mxArgsOut[i]->ptr = nullptr;
+            mxArgsOut[i]->nzmax = 0;
+            mxArgsOut[i]->nIr = 0;
+            mxArgsOut[i]->nJc = 0;
+            mxArgsOut[i]->Jc = nullptr;
+            mxArgsOut[i]->Ir = nullptr;
         }
     } catch (const std::bad_alloc&) {
         for (size_t i = 0; i < argIn.size(); i++) {

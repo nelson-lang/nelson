@@ -41,6 +41,7 @@
 #include "MxObject.h"
 #include "MxCall.h"
 #include "MxInterleavedComplex.h"
+#include "MxSparse.h"
 //=============================================================================
 #ifdef __cplusplus
 extern "C"

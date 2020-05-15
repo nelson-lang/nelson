@@ -23,9 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#define EIGEN_NO_DEBUG
+//=============================================================================
+#include <Eigen/Sparse>
 #include "nlsConfig.h"
 #include "MxArrayOf.hpp"
 #include "MxNumericTypes.h"
+#include "MxHelpers.hpp"
+#include "Exception.hpp"
+#include "SparseConstructors.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -133,13 +139,384 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     return ret;
 }
 //=============================================================================
+static mxArray*
+ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
+{
+    mxArray* res;
+    switch (nlsArrayOf.getDataClass()) {
+    case NLS_LOGICAL: {
+        res = mxNewArray();
+        if (res) {
+            res->classID = mxLOGICAL_CLASS;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = false;
+            res->issparse = true;
+            res->ptr = nullptr;
+            res->imagdata = nullptr;
+            Eigen::SparseMatrix<Nelson::logical, 0, Nelson::signedIndexType>* spMat
+                = (Eigen::SparseMatrix<Nelson::logical, 0, Nelson::signedIndexType>*)
+                      nlsArrayOf.getSparseDataPointer();
+            Dimensions dims = nlsArrayOf.getDimensions();
+            res->nzmax = nlsArrayOf.nzmax();
+            res->number_of_dims = dims.getLength();
+            res->dims = new mwSize[res->number_of_dims];
+            for (mwIndex k = 0; k < res->number_of_dims; ++k) {
+                res->dims[k] = dims.getAt(k);
+            }
+            if (spMat) {
+                res->nIr = (mwIndex)spMat->nonZeros();
+                res->nJc = (mwIndex)spMat->outerSize();
+                Nelson::signedIndexType* pInner = spMat->innerIndexPtr();
+                Nelson::signedIndexType* pOuter = spMat->outerIndexPtr();
+                Nelson::logical* data = spMat->valuePtr();
+
+                res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
+                res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
+                res->realdata = (mxLogical*)malloc(sizeof(mxLogical) * res->nIr);
+
+                for (mwIndex k = 0; k < res->nIr; ++k) {
+                    res->Ir[k] = (mwIndex)pInner[k];
+                }
+                for (mwIndex k = 0; k < res->nJc; ++k) {
+                    res->Jc[k] = (mwIndex)pOuter[k];
+                }
+                memcpy(res->realdata, data, sizeof(mxLogical) * res->nIr);
+            }
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        res = mxNewArray();
+        if (res) {
+            res->classID = mxDOUBLE_CLASS;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = true;
+            res->issparse = true;
+            res->ptr = nullptr;
+            res->nzmax = nlsArrayOf.nzmax();
+            Dimensions dims = nlsArrayOf.getDimensions();
+            res->number_of_dims = dims.getLength();
+            res->dims = new mwSize[res->number_of_dims];
+            for (mwIndex k = 0; k < res->number_of_dims; ++k) {
+                res->dims[k] = dims.getAt(k);
+            }
+            Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>* spMat
+                = (Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>*)
+                      nlsArrayOf.getSparseDataPointer();
+            if (spMat) {
+                res->nIr = (mwIndex)spMat->nonZeros();
+                res->nJc = (mwIndex)spMat->outerSize();
+                Nelson::signedIndexType* pInner = spMat->innerIndexPtr();
+                Nelson::signedIndexType* pOuter = spMat->outerIndexPtr();
+
+                res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
+                res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
+                doublecomplex* data = (doublecomplex*)spMat->valuePtr();
+
+                if (interleavedComplex) {
+                    res->realdata = (mxComplexDouble*)malloc(sizeof(mxComplexDouble) * (res->nIr));
+                    memcpy(res->realdata, data, sizeof(mxComplexDouble) * res->nIr);
+                    res->imagdata = nullptr;
+                } else {
+                    res->realdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
+                    res->imagdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
+                    mxDouble* realpart = (mxDouble*)res->realdata;
+                    mxDouble* imagpart = (mxDouble*)res->imagdata;
+                    for (mwIndex k = 0; k < res->nIr; ++k) {
+                        realpart[k] = (mxDouble)data[k].real();
+                        imagpart[k] = (mxDouble)data[k].imag();
+                    }
+                }
+                for (mwIndex k = 0; k < res->nIr; ++k) {
+                    res->Ir[k] = (mwIndex)pInner[k];
+                }
+                for (mwIndex k = 0; k < res->nJc; ++k) {
+                    res->Jc[k] = (mwIndex)pOuter[k];
+                }
+            }
+        }
+    } break;
+    case NLS_DOUBLE: {
+        res = mxNewArray();
+        if (res) {
+            res->classID = mxDOUBLE_CLASS;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = false;
+            res->issparse = true;
+            res->ptr = nullptr;
+            res->imagdata = nullptr;
+            Eigen::SparseMatrix<mxDouble, 0, Nelson::signedIndexType>* spMat
+                = (Eigen::SparseMatrix<mxDouble, 0, Nelson::signedIndexType>*)
+                      nlsArrayOf.getSparseDataPointer();
+            Dimensions dims = nlsArrayOf.getDimensions();
+            res->nzmax = nlsArrayOf.nzmax();
+            res->number_of_dims = dims.getLength();
+            res->dims = new mwSize[res->number_of_dims];
+            for (mwIndex k = 0; k < res->number_of_dims; ++k) {
+                res->dims[k] = dims.getAt(k);
+            }
+            if (spMat) {
+                res->nIr = (mwIndex)spMat->nonZeros();
+                res->nJc = (mwIndex)spMat->outerSize();
+                Nelson::signedIndexType* pInner = spMat->innerIndexPtr();
+                Nelson::signedIndexType* pOuter = spMat->outerIndexPtr();
+                mxDouble* data = spMat->valuePtr();
+
+                res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
+                res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
+                res->realdata = (mxDouble*)malloc(sizeof(mxDouble) * res->nIr);
+
+                for (mwIndex k = 0; k < res->nIr; ++k) {
+                    res->Ir[k] = (mwIndex)pInner[k];
+                }
+                for (mwIndex k = 0; k < res->nJc; ++k) {
+                    res->Jc[k] = (mwIndex)pOuter[k];
+                }
+                memcpy(res->realdata, data, sizeof(mxDouble) * res->nIr);
+            }
+        }
+    } break;
+    default: {
+        res = nullptr;
+    } break;
+    }
+    return res;
+}
+//=============================================================================
+#if (defined(_LP64) || defined(_WIN64))
+#define SPARSE_INDEX_TYPE uint64
+#define SPARSE_INDEX_CLASS NLS_UINT64
+#else
+#define SPARSE_INDEX_TYPE uint32
+#define SPARSE_INDEX_CLASS NLS_UINT32
+#endif
+//=============================================================================
+static ArrayOf
+MxArraySparseToSparseDoubleArrayOf(mxArray* pm)
+{
+    mwSize nIr = pm->nIr;
+    mwSize nJc = pm->nJc;
+    mwSize nzmax = pm->nzmax;
+    mwIndex* Ir = pm->Ir;
+    mwIndex* Jc = pm->Jc;
+    Eigen::Index nnz = nIr;
+    Eigen::Index rows = (Eigen::Index)pm->dims[0];
+    Eigen::Index cols = (Eigen::Index)pm->dims[1];
+    Dimensions dims(rows, cols);
+    Nelson::signedIndexType* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
+    Nelson::signedIndexType* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
+
+    Eigen::Map<Eigen::SparseMatrix<double, 0, Nelson::signedIndexType>> sm(
+        rows, cols, nnz, outerIndexPtr, innerIndexPtr, (double*)pm->realdata);
+    std::vector<SPARSE_INDEX_TYPE> i;
+    std::vector<SPARSE_INDEX_TYPE> j;
+    std::vector<double> v;
+
+    Eigen::Index n = 0;
+    for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
+        for (Eigen::MappedSparseMatrix<double, 0, signedIndexType>::InnerIterator it(sm, k); it;
+             ++it) {
+            if (n < nnz) {
+                i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
+                j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
+                v.push_back((double)it.value());
+                n++;
+            } else {
+                break;
+            }
+        }
+    }
+    Dimensions dimsI(1, i.size());
+    Dimensions dimsJ(1, j.size());
+    Dimensions dimsV(1, v.size());
+    SPARSE_INDEX_TYPE* ptrI = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
+    memcpy(ptrI, i.data(), sizeof(SPARSE_INDEX_TYPE) * i.size());
+    SPARSE_INDEX_TYPE* ptrJ = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
+    memcpy(ptrJ, j.data(), sizeof(SPARSE_INDEX_TYPE) * j.size());
+    double* ptrV = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, v.size());
+    memcpy(ptrV, v.data(), sizeof(double) * v.size());
+    ArrayOf I = ArrayOf(SPARSE_INDEX_CLASS, dimsI, ptrI);
+    ArrayOf J = ArrayOf(SPARSE_INDEX_CLASS, dimsJ, ptrJ);
+    ArrayOf V = ArrayOf(NLS_DOUBLE, dimsJ, ptrV);
+    return SparseConstructor(I, J, V, rows, cols, pm->nzmax);
+}
+//=============================================================================
+static ArrayOf
+MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
+{
+    ArrayOf res;
+    mwSize nIr = pm->nIr;
+    mwSize nJc = pm->nJc;
+    mwSize nzmax = pm->nzmax;
+    mwIndex* Ir = pm->Ir;
+    mwIndex* Jc = pm->Jc;
+    Eigen::Index nnz = nIr;
+    Eigen::Index rows = (Eigen::Index)pm->dims[0];
+    Eigen::Index cols = (Eigen::Index)pm->dims[1];
+    Dimensions dims(rows, cols);
+    Nelson::signedIndexType* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
+    Nelson::signedIndexType* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
+
+    if (pm->interleavedcomplex) {
+        Eigen::Map<Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>> sm(
+            rows, cols, nnz, outerIndexPtr, innerIndexPtr, (doublecomplex*)pm->realdata);
+        std::vector<SPARSE_INDEX_TYPE> i;
+        std::vector<SPARSE_INDEX_TYPE> j;
+        std::vector<doublecomplex> v;
+
+        Eigen::Index n = 0;
+        for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
+            for (Eigen::MappedSparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
+                     sm, k);
+                 it; ++it) {
+                if (n < nnz) {
+                    i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
+                    j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
+                    v.push_back((doublecomplex)it.value());
+                    n++;
+                } else {
+                    break;
+                }
+            }
+        }
+        Dimensions dimsI(1, i.size());
+        Dimensions dimsJ(1, j.size());
+        Dimensions dimsV(1, v.size());
+        SPARSE_INDEX_TYPE* ptrI
+            = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
+        memcpy(ptrI, i.data(), sizeof(SPARSE_INDEX_TYPE) * i.size());
+        SPARSE_INDEX_TYPE* ptrJ
+            = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
+        memcpy(ptrJ, j.data(), sizeof(SPARSE_INDEX_TYPE) * j.size());
+        double* ptrV = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, v.size());
+        memcpy(ptrV, v.data(), sizeof(doublecomplex) * v.size());
+        ArrayOf I = ArrayOf(SPARSE_INDEX_CLASS, dimsI, ptrI);
+        ArrayOf J = ArrayOf(SPARSE_INDEX_CLASS, dimsJ, ptrJ);
+        ArrayOf V = ArrayOf(NLS_DCOMPLEX, dimsJ, ptrV);
+        return SparseConstructor(I, J, V, rows, cols, pm->nzmax);
+
+    } else {
+        double* realpart = (double*)pm->realdata;
+        double* imagpart = (double*)pm->imagdata;
+        double* interleaved = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nnz);
+        Eigen::Index q = 0;
+        for (Eigen::Index k = 0; k < nnz; ++k) {
+            interleaved[q] = realpart[k];
+            interleaved[q + 1] = imagpart[k];
+            q = q + 2;
+        }
+        auto* ri = reinterpret_cast<doublecomplex*>(interleaved);
+        Eigen::Map<Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>> sm(
+            rows, cols, nnz, outerIndexPtr, innerIndexPtr, ri);
+        std::vector<SPARSE_INDEX_TYPE> i;
+        std::vector<SPARSE_INDEX_TYPE> j;
+
+        Eigen::Index n = 0;
+        for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
+            for (Eigen::MappedSparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
+                     sm, k);
+                 it; ++it) {
+                if (n < nnz) {
+                    i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
+                    j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
+                    n++;
+                } else {
+                    break;
+                }
+            }
+        }
+        Dimensions dimsI(1, i.size());
+        Dimensions dimsJ(1, j.size());
+        Dimensions dimsV(1, nnz);
+        SPARSE_INDEX_TYPE* ptrI
+            = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
+        memcpy(ptrI, i.data(), sizeof(SPARSE_INDEX_TYPE) * i.size());
+        SPARSE_INDEX_TYPE* ptrJ
+            = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
+        memcpy(ptrJ, j.data(), sizeof(SPARSE_INDEX_TYPE) * j.size());
+        ArrayOf I = ArrayOf(SPARSE_INDEX_CLASS, dimsI, ptrI);
+        ArrayOf J = ArrayOf(SPARSE_INDEX_CLASS, dimsJ, ptrJ);
+        ArrayOf V = ArrayOf(NLS_DCOMPLEX, dimsV, interleaved);
+        return SparseConstructor(I, J, V, rows, cols, pm->nzmax);
+    }
+    return res;
+}
+//=============================================================================
+static ArrayOf
+MxArraySparseToSparseLogicalArrayOf(mxArray* pm)
+{
+    mwSize nIr = pm->nIr;
+    mwSize nJc = pm->nJc;
+    mwSize nzmax = pm->nzmax;
+    mwIndex* Ir = pm->Ir;
+    mwIndex* Jc = pm->Jc;
+    Eigen::Index nnz = nIr;
+    Eigen::Index rows = (Eigen::Index)pm->dims[0];
+    Eigen::Index cols = (Eigen::Index)pm->dims[1];
+    Dimensions dims(rows, cols);
+    Nelson::signedIndexType* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
+    Nelson::signedIndexType* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
+
+    Eigen::Map<Eigen::SparseMatrix<logical, 0, Nelson::signedIndexType>> sm(
+        rows, cols, nnz, outerIndexPtr, innerIndexPtr, (logical*)pm->realdata);
+    std::vector<SPARSE_INDEX_TYPE> i;
+    std::vector<SPARSE_INDEX_TYPE> j;
+    std::vector<logical> v;
+
+    Eigen::Index n = 0;
+    for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
+        for (Eigen::MappedSparseMatrix<logical, 0, signedIndexType>::InnerIterator it(sm, k); it;
+             ++it) {
+            if (n < nnz) {
+                i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
+                j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
+                v.push_back((logical)it.value());
+                n++;
+            } else {
+                break;
+            }
+        }
+    }
+    Dimensions dimsI(1, i.size());
+    Dimensions dimsJ(1, j.size());
+    Dimensions dimsV(1, v.size());
+    SPARSE_INDEX_TYPE* ptrI = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
+    memcpy(ptrI, i.data(), sizeof(SPARSE_INDEX_TYPE) * i.size());
+    SPARSE_INDEX_TYPE* ptrJ = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
+    memcpy(ptrJ, j.data(), sizeof(SPARSE_INDEX_TYPE) * j.size());
+    logical* ptrV = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, v.size());
+    memcpy(ptrV, v.data(), sizeof(logical) * v.size());
+    ArrayOf I = ArrayOf(SPARSE_INDEX_CLASS, dimsI, ptrI);
+    ArrayOf J = ArrayOf(SPARSE_INDEX_CLASS, dimsJ, ptrJ);
+    ArrayOf V = ArrayOf(NLS_LOGICAL, dimsJ, ptrV);
+    return SparseConstructor(I, J, V, rows, cols, pm->nzmax);
+}
+//=============================================================================
+static ArrayOf
+MxArraySparseToArrayOf(mxArray* pm)
+{
+    ArrayOf res;
+    switch (pm->classID) {
+    case mxLOGICAL_CLASS: {
+        res = MxArraySparseToSparseLogicalArrayOf(pm);
+    } break;
+    case mxDOUBLE_CLASS: {
+        if (pm->iscomplex) {
+            res = MxArraySparseToSparseDoubleComplexArrayOf(pm);
+        } else {
+            res = MxArraySparseToSparseDoubleArrayOf(pm);
+        }
+    } break;
+    default: {
+        // never
+    } break;
+    }
+    return res;
+}
+//=============================================================================
 mxArray*
 ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res = nullptr;
-    if (nlsArrayOf.isSparse()) {
-        Error(_("C MEX type not managed."));
-    }
     switch (nlsArrayOf.getDataClass()) {
     case NLS_CELL_ARRAY: {
         mwSize num_dim;
@@ -147,37 +524,47 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         res = mxCreateCellArray(num_dim, dim_vec);
         free(dim_vec);
         dim_vec = nullptr;
-        auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
-        auto** dp = (mxArray**)res->realdata;
-        size_t N = mxGetNumberOfElements(res);
+        if (res != nullptr) {
+            auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
+            auto** dp = (mxArray**)res->realdata;
+            size_t N = mxGetNumberOfElements(res);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
-            dp[i] = ArrayOfToMxArray(sp[i], interleavedComplex);
+            for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+                dp[i] = ArrayOfToMxArray(sp[i], interleavedComplex);
+            }
         }
     } break;
     case NLS_STRUCT_ARRAY: {
-        auto* ret = (mxArray*)malloc(sizeof(mxArray));
-        if (ret != nullptr) {
+        res = mxNewArray();
+        if (res != nullptr) {
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
-            ret->number_of_dims = num_dim;
-            ret->dims = dim_vec;
-            ret->classID = mxSTRUCT_CLASS;
-            ret->issparse = false;
-            ret->interleavedcomplex = interleavedComplex;
-            ret->iscomplex = false;
-            ret->imagdata = nullptr;
-            ret->realdata = nullptr;
+            res->number_of_dims = num_dim;
+            res->dims = dim_vec;
+            res->classID = mxSTRUCT_CLASS;
+            res->issparse = false;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = false;
+            res->imagdata = nullptr;
+            res->realdata = nullptr;
+            res->nzmax = 0;
+            res->nIr = 0;
+            res->nJc = 0;
+            res->Jc = nullptr;
+            res->Ir = nullptr;
             auto* ptr = new ArrayOf(nlsArrayOf);
             ptr->ensureSingleOwner();
-            ret->ptr = (uint64_t*)ptr;
+            res->ptr = (uint64_t*)ptr;
         }
-        return ret;
     } break;
     case NLS_LOGICAL: {
-        res = ArrayOfRealToMexArray<mxLogical, logical>(nlsArrayOf, mxLOGICAL_CLASS);
+        if (nlsArrayOf.isSparse()) {
+            res = ArrayOfSparseToMxArray(nlsArrayOf, interleavedComplex);
+        } else {
+            res = ArrayOfRealToMexArray<mxLogical, logical>(nlsArrayOf, mxLOGICAL_CLASS);
+        }
     } break;
     case NLS_UINT8: {
         res = ArrayOfRealToMexArray<mxUint8, uint8>(nlsArrayOf, mxUINT8_CLASS);
@@ -207,15 +594,23 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         res = ArrayOfRealToMexArray<mxSingle, single>(nlsArrayOf, mxSINGLE_CLASS);
     } break;
     case NLS_DOUBLE: {
-        res = ArrayOfRealToMexArray<mxDouble, double>(nlsArrayOf, mxDOUBLE_CLASS);
+        if (nlsArrayOf.isSparse()) {
+            res = ArrayOfSparseToMxArray(nlsArrayOf, interleavedComplex);
+        } else {
+            res = ArrayOfRealToMexArray<mxDouble, double>(nlsArrayOf, mxDOUBLE_CLASS);
+        }
     } break;
     case NLS_SCOMPLEX: {
         res = ArrayOfComplexToMexArray<mxSingle, single>(
             nlsArrayOf, mxSINGLE_CLASS, interleavedComplex);
     } break;
     case NLS_DCOMPLEX: {
-        res = ArrayOfComplexToMexArray<mxDouble, double>(
-            nlsArrayOf, mxDOUBLE_CLASS, interleavedComplex);
+        if (nlsArrayOf.isSparse()) {
+            res = ArrayOfSparseToMxArray(nlsArrayOf, interleavedComplex);
+        } else {
+            res = ArrayOfComplexToMexArray<mxDouble, double>(
+                nlsArrayOf, mxDOUBLE_CLASS, interleavedComplex);
+        }
     } break;
     case NLS_CHAR: {
         res = ArrayOfRealToMexArray<mxChar, charType>(nlsArrayOf, mxCHAR_CLASS);
@@ -266,8 +661,12 @@ MxArrayToArrayOf(mxArray* pm)
         if (pm->iscomplex) {
             Error(_("C MEX type not managed."));
         }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxLogical, logical>((mxLogical*)pm->realdata, (logical*)cp, N);
+        if (pm->issparse) {
+            return MxArraySparseToArrayOf(pm);
+        } else {
+            cp = ArrayOf::allocateArrayOf(destClass, N);
+            MexRealToArrayOfReal<mxLogical, logical>((mxLogical*)pm->realdata, (logical*)cp, N);
+        }
     } break;
     case mxCHAR_CLASS: {
         destClass = NLS_CHAR;
@@ -278,20 +677,24 @@ MxArrayToArrayOf(mxArray* pm)
         MexRealToArrayOfReal<mxChar, charType>((mxChar*)pm->realdata, (charType*)cp, N);
     } break;
     case mxDOUBLE_CLASS: {
-        if (pm->iscomplex) {
-            destClass = NLS_DCOMPLEX;
-            cp = ArrayOf::allocateArrayOf(destClass, N);
-            if (pm->interleavedcomplex) {
-                MexComplexToArrayOfInterleavedComplex<mxDouble, double>(
-                    (mxDouble*)pm->realdata, (double*)cp, N);
-            } else {
-                MexComplexToArrayOfSeparatedComplex<mxDouble, double>(
-                    (mxDouble*)pm->realdata, (mxDouble*)pm->imagdata, (double*)cp, N);
-            }
+        if (pm->issparse) {
+            return MxArraySparseToArrayOf(pm);
         } else {
-            destClass = NLS_DOUBLE;
-            cp = ArrayOf::allocateArrayOf(destClass, N);
-            MexRealToArrayOfReal<mxDouble, double>((mxDouble*)pm->realdata, (double*)cp, N);
+            if (pm->iscomplex) {
+                destClass = NLS_DCOMPLEX;
+                cp = ArrayOf::allocateArrayOf(destClass, N);
+                if (pm->interleavedcomplex) {
+                    MexComplexToArrayOfInterleavedComplex<mxDouble, double>(
+                        (mxDouble*)pm->realdata, (double*)cp, N);
+                } else {
+                    MexComplexToArrayOfSeparatedComplex<mxDouble, double>(
+                        (mxDouble*)pm->realdata, (mxDouble*)pm->imagdata, (double*)cp, N);
+                }
+            } else {
+                destClass = NLS_DOUBLE;
+                cp = ArrayOf::allocateArrayOf(destClass, N);
+                MexRealToArrayOfReal<mxDouble, double>((mxDouble*)pm->realdata, (double*)cp, N);
+            }
         }
     } break;
     case mxSINGLE_CLASS: {
@@ -379,9 +782,7 @@ MxArrayToArrayOf(mxArray* pm)
         Error(_("C MEX type not managed."));
     } break;
     }
-    res = ArrayOf(destClass, dim, cp);
-
-    return res;
+    return ArrayOf(destClass, dim, cp);
 }
 //=============================================================================
 }

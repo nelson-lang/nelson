@@ -23,33 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+if ~isbuiltin('mxDuplicateArrayInterleavedComplex')
+    status = copyfile('mxDuplicateArray.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c' );    
+    run('loader.nls');
+end    
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "mex.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsLogical(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateLogicalScalar(mxLogical value);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateLogicalMatrix(mwSize m, mwSize n);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateLogicalArray(mwSize ndim, const mwSize* dims);
-    //=============================================================================
-#ifdef __cplusplus
-}
-#endif
+// interleaved complex representation
+i = [800 1100 20];
+j = [900 1000 30];
+v = complex([10 100 20], 1);
+S = sparse(i, j, v, 1300, 1500, 30);
+R = mxDuplicateArrayInterleavedComplex(S);
+assert_isequal(R, S);
+assert_isequal(nzmax(R), nzmax(S));
 //=============================================================================
