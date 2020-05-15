@@ -23,30 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "graphic_object_deleteBuiltin.hpp"
-#include "GraphicObject.hpp"
-#include "GraphicObjectDelete.hpp"
+#include "graphic_object_horzcat_graphic_objectBuiltin.hpp"
 #include "Error.hpp"
+#include "HorzCatGO.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::graphic_object_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::graphic_object_horzcat_graphic_objectBuiltin(
+    int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    ArrayOf paramGo = argIn[0];
-    nelson_handle* ptrGO = (nelson_handle*)paramGo.getDataPointer();
-    if (ptrGO != nullptr) {
-        indexType nbElements = paramGo.getDimensions().getElementCount();
-        for (indexType k = 0; k < nbElements; ++k) {
-            GraphicObject* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(ptrGO[k]);
-            if (go != nullptr) {
-                if (!graphicObjectDelete(go)) {
-                    Error(_W("Cannot delete graphic_object."));
-                }
-            }
-        }
+    if (argIn.size() != 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    retval.push_back(HorzCatGO(A, B));
     return retval;
 }
 //=============================================================================

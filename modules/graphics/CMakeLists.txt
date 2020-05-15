@@ -36,6 +36,7 @@ set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 include_directories(
 ${Boost_INCLUDE_DIRS}
 ${Qt5Widgets_INCLUDES}
+${EIGEN3_INCLUDE_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include

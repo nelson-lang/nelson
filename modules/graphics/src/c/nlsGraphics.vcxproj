@@ -37,11 +37,13 @@
     <ClCompile Include="..\cpp\GraphicObjectGet.cpp" />
     <ClCompile Include="..\cpp\GraphicObjectSet.cpp" />
     <ClCompile Include="..\cpp\GraphicRoot.cpp" />
+    <ClCompile Include="..\cpp\HorzCatGO.cpp" />
     <ClCompile Include="..\cpp\InitializeGraphics.cpp" />
     <ClCompile Include="..\cpp\NewFigure.cpp" />
     <ClCompile Include="..\cpp\QtBaseFigure.cpp" />
     <ClCompile Include="..\cpp\QtBaseWindow.cpp" />
     <ClCompile Include="..\cpp\QtRenderer.cpp" />
+    <ClCompile Include="..\cpp\VertCatGO.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -97,12 +99,14 @@
     <ClInclude Include="..\include\GraphicObjectSet.hpp" />
     <ClInclude Include="..\include\GraphicRenderer.hpp" />
     <ClInclude Include="..\include\GraphicRoot.hpp" />
+    <ClInclude Include="..\include\HorzCatGO.hpp" />
     <ClInclude Include="..\include\InitializeGraphics.hpp" />
     <ClInclude Include="..\include\NewFigure.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
     <ClInclude Include="..\include\QtBaseFigure.hpp" />
     <ClInclude Include="..\include\QtBaseWindow.hpp" />
     <ClInclude Include="..\include\QtRenderer.hpp" />
+    <ClInclude Include="..\include\VertCatGO.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7ECBC5F0-CE99-4738-944C-E88C3DDF12BB}</ProjectGuid>

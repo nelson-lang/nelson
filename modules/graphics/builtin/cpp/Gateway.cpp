@@ -32,6 +32,9 @@
 #include "graphic_object_getBuiltin.hpp"
 #include "graphic_object_setBuiltin.hpp"
 #include "graphic_object_classBuiltin.hpp"
+#include "graphic_object_isvalidBuiltin.hpp"
+#include "graphic_object_horzcat_graphic_objectBuiltin.hpp"
+#include "graphic_object_vertcat_graphic_objectBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -46,6 +49,13 @@ static const nlsGateway gateway[] = {
     { "graphic_object_get", (void*)Nelson::GraphicsGateway::graphic_object_getBuiltin, 1, 2 },
     { "graphic_object_set", (void*)Nelson::GraphicsGateway::graphic_object_setBuiltin, 1, 3 },
     { "graphic_object_class", (void*)Nelson::GraphicsGateway::graphic_object_classBuiltin, 1, 1 },
+    { "graphic_object_isvalid", (void*)Nelson::GraphicsGateway::graphic_object_isvalidBuiltin, 1,
+        1 },
+    { "graphic_object_horzcat_graphic_object",
+        (void*)Nelson::GraphicsGateway::graphic_object_horzcat_graphic_objectBuiltin, 1, 2 },
+    { "graphic_object_vertcat_graphic_object",
+        (void*)Nelson::GraphicsGateway::graphic_object_vertcat_graphic_objectBuiltin, 1, 2 },
+
 };
 //=============================================================================
 static bool

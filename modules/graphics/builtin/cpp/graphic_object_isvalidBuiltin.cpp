@@ -23,30 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "graphic_object_deleteBuiltin.hpp"
+#include "graphic_object_isvalidBuiltin.hpp"
 #include "GraphicObject.hpp"
-#include "GraphicObjectDelete.hpp"
+#include "GraphicObjectGet.hpp"
 #include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GraphicsGateway::graphic_object_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::GraphicsGateway::graphic_object_isvalidBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf paramGo = argIn[0];
+    if (paramGo.getDataClass() != NLS_GO_HANDLE) {
+        retval.push_back(ArrayOf::logicalConstructor(false));
+    }
+    Dimensions dims = paramGo.getDimensions();
+    logical* res = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims.getElementCount(), stringVector(), true);
+    ArrayOf values = ArrayOf(NLS_LOGICAL, dims, res);
     nelson_handle* ptrGO = (nelson_handle*)paramGo.getDataPointer();
-    if (ptrGO != nullptr) {
-        indexType nbElements = paramGo.getDimensions().getElementCount();
-        for (indexType k = 0; k < nbElements; ++k) {
-            GraphicObject* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(ptrGO[k]);
-            if (go != nullptr) {
-                if (!graphicObjectDelete(go)) {
-                    Error(_W("Cannot delete graphic_object."));
+    if (!dims.isEmpty(false)) {
+        if (ptrGO != nullptr) {
+            for (size_t k = 0; k < dims.getElementCount(); ++k) {
+                auto* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(ptrGO[k]);
+                if ((go == nullptr) || (go->referenceCount() == 0)) {
+                    res[k] = false;
+                } else {
+                    res[k] = true;
                 }
             }
         }
     }
+    retval.push_back(values);
     return retval;
 }
 //=============================================================================

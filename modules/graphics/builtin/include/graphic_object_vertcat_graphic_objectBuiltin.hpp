@@ -23,37 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--ADV-CLI MODE--> 
-// <--ENGLISH IMPOSED-->
+#pragma once
 //=============================================================================
-c = groot;
-assert_isequal(class(c), 'Root');
-assert_isequal(size(c), [1 1]);
+#include "ArrayOf.hpp"
 //=============================================================================
-a = figure(1);
-assert_isequal(class(a), 'Figure');
-assert_isequal(size(a), [1 1]);
+namespace Nelson {
 //=============================================================================
-d = [a, a];
-assert_isequal(class(d), 'Figure');
-assert_isequal(size(d), [1 2]);
+namespace GraphicsGateway {
+    ArrayOfVector
+    graphic_object_vertcat_graphic_objectBuiltin(int nLhs, const ArrayOfVector& argIn);
+};
 //=============================================================================
-e = [c, c];
-assert_isequal(class(e), 'Root');
-assert_isequal(size(e), [1 2]);
-//=============================================================================
-f = [a,c];
-assert_isequal(class(f), 'graphic_object');
-assert_isequal(size(f), [1 2]);
-//=============================================================================
-g = [c, a];
-assert_isequal(class(g), 'graphic_object');
-assert_isequal(size(g), [1 2]);
-//=============================================================================
-k = [c; a];
-assert_isequal(class(k), 'graphic_object');
-assert_isequal(size(k), [2 1]);
-//=============================================================================
-assert_checkerror('kk = [c, 1];', 'function graphic_object_horzcat_double undefined.');
-assert_checkerror('kk = [c; 1];', 'function graphic_object_vertcat_double undefined.');
+}; // namespace Nelson
 //=============================================================================

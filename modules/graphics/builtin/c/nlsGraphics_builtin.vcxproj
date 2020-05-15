@@ -174,7 +174,10 @@
     <ClCompile Include="..\cpp\graphic_object_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\graphic_object_horzcat_graphic_objectBuiltin.cpp" />
+    <ClCompile Include="..\cpp\graphic_object_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_setBuiltin.cpp" />
+    <ClCompile Include="..\cpp\graphic_object_vertcat_graphic_objectBuiltin.cpp" />
     <ClCompile Include="..\cpp\grootBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -207,7 +210,10 @@
     <ClInclude Include="..\include\graphic_object_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_dispBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_getBuiltin.hpp" />
+    <ClInclude Include="..\include\graphic_object_horzcat_graphic_objectBuiltin.hpp" />
+    <ClInclude Include="..\include\graphic_object_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_setBuiltin.hpp" />
+    <ClInclude Include="..\include\graphic_object_vertcat_graphic_objectBuiltin.hpp" />
     <ClInclude Include="..\include\nlsGraphics_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
