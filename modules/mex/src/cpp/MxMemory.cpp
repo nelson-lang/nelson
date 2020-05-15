@@ -26,6 +26,7 @@
 #include <cstdlib>
 #include <set>
 #include <cstring>
+#include "nlsConfig.h"
 #include "mex.h"
 #include "ArrayOf.hpp"
 #include "MxHelpers.hpp"
@@ -186,12 +187,18 @@ mxDuplicateArray(const mxArray* in)
             ret->nzmax = in->nzmax;
             ret->nIr = in->nIr;
             ret->nJc = in->nJc;
-            ret->Ir = new mwSize[in->nIr];
-            for (mwSize k = 0; k < in->nIr; ++k) {
+            ret->Ir = (mwIndex*)malloc(sizeof(mwIndex) * in->nIr);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nIr; ++k) {
                 ret->Ir[k] = in->Ir[k];
             }
-            ret->Jc = new mwSize[in->nJc];
-            for (mwSize k = 0; k < in->nJc; ++k) {
+            ret->Jc = (mwIndex*)malloc(sizeof(mwIndex) * in->nJc);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nJc; ++k) {
                 ret->Jc[k] = in->Jc[k];
             }
             if (in->interleavedcomplex) {

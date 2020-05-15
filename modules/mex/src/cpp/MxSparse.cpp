@@ -43,7 +43,7 @@ mxCreateSparseLogicalMatrix(mwSize m, mwSize n, mwSize nzmax)
     mxArray* pa = mxNewArray();
     if (pa != nullptr) {
         mwSize num_dim = 2;
-        mwSize* dim_vec = new mwSize[num_dim];
+        auto* dim_vec = new mwSize[num_dim];
         dim_vec[0] = m;
         dim_vec[1] = n;
         pa->number_of_dims = num_dim;
@@ -71,7 +71,7 @@ mxCreateSparseInternal(
     mxArray* pa = mxNewArray();
     if (pa != nullptr) {
         mwSize num_dim = 2;
-        mwSize* dim_vec = new mwSize[num_dim];
+        auto* dim_vec = new mwSize[num_dim];
         dim_vec[0] = m;
         dim_vec[1] = n;
         pa->number_of_dims = num_dim;

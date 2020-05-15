@@ -146,7 +146,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
     switch (nlsArrayOf.getDataClass()) {
     case NLS_LOGICAL: {
         res = mxNewArray();
-        if (res) {
+        if (res != nullptr) {
             res->classID = mxLOGICAL_CLASS;
             res->interleavedcomplex = interleavedComplex;
             res->iscomplex = false;
@@ -186,7 +186,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
     } break;
     case NLS_DCOMPLEX: {
         res = mxNewArray();
-        if (res) {
+        if (res != nullptr) {
             res->classID = mxDOUBLE_CLASS;
             res->interleavedcomplex = interleavedComplex;
             res->iscomplex = true;
@@ -219,17 +219,26 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                 } else {
                     res->realdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
                     res->imagdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
-                    mxDouble* realpart = (mxDouble*)res->realdata;
-                    mxDouble* imagpart = (mxDouble*)res->imagdata;
-                    for (mwIndex k = 0; k < res->nIr; ++k) {
+                    auto* realpart = (mxDouble*)res->realdata;
+                    auto* imagpart = (mxDouble*)res->imagdata;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                    for (ompIndexType k = 0; k < (ompIndexType)res->nIr; ++k) {
                         realpart[k] = (mxDouble)data[k].real();
                         imagpart[k] = (mxDouble)data[k].imag();
                     }
                 }
-                for (mwIndex k = 0; k < res->nIr; ++k) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)res->nIr; ++k) {
                     res->Ir[k] = (mwIndex)pInner[k];
                 }
-                for (mwIndex k = 0; k < res->nJc; ++k) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)res->nJc; ++k) {
                     res->Jc[k] = (mwIndex)pOuter[k];
                 }
             }
@@ -237,7 +246,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
     } break;
     case NLS_DOUBLE: {
         res = mxNewArray();
-        if (res) {
+        if (res != nullptr) {
             res->classID = mxDOUBLE_CLASS;
             res->interleavedcomplex = interleavedComplex;
             res->iscomplex = false;
@@ -264,11 +273,16 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                 res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
                 res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
                 res->realdata = (mxDouble*)malloc(sizeof(mxDouble) * res->nIr);
-
-                for (mwIndex k = 0; k < res->nIr; ++k) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)res->nIr; ++k) {
                     res->Ir[k] = (mwIndex)pInner[k];
                 }
-                for (mwIndex k = 0; k < res->nJc; ++k) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+                for (ompIndexType k = 0; k < (ompIndexType)res->nJc; ++k) {
                     res->Jc[k] = (mwIndex)pOuter[k];
                 }
                 memcpy(res->realdata, data, sizeof(mxDouble) * res->nIr);
@@ -302,8 +316,8 @@ MxArraySparseToSparseDoubleArrayOf(mxArray* pm)
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];
     Dimensions dims(rows, cols);
-    Nelson::signedIndexType* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
-    Nelson::signedIndexType* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
+    auto* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
+    auto* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
 
     Eigen::Map<Eigen::SparseMatrix<double, 0, Nelson::signedIndexType>> sm(
         rows, cols, nnz, outerIndexPtr, innerIndexPtr, (double*)pm->realdata);
@@ -328,9 +342,11 @@ MxArraySparseToSparseDoubleArrayOf(mxArray* pm)
     Dimensions dimsI(1, i.size());
     Dimensions dimsJ(1, j.size());
     Dimensions dimsV(1, v.size());
-    SPARSE_INDEX_TYPE* ptrI = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
+    SPARSE_INDEX_TYPE* ptrI
+        = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
     memcpy(ptrI, i.data(), sizeof(SPARSE_INDEX_TYPE) * i.size());
-    SPARSE_INDEX_TYPE* ptrJ = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
+    SPARSE_INDEX_TYPE* ptrJ
+        = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
     memcpy(ptrJ, j.data(), sizeof(SPARSE_INDEX_TYPE) * j.size());
     double* ptrV = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, v.size());
     memcpy(ptrV, v.data(), sizeof(double) * v.size());
@@ -353,8 +369,8 @@ MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];
     Dimensions dims(rows, cols);
-    Nelson::signedIndexType* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
-    Nelson::signedIndexType* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
+    auto* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
+    auto* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
 
     if (pm->interleavedcomplex) {
         Eigen::Map<Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>> sm(
@@ -393,13 +409,15 @@ MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
         ArrayOf J = ArrayOf(SPARSE_INDEX_CLASS, dimsJ, ptrJ);
         ArrayOf V = ArrayOf(NLS_DCOMPLEX, dimsJ, ptrV);
         return SparseConstructor(I, J, V, rows, cols, pm->nzmax);
-
     } else {
-        double* realpart = (double*)pm->realdata;
-        double* imagpart = (double*)pm->imagdata;
+        auto* realpart = (double*)pm->realdata;
+        auto* imagpart = (double*)pm->imagdata;
         double* interleaved = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nnz);
         Eigen::Index q = 0;
-        for (Eigen::Index k = 0; k < nnz; ++k) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)nnz; ++k) {
             interleaved[q] = realpart[k];
             interleaved[q + 1] = imagpart[k];
             q = q + 2;
@@ -453,8 +471,8 @@ MxArraySparseToSparseLogicalArrayOf(mxArray* pm)
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];
     Dimensions dims(rows, cols);
-    Nelson::signedIndexType* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
-    Nelson::signedIndexType* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
+    auto* outerIndexPtr = (Nelson::signedIndexType*)pm->Jc;
+    auto* innerIndexPtr = (Nelson::signedIndexType*)pm->Ir;
 
     Eigen::Map<Eigen::SparseMatrix<logical, 0, Nelson::signedIndexType>> sm(
         rows, cols, nnz, outerIndexPtr, innerIndexPtr, (logical*)pm->realdata);
@@ -479,9 +497,11 @@ MxArraySparseToSparseLogicalArrayOf(mxArray* pm)
     Dimensions dimsI(1, i.size());
     Dimensions dimsJ(1, j.size());
     Dimensions dimsV(1, v.size());
-    SPARSE_INDEX_TYPE* ptrI = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
+    SPARSE_INDEX_TYPE* ptrI
+        = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, i.size());
     memcpy(ptrI, i.data(), sizeof(SPARSE_INDEX_TYPE) * i.size());
-    SPARSE_INDEX_TYPE* ptrJ = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
+    SPARSE_INDEX_TYPE* ptrJ
+        = (SPARSE_INDEX_TYPE*)ArrayOf::allocateArrayOf(SPARSE_INDEX_CLASS, j.size());
     memcpy(ptrJ, j.data(), sizeof(SPARSE_INDEX_TYPE) * j.size());
     logical* ptrV = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, v.size());
     memcpy(ptrV, v.data(), sizeof(logical) * v.size());
@@ -663,10 +683,10 @@ MxArrayToArrayOf(mxArray* pm)
         }
         if (pm->issparse) {
             return MxArraySparseToArrayOf(pm);
-        } else {
-            cp = ArrayOf::allocateArrayOf(destClass, N);
-            MexRealToArrayOfReal<mxLogical, logical>((mxLogical*)pm->realdata, (logical*)cp, N);
         }
+        cp = ArrayOf::allocateArrayOf(destClass, N);
+        MexRealToArrayOfReal<mxLogical, logical>((mxLogical*)pm->realdata, (logical*)cp, N);
+
     } break;
     case mxCHAR_CLASS: {
         destClass = NLS_CHAR;
@@ -679,23 +699,23 @@ MxArrayToArrayOf(mxArray* pm)
     case mxDOUBLE_CLASS: {
         if (pm->issparse) {
             return MxArraySparseToArrayOf(pm);
-        } else {
-            if (pm->iscomplex) {
-                destClass = NLS_DCOMPLEX;
-                cp = ArrayOf::allocateArrayOf(destClass, N);
-                if (pm->interleavedcomplex) {
-                    MexComplexToArrayOfInterleavedComplex<mxDouble, double>(
-                        (mxDouble*)pm->realdata, (double*)cp, N);
-                } else {
-                    MexComplexToArrayOfSeparatedComplex<mxDouble, double>(
-                        (mxDouble*)pm->realdata, (mxDouble*)pm->imagdata, (double*)cp, N);
-                }
-            } else {
-                destClass = NLS_DOUBLE;
-                cp = ArrayOf::allocateArrayOf(destClass, N);
-                MexRealToArrayOfReal<mxDouble, double>((mxDouble*)pm->realdata, (double*)cp, N);
-            }
         }
+        if (pm->iscomplex) {
+            destClass = NLS_DCOMPLEX;
+            cp = ArrayOf::allocateArrayOf(destClass, N);
+            if (pm->interleavedcomplex) {
+                MexComplexToArrayOfInterleavedComplex<mxDouble, double>(
+                    (mxDouble*)pm->realdata, (double*)cp, N);
+            } else {
+                MexComplexToArrayOfSeparatedComplex<mxDouble, double>(
+                    (mxDouble*)pm->realdata, (mxDouble*)pm->imagdata, (double*)cp, N);
+            }
+        } else {
+            destClass = NLS_DOUBLE;
+            cp = ArrayOf::allocateArrayOf(destClass, N);
+            MexRealToArrayOfReal<mxDouble, double>((mxDouble*)pm->realdata, (double*)cp, N);
+        }
+
     } break;
     case mxSINGLE_CLASS: {
         if (pm->iscomplex) {
