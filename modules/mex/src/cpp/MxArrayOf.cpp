@@ -221,10 +221,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                     res->imagdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
                     auto* realpart = (mxDouble*)res->realdata;
                     auto* imagpart = (mxDouble*)res->imagdata;
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-                    for (ompIndexType k = 0; k < (ompIndexType)res->nIr; ++k) {
+                    for (mwSize k = 0; k < res->nIr; ++k) {
                         realpart[k] = (mxDouble)data[k].real();
                         imagpart[k] = (mxDouble)data[k].imag();
                     }
@@ -414,9 +411,6 @@ MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
         auto* imagpart = (double*)pm->imagdata;
         double* interleaved = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nnz);
         Eigen::Index q = 0;
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
         for (ompIndexType k = 0; k < (ompIndexType)nnz; ++k) {
             interleaved[q] = realpart[k];
             interleaved[q + 1] = imagpart[k];
