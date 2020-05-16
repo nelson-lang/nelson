@@ -112,7 +112,7 @@ assert_isequal(R, uint64(size(A)'));
 R = h5readatt(test_h5save_file, '/A', 'NELSON_sparse');
 assert_isequal(R, uint8(1));
 R = h5readatt(test_h5save_file, '/A', 'NELSON_nzmax');
-assert_isequal(R, uint64(20));
+assert_isequal(R, uint64(19));
 R = h5read(test_h5save_file, '/A/data');
 assert_isequal(R, uint8(1));
 R = h5read(test_h5save_file, '/A/ir');
