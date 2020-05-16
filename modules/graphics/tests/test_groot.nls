@@ -26,18 +26,9 @@
 // <--ADV-CLI MODE--> 
 //=============================================================================
 g = groot();
-//=============================================================================
-a = figure(1);
-assert_istrue(isvalid(a));
-delete(a)
-assert_isfalse(isvalid(a));
-//=============================================================================
-a = figure(1);
-b = figure(2);
-c = [a, b];
-assert_istrue(all(isvalid(c)));
-assert_isequal(g.CurrentFigure.Number, 2);
-delete(c);
-assert_isfalse(all(isvalid(c)));
 assert_istrue(isempty(g.CurrentFigure));
+//=============================================================================
+a = figure(1);
+assert_isfalse(isempty(g.CurrentFigure));
+assert_isequal(g.CurrentFigure.Number, 1);
 //=============================================================================

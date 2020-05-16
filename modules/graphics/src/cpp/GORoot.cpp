@@ -108,7 +108,9 @@ GORoot::initializeProperties()
         gcf.promoteType(NLS_GO_HANDLE);
     } else {
         GOWindow* goWin = getGOWindow(currentFigureID);
-        gcf = ArrayOf::graphicObjectConstructor(goWin->getGOFigure());
+        if (goWin) {
+            gcf = ArrayOf::graphicObjectConstructor(goWin->getGOFigure());
+        }
     }
     setPropertyAsArrayOfValue(CURRENTFIGURE_PROPERTY_STR, gcf);
     property = this->searchProperty(CURRENTFIGURE_PROPERTY_STR);
@@ -191,7 +193,9 @@ GORoot::refreshProperties()
             gcf.promoteType(NLS_GO_HANDLE);
         } else {
             GOWindow* goWin = getGOWindow(currentFigureID);
-            gcf = ArrayOf::graphicObjectConstructor(goWin->getGOFigure());
+            if (goWin) {
+                gcf = ArrayOf::graphicObjectConstructor(goWin->getGOFigure());
+            }
         }
         goCurrentFigure->value(gcf);
     }

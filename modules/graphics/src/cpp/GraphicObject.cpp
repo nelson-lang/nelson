@@ -104,6 +104,7 @@ GraphicObject::getPropertiesName()
 std::wstring
 GraphicObject::displayProperties()
 {
+    refreshProperties();
     std::wstring content;
     for (auto p : properties) {
         auto propertyValue = p.second;
