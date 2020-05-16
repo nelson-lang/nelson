@@ -41,6 +41,9 @@ NLSGRAPHICS_IMPEXP uint64
 getCurrentGOWindowID();
 //=============================================================================
 NLSGRAPHICS_IMPEXP uint64
+findCurrentGOWindowID();
+//=============================================================================
+NLSGRAPHICS_IMPEXP uint64
 getAvailableGOWindowID();
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool

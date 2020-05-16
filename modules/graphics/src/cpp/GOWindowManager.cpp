@@ -23,13 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <unordered_map>
+#include <fifo_map.hpp>
 #include <algorithm>
 #include "GOWindowManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::unordered_map<uint64, GOWindow*> GOWindowMap;
+nlohmann::fifo_map<uint64, GOWindow*> GOWindowMap;
 //=============================================================================
 static uint64 lastID = 0;
 //=============================================================================
@@ -70,8 +70,30 @@ addGOWindow(uint64 id, GOWindow* goFig)
 bool
 removeGOWindow(uint64 id)
 {
-    GOWindowMap.erase(id);
-    return true;
+    bool res = false;
+    if (GOWindowMap.find(id) != GOWindowMap.end()) {
+        GOWindowMap.erase(id);
+        res = true;
+        lastID = findCurrentGOWindowID();
+    }
+    return res;
+}
+//=============================================================================
+uint64
+findCurrentGOWindowID()
+{
+    uint64 currentGOWindowId = 0;
+    std::vector<GOWindow*> goWins = getGOWindows();
+    size_t nbWindows = goWins.size();
+    if (nbWindows) {
+        if (nbWindows - 1 > 0) {
+            GOWindow* res = getGOWindow(nbWindows - 1);
+            if (res) {
+                currentGOWindowId = res->ID();
+            }
+        }
+    }
+    return currentGOWindowId;
 }
 //=============================================================================
 GOWindow*
