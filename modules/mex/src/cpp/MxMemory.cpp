@@ -115,8 +115,13 @@ mxDestroyArray(mxArray* pm)
             delete ptr;
             pm->ptr = nullptr;
         }
+        if (pm->issparse) {
+            mxFree(pm->Jc);
+            mxFree(pm->Ir);
+        }
         mxFree(pm->realdata);
         mxFree(pm->imagdata);
+        mxFree(pm->dims);
         mxFree(pm);
     }
 }
@@ -141,7 +146,7 @@ mxDuplicateArray(const mxArray* in)
     } break;
     case mxSTRUCT_CLASS: {
         auto* inPtr = (Nelson::ArrayOf*)in->ptr;
-        ret = (mxArray*)malloc(sizeof(mxArray));
+        ret = (mxArray*)mxMalloc(sizeof(mxArray));
         if (ret != nullptr) {
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
@@ -187,14 +192,14 @@ mxDuplicateArray(const mxArray* in)
             ret->nzmax = in->nzmax;
             ret->nIr = in->nIr;
             ret->nJc = in->nJc;
-            ret->Ir = (mwIndex*)malloc(sizeof(mwIndex) * in->nIr);
+            ret->Ir = (mwIndex*)mxCalloc(in->nIr, sizeof(mwIndex));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nIr; ++k) {
                 ret->Ir[k] = in->Ir[k];
             }
-            ret->Jc = (mwIndex*)malloc(sizeof(mwIndex) * in->nJc);
+            ret->Jc = (mwIndex*)mxCalloc(in->nJc, sizeof(mwIndex));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -203,19 +208,19 @@ mxDuplicateArray(const mxArray* in)
             }
             if (in->interleavedcomplex) {
                 if (in->iscomplex) {
-                    ret->realdata = mxMalloc(sizeof(mxComplexDouble) * in->nIr);
+                    ret->realdata = mxCalloc(in->nIr, sizeof(mxComplexDouble));
                     memcpy(ret->realdata, in->realdata, sizeof(mxComplexDouble) * in->nIr);
                     ret->imagdata = nullptr;
                 } else {
-                    ret->realdata = mxMalloc(sizeFromClass(in->classID) * in->nIr);
+                    ret->realdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
                     memcpy(ret->realdata, in->realdata, sizeFromClass(in->classID) * in->nIr);
                     ret->imagdata = nullptr;
                 }
             } else {
-                ret->realdata = mxMalloc(sizeFromClass(in->classID) * in->nIr);
+                ret->realdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
                 memcpy(ret->realdata, in->realdata, sizeFromClass(in->classID) * in->nIr);
                 if (in->iscomplex) {
-                    ret->imagdata = mxMalloc(sizeFromClass(in->classID) * in->nIr);
+                    ret->imagdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
                     memcpy(ret->imagdata, in->imagdata, sizeFromClass(in->classID) * in->nIr);
                 } else {
                     ret->imagdata = nullptr;

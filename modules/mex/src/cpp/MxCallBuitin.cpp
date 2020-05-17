@@ -30,6 +30,7 @@
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "mex.h"
+#include "MxHelpers.hpp"
 //=============================================================================
 using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================
@@ -42,7 +43,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
 
     try {
         if (!argIn.empty()) {
-            mxArgsIn = new mxArray*[argIn.size()];
+            mxArgsIn = (mxArray**)mxMalloc(sizeof(mxArray*) * argIn.size());
         }
     } catch (const std::bad_alloc&) {
         Nelson::Error(ERROR_MEMORY_ALLOCATION);
@@ -50,9 +51,9 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
     int nlhs = (int)argIn.size();
     int lhsCount = lhsCount = (nargout < 1) ? 1 : nargout;
     try {
-        mxArgsOut = new mxArray*[lhsCount];
+        mxArgsOut = (mxArray**)mxMalloc(sizeof(mxArray*) * lhsCount);
         for (size_t i = 0; i < lhsCount; ++i) {
-            mxArgsOut[i] = new mxArray();
+            mxArgsOut[i] = mxNewArray();
             mxArgsOut[i]->interleavedcomplex = interleavedComplex;
             mxArgsOut[i]->classID = mxUNKNOWN_CLASS;
             mxArgsOut[i]->dims = nullptr;
@@ -72,7 +73,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
         for (size_t i = 0; i < argIn.size(); i++) {
             mxDestroyArray(mxArgsIn[i]);
         }
-        delete[] mxArgsIn;
+        mxFree(mxArgsIn);
         mxArgsIn = nullptr;
         Nelson::Error(ERROR_MEMORY_ALLOCATION);
     }
@@ -90,14 +91,14 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             for (size_t i = 0; i < argIn.size(); i++) {
                 mxDestroyArray(mxArgsIn[i]);
             }
-            delete[] mxArgsIn;
+            mxFree(mxArgsIn);
             mxArgsIn = nullptr;
         }
         if (mxArgsOut != nullptr) {
             for (int i = 0; i < lhsCount; i++) {
                 mxDestroyArray(mxArgsOut[i]);
             }
-            delete[] mxArgsOut;
+            mxFree(mxArgsOut);
             mxArgsOut = nullptr;
         }
         Nelson::Error(e.what());
@@ -106,7 +107,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             for (size_t i = 0; i < argIn.size(); i++) {
                 mxDestroyArray(mxArgsIn[i]);
             }
-            delete[] mxArgsIn;
+            mxFree(mxArgsIn);
             mxArgsIn = nullptr;
         }
         if (mxArgsOut != nullptr) {
@@ -114,7 +115,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             for (int i = 0; i < protectLhsCount; i++) {
                 mxDestroyArray(mxArgsOut[i]);
             }
-            delete[] mxArgsOut;
+            mxFree(mxArgsOut);
             mxArgsOut = nullptr;
         }
         throw e;
@@ -124,14 +125,14 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
             mxDestroyArray(mxArgsOut[i]);
         }
-        delete[] mxArgsOut;
+        mxFree(mxArgsOut);
         mxArgsOut = nullptr;
     }
     if (mxArgsIn != nullptr) {
         for (size_t i = 0; i < argIn.size(); i++) {
             mxDestroyArray(mxArgsIn[i]);
         }
-        delete[] mxArgsIn;
+        mxFree(mxArgsIn);
         mxArgsIn = nullptr;
     }
     return 0;

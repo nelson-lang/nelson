@@ -27,6 +27,7 @@
 #include "matrix.h"
 #include "MxSparse.h"
 #include "MxHelpers.hpp"
+#include "MxArrayOf.hpp"
 //=============================================================================
 bool
 mxIsSparse(const mxArray* pm)
@@ -40,56 +41,62 @@ mxIsSparse(const mxArray* pm)
 mxArray*
 mxCreateSparseLogicalMatrix(mwSize m, mwSize n, mwSize nzmax)
 {
-    mxArray* pa = mxNewArray();
-    if (pa != nullptr) {
-        mwSize num_dim = 2;
-        auto* dim_vec = new mwSize[num_dim];
-        dim_vec[0] = m;
-        dim_vec[1] = n;
-        pa->number_of_dims = num_dim;
-        pa->dims = dim_vec;
-        pa->classID = mxLOGICAL_CLASS;
-        pa->issparse = true;
-        pa->iscomplex = false;
-        pa->imagdata = nullptr;
-        pa->realdata = nullptr;
-        pa->interleavedcomplex = false;
-        pa->ptr = nullptr;
-        pa->Ir = nullptr;
-        pa->Jc = nullptr;
-        pa->nzmax = nzmax;
-        pa->nIr = 0;
-        pa->nJc = 0;
+    mxArray* pm = mxNewArray();
+    if (pm) {
+        pm->classID = mxLOGICAL_CLASS;
+        pm->issparse = true;
+        pm->iscomplex = false;
+        pm->number_of_dims = 2;
+        pm->dims = (mwSize*)mxCalloc((mwSize)2, sizeof(mwSize));
+        pm->dims[0] = m;
+        pm->dims[1] = n;
+        pm->realdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+        pm->nIr = nzmax;
+        pm->Ir = (mwIndex*)mxCalloc(nzmax, sizeof(mwIndex));
+        pm->nJc = n + 1;
+        pm->Jc = (mwIndex*)mxCalloc(n + 1, sizeof(mwIndex));
+        pm->nzmax = nzmax;
+        pm->ptr = nullptr;
     }
-    return pa;
+    return pm;
 }
 //=============================================================================
 static mxArray*
 mxCreateSparseInternal(
     mwSize m, mwSize n, mwSize nzmax, mxComplexity ComplexFlag, bool interleavedcomplex)
 {
-    mxArray* pa = mxNewArray();
-    if (pa != nullptr) {
-        mwSize num_dim = 2;
-        auto* dim_vec = new mwSize[num_dim];
-        dim_vec[0] = m;
-        dim_vec[1] = n;
-        pa->number_of_dims = num_dim;
-        pa->dims = dim_vec;
-        pa->classID = mxDOUBLE_CLASS;
-        pa->issparse = true;
-        pa->iscomplex = ComplexFlag == mxCOMPLEX;
-        pa->imagdata = nullptr;
-        pa->realdata = nullptr;
-        pa->interleavedcomplex = interleavedcomplex;
-        pa->ptr = nullptr;
-        pa->Ir = nullptr;
-        pa->Jc = nullptr;
-        pa->nzmax = nzmax;
-        pa->nIr = 0;
-        pa->nJc = 0;
+    mxArray* pm = mxNewArray();
+    if (pm) {
+        pm->classID = mxDOUBLE_CLASS;
+        pm->issparse = true;
+        if (ComplexFlag == mxCOMPLEX) {
+            pm->iscomplex = true;
+        } else {
+            pm->iscomplex = false;
+        }
+        pm->number_of_dims = 2;
+        pm->dims = (mwSize*)mxCalloc((mwSize)2, sizeof(mwSize));
+        pm->dims[0] = m;
+        pm->dims[1] = n;
+        pm->interleavedcomplex = interleavedcomplex;
+        if (ComplexFlag == mxCOMPLEX) {
+            if (interleavedcomplex) {
+                pm->realdata = (mxDouble*)mxCalloc(nzmax * 2, sizeof(mxDouble));
+            } else {
+                pm->realdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+                pm->imagdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+            }
+        } else {
+            pm->realdata = (mxDouble*)mxCalloc(nzmax, sizeof(mxDouble));
+        }
+        pm->nIr = nzmax;
+        pm->Ir = (mwIndex*)mxCalloc(nzmax, sizeof(mwIndex));
+        pm->nJc = n + 1;
+        pm->Jc = (mwIndex*)mxCalloc(n + 1, sizeof(mwIndex));
+        pm->nzmax = nzmax;
+        pm->ptr = nullptr;
     }
-    return pa;
+    return pm;
 }
 //=============================================================================
 mxArray*
@@ -104,7 +111,6 @@ mxCreateSparseSeparatedComplex(mwSize m, mwSize n, mwSize nzmax, mxComplexity Co
     return mxCreateSparseInternal(m, n, nzmax, ComplexFlag, false);
 }
 //=============================================================================
-
 mwIndex*
 mxGetJc(const mxArray* pm)
 {

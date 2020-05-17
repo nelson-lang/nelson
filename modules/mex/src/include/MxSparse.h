@@ -76,7 +76,7 @@ extern "C"
 #ifdef MX_HAS_INTERLEAVED_COMPLEX
 #define mxCreateSparse mxCreateSparseInterleavedComplex
 #else
-#define mxCreateSparse mxCreateSparseMatrixSeparatedComplex
+#define mxCreateSparse mxCreateSparseSeparatedComplex
 #endif
     //=============================================================================
 #ifdef __cplusplus

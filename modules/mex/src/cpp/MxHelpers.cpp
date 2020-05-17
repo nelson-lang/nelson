@@ -30,7 +30,7 @@
 mxArray*
 mxNewArray()
 {
-    return (mxArray*)malloc(sizeof(mxArray));
+    return (mxArray*)mxMalloc(sizeof(mxArray));
 }
 //=============================================================================
 mxArray*
@@ -129,7 +129,7 @@ countElements(mwSize ndim, const mwSize* dims)
 mwSize*
 copyDims(mwSize ndim, const mwSize* dims)
 {
-    auto* p = (mwSize*)malloc(sizeof(mwSize) * ndim);
+    auto* p = (mwSize*)mxMalloc(sizeof(mwSize) * ndim);
     if (p != nullptr) {
         for (mwSize i = 0; i < ndim; i++) {
             p[i] = dims[i];
@@ -179,7 +179,7 @@ mwSize*
 GetDimensions(const Nelson::ArrayOf& array, mwSize& numdims)
 {
     numdims = (int)array.getDimensions().getLength();
-    auto* dim_vec = new mwSize[numdims];
+    auto* dim_vec = (mwSize*)mxMalloc(sizeof(mwSize) * numdims);
     for (mwSize i = 0; i < numdims; i++) {
         dim_vec[i] = array.getDimensions()[i];
     }

@@ -39,9 +39,11 @@ static mwSize*
 GetDimensions(const ArrayOf& array, mwSize& numdims)
 {
     numdims = (int)array.getDimensions().getLength();
-    auto* dim_vec = new mwSize[numdims];
-    for (mwSize i = 0; i < numdims; i++) {
-        dim_vec[i] = array.getDimensions()[i];
+    auto* dim_vec = (mwSize*)mxCalloc(numdims, sizeof(mwSize));
+    if (dim_vec != nullptr) {
+        for (mwSize i = 0; i < numdims; i++) {
+            dim_vec[i] = array.getDimensions()[i];
+        }
     }
     return dim_vec;
 }
@@ -102,18 +104,20 @@ ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID, bool interleav
     mwSize num_dim;
     mwSize* dim_vec = GetDimensions(array, num_dim);
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxCOMPLEX);
-    free(dim_vec);
+    mxFree(dim_vec);
     dim_vec = nullptr;
-    auto* sp = (nlsType*)array.getDataPointer();
-    auto* dp_r = (mxType*)ret->realdata;
-    auto* dp_i = (mxType*)ret->imagdata;
-    size_t N = mxGetNumberOfElements(ret);
+    if (ret) {
+        auto* sp = (nlsType*)array.getDataPointer();
+        auto* dp_r = (mxType*)ret->realdata;
+        auto* dp_i = (mxType*)ret->imagdata;
+        size_t N = mxGetNumberOfElements(ret);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
-        dp_r[i] = (mxType)sp[2 * i];
-        dp_i[i] = (mxType)sp[2 * i + 1];
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            dp_r[i] = (mxType)sp[2 * i];
+            dp_i[i] = (mxType)sp[2 * i + 1];
+        }
     }
     return ret;
 }
@@ -125,16 +129,18 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     mwSize num_dim;
     mwSize* dim_vec = GetDimensions(array, num_dim);
     mxArray* ret = mxCreateNumericArray(num_dim, dim_vec, classID, mxREAL);
-    free(dim_vec);
+    mxFree(dim_vec);
     dim_vec = nullptr;
-    auto* sp = (nlsType*)array.getDataPointer();
-    auto* dp = (mxType*)ret->realdata;
-    size_t N = mxGetNumberOfElements(ret);
+    if (ret) {
+        auto* sp = (nlsType*)array.getDataPointer();
+        auto* dp = (mxType*)ret->realdata;
+        size_t N = mxGetNumberOfElements(ret);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
-        dp[i] = (mxType)sp[i];
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            dp[i] = (mxType)sp[i];
+        }
     }
     return ret;
 }
@@ -159,7 +165,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
             Dimensions dims = nlsArrayOf.getDimensions();
             res->nzmax = nlsArrayOf.nzmax();
             res->number_of_dims = dims.getLength();
-            res->dims = new mwSize[res->number_of_dims];
+            res->dims = (mwSize*)mxCalloc(res->number_of_dims, sizeof(mwSize));
             for (mwIndex k = 0; k < res->number_of_dims; ++k) {
                 res->dims[k] = dims.getAt(k);
             }
@@ -170,9 +176,9 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                 Nelson::signedIndexType* pOuter = spMat->outerIndexPtr();
                 Nelson::logical* data = spMat->valuePtr();
 
-                res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
-                res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
-                res->realdata = (mxLogical*)malloc(sizeof(mxLogical) * res->nIr);
+                res->Ir = (mwIndex*)mxCalloc(res->nIr, sizeof(mwIndex));
+                res->Jc = (mwIndex*)mxCalloc(res->nJc, sizeof(mwIndex));
+                res->realdata = (mxLogical*)mxCalloc(res->nIr, sizeof(mxLogical));
 
                 for (mwIndex k = 0; k < res->nIr; ++k) {
                     res->Ir[k] = (mwIndex)pInner[k];
@@ -195,7 +201,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
             res->nzmax = nlsArrayOf.nzmax();
             Dimensions dims = nlsArrayOf.getDimensions();
             res->number_of_dims = dims.getLength();
-            res->dims = new mwSize[res->number_of_dims];
+            res->dims = (mwSize*)mxCalloc(res->number_of_dims, sizeof(mwSize));
             for (mwIndex k = 0; k < res->number_of_dims; ++k) {
                 res->dims[k] = dims.getAt(k);
             }
@@ -208,17 +214,18 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                 Nelson::signedIndexType* pInner = spMat->innerIndexPtr();
                 Nelson::signedIndexType* pOuter = spMat->outerIndexPtr();
 
-                res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
-                res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
+                res->Ir = (mwIndex*)mxCalloc(res->nIr, sizeof(mwIndex));
+                res->Jc = (mwIndex*)mxCalloc(res->nJc, sizeof(mwIndex));
                 doublecomplex* data = (doublecomplex*)spMat->valuePtr();
 
                 if (interleavedComplex) {
-                    res->realdata = (mxComplexDouble*)malloc(sizeof(mxComplexDouble) * (res->nIr));
+                    res->realdata
+                        = (mxComplexDouble*)mxCalloc(res->nIr, sizeof(mxComplexDouble));
                     memcpy(res->realdata, data, sizeof(mxComplexDouble) * res->nIr);
                     res->imagdata = nullptr;
                 } else {
-                    res->realdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
-                    res->imagdata = (mxDouble*)malloc(sizeof(mxDouble) * (res->nIr));
+                    res->realdata = (mxDouble*)mxCalloc(res->nIr, sizeof(mxDouble));
+                    res->imagdata = (mxDouble*)mxCalloc(res->nIr, sizeof(mxDouble));
                     auto* realpart = (mxDouble*)res->realdata;
                     auto* imagpart = (mxDouble*)res->imagdata;
                     for (mwSize k = 0; k < res->nIr; ++k) {
@@ -256,20 +263,21 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
             Dimensions dims = nlsArrayOf.getDimensions();
             res->nzmax = nlsArrayOf.nzmax();
             res->number_of_dims = dims.getLength();
-            res->dims = new mwSize[res->number_of_dims];
+            res->dims = (mwSize*)mxCalloc(res->number_of_dims, sizeof(mwSize));
             for (mwIndex k = 0; k < res->number_of_dims; ++k) {
                 res->dims[k] = dims.getAt(k);
             }
             if (spMat) {
                 res->nIr = (mwIndex)spMat->nonZeros();
                 res->nJc = (mwIndex)spMat->outerSize();
+                mwSize nnz = res->nIr == 0 ? res->nJc : res->nIr;
                 Nelson::signedIndexType* pInner = spMat->innerIndexPtr();
                 Nelson::signedIndexType* pOuter = spMat->outerIndexPtr();
                 mxDouble* data = spMat->valuePtr();
 
-                res->Ir = (mwIndex*)malloc(sizeof(mwIndex) * res->nIr);
-                res->Jc = (mwIndex*)malloc(sizeof(mwIndex) * res->nJc);
-                res->realdata = (mxDouble*)malloc(sizeof(mxDouble) * res->nIr);
+                res->Ir = (mwIndex*)mxCalloc(res->nIr, sizeof(mwIndex));
+                res->Jc = (mwIndex*)mxCalloc(res->nJc, sizeof(mwIndex));
+
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -282,7 +290,9 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                 for (ompIndexType k = 0; k < (ompIndexType)res->nJc; ++k) {
                     res->Jc[k] = (mwIndex)pOuter[k];
                 }
-                memcpy(res->realdata, data, sizeof(mxDouble) * res->nIr);
+
+                res->realdata = (mxDouble*)mxCalloc(nnz, sizeof(mxDouble));
+                memcpy(res->realdata, data, sizeof(mxDouble) * nnz);
             }
         }
     } break;
@@ -309,7 +319,7 @@ MxArraySparseToSparseDoubleArrayOf(mxArray* pm)
     mwSize nzmax = pm->nzmax;
     mwIndex* Ir = pm->Ir;
     mwIndex* Jc = pm->Jc;
-    Eigen::Index nnz = nIr;
+    Eigen::Index nnz = nIr == 0 ? nJc : nIr;
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];
     Dimensions dims(rows, cols);
@@ -362,7 +372,7 @@ MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
     mwSize nzmax = pm->nzmax;
     mwIndex* Ir = pm->Ir;
     mwIndex* Jc = pm->Jc;
-    Eigen::Index nnz = nIr;
+    Eigen::Index nnz = nIr == 0 ? nJc : nIr;
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];
     Dimensions dims(rows, cols);
@@ -461,7 +471,7 @@ MxArraySparseToSparseLogicalArrayOf(mxArray* pm)
     mwSize nzmax = pm->nzmax;
     mwIndex* Ir = pm->Ir;
     mwIndex* Jc = pm->Jc;
-    Eigen::Index nnz = nIr;
+    Eigen::Index nnz = nIr == 0 ? nJc : nIr;
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];
     Dimensions dims(rows, cols);
@@ -536,7 +546,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         mwSize num_dim;
         mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
         res = mxCreateCellArray(num_dim, dim_vec);
-        free(dim_vec);
+        mxFree(dim_vec);
         dim_vec = nullptr;
         if (res != nullptr) {
             auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();

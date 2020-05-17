@@ -80,7 +80,7 @@ mxArrayToString(const mxArray* array_ptr)
     }
     auto* p = (mxChar*)(array_ptr->realdata);
     size_t N = mxGetNumberOfElements(array_ptr);
-    char* res = (char*)malloc(N + 1);
+    char* res = (char*)mxCalloc(N + 1, sizeof(char));
     if (res != nullptr) {
         for (size_t i = 0; i < N; i++) {
             res[i] = (char)p[i];
@@ -106,7 +106,7 @@ mxArrayToUTF8String(const mxArray* array_ptr)
         res[N] = 0;
         std::string ustr = Nelson::wstring_to_utf8(res);
         delete[] res;
-        char* utfres = (char*)malloc(sizeof(char) * (ustr.size() + 1));
+        char* utfres = (char*)mxCalloc((ustr.size() + 1), sizeof(char));
         if (utfres != nullptr) {
             strcpy(utfres, ustr.c_str());
         }
