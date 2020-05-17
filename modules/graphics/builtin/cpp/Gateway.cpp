@@ -27,12 +27,14 @@
 #include "InitializeGraphics.hpp"
 #include "figureBuiltin.hpp"
 #include "grootBuiltin.hpp"
+#include "gcfBuiltin.hpp"
 #include "graphic_object_dispBuiltin.hpp"
 #include "graphic_object_deleteBuiltin.hpp"
 #include "graphic_object_getBuiltin.hpp"
 #include "graphic_object_setBuiltin.hpp"
 #include "graphic_object_classBuiltin.hpp"
 #include "graphic_object_isvalidBuiltin.hpp"
+#include "graphic_object_fieldnamesBuiltin.hpp"
 #include "graphic_object_horzcat_graphic_objectBuiltin.hpp"
 #include "graphic_object_vertcat_graphic_objectBuiltin.hpp"
 //=============================================================================
@@ -45,12 +47,15 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "figure", (void*)Nelson::GraphicsGateway::figureBuiltin, 1, 2 },
     { "groot", (void*)Nelson::GraphicsGateway::grootBuiltin, 1, 0 },
+    { "gcf", (void*)Nelson::GraphicsGateway::gcfBuiltin, 1, 0 },
     { "graphic_object_delete", (void*)Nelson::GraphicsGateway::graphic_object_deleteBuiltin, 0, 1 },
     { "graphic_object_get", (void*)Nelson::GraphicsGateway::graphic_object_getBuiltin, 1, 2 },
     { "graphic_object_set", (void*)Nelson::GraphicsGateway::graphic_object_setBuiltin, 1, 3 },
     { "graphic_object_class", (void*)Nelson::GraphicsGateway::graphic_object_classBuiltin, 1, 1 },
     { "graphic_object_isvalid", (void*)Nelson::GraphicsGateway::graphic_object_isvalidBuiltin, 1,
         1 },
+    { "graphic_object_fieldnames", (void*)Nelson::GraphicsGateway::graphic_object_fieldnamesBuiltin,
+        1, 1 },
     { "graphic_object_horzcat_graphic_object",
         (void*)Nelson::GraphicsGateway::graphic_object_horzcat_graphic_objectBuiltin, 1, 2 },
     { "graphic_object_vertcat_graphic_object",
