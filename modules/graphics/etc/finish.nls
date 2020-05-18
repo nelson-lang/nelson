@@ -23,8 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-g = groot();
-delete(g.Children);
-clear g
 removegateway(modulepath(nelsonroot(), 'graphics', 'builtin'));
 //=============================================================================

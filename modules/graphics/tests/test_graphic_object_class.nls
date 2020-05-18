@@ -27,19 +27,19 @@
 // <--ENGLISH IMPOSED-->
 //=============================================================================
 c = groot;
-assert_isequal(class(c), 'Root');
+assert_isequal(class(c), 'root');
 assert_isequal(size(c), [1 1]);
 //=============================================================================
 a = figure(1);
-assert_isequal(class(a), 'Figure');
+assert_isequal(class(a), 'figure');
 assert_isequal(size(a), [1 1]);
 //=============================================================================
 d = [a, a];
-assert_isequal(class(d), 'Figure');
+assert_isequal(class(d), 'figure');
 assert_isequal(size(d), [1 2]);
 //=============================================================================
 e = [c, c];
-assert_isequal(class(e), 'Root');
+assert_isequal(class(e), 'root');
 assert_isequal(size(e), [1 2]);
 //=============================================================================
 f = [a,c];

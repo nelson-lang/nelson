@@ -25,6 +25,9 @@
 //=============================================================================
 #include "InitializeGraphics.hpp"
 #include "GraphicRoot.hpp"
+#include "GOWindowManager.hpp"
+#include "GraphicObjectDelete.hpp"
+#include "NewFigure.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,6 +35,18 @@ bool
 initializeGraphics()
 {
     createGraphicRoot();
+    return true;
+}
+//=============================================================================
+bool
+finishGraphics()
+{
+    std::vector<GOWindow*> goWindows = getGOWindows();
+    for (size_t k = 0; k < goWindows.size();  ++k) {
+        GOFigure* goPtr = newFigure(goWindows[k]->ID());
+        graphicObjectDelete(goPtr);
+    }
+    goWindows.clear();
     return true;
 }
 //=============================================================================

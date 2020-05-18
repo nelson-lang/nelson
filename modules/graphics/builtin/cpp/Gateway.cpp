@@ -72,7 +72,7 @@ initializeGraphicsModule(Nelson::Evaluator* eval)
 static bool
 finishGraphicsModule(Nelson::Evaluator* eval)
 {
-    return true;
+    return finishGraphics();
 }
 //=============================================================================
 NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeGraphicsModule)
