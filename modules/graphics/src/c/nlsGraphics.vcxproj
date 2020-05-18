@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\GOArrayOfProperty.cpp" />
+    <ClCompile Include="..\cpp\GOColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOOnOffSwitchProperty.cpp" />
     <ClCompile Include="..\cpp\GORoot.cpp" />
     <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp" />
@@ -79,6 +80,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOOnOffSwitchProperty.hpp" />
     <ClInclude Include="..\include\GOProperty.hpp" />
     <ClInclude Include="..\include\GOArrayOfProperty.hpp" />
