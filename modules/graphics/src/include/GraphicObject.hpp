@@ -97,6 +97,9 @@ public:
     setPropertyAsOnOffSwitchValue(const std::string& propertyName, const std::string& value);
     void
     setPropertyAsArrayOfValue(const std::string& propertyName, ArrayOf value);
+    void
+    setPropertyAsColorValue(
+        const std::string& propertyName, double R, double G, double B);
 };
 //=============================================================================
 } // namespace Nelson

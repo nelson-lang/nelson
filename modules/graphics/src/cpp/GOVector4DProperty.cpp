@@ -25,6 +25,7 @@
 //=============================================================================
 #include "GOVector4DProperty.hpp"
 #include "Error.hpp"
+#include "PrintPropertyHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,6 +40,20 @@ GOVector4DProperty::get()
     ptrDouble[2] = m_data[2];
     ptrDouble[3] = m_data[3];
     return ArrayOf(NLS_DOUBLE, dims, ptrDouble);
+}
+//=============================================================================
+void
+GOVector4DProperty::set(double v1, double v2, double v3, double v4)
+{
+    Dimensions dims(1, 4);
+    double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4);
+    ptr[0] = v1;
+    ptr[1] = v2;
+    ptr[2] = v3;
+    ptr[3] = v4;
+    ArrayOf _value = ArrayOf(NLS_DOUBLE, dims, ptr);
+    value(v1, v2, v3, v4);
+    GOProperty::set(_value);
 }
 //=============================================================================
 void
@@ -63,5 +78,17 @@ GOVector4DProperty::set(ArrayOf _value)
     GOProperty::set(_value);
 }
 //=============================================================================
+std::string
+GOVector4DProperty::print(const std::string& propertyName)
+{
+    std::string res = "\t" + propertyName + ":\t";
+    if (m_data.size() == 4) {
+        res = res + " [ " + printNumber(m_data[0]) + " " + printNumber(m_data[1]) + " "
+            + printNumber(m_data[2]) + " " + printNumber(m_data[3]) + " ]";
+    }
+    return res;
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

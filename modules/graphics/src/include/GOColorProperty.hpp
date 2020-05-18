@@ -65,11 +65,7 @@ public:
     }
     //=============================================================================
     std::string
-    print(const std::string& propertyName) override
-    {
-      std::string v = "[" + std::to_string(R) + ", " + std::to_string(G) + ", " + std::to_string(B) + "]";
-      return "\t" + propertyName + "\t" + v;
-    }
+    print(const std::string& propertyName);
     //=============================================================================
     void
     value(double r, double g, double b)

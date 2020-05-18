@@ -27,9 +27,13 @@
 //=============================================================================
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QDesktopWidget>
+#include <QtGui/QScreen>
+#include <QtGui/QGuiApplication>
 #include "GOWindow.hpp"
 #include "GOFigure.hpp"
 #include "QtBaseFigure.hpp"
+#include "DefaultProperties.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,7 +53,7 @@ GOWindow::GOWindow(unsigned id)
     m_layout->addWidget(m_qtChild);
     m_layout->show();
     box->addWidget(m_layout);
-    resize(600, 400);
+    resize(DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT);
     m_initialized = true;
 }
 //=============================================================================
@@ -101,5 +105,32 @@ GOWindow::mousePressEvent(QMouseEvent* e)
     m_loop.exit();
 }
 //=============================================================================
+QWidget*
+GOWindow::getQWidget()
+{
+    return m_qtChild;
+}
+//=============================================================================
+std::vector<double>
+GOWindow::getCurrentScreenGeometry()
+{
+    QPoint qPoint = this->pos();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+    QScreen *currentQScreen = QGuiApplication::screenAt(qPoint);
+    QRect currentScreenGeometry;
+    if (currentQScreen != nullptr) {
+        currentScreenGeometry = currentQScreen->geometry();
+    }
+#else
+    QRect currentScreenGeometry = QApplication::desktop()->screenGeometry(qPoint);
+#endif
+    std::vector<double> res;
+    res.reserve(4);
+    res.push_back(currentScreenGeometry.x());
+    res.push_back(currentScreenGeometry.y());
+    res.push_back(currentScreenGeometry.width());
+    res.push_back(currentScreenGeometry.height());
+    return res;
+}
 } // namespace Nelson
 //=============================================================================

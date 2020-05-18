@@ -63,6 +63,10 @@ public:
     closeEvent(QCloseEvent* e);
     void
     mousePressEvent(QMouseEvent* e);
+    QWidget*
+    getQWidget();
+    std::vector<double>
+    getCurrentScreenGeometry();
 };
 //=============================================================================
 } // namespace Nelson

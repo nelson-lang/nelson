@@ -42,6 +42,8 @@ private:
 public:
     QtRenderer(QPainter* painter, double x1, double y1, double width, double height);
     ~QtRenderer() override;
+    void
+    clear(std::vector<double> colors);
 };
 //=============================================================================
 } // namespace Nelson

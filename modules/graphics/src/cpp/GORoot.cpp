@@ -77,7 +77,7 @@ GORoot::initializeProperties()
     property->forceWriteProtected();
 
     setPropertyAsStringValue(TAG_PROPERTY_STR, "");
-
+    
     QScreen* mainScreen = QGuiApplication::primaryScreen();
     int screenDepth = mainScreen->depth();
     setPropertyAsScalarDoubleValue(SCREENDEPTH_PROPERTY_STR, screenDepth);
@@ -95,7 +95,7 @@ GORoot::initializeProperties()
     setPropertyAsVector2DValue(
         POINTERLOCATION_PROPERTY_STR, qPoint.x(), currentScreenGeometry.height() - qPoint.y());
 
-    QSize mainSize = mainScreen->availableSize();
+    QSize mainSize = mainScreen->size();
     setPropertyAsVector4DValue(
         SCREENSIZE_PROPERTY_STR, 1.0, 1.0, mainSize.width(), mainSize.height());
     property = this->searchProperty(SCREENSIZE_PROPERTY_STR);
@@ -141,18 +141,6 @@ bool
 GORoot::resized()
 {
     return m_resized;
-}
-//=============================================================================
-int
-GORoot::getWidth()
-{
-    return m_width;
-}
-//=============================================================================
-int
-GORoot::getHeight()
-{
-    return m_height;
 }
 //=============================================================================
 void
@@ -229,8 +217,6 @@ GORoot::paintMe(GraphicRenderer& gc)
 void
 GORoot::resizeGL(int width, int height)
 {
-    m_width = width;
-    m_height = height;
     m_resized = true;
     refreshProperties();
 }

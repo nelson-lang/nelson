@@ -37,7 +37,6 @@ class GOWindow;
 //=============================================================================
 class GOFigure : public GraphicObject
 {
-    int m_width, m_height;
     bool m_resized;
     GOWindow* m_win;
 
@@ -48,10 +47,6 @@ public:
     registerProperties();
     bool
     resized();
-    int
-    getWidth();
-    int
-    getHeight();
     void
     refreshProperties();
     virtual void
@@ -66,6 +61,32 @@ public:
     getParentWindow();
     uint64
     id();
+
+private:
+    void
+    refreshColorProperty();
+    void refreshOuterPositionProperty();
+    void
+    refreshInnerPositionProperty();
+    void
+    refreshPositionProperty();
+
+    void
+    applyBackgroundProperty();
+    void
+    applyVisibleProperty();
+    void
+    applyNameProperty();
+    void
+    applyOuterPositionProperty();
+    void
+    applyInnerPositionProperty();
+    void
+    applyPositionProperty();
+    int
+    computeYOuterInnerOffset();
+    int
+    computeXOuterInnerOffset();
 };
 //=============================================================================
 } // namespace Nelson

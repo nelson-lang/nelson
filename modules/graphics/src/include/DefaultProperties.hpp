@@ -25,41 +25,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GraphicObject.hpp"
-#include "GraphicRenderer.hpp"
-#include "GOWindow.hpp"
+#define DEFAULT_FIGURE_RED_COLOR 0.94
+#define DEFAULT_FIGURE_GREEN_COLOR 0.94
+#define DEFAULT_FIGURE_BLUE_COLOR 0.94
 //=============================================================================
-namespace Nelson {
+#define DEFAULT_FIGURE_WIDTH 800
+#define DEFAULT_FIGURE_HEIGHT 600
 //=============================================================================
-#define ROOT_TYPE_STR "root"
-//=============================================================================
-class GORoot : public GraphicObject
-{
-    bool m_resized;
-    void* m_qWindowPtr;
-
-public:
-    GORoot(void* qWindowPtr);
-    ~GORoot() override = default;
-    virtual void
-    registerProperties();
-    bool
-    resized();
-    int
-    getWidth();
-    int
-    getHeight();
-    void
-    refreshProperties();
-    virtual void
-    paintMe(GraphicRenderer& gc);
-    virtual void
-    resizeGL(int width, int height);
-    void
-    initializeProperties();
-    void
-    repaint();
-};
-//=============================================================================
-} // namespace Nelson
+#define DEFAULT_FIGURE_VISIBLE "on"
 //=============================================================================

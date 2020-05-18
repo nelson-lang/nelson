@@ -41,6 +41,7 @@
     <ClCompile Include="..\cpp\HorzCatGO.cpp" />
     <ClCompile Include="..\cpp\InitializeGraphics.cpp" />
     <ClCompile Include="..\cpp\NewFigure.cpp" />
+    <ClCompile Include="..\cpp\PrintPropertyHelpers.cpp" />
     <ClCompile Include="..\cpp\QtBaseFigure.cpp" />
     <ClCompile Include="..\cpp\QtBaseWindow.cpp" />
     <ClCompile Include="..\cpp\QtRenderer.cpp" />
@@ -80,6 +81,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\DefaultProperties.hpp" />
     <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOOnOffSwitchProperty.hpp" />
     <ClInclude Include="..\include\GOProperty.hpp" />
@@ -105,6 +107,7 @@
     <ClInclude Include="..\include\InitializeGraphics.hpp" />
     <ClInclude Include="..\include\NewFigure.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
+    <ClInclude Include="..\include\PrintPropertyHelpers.hpp" />
     <ClInclude Include="..\include\QtBaseFigure.hpp" />
     <ClInclude Include="..\include\QtBaseWindow.hpp" />
     <ClInclude Include="..\include\QtRenderer.hpp" />

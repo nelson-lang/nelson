@@ -23,43 +23,21 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "GraphicObject.hpp"
-#include "GraphicRenderer.hpp"
-#include "GOWindow.hpp"
+#include "PrintPropertyHelpers.hpp"
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define ROOT_TYPE_STR "root"
-//=============================================================================
-class GORoot : public GraphicObject
+std::string
+printNumber(double value)
 {
-    bool m_resized;
-    void* m_qWindowPtr;
-
-public:
-    GORoot(void* qWindowPtr);
-    ~GORoot() override = default;
-    virtual void
-    registerProperties();
-    bool
-    resized();
-    int
-    getWidth();
-    int
-    getHeight();
-    void
-    refreshProperties();
-    virtual void
-    paintMe(GraphicRenderer& gc);
-    virtual void
-    resizeGL(int width, int height);
-    void
-    initializeProperties();
-    void
-    repaint();
-};
+    std::string str = std::to_string(value);
+    str.erase(str.find_last_not_of('0') + 1, std::string::npos);
+    if (boost::ends_with(str, ".")) {
+        str.erase(str.size() - 1, std::string::npos);
+    }
+    return str;
+}
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

@@ -36,6 +36,8 @@ namespace Nelson {
 #define NUMBER_PROPERTY_STR "Number"
 #define USERDATA_PROPERTY_STR "UserData"
 #define SCREENDEPTH_PROPERTY_STR "ScreenDepth"
+#define OUTERPOSITION_PROPERTY_STR "OuterPosition"
+#define INNERPOSITION_PROPERTY_STR "InnerPosition"
 #define POSITION_PROPERTY_STR "Position"
 #define POINTERLOCATION_PROPERTY_STR "PointerLocation"
 #define SCREENSIZE_PROPERTY_STR "ScreenSize"
@@ -43,6 +45,7 @@ namespace Nelson {
 #define CURRENTFIGURE_PROPERTY_STR "CurrentFigure"
 #define CHILDREN_PROPERTY_STR "Children"
 #define NAME_PROPERTY_STR "Name"
+#define COLOR_PROPERTY_STR "Color"
 //=============================================================================
 class GOProperty
 {

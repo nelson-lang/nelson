@@ -37,12 +37,22 @@ QtRenderer::QtRenderer(QPainter* painter, double x1, double y1, double width, do
     _painter = painter;
     if (_painter != nullptr) {
         _painter->setRenderHint(QPainter::TextAntialiasing);
-        _painter->setPen(QColor(0, 0, 0));
-        _painter->setBrush(QColor(0, 0, 0));
     }
 }
 //=============================================================================
 QtRenderer::~QtRenderer() = default;
+//=============================================================================
+void
+QtRenderer::clear(std::vector<double> color)
+{
+    _painter->save();
+    QColor backgroundColor;
+    backgroundColor.setRgbF(color[0], color[1], color[2]);
+    _painter->setPen(Qt::NoPen);
+    _painter->setBrush(backgroundColor);
+    _painter->drawRect(m_x1, m_y1, m_width, m_height);
+    _painter->restore();
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

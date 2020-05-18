@@ -32,6 +32,7 @@
 #include "GOScalarLogicalProperty.hpp"
 #include "GOOnOffSwitchProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOColorProperty.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -171,6 +172,14 @@ GraphicObject::setPropertyAsArrayOfValue(const std::string& propertyName, ArrayO
 {
     auto* property = (GOArrayOfProperty*)searchProperty(propertyName);
     property->value(value);
+}
+//=============================================================================
+void
+GraphicObject::setPropertyAsColorValue(
+    const std::string& propertyName, double R, double G, double B)
+{
+    auto* property = (GOColorProperty*)searchProperty(propertyName);
+    property->value(R, G, B);
 }
 //=============================================================================
 } // namespace Nelson

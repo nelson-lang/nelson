@@ -26,6 +26,7 @@
 #include <QtGui/QColor>
 #include "GOColorProperty.hpp"
 #include "Error.hpp"
+#include "PrintPropertyHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,15 +43,22 @@ GOColorProperty::get()
 void
 GOColorProperty::set(ArrayOf _value)
 {
-    if (isWriteProtected()) {
-        Error(_W("Read only property."));
-    }
     Dimensions dims = _value.getDimensions();
-    if (_value.isVector() && _value.isDoubleType(true) && dims.getLength() == 3) {
+    if (_value.isVector() && _value.isDoubleType(true)
+        && (dims.getElementCount() == 3)) {
         double* ptr = (double*)_value.getDataPointer();
-        R = ptr[0];
-        G = ptr[1];
-        B = ptr[2];
+        QColor color;
+        color.setRgbF(ptr[0], ptr[1], ptr[2]);
+        if (!color.isValid()) {
+            Error(_("an valid [R, G, B] color expected."));
+        }
+        qreal r;
+        qreal g;
+        qreal b;
+        color.getRgbF(&r, &g, &b);
+        R = r;
+        G = g;
+        B = b;
     } else if (_value.isRowVectorCharacterArray()) {
         std::string colorName = _value.getContentAsCString();
         if (QColor::isValidColor(colorName.c_str())) {
@@ -59,8 +67,7 @@ GOColorProperty::set(ArrayOf _value)
             qreal r;
             qreal g;
             qreal b;
-            qreal a;
-            color.getRgbF(&r, &g, &b, &a);
+            color.getRgbF(&r, &g, &b);
             R = r;
             G = g;
             B = b;
@@ -73,5 +80,13 @@ GOColorProperty::set(ArrayOf _value)
     GOProperty::set(_value);
 }
 //=============================================================================
+std::string
+GOColorProperty::print(const std::string& propertyName)
+{
+    std::string v = "[" + printNumber(R) + " " + printNumber(G) + " " + printNumber(B) + "]";
+    return "\t" + propertyName + "\t" + v;
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================
