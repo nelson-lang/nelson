@@ -42,6 +42,7 @@ namespace Nelson {
 #define PARENT_PROPERTY_STR "Parent"
 #define CURRENTFIGURE_PROPERTY_STR "CurrentFigure"
 #define CHILDREN_PROPERTY_STR "Children"
+#define NAME_PROPERTY_STR "Name"
 //=============================================================================
 class GOProperty
 {

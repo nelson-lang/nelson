@@ -47,6 +47,7 @@ GOFigure::registerProperties()
     addProperty(TYPE_PROPERTY_STR, new GOStringProperty());
     addProperty(TAG_PROPERTY_STR, new GOStringProperty());
     addProperty(NUMBER_PROPERTY_STR, new GOScalarDoubleProperty());
+    addProperty(NAME_PROPERTY_STR, new GOStringProperty());
     addProperty(VISIBLE_PROPERTY_STR, new GOOnOffSwitchProperty());
     addProperty(USERDATA_PROPERTY_STR, new GOArrayOfProperty());
 }
@@ -69,6 +70,7 @@ GOFigure::initializeProperties()
     property->forceWriteProtected();
 
     setPropertyAsStringValue(TAG_PROPERTY_STR, "");
+    setPropertyAsStringValue(NAME_PROPERTY_STR, "");
 
     setPropertyAsOnOffSwitchValue(VISIBLE_PROPERTY_STR, "on");
     setPropertyAsArrayOfValue(USERDATA_PROPERTY_STR, ArrayOf::emptyConstructor());
@@ -121,6 +123,21 @@ GOFigure::repaint()
         auto* visibleProperty = (GOOnOffSwitchProperty*)property;
         m_win->setVisible(visibleProperty->asLogical());
     }
+
+    property = this->searchProperty(NAME_PROPERTY_STR);
+    if (property != nullptr) {
+        auto* nameProperty = (GOStringProperty*)property;
+        if (nameProperty != nullptr) {
+            std::string name = nameProperty->data();
+            std::string title = "Figure " + std::to_string(m_win->ID());
+            if (!name.empty()) {
+                title = title + ": " + name;
+
+            }
+            m_win->setWindowTitle(title.c_str());
+        }
+    }
+
     m_win->update();
 }
 //=============================================================================

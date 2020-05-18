@@ -39,9 +39,8 @@ GOWindow::GOWindow(unsigned id)
     // setWindowIcon(QPixmap(":/images/freemat_small_mod_64.png"));
     m_id = id;
     m_goFig = new GOFigure(this);
-    char buffer[1000];
-    sprintf(buffer, "Figure %d", id);
-    setWindowTitle(buffer);
+    std::string title = "Figure " + std::to_string(id);
+    setWindowTitle(title.c_str());
     m_qtChild = new QtBaseFigure(NULL, m_goFig);
     m_layout = new QStackedWidget(this);
     QHBoxLayout* box = new QHBoxLayout(this);
