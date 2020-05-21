@@ -146,6 +146,7 @@ modules_help_list = [
 "sio_client";
 "file_archiver";
 "webtools";
-"mex"
+"mex";
+"graphics"
 ];
 // ============================================================================

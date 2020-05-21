@@ -18,6 +18,7 @@ Try it !
   * string array (UNICODE supported).
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
+  * graphic objects (setting properties).
 
 - Fast Fourrier Transformation functions based on FFTW and MKL wrapper. 
 

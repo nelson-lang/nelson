@@ -39,7 +39,7 @@ newFigure()
 GOFigure*
 newFigure(uint64 id)
 {
-    GOWindow* goWin = getGOWindow(id);
+    GOWindow* goWin = getGOWindow(id, true);
     if (goWin == nullptr) {
         goWin = new GOWindow(id);
         addGOWindow(id, goWin);

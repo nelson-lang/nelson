@@ -97,11 +97,14 @@ findCurrentGOWindowID()
 }
 //=============================================================================
 GOWindow*
-getGOWindow(uint64 id)
+getGOWindow(uint64 id, bool selectIt)
 {
     GOWindow* res = nullptr;
     if (GOWindowMap.count(id) > 0) {
         res = GOWindowMap[id];
+        if (selectIt) {
+            lastID = id;
+        }
     }
     return res;
 }

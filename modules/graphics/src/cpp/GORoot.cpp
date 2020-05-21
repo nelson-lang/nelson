@@ -77,7 +77,7 @@ GORoot::initializeProperties()
     property->forceWriteProtected();
 
     setPropertyAsStringValue(TAG_PROPERTY_STR, "");
-    
+
     QScreen* mainScreen = QGuiApplication::primaryScreen();
     int screenDepth = mainScreen->depth();
     setPropertyAsScalarDoubleValue(SCREENDEPTH_PROPERTY_STR, screenDepth);

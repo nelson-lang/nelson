@@ -53,7 +53,7 @@ NLSGRAPHICS_IMPEXP bool
 removeGOWindow(uint64 id);
 //=============================================================================
 NLSGRAPHICS_IMPEXP GOWindow*
-getGOWindow(uint64 id);
+getGOWindow(uint64 id, bool selectIt = false);
 //=============================================================================
 NLSGRAPHICS_IMPEXP std::vector<GOWindow*>
 getGOWindows();

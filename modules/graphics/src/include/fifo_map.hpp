@@ -36,40 +36,33 @@ SOFTWARE.
 @brief namespace for Niels Lohmann
 @see https://github.com/nlohmann
 */
-namespace nlohmann
-{
+namespace nlohmann {
 
-template<class Key>
-class fifo_map_compare
+template <class Key> class fifo_map_compare
 {
-  public:
+public:
     /// constructor given a pointer to a key storage
-    fifo_map_compare(
-        std::unordered_map<Key, std::size_t>* keys,
-        std::size_t timestamp = 1)
-        :
-        m_timestamp(timestamp),
-        m_keys(keys)
+    fifo_map_compare(std::unordered_map<Key, std::size_t>* keys, std::size_t timestamp = 1)
+        : m_timestamp(timestamp), m_keys(keys)
     {}
 
     /*!
     This function compares two keys with respect to the order in which they
     were added to the container. For this, the mapping keys is used.
     */
-    bool operator()(const Key& lhs, const Key& rhs) const
+    bool
+    operator()(const Key& lhs, const Key& rhs) const
     {
         // look up timestamps for both keys
         const auto timestamp_lhs = m_keys->find(lhs);
         const auto timestamp_rhs = m_keys->find(rhs);
 
-        if (timestamp_lhs == m_keys->end())
-        {
+        if (timestamp_lhs == m_keys->end()) {
             // timestamp for lhs not found - cannot be smaller than for rhs
             return false;
         }
 
-        if (timestamp_rhs == m_keys->end())
-        {
+        if (timestamp_rhs == m_keys->end()) {
             // timestamp for rhs not found - timestamp for lhs is smaller
             return true;
         }
@@ -78,27 +71,24 @@ class fifo_map_compare
         return timestamp_lhs->second < timestamp_rhs->second;
     }
 
-    void add_key(const Key& key)
+    void
+    add_key(const Key& key)
     {
-        m_keys->insert({key, m_timestamp++});
+        m_keys->insert({ key, m_timestamp++ });
     }
 
-    void remove_key(const Key& key)
+    void
+    remove_key(const Key& key)
     {
         m_keys->erase(key);
     }
 
-  private:
+private:
     /// helper to access m_timestamp from fifo_map copy ctor,
     /// must have same number of template args as fifo_map
-    template <
-        class MapKey,
-        class MapT,
-        class MapCompare,
-        class MapAllocator
-        > friend class fifo_map;
+    template <class MapKey, class MapT, class MapCompare, class MapAllocator> friend class fifo_map;
 
-  private:
+private:
     /// the next valid insertion timestamp
     std::size_t m_timestamp = 1;
 
@@ -106,15 +96,11 @@ class fifo_map_compare
     std::unordered_map<Key, std::size_t>* m_keys = nullptr;
 };
 
-
-template <
-    class Key,
-    class T,
-    class Compare = fifo_map_compare<Key>,
-    class Allocator = std::allocator<std::pair<const Key, T>>
-    > class fifo_map
+template <class Key, class T, class Compare = fifo_map_compare<Key>,
+    class Allocator = std::allocator<std::pair<const Key, T>>>
+class fifo_map
 {
-  public:
+public:
     using key_type = Key;
     using mapped_type = T;
     using value_type = std::pair<const Key, T>;
@@ -134,20 +120,23 @@ template <
     using reverse_iterator = typename internal_map_type::reverse_iterator;
     using const_reverse_iterator = typename internal_map_type::const_reverse_iterator;
 
-  public:
+public:
     /// default constructor
     fifo_map() : m_keys(), m_compare(&m_keys), m_map(m_compare) {}
 
     /// copy constructor
-    fifo_map(const fifo_map &f) : m_keys(f.m_keys), m_compare(&m_keys, f.m_compare.m_timestamp), m_map(f.m_map.begin(), f.m_map.end(), m_compare) {}
+    fifo_map(const fifo_map& f)
+        : m_keys(f.m_keys)
+        , m_compare(&m_keys, f.m_compare.m_timestamp)
+        , m_map(f.m_map.begin(), f.m_map.end(), m_compare)
+    {}
 
     /// constructor for a range of elements
-    template<class InputIterator>
+    template <class InputIterator>
     fifo_map(InputIterator first, InputIterator last)
         : m_keys(), m_compare(&m_keys), m_map(m_compare)
     {
-        for (auto it = first; it != last; ++it)
-        {
+        for (auto it = first; it != last; ++it) {
             insert(*it);
         }
     }
@@ -155,25 +144,25 @@ template <
     /// constructor for a list of elements
     fifo_map(std::initializer_list<value_type> init) : fifo_map()
     {
-        for (auto x : init)
-        {
+        for (auto x : init) {
             insert(x);
         }
     }
-
 
     /*
      * Element access
      */
 
     /// access specified element with bounds checking
-    T& at(const Key& key)
+    T&
+    at(const Key& key)
     {
         return m_map.at(key);
     }
 
     /// access specified element with bounds checking
-    const T& at(const Key& key) const
+    const T&
+    at(const Key& key) const
     {
         return m_map.at(key);
     }
@@ -192,153 +181,170 @@ template <
         return m_map[key];
     }
 
-
     /*
      * Iterators
      */
 
     /// returns an iterator to the beginning
-    iterator begin() noexcept
+    iterator
+    begin() noexcept
     {
         return m_map.begin();
     }
 
     /// returns an iterator to the end
-    iterator end() noexcept
+    iterator
+    end() noexcept
     {
         return m_map.end();
     }
 
     /// returns an iterator to the beginning
-    const_iterator begin() const noexcept
+    const_iterator
+    begin() const noexcept
     {
         return m_map.begin();
     }
 
     /// returns an iterator to the end
-    const_iterator end() const noexcept
+    const_iterator
+    end() const noexcept
     {
         return m_map.end();
     }
 
     /// returns an iterator to the beginning
-    const_iterator cbegin() const noexcept
+    const_iterator
+    cbegin() const noexcept
     {
         return m_map.cbegin();
     }
 
     /// returns an iterator to the end
-    const_iterator cend() const noexcept
+    const_iterator
+    cend() const noexcept
     {
         return m_map.cend();
     }
 
     /// returns a reverse iterator to the beginning
-    reverse_iterator rbegin() noexcept
+    reverse_iterator
+    rbegin() noexcept
     {
         return m_map.rbegin();
     }
 
     /// returns a reverse iterator to the end
-    reverse_iterator rend() noexcept
+    reverse_iterator
+    rend() noexcept
     {
         return m_map.rend();
     }
 
     /// returns a reverse iterator to the beginning
-    const_reverse_iterator rbegin() const noexcept
+    const_reverse_iterator
+    rbegin() const noexcept
     {
         return m_map.rbegin();
     }
 
     /// returns a reverse iterator to the end
-    const_reverse_iterator rend() const noexcept
+    const_reverse_iterator
+    rend() const noexcept
     {
         return m_map.rend();
     }
 
     /// returns a reverse iterator to the beginning
-    const_reverse_iterator crbegin() const noexcept
+    const_reverse_iterator
+    crbegin() const noexcept
     {
         return m_map.crbegin();
     }
 
     /// returns a reverse iterator to the end
-    const_reverse_iterator crend() const noexcept
+    const_reverse_iterator
+    crend() const noexcept
     {
         return m_map.crend();
     }
-
 
     /*
      * Capacity
      */
 
     /// checks whether the container is empty
-    bool empty() const noexcept
+    bool
+    empty() const noexcept
     {
         return m_map.empty();
     }
 
     /// returns the number of elements
-    size_type size() const noexcept
+    size_type
+    size() const noexcept
     {
         return m_map.size();
     }
 
     /// returns the maximum possible number of elements
-    size_type max_size() const noexcept
+    size_type
+    max_size() const noexcept
     {
         return m_map.max_size();
     }
-
 
     /*
      * Modifiers
      */
 
     /// clears the contents
-    void clear() noexcept
+    void
+    clear() noexcept
     {
         m_map.clear();
         m_keys.clear();
     }
 
     /// insert value
-    std::pair<iterator, bool> insert(const value_type& value)
+    std::pair<iterator, bool>
+    insert(const value_type& value)
     {
         m_compare.add_key(value.first);
         return m_map.insert(value);
     }
 
     /// insert value
-    template<class P>
-    std::pair<iterator, bool> insert( P&& value )
+    template <class P>
+    std::pair<iterator, bool>
+    insert(P&& value)
     {
         m_compare.add_key(value.first);
         return m_map.insert(value);
     }
 
     /// insert value with hint
-    iterator insert(const_iterator hint, const value_type& value)
+    iterator
+    insert(const_iterator hint, const value_type& value)
     {
         m_compare.add_key(value.first);
         return m_map.insert(hint, value);
     }
 
     /// insert value with hint
-    iterator insert(const_iterator hint, value_type&& value)
+    iterator
+    insert(const_iterator hint, value_type&& value)
     {
         m_compare.add_key(value.first);
         return m_map.insert(hint, value);
     }
 
     /// insert value range
-    template<class InputIt>
-    void insert(InputIt first, InputIt last)
+    template <class InputIt>
+    void
+    insert(InputIt first, InputIt last)
     {
-        for (const_iterator it = first; it != last; ++it)
-        {
+        for (const_iterator it = first; it != last; ++it) {
             m_compare.add_key(it->first);
         }
 
@@ -346,10 +352,10 @@ template <
     }
 
     /// insert value list
-    void insert(std::initializer_list<value_type> ilist)
+    void
+    insert(std::initializer_list<value_type> ilist)
     {
-        for (auto value : ilist)
-        {
+        for (auto value : ilist) {
             m_compare.add_key(value.first);
         }
 
@@ -357,8 +363,9 @@ template <
     }
 
     /// constructs element in-place
-    template<class... Args>
-    std::pair<iterator, bool> emplace(Args&& ... args)
+    template <class... Args>
+    std::pair<iterator, bool>
+    emplace(Args&&... args)
     {
         typename fifo_map::value_type value(std::forward<Args>(args)...);
         m_compare.add_key(value.first);
@@ -366,8 +373,9 @@ template <
     }
 
     /// constructs element in-place with hint
-    template<class... Args>
-    iterator emplace_hint(const_iterator hint, Args&& ... args)
+    template <class... Args>
+    iterator
+    emplace_hint(const_iterator hint, Args&&... args)
     {
         typename fifo_map::value_type value(std::forward<Args>(args)...);
         m_compare.add_key(value.first);
@@ -375,17 +383,18 @@ template <
     }
 
     /// remove element at position
-    iterator erase(const_iterator pos)
+    iterator
+    erase(const_iterator pos)
     {
         m_compare.remove_key(pos->first);
         return m_map.erase(pos);
     }
 
     /// remove elements in range
-    iterator erase(const_iterator first, const_iterator last)
+    iterator
+    erase(const_iterator first, const_iterator last)
     {
-        for (const_iterator it = first; it != last; ++it)
-        {
+        for (const_iterator it = first; it != last; ++it) {
             m_compare.remove_key(it->first);
         }
 
@@ -393,12 +402,12 @@ template <
     }
 
     /// remove elements with key
-    size_type erase(const key_type& key)
+    size_type
+    erase(const key_type& key)
     {
         size_type res = m_map.erase(key);
 
-        if (res > 0)
-        {
+        if (res > 0) {
             m_compare.remove_key(key);
         }
 
@@ -406,119 +415,133 @@ template <
     }
 
     /// swaps the contents
-    void swap(fifo_map& other)
+    void
+    swap(fifo_map& other)
     {
         std::swap(m_map, other.m_map);
         std::swap(m_compare, other.m_compare);
         std::swap(m_keys, other.m_keys);
     }
 
-
     /*
      * Lookup
      */
 
     /// returns the number of elements matching specific key
-    size_type count(const Key& key) const
+    size_type
+    count(const Key& key) const
     {
         return m_map.count(key);
     }
 
     /// finds element with specific key
-    iterator find(const Key& key)
+    iterator
+    find(const Key& key)
     {
         return m_map.find(key);
     }
 
     /// finds element with specific key
-    const_iterator find(const Key& key) const
+    const_iterator
+    find(const Key& key) const
     {
         return m_map.find(key);
     }
 
     /// returns range of elements matching a specific key
-    std::pair<iterator, iterator> equal_range(const Key& key)
+    std::pair<iterator, iterator>
+    equal_range(const Key& key)
     {
         return m_map.equal_range(key);
     }
 
     /// returns range of elements matching a specific key
-    std::pair<const_iterator, const_iterator> equal_range(const Key& key) const
+    std::pair<const_iterator, const_iterator>
+    equal_range(const Key& key) const
     {
         return m_map.equal_range(key);
     }
 
     /// returns an iterator to the first element not less than the given key
-    iterator lower_bound(const Key& key)
+    iterator
+    lower_bound(const Key& key)
     {
         return m_map.lower_bound(key);
     }
 
     /// returns an iterator to the first element not less than the given key
-    const_iterator lower_bound(const Key& key) const
+    const_iterator
+    lower_bound(const Key& key) const
     {
         return m_map.lower_bound(key);
     }
 
     /// returns an iterator to the first element greater than the given key
-    iterator upper_bound(const Key& key)
+    iterator
+    upper_bound(const Key& key)
     {
         return m_map.upper_bound(key);
     }
 
     /// returns an iterator to the first element greater than the given key
-    const_iterator upper_bound(const Key& key) const
+    const_iterator
+    upper_bound(const Key& key) const
     {
         return m_map.upper_bound(key);
     }
-
 
     /*
      * Observers
      */
 
     /// returns the function that compares keys
-    key_compare key_comp() const
+    key_compare
+    key_comp() const
     {
         return m_compare;
     }
-
 
     /*
      * Non-member functions
      */
 
-    friend bool operator==(const fifo_map& lhs, const fifo_map& rhs)
+    friend bool
+    operator==(const fifo_map& lhs, const fifo_map& rhs)
     {
         return lhs.m_map == rhs.m_map;
     }
 
-    friend bool operator!=(const fifo_map& lhs, const fifo_map& rhs)
+    friend bool
+    operator!=(const fifo_map& lhs, const fifo_map& rhs)
     {
         return lhs.m_map != rhs.m_map;
     }
 
-    friend bool operator<(const fifo_map& lhs, const fifo_map& rhs)
+    friend bool
+    operator<(const fifo_map& lhs, const fifo_map& rhs)
     {
         return lhs.m_map < rhs.m_map;
     }
 
-    friend bool operator<=(const fifo_map& lhs, const fifo_map& rhs)
+    friend bool
+    operator<=(const fifo_map& lhs, const fifo_map& rhs)
     {
         return lhs.m_map <= rhs.m_map;
     }
 
-    friend bool operator>(const fifo_map& lhs, const fifo_map& rhs)
+    friend bool
+    operator>(const fifo_map& lhs, const fifo_map& rhs)
     {
         return lhs.m_map > rhs.m_map;
     }
 
-    friend bool operator>=(const fifo_map& lhs, const fifo_map& rhs)
+    friend bool
+    operator>=(const fifo_map& lhs, const fifo_map& rhs)
     {
         return lhs.m_map >= rhs.m_map;
     }
 
-  private:
+private:
     /// the keys
     std::unordered_map<Key, std::size_t> m_keys;
     /// the comparison object
@@ -530,11 +553,11 @@ template <
 }
 
 // specialization of std::swap
-namespace std
-{
+namespace std {
 template <class Key, class T, class Compare, class Allocator>
-inline void swap(nlohmann::fifo_map<Key, T, Compare, Allocator>& m1,
-                 nlohmann::fifo_map<Key, T, Compare, Allocator>& m2)
+inline void
+swap(nlohmann::fifo_map<Key, T, Compare, Allocator>& m1,
+    nlohmann::fifo_map<Key, T, Compare, Allocator>& m2)
 {
     m1.swap(m2);
 }

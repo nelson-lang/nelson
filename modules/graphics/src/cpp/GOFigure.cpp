@@ -215,14 +215,14 @@ GOFigure::applyBackgroundProperty()
     if (property != nullptr) {
         GOColorProperty* colorProperty = (GOColorProperty*)property;
         if (colorProperty->isModified()) {
-          
+
             QColor qColor;
             std::vector<double> color = colorProperty->data();
             qColor.setRedF(color[0]);
             qColor.setGreenF(color[1]);
             qColor.setBlueF(color[2]);
             QWidget* qWidget = m_win->getQWidget();
-            QPalette px = qWidget   ->palette();
+            QPalette px = qWidget->palette();
             px.setColor(QPalette::Window, qColor);
             qWidget->setPalette(px);
             qWidget->update();
@@ -296,7 +296,8 @@ GOFigure::applyInnerPositionProperty()
                 std::vector<double> positions = innerPositionProperty->data();
                 int xOffset = computeXOuterInnerOffset();
                 int yOffset = computeYOuterInnerOffset();
-                QRect qRect(positions[0] - xOffset + 1, positions[1] - yOffset + 1, positions[2], positions[3]);
+                QRect qRect(positions[0] - xOffset + 1, positions[1] - yOffset + 1, positions[2],
+                    positions[3]);
                 m_win->resize(qRect.size());
                 m_win->move(qRect.topLeft());
                 innerPositionProperty->clearModified();
@@ -316,7 +317,8 @@ GOFigure::applyPositionProperty()
                 std::vector<double> positions = positionProperty->data();
                 int xOffset = computeXOuterInnerOffset();
                 int yOffset = computeYOuterInnerOffset();
-                QRect qRect(positions[0], positions[1], positions[2] - xOffset, positions[3] - yOffset);
+                QRect qRect(
+                    positions[0], positions[1], positions[2] - xOffset, positions[3] - yOffset);
                 m_win->resize(qRect.size());
                 m_win->move(qRect.topLeft());
                 positionProperty->clearModified();

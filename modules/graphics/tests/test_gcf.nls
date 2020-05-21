@@ -23,23 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+// <--ADV-CLI MODE--> 
 //=============================================================================
-#include "nlsGraphics_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-class GraphicRenderer
-{
-public:
-    GraphicRenderer() = default;
-    ;
-    virtual ~GraphicRenderer() = default;
-    virtual void
-    clear(std::vector<double>)
-        = 0;
-    ;
-};
-//=============================================================================
-}
+f = figure(1)
+g = figure(2)
+h = figure(3)
+figure(g);
+c = gcf();
+assert_isequal(c.Number, 2);
 //=============================================================================

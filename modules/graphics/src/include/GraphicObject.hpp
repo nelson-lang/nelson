@@ -98,8 +98,7 @@ public:
     void
     setPropertyAsArrayOfValue(const std::string& propertyName, ArrayOf value);
     void
-    setPropertyAsColorValue(
-        const std::string& propertyName, double R, double G, double B);
+    setPropertyAsColorValue(const std::string& propertyName, double R, double G, double B);
 };
 //=============================================================================
 } // namespace Nelson

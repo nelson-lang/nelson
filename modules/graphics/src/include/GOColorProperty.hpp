@@ -37,6 +37,7 @@ protected:
     double R;
     double G;
     double B;
+
 public:
     //=============================================================================
     GOColorProperty() = default;

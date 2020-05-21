@@ -116,7 +116,7 @@ GOWindow::getCurrentScreenGeometry()
 {
     QPoint qPoint = this->pos();
 #if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
-    QScreen *currentQScreen = QGuiApplication::screenAt(qPoint);
+    QScreen* currentQScreen = QGuiApplication::screenAt(qPoint);
     QRect currentScreenGeometry;
     if (currentQScreen != nullptr) {
         currentScreenGeometry = currentQScreen->geometry();

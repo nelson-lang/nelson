@@ -65,7 +65,8 @@ public:
 private:
     void
     refreshColorProperty();
-    void refreshOuterPositionProperty();
+    void
+    refreshOuterPositionProperty();
     void
     refreshInnerPositionProperty();
     void
