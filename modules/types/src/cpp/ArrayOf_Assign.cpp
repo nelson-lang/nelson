@@ -693,6 +693,11 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const uint64*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, advance);
             break;
+        case NLS_GO_HANDLE:
+            setNDimSubsetDispatchReal<nelson_handle>(colonIndex, static_cast<nelson_handle*>(qp),
+                static_cast<const nelson_handle*>(rightData.getDataPointer()), outDimsInt,
+                srcDimsInt, indx, L, advance);
+            break;
         case NLS_HANDLE:
             setNDimSubsetDispatchReal<nelson_handle>(colonIndex, static_cast<nelson_handle*>(qp),
                 static_cast<const nelson_handle*>(rightData.getDataPointer()), outDimsInt,

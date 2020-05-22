@@ -107,6 +107,7 @@
 #include "Colon.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
+#include "ClassToString.hpp"
 #include "IsValidVariableName.hpp"
 //=============================================================================
 #ifdef _MSC_VER
@@ -2008,7 +2009,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
             // add default behavior;
         } else {
             std::string fieldname = t->down->text;
-            if (r.isHandle()) {
+            if (r.isHandle() || r.isGraphicObject()) {
                 setHandle(r, fieldname, value);
             } else if (r.isStruct() || r.isEmpty()) {
                 r.setFieldAsList(fieldname, value);
@@ -3700,7 +3701,7 @@ Evaluator::rhsExpression(ASTPtr t)
                     t = t->right;
                 }
                 rv = extractClass(r, fieldname, params);
-            } else if (r.isHandle()) {
+            } else if (r.isHandle() || r.isGraphicObject()) {
                 ArrayOfVector params;
                 logical isValidMethod = false;
                 try {
@@ -4270,7 +4271,12 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     if (fieldvalue.size() != 1) {
         Error(_W("Right hand values must satisfy left hand side expression."));
     }
-    std::wstring currentType = r.getHandleCategory();
+    std::wstring currentType;
+    if (r.isGraphicObject()) {
+        currentType = ClassToString(r.getDataClass());
+    } else {
+        currentType = r.getHandleCategory();
+    }
     std::wstring ufunctionNameSetHandle = currentType + L"_set";
     std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
     Context* _context = this->getContext();
@@ -4293,10 +4299,17 @@ ArrayOfVector
 Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
 {
     ArrayOfVector argIn;
-    std::wstring currentType = r.getHandleCategory();
+    std::wstring currentType;
+    std::string functionNameCurrentType;
+    if (r.isGraphicObject()) {
+        currentType = ClassToString(r.getDataClass());
+        functionNameCurrentType = ClassName(r) + "_" + fieldname;
+    } else {
+        currentType = r.getHandleCategory();
+        functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
+    }
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
     if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {

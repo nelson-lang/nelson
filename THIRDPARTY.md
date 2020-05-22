@@ -288,3 +288,11 @@ Asio C++ Library
 
 > https://github.com/chriskohlhoff/asio/blob/master/asio/COPYING (Boost 1.0)
 
+
+- fifo_map
+
+a FIFO-ordered associative container for C++
+
+> https://github.com/nlohmann/fifo_map
+
+> https://github.com/nlohmann/fifo_map/blob/master/LICENSE.MIT MIT license

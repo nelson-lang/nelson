@@ -1,10 +1,24 @@
 # 0.4.5 (2020-05-XX)
 
+* graphic object type added.
+
+* figure builtin: creates figure.
+
+* gcf builtin: get current figure.
+
+* groot builtin: returns graphic root object.
+
+* get, set, isvalid, class, fieldnames, delete, disp builtin overloaded to manage graphic objects.
+
 * test_run: tests are sorted on all platforms.
 
-* mex supports build with MinGW compiler.
+* C MEX supports build with MinGW compiler.
 
 * mxArray and ArrayOf conversion optimized.
+
+* C MEX interleaved complex support.
+
+* C MEX Sparse type fully supported.
 
 
 Bug Fixes:

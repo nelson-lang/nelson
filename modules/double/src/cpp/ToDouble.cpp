@@ -50,6 +50,7 @@ ToDouble(ArrayOf A, bool& needToOverload)
 {
     needToOverload = false;
     switch (A.getDataClass()) {
+    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         needToOverload = true;
         return ArrayOf();

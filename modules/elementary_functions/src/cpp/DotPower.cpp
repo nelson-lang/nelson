@@ -707,6 +707,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         return res;
     } break;
     case NLS_LOGICAL:
+    case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:

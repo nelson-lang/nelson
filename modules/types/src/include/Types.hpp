@@ -35,6 +35,9 @@
 
 namespace Nelson {
 
+#define PTR_TO_NELSON_HANDLE(x) (uint64_t)(uintptr_t)(x)
+#define NELSON_HANDLE_TO_PTR(x) (uintptr_t)(uint64_t)(x)
+
 #if (defined(_LP64) || defined(_WIN64))
 #define NLS_INDEX_TYPE_64
 #endif
@@ -78,7 +81,7 @@ using charType = wchar_t;
 using single = float;
 using constIndexPtr = const indexType*;
 using function_handle = size_t;
-using nelson_handle = long;
+using nelson_handle = uint64_t;
 
 #define doublecomplex std::complex<double>
 #define singlecomplex std::complex<single>
@@ -93,7 +96,8 @@ using nelson_handle = long;
 typedef enum
 {
     NLS_NOT_TYPED = -1,
-    NLS_HANDLE = 0,
+    NLS_GO_HANDLE = 0,
+    NLS_HANDLE,
     NLS_CELL_ARRAY,
     NLS_STRUCT_ARRAY,
     NLS_STRING_ARRAY,
@@ -134,6 +138,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_DCOMPLEX_STR "double"
 #define NLS_CHAR_STR "char"
 #define NLS_FUNCTION_HANDLE_STR "function_handle"
+#define NLS_GO_HANDLE_STR "graphic_object"
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"

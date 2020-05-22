@@ -35,7 +35,9 @@ std::string
 ClassName(ArrayOf In)
 {
     std::string classString = wstring_to_utf8(ClassToString(In.getDataClass()));
-    if (In.getDataClass() == NLS_HANDLE) {
+    if (In.getDataClass() == NLS_GO_HANDLE) {
+        classString = NLS_GO_HANDLE_STR;
+    } else if (In.getDataClass() == NLS_HANDLE) {
         classString = NLS_HANDLE_STR;
         /* handle can be 'handle' or another type but not mixed */
         Dimensions dimsIn = In.getDimensions();

@@ -33,6 +33,9 @@ ClassToString(Class classType)
 {
     std::wstring classString;
     switch (classType) {
+    case NLS_GO_HANDLE: {
+        classString = utf8_to_wstring(NLS_GO_HANDLE_STR);
+    } break;
     case NLS_HANDLE: {
         classString = utf8_to_wstring(NLS_HANDLE_STR);
     } break;
