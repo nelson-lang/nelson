@@ -22,6 +22,7 @@
 
   * C MEX Sparse type fully supported.
 
+  * mxGetClassName, mxSetClassName fully supported.
 
 Bug Fixes:
 ---------

@@ -23,21 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <mex.h>
 //=============================================================================
-#include "mex.h"
-#include "ArrayOf.hpp"
-#include "nlsMex_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSMEX_IMPEXP
-mxArray*
-ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex);
-//=============================================================================
-NLSMEX_IMPEXP
-ArrayOf
-MxArrayToArrayOf(const mxArray* mtlbArray);
-//=============================================================================
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+    if (nlhs > 1) {
+       mexErrMsgTxt("Wrong number of output argument.");
+    }
+    if (nrhs != 1) {
+        mexErrMsgTxt("Wrong number of input argument.");
+    }
+    plhs[0] = mxCreateString(mxGetClassName(prhs[0]));
 }
 //=============================================================================

@@ -30,7 +30,22 @@
 mxArray*
 mxNewArray()
 {
-    return (mxArray*)mxMalloc(sizeof(mxArray));
+    mxArray* res = (mxArray*)mxMalloc(sizeof(mxArray));
+    res->dims = nullptr;
+    res->imagdata = nullptr;
+    res->realdata = nullptr;
+    res->ptr = nullptr;
+    res->interleavedcomplex = false;
+    res->Ir = nullptr;
+    res->Jc = nullptr;
+    res->nIr = 0;
+    res->nJc = 0;
+    res->iscomplex = false;
+    res->issparse = false;
+    res->classID = mxUNKNOWN_CLASS;
+    res->number_of_dims = 0;
+    res->nzmax = 0;
+    return res;
 }
 //=============================================================================
 mxArray*

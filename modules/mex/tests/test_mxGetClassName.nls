@@ -23,21 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+// <--ADV-CLI MODE--> 
 //=============================================================================
-#include "mex.h"
-#include "ArrayOf.hpp"
-#include "nlsMex_exports.h"
+if ~isbuiltin('mxGetClassName')
+    status = copyfile('mxGetClassName.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxGetClassName.c');
+    run('loader.nls');
+end
 //=============================================================================
-namespace Nelson {
+R = mxGetClassName(pi);
+assert_isequal(R, 'double');
 //=============================================================================
-NLSMEX_IMPEXP
-mxArray*
-ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex);
+R = mxGetClassName(single(pi));
+assert_isequal(R, 'single');
 //=============================================================================
-NLSMEX_IMPEXP
-ArrayOf
-MxArrayToArrayOf(const mxArray* mtlbArray);
+R = mxGetClassName(true);
+assert_isequal(R, 'logical');
 //=============================================================================
-}
+R = mxGetClassName(int8(3));
+assert_isequal(R, 'int8');
+//=============================================================================
+S.ce = 1;
+S.st = 'r';
+R = mxGetClassName(S);
+assert_isequal(R, 'struct');
+//=============================================================================
+C = {'1', 4};
+R = mxGetClassName(C);
+assert_isequal(R, 'cell');
+//=============================================================================
+f = figure(33);
+R = mxGetClassName(f);
+assert_isequal(R, 'graphic_object');
 //=============================================================================

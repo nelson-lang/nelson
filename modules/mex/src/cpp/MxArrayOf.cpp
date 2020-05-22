@@ -312,7 +312,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
 #endif
 //=============================================================================
 static ArrayOf
-MxArraySparseToSparseDoubleArrayOf(mxArray* pm)
+MxArraySparseToSparseDoubleArrayOf(const mxArray* pm)
 {
     mwSize nIr = pm->nIr;
     mwSize nJc = pm->nJc;
@@ -364,7 +364,7 @@ MxArraySparseToSparseDoubleArrayOf(mxArray* pm)
 }
 //=============================================================================
 static ArrayOf
-MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
+MxArraySparseToSparseDoubleComplexArrayOf(const mxArray* pm)
 {
     ArrayOf res;
     mwSize nIr = pm->nIr;
@@ -464,7 +464,7 @@ MxArraySparseToSparseDoubleComplexArrayOf(mxArray* pm)
 }
 //=============================================================================
 static ArrayOf
-MxArraySparseToSparseLogicalArrayOf(mxArray* pm)
+MxArraySparseToSparseLogicalArrayOf(const mxArray* pm)
 {
     mwSize nIr = pm->nIr;
     mwSize nJc = pm->nJc;
@@ -516,7 +516,7 @@ MxArraySparseToSparseLogicalArrayOf(mxArray* pm)
 }
 //=============================================================================
 static ArrayOf
-MxArraySparseToArrayOf(mxArray* pm)
+MxArraySparseToArrayOf(const mxArray* pm)
 {
     ArrayOf res;
     switch (pm->classID) {
@@ -561,6 +561,27 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         }
     } break;
     case NLS_STRUCT_ARRAY: {
+        res = mxNewArray();
+        if (res != nullptr) {
+            mwSize num_dim;
+            mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
+            res->number_of_dims = num_dim;
+            res->dims = dim_vec;
+            res->classID = mxSTRUCT_CLASS;
+            res->issparse = false;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = false;
+            res->imagdata = nullptr;
+            res->realdata = nullptr;
+            res->nzmax = 0;
+            res->nIr = 0;
+            res->nJc = 0;
+            res->Jc = nullptr;
+            res->Ir = nullptr;
+            auto* ptr = new ArrayOf(nlsArrayOf);
+            ptr->ensureSingleOwner();
+            res->ptr = (uint64_t*)ptr;
+        }
         res = mxNewArray();
         if (res != nullptr) {
             mwSize num_dim;
@@ -639,6 +660,29 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
     case NLS_CHAR: {
         res = ArrayOfRealToMexArray<mxChar, charType>(nlsArrayOf, mxCHAR_CLASS);
     } break;
+    case NLS_GO_HANDLE: {
+        res = mxNewArray();
+        if (res != nullptr) {
+            mwSize num_dim;
+            mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
+            res->number_of_dims = num_dim;
+            res->dims = dim_vec;
+            res->classID = mxOBJECT_CLASS;
+            res->issparse = false;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = false;
+            res->imagdata = nullptr;
+            res->realdata = nullptr;
+            res->nzmax = 0;
+            res->nIr = 0;
+            res->nJc = 0;
+            res->Jc = nullptr;
+            res->Ir = nullptr;
+            auto* ptr = new ArrayOf(nlsArrayOf);
+            ptr->ensureSingleOwner();
+            res->ptr = (uint64_t*)ptr;
+        }
+    } break;
     default: {
         Error(_("C MEX type not managed."));
     } break;
@@ -647,7 +691,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 }
 //=============================================================================
 ArrayOf
-MxArrayToArrayOf(mxArray* pm)
+MxArrayToArrayOf(const mxArray* pm)
 {
     ArrayOf res;
     if (pm == nullptr || (pm->dims == nullptr && pm->number_of_dims == 0)) {
@@ -801,6 +845,12 @@ MxArrayToArrayOf(mxArray* pm)
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint64, uint64>((mxUint64*)pm->realdata, (uint64*)cp, N);
+    } break;
+    case mxOBJECT_CLASS: {
+        auto* ptr = (ArrayOf*)pm->ptr;
+        res = ArrayOf(*ptr);
+        res.ensureSingleOwner();
+        return res;
     } break;
     default: {
         Error(_("C MEX type not managed."));

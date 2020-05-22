@@ -29,6 +29,7 @@
 #include "MxTypes.h"
 #include "ArrayOf.hpp"
 #include "ClassName.hpp"
+#include "MxArrayOf.hpp"
 //=============================================================================
 bool
 mxIsClass(const mxArray* pm, const char* classname)
@@ -97,17 +98,21 @@ mxGetClassID(const mxArray* pm)
     return mxUNKNOWN_CLASS;
 }
 //=============================================================================
+static char* mxClassName = nullptr;
+//=============================================================================
 const char*
 mxGetClassName(const mxArray* pm)
 {
+    if (mxClassName != nullptr) {
+        free(mxClassName);
+        mxClassName = nullptr;
+    }
     if (pm != nullptr) {
-        if (pm->ptr != nullptr) {
-            auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-            if (ptr->isClassStruct()) {
-                std::string name = Nelson::ClassName(*ptr);
-                return name.c_str();
-            }
-        }
+        Nelson::ArrayOf nlsArrayOf = Nelson::MxArrayToArrayOf(pm);
+        std::string name = Nelson::ClassName(nlsArrayOf);
+        mxClassName = (char*)calloc(sizeof(char), name.size() + 1);
+        strcpy(mxClassName, name.c_str());
+        return mxClassName;
     }
     return nullptr;
 }
@@ -135,6 +140,12 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
     mxArray* res = nullptr;
     if (pa != nullptr) {
         if (pa->ptr != nullptr) {
+            auto* ptr = (Nelson::ArrayOf*)pa->ptr;
+            bool isSupportedObject
+                = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicObject();
+            if (!isSupportedObject) {
+                mexErrMsgTxt(_("mxGetProperty object expected.").c_str());
+            }
         }
     }
     return res;
@@ -144,7 +155,15 @@ void
 mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* value)
 {
     if (pa != nullptr) {
-        if (pa->ptr != nullptr) {
+        if (pa != nullptr) {
+            if (pa->ptr != nullptr) {
+                auto* ptr = (Nelson::ArrayOf*)pa->ptr;
+                bool isSupportedObject
+                    = ptr->isClassStruct() || ptr->isHandle() || ptr->isGraphicObject();
+                if (!isSupportedObject) {
+                    mexErrMsgTxt(_("mxSetProperty object expected.").c_str());
+                }
+            }
         }
     }
 }

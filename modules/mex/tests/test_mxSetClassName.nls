@@ -23,21 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+// <--ADV-CLI MODE--> 
 //=============================================================================
-#include "mex.h"
-#include "ArrayOf.hpp"
-#include "nlsMex_exports.h"
+if ~isbuiltin('mxSetClassName')
+    status = copyfile('mxSetClassName.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxSetClassName.c');
+    run('loader.nls');
+end
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSMEX_IMPEXP
-mxArray*
-ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex);
-//=============================================================================
-NLSMEX_IMPEXP
-ArrayOf
-MxArrayToArrayOf(const mxArray* mtlbArray);
-//=============================================================================
-}
+addpath([nelsonroot(), '/modules/overload/examples/complex']);
+ST.r = 1;
+ST.i = 3;
+R = mxSetClassName(ST);
+assert_isequal(class(R), 'complexObj');
 //=============================================================================
