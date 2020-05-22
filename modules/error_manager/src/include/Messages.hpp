@@ -306,3 +306,11 @@
     _W("Wrong type for argument #3: handle expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE_HANDLE_EXPECTED                                                \
     _W("Wrong type for argument #%d: handle expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_GRAPHIC_OBJECT_EXPECTED                                        \
+    _W("Wrong type for argument #1: graphic object expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_GRAPHIC_OBJECT_EXPECTED                                        \
+    _W("Wrong type for argument #2: graphic object expected.")
+#define ERROR_WRONG_ARGUMENT_3_TYPE_GRAPHIC_OBJECT_EXPECTED                                        \
+    _W("Wrong type for argument #3: graphic object expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_GRAPHIC_OBJECT_EXPECTED                                        \
+    _W("Wrong type for argument #%d: graphic object expected.")

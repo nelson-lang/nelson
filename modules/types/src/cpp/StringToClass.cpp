@@ -29,42 +29,47 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#define TOWSTRING_(x) L##x
+#define TOWSTRING(x) TOWSTRING_(x)
+//=============================================================================
 Class
 StringToClass(const std::wstring& classname, bool& haveError)
 {
     Class destClass = NLS_NOT_TYPED;
     haveError = false;
-    if (classname.compare(L"handle") == 0) {
+    if (classname.compare(TOWSTRING(NLS_GO_HANDLE_STR)) == 0) {
+        destClass = NLS_GO_HANDLE;
+    } else if (classname.compare(TOWSTRING(NLS_HANDLE_STR)) == 0) {
         destClass = NLS_HANDLE;
-    } else if (classname.compare(L"int8") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_INT8_STR)) == 0) {
         destClass = NLS_INT8;
-    } else if (classname.compare(L"int16") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_INT16_STR)) == 0) {
         destClass = NLS_INT16;
-    } else if (classname.compare(L"int32") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_INT32_STR)) == 0) {
         destClass = NLS_INT32;
-    } else if (classname.compare(L"int64") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_INT64_STR)) == 0) {
         destClass = NLS_INT64;
-    } else if (classname.compare(L"uint8") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_UINT8_STR)) == 0) {
         destClass = NLS_UINT8;
-    } else if (classname.compare(L"uint16") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_UINT16_STR)) == 0) {
         destClass = NLS_UINT16;
-    } else if (classname.compare(L"uint32") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_UINT32_STR)) == 0) {
         destClass = NLS_UINT32;
-    } else if (classname.compare(L"uint64") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_UINT64_STR)) == 0) {
         destClass = NLS_UINT64;
-    } else if (classname.compare(L"single") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_SINGLE_STR)) == 0) {
         destClass = NLS_SINGLE;
-    } else if (classname.compare(L"double") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_DOUBLE_STR)) == 0) {
         destClass = NLS_DOUBLE;
-    } else if (classname.compare(L"logical") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_LOGICAL_STR)) == 0) {
         destClass = NLS_LOGICAL;
-    } else if (classname.compare(L"char") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_CHAR_STR)) == 0) {
         destClass = NLS_CHAR;
-    } else if (classname.compare(L"cell") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_CELL_ARRAY_STR)) == 0) {
         destClass = NLS_CELL_ARRAY;
-    } else if (classname.compare(L"string") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_STRING_ARRAY_STR)) == 0) {
         destClass = NLS_STRING_ARRAY;
-    } else if (classname.compare(L"struct") == 0) {
+    } else if (classname.compare(TOWSTRING(NLS_STRUCT_ARRAY_STR)) == 0) {
         destClass = NLS_STRUCT_ARRAY;
     } else {
         haveError = true;

@@ -23,6 +23,7 @@
     <p>When deleted, any references to the objects in h become invalid.</p>
     <p>To remove the handle variables, use the clear function.</p>
     <p>See clear function about how to force delete with clear function.</p>
+
 </description>
   <used_function></used_function>
   <bibliography></bibliography>

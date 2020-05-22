@@ -430,6 +430,9 @@ ArrayOf::toOrdinalType()
         dp = dp->putData(NLS_UINT32, dp->getDimensions(), lp);
 #endif
     } break;
+    case NLS_GO_HANDLE: {
+        Error(_W("Cannot convert handle arrays to indices."));
+    } break;
     case NLS_HANDLE: {
         Error(_W("Cannot convert handle arrays to indices."));
     } break;
@@ -748,6 +751,8 @@ ArrayOf::getElementSize() const
         Error(_W("Invalid data class."));
     }
     switch (dp->dataClass) {
+    case NLS_GO_HANDLE:
+        return sizeof(nelson_handle);
     case NLS_HANDLE:
         return sizeof(nelson_handle);
     case NLS_STRING_ARRAY:
@@ -893,6 +898,7 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_CHAR:
+    case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_STRUCT_ARRAY:
         retval = false;
@@ -1017,7 +1023,8 @@ bool
 ArrayOf::isReferenceType() const
 {
     return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY)
-        || (dp->dataClass == NLS_STRING_ARRAY) || (dp->dataClass == NLS_HANDLE);
+        || (dp->dataClass == NLS_STRING_ARRAY) || (dp->dataClass == NLS_HANDLE)
+        || (dp->dataClass == NLS_GO_HANDLE);
 }
 //=============================================================================
 /**
@@ -1085,6 +1092,7 @@ ArrayOf::allReal() const
             }
         }
     } break;
+    case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:

@@ -57,6 +57,7 @@ isSupportedType(ArrayOf ValueToEncode)
         return false;
     }
     switch (ValueToEncode.getDataClass()) {
+    case NLS_GO_HANDLE:
     case NLS_HANDLE:
         return false;
     case NLS_STRING_ARRAY:
@@ -449,6 +450,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         switch (ValueToEncode.getDataClass()) {
         case NLS_DCOMPLEX:
         case NLS_SCOMPLEX:
+        case NLS_GO_HANDLE:
         case NLS_HANDLE: {
             errorMessage = _W("Unsupported type to convert as JSON.");
             return ArrayOf();

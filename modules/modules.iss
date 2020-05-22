@@ -87,5 +87,6 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "profiler/module.iss"
 #include "file_archiver/module.iss"
 #include "webtools/module.iss"
+#include "graphics/module.iss"
 #include "mex/module.iss"
 ;==============================================================================

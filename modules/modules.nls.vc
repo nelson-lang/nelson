@@ -78,6 +78,7 @@ modules_list = [
 "profiler";
 "characters_encoding";
 "webtools";
+"graphics";
 "mex"
 ];
 // ============================================================================
@@ -145,6 +146,8 @@ modules_help_list = [
 "sio_client";
 "file_archiver";
 "webtools";
-"mex"
+"graphics";
+"mex";
+"graphics"
 ];
 // ============================================================================

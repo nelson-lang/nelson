@@ -1,3 +1,16 @@
+# 0.4.5 (2020-05-XX)
+
+* graphic object type added.
+
+* figure builtin: creates figure.
+
+* gcf builtin: get current figure.
+
+* groot builtin: returns graphic root object.
+
+* get, set, isvalid, class, fieldnames, delete, disp builtin overloaded to manage graphic objects.
+
+
 # 0.4.4 (2020-04-29)
 
 * lookandfeel builtin: default current application look and feel.
