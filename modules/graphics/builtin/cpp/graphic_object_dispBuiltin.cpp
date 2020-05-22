@@ -46,7 +46,7 @@ Nelson::GraphicsGateway::graphic_object_dispBuiltin(
         Error(_W("graphic_object expected."));
     }
     Dimensions dims = paramGo.getDimensions();
-    nelson_handle* ptrGO = (nelson_handle*)paramGo.getDataPointer();
+    auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
     graphicObjectDisplay(eval->getInterface(), dims, ptrGO);
     return retval;
 }

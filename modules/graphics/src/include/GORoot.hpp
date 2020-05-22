@@ -41,8 +41,8 @@ class GORoot : public GraphicObject
 public:
     GORoot(void* qWindowPtr);
     ~GORoot() override = default;
-    virtual void
-    registerProperties();
+    void
+    registerProperties() override;
     bool
     resized();
     int
@@ -50,7 +50,7 @@ public:
     int
     getHeight();
     void
-    refreshProperties();
+    refreshProperties() override;
     virtual void
     paintMe(GraphicRenderer& gc);
     virtual void

@@ -43,12 +43,12 @@ class GOFigure : public GraphicObject
 public:
     GOFigure(GOWindow* win);
     ~GOFigure() override = default;
-    virtual void
-    registerProperties();
+    void
+    registerProperties() override;
     bool
     resized();
     void
-    refreshProperties();
+    refreshProperties() override;
     virtual void
     paintMe(GraphicRenderer& gc);
     virtual void

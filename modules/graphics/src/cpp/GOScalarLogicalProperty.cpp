@@ -31,7 +31,7 @@ namespace Nelson {
 ArrayOf
 GOScalarLogicalProperty::get()
 {
-    return ArrayOf::logicalConstructor(m_data != 0u);
+    return ArrayOf::logicalConstructor(m_data != 0U);
 }
 //=============================================================================
 void

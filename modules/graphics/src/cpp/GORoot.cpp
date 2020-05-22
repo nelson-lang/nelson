@@ -108,7 +108,7 @@ GORoot::initializeProperties()
         gcf.promoteType(NLS_GO_HANDLE);
     } else {
         GOWindow* goWin = getGOWindow(currentFigureID);
-        if (goWin) {
+        if (goWin != nullptr) {
             gcf = ArrayOf::graphicObjectConstructor(goWin->getGOFigure());
         }
     }
@@ -181,7 +181,7 @@ GORoot::refreshProperties()
             gcf.promoteType(NLS_GO_HANDLE);
         } else {
             GOWindow* goWin = getGOWindow(currentFigureID);
-            if (goWin) {
+            if (goWin != nullptr) {
                 gcf = ArrayOf::graphicObjectConstructor(goWin->getGOFigure());
             }
         }

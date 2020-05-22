@@ -48,19 +48,19 @@ Nelson::GraphicsGateway::graphic_object_classBuiltin(int nLhs, const ArrayOfVect
     std::string classType = NLS_GO_HANDLE_STR;
     if (!dims.isEmpty(false)) {
         if (dims.isScalar()) {
-            GraphicObject* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
-            if (go) {
+            auto* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
+            if (go != nullptr) {
                 classType = go->getType();
             }
         } else {
-            nelson_handle* qp = (nelson_handle*)paramGo.getDataPointer();
-            GraphicObject* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(qp[0]);
-            if (go) {
+            auto* qp = (nelson_handle*)paramGo.getDataPointer();
+            auto* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(qp[0]);
+            if (go != nullptr) {
                 classType = go->getType();
             }
             for (size_t k = 1; k < dims.getElementCount(); ++k) {
                 go = (GraphicObject*)NELSON_HANDLE_TO_PTR(qp[k]);
-                if (go) {
+                if (go != nullptr) {
                     if (classType != go->getType()) {
                         classType = NLS_GO_HANDLE_STR;
                         break;

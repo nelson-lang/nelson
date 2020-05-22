@@ -42,7 +42,7 @@ Nelson::GraphicsGateway::graphic_object_isvalidBuiltin(int nLhs, const ArrayOfVe
     logical* res = (logical*)ArrayOf::allocateArrayOf(
         NLS_LOGICAL, dims.getElementCount(), stringVector(), true);
     ArrayOf values = ArrayOf(NLS_LOGICAL, dims, res);
-    nelson_handle* ptrGO = (nelson_handle*)paramGo.getDataPointer();
+    auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
     if (!dims.isEmpty(false)) {
         if (ptrGO != nullptr) {
             for (size_t k = 0; k < dims.getElementCount(); ++k) {

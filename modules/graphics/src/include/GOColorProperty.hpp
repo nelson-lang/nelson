@@ -66,7 +66,7 @@ public:
     }
     //=============================================================================
     std::string
-    print(const std::string& propertyName);
+    print(const std::string& propertyName) override;
     //=============================================================================
     void
     value(double r, double g, double b)

@@ -85,10 +85,10 @@ findCurrentGOWindowID()
     uint64 currentGOWindowId = 0;
     std::vector<GOWindow*> goWins = getGOWindows();
     size_t nbWindows = goWins.size();
-    if (nbWindows) {
+    if (nbWindows != 0u) {
         if (nbWindows - 1 > 0) {
             GOWindow* res = getGOWindow(nbWindows - 1);
-            if (res) {
+            if (res != nullptr) {
                 currentGOWindowId = res->ID();
             }
         }

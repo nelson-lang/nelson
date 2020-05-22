@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <math.h>
+#include <cmath>
 #include "NewFigure.hpp"
 #include "figureBuiltin.hpp"
 #include "Error.hpp"

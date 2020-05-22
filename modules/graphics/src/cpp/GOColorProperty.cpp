@@ -45,7 +45,7 @@ GOColorProperty::set(ArrayOf _value)
 {
     Dimensions dims = _value.getDimensions();
     if (_value.isVector() && _value.isDoubleType(true) && (dims.getElementCount() == 3)) {
-        double* ptr = (double*)_value.getDataPointer();
+        auto* ptr = (double*)_value.getDataPointer();
         QColor color;
         color.setRgbF(ptr[0], ptr[1], ptr[2]);
         if (!color.isValid()) {

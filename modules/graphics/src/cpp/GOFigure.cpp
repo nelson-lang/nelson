@@ -116,7 +116,9 @@ GOFigure::refreshColorProperty()
         QPalette qPalette = qWidget->palette();
         QBrush qBrush = qPalette.base();
         QColor qColor = qBrush.color();
-        qreal r, g, b;
+        qreal r;
+        qreal g;
+        qreal b;
         qColor.getRgbF(&r, &g, &b);
         GOProperty* property = this->searchProperty(COLOR_PROPERTY_STR);
         if (property != nullptr) {
@@ -213,7 +215,7 @@ GOFigure::applyBackgroundProperty()
 {
     GOProperty* property = this->searchProperty(COLOR_PROPERTY_STR);
     if (property != nullptr) {
-        GOColorProperty* colorProperty = (GOColorProperty*)property;
+        auto* colorProperty = (GOColorProperty*)property;
         if (colorProperty->isModified()) {
 
             QColor qColor;

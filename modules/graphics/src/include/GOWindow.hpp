@@ -60,9 +60,9 @@ public:
     void
     getClick(int& x, int& y);
     void
-    closeEvent(QCloseEvent* e);
+    closeEvent(QCloseEvent* e) override;
     void
-    mousePressEvent(QMouseEvent* e);
+    mousePressEvent(QMouseEvent* e) override;
     QWidget*
     getQWidget();
     std::vector<double>

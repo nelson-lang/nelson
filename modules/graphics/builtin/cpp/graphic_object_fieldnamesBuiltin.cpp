@@ -48,7 +48,7 @@ Nelson::GraphicsGateway::graphic_object_fieldnamesBuiltin(int nLhs, const ArrayO
     if (!paramGo.isScalar()) {
         Error(_W("Scalar graphic_object expected."));
     }
-    GraphicObject* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
+    auto* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
     retval.push_back(ToCellStringAsColumn(go->getPropertiesName()));
     return retval;
 }

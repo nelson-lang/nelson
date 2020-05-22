@@ -35,11 +35,11 @@ Nelson::GraphicsGateway::graphic_object_deleteBuiltin(int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     ArrayOf paramGo = argIn[0];
-    nelson_handle* ptrGO = (nelson_handle*)paramGo.getDataPointer();
+    auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
     if (ptrGO != nullptr) {
         indexType nbElements = paramGo.getDimensions().getElementCount();
         for (indexType k = 0; k < nbElements; ++k) {
-            GraphicObject* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(ptrGO[k]);
+            auto* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(ptrGO[k]);
             if (go != nullptr) {
                 if (!graphicObjectDelete(go)) {
                     Error(_W("Cannot delete graphic_object."));
