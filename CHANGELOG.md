@@ -12,13 +12,15 @@
 
 * test_run: tests are sorted on all platforms.
 
-* C MEX supports build with MinGW compiler.
+* [IN PROGRESS] C MEX API:
 
-* mxArray and ArrayOf conversion optimized.
+  * C MEX supports build with MinGW compiler.
 
-* C MEX interleaved complex support.
+  * mxArray and ArrayOf conversion optimized.
 
-* C MEX Sparse type fully supported.
+  * C MEX interleaved complex support.
+
+  * C MEX Sparse type fully supported.
 
 
 Bug Fixes:
