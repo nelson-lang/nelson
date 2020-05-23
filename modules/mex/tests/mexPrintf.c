@@ -23,12 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "mex.h"
+#include <mex.h>
 //=============================================================================
 void
 mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    for (size_t i = 0; i < 2; ++i){
+    size_t i = 0;
+    for (i = 0; i < 2; ++i){
         mexPrintf ("Result %d\n", i);
     }
 }

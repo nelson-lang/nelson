@@ -301,13 +301,11 @@ PathFuncManager::removePath(const std::wstring& path)
     for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pf = *it;
-        if (pf) {
+        if (pf != nullptr) {
             boost::filesystem::path p1{ pf->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 PathFunc* pf = *it;
-                if (pf) {
-                    delete pf;
-                }
+                delete pf;
                 _pathFuncVector.erase(it);
                 return true;
             }

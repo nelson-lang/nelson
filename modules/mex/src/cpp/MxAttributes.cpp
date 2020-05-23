@@ -46,7 +46,7 @@ mxIsComplex(const mxArray* pm)
     if (pm == nullptr) {
         return false;
     }
-    return (pm->iscomplex != 0);
+    return (pm->iscomplex);
 }
 //=============================================================================
 mwSize
@@ -86,7 +86,7 @@ mxSetDimensions(mxArray* pm, const mwSize* dims, mwSize ndim)
         ndim--;
     }
     pm->number_of_dims = ndim;
-    free(pm->dims);
+    mxFree(pm->dims);
     pm->dims = copyDims(ndim, dims);
     return 0;
 }

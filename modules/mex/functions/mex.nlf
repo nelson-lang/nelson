@@ -24,67 +24,108 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function mex(varargin)
-    if nargin() == 0
-        error(_('Wrong number of input arguments.'));
+  if nargin() == 0
+    error(_('Wrong number of input arguments.'));
+  end
+  params = varargin(:)';
+  filenames = getFilenames(params);
+  [status, apiVersion] = containsApiVersion(params);
+  hasinterleavedcomplex = false;
+  interleavedComplex = '';
+  if status
+    if strcmp(apiVersion, '-R2018a') == true
+      hasinterleavedcomplex = true;
+      interleavedComplex = 'MX_HAS_INTERLEAVED_COMPLEX';
     end
-    interleavedComplex = '';
-    filenames = {};
-    functionName = '';
-    param1 = varargin{1};
-    idxFilenames = 1;
-    if strcmp(param1, '-output')
-        functionName = varargin{2};
-        idxFilenames = 3;
-    else
-        [p, f, e ] = fileparts(varargin{1});
-        functionName = f;
-    end
-    api = varargin{idxFilenames};
-    if strcmp(api, '-R2018a') || strcmp(api, '-R2017b')
-        idxFilenames = idxFilenames + 1;
-        if strcmp(api, '-R2018a')
-            interleavedComplex = 'MX_HAS_INTERLEAVED_COMPLEX';
-        end
-    end
-    if isempty(interleavedComplex)
-        defines = {};
-    else
-        defines = { interleavedComplex };
-    end
-    filenames = varargin(idxFilenames:end);
-    destinationPath = fileparts(varargin{idxFilenames}, 'path');
-    if isempty(destinationPath)
-        destinationPath = pwd();
-    end
-    build_configuration = [];
-    if ~ispc()
-        c_flags = '-Werror=implicit-function-declaration';
-        cxx_flags = '-Werror=implicit-function-declaration';
-    else
-        c_flags = [];
-        cxx_flags = [];
-    end
-    builtin_table = {{functionName, -1, -1, 'C_MEX_BUILTIN'}};
-    dlgeneratecleaner(destinationPath);
-    dlgenerategateway(destinationPath, functionName, builtin_table);
-    filenames = [filenames, 'Gateway.cpp'];
-    [status, message] = dlgeneratemake(destinationPath, ...
-    functionName, ...
-    filenames, ...
-     [{destinationPath}; dlgetnelsonincludes()], ...
-     defines, ...
-     dlgetnelsonlibraries(), ...
-     build_configuration, ...
-     c_flags, ...
-     cxx_flags);
-    if ~status
-        error(message);
-    end
-    dlgenerateloader(destinationPath, functionName, true);
-    dlgenerateunloader(destinationPath, functionName, true);
-    [status, message] = dlmake(destinationPath);
-    if ~status
-        error(message);
-    end
-
+  end
+  [status, outputName] = containsOutput(params);    
+  if status
+    functionName = outputName;
+  else
+    [p, f, e ] = fileparts(filenames{1});
+    functionName = f;
+  end
+  if isempty(interleavedComplex)
+    defines = {};
+  else
+    defines = { interleavedComplex };
+  end
+  destinationPath = fileparts(filenames{1}, 'path');
+  if isempty(destinationPath)
+    destinationPath = pwd();
+  end
+  build_configuration = [];
+  if ~ispc()
+    c_flags = '-Werror=implicit-function-declaration';
+    cxx_flags = '-Werror=implicit-function-declaration';
+  else
+    c_flags = [];
+    cxx_flags = [];
+  end
+  dlgeneratecleaner(destinationPath);
+  dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
+  filenames = [filenames, 'mexGateway.c'];
+  [status, message] = dlgeneratemake(destinationPath, ...
+  functionName, ...
+  filenames, ...
+  [{destinationPath}; dlgetnelsonincludes()], ...
+  defines, ...
+  dlgetnelsonlibraries(), ...
+  build_configuration, ...
+  c_flags, ...
+  cxx_flags);
+  if ~status
+    error(message);
+  end
+  dlgenerateloader(destinationPath, functionName, true);
+  dlgenerateunloader(destinationPath, functionName, true);
+  [status, message] = dlmake(destinationPath);
+  if ~status
+    error(message);
+  end
 endfunction
+//=============================================================================
+function [status, apiVersion] = containsApiVersion(params)
+  status = false;
+  apiVersion = '-R2017b';
+  for v = params
+    if ischar(v{1})
+      if strcmp(v{1}, '-R2018a') || strcmp(v{1}, '-R2017b')
+        status = true;
+        apiVersion = v{1};
+        break;
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function [status, outputName] = containsOutput(params)
+  status = false;
+  outputName = '';
+  p = 1;
+  len = length(params);
+  for p = 1:len
+    v = params{p};
+    if ischar(v)
+      if strcmp(v, '-output') == true
+        outputName = params{p + 1};
+        status = true;
+        break;
+      end
+    end
+    p = p + 1;
+  end
+endfunction
+//=============================================================================
+function filenames = getFilenames(params)
+  filenames = {};
+  for p = params
+    if ischar(p{1}) && isfile(p{1})
+      isSupportedExtensions = endsWith(p{1}, '.c', 'IgnoreCase', true) || endsWith(p{1}, '.cpp', 'IgnoreCase', true);
+      if isSupportedExtensions
+        filenames{end + 1} = p{1};
+      end
+    end
+  end
+endfunction
+//=============================================================================

@@ -40,7 +40,8 @@ public:
     getInstance();
     bool
     add(const std::string& name, void* fptr, int argc_in, int argc_out,
-        const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype);
+        const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
+        bool interleavedComplex);
 
     bool
     remove(const std::string& name);

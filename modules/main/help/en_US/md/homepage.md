@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.4.4.0
+### Nelson 0.4.5.0
 
 This is an pre-release of Nelson.
 
@@ -20,13 +20,13 @@ Try it !
   * handle objects.
   * graphic objects (setting properties).
 
-- Fast Fourrier Transformation functions based on FFTW and MKL wrapper. 
+- Fast Fourrier Transformation functions based on FFTW and MKL wrapper,
 
-- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
+- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional),
 
-- Message Passing Interface (MPI): functions for parallel computing.
+- Message Passing Interface (MPI): functions for parallel computing,
 
-- JSON decode/encode data support.
+- JSON decode/encode data support,
 
 - HDF5 high-level functions I/O,
 
@@ -34,19 +34,21 @@ Try it !
 
 - MAT-file compatible load/save workspace,
 
-- RESTful API web service.
+- C MEX API compatibility creates and shares mexFunction,
 
-- Foreign Function Interface C/Fortran.
+- Foreign Function Interface C/Fortran,
 
-- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
+- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly),
 
-- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
+- RESTful API web service,
 
-- Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
+- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework,
 
-- Write/Read xlsx files on Windows using COM.
+- Component Object Model (COM) client interface: binary-interface standard for software components on Windows,
 
-- Embedded Nelson code editor.
+- Write/Read xlsx files on Windows using COM,
+
+- Embedded Nelson code editor,
 
 - Help engine: 
 

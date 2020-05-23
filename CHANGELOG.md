@@ -10,6 +10,38 @@
 
 * get, set, isvalid, class, fieldnames, delete, disp builtin overloaded to manage graphic objects.
 
+* test_run: tests are sorted on all platforms.
+
+* [IN PROGRESS] C MEX API:
+
+  * C MEX supports build with MinGW compiler.
+
+  * mxArray and ArrayOf conversion optimized.
+
+  * C MEX interleaved complex support.
+
+  * C MEX Sparse type fully supported.
+
+  * mxGetClassName, mxSetClassName fully supported.
+
+  * mxGetProperty, mxSetProperty fully supported (handle, graphic object, ...).
+
+
+Bug Fixes:
+---------
+
+  * [#295](http://github.com/Nelson-numerical-software/nelson/issues/295): sort did not return an wrong error message for struct.
+
+
+Compilation:
+------------
+
+* libcurl 7.70.0 on Windows.
+
+* cmake 3.17.2 on Windows.
+
+* CA certificate (Wed Jan 1 04:12:10 2020 GMT)
+
 
 # 0.4.4 (2020-04-29)
 

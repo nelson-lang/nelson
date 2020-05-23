@@ -25,18 +25,30 @@
 //=============================================================================
 #include "matrix.h"
 #include "MxHelpers.hpp"
+#include "MxNumericTypes.h"
 //=============================================================================
 mxArray*
-mxCreateNumericArray(mwSize ndim, const mwSize* dims, mxClassID classid, mxComplexity ComplexFlag)
+mxCreateNumericArraySeparatedComplex(
+    mwSize ndim, const mwSize* dims, mxClassID classid, mxComplexity ComplexFlag)
 {
     if (ComplexFlag == mxREAL) {
         return mxAllocateRealArray(ndim, dims, sizeFromClass(classid), classid);
     }
-    return mxAllocateComplexArray(ndim, dims, sizeFromClass(classid), classid);
+    return mxAllocateSeparatedComplexArray(ndim, dims, sizeFromClass(classid), classid);
 }
 //=============================================================================
 mxArray*
-mxCreateDoubleMatrix(mwSize m, mwSize n, mxComplexity ComplexFlag)
+mxCreateNumericArrayInterleavedComplex(
+    mwSize ndim, const mwSize* dims, mxClassID classid, mxComplexity ComplexFlag)
+{
+    if (ComplexFlag == mxREAL) {
+        return mxAllocateRealArray(ndim, dims, sizeFromClass(classid), classid);
+    }
+    return mxAllocateInterleavedComplexArray(ndim, dims, sizeFromClass(classid), classid);
+}
+//=============================================================================
+mxArray*
+mxCreateDoubleMatrixSeparatedComplex(mwSize m, mwSize n, mxComplexity ComplexFlag)
 {
     mwSize dims[2];
     dims[0] = m;
@@ -44,30 +56,54 @@ mxCreateDoubleMatrix(mwSize m, mwSize n, mxComplexity ComplexFlag)
     if (ComplexFlag == mxREAL) {
         return mxAllocateRealArray(2, dims, sizeof(mxDouble), mxDOUBLE_CLASS);
     }
-    return mxAllocateComplexArray(2, dims, sizeof(mxDouble), mxDOUBLE_CLASS);
+    return mxAllocateSeparatedComplexArray(2, dims, sizeof(mxDouble), mxDOUBLE_CLASS);
+}
+//=============================================================================
+mxArray*
+mxCreateDoubleMatrixInterleavedComplex(mwSize m, mwSize n, mxComplexity ComplexFlag)
+{
+    mwSize dims[2];
+    dims[0] = m;
+    dims[1] = n;
+    if (ComplexFlag == mxREAL) {
+        return mxAllocateRealArray(2, dims, sizeof(mxDouble), mxDOUBLE_CLASS);
+    }
+    return mxAllocateInterleavedComplexArray(2, dims, sizeof(mxDouble), mxDOUBLE_CLASS);
 }
 //=============================================================================
 mxArray*
 mxCreateDoubleScalar(double value)
 {
     mxArray* ret = mxCreateDoubleMatrix(1, 1, mxREAL);
-    if (ret) {
+    if (ret != nullptr) {
         ((double*)ret->realdata)[0] = value;
     }
     return ret;
 }
 //=============================================================================
 mxArray*
-mxCreateNumericMatrix(mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag)
+mxCreateNumericMatrixSeparatedComplex(
+    mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag)
 {
     mwSize dims[2];
     dims[0] = m;
     dims[1] = n;
-    return mxCreateNumericArray(2, dims, classid, ComplexFlag);
+    return mxCreateNumericArraySeparatedComplex(2, dims, classid, ComplexFlag);
 }
 //=============================================================================
 mxArray*
-mxCreateUninitNumericMatrix(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag)
+mxCreateNumericMatrixInterleavedComplex(
+    mwSize m, mwSize n, mxClassID classid, mxComplexity ComplexFlag)
+{
+    mwSize dims[2];
+    dims[0] = m;
+    dims[1] = n;
+    return mxCreateNumericArrayInterleavedComplex(2, dims, classid, ComplexFlag);
+}
+//=============================================================================
+mxArray*
+mxCreateUninitNumericMatrixSeparatedComplex(
+    size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag)
 {
     mwSize dims[2];
     dims[0] = m;
@@ -75,17 +111,43 @@ mxCreateUninitNumericMatrix(size_t m, size_t n, mxClassID classid, mxComplexity 
     if (ComplexFlag == mxREAL) {
         return mxAllocateRealArray(2, dims, sizeFromClass(classid), classid, false);
     }
-    return mxAllocateComplexArray(2, dims, sizeFromClass(classid), classid, false);
+    return mxAllocateSeparatedComplexArray(2, dims, sizeFromClass(classid), classid, false);
 }
 //=============================================================================
 mxArray*
-mxCreateUninitNumericArray(size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag)
+mxCreateUninitNumericMatrixInterleavedComplex(
+    size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag)
+{
+    mwSize dims[2];
+    dims[0] = m;
+    dims[1] = n;
+    if (ComplexFlag == mxREAL) {
+        return mxAllocateRealArray(2, dims, sizeFromClass(classid), classid, false);
+    }
+    return mxAllocateInterleavedComplexArray(2, dims, sizeFromClass(classid), classid, false);
+}
+//=============================================================================
+mxArray*
+mxCreateUninitNumericArraySeparatedComplex(
+    size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag)
 {
     if (ComplexFlag == mxREAL) {
         return mxAllocateRealArray(
             (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
     }
-    return mxAllocateComplexArray(
+    return mxAllocateSeparatedComplexArray(
+        (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
+}
+//=============================================================================
+mxArray*
+mxCreateUninitNumericArrayInterleavedComplex(
+    size_t ndim, size_t* dims, mxClassID classid, mxComplexity ComplexFlag)
+{
+    if (ComplexFlag == mxREAL) {
+        return mxAllocateRealArray(
+            (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
+    }
+    return mxAllocateSeparatedComplexArray(
         (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
 }
 //=============================================================================

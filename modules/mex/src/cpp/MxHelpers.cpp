@@ -30,7 +30,22 @@
 mxArray*
 mxNewArray()
 {
-    return (mxArray*)malloc(sizeof(mxArray));
+    mxArray* res = (mxArray*)mxMalloc(sizeof(mxArray));
+    res->dims = nullptr;
+    res->imagdata = nullptr;
+    res->realdata = nullptr;
+    res->ptr = nullptr;
+    res->interleavedcomplex = false;
+    res->Ir = nullptr;
+    res->Jc = nullptr;
+    res->nIr = 0;
+    res->nJc = 0;
+    res->iscomplex = false;
+    res->issparse = false;
+    res->classID = mxUNKNOWN_CLASS;
+    res->number_of_dims = 0;
+    res->nzmax = 0;
+    return res;
 }
 //=============================================================================
 mxArray*
@@ -38,7 +53,7 @@ mxAllocateRealArray(
     mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
 {
     mxArray* ret = mxNewArray();
-    if (ret) {
+    if (ret != nullptr) {
         ret->classID = classID;
         ret->number_of_dims = ndim;
         ret->dims = copyDims(ndim, dims);
@@ -51,21 +66,27 @@ mxAllocateRealArray(
             ret->realdata = mxMalloc(countElements(ndim, dims));
         }
         ret->imagdata = nullptr;
+        ret->Ir = nullptr;
+        ret->Jc = nullptr;
+        ret->nzmax = 0;
+        ret->nIr = 0;
+        ret->nJc = 0;
     }
     return ret;
 }
 //=============================================================================
 mxArray*
-mxAllocateComplexArray(
+mxAllocateSeparatedComplexArray(
     mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
 {
     mxArray* ret = mxNewArray();
-    if (ret) {
+    if (ret != nullptr) {
         ret->classID = classID;
         ret->number_of_dims = ndim;
         ret->dims = copyDims(ndim, dims);
         ret->issparse = false;
         ret->iscomplex = true;
+        ret->interleavedcomplex = false;
         if (initialized) {
             ret->realdata = mxCalloc(countElements(ndim, dims), size);
             ret->imagdata = mxCalloc(countElements(ndim, dims), size);
@@ -73,6 +94,39 @@ mxAllocateComplexArray(
             ret->realdata = mxMalloc(countElements(ndim, dims));
             ret->imagdata = mxMalloc(countElements(ndim, dims));
         }
+        ret->Ir = nullptr;
+        ret->Jc = nullptr;
+        ret->nzmax = 0;
+        ret->nIr = 0;
+        ret->nJc = 0;
+    }
+    return ret;
+}
+//=============================================================================
+mxArray*
+mxAllocateInterleavedComplexArray(
+    mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized)
+{
+    mxArray* ret = mxNewArray();
+    if (ret != nullptr) {
+        ret->classID = classID;
+        ret->interleavedcomplex = true;
+        ret->number_of_dims = ndim;
+        ret->dims = copyDims(ndim, dims);
+        ret->issparse = false;
+        ret->iscomplex = true;
+        if (initialized) {
+            ret->realdata = mxCalloc(countElements(ndim, dims) * 2, size);
+            ret->imagdata = nullptr;
+        } else {
+            ret->realdata = mxMalloc(countElements(ndim, dims) * 2);
+            ret->imagdata = nullptr;
+        }
+        ret->Ir = nullptr;
+        ret->Jc = nullptr;
+        ret->nzmax = 0;
+        ret->nIr = 0;
+        ret->nJc = 0;
     }
     return ret;
 }
@@ -90,8 +144,8 @@ countElements(mwSize ndim, const mwSize* dims)
 mwSize*
 copyDims(mwSize ndim, const mwSize* dims)
 {
-    mwSize* p = (mwSize*)malloc(sizeof(mwSize) * ndim);
-    if (p) {
+    auto* p = (mwSize*)mxMalloc(sizeof(mwSize) * ndim);
+    if (p != nullptr) {
         for (mwSize i = 0; i < ndim; i++) {
             p[i] = dims[i];
         }
@@ -140,7 +194,7 @@ mwSize*
 GetDimensions(const Nelson::ArrayOf& array, mwSize& numdims)
 {
     numdims = (int)array.getDimensions().getLength();
-    mwSize* dim_vec = new mwSize[numdims];
+    auto* dim_vec = (mwSize*)mxMalloc(sizeof(mwSize) * numdims);
     for (mwSize i = 0; i < numdims; i++) {
         dim_vec[i] = array.getDimensions()[i];
     }

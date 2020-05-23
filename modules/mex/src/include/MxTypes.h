@@ -147,10 +147,16 @@ typedef int mwSignedIndex;
         mxClassID classID;
         mwSize* dims;
         mwSize number_of_dims;
-        bool issparse;
-        int iscomplex;
+        bool iscomplex;
+        bool interleavedcomplex;
         void* realdata;
         void* imagdata;
+        bool issparse;
+        mwSize nzmax;
+        mwIndex* Jc;
+        mwSize nJc;
+        mwIndex* Ir;
+        mwSize nIr;
         uint64_t* ptr;
     };
     //=============================================================================

@@ -36,8 +36,8 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     int
-    mxCallBuiltin(
-        void* fptr, const Nelson::ArrayOfVector& argIn, int nargout, Nelson::ArrayOfVector& argOut);
+    mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
+        Nelson::ArrayOfVector& argOut, bool interleavedComplex);
     //=============================================================================
 #ifdef __cplusplus
 }

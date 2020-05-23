@@ -28,6 +28,7 @@ set(module_library_name nlsMex)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
+${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -37,6 +38,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
 )
 #==============================================================================	
 FILE(
@@ -59,6 +61,7 @@ nlsNelson_manager
 nlsStream_manager
 nlsTypes
 nlsInterpreter
+nlsSparse
 ${BOOST_LIBRARIES}
 )
 #==============================================================================	

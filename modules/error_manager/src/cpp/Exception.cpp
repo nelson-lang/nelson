@@ -51,19 +51,13 @@ Exception::Exception()
 //=============================================================================
 Exception::Exception(const std::string& msg_in, std::vector<PositionScript> positions,
     const std::string& identifier_in)
-{
-    this->backtrace = std::move(positions);
-    this->identifier = utf8_to_wstring(identifier_in);
-    this->msg = utf8_to_wstring(msg_in);
-}
+    : backtrace(positions), identifier(utf8_to_wstring(identifier_in)), msg(utf8_to_wstring(msg_in))
+{}
 //=============================================================================
 Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
     const std::wstring& identifier_in)
-{
-    this->backtrace = std::move(positions);
-    this->identifier = identifier_in;
-    this->msg = msg_in;
-}
+    : backtrace(positions), identifier(identifier_in), msg(msg_in)
+{}
 //=============================================================================
 Exception::Exception(
     const std::string& msg_in, const PositionScript& position, const std::string& identifier_in)

@@ -36,7 +36,11 @@ mxAllocateRealArray(
     mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized = true);
 //=============================================================================
 mxArray*
-mxAllocateComplexArray(
+mxAllocateSeparatedComplexArray(
+    mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized = true);
+//=============================================================================
+mxArray*
+mxAllocateInterleavedComplexArray(
     mwSize ndim, const mwSize* dims, size_t size, mxClassID classID, bool initialized = true);
 //=============================================================================
 mwSize

@@ -26,16 +26,25 @@
 #include <cstdlib>
 #include <set>
 #include <cstring>
+#include "nlsConfig.h"
 #include "mex.h"
 #include "ArrayOf.hpp"
 #include "MxHelpers.hpp"
 //=============================================================================
 static std::set<void*> registeredMxPointers;
 //=============================================================================
+bool
+mxIsRegisteredPointer(void* ptr)
+{
+    std::set<void*>::iterator it;
+    it = registeredMxPointers.find(ptr);
+    return it != registeredMxPointers.end();
+}
+//=============================================================================
 static void
 registerMexPointer(void* ptr)
 {
-    if (ptr) {
+    if (ptr != nullptr) {
         registeredMxPointers.insert(ptr);
     }
 }
@@ -43,7 +52,7 @@ registerMexPointer(void* ptr)
 static void
 deRegisterMexPointer(void* ptr)
 {
-    if (ptr) {
+    if (ptr != nullptr) {
         registeredMxPointers.erase(ptr);
     }
 }
@@ -67,21 +76,23 @@ mxMalloc(mwSize n)
 void
 mxFree(void* ptr)
 {
-    if (ptr) {
-        deRegisterMexPointer(ptr);
-        free(ptr);
+    if (ptr != nullptr) {
+        if (mxIsRegisteredPointer(ptr)) {
+            deRegisterMexPointer(ptr);
+            free(ptr);
+        }
     }
 }
 //=============================================================================
 void*
 mxRealloc(void* ptr, mwSize size)
 {
-    if (ptr) {
+    if (ptr != nullptr) {
         deRegisterMexPointer(ptr);
     }
     ptr = realloc(ptr, size);
 
-    if (ptr) {
+    if (ptr != nullptr) {
         registerMexPointer(ptr);
     }
     return ptr;
@@ -90,22 +101,32 @@ mxRealloc(void* ptr, mwSize size)
 void
 mxDestroyArray(mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         if (pm->classID == mxCELL_CLASS) {
-            mxArray** gp = (mxArray**)pm->realdata;
+            auto** gp = (mxArray**)pm->realdata;
             size_t L = mxGetNumberOfElements(pm);
             for (size_t i = 0; i < L; i++) {
                 mxArray* p = gp[i];
                 mxDestroyArray(p);
             }
         }
-        if (pm->classID == mxSTRUCT_CLASS) {
-            Nelson::ArrayOf* ptr = (Nelson::ArrayOf*)pm->ptr;
+        if (pm->classID == mxOBJECT_CLASS) {
+            auto* ptr = (Nelson::ArrayOf*)pm->ptr;
             delete ptr;
             pm->ptr = nullptr;
         }
+        if (pm->classID == mxSTRUCT_CLASS) {
+            auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+            delete ptr;
+            pm->ptr = nullptr;
+        }
+        if (pm->issparse) {
+            mxFree(pm->Jc);
+            mxFree(pm->Ir);
+        }
         mxFree(pm->realdata);
         mxFree(pm->imagdata);
+        mxFree(pm->dims);
         mxFree(pm);
     }
 }
@@ -119,31 +140,61 @@ mxDuplicateArray(const mxArray* in)
     size_t L = mxGetNumberOfElements(in);
     mxArray* ret = nullptr;
     switch (in->classID) {
+    case mxOBJECT_CLASS: {
+        auto* inPtr = (Nelson::ArrayOf*)in->ptr;
+        ret = (mxArray*)mxMalloc(sizeof(mxArray));
+        if (ret != nullptr) {
+            mwSize num_dim;
+            mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
+            ret->number_of_dims = num_dim;
+            ret->dims = dim_vec;
+            ret->classID = mxOBJECT_CLASS;
+            ret->interleavedcomplex = in->interleavedcomplex;
+            ret->issparse = in->issparse;
+            ret->iscomplex = in->iscomplex;
+            ret->imagdata = nullptr;
+            ret->realdata = nullptr;
+            auto* ptr = new Nelson::ArrayOf(*inPtr);
+            ptr->ensureSingleOwner();
+            ret->ptr = (uint64_t*)ptr;
+            ret->Ir = nullptr;
+            ret->Jc = nullptr;
+            ret->nzmax = (mwSize)0;
+            ret->nIr = (mwSize)0;
+            ret->nJc = (mwSize)0;
+        }
+    } break;
     case mxCELL_CLASS: {
         ret = mxAllocateRealArray(
             in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-        mxArray** g = (mxArray**)ret->realdata;
-        mxArray** h = (mxArray**)in->realdata;
+        auto** g = (mxArray**)ret->realdata;
+        auto** h = (mxArray**)in->realdata;
         for (size_t i = 0; i < L; i++) {
             g[i] = mxDuplicateArray(h[i]);
         }
     } break;
     case mxSTRUCT_CLASS: {
-        Nelson::ArrayOf* inPtr = (Nelson::ArrayOf*)in->ptr;
-        ret = (mxArray*)malloc(sizeof(mxArray));
-        if (ret) {
+        auto* inPtr = (Nelson::ArrayOf*)in->ptr;
+        ret = (mxArray*)mxMalloc(sizeof(mxArray));
+        if (ret != nullptr) {
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
             ret->number_of_dims = num_dim;
             ret->dims = dim_vec;
             ret->classID = mxSTRUCT_CLASS;
+            ret->interleavedcomplex = in->interleavedcomplex;
             ret->issparse = false;
             ret->iscomplex = false;
             ret->imagdata = nullptr;
             ret->realdata = nullptr;
-            Nelson::ArrayOf* ptr = new Nelson::ArrayOf(*inPtr);
+            auto* ptr = new Nelson::ArrayOf(*inPtr);
             ptr->ensureSingleOwner();
             ret->ptr = (uint64_t*)ptr;
+            ret->Ir = nullptr;
+            ret->Jc = nullptr;
+            ret->nzmax = (mwSize)0;
+            ret->nIr = (mwSize)0;
+            ret->nJc = (mwSize)0;
         }
     } break;
     case mxLOGICAL_CLASS:
@@ -158,15 +209,70 @@ mxDuplicateArray(const mxArray* in)
     case mxUINT32_CLASS:
     case mxINT64_CLASS:
     case mxUINT64_CLASS: {
-        if (in->iscomplex) {
-            ret = mxAllocateComplexArray(
-                in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-            memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
-            memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+        if (in->issparse) {
+            ret = mxNewArray();
+            ret->classID = in->classID;
+            ret->interleavedcomplex = in->interleavedcomplex;
+            ret->iscomplex = in->iscomplex;
+            ret->issparse = in->issparse;
+            ret->ptr = nullptr;
+            ret->number_of_dims = in->number_of_dims;
+            ret->dims = copyDims(in->number_of_dims, in->dims);
+            ret->nzmax = in->nzmax;
+            ret->nIr = in->nIr;
+            ret->nJc = in->nJc;
+            ret->Ir = (mwIndex*)mxCalloc(in->nIr, sizeof(mwIndex));
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nIr; ++k) {
+                ret->Ir[k] = in->Ir[k];
+            }
+            ret->Jc = (mwIndex*)mxCalloc(in->nJc, sizeof(mwIndex));
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nJc; ++k) {
+                ret->Jc[k] = in->Jc[k];
+            }
+            if (in->interleavedcomplex) {
+                if (in->iscomplex) {
+                    ret->realdata = mxCalloc(in->nIr, sizeof(mxComplexDouble));
+                    memcpy(ret->realdata, in->realdata, sizeof(mxComplexDouble) * in->nIr);
+                    ret->imagdata = nullptr;
+                } else {
+                    ret->realdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
+                    memcpy(ret->realdata, in->realdata, sizeFromClass(in->classID) * in->nIr);
+                    ret->imagdata = nullptr;
+                }
+            } else {
+                ret->realdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
+                memcpy(ret->realdata, in->realdata, sizeFromClass(in->classID) * in->nIr);
+                if (in->iscomplex) {
+                    ret->imagdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
+                    memcpy(ret->imagdata, in->imagdata, sizeFromClass(in->classID) * in->nIr);
+                } else {
+                    ret->imagdata = nullptr;
+                }
+            }
         } else {
-            ret = mxAllocateRealArray(
-                in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-            memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+            if (in->iscomplex) {
+                if (in->interleavedcomplex) {
+                    ret = mxAllocateInterleavedComplexArray(
+                        in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+                    memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L * 2);
+                    ret->imagdata = nullptr;
+                } else {
+                    ret = mxAllocateSeparatedComplexArray(
+                        in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+                    memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+                    memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+                }
+            } else {
+                ret = mxAllocateRealArray(
+                    in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
+                memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+            }
         }
         return ret;
     } break;

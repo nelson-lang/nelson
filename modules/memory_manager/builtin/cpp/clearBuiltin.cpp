@@ -148,7 +148,7 @@ ClearAllMex(Evaluator* eval)
 {
     wstringVector libnames = GatewaysManager::getInstance()->getLibraryNames();
     for (auto name : libnames) {
-        GatewaysManager::getInstance()->clearMexGateway(eval, name);
+        GatewaysManager::getInstance()->clearMexGateway(name);
     }
 }
 //=============================================================================
@@ -160,7 +160,7 @@ ClearMex(Evaluator* eval, const std::wstring& functionName)
     if (ctxt->lookupFunction(functionName, funPtr, true)) {
         if (funPtr->type() == NLS_BUILT_IN_FUNCTION) {
             BuiltInFunctionDef* builtinFun = (BuiltInFunctionDef*)funPtr;
-            return GatewaysManager::getInstance()->clearMexGateway(eval, builtinFun->fileName);
+            return GatewaysManager::getInstance()->clearMexGateway(builtinFun->fileName);
         }
     }
     return false;

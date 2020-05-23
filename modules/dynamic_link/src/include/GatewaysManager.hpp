@@ -51,7 +51,7 @@ public:
     getLibraryNames();
     //=============================================================================
     bool
-    clearMexGateway(Evaluator* eval, const std::wstring& libraryFullName);
+    clearMexGateway(const std::wstring& libraryFullName);
     //=============================================================================
 private:
     GatewaysManager();

@@ -32,7 +32,7 @@ mxArray*
 mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** fieldnames)
 {
     mxArray* ret = mxNewArray();
-    if (ret) {
+    if (ret != nullptr) {
         Nelson::stringVector _fieldnames;
         for (size_t k = 0; k < nfields; ++k) {
             _fieldnames.push_back(fieldnames[k]);
@@ -41,7 +41,7 @@ mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** f
         for (mwSize k = 0; k < ndim; ++k) {
             _dims[k] = dims[k];
         }
-        Nelson::ArrayOf* st = (Nelson::ArrayOf*)Nelson::ArrayOf::allocateArrayOf(
+        auto* st = (Nelson::ArrayOf*)Nelson::ArrayOf::allocateArrayOf(
             Nelson::NLS_STRUCT_ARRAY, _dims.getElementCount(), _fieldnames, true);
         Nelson::ArrayOf s
             = Nelson::ArrayOf(Nelson::NLS_STRUCT_ARRAY, _dims, st, false, _fieldnames);
@@ -55,7 +55,7 @@ mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** f
         ret->iscomplex = false;
         ret->imagdata = nullptr;
         ret->realdata = nullptr;
-        Nelson::ArrayOf* ptr = new Nelson::ArrayOf(s);
+        auto* ptr = new Nelson::ArrayOf(s);
         ptr->ensureSingleOwner();
         ret->ptr = (uint64_t*)ptr;
     }
@@ -74,7 +74,7 @@ mxCreateStructMatrix(mwSize m, mwSize n, int nfields, const char** fieldnames)
 bool
 mxIsStruct(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (pm->classID == mxSTRUCT_CLASS);
     }
     return false;
@@ -84,7 +84,7 @@ int
 mxGetNumberOfFields(const mxArray* pm)
 {
     if (mxIsStruct(pm)) {
-        Nelson::ArrayOf* ptr = (Nelson::ArrayOf*)pm->ptr;
+        auto* ptr = (Nelson::ArrayOf*)pm->ptr;
         Nelson::stringVector fieldnames = ptr->getFieldNames();
         return (int)fieldnames.size();
     }
@@ -103,10 +103,10 @@ mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber)
     if (fieldnumber >= mxGetNumberOfFields(pm) || fieldnumber < 0) {
         return nullptr;
     }
-    Nelson::ArrayOf* ptr = (Nelson::ArrayOf*)pm->ptr;
-    const Nelson::ArrayOf* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
+    auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+    const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
     size_t fieldCount = ptr->getFieldNames().size();
     Nelson::ArrayOf field = qp[index * fieldCount + fieldnumber];
-    return Nelson::ArrayOfToMxArray(field);
+    return Nelson::ArrayOfToMxArray(field, pm->interleavedcomplex);
 }
 //=============================================================================

@@ -26,7 +26,7 @@
 assert_isequal(nargin('websave'), -1);
 assert_isequal(nargout('websave'), 1);
 //=============================================================================
-url = 'http://heritage.stsci.edu/2007/14/images/p0714aa.jpg';
+url = 'https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/stsci-h-p2016a-m-2000x1374.png';
 filename = [tempdir(), 'image.jpg'];
 destination_filename = websave(filename, url);
 //=============================================================================

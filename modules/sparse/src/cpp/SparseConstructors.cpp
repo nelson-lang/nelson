@@ -125,8 +125,9 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
     case NLS_LOGICAL: {
         Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
             = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)res.getSparseDataPointer();
-        if (nnz >= (indexType)spmat->nonZeros()) {
-            spmat->reserve(nnz);
+        indexType nonZeros = (indexType)spmat->nonZeros();
+        if (nnz >= nonZeros) {
+            spmat->reserve(nnz - nonZeros);
             spmat->finalize();
             spmat->makeCompressed();
         } else {
@@ -148,8 +149,9 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
     case NLS_DCOMPLEX: {
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmat
             = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)res.getSparseDataPointer();
-        if (nnz >= (indexType)spmat->nonZeros()) {
-            spmat->reserve(nnz);
+        indexType nonZeros = (indexType)spmat->nonZeros();
+        if (nnz >= nonZeros) {
+            spmat->reserve(nnz - nonZeros);
             spmat->finalize();
             spmat->makeCompressed();
         } else {

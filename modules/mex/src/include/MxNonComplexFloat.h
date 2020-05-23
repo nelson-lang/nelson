@@ -42,28 +42,16 @@ extern "C"
     mxIsDouble(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
-    mxDouble*
-    mxGetDoubles(const mxArray* pa);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxSetDoubles(mxArray* pa, mxDouble* dt);
-    //=============================================================================
-    NLSMEX_IMPEXP
     bool
     mxIsSingle(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
-    mxSingle*
-    mxGetSingles(const mxArray* pa);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxSetSingles(mxArray* pa, mxSingle* dt);
+    mxDouble*
+    mxGetPrSeparatedComplex(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
     mxDouble*
-    mxGetPr(const mxArray* pm);
+    mxGetPrInterleavedComplex(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
     void
@@ -72,6 +60,12 @@ extern "C"
     NLSMEX_IMPEXP
     void*
     mxGetData(const mxArray* pm);
+    //=============================================================================
+#if MX_HAS_INTERLEAVED_COMPLEX
+#define mxGetPr mxGetPrInterleavedComplex
+#else
+#define mxGetPr mxGetPrSeparatedComplex
+#endif
     //=============================================================================
 #ifdef __cplusplus
 }

@@ -31,7 +31,7 @@
 //=============================================================================
 namespace Nelson {
 ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(
-    Evaluator* eval, void* fptr, ArrayOfVector& inputs, int nargout, size_t builtinPrototype);
+EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, ArrayOfVector& inputs,
+    int nargout, size_t builtinPrototype, bool interleavedComplex);
 }
 //=============================================================================

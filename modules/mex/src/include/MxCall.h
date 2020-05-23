@@ -35,11 +35,22 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     int
-    mexCallMATLAB(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    mexCallMATLABSeparatedComplex(
+        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mexCallMATLABInterleavedComplex(
+        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mexCallMATLABWithTrap(
+    mexCallMATLABWithTrapSeparatedComplex(
+        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mexCallMATLABWithTrapInterleavedComplex(
         int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
     //=============================================================================
     NLSMEX_IMPEXP
@@ -48,12 +59,31 @@ extern "C"
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mexEvalStringWithTrap(const char* command);
+    mexEvalStringWithTrapSeparatedComplex(const char* command);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mexEvalStringWithTrapInterleavedComplex(const char* command);
     //=============================================================================
     /* private function */
     NLSMEX_IMPEXP
     void
     mexSetEvaluator(void* eval);
+    //=============================================================================
+    /* private function */
+    NLSMEX_IMPEXP
+    void *
+    mexGetEvaluator();
+    //=============================================================================
+#ifdef MX_HAS_INTERLEAVED_COMPLEX
+#define mexCallMATLAB mexCallMATLABInterleavedComplex
+#define mexCallMATLABWithTrap mexCallMATLABWithTrapInterleavedComplex
+#define mexEvalStringWithTrap mexEvalStringWithTrapInterleavedComplex
+#else
+#define mexCallMATLAB mexCallMATLABSeparatedComplex
+#define mexCallMATLABWithTrap mexCallMATLABWithTrapSeparatedComplex
+#define mexEvalStringWithTrap mexEvalStringWithTrapSeparatedComplex
+#endif
     //=============================================================================
 #ifdef __cplusplus
 }

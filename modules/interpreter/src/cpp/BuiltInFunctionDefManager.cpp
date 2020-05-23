@@ -68,7 +68,8 @@ BuiltInFunctionDefManager::add(FuncPtr ptr)
 //=============================================================================
 bool
 BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in, int argc_out,
-    const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype)
+    const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
+    bool interleavedComplex)
 {
     BuiltInFunctionDef* f2def;
     try {
@@ -84,6 +85,7 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
         f2def->argCount = argc_in;
         f2def->name = name;
         f2def->fptr = fptr;
+        f2def->interleavedComplex = interleavedComplex;
         f2def->arguments = std::move(args);
         f2def->builtinPrototype = builtinPrototype;
         return add(f2def);

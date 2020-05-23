@@ -139,7 +139,7 @@ function status = test_run(varargin)
       nbTestCasesMax = 0;
       if ~isempty(tests_list)
         for t = tests_list
-          test_case = create_test_case([tests_dir, t.name]);
+          test_case = create_test_case([tests_dir, t{1}]);
           test_case.classname = [nelson_version_str, '.', test_suite.name];
           if isempty(test_suite.test_cases_list)
             test_suite.test_cases_list = test_case; 
@@ -241,27 +241,53 @@ function tests_list = getFilesListByOption(tests_dir, options)
   switch options
     case 'all'
       unitary_tests = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = sort(string({unitary_tests.name}));
+
       nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      nonreg_tests = sort(string({nonreg_tests.name}));
+
       bench_tests = dir([tests_dir, 'bench_*.nls']);
-      all_tests = [unitary_tests; nonreg_tests; bench_tests];
-      tests_list = all_tests;
-      
+      bench_tests = sort(string({bench_tests.name}));
+
+      all_tests = [unitary_tests, nonreg_tests, bench_tests];
+      all_tests(all_tests == "") = [];
+
+      tests_list = cell(all_tests);
+
     case 'all_tests'
       unitary_tests = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = sort(string({unitary_tests.name}));
+
       nonreg_tests = dir([tests_dir, 'bug_*.nls']);
-      all_tests = [unitary_tests; nonreg_tests];
-      tests_list = all_tests;
+      nonreg_tests = sort(string({nonreg_tests.name}));
+            
+      all_tests = [unitary_tests, nonreg_tests];
+      all_tests(all_tests == "") = [];
+
+      tests_list = cell(all_tests);
       
     case 'unitary_tests'
-      tests_list = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = sort(string({unitary_tests.name}));
+      unitary_tests(unitary_tests == "") = [];
+
+      tests_list = cell(unitary_tests);
       
     case 'nonreg_tests'
-      tests_list = dir([tests_dir, 'nonreg_*.nls']);
+      nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      nonreg_tests = sort(string({nonreg_tests.name}));
+      nonreg_tests(nonreg_tests == "") = [];
+
+      tests_list = cell(nonreg_tests);
       
     case 'benchs'
-      tests_list = dir([tests_dir, 'bench_*.nls']);
+      bench_tests = dir([tests_dir, 'bench_*.nls']);
+      bench_tests = sort(string({bench_tests.name}));
+      bench_tests(bench_tests == "") = [];
+
+      tests_list = cell(bench_tests);
+
     end
-    tests_list = tests_list(:)';
   endfunction
   //=============================================================================
 function res = save_as_json(test_suites, jsonFileDestination)

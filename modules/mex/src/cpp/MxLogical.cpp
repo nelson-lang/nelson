@@ -26,6 +26,15 @@
 #include "matrix.h"
 #include "MxHelpers.hpp"
 //=============================================================================
+bool
+mxIsLogical(const mxArray* pm)
+{
+    if (pm != nullptr) {
+        return pm->classID == mxLOGICAL_CLASS;
+    }
+    return false;
+}
+//=============================================================================
 mxArray*
 mxCreateLogicalScalar(mxLogical value)
 {

@@ -27,19 +27,33 @@
 #include "MxHelpers.hpp"
 //=============================================================================
 mxDouble*
-mxGetPi(const mxArray* pm)
+mxGetPiSeparatedComplex(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (mxDouble*)pm->imagdata;
     }
     return nullptr;
 }
+
 //=============================================================================
 void
-mxSetPi(mxArray* pm, double* pr)
+mxSetPiSeparatedComplex(mxArray* pm, double* pr)
 {
-    if (pm) {
+    if (pm != nullptr) {
         pm->imagdata = pr;
     }
+}
+//=============================================================================
+mxDouble*
+mxGetPiInterleavedComplex(const mxArray* pm)
+{
+    mexErrMsgTxt(_("mxGetPi not allowed with interleaved complex.").c_str());
+    return nullptr;
+}
+//=============================================================================
+void
+mxSetPiInterleavedComplex(mxArray* pm, double* pr)
+{
+    mexErrMsgTxt(_("mxGetPi not allowed with interleaved complex.").c_str());
 }
 //=============================================================================

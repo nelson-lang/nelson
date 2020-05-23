@@ -27,6 +27,7 @@
 //=============================================================================
 #include "nlsInterpreter_exports.h"
 #include <string>
+#include <utility>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,13 +41,9 @@ private:
     //=============================================================================
 public:
     //=============================================================================
-    PositionScript(
-        const std::wstring& functionname = L"", const std::wstring& filename = L"", int line = -1)
-    {
-        this->filename = filename;
-        this->functionname = functionname;
-        this->line = line;
-    }
+    PositionScript(std::wstring functionname = L"", std::wstring filename = L"", int line = -1)
+        : filename(std::move(filename)), functionname(std::move(functionname)), line(line)
+    {}
     //=============================================================================
     PositionScript(const PositionScript& copy)
     {

@@ -40,6 +40,8 @@
 #include "MxStruct.h"
 #include "MxObject.h"
 #include "MxCall.h"
+#include "MxInterleavedComplex.h"
+#include "MxSparse.h"
 //=============================================================================
 #ifdef __cplusplus
 extern "C"
@@ -55,25 +57,12 @@ extern "C"
     mxGetNumberOfElements(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
-    mxArray*
-    mxCreateNumericArray(
-        mwSize ndim, const mwSize* dims, mxClassID classid, mxComplexity ComplexFlag);
-    //=============================================================================
-    NLSMEX_IMPEXP
     char*
     mxArrayToString(const mxArray* array_ptr);
     //=============================================================================
     NLSMEX_IMPEXP
     char*
     mxArrayToUTF8String(const mxArray* array_ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateDoubleMatrix(mwSize m, mwSize n, mxComplexity ComplexFlag);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsNumeric(const mxArray* pm);
     //=============================================================================
     NLSMEX_IMPEXP
     bool
@@ -127,7 +116,6 @@ extern "C"
     bool
     mxIsScalar(const mxArray* array_ptr);
     //=============================================================================
-
     NLSMEX_IMPEXP
     bool
     mxIsChar(const mxArray* pm);
@@ -135,8 +123,7 @@ extern "C"
     NLSMEX_IMPEXP
     mxChar*
     mxGetChars(const mxArray* array_ptr);
-    //=============================================================================
-
+//=============================================================================
 #ifdef __cplusplus
 }
 #endif

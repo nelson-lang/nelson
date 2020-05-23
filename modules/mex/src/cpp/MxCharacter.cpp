@@ -28,7 +28,7 @@
 #endif
 //=============================================================================
 #include <algorithm>
-#include <string.h>
+#include <cstring>
 #include "mex.h"
 #include "matrix.h"
 #include "MxHelpers.hpp"
@@ -45,7 +45,8 @@ mxCreateCharMatrixFromStrings(mwSize m, const char** str)
 {
     mwSize dims[2];
     size_t maxlen = 0;
-    mwSize i, j;
+    mwSize i;
+    mwSize j;
     mxChar* ptr;
 
     for (i = 0; i < m; i++) {
@@ -56,7 +57,8 @@ mxCreateCharMatrixFromStrings(mwSize m, const char** str)
     mxArray* res = mxCreateCharArray(2, dims);
     ptr = (mxChar*)res->realdata;
     for (i = 0; i < m; i++) {
-        for (j = 0; j < strlen(str[i]); j++) {
+        auto lenStr = (mwSize)strlen(str[i]);
+        for (j = 0; j < lenStr; j++) {
             ptr[i + j * m] = str[i][j];
         }
     }
@@ -76,10 +78,10 @@ mxArrayToString(const mxArray* array_ptr)
     if (array_ptr->classID != mxCHAR_CLASS) {
         return nullptr;
     }
-    mxChar* p = (mxChar*)(array_ptr->realdata);
+    auto* p = (mxChar*)(array_ptr->realdata);
     size_t N = mxGetNumberOfElements(array_ptr);
-    char* res = (char*)malloc(N + 1);
-    if (res) {
+    char* res = (char*)mxCalloc(N + 1, sizeof(char));
+    if (res != nullptr) {
         for (size_t i = 0; i < N; i++) {
             res[i] = (char)p[i];
         }
@@ -94,18 +96,18 @@ mxArrayToUTF8String(const mxArray* array_ptr)
     if (array_ptr->classID != mxCHAR_CLASS) {
         return nullptr;
     }
-    mxChar* p = (mxChar*)(array_ptr->realdata);
+    auto* p = (mxChar*)(array_ptr->realdata);
     size_t N = mxGetNumberOfElements(array_ptr);
-    wchar_t* res = new wchar_t[N + (size_t)1];
-    if (res) {
+    auto* res = new wchar_t[N + (size_t)1];
+    if (res != nullptr) {
         for (size_t i = 0; i < N; i++) {
             res[i] = p[i];
         }
         res[N] = 0;
         std::string ustr = Nelson::wstring_to_utf8(res);
         delete[] res;
-        char* utfres = (char*)malloc(sizeof(char) * (ustr.size() + 1));
-        if (utfres) {
+        char* utfres = (char*)mxCalloc((ustr.size() + 1), sizeof(char));
+        if (utfres != nullptr) {
             strcpy(utfres, ustr.c_str());
         }
         return utfres;
@@ -118,7 +120,8 @@ mxGetString(const mxArray* pm, char* str, mwSize strlen)
 {
     mxChar* ptr;
     size_t i;
-    size_t elcount, tocopy;
+    size_t elcount;
+    size_t tocopy;
     if (pm->classID != mxCHAR_CLASS) {
         return 1;
     }
@@ -138,7 +141,7 @@ mxGetString(const mxArray* pm, char* str, mwSize strlen)
 bool
 mxIsChar(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (pm->classID == mxCHAR_CLASS);
     }
     return false;

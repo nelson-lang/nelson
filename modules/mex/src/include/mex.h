@@ -34,44 +34,32 @@ extern "C"
 {
 #endif
     //=============================================================================
+#define MX_CURRENT_API_VER 0x08000000
+#define MX_LAST_SEPARATE_COMPLEX_VER 0x07300000
+    //=============================================================================
     typedef void (*mex_exit_fn)(void);
     //=============================================================================
-#if !defined(NLSMEX_EXPORTS) && !defined(NLSENGINE_EXPORTS)
-#ifndef MEX_AT_EXIT_ONCE
-#define MEX_AT_EXIT_ONCE
-    extern mex_exit_fn _exitFcn;
-    extern bool _isLocked;
-    //=============================================================================
+    /** defined in mxGateway.c */
     const char*
     mexFunctionName(void);
     //=============================================================================
-    static int
-    mexAtExit(mex_exit_fn exit_fcn)
-    {
-        _exitFcn = exit_fcn;
-        return 0;
-    }
+    /** defined in mxGateway.c */
+    void
+    mexLock(void);
     //=============================================================================
-    static void
-    mexLock(void)
-    {
-        _isLocked = true;
-    }
+    /** defined in mxGateway.c */
+    void
+    mexUnlock(void);
     //=============================================================================
-    static void
-    mexUnlock(void)
-    {
-        _isLocked = false;
-    }
+    /** defined in mxGateway.c */
+    bool
+    mexIsLocked(void);
     //=============================================================================
-    static bool
-    mexIsLocked(void)
-    {
-        return _isLocked;
-    }
-#endif
-#endif
+    /** defined in mxGateway.c */
+    int
+    mexAtExit(mex_exit_fn exit_fcn);
     //=============================================================================
+    /** defined in mxGateway.c */
     void
     mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]);
     //=============================================================================

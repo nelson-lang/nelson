@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string.h>
+#include <cstring>
 #include "mex.h"
 #include "MxAsserts.h"
 #include "i18n.hpp"
@@ -32,7 +32,7 @@ void
 mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
 {
     if (test != nullptr && strlen(test) > 0) {
-        if (message && message[0]) {
+        if ((message != nullptr) && (message[0] != 0)) {
             mexErrMsgIdAndTxt("Nelson:MEX",
                 _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
                 fname, message);
@@ -42,7 +42,7 @@ mexPrintAssertion(const char* test, const char* fname, int linenum, const char* 
                 fname);
         }
     } else {
-        if (message && message[0]) {
+        if ((message != nullptr) && (message[0] != 0)) {
             mexErrMsgIdAndTxt("Nelson:MEX",
                 _("Assertion failed: at line %d of file \"%s\".\n%s\n").c_str(), linenum, fname,
                 message);

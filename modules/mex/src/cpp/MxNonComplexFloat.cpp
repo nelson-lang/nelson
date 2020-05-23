@@ -47,7 +47,7 @@ mxGetScalar(const mxArray* pm)
     case mxSTRUCT_CLASS:
         return 0;
     case mxLOGICAL_CLASS:
-        return ((mxLogical*)pm->realdata)[0];
+        return static_cast<double>(((mxLogical*)pm->realdata)[0]);
     case mxCHAR_CLASS:
         return ((mxChar*)pm->realdata)[0];
     case mxDOUBLE_CLASS:
@@ -79,49 +79,33 @@ mxGetScalar(const mxArray* pm)
 bool
 mxIsDouble(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (pm->classID == mxDOUBLE_CLASS);
     }
     return false;
 }
 //=============================================================================
-mxDouble*
-mxGetDoubles(const mxArray* pa)
-{
-    return nullptr;
-}
-//=============================================================================
-int
-mxSetDoubles(mxArray* pa, mxDouble* dt)
-{
-    return 0;
-}
-//=============================================================================
 bool
 mxIsSingle(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (pm->classID == mxSINGLE_CLASS);
     }
     return false;
 }
 //=============================================================================
-mxSingle*
-mxGetSingles(const mxArray* pa)
+NLSMEX_IMPEXP
+mxDouble*
+mxGetPrInterleavedComplex(const mxArray* pm)
 {
+    mexErrMsgTxt(_("mxGetPr not allowed with interleaved complex.").c_str());
     return nullptr;
 }
 //=============================================================================
-int
-mxSetSingles(mxArray* pa, mxSingle* dt)
-{
-    return 0;
-}
-//=============================================================================
 mxDouble*
-mxGetPr(const mxArray* pm)
+mxGetPrSeparatedComplex(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (mxDouble*)pm->realdata;
     }
     return nullptr;
@@ -130,7 +114,7 @@ mxGetPr(const mxArray* pm)
 void
 mxSetPr(mxArray* pm, double* pr)
 {
-    if (pm) {
+    if (pm != nullptr) {
         pm->realdata = pr;
     }
 }
@@ -138,7 +122,7 @@ mxSetPr(mxArray* pm, double* pr)
 void*
 mxGetData(const mxArray* pm)
 {
-    if (pm) {
+    if (pm != nullptr) {
         return (void*)pm->realdata;
     }
     return nullptr;
