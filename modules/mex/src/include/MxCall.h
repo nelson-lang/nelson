@@ -70,6 +70,11 @@ extern "C"
     void
     mexSetEvaluator(void* eval);
     //=============================================================================
+    /* private function */
+    NLSMEX_IMPEXP
+    void *
+    mexGetEvaluator();
+    //=============================================================================
 #ifdef MX_HAS_INTERLEAVED_COMPLEX
 #define mexCallMATLAB mexCallMATLABInterleavedComplex
 #define mexCallMATLABWithTrap mexCallMATLABWithTrapInterleavedComplex

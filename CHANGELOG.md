@@ -24,6 +24,9 @@
 
   * mxGetClassName, mxSetClassName fully supported.
 
+  * mxGetProperty, mxSetProperty fully supported (handle, graphic object, ...).
+
+
 Bug Fixes:
 ---------
 

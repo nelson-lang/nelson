@@ -542,6 +542,29 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res = nullptr;
     switch (nlsArrayOf.getDataClass()) {
+    case NLS_HANDLE: {
+        res = mxNewArray();
+        if (res != nullptr) {
+            mwSize num_dim;
+            mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
+            res->number_of_dims = num_dim;
+            res->dims = dim_vec;
+            res->classID = mxOBJECT_CLASS;
+            res->issparse = false;
+            res->interleavedcomplex = interleavedComplex;
+            res->iscomplex = false;
+            res->imagdata = nullptr;
+            res->realdata = nullptr;
+            res->nzmax = 0;
+            res->nIr = 0;
+            res->nJc = 0;
+            res->Jc = nullptr;
+            res->Ir = nullptr;
+            auto* ptr = new ArrayOf(nlsArrayOf);
+            ptr->ensureSingleOwner();
+            res->ptr = (uint64_t*)ptr;
+        }
+    } break;
     case NLS_CELL_ARRAY: {
         mwSize num_dim;
         mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
