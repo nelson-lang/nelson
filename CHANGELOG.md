@@ -1,4 +1,4 @@
-# 0.4.5 (2020-05-XX)
+# 0.4.5 (2020-05-23)
 
 * graphic object type added.
 
