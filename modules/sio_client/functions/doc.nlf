@@ -25,7 +25,7 @@
 //=============================================================================
 function doc(varargin)
   // replaces standard 'doc' function to open help in web browser
-  url_help = 'https://nelson-numerical-software.gitbooks.io/nelson/content/en/';
+  url_help = 'https://nelson-9.gitbook.io/nelson/en/';
   if nargin() > 1
     error(_('Wrong number of input arguments.'));
   end

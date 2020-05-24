@@ -378,7 +378,7 @@ Features:
 * 'xmldoctomd' : Converts xml Nelson help files to markdown format.
 * 'buildhelpmd' : Build help of Nelson's modules for GitBook.
 
-   see [Nelson's GitBook](https://nelson-numerical-software.gitbooks.io/nelson/content/en/).
+   see [Nelson's GitBook](https://nelson-9.gitbook.io/nelson/en).
 
 
 ## 0.2.2 (2018-02-25)

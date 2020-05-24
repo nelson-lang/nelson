@@ -119,7 +119,7 @@ Nelson is delivered under dual-license :
 - **Docker:** <https://hub.docker.com/r/nelsonsoftware/nelson/>
 - **Documentation:** <https://nelson-numerical-software.github.io/nelson-website/help/en_US/>
 - **GitBook:**
-<https://nelson-numerical-software.gitbooks.io/nelson/content/en/>
+<https://nelson-9.gitbook.io/nelson/>
 - **Gitter:** <https://gitter.im/nelson-numerical-software/Lobby>
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
 - **Twitter:** <https://twitter.com/Nelson_software>
