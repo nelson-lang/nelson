@@ -34,55 +34,31 @@ extern "C"
 #endif
     //=============================================================================
     NLSMEX_IMPEXP
-    int
-    mexCallMATLABSeparatedComplex(
-        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mexCallMATLABInterleavedComplex(
-        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    mxArray*
+    mexGetVariableSeparatedComplex(const char* workspace, const char* varname);
     //=============================================================================
     NLSMEX_IMPEXP
     mxArray*
-    mexCallMATLABWithTrapSeparatedComplex(
-        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    mexGetVariableInterleavedComplex(const char* workspace, const char* varname);
     //=============================================================================
     NLSMEX_IMPEXP
-    mxArray*
-    mexCallMATLABWithTrapInterleavedComplex(
-        int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* functionName);
+    const mxArray*
+    mexGetVariablePtrSeparatedComplex(const char* workspace, const char* varname);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    const mxArray*
+    mexGetVariablePtrInterleavedComplex(const char* workspace, const char* varname);
     //=============================================================================
     NLSMEX_IMPEXP
     int
-    mexEvalString(const char* command);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mexEvalStringWithTrapSeparatedComplex(const char* command);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mexEvalStringWithTrapInterleavedComplex(const char* command);
-    //=============================================================================
-    /* private function */
-    NLSMEX_IMPEXP
-    void
-    mexSetEvaluator(void* eval);
-    //=============================================================================
-    /* private function */
-    NLSMEX_IMPEXP
-    void*
-    mexGetEvaluator();
+    mexPutVariable(const char* workspace, const char* varname, const mxArray* pm);
     //=============================================================================
 #ifdef MX_HAS_INTERLEAVED_COMPLEX
-#define mexCallMATLAB mexCallMATLABInterleavedComplex
-#define mexCallMATLABWithTrap mexCallMATLABWithTrapInterleavedComplex
-#define mexEvalStringWithTrap mexEvalStringWithTrapInterleavedComplex
+#define mexGetVariable mexGetVariableInterleavedComplex
+#define mexGetVariablePtr mexGetVariablePtrInterleavedComplex
 #else
-#define mexCallMATLAB mexCallMATLABSeparatedComplex
-#define mexCallMATLABWithTrap mexCallMATLABWithTrapSeparatedComplex
-#define mexEvalStringWithTrap mexEvalStringWithTrapSeparatedComplex
+#define mexGetVariable mexGetVariableSeparatedComplex
+#define mexGetVariablePtr mexGetVariablePtrSeparatedComplex
 #endif
     //=============================================================================
 #ifdef __cplusplus

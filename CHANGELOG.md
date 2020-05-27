@@ -1,3 +1,10 @@
+# 0.4.6 (2020-06-XX)
+
+* [IN PROGRESS] C MEX API:
+
+  * mexGetVariable, mexGetVariablePtr, mexPutVariable functions
+
+
 # 0.4.5 (2020-05-23)
 
 * graphic object type added.

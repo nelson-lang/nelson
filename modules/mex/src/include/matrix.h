@@ -42,6 +42,7 @@
 #include "MxCall.h"
 #include "MxInterleavedComplex.h"
 #include "MxSparse.h"
+#include "MxVariables.h"
 //=============================================================================
 #ifdef __cplusplus
 extern "C"
