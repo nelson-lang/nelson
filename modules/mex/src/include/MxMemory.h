@@ -55,7 +55,17 @@ extern "C"
     void
     mxDestroyArray(mxArray* pm);
     //=============================================================================
-
+    NLSMEX_IMPEXP
+    void
+    mexMakeArrayPersistent(mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mexMakeMemoryPersistent(void* ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP void
+    mexFreeAllRegisteredPointer();
+    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

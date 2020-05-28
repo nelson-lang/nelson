@@ -158,6 +158,7 @@ typedef int mwSignedIndex;
         mwIndex* Ir;
         mwSize nIr;
         uint64_t* ptr;
+        bool persistentmemory;
     };
     //=============================================================================
     typedef struct mxArray_tag mxArray;

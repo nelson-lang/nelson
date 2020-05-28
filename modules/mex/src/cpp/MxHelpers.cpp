@@ -45,6 +45,7 @@ mxNewArray()
     res->classID = mxUNKNOWN_CLASS;
     res->number_of_dims = 0;
     res->nzmax = 0;
+    res->persistentmemory = false;
     return res;
 }
 //=============================================================================

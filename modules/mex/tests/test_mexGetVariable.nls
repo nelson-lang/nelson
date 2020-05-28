@@ -33,12 +33,13 @@ if ~isbuiltin('mexGetVariable')
     run('loader.nls');
 end
 //=============================================================================
-assignin('base', 'AA', 33);
-R = mexGetVariable('base', 'AA');
-assert_isequal(R, AA);
-//=============================================================================
 assignin('global', 'BB', 44);
 assert_isfalse(isvar('BB'));
 R = mexGetVariable('global', 'BB');
 assert_isequal(R, 44);
+//=============================================================================
+assignin('base', 'AA', 33);
+R = mexGetVariable('base', 'AA');
+AA = acquirevar('base', 'AA');
+assert_isequal(R, AA);
 //=============================================================================

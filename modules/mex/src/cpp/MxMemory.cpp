@@ -32,6 +32,7 @@
 #include "MxHelpers.hpp"
 //=============================================================================
 static std::set<void*> registeredMxPointers;
+static std::set<void*> persistentMxPointers;
 //=============================================================================
 bool
 mxIsRegisteredPointer(void* ptr)
@@ -73,13 +74,37 @@ mxMalloc(mwSize n)
     return p;
 }
 //=============================================================================
+static bool
+isPersistentMemory(void* ptr)
+{
+    if (ptr != nullptr) {
+        std::set<void*>::iterator it;
+        it = persistentMxPointers.find(ptr);
+        return it != persistentMxPointers.end();
+    }
+    return false;
+}
+//=============================================================================
+void
+mexFreeAllRegisteredPointer()
+{
+    for (auto ptr : registeredMxPointers) {
+        if (!isPersistentMemory(ptr)) {
+            mxFree(ptr);
+        }
+    }
+    registeredMxPointers.clear();
+}
+//=============================================================================
 void
 mxFree(void* ptr)
 {
     if (ptr != nullptr) {
         if (mxIsRegisteredPointer(ptr)) {
-            deRegisterMexPointer(ptr);
-            free(ptr);
+            if (!isPersistentMemory(ptr)) {
+                deRegisterMexPointer(ptr);
+                free(ptr);
+            }
         }
     }
 }
@@ -102,6 +127,9 @@ void
 mxDestroyArray(mxArray* pm)
 {
     if (pm != nullptr) {
+        if (pm->persistentmemory) {
+            return;
+        }
         if (pm->classID == mxCELL_CLASS) {
             auto** gp = (mxArray**)pm->realdata;
             size_t L = mxGetNumberOfElements(pm);
@@ -142,7 +170,7 @@ mxDuplicateArray(const mxArray* in)
     switch (in->classID) {
     case mxOBJECT_CLASS: {
         auto* inPtr = (Nelson::ArrayOf*)in->ptr;
-        ret = (mxArray*)mxMalloc(sizeof(mxArray));
+        ret = mxNewArray();
         if (ret != nullptr) {
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
@@ -175,7 +203,7 @@ mxDuplicateArray(const mxArray* in)
     } break;
     case mxSTRUCT_CLASS: {
         auto* inPtr = (Nelson::ArrayOf*)in->ptr;
-        ret = (mxArray*)mxMalloc(sizeof(mxArray));
+        ret = mxNewArray();
         if (ret != nullptr) {
             mwSize num_dim;
             mwSize* dim_vec = GetDimensions(*inPtr, num_dim);
@@ -281,5 +309,22 @@ mxDuplicateArray(const mxArray* in)
     } break;
     }
     return ret;
+}
+//=============================================================================
+void
+mexMakeArrayPersistent(mxArray* pm)
+{
+    if (pm != nullptr) {
+        pm->persistentmemory = true;
+    }
+}
+//=============================================================================
+NLSMEX_IMPEXP
+void
+mexMakeMemoryPersistent(void* ptr)
+{
+    if (ptr != nullptr) {
+        persistentMxPointers.insert(ptr);
+    }
 }
 //=============================================================================

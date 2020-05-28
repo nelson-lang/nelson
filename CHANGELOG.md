@@ -2,8 +2,10 @@
 
 * [IN PROGRESS] C MEX API:
 
-  * mexGetVariable, mexGetVariablePtr, mexPutVariable functions
+  * mexGetVariable, mexGetVariablePtr, mexPutVariable functions.
 
+  * mexMakeArrayPersistent, mexMakeMemoryPersistent functions.
+  
 
 # 0.4.5 (2020-05-23)
 
