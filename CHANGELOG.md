@@ -6,6 +6,11 @@
 
   * mexMakeArrayPersistent, mexMakeMemoryPersistent functions.
   
+Compilation:
+------------
+
+* boost 1.73.0 on Windows.
+
 
 # 0.4.5 (2020-05-23)
 

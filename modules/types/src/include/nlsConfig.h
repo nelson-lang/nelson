@@ -24,28 +24,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-
+//=============================================================================
 #if defined(_OPENMP)
 #define _NLS_WITH_OPENMP
 #endif
-
+//=============================================================================
 #if (defined(_LP64) || defined(_WIN64))
 #define NLS_INDEX_TYPE_64
 #endif
-
+//=============================================================================
 #define CAT_3_STRINGS(a, b, c) a##b##c
 #ifdef _MSC_VER
 #ifdef _DEBUG
 #ifdef _WIN64
-#define BOOST_TARGET "vc142-mt-gd-x64-1_71"
+#define BOOST_TARGET "vc142-mt-gd-x64-1_73"
 #else
-#define BOOST_TARGET "vc142-mt-gd-x32-1_71"
+#define BOOST_TARGET "vc142-mt-gd-x32-1_73"
 #endif
 #else
 #ifdef _WIN64
-#define BOOST_TARGET "vc142-mt-x64-1_71"
+#define BOOST_TARGET "vc142-mt-x64-1_73"
 #else
-#define BOOST_TARGET "vc142-mt-x32-1_71"
+#define BOOST_TARGET "vc142-mt-x32-1_73"
 #endif
 #endif
 #endif
+//=============================================================================
