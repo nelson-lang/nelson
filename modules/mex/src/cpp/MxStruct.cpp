@@ -23,8 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <string.h>
 #include "mex.h"
 #include "matrix.h"
+#include "MxStruct.h"
 #include "MxHelpers.hpp"
 #include "MxArrayOf.hpp"
 //=============================================================================
@@ -108,5 +110,39 @@ mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber)
     size_t fieldCount = ptr->getFieldNames().size();
     Nelson::ArrayOf field = qp[index * fieldCount + fieldnumber];
     return Nelson::ArrayOfToMxArray(field, pm->interleavedcomplex);
+}
+//=============================================================================
+void
+mxSetField(mxArray* pm, mwIndex index, const char* fieldname, mxArray* pvalue)
+{
+    mxSetFieldByNumber(pm, index, mxGetFieldNumber(pm, fieldname), pvalue);
+}
+//=============================================================================
+void
+mxSetFieldByNumber(mxArray* pm, mwIndex index, int fieldnumber, mxArray* pvalue)
+{
+    if (mxIsStruct(pm)) {
+        auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+        Nelson::ArrayOf* sp = (Nelson::ArrayOf*)ptr->getReadWriteDataPointer();
+        size_t fieldCount = ptr->getFieldNames().size();
+        sp[index * fieldCount + fieldnumber] = Nelson::MxArrayToArrayOf(pvalue);
+    }
+}
+//=============================================================================
+int
+mxGetFieldNumber(const mxArray* pm, const char* fieldname)
+{
+    if (mxIsStruct(pm)) {
+        auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+        const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
+        Nelson::stringVector names = ptr->getFieldNames();
+        size_t fieldCount = names.size();
+        for (size_t k = 0; k < fieldCount; ++k) {
+            if (strcmp(names[k].c_str(), fieldname) == 0) {
+                return (int)k;
+            }
+        }
+    }
+    return -1;
 }
 //=============================================================================

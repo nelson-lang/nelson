@@ -23,49 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+if ~isbuiltin('mxCreateStructArray')
+    status = copyfile('mxCreateStructArray.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxCreateStructArray.c');
+    run('loader.nls');
+end
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "MxTypes.h"
+R = mxCreateStructArray();
+assert_istrue(isstruct(R));
+assert_isequal(size(R), [4 1]);
 //=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** fieldnames);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStructMatrix(mwSize m, mwSize n, int nfields, const char** fieldnames);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsStruct(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetNumberOfFields(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetField(mxArray* pm, mwIndex index, const char* fieldname, mxArray* pvalue);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetFieldByNumber(mxArray* pm, mwIndex index, int fieldnumber, mxArray* pvalue);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetFieldNumber(const mxArray* pm, const char* fieldname);
+assert_isequal(R(1).fullname, 'Michael B.');
+assert_isequal(R(1).date, 11122016);
 //=============================================================================
-#ifdef __cplusplus
-}
-#endif
+assert_isequal(R(2).fullname, 'Pierre P.');
+assert_isequal(R(2).date, 11122017);
+//=============================================================================
+assert_isequal(R(3).fullname, 'Nicolas M.');
+assert_isequal(R(3).date, 11122018);
+//=============================================================================
+assert_isequal(R(4).fullname, 'Manu T.');
+assert_isequal(R(4).date, 11122019);
 //=============================================================================

@@ -23,49 +23,47 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <mex.h>
+#include <string.h>
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "MxTypes.h"
+#define FULLNAME "fullname"
+#define DATE "date"
 //=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** fieldnames);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStructMatrix(mwSize m, mwSize n, int nfields, const char** fieldnames);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsStruct(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetNumberOfFields(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetField(mxArray* pm, mwIndex index, const char* fieldname, mxArray* pvalue);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetFieldByNumber(mxArray* pm, mwIndex index, int fieldnumber, mxArray* pvalue);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetFieldNumber(const mxArray* pm, const char* fieldname);
+struct agenda {
+    const char* fullname;
+    double date;
+};
 //=============================================================================
-#ifdef __cplusplus
+void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
+    const char* field_names[] = {FULLNAME, DATE};
+    struct agenda contacts[] = {{"Michael B.", 11122016},
+                                  {"Pierre P.",  11122017},
+                                  {"Nicolas M.", 11122018},
+                                  {"Manu T.",   11122019}};
+    mwIndex i = 0;
+    mwIndex numberOfStructs = sizeof(contacts) / sizeof(struct agenda);
+    mwSize dims[2] = {numberOfStructs, 1};
+    int fullnameIndex = 0;
+    int dateIndex = 0;
+
+    if (nlhs > 1) {
+        mexErrMsgTxt("Too many output arguments.");
+    }
+    if (nrhs != 0) {
+        mexErrMsgTxt("No input argument required.");
+    }
+
+    plhs[0] = mxCreateStructArray(2, dims, sizeof(field_names) / sizeof(*field_names), field_names);
+    dateIndex = mxGetFieldNumber(plhs[0], DATE);
+    fullnameIndex = mxGetFieldNumber(plhs[0], FULLNAME);
+
+    for (i = 0; i < numberOfStructs; i++) {
+        mxArray* value = mxCreateDoubleMatrix(1, 1, mxREAL);
+        if (value) {
+            *mxGetPr(value) = contacts[i].date;
+            mxSetFieldByNumber(plhs[0], i, fullnameIndex, mxCreateString(contacts[i].fullname));
+            mxSetFieldByNumber(plhs[0], i, dateIndex, value);
+        }
+    }
 }
-#endif
 //=============================================================================
