@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
+#include "nlsConfig.h"
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
@@ -353,8 +354,14 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getLength(), names, false);
     std::string classtype = dp->getStructTypeName();
     indexType fN = names.size();
-    for (indexType i = 0; i < fN - 1; i++) {
-        rp[i] = qp[i];
+    if (fN > 1) {
+        ompIndexType nN = (ompIndexType)fN - 1;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < nN; i++) {
+            rp[i] = qp[i];
+        }
     }
     dp = dp->putData(NLS_STRUCT_ARRAY, dp->dimensions, rp, false, names);
     dp->setStructTypeName(classtype);

@@ -135,7 +135,7 @@ Data::getStructTypeName()
 void
 Data::setStructTypeName(const std::string& typeName)
 {
-    structTypeName = std::move(typeName);
+    structTypeName = typeName;
 }
 
 int

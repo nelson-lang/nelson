@@ -2,7 +2,7 @@
 
 * [IN PROGRESS] C MEX API:
 
-  * mxSetField, mxSetFieldByNumber, mxGetFieldNumber functions.
+  *  mxRemoveField, mxAddField, mxSetField, mxSetFieldByNumber, mxGetFieldNumber functions.
 
   * mexGetVariable, mexGetVariablePtr, mexPutVariable functions.
 

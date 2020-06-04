@@ -146,3 +146,50 @@ mxGetFieldNumber(const mxArray* pm, const char* fieldname)
     return -1;
 }
 //=============================================================================
+int
+mxAddField(mxArray* pm, const char* fieldname)
+{
+    if (mxIsStruct(pm)) {
+        auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+        Nelson::ArrayOf* qp = (Nelson::ArrayOf*)ptr->getDataPointer();
+        Nelson::stringVector names = ptr->getFieldNames();
+        if (std::find(names.begin(), names.end(), std::string(fieldname)) != names.end()) {
+            return mxGetFieldNumber(pm, fieldname);
+        } else {
+            return (int)ptr->insertFieldName(fieldname);
+        }
+    }
+    return -1;
+}
+//=============================================================================
+void
+mxRemoveField(mxArray* pm, int fieldnumber)
+{
+    if (mxIsStruct(pm)) {
+        auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+        Nelson::ArrayOf* qp = (Nelson::ArrayOf*)ptr->getDataPointer();
+    }
+    auto* ptr = (Nelson::ArrayOf*)pm->ptr;
+    Nelson::stringVector fieldnames = ptr->getFieldNames();
+    size_t fieldCount = ptr->getFieldNames().size();
+    if (fieldnumber >= fieldCount || fieldnumber < 0) {
+        return;
+    }
+    Nelson::stringVector newFieldnames;
+    newFieldnames.reserve(fieldnames.size() - 1);
+    for (size_t k = 0; k < fieldnames.size();  ++k) {
+      if (k != fieldnumber) {
+            newFieldnames.push_back(fieldnames[k]);
+        }
+    }
+    Nelson::Dimensions dims = ptr->getDimensions();
+    Nelson::ArrayOf* qp = static_cast<Nelson::ArrayOf*>(Nelson::ArrayOf::allocateArrayOf(
+        Nelson::NLS_STRUCT_ARRAY, dims.getElementCount(), newFieldnames, false));
+    Nelson::ArrayOf st = Nelson::ArrayOf(Nelson::NLS_STRUCT_ARRAY, dims, qp, false, newFieldnames);
+    for (std::string c : newFieldnames) {
+        Nelson::ArrayOfVector data = ptr->getFieldAsList(c);
+        st.setFieldAsList(c, data);
+    }
+    pm->ptr = (uint64_t*)new Nelson::ArrayOf(st);
+}
+//=============================================================================

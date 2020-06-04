@@ -64,6 +64,14 @@ extern "C"
     NLSMEX_IMPEXP
     int
     mxGetFieldNumber(const mxArray* pm, const char* fieldname);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxAddField(mxArray* pm, const char* fieldname);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxRemoveField(mxArray* pm, int fieldnumber);
 //=============================================================================
 #ifdef __cplusplus
 }
