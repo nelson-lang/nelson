@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <string.h>
+#include <algorithm>
 #include "mex.h"
 #include "matrix.h"
 #include "MxStruct.h"
