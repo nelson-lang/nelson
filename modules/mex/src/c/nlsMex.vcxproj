@@ -175,6 +175,7 @@
     <ClCompile Include="..\cpp\MxLogical.cpp" />
     <ClCompile Include="..\cpp\MxMemory.cpp" />
     <ClCompile Include="..\cpp\MxNonComplexFloat.cpp" />
+    <ClCompile Include="..\cpp\MxNonNumericTypes.cpp" />
     <ClCompile Include="..\cpp\MxNumericTypes.cpp" />
     <ClCompile Include="..\cpp\MxObject.cpp" />
     <ClCompile Include="..\cpp\MxSparse.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\include\MxLogical.h" />
     <ClInclude Include="..\include\MxMemory.h" />
     <ClInclude Include="..\include\MxNonComplexFloat.h" />
+    <ClInclude Include="..\include\MxNonNumericTypes.h" />
     <ClInclude Include="..\include\MxNumericTypes.h" />
     <ClInclude Include="..\include\MxObject.h" />
     <ClInclude Include="..\include\MxSparse.h" />

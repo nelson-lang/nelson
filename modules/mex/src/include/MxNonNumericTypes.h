@@ -33,35 +33,13 @@ extern "C"
 {
 #endif
     //=============================================================================
-    NLSMEX_IMPEXP
-    double
-    mxGetScalar(const mxArray* pm);
+    NLSMEX_IMPEXP 
+    void*
+    mxGetData(const mxArray* pm);
     //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsDouble(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsSingle(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxDouble*
-    mxGetPrSeparatedComplex(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxDouble*
-    mxGetPrInterleavedComplex(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
+    NLSMEX_IMPEXP 
     void
-    mxSetPr(mxArray* pm, double* pr);
-    //=============================================================================
-#if MX_HAS_INTERLEAVED_COMPLEX
-#define mxGetPr mxGetPrInterleavedComplex
-#else
-#define mxGetPr mxGetPrSeparatedComplex
-#endif
+    mxSetData(mxArray* pm, void* pa);
     //=============================================================================
 #ifdef __cplusplus
 }

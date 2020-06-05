@@ -119,12 +119,3 @@ mxSetPr(mxArray* pm, double* pr)
     }
 }
 //=============================================================================
-void*
-mxGetData(const mxArray* pm)
-{
-    if (pm != nullptr) {
-        return (void*)pm->realdata;
-    }
-    return nullptr;
-}
-//=============================================================================
