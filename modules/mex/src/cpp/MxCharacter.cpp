@@ -35,6 +35,21 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 mxArray*
+mxCreateStringFromNChars(const char* str, mwSize n)
+{
+    size_t lenStr = strlen(str);
+    size_t len = n;
+    if (n > lenStr) {
+        len = lenStr;
+    } else if (n == lenStr){
+        len = lenStr;
+    }
+    std::string s = str;
+    std::string sub = s.substr(0, len);
+    return mxCreateString(sub.c_str());
+}
+//=============================================================================
+mxArray*
 mxCreateString(const char* str)
 {
     return mxCreateCharMatrixFromStrings(1, &str);
@@ -71,7 +86,6 @@ mxCreateCharArray(mwSize ndim, const mwSize* dims)
     return mxAllocateRealArray(ndim, dims, sizeof(mxChar), mxCHAR_CLASS);
 }
 //=============================================================================
-
 char*
 mxArrayToString(const mxArray* array_ptr)
 {

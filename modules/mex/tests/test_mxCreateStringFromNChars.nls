@@ -23,37 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+if ~isbuiltin('mxCreateStringFromNChars')
+    status = copyfile('mxCreateStringFromNChars.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxCreateStringFromNChars.c');
+    run('loader.nls');
+end
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "mex.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetString(const mxArray* pm, char* str, mwSize strlen);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateString(const char* str);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateCharMatrixFromStrings(mwSize m, const char** str);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateCharArray(mwSize ndim, const mwSize* dims);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStringFromNChars(const char* str, mwSize n);
-//=============================================================================
-#ifdef __cplusplus
-}
-#endif
+R = mxCreateStringFromNChars();
+assert_isequal(R, 'It');
 //=============================================================================

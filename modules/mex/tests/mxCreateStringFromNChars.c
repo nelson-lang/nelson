@@ -23,37 +23,21 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <mex.h>
+#include <string.h>
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "mex.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetString(const mxArray* pm, char* str, mwSize strlen);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateString(const char* str);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateCharMatrixFromStrings(mwSize m, const char** str);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateCharArray(mwSize ndim, const mwSize* dims);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStringFromNChars(const char* str, mwSize n);
-//=============================================================================
-#ifdef __cplusplus
+    const char *str = "It works !!!";
+    if (nrhs !=0) {
+        mexErrMsgIdAndTxt( "NELSON:minrhs",
+                "No input arguments required.");
+    } 
+    if(nlhs > 1){
+        mexErrMsgIdAndTxt( "NELSON:maxrhs",
+                "Too many output arguments.");
+    }
+    plhs[0] = mxCreateStringFromNChars(str, 2);
 }
-#endif
 //=============================================================================

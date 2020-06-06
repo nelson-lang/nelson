@@ -2,6 +2,8 @@
 
 * [IN PROGRESS] C MEX API:
 
+  * mxCreateStringFromNChars
+
   *  mxRemoveField, mxAddField, mxSetField, mxSetFieldByNumber, mxGetFieldNumber functions.
 
   * mexGetVariable, mexGetVariablePtr, mexPutVariable functions.
