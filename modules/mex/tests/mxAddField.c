@@ -25,7 +25,8 @@
 //=============================================================================
 #include <mex.h>
 //=============================================================================
-void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
     int fieldnumber = -1;
     mxArray* ptr = NULL;
