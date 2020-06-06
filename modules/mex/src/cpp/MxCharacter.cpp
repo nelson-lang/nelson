@@ -86,6 +86,25 @@ mxCreateCharArray(mwSize ndim, const mwSize* dims)
     return mxAllocateRealArray(ndim, dims, sizeof(mxChar), mxCHAR_CLASS);
 }
 //=============================================================================
+void
+mxGetNChars(const mxArray* pa, char* buf, mwSize nChars)
+{
+    if (pa->classID == mxCHAR_CLASS) {
+        auto* p = (mxChar*)(pa->realdata);
+        size_t N = mxGetNumberOfElements(pa);
+        size_t L = nChars;
+        if (nChars > N) {
+            L = N;
+        }
+        if (buf != nullptr) {
+            for (size_t i = 0; i < L; i++) {
+                buf[i] = (char)p[i];
+            }
+            buf[L] = 0;
+        }
+    }
+}
+//=============================================================================
 char*
 mxArrayToString(const mxArray* array_ptr)
 {

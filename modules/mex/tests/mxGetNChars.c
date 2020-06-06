@@ -23,41 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <mex.h>
+#include <string.h>
 //=============================================================================
-#include "nlsMex_exports.h"
-#include "mex.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxGetString(const mxArray* pm, char* str, mwSize strlen);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateString(const char* str);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateCharMatrixFromStrings(mwSize m, const char** str);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateCharArray(mwSize ndim, const mwSize* dims);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxCreateStringFromNChars(const char* str, mwSize n);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxGetNChars(const mxArray* pa, char* buf, mwSize nChars);
-//=============================================================================
-#ifdef __cplusplus
+    const char *str = "It works !!!";
+    mxArray *ma = mxCreateString(str);
+
+    if (nrhs != 0) {
+        mexErrMsgIdAndTxt( "NELSON:minrhs",
+                "No input arguments required.");
+    } 
+    if(nlhs > 1){
+        mexErrMsgIdAndTxt( "NELSON:maxrhs",
+                "Too many output arguments.");
+    }
+    char *tmp = (char*) mxMalloc(strlen(str) * sizeof(char));
+    mxGetNChars(ma, tmp, 2);
+    plhs[0] = mxCreateString(tmp);
 }
-#endif
 //=============================================================================
