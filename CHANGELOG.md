@@ -4,7 +4,7 @@
 
   * mxCreateStringFromNChars, mxGetNChars
 
-  * mxRemoveField, mxAddField, mxSetField, mxSetFieldByNumber, mxGetFieldNumber functions.
+  * mxRemoveField, mxAddField, mxSetField, mxSetFieldByNumber, mxGetFieldNumber, mxGetFieldNameByNumber functions.
 
   * mexGetVariable, mexGetVariablePtr, mexPutVariable functions.
 
