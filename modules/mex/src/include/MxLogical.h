@@ -49,6 +49,18 @@ extern "C"
     mxArray*
     mxCreateLogicalArray(mwSize ndim, const mwSize* dims);
     //=============================================================================
+    NLSMEX_IMPEXP
+    mxLogical*
+    mxGetLogicals(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsLogicalScalar(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsLogicalScalarTrue(const mxArray* array_ptr);
+    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

@@ -58,3 +58,28 @@ mxCreateLogicalArray(mwSize ndim, const mwSize* dims)
     return mxAllocateRealArray(ndim, dims, sizeof(mxLogical), mxLOGICAL_CLASS);
 }
 //=============================================================================
+mxLogical*
+mxGetLogicals(const mxArray* array_ptr)
+{
+    if (array_ptr != nullptr) {
+        return (mxLogical*)array_ptr->realdata;
+    }
+    return nullptr;
+}
+//=============================================================================
+bool
+mxIsLogicalScalar(const mxArray* array_ptr)
+{
+    return mxIsScalar(array_ptr) && mxIsLogical(array_ptr);
+}
+//=============================================================================
+bool
+mxIsLogicalScalarTrue(const mxArray* array_ptr)
+{
+    if (mxIsLogicalScalar(array_ptr)) {
+        mxLogical logicalValue = array_ptr->realdata;
+        return logicalValue == true;
+    }
+    return false;
+}
+//=============================================================================
