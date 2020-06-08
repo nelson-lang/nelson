@@ -23,25 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+if ~isbuiltin('mxIsInteger')
+    status = copyfile('mxIsInteger.c', tempdir());
+    assert_istrue(status);
+    cd(tempdir()); 
+    mex('mxIsInteger.c');
+    run('loader.nls');
+end
 //=============================================================================
-#include "MxTypes.h"
-#include "MxAsserts.h"
-#include "MxAttributes.h"
-#include "MxCell.h"
-#include "MxCharacter.h"
-#include "MxConstants.h"
-#include "MxLogical.h"
-#include "MxMemory.h"
-#include "MxNonComplexFloat.h"
-#include "MxComplexFloat.h"
-#include "MxNumericTypes.h"
-#include "MxStruct.h"
-#include "MxObject.h"
-#include "MxCall.h"
-#include "MxInterleavedComplex.h"
-#include "MxSparse.h"
-#include "MxVariables.h"
-#include "MxNonNumericTypes.h"
-#include "MxInteger.h"
+assert_isequal(mxIsInteger(int8(3)), 'int8');
+assert_isequal(mxIsInteger(int16(3)), 'int16');
+assert_isequal(mxIsInteger(int32(3)), 'int32');
+assert_isequal(mxIsInteger(int64(3)), 'int64');
+//=============================================================================
+assert_isequal(mxIsInteger(uint8(3)), 'uint8');
+assert_isequal(mxIsInteger(uint16(3)), 'uint16');
+assert_isequal(mxIsInteger(uint32(3)), 'uint32');
+assert_isequal(mxIsInteger(uint64(3)), 'uint64');
+//=============================================================================
+assert_isequal(mxIsInteger(true), 'not integer');
 //=============================================================================

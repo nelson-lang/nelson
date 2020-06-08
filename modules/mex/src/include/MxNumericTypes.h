@@ -62,10 +62,6 @@ extern "C"
     mxCreateDoubleMatrixInterleavedComplex(mwSize m, mwSize n, mxComplexity ComplexFlag);
     //=============================================================================
     NLSMEX_IMPEXP
-    bool
-    mxIsNumeric(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
     mxArray*
     mxCreateDoubleScalar(double value);
     //=============================================================================

@@ -159,3 +159,9 @@ mxIsFromGlobalWS(const mxArray* pm)
     return false;
 }
 //=============================================================================
+bool
+mxIsScalar(const mxArray* array_ptr)
+{
+    return (mxGetNumberOfElements(array_ptr) == 1);
+}
+//=============================================================================

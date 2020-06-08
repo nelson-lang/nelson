@@ -23,93 +23,77 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "matrix.h"
-#include "MxHelpers.hpp"
-//=============================================================================
-double
-mxGetScalar(const mxArray* pm)
-{
-    if (pm == nullptr) {
-        return 0;
-    }
-    if (mxIsEmpty(pm)) {
-        return 0;
-    }
-    switch (pm->classID) {
-    case mxCELL_CLASS:
-        return 0;
-    case mxSTRUCT_CLASS:
-        return 0;
-    case mxLOGICAL_CLASS:
-        return static_cast<double>(((mxLogical*)pm->realdata)[0]);
-    case mxCHAR_CLASS:
-        return ((mxChar*)pm->realdata)[0];
-    case mxDOUBLE_CLASS:
-        return ((mxDouble*)pm->realdata)[0];
-    case mxSINGLE_CLASS:
-        return ((mxSingle*)pm->realdata)[0];
-    case mxINT8_CLASS:
-        return ((mxInt8*)pm->realdata)[0];
-    case mxUINT8_CLASS:
-        return ((mxUint8*)pm->realdata)[0];
-    case mxINT16_CLASS:
-        return ((mxInt16*)pm->realdata)[0];
-    case mxUINT16_CLASS:
-        return ((mxUint16*)pm->realdata)[0];
-    case mxINT32_CLASS:
-        return ((mxInt32*)pm->realdata)[0];
-    case mxUINT32_CLASS:
-        return ((mxUint32*)pm->realdata)[0];
-    case mxINT64_CLASS:
-        return (mxDouble)((mxInt64*)pm->realdata)[0];
-    case mxUINT64_CLASS:
-        return (mxDouble)((mxUint64*)pm->realdata)[0];
-    default:
-        return 0;
-    }
-    return 0;
-}
+#include "MxInteger.h"
 //=============================================================================
 bool
-mxIsDouble(const mxArray* pm)
+mxIsInt8(const mxArray* pm)
 {
     if (pm != nullptr) {
-        return (pm->classID == mxDOUBLE_CLASS);
+        return pm->classID == mxINT8_CLASS;
     }
     return false;
 }
 //=============================================================================
 bool
-mxIsSingle(const mxArray* pm)
+mxIsInt16(const mxArray* pm)
 {
     if (pm != nullptr) {
-        return (pm->classID == mxSINGLE_CLASS);
+        return pm->classID == mxINT16_CLASS;
     }
     return false;
 }
 //=============================================================================
-NLSMEX_IMPEXP
-mxDouble*
-mxGetPrInterleavedComplex(const mxArray* pm)
-{
-    mexErrMsgTxt(_("mxGetPr not allowed with interleaved complex.").c_str());
-    return nullptr;
-}
-//=============================================================================
-mxDouble*
-mxGetPrSeparatedComplex(const mxArray* pm)
+bool
+mxIsInt32(const mxArray* pm)
 {
     if (pm != nullptr) {
-        return (mxDouble*)pm->realdata;
+        return pm->classID == mxINT32_CLASS;
     }
-    return nullptr;
+    return false;
 }
 //=============================================================================
-void
-mxSetPr(mxArray* pm, double* pr)
+bool
+mxIsInt64(const mxArray* pm)
 {
     if (pm != nullptr) {
-        pm->realdata = pr;
+        return pm->classID == mxINT64_CLASS;
     }
+    return false;
+}
+//=============================================================================
+bool
+mxIsUint8(const mxArray* pm)
+{
+    if (pm != nullptr) {
+        return pm->classID == mxUINT8_CLASS;
+    }
+    return false;
+}
+//=============================================================================
+bool
+mxIsUint16(const mxArray* pm)
+{
+    if (pm != nullptr) {
+        return pm->classID == mxUINT16_CLASS;
+    }
+    return false;
+}
+//=============================================================================
+bool
+mxIsUint32(const mxArray* pm)
+{
+    if (pm != nullptr) {
+        return pm->classID == mxUINT32_CLASS;
+    }
+    return false;
+}
+//=============================================================================
+bool
+mxIsUint64(const mxArray* pm)
+{
+    if (pm != nullptr) {
+        return pm->classID == mxUINT64_CLASS;
+    }
+    return false;
 }
 //=============================================================================

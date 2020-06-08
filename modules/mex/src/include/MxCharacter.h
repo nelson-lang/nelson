@@ -34,6 +34,22 @@ extern "C"
 #endif
     //=============================================================================
     NLSMEX_IMPEXP
+    char*
+    mxArrayToString(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    char*
+    mxArrayToUTF8String(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsChar(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxChar*
+    mxGetChars(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
     int
     mxGetString(const mxArray* pm, char* str, mwSize strlen);
     //=============================================================================

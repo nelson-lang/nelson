@@ -66,6 +66,10 @@ extern "C"
     NLSMEX_IMPEXP void
     mexFreeAllRegisteredPointer();
     //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxDuplicateArray(const mxArray* in);
+    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

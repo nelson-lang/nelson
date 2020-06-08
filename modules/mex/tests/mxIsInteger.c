@@ -23,25 +23,44 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <mex.h>
 //=============================================================================
-#include "MxTypes.h"
-#include "MxAsserts.h"
-#include "MxAttributes.h"
-#include "MxCell.h"
-#include "MxCharacter.h"
-#include "MxConstants.h"
-#include "MxLogical.h"
-#include "MxMemory.h"
-#include "MxNonComplexFloat.h"
-#include "MxComplexFloat.h"
-#include "MxNumericTypes.h"
-#include "MxStruct.h"
-#include "MxObject.h"
-#include "MxCall.h"
-#include "MxInterleavedComplex.h"
-#include "MxSparse.h"
-#include "MxVariables.h"
-#include "MxNonNumericTypes.h"
-#include "MxInteger.h"
+void
+mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+    mxArray *res = NULL;
+    if (nlhs > 1) {
+       mexErrMsgTxt("Wrong number of output argument.");
+    }
+    if (nrhs != 1) {
+        mexErrMsgTxt("Wrong number of input argument.");
+    }
+    if (mxIsInt8(prhs[0])){
+        res = mxCreateString("int8");
+    } else
+    if (mxIsInt16(prhs[0])){
+        res = mxCreateString("int16");
+    } else
+    if (mxIsInt32(prhs[0])){
+        res = mxCreateString("int32");
+    } else
+    if (mxIsInt64(prhs[0])){
+        res = mxCreateString("int64");
+    } else 
+    if (mxIsUint8(prhs[0])){
+        res = mxCreateString("uint8");
+    } else 
+    if (mxIsUint16(prhs[0])){
+        res = mxCreateString("uint16");
+    } else 
+    if (mxIsUint32(prhs[0])){
+        res = mxCreateString("uint32");
+    } else
+    if (mxIsUint64(prhs[0])){
+        res = mxCreateString("uint64");
+    } else {
+        res = mxCreateString("not integer");
+    }
+    plhs[0] = res;
+}
 //=============================================================================

@@ -2,6 +2,8 @@
 
 * [IN PROGRESS] C MEX API:
 
+  * mxIsInt8, mxIsInt16, mxIsInt32, mxIsInt64, mxIsUint8, mxIsUint16, mxIsUint32, mxIsUint64 functions.
+  
   * mxCreateStringFromNChars, mxGetNChars
 
   * mxRemoveField, mxAddField, mxSetField, mxSetFieldByNumber, mxGetFieldNumber, mxGetFieldNameByNumber functions.
