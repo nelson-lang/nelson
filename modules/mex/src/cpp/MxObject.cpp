@@ -212,8 +212,7 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
                                     argIn.push_back(Nelson::MxArrayToArrayOf(value));
                                     try {
                                         argOut = funcDef->evaluateFunction(mainEvaluator, argIn, 0);
-                                    } catch (Nelson::Exception&) {
-                                    }
+                                    } catch (Nelson::Exception&) { }
                                 }
                             }
                         }
@@ -222,5 +221,29 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
             }
         }
     }
+}
+//=============================================================================
+bool
+mxIsFunctionHandle(const mxArray* pa)
+{
+    return mxIsClass(pa, "function_handle");
+}
+//=============================================================================
+bool
+mxIsOpaque(const mxArray* pa)
+{
+    if (pa != nullptr) {
+        return (pa->classID == mxOPAQUE_CLASS);
+    }
+    return false;
+}
+//=============================================================================
+bool
+mxIsObject(const mxArray* pa)
+{
+    if (pa != nullptr) {
+        return (pa->classID == mxOBJECT_CLASS);
+    }
+    return false;
 }
 //=============================================================================
