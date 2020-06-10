@@ -41,7 +41,7 @@ mxCreateStringFromNChars(const char* str, mwSize n)
     size_t len = n;
     if (n > lenStr) {
         len = lenStr;
-    } else if (n == lenStr){
+    } else if (n == lenStr) {
         len = lenStr;
     }
     std::string s = str;

@@ -62,7 +62,8 @@ extern "C"
     mxIsFunctionHandle(const mxArray* pa);
     //=============================================================================
     NLSMEX_IMPEXP
-    bool mxIsOpaque(const mxArray* pa);
+    bool
+    mxIsOpaque(const mxArray* pa);
     //=============================================================================
     NLSMEX_IMPEXP
     bool

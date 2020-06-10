@@ -23,533 +23,307 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <string>
 #include "MxInteger.h"
+#include "i18n.hpp"
+//=============================================================================
+static bool
+mxIsInteger(const mxArray* pm, mxClassID classExpected)
+{
+    if (pm != nullptr) {
+        return pm->classID == classExpected;
+    }
+    return false;
+}
 //=============================================================================
 bool
 mxIsInt8(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxINT8_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxINT8_CLASS);
 }
 //=============================================================================
 bool
 mxIsInt16(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxINT16_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxINT16_CLASS);
 }
 //=============================================================================
 bool
 mxIsInt32(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxINT32_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxINT32_CLASS);
 }
 //=============================================================================
 bool
 mxIsInt64(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxINT64_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxINT64_CLASS);
 }
 //=============================================================================
 bool
 mxIsUint8(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxUINT8_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxUINT8_CLASS);
 }
 //=============================================================================
 bool
 mxIsUint16(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxUINT16_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxUINT16_CLASS);
 }
 //=============================================================================
 bool
 mxIsUint32(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxUINT32_CLASS;
-    }
-    return false;
+    return mxIsInteger(pm, mxUINT32_CLASS);
 }
 //=============================================================================
 bool
 mxIsUint64(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return pm->classID == mxUINT64_CLASS;
+    return mxIsInteger(pm, mxUINT64_CLASS);
+}
+//=============================================================================
+template <class T>
+T*
+mxGetComplexIntegerInterleavedComplex(const mxArray* pa, std::string typemsg, bool isExpectedType)
+{
+    if (isExpectedType) {
+        return (T*)pa->realdata;
+    } else {
+        std::string msg = typemsg + "expected.";
+        mexErrMsgTxt(_(msg).c_str());
     }
-    return false;
+    return nullptr;
+}
+//=============================================================================
+template <class T>
+int
+mxSetIntegerInterleavedComplex(mxArray* pa, T* dt, std::string typemsg, bool isExpectedType)
+{
+    if (pa != nullptr) {
+        if (!isExpectedType) {
+            std::string msg = typemsg + " expected.";
+            mexErrMsgTxt(_(msg).c_str());
+        }
+        if (!mxIsRegisteredPointer(dt)) {
+            std::string msg = typemsg + " array not allocated with mxMalloc or mxCalloc.";
+            mexErrMsgTxt(_(msg).c_str());
+        }
+        pa->realdata = dt;
+        return 1;
+    }
+    return 0;
+}
+//=============================================================================
+template <class T>
+int
+mxSetComplexIntegerInterleavedComplex(mxArray* pa, T* dt, std::string typemsg, bool isExpectedType)
+{
+    if (pa != nullptr) {
+        if (!pa->iscomplex || !isExpectedType) {
+            std::string msg = typemsg + " complex expected.";
+            mexErrMsgTxt(_(msg).c_str());
+        }
+        if (!mxIsRegisteredPointer(dt)) {
+            std::string msg = typemsg + " complex array not allocated with mxMalloc or mxCalloc.";
+            mexErrMsgTxt(_(msg).c_str());
+        }
+        pa->realdata = dt;
+        return 1;
+    }
+    return 0;
 }
 //=============================================================================
 mxInt8*
 mxGetInt8sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsInt8(pa)) {
-            return (mxInt8*)pa->realdata;
-        } else {
-            mexErrMsgTxt("int8 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxInt8>(pa, "int8", mxIsInt8(pa));
 }
 //=============================================================================
 int
 mxSetInt8sInterleavedComplex(mxArray* pa, mxInt8* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsInt8(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("int8 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("int8 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxInt8>(pa, dt, "int8", mxIsInt8(pa));
 }
 //=============================================================================
 mxUint8*
 mxGetUint8sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsUint8(pa)) {
-            return (mxUint8*)pa->realdata;
-        } else {
-            mexErrMsgTxt("uint8 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxUint8>(pa, "uint8", mxIsUint8(pa));
 }
 //=============================================================================
 int
 mxSetUint8sInterleavedComplex(mxArray* pa, mxUint8* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsUint8(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("uint8 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("uint8 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxUint8>(pa, dt, "uint8", mxIsUint8(pa));
 }
 //=============================================================================
 mxInt16*
 mxGetInt16sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsInt16(pa)) {
-            return (mxInt16*)pa->realdata;
-        } else {
-            mexErrMsgTxt("int16 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxInt16>(pa, "int16", mxIsInt16(pa));
 }
 //=============================================================================
 int
 mxSetInt16sInterleavedComplex(mxArray* pa, mxInt16* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsInt16(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("int16 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("int16 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxInt16>(pa, dt, "int16", mxIsInt16(pa));
 }
 //=============================================================================
 mxUint16*
 mxGetUint16sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsUint16(pa)) {
-            return (mxUint16*)pa->realdata;
-        } else {
-            mexErrMsgTxt("uint16 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxUint16>(pa, "uint16", mxIsUint16(pa));
 }
 //=============================================================================
 int
 mxSetUint16sInterleavedComplex(mxArray* pa, mxUint16* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsUint16(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("uint16 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("uint16 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxUint16>(pa, dt, "uint16", mxIsUint16(pa));
 }
 //=============================================================================
 mxInt32*
 mxGetInt32sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsInt32(pa)) {
-            return (mxInt32*)pa->realdata;
-        } else {
-            mexErrMsgTxt("int32 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxInt32>(pa, "int32", mxIsInt32(pa));
 }
 //=============================================================================
 int
 mxSetInt32sInterleavedComplex(mxArray* pa, mxInt32* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsInt32(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("int32 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("int32 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxInt32>(pa, dt, "int32", mxIsInt32(pa));
 }
 //=============================================================================
 mxUint32*
 mxGetUint32sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsUint32(pa)) {
-            return (mxUint32*)pa->realdata;
-        } else {
-            mexErrMsgTxt("uint32 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxUint32>(pa, "uint32", mxIsUint32(pa));
 }
 //=============================================================================
 int
 mxSetUint32sInterleavedComplex(mxArray* pa, mxUint32* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsUint32(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("uint32 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("uint32 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxUint32>(pa, dt, "uint32", mxIsUint32(pa));
 }
 //=============================================================================
 mxInt64*
 mxGetInt64sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsInt64(pa)) {
-            return (mxInt64*)pa->realdata;
-        } else {
-            mexErrMsgTxt("int64 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxInt64>(pa, "int64", mxIsInt64(pa));
 }
 //=============================================================================
 int
 mxSetInt64sInterleavedComplex(mxArray* pa, mxInt64* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsInt64(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("int64 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("int64 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxInt64>(pa, dt, "int64", mxIsInt64(pa));
 }
 //=============================================================================
 mxUint64*
 mxGetUint64sInterleavedComplex(const mxArray* pa)
 {
-    if (pa != nullptr) {
-        if (mxIsUint64(pa)) {
-            return (mxUint64*)pa->realdata;
-        } else {
-            mexErrMsgTxt("uint64 expected.");
-        }
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxUint64>(pa, "uint64", mxIsUint64(pa));
 }
 //=============================================================================
 int
 mxSetUint64sInterleavedComplex(mxArray* pa, mxUint64* dt)
 {
-    if (pa != nullptr) {
-        if (mxIsUint64(pa)) {
-            if (!mxIsRegisteredPointer(dt)) {
-                mexErrMsgTxt("uint64 array not allocated with mxMalloc or mxCalloc.");
-            }
-            pa->realdata = dt;
-            return 1;
-        } else {
-            mexErrMsgTxt("uint64 expected.");
-        }
-    }
-    return 0;
+    return mxSetIntegerInterleavedComplex<mxUint64>(pa, dt, "uint64", mxIsUint64(pa));
 }
 //=============================================================================
 mxComplexInt8*
 mxGetComplexInt8sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsInt8(pa)) {
-        return (mxComplexInt8*)pa->realdata;
-    } else {
-        mexErrMsgTxt("int8 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexInt8>(pa, "int8", mxIsInt8(pa));
 }
 //=============================================================================
 int
 mxSetComplexInt8sInterleavedComplex(mxArray* pa, mxComplexInt8* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsInt8(pa)) {
-            mexErrMsgTxt("int8 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("int8 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexInt8>(pa, dt, "int8", mxIsInt8(pa));
 }
 //=============================================================================
 mxComplexUint8*
 mxGetComplexUint8sInterleavedComplex(const mxArray* pa)
-{ 
-    if (mxIsUint8(pa)) {
-        return (mxComplexUint8*)pa->realdata;
-    } else {
-        mexErrMsgTxt("uint8 expected.");
-    }
-    return nullptr;
+{
+    return mxGetComplexIntegerInterleavedComplex<mxComplexUint8>(pa, "uint8", mxIsUint8(pa));
 }
 //=============================================================================
 int
 mxSetComplexUint8sInterleavedComplex(mxArray* pa, mxComplexUint8* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsUint8(pa)) {
-            mexErrMsgTxt("uint8 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("uint8 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexUint8>(pa, dt, "uint8", mxIsUint8(pa));
 }
 //=============================================================================
 mxComplexInt16*
 mxGetComplexInt16sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsInt16(pa)) {
-        return (mxComplexInt16*)pa->realdata;
-    } else {
-        mexErrMsgTxt("int16 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexInt16>(pa, "int16", mxIsInt16(pa));
 }
 //=============================================================================
 int
 mxSetComplexInt16sInterleavedComplex(mxArray* pa, mxComplexInt16* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsInt16(pa)) {
-            mexErrMsgTxt("int16 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("int16 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexInt16>(pa, dt, "int16", mxIsInt16(pa));
 }
 //=============================================================================
 mxComplexUint16*
 mxGetComplexUint16sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsUint16(pa)) {
-        return (mxComplexUint16*)pa->realdata;
-    } else {
-        mexErrMsgTxt("uint16 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexUint16>(pa, "uint16", mxIsUint16(pa));
 }
 //=============================================================================
 int
 mxSetComplexUint16sInterleavedComplex(mxArray* pa, mxComplexUint16* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsUint16(pa)) {
-            mexErrMsgTxt("uint16 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("uint16 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexUint16>(pa, dt, "uint16", mxIsUint16(pa));
 }
 //=============================================================================
 mxComplexInt32*
 mxGetComplexInt32sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsInt32(pa)) {
-        return (mxComplexInt32*)pa->realdata;
-    } else {
-        mexErrMsgTxt("int32 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexInt32>(pa, "int32", mxIsInt32(pa));
 }
 //=============================================================================
 int
 mxSetComplexInt32sInterleavedComplex(mxArray* pa, mxComplexInt32* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsInt32(pa)) {
-            mexErrMsgTxt("int32 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("int32 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexInt32>(pa, dt, "int32", mxIsInt32(pa));
 }
 //=============================================================================
 mxComplexUint32*
 mxGetComplexUint32sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsUint32(pa)) {
-        return (mxComplexUint32*)pa->realdata;
-    } else {
-        mexErrMsgTxt("uint32 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexUint32>(pa, "uint32", mxIsUint32(pa));
 }
 //=============================================================================
 int
 mxSetComplexUint32sInterleavedComplex(mxArray* pa, mxComplexUint32* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsUint32(pa)) {
-            mexErrMsgTxt("uint32 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("uint32 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexUint32>(pa, dt, "uint32", mxIsUint32(pa));
 }
 //=============================================================================
 mxComplexInt64*
 mxGetComplexInt64sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsInt64(pa)) {
-        return (mxComplexInt64*)pa->realdata;
-    } else {
-        mexErrMsgTxt("int64 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexInt64>(pa, "int64", mxIsInt64(pa));
 }
 //=============================================================================
 int
 mxSetComplexInt64sInterleavedComplex(mxArray* pa, mxComplexInt64* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsInt64(pa)) {
-            mexErrMsgTxt("int64 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("int64 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexInt64>(pa, dt, "int64", mxIsInt64(pa));
 }
 //=============================================================================
 mxComplexUint64*
 mxGetComplexUint64sInterleavedComplex(const mxArray* pa)
 {
-    if (mxIsUint64(pa)) {
-        return (mxComplexUint64*)pa->realdata;
-    } else {
-        mexErrMsgTxt("uint64 expected.");
-    }
-    return nullptr;
+    return mxGetComplexIntegerInterleavedComplex<mxComplexUint64>(pa, "uint64", mxIsUint64(pa));
 }
 //=============================================================================
 int
 mxSetComplexUint64sInterleavedComplex(mxArray* pa, mxComplexUint64* dt)
 {
-    if (pa != nullptr) {
-        if (!pa->iscomplex || !mxIsUint64(pa)) {
-            mexErrMsgTxt("uint64 complex expected.");
-        }
-        if (!mxIsRegisteredPointer(dt)) {
-            mexErrMsgTxt("uint64 complex array not allocated with mxMalloc or mxCalloc.");
-        }
-        pa->realdata = dt;
-        return 1;
-    }
-    return 0;
+    return mxSetComplexIntegerInterleavedComplex<mxComplexUint64>(pa, dt, "uint64", mxIsUint64(pa));
 }
 //=============================================================================

@@ -84,7 +84,7 @@ mxClassID
 mxGetClassID(const mxArray* pm)
 {
     if (pm != nullptr) {
-        return pm->classID;
+        return (mxClassID)pm->classID;
     }
     return mxUNKNOWN_CLASS;
 }
@@ -212,7 +212,8 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
                                     argIn.push_back(Nelson::MxArrayToArrayOf(value));
                                     try {
                                         argOut = funcDef->evaluateFunction(mainEvaluator, argIn, 0);
-                                    } catch (Nelson::Exception&) { }
+                                    } catch (Nelson::Exception&) {
+                                    }
                                 }
                             }
                         }

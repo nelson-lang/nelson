@@ -196,8 +196,8 @@ mxRemoveField(mxArray* pm, int fieldnumber)
     }
     Nelson::stringVector newFieldnames;
     newFieldnames.reserve(fieldnames.size() - 1);
-    for (size_t k = 0; k < fieldnames.size();  ++k) {
-      if (k != fieldnumber) {
+    for (size_t k = 0; k < fieldnames.size(); ++k) {
+        if (k != fieldnumber) {
             newFieldnames.push_back(fieldnames[k]);
         }
     }

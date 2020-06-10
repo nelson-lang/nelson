@@ -173,7 +173,7 @@ sizeFromClass(mxClassID classid)
     case mxINT8_CLASS:
         return sizeof(mxInt8);
     case mxUINT8_CLASS:
-        return sizeof(mxInt8);
+        return sizeof(mxUint8);
     case mxINT16_CLASS:
         return sizeof(mxInt16);
     case mxUINT16_CLASS:
