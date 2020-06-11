@@ -26,7 +26,11 @@
 #include <string.h>
 #include <mex.h>
 //=============================================================================
+#if MX_IS_NELSON
 #define GRAPHIC_OBJECT_TYPE "graphic_object"
+#else
+#define GRAPHIC_OBJECT_TYPE "graphics"
+#endif
 #define BLUE_INDEX  2
 #define GREEN_INDEX 1
 #define RED_INDEX   0

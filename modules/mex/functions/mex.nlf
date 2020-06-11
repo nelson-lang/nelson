@@ -29,9 +29,16 @@ function mex(varargin)
   end
   params = varargin(:)';
   filenames = getFilenames(params);
+  definesParams = getDefines(params);
+  includesParams = getIncludes(params);
+  librariesParams = getLibraries(params);
+  undefinesParams = getUndefines(params);
+  cflagsParams = getCFlags(params);
+  buildConfigParam = getBuildConfig(params);
   [status, apiVersion] = containsApiVersion(params);
   hasinterleavedcomplex = false;
   interleavedComplex = '';
+  nelsonIdentified = 'MX_IS_NELSON';
   if status
     if strcmp(apiVersion, '-R2018a') == true
       hasinterleavedcomplex = true;
@@ -46,31 +53,39 @@ function mex(varargin)
     functionName = f;
   end
   if isempty(interleavedComplex)
-    defines = {};
+    defines = {nelsonIdentified};
   else
-    defines = { interleavedComplex };
+    defines = { nelsonIdentified, interleavedComplex };
   end
+  defines = [defines, definesParams];
+
   destinationPath = fileparts(filenames{1}, 'path');
   if isempty(destinationPath)
     destinationPath = pwd();
   end
-  build_configuration = [];
   if ~ispc()
     c_flags = '-Werror=implicit-function-declaration';
     cxx_flags = '-Werror=implicit-function-declaration';
   else
-    c_flags = [];
-    cxx_flags = [];
+    c_flags = '';
+    cxx_flags = '';
   end
+
+  includes = [{destinationPath}; includesParams'; dlgetnelsonincludes()];
+  libraries = [librariesParams'; dlgetnelsonlibraries()];
+  c_flags = [concateToChar(c_flags), ' ', concateToChar(cflagsParams),  ' ', concateToChar(undefinesParams)];
+  c_flags = strtrim(c_flags);
+  build_configuration = buildConfigParam;
+
   dlgeneratecleaner(destinationPath);
   dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
   filenames = [filenames, 'mexGateway.c'];
   [status, message] = dlgeneratemake(destinationPath, ...
   functionName, ...
   filenames, ...
-  [{destinationPath}; dlgetnelsonincludes()], ...
+  includes, ...
   defines, ...
-  dlgetnelsonlibraries(), ...
+  libraries, ...
   build_configuration, ...
   c_flags, ...
   cxx_flags);
@@ -90,9 +105,10 @@ function [status, apiVersion] = containsApiVersion(params)
   apiVersion = '-R2017b';
   for v = params
     if ischar(v{1})
-      if strcmp(v{1}, '-R2018a') || strcmp(v{1}, '-R2017b')
+      s = strtrim(v{1});
+      if strcmp(s, '-R2018a') || strcmp(s, '-R2017b')
         status = true;
-        apiVersion = v{1};
+        apiVersion = s;
         break;
       end
     end
@@ -121,10 +137,146 @@ function filenames = getFilenames(params)
   filenames = {};
   for p = params
     if ischar(p{1}) && isfile(p{1})
-      isSupportedExtensions = endsWith(p{1}, '.c', 'IgnoreCase', true) || endsWith(p{1}, '.cpp', 'IgnoreCase', true);
+      isSupportedExtensions = endsWith(p{1}, '.c', 'IgnoreCase', true) || ...
+        endsWith(p{1}, '.cc', 'IgnoreCase', true) || ...
+      endsWith(p{1}, '.cxx', 'IgnoreCase', true) || ...
+        endsWith(p{1}, '.cpp', 'IgnoreCase', true);
       if isSupportedExtensions
-        filenames{end + 1} = p{1};
+        filenames{end + 1} = strtrim(strrep(p{1}, '\', '/'));
       end
+    end
+  end
+endfunction
+//=============================================================================
+function defines = getDefines(params)
+  defines = {};
+  for p = params
+    if ischar(p{1})
+      isDefine = startsWith(p{1}, '-D', 'IgnoreCase', false);
+      if isDefine
+        s = strtrim(p{1});
+        defines{end + 1} = s(3:length(s));
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function includes = getIncludes(params)
+  includes = {};
+  for p = params
+    if ischar(p{1})
+      s = strtrim(p{1});
+      isInclude = startsWith(s, '-I', 'IgnoreCase', false);
+      if isInclude
+        s = removeDoubleQuote(s(3:length(s)));
+        includes{end + 1} = strrep(s, '\','/');
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function libraries = getLibraries(params)
+  libraries = {};
+  for p = params
+    if ischar(p{1})
+      s = strtrim(p{1});
+      isLibrary = startsWith(s, '-l', 'IgnoreCase', false);
+      if isLibrary
+        s = removeDoubleQuote(s(3:length(s)));
+        libraries{end + 1} = strrep(s, '\', '/');
+      else
+        s = removeDoubleQuote(s);
+        if endsWith(s, getSupportedLibraryExtension())
+          s = s(1:length(s) - length(getSupportedLibraryExtension()));
+          libraries{end + 1} = strrep(s, '\', '/');
+        end
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function undefines = getUndefines(params)
+  undefines = {};
+  [tf, compiler] = havecompiler();
+  ismsvc = strcmp(compiler, 'msvc');
+  for p = params
+    if ischar(p{1})
+      s = strtrim(p{1});
+      isUndefines = startsWith(s, '-U', 'IgnoreCase', false);
+      if isUndefines
+        if ismsvc
+          undefines{end + 1} = ['/', s(2:length(s))];
+        else
+          undefines{end + 1} = s;
+        end
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function buildConfig = getBuildConfig(params)
+  buildConfig = 'Release';
+  for p = params
+    if ischar(p{1})
+      s = strtrim(p{1});
+      isDebug = strcmp(s, '-g');
+      if isDebug
+        buildConfig = 'Debug';
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function cflags = getCFlags(params)
+  cflags = {};
+  CFLAGS_PREFIX = 'CFLAGS=';
+  LEN_CFLAGS_PREFIX = length(CFLAGS_PREFIX);
+  for p = params
+    if ischar(p{1})
+      s = strtrim(p{1});
+      isCflags = startsWith(s, CFLAGS_PREFIX, 'IgnoreCase', false);
+      if isCflags
+        cflags{end + 1} = removeDoubleQuotes(LEN_CFLAGS_PREFIX:length(s));
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function str = concateToChar(ce, delimiter)
+  if ~isvar('delimiter')
+    delimiter = ' ';
+  end
+  str = '';
+  first = true;
+  for e = ce
+    if first
+      str = [str, e{1}];
+      first = false;
+    else
+      str = [str, delimiter, e{1}];
+    end
+  end
+  str = strtrim(str);
+endfunction
+//=============================================================================
+function s = removeDoubleQuote(str)
+  s = strtrim(str);
+  if startsWith(s, '"') || startsWith(s, '''')
+    s = s(2:length(s));
+  end          
+  if endsWith(s, '"') || endsWith(s, '"')
+    s = s(1:length(s) - 1);
+  end
+endfunction
+//=============================================================================
+function ext = getSupportedLibraryExtension()
+  if ispc()
+    ext = '.lib';
+  else
+    if ismac()
+      ext = '.dylib';
+    else
+      ext = '.so';
     end
   end
 endfunction

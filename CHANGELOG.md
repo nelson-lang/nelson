@@ -2,6 +2,12 @@
 
 * [IN PROGRESS] C MEX API:
 
+  * extends mex function to manage interleaved complex option and c flags.
+  
+  * mxMakeArrayReal, mxMakeArrayComplex functions.
+
+  * mxGetImagData, mxSetImagData functions.
+
   * mxGetLogicals, mxIsLogicalScalar, mxIsLogicalScalarTrue functions.
 
   * mxGetInt8s, mxSetInt8s, mxGetComplexInt8s, mxSetComplexInt8s, mxGetUint8s, mxSetUint8s, mxGetComplexUint8s
