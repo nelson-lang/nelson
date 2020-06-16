@@ -49,7 +49,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
         Nelson::Error(ERROR_MEMORY_ALLOCATION);
     }
     int nlhs = (int)argIn.size();
-    int lhsCount = lhsCount = (nargout < 1) ? 1 : nargout;
+    int lhsCount = (nargout < 1) ? 1 : nargout;
     try {
         mxArgsOut = (mxArray**)mxMalloc(sizeof(mxArray*) * lhsCount);
         for (size_t i = 0; i < lhsCount; ++i) {

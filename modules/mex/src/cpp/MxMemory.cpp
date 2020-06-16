@@ -115,9 +115,10 @@ mxRealloc(void* ptr, mwSize size)
     if (ptr != nullptr) {
         deRegisterMexPointer(ptr);
     }
-    ptr = realloc(ptr, size);
+    void *tmp = realloc(ptr, size);
 
-    if (ptr != nullptr) {
+    if (tmp != nullptr) {
+        ptr = tmp;
         registerMexPointer(ptr);
     }
     return ptr;
@@ -266,11 +267,15 @@ mxDuplicateArray(const mxArray* in)
             if (in->interleavedcomplex) {
                 if (in->iscomplex) {
                     ret->realdata = mxCalloc(in->nIr, sizeof(mxComplexDouble));
-                    memcpy(ret->realdata, in->realdata, sizeof(mxComplexDouble) * in->nIr);
+                    if (ret->realdata) {
+                        memcpy(ret->realdata, in->realdata, sizeof(mxComplexDouble) * in->nIr);
+                    }
                     ret->imagdata = nullptr;
                 } else {
                     ret->realdata = mxCalloc(in->nIr, sizeFromClass(in->classID));
-                    memcpy(ret->realdata, in->realdata, sizeFromClass(in->classID) * in->nIr);
+                    if (ret->realdata) {
+                        memcpy(ret->realdata, in->realdata, sizeFromClass(in->classID) * in->nIr);
+                    }
                     ret->imagdata = nullptr;
                 }
             } else {
