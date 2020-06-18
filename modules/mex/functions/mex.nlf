@@ -247,13 +247,17 @@ function str = concateToChar(ce, delimiter)
     delimiter = ' ';
   end
   str = '';
-  first = true;
-  for e = ce
-    if first
-      str = [str, e{1}];
-      first = false;
-    else
-      str = [str, delimiter, e{1}];
+  if ischar(ce)
+    str = ce;
+  else
+    first = true;
+    for e = ce
+      if first
+        str = [str, e{1}];
+        first = false;
+      else
+        str = [str, delimiter, e{1}];
+      end
     end
   end
   str = strtrim(str);
