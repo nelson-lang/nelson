@@ -3,7 +3,9 @@
 * [IN PROGRESS] C MEX API:
 
   * extends mex function to manage interleaved complex option and c flags.
-  
+
+  * all C MEX API implemented, full API documentation and examples in progress.
+
   * mxMakeArrayReal, mxMakeArrayComplex functions.
 
   * mxGetImagData, mxSetImagData functions.
@@ -28,10 +30,13 @@
 
   * mexMakeArrayPersistent, mexMakeMemoryPersistent functions.
   
+  
 Compilation:
 ------------
 
 * boost 1.73.0 on Windows.
+
+* ninja-build used with github actions CI.
 
 
 # 0.4.5 (2020-05-23)

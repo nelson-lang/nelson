@@ -209,6 +209,7 @@ mxRemoveField(mxArray* pm, int fieldnumber)
         Nelson::ArrayOfVector data = ptr->getFieldAsList(c);
         st.setFieldAsList(c, data);
     }
-    pm->ptr = (uint64_t*)new Nelson::ArrayOf(st);
+    Nelson::ArrayOf* arr = new Nelson::ArrayOf(st);
+    pm->ptr = (uint64_t*)arr;
 }
 //=============================================================================

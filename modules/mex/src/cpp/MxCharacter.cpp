@@ -131,7 +131,12 @@ mxArrayToUTF8String(const mxArray* array_ptr)
     }
     auto* p = (mxChar*)(array_ptr->realdata);
     size_t N = mxGetNumberOfElements(array_ptr);
-    auto* res = new wchar_t[N + (size_t)1];
+    wchar_t* res = nullptr;
+    try {
+        res = new wchar_t[N + (size_t)1];
+    } catch (const std::bad_alloc&) {
+        res = nullptr;
+    }
     if (res != nullptr) {
         for (size_t i = 0; i < N; i++) {
             res[i] = p[i];

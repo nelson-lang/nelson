@@ -78,8 +78,10 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
         Nelson::Error(ERROR_MEMORY_ALLOCATION);
     }
 
-    for (size_t i = 0; i < argIn.size(); ++i) {
-        mxArgsIn[i] = Nelson::ArrayOfToMxArray(argIn[i], interleavedComplex);
+    if (mxArgsIn != nullptr) {
+        for (size_t i = 0; i < argIn.size(); ++i) {
+            mxArgsIn[i] = Nelson::ArrayOfToMxArray(argIn[i], interleavedComplex);
+        }
     }
 
     auto builtinPtr = (MexFuncPtr)fptr;
