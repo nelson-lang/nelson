@@ -72,14 +72,7 @@ Who(Evaluator* eval, bool withPersistent)
     stringVector names;
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
-        stringVector baseVariables = Who(eval, context->getBaseScope(), withPersistent);
-        stringVector globalVariables = Who(eval, context->getGlobalScope(), withPersistent);
-        names = baseVariables;
-        names.insert(names.end(), globalVariables.begin(), globalVariables.end());
-        if (!names.empty()) {
-            std::sort(names.begin(), names.end());
-            names.erase(std::unique(names.begin(), names.end()), names.end());
-        }
+        names = Who(eval, context->getBaseScope(), withPersistent);
     } else {
         names = Who(eval, context->getCurrentScope(), withPersistent);
     }
