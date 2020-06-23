@@ -123,9 +123,15 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
         throw e;
     }
     if (mxArgsOut != nullptr) {
-        for (int i = 0; i < lhsCount; i++) {
-            argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
-            mxDestroyArray(mxArgsOut[i]);
+        bool noOutput = (lhsCount == 1) && (mxArgsOut[0]->classID == mxUNKNOWN_CLASS)
+            && (mxArgsOut[0]->number_of_dims == 0);
+        if (!noOutput) {
+            for (int i = 0; i < lhsCount; i++) {
+                argOut.push_back(Nelson::MxArrayToArrayOf(mxArgsOut[i]));
+                mxDestroyArray(mxArgsOut[i]);
+            }
+        } else {
+            mxDestroyArray(mxArgsOut[0]);
         }
         mxFree(mxArgsOut);
         mxArgsOut = nullptr;

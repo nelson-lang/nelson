@@ -34,10 +34,6 @@ end
 R = evalc('mexPrintf()');
 REF = 'Result 0
 Result 1
-
-ans =
-
-   Empty matrix : 1-by-0
 ';
 assert_isequal(R, REF);
 //=============================================================================
