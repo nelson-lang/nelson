@@ -25,7 +25,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsMex_exports.h"
 #include "MxTypes.h"
 #include "MxAsserts.h"
 #include "MxAttributes.h"
@@ -42,89 +41,7 @@
 #include "MxCall.h"
 #include "MxInterleavedComplex.h"
 #include "MxSparse.h"
-//=============================================================================
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxArray*
-    mxDuplicateArray(const mxArray* in);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    size_t
-    mxGetNumberOfElements(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    char*
-    mxArrayToString(const mxArray* array_ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    char*
-    mxArrayToUTF8String(const mxArray* array_ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsComplex(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mwSize
-    mxGetNumberOfDimensions(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    size_t
-    mxGetElementSize(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    const mwSize*
-    mxGetDimensions(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    int
-    mxSetDimensions(mxArray* pm, const mwSize* dims, mwSize ndim);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mwIndex
-    mxCalcSingleSubscript(const mxArray* pm, mwSize nsubs, mwIndex* subs);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    size_t
-    mxGetM(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    size_t
-    mxGetN(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetM(mxArray* pm, mwSize m);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    void
-    mxSetN(mxArray* pm, mwSize n);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsEmpty(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsFromGlobalWS(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsScalar(const mxArray* array_ptr);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    bool
-    mxIsChar(const mxArray* pm);
-    //=============================================================================
-    NLSMEX_IMPEXP
-    mxChar*
-    mxGetChars(const mxArray* array_ptr);
-//=============================================================================
-#ifdef __cplusplus
-}
-#endif
+#include "MxVariables.h"
+#include "MxNonNumericTypes.h"
+#include "MxInteger.h"
 //=============================================================================

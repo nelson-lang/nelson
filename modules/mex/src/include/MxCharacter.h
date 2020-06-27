@@ -33,7 +33,22 @@ extern "C"
 {
 #endif
     //=============================================================================
-
+    NLSMEX_IMPEXP
+    char*
+    mxArrayToString(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    char*
+    mxArrayToUTF8String(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsChar(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxChar*
+    mxGetChars(const mxArray* array_ptr);
+    //=============================================================================
     NLSMEX_IMPEXP
     int
     mxGetString(const mxArray* pm, char* str, mwSize strlen);
@@ -49,6 +64,14 @@ extern "C"
     NLSMEX_IMPEXP
     mxArray*
     mxCreateCharArray(mwSize ndim, const mwSize* dims);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mxArray*
+    mxCreateStringFromNChars(const char* str, mwSize n);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxGetNChars(const mxArray* pa, char* buf, mwSize nChars);
 //=============================================================================
 #ifdef __cplusplus
 }

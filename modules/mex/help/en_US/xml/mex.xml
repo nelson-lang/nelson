@@ -8,10 +8,19 @@
 
 	<syntax>
 		<syntax_item>mex(filenames)</syntax_item>
+		<syntax_item>mex(filenames, option1, ..., optionN)</syntax_item>
+		<syntax_item>mex(api, filenames)</syntax_item>
+		<syntax_item>mex(api, filenames, option1, ..., optionN)</syntax_item>
 		<syntax_item>mex('-output', mexName, filenames)</syntax_item>
+		<syntax_item>mex(api, '-output', mexName, filenames)</syntax_item>
+		<syntax_item>mex(api, '-output', mexName, filenames, option1, ..., optionN)</syntax_item>
 	</syntax>
 	
 	<param_input>
+		<param_input_item>
+			<param_name>api</param_name>
+			<param_description>a string: '-R2017b' (separated complex representation) or '-R2018a' (interleaved complex representation).</param_description>
+		</param_input_item>
 		<param_input_item>
 			<param_name>filenames</param_name>
 			<param_description>a string or cell of characters: list of files to use. First filename used as mex name.</param_description>
@@ -20,6 +29,10 @@
 			<param_name>mexName</param_name>
 			<param_description>a string: override naming convention.</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>option1, ..., optionN</param_name>
+			<param_description>string: compilation or link option.</param_description>
+		</param_input_item>
 
 	</param_input>
 
@@ -27,6 +40,18 @@
 		<p>Nelson includes an interface to allow legacy mex-files to be compiled and linked with Nelson.</p>
 		<p>A mex file is a type of computer file that provides an interface between Octave or the reference commercial software and functions written in C, C++.</p>
 		<p>Nelson have also his own C++ API to manage more easily internal nelson's objects.</p>
+		<p></p>
+		<p>PREDEFINED C MACRO:</p>
+		<p><b>MX_IS_NELSON</b> macro is defined to easily detect if Nelson is used in C code.</p>
+		<p><b>MX_HAS_INTERLEAVED_COMPLEX</b> macro is defined if C MEX API used is '-R2018a'.</p>
+		<p></p>
+		<p>Supported options: compilation or link.</p>
+		<p><b>CFLAGS=</b></p>
+		<p><b>-D</b> The -D option defines C preprocessor macro.</p>	
+		<p><b>-U</b> The -U option undefines C preprocessor macro</p>			
+		<p><b>-I</b> Adds pathname to the list of folders to search for #include files.</p>	
+		<p><b>-l</b> Links with dynamic object library .lib, .so or .dylib.</p>
+		<p><b>-g</b> Used for debugging (Debug configuration).</p>	
 	</description>
 
 	<used_function></used_function>

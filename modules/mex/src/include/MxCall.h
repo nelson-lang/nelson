@@ -72,7 +72,7 @@ extern "C"
     //=============================================================================
     /* private function */
     NLSMEX_IMPEXP
-    void *
+    void*
     mexGetEvaluator();
     //=============================================================================
 #ifdef MX_HAS_INTERLEAVED_COMPLEX

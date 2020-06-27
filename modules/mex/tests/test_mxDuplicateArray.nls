@@ -88,8 +88,10 @@ assert_isequal(nzmax(R), nzmax(S));
 F = figure(33);
 R = mxDuplicateArray(F);
 assert_isequal(R.Number, F.Number);
+delete(F);
 //=============================================================================
 H = helpdlg();
 R = mxDuplicateArray(H);
 assert_isequal(R.className, H.className);
+delete(H);
 //=============================================================================

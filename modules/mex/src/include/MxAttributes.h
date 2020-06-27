@@ -25,12 +25,68 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsMex_exports.h"
+//=============================================================================
 #ifdef __cplusplus
 extern "C"
 {
 #endif
     //=============================================================================
-
+    NLSMEX_IMPEXP
+    bool
+    mxIsScalar(const mxArray* array_ptr);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsEmpty(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mwIndex
+    mxCalcSingleSubscript(const mxArray* pm, mwSize nsubs, mwIndex* subs);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    int
+    mxSetDimensions(mxArray* pm, const mwSize* dims, mwSize ndim);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    const mwSize*
+    mxGetDimensions(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    size_t
+    mxGetElementSize(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    mwSize
+    mxGetNumberOfDimensions(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    size_t
+    mxGetNumberOfElements(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    size_t
+    mxGetM(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    size_t
+    mxGetN(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetM(mxArray* pm, mwSize m);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetN(mxArray* pm, mwSize n);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsNumeric(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsComplex(const mxArray* pm);
     //=============================================================================
 #ifdef __cplusplus
 }

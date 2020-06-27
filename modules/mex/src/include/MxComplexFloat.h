@@ -49,12 +49,22 @@ extern "C"
     void
     mxSetPiInterleavedComplex(mxArray* pm, double* pr);
     //=============================================================================
+    NLSMEX_IMPEXP
+    void*
+    mxGetImagDataSeparatedComplex(const mxArray* pm);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    void
+    mxSetImagDataSeparatedComplex(mxArray* pm, void* pi);
+    //=============================================================================
 #ifdef MX_HAS_INTERLEAVED_COMPLEX
 #define mxGetPi mxGetPiInterleavedComplex
 #define mxSetPi mxSetPiInterleavedComplex
 #else
 #define mxGetPi mxGetPiSeparatedComplex
 #define mxSetPi mxSetPiSeparatedComplex
+#define mxGetImagData mxGetImagDataSeparatedComplex
+#define mxSetImagData mxSetImagDataSeparatedComplex
 #endif
 //=============================================================================
 #ifdef __cplusplus

@@ -57,10 +57,6 @@ extern "C"
     void
     mxSetPr(mxArray* pm, double* pr);
     //=============================================================================
-    NLSMEX_IMPEXP
-    void*
-    mxGetData(const mxArray* pm);
-    //=============================================================================
 #if MX_HAS_INTERLEAVED_COMPLEX
 #define mxGetPr mxGetPrInterleavedComplex
 #else

@@ -153,9 +153,8 @@ mxIsEmpty(const mxArray* pm)
 }
 //=============================================================================
 bool
-mxIsFromGlobalWS(const mxArray* pm)
+mxIsScalar(const mxArray* array_ptr)
 {
-    mexErrMsgTxt("mxIsFromGlobalWS() is not yet unimplemented.");
-    return false;
+    return (mxGetNumberOfElements(array_ptr) == 1);
 }
 //=============================================================================

@@ -1,9 +1,42 @@
 # 0.4.6 (2020-06-XX)
 
+* [IN PROGRESS] C MEX API:
+
+  * extends mex function to manage interleaved complex option and c flags.
+
+  * all C MEX API implemented, full API documentation and examples in progress.
+
+  * mxMakeArrayReal, mxMakeArrayComplex functions.
+
+  * mxGetImagData, mxSetImagData functions.
+
+  * mxGetLogicals, mxIsLogicalScalar, mxIsLogicalScalarTrue functions.
+
+  * mxGetInt8s, mxSetInt8s, mxGetComplexInt8s, mxSetComplexInt8s, mxGetUint8s, mxSetUint8s, mxGetComplexUint8s
+    mxSetComplexUint8s, mxGetInt16s, mxSetInt16s, mxGetComplexInt16s, mxSetComplexInt16s, mxGetUint16s, mxGetComplexUint16s
+    mxSetComplexUint16s, mxGetInt32s, mxSetInt32s, mxGetComplexInt32s, mxSetComplexInt32s, mxGetUint32s, mxSetUint32s
+    mxGetComplexUint32s, mxSetComplexUint32s, mxSetUint16s, mxGetInt64s, mxSetInt64s, mxGetComplexInt64s, mxSetComplexInt64s
+    mxGetUint64s, mxSetUint64s, mxGetComplexUint64s, mxSetComplexUint64s functions.
+
+  * mxIsObject, mxIsFunctionHandle, mxIsOpaque functions.
+
+  * mxIsInt8, mxIsInt16, mxIsInt32, mxIsInt64, mxIsUint8, mxIsUint16, mxIsUint32, mxIsUint64 functions.
+
+  * mxCreateStringFromNChars, mxGetNChars
+
+  * mxRemoveField, mxAddField, mxSetField, mxSetFieldByNumber, mxGetFieldNumber, mxGetFieldNameByNumber functions.
+
+  * mexGetVariable, mexGetVariablePtr, mexPutVariable functions.
+
+  * mexMakeArrayPersistent, mexMakeMemoryPersistent functions.
+  
+  
 Compilation:
 ------------
 
 * boost 1.73.0 on Windows.
+
+* ninja-build used with github actions CI.
 
 
 # 0.4.5 (2020-05-23)

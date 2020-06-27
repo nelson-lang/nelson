@@ -43,7 +43,7 @@ mxCreateSparseLogicalMatrix(mwSize m, mwSize n, mwSize nzmax)
 {
     mxArray* pm = mxNewArray();
     if (pm) {
-        pm->classID = mxLOGICAL_CLASS;
+        pm->classID = (mxClassID)mxLOGICAL_CLASS;
         pm->issparse = true;
         pm->iscomplex = false;
         pm->number_of_dims = 2;

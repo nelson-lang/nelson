@@ -103,11 +103,6 @@ private:
      * directly associated with this data object.
      */
     Data* dp;
-    /**
-     * Add another fieldname to our structure array.
-     */
-    indexType
-    insertFieldName(const std::string& fieldName);
     /** Get a binary map from an array over the given range.
      * This member function converts an array into a boolean vector,
      * mathematically $$b(a(i)-1) = \mathrm{true}, 0 \leq i < \mathrm{maxD}$$,
@@ -816,7 +811,11 @@ public:
      */
     ArrayOf
     getField(const std::string& fieldName);
-
+    /**
+     * Add another fieldname to our structure array.
+     */
+    indexType
+    insertFieldName(const std::string& fieldName);
     /**
      * Get the contents of a field as an array from its field name.  This is used
      * when a structure array is used to supply a list of expressions.

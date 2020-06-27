@@ -35,6 +35,7 @@
 #include "GatewaysManager.hpp"
 #include "NelsonGateway.hpp"
 #include "BuiltInFunctionDef.hpp"
+#include "mex.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -150,6 +151,7 @@ ClearAllMex(Evaluator* eval)
     for (auto name : libnames) {
         GatewaysManager::getInstance()->clearMexGateway(name);
     }
+    mexFreeAllRegisteredPointer();
 }
 //=============================================================================
 bool

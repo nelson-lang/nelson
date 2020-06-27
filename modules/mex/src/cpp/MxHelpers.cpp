@@ -45,6 +45,7 @@ mxNewArray()
     res->classID = mxUNKNOWN_CLASS;
     res->number_of_dims = 0;
     res->nzmax = 0;
+    res->persistentmemory = false;
     return res;
 }
 //=============================================================================
@@ -172,7 +173,7 @@ sizeFromClass(mxClassID classid)
     case mxINT8_CLASS:
         return sizeof(mxInt8);
     case mxUINT8_CLASS:
-        return sizeof(mxInt8);
+        return sizeof(mxUint8);
     case mxINT16_CLASS:
         return sizeof(mxInt16);
     case mxUINT16_CLASS:

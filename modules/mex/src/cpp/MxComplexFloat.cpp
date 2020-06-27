@@ -29,19 +29,13 @@
 mxDouble*
 mxGetPiSeparatedComplex(const mxArray* pm)
 {
-    if (pm != nullptr) {
-        return (mxDouble*)pm->imagdata;
-    }
-    return nullptr;
+    return (mxDouble*)mxGetImagDataSeparatedComplex(pm);
 }
-
 //=============================================================================
 void
 mxSetPiSeparatedComplex(mxArray* pm, double* pr)
 {
-    if (pm != nullptr) {
-        pm->imagdata = pr;
-    }
+    mxSetImagDataSeparatedComplex(pm, pr);
 }
 //=============================================================================
 mxDouble*
@@ -55,5 +49,26 @@ void
 mxSetPiInterleavedComplex(mxArray* pm, double* pr)
 {
     mexErrMsgTxt(_("mxGetPi not allowed with interleaved complex.").c_str());
+}
+//=============================================================================
+void*
+mxGetImagDataSeparatedComplex(const mxArray* pm)
+{
+    if (pm != nullptr) {
+        if (!pm->iscomplex) {
+            return nullptr;
+        }
+        return pm->imagdata;
+    }
+    return nullptr;
+}
+//=============================================================================
+void
+mxSetImagDataSeparatedComplex(mxArray* pm, void* pi)
+{
+    if (pm != nullptr) {
+        pm->iscomplex = true;
+        pm->imagdata = pi;
+    }
 }
 //=============================================================================

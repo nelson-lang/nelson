@@ -57,6 +57,18 @@ extern "C"
     void
     mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* value);
     //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsFunctionHandle(const mxArray* pa);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsOpaque(const mxArray* pa);
+    //=============================================================================
+    NLSMEX_IMPEXP
+    bool
+    mxIsObject(const mxArray* pa);
+    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

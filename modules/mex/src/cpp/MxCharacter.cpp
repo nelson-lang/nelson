@@ -35,6 +35,21 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 mxArray*
+mxCreateStringFromNChars(const char* str, mwSize n)
+{
+    size_t lenStr = strlen(str);
+    size_t len = n;
+    if (n > lenStr) {
+        len = lenStr;
+    } else if (n == lenStr) {
+        len = lenStr;
+    }
+    std::string s = str;
+    std::string sub = s.substr(0, len);
+    return mxCreateString(sub.c_str());
+}
+//=============================================================================
+mxArray*
 mxCreateString(const char* str)
 {
     return mxCreateCharMatrixFromStrings(1, &str);
@@ -71,7 +86,25 @@ mxCreateCharArray(mwSize ndim, const mwSize* dims)
     return mxAllocateRealArray(ndim, dims, sizeof(mxChar), mxCHAR_CLASS);
 }
 //=============================================================================
-
+void
+mxGetNChars(const mxArray* pa, char* buf, mwSize nChars)
+{
+    if (pa->classID == mxCHAR_CLASS) {
+        auto* p = (mxChar*)(pa->realdata);
+        size_t N = mxGetNumberOfElements(pa);
+        size_t L = nChars;
+        if (nChars > N) {
+            L = N;
+        }
+        if (buf != nullptr) {
+            for (size_t i = 0; i < L; i++) {
+                buf[i] = (char)p[i];
+            }
+            buf[L] = 0;
+        }
+    }
+}
+//=============================================================================
 char*
 mxArrayToString(const mxArray* array_ptr)
 {
@@ -98,7 +131,12 @@ mxArrayToUTF8String(const mxArray* array_ptr)
     }
     auto* p = (mxChar*)(array_ptr->realdata);
     size_t N = mxGetNumberOfElements(array_ptr);
-    auto* res = new wchar_t[N + (size_t)1];
+    wchar_t* res = nullptr;
+    try {
+        res = new wchar_t[N + (size_t)1];
+    } catch (const std::bad_alloc&) {
+        res = nullptr;
+    }
     if (res != nullptr) {
         for (size_t i = 0; i < N; i++) {
             res[i] = p[i];

@@ -24,6 +24,7 @@ jobs:
         sudo sh cmake-$version.$build-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
         sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
         cmake --version
+        sudo apt -y install ninja-build;
         sudo apt -y install xvfb;
         sudo apt -y install libopenmpi-dev;
         sudo apt -y install autotools-dev;
@@ -84,21 +85,21 @@ jobs:
         sudo make install;
     - uses: actions/checkout@v1
     - name: CMake
-      run: source /opt/qt512/bin/qt512-env.sh && cmake -G "Unix Makefiles" . 
-    - name: make
-      run: make -j4
+      run: source /opt/qt512/bin/qt512-env.sh && cmake -G "Ninja" . 
+    - name: make with Ninja
+      run: ninja -j4
     - name: get module skeleton
-      run: make get_module_skeleton
+      run: ninja get_module_skeleton
     - name: build help
-      run: make buildhelp
+      run: ninja buildhelp
     - name: minimal tests
-      run: make tests_minimal
+      run: ninja tests_minimal
     - name: package
-      run: make package
+      run: ninja package
     - name: all benchs
-      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a make benchs_all
+      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a ninja benchs_all
     - name: all tests
-      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a make tests_all
+      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a ninja tests_all
     - name: Copy artifacts
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1

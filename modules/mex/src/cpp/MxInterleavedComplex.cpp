@@ -155,3 +155,153 @@ mxSetComplexSinglesInterleavedComplex(mxArray* pa, mxComplexSingle* dt)
     return retCode;
 }
 //=============================================================================
+template <class TREAL, class TCPLX>
+int
+mxMakeArrayRealTemplate(mxArray* pa, void* newPointerOnValues, mwSize nbElements)
+{
+    TCPLX* cplx = (TCPLX*)(pa->realdata);
+    TREAL* r = (TREAL*)newPointerOnValues;
+    for (mwSize k = 0; k < nbElements; ++k) {
+        r[k] = (TREAL)cplx[k].real;
+    }
+    mxFree(pa->realdata);
+    pa->iscomplex = false;
+    pa->realdata = newPointerOnValues;
+    return 1;
+}
+//=============================================================================
+int
+mxMakeArrayRealInterleavedComplex(mxArray* pa)
+{
+    if (mxIsNumeric(pa)) {
+        if (!pa->iscomplex) {
+            return 1;
+        }
+        if (pa->issparse) {
+            mwSize nbElements = pa->nzmax;
+            void* ptr = mxCalloc(nbElements, sizeFromClass(pa->classID));
+            switch (pa->classID) {
+            case mxDOUBLE_CLASS:
+                return mxMakeArrayRealTemplate<mxDouble, mxComplexDouble>(pa, ptr, nbElements);
+            case mxSINGLE_CLASS:
+                return mxMakeArrayRealTemplate<mxSingle, mxComplexSingle>(pa, ptr, nbElements);
+            default: { } break; }
+        } else {
+            mwSize nbElements = countElements(pa->number_of_dims, pa->dims);
+            void* ptr = mxCalloc(nbElements, sizeFromClass(pa->classID));
+            switch (pa->classID) {
+            case mxDOUBLE_CLASS:
+                return mxMakeArrayRealTemplate<mxDouble, mxComplexDouble>(pa, ptr, nbElements);
+            case mxSINGLE_CLASS:
+                return mxMakeArrayRealTemplate<mxSingle, mxComplexSingle>(pa, ptr, nbElements);
+            case mxINT8_CLASS:
+                return mxMakeArrayRealTemplate<mxInt8, mxComplexInt8>(pa, ptr, nbElements);
+            case mxUINT8_CLASS:
+                return mxMakeArrayRealTemplate<mxUint8, mxComplexUint8>(pa, ptr, nbElements);
+            case mxINT16_CLASS:
+                return mxMakeArrayRealTemplate<mxInt16, mxComplexInt16>(pa, ptr, nbElements);
+            case mxUINT16_CLASS:
+                return mxMakeArrayRealTemplate<mxUint16, mxComplexUint16>(pa, ptr, nbElements);
+            case mxINT32_CLASS:
+                return mxMakeArrayRealTemplate<mxInt32, mxComplexInt32>(pa, ptr, nbElements);
+            case mxUINT32_CLASS:
+                return mxMakeArrayRealTemplate<mxUint32, mxComplexUint32>(pa, ptr, nbElements);
+            case mxINT64_CLASS:
+                return mxMakeArrayRealTemplate<mxInt64, mxComplexInt64>(pa, ptr, nbElements);
+            case mxUINT64_CLASS:
+                return mxMakeArrayRealTemplate<mxUint64, mxComplexUint64>(pa, ptr, nbElements);
+            default: { } break; }
+        }
+    }
+    return 0;
+}
+//=============================================================================
+static mwSize
+sizeComplex(mxClassID classId)
+{
+    switch (classId) {
+    case mxDOUBLE_CLASS:
+        return sizeof(mxComplexDouble);
+    case mxSINGLE_CLASS:
+        return sizeof(mxComplexDouble);
+    case mxINT8_CLASS:
+        return sizeof(mxComplexInt8);
+    case mxUINT8_CLASS:
+        return sizeof(mxComplexUint8);
+    case mxINT16_CLASS:
+        return sizeof(mxComplexInt16);
+    case mxUINT16_CLASS:
+        return sizeof(mxComplexUint16);
+    case mxINT32_CLASS:
+        return sizeof(mxComplexInt32);
+    case mxUINT32_CLASS:
+        return sizeof(mxComplexUint32);
+    case mxINT64_CLASS:
+        return sizeof(mxComplexInt64);
+    case mxUINT64_CLASS:
+        return sizeof(mxComplexUint64);
+    }
+    return 0;
+}
+//=============================================================================
+template <class TCPLX, class TREAL>
+int
+mxMakeArrayComplexTemplate(mxArray* pa, void* newPointerOnValues, mwSize nbElements)
+{
+    TCPLX* cpx = (TCPLX*)newPointerOnValues;
+    for (mwSize k = 0; k < nbElements; ++k) {
+        cpx[k].real = ((TREAL*)pa->realdata)[k];
+        cpx[k].imag = (TREAL)0;
+    }
+    mxFree(pa->realdata);
+    pa->iscomplex = true;
+    pa->realdata = newPointerOnValues;
+    return 1;
+}
+//=============================================================================
+int
+mxMakeArrayComplexInterleavedComplex(mxArray* pa)
+{
+    if (mxIsNumeric(pa)) {
+        if (pa->iscomplex) {
+            return 1;
+        }
+        if (pa->issparse) {
+            mwSize nbElements = pa->nzmax;
+            void* ptr = mxCalloc(nbElements, sizeComplex(pa->classID));
+            switch (pa->classID) {
+            case mxDOUBLE_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexDouble, mxDouble>(pa, ptr, nbElements);
+            case mxSINGLE_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexSingle, mxSingle>(pa, ptr, nbElements);
+            default: { } break; }
+        } else {
+            mwSize nbElements = countElements(pa->number_of_dims, pa->dims);
+            void* ptr = mxCalloc(nbElements, sizeComplex(pa->classID));
+            switch (pa->classID) {
+            case mxDOUBLE_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexDouble, mxDouble>(pa, ptr, nbElements);
+            case mxSINGLE_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexSingle, mxSingle>(pa, ptr, nbElements);
+            case mxINT8_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexInt8, mxInt8>(pa, ptr, nbElements);
+            case mxUINT8_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexUint8, mxUint8>(pa, ptr, nbElements);
+            case mxINT16_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexInt16, mxInt16>(pa, ptr, nbElements);
+            case mxUINT16_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexUint16, mxUint16>(pa, ptr, nbElements);
+            case mxINT32_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexInt32, mxInt32>(pa, ptr, nbElements);
+            case mxUINT32_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexUint32, mxUint32>(pa, ptr, nbElements);
+            case mxINT64_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexInt64, mxInt64>(pa, ptr, nbElements);
+            case mxUINT64_CLASS:
+                return mxMakeArrayComplexTemplate<mxComplexUint64, mxUint64>(pa, ptr, nbElements);
+            default: { } break; }
+        }
+    }
+    return 0;
+}
+//=============================================================================

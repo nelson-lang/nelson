@@ -26,12 +26,6 @@
 #include "matrix.h"
 #include "MxHelpers.hpp"
 //=============================================================================
-bool
-mxIsScalar(const mxArray* array_ptr)
-{
-    return (mxGetNumberOfElements(array_ptr) == 1);
-}
-//=============================================================================
 double
 mxGetScalar(const mxArray* pm)
 {
@@ -117,14 +111,5 @@ mxSetPr(mxArray* pm, double* pr)
     if (pm != nullptr) {
         pm->realdata = pr;
     }
-}
-//=============================================================================
-void*
-mxGetData(const mxArray* pm)
-{
-    if (pm != nullptr) {
-        return (void*)pm->realdata;
-    }
-    return nullptr;
 }
 //=============================================================================

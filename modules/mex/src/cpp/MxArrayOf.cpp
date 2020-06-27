@@ -219,8 +219,7 @@ ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
                 doublecomplex* data = (doublecomplex*)spMat->valuePtr();
 
                 if (interleavedComplex) {
-                    res->realdata
-                        = (mxComplexDouble*)mxCalloc(res->nIr, sizeof(mxComplexDouble));
+                    res->realdata = (mxComplexDouble*)mxCalloc(res->nIr, sizeof(mxComplexDouble));
                     memcpy(res->realdata, data, sizeof(mxComplexDouble) * res->nIr);
                     res->imagdata = nullptr;
                 } else {
