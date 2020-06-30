@@ -1,3 +1,12 @@
+# 0.4.7 (2020-07-XX)
+
+
+Bug Fixes:
+---------
+
+  * [#300](http://github.com/Nelson-numerical-software/nelson/issues/300): nmm returns wrong error.
+
+
 # 0.4.6 (2020-06-27)
 
 * [IN PROGRESS] C MEX API:

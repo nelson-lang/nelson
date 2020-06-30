@@ -24,6 +24,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function varargout = nmm(varargin)
+    if nargin == 0
+        error(_('Wrong number of input arguments.'));
+    end    
     varargout = {};
     firstParameter = varargin{1};
     if ~isSupportedFirstParameter(firstParameter)
