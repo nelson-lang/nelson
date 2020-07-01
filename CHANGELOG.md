@@ -1,5 +1,6 @@
 # 0.4.7 (2020-07-XX)
 
+  * [#299](http://github.com/Nelson-numerical-software/nelson/issues/299): extends "complex" to manage sparse matrix.
 
 Bug Fixes:
 ---------

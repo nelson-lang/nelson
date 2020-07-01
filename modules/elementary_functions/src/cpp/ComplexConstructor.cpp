@@ -151,9 +151,6 @@ ArrayOf
 ComplexConstructor(ArrayOf arrayA)
 {
     ArrayOf res;
-    if (arrayA.isSparse()) {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
-    }
     switch (arrayA.getDataClass()) {
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
