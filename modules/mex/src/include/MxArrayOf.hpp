@@ -31,10 +31,18 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSMEX_IMPEXP
+/**
+ * convert ArrayOf to mxArray
+ * internal function
+ */
+  NLSMEX_IMPEXP
 mxArray*
 ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex);
 //=============================================================================
+/**
+ * convert mxArray to ArrayOf
+ * internal function
+ */
 NLSMEX_IMPEXP
 ArrayOf
 MxArrayToArrayOf(const mxArray* mtlbArray);
