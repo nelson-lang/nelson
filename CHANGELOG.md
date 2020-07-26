@@ -14,7 +14,7 @@ Bug Fixes:
 Compilation:
 ------------
 
-  * Qt 5.15.0 on Windows
+  * Qt 5.14.2 on Windows
 
 
 
