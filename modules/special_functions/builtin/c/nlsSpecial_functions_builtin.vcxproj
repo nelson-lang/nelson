@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\betaincBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammaBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -196,6 +197,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\betaincBuiltin.hpp" />
     <ClInclude Include="..\include\gammaBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSpecial_functions_builtin_exports.h" />
   </ItemGroup>

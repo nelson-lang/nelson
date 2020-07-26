@@ -1,5 +1,7 @@
 # 0.4.7 (2020-07-XX)
 
+  * [#311](http://github.com/Nelson-numerical-software/nelson/issues/311): betainc builtin: Incomplete beta function.
+
   * add icon to figure
 
   * some doxygen comments about mex functions.

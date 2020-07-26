@@ -114,7 +114,7 @@ public:
      * Throws an exception if the argument is bigger tha maxIndex or length.
      */
     indexType
-    getAt(indexType i);
+    getAt(indexType i, bool checkLength = true);
     /**
      * Get the number of currently allocated dimensions.
      */
