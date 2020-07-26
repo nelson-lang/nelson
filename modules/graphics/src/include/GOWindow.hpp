@@ -47,6 +47,8 @@ protected:
     unsigned m_id;
     GOFigure* m_goFig;
     int m_clickX, m_clickY;
+    std::wstring graphicsRootPath;
+
 
 public:
     GOWindow(unsigned id);
