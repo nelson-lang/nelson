@@ -1,11 +1,21 @@
 # 0.4.7 (2020-07-XX)
 
+  * add icon to figure
+
+  * some doxygen comments about mex functions.
+
   * [#299](http://github.com/Nelson-numerical-software/nelson/issues/299): extends "complex" to manage sparse matrix.
 
 Bug Fixes:
 ---------
 
   * [#300](http://github.com/Nelson-numerical-software/nelson/issues/300): nmm returns wrong error.
+
+Compilation:
+------------
+
+  * Qt 5.15.0 on Windows
+
 
 
 # 0.4.6 (2020-06-27)
