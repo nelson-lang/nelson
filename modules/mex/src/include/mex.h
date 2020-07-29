@@ -117,7 +117,7 @@ extern "C"
     /**
      * Warning message
      * @param warn_msg warning message.
-    */
+     */
     NLSMEX_IMPEXP void
     mexWarnMsgTxt(const char* warn_msg);
     //=============================================================================

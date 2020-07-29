@@ -49,7 +49,6 @@ protected:
     int m_clickX, m_clickY;
     std::wstring graphicsRootPath;
 
-
 public:
     GOWindow(unsigned id);
     ~GOWindow() override;

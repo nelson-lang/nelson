@@ -35,7 +35,7 @@ namespace Nelson {
  * convert ArrayOf to mxArray
  * internal function
  */
-  NLSMEX_IMPEXP
+NLSMEX_IMPEXP
 mxArray*
 ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex);
 //=============================================================================

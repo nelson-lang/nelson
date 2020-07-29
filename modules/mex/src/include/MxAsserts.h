@@ -49,7 +49,7 @@ extern "C"
      * @param test Value of assertion
      * @param message why assert failed
      */
-    
+
 #define mxAssertS(test, message)                                                                   \
     ((test) ? (void)0 : mexPrintAssertion("", __FILE__, __LINE__, message))
     //=============================================================================
