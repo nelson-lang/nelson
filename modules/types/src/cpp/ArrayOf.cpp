@@ -789,7 +789,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -808,39 +810,47 @@ ArrayOf::getByteSize() const
 /**
  * Returns true if we are positive.
  */
-#define caseMacro(caseLabel, dpType)                                                               \
-    case caseLabel: {                                                                              \
-        const dpType* qp = (const dpType*)dp->getData();                                           \
-        bool allPositive = true;                                                                   \
-        indexType len = getLength();                                                               \
-        indexType i = 0;                                                                           \
-        while (allPositive && (i < len)) {                                                         \
-            allPositive = allPositive && (qp[i] >= 0);                                             \
-            i++;                                                                                   \
-        }                                                                                          \
-        return allPositive;                                                                        \
+template <class T>
+bool
+isTPositive(const void* data, indexType len)
+{
+    const T* qp = (const T*)data;
+    for (indexType i = 0; i < len; ++i) {
+        if (qp[i] < 0) {
+            return false;
+        }
     }
+    return true;
+}
 //=============================================================================
 bool
 ArrayOf::isPositive() const
 {
-    if (dp->dataClass == NLS_UINT8 || dp->dataClass == NLS_UINT16 || dp->dataClass == NLS_UINT32
-        || dp->dataClass == NLS_UINT64) {
-        return true;
-    }
-    if (dp->dataClass == NLS_SCOMPLEX || dp->dataClass == NLS_DCOMPLEX) {
-        return false;
-    }
     if (isSparse()) {
         Error(_W("isPositive not supported for sparse arrays."));
     }
+
     switch (dp->dataClass) {
-        caseMacro(NLS_SINGLE, single);
-        caseMacro(NLS_DOUBLE, double);
-        caseMacro(NLS_INT8, int8);
-        caseMacro(NLS_INT16, int16);
-        caseMacro(NLS_INT32, int32);
-        caseMacro(NLS_INT64, int64);
+    case NLS_UINT8:
+    case NLS_UINT16:
+    case NLS_UINT32:
+    case NLS_UINT64:
+        return true;
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX:
+        return false;
+    case NLS_SINGLE:
+        return isTPositive<single>(dp->getData(), getLength());
+    case NLS_DOUBLE:
+        return isTPositive<double>(dp->getData(), getLength());
+    case NLS_INT8:
+        return isTPositive<int8>(dp->getData(), getLength());
+    case NLS_INT16:
+        return isTPositive<int16>(dp->getData(), getLength());
+    case NLS_INT32:
+        return isTPositive<int32>(dp->getData(), getLength());
+    case NLS_INT64:
+        return isTPositive<int64>(dp->getData(), getLength());
     }
     return false;
 }
