@@ -789,9 +789,7 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================
@@ -827,7 +825,17 @@ bool
 ArrayOf::isPositive() const
 {
     if (isSparse()) {
-        Error(_W("isPositive not supported for sparse arrays."));
+        switch (dp->dataClass) {
+        case NLS_DCOMPLEX:
+            return false;
+        case NLS_DOUBLE: {
+            Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
+                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)dp->getData();
+            return isTPositive<double>(spMat->valuePtr(), spMat->nonZeros());
+        } break;
+        default:
+            return false;
+        }
     }
 
     switch (dp->dataClass) {
@@ -854,8 +862,6 @@ ArrayOf::isPositive() const
     }
     return false;
 }
-//=============================================================================
-#undef caseMacro
 //=============================================================================
 #define caseMacroReal(caseLabel, type)                                                             \
     case caseLabel:                                                                                \
