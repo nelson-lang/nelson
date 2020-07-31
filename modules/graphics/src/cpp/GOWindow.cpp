@@ -30,17 +30,23 @@
 #include <QtWidgets/QDesktopWidget>
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
+#include <QtGui/QIcon>
 #include "GOWindow.hpp"
 #include "GOFigure.hpp"
 #include "QtBaseFigure.hpp"
 #include "DefaultProperties.hpp"
+#include "ModulesManager.hpp"
+#include "QStringConverter.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 GOWindow::GOWindow(unsigned id)
 {
     m_initialized = false;
-    // setWindowIcon(QPixmap(":/images/freemat_small_mod_64.png"));
+    graphicsRootPath = Nelson::GetModulePath(L"graphics");
+    QString fileNameIcon = Nelson::wstringToQString(
+        graphicsRootPath + std::wstring(L"/resources/icon-mathematical-plot.svg"));
+    setWindowIcon(QPixmap(fileNameIcon));
     m_id = id;
     m_goFig = new GOFigure(this);
     std::string title = "Figure " + std::to_string(id);

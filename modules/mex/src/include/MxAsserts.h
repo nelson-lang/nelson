@@ -36,9 +36,20 @@ extern "C"
     void
     mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message);
     //=============================================================================
+    /**
+     * Check assertion value for debugging purposes
+     * @param test Value of assertion
+     * @param message why assert failed
+     */
 #define mxAssert(test, message)                                                                    \
     ((test) ? (void)0 : mexPrintAssertion(#test, __FILE__, __LINE__, message))
     //=============================================================================
+    /**
+     * Check assertion value without printing assertion text
+     * @param test Value of assertion
+     * @param message why assert failed
+     */
+
 #define mxAssertS(test, message)                                                                   \
     ((test) ? (void)0 : mexPrintAssertion("", __FILE__, __LINE__, message))
     //=============================================================================

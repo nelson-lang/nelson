@@ -276,7 +276,8 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
     // Do nothing for promoting to same class (no-op).
     if (isSparse()) {
         dp = dp->putData(dstClass, dp->dimensions,
-            TypeConvertSparseDynamicFunction(dstClass, dp->dimensions[0], dp->dimensions[1], dp->getData(), dp->dataClass),
+            TypeConvertSparseDynamicFunction(
+                dstClass, dp->dimensions[0], dp->dimensions[1], dp->getData(), dp->dataClass),
             true);
         return;
     }

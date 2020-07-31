@@ -25,6 +25,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "gammaBuiltin.hpp"
+#include "betaincBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,6 +34,9 @@ const std::wstring gatewayName = L"elementary_functions";
 static const nlsGateway gateway[] = {
     { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "betainc", (void*)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

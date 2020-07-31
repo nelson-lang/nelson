@@ -168,10 +168,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\BetaIncomplete.cpp" />
     <ClCompile Include="..\cpp\Gamma.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\BetaIncomplete.hpp" />
     <ClInclude Include="..\include\Gamma.hpp" />
   </ItemGroup>
   <ItemGroup>

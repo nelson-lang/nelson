@@ -110,14 +110,16 @@ indexType& Dimensions::operator[](indexType i)
 }
 //=============================================================================
 indexType
-Dimensions::getAt(indexType i)
+Dimensions::getAt(indexType i, bool checkLength)
 {
     if (i >= maxDims) {
         Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
             + ".");
     }
-    if (i >= length) {
-        Error(_("Invalid dimension position."));
+    if (checkLength) {
+        if (i >= length) {
+            Error(_("Invalid dimension position."));
+        }
     }
     return data[i];
 }

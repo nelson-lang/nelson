@@ -42,6 +42,9 @@ assert_isequal(R, 'single');
 R = mxGetClassName(true);
 assert_isequal(R, 'logical');
 //=============================================================================
+R = mxGetClassName("string");
+assert_isequal(R, 'string');
+//=============================================================================
 R = mxGetClassName(int8(3));
 assert_isequal(R, 'int8');
 //=============================================================================

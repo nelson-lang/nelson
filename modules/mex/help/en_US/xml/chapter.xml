@@ -5,6 +5,6 @@
 	<module_name>MEX</module_name>
 	<chapter>MEX functions</chapter>
 	<chapter_description>MEX C API is allow to access Nelson, GNU Octave and commercial software functions and extend it's functionality.
-do</chapter_description>
+</chapter_description>
 </xmldoc>
 
