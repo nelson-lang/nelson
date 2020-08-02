@@ -179,6 +179,7 @@ ELSE()
     message(WARNING "Please define QTDIR_BINARIES environment variable." )
   ENDIF()
 ENDIF()
+message(STATUS "QTDIR_BINARIES found: ${QTDIR_BINARIES}")
 #==============================================================================
 FIND_PACKAGE(MPI REQUIRED)
 IF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
