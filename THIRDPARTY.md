@@ -296,3 +296,13 @@ a FIFO-ordered associative container for C++
 > https://github.com/nlohmann/fifo_map
 
 > https://github.com/nlohmann/fifo_map/blob/master/LICENSE.MIT MIT license
+
+
+- 0MQ
+
+An open-source universal messaging library
+
+> https://zeromq.org/
+
+> https://github.com/zeromq/libzmq/blob/master/COPYING.LESSER LGPL v3
+

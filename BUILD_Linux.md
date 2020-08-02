@@ -38,6 +38,7 @@
     sudo apt-get install zlib1g-dev;
     sudo apt-get install libcurl4-openssl-dev;
     sudo apt-get install libgit2-dev;
+    sudo apt apt-get install libzmq3-dev;
     sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
     sudo apt-get update;
     sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;

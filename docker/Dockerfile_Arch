@@ -60,6 +60,7 @@ RUN pacman -S git --noconfirm
 RUN pacman -S zlib --noconfirm
 RUN pacman -S curl --noconfirm
 RUN pacman -S libgit2 --noconfirm
+RUN pacman -S zeromq --noconfirm
 
 
 RUN git clone https://github.com/live-clones/hdf5.git /tmp/hdf5-1_10_5 

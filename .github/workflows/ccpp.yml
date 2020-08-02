@@ -52,6 +52,7 @@ jobs:
         sudo apt -y install zlib1g-dev;
         sudo apt -y install libcurl4-openssl-dev;
         sudo apt -y install libgit2-dev;
+        sudo apt -y install libzmq3-dev;
         sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.0-bionic;
         sudo apt update;
         sudo apt -y install qt512-meta-full;
