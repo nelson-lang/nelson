@@ -1,3 +1,15 @@
+# 0.4.8 (2020-08-XX)
+
+Compilation:
+------------
+
+  * libffi 3.3 was not detected on Macos X.
+
+  * libicu4c 67.1 was not detected on Macos X.
+
+  * Qt 5.15 official package was not detected on Macos X.
+
+
 # 0.4.7 (2020-07-31)
 
   * [#311](http://github.com/Nelson-numerical-software/nelson/issues/311): betainc builtin: Incomplete beta function.
