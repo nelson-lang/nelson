@@ -24,3 +24,7 @@ set_property(TARGET libzmq PROPERTY IMPORTED_LOCATION ${ZeroMQ_LIBRARY})
 add_library(libzmq-static STATIC IMPORTED ${PC_LIBZMQ_INCLUDE_DIRS})
 set_property(TARGET libzmq-static PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PC_LIBZMQ_INCLUDE_DIRS})
 set_property(TARGET libzmq-static PROPERTY IMPORTED_LOCATION ${ZeroMQ_STATIC_LIBRARY})
+
+
+message(STATUS "zmq include found: ${PC_LIBZMQ_INCLUDE_DIRS}")
+message(STATUS "zmq library found: ${ZeroMQ_LIBRARY}")

@@ -25,6 +25,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "zmqBuiltin.hpp"
+#include "ZMQ_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,6 +38,7 @@ static const nlsGateway gateway[] = {
 static bool
 initializeRandModule(Nelson::Evaluator* eval)
 {
+    zmq_module_init();
     return true;
 }
 //=============================================================================

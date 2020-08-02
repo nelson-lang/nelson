@@ -87,6 +87,7 @@ file_archiver
 webtools
 graphics
 mex
+zmq
 )
 LIST(APPEND moduleslist main)
 #==============================================================================

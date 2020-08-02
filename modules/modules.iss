@@ -89,4 +89,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "webtools/module.iss"
 #include "graphics/module.iss"
 #include "mex/module.iss"
+#include "zmq/module.iss"
 ;==============================================================================

@@ -26,12 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 namespace ZmqGateway {
     ArrayOfVector
-    zmqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    zmqBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
 } // namespace Nelson

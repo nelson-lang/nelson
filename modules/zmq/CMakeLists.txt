@@ -29,7 +29,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
 ${Boost_INCLUDE_DIRS}
-${ZEROMQ_INCLUDE_DIR}
+${PC_LIBZMQ_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -54,6 +54,8 @@ nlsError_manager
 nlsTypes
 nlsInterpreter
 nlsI18n
+${BOOST_LIBRARIES}
+${ZeroMQ_LIBRARY}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

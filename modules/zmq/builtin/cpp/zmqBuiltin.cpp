@@ -25,13 +25,13 @@
 //=============================================================================
 #include "zmqBuiltin.hpp"
 #include "Error.hpp"
-#include "ZMQ.hpp"
+#include "ZMQ_helpers.hpp"
 #include "nlsConfig.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ZmqGateway::zmqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ZmqGateway::zmqBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
