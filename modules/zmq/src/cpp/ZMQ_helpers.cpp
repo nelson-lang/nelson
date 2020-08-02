@@ -79,26 +79,8 @@ zmq_module_init()
     zmq_context = zmq_init(1);
 }
 //=============================================================================
-void
-zmqSubscribe(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port)
-{
-    switch (zmqProtocol) {
-    case ZMQ_IPC_PROTOCOL: {
-        std::wstring zmq_channel = std::wstring(L"ipc:///") + channel;
-    } break;
-    case ZMQ_TCP_PROTOCOL: {
-    } break;
-    case ZMQ_PGM_PROTOCOL: {
-    } break;
-    case ZMQ_ERROR_PROTOCOL:
-    default:
-        Error(_("Invalid #2 argument: 'ipc', 'tcp', or 'pgm' expected."));
-        break;
-    }
-};
-//=============================================================================
-int
-zmqPublish(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port)
+static int
+zmqRegister(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port, int type)
 {
     std::wstring zmq_channel;
     if (zmq_context == nullptr) {
@@ -119,7 +101,7 @@ zmqPublish(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port)
         Error(_("Invalid #2 argument: 'ipc', 'tcp', or 'pgm' expected."));
         break;
     }
-    void* socket = zmq_socket(zmq_context, ZMQ_PUB);
+    void* socket = zmq_socket(zmq_context, type);
     if (socket == nullptr) {
         Error(_("Cannot not socket."));
     }
@@ -134,7 +116,19 @@ zmqPublish(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port)
     zmq_poll_item.socket = socket;
     zmq_poll_items.push_back(zmq_poll_item);
     return (int)zmq_poll_items.size() - 1;
- };
+}
+//=============================================================================
+int
+zmqSubscribe(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port)
+{
+    return zmqRegister(zmqProtocol, channel, port, ZMQ_SUB);
+};
+//=============================================================================
+int
+zmqPublish(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port)
+{
+    return zmqRegister(zmqProtocol, channel, port, ZMQ_PUB);
+};
 //=============================================================================
 void
 zmqPool(ZMQ_PROTOCOL zmqProtocol)
@@ -170,5 +164,21 @@ zmqReceive(ZMQ_PROTOCOL zmqProtocol)
     }
 };
 //=============================================================================
+void
+zmqSend(ZMQ_PROTOCOL zmqProtocol)
+{
+    switch (zmqProtocol) {
+    case ZMQ_IPC_PROTOCOL: {
+    } break;
+    case ZMQ_TCP_PROTOCOL: {
+    } break;
+    case ZMQ_PGM_PROTOCOL: {
+    } break;
+    case ZMQ_ERROR_PROTOCOL:
+    default:
+        Error(_("Invalid #2 argument: 'ipc', 'tcp', or 'pgm' expected."));
+        break;
+    }
+};
 }
 //=============================================================================

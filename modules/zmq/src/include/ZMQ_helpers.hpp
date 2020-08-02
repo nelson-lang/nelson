@@ -37,6 +37,7 @@ typedef enum
     ZMQ_CMD_PUBLISH,
     ZMQ_CMD_POLL,
     ZMQ_CMD_RECEIVE,
+    ZMQ_CMD_SEND,
     ZMQ_CMD_ERROR_COMMAND
 } ZMQ_COMMAND;
 //=============================================================================
@@ -51,7 +52,7 @@ typedef enum
 NLSZMQ_IMPEXP void
 zmq_module_init();
 //=============================================================================
-NLSZMQ_IMPEXP void
+NLSZMQ_IMPEXP int
 zmqSubscribe(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port);
 //=============================================================================
 NLSZMQ_IMPEXP int
@@ -62,6 +63,9 @@ zmqPool(ZMQ_PROTOCOL zmqProtocol);
 //=============================================================================
 NLSZMQ_IMPEXP void
 zmqReceive(ZMQ_PROTOCOL zmqProtocol);
+//=============================================================================
+NLSZMQ_IMPEXP void
+zmqSend(ZMQ_PROTOCOL zmqProtocol);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -46,6 +46,9 @@ arrayOfToZmqCommand(const ArrayOf& input)
     if (cmd.compare(L"receive") == 0) {
         return ZMQ_CMD_RECEIVE;
     }
+    if (cmd.compare(L"send") == 0) {
+        return ZMQ_CMD_SEND;
+    }
     return ZMQ_CMD_ERROR_COMMAND;
 }
 //=============================================================================
@@ -105,6 +108,9 @@ Nelson::ZmqGateway::zmqBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case ZMQ_CMD_POLL: {
         zmqPool(zmqProtocol);
+    } break;
+    case ZMQ_CMD_SEND: {
+        zmqSend(zmqProtocol);
     } break;
     case ZMQ_CMD_RECEIVE: {
         zmqReceive(zmqProtocol);
