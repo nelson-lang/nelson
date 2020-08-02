@@ -30,12 +30,89 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+static ZMQ_COMMAND
+arrayOfToZmqCommand(const ArrayOf& input)
+{
+    std::wstring cmd = input.getContentAsWideString();
+    if (cmd.compare(L"subscribe") == 0) {
+        return ZMQ_CMD_SUBSCRIBE;
+    }
+    if (cmd.compare(L"publish") == 0) {
+        return ZMQ_CMD_PUBLISH;
+    }
+    if (cmd.compare(L"poll") == 0) {
+        return ZMQ_CMD_POLL;
+    }
+    if (cmd.compare(L"receive") == 0) {
+        return ZMQ_CMD_RECEIVE;
+    }
+    return ZMQ_CMD_ERROR_COMMAND;
+}
+//=============================================================================
+static ZMQ_PROTOCOL
+arrayOfToZmqProtocol(const ArrayOf& input)
+{
+    std::wstring protocol = input.getContentAsWideString();
+    if (protocol.compare(L"ipc") == 0) {
+        return ZMQ_IPC_PROTOCOL;
+    }
+    if (protocol.compare(L"tcp") == 0) {
+        return ZMQ_TCP_PROTOCOL;
+    }
+    if (protocol.compare(L"pgm") == 0) {
+        return ZMQ_PGM_PROTOCOL;
+    }
+    return ZMQ_ERROR_PROTOCOL;
+}
+//=============================================================================
 ArrayOfVector
 Nelson::ZmqGateway::zmqBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    if (argIn.size() < 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ZMQ_COMMAND zmqCommand = arrayOfToZmqCommand(argIn[0]);
+    ZMQ_PROTOCOL zmqProtocol = arrayOfToZmqProtocol(argIn[1]);
+    switch (zmqCommand) {
+    case ZMQ_CMD_SUBSCRIBE: {
+        std::wstring channel;
+        int port = -1;
+        if (zmqProtocol == ZMQ_IPC_PROTOCOL) { 
+          channel = argIn[2].getContentAsWideString();
+        }
+        if (zmqProtocol == ZMQ_TCP_PROTOCOL || zmqProtocol == ZMQ_PGM_PROTOCOL) {
+            ArrayOf arg3 = argIn[2]; 
+            port = arg3.getContentAsInteger32Scalar(false);
+        }
+        zmqSubscribe(zmqProtocol, channel, port);
+    } break;
+    case ZMQ_CMD_PUBLISH: {
+        std::wstring channel;
+        int port = -1;
+        if (zmqProtocol == ZMQ_IPC_PROTOCOL) {
+            channel = argIn[2].getContentAsWideString();
+        }
+        if (zmqProtocol == ZMQ_TCP_PROTOCOL || zmqProtocol == ZMQ_PGM_PROTOCOL) {
+            ArrayOf arg3 = argIn[2];
+            port = arg3.getContentAsInteger32Scalar(false);
+        }
+        double index = (double)zmqPublish(zmqProtocol, channel, port);
+        retval.push_back(ArrayOf::doubleConstructor(index));
+    } break;
+    case ZMQ_CMD_POLL: {
+        zmqPool(zmqProtocol);
+    } break;
+    case ZMQ_CMD_RECEIVE: {
+        zmqReceive(zmqProtocol);
+    } break;
+    case ZMQ_CMD_ERROR_COMMAND:
+    default: {
+        Error(_("Invalid #1 argument: 'subscribe', 'publish', 'poll' or 'receive' expected."));
+    } break;
     }
     return retval;
 }
