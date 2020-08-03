@@ -110,10 +110,19 @@ Nelson::ZmqGateway::zmqBuiltin(int nLhs, const ArrayOfVector& argIn)
         zmqPool(zmqProtocol);
     } break;
     case ZMQ_CMD_SEND: {
-        zmqSend(zmqProtocol);
+        if (argIn[2].getDataClass() != NLS_UINT8) {
+            Error(_("Invalid #3 argument: uint8 array expected."));
+        }
+        ArrayOf arg2 = argIn[1];
+        double index = arg2.getContentAsDoubleScalar(false);
+        size_t length = argIn[2].getDimensions().getElementCount() * sizeof(uint8);
+        int nbytes = zmqSend(index, (uint8*)argIn[2].getDataPointer(), length);
+        retval.push_back(ArrayOf::doubleConstructor((double)nbytes));
     } break;
     case ZMQ_CMD_RECEIVE: {
-        zmqReceive(zmqProtocol);
+        ArrayOf arg2 = argIn[1];
+        double index = arg2.getContentAsDoubleScalar(false);
+        retval = zmqReceive(index);
     } break;
     case ZMQ_CMD_ERROR_COMMAND:
     default: {

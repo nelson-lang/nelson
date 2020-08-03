@@ -61,11 +61,11 @@ zmqPublish(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port);
 NLSZMQ_IMPEXP void
 zmqPool(ZMQ_PROTOCOL zmqProtocol);
 //=============================================================================
-NLSZMQ_IMPEXP void
-zmqReceive(ZMQ_PROTOCOL zmqProtocol);
+NLSZMQ_IMPEXP ArrayOfVector
+zmqReceive(int index);
 //=============================================================================
-NLSZMQ_IMPEXP void
-zmqSend(ZMQ_PROTOCOL zmqProtocol);
+NLSZMQ_IMPEXP int
+zmqSend(int index, uint8 *data, size_t length);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -36,43 +36,6 @@ static std::vector<void*> zmq_sockets;
 std::vector<zmq_pollitem_t> zmq_poll_items;
 std::vector<std::string> channels;
 //=============================================================================
-static void
-errnoToError(int error)
-{
-    switch (error) {
-    case EINVAL:
-        Error(_("The endpoint supplied is invalid."));
-        break;
-    case EPROTONOSUPPORT:
-        Error(_("The requested transport protocol is not supported."));
-        break;
-    case ENOCOMPATPROTO:
-        Error(_("The requested transport protocol is not compatible with the socket type."));
-        break;
-    case EADDRINUSE:
-        Error(_("The requested address is already in use."));
-        break;
-    case EADDRNOTAVAIL:
-        Error(_("The requested address was not local."));
-        break;
-    case ENODEV:
-        Error(_("The requested address specifies a nonexistent interface."));
-        break;
-    case ETERM:
-        Error(_("The ØMQ context associated with the specified socket was terminated."));
-        break;
-    case ENOTSOCK:
-        Error(_("The provided socket was invalid."));
-        break;
-    case EMTHREAD:
-        Error(_("No I/O thread is available to accomplish the task."));
-        break;
-    default:
-        Error(_("Unknown error."));
-        break;
-    }
-}
-//=============================================================================
 void
 zmq_module_init()
 {
@@ -107,7 +70,7 @@ zmqRegister(ZMQ_PROTOCOL zmqProtocol, std::wstring channel, int port, int type)
     }
     int res = zmq_bind(socket, wstring_to_utf8(zmq_channel).c_str());
     if (res != 0) {
-        errnoToError(errno);
+        Error(_(zmq_strerror(errno)));
     } else {
         zmq_sockets.push_back(socket);
     }
@@ -147,38 +110,60 @@ zmqPool(ZMQ_PROTOCOL zmqProtocol)
     }
 };
 //=============================================================================
-void
-zmqReceive(ZMQ_PROTOCOL zmqProtocol)
+ArrayOfVector
+zmqReceive(int index)
 {
-    switch (zmqProtocol) {
-    case ZMQ_IPC_PROTOCOL: {
-    } break;
-    case ZMQ_TCP_PROTOCOL: {
-    } break;
-    case ZMQ_PGM_PROTOCOL: {
-    } break;
-    case ZMQ_ERROR_PROTOCOL:
-    default:
-        Error(_("Invalid #2 argument: 'ipc', 'tcp', or 'pgm' expected."));
-        break;
+    ArrayOfVector res;
+    if (zmq_poll_items[index].socket == nullptr) {
+        res.push_back(ArrayOf::doubleConstructor((double)zmq_poll_items[index].fd));
+        res.push_back(ArrayOf::doubleConstructor(0));
+        return res;
     }
+
+#define BUFLEN 1024 * 1024
+    char* recv_buffer = nullptr;
+    recv_buffer = (char*)malloc(BUFLEN);
+
+    int nbytes = zmq_recv(zmq_sockets[index], recv_buffer, BUFLEN, 0);
+    if (nbytes == -1) {
+        if (recv_buffer) {
+            free(recv_buffer);
+            recv_buffer = nullptr;
+        }
+        Error(_("Do not receive anything."));
+    }
+    int has_more;
+    size_t has_more_size = sizeof(has_more);
+    int rc = zmq_getsockopt(zmq_sockets[index], ZMQ_RCVMORE, &has_more, &has_more_size);
+    if (rc != 0) {
+        if (recv_buffer) {
+            free(recv_buffer);
+            recv_buffer = nullptr;
+        }
+        Error(_("Do not receive more."));
+    }
+    uint8* ptrValue = (uint8* )ArrayOf::allocateArrayOf(NLS_UINT8, nbytes);
+    Dimensions dimsValue(1, nbytes);
+    ArrayOf value = ArrayOf::ArrayOf(NLS_UINT8, dimsValue, ptrValue);
+    memcpy(ptrValue, recv_buffer, nbytes);
+    if (recv_buffer) {
+        free(recv_buffer);
+        recv_buffer = nullptr;
+    }
+    res.push_back(value);
+    res.push_back(ArrayOf::logicalConstructor(has_more));
+    return res;
 };
 //=============================================================================
-void
-zmqSend(ZMQ_PROTOCOL zmqProtocol)
+int
+zmqSend(int index, uint8* data, size_t length)
 {
-    switch (zmqProtocol) {
-    case ZMQ_IPC_PROTOCOL: {
-    } break;
-    case ZMQ_TCP_PROTOCOL: {
-    } break;
-    case ZMQ_PGM_PROTOCOL: {
-    } break;
-    case ZMQ_ERROR_PROTOCOL:
-    default:
-        Error(_("Invalid #2 argument: 'ipc', 'tcp', or 'pgm' expected."));
-        break;
+    int nbytes = zmq_send(zmq_sockets[index], data, (int)length, 0);
+    if (nbytes != (int)length) {
+        Error(_("Send incorrect number of bytes."));
     }
+    return nbytes;
 };
+//=============================================================================
 }
 //=============================================================================
