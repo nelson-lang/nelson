@@ -2,6 +2,9 @@
 
 * fix play, playblocking, resume builtin.
 
+ * getpid() returns current process identificator.
+
+ * getpid('running') returns all nelson processes identificators currently.
 
 Compilation:
 ------------
@@ -14,6 +17,7 @@ Compilation:
 
   * libsndfile 1.29.0 on Windows.
 
+  * CMake 3.18.1 used on Windows.
 
 # 0.4.7 (2020-07-31)
 

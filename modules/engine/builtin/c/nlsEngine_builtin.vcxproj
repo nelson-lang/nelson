@@ -179,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\argvBuiltin.hpp" />
     <ClInclude Include="..\include\getnelsonmodeBuiltin.hpp" />
+    <ClInclude Include="..\include\getpidBuiltin.hpp" />
     <ClInclude Include="..\include\isquietmodeBuiltin.hpp" />
     <ClInclude Include="..\include\nlsEngine_builtin_exports.h" />
   </ItemGroup>
@@ -186,6 +187,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\argvBuiltin.cpp" />
     <ClCompile Include="..\cpp\getnelsonmodeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getpidBuiltin.cpp" />
     <ClCompile Include="..\cpp\isquietmodeBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

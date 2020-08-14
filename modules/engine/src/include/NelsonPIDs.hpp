@@ -23,29 +23,41 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "argvBuiltin.hpp"
-#include "getnelsonmodeBuiltin.hpp"
-#include "isquietmodeBuiltin.hpp"
-#include "getpidBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include <vector>
+#include "nlsEngine_exports.h"
+#include "NelSon_engine_mode.h"
 //=============================================================================
-const std::wstring gatewayName = L"engine";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "getnelsonmode", (void*)Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0,
-            CPP_BUILTIN_WITH_EVALUATOR },
-          { "argv", (void*)Nelson::EngineGateway::argvBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
-          { "isquietmode", (void*)Nelson::EngineGateway::isquietmodeBuiltin, 1, 0,
-              CPP_BUILTIN_WITH_EVALUATOR },
-          { "getpid", (void*)Nelson::EngineGateway::getpidBuiltin, 1, 0, CPP_BUILTIN } };
+NLSENGINE_IMPEXP
+std::vector<int>
+getNelsonPIDs();
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLSENGINE_IMPEXP
+std::vector<NELSON_ENGINE_MODE>
+getNelsonPIDModes();
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+NLSENGINE_IMPEXP
+bool
+registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE _mode);
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSENGINE_IMPEXP
+bool
+unregisterPidInSharedMemory(int pid);
 //=============================================================================
-NLSGATEWAYNAME()
+NLSENGINE_IMPEXP
+int
+getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode);
+//=============================================================================
+NLSENGINE_IMPEXP
+bool
+isPIDRunning(int pID);
+//=============================================================================
+NLSENGINE_IMPEXP
+int
+getCurrentPID();
+//=============================================================================
+}
 //=============================================================================

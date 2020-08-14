@@ -23,29 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "argvBuiltin.hpp"
-#include "getnelsonmodeBuiltin.hpp"
-#include "isquietmodeBuiltin.hpp"
-#include "getpidBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"engine";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "getnelsonmode", (void*)Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0,
-            CPP_BUILTIN_WITH_EVALUATOR },
-          { "argv", (void*)Nelson::EngineGateway::argvBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
-          { "isquietmode", (void*)Nelson::EngineGateway::isquietmodeBuiltin, 1, 0,
-              CPP_BUILTIN_WITH_EVALUATOR },
-          { "getpid", (void*)Nelson::EngineGateway::getpidBuiltin, 1, 0, CPP_BUILTIN } };
+namespace EngineGateway {
+    //=============================================================================
+    ArrayOfVector
+    getpidBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================
