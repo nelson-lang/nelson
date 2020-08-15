@@ -32,7 +32,7 @@
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 
 #pragma comment(lib, "portaudio.lib")
-#pragma comment(lib, "libsndfile-1.lib")
+#pragma comment(lib, "sndfile.lib")
 #ifdef _DEBUG
 #pragma comment(lib, "tag_debug.lib")
 #else

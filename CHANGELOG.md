@@ -1,5 +1,8 @@
 # 0.4.8 (2020-08-XX)
 
+* fix play, playblocking, resume builtin.
+
+
 Compilation:
 ------------
 
@@ -8,6 +11,8 @@ Compilation:
   * libicu4c 67.1 was not detected on Macos X.
 
   * Qt 5.15 official package was not detected on Macos X.
+
+  * libsndfile 1.29.0 on Windows.
 
 
 # 0.4.7 (2020-07-31)
