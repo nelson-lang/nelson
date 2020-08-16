@@ -176,6 +176,7 @@
     <ClCompile Include="..\cpp\MainEvaluator.cpp" />
     <ClCompile Include="..\cpp\MaxOpenedFiles.cpp" />
     <ClCompile Include="..\cpp\NelsonNamedMutex.cpp" />
+    <ClCompile Include="..\cpp\NelsonPIDs.cpp" />
     <ClCompile Include="..\cpp\OpenFilesAssociated.cpp" />
     <ClCompile Include="..\cpp\ProgramOptions.cpp" />
     <ClCompile Include="..\cpp\RecursionStack.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="..\include\FinishNelsonUserScript.hpp" />
     <ClInclude Include="..\include\MaxOpenedFiles.hpp" />
     <ClInclude Include="..\include\NelsonNamedMutex.hpp" />
+    <ClInclude Include="..\include\NelsonPIDs.hpp" />
     <ClInclude Include="..\include\OpenFilesAssociated.hpp" />
     <ClInclude Include="..\include\ProgramOptions.hpp" />
     <ClInclude Include="..\include\RecursionStack.hpp" />
