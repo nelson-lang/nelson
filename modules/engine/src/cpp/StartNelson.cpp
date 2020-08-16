@@ -51,8 +51,6 @@
 #include "ModulesHelpers.hpp"
 #include "NelsonNamedMutex.hpp"
 #include "Nelson_VERSION.h"
-#include "OpenFilesAssociated.hpp"
-#include "LoadFilesAssociated.hpp"
 #include "ProgramOptions.hpp"
 #include "RecursionStack.hpp"
 #include "SetNelSonEnvironmentVariables.hpp"
@@ -65,6 +63,8 @@
 #include "NelsonPrint.hpp"
 #include "MxCall.h"
 #include "NelsonPIDs.hpp"
+#include "FilesAssociation.hpp"
+#include "FilesAssociationIPC.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -220,8 +220,8 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         Interface* io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
-    OpenFilesAssociated(eval, filesToOpen);
-    LoadFilesAssociated(eval, filesToLoad);
+    OpenFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToOpen);
+    LoadFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToLoad);
     while (eval->getState() != NLS_STATE_QUIT) {
         if (eval->getState() == NLS_STATE_ABORT) {
             eval->clearStacks();
@@ -252,6 +252,43 @@ static int
 StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 {
     int exitCode = -1;
+    ProgramOptions po(args, _mode);
+    if (!po.isValid()) {
+        ErrorCommandLine(po.getErrorMessage(), _mode);
+        return exitCode;
+    }
+    if (po.haveOptionsHelp()) {
+        displayHelp(po.getOptionsHelp(), _mode);
+        return 0;
+    }
+    if (po.haveVersion()) {
+        displayVersion(_mode);
+        return 0;
+    }
+    if (_mode == NELSON_ENGINE_MODE::GUI) {
+        int existingPID = getLatestPidWithModeInSharedMemory(_mode);
+        if (existingPID != 0) {
+            if (po.haveFileToExecute()) {
+                std::wstring fileToExecute = po.getFileToExecute();
+                wstringVector fileToExecuteAsVector;
+                fileToExecuteAsVector.push_back(fileToExecute);
+                if (sendCommandToFileExtensionReceiver(existingPID, "run", fileToExecuteAsVector)) {
+                    return 0;
+                }
+            }
+            if (po.haveOpenFiles()) {
+                if (sendCommandToFileExtensionReceiver(existingPID, "open", po.getFilesToOpen())) {
+                    return 0;
+                }
+            }
+            if (po.haveLoadFiles()) {
+                if (sendCommandToFileExtensionReceiver(existingPID, "load", po.getFilesToLoad())) {
+                    return 0;
+                }
+            }
+        }
+    }
+
     if (!SetNelSonEnvironmentVariables()) {
         ErrorPathDetection(_mode);
         return exitCode;
@@ -289,19 +326,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     wstringVector filesToLoad;
     std::wstring lang;
     bool bQuietMode = false;
-    ProgramOptions po(args, _mode);
-    if (!po.isValid()) {
-        ErrorCommandLine(po.getErrorMessage(), _mode);
-        return exitCode;
-    }
-    if (po.haveOptionsHelp()) {
-        displayHelp(po.getOptionsHelp(), _mode);
-        return 0;
-    }
-    if (po.haveVersion()) {
-        displayVersion(_mode);
-        return 0;
-    }
     if (po.haveTimeout()) {
         TimeoutThread(po.getTimeout());
     }
@@ -336,7 +360,9 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (eval != nullptr) {
         int currentPID = getCurrentPID();
         registerPidInSharedMemory(currentPID, _mode);
-
+        if (_mode == NELSON_ENGINE_MODE::GUI) {
+            createNelsonCommandFileExtensionReceiver(currentPID);
+        }
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
         setPrintInterface(eval->getInterface());
@@ -368,6 +394,9 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             po.haveNoUserModules(), commandToExecute, fileToExecute, filesToOpen, filesToLoad);
         ::destroyMainEvaluator();
         clearWarningIdsList();
+        if (_mode == NELSON_ENGINE_MODE::GUI) {
+            removeNelsonCommandFileExtensionReceiver(currentPID);
+        }
         unregisterPidInSharedMemory(currentPID);
     } else {
         ErrorInterpreter(_mode);

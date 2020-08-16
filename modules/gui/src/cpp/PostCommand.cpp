@@ -23,40 +23,30 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "OpenFilesAssociated.hpp"
-#include "EvaluateCommand.hpp"
-#include "NelSon_engine_mode.h"
-#include <boost/filesystem.hpp>
+#include "PostCommand.hpp"
+#include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen)
+postCommand(const std::wstring& commandToExecute)
 {
-    bool res = false;
-    if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL
-        || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI) {
-        if (!filesToOpen.empty()) {
-            try {
-                for (size_t k = 0; k < filesToOpen.size(); k++) {
-                    boost::filesystem::path pathFileToOpen(filesToOpen[k]);
-                    bool bIsFile = boost::filesystem::exists(pathFileToOpen)
-                        && !boost::filesystem::is_directory(pathFileToOpen);
-                    if (bIsFile) {
-                        std::wstring editCommand = std::wstring(L"edit('" + filesToOpen[k] + L"')");
-                        EvaluateCommand(eval, editCommand, false);
-                        res = true;
-                    }
-                }
-            } catch (Exception& e) {
-                Interface* io = eval->getInterface();
-                io->errorMessage(e.getMessage());
-                res = false;
-            }
-        }
+    void* veval = GetNelsonMainEvaluatorDynamicFunction();
+    if (veval != nullptr) {
+        std::wstring _cmd = commandToExecute + L";";
+        auto* eval = static_cast<Evaluator*>(veval);
+        eval->addCommandToQueue(_cmd, true);
+        return true;
     }
-    return res;
+    return false;
 }
 //=============================================================================
 } // namespace Nelson
+//=============================================================================
+bool
+postCommandToNelson(const std::wstring& commandToExecute)
+{
+    return Nelson::postCommand(commandToExecute);
+}
 //=============================================================================

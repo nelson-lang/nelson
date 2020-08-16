@@ -25,11 +25,24 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
-#include "Types.hpp"
+#include <string>
+#include <vector>
+#include "nlsEngine_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+NLSENGINE_IMPEXP
+void
+createNelsonCommandFileExtensionReceiver(int pid);
+//=============================================================================
+NLSENGINE_IMPEXP
 bool
-LoadFilesAssociated(Evaluator* eval, wstringVector filesToLoad);
+removeNelsonCommandFileExtensionReceiver(int pid);
+//=============================================================================
+NLSENGINE_IMPEXP
+bool
+sendCommandToFileExtensionReceiver(
+    int pidDestination, const std::string& commandType, const std::vector<std::wstring>& filenames);
+//=============================================================================
 }
 //=============================================================================

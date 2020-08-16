@@ -289,6 +289,12 @@ ProgramOptions::parse()
             return false;
         }
     }
+    if (_mode != NELSON_ENGINE_MODE::GUI) {
+        if (!_filesToOpen.empty()) {
+            _error = _W("'open' in editor, GUI mode required.");
+            return false;
+        }
+    }
     std::wstring _timeout_str;
     bRes = bRes && parseOptionWithValue(timeoutOption, bFind, _timeout_str);
     if (bFind) {

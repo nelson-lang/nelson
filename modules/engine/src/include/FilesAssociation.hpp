@@ -27,9 +27,18 @@
 //=============================================================================
 #include "Evaluator.hpp"
 #include "Types.hpp"
+#include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 bool
-OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen);
+OpenFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen);
+//=============================================================================
+bool
+LoadFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen);
+//=============================================================================
+bool
+ExecuteFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen);
+//=============================================================================
 }
 //=============================================================================

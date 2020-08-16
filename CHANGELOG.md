@@ -1,10 +1,15 @@
 # 0.4.8 (2020-08-XX)
 
-* fix play, playblocking, resume builtin.
+  * multiplatforms files association based on IPC.
+    open, load, execute in last created Nelson's process. 
 
- * getpid() returns current process identificator.
+  * event loop and command queue udpdated. 
 
- * getpid('running') returns all nelson processes identificators currently.
+  * fix play, playblocking, resume builtin.
+
+  * getpid() returns current process identificator.
+
+  * getpid('running') returns all nelson processes identificators currently.
 
 Compilation:
 ------------

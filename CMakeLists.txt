@@ -345,7 +345,7 @@ ELSE()
 ENDIF()
 #==============================================================================
 FIND_PACKAGE(PkgConfig REQUIRED)
-FIND_PACKAGE(Boost 1.64.0 COMPONENTS system filesystem locale thread chrono regex date_time iostreams REQUIRED)
+FIND_PACKAGE(Boost 1.64.0 COMPONENTS serialization system filesystem locale thread chrono regex date_time iostreams REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5Gui REQUIRED)
 FIND_PACKAGE(Qt5Qml REQUIRED)

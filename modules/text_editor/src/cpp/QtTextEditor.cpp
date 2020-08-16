@@ -47,7 +47,7 @@
 #include <string>
 #include <boost/algorithm/string.hpp>
 #include "QtTextEditor.h"
-#include "ExecuteCommand.hpp"
+#include "PostCommand.hpp"
 #include "GetNelsonPath.hpp"
 #include "ModulesManager.hpp"
 #include "QStringConverter.hpp"
@@ -58,6 +58,7 @@
 #include "TextEditorPreferences.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "PostCommand.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -921,7 +922,7 @@ QtTextEditor::runFile()
             save();
         }
         std::wstring filename = QStringTowstring(currentFilename());
-        executeCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
+        postCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
     } else {
         QMessageBox::warning(
             this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
@@ -949,10 +950,7 @@ QtTextEditor::helpOnSelection()
         std::wstring text = QStringTowstring(selectedText);
         boost::algorithm::replace_all(text, "'", "\"");
         std::wstring cmd = L"doc('" + text + L"');";
-        try {
-            nlsEvaluator->evaluateString(Nelson::wstring_to_utf8(cmd), true);
-        } catch (const Exception&) {
-        }
+        postCommand(cmd);
     }
 }
 //=============================================================================
@@ -1009,7 +1007,7 @@ QtTextEditor::evaluateSelection()
     }
     if (!selectedText.isEmpty()) {
         std::wstring text = QStringTowstring(selectedText);
-        executeCommand(text);
+        postCommand(text);
     }
 }
 //=============================================================================

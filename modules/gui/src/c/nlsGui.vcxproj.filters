@@ -60,10 +60,10 @@
     <ClCompile Include="..\cpp\GetQtPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ExecuteCommand.cpp">
+    <ClCompile Include="..\cpp\QtLookAndFeel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\QtLookAndFeel.cpp">
+    <ClCompile Include="..\cpp\PostCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,10 +98,10 @@
     <ClInclude Include="..\include\GetQtPath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ExecuteCommand.hpp">
+    <ClInclude Include="..\include\QtLookAndFeel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\QtLookAndFeel.hpp">
+    <ClInclude Include="..\include\PostCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
