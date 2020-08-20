@@ -36,6 +36,7 @@ french.ASSOCIATE_NH5_FILE = Associer les fichiers .nh5 avec Nelson
 french.ASSOCIATE_MAT_FILE = Associer les fichiers .mat avec Nelson
 ;==============================================================================
 french.RegKeyLoadWith = Charger avec
+french.RegKeyRunWith = Exécuter avec
 ;==============================================================================
 french.FILE_ASSOCIATION = Association des fichiers:
 ;==============================================================================

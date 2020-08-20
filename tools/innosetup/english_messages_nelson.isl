@@ -36,6 +36,7 @@ english.ASSOCIATE_NH5_FILE = Associate .nh5 files with Nelson
 english.ASSOCIATE_MAT_FILE = Associate .mat files with Nelson
 ;==============================================================================
 english.RegKeyLoadWith = Load with
+english.RegKeyRunWith = Run with
 ;==============================================================================
 english.FILE_ASSOCIATION = Files associations:
 ;==============================================================================
