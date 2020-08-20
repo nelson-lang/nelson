@@ -237,7 +237,7 @@ QtMainWindow::bugAndRequest()
 void
 QtMainWindow::help()
 {
-    Nelson::postCommand(L"doc");
+    postCommand(L"doc");
 }
 //=============================================================================
 void

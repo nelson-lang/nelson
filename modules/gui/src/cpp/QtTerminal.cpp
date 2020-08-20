@@ -220,7 +220,7 @@ QtTerminal::getLine(const std::wstring& prompt)
     }
     bool wasInterruptByAction = false;
     do {
-        Nelson::ProcessEvents(true);
+        Nelson::ProcessEvents();
         if (!eval->commandQueue.isEmpty()) {
             wasInterruptByAction = true;
             break;
@@ -232,8 +232,6 @@ QtTerminal::getLine(const std::wstring& prompt)
         line = L"\n";
     } else {
         line = lineToSend;
-    }
-    if (!wasInterruptByAction) {
         while (lineToSend.empty()) {
             Nelson::ProcessEvents(true);
         }

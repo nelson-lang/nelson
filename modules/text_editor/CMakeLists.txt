@@ -44,6 +44,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
@@ -75,6 +76,7 @@ nlsModules_manager
 nlsNelson_manager
 nlsOs_functions
 nlsText_completion
+nlsEngine
 ${Qt5Widgets_LIBRARIES}
 ${Qt5PrintSupport_LIBRARIES}
 )

@@ -23,30 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "PostCommand.hpp"
-#include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#pragma once
+//=============================================================================
+#include "nlsEngine_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
+NLSENGINE_IMPEXP bool
+postCommand(const std::wstring& commandToExecute);
 //=============================================================================
-bool
-postCommand(const std::wstring& commandToExecute)
-{
-    void* veval = GetNelsonMainEvaluatorDynamicFunction();
-    if (veval != nullptr) {
-        std::wstring _cmd = commandToExecute + L";";
-        auto* eval = static_cast<Evaluator*>(veval);
-        eval->addCommandToQueue(_cmd, true);
-        return true;
-    }
-    return false;
-}
-//=============================================================================
-} // namespace Nelson
-//=============================================================================
-bool
-postCommandToNelson(const std::wstring& commandToExecute)
-{
-    return Nelson::postCommand(commandToExecute);
 }
 //=============================================================================

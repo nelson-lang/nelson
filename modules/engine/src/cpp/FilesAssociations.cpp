@@ -26,21 +26,12 @@
 #include <boost/filesystem.hpp>
 #include <cstdlib>
 #include <string>
-#include "dynamic_library.hpp"
 #include "FilesAssociation.hpp"
 #include "EvaluateCommand.hpp"
 #include "NelSon_engine_mode.h"
-//=============================================================================
-static Nelson::library_handle nlsGuiHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
+#include "PostCommand.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static bool
-postCommandInGuiThreadDynamicFunction(const std::wstring& commandToExecute);
-//=============================================================================
-static void
-initGuiDynamicLibrary();
 //=============================================================================
 static bool
 commonFilesAssociated(
@@ -79,7 +70,7 @@ commonFilesAssociated(
                     if (bIsFile) {
                         std::wstring commandToExecute
                             = command + std::wstring(L"('" + filesToOpen[k] + L"');");
-                        bool r = postCommandInGuiThreadDynamicFunction(commandToExecute);
+                        bool r = postCommand(commandToExecute);
                         if (r != true) {
                             return false;
                         }
@@ -94,57 +85,6 @@ commonFilesAssociated(
         }
     }
     return res;
-}
-//=============================================================================
-bool
-postCommandInGuiThreadDynamicFunction(const std::wstring& commandToExecute)
-{
-    using PROC_postCommandToNelson = bool (*)(const std::wstring& commandToExecute);
-    static PROC_postCommandToNelson postCommandToNelsonPtr = nullptr;
-    initGuiDynamicLibrary();
-    if (postCommandToNelsonPtr == nullptr) {
-        postCommandToNelsonPtr = reinterpret_cast<PROC_postCommandToNelson>(
-            Nelson::get_function(nlsGuiHandleDynamicLibrary, "postCommandToNelson"));
-        if (postCommandToNelsonPtr == nullptr) {
-            return false;
-        }
-    }
-    return postCommandToNelsonPtr(commandToExecute);
-}
-//=============================================================================
-void
-initGuiDynamicLibrary()
-{
-    if (bFirstDynamicLibraryCall) {
-        std::string fullpathGuiSharedLibrary
-            = "libnlsGui" + Nelson::get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf != nullptr) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet != 0U) {
-                fullpathGuiSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
-            }
-            delete[] buf;
-        }
-#else
-        char const* tmp = getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathGuiSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
-        }
-#endif
-        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
 }
 //=============================================================================
 } // namespace Nelson

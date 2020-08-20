@@ -75,6 +75,7 @@ nlsHistory_manager
 nlsI18n
 nlsOs_functions
 nlsApi_nelson
+nlsEngine
 ${Qt5Widgets_LIBRARIES}
 ${Qt5PrintSupport_LIBRARIES}
 )

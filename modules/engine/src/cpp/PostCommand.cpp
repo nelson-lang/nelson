@@ -23,20 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsGui_exports.h"
-#include <string>
+#include "PostCommand.hpp"
+#include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
-NLSGUI_IMPEXP bool
-postCommand(const std::wstring& commandToExecute);
 //=============================================================================
-}
-//=============================================================================
-extern "C"
+bool
+postCommand(const std::wstring& commandToExecute)
 {
-    NLSGUI_IMPEXP bool
-    postCommandToNelson(const std::wstring& commandToExecute);
+    void* veval = GetNelsonMainEvaluatorDynamicFunction();
+    if (veval != nullptr) {
+        std::wstring _cmd = commandToExecute + L";";
+        auto* eval = static_cast<Evaluator*>(veval);
+        eval->addCommandToQueue(_cmd, true);
+        return true;
+    }
+    return false;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
