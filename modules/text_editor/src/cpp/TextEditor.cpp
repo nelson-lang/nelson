@@ -39,6 +39,7 @@ editor(Evaluator* eval)
         edit = new QtTextEditor(eval);
     }
     edit->showNormal();
+    edit->activateWindow();
     edit->raise();
     return res;
 }
@@ -52,6 +53,7 @@ editor(Evaluator* eval, std::wstring filename)
     }
     edit->loadOrCreateFile(wstringToQString(filename));
     edit->showNormal();
+    edit->activateWindow();
     edit->raise();
     return res;
 }
