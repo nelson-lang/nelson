@@ -47,7 +47,7 @@ class command_file_extension
 public:
     command_file_extension(
         const std::string& _commandType, const std::vector<std::wstring>& _filenames)
-        : commandType(_commandType), filenames(_filenames) {};
+        : commandType(_commandType), filenames(_filenames){};
 
     std::string commandType;
     std::vector<std::wstring> filenames;
@@ -111,8 +111,7 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
             std::stringstream iss;
             std::string serialized_string;
             serialized_string.resize(MAX_MSG_SIZE);
-            if (messages.try_receive(
-                    &serialized_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
+            if (messages.try_receive(&serialized_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
                 iss << serialized_string;
 
                 boost::archive::text_iarchive ia(iss);
@@ -121,9 +120,7 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            }
-            catch (boost::thread_interrupted&)
-            {
+            } catch (boost::thread_interrupted&) {
                 return;
             }
         }
