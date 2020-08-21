@@ -407,9 +407,13 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 static int
 StartNelsonInternalWithMutex(const wstringVector& args, NELSON_ENGINE_MODE _mode)
 {
-    openNelsonMutex();
+    if (!haveNelsonMutex()) {
+        openNelsonMutex();
+    }
     int exitCode = StartNelsonInternal(args, _mode);
-    closeNelsonMutex();
+    if (haveNelsonMutex()) {
+        closeNelsonMutex();
+    }
     return exitCode;
 }
 //=============================================================================
