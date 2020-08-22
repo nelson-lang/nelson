@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\AddPathToEnvironmentVariable.cpp" />
     <ClCompile Include="..\cpp\CreateGUID.cpp" />
+    <ClCompile Include="..\cpp\GetUsername.cpp" />
     <ClCompile Include="..\cpp\GetVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\PlatformInfo.cpp" />
     <ClCompile Include="..\cpp\SearchVariableEnvironment.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\..\src\include\SystemCommand.hpp" />
     <ClInclude Include="..\include\AddPathToEnvironmentVariable.hpp" />
     <ClInclude Include="..\include\CreateGUID.hpp" />
+    <ClInclude Include="..\include\GetUsername.hpp" />
     <ClInclude Include="..\include\WindowsQueryRegistry.hpp" />
     <ClInclude Include="..\include\WinOpen.hpp" />
   </ItemGroup>

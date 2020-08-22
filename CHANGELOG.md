@@ -9,7 +9,7 @@
 
   * getpid() returns current process identificator.
 
-  * getpid('running') returns all nelson processes identificators currently.
+  * getpid('running') returns all nelson processes identificators currently running for current user.
 
 Compilation:
 ------------
