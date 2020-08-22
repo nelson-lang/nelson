@@ -112,6 +112,9 @@ public:
     virtual bool
     isAtPrompt()
         = 0;
+    virtual void
+    interruptGetLineByEvent()
+        = 0;
 };
 //=============================================================================
 } // namespace Nelson

@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtWidgets/QApplication>
 #include "GuiTerminal.hpp"
 #include "NelsonHistory.hpp"
 #include "QtMainWindow.h"
@@ -31,11 +32,12 @@
 #include <boost/algorithm/string/predicate.hpp>
 //=============================================================================
 QtTerminal* qtterm = nullptr;
+QtMainWindow* qtMainWindow = nullptr;
 //=============================================================================
 GuiTerminal::GuiTerminal(void* qtMainW)
 {
-    auto* mw = reinterpret_cast<QtMainWindow*>(qtMainW);
-    qtterm = mw->getQtTerminal();
+    qtMainWindow = reinterpret_cast<QtMainWindow*>(qtMainW);
+    qtterm = qtMainWindow->getQtTerminal();
 }
 //=============================================================================
 GuiTerminal::~GuiTerminal() = default;
@@ -211,5 +213,12 @@ GuiTerminal::isAtPrompt()
         return qtterm->isAtPrompt();
     }
     return false;
+}
+//=============================================================================
+void
+GuiTerminal::interruptGetLineByEvent()
+{
+    QEvent* qEvent = new QEvent(QEvent::None);
+    qApp->postEvent(qtMainWindow, qEvent, Qt::HighEventPriority);
 }
 //=============================================================================

@@ -91,6 +91,8 @@ public:
     setBufferScreenLine(int newMax);
     bool
     isAtPrompt() override;
+    void
+    interruptGetLineByEvent() override;
 
 private:
     std::wstring

@@ -37,6 +37,10 @@ postCommand(const std::wstring& commandToExecute)
         std::wstring _cmd = commandToExecute + L";";
         auto* eval = static_cast<Evaluator*>(veval);
         eval->addCommandToQueue(_cmd, true);
+        Interface* io = eval->getInterface();
+        if (io) {
+            io->interruptGetLineByEvent();
+        }
         return true;
     }
     return false;

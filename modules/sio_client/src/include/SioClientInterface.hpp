@@ -80,6 +80,8 @@ public:
     clearTerminal() override;
     bool
     isAtPrompt() override;
+    void
+    interruptGetLineByEvent() override;
 
 private:
     std::wstring
