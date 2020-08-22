@@ -57,7 +57,6 @@ Root: HKCR; Subkey: {#NLF_ENTRY}\ShellNew; ValueName : NullFile ;ValueType: stri
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLF}; ValueType: string; ValueData: "{#APPLICATION_NAME} Application ({#APPLICATION_EXTENSION_NLF})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLF}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NLF_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLf}\shell\open\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_OPEN} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
-Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLf}\shell\print\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_PRINT} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
 ;==============================================================================
 ;*.nh5
 ;==============================================================================
