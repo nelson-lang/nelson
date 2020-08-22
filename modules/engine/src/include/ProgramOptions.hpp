@@ -72,6 +72,8 @@ public:
     std::wstring
     getFileToExecute();
     std::wstring
+    getFileToExecuteIPC();
+    std::wstring
     getCommandToExecute();
     std::wstring
     getOptionsHelp();
@@ -91,6 +93,8 @@ public:
     haveVersion();
     bool
     haveFileToExecute();
+    bool
+    haveFileToExecuteIPC();
     bool
     haveCommandToExecute();
     bool
@@ -130,6 +134,7 @@ private:
     bool _quietmode;
     std::wstring _error;
     std::wstring _file;
+    std::wstring _fileIPC;
     std::wstring _command;
     std::wstring _options;
     std::wstring _lang;
