@@ -1,9 +1,9 @@
 # 0.4.8 (2020-08-XX)
 
-  * multiplatforms files association based on IPC.
-    open, load, execute in last created Nelson's process. 
+  * multiplatforms files association based on Inter-process communication.
+    open, load, execute files in last created Nelson's process. 
 
-  * event loop and command queue udpdated. 
+  * event loop and command queue updated. 
 
   * fix play, playblocking, resume builtin.
 
@@ -22,9 +22,12 @@ Compilation:
 
   * libsndfile 1.29.0 on Windows.
 
-  * licurl 7.72.0 on Windows.
+  * libcurl 7.72.0 on Windows.
+
+  * libbost 1.74.0 on Windows.
 
   * CMake 3.18.1 used on Windows.
+
 
 # 0.4.7 (2020-07-31)
 
