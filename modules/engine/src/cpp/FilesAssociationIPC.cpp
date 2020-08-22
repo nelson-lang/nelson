@@ -47,7 +47,7 @@ class command_file_extension
 public:
     command_file_extension(
         const std::string& _commandType, const std::vector<std::wstring>& _filenames)
-        : commandType(_commandType), filenames(_filenames){};
+        : commandType(_commandType), filenames(_filenames) {};
 
     std::string commandType;
     std::vector<std::wstring> filenames;
@@ -137,8 +137,15 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
 void
 createNelsonCommandFileExtensionReceiver(int pid)
 {
-    server_thread = new boost::thread(createNelsonCommandFileExtensionReceiverThread, pid);
-    server_thread->detach();
+    try {
+        server_thread = new boost::thread(createNelsonCommandFileExtensionReceiverThread, pid);
+    } catch (const std::bad_alloc&) {
+        server_thread = nullptr;
+        receiverLoopRunning = false;
+    }
+    if (server_thread) {
+        server_thread->detach();
+    }
 }
 //=============================================================================
 bool
@@ -147,6 +154,7 @@ removeNelsonCommandFileExtensionReceiver(int pid)
     if (server_thread) {
         receiverLoopRunning = false;
         server_thread->interrupt();
+        delete server_thread;
         server_thread = nullptr;
     }
     return boost::interprocess::message_queue::remove(getChannelName(pid).c_str());

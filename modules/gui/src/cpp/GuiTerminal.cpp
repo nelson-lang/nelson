@@ -204,7 +204,7 @@ GuiTerminal::getBufferScreenLine()
 //=============================================================================
 void
 GuiTerminal::setBufferScreenLine(int newMax)
-{}
+{ }
 //=============================================================================
 bool
 GuiTerminal::isAtPrompt()
@@ -218,7 +218,16 @@ GuiTerminal::isAtPrompt()
 void
 GuiTerminal::interruptGetLineByEvent()
 {
-    QEvent* qEvent = new QEvent(QEvent::None);
-    qApp->postEvent(qtMainWindow, qEvent, Qt::HighEventPriority);
+    QEvent* qEvent = nullptr;
+    try {
+        qEvent = new QEvent(QEvent::None);
+        qApp->postEvent(qtMainWindow, qEvent, Qt::HighEventPriority);
+    } catch (const std::bad_alloc&) {
+        qEvent = nullptr;
+    }
+    if (qEvent) {
+        delete qEvent;
+        qEvent = nullptr;
+    }
 }
 //=============================================================================
