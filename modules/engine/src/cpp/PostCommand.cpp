@@ -38,7 +38,7 @@ postCommand(const std::wstring& commandToExecute)
         auto* eval = static_cast<Evaluator*>(veval);
         eval->addCommandToQueue(_cmd, true);
         Interface* io = eval->getInterface();
-        if (io) {
+        if (io != nullptr) {
             io->interruptGetLineByEvent();
         }
         return true;

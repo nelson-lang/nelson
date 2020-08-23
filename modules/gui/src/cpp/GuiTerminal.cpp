@@ -225,9 +225,5 @@ GuiTerminal::interruptGetLineByEvent()
     } catch (const std::bad_alloc&) {
         qEvent = nullptr;
     }
-    if (qEvent) {
-        delete qEvent;
-        qEvent = nullptr;
-    }
 }
 //=============================================================================
