@@ -122,4 +122,7 @@ public:
 
     bool
     isAtPrompt() override;
+
+    void
+    interruptGetLineByEvent() override;
 };

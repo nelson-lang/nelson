@@ -25,11 +25,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
-#include "Types.hpp"
+#include "nlsEngine_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-bool
-OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen);
+NLSENGINE_IMPEXP bool
+postCommand(const std::wstring& commandToExecute);
+//=============================================================================
 }
 //=============================================================================

@@ -23,36 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ExecuteCommand.hpp"
-#include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "characters_encoding.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include "nlsOs_functions_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-executeCommand(const std::wstring& commandToExecute, bool forceEvaluateString)
-{
-    void* veval = GetNelsonMainEvaluatorDynamicFunction();
-    if (veval != nullptr) {
-        std::wstring _cmd = commandToExecute + L";";
-        auto* eval = static_cast<Evaluator*>(veval);
-        Interface* io = eval->getInterface();
-        if (io != nullptr) {
-            if (forceEvaluateString) {
-                eval->evaluateString(_cmd + L"\n", io->isAtPrompt());
-            } else {
-                if (io->isAtPrompt()) {
-                    eval->addCommandToQueue(_cmd, true);
-                } else {
-                    eval->evaluateString(_cmd + L"\n");
-                }
-            }
-            return true;
-        }
-    }
-    return false;
-}
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+GetHostname();
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
+

@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QtMainWindow.h"
-#include "ExecuteCommand.hpp"
+#include "PostCommand.hpp"
 #include "GetNelsonPath.hpp"
 #include "Nelson_VERSION.h"
 #include "QStringConverter.hpp"
@@ -173,7 +173,7 @@ QtMainWindow::runFile()
                 qtTerminal->outputMessage(L"\n");
                 qtTerminal->sendReturnKey();
                 std::wstring cmd = L"run('" + filename + L"')";
-                executeCommand(cmd);
+                postCommand(cmd);
             }
         }
     }
@@ -190,7 +190,7 @@ QtMainWindow::loadWorkspace()
             qtTerminal->outputMessage(L"\n");
             qtTerminal->sendReturnKey();
             std::wstring cmd = L"load('" + filename + L"')";
-            executeCommand(cmd, true);
+            postCommand(cmd);
         }
     }
 }
@@ -206,7 +206,7 @@ QtMainWindow::saveWorkspace()
             qtTerminal->outputMessage(L"\n");
             qtTerminal->sendReturnKey();
             std::wstring cmd = L"save('" + filename + L"')";
-            executeCommand(cmd, true);
+            postCommand(cmd);
         }
     }
 }
@@ -237,7 +237,7 @@ QtMainWindow::bugAndRequest()
 void
 QtMainWindow::help()
 {
-    Nelson::executeCommand(L"doc");
+    postCommand(L"doc");
 }
 //=============================================================================
 void
@@ -290,7 +290,7 @@ QtMainWindow::clearConsole()
 void
 QtMainWindow::pwdDisplay()
 {
-    executeCommand(L"disp(pwd())");
+    postCommand(L"disp(pwd())");
 }
 //=============================================================================
 void
@@ -306,7 +306,7 @@ QtMainWindow::changeDir()
 void
 QtMainWindow::editor()
 {
-    executeCommand(L"edit()");
+    postCommand(L"edit()");
 }
 //=============================================================================
 void
@@ -513,10 +513,10 @@ QtMainWindow::dropEvent(QDropEvent* event)
                         qtTerminal->outputMessage(L"\n");
                         qtTerminal->sendReturnKey();
                         std::wstring cmd = L"run('" + filename + L"')";
-                        executeCommand(cmd);
+                        postCommand(cmd);
                     }
                 } else if (qmake.suffix() == "nlf") {
-                    executeCommand(
+                    postCommand(
                         L"edit('" + Nelson::QStringTowstring(urls[k].toLocalFile()) + L"')");
                 }
             }

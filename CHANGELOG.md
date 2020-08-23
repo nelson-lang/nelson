@@ -1,11 +1,23 @@
 # 0.4.8 (2020-08-XX)
 
-* fix play, playblocking, resume builtin.
+  * multiplatforms files association based on Inter-process communication.
+    open, load, execute files in last created Nelson's process. 
 
- * getpid() returns current process identificator.
+  * event loop and command queue updated. 
 
- * getpid('running') returns all nelson processes identificators currently.
+  * fix play, playblocking, resume builtin.
 
+  * getpid() returns current process identificator.
+
+  * getpid('running') returns all nelson processes identificators currently running for current user.
+
+  * hostname() returns current host name of your computer.
+
+  * username() returns current user name used on your computer.
+
+  * isvector checks if input is an vector.
+ 
+ 
 Compilation:
 ------------
 
@@ -17,7 +29,12 @@ Compilation:
 
   * libsndfile 1.29.0 on Windows.
 
+  * libcurl 7.72.0 on Windows.
+
+  * libbost 1.74.0 on Windows.
+
   * CMake 3.18.1 used on Windows.
+
 
 # 0.4.7 (2020-07-31)
 

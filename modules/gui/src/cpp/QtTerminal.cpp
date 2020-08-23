@@ -48,6 +48,7 @@
 #include "QtTranslation.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "PostCommand.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -218,21 +219,19 @@ QtTerminal::getLine(const std::wstring& prompt)
         eval = (Nelson::Evaluator*)veval;
     }
     bool wasInterruptByAction = false;
-    while (lineToSend.empty()) {
+    do {
         Nelson::ProcessEvents(true);
         if (!eval->commandQueue.isEmpty()) {
             wasInterruptByAction = true;
             break;
         }
-    }
+    } while (!wasInterruptByAction && lineToSend.empty());
     std::wstring line;
     if (wasInterruptByAction) {
         clearLine();
         line = L"\n";
     } else {
         line = lineToSend;
-    }
-    if (!wasInterruptByAction) {
         while (lineToSend.empty()) {
             Nelson::ProcessEvents(true);
         }
@@ -492,13 +491,7 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
 void
 QtTerminal::closeEvent(QCloseEvent* event)
 {
-    if (eval == nullptr) {
-        void* veval = GetNelsonMainEvaluatorDynamicFunction();
-        eval = (Nelson::Evaluator*)veval;
-    }
-    if (eval) {
-        NelsonConfiguration::getInstance()->setInterruptPending(true);
-    }
+    NelsonConfiguration::getInstance()->setInterruptPending(true);
     lineToSend = L"exit";
 }
 //=============================================================================
@@ -550,14 +543,7 @@ QtTerminal::helpOnSelection()
             std::wstring text = QStringTowstring(textSelected);
             boost::algorithm::replace_all(text, "'", "\"");
             std::wstring cmd = L"doc('" + text + L"');";
-            if (eval == nullptr) {
-                void* veval = GetNelsonMainEvaluatorDynamicFunction();
-                eval = (Nelson::Evaluator*)veval;
-            }
-            try {
-                eval->evaluateString(cmd, true);
-            } catch (const Exception&) {
-            }
+            postCommand(cmd);
         }
     }
 }

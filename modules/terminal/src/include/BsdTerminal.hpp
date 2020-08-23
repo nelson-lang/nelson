@@ -80,6 +80,9 @@ public:
     bool
     isAtPrompt();
 
+    void
+    interruptGetLineByEvent() override;
+
 private:
     std::wstring
     getTextLine(const std::wstring& prompt, bool bIsInput);

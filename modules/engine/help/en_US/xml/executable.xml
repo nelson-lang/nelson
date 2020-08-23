@@ -20,8 +20,14 @@
 
     <param_input_item>
       <param_name>-f filename</param_name>
-      <param_description>If this option is present then Nelson script file is executed just after startup file execution) into Nelson. -e and -f options are mutually exclusive.</param_description>
+      <param_description>Nelson script file is executed just after startup file execution) into Nelson. -e and -f options are mutually exclusive.</param_description>
     </param_input_item>
+
+    <param_input_item>
+      <param_name>-F filename</param_name>
+      <param_description>If this option is present then Nelson script file is executed just after startup file execution) into an existing Nelson's process or creates it.</param_description>
+    </param_input_item>
+
 
     <param_input_item>
       <param_name>--help</param_name>

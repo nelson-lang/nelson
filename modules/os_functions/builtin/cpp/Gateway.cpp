@@ -35,6 +35,8 @@
 #include "systemBuiltin.hpp"
 #include "winopenBuiltin.hpp"
 #include "winqueryregBuiltin.hpp"
+#include "usernameBuiltin.hpp"
+#include "hostnameBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -55,6 +57,8 @@ static const nlsGateway gateway[] = {
     { "createGUID", (void*)Nelson::OsFunctionsGateway::createGUIDBuiltin, 1, 1 },
     { "winopen", (void*)Nelson::OsFunctionsGateway::winopenBuiltin, 0, 1 },
     { "winqueryreg", (void*)Nelson::OsFunctionsGateway::winqueryregBuiltin, 1, -2 },
+    { "hostname", (void*)Nelson::OsFunctionsGateway::hostnameBuiltin, 1, 0 },
+    { "username", (void*)Nelson::OsFunctionsGateway::usernameBuiltin, 1, 0 },
 
 };
 //=============================================================================

@@ -23,13 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "usernameBuiltin.hpp"
+#include "Error.hpp"
+#include "GetUsername.hpp"
 //=============================================================================
-#include "nlsGui_exports.h"
-#include <string>
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-NLSGUI_IMPEXP bool
-executeCommand(const std::wstring& commandToExecute, bool forceEvaluateString = false);
+ArrayOfVector
+Nelson::OsFunctionsGateway::usernameBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (!argIn.empty()) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    retval.push_back(ArrayOf::characterArrayConstructor(GetUsername()));
+    return retval;
 }
 //=============================================================================

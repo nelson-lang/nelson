@@ -32,6 +32,8 @@ namespace Nelson {
 static QElapsedTimer timerLoopEvents;
 static bool doOnce = true;
 //=============================================================================
+#define WAIT_20_MS 20
+//=============================================================================
 void
 ProcessEvents(bool bWaitEvents)
 {
@@ -39,7 +41,7 @@ ProcessEvents(bool bWaitEvents)
         doOnce = false;
         timerLoopEvents.start();
     }
-    if (timerLoopEvents.elapsed() > 20) {
+    if (timerLoopEvents.elapsed() > WAIT_20_MS) {
         timerLoopEvents.restart();
         if (bWaitEvents) {
             qApp->processEvents(QEventLoop::WaitForMoreEvents);
@@ -52,8 +54,8 @@ ProcessEvents(bool bWaitEvents)
 } // namespace Nelson
 //=============================================================================
 void
-NelSonProcessEvents(bool bTimed)
+NelSonProcessEvents(bool bWaitEvents)
 {
-    Nelson::ProcessEvents(bTimed);
+    Nelson::ProcessEvents(bWaitEvents);
 }
 //=============================================================================

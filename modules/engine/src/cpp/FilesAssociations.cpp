@@ -23,19 +23,44 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "OpenFilesAssociated.hpp"
+#include <boost/filesystem.hpp>
+#include <cstdlib>
+#include <string>
+#include "FilesAssociation.hpp"
 #include "EvaluateCommand.hpp"
 #include "NelSon_engine_mode.h"
-#include <boost/filesystem.hpp>
+#include "PostCommand.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static bool
+commonFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const std::wstring& command, const wstringVector& filesToOpen);
+//=============================================================================
 bool
-OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen)
+OpenFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen)
+{
+    return commonFilesAssociated(currentMode, L"edit", filesToOpen);
+}
+//=============================================================================
+bool
+LoadFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen)
+{
+    return commonFilesAssociated(currentMode, L"load", filesToOpen);
+}
+//=============================================================================
+bool
+ExecuteFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen)
+{
+    return commonFilesAssociated(currentMode, L"run", filesToOpen);
+}
+//=============================================================================
+bool
+commonFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const std::wstring& command, const wstringVector& filesToOpen)
 {
     bool res = false;
-    if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL
-        || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI) {
+    if (currentMode == NELSON_ENGINE_MODE::GUI) {
         if (!filesToOpen.empty()) {
             try {
                 for (size_t k = 0; k < filesToOpen.size(); k++) {
@@ -43,14 +68,18 @@ OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen)
                     bool bIsFile = boost::filesystem::exists(pathFileToOpen)
                         && !boost::filesystem::is_directory(pathFileToOpen);
                     if (bIsFile) {
-                        std::wstring editCommand = std::wstring(L"edit('" + filesToOpen[k] + L"')");
-                        EvaluateCommand(eval, editCommand, false);
-                        res = true;
+                        std::wstring commandToExecute
+                            = command + std::wstring(L"('" + filesToOpen[k] + L"');");
+                        bool r = postCommand(commandToExecute);
+                        if (r != true) {
+                            return false;
+                        }
+                    } else {
+                        return false;
                     }
                 }
-            } catch (Exception& e) {
-                Interface* io = eval->getInterface();
-                io->errorMessage(e.getMessage());
+                return true;
+            } catch (Exception&) {
                 res = false;
             }
         }

@@ -31,6 +31,7 @@
 ;==============================================================================
 #define ARGUMENT_ACTION_OPEN "-o"
 #define ARGUMENT_ACTION_LOAD "-m"
+#define ARGUMENT_ACTION_EXECUTE "-F"
 ;==============================================================================
 ;*.nls
 ;==============================================================================
@@ -43,6 +44,7 @@ Root: HKCR; Subkey: {#NLS_ENTRY}\ShellNew; ValueName : NullFile ;ValueType: stri
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLS}; ValueType: string; ValueData: "{#APPLICATION_NAME} Application ({#APPLICATION_EXTENSION_NLS})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlsFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLS}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NLS_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlsFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLS}\shell\open\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_OPEN} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlsFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLS}\shell\{cm:RegKeyRunWith} Nelson\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_EXECUTE} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlsFiles;
 ;==============================================================================
 ;*.nlf
 ;==============================================================================

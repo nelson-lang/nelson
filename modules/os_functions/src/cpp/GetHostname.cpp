@@ -23,40 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "LoadFilesAssociated.hpp"
-#include "EvaluateCommand.hpp"
-#include "NelSon_engine_mode.h"
-#include <boost/filesystem.hpp>
+#include <boost/asio/ip/host_name.hpp>
+#include "GetHostname.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-LoadFilesAssociated(Evaluator* eval, wstringVector filesToLoad)
+std::wstring
+GetHostname()
 {
-    bool res = false;
-    if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL
-        || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI) {
-        if (!filesToLoad.empty()) {
-            try {
-                for (size_t k = 0; k < filesToLoad.size(); k++) {
-                    boost::filesystem::path pathFileToLoad(filesToLoad[k]);
-                    bool bIsFile = boost::filesystem::exists(pathFileToLoad)
-                        && !boost::filesystem::is_directory(pathFileToLoad);
-                    if (bIsFile) {
-                        std::wstring loadCommand = std::wstring(L"load('" + filesToLoad[k] + L"')");
-                        EvaluateCommand(eval, loadCommand, false);
-                        res = true;
-                    }
-                }
-            } catch (Exception& e) {
-                Interface* io = eval->getInterface();
-                io->errorMessage(e.getMessage());
-                res = false;
-            }
-        }
-    }
-    return res;
+ return utf8_to_wstring(boost::asio::ip::host_name());
 }
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

@@ -34,16 +34,19 @@ namespace Nelson {
 // creates a named mutex used by Innosetup
 //=============================================================================
 static boost::interprocess::named_mutex* nelson_mutex = nullptr;
-static boost::interprocess::shared_memory_object* nelson_shared = nullptr;
 //=============================================================================
 bool
 openNelsonMutex()
 {
     bool res = false;
     if (nelson_mutex == nullptr) {
-        nelson_mutex = new boost::interprocess::named_mutex(
-            boost::interprocess::open_or_create, NELSON_VERSION_NMMM_STRING);
-        res = true;
+        try {
+            nelson_mutex = new boost::interprocess::named_mutex(
+                boost::interprocess::open_or_create, NELSON_VERSION_NMMM_STRING);
+            res = true;
+        } catch (boost::interprocess::interprocess_exception&) {
+            res = false;
+        }      
     }
     return res;
 }

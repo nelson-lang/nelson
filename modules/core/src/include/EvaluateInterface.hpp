@@ -63,6 +63,8 @@ public:
     isAtPrompt() override;
     std::wstring
     getOutputBuffer();
+    void
+    interruptGetLineByEvent();
 
 private:
     std::wstring outputBuffer;

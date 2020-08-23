@@ -1629,6 +1629,11 @@ Evaluator::statementType(ASTPtr t, bool printIt)
 {
     ArrayOfVector m;
     FunctionDef* fdef;
+    if (!commandQueue.isEmpty()) {
+        std::wstring cmd;
+        commandQueue.get(cmd);
+        evaluateString(cmd);
+    }
     if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
     }

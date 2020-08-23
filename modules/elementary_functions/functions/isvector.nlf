@@ -24,5 +24,5 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function Y = isvector(X)
-  Y = logical(ndims(X) == 2 && any(size(X) <= 1) && isnumeric(X));
+  Y = logical(ndims(X) == 2 && any(size(X) == 1)) ;
 endfunction

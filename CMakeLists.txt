@@ -33,7 +33,7 @@ set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
 set (Nelson_VERSION_MINOR_DEFAULT 4)
-set (Nelson_VERSION_MAINTENANCE_DEFAULT 7)
+set (Nelson_VERSION_MAINTENANCE_DEFAULT 8)
 set (Nelson_VERSION_BUILD_DEFAULT 0)
 #============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_MAJOR})
@@ -345,7 +345,7 @@ ELSE()
 ENDIF()
 #==============================================================================
 FIND_PACKAGE(PkgConfig REQUIRED)
-FIND_PACKAGE(Boost 1.64.0 COMPONENTS system filesystem locale thread chrono regex date_time iostreams REQUIRED)
+FIND_PACKAGE(Boost 1.64.0 COMPONENTS serialization system filesystem locale thread chrono regex date_time iostreams REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5Gui REQUIRED)
 FIND_PACKAGE(Qt5Qml REQUIRED)

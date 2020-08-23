@@ -110,3 +110,7 @@ EvaluateInterface::getOutputBuffer()
     return outputBuffer;
 }
 //=============================================================================
+void
+EvaluateInterface::interruptGetLineByEvent()
+{}
+//=============================================================================

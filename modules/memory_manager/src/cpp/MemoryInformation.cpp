@@ -43,8 +43,8 @@
 #include <fstream>
 #include <iostream>
 #include <stdint.h>
+#include <linux/sysctl.h>
 #include <sys/resource.h>
-#include <sys/sysctl.h>
 #include <sys/sysinfo.h>
 #include <sys/types.h>
 #include <unistd.h>

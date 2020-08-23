@@ -39,6 +39,7 @@ Source: {#RootPath}bin\{#BinPath}\boost_thread-{#BOOST_TARGET}.dll; DestDir: {ap
 Source: {#RootPath}bin\{#BinPath}\boost_random-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\boost_zlib-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\boost_bzip2-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_serialization-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 ; xml libraries
 Source: {#RootPath}bin\{#BinPath}\zlib.dll; DestDir: {app}\bin\{#BinPath}\ 
