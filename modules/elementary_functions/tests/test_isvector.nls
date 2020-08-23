@@ -23,6 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function Y = isvector(X)
-  Y = logical(ndims(X) == 2 && any(size(X) == 1)) ;
-endfunction
+assert_isequal(nargin('isvector'), 1)
+assert_isequal(nargout('isvector'), 1)
+//=============================================================================
+assert_isfalse(isvector([]));
+assert_isfalse(isvector(ones(0, 3)));
+assert_istrue(isvector('hello'));
+assert_isfalse(isvector(zeros(3,1,3)));
+//=============================================================================

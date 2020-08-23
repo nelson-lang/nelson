@@ -15,7 +15,9 @@
 
   * username() returns current user name used on your computer.
 
-
+  * isvector checks if input is an vector.
+ 
+ 
 Compilation:
 ------------
 
