@@ -27,6 +27,13 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libcurl.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\git2.dll; DestDir: {app}\bin\{#BinPath}\;
+#ifdef NELSON_X64
+Source: {#RootPath}bin\{#BinPath}\libcrypto-1_1-x64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libssl-1_1-x64.dll; DestDir: {app}\bin\{#BinPath}\;
+#else
+Source: {#RootPath}bin\{#BinPath}\libcrypto-1_1.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libssl-1_1.dll; DestDir: {app}\bin\{#BinPath}\;
+#endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsWebtools.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsWebtools_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
