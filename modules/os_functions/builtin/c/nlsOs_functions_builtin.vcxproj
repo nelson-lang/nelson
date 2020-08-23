@@ -171,6 +171,7 @@
     <ClCompile Include="..\cpp\computerBuiltin.cpp" />
     <ClCompile Include="..\cpp\createGUIDBuiltin.cpp" />
     <ClCompile Include="..\cpp\getenvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\hostnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\ismacBuiltin.cpp" />
     <ClCompile Include="..\cpp\ispcBuiltin.cpp" />
     <ClCompile Include="..\cpp\isunixBuiltin.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="..\cpp\searchenvBuiltin.cpp" />
     <ClCompile Include="..\cpp\setenvBuiltin.cpp" />
     <ClCompile Include="..\cpp\systemBuiltin.cpp" />
+    <ClCompile Include="..\cpp\usernameBuiltin.cpp" />
     <ClCompile Include="..\cpp\winopenBuiltin.cpp" />
     <ClCompile Include="..\cpp\winqueryregBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -209,6 +211,7 @@
     <ClInclude Include="..\include\computerBuiltin.hpp" />
     <ClInclude Include="..\include\createGUIDBuiltin.hpp" />
     <ClInclude Include="..\include\getenvBuiltin.hpp" />
+    <ClInclude Include="..\include\hostnameBuiltin.hpp" />
     <ClInclude Include="..\include\ismacBuiltin.hpp" />
     <ClInclude Include="..\include\ispcBuiltin.hpp" />
     <ClInclude Include="..\include\isunixBuiltin.hpp" />
@@ -216,6 +219,7 @@
     <ClInclude Include="..\include\searchenvBuiltin.hpp" />
     <ClInclude Include="..\include\setenvBuiltin.hpp" />
     <ClInclude Include="..\include\systemBuiltin.hpp" />
+    <ClInclude Include="..\include\usernameBuiltin.hpp" />
     <ClInclude Include="..\include\winopenBuiltin.hpp" />
     <ClInclude Include="..\include\winqueryregBuiltin.hpp" />
   </ItemGroup>

@@ -11,6 +11,11 @@
 
   * getpid('running') returns all nelson processes identificators currently running for current user.
 
+  * hostname() returns current host name of your computer.
+
+  * username() returns current user name used on your computer.
+
+
 Compilation:
 ------------
 
