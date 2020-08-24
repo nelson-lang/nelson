@@ -25,16 +25,16 @@
 		</param_output_item>
 		<param_output_item>
 			<param_name>v</param_name>
-			<param_description>a vector of double: list of nelson Processes Identification currently running for current user.</param_description>
+			<param_description>a vector of double: list of nelson Processes Identification (with same arch) currently running for current user.</param_description>
 		</param_output_item>
 
 	</param_output>
 
 	<description>
 		<p><b>p = getpid()</b> returns current nelson process identificator currently running on computer.</p>
-		<p><b>v = getpid('running')</b> returns list of nelson processes identificators running for current user.</p>
+		<p><b>v = getpid('running')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
+		<p>win64 and win32 are two differents architecture but they can run in same time.</p>
 	</description>
-
 
 	<used_function></used_function>
 	<bibliography></bibliography>

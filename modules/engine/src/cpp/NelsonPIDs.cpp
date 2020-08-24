@@ -90,7 +90,16 @@ static std::string
 buildNelsonPIDsChannelName()
 {
     if (channelName.empty()) {
-        channelName = std::string(NELSON_PIDS) + "_" + wstring_to_utf8(GetUsername());
+#ifdef _MSC_VER
+#ifdef _WIN64
+        std::string arch = "win64";
+#else
+        std::string arch = "win32";
+#endif
+        #else
+        std::string arch = "other";
+#endif
+        channelName = std::string(NELSON_PIDS) + "_" + arch + "_" + wstring_to_utf8(GetUsername());
     }
     return channelName;
 }
@@ -98,15 +107,15 @@ buildNelsonPIDsChannelName()
 static bool
 needToCreateSharedMemory()
 {
-    bool bExist = false;
+    bool bNeedToCreate = false;
     try {
         boost::interprocess::managed_shared_memory managed_shm { boost::interprocess::open_only,
             buildNelsonPIDsChannelName().c_str() };
-        bExist = false;
+        bNeedToCreate = false;
     } catch (boost::interprocess::interprocess_exception&) {
-        bExist = true;
+        bNeedToCreate = true;
     }
-    return bExist;
+    return bNeedToCreate;
 }
 //=============================================================================
 bool
@@ -114,7 +123,7 @@ registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE mode)
 {
     bool needToCreate = needToCreateSharedMemory();
     try {
-        size_t size_shm = sizeof(int*) * MAX_NB_PIDS * 2 + 100;
+        size_t size_shm = sizeof(int*) * MAX_NB_PIDS * 2 + 1024;
         boost::interprocess::managed_shared_memory managed_shm {
             boost::interprocess::open_or_create, buildNelsonPIDsChannelName().c_str(), size_shm
         };
