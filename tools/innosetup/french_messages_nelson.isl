@@ -23,7 +23,7 @@
 ; License along with this program. If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-french.LANGUAGE = FranÃ§ais
+french.LANGUAGE = Français
 ;
 ;==============================================================================
 french.SLICOT_MODULE = Bibliotheque SLICOT v5.0.0 (licence GPL v2)
@@ -36,7 +36,7 @@ french.ASSOCIATE_NH5_FILE = Associer les fichiers .nh5 avec Nelson
 french.ASSOCIATE_MAT_FILE = Associer les fichiers .mat avec Nelson
 ;==============================================================================
 french.RegKeyLoadWith = Charger avec
-french.RegKeyRunWith = ExÃ©cuter avec
+french.RegKeyRunWith = Exécuter avec
 ;==============================================================================
 french.FILE_ASSOCIATION = Association des fichiers:
 ;==============================================================================
