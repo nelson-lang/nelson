@@ -3,10 +3,101 @@ name: C/C++ CI
 on: [push]
 
 jobs:
-  build:
 
+  catalina:
+    name: MacOS X Catalina
+    runs-on: macos-10.15
+    steps:
+    - name: install dependencies
+      run: |
+        brew update
+        brew upgrade
+        brew --version
+        brew install zlib
+        brew install libtool
+        brew install automake
+        brew unlink libffi
+        brew install libffi
+        brew unlink libffi
+        brew link libffi --force
+        brew uninstall --ignore-dependencies icu4c
+        brew install icu4c
+        brew unlink icu4c
+        brew link icu4c --force
+        brew info open-mpi
+        brew install openmpi
+        brew install pkg-config
+        brew install pkgconfig
+        brew install gettext
+        brew link gettext --force
+        echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
+        source ~/.zshrc
+        brew install boost
+        brew install libxml2
+        brew upgrade cmake
+        brew install qt5
+        brew install fftw
+        brew install portaudio
+        brew install libsndfile
+        brew install taglib
+        brew install libgit2
+        brew install hdf5
+        brew install libmatio
+        brew install eigen
+        brew install libomp
+        export BUILD_ROOT=$(pwd);
+        git clone https://github.com/live-clones/hdf5.git /tmp/hdf5-1_10_5;
+        cd /tmp/hdf5-1_10_5;
+        git checkout hdf5-1_10_5;
+        ./configure --quiet --prefix=/usr/local --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w"
+        sudo make install -C src
+        git clone https://github.com/tbeu/matio /tmp/matio
+        cd /tmp/matio
+        git checkout v1.5.16
+        cd /tmp/matio
+        ./autogen.sh;
+        ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/usr/local
+        make;
+        sudo make install;
+        cd /Users/runner/work/nelson;
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
+        cd nelson-thirdparty-macosx;
+        cd gfortran;
+        sudo hdiutil attach gfortran-6.3-Sierra.dmg;
+        sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
+        sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
+
+    - uses: actions/checkout@v1
+    - name: CMake
+      run: |
+        export PATH=/usr/local/opt/qt5/bin:$PATH
+        cmake -G "Unix Makefiles" . 
+    - name: make
+      run: make -j4
+    - name: get module skeleton
+      run: make get_module_skeleton
+    - name: build help
+      run: |
+        export PATH=/usr/local/opt/qt5/bin:$PATH
+        make buildhelp 
+    - name: minimal tests
+      run: make tests_minimal
+    - name: package
+      run: make package
+    - name: all benchs
+      run: make benchs_all
+    - name: all tests
+      run: make tests_all
+    - name: Copy artifacts
+      run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: nelson-github-action-artifacts
+        path: artifacts/
+
+  bionic:
+    name: Ubuntu-18.04 bionic beaver
     runs-on: ubuntu-latest
-    
     steps:
     - name: install dependencies
       run: |
@@ -106,3 +197,4 @@ jobs:
       with:
         name: nelson-github-action-artifacts
         path: artifacts/
+

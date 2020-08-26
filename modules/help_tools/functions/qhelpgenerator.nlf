@@ -51,6 +51,13 @@ function qhelpgenerator(varargin)
     new_qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
     if isfile(new_qhelpgenerator_filename)
       qhelpgenerator_filename = new_qhelpgenerator_filename;
+    else
+      if ismac()
+        [status, msg] = unix('which qhelpgenerator');
+        if status == 0
+          qhelpgenerator_filename = [replace(msg, char(10), '')];
+        end
+      end
     end
   end
   if ~ispc() && ~ismac()

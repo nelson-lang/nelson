@@ -35,6 +35,7 @@ Compilation:
 
   * CMake 3.18.1 used on Windows.
 
+  * GitHub CI MacOS x Catalina.
 
 # 0.4.7 (2020-07-31)
 
