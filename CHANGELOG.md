@@ -1,7 +1,7 @@
-# 0.4.8 (2020-08-XX)
+# 0.4.8 (2020-08-26)
 
   * multiplatforms files association based on Inter-process communication.
-    open, load, execute files in last created Nelson's process. 
+    open, load, execute files in latest created Nelson's process. 
 
   * event loop and command queue updated. 
 
@@ -36,6 +36,8 @@ Compilation:
   * CMake 3.18.1 used on Windows.
 
   * GitHub CI MacOS x Catalina.
+
+
 
 # 0.4.7 (2020-07-31)
 
