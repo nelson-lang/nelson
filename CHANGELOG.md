@@ -1,3 +1,14 @@
+# 0.4.9 (2020-XX-XX)
+
+Compilation:
+------------
+
+  * [#322](http://github.com/Nelson-numerical-software/nelson/issues/322): fix build with gcc 4.8 (ubuntu 14.04).
+      
+      Nelson 0.4.9 will be last to support gcc 4.8
+
+
+
 # 0.4.8 (2020-08-26)
 
   * multiplatforms files association based on Inter-process communication.
