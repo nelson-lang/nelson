@@ -1,3 +1,9 @@
+# 0.4.9 (2020-09-XX)
+
+  * rework timeout thread.
+
+
+
 # 0.4.8 (2020-08-26)
 
   * multiplatforms files association based on Inter-process communication.
