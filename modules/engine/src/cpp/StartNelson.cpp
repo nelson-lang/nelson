@@ -352,7 +352,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     std::wstring lang;
     bool bQuietMode = false;
     if (po.haveTimeout()) {
-        TimeoutThread(po.getTimeout());
+        createTimeoutThread(po.getTimeout());
     }
     lang = po.getLanguage();
     if (po.haveCommandToExecute() && po.haveFileToExecute())
@@ -433,6 +433,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             removeNelsonCommandFileExtensionReceiver(currentPID);
         }
         unregisterPidInSharedMemory(currentPID);
+        destroyTimeoutThread();
     } else {
         ErrorInterpreter(_mode);
     }

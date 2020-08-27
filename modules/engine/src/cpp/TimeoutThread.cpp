@@ -23,26 +23,50 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "TimeoutThread.hpp"
-#include "Sleep.hpp"
 #include <boost/thread/thread.hpp>
+#include "TimeoutThread.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static boost::thread *timeout_thread = nullptr;
 //=============================================================================
 void
 timeout(uint64 _timeout_seconds)
 {
-    SleepSeconds(_timeout_seconds);
+    try {
+        boost::this_thread::sleep(boost::posix_time::seconds(_timeout_seconds));
+    } catch (boost::thread_interrupted&) {
+        return;
+    }
     // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
     // WAIT_TIMEOUT (258)
     exit(258);
 }
 //=============================================================================
 bool
-TimeoutThread(uint64 _timeoutseconds)
+createTimeoutThread(uint64 _timeoutseconds)
 {
-    boost::thread timeout_thread(timeout, _timeoutseconds);
-    timeout_thread.detach();
+    try {
+        timeout_thread = new boost::thread(timeout, _timeoutseconds);
+    } catch (const std::bad_alloc&) {
+        timeout_thread = nullptr;
+    }
+    if (timeout_thread) {
+        timeout_thread->detach();
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+bool
+destroyTimeoutThread()
+{
+    if (timeout_thread) {
+        timeout_thread->interrupt();
+        delete timeout_thread;
+        timeout_thread = nullptr;
+        return true;
+    }
     return false;
 }
 //=============================================================================
