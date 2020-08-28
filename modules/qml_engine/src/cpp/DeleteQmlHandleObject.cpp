@@ -61,7 +61,7 @@ DeleteQmlHandleObject(ArrayOf A)
                                 QWindow* w = static_cast<QWindow*>(qobj);
                                 w->destroy();
                             } else {
-                                delete qobj;
+                                qobj->deleteLater();
                             }
                         }
                         qmlhandleobj->setPointer(nullptr);
