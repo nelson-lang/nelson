@@ -59,12 +59,20 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     mCommandLineReady = false;
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
-    QPalette p = palette();
-    p.setColor(QPalette::Active, QPalette::Base, Qt::white);
-    p.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
-    p.setColor(QPalette::Active, QPalette::Text, Qt::black);
-    p.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
-    setPalette(p);
+    QPalette defaultPalette = QApplication::palette();
+    QColor baseActiveColor = defaultPalette.color(QPalette::Active, QPalette::Base);
+
+    QColor defaultDarkColorMacos(30, 30, 30, 255);
+
+    bool isDarkTheme = baseActiveColor == defaultDarkColorMacos;
+    if (!isDarkTheme) {
+        QPalette p = palette();
+        p.setColor(QPalette::Active, QPalette::Base, Qt::white);
+        p.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
+        p.setColor(QPalette::Active, QPalette::Text, Qt::black);
+        p.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
+        setPalette(p);
+    }
 #ifdef __APPLE__
     QFont f("Monaco");
 #else
@@ -90,10 +98,17 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     setTabStopWidth(40);
 #endif
     setAcceptDrops(false);
-    warningColor = QColor(255, 128, 0);
-    inputColor = QColor(0, 0, 255);
-    errorColor = QColor(255, 0, 0);
-    outputColor = QColor(0, 0, 0);
+    if (isDarkTheme) {
+        warningColor = QColor(Qt::darkYellow);
+        inputColor = QColor(Qt::blue);
+        errorColor = QColor(Qt::red);
+        outputColor = QColor(Qt::white);
+    } else {
+        warningColor = QColor(Qt::darkYellow);
+        inputColor = QColor(Qt::blue);
+        errorColor = QColor(Qt::red);
+        outputColor = QColor(Qt::black);
+    }
     lineToSend.clear();
     // disable cursor
     setCursorWidth(0);
