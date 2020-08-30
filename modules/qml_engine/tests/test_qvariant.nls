@@ -23,8 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--WITH DISPLAY-->
-// <--GUI MODE-->
+// <--ADV-CLI MODE-->
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/tests/test_qvariant.qml'];
 qobj = qml_loadfile(qml_file);
