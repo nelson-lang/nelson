@@ -65,6 +65,7 @@
 #include "NelsonPIDs.hpp"
 #include "FilesAssociation.hpp"
 #include "FilesAssociationIPC.hpp"
+#include "NelsonInterprocess.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -394,6 +395,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         if (_mode == NELSON_ENGINE_MODE::GUI) {
             createNelsonCommandFileExtensionReceiver(currentPID);
         }
+        createNelsonInterprocessReceiver(currentPID);
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
         setPrintInterface(eval->getInterface());
@@ -425,6 +427,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             po.haveNoUserModules(), commandToExecute, fileToExecute, filesToOpen, filesToLoad);
         ::destroyMainEvaluator();
         clearWarningIdsList();
+        removeNelsonInterprocessReceiver(currentPID);
         if (_mode == NELSON_ENGINE_MODE::GUI) {
             removeNelsonCommandFileExtensionReceiver(currentPID);
         }

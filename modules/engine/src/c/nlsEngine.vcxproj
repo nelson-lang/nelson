@@ -175,6 +175,7 @@
     <ClCompile Include="..\cpp\FinishNelsonUserScript.cpp" />
     <ClCompile Include="..\cpp\MainEvaluator.cpp" />
     <ClCompile Include="..\cpp\MaxOpenedFiles.cpp" />
+    <ClCompile Include="..\cpp\NelsonInterprocess.cpp" />
     <ClCompile Include="..\cpp\NelsonNamedMutex.cpp" />
     <ClCompile Include="..\cpp\NelsonPIDs.cpp" />
     <ClCompile Include="..\cpp\FilesAssociations.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\include\FinishNelsonMainScript.hpp" />
     <ClInclude Include="..\include\FinishNelsonUserScript.hpp" />
     <ClInclude Include="..\include\MaxOpenedFiles.hpp" />
+    <ClInclude Include="..\include\NelsonInterprocess.hpp" />
     <ClInclude Include="..\include\NelsonNamedMutex.hpp" />
     <ClInclude Include="..\include\NelsonPIDs.hpp" />
     <ClInclude Include="..\include\FilesAssociation.hpp" />
@@ -260,6 +262,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\terminal\src\c\nlsTerminal.vcxproj">
       <Project>{636d4715-9889-4a8e-9404-3b05cb7734d1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
