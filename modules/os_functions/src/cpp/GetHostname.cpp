@@ -32,7 +32,7 @@ namespace Nelson {
 std::wstring
 GetHostname()
 {
- return utf8_to_wstring(boost::asio::ip::host_name());
+    return utf8_to_wstring(boost::asio::ip::host_name());
 }
 //=============================================================================
 }

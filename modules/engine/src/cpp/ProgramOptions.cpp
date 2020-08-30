@@ -248,7 +248,8 @@ ProgramOptions::parse()
     Option nousermodulesOption(L"nousermodules", L"", _W("no user modules loaded"), false, false);
     Option commandtoexecuteOption(L"execute", L"e", _W("command to execute"), false, true);
     Option filetoexecuteOption(L"file", L"f", _W("file to execute in an new process"), false, true);
-    Option filetoexecuteIPCOption(L"", L"F", _W("file to execute in an existing process"), false, true);
+    Option filetoexecuteIPCOption(
+        L"", L"F", _W("file to execute in an existing process"), false, true);
     Option languageOption(L"language", L"l", _W("language used in current session"), false, true);
     Option socketIoOption(L"socketio", L"", _W("socket.io uri address"), false, true);
     Option quietOption(

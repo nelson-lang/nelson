@@ -2,6 +2,8 @@
 
   * rework timeout thread.
 
+  * dark theme detected and used on Macos X.
+
 Compilation:
 ------------
 

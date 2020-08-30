@@ -31,8 +31,8 @@
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 //=============================================================================
-QtTerminal* qtterm = nullptr;
-QtMainWindow* qtMainWindow = nullptr;
+static QtTerminal* qtterm = nullptr;
+static QtMainWindow* qtMainWindow = nullptr;
 //=============================================================================
 GuiTerminal::GuiTerminal(void* qtMainW)
 {
@@ -40,7 +40,17 @@ GuiTerminal::GuiTerminal(void* qtMainW)
     qtterm = qtMainWindow->getQtTerminal();
 }
 //=============================================================================
-GuiTerminal::~GuiTerminal() = default;
+GuiTerminal::~GuiTerminal()
+{
+    qtterm = nullptr;
+    qtMainWindow = nullptr;
+}
+//=============================================================================
+void*
+GuiTerminal::getQtPointer()
+{
+    return (void*)qtterm;
+}
 //=============================================================================
 std::wstring
 GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
@@ -204,7 +214,7 @@ GuiTerminal::getBufferScreenLine()
 //=============================================================================
 void
 GuiTerminal::setBufferScreenLine(int newMax)
-{ }
+{}
 //=============================================================================
 bool
 GuiTerminal::isAtPrompt()

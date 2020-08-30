@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = QObject_neq_generic(A, B)
-  r = handle_neq_generic(A, B);
+function r = QObject_eq_generic(A, B)
+  r = handle_eq_generic(A, B);
 endfunction
 //=============================================================================

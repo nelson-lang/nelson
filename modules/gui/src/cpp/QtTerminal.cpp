@@ -49,22 +49,21 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "PostCommand.hpp"
+#include "NelsonPalette.hpp"
+#include "NelsonColors.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static Nelson::Evaluator* eval = nullptr;
 //=============================================================================
+
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
-    QPalette p = palette();
-    p.setColor(QPalette::Active, QPalette::Base, Qt::white);
-    p.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
-    p.setColor(QPalette::Active, QPalette::Text, Qt::black);
-    p.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
-    setPalette(p);
+    setPalette(getNelsonPalette());
+
 #ifdef __APPLE__
     QFont f("Monaco");
 #else
@@ -90,10 +89,6 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     setTabStopWidth(40);
 #endif
     setAcceptDrops(false);
-    warningColor = QColor(255, 128, 0);
-    inputColor = QColor(0, 0, 255);
-    errorColor = QColor(255, 0, 0);
-    outputColor = QColor(0, 0, 0);
     lineToSend.clear();
     // disable cursor
     setCursorWidth(0);
@@ -178,7 +173,7 @@ QtTerminal::printPrompt(QString prompt)
         cur.insertBlock();
     }
     QTextCharFormat fmt;
-    fmt.setForeground(inputColor);
+    fmt.setForeground(getInputColor());
     cur.setCharFormat(fmt);
     cur.insertText(mPrompt);
     cur.setCharFormat(QTextCharFormat());
@@ -461,16 +456,16 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
     QTextCharFormat format = cur.charFormat();
     switch (mode) {
     case WARNING_DISP: {
-        format.setForeground(warningColor);
+        format.setForeground(getWarningColor());
     } break;
     case STDOUT_DISP: {
-        format.setForeground(outputColor);
+        format.setForeground(getOutputColor());
     } break;
     case STDERR_DISP: {
-        format.setForeground(errorColor);
+        format.setForeground(getErrorColor());
     } break;
     case STDIN_DISP: {
-        format.setForeground(inputColor);
+        format.setForeground(getInputColor());
     } break;
     }
     cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);

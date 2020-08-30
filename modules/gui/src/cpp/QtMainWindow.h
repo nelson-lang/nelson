@@ -42,6 +42,8 @@ public:
     QtTerminal*
     getQtTerminal();
 
+    void
+    declareAsClosed();
 private slots:
     void
     about();

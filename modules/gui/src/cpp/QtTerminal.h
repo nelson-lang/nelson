@@ -93,10 +93,6 @@ private:
     printPrompt(QString prompt);
     bool mCommandLineReady;
     QString mPrompt;
-    QColor warningColor;
-    QColor inputColor;
-    QColor errorColor;
-    QColor outputColor;
     std::wstring lineToSend;
     void
     printNewLine();

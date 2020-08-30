@@ -59,6 +59,7 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "PostCommand.hpp"
+#include "NelsonPalette.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -86,6 +87,7 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
     connect(tab, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
     connect(tab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     addTab();
+    setPalette(getNelsonPalette());
 }
 //=============================================================================
 void

@@ -46,7 +46,7 @@ openNelsonMutex()
             res = true;
         } catch (boost::interprocess::interprocess_exception&) {
             res = false;
-        }      
+        }
     }
     return res;
 }

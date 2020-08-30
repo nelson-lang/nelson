@@ -23,23 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--ADV-CLI MODE-->
-// <--WITH DISPLAY-->
-//=============================================================================
-assert_isequal(nargin('qml_loadstring'), 1);
-assert_isequal(nargout('qml_loadstring'), 1);
-//=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
-txt = fileread(qml_file_ok);
-qobj = qml_loadstring(txt);
-assert_istrue(QObject_iswindowtype(qobj));
-delete(qobj);
-//=============================================================================
-qml_file_ko = [modulepath('qml_engine'), '/tests/test_qml_loadfile_rectangle.qml'];
-txt = fileread(qml_file_ko);
-qobj = qml_loadstring(txt);
-assert_isfalse(QObject_iswindowtype(qobj));
-assert_isfalse(QObject_iswidgettype(qobj));
-//=============================================================================
-delete(qobj);
-//=============================================================================
+#pragma once
+//===================================================================================
+#include <QtGui/QColor>
+#include "nlsGui_exports.h"
+//===================================================================================
+namespace Nelson {
+//===================================================================================
+NLSGUI_IMPEXP QColor
+getWarningColor();
+//===================================================================================
+NLSGUI_IMPEXP QColor
+getInputColor();
+//===================================================================================
+NLSGUI_IMPEXP QColor
+getErrorColor();
+//===================================================================================
+NLSGUI_IMPEXP QColor
+getOutputColor();
+//===================================================================================
+}
+//===================================================================================

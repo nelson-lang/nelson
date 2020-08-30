@@ -28,6 +28,7 @@
 #include "QtLookAndFeel.hpp"
 #include "QStringConverter.hpp"
 #include "MainGuiObject.hpp"
+#include "NelsonPalette.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
