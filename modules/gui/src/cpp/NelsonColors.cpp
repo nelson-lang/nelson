@@ -23,49 +23,34 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QStyleFactory>
-#include <QtCore/QStringList>
-#include "QtLookAndFeel.hpp"
-#include "QStringConverter.hpp"
-#include "MainGuiObject.hpp"
+#include "NelsonColors.hpp"
 #include "NelsonPalette.hpp"
-//=============================================================================
+//===================================================================================
 namespace Nelson {
-//=============================================================================
-wstringVector
-GetLookAndFeelAvailable()
+//===================================================================================
+QColor
+getWarningColor()
 {
-    wstringVector lfs;
-    QStringList qtLfs = QStyleFactory::keys();
-    for (int k = 0; k < qtLfs.size(); k++) {
-        lfs.push_back(QStringTowstring(qtLfs[k]));
-    }
-    return lfs;
+    return QColor(Qt::darkYellow); 
 }
-//=============================================================================
-std::wstring
-GetCurrentLookAndFeel()
+//===================================================================================
+QColor
+getInputColor()
 {
-    return QtGetLookAndFeel();
+    return QColor(Qt::blue);
 }
-//=============================================================================
-bool
-SetCurrentLookAndFeel(const std::wstring& lf)
+//===================================================================================
+QColor
+getErrorColor()
 {
-    return QtSetLookAndFeel(lf);
+    return QColor(Qt::red);
 }
-//=============================================================================
-void
-SetCurrentStyleSheet(const std::wstring& styleSheet)
+//===================================================================================
+QColor
+getOutputColor()
 {
-    QtSetStyleSheet(styleSheet);
+    return isDarkPalette() ? QColor(Qt::white) : QColor(Qt::black);
 }
-//=============================================================================
-std::wstring
-GetCurrentStyleSheet()
-{
-    return QtGetStyleSheet();
+//===================================================================================
 }
-//=============================================================================
-} // namespace Nelson
-//=============================================================================
+//===================================================================================

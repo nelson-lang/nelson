@@ -32,6 +32,7 @@
 #include "QtTranslation.hpp"
 #include "UiGetDirectory.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonPalette.hpp"
 #include <QtCore/QMimeData>
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
@@ -138,15 +139,16 @@ QtMainWindow::QtMainWindow()
     layout->addWidget(bottomFiller);
     layout->setMenuBar(this->menuBar());
     widget->setLayout(layout);
+    qtTerminal = new QtTerminal(this);
+    setFocusProxy(qtTerminal);
+    setCentralWidget(qtTerminal);
+    statusBar()->showMessage("");
+    setPalette(getNelsonPalette());
     createMenus();
     createToolbars();
     setWindowTitle(TR("Nelson"));
     setMinimumSize(640, 480);
     resize(840, 600);
-    qtTerminal = new QtTerminal(this);
-    setFocusProxy(qtTerminal);
-    setCentralWidget(qtTerminal);
-    statusBar()->showMessage("");
     show();
     qtTerminal->show();
     bClosed = false;

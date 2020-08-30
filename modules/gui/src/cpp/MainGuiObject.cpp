@@ -40,10 +40,10 @@
 #include "QtMainWindow.h"
 #include "QStringConverter.hpp"
 #include "GetNelsonPath.hpp"
+#include "NelsonPalette.hpp"
 //===================================================================================
 static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
-static QPalette defaultPalette;
 static QStyle* defaultStyle = nullptr;
 static bool messageVerbose = false;
 //===================================================================================
@@ -90,8 +90,7 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     }
 }
 //===================================================================================
-static char nelsonName[] = "Nelson";
-static char* argv[] = { nelsonName, nullptr };
+static char* argv[] = { "Nelson", nullptr };
 static int argc = 1;
 //===================================================================================
 void
@@ -100,7 +99,9 @@ InitGuiObjects(void)
     qInstallMessageHandler(QtMessageOutput);
     if (NelSonQtApp == nullptr) {
         NelSonQtApp = new QApplication(argc, argv);
-        defaultPalette = NelSonQtApp->palette();
+        if (NelSonQtApp) {
+            createNelsonPalette(NelSonQtApp->palette());
+        }
         QCoreApplication::setApplicationName("Nelson");
         QCoreApplication::setOrganizationDomain(
             "https://nelson-numerical-software.github.io/nelson-website/");
@@ -175,7 +176,7 @@ QtSetLookAndFeel(const std::wstring& lf)
         if (NelSonQtApp) {
             NelSonQtApp->setStyleSheet("");
             NelSonQtApp->setStyle(qStyle);
-            NelSonQtApp->setPalette(defaultPalette);
+            NelSonQtApp->setPalette(getNelsonPalette());
             res = true;
         }
     }
