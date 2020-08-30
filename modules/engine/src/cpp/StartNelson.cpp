@@ -89,8 +89,7 @@ ErrorCommandLineMessage_file_commmand(NELSON_ENGINE_MODE _mode)
     std::wstring msg = _W("Too many arguments -f and -e are exclusive.");
 #ifdef _MSC_BUILD
     if (_mode == GUI) {
-        MessageBox(nullptr, msg.c_str(),
-            _W("Error").c_str(), MB_ICONERROR);
+        MessageBox(nullptr, msg.c_str(), _W("Error").c_str(), MB_ICONERROR);
     } else {
         std::cerr << wstring_to_utf8(msg) << std::endl;
     }
@@ -105,8 +104,7 @@ ErrorCommandLineMessage_file_execute(NELSON_ENGINE_MODE _mode)
     std::wstring msg = _W("Too many arguments -f and -F are exclusive.");
 #ifdef _MSC_BUILD
     if (_mode == GUI) {
-        MessageBox(nullptr, msg.c_str(),
-            _W("Error").c_str(), MB_ICONERROR);
+        MessageBox(nullptr, msg.c_str(), _W("Error").c_str(), MB_ICONERROR);
     } else {
         std::cerr << wstring_to_utf8(msg) << std::endl;
     }
@@ -139,8 +137,7 @@ ErrorInterpreter(NELSON_ENGINE_MODE _mode)
     std::wstring msg = _W("Nelson interpreter not initialized.");
 #ifdef _MSC_BUILD
     if (_mode == GUI) {
-        MessageBox(nullptr, msg.c_str(), _W("Error").c_str(),
-            MB_ICONERROR);
+        MessageBox(nullptr, msg.c_str(), _W("Error").c_str(), MB_ICONERROR);
     } else {
         msg = msg + L"\n";
         fwprintf(stderr, L"%ls", msg.c_str());
@@ -355,8 +352,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         createTimeoutThread(po.getTimeout());
     }
     lang = po.getLanguage();
-    if (po.haveCommandToExecute() && po.haveFileToExecute())
-    {
+    if (po.haveCommandToExecute() && po.haveFileToExecute()) {
         ErrorCommandLineMessage_file_commmand(_mode);
         return exitCode;
     }

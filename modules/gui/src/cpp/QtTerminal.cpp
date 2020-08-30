@@ -63,7 +63,7 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
     setPalette(getNelsonPalette());
-  
+
 #ifdef __APPLE__
     QFont f("Monaco");
 #else

@@ -31,7 +31,7 @@ namespace Nelson {
 QColor
 getWarningColor()
 {
-    return QColor(Qt::darkYellow); 
+    return QColor(Qt::darkYellow);
 }
 //===================================================================================
 QColor

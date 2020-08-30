@@ -64,7 +64,7 @@ getNelsonPalette()
 bool
 isDarkPalette()
 {
-  return isDarkMode;
+    return isDarkMode;
 }
 //===================================================================================
 }

@@ -40,7 +40,8 @@ GuiTerminal::GuiTerminal(void* qtMainW)
     qtterm = qtMainWindow->getQtTerminal();
 }
 //=============================================================================
-GuiTerminal::~GuiTerminal() {
+GuiTerminal::~GuiTerminal()
+{
     qtterm = nullptr;
     qtMainWindow = nullptr;
 }
@@ -213,7 +214,7 @@ GuiTerminal::getBufferScreenLine()
 //=============================================================================
 void
 GuiTerminal::setBufferScreenLine(int newMax)
-{ }
+{}
 //=============================================================================
 bool
 GuiTerminal::isAtPrompt()

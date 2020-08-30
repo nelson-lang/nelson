@@ -96,7 +96,7 @@ buildNelsonPIDsChannelName()
 #else
         std::string arch = "win32";
 #endif
-        #else
+#else
         std::string arch = "other";
 #endif
         channelName = std::string(NELSON_PIDS) + "_" + arch + "_" + wstring_to_utf8(GetUsername());
@@ -109,7 +109,7 @@ needToCreateSharedMemory()
 {
     bool bNeedToCreate = false;
     try {
-        boost::interprocess::managed_shared_memory managed_shm { boost::interprocess::open_only,
+        boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_only,
             buildNelsonPIDsChannelName().c_str() };
         bNeedToCreate = false;
     } catch (boost::interprocess::interprocess_exception&) {
@@ -124,9 +124,8 @@ registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE mode)
     bool needToCreate = needToCreateSharedMemory();
     try {
         size_t size_shm = sizeof(int*) * MAX_NB_PIDS * 2 + 1024;
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_or_create, buildNelsonPIDsChannelName().c_str(), size_shm
-        };
+        boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_or_create,
+            buildNelsonPIDsChannelName().c_str(), size_shm };
         int* pids = nullptr;
         int* modes = nullptr;
         int index = 0;
@@ -184,7 +183,7 @@ unregisterPidInSharedMemory(int pid)
             return true;
         }
         try {
-            boost::interprocess::managed_shared_memory managed_shm { boost::interprocess::open_only,
+            boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_only,
                 buildNelsonPIDsChannelName().c_str() };
             std::pair<int*, std::size_t> pPIDs = managed_shm.find<int>(PIDS_ID_DATA);
             int* pids = pPIDs.first;
@@ -207,9 +206,8 @@ getNelsonPIDs()
 {
     std::vector<int> PIDs;
     try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
+        boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_read_only,
+            buildNelsonPIDsChannelName().c_str() };
         std::pair<int*, std::size_t> pValues = managed_shm.find<int>(PIDS_ID_DATA);
 
         int* pids = pValues.first;
@@ -231,9 +229,8 @@ getNelsonPIDModes()
 {
     std::vector<NELSON_ENGINE_MODE> Modes;
     try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
+        boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_read_only,
+            buildNelsonPIDsChannelName().c_str() };
         std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
         std::pair<int*, std::size_t> pModes = managed_shm.find<int>(PIDS_MODE_DATA);
 
@@ -257,9 +254,8 @@ getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
 {
     int pid = 0;
     try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
+        boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_read_only,
+            buildNelsonPIDsChannelName().c_str() };
         std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
         std::pair<int*, std::size_t> pModes = managed_shm.find<int>(PIDS_MODE_DATA);
 

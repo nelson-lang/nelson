@@ -47,7 +47,7 @@ class command_file_extension
 public:
     command_file_extension(
         const std::string& _commandType, const std::vector<std::wstring>& _filenames)
-        : commandType(_commandType), filenames(_filenames) {};
+        : commandType(_commandType), filenames(_filenames){};
 
     std::string commandType;
     std::vector<std::wstring> filenames;

@@ -28,7 +28,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::thread *timeout_thread = nullptr;
+static boost::thread* timeout_thread = nullptr;
 //=============================================================================
 void
 timeout(uint64 _timeout_seconds)
