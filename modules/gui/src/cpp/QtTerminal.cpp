@@ -56,13 +56,6 @@ using namespace Nelson;
 //=============================================================================
 static Nelson::Evaluator* eval = nullptr;
 //=============================================================================
-static inline QColor
-mixColors(const QColor& c1, const QColor& c2)
-{
-    return { (c1.red() + c2.red()) / 2, (c1.green() + c2.green()) / 2,
-        (c1.blue() + c2.blue()) / 2 };
-}
-//=============================================================================
 
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {

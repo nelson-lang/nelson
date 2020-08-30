@@ -147,6 +147,9 @@ DestroyMainGuiObject(void* term)
 {
     if (NelSonQtApp) {
         if (NelSonQtMainWindow) {
+            NelSonQtMainWindow->declareAsClosed();
+            QApplication::sendEvent(NelSonQtMainWindow, new QCloseEvent());
+
             NelSonQtMainWindow->deleteLater();
             NelSonQtMainWindow = nullptr;
         }

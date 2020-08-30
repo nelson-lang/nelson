@@ -51,15 +51,15 @@ using namespace Nelson;
 QtMainWindow::~QtMainWindow()
 {
     if (runAction) {
-        delete runAction;
+        runAction->deleteLater();
         runAction = nullptr;
     }
     if (loadWorkspaceAction) {
-        delete loadWorkspaceAction;
+        loadWorkspaceAction->deleteLater();
         loadWorkspaceAction = nullptr;
     }
     if (saveWorkspaceAction) {
-        delete saveWorkspaceAction;
+        saveWorkspaceAction->deleteLater();
         saveWorkspaceAction = nullptr;
     }
     if (pwdAction) {
@@ -71,55 +71,54 @@ QtMainWindow::~QtMainWindow()
         exitAction = nullptr;
     }
     if (aboutAction) {
-        delete aboutAction;
+        aboutAction->deleteLater();
         aboutAction = nullptr;
     }
     if (helpAction) {
-        delete helpAction;
+        helpAction->deleteLater();
         helpAction = nullptr;
     }
     if (cutAction) {
-        delete cutAction;
+        cutAction->deleteLater();
         cutAction = nullptr;
     }
     if (copyAction) {
-        delete copyAction;
+        copyAction->deleteLater();
         copyAction = nullptr;
     }
     if (pasteAction) {
-        delete pasteAction;
+        pasteAction->deleteLater();
         pasteAction = nullptr;
     }
     if (selectAllAction) {
-        delete selectAllAction;
+        selectAllAction->deleteLater();
         selectAllAction = nullptr;
     }
     if (emptyClipboardAction) {
-        delete emptyClipboardAction;
+        emptyClipboardAction->deleteLater();
         emptyClipboardAction = nullptr;
     }
     if (clearConsoleAction) {
-        delete clearConsoleAction;
+        clearConsoleAction->deleteLater();
         clearConsoleAction = nullptr;
     }
     if (editMenu) {
-        delete editMenu;
+        editMenu->deleteLater();
         editMenu = nullptr;
     }
     if (fileMenu) {
-        delete fileMenu;
+        fileMenu->deleteLater();
         fileMenu = nullptr;
     }
     if (helpMenu) {
-        delete helpMenu;
+        helpMenu->deleteLater();
         helpMenu = nullptr;
     }
     if (mainMenuBar) {
-        delete mainMenuBar;
+        mainMenuBar->deleteLater();
         mainMenuBar = nullptr;
     }
     if (qtTerminal) {
-        delete qtTerminal;
         qtTerminal = nullptr;
     }
 }
@@ -474,8 +473,8 @@ QtMainWindow::closeEvent(QCloseEvent* event)
             if (reply == QMessageBox::Yes) {
                 event->accept();
                 QWidget* qwidgetConsole = this->focusProxy();
-                QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
                 bClosed = true;
+                QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
                 return;
             }
             return;
@@ -529,3 +528,8 @@ QtMainWindow::dropEvent(QDropEvent* event)
     }
 }
 //=============================================================================
+void
+QtMainWindow::declareAsClosed()
+{
+    bClosed = true;
+}
