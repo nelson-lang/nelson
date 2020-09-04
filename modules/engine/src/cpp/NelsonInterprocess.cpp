@@ -24,16 +24,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/serialization/string.hpp>
-#include <boost/config.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
-#ifdef BOOST_ZLIB_BINARY
-#include <boost/iostreams/copy.hpp>
-#include <boost/iostreams/filtering_stream.hpp>
-#include <boost/iostreams/filter/gzip.hpp>
-#endif
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/ipc/message_queue.hpp>
 #include <boost/thread/thread.hpp>
@@ -42,6 +36,7 @@
 #include "characters_encoding.hpp"
 #include "PostCommand.hpp"
 #include "MainEvaluator.hpp"
+#include "StringZLib.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -446,34 +441,6 @@ getChannelName(int currentPID)
     return std::string(NELSON_COMMAND_INTERPROCESS) + "_" + std::to_string(currentPID);
 }
 //=============================================================================
-#ifdef BOOST_ZLIB_BINARY
-static std::string
-compressString(const std::string& data)
-{
-    std::stringstream compressed;
-    std::stringstream origin(data);
-    boost::iostreams::filtering_streambuf<boost::iostreams::input> out;
-    out.push(boost::iostreams::gzip_compressor(
-        boost::iostreams::gzip_params(boost::iostreams::gzip::best_compression)));
-    out.push(origin);
-    boost::iostreams::copy(out, compressed);
-    return compressed.str();
-}
-//=============================================================================
-static std::string
-decompressString(const std::string& data)
-{
-    std::stringstream compressed(data);
-    std::stringstream decompressed;
-
-    boost::iostreams::filtering_streambuf<boost::iostreams::input> out;
-    out.push(boost::iostreams::gzip_decompressor());
-    out.push(compressed);
-    boost::iostreams::copy(out, decompressed);
-    return decompressed.str();
-}
-//=============================================================================
-#endif
 static void
 createNelsonInterprocessReceiverThread(int currentPID)
 {
@@ -494,11 +461,8 @@ createNelsonInterprocessReceiverThread(int currentPID)
                     &serialized_compressed_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
                 if (recvd_size != 0) {
                     serialized_compressed_string.resize(recvd_size);
-#ifdef BOOST_ZLIB_BINARY
-                    iss << decompressString(serialized_compressed_string);
-#else
-                    iss << serialized_compressed_string;
-#endif
+                    bool failed = false;
+                    iss << decompressString(serialized_compressed_string, failed);
                     try {
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
@@ -597,14 +561,12 @@ sendVariableToNelsonInterprocessReceiver(
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;
-    std::string serialized_string(oss.str());
-#ifdef BOOST_ZLIB_BINARY
-    std::string serialized_compressed_string = compressString(serialized_string);
-#else
-    std::string serialized_compressed_string = serialized_string;
-#endif
-    serialized_string.clear();
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
     bool bSend = false;
+    if (failed) {
+        return bSend;
+    }
     if (serialized_compressed_string.size() < MAX_MSG_SIZE) {
         try {
             boost::interprocess::message_queue messages(

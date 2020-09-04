@@ -41,6 +41,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../file_archiver/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../terminal/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
@@ -75,6 +76,7 @@ nlsLocalization
 nlsI18n
 nlsMex
 nlsSio_client
+nlsFile_archiver
 ${BOOST_LIBRARIES}
 )
 #==============================================================================
