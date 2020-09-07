@@ -110,12 +110,14 @@ Context::popScope()
 void
 Context::insertVariableLocally(const std::string& varName, const ArrayOf& var)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     scopestack.back()->insertVariable(varName, var);
 }
 //=============================================================================
 bool
 Context::insertVariable(const std::string& varName, const ArrayOf& var)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     Scope* active = nullptr;
     std::string mapName;
     Scope* backScope = scopestack.back();
@@ -135,6 +137,7 @@ Context::insertVariable(const std::string& varName, const ArrayOf& var)
 bool
 Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     Scope* active;
     std::string mapName;
     Scope* back = scopestack.back();
@@ -159,6 +162,8 @@ Context::isVariable(const std::wstring& varname)
 bool
 Context::isVariable(const std::string& varname)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     Scope* active;
     Scope* back = scopestack.back();
     if (back->isVariablePersistent(varname)) {
@@ -175,18 +180,21 @@ Context::isVariable(const std::string& varname)
 bool
 Context::isVariableGlobal(const std::string& varName)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->isVariableGlobal(varName);
 }
 //=============================================================================
 bool
 Context::isVariablePersistent(const std::string& varName)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->isVariablePersistent(varName);
 }
 //=============================================================================
 bool
 Context::lookupVariableLocally(const std::string& varName, ArrayOf& var)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->lookupVariable(varName, var);
 }
 //=============================================================================
@@ -226,7 +234,7 @@ Context::deleteFunctionGlobally(const std::string& funcName)
 //=============================================================================
 void
 Context::printMe()
-{}
+{ }
 //=============================================================================
 void
 Context::enterLoop()
@@ -249,6 +257,7 @@ Context::inLoop()
 void
 Context::addPersistentVariable(const std::string& var)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     Scope* back = scopestack.back();
     Scope* front = scopestack.front();
     // Delete local variables with this name
@@ -265,6 +274,7 @@ Context::addPersistentVariable(const std::string& var)
 void
 Context::addGlobalVariable(const std::string& var)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     Scope* back = scopestack.back();
     Scope* front = scopestack.front();
     // Delete local variables with this name
@@ -284,11 +294,13 @@ void
 Context::deleteVariable(const std::string& var)
 {
     if (isVariableGlobal(var)) {
+        std::lock_guard<std::mutex> lock(m_mutex);
         scopestack.front()->deleteVariable(var);
         scopestack.back()->deleteGlobalVariablePointer(var);
         return;
     }
     if (isVariablePersistent(var)) {
+        std::lock_guard<std::mutex> lock(m_mutex);
         scopestack.front()->deleteVariable(scopestack.back()->getMangledName(var));
         scopestack.back()->deletePersistentVariablePointer(var);
         return;
@@ -343,24 +355,28 @@ Context::getBaseScope()
 stringVector
 Context::getLockedVariables()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->getLockedVariables();
 }
 //=============================================================================
 bool
 Context::isLockedVariable(const std::string& varname)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->isLockedVariable(varname);
 }
 //=============================================================================
 bool
 Context::lockVariable(const std::string& varname)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->lockVariable(varname);
 }
 //=============================================================================
 bool
 Context::unlockVariable(const std::string& varname)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return scopestack.back()->unlockVariable(varname);
 }
 //=============================================================================

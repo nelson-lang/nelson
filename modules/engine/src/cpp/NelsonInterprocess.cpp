@@ -118,6 +118,13 @@ public:
             }
         } break;
         case NLS_STRUCT_ARRAY: {
+            ArrayOf* elements = (ArrayOf*)data.getDataPointer();
+            indexType nbElements = dimsData.getElementCount();
+            fieldnames = data.getFieldNames();
+            otherObject.reserve(nbElements);
+            for (indexType k = 0; k < nbElements; ++k) {
+                otherObject.push_back(nelsonObject(elements[k]));
+            }
         } break;
         case NLS_STRING_ARRAY: {
             ArrayOf* elements = (ArrayOf*)data.getDataPointer();
@@ -148,7 +155,10 @@ public:
             return true;
         } break;
         case NLS_UINT16: {
-
+            uint16* ptrUint16 = (uint16*)data.getDataPointer();
+            asUint16.reserve(dimsData.getElementCount());
+            asUint16.assign(ptrUint16, ptrUint16 + dimsData.getElementCount());
+            return true;
         } break;
         case NLS_INT16: {
             int16* ptrInt16 = (int16*)data.getDataPointer();
@@ -157,6 +167,10 @@ public:
             return true;
         } break;
         case NLS_UINT32: {
+            uint32* ptrUint32 = (uint32*)data.getDataPointer();
+            asUint32.reserve(dimsData.getElementCount());
+            asUint32.assign(ptrUint32, ptrUint32 + dimsData.getElementCount());
+            return true;
         } break;
         case NLS_INT32: {
             int32* ptrInt32 = (int32*)data.getDataPointer();
@@ -165,6 +179,10 @@ public:
             return true;
         } break;
         case NLS_UINT64: {
+            uint64* ptrUint64 = (uint64*)data.getDataPointer();
+            asUint64.reserve(dimsData.getElementCount());
+            asUint64.assign(ptrUint64, ptrUint64 + dimsData.getElementCount());
+            return true;
         } break;
         case NLS_INT64: {
             int64* ptrInt64 = (int64*)data.getDataPointer();
@@ -183,6 +201,7 @@ public:
                 double* ptrDouble = (double*)data.getDataPointer();
                 asDouble.reserve(dimsData.getElementCount());
                 asDouble.assign(ptrDouble, ptrDouble + dimsData.getElementCount());
+            } else {
             }
             return true;
         } break;
@@ -197,6 +216,7 @@ public:
                 double* ptrDouble = (double*)data.getDataPointer();
                 asDouble.reserve(dimsData.getElementCount() * 2);
                 asDouble.assign(ptrDouble, ptrDouble + (dimsData.getElementCount() * 2));
+            } else {
             }
             return true;
         } break;
@@ -215,7 +235,7 @@ public:
     }
 
     ArrayOf
-    get()
+    get(bool& success)
     {
         ArrayOf res;
         Class destinationClass = (Class)nelsonObjectClass;
@@ -225,51 +245,108 @@ public:
         }
         switch (destinationClass) {
         case NLS_GO_HANDLE: {
+            success = false;
         } break;
         case NLS_HANDLE: {
-
+            success = false;
         } break;
         case NLS_CELL_ARRAY: {
             indexType nbElements = destinationDims.getElementCount();
             ArrayOf* ptrArrayOf = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
             res = ArrayOf(NLS_CELL_ARRAY, destinationDims, ptrArrayOf, isSparse);
             for (indexType k = 0; k < nbElements; ++k) {
-                ptrArrayOf[k] = otherObject[k].get();
+                ptrArrayOf[k] = otherObject[k].get(success);
             }
-        } break;
-        case NLS_STRUCT_ARRAY: {
         } break;
         case NLS_STRING_ARRAY: {
             indexType nbElements = destinationDims.getElementCount();
             ArrayOf* ptrArrayOf = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
             res = ArrayOf(NLS_STRING_ARRAY, destinationDims, ptrArrayOf, isSparse);
             for (indexType k = 0; k < nbElements; ++k) {
-                ptrArrayOf[k] = otherObject[k].get();
+                ptrArrayOf[k] = otherObject[k].get(success);
+            }
+        } break;
+        case NLS_STRUCT_ARRAY: {
+            indexType nbElements = destinationDims.getElementCount();
+            ArrayOf* ptrArrayOf
+                = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, nbElements, fieldnames);
+            res = ArrayOf(NLS_STRUCT_ARRAY, destinationDims, ptrArrayOf, isSparse, fieldnames);
+            for (indexType k = 0; k < nbElements; ++k) {
+                ptrArrayOf[k] = otherObject[k].get(success);
             }
         } break;
         case NLS_LOGICAL: {
+          if (!isSparse) {
+                uint8* ptrUInt8 = (uint8*)ArrayOf::allocateArrayOf(
+                    NLS_UINT8, destinationDims.getElementCount());
+                res = ArrayOf(NLS_UINT8, destinationDims, ptrUInt8, isSparse);
+                memcpy(ptrUInt8, asUint8.data(), sizeof(uint8) * asUint8.size());
+          } else {
+          }
+          success = true;
         } break;
         case NLS_UINT8: {
+            uint8* ptrUInt8
+                = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, destinationDims.getElementCount());
+            res = ArrayOf(NLS_UINT8, destinationDims, ptrUInt8, isSparse);
+            memcpy(ptrUInt8, asUint8.data(), sizeof(uint8) * asUint8.size());
+            success = true;
         } break;
         case NLS_INT8: {
+            int8* ptrInt8
+                = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, destinationDims.getElementCount());
+            res = ArrayOf(NLS_INT8, destinationDims, ptrInt8, isSparse);
+            memcpy(ptrInt8, asInt8.data(), sizeof(int8) * asInt8.size());
+            success = true;
         } break;
         case NLS_UINT16: {
+            uint16* ptrUInt16
+                = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, destinationDims.getElementCount());
+            res = ArrayOf(NLS_UINT16, destinationDims, ptrUInt16, isSparse);
+            memcpy(ptrUInt16, asUint16.data(), sizeof(uint16) * asUint16.size());
+            success = true;
         } break;
         case NLS_INT16: {
+            int16* ptrInt16
+                = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, destinationDims.getElementCount());
+            res = ArrayOf(NLS_INT16, destinationDims, ptrInt16, isSparse);
+            memcpy(ptrInt16, asInt16.data(), sizeof(int16) * asInt16.size());
+            success = true;
         } break;
         case NLS_UINT32: {
+            uint32* ptrUInt32
+                = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, destinationDims.getElementCount());
+            res = ArrayOf(NLS_UINT32, destinationDims, ptrUInt32, isSparse);
+            memcpy(ptrUInt32, asUint32.data(), sizeof(uint32) * asUint32.size());
+            success = true;
         } break;
         case NLS_INT32: {
+            int32* ptrInt32
+                = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, destinationDims.getElementCount());
+            res = ArrayOf(NLS_INT32, destinationDims, ptrInt32, isSparse);
+            memcpy(ptrInt32, asInt32.data(), sizeof(int32) * asInt32.size());
+            success = true;
         } break;
         case NLS_UINT64: {
+            uint64* ptrUInt64
+                = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, destinationDims.getElementCount());
+            res = ArrayOf(NLS_UINT64, destinationDims, ptrUInt64, isSparse);
+            memcpy(ptrUInt64, asUint64.data(), sizeof(uint64) * asUint64.size());
+            success = true;
         } break;
         case NLS_INT64: {
+            int64* ptrInt64
+                = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, destinationDims.getElementCount());
+            res = ArrayOf(NLS_INT64, destinationDims, ptrInt64, isSparse);
+            memcpy(ptrInt64, asInt64.data(), sizeof(int64) * asInt64.size());
+            success = true;
         } break;
         case NLS_SINGLE: {
             single* ptrSingle
                 = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, destinationDims.getElementCount());
             res = ArrayOf(NLS_SINGLE, destinationDims, ptrSingle, isSparse);
             memcpy(ptrSingle, asSingle.data(), sizeof(single) * asSingle.size());
+            success = true;
         } break;
         case NLS_DOUBLE: {
             if (!isSparse) {
@@ -277,29 +354,37 @@ public:
                     NLS_DOUBLE, destinationDims.getElementCount());
                 res = ArrayOf(NLS_DOUBLE, destinationDims, ptrDouble, isSparse);
                 memcpy(ptrDouble, asDouble.data(), sizeof(double) * asDouble.size());
+            } else {
+            
             }
+            success = true;
         } break;
         case NLS_SCOMPLEX: {
             single* ptrSingle = (single*)ArrayOf::allocateArrayOf(
                 NLS_SCOMPLEX, destinationDims.getElementCount());
             res = ArrayOf(NLS_SCOMPLEX, destinationDims, ptrSingle, isSparse);
-            memcpy(ptrSingle, asSingle.data(), sizeof(single) * asSingle.size() * 2);
+            memcpy(ptrSingle, asSingle.data(), sizeof(single) * asSingle.size());
+            success = true;
         } break;
         case NLS_DCOMPLEX: {
             if (!isSparse) {
                 double* ptrDouble = (double*)ArrayOf::allocateArrayOf(
                     NLS_DCOMPLEX, destinationDims.getElementCount());
                 res = ArrayOf(NLS_DCOMPLEX, destinationDims, ptrDouble, isSparse);
-                memcpy(ptrDouble, asDouble.data(), sizeof(double) * asDouble.size() * 2);
+                memcpy(ptrDouble, asDouble.data(), sizeof(double) * asDouble.size());
+            } else {
             }
+            success = true;
         } break;
         case NLS_CHAR: {
-            charType* ptrCharacter
-                = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, destinationDims.getElementCount());
+            charType* ptrCharacter = (charType*)ArrayOf::allocateArrayOf(
+                NLS_CHAR, destinationDims.getElementCount(), stringVector(), true);
             res = ArrayOf(NLS_CHAR, destinationDims, ptrCharacter, isSparse);
-            memcpy(ptrCharacter, asCharacter.data(), sizeof(double) * asCharacter.size());
+            memcpy(ptrCharacter, asCharacter.data(), sizeof(charType) * asCharacter.size());
+            success = true;
         } break;
         default: {
+            success = false;
         } break;
         }
         return res;
@@ -451,7 +536,6 @@ createNelsonInterprocessReceiverThread(int currentPID)
 
         unsigned int priority = 0;
         size_t recvd_size = 0;
-
         dataInterProcessToExchange msg("");
         while (receiverLoopRunning) {
             std::stringstream iss;
@@ -460,42 +544,45 @@ createNelsonInterprocessReceiverThread(int currentPID)
             if (messages.try_receive(
                     &serialized_compressed_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
                 if (recvd_size != 0) {
-                    serialized_compressed_string.resize(recvd_size);
+                    serialized_compressed_string[recvd_size] = 0;
                     bool failed = false;
-                    iss << decompressString(serialized_compressed_string, failed);
-                    try {
-                        boost::archive::binary_iarchive ia(iss);
-                        ia >> msg;
-                        if (msg.commandType == "eval") {
-                            postCommand(utf8_to_wstring(msg.lineToEvaluate));
-                        } else if (msg.commandType == "put") {
-                            ArrayOf var = msg.variable.get();
-                            Evaluator* eval = getMainEvaluator();
-                            if (eval) {
-                                Context* context = eval->getContext();
-                                Scope* scope = nullptr;
-                                if (msg.scope == "global") {
-                                    scope = context->getGlobalScope();
+                    std::string decompressed_string
+                        = decompressString(serialized_compressed_string, failed);
+                    if (!failed) {
+                        iss << decompressed_string;
+                        try {
+                            boost::archive::binary_iarchive ia(iss);
+                            ia >> msg;
+                            if (msg.commandType == "eval") {
+                                postCommand(utf8_to_wstring(msg.lineToEvaluate));
+                            } else if (msg.commandType == "put") {
+                                Evaluator* eval = getMainEvaluator();
+                                if (eval) {
+                                    Context* context = eval->getContext();
+                                    Scope* scope = nullptr;
+                                    if (msg.scope == "global") {
+                                        scope = context->getGlobalScope();
+                                    }
+                                    if (msg.scope == "base") {
+                                        scope = context->getBaseScope();
+                                    }
+                                    if (msg.scope == "caller") {
+                                        scope = context->getCallerScope();
+                                    }
+                                    if (msg.scope == "local") {
+                                        scope = context->getCurrentScope();
+                                    }
+                                    if (scope != nullptr) {
+                                        bool success;
+                                        ArrayOf var = msg.variable.get(success);
+                                        scope->insertVariable(msg.variableName, var);
+                                    }
                                 }
-                                if (msg.scope == "base") {
-                                    scope = context->getBaseScope();
-                                }
-                                if (msg.scope == "caller") {
-                                    scope = context->getCallerScope();
-                                }
-                                if (msg.scope == "local") {
-                                    scope = context->getCurrentScope();
-                                }
-                                if (scope != nullptr) {
-                                    scope->insertVariable(msg.variableName, var);
-                                }
+                            } else {
                             }
-                            msg.variableName;
-                            msg.scope;
-                        } else {
+                        } catch (boost::archive::archive_exception& e) {
+                            e;
                         }
-                    } catch (boost::archive::archive_exception& e) {
-                        e;
                     }
                 }
             }
@@ -574,7 +661,7 @@ sendVariableToNelsonInterprocessReceiver(
             messages.send(
                 serialized_compressed_string.data(), serialized_compressed_string.size(), 0);
             bSend = true;
-        } catch (boost::interprocess::interprocess_exception& e) {
+        } catch (boost::interprocess::interprocess_exception&) {
             bSend = false;
         }
     }

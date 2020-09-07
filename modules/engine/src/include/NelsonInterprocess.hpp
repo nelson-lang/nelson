@@ -42,8 +42,7 @@ removeNelsonInterprocessReceiver(int pid);
 //=============================================================================
 NLSENGINE_IMPEXP
 bool
-sendCommandToNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring &command);
+sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command);
 //=============================================================================
 NLSENGINE_IMPEXP
 bool

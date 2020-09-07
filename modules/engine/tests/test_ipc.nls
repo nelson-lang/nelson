@@ -23,38 +23,51 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+clear('R');
 REF = 3;
-ipc(getpid, 'put', REF, 'R')
-sleep(1);
-assert_isequal(R, REF);
-//=============================================================================
-REF = 3;
-ipc(getpid, 'put', REF, 'R', 'local')
-sleep(1);
-assert_isequal(R, REF);
-//=============================================================================
-REF = {1; 2}; 
-ipc(getpid, 'put', REF, 'R')
-sleep(1);
-assert_isequal(R, REF);
-//=============================================================================
-REF = 'simplified Chinese: 汉字; traditional Chinese: 漢字; pinyin: Hàn Zì'; 
-ipc(getpid, 'put', REF, 'R')
-sleep(1);
-assert_isequal(R, REF);
-//=============================================================================
-REF = [1+2i; 3+4i]; 
-ipc(getpid, 'put', REF, 'R')
-sleep(1);
-assert_isequal(R, REF);
-//=============================================================================
-REF = ["hello"; "world"]; 
-ipc(getpid, 'put', REF, 'R')
-sleep(1);
-assert_isequal(R, REF);
-//=============================================================================
-REF = ones(1000, 1000); 
 ipc(getpid, 'put', REF, 'R')
 sleep(5);
 assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = 3;
+ipc(getpid, 'put', REF, 'R', 'local')
+sleep(5);
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = {1; 2}; 
+ipc(getpid, 'put', REF, 'R')
+sleep(3);
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = rand(1, 100); 
+ipc(getpid, 'put', REF, 'R')
+sleep(5);
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = 'simplified Chinese: 汉字; traditional Chinese: 漢字; pinyin: Hàn Zì'; 
+ipc(getpid, 'put', REF, 'R', 'base')
+sleep(3);
+assert_isequal(REF, acquirevar('base', 'R'));
+//=============================================================================
+clear('R');
+REF = [1+2i; 3+4i]; 
+ipc(getpid, 'put', REF, 'R')
+sleep(3);
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = ["hello"; "world"]; 
+ipc(getpid, 'put', REF, 'R')
+sleep(3);
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = ones(1000, 1000); 
+ipc(getpid, 'put', REF, 'R')
+sleep(5);
+assert_isequal(REF, R);
 //=============================================================================

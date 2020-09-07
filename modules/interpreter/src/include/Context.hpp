@@ -46,6 +46,7 @@
 #pragma once
 //=============================================================================
 #include <cstdarg>
+#include <mutex>
 #include "ArrayOf.hpp"
 #include "Scope.hpp"
 #include "nlsInterpreter_exports.h"
@@ -253,6 +254,9 @@ public:
     setRecursionDepth(size_t newDepth);
     size_t
     getMaximumRecursionDepth();
+
+private:
+    std::mutex m_mutex;
 };
 
 typedef enum

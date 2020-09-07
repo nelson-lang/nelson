@@ -95,7 +95,7 @@ Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         std::wstring scope = param5.getContentAsWideString();
         bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
-                || (scope == L"local"));
+            || (scope == L"local"));
         if (!supported) {
             Error(_W("#4 Argument must contain a valid scope name."));
         }
