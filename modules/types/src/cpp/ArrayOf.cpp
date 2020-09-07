@@ -463,13 +463,22 @@ ArrayOf::ArrayOf()
 ArrayOf::ArrayOf(
     Class type, const Dimensions& dims, void* data, bool sparse, const stringVector& fnames)
 {
-    dp = new Data(type, dims, data, sparse, fnames);
+    try {
+        dp = new Data(type, dims, data, sparse, fnames);
+    }
+    catch (std::bad_alloc&) {
+        Error(_("Cannot create ArrayOf."));
+    }
 }
 //=============================================================================
 ArrayOf::ArrayOf(Class type)
 {
     Dimensions dims(0, 0);
-    dp = new Data(type, dims, NULL);
+    try {
+        dp = new Data(type, dims, NULL);
+    } catch (std::bad_alloc&) {
+        Error(_("Cannot create ArrayOf."));
+    }
 }
 //=============================================================================
 /**
