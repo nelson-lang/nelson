@@ -8,12 +8,12 @@
 
 	<syntax>
 		<syntax_item>p = getpid()</syntax_item>
-		<syntax_item>v = getpid('running')</syntax_item>
+		<syntax_item>v = getpid('available')</syntax_item>
 	</syntax>
 
   <param_input>
     <param_input_item>
-      <param_name>'running'</param_name>
+      <param_name>'available'</param_name>
       <param_description>a string.</param_description>
     </param_input_item>
   </param_input>
@@ -32,7 +32,7 @@
 
 	<description>
 		<p><b>p = getpid()</b> returns current nelson process identificator currently running on computer.</p>
-		<p><b>v = getpid('running')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
+		<p><b>v = getpid('available')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
 		<p>win64 and win32 are two differents architecture but they can run in same time.</p>
 	</description>
 
@@ -45,16 +45,16 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[p = getpid()
-getpid('running')
+getpid('available')
 unix('nelson-gui &')
 sleep(5) // detached process need to wait to see available
-getpid('running')
+getpid('available')
 unix('nelson-gui &')
 sleep(5) // detached process need to wait to see available
-getpid('running')
+getpid('available')
 unix('nelson-gui &')
 sleep(5) // detached process need to wait to see available
-getpid('running')]]>
+getpid('available')]]>
 		</example_item_data>
 	</example_item>
 

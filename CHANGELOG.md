@@ -4,6 +4,8 @@
 
   * dark theme detected and used on Macos X.
 
+  * getpid('running') renamed getpid('available').
+
 Compilation:
 ------------
 
