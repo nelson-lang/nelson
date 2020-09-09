@@ -32,6 +32,7 @@
 #include <boost/thread/thread.hpp>
 #include "FilesAssociationIPC.hpp"
 #include "FilesAssociation.hpp"
+#include "StringZLib.hpp"
 //=============================================================================
 namespace Nelson {
 #define NELSON_COMMAND_PID "NELSON_COMMAND_PID"
@@ -47,7 +48,7 @@ class command_file_extension
 public:
     command_file_extension(
         const std::string& _commandType, const std::vector<std::wstring>& _filenames)
-        : commandType(_commandType), filenames(_filenames){};
+        : commandType(_commandType), filenames(_filenames) {};
 
     std::string commandType;
     std::vector<std::wstring> filenames;
@@ -104,19 +105,24 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
 
         unsigned int priority = 0;
         size_t recvd_size = 0;
-
+        command_file_extension msg("", std::vector<std::wstring>());
+        std::string serialized_compressed_string;
         while (receiverLoopRunning) {
-            command_file_extension msg("", std::vector<std::wstring>());
-
-            std::stringstream iss;
-            std::string serialized_string;
-            serialized_string.resize(MAX_MSG_SIZE);
-            if (messages.try_receive(&serialized_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
-                iss << serialized_string;
-
-                boost::archive::text_iarchive ia(iss);
-                ia >> msg;
-                doFileExtensionCommand(msg);
+            serialized_compressed_string.resize(MAX_MSG_SIZE);
+            if (messages.try_receive(
+                    &serialized_compressed_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
+                serialized_compressed_string[recvd_size] = 0;
+                bool fails = false;
+                std::string serialized_string
+                    = decompressString(serialized_compressed_string, fails);
+                if (!fails) {
+                    std::stringstream iss;
+                    iss << serialized_string;
+                    boost::archive::text_iarchive ia(iss);
+                    ia >> msg;
+                    doFileExtensionCommand(msg);
+                }
+                serialized_compressed_string.clear();
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
@@ -124,7 +130,6 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
                 return;
             }
         }
-
         receiverLoopRunning = false;
 
     } catch (boost::interprocess::interprocess_exception&) {
@@ -168,12 +173,16 @@ sendCommandToFileExtensionReceiver(
     std::stringstream oss;
     boost::archive::text_oarchive oa(oss);
     oa << msg;
-    std::string serialized_string(oss.str());
+    bool fails = false;
+    std::string serialized_compressed_string(compressString(oss.str(), fails));
+    if (fails) {
+        return false;
+    }
     bool bSend = false;
     try {
         boost::interprocess::message_queue messages(
             boost::interprocess::open_only, getChannelName(pidDestination).c_str());
-        messages.send(serialized_string.data(), serialized_string.size(), 0);
+        messages.send(serialized_compressed_string.data(), serialized_compressed_string.size(), 0);
         bSend = true;
     } catch (boost::interprocess::interprocess_exception&) {
         bSend = false;
