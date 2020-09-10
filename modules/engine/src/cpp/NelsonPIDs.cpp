@@ -250,6 +250,28 @@ getNelsonPIDModes()
 }
 //=============================================================================
 int
+getLatestPidInSharedMemory()
+{
+    int pid = 0;
+    try {
+        boost::interprocess::managed_shared_memory managed_shm {
+            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
+        };
+        std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
+        int* pids = pIDs.first;
+
+        for (int j = MAX_NB_PIDS - 1; j >= 0; j--) {
+            if (isPIDRunning(pids[j])) {
+                return pids[j];
+            }
+        }
+    } catch (boost::interprocess::interprocess_exception& ex) {
+        ex.get_error_code();
+    }
+    return 0;
+}
+//=============================================================================
+int
 getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
 {
     int pid = 0;

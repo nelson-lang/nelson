@@ -56,7 +56,7 @@ private:
     bool fullySerialized;
     int nelsonObjectClass;
     bool isSparse;
-    std::vector<uint64> dims;
+    std::vector<indexType> dims;
     std::vector<std::string> fieldnames;
     std::vector<int8> asInt8;
     std::vector<uint8> asUint8;

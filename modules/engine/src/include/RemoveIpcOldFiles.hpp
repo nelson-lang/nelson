@@ -25,43 +25,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
 #include "nlsEngine_exports.h"
-#include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSENGINE_IMPEXP
-std::vector<int>
-getNelsonPIDs();
-//=============================================================================
-NLSENGINE_IMPEXP
-std::vector<NELSON_ENGINE_MODE>
-getNelsonPIDModes();
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE _mode);
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-unregisterPidInSharedMemory(int pid);
-//=============================================================================
-NLSENGINE_IMPEXP
-int
-getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode);
-//=============================================================================
-NLSENGINE_IMPEXP
-int
-getLatestPidInSharedMemory();
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-isPIDRunning(int pID);
-//=============================================================================
-NLSENGINE_IMPEXP
-int
-getCurrentPID();
+NLSENGINE_IMPEXP bool
+RemoveIpcOldFiles();
 //=============================================================================
 }
 //=============================================================================

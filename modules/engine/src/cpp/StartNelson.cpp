@@ -66,6 +66,7 @@
 #include "FilesAssociation.hpp"
 #include "FilesAssociationIPC.hpp"
 #include "NelsonInterprocess.hpp"
+#include "RemoveIpcOldFiles.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -288,6 +289,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         displayVersion(_mode);
         return 0;
     }
+
     if (_mode == NELSON_ENGINE_MODE::GUI) {
         int existingPID = getLatestPidWithModeInSharedMemory(_mode);
         if (existingPID != 0) {
@@ -310,6 +312,11 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
                 }
             }
         }
+    }
+
+    int latestPid = getLatestPidInSharedMemory();
+    if (latestPid == 0) {
+        RemoveIpcOldFiles();
     }
 
     if (!SetNelSonEnvironmentVariables()) {
