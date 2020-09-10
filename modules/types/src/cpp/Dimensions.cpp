@@ -59,14 +59,11 @@ namespace Nelson {
 #define MSGBUFLEN 2048
 static char msgBuffer[MSGBUFLEN];
 //=============================================================================
-Dimensions::Dimensions()
-{
-    std::uninitialized_fill_n(data, maxDims, 0);
-    length = 0;
-}
+Dimensions::Dimensions() { reset(); }
 //=============================================================================
 Dimensions::Dimensions(indexType rows, indexType cols)
 {
+    reset();
     data[0] = rows;
     data[1] = cols;
     length = 2;
@@ -79,7 +76,7 @@ Dimensions::Dimensions(indexType dimCount)
         Error(_W("Illegal argument to Dimensions constructor"));
     }
 #endif
-    memset(data, 0, sizeof(indexType) * dimCount);
+    reset();
     length = dimCount;
 }
 //=============================================================================
@@ -93,7 +90,8 @@ Dimensions::getMax()
     return maxL;
 }
 //=============================================================================
-indexType& Dimensions::operator[](indexType i)
+indexType&
+Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
         Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
@@ -324,7 +322,7 @@ void
 Dimensions::reset()
 {
     length = 0;
-    memset(data, 0, sizeof(indexType) * maxDims);
+    data.resize(maxDims, 0);
 }
 //=============================================================================
 void
@@ -375,7 +373,6 @@ bool
 Dimensions::is2D() const
 {
     return length <= 2;
-    // return (getElementCount() == (getRows()*getColumns()));
 }
 //=============================================================================
 bool
