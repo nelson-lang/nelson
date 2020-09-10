@@ -27,7 +27,6 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
-#include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/ipc/message_queue.hpp>
 #include <boost/thread/thread.hpp>
 #include "FilesAssociationIPC.hpp"
@@ -35,7 +34,7 @@
 #include "StringZLib.hpp"
 //=============================================================================
 namespace Nelson {
-#define NELSON_COMMAND_PID "NELSON_COMMAND_PID"
+constexpr auto NELSON_COMMAND_PID = "NELSON_COMMAND_PID";
 #define NELSON_COMMAND_PID_DATA "NELSON_COMMAND_PID_DATA"
 #define NELSON_COMMAND_MODE_DATA "NELSON_COMMAND_MODE_DATA"
 #define NELSON_COMMAND_FILE_EXTENSION "NELSON_COMMAND_FILE_EXTENSION"
@@ -48,7 +47,7 @@ class command_file_extension
 public:
     command_file_extension(
         const std::string& _commandType, const std::vector<std::wstring>& _filenames)
-        : commandType(_commandType), filenames(_filenames) {};
+        : commandType(_commandType), filenames(_filenames){};
 
     std::string commandType;
     std::vector<std::wstring> filenames;
@@ -125,7 +124,7 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
                 serialized_compressed_string.clear();
             }
             try {
-                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+                boost::this_thread::sleep(boost::posix_time::milliseconds(200));
             } catch (boost::thread_interrupted&) {
                 return;
             }

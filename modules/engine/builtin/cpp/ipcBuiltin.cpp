@@ -27,6 +27,7 @@
 #include "Error.hpp"
 #include "NelsonInterprocess.hpp"
 #include "IsValidVariableName.hpp"
+#include "NelsonPIDs.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -49,6 +50,9 @@ Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param2 = argIn[1];
         ArrayOf param3 = argIn[2];
         pid = param1.getContentAsInteger32Scalar();
+        if (!isPIDRunning(pid)) {
+            Error(_W("PID valid expected."));
+        }
         std::wstring commandType = param2.getContentAsWideString();
         if (commandType != L"eval") {
             Error(_W("'eval' parameter expected."));
@@ -65,6 +69,9 @@ Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param3 = argIn[2]; // var
         ArrayOf param4 = argIn[3]; // name
         pid = param1.getContentAsInteger32Scalar();
+        if (!isPIDRunning(pid)) {
+            Error(_W("PID valid expected."));
+        }
         std::wstring commandType = param2.getContentAsWideString();
         if (commandType != L"put") {
             Error(_W("'put' parameter expected."));
@@ -85,6 +92,9 @@ Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param4 = argIn[3]; // name
         ArrayOf param5 = argIn[4]; // scope
         pid = param1.getContentAsInteger32Scalar();
+        if (!isPIDRunning(pid)) {
+            Error(_W("PID valid expected."));
+        }
         std::wstring commandType = param2.getContentAsWideString();
         if (commandType != L"put") {
             Error(_W("'put' parameter expected."));

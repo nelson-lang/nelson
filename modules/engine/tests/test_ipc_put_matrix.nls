@@ -23,31 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~isbuiltin('mxCreateSparse')
-    status = copyfile('mxCreateSparse.c', tempdir());
-    assert_istrue(status);
-    cd(tempdir()); 
-    mex('mxCreateSparse.c');
-    run('loader.nls');
+for k=2000:500:4000;
+    A = rand(k, k);
+    tic()
+    ipc(getpid, 'put', A, 'R')
+    toc()
+    clear('A');
+    tic()
+    q = 0;while(~isvar('R') && q < 20), sleep(1), q = q + 1; end
+    toc()
+    assert_isequal(size(R), [k, k])
+    clear('R')
 end
-//=============================================================================
-REF = sparse(eye(10, 10));
-S = full(REF);
-R = mxCreateSparse(S);
-assert_isequal(R, REF);
-//=============================================================================
-REF = sparse(eye(5, 3));
-S = full(REF);
-R = mxCreateSparse(S);
-assert_isequal(R, REF);
-//=============================================================================
-REF = sparse(eye(5, 3) + eye(5, 3) * i);
-S = full(REF);
-R = mxCreateSparse(S);
-assert_isequal(R, REF);
-//=============================================================================
-REF = sparse(logical(eye(5, 3)));
-S = full(REF);
-R = mxCreateSparse(S);
-assert_isequal(R, REF);
 //=============================================================================

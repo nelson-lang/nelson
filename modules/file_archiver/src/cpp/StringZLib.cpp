@@ -38,10 +38,9 @@ std::string
 compressString(const std::string& str, bool& failed)
 {
     std::string outstring;
-
     z_stream zs;
     memset(&zs, 0, sizeof(zs));
-    if (deflateInit(&zs, Z_BEST_COMPRESSION) != Z_OK) {
+    if (deflateInit(&zs, Z_BEST_SPEED) != Z_OK) {
         failed = true;
         return std::string();
     }
@@ -51,13 +50,12 @@ compressString(const std::string& str, bool& failed)
 
     int ret = Z_OK;
     char outbuffer[BUFFER_SIZE];
-
     do {
         zs.next_out = reinterpret_cast<Bytef*>(outbuffer);
         zs.avail_out = sizeof(outbuffer);
 
         ret = deflate(&zs, Z_FINISH);
-
+        outstring.reserve(zs.total_out);
         if (outstring.size() < zs.total_out) {
             outstring.append(outbuffer, zs.total_out - outstring.size());
         }
@@ -90,13 +88,14 @@ decompressString(const std::string& str, bool& failed)
 
     int ret = Z_OK;
     char outbuffer[BUFFER_SIZE];
-
     do {
         zs.next_out = reinterpret_cast<Bytef*>(outbuffer);
         zs.avail_out = sizeof(outbuffer);
 
         ret = inflate(&zs, 0);
-
+        if (outstring.capacity() < zs.total_out) {
+            outstring.reserve(zs.total_out);
+        }
         if (outstring.size() < zs.total_out) {
             outstring.append(outbuffer, zs.total_out - outstring.size());
         }
@@ -109,6 +108,7 @@ decompressString(const std::string& str, bool& failed)
         failed = true;
         return std::string();
     }
+    failed = false;
     return outstring;
 }
 //=============================================================================

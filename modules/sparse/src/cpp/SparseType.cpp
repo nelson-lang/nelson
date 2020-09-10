@@ -276,7 +276,10 @@ Eigen_CountNonzeros(const void* cp)
     }
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
-    return spMat->nonZeros();
+    if (spMat) {
+        return spMat->nonZeros();
+    }
+    return 0;
 }
 //=============================================================================
 template <class T>

@@ -28,6 +28,7 @@ set(module_library_name nlsEngine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
+${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -47,6 +48,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/socket_io/src
 )
@@ -75,6 +77,7 @@ nlsNelson_manager
 nlsLocalization
 nlsI18n
 nlsMex
+nlsSparse
 nlsSio_client
 nlsFile_archiver
 ${BOOST_LIBRARIES}

@@ -26,48 +26,69 @@
 clear('R');
 REF = 3;
 ipc(getpid, 'put', REF, 'R')
-sleep(5);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
 //=============================================================================
 clear('R');
 REF = 3;
 ipc(getpid, 'put', REF, 'R', 'local')
-sleep(5);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
 //=============================================================================
 clear('R');
 REF = {1; 2}; 
 ipc(getpid, 'put', REF, 'R')
-sleep(3);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
 //=============================================================================
 clear('R');
 REF = rand(1, 100); 
 ipc(getpid, 'put', REF, 'R')
-sleep(5);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
 //=============================================================================
 clear('R');
 REF = 'simplified Chinese: 汉字; traditional Chinese: 漢字; pinyin: Hàn Zì'; 
 ipc(getpid, 'put', REF, 'R', 'base')
-sleep(3);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(REF, acquirevar('base', 'R'));
 //=============================================================================
 clear('R');
 REF = [1+2i; 3+4i]; 
 ipc(getpid, 'put', REF, 'R')
-sleep(3);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
 //=============================================================================
 clear('R');
 REF = ["hello"; "world"]; 
 ipc(getpid, 'put', REF, 'R')
-sleep(3);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
 //=============================================================================
 clear('R');
 REF = ones(1000, 1000); 
 ipc(getpid, 'put', REF, 'R')
-sleep(5);
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(REF, R);
+//=============================================================================
+k = 10;
+clear('R');
+REF = sparse(rand(k, k) + i * rand(k,k)); 
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+k = 10;
+clear('R');
+REF = sparse(eye(k, k)); 
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+k = 10;
+clear('R');
+REF = sparse(logical(eye(k, k))); 
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
 //=============================================================================

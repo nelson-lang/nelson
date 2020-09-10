@@ -23,12 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/serialization/string.hpp>
+#define EIGEN_NO_DEBUG
+//=============================================================================
+#include <Eigen/Sparse>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
-#include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/ipc/message_queue.hpp>
 #include <boost/thread/thread.hpp>
 #include "NelsonInterprocess.hpp"
@@ -37,12 +38,14 @@
 #include "PostCommand.hpp"
 #include "MainEvaluator.hpp"
 #include "StringZLib.hpp"
+#include "SparseConstructors.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define NELSON_COMMAND_INTERPROCESS "NELSON_COMMAND_INTERPROCESS"
-#define MAX_MSG_SIZE sizeof(double) * (1000 * 1000) + (4 * 1024)
-#define MAX_NB_MSG 10
+constexpr auto NELSON_COMMAND_INTERPROCESS = "NELSON_COMMAND_INTERPROCESS";
+constexpr auto OFF_MSG_SIZE = sizeof(double) * 16 * 1024;
+constexpr auto MAX_MSG_SIZE = sizeof(double) * (4096 * 4096) + OFF_MSG_SIZE;
+constexpr auto MAX_NB_MSG = 4;
 //=============================================================================
 static bool receiverLoopRunning = false;
 //=============================================================================
@@ -51,30 +54,18 @@ static boost::thread* receiver_thread = nullptr;
 class nelsonObject
 {
 public:
-    nelsonObject()
-    {
-        nelsonObjectClass = (int)NLS_NOT_TYPED;
-        isSparse = false;
-        dims.clear();
-        fieldnames.clear();
-        asInt8.clear();
-        asUint8.clear();
-        asInt16.clear();
-        asUint16.clear();
-        asInt32.clear();
-        asUint32.clear();
-        asInt64.clear();
-        asUint64.clear();
-        asDouble.clear();
-        asSingle.clear();
-        asCharacter.clear();
-        nzmax = 0;
-        jc.clear();
-        ir.clear();
-        otherObject.clear();
-    }
+    //=============================================================================
+    nelsonObject() { clear(); }
+    //=============================================================================
     nelsonObject(const ArrayOf& data)
     {
+        clear();
+        set(data);
+    }
+    //=============================================================================
+    void
+    clear()
+    {
         nelsonObjectClass = (int)NLS_NOT_TYPED;
         isSparse = false;
         dims.clear();
@@ -91,12 +82,11 @@ public:
         asSingle.clear();
         asCharacter.clear();
         nzmax = 0;
-        jc.clear();
-        ir.clear();
+        I.clear();
+        J.clear();
         otherObject.clear();
-        set(data);
     }
-
+    //=============================================================================
     bool
     set(const ArrayOf& data)
     {
@@ -139,6 +129,12 @@ public:
                 logical* ptrLogical = (logical*)data.getDataPointer();
                 asUint8.reserve(dimsData.getElementCount());
                 asUint8.assign(ptrLogical, ptrLogical + dimsData.getElementCount());
+            } else {
+                const Eigen::SparseMatrix<uint8, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<uint8, 0, signedIndexType>*)data.getSparseDataPointer();
+                if (spMat) {
+                    eigenSparseToIJV<uint8>(*spMat, I, J, asUint8, nzmax);
+                }
             }
             return true;
         } break;
@@ -202,6 +198,11 @@ public:
                 asDouble.reserve(dimsData.getElementCount());
                 asDouble.assign(ptrDouble, ptrDouble + dimsData.getElementCount());
             } else {
+                const Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)data.getSparseDataPointer();
+                if (spMat) {
+                    eigenSparseToIJV<double>(*spMat, I, J, asDouble, nzmax);
+                }
             }
             return true;
         } break;
@@ -217,6 +218,16 @@ public:
                 asDouble.reserve(dimsData.getElementCount() * 2);
                 asDouble.assign(ptrDouble, ptrDouble + (dimsData.getElementCount() * 2));
             } else {
+                const Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
+                          data.getSparseDataPointer();
+                if (spMat) {
+                    std::vector<doublecomplex> V;
+                    eigenSparseToIJV<doublecomplex>(*spMat, I, J, V, nzmax);
+                    double* Vz = reinterpret_cast<double*>(V.data());
+                    asDouble.reserve(V.size() * 2);
+                    asDouble.assign(Vz, Vz + (V.size() * 2));
+                }
             }
             return true;
         } break;
@@ -228,12 +239,59 @@ public:
         } break;
         case NLS_GO_HANDLE:
         case NLS_HANDLE:
-        default: {
-        } break;
-        }
+        default: { } break; }
         return false;
     }
+    //=============================================================================
+    template <class T>
+    void
+    eigenSparseToIJV(const Eigen::SparseMatrix<T, 0, signedIndexType>& M, std::vector<uint64>& I,
+        std::vector<uint64>& J, std::vector<T>& V, uint64& nzmax)
+    {
+        I.reserve(M.nonZeros());
+        J.reserve(M.nonZeros());
+        V.reserve(M.nonZeros());
+        nzmax = M.data().allocatedSize();
+        for (int i = 0; i < M.outerSize(); i++) {
+            for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(M, i); it;
+                 ++it) {
+                I.push_back(it.row());
+                J.push_back(it.col());
+                V.push_back(it.value());
+            }
+        }
+    }
+    template <class T>
+    void*
+    IJVToAllocatedEigenSparse(const std::vector<uint64>& I, const std::vector<uint64>& J,
+        const std::vector<T>& V, uint64 cols, uint64 rows, uint64 nzmax)
+    {
+        std::vector<Eigen::Triplet<T>> tripletList;
+        size_t sizeI = I.size();
+        tripletList.reserve(sizeI);
+        if (sizeI == J.size() && J.size() == V.size() && sizeI != 0) {
+            for (indexType k = 0; k < sizeI; ++k) {
+                tripletList.push_back(Eigen::Triplet<T>(I[k], J[k], V[k]));
+            }
+            Eigen::SparseMatrix<T, 0, signedIndexType>* spMat;
+            try {
+                spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(cols, rows);
 
+            } catch (const std::bad_alloc&) {
+                spMat = nullptr;
+                Error(ERROR_MEMORY_ALLOCATION);
+            }
+            if (spMat) {
+                spMat->setFromTriplets(tripletList.begin(), tripletList.end());
+                spMat->reserve(nzmax);
+                spMat->makeCompressed();
+                spMat->data().squeeze();
+                return (void*)spMat;
+            }
+        }
+        return nullptr;
+    }
+    //=============================================================================
     ArrayOf
     get(bool& success)
     {
@@ -276,14 +334,18 @@ public:
             }
         } break;
         case NLS_LOGICAL: {
-          if (!isSparse) {
+            if (!isSparse) {
                 uint8* ptrUInt8 = (uint8*)ArrayOf::allocateArrayOf(
                     NLS_UINT8, destinationDims.getElementCount());
                 res = ArrayOf(NLS_UINT8, destinationDims, ptrUInt8, isSparse);
                 memcpy(ptrUInt8, asUint8.data(), sizeof(uint8) * asUint8.size());
-          } else {
-          }
-          success = true;
+            } else {
+                res = ArrayOf(NLS_LOGICAL, destinationDims,
+                    IJVToAllocatedEigenSparse<logical>(I, J, asUint8, nzmax,
+                        destinationDims.getRows(), destinationDims.getColumns()),
+                    isSparse);
+            }
+            success = true;
         } break;
         case NLS_UINT8: {
             uint8* ptrUInt8
@@ -355,7 +417,10 @@ public:
                 res = ArrayOf(NLS_DOUBLE, destinationDims, ptrDouble, isSparse);
                 memcpy(ptrDouble, asDouble.data(), sizeof(double) * asDouble.size());
             } else {
-            
+                res = ArrayOf(NLS_DOUBLE, destinationDims,
+                    IJVToAllocatedEigenSparse<double>(I, J, asDouble, nzmax,
+                        destinationDims.getRows(), destinationDims.getColumns()),
+                    isSparse);
             }
             success = true;
         } break;
@@ -373,6 +438,14 @@ public:
                 res = ArrayOf(NLS_DCOMPLEX, destinationDims, ptrDouble, isSparse);
                 memcpy(ptrDouble, asDouble.data(), sizeof(double) * asDouble.size());
             } else {
+                auto* Vz = reinterpret_cast<doublecomplex*>(asDouble.data());
+                std::vector<doublecomplex> V;
+                V.reserve(asDouble.size() / 2);
+                V.assign(Vz, Vz + (asDouble.size() / 2));
+                res = ArrayOf(NLS_DCOMPLEX, destinationDims,
+                    IJVToAllocatedEigenSparse<doublecomplex>(
+                        I, J, V, nzmax, destinationDims.getRows(), destinationDims.getColumns()),
+                    isSparse);
             }
             success = true;
         } break;
@@ -389,7 +462,7 @@ public:
         }
         return res;
     }
-
+    //=============================================================================
 private:
     int nelsonObjectClass;
     bool isSparse;
@@ -407,12 +480,12 @@ private:
     std::vector<single> asSingle;
     std::vector<charType> asCharacter;
     uint64 nzmax;
-    std::vector<uint64> jc;
-    std::vector<uint64> ir;
+    std::vector<uint64> I;
+    std::vector<uint64> J;
     std::vector<nelsonObject> otherObject;
-
+    //=============================================================================
     friend class boost::serialization::access;
-
+    //=============================================================================
     template <class Archive>
     void
     serialize(Archive& ar, const unsigned int version)
@@ -422,9 +495,9 @@ private:
         ar& dims;
         ar& fieldnames;
         if (isSparse) {
+            ar& I;
+            ar& J;
             ar& nzmax;
-            ar& jc;
-            ar& ir;
         }
         switch ((Class)nelsonObjectClass) {
         case NLS_NOT_TYPED:
@@ -480,7 +553,6 @@ private:
         }
     }
 };
-
 //=============================================================================
 class dataInterProcessToExchange
 {
@@ -490,16 +562,26 @@ public:
         , lineToEvaluate(_lineToEvaluate)
         , variable(ArrayOf())
         , variableName("")
-        , scope("") {};
+        , scope(""){};
     dataInterProcessToExchange(
         const std::string& _variableName, const std::string& _scope, const ArrayOf& data)
-        : commandType("put"), variable(data), variableName(_variableName), scope(_scope) {};
+        : commandType("put"), variable(data), variableName(_variableName), scope(_scope){};
 
     nelsonObject variable;
     std::string commandType;
     std::string lineToEvaluate;
     std::string variableName;
     std::string scope;
+
+    void
+    clear()
+    {
+        variable.clear();
+        commandType.clear();
+        lineToEvaluate.clear();
+        variableName.clear();
+        scope.clear();
+    }
 
 private:
     friend class boost::serialization::access;
@@ -530,17 +612,18 @@ static void
 createNelsonInterprocessReceiverThread(int currentPID)
 {
     receiverLoopRunning = true;
+    boost::interprocess::message_queue::remove(getChannelName(currentPID).c_str());
     try {
         boost::interprocess::message_queue messages(boost::interprocess::create_only,
             getChannelName(currentPID).c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
 
-        unsigned int priority = 0;
-        size_t recvd_size = 0;
-        dataInterProcessToExchange msg("");
         while (receiverLoopRunning) {
-            std::stringstream iss;
+            unsigned int priority = 0;
+            size_t recvd_size = 0;
+            dataInterProcessToExchange msg("");
             std::string serialized_compressed_string;
             serialized_compressed_string.resize(MAX_MSG_SIZE);
+            std::stringstream iss;
             if (messages.try_receive(
                     &serialized_compressed_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
                 if (recvd_size != 0) {
@@ -548,6 +631,7 @@ createNelsonInterprocessReceiverThread(int currentPID)
                     bool failed = false;
                     std::string decompressed_string
                         = decompressString(serialized_compressed_string, failed);
+                    serialized_compressed_string.clear();
                     if (!failed) {
                         iss << decompressed_string;
                         try {
@@ -576,6 +660,7 @@ createNelsonInterprocessReceiverThread(int currentPID)
                                         bool success;
                                         ArrayOf var = msg.variable.get(success);
                                         scope->insertVariable(msg.variableName, var);
+                                        msg.clear();
                                     }
                                 }
                             } else {
@@ -587,7 +672,7 @@ createNelsonInterprocessReceiverThread(int currentPID)
                 }
             }
             try {
-                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+                boost::this_thread::sleep(boost::posix_time::milliseconds(200));
             } catch (boost::thread_interrupted&) {
                 return;
             }
@@ -620,19 +705,30 @@ removeNelsonInterprocessReceiver(int pid)
     return boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
 }
 //=============================================================================
+static bool calledOnce = false;
+// UGLY workaround, need to leave time to create temp file.
+//=============================================================================
 bool
 sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command)
 {
+    if (!calledOnce) {
+        boost::this_thread::sleep(boost::posix_time::seconds(10));
+        calledOnce = true;
+    }
     dataInterProcessToExchange msg(wstring_to_utf8(command));
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;
-    std::string serialized_string(oss.str());
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
+    if (failed) {
+        return false;
+    }
     bool bSend = false;
     try {
         boost::interprocess::message_queue messages(
             boost::interprocess::open_only, getChannelName(pidDestination).c_str());
-        messages.send(serialized_string.data(), serialized_string.size(), 0);
+        messages.send(serialized_compressed_string.data(), serialized_compressed_string.size(), 0);
         bSend = true;
     } catch (boost::interprocess::interprocess_exception&) {
         bSend = false;
@@ -644,6 +740,10 @@ bool
 sendVariableToNelsonInterprocessReceiver(
     int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope)
 {
+    if (!calledOnce) {
+        boost::this_thread::sleep(boost::posix_time::seconds(10));
+        calledOnce = true;
+    }
     dataInterProcessToExchange msg(wstring_to_utf8(name), wstring_to_utf8(scope), var);
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
