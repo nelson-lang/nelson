@@ -61,6 +61,26 @@ static char msgBuffer[MSGBUFLEN];
 //=============================================================================
 Dimensions::Dimensions() { reset(); }
 //=============================================================================
+Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
+{
+#ifndef NLS_INDEX_TYPE_64
+    for (auto k : dimsVector) {
+        if (k < 0) {
+            Error(_W("Illegal argument to Dimensions constructor"));
+        }
+    }
+#endif
+    indexType szVector = dimsVector.size();
+    if (szVector > maxDims) {
+        Error(_W("Illegal argument to Dimensions constructor"));
+    }
+    reset();
+    for (indexType k = 0; k < szVector; ++k) {
+        data[k] = dimsVector[k];
+    }
+    length = szVector;
+}
+//=============================================================================
 Dimensions::Dimensions(indexType rows, indexType cols)
 {
     reset();
@@ -80,6 +100,17 @@ Dimensions::Dimensions(indexType dimCount)
     length = dimCount;
 }
 //=============================================================================
+std::vector<indexType>
+Dimensions::getAsVector()
+{
+    std::vector<indexType> vector;
+    vector.resize(length, 0);
+    for (indexType k = 0; k < length; ++k) {
+        vector[k] = data[k];
+    }
+    return vector;
+}
+//=============================================================================
 indexType
 Dimensions::getMax()
 {
@@ -90,8 +121,7 @@ Dimensions::getMax()
     return maxL;
 }
 //=============================================================================
-indexType&
-Dimensions::operator[](indexType i)
+indexType& Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
         Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)

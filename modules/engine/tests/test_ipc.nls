@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--ADV-CLI MODE-->
+//=============================================================================
 clear('R');
 REF = 3;
 ipc(getpid, 'put', REF, 'R')
@@ -91,4 +93,12 @@ REF = sparse(logical(eye(k, k)));
 ipc(getpid, 'put', REF, 'R')
 q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(R, REF);
+//=============================================================================
+// NOT SERIALIZABLE
+//=============================================================================
+clear('R');
+REF = figure(); 
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal([],size(R));
 //=============================================================================

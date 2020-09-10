@@ -100,6 +100,13 @@ public:
      */
     Dimensions(indexType nrows, indexType ncols);
     /**
+     * Initialize the object with the given number of dimensions
+     * and all contents set to zero.
+     * Throws an Exception if the dimension count is negative.
+     */
+    Dimensions(const std::vector<indexType>& dimsVector);
+
+    /**
      * Return a reference to the ith dimension.  This member function
      * will adjust the number of dimensions present if the argument
      * exceeds the current number allocated.  The extra dimensions are
@@ -115,6 +122,13 @@ public:
      */
     indexType
     getAt(indexType i, bool checkLength = true);
+
+    /**
+    * Return dimensions as vector;
+    */
+    std::vector<indexType>
+    getAsVector();
+
     /**
      * Get the number of currently allocated dimensions.
      */
