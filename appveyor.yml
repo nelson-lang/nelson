@@ -7,9 +7,9 @@ environment:
   QTDIR32: C:\Qt\5.14.2\msvc2017
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
 
 platform:
 - x86
