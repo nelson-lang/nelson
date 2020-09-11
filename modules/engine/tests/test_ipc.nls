@@ -26,6 +26,42 @@
 // <--ADV-CLI MODE-->
 //=============================================================================
 clear('R');
+REF = true;
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = uint8([3, 4]);
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = int8([3, 4]);
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = single([3, 4]);
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = uint64([3, 4]);
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
+REF = int64([3, 4]);
+ipc(getpid, 'put', REF, 'R')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(R, REF);
+//=============================================================================
+clear('R');
 REF = 3;
 ipc(getpid, 'put', REF, 'R')
 q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
@@ -101,4 +137,7 @@ REF = figure();
 ipc(getpid, 'put', REF, 'R')
 q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
 assert_isequal([],size(R));
+L = lastwarn();
+assert_isequal(L, _('Variable not fully serialized.'));
+delete(REF);
 //=============================================================================

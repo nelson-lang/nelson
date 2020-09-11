@@ -292,8 +292,8 @@ ArrayOfSerialization::get(bool& success)
     case NLS_LOGICAL: {
         if (!isSparse) {
             uint8* ptrUInt8
-                = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, destinationDims.getElementCount());
-            res = ArrayOf(NLS_UINT8, destinationDims, ptrUInt8, isSparse);
+                = (uint8*)ArrayOf::allocateArrayOf(NLS_LOGICAL, destinationDims.getElementCount());
+            res = ArrayOf(NLS_LOGICAL, destinationDims, ptrUInt8, isSparse);
             memcpy(ptrUInt8, asUint8.data(), sizeof(uint8) * asUint8.size());
         } else {
             res = ArrayOf(NLS_LOGICAL, destinationDims,
