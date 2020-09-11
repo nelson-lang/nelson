@@ -156,70 +156,60 @@ ArrayOfSerialization::set(const ArrayOf& data)
             }
         }
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_UINT8: {
         uint8* ptrUint8 = (uint8*)data.getDataPointer();
         asUint8.reserve(dimsData.getElementCount());
         asUint8.assign(ptrUint8, ptrUint8 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_INT8: {
         int8* ptrInt8 = (int8*)data.getDataPointer();
         asInt8.reserve(dimsData.getElementCount());
         asInt8.assign(ptrInt8, ptrInt8 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_UINT16: {
         uint16* ptrUint16 = (uint16*)data.getDataPointer();
         asUint16.reserve(dimsData.getElementCount());
         asUint16.assign(ptrUint16, ptrUint16 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_INT16: {
         int16* ptrInt16 = (int16*)data.getDataPointer();
         asInt16.reserve(dimsData.getElementCount());
         asInt16.assign(ptrInt16, ptrInt16 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_UINT32: {
         uint32* ptrUint32 = (uint32*)data.getDataPointer();
         asUint32.reserve(dimsData.getElementCount());
         asUint32.assign(ptrUint32, ptrUint32 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_INT32: {
         int32* ptrInt32 = (int32*)data.getDataPointer();
         asInt32.reserve(dimsData.getElementCount());
         asInt32.assign(ptrInt32, ptrInt32 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_UINT64: {
         uint64* ptrUint64 = (uint64*)data.getDataPointer();
         asUint64.reserve(dimsData.getElementCount());
         asUint64.assign(ptrUint64, ptrUint64 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_INT64: {
         int64* ptrInt64 = (int64*)data.getDataPointer();
         asInt64.reserve(dimsData.getElementCount());
         asInt64.assign(ptrInt64, ptrInt64 + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_SINGLE: {
         single* ptrSingle = (single*)data.getDataPointer();
         asSingle.reserve(dimsData.getElementCount());
         asSingle.assign(ptrSingle, ptrSingle + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_DOUBLE: {
         if (!isSparse) {
@@ -234,14 +224,12 @@ ArrayOfSerialization::set(const ArrayOf& data)
             }
         }
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrSingle = (single*)data.getDataPointer();
         asSingle.reserve(dimsData.getElementCount() * 2);
         asSingle.assign(ptrSingle, ptrSingle + (dimsData.getElementCount() * 2));
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_DCOMPLEX: {
         if (!isSparse) {
@@ -261,14 +249,12 @@ ArrayOfSerialization::set(const ArrayOf& data)
             }
         }
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_CHAR: {
         charType* ptrCharacter = (charType*)data.getDataPointer();
         asCharacter.reserve(dimsData.getElementCount());
         asCharacter.assign(ptrCharacter, ptrCharacter + dimsData.getElementCount());
         fullySerialized = true;
-        return fullySerialized;
     } break;
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
@@ -276,7 +262,7 @@ ArrayOfSerialization::set(const ArrayOf& data)
         fullySerialized = false;
     } break;
     }
-    return false;
+    return fullySerialized;
 }
 //=============================================================================
 ArrayOf
