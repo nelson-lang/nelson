@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+//<--IPC REQUIRED-->
+//=============================================================================
 k = 4000;
 A = rand(k, k);
 tic()

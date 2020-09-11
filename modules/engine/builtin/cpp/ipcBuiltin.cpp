@@ -28,6 +28,7 @@
 #include "NelsonInterprocess.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonPIDs.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,6 +40,9 @@ ArrayOfVector
 Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    if (!NelsonConfiguration::getInstance()->isIpcEnabled()) {
+        Error(_W("IPC disabled (--noipc command line argument)."));
+    }
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

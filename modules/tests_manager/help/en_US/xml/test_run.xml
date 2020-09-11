@@ -67,6 +67,7 @@
   <p><b>&lt;--C/C++ COMPILER REQUIRED--&gt;</b> This test will be executed if an C/C++ compiler is available.</p>
   <p><b>&lt;--INDEX 64 BIT REQUIRED--&gt;</b> This test will be executed if 64 bit index is available.</p>
   <p><b>&lt;--NO USER MODULES--&gt;</b> This test will be executed without load user modules.</p>
+  <p><b>&lt;--IPC REQUIRED--&gt;</b> This test will be executed if IPC is available.</p>
   <p></p>
   <p>To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer of 6 minutes.</p>
 

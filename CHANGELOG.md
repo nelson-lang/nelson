@@ -6,6 +6,8 @@
 
   * getpid('running') renamed getpid('available').
 
+  * --noipc command line argument added. disable IPC features.
+
 Compilation:
 ------------
 

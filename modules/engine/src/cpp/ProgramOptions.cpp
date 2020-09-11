@@ -116,6 +116,7 @@ ProgramOptions::ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode)
     _userstartup = false;
     _usermodules = false;
     _quietmode = false;
+    _ipc = false;
     _error.clear();
     _file.clear();
     _command.clear();
@@ -136,6 +137,7 @@ ProgramOptions::~ProgramOptions()
     _userstartup = false;
     _usermodules = false;
     _quietmode = false;
+    _ipc = false;
     _error.clear();
     _file.clear();
     _command.clear();
@@ -240,12 +242,15 @@ ProgramOptions::parse()
     // nelson --quiet others_arguments
     // nelson others_arguments --quiet lang others_arguments
     // nelson others_arguments --timeout 10
-    bool bRes;
+    // nelson --noipc others_arguments (except noipc)
+
+  bool bRes;
     Option helpOption(L"help", L"h", _W("display this help message"), false, false);
     Option versionOption(L"version", L"v", _W("display the version number"), false, false);
     Option nostartupOption(L"nostartup", L"", _W("no main startup file"), false, false);
     Option nouserstartupOption(L"nouserstartup", L"", _W("no user startup file"), false, false);
     Option nousermodulesOption(L"nousermodules", L"", _W("no user modules loaded"), false, false);
+    Option noIpcOption(L"noipc", L"", _W("no ipc features"), false, false);
     Option commandtoexecuteOption(L"execute", L"e", _W("command to execute"), false, true);
     Option filetoexecuteOption(L"file", L"f", _W("file to execute in an new process"), false, true);
     Option filetoexecuteIPCOption(
@@ -263,6 +268,7 @@ ProgramOptions::parse()
     _options = _options + nostartupOption.getFullDescription() + L"\n";
     _options = _options + nouserstartupOption.getFullDescription() + L"\n";
     _options = _options + nousermodulesOption.getFullDescription() + L"\n";
+    _options = _options + noIpcOption.getFullDescription() + L"\n";
     _options = _options + commandtoexecuteOption.getFullDescription() + L"\n";
     _options = _options + filetoexecuteOption.getFullDescription() + L"\n";
     _options = _options + filetoexecuteIPCOption.getFullDescription() + L"\n";
@@ -279,6 +285,7 @@ ProgramOptions::parse()
     bRes = bRes && parseOption(nostartupOption, _startup);
     bRes = bRes && parseOption(nouserstartupOption, _userstartup);
     bRes = bRes && parseOption(nousermodulesOption, _usermodules);
+    bRes = bRes && parseOption(noIpcOption, _ipc);
     bRes = bRes && parseOptionWithValues(openFilesOption, _filesToOpen);
     bRes = bRes && parseOptionWithValues(loadFilesOption, _filesToLoad);
     bool bFind = false;
@@ -393,6 +400,15 @@ ProgramOptions::haveNoStartup()
 {
     if (_isvalid) {
         return _startup;
+    }
+    return false;
+}
+//=============================================================================
+bool
+ProgramOptions::haveNoIpc()
+{
+    if (_isvalid) {
+        return _ipc;
     }
     return false;
 }

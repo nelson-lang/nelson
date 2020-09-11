@@ -67,6 +67,7 @@
 #include "FilesAssociationIPC.hpp"
 #include "NelsonInterprocess.hpp"
 #include "RemoveIpcOldFiles.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -289,8 +290,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         displayVersion(_mode);
         return 0;
     }
-
-    if (_mode == NELSON_ENGINE_MODE::GUI) {
+    NelsonConfiguration::getInstance()->setIpcEnabled(!po.haveNoIpc());
+    if (_mode == NELSON_ENGINE_MODE::GUI && NelsonConfiguration::getInstance()->isIpcEnabled()) {
         int existingPID = getLatestPidWithModeInSharedMemory(_mode);
         if (existingPID != 0) {
             if (po.haveFileToExecuteIPC()) {
@@ -398,11 +399,13 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     Evaluator* eval = createMainEvaluator(_mode, lang);
     if (eval != nullptr) {
         int currentPID = getCurrentPID();
-        registerPidInSharedMemory(currentPID, _mode);
-        if (_mode == NELSON_ENGINE_MODE::GUI) {
-            createNelsonCommandFileExtensionReceiver(currentPID);
+        if (NelsonConfiguration::getInstance()->isIpcEnabled()) {
+            registerPidInSharedMemory(currentPID, _mode);
+            if (_mode == NELSON_ENGINE_MODE::GUI) {
+                createNelsonCommandFileExtensionReceiver(currentPID);
+            }
+            createNelsonInterprocessReceiver(currentPID);
         }
-        createNelsonInterprocessReceiver(currentPID);
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
         setPrintInterface(eval->getInterface());
@@ -434,11 +437,13 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             po.haveNoUserModules(), commandToExecute, fileToExecute, filesToOpen, filesToLoad);
         ::destroyMainEvaluator();
         clearWarningIdsList();
-        removeNelsonInterprocessReceiver(currentPID);
-        if (_mode == NELSON_ENGINE_MODE::GUI) {
-            removeNelsonCommandFileExtensionReceiver(currentPID);
+        if (NelsonConfiguration::getInstance()->isIpcEnabled()) {
+            removeNelsonInterprocessReceiver(currentPID);
+            if (_mode == NELSON_ENGINE_MODE::GUI) {
+                removeNelsonCommandFileExtensionReceiver(currentPID);
+            }
+            unregisterPidInSharedMemory(currentPID);
         }
-        unregisterPidInSharedMemory(currentPID);
         destroyTimeoutThread();
     } else {
         ErrorInterpreter(_mode);

@@ -115,6 +115,8 @@ public:
     haveLoadFiles();
     bool
     haveSocketIoUri();
+    bool
+    haveNoIpc();
 
 private:
     bool
@@ -132,6 +134,7 @@ private:
     bool _userstartup;
     bool _usermodules;
     bool _quietmode;
+    bool _ipc;
     std::wstring _error;
     std::wstring _file;
     std::wstring _fileIPC;
