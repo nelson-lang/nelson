@@ -254,9 +254,8 @@ getLatestPidInSharedMemory()
 {
     int pid = 0;
     try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
+        boost::interprocess::managed_shared_memory managed_shm{ boost::interprocess::open_read_only,
+            buildNelsonPIDsChannelName().c_str() };
         std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
         int* pids = pIDs.first;
 

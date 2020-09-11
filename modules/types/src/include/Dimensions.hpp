@@ -124,8 +124,8 @@ public:
     getAt(indexType i, bool checkLength = true);
 
     /**
-    * Return dimensions as vector;
-    */
+     * Return dimensions as vector;
+     */
     std::vector<indexType>
     getAsVector();
 
