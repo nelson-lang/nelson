@@ -70,6 +70,8 @@ static boost::thread* server_thread = nullptr;
 //=============================================================================
 static std::string ipc_channel_name;
 //=============================================================================
+static volatile bool isMessageQueueReady = false;
+//=============================================================================
 static std::string
 getChannelName(int currentPID)
 {
@@ -105,6 +107,7 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
         unsigned int priority = 0;
         size_t recvd_size = 0;
         command_file_extension msg("", std::vector<std::wstring>());
+        isMessageQueueReady = true;
         std::string serialized_compressed_string;
         while (receiverLoopRunning) {
             serialized_compressed_string.resize(MAX_MSG_SIZE);
@@ -149,6 +152,9 @@ createNelsonCommandFileExtensionReceiver(int pid)
     }
     if (server_thread) {
         server_thread->detach();
+        while (!isMessageQueueReady) {
+            boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        }
     }
 }
 //=============================================================================
@@ -156,6 +162,9 @@ bool
 removeNelsonCommandFileExtensionReceiver(int pid)
 {
     if (server_thread) {
+        while (!isMessageQueueReady) {
+            boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        }
         receiverLoopRunning = false;
         server_thread->interrupt();
         delete server_thread;

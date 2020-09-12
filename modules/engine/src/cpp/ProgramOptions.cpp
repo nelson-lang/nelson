@@ -244,7 +244,7 @@ ProgramOptions::parse()
     // nelson others_arguments --timeout 10
     // nelson --noipc others_arguments (except noipc)
 
-  bool bRes;
+    bool bRes;
     Option helpOption(L"help", L"h", _W("display this help message"), false, false);
     Option versionOption(L"version", L"v", _W("display the version number"), false, false);
     Option nostartupOption(L"nostartup", L"", _W("no main startup file"), false, false);

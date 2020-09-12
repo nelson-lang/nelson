@@ -49,6 +49,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/socket_io/src
 )
@@ -77,6 +78,7 @@ nlsNelson_manager
 nlsLocalization
 nlsI18n
 nlsMex
+nlsTime
 nlsSparse
 nlsSio_client
 nlsFile_archiver

@@ -40,6 +40,7 @@
 #include "SparseConstructors.hpp"
 #include "ArrayOfSerialization.hpp"
 #include "Warning.hpp"
+#include "Sleep.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -52,6 +53,8 @@ static bool receiverLoopRunning = false;
 //=============================================================================
 static boost::thread* receiver_thread = nullptr;
 //=============================================================================
+static volatile bool isMessageQueueReady = false;
+//=============================================================================
 class dataInterProcessToExchange
 {
     //=============================================================================
@@ -62,11 +65,11 @@ public:
         , lineToEvaluate(_lineToEvaluate)
         , variable(ArrayOf())
         , variableName("")
-        , scope(""){};
+        , scope("") {};
     //=============================================================================
     dataInterProcessToExchange(
         const std::string& _variableName, const std::string& _scope, const ArrayOf& data)
-        : commandType("put"), variable(data), variableName(_variableName), scope(_scope){};
+        : commandType("put"), variable(data), variableName(_variableName), scope(_scope) {};
     //=============================================================================
     ArrayOfSerialization variable;
     std::string commandType;
@@ -131,6 +134,7 @@ createNelsonInterprocessReceiverThread(int currentPID)
         boost::interprocess::message_queue messages(boost::interprocess::create_only,
             getChannelName(currentPID).c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
         dataInterProcessToExchange msg("");
+        isMessageQueueReady = true;
         while (receiverLoopRunning) {
             unsigned int priority = 0;
             size_t recvd_size = 0;
@@ -203,14 +207,25 @@ createNelsonInterprocessReceiverThread(int currentPID)
 void
 createNelsonInterprocessReceiver(int pid)
 {
-    receiver_thread = new boost::thread(createNelsonInterprocessReceiverThread, pid);
-    receiver_thread->detach();
+    try {
+        receiver_thread = new boost::thread(createNelsonInterprocessReceiverThread, pid);
+    } catch (const std::bad_alloc&) {
+        receiver_thread = nullptr;
+        receiverLoopRunning = false;
+    }
+    if (receiver_thread) {
+        receiver_thread->detach();
+    }
 }
 //=============================================================================
 bool
 removeNelsonInterprocessReceiver(int pid)
 {
     if (receiver_thread) {
+        Evaluator* eval = getMainEvaluator();
+        while (!isMessageQueueReady) {
+            Sleep(eval, 500);
+        }
         receiverLoopRunning = false;
         receiver_thread->interrupt();
         receiver_thread = nullptr;
@@ -218,15 +233,12 @@ removeNelsonInterprocessReceiver(int pid)
     return boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
 }
 //=============================================================================
-static bool calledOnce = false;
-// UGLY workaround, need to leave time to create temp file.
-//=============================================================================
 bool
 sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command)
 {
-    if (!calledOnce) {
-        boost::this_thread::sleep(boost::posix_time::seconds(10));
-        calledOnce = true;
+    Evaluator* eval = getMainEvaluator();
+    while (!isMessageQueueReady) {
+        Sleep(eval, 500);
     }
     dataInterProcessToExchange msg(wstring_to_utf8(command));
     std::stringstream oss;
@@ -253,9 +265,9 @@ bool
 sendVariableToNelsonInterprocessReceiver(
     int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope)
 {
-    if (!calledOnce) {
-        boost::this_thread::sleep(boost::posix_time::seconds(10));
-        calledOnce = true;
+    Evaluator* eval = getMainEvaluator();
+    while (!isMessageQueueReady) {
+        Sleep(eval, 500);
     }
     dataInterProcessToExchange msg(wstring_to_utf8(name), wstring_to_utf8(scope), var);
     if (!msg.isFullySerialized()) {

@@ -82,11 +82,11 @@ VariablesTable::isVariable(const key_type& key)
 bool
 VariablesTable::deleteVariable(const key_type& key)
 {
-    boost::lock_guard<boost::mutex> lock(m_mutex);
     if (!isLockedVariable(key)) {
         if (isVariable(key)) {
             if (variablesTable != nullptr) {
                 auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+                boost::lock_guard<boost::mutex> lock(m_mutex);
                 genericTable->deleteSymbol(key);
                 return true;
             }
@@ -99,7 +99,6 @@ bool
 VariablesTable::insertVariable(const key_type& key, const value_type& val)
 {
     // insert only in a not locked variable
-    boost::lock_guard<boost::mutex> lock(m_mutex);
     if (key.empty()) {
         return false;
     }
@@ -111,6 +110,7 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
     }
     if (!isLockedVariable(key) || lockedVariables.empty()) {
         auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        boost::lock_guard<boost::mutex> lock(m_mutex);
         genericTable->insertSymbol(key, val);
         return true;
     }

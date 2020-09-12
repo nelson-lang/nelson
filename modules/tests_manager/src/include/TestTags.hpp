@@ -53,7 +53,6 @@ namespace Nelson {
 #define NO_USER_MODULES_TAG "<--NO USER MODULES-->"
 #define IPC_REQUIRED_TAG "<--IPC REQUIRED-->"
 
-
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
 private:

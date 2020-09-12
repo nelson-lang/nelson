@@ -75,7 +75,8 @@ public:
     std::wstring
     getNelsonRootDirectory();
     //=============================================================================
-    void setIpcEnabled(bool value);
+    void
+    setIpcEnabled(bool value);
     //=============================================================================
     bool
     isIpcEnabled();
