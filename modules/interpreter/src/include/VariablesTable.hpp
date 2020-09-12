@@ -27,7 +27,7 @@
 //=============================================================================
 #include <unordered_map>
 #include <string>
-#include <mutex>
+#include <boost/thread/mutex.hpp>
 #include "ArrayOf.hpp"
 #include "Types.hpp"
 //=============================================================================
@@ -40,7 +40,7 @@ private:
     using value_type = ArrayOf;
     stringVector lockedVariables;
     void* variablesTable;
-    std::mutex m_mutex;
+    boost::mutex m_mutex;
     //=============================================================================
 public:
     VariablesTable();

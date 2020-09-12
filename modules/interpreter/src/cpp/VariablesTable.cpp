@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <boost/thread/lock_guard.hpp>
 #include "VariablesTable.hpp"
 #include "GenericTable.hpp"
 #include "IsValidVariableName.hpp"
@@ -81,7 +82,7 @@ VariablesTable::isVariable(const key_type& key)
 bool
 VariablesTable::deleteVariable(const key_type& key)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    boost::lock_guard<boost::mutex> lock(m_mutex);
     if (!isLockedVariable(key)) {
         if (isVariable(key)) {
             if (variablesTable != nullptr) {
@@ -98,7 +99,7 @@ bool
 VariablesTable::insertVariable(const key_type& key, const value_type& val)
 {
     // insert only in a not locked variable
-    std::lock_guard<std::mutex> lock(m_mutex);
+    boost::lock_guard<boost::mutex> lock(m_mutex);
     if (key.empty()) {
         return false;
     }
