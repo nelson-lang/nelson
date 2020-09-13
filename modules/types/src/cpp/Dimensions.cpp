@@ -42,13 +42,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-#include "Dimensions.hpp"
-#include "Error.hpp"
+//=============================================================================
 #include <cstring>
 #include <memory>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include "Dimensions.hpp"
+#include "Error.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -59,14 +60,31 @@ namespace Nelson {
 #define MSGBUFLEN 2048
 static char msgBuffer[MSGBUFLEN];
 //=============================================================================
-Dimensions::Dimensions()
+Dimensions::Dimensions() { reset(); }
+//=============================================================================
+Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 {
-    std::uninitialized_fill_n(data, maxDims, 0);
-    length = 0;
+#ifndef NLS_INDEX_TYPE_64
+    for (auto k : dimsVector) {
+        if (k < 0) {
+            Error(_W("Illegal argument to Dimensions constructor"));
+        }
+    }
+#endif
+    indexType szVector = dimsVector.size();
+    if (szVector > maxDims) {
+        Error(_W("Illegal argument to Dimensions constructor"));
+    }
+    reset();
+    for (indexType k = 0; k < szVector; ++k) {
+        data[k] = dimsVector[k];
+    }
+    length = szVector;
 }
 //=============================================================================
 Dimensions::Dimensions(indexType rows, indexType cols)
 {
+    reset();
     data[0] = rows;
     data[1] = cols;
     length = 2;
@@ -79,8 +97,19 @@ Dimensions::Dimensions(indexType dimCount)
         Error(_W("Illegal argument to Dimensions constructor"));
     }
 #endif
-    memset(data, 0, sizeof(indexType) * dimCount);
+    reset();
     length = dimCount;
+}
+//=============================================================================
+std::vector<indexType>
+Dimensions::getAsVector()
+{
+    std::vector<indexType> vector;
+    vector.resize(length, 0);
+    for (indexType k = 0; k < length; ++k) {
+        vector[k] = data[k];
+    }
+    return vector;
 }
 //=============================================================================
 indexType
@@ -93,7 +122,8 @@ Dimensions::getMax()
     return maxL;
 }
 //=============================================================================
-indexType& Dimensions::operator[](indexType i)
+indexType&
+Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
         Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
@@ -324,7 +354,7 @@ void
 Dimensions::reset()
 {
     length = 0;
-    memset(data, 0, sizeof(indexType) * maxDims);
+    data.resize(maxDims, 0);
 }
 //=============================================================================
 void
@@ -375,7 +405,6 @@ bool
 Dimensions::is2D() const
 {
     return length <= 2;
-    // return (getElementCount() == (getRows()*getColumns()));
 }
 //=============================================================================
 bool

@@ -42,23 +42,23 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
-
+//=============================================================================
 #include "Error.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 #include <iostream>
-
+//=============================================================================
 #ifdef _MSC_VER
 #pragma warning(disable : 4290)
 #endif
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 const unsigned int maxDims = 16;
-
+//=============================================================================
 /**
  * The Dimensions class is used to keep track of the number of
  * dimensions for a given ArrayOf.  The Dimensions class represents
@@ -77,7 +77,7 @@ private:
     /**
      * The data array of dimensions.
      */
-    indexType data[maxDims];
+    std::vector<indexType> data;
     /**
      * The number of dimensions currently allocated.
      */
@@ -100,6 +100,13 @@ public:
      */
     Dimensions(indexType nrows, indexType ncols);
     /**
+     * Initialize the object with the given number of dimensions
+     * and all contents set to zero.
+     * Throws an Exception if the dimension count is negative.
+     */
+    Dimensions(const std::vector<indexType>& dimsVector);
+
+    /**
      * Return a reference to the ith dimension.  This member function
      * will adjust the number of dimensions present if the argument
      * exceeds the current number allocated.  The extra dimensions are
@@ -108,13 +115,21 @@ public:
      * our contents to $$[2,3,1]$$.
      * Throws an exception if the argument is bigger tha maxIndex.
      */
-    indexType& operator[](indexType i);
+    indexType&
+    operator[](indexType i);
     /**
      * Return a reference to the ith dimension.
      * Throws an exception if the argument is bigger tha maxIndex or length.
      */
     indexType
     getAt(indexType i, bool checkLength = true);
+
+    /**
+     * Return dimensions as vector;
+     */
+    std::vector<indexType>
+    getAsVector();
+
     /**
      * Get the number of currently allocated dimensions.
      */
@@ -272,4 +287,6 @@ public:
     bool
     isEmpty(bool allDimensionsIsZero) const;
 };
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <boost/thread/lock_guard.hpp>
 #include "VariablesTable.hpp"
 #include "GenericTable.hpp"
 #include "IsValidVariableName.hpp"
@@ -85,6 +86,7 @@ VariablesTable::deleteVariable(const key_type& key)
         if (isVariable(key)) {
             if (variablesTable != nullptr) {
                 auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+                boost::lock_guard<boost::mutex> lock(m_mutex);
                 genericTable->deleteSymbol(key);
                 return true;
             }
@@ -108,6 +110,7 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
     }
     if (!isLockedVariable(key) || lockedVariables.empty()) {
         auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        boost::lock_guard<boost::mutex> lock(m_mutex);
         genericTable->insertSymbol(key, val);
         return true;
     }
