@@ -54,5 +54,11 @@ bool
 isVariableFromNelsonInterprocessReceiver(
     int pidDestination, const std::wstring& name, const std::wstring& scope);
 //=============================================================================
+NLSENGINE_IMPEXP
+ArrayOf
+getVariableFromNelsonInterprocessReceiver(
+    int pidDestination, const std::wstring& name, const std::wstring& scope);
+//=============================================================================
+
 }
 //=============================================================================

@@ -72,16 +72,31 @@ Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 4: {
         ArrayOf param1 = argIn[0]; // pid
-        ArrayOf param2 = argIn[1]; // put, isvar
-        ArrayOf param3 = argIn[2]; // var, name
-        ArrayOf param4 = argIn[3]; // name, scope
+        ArrayOf param2 = argIn[1]; // put, isvar, get
+        ArrayOf param3 = argIn[2]; // var, name, name
+        ArrayOf param4 = argIn[3]; // name, scope, scope
         pid = param1.getContentAsInteger32Scalar();
         if (!isPIDRunning(pid)) {
             Error(_W("PID valid expected."));
         }
         std::wstring commandType = param2.getContentAsWideString();
-
-        if (commandType == L"isvar") {
+        if (commandType == L"get") {
+            if (nLhs > 1) {
+                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            }
+            std::wstring name = param3.getContentAsWideString();
+            if (!IsValidVariableName(name)) {
+                Error(_W("#3 Argument must contain a valid variable name."));
+            }
+            std::wstring scope = param4.getContentAsWideString();
+            bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
+                || (scope == L"local"));
+            if (!supported) {
+                Error(_W("#4 Argument must contain a valid scope name."));
+            }
+            ArrayOf result = getVariableFromNelsonInterprocessReceiver(pid, name, scope);
+            retval.push_back(result);
+        } else if (commandType == L"isvar") {
             if (nLhs > 1) {
                 Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
             }
