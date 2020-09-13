@@ -237,14 +237,13 @@ createNelsonInterprocessReceiverThread(int currentPID)
                                 isVarAnswerAvailable = true;
                                 msg.clear();
                             }
-                        } catch (boost::archive::archive_exception& e) {
-                            e;
+                        } catch (boost::archive::archive_exception&) {
                         }
                     }
                 }
             }
             try {
-                boost::this_thread::sleep(boost::posix_time::milliseconds(200));
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
             } catch (boost::thread_interrupted&) {
                 return;
             }
@@ -406,13 +405,20 @@ isVariableFromNelsonInterprocessReceiver(
     } catch (boost::interprocess::interprocess_exception&) {
         Error(_W("Cannot send serialized data."));
     }
-    while (!isVarAnswerAvailable) {
+    int l = 0;
+    while (!isVarAnswerAvailable && l < 20) {
         Sleep(eval, .5);
+        l++;
     }
-    bool isVarExist = isVarAnswer;
-    isVarAnswer = false;
-    isVarAnswerAvailable = false;
-    return isVarExist;
+    if (l == 20) {
+        Error("Impossible to get value (Timeout).");
+    } else {
+        bool isVarExist = isVarAnswer;
+        isVarAnswer = false;
+        isVarAnswerAvailable = false;
+        return isVarExist;
+    }
+    return false;
 }
 //=============================================================================
 }

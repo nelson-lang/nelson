@@ -127,7 +127,7 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
                 serialized_compressed_string.clear();
             }
             try {
-                boost::this_thread::sleep(boost::posix_time::milliseconds(200));
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
             } catch (boost::thread_interrupted&) {
                 return;
             }
