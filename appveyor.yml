@@ -46,11 +46,11 @@ after_build:
 - if %platform%==x64 (set RESULT_BENCHS_XML=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.xml) else (set RESULT_BENCHS_XML=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.xml)
 - if %platform%==x64 (set RESULT_BENCHS_JSON=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.json) else (set RESULT_BENCHS_JSON=benchs_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.json)
 
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.nls"
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.nls"
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.nls"
 
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.nls');exit"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.nls');exit"
 - iscc "c:/build_chain/nelson/tools/innosetup/Nelson.iss"
 
 - 'c:/build_chain/nelson/%GENERATED_EXE% /SP- /SILENT /DIR="c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%"'
@@ -58,9 +58,9 @@ after_build:
 
 # tested in an long path name with space on windows
 - mv "c:\build_chain\Nelson-%APPVEYOR_BUILD_VERSION%" "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%"
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/benchs_all/runbenchs_all.nls"'
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"'
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_result/tests_result.nls"'
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/benchs_all/runbenchs_all.nls"'
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"'
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_result/tests_result.nls"'
 
 - copy "c:\build_chain\%GENERATED_ZIP%" "c:\build_chain\nelson\%GENERATED_ZIP%"
 - copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_TESTS_XML%" "c:\build_chain\nelson\%RESULT_TESTS_XML%"
