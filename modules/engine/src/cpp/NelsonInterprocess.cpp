@@ -55,10 +55,19 @@ static boost::thread* receiver_thread = nullptr;
 //=============================================================================
 static volatile bool isMessageQueueReady = false;
 //=============================================================================
+static volatile bool isVarAnswer = false;
+static volatile bool isVarAnswerAvailable = false;
+//=============================================================================
+static bool
+sendIsVarAnswerToNelsonInterprocessReceiver(int pidDestination, bool isVar);
+//=============================================================================
 class dataInterProcessToExchange
 {
     //=============================================================================
 public:
+    //=============================================================================
+    dataInterProcessToExchange(int _pid, const std::string& _commandType, bool value)
+        : pid(_pid), commandType(_commandType), valueAnswer(value) {};
     //=============================================================================
     dataInterProcessToExchange(const std::string& _lineToEvaluate)
         : commandType("eval")
@@ -71,7 +80,13 @@ public:
         const std::string& _variableName, const std::string& _scope, const ArrayOf& data)
         : commandType("put"), variable(data), variableName(_variableName), scope(_scope) {};
     //=============================================================================
+    dataInterProcessToExchange(
+        int _pid, const std::string& _variableName, const std::string& _scope)
+        : pid(_pid), commandType("isvar"), variableName(_variableName), scope(_scope) {};
+    //=============================================================================
     ArrayOfSerialization variable;
+    int pid = 0;
+    bool valueAnswer = false;
     std::string commandType;
     std::string lineToEvaluate;
     std::string variableName;
@@ -84,6 +99,10 @@ public:
             return true;
         } else if (commandType == "put") {
             return variable.isFullySerialized();
+        } else if (commandType == "isvar") {
+            return true;
+        } else if (commandType == "isvar_answer") {
+            return true;
         }
         return false;
     }
@@ -91,6 +110,8 @@ public:
     void
     clear()
     {
+        valueAnswer = false;
+        pid = 0;
         variable.clear();
         commandType.clear();
         lineToEvaluate.clear();
@@ -110,10 +131,18 @@ private:
         if (commandType == "eval") {
             ar& lineToEvaluate;
         }
+        if (commandType == "isvar") {
+            ar& pid;
+            ar& variableName;
+            ar& scope;
+        }
         if (commandType == "put") {
             ar& variable;
             ar& variableName;
             ar& scope;
+        }
+        if (commandType == "isvar_answer") {
+            ar& valueAnswer;
         }
     }
     //=============================================================================
@@ -180,7 +209,33 @@ createNelsonInterprocessReceiverThread(int currentPID)
                                         msg.clear();
                                     }
                                 }
-                            } else {
+                            } else if (msg.commandType == "isvar") {
+                                Evaluator* eval = getMainEvaluator();
+                                if (eval) {
+                                    Context* context = eval->getContext();
+                                    Scope* scope = nullptr;
+                                    if (msg.scope == "global") {
+                                        scope = context->getGlobalScope();
+                                    }
+                                    if (msg.scope == "base") {
+                                        scope = context->getBaseScope();
+                                    }
+                                    if (msg.scope == "caller") {
+                                        scope = context->getCallerScope();
+                                    }
+                                    if (msg.scope == "local") {
+                                        scope = context->getCurrentScope();
+                                    }
+                                    if (scope != nullptr) {
+                                        bool isVar = scope->isVariable(msg.variableName);
+                                        sendIsVarAnswerToNelsonInterprocessReceiver(msg.pid, isVar);
+                                        msg.clear();
+                                    }
+                                }
+                            } else if (msg.commandType == "isvar_answer") {
+                                isVarAnswer = msg.valueAnswer;
+                                isVarAnswerAvailable = true;
+                                msg.clear();
                             }
                         } catch (boost::archive::archive_exception& e) {
                             e;
@@ -196,7 +251,6 @@ createNelsonInterprocessReceiverThread(int currentPID)
         }
 
         receiverLoopRunning = false;
-
     } catch (boost::interprocess::interprocess_exception&) {
         removeNelsonInterprocessReceiver(currentPID);
         receiverLoopRunning = false;
@@ -224,7 +278,7 @@ removeNelsonInterprocessReceiver(int pid)
     if (receiver_thread) {
         Evaluator* eval = getMainEvaluator();
         while (!isMessageQueueReady) {
-            Sleep(eval, 500);
+            Sleep(eval, .5);
         }
         receiverLoopRunning = false;
         receiver_thread->interrupt();
@@ -234,11 +288,36 @@ removeNelsonInterprocessReceiver(int pid)
 }
 //=============================================================================
 bool
+sendIsVarAnswerToNelsonInterprocessReceiver(int pidDestination, bool isVar)
+{
+    dataInterProcessToExchange msg(pidDestination, "isvar_answer", isVar);
+    std::stringstream oss;
+    boost::archive::binary_oarchive oa(oss);
+    oa << msg;
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
+    if (failed) {
+        return false;
+    }
+    bool bSend = false;
+    try {
+        boost::interprocess::message_queue messages(
+            boost::interprocess::open_only, getChannelName(pidDestination).c_str());
+        messages.send(serialized_compressed_string.data(), serialized_compressed_string.size(), 0);
+        bSend = true;
+    } catch (boost::interprocess::interprocess_exception&) {
+        bSend = false;
+    }
+    return bSend;
+}
+//=============================================================================
+
+bool
 sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command)
 {
     Evaluator* eval = getMainEvaluator();
     while (!isMessageQueueReady) {
-        Sleep(eval, 500);
+        Sleep(eval, 0.5);
     }
     dataInterProcessToExchange msg(wstring_to_utf8(command));
     std::stringstream oss;
@@ -267,7 +346,7 @@ sendVariableToNelsonInterprocessReceiver(
 {
     Evaluator* eval = getMainEvaluator();
     while (!isMessageQueueReady) {
-        Sleep(eval, 500);
+        Sleep(eval, .5);
     }
     dataInterProcessToExchange msg(wstring_to_utf8(name), wstring_to_utf8(scope), var);
     if (!msg.isFullySerialized()) {
@@ -294,6 +373,46 @@ sendVariableToNelsonInterprocessReceiver(
         }
     }
     return bSend;
+}
+//=============================================================================
+bool
+isVariableFromNelsonInterprocessReceiver(
+    int pidDestination, const std::wstring& name, const std::wstring& scope)
+{
+    Evaluator* eval = getMainEvaluator();
+    while (!isMessageQueueReady) {
+        Sleep(eval, .5);
+    }
+
+    dataInterProcessToExchange msg(getCurrentPID(), wstring_to_utf8(name), wstring_to_utf8(scope));
+    if (!msg.isFullySerialized()) {
+        Warning(WARNING_NOT_FULLY_SERIALIZED, _W("Variable not fully serialized."));
+    }
+    std::stringstream oss;
+    boost::archive::binary_oarchive oa(oss);
+    oa << msg;
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
+    if (failed) {
+        Error(_W("Cannot serialize data."));
+    }
+    if (serialized_compressed_string.size() >= MAX_MSG_SIZE) {
+        Error(_W("Serialized data too big."));
+    }
+    try {
+        boost::interprocess::message_queue messages(
+            boost::interprocess::open_only, getChannelName(pidDestination).c_str());
+        messages.send(serialized_compressed_string.data(), serialized_compressed_string.size(), 0);
+    } catch (boost::interprocess::interprocess_exception&) {
+        Error(_W("Cannot send serialized data."));
+    }
+    while (!isVarAnswerAvailable) {
+        Sleep(eval, .5);
+    }
+    bool isVarExist = isVarAnswer;
+    isVarAnswer = false;
+    isVarAnswerAvailable = false;
+    return isVarExist;
 }
 //=============================================================================
 }

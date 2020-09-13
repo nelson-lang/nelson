@@ -41,7 +41,7 @@ static const nlsGateway gateway[]
           { "isquietmode", (void*)Nelson::EngineGateway::isquietmodeBuiltin, 1, 0,
               CPP_BUILTIN_WITH_EVALUATOR },
           { "getpid", (void*)Nelson::EngineGateway::getpidBuiltin, 1, 0, CPP_BUILTIN },
-          { "ipc", (void*)Nelson::EngineGateway::ipcBuiltin, 0, 3, CPP_BUILTIN } };
+          { "ipc", (void*)Nelson::EngineGateway::ipcBuiltin, -1, 3, CPP_BUILTIN } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

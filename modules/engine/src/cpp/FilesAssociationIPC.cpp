@@ -35,9 +35,9 @@
 //=============================================================================
 namespace Nelson {
 constexpr auto NELSON_COMMAND_PID = "NELSON_COMMAND_PID";
-#define NELSON_COMMAND_PID_DATA "NELSON_COMMAND_PID_DATA"
-#define NELSON_COMMAND_MODE_DATA "NELSON_COMMAND_MODE_DATA"
-#define NELSON_COMMAND_FILE_EXTENSION "NELSON_COMMAND_FILE_EXTENSION"
+constexpr auto NELSON_COMMAND_PID_DATA = "NELSON_COMMAND_PID_DATA";
+constexpr auto NELSON_COMMAND_MODE_DATA = "NELSON_COMMAND_MODE_DATA";
+constexpr auto NELSON_COMMAND_FILE_EXTENSION = "NELSON_COMMAND_FILE_EXTENSION";
 //=============================================================================
 #define MAX_MSG_SIZE 1000
 #define MAX_NB_MSG 100

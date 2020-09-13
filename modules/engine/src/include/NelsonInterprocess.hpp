@@ -49,5 +49,10 @@ bool
 sendVariableToNelsonInterprocessReceiver(
     int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope);
 //=============================================================================
+NLSENGINE_IMPEXP
+bool
+isVariableFromNelsonInterprocessReceiver(
+    int pidDestination, const std::wstring& name, const std::wstring& scope);
+//=============================================================================
 }
 //=============================================================================
