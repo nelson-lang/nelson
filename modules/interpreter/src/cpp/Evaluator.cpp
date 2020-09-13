@@ -2883,7 +2883,11 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         stringVector arguments;
                         // Get the arguments from the MacroFunction pointer.
                         arguments = funcDef->arguments;
-                        keywordNdx = new int[keywords.size()];
+                        try {
+                            keywordNdx = new int[keywords.size()];
+                        } catch (std::bad_alloc&) { 
+                          Error(_W("Memory allocation."));
+                        }
                         int maxndx;
                         maxndx = 0;
                         // Map each keyword to an argument number

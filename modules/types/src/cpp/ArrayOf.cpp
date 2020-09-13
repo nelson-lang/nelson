@@ -466,7 +466,8 @@ ArrayOf::ArrayOf(
     try {
         dp = new Data(type, dims, data, sparse, fnames);
     } catch (std::bad_alloc&) {
-        Error(_("Cannot create ArrayOf."));
+        dp = nullptr;
+        throw;
     }
 }
 //=============================================================================
@@ -476,7 +477,8 @@ ArrayOf::ArrayOf(Class type)
     try {
         dp = new Data(type, dims, NULL);
     } catch (std::bad_alloc&) {
-        Error(_("Cannot create ArrayOf."));
+        dp = nullptr;
+        throw;
     }
 }
 //=============================================================================
