@@ -463,23 +463,13 @@ ArrayOf::ArrayOf()
 ArrayOf::ArrayOf(
     Class type, const Dimensions& dims, void* data, bool sparse, const stringVector& fnames)
 {
-    try {
-        dp = new Data(type, dims, data, sparse, fnames);
-    } catch (std::bad_alloc&) {
-        dp = nullptr;
-        throw;
-    }
+    dp = new Data(type, dims, data, sparse, fnames);
 }
 //=============================================================================
 ArrayOf::ArrayOf(Class type)
 {
     Dimensions dims(0, 0);
-    try {
-        dp = new Data(type, dims, NULL);
-    } catch (std::bad_alloc&) {
-        dp = nullptr;
-        throw;
-    }
+    dp = new Data(type, dims, nullptr);
 }
 //=============================================================================
 /**

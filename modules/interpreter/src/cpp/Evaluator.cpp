@@ -2885,8 +2885,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         arguments = funcDef->arguments;
                         try {
                             keywordNdx = new int[keywords.size()];
-                        } catch (std::bad_alloc&) { 
-                          Error(_W("Memory allocation."));
+                        } catch (std::bad_alloc&) {
+                            Error(_W("Memory allocation."));
                         }
                         int maxndx;
                         maxndx = 0;
