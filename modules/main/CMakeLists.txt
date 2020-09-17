@@ -77,7 +77,7 @@ add_custom_target(
   get_module_skeleton
   COMMAND
     ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --quiet --file
+    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.nls"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
@@ -85,7 +85,7 @@ add_custom_target(
   buildhelp
   COMMAND
     ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --quiet --file
+    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
