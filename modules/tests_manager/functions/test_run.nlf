@@ -24,14 +24,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function status = test_run(varargin)
+  // status = test_run()
+  // status = test_run('-stoponfail')
   // status = test_run(modules)
+  // status = test_run(modules, '-stoponfail')
   // status = test_run(file_to_test)
+  // status = test_run(file_to_test, '-stoponfail')
   // status = test_run(modules, options)
   // status = test_run(file_to_test, options)
   // status = test_run(modules, options, output_file)
   // status = test_run(file_to_test, output_file)
   // status = test_run('minimal_tests', output_file)
-  
+
+  stoponfail = false;
   status = true;
   modules_list = [];
   file_to_test = [];
@@ -58,7 +63,11 @@ function status = test_run(varargin)
         modules_list = minimal_tests;
         options = 'unitary_tests';
       else
-        if ~ismodule(param1)
+        if strcmp(param1, '-stoponfails') == true
+          modules_list = getmodules();
+          options = 'all';
+          stoponfail = true;
+        elseif ~ismodule(param1)
           if isfile(param1)
             file_to_test = param1;
             options = 'all';
@@ -105,11 +114,23 @@ function status = test_run(varargin)
     end
   end
   
+
   if (nargin > 2)
     param3 = varargin{3};
     if ischar(param3)
-      if isequal(length(param3), size(param3, 2)) && length(param3) > 2
+      if strcmp(param3, '-stoponfail') == true
+        stoponfail = true;
+      elseif isequal(length(param3), size(param3, 2)) && length(param3) > 2
         result_outputfile = param3;
+      end
+    end
+  end
+
+  if (nargin > 3)
+    param4 = varargin{4};
+    if ischar(param4)
+      if strcmp(param4, '-stoponfail') == true
+        stoponfail = true;
       end
     end
   end
@@ -165,7 +186,11 @@ function status = test_run(varargin)
   lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
   lenCharsTestSuitesMaxAsString = int2str(length(int2str(nbTestSuites)));
   k = 1;
+  status = true;
   for ts = test_suites.tests_list
+    if ~status
+      break
+    end
     fmt = [' %', '0', lenCharsTestSuitesMaxAsString , 'd/%d - [%s]:', newline];
     fprintf(stdout, fmt, k, nbTestSuites, ts.name);
     l = 1;
@@ -178,6 +203,9 @@ function status = test_run(varargin)
         test_suites.bench = test_suites.bench + 1;
         if strcmp(tc.status, 'Fail') == true
           status = false;
+          if stoponfail
+            break
+          end
         end
       else
         test_suites.tests_list(k).tests = test_suites.tests_list(k).tests + 1;
@@ -190,7 +218,9 @@ function status = test_run(varargin)
             test_suites.tests_list(k).errors = test_suites.tests_list(k).errors + 1;
             test_suites.errors = test_suites.errors + 1;
             status = false;
-          else
+            if stoponfail
+              break
+            end
             if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
               test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
               test_suites.disabled = test_suites.disabled + 1;

@@ -8,6 +8,8 @@
 
   * --noipc command line argument added. disable IPC features.
 
+  * test_run extends '-stoponfail' option added.
+
 Compilation:
 ------------
 

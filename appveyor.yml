@@ -48,7 +48,6 @@ after_build:
 
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.nls"
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.nls"
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.nls"
 
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.nls');exit"
 - iscc "c:/build_chain/nelson/tools/innosetup/Nelson.iss"

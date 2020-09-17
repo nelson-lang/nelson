@@ -11,6 +11,8 @@
     <syntax_item>status = test_run(module_name)</syntax_item>
     <syntax_item>status = test_run(module_name, options)</syntax_item>
     <syntax_item>status = test_run(module_name, options, xunitfile)</syntax_item>
+    <syntax_item>status = test_run(..., '-stoponfail')</syntax_item>
+
   </syntax>
   
   <param_input>
@@ -25,11 +27,16 @@
       <param_description>a string or a cell of string: supported options 'all', 'all_tests', 'unitary_tests', 'nonreg_tests' or 'benchs'.</param_description>
     </param_input_item>
 
-
     <param_input_item>
       <param_name>xunitfile</param_name>
       <param_description>a string: filename to export results as a .xml or .json file compatible with Xunit format.</param_description>
     </param_input_item>
+    <param_input_item>
+
+    <param_name>'-stoponfail'</param_name>
+      <param_description>a string: stop tests execution at first 'fails' detected.</param_description>
+    </param_input_item>
+
   </param_input>
 
   <param_output>
