@@ -36,13 +36,18 @@ Evaluator::shortCutAndOperator(const ArrayOf& A, const ArrayOf& B)
         && !isOverloadAllowed()) {
         retval = OverloadBinaryOperator(this, A, B, "shortcutand");
     } else {
-        if (A.isScalar() && B.isScalar()) {
+        if (A.isScalar()) {
             bool a = A.getContentAsLogicalScalar() != 0U;
             if (!a) {
                 retval = A;
             } else {
-                bool b = B.getContentAsLogicalScalar() != 0U;
-                return ArrayOf::logicalConstructor(a && b);
+                if (B.isScalar()) {
+                    bool b = B.getContentAsLogicalScalar() != 0U;
+                    return ArrayOf::logicalConstructor(a && b);
+                } else {
+                    Error(_W("Operand to && operator must be convertible to "
+                             "logical scalar values."));
+                }
             }
         } else {
             Error(_W("Operand to && operator must be convertible to "
