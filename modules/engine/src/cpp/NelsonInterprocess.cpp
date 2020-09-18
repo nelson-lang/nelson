@@ -344,13 +344,13 @@ createNelsonInterprocessReceiverThread(int currentPID)
                 }
             }
         }
-    }
-    try {
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(500)));
-    } catch (boost::thread_interrupted&) {
-        receiverLoopRunning = false;
-        isMessageQueueFails = false;
-        return;
+        try {
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(50)));
+        } catch (boost::thread_interrupted&) {
+            receiverLoopRunning = false;
+            isMessageQueueFails = false;
+            return;
+        }
     }
 }
 //=============================================================================
