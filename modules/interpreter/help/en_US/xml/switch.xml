@@ -7,9 +7,9 @@
   <short_description>switch statement.</short_description>
 
   <syntax>
-    <syntax_item>switch(expression), case test_expression_1, statements, case test_expression_2, statements, otherwise: statements, end</syntax_item>
+    <syntax_item>switch(expression), case test_expression_1, statements, case test_expression_2, statements, otherwise statements, end</syntax_item>
   </syntax>
-  
+
 
   <description>
     <p><b>switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
