@@ -132,7 +132,7 @@ public:
     {
         if (commandType == "eval") {
             return true;
-        } else if (commandType == "put") {
+        } if (commandType == "put") {
             return fullySerialized;
         } else if (commandType == "isvar") {
             return true;
@@ -207,7 +207,7 @@ static Scope*
 getScopeFromName(Evaluator* eval, const std::string& name)
 {
     Scope* scope = nullptr;
-    if (eval) {
+    if (eval != nullptr) {
         Context* context = eval->getContext();
         if (name == "global") {
             scope = context->getGlobalScope();
