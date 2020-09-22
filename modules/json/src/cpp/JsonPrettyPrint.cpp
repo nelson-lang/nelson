@@ -23,11 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "JsonPrettyPrint.hpp"
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/container/vector.hpp>
 #include <boost/regex.hpp>
+#include "JsonPrettyPrint.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -75,7 +75,10 @@ namespace implementation {
     std::wstring
     generateSpaces(int l)
     {
-        return std::wstring(l * 4, ' ');
+        if (l > 0) {
+            return std::wstring(l * 4, ' ');
+        }
+        return std::wstring();
     }
     //=============================================================================
     long

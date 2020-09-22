@@ -23,30 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = test_run(varargin)
+function [status, test_suites] = test_run(varargin)
   status = true;
   [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, varargin);
   nelson_version = version('-number');
   nelson_version_str = sprintf('Nelson-%d.%d.%d.%d', nelson_version(1), nelson_version(2), nelson_version(3), nelson_version(4));
   nbTestSuites = length(modules_list);
-  result_outputfile
   __totalTimeBegin = tic;
   test_suites = create_test_suites();
   if ~isempty(files_to_test)
     classname = nelson_version_str;
     test_cases = create_test_cases_files(files_to_test, option, classname);
-    [test_suites, test_suite] = test_suites_compute(test_cases, test_suites, '', stoponfail);
-
-    if isempty(test_suites.tests_list)
-      test_suites.tests_list = test_suite;
-    else
-      test_suites.tests_list = [test_suites.tests_list, test_suite];
-    end
-    test_suites.time = test_suites.time + test_suite.time;
+    test_suites = test_suites_process(test_suites, test_cases, '', stoponfail);
   else
     modules_idx = 1;
     for m = modules_list(:)'
       if test_suites.errors ~= 0
+        status = false;
         break
       end
       fmt = ['\n %d/%d [%s]:', newline];
@@ -55,45 +48,20 @@ function status = test_run(varargin)
       classname = [nelson_version_str, '.', m{1}];
       tests_dir = [modulepath(m{1}), '/tests/'];
       test_cases = create_test_cases_directory(tests_dir, option, classname);
-      [test_suites, test_suite] = test_suites_compute(test_cases, test_suites, m{1}, stoponfail);
+      test_suites = test_suites_process(test_suites, test_cases, m{1}, stoponfail);
     end
-
-    if isempty(test_suites.tests_list)
-      test_suites.tests_list = test_suite;
-    else
-      test_suites.tests_list = [test_suites.tests_list, test_suite];
-    end
-    test_suites.time = test_suites.time + test_suite.time;
   end
   __totalTimeEnd = tic;
   status = test_suites.errors == 0;
   test_suites.total_time = (double(__totalTimeEnd) - double(__totalTimeBegin)) * 1e-9;
   disp_summary(test_suites);
-
-  disp('ici')
-  result_outputfile
-  if ~strcmp(result_outputfile, '')
-    disp('ici2')
-
-    [p, f, e] = fileparts(result_outputfile);
-    e
-    if strcmp(e, '.*')
-      res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
-      res = res && save_as_json(test_suites, [p, filesep, f, '.json']);
-    elseif strcmp(e, '.xml')
-      res = save_as_xml(test_suites, result_outputfile);
-    elseif strcmp(e, '.json')
-      res = save_as_json(test_suites, result_outputfile);
-    else
-      res = save_as_xml(test_suites, result_outputfile);
-    end
-    if ~res
-      error(_('Impossible to save results file.'));
-    end
+  res = save_results(test_suites, result_outputfile);
+  if ~res
+    warning(_('Impossible to save results file.'));
   end
 endfunction
 //=============================================================================
-function [test_suites, test_suite] = test_suites_compute(test_cases, test_suites, name, stoponfail)
+function test_suites = test_suites_process(test_suites, test_cases, name, stoponfail)
   test_suite = create_test_suite();
   nbTestCases = length(test_cases);
   lenCharsTestCasesMax = int2str(length(int2str(nbTestCases)));
@@ -104,35 +72,40 @@ function [test_suites, test_suite] = test_suites_compute(test_cases, test_suites
     tc = run_test_case(ts, name, tests_idx, nbTestCases);
     test_cases(tests_idx) = tc;
     time_test = time_test + tc.time;
-
+    
     if tc.isbench
-      test_suites.bench = test_suites.bench + 1;
       test_suite.bench = test_suite.bench + 1;
+      test_suites.bench = test_suites.bench + 1;
+      
     elseif strcmp(tc.status, 'Fail')
       test_suites.tests = test_suites.tests + 1;
-      test_suite.tests = test_suite.tests + 1;
       test_suites.errors = test_suites.errors + 1;
+      test_suite.tests = test_suite.tests + 1;
       test_suite.errors = test_suite.errors + 1;
       status = false;
       if stoponfail
         break
       end
     elseif strcmp(tc.status, 'Pass')
-      test_suites.tests = test_suites.tests + 1;
       test_suite.tests = test_suite.tests + 1;
-      test_suites.passed = test_suites.passed + 1;
       test_suite.passed = test_suite.passed + 1;
-    elseif strcmp(tc.status, 'Skip') || strcmp(tc.status, 'Interactive') || strcmp(tc.status, 'No display')
       test_suites.tests = test_suites.tests + 1;
+      test_suites.passed = test_suites.passed + 1;
+    elseif strcmp(tc.status, 'Skip') || strcmp(tc.status, 'Interactive') || strcmp(tc.status, 'No display')
       test_suite.tests = test_suite.tests + 1;
-      test_suites.disabled = test_suites.disabled + 1;
       test_suite.disabled = test_suite.disabled + 1;
+      test_suites.tests = test_suites.tests + 1;
+      test_suites.disabled = test_suites.disabled + 1;
     end
     tests_idx = tests_idx + 1;
   end
   test_suite.name = name;
   test_suite.test_cases_list = test_cases;
   test_suite.time = test_suite.time + time_test;
+  
+  test_suites.tests_list = [test_suites.tests_list; test_suite];
+  test_suites.time = test_suites.time + test_suite.time;
+  
 endfunction
 //=============================================================================
 function [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, args)
@@ -146,7 +119,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
     case 0
       // status = test_run()
       modules_list = getmodules();
-
+      
     case 1
       // status = test_run([])
       // status = test_run('minimal_tests')
@@ -161,7 +134,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           error(_('[] expected.'));
         end
       end
-
+      
       modules_list = getModulesToTest(param1);
       files_to_test = getFilesToTest(param1);
       if ~isempty(modules_list) || ~isempty(files_to_test)
@@ -181,11 +154,9 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       // status = test_run('minimal_tests', option)
       // status = test_run([], '-stoponfail')
       // status = test_run([], option)
-
       // status = test_run(modules, file_output)
       // status = test_run(file_to_test, file_output)
       // status = test_run([], file_output)
-
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
@@ -200,7 +171,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           error(_('#1 argument: cell of modules or filenames expected.'));
         end
         if ischar(param1) && strcmp(param1, 'minimal_tests')
-          option = 'all';
+          option = 'unitary_tests';
         end
       end
       param2 = args{2};
@@ -214,7 +185,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           end
         end
       end
-
+      
     case 3
       // status = test_run(modules, option, output_file)
       // status = test_run(modules, '-stoponfail', output_file)
@@ -236,8 +207,16 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       stoponfail = haveStopOnFailOption(param2);
       if ~stoponfail
         option = getOption(param2);
-        if isempty(option)
-          error(_('option expected.'));
+        if isequal(size(option), [0 0]) && isdouble(option)
+          if isdouble(option)
+            if ischar(param1) && strcmp(param1, 'minimal_tests')
+              option = 'unitary_tests';
+            else
+              option = 'all';
+            end
+          else
+            error(_('option expected.'));
+          end
         end
       end
       param3 = args{3};
@@ -246,20 +225,47 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       else
         error(_('filename expected.'));
       end
-
-
+      
     case 4
       // status = test_run(modules, option, output_file, '-stoponfail')
       param1 = args{1};
       param2 = args{2};
       param3 = args{3};
       param4 = args{4};
+      if isequal(size(param1), [0 0]) && isdouble(param1)
+        if isdouble(param1)
+          modules_list = getmodules();
+        else
+          error(_('[] expected.'));
+        end
+      else
+        modules_list = getModulesToTest(param1);
+        files_to_test = getFilesToTest(param1);
+        if ~isempty(modules_list) && ~isempty(files_to_test)
+          error(_('#1 argument: cell of modules or filenames expected.'));
+        end
+      end
+      option = getOption(param2);
+      if isempty(option)
+        error(_('#2 argument: option expected.'));
+      end
+      if ischar(param3)
+        result_outputfile = param3;
+      else
+        error(_('#3 argument: filename expected.'));
+      end
+      if isequal(size(param4), [0 0]) && isdouble(param4)
+        if ~isdouble(param4)
+          stoponfail = haveStopOnFailOption(param4);
+          if ~stoponfail
+            error(_('#4 argument: -stoponfail expected'));
+          end
+        end
+      end
 
     otherwise
       error(_('Wrong number of input arguments.'));
     end
-
-
   endfunction
   //=============================================================================
 function modules = getModulesToTest(param)
@@ -351,7 +357,7 @@ function test_case = create_test_case(filename)
   test_case.filename = filename;
   test_case.options = test_parsetags(filename);
   test_case.msg = '';
-
+  
   [p, f, e] = fileparts(filename);
   test_case.name = f;
   test_case.classname = '';
@@ -366,51 +372,51 @@ function tests_list = getFilesListByOption(tests_dir, option)
     case 'all'
       unitary_tests = dir([tests_dir, 'test_*.nls']);
       unitary_tests = sort(string({unitary_tests.name}));
-
+      
       nonreg_tests = dir([tests_dir, 'bug_*.nls']);
       nonreg_tests = sort(string({nonreg_tests.name}));
-
+      
       bench_tests = dir([tests_dir, 'bench_*.nls']);
       bench_tests = sort(string({bench_tests.name}));
-
+      
       all_tests = [unitary_tests, nonreg_tests, bench_tests];
       all_tests(all_tests == "") = [];
-
+      
       tests_list = cell(all_tests);
-
+      
     case 'all_tests'
       unitary_tests = dir([tests_dir, 'test_*.nls']);
       unitary_tests = sort(string({unitary_tests.name}));
-
+      
       nonreg_tests = dir([tests_dir, 'bug_*.nls']);
       nonreg_tests = sort(string({nonreg_tests.name}));
-
+      
       all_tests = [unitary_tests, nonreg_tests];
       all_tests(all_tests == "") = [];
-
+      
       tests_list = cell(all_tests);
-
+      
     case 'unitary_tests'
       unitary_tests = dir([tests_dir, 'test_*.nls']);
       unitary_tests = sort(string({unitary_tests.name}));
       unitary_tests(unitary_tests == "") = [];
-
+      
       tests_list = cell(unitary_tests);
-
+      
     case 'nonreg_tests'
       nonreg_tests = dir([tests_dir, 'bug_*.nls']);
       nonreg_tests = sort(string({nonreg_tests.name}));
       nonreg_tests(nonreg_tests == "") = [];
-
+      
       tests_list = cell(nonreg_tests);
-
+      
     case 'benchs'
       bench_tests = dir([tests_dir, 'bench_*.nls']);
       bench_tests = sort(string({bench_tests.name}));
       bench_tests(bench_tests == "") = [];
-
+      
       tests_list = cell(bench_tests);
-
+      
     otherwise
       error(_('Argument not managed.'));
     end
@@ -421,6 +427,21 @@ function res = save_as_json(test_suites, jsonFileDestination)
   res = isfile(jsonFileDestination);
 endfunction
 //=============================================================================
+function res = save_results(test_suites, result_outputfile)
+  if ~isempty(result_outputfile) && ischar(result_outputfile) 
+    [p, f, e] = fileparts(result_outputfile);
+    if strcmp(e, '.*')
+      res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
+      res = res && save_as_json(test_suites, [p, filesep, f, '.json']);
+    elseif strcmp(e, '.xml')
+      res = save_as_xml(test_suites, result_outputfile);
+    elseif strcmp(e, '.json')
+      res = save_as_json(test_suites, result_outputfile);
+    else
+      res = save_as_xml(test_suites, result_outputfile);
+    end
+  end
+  //=============================================================================
 function res = save_as_xml(test_suites, xmlFileDestination)
   res = false;
   eol = newline;
@@ -428,77 +449,76 @@ function res = save_as_xml(test_suites, xmlFileDestination)
   if fp ~= -1
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
     fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
-
-    for t = test_suites.tests_list
-      fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', mat2str(t.time, 2), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
+    
+    for test_suite = test_suites.tests_list'
+      fprintf(fp, ['  <testsuite name="', test_suite.name, '" id="', test_suite.id, '" time="', mat2str(test_suite.time, 2), '" tests="', int2str(test_suite.tests), '" skipped="', int2str(test_suite.disabled),'" errors="', int2str(test_suite.errors), '" hostname="', test_suite.hostname, '" timestamp="', test_suite.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
-      fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
+      fprintf(fp, ['      <property name="', 'environment', '" value="', test_suite.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
-
-      for tc = t.test_cases_list
+      
+      for tc = test_suite.test_cases_list
         if tc.isbench
-          if strcmp(tc.status, 'Fail') == true
-            fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-            if isstruct(tc.msg)
-              msg = tc.msg.message;
-            else
-              msg = tc.msg;
-            end
-            if length(msg) > 0
-              fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
-            end
-            fprintf(fp, ['    </testcase>', eol]);
-          else
-            fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-            if isstruct(tc.msg)
-              msg = tc.msg.message;
-            else
-              msg = tc.msg;
-            end
-            // if length(msg) > 0
-            //   fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
-            // end
-            fprintf(fp, ['    </testcase>', eol]);
-          end
-        else
-          if strcmp(tc.status, 'Pass') == true
-            fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-            if isstruct(tc.msg)
-              msg = tc.msg.message;
-            else
-              msg = tc.msg;
-            end
-            // if length(msg) > 0
-            //   fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
-            // end
-            fprintf(fp, ['    </testcase>', eol]);
-          else
-            if strcmp(tc.status, 'Fail') == true
-              fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-              if isstruct(tc.msg)
-                msg = tc.msg.message;
+          for t = tc'
+            if strcmp(t.status, 'Fail') == true
+              fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
+              if isstruct(t.msg)
+                msg = t.msg.message;
               else
-                msg = tc.msg;
+                msg = t.msg;
               end
               if length(msg) > 0
-                if iscellstr(msg)
-                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
-                  for m = msg(:)'
-                    fprintf(fp, [m{1}, eol]);
-                  end
-                  fprintf(fp, [']]>', '</error>', eol]);
-                else
-                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
-                end
+                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
               end
               fprintf(fp, ['    </testcase>', eol]);
             else
-              if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
-                fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '"/>', eol]);
-                fprintf(fp, ['      <skipped/>', eol]);
+              fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
+              if isstruct(t.msg)
+                msg = t.msg.message;
+              else
+                msg = t.msg;
+              end
+              fprintf(fp, ['    </testcase>', eol]);
+            end
+          end
+        else
+          for t = tc'
+            if strcmp(t.status, 'Pass') == true
+              fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
+              if isstruct(t.msg)
+                msg = t.msg.message;
+              else
+                msg = t.msg;
+              end
+              fprintf(fp, ['    </testcase>', eol]);
+            else
+              if strcmp(t.status, 'Fail') == true
+                fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
+                if isstruct(t.msg)
+                  msg = t.msg.message;
+                else
+                  msg = t.msg;
+                end
+                if length(msg) > 0
+                  if iscellstr(msg)
+                    fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
+                    for m = msg(:)'
+                      fprintf(fp, [m{1}, eol]);
+                    end
+                    fprintf(fp, [']]>', '</error>', eol]);
+                  else
+                    fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+                  end
+                end
+                fprintf(fp, ['    </testcase>', eol]);
+              else
+                if strcmp(t.status, 'Skip') == true || strcmp(t.status, 'Interactive') == true || strcmp(t.status, 'No display') == true
+                  fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '"/>', eol]);
+                  fprintf(fp, ['      <skipped/>', eol]);
+                end
               end
             end
           end
+          
         end
       end
       fprintf(fp, ['  </testsuite>', eol]);
@@ -679,7 +699,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
         timeout = int2str(120);
       end
       cmd = '';
-
+      
       command_filename = [tempdir(), 'test_', createGUID(), '.nls'];
       content = {['res_struct = test_runfile(''', testfile, ''',', int2str(test_case_res.options.mpi_mode),');'];
       ['filewrite(''', outputfile, ''', jsonencode(res_struct));']};
@@ -689,7 +709,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
         content = [content; 'exit(double(res_struct.r));'];
       end
       filewrite(command_filename, content);
-
+      
       if test_case_res.options.english_imposed
         cmd = [' --language', ' ', 'en_US'];
       end
@@ -700,7 +720,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
         cmd = [cmd, ' ', '--noipc'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-
+      
       cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case_res.options.cli_mode
         [res, msg] = call_nelson_cli(cmd, test_case_res.options.mpi_mode);
@@ -785,7 +805,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
   nbCharsStart = length(startChars);
   nb_spaces = 80 - nbCharsStart - length(test_case_res.status);
   fprintf(stdout, [blanks(nb_spaces), test_case_res.status, newline]);
-
+  
   if strcmp(test_case_res.status, 'Fail') == true
     disp(['    run(''', test.filename, ''')']);
     if strcmp(test_case_res.msg, '') == false

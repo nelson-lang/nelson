@@ -31,13 +31,12 @@ platform_map.('glnxa32') = 'linux-x86-32';
 platform_map.('maci64') = 'mac-x86-64';
 platform_map.('maci32') = 'mac-x86-32';
 platform_map.('?') = 'unknow-platform';
-platform = platform_map(computer('arch'));
-platform = 'unknow-platform';
+platform = platform_map.(computer('arch'));
 try
   filedest = ['tests_minimal-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.xml'];
   r = test_run('minimal_tests', [], [nelsonroot(), '/', filedest]);
 catch
-  r = false
+  r = false;
 end
 if r == false
   exit(1);

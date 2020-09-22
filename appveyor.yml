@@ -7,9 +7,9 @@ environment:
   QTDIR32: C:\Qt\5.14.2\msvc2017
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
-#branches:
-#  only:
-#    - master
+branches:
+  only:
+    - master
 
 platform:
 - x86
@@ -36,7 +36,7 @@ before_build:
 
 build_script:
 - cd "c:\build_chain\nelson"
-- msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui"  /m:4 
+- msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui" /m:4 
 
 after_build:
 - if %platform%==x64 (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe) else (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.exe)
@@ -74,7 +74,6 @@ artifacts:
   - path: ./%RESULT_TESTS_JSON%
   - path: ./%RESULT_BENCHS_XML%
   - path: ./%RESULT_BENCHS_JSON%
-
 
 notifications:
 - provider: Email
