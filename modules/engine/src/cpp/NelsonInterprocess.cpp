@@ -93,10 +93,10 @@ public:
         : pid(_pid)
         , commandType(_commandType)
         , serializedCompressedVariable(compressedData)
-        , fullySerialized(_fullySerialized) {};
+        , fullySerialized(_fullySerialized){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, const std::string& _commandType, bool value)
-        : pid(_pid), commandType(_commandType), valueAnswer(value) {};
+        : pid(_pid), commandType(_commandType), valueAnswer(value){};
 
     //=============================================================================
     dataInterProcessToExchange(const std::string& _lineToEvaluate)
@@ -104,7 +104,7 @@ public:
         , lineToEvaluate(_lineToEvaluate)
         , serializedCompressedVariable("")
         , variableName("")
-        , scope("") {};
+        , scope(""){};
     //=============================================================================
     dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
         const std::string& compressedData, bool _fullySerialized)
@@ -112,11 +112,11 @@ public:
         , serializedCompressedVariable(compressedData)
         , fullySerialized(_fullySerialized)
         , variableName(_variableName)
-        , scope(_scope) {};
+        , scope(_scope){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, const std::string& _commandType,
         const std::string& _variableName, const std::string& _scope)
-        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope) {};
+        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope){};
     //=============================================================================
     std::string serializedCompressedVariable;
     bool fullySerialized = false;
@@ -132,7 +132,8 @@ public:
     {
         if (commandType == "eval") {
             return true;
-        } if (commandType == "put") {
+        }
+        if (commandType == "put") {
             return fullySerialized;
         } else if (commandType == "isvar") {
             return true;
@@ -340,7 +341,8 @@ createNelsonInterprocessReceiverThread(int currentPID)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) { }
+                    } catch (boost::archive::archive_exception&) {
+                    }
                 }
             }
         }
@@ -390,7 +392,7 @@ removeNelsonInterprocessReceiver(int pid)
 }
 //=============================================================================
 static bool
-sendMessage(int pid, const std::string &message)
+sendMessage(int pid, const std::string& message)
 {
     bool sent = false;
     try {
