@@ -57,7 +57,7 @@ function status = test_run(varargin)
   disp_summary(test_suites);
   res = save_results(test_suites, result_outputfile);
   if ~res
-    warning(_('Impossible to save results file.'));
+    error(_('Impossible to save results file.'));
   end
 endfunction
 //=============================================================================
@@ -262,7 +262,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
           end
         end
       end
-
+      
     otherwise
       error(_('Wrong number of input arguments.'));
     end
@@ -428,6 +428,7 @@ function res = save_as_json(test_suites, jsonFileDestination)
 endfunction
 //=============================================================================
 function res = save_results(test_suites, result_outputfile)
+  res = true;
   if ~isempty(result_outputfile) && ischar(result_outputfile) 
     [p, f, e] = fileparts(result_outputfile);
     if strcmp(e, '.*')
@@ -441,7 +442,8 @@ function res = save_results(test_suites, result_outputfile)
       res = save_as_xml(test_suites, result_outputfile);
     end
   end
-  //=============================================================================
+endfunction
+//=============================================================================
 function res = save_as_xml(test_suites, xmlFileDestination)
   res = false;
   eol = newline;
@@ -457,73 +459,46 @@ function res = save_as_xml(test_suites, xmlFileDestination)
       fprintf(fp, ['    </properties>', eol]);
       
       for tc = test_suite.test_cases_list
-        if tc.isbench
-          for t = tc'
-            if strcmp(t.status, 'Fail') == true
-              fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
-              if isstruct(t.msg)
-                msg = t.msg.message;
+        for t = tc'
+          if t.isbench && strcmp(t.status, 'Fail') == false
+            t.status = "Pass";
+          end
+          if strcmp(t.status, 'Pass') == true
+            fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
+            if isstruct(t.msg)
+              msg = t.msg.message;
+            else
+              msg = t.msg;
+            end
+            fprintf(fp, ['    </testcase>', eol]);
+          elseif strcmp(t.status, 'Fail') == true
+            fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
+            if isstruct(t.msg)
+              msg = t.msg.message;
+            else
+              msg = t.msg;
+            end
+            if length(msg) > 0
+              if iscellstr(msg)
+                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
+                for m = msg(:)'
+                  fprintf(fp, [m{1}, eol]);
+                end
+                fprintf(fp, [']]>', '</error>', eol]);
               else
-                msg = t.msg;
-              end
-              if length(msg) > 0
                 fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
               end
-              fprintf(fp, ['    </testcase>', eol]);
-            else
-              fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
-              if isstruct(t.msg)
-                msg = t.msg.message;
-              else
-                msg = t.msg;
-              end
-              fprintf(fp, ['    </testcase>', eol]);
             end
+            fprintf(fp, ['    </testcase>', eol]);
+          elseif strcmp(t.status, 'Skip') == true || strcmp(t.status, 'Interactive') == true || strcmp(t.status, 'No display') == true
+            fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '"/>', eol]);
+            fprintf(fp, ['      <skipped/>', eol]);
           end
-        else
-          for t = tc'
-            if strcmp(t.status, 'Pass') == true
-              fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
-              if isstruct(t.msg)
-                msg = t.msg.message;
-              else
-                msg = t.msg;
-              end
-              fprintf(fp, ['    </testcase>', eol]);
-            else
-              if strcmp(t.status, 'Fail') == true
-                fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '">', eol]);
-                if isstruct(t.msg)
-                  msg = t.msg.message;
-                else
-                  msg = t.msg;
-                end
-                if length(msg) > 0
-                  if iscellstr(msg)
-                    fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
-                    for m = msg(:)'
-                      fprintf(fp, [m{1}, eol]);
-                    end
-                    fprintf(fp, [']]>', '</error>', eol]);
-                  else
-                    fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
-                  end
-                end
-                fprintf(fp, ['    </testcase>', eol]);
-              else
-                if strcmp(t.status, 'Skip') == true || strcmp(t.status, 'Interactive') == true || strcmp(t.status, 'No display') == true
-                  fprintf(fp, ['    <testcase name="', t.name, '" time="', mat2str(t.time, 2), '" classname="', t.classname, '"/>', eol]);
-                  fprintf(fp, ['      <skipped/>', eol]);
-                end
-              end
-            end
-          end
-          
         end
+        fprintf(fp, ['  </testsuite>', eol]);       
       end
-      fprintf(fp, ['  </testsuite>', eol]);
+      fprintf(fp, ['</testsuites>', eol]);
     end
-    fprintf(fp, ['</testsuites>', eol]);
     fclose(fp);
     res = true;
   end

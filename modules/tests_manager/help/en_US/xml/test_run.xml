@@ -8,18 +8,37 @@
 
   <syntax>
     <syntax_item>status = test_run()</syntax_item>
-    <syntax_item>status = test_run(module_name)</syntax_item>
-    <syntax_item>status = test_run(module_name, options)</syntax_item>
-    <syntax_item>status = test_run(module_name, options, xunitfile)</syntax_item>
-    <syntax_item>status = test_run(..., '-stoponfail')</syntax_item>
-
+    <syntax_item>status = test_run([])</syntax_item>
+    <syntax_item>status = test_run('minimal_tests')</syntax_item>
+    <syntax_item>status = test_run('-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(modules)</syntax_item>
+    <syntax_item>status = test_run(file_to_test)</syntax_item>
+    <syntax_item>status = test_run(modules, '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(file_to_test, '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(modules, option)</syntax_item>
+    <syntax_item>status = test_run(file_to_test, option)</syntax_item>
+    <syntax_item>status = test_run('minimal_tests', '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run('minimal_tests', option)</syntax_item>
+    <syntax_item>status = test_run([], '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run([], option)</syntax_item>
+    <syntax_item>status = test_run(modules, file_output)</syntax_item>
+    <syntax_item>status = test_run(file_to_test, file_output)</syntax_item>
+    <syntax_item>status = test_run([], file_output)</syntax_item>
+    <syntax_item>status = test_run(modules, option, xunitfile)</syntax_item>
+    <syntax_item>status = test_run(modules, '-stoponfail', xunitfile)</syntax_item>
+    <syntax_item>status = test_run(modules, option, xunitfile, '-stoponfail')</syntax_item>
   </syntax>
   
   <param_input>
     
     <param_input_item>
       <param_name>module_name</param_name>
-      <param_description>a string or a cell of string: module name or list of modules or filename.</param_description>
+      <param_description>a string or a cell of string: module name or list of modules.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>file_to_test</param_name>
+      <param_description>a string or a cell of string: file to test or list of filenames.</param_description>
     </param_input_item>
 
     <param_input_item>

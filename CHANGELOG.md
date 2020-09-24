@@ -10,6 +10,9 @@
 
   * test_run extends '-stoponfail' option added.
 
+  * jsonencode faster for string encoding.
+
+
 Compilation:
 ------------
 
