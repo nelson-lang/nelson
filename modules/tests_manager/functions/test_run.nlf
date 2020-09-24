@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [status, test_suites] = test_run(varargin)
+function status = test_run(varargin)
   status = true;
   [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, varargin);
   nelson_version = version('-number');
@@ -745,6 +745,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
           if res == 1
             test_case_res.status = 'Pass';
             test_timing = s.timing;
+            test_case_res.msg = '';
           else
             test_case_res.status = 'Fail';
             test_timing = s.timing;
@@ -762,6 +763,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
             if isempty(s)
               test_case_res.status = 'Skip';
               test_case_res.time = 0.;
+              test_case_res.msg = '';
             else
               test_case_res.msg = s.msg;
             end
@@ -783,6 +785,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
                 end
               else
                 test_case_res.status = 'Pass';
+                test_case_res.msg = '';
               end
               test_case_res.time = s.timing;
             end
@@ -799,6 +802,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       end
     else
       test_case_res.status = 'Skip';
+      test_case_res.msg = '';
       test_case_res.time = 0.;
     end
   end
