@@ -24,22 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
 #include <sstream>
 #include <cstring>
 #include "nlsConfig.h"
 #include "JsonEncode.hpp"
+#include "StringFormat.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
-#ifdef _MSC_VER
-#define snwprintf _snwprintf
-#endif
-//=============================================================================
 namespace Nelson {
-//=============================================================================
-#define BUFFER_SIZE 4096
 //=============================================================================
 static std::wstring jsonString;
 //=============================================================================
@@ -94,20 +88,6 @@ isSupportedType(ArrayOf ValueToEncode)
     return false;
 }
 //=============================================================================
-template <class T>
-static std::wstring
-wstringFormat(const std::wstring& format, T value)
-{
-    wchar_t buff[BUFFER_SIZE];
-#if _MSC_VER
-    int r = snwprintf(buff, BUFFER_SIZE, format.c_str(), value);
-#else
-    int r = swprintf(buff, format.c_str(), value);
-#endif
-    buff[r < BUFFER_SIZE ? r : BUFFER_SIZE - 1] = 0;
-    return std::wstring(buff);
-}
-//=============================================================================
 static void
 encode_character(wchar_t ch)
 {
@@ -135,7 +115,7 @@ encode_character(wchar_t ch)
         break;
     default: {
         if ((ch > 13) && (ch < 32)) {
-            json_append_string(wstringFormat<wchar_t>(L"\\u%04hx", ch));
+            json_append_string(StringFormat(L"\\u%04hx", ch));
         } else {
             std::wstring wstr;
             wstr.push_back(ch);
@@ -235,7 +215,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         indexType elementCount = ValueToEncode.getDimensions().getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
-            json_append_string(wstringFormat<T>(format, ptr[i]));
+            json_append_string(StringFormat(format.c_str(), ptr[i]));
         }
     } else if (ValueToEncode.is2D()) {
         indexType rows = ValueToEncode.getDimensions().getRows();
@@ -243,7 +223,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
         for (int i = 0; i < rows; ++i) {
             json_append_char('[');
             for (int j = 0; j < cols; ++j) {
-                json_append_string(wstringFormat<T>(format, ptr[j * rows + i]));
+                json_append_string(StringFormat(format.c_str(), ptr[j * rows + i]));
             }
             if (boost::algorithm::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
@@ -257,7 +237,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
         for (int i = 0; i < ymax; ++i) {
             json_append_char('[');
             for (int j = 0; j < lastdimlen; ++j) {
-                json_append_string(wstringFormat<T>(format, ptr[j * ymax + i]));
+                json_append_string(StringFormat(format.c_str(), ptr[j * ymax + i]));
             }
             if (boost::algorithm::ends_with(jsonString, L",")) {
                 jsonString.pop_back();

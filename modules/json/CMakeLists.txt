@@ -38,6 +38,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 # ==============================================================================
 file(GLOB JSON_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
