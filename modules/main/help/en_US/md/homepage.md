@@ -36,6 +36,8 @@ Try it !
 
 - C MEX API compatibility creates and shares mexFunction,
 
+- Inter-process communication between Nelson's process.
+
 - Foreign Function Interface C/Fortran,
 
 - Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly),

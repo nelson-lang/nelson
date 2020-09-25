@@ -68,6 +68,8 @@ these own data types and operations on these data types by using overload.
 
 - RESTful API web service.
 
+- Inter-process communication between Nelson's process.
+
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
 - Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
@@ -97,7 +99,7 @@ these own data types and operations on these data types by using overload.
    - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
    - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
 
- - Nelson Modules Manager (nmm) : package manager for Nelson
+- Nelson Modules Manager (nmm) : package manager for Nelson
 
 
 ## Licenses
