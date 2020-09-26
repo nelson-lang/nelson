@@ -29,12 +29,5 @@ assert_isequal(nargout('feof'), 1);
 filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
 assert_isequal(feof(fid), 0);
-while ~feof(fid)
-  assert_isequal(feof(fid), 0);
-  l = fgetl(fid);
-end
-assert_isequal(feof(fid), 1);
 fclose(fid);
-//=============================================================================
-assert_checkerror('feof(1000)', _('Invalid file identifier.'));
 //=============================================================================
