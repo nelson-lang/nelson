@@ -56,7 +56,9 @@ file(GLOB ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ENGINE_SRC})
 # ==============================================================================
-find_library(LIBRT rt)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  find_library(LIBRT rt)
+endif()
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
