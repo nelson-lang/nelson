@@ -16,6 +16,10 @@
 
   * rework timeout thread.
 
+Bug Fixes:
+---------
+
+  * [#330](http://github.com/Nelson-numerical-software/nelson/issues/330): removes ALSA errors and warnings on linux.
 
 Compilation:
 ------------

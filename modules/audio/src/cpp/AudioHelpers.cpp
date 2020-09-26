@@ -23,17 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <portaudio.h>
+#include <cstdarg>
+#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+#include <alsa/error.h>
+#endif
 #include "AudioHelpers.hpp"
 #include "AudioDevInfo.hpp"
-#include <portaudio.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static bool audioInitialized = false;
 //=============================================================================
+#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+void
+alsa_error_handler(const char* file, int line, const char* function, int err, const char* fmt, ...)
+{ }
+//=============================================================================
+static void
+disableAlsaError()
+{
+    snd_lib_error_set_handler(alsa_error_handler);
+}
+#endif
+//=============================================================================
 bool
 initializeAudio()
 {
+#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+    disableAlsaError();
+#endif
     if (!audioInitialized) {
         PaError err = Pa_Initialize();
         if (err == paNoError) {

@@ -32,6 +32,7 @@ include_directories(
   ${PORTAUDIO_INCLUDE_DIRS}
   ${SNDFILE_INCLUDE_DIRS}
   ${TAGLIB_INCLUDES}
+  ${ALSA_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/c
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -61,7 +62,8 @@ target_link_libraries(
   nlsApi_nelson
   ${PORTAUDIO_LIBRARIES}
   ${SNDFILE_LIBRARIES}
-  ${TAGLIB_LIBRARIES})
+  ${TAGLIB_LIBRARIES}
+  ${ALSA_LIBRARIES})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

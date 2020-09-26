@@ -396,6 +396,10 @@ find_package(CURL REQUIRED)
 find_package(Libgit2 REQUIRED)
 find_package(OpenMP)
 # ==============================================================================
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  find_package(ALSA REQUIRED)
+endif()
+# ==============================================================================
 find_package(Portaudio REQUIRED)
 if(PORTAUDIO_FOUND)
   # workaround for github CI with catalina
