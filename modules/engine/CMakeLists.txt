@@ -56,6 +56,8 @@ file(GLOB ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${ENGINE_SRC})
 # ==============================================================================
+find_library(LIBRT rt)
+# ==============================================================================
 target_link_libraries(
   ${module_library_name}
   nlsCore
@@ -73,7 +75,8 @@ target_link_libraries(
   nlsSparse
   nlsSio_client
   nlsFile_archiver
-  ${BOOST_LIBRARIES})
+  ${BOOST_LIBRARIES}
+  ${LIBRT})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
