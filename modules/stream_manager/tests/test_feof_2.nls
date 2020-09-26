@@ -26,9 +26,14 @@
 filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
 assert_isequal(feof(fid), 0);
-while ~feof(fid)
-  assert_isequal(feof(fid), 0);
-  l = fgetl(fid);
+//=============================================================================
+loop = true;
+while loop
+  r = feof(fid);
+  if r == 0
+    l = fgetl(fid);
+  end
+  loop = (r == 0);
 end
 assert_isequal(feof(fid), 1);
 fclose(fid);
