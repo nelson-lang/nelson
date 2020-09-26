@@ -13,6 +13,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - Foreign Function Interface (DONE v0.2.4),
 - Audio module (read, play DONE v0.2.1),
 - JSON File I/O module (DONE v0.2.1),
+- Inter-process communication between Nelson's process (DONE v0.4.9),
 - MPI interface module (DONE v0.1.11),
 - editor (DONE v0.1.11),
 - SLICOT module: low level function about Controls (DONE v0.1.10),
@@ -24,13 +25,14 @@ Please feel free to file issues on this repository if you have questions, concer
 - MAT File I/O module (DONE v0.3.3),
 - HDF5 used as default data file format (.nh5) (DONE v0.3.2),
 - Profiling and Coverage Tools for Nelson's language (DONE v0.3.4),
-- Mex module (Part 1 - v0.4.4, Part 2 - v0.4.5, ...),
+- Mex module (Done v0.4.7),
 - completion,
 - graphics output (Graphic objects introduced in v0.4.5),
 - some basic openCV functions,
 - dynamic link functions (Nelson external modules) (DONE v0.2.6),
 - Nelson on cloud (DONE v0.2.11),
-- RESTful API web service (DONE v0.3.9)
+- RESTful API web service (DONE v0.3.9).
+
 
 ### How can I help ?
 
