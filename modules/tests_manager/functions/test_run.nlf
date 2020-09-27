@@ -38,7 +38,7 @@ function status = test_run(varargin)
   else
     modules_idx = 1;
     for m = modules_list(:)'
-      if test_suites.errors ~= 0
+      if test_suites.errors ~= 0 && stoponfail
         status = false;
         break
       end
@@ -228,6 +228,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       
     case 4
       // status = test_run(modules, option, output_file, '-stoponfail')
+      // status = test_run(modules, option, output_file, [])
       param1 = args{1};
       param2 = args{2};
       param3 = args{3};
@@ -256,10 +257,12 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       end
       if isequal(size(param4), [0 0]) && isdouble(param4)
         if ~isdouble(param4)
-          stoponfail = haveStopOnFailOption(param4);
-          if ~stoponfail
-            error(_('#4 argument: -stoponfail expected'));
-          end
+            error(_('#4 argument: ''-stoponfail'' or [] expected'));
+        end
+      else
+        stoponfail = haveStopOnFailOption(param4);
+        if ~stoponfail
+          error(_('#4 argument: ''-stoponfail'' or [] expected'));
         end
       end
       
@@ -345,7 +348,7 @@ function test_cases = create_test_cases_directory(directory_tests, option, class
   if isdir(directory_tests)
     test_files_list = getFilesListByOption(directory_tests, option);
     for file = test_files_list
-      full_file_test = [directory_tests, '/', file{1}];
+      full_file_test = [directory_tests, file{1}];
       test_case = create_test_case(full_file_test);
       test_case.classname = classname;
       test_cases =[test_cases; test_case];
