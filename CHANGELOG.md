@@ -1,4 +1,4 @@
-# 0.4.9 (2020-XX-XX)
+# 0.4.9 (2020-09-27)
 
   * ipc builtin: Inter-process communication between Nelson's process
 
