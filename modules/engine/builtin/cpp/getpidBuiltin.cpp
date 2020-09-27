@@ -42,7 +42,7 @@ Nelson::EngineGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 1: {
         std::wstring param = argIn[0].getContentAsWideString();
-        if (param == L"running") {
+        if (param == L"available") {
             std::vector<int> pids = getNelsonPIDs();
             ArrayOf res;
             Dimensions dims(1, pids.size());
@@ -53,7 +53,7 @@ Nelson::EngineGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             retval.push_back(res);
         } else {
-            Error(_("Wrong value for #1 argument: 'running' expected."));
+            Error(_("Wrong value for #1 argument: 'available' expected."));
         }
     } break;
     default: {

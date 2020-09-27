@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\StringZLib.cpp" />
     <ClCompile Include="..\cpp\Unzip.cpp" />
     <ClCompile Include="..\cpp\UnzipHelpers.cpp" />
     <ClCompile Include="..\cpp\Zip.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\cpp\ZipHelpers.hpp" />
     <ClInclude Include="..\cpp\Zipper.hpp" />
     <ClInclude Include="..\include\nlsFile_archiver_exports.h" />
+    <ClInclude Include="..\include\StringZLib.hpp" />
     <ClInclude Include="..\include\Unzip.hpp" />
     <ClInclude Include="..\include\Zip.hpp" />
   </ItemGroup>

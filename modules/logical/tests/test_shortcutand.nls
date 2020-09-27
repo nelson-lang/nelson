@@ -45,3 +45,5 @@ A = [true, false, true];
 B = [true, false, true, true];
 assert_checkerror('B && A', _('Operand to && operator must be convertible to logical scalar values.'));
 //=============================================================================
+assert_isfalse(ischar({'f'}) && strcmp({'f'}, 'f'));
+//=============================================================================

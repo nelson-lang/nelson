@@ -39,6 +39,7 @@ VariablesTable::VariablesTable()
         genericTable = nullptr;
     }
     variablesTable = (void*)genericTable;
+    lockedAccess = false;
 }
 //=============================================================================
 VariablesTable::~VariablesTable()
@@ -85,7 +86,11 @@ VariablesTable::deleteVariable(const key_type& key)
         if (isVariable(key)) {
             if (variablesTable != nullptr) {
                 auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+                while (lockedAccess) {
+                }
+                lockedAccess = true;
                 genericTable->deleteSymbol(key);
+                lockedAccess = false;
                 return true;
             }
         }
@@ -108,7 +113,11 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
     }
     if (!isLockedVariable(key) || lockedVariables.empty()) {
         auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
+        while (lockedAccess) {
+        }
+        lockedAccess = true;
         genericTable->insertSymbol(key, val);
+        lockedAccess = false;
         return true;
     }
     return false;

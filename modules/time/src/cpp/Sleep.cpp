@@ -45,7 +45,7 @@ Sleep(Evaluator* eval, double tValue)
         if (std::isinf(tValue)) {
             while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
                 boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
-                if (eval->haveEventsLoop()) {
+                if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
             }
@@ -59,7 +59,7 @@ Sleep(Evaluator* eval, double tValue)
                     = boost::chrono::high_resolution_clock::now().time_since_epoch();
                 boost::chrono::nanoseconds difftime = (current_time - begin_time);
                 bContinue = !(difftime.count() > int64(tValue * 1e9));
-                if (eval->haveEventsLoop()) {
+                if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
             } while (!NelsonConfiguration::getInstance()->getInterruptPending()

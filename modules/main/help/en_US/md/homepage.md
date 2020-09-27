@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.4.8.0
+### Nelson 0.4.9.0
 
 This is an pre-release of Nelson.
 
@@ -35,6 +35,8 @@ Try it !
 - MAT-file compatible load/save workspace,
 
 - C MEX API compatibility creates and shares mexFunction,
+
+- Inter-process communication between Nelson's process.
 
 - Foreign Function Interface C/Fortran,
 

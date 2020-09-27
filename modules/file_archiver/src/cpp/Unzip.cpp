@@ -113,7 +113,7 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 if (error < 0) {
                     unzCloseCurrentFile(zipfile);
                     unzClose(zipfile);
-                    if (out) {
+                    if (out != nullptr) {
                         fclose(out);
                         out = nullptr;
                     }
@@ -124,7 +124,7 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 }
             } while (error > 0);
             unzCloseCurrentFile(zipfile);
-            if (out) {
+            if (out != nullptr) {
                 fclose(out);
                 out = nullptr;
             }

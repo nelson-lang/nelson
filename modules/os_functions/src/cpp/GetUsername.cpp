@@ -25,9 +25,14 @@
 //=============================================================================
 #ifdef _MSC_VER
 #include <Windows.h>
+#else
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #endif
 #include "GetUsername.hpp"
 #include "GetVariableEnvironment.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -50,6 +55,13 @@ GetUsername()
         username = GetVariableEnvironment(L"USER");
         if (username.empty()) {
             username = GetVariableEnvironment(L"LOGNAME");
+        }
+        if (username.empty()) {
+            uid_t uid = geteuid();
+            struct passwd* pw = getpwuid(uid);
+            if (pw != nullptr) {
+                username = utf8_to_wstring(std::string(pw->pw_name));
+            }
         }
 #endif
     }

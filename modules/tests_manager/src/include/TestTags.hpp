@@ -51,6 +51,7 @@ namespace Nelson {
 #define C_COMPILER_REQUIRED_TAG "<--C/C++ COMPILER REQUIRED-->"
 #define INDEX_64_BIT_REQUIRED_TAG "<--INDEX 64 BIT REQUIRED-->"
 #define NO_USER_MODULES_TAG "<--NO USER MODULES-->"
+#define IPC_REQUIRED_TAG "<--IPC REQUIRED-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -74,6 +75,7 @@ private:
     bool _cCompilerRequired;
     bool _index64BitRequired;
     bool _noUserModules;
+    bool _ipcRequired;
 
 public:
     TestTags()
@@ -97,6 +99,7 @@ public:
         _cCompilerRequired = false;
         _index64BitRequired = false;
         _noUserModules = false;
+        _ipcRequired = false;
     }
 
     bool
@@ -194,6 +197,11 @@ public:
     {
         return _noUserModules;
     }
+    bool
+    isIpcRequired()
+    {
+        return _ipcRequired;
+    }
 
     void
     setWithDisplay(bool val)
@@ -290,6 +298,11 @@ public:
     setNoUserModules(bool val)
     {
         _noUserModules = val;
+    }
+    void
+    setIpcRequired(bool val)
+    {
+        _ipcRequired = val;
     }
 };
 //=============================================================================

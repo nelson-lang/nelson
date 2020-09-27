@@ -59,14 +59,31 @@ namespace Nelson {
 #define MSGBUFLEN 2048
 static char msgBuffer[MSGBUFLEN];
 //=============================================================================
-Dimensions::Dimensions()
+Dimensions::Dimensions() { reset(); }
+//=============================================================================
+Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 {
-    std::uninitialized_fill_n(data, maxDims, 0);
-    length = 0;
+#ifndef NLS_INDEX_TYPE_64
+    for (auto k : dimsVector) {
+        if (k < 0) {
+            Error(_W("Illegal argument to Dimensions constructor"));
+        }
+    }
+#endif
+    indexType szVector = dimsVector.size();
+    if (szVector > maxDims) {
+        Error(_W("Illegal argument to Dimensions constructor"));
+    }
+    reset();
+    for (indexType k = 0; k < szVector; ++k) {
+        data[k] = dimsVector[k];
+    }
+    length = szVector;
 }
 //=============================================================================
 Dimensions::Dimensions(indexType rows, indexType cols)
 {
+    reset();
     data[0] = rows;
     data[1] = cols;
     length = 2;
@@ -79,8 +96,19 @@ Dimensions::Dimensions(indexType dimCount)
         Error(_W("Illegal argument to Dimensions constructor"));
     }
 #endif
-    memset(data, 0, sizeof(indexType) * dimCount);
+    reset();
     length = dimCount;
+}
+//=============================================================================
+std::vector<indexType>
+Dimensions::getAsVector()
+{
+    std::vector<indexType> vector;
+    vector.resize(length, 0);
+    for (indexType k = 0; k < length; ++k) {
+        vector[k] = data[k];
+    }
+    return vector;
 }
 //=============================================================================
 indexType
@@ -324,7 +352,7 @@ void
 Dimensions::reset()
 {
     length = 0;
-    memset(data, 0, sizeof(indexType) * maxDims);
+    data.resize(maxDims, 0);
 }
 //=============================================================================
 void
@@ -375,7 +403,6 @@ bool
 Dimensions::is2D() const
 {
     return length <= 2;
-    // return (getElementCount() == (getRows()*getColumns()));
 }
 //=============================================================================
 bool

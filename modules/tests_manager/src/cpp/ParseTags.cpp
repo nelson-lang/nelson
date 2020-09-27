@@ -123,6 +123,7 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
         bool firstCCompilerRequiredTag = true;
         bool firstIndex64BitRequiredTag = true;
         bool firstNoUserModules = true;
+        bool firstIpcRequired = true;
         std::string line;
         while (!istream.eof()) {
             std::getline(istream, line);
@@ -319,6 +320,18 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
                 firstExcelRequiredTag = false;
                 continue;
             }
+            if (compareTag(line, IPC_REQUIRED_TAG) && firstIpcRequired) {
+                if (!firstIpcRequired) {
+                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
+                        utf8_to_wstring(IPC_REQUIRED_TAG).c_str());
+                    istream.close();
+                    return false;
+                }
+                options.setIpcRequired(true);
+                firstIpcRequired = false;
+                continue;
+            }
+
             if (compareTag(line, MPI_MODE_TAG) && firstMpiModeTag) {
                 if (!firstMpiModeTag) {
                     msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),

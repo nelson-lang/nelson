@@ -205,8 +205,7 @@ ArrayOf::characterArrayConstructor(const std::wstring& astr)
 ArrayOf
 ArrayOf::characterArrayConstructor(const std::string& astr)
 {
-    std::wstring str = utf8_to_wstring(astr);
-    return characterArrayConstructor(str);
+    return characterArrayConstructor(utf8_to_wstring(astr));
 }
 //=============================================================================
 std::string

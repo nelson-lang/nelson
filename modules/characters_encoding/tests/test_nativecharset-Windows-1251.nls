@@ -26,33 +26,6 @@
 assert_isequal(nargin('nativecharset'), 1);
 assert_isequal(nargout('nativecharset'), 1);
 //=============================================================================
-iso8859_1 = [modulepath('characters_encoding'), '/tests/die_ISO-8859-1.txt'];
-F = fopen(iso8859_1, 'rt');
-R = fread(F,'uint8');
-fclose(F);
-ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'ISO-8859-1'));
-//=============================================================================
-ascii = [modulepath('characters_encoding'), '/tests/harpers_ASCII.txt'];
-F = fopen(ascii, 'rt');
-R = fread(F,'uint8');
-fclose(F);
-ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'ISO-8859-1'));
-//=============================================================================
-pt = [modulepath('characters_encoding'), '/tests/portugal_ISO-8859-1.txt'];
-F = fopen(pt, 'rt');
-R = fread(F,'uint8');
-fclose(F);
-ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'ISO-8859-1'));
-//=============================================================================
 windows_1251 = [modulepath('characters_encoding'), '/tests/olaf_Windows-1251.txt'];
 F = fopen(windows_1251, 'rt');
 R = fread(F,'uint8');
@@ -61,22 +34,4 @@ ce = nativecharset(R');
 assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
 assert_istrue(strcmp(ce{1}, 'windows-1251'));
-//=============================================================================
-utf8 = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
-F = fopen(utf8, 'rt');
-R = fread(F,'uint8');
-fclose(F);
-ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'UTF-8'));
-//=============================================================================
-big5 = [modulepath('characters_encoding'), '/tests/yan_BIG-5.txt'];
-F = fopen(big5, 'rt');
-R = fread(F,'uint8');
-fclose(F);
-ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'Big5'));
 //=============================================================================

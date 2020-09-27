@@ -23,18 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('feof'), 1);
-assert_isequal(nargout('feof'), 1);
+// <--ADV-CLI MODE-->
+// <--IPC REQUIRED-->
 //=============================================================================
-filename = [modulepath('characters_encoding'), '/tests/shisei_UTF-8.txt'];
-fid = fopen(filename, 'rt', 'n', 'UTF-8');
-assert_isequal(feof(fid), 0);
-while ~feof(fid)
-  assert_isequal(feof(fid), 0);
-  l = fgetl(fid);
-end
-assert_isequal(feof(fid), 1);
-fclose(fid);
-//=============================================================================
-assert_checkerror('feof(1000)', _('Invalid file identifier.'));
+clear('R');
+REF = 'simplified Chinese: 汉字; traditional Chinese: 漢字; pinyin: Hàn Zì'; 
+ipc(getpid, 'put', REF, 'R', 'base')
+q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(REF, acquirevar('base', 'R'));
 //=============================================================================

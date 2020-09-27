@@ -31,6 +31,11 @@ if ~isbuiltin('mxCreateSparse')
     run('loader.nls');
 end
 //=============================================================================
+REF = sparse(eye(10, 10));
+S = full(REF);
+R = mxCreateSparse(S);
+assert_isequal(R, REF);
+//=============================================================================
 REF = sparse(eye(5, 3));
 S = full(REF);
 R = mxCreateSparse(S);

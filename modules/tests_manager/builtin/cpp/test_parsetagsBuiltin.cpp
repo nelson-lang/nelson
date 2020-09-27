@@ -47,7 +47,9 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
         Error(msg);
     }
     wstringVector fieldnames;
+    fieldnames.reserve(64);
     ArrayOfVector fieldvalues;
+    fieldvalues.reserve(64);
     fieldnames.push_back(L"not_fixed");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNotFixed()));
     fieldnames.push_back(L"interactive_test");
@@ -86,6 +88,9 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIndex64BitRequired()));
     fieldnames.push_back(L"no_user_modules");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNoUserModules()));
+    fieldnames.push_back(L"ipc_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIpcRequired()));
+
     ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;

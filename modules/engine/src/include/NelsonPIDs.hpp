@@ -52,6 +52,10 @@ int
 getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode);
 //=============================================================================
 NLSENGINE_IMPEXP
+int
+getLatestPidInSharedMemory();
+//=============================================================================
+NLSENGINE_IMPEXP
 bool
 isPIDRunning(int pID);
 //=============================================================================

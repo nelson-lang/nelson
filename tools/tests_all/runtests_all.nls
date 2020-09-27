@@ -23,38 +23,39 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+ver_number = version('-number');
+platform_map.('win64') = 'win-x86-64';
+platform_map.('win32') = 'win-x86-32';
+platform_map.('glnxa64') = 'linux-x86-64';
+platform_map.('glnxa32') = 'linux-x86-32';
+platform_map.('maci64') = 'mac-x86-64';
+platform_map.('maci32') = 'mac-x86-32';
+platform_map.('?') = 'unknow-platform';
+platform = platform_map.(computer('arch'));
+TESTS_RESULT_DIR = getenv('TESTS_RESULT_DIR');
+if strcmp(TESTS_RESULT_DIR, '') == true
+  TESTS_RESULT_DIR = nelsonroot();
+end
+if ispc()
+  stop_on_fail = '-stoponfail';
+else
+  stop_on_fail = []; 
+end
+filedest = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
 try
-  TESTS_RESULT_DIR = getenv('TESTS_RESULT_DIR');
-  if strcmp(TESTS_RESULT_DIR, '') == true
-    TESTS_RESULT_DIR = nelsonroot();
-  end
-  ver_number = version('-number');
-  arch_name = computer('arch');
-  platform = 'unknow-platform';
-  if strcmp(arch_name, 'win64') == true
-    platform = 'win-x86-64';
-  end
-  if strcmp(arch_name, 'win32') == true
-    platform = 'win-x86-32';
-  end
-  if strcmp(arch_name, 'glnxa64') == true
-    platform = 'linux-x86-64';
-  end
-  if strcmp(arch_name, 'glnxa32') == true
-    platform = 'linux-x86-32';
-  end
-  if strcmp(arch_name, 'maci64') == true
-    platform = 'mac-x86-64';
-  end
-  if strcmp(arch_name, 'maci32') == true
-    platform = 'mac-x86-32';
-  end
-  filedest = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
-  r = test_run([], 'all_tests', [TESTS_RESULT_DIR, '/', filedest]);
+  r = test_run([], 'all_tests', [TESTS_RESULT_DIR, '/', filedest], stop_on_fail);
 catch
   m = lasterror();
-  disp(m.message);
+  disp(m);
   r = false;
 end
-exit();
+if ispc()
+  if r == false
+    exit(1);
+  else
+    exit();
+  end
+else
+  exit();
+end
 //=============================================================================

@@ -25,17 +25,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsError_manager_exports.h"
 #include <string>
 #include <vector>
+#include "nlsError_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define WARNING_COLON_ARRAY_AS_SCALAR L"Nelson:colon:array-as-scalar"
-#define WARNING_MATIO_TYPE_NOT_SUPPORTED L"Nelson:matio:type-not-supported"
-#define WARNING_RANK_DEFICIENT_MATRIX L"Nelson:rankDeficientMatrix"
-#define WARNING_NEARLY_SINGULAR_MATRIX L"Nelson:nearlySingularMatrix"
-#define WARNING_IMAGINARY_PART_IGNORED L"Nelson:imaginaryPartIgnored"
+constexpr auto WARNING_COLON_ARRAY_AS_SCALAR = L"Nelson:colon:array-as-scalar";
+constexpr auto WARNING_MATIO_TYPE_NOT_SUPPORTED = L"Nelson:matio:type-not-supported";
+constexpr auto WARNING_RANK_DEFICIENT_MATRIX = L"Nelson:rankDeficientMatrix";
+constexpr auto WARNING_NEARLY_SINGULAR_MATRIX = L"Nelson:nearlySingularMatrix";
+constexpr auto WARNING_IMAGINARY_PART_IGNORED = L"Nelson:imaginaryPartIgnored";
+constexpr auto WARNING_NOT_FULLY_SERIALIZED = L"Nelson:notFullySerialized";
 //=============================================================================
 typedef enum
 {

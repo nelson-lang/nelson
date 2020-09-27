@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>ipc</keyword>
+	<short_description>Inter process communicator.</short_description>
+
+	<syntax>
+   		<syntax_item>ipc(pid, 'eval', cmd)</syntax_item>
+		<syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
+        <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
+		<syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
+    	<syntax_item>ipc(pid, 'put', var, name)</syntax_item>
+		<syntax_item>ipc(pid, 'put', var, name , scope)</syntax_item>
+	</syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>'eval'</param_name>
+      <param_description>a string: a command to evaluate to another nelson's process.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'isvar'</param_name>
+      <param_description>a string: check if a variable exists into another nelson's process.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'put'</param_name>
+      <param_description>a string: send a variable into another nelson's process.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'get'</param_name>
+      <param_description>a string: get a variable from another nelson's process.</param_description>
+    </param_input_item>
+  </param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>B</param_name>
+			<param_description>a logical: true if variable exists.</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>V</param_name>
+			<param_description>a variable from another nelson.</param_description>
+		</param_output_item>
+
+	</param_output>
+
+	<description>
+		<p><b>ipc</b> allows to execute, get, put variables between multiple nelson's process.</p>
+		<p>All serializable nelson's types are supported. Unsupported types will be replaced by an empty matrix and a warning.</p>
+		<p>LIMITATION:</p>
+		<p>The limit for the size of data transferred is 5000x5000 double. On 32 bits architecture, 1024x1024 double.</p>
+		<p>Current limitation to limit memory usage.</p>
+	</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[master_pid = getpid()
+initial_pids = getpid('available')
+
+// Creates 4 nelsons process
+N = 4;
+for i = 1:N
+    cmd = sprintf('nelson-gui -e MASTER_PID=%d &', i);
+    unix(cmd);
+    sleep(5)
+end
+current_pids = getpid('available')
+
+// wait clients ready
+for p = current_pids
+    if p ~= master_pid
+        while(~ipc(p, 'isvar', 'MASTER_PID')), sleep(1), end
+    end
+end
+
+// Creates random matrix in others Nelson
+n = 0;
+for p = current_pids
+    if p ~= master_pid
+        cmd = sprintf('rng(%d);M = rand(10, 10); disp(M)', n);
+        ipc(p, 'eval', cmd);
+        n = n + 1;
+    end
+end
+
+// Creates a matrix with matrix from others Nelson
+C = [];
+for p = current_pids
+    if p ~= master_pid
+        R = ipc(p, 'get', 'M');
+        C = [C; R]
+        n = n + 1;
+    end
+end
+
+// close all clients
+for p = current_pids
+    if p ~= master_pid
+        ipc(p, 'eval', 'exit')
+    end
+end]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${engine}getpid">getpid</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${os_functions}unix">unix</link>
+		</see_also_item>
+
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

@@ -1,8 +1,25 @@
 # 0.4.9 (2020-XX-XX)
 
-  * rework timeout thread.
+  * ipc builtin: Inter-process communication between Nelson's process
+
+  * getpid('running') renamed getpid('available').
+
+  * --noipc command line argument added. disable IPC features.
 
   * dark theme detected and used on Macos X.
+
+  * test_run reworked (faster to start).
+
+  * test_run extended with '-stoponfail' option.
+
+  * jsonencode faster for string encoding.
+
+  * rework timeout thread.
+
+Bug Fixes:
+---------
+
+  * [#330](http://github.com/Nelson-numerical-software/nelson/issues/330): removes ALSA errors and warnings on linux.
 
 Compilation:
 ------------
@@ -10,6 +27,8 @@ Compilation:
   * [#322](http://github.com/Nelson-numerical-software/nelson/issues/322): fix build with gcc 4.8 (ubuntu 14.04).
       
       Nelson 0.4.9 will be last to support gcc 4.8
+
+  * libsndfile 1.0.30 on Windows.
 
 
 # 0.4.8 (2020-08-26)
@@ -41,7 +60,7 @@ Compilation:
 
   * Qt 5.15 official package was not detected on Macos X.
 
-  * libsndfile 1.29.0 on Windows.
+  * libsndfile 1.0.29 on Windows.
 
   * libcurl 7.72.0 on Windows.
 

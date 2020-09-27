@@ -36,6 +36,7 @@ NelsonConfiguration::NelsonConfiguration()
     currentOutputFormatDisplay = NLS_FORMAT_SHORT;
     modulesProtected = false;
     nelsonRootPath = L"";
+    ipcEnabled = false;
 }
 //=============================================================================
 NelsonConfiguration*
@@ -116,6 +117,18 @@ std::wstring
 NelsonConfiguration::getNelsonRootDirectory()
 {
     return nelsonRootPath;
+}
+//=============================================================================
+void
+NelsonConfiguration::setIpcEnabled(bool value)
+{
+    ipcEnabled = value;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isIpcEnabled()
+{
+    return ipcEnabled;
 }
 //=============================================================================
 } // namespace Nelson

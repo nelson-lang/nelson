@@ -469,7 +469,7 @@ ArrayOf::ArrayOf(
 ArrayOf::ArrayOf(Class type)
 {
     Dimensions dims(0, 0);
-    dp = new Data(type, dims, NULL);
+    dp = new Data(type, dims, nullptr);
 }
 //=============================================================================
 /**
