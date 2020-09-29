@@ -1,3 +1,11 @@
+# 0.4.10 (2020-10-XX)
+
+Compilation:
+------------
+
+  *  SEMAPHORE CI platform updated to Ubuntu 18.04
+
+
 # 0.4.9 (2020-09-27)
 
   * ipc builtin: Inter-process communication between Nelson's process
