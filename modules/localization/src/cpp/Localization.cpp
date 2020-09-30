@@ -23,15 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Localization.hpp"
-#include "Error.hpp"
-#include "characters_encoding.hpp"
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
 #include <boost/locale.hpp>
+#include <boost/locale/generator.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <clocale>
+#include "Localization.hpp"
+#include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
