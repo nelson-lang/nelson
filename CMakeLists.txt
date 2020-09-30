@@ -397,6 +397,7 @@ find_package(Libgit2 REQUIRED)
 find_package(OpenMP)
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
   set(BOOST_LIBRARIES -lboost_serialization -lboost_system -lboost_filesystem -lboost_locale -lboost_thread -lboost_chrono -lboost_regex -lboost_date_time -lboost_iostreams)
 endif()
 # ==============================================================================
