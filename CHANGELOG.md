@@ -5,6 +5,8 @@ Compilation:
 
   *  SEMAPHORE CI platform updated to Ubuntu 18.04
 
+  *  cmake binaries_directory supported (LGTM support).
+
 
 # 0.4.9 (2020-09-27)
 
