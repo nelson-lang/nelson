@@ -3,7 +3,7 @@
 Compilation:
 ------------
 
-  *  SEMAPHORE CI platform updated to Ubuntu 18.04
+  *  SEMAPHORE CI platform updated to Ubuntu 14.04 - GCC GNU 4.8.4 (supported until it is no more possible)
 
   *  cmake binaries_directory supported (LGTM support).
 

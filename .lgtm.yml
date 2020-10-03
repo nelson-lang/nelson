@@ -3,6 +3,7 @@ extraction:
      prepare:
         packages: 
           - libboost-all-dev
+          - libslicot-dev
           - "build-essential"
           - "pkg-config"
           - qt5-default
