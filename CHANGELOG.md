@@ -1,3 +1,13 @@
+# 0.4.10 (2020-10-XX)
+
+Compilation:
+------------
+
+  *  SEMAPHORE CI platform updated to Ubuntu 14.04 - GCC GNU 4.8.4 (supported until it is no more possible)
+
+  *  cmake binaries_directory supported (LGTM support).
+
+
 # 0.4.9 (2020-09-27)
 
   * ipc builtin: Inter-process communication between Nelson's process

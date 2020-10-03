@@ -1,10 +1,22 @@
 extraction:
   cpp:
-    prepare:
-      packages:
-        - qtbase5-dev
-        - qtdeclarative5-dev
-        - libqt5webkit5-dev
+     prepare:
+        packages: 
+          - libboost-all-dev
+          - libslicot-dev
+          - "build-essential"
+          - "pkg-config"
+          - qt5-default
+          - qttools5-dev
+          - qml-module-qtquick-controls
+          - qml-module-qtquick-controls2          
+          
+     configure:
+        command:
+        - cmake .
+     index:
+        build_command:
+        - make
 
 path_classifiers:
   library:
