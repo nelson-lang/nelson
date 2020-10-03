@@ -27,6 +27,7 @@
 #include <cstdarg>
 #if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
 #include <alsa/error.h>
+#include <jack/jack.h>
 #endif
 #include "AudioHelpers.hpp"
 #include "AudioDevInfo.hpp"
@@ -40,18 +41,30 @@ void
 alsa_error_handler(const char* file, int line, const char* function, int err, const char* fmt, ...)
 { }
 //=============================================================================
+void
+jack_error_handler(const char* text)
+{ }
+//=============================================================================
 static void
 disableAlsaError()
 {
     snd_lib_error_set_handler(alsa_error_handler);
 }
+//=============================================================================
+static void
+disableJackError()
+{
+    jack_set_error_function(jack_error_handler);
+}
 #endif
 //=============================================================================
+
 bool
 initializeAudio()
 {
 #if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
     disableAlsaError();
+    disableJackError();
 #endif
     if (!audioInitialized) {
         PaError err = Pa_Initialize();
