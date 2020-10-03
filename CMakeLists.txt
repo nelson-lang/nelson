@@ -118,6 +118,7 @@ find_package(OpenMP)
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_package(ALSA REQUIRED)
+  find_package(Jack REQUIRED)
 endif()
 # ==============================================================================
 find_package(Portaudio REQUIRED)

@@ -1,5 +1,11 @@
 # 0.4.10 (2020-10-XX)
 
+Bug Fixes:
+---------
+
+  * [#332](http://github.com/Nelson-numerical-software/nelson/issues/332): removes connect(2) call to /dev/shm/jack-0/default/jack_0 failed (err=No such file or directory).
+
+
 Compilation:
 ------------
 
