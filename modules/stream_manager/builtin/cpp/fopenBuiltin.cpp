@@ -108,7 +108,7 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     std::wstring machineFormat = isLittleEndianFormat() ? L"ieee-le" : L"ieee-be";
     std::wstring encoding = L"UTF-8";
 
-    if (argIn.size() < 0 || argIn.size() > 4) {
+    if (argIn.size() > 4) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];

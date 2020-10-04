@@ -163,7 +163,8 @@ HistoryManager::appendHeader()
 #ifdef __GNUC__
     /* std::put_time only in GCC >= 5 ... */
     time_t timer = time(NULL);
-    const struct tm* timeptr = localtime(&timer);
+    struct tm t_result;
+    const struct tm* timeptr = localtime_r(&timer, &t_result);
     std::wstring month;
     if (timeptr->tm_mon + 1 < 10) {
         month = L"0" + std::to_wstring(int(timeptr->tm_mon + 1));

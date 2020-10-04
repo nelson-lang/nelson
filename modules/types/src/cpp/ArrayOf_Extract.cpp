@@ -186,7 +186,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         indexType bound = getLength();
         for (indexType i = 0; i < length; i++) {
             indexType ndx = index_p[i] - 1;
-            if (ndx < 0 || ndx >= bound) {
+            if (ndx < 0 || ndx >= bound) { // lgtm [cpp/constant-comparison]
                 Error(_W("Index exceeds variable dimensions."));
             }
             copyElements(ndx, qp, i, 1);

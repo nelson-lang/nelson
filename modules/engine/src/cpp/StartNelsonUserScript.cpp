@@ -54,8 +54,8 @@ StartNelsonUserScript(Evaluator* eval)
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                 } else {
-                    errmsg = errmsg + L"\n";
-                    fwprintf(stderr, L"%s", errmsg.c_str());
+                    const wchar_t* format = L"%s\n";
+                    fwprintf(stderr, format, errmsg.c_str()); // lgtm [cpp/wrong-type-format-argument]
                 }
             }
             return true;

@@ -124,7 +124,6 @@ Addition(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     needToOverload = false;
     ArrayOf res;
     if (A.isStringArray() || B.isStringArray()) {
-        bool needToOverload = false;
         ArrayOf a = ArrayOf::toStringArray(A, needToOverload);
         if (needToOverload) {
             return res;

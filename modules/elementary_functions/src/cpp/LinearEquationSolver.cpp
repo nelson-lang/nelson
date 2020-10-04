@@ -57,7 +57,7 @@ solveLinearEquationDouble(
     lapack_int NRHS = (lapack_int)n;
     auto* A = (double*)matA.getDataPointer();
     lapack_int LDA = (lapack_int)m;
-    double* AF = (double*)new_with_exception<double>(LDA * N, true);
+    double* AF = (double*)new_with_exception<double>((size_t)(LDA * N), true);
     lapack_int LDAF = (lapack_int)m;
     lapack_int* IPIV = (lapack_int*)new_with_exception<lapack_int>(N, true);
     char EQUED;
@@ -70,8 +70,8 @@ solveLinearEquationDouble(
     double RCOND;
     double* FERR = (double*)new_with_exception<double>(n, true);
     double* BERR = (double*)new_with_exception<double>(n, true);
-    double* WORK = (double*)new_with_exception<double>(4 * N, true);
-    lapack_int* IWORK = (lapack_int*)new_with_exception<lapack_int>(4 * N, true);
+    double* WORK = (double*)new_with_exception<double>((size_t)(4 * N), true);
+    lapack_int* IWORK = (lapack_int*)new_with_exception<lapack_int>((size_t)(4 * N), true);
     lapack_int INFO = 0;
 
     LAPACK_dgesvx(&FACT, &TRANS, &N, &NRHS, A, &LDA, AF, &LDAF, IPIV, &EQUED, R, C, B, &LDB, X,

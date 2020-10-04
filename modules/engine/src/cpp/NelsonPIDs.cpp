@@ -218,8 +218,7 @@ getNelsonPIDs()
                 }
             }
         }
-    } catch (boost::interprocess::interprocess_exception& ex) {
-        ex.get_error_code();
+    } catch (boost::interprocess::interprocess_exception&) {
     }
     return PIDs;
 }
@@ -243,8 +242,7 @@ getNelsonPIDModes()
                 }
             }
         }
-    } catch (boost::interprocess::interprocess_exception& ex) {
-        ex.get_error_code();
+    } catch (boost::interprocess::interprocess_exception&) {
     }
     return Modes;
 }
@@ -264,8 +262,7 @@ getLatestPidInSharedMemory()
                 return pids[j];
             }
         }
-    } catch (boost::interprocess::interprocess_exception& ex) {
-        ex.get_error_code();
+    } catch (boost::interprocess::interprocess_exception&) {
     }
     return 0;
 }
@@ -288,8 +285,7 @@ getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
                 return pids[j];
             }
         }
-    } catch (boost::interprocess::interprocess_exception& ex) {
-        ex.get_error_code();
+    } catch (boost::interprocess::interprocess_exception&) {
     }
     return 0;
 }

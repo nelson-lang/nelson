@@ -568,8 +568,8 @@ ComplexSortWithIndex(const T* sp, T* dp, double* ip, indexType planes, indexType
                 for (indexType k = 0; k < linesize; k++) {
                     SortComplexEntry<T> entry;
                     T rp = sp[2 * (i * planesize * linesize + j + k * planesize)];
-                    T ip = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
-                    std::complex<T> val(rp, ip);
+                    T ipart = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
+                    std::complex<T> val(rp, ipart);
                     entry.z = val;
                     entry.n = (double)k + 1;
                     buf.push_back(entry);

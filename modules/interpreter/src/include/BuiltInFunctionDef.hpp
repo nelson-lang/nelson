@@ -74,7 +74,7 @@ public:
      * The type of the function is NLS_BUILT_IN_FUNCTION
      */
     const FunctionType
-    type() override
+    type() override // lgtm [cpp/member-const-no-effect]
     {
         return NLS_BUILT_IN_FUNCTION;
     }

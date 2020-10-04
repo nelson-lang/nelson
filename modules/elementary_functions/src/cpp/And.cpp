@@ -47,8 +47,9 @@ boolean_and(indexType N, logical* C, const logical* A, int Astride, const logica
     indexType m = 0;
     indexType p = 0;
     for (indexType i = 0; i < N; i++) {
+
         C[i] = static_cast<Nelson::logical>(
-            (static_cast<Nelson::logical>(A[m] != 0u) != 0u) && (B[p]) != 0u);
+            (static_cast<Nelson::logical>(A[m] != 0u) != 0u) && (B[p] != 0u));
         m += Astride;
         p += Bstride;
     }

@@ -88,7 +88,12 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         authors.push_back(ArrayOf::characterArrayConstructor(
             std::string(author->name) + " <" + std::string(author->email) + ">"));
         time_t time = git_commit_time(c);
+#if _MSC_VER
         std::string strtime = std::string(ctime(&time));
+#else
+        char buffer[128];
+        std::string strtime = std::string(ctime_r(&time, buffer));
+#endif
         if (boost::algorithm::ends_with(strtime, "\n")) {
             strtime.pop_back();
         }
