@@ -24,16 +24,13 @@
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\getnelsonmodeBuiltin.hpp">
+    <ClInclude Include="..\include\getpidBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\nlsEngine_builtin_exports.h">
+    <ClInclude Include="..\include\ipcBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\isquietmodeBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\argvBuiltin.hpp">
+    <ClInclude Include="..\include\nlsIpc_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,13 +41,10 @@
     <ClCompile Include="..\cpp\Gateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\getnelsonmodeBuiltin.cpp">
+    <ClCompile Include="..\cpp\getpidBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\isquietmodeBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\argvBuiltin.cpp">
+    <ClCompile Include="..\cpp\ipcBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

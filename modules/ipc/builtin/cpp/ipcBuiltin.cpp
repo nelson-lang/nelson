@@ -37,7 +37,7 @@ using namespace Nelson;
 // V = ipc(pid, 'get', name [, scope = current])
 // B = ipc(pid, 'isvar', name [, scope = current])
 ArrayOfVector
-Nelson::EngineGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (!NelsonConfiguration::getInstance()->isIpcEnabled()) {

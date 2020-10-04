@@ -114,7 +114,7 @@ end]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${engine}getpid">getpid</link>
+			<link linkend="${ipc}getpid">getpid</link>
 		</see_also_item>
 		<see_also_item>
 			<link linkend="${os_functions}unix">unix</link>

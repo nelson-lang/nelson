@@ -30,7 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::EngineGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::IpcGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {

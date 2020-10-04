@@ -169,20 +169,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\CloseAllFiles.cpp" />
-    <ClCompile Include="..\cpp\FilesAssociationIPC.cpp" />
+    <ClCompile Include="..\cpp\FilesAssociations.cpp" />
     <ClCompile Include="..\cpp\MainGuiObjectDynamic.cpp" />
     <ClCompile Include="..\cpp\FinishNelsonMainScript.cpp" />
     <ClCompile Include="..\cpp\FinishNelsonUserScript.cpp" />
     <ClCompile Include="..\cpp\MainEvaluator.cpp" />
     <ClCompile Include="..\cpp\MaxOpenedFiles.cpp" />
-    <ClCompile Include="..\cpp\NelsonInterprocess.cpp" />
     <ClCompile Include="..\cpp\NelsonNamedMutex.cpp" />
-    <ClCompile Include="..\cpp\NelsonPIDs.cpp" />
-    <ClCompile Include="..\cpp\FilesAssociations.cpp" />
     <ClCompile Include="..\cpp\PostCommand.cpp" />
     <ClCompile Include="..\cpp\ProgramOptions.cpp" />
     <ClCompile Include="..\cpp\RecursionStack.cpp" />
-    <ClCompile Include="..\cpp\RemoveIpcOldFiles.cpp" />
     <ClCompile Include="..\cpp\SetNelSonEnvironmentVariables.cpp" />
     <ClCompile Include="..\cpp\StartNelson.cpp" />
     <ClCompile Include="..\cpp\StartNelsonMainScript.cpp" />
@@ -198,19 +194,15 @@
     <ClInclude Include="..\..\src\include\SetNelSonEnvironmentVariables.hpp" />
     <ClInclude Include="..\..\src\include\StartNelson.h" />
     <ClInclude Include="..\include\CloseAllFiles.hpp" />
-    <ClInclude Include="..\include\FilesAssociationIPC.hpp" />
+    <ClInclude Include="..\include\FilesAssociation.hpp" />
     <ClInclude Include="..\include\MainGuiObjectDynamic.hpp" />
     <ClInclude Include="..\include\FinishNelsonMainScript.hpp" />
     <ClInclude Include="..\include\FinishNelsonUserScript.hpp" />
     <ClInclude Include="..\include\MaxOpenedFiles.hpp" />
-    <ClInclude Include="..\include\NelsonInterprocess.hpp" />
     <ClInclude Include="..\include\NelsonNamedMutex.hpp" />
-    <ClInclude Include="..\include\NelsonPIDs.hpp" />
-    <ClInclude Include="..\include\FilesAssociation.hpp" />
     <ClInclude Include="..\include\PostCommand.hpp" />
     <ClInclude Include="..\include\ProgramOptions.hpp" />
     <ClInclude Include="..\include\RecursionStack.hpp" />
-    <ClInclude Include="..\include\RemoveIpcOldFiles.hpp" />
     <ClInclude Include="..\include\StartNelsonMainScript.hpp" />
     <ClInclude Include="..\include\StartNelsonUserModules.hpp" />
     <ClInclude Include="..\include\StartNelsonUserScript.hpp" />

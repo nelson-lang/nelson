@@ -23,45 +23,45 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/interprocess/detail/shared_dir_helpers.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/filesystem/operations.hpp>
-#include "RemoveIpcOldFiles.hpp"
+#pragma once
+//=============================================================================
+#include <vector>
+#include "nlsIpc_exports.h"
+#include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+NLSIPC_IMPEXP
+std::vector<int>
+getNelsonPIDs();
+//=============================================================================
+NLSIPC_IMPEXP
+std::vector<NELSON_ENGINE_MODE>
+getNelsonPIDModes();
+//=============================================================================
+NLSIPC_IMPEXP
 bool
-RemoveIpcOldFiles()
-{
-    bool result = false;
-    std::string ipcDirectory;
-    boost::interprocess::ipcdetail::get_shared_dir(ipcDirectory);
-    boost::filesystem::path branch(ipcDirectory);
-    bool isDirectory;
-    try {
-        isDirectory = boost::filesystem::is_directory(branch);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        isDirectory = false;
-    }
-    if (isDirectory) {
-        for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
-            boost::filesystem::path filepath = p->path();
-            std::wstring filename = filepath.leaf().wstring();
-            if (boost::algorithm::starts_with(filename, L"NELSON_COMMAND_INTERPROCESS_")
-                || boost::algorithm::starts_with(filename, L"NELSON_COMMAND_FILE_EXTENSION_")) {
-                try {
-                    result = true;
-                    boost::filesystem::remove(filepath);
-                } catch (const boost::filesystem::filesystem_error&) {
-                    result = false;
-                }
-            }
-        }
-    }
-    return result;
-}
+registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE _mode);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+unregisterPidInSharedMemory(int pid);
+//=============================================================================
+NLSIPC_IMPEXP
+int
+getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode);
+//=============================================================================
+NLSIPC_IMPEXP
+int
+getLatestPidInSharedMemory();
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+isPIDRunning(int pID);
+//=============================================================================
+NLSIPC_IMPEXP
+int
+getCurrentPID();
 //=============================================================================
 }
 //=============================================================================

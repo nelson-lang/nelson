@@ -25,16 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace EngineGateway {
-    //=============================================================================
-    ArrayOfVector
-    getpidBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSIPC_BUILTIN_EXPORTS
+#define NLSIPC_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSIPC_BUILTIN_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSIPC_BUILTIN_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

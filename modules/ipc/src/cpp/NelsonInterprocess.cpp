@@ -37,7 +37,6 @@
 #include "PostCommand.hpp"
 #include "MainEvaluator.hpp"
 #include "StringZLib.hpp"
-#include "SparseConstructors.hpp"
 #include "ArrayOfSerialization.hpp"
 #include "Warning.hpp"
 #include "Sleep.hpp"

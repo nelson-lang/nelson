@@ -38,20 +38,29 @@ commonFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const std::wstring& command, const wstringVector& filesToOpen);
 //=============================================================================
 bool
-OpenFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen)
+OpenFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
 {
+    if (sendByIPC) {
+    }
     return commonFilesAssociated(currentMode, L"edit", filesToOpen);
 }
 //=============================================================================
 bool
-LoadFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen)
+LoadFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
 {
+    if (sendByIPC) {
+    }
     return commonFilesAssociated(currentMode, L"load", filesToOpen);
 }
 //=============================================================================
 bool
-ExecuteFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen)
+ExecuteFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
 {
+    if (sendByIPC) {
+    }
     return commonFilesAssociated(currentMode, L"run", filesToOpen);
 }
 //=============================================================================

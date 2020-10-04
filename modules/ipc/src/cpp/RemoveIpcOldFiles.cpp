@@ -23,45 +23,45 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <vector>
-#include "nlsEngine_exports.h"
-#include "NelSon_engine_mode.h"
+#include <boost/interprocess/detail/shared_dir_helpers.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/convenience.hpp>
+#include <boost/filesystem/operations.hpp>
+#include "RemoveIpcOldFiles.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSENGINE_IMPEXP
-std::vector<int>
-getNelsonPIDs();
-//=============================================================================
-NLSENGINE_IMPEXP
-std::vector<NELSON_ENGINE_MODE>
-getNelsonPIDModes();
-//=============================================================================
-NLSENGINE_IMPEXP
 bool
-registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE _mode);
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-unregisterPidInSharedMemory(int pid);
-//=============================================================================
-NLSENGINE_IMPEXP
-int
-getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode);
-//=============================================================================
-NLSENGINE_IMPEXP
-int
-getLatestPidInSharedMemory();
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-isPIDRunning(int pID);
-//=============================================================================
-NLSENGINE_IMPEXP
-int
-getCurrentPID();
+RemoveIpcOldFiles()
+{
+    bool result = false;
+    std::string ipcDirectory;
+    boost::interprocess::ipcdetail::get_shared_dir(ipcDirectory);
+    boost::filesystem::path branch(ipcDirectory);
+    bool isDirectory;
+    try {
+        isDirectory = boost::filesystem::is_directory(branch);
+    } catch (const boost::filesystem::filesystem_error&) {
+        isDirectory = false;
+    }
+    if (isDirectory) {
+        for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
+            boost::filesystem::path filepath = p->path();
+            std::wstring filename = filepath.leaf().wstring();
+            if (boost::algorithm::starts_with(filename, L"NELSON_COMMAND_INTERPROCESS_")
+                || boost::algorithm::starts_with(filename, L"NELSON_COMMAND_FILE_EXTENSION_")) {
+                try {
+                    result = true;
+                    boost::filesystem::remove(filepath);
+                } catch (const boost::filesystem::filesystem_error&) {
+                    result = false;
+                }
+            }
+        }
+    }
+    return result;
+}
 //=============================================================================
 }
 //=============================================================================

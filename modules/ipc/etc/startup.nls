@@ -23,9 +23,6 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-a = getpid();
-assert_istrue(a > 0);
-//=============================================================================
-v = getpid('available');
-assert_istrue(isa(v, 'double'));
-//=============================================================================
+addgateway(modulepath(nelsonroot(), 'ipc', 'builtin'));
+
+

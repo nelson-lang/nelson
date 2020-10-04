@@ -64,6 +64,10 @@ getpid('available')]]>
 		<see_also_item>
 			<link linkend="${os_functions}unix">unix</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${ipc}ipc">ipc</link>
+		</see_also_item>
+
 	</see_also>
 
 	<history>
