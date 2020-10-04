@@ -13,6 +13,8 @@ Compilation:
 
   *  cmake binaries_directory supported (LGTM support).
 
+  * fix some warnings detected with LGTM.
+
 
 # 0.4.9 (2020-09-27)
 

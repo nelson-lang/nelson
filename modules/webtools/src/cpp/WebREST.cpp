@@ -353,7 +353,6 @@ buildHeader(CURL* curlObject, WebOptions& options)
         ArrayOf valueArrayOf = options.getKeyValue();
         if (valueArrayOf.isEmpty()) {
             lines.push_back(name + ";");
-        } else {
         }
     }
 

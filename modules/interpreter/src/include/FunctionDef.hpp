@@ -100,7 +100,7 @@ public:
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
     const virtual FunctionType
-    type()
+    type() // lgtm [cpp/member-const-no-effect]
         = 0;
     /**
      * Print a description of the function

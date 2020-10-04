@@ -140,10 +140,6 @@ FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIs
             }
             resizestr[sizeReallyRead] = 0;
             delete[] str;
-            if (encoding != "UTF-8") {
-                sizeReallyRead;
-            } else {
-            }
             toRead = ArrayOf::characterArrayConstructor(resizestr);
             if (encoding != "UTF-8") {
                 std::string asUtf8;

@@ -122,9 +122,16 @@ Zipper::operator<<(std::istream& is)
 void
 Zipper::getTime(tm_zip& tmZip)
 {
+#ifdef _MSC_VER
+    __time64_t rawtime;
+    _time64(&rawtime);
+    auto timeinfo = _localtime64(&rawtime);
+#else
     time_t rawtime;
     time(&rawtime);
-    auto timeinfo = localtime(&rawtime);
+    struct tm t_result;
+    auto timeinfo = localtime_r(&rawtime, &t_result);
+#endif
     tmZip.tm_sec = timeinfo->tm_sec;
     tmZip.tm_min = timeinfo->tm_min;
     tmZip.tm_hour = timeinfo->tm_hour;

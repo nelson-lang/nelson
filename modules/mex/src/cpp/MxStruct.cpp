@@ -94,7 +94,7 @@ mxGetNumberOfFields(const mxArray* pm)
     return 0;
 }
 //=============================================================================
-static std::string fieldname;
+static std::string privateFieldname;
 //=============================================================================
 const char*
 mxGetFieldNameByNumber(const mxArray* pm, int fieldnumber)
@@ -108,8 +108,8 @@ mxGetFieldNameByNumber(const mxArray* pm, int fieldnumber)
     auto* ptr = (Nelson::ArrayOf*)pm->ptr;
     const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
     Nelson::stringVector names = ptr->getFieldNames();
-    fieldname = names[fieldnumber];
-    return fieldname.c_str();
+    privateFieldname = names[fieldnumber];
+    return privateFieldname.c_str();
 }
 //=============================================================================
 mxArray*
@@ -118,7 +118,7 @@ mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber)
     if (!mxIsStruct(pm)) {
         return nullptr;
     }
-    if (index >= mxGetNumberOfElements(pm) || index < 0) {
+    if (index >= mxGetNumberOfElements(pm) || index < 0) { // lgtm [cpp/constant-comparison]
         return nullptr;
     }
     if (fieldnumber >= mxGetNumberOfFields(pm) || fieldnumber < 0) {

@@ -89,7 +89,7 @@ public:
     /** The type of the function
      */
     const FunctionType
-    type() override
+    type() override // lgtm [cpp/member-const-no-effect]
     {
         return NLS_MACRO_FUNCTION;
     }

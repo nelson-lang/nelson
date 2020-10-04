@@ -33,6 +33,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static void
+printError(Interface* io, const std::wstring& message)
+{
+    if (io != nullptr) {
+        io->warningMessage(message);
+    } else {
+        const wchar_t* format = L"%s\n";
+        fwprintf(stdout, format, message.c_str()); // lgtm [cpp/wrong-type-format-argument]
+    }
+}
+//=============================================================================
 bool
 StartNelsonUserModules(Evaluator* eval)
 {
@@ -47,11 +58,7 @@ StartNelsonUserModules(Evaluator* eval)
                     UnregisterModule(name);
                     Interface* io = eval->getInterface();
                     std::wstring msg = _W("Module already loaded: ") + name;
-                    if (io != nullptr) {
-                        io->warningMessage(msg);
-                    } else {
-                        fwprintf(stdout, L"%s\n", msg.c_str());
-                    }
+                    printError(io, msg);
                 } else {
                     std::wstring path = std::get<1>(element);
                     bool load = std::get<2>(element);
@@ -67,11 +74,7 @@ StartNelsonUserModules(Evaluator* eval)
                             Interface* io = eval->getInterface();
                             eval->setLastErrorException(e);
                             std::wstring errmsg = _W("Impossible to load module: ") + name;
-                            if (io != nullptr) {
-                                io->errorMessage(errmsg);
-                            } else {
-                                fwprintf(stderr, L"%s\n", errmsg.c_str());
-                            }
+                            printError(io, errmsg);
                         }
                     }
                 }
@@ -81,12 +84,7 @@ StartNelsonUserModules(Evaluator* eval)
         if (!userModules.empty()) {
             Interface* io = eval->getInterface();
             std::wstring msg = _W("Impossible to read modules.json");
-            if (io != nullptr) {
-                io->errorMessage(msg);
-            } else {
-                msg = msg + L"\n";
-                fwprintf(stdout, L"%s", msg.c_str());
-            }
+            printError(io, msg);
         }
     }
     return false;
