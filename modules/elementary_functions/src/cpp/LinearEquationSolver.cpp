@@ -124,7 +124,7 @@ solveLinearEquationDoubleComplex(
     auto* A = reinterpret_cast<std::complex<double>*>((double*)matA.getDataPointer());
     lapack_int INFO = 0;
     std::complex<double>* AF
-        = (std::complex<double>*)new_with_exception<std::complex<double>>(LDA * N, true);
+        = (std::complex<double>*)new_with_exception<std::complex<double>>((size_t)(LDA * N), true);
     lapack_int LDAF = (lapack_int)m;
     lapack_int* IPIV = (lapack_int*)new_with_exception<lapack_int>(N, true);
     auto* B = reinterpret_cast<std::complex<double>*>((double*)matB.getDataPointer());
@@ -132,9 +132,9 @@ solveLinearEquationDoubleComplex(
     auto* X = reinterpret_cast<std::complex<double>*>(ptrC);
 
     std::complex<double>* WORK
-        = (std::complex<double>*)new_with_exception<std::complex<double>>(2 * N, true);
+        = (std::complex<double>*)new_with_exception<std::complex<double>>((size_t)(2 * N), true);
 
-    double* RWORK = new_with_exception<double>(2 * N, true);
+    double* RWORK = new_with_exception<double>((size_t)(2 * N), true);
 
     LAPACK_zgesvx(&FACT, &TRANS, &N, &NRHS, A, &LDA, AF, &LDAF, IPIV, &EQUED, R, C, B, &LDB, X,
         &LDX, &RCOND, FERR, BERR, WORK, RWORK, &INFO);
