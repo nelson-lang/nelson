@@ -32,7 +32,7 @@
 #include "FilesAssociationIPC.hpp"
 #include "FilesAssociation.hpp"
 #include "StringZLib.hpp"
-#include "MainEvaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Sleep.hpp"
 //=============================================================================
 namespace Nelson {
@@ -200,7 +200,7 @@ removeMessageQueue(int pid)
 static void
 waitMessageQueueUntilReady()
 {
-    Evaluator* eval = getMainEvaluator();
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     while (!isMessageQueueReady && !isMessageQueueFails) {
         Sleep(eval, .5);
     }
@@ -216,7 +216,6 @@ terminateNelsonCommandFileExtensionReceiver()
     }
 }
 //=============================================================================
-
 bool
 removeNelsonCommandFileExtensionReceiver(int pid)
 {

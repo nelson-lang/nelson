@@ -25,24 +25,24 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsEngine_exports.h"
+#include "nlsIpc_exports.h"
 #include "Evaluator.hpp"
 #include "Types.hpp"
 #include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSENGINE_IMPEXP
+NLSIPC_IMPEXP
 bool
 OpenFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
 //=============================================================================
-NLSENGINE_IMPEXP
+NLSIPC_IMPEXP
 bool
 LoadFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
 //=============================================================================
-NLSENGINE_IMPEXP
+NLSIPC_IMPEXP
 bool
 ExecuteFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);

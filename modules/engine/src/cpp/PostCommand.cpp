@@ -48,3 +48,9 @@ postCommand(const std::wstring& commandToExecute)
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
+bool
+PostCommand(const std::wstring& commandToExecute)
+{
+    return Nelson::postCommand(commandToExecute);
+}
+//=============================================================================

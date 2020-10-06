@@ -29,7 +29,9 @@
 #include "FilesAssociation.hpp"
 #include "EvaluateCommand.hpp"
 #include "NelSon_engine_mode.h"
-#include "PostCommand.hpp"
+#include "PostCommandDynamicFunction.hpp"
+#include "FilesAssociationIPC.hpp"
+#include "NelsonPIDs.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,6 +44,11 @@ OpenFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
 {
     if (sendByIPC) {
+        int existingPID = getLatestPidWithModeInSharedMemory(currentMode);
+        if (existingPID == 0) {
+            return false;
+        }
+        return sendCommandToFileExtensionReceiver(existingPID, "open", filesToOpen);
     }
     return commonFilesAssociated(currentMode, L"edit", filesToOpen);
 }
@@ -51,6 +58,11 @@ LoadFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
 {
     if (sendByIPC) {
+        int existingPID = getLatestPidWithModeInSharedMemory(currentMode);
+        if (existingPID == 0) {
+            return false;
+        }
+        return sendCommandToFileExtensionReceiver(existingPID, "load", filesToOpen);
     }
     return commonFilesAssociated(currentMode, L"load", filesToOpen);
 }
@@ -60,6 +72,11 @@ ExecuteFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
 {
     if (sendByIPC) {
+        int existingPID = getLatestPidWithModeInSharedMemory(currentMode);
+        if (existingPID == 0) {
+            return false;
+        }
+        return sendCommandToFileExtensionReceiver(existingPID, "run", filesToOpen);
     }
     return commonFilesAssociated(currentMode, L"run", filesToOpen);
 }
@@ -79,7 +96,7 @@ commonFilesAssociated(
                     if (bIsFile) {
                         std::wstring commandToExecute
                             = command + std::wstring(L"('" + filesToOpen[k] + L"');");
-                        bool r = postCommand(commandToExecute);
+                        bool r = PostCommandDynamicFunction(commandToExecute);
                         if (r != true) {
                             return false;
                         }

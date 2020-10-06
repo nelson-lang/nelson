@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of the Nelson.
 //=============================================================================
@@ -23,26 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--GUI MODE--> 
-// <--NO USER MODULES-->
+#pragma once
 //=============================================================================
-modules_loaded = getmodules();
-run([nelsonroot(), '/modules/modules.nls']);
-if ~ispc()
-  modules_list(strcmp(modules_list,'com_engine')) = [];
-end
-if ~any(strcmp(getnelsonmode(), ["ADVANCED_SIO_CLIENT", "BASIC_SIO_CLIENT"]))
-  modules_list(strcmp(modules_list, 'sio_client')) = [];
-end
-if ~ismodule('slicot')
-  modules_list(strcmp(modules_list, 'slicot')) = [];
-end
-if ~ismodule('fftw')
-  modules_list(strcmp(modules_list, 'fftw')) = [];
-end
-if ~ismodule('ipc')
-  modules_list(strcmp(modules_list, 'ipc')) = [];
-end
-assert_isequal(modules_loaded, cellstr(modules_list));
+#include <string>
+#include "nlsIpc_exports.h"
 //=============================================================================
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSIPC_IMPEXP bool
+    PostCommandDynamicFunction(const std::wstring &command);
+//=============================================================================
+#ifdef __cplusplus
+}
+#endif
+//=============================================================================

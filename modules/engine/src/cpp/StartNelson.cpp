@@ -284,8 +284,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         displayVersion(_mode);
         return 0;
     }
-    NelsonConfiguration::getInstance()->setIpcEnabled(!po.haveNoIpc());
-    if (_mode == NELSON_ENGINE_MODE::GUI && NelsonConfiguration::getInstance()->isIpcEnabled()) {
+    if (_mode == NELSON_ENGINE_MODE::GUI && !po.haveNoIpc()) {
         bool wasSent = false;
         if (po.haveFileToExecuteIPC()) {
             std::wstring fileToExecuteIPC = po.getFileToExecuteIPC();
