@@ -48,7 +48,7 @@ initializeIpcModule(Nelson::Evaluator* eval)
         RemoveIpcOldFiles();
     }
     int currentPID = getCurrentPID();
-    NELSON_ENGINE_MODE mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+    auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
     registerPidInSharedMemory(currentPID, mode);
     if (mode == NELSON_ENGINE_MODE::GUI) {
         createNelsonCommandFileExtensionReceiver(currentPID);
@@ -61,7 +61,7 @@ static bool
 finishIpcModule(Nelson::Evaluator* eval)
 {
     int currentPID = getCurrentPID();
-    NELSON_ENGINE_MODE mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+    auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
     removeNelsonInterprocessReceiver(currentPID);
     if (mode == NELSON_ENGINE_MODE::GUI) {
         removeNelsonCommandFileExtensionReceiver(currentPID);

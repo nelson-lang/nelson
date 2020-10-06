@@ -129,11 +129,11 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
         unsigned int priority = 0;
         size_t recvd_size = 0;
         std::stringstream iss;
-        serialized_compressed_string.resize(messageQueue->get_max_msg_size());
         if (messageQueue == nullptr) {
             receiverLoopRunning = false;
             return;
         }
+        serialized_compressed_string.resize(messageQueue->get_max_msg_size());
         bool readed = false;
         try {
             readed = messageQueue->try_receive(
@@ -157,7 +157,6 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
                     } catch (boost::archive::archive_exception&) {
                     }
                 }
-                serialized_compressed_string.clear();
             }
             try {
                 boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(50)));
@@ -200,7 +199,7 @@ removeMessageQueue(int pid)
 static void
 waitMessageQueueUntilReady()
 {
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     while (!isMessageQueueReady && !isMessageQueueFails) {
         Sleep(eval, .5);
     }

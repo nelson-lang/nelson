@@ -68,14 +68,14 @@ initEngineDynamicLibrary()
 bool
 PostCommandDynamicFunction(const std::wstring& command)
 {
-    using PROC_PostCommand = bool (*)(const std::wstring &);
+    using PROC_PostCommand = bool (*)(const std::wstring&);
     static PROC_PostCommand PostCommandPtr = nullptr;
     initEngineDynamicLibrary();
     if (PostCommandPtr == nullptr) {
         PostCommandPtr = reinterpret_cast<PROC_PostCommand>(
             Nelson::get_function(nlsEngineHandleDynamicLibrary, "PostCommand"));
         if (PostCommandPtr == nullptr) {
-            return nullptr;
+            return false;
         }
     }
     return PostCommandPtr(command);
