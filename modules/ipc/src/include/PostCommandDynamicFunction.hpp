@@ -34,7 +34,7 @@ extern "C"
 #endif
     //=============================================================================
     NLSIPC_IMPEXP bool
-    PostCommandDynamicFunction(const std::wstring &command);
+    PostCommandDynamicFunction(const std::wstring& command);
 //=============================================================================
 #ifdef __cplusplus
 }
