@@ -34,10 +34,9 @@
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
 #include "characters_encoding.hpp"
-#include "PostCommand.hpp"
-#include "MainEvaluator.hpp"
+#include "PostCommandDynamicFunction.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "StringZLib.hpp"
-#include "SparseConstructors.hpp"
 #include "ArrayOfSerialization.hpp"
 #include "Warning.hpp"
 #include "Sleep.hpp"
@@ -135,7 +134,8 @@ public:
         }
         if (commandType == "put") {
             return fullySerialized;
-        } else if (commandType == "isvar") {
+        }
+        if (commandType == "isvar") {
             return true;
         } else if (commandType == "isvar_answer") {
             return true;
@@ -231,9 +231,9 @@ processMessageData(const dataInterProcessToExchange& messageData)
 {
     bool res = false;
     if (messageData.commandType == "eval") {
-        res = postCommand(utf8_to_wstring(messageData.lineToEvaluate));
+        res = PostCommandDynamicFunction(utf8_to_wstring(messageData.lineToEvaluate));
     } else if (messageData.commandType == "put") {
-        Evaluator* eval = getMainEvaluator();
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
         Scope* scope = getScopeFromName(eval, messageData.scope);
         if (scope != nullptr) {
             bool success;
@@ -244,7 +244,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
             }
         }
     } else if (messageData.commandType == "isvar") {
-        Evaluator* eval = getMainEvaluator();
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
         Scope* scope = getScopeFromName(eval, messageData.scope);
         if (scope != nullptr) {
             bool isVar = scope->isVariable(messageData.variableName);
@@ -254,7 +254,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
         isVarAnswer = messageData.valueAnswer;
         isVarAnswerAvailable = true;
     } else if (messageData.commandType == "get") {
-        Evaluator* eval = getMainEvaluator();
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
         Scope* scope = getScopeFromName(eval, messageData.scope);
         if (scope != nullptr) {
             ArrayOf result;
@@ -316,11 +316,11 @@ createNelsonInterprocessReceiverThread(int currentPID)
         unsigned int priority = 0;
         size_t recvd_size = 0;
         std::stringstream iss;
-        serialized_compressed_string.resize(messageQueue->get_max_msg_size());
         if (messageQueue == nullptr) {
             receiverLoopRunning = false;
             return;
         }
+        serialized_compressed_string.resize(messageQueue->get_max_msg_size());
         bool readed = false;
         try {
             readed = messageQueue->try_receive(
@@ -516,7 +516,7 @@ isVariableFromNelsonInterprocessReceiver(
         Error(_W("Cannot send serialized data."));
     }
     int l = 0;
-    Evaluator* eval = getMainEvaluator();
+    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     while (!isVarAnswerAvailable && l < 20) {
         Sleep(eval, .5);
         l++;
@@ -561,7 +561,7 @@ getVariableFromNelsonInterprocessReceiver(
         Error(_W("Cannot send serialized data."));
     }
     int l = 0;
-    Evaluator* eval = getMainEvaluator();
+    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     while (!getVarAnswerAvailable && l < 20) {
         Sleep(eval, .5);
         l++;
@@ -623,7 +623,7 @@ CompressedStringToArrayOf(const std::string& compressedString, bool& success)
 void
 waitMessageQueueUntilReady()
 {
-    Evaluator* eval = getMainEvaluator();
+    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     while (!isMessageQueueReady && !isMessageQueueFails) {
         Sleep(eval, .5);
     }

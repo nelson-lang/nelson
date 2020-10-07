@@ -23,13 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
 #include "StartNelsonMainScript.hpp"
 #include "CloseAllFiles.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "GetNelsonPath.hpp"
 #include "Interface.hpp"
 #include "NelsonConfiguration.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 bool
 StartNelsonMainScript(Evaluator* eval)

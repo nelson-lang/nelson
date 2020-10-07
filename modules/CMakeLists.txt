@@ -87,7 +87,8 @@ list(
   file_archiver
   webtools
   graphics
-  mex)
+  mex
+  ipc)
 list(APPEND moduleslist main)
 # ==============================================================================
 if(NOT WITHOUT_FFTW AND NOT LGPL21_ONLY)

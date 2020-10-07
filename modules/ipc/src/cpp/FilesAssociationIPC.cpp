@@ -32,6 +32,8 @@
 #include "FilesAssociationIPC.hpp"
 #include "FilesAssociation.hpp"
 #include "StringZLib.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "Sleep.hpp"
 //=============================================================================
 namespace Nelson {
 constexpr auto NELSON_COMMAND_PID = "NELSON_COMMAND_PID";
@@ -71,6 +73,9 @@ static boost::thread* server_thread = nullptr;
 static std::string ipc_channel_name;
 //=============================================================================
 static volatile bool isMessageQueueReady = false;
+static volatile bool isMessageQueueFails = false;
+//=============================================================================
+static boost::interprocess::message_queue* messageQueue = nullptr;
 //=============================================================================
 static std::string
 getChannelName(int currentPID)
@@ -87,11 +92,11 @@ doFileExtensionCommand(const command_file_extension& msg)
 {
     bool result = false;
     if (msg.commandType == "open") {
-        result = OpenFilesAssociated(NELSON_ENGINE_MODE::GUI, msg.filenames);
+        result = OpenFilesAssociated(NELSON_ENGINE_MODE::GUI, msg.filenames, false);
     } else if (msg.commandType == "load") {
-        result = LoadFilesAssociated(NELSON_ENGINE_MODE::GUI, msg.filenames);
+        result = LoadFilesAssociated(NELSON_ENGINE_MODE::GUI, msg.filenames, false);
     } else if (msg.commandType == "run") {
-        result = ExecuteFilesAssociated(NELSON_ENGINE_MODE::GUI, msg.filenames);
+        result = ExecuteFilesAssociated(NELSON_ENGINE_MODE::GUI, msg.filenames, false);
     }
     return result;
 }
@@ -101,44 +106,67 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
 {
     receiverLoopRunning = true;
     try {
-        boost::interprocess::message_queue messages(boost::interprocess::create_only,
+        messageQueue = new boost::interprocess::message_queue(boost::interprocess::create_only,
             getChannelName(currentPID).c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
+    } catch (std::bad_alloc&) {
+        messageQueue = nullptr;
+    } catch (boost::interprocess::interprocess_exception&) {
+        messageQueue = nullptr;
+    }
+    if (messageQueue == nullptr) {
+        receiverLoopRunning = false;
+        isMessageQueueFails = true;
+        removeNelsonCommandFileExtensionReceiver(currentPID);
+        return;
+    }
 
+    command_file_extension msg("", std::vector<std::wstring>());
+    isMessageQueueReady = true;
+    std::string serialized_compressed_string;
+    unsigned int maxMessageSize = messageQueue->get_max_msg_size();
+
+    while (receiverLoopRunning) {
         unsigned int priority = 0;
         size_t recvd_size = 0;
-        command_file_extension msg("", std::vector<std::wstring>());
-        isMessageQueueReady = true;
-        std::string serialized_compressed_string;
-        while (receiverLoopRunning) {
-            serialized_compressed_string.resize(MAX_MSG_SIZE);
-            if (messages.try_receive(
-                    &serialized_compressed_string[0], MAX_MSG_SIZE, recvd_size, priority)) {
+        std::stringstream iss;
+        if (messageQueue == nullptr) {
+            receiverLoopRunning = false;
+            return;
+        }
+        serialized_compressed_string.resize(messageQueue->get_max_msg_size());
+        bool readed = false;
+        try {
+            readed = messageQueue->try_receive(
+                &serialized_compressed_string[0], maxMessageSize, recvd_size, priority);
+        } catch (...) {
+            readed = false;
+        }
+        if (messageQueue && readed) {
+            if (recvd_size != 0) {
                 serialized_compressed_string[recvd_size] = 0;
-                bool fails = false;
-                std::string serialized_string
-                    = decompressString(serialized_compressed_string, fails);
-                if (!fails) {
-                    std::stringstream iss;
-                    iss << serialized_string;
-                    boost::archive::text_iarchive ia(iss);
-                    ia >> msg;
-                    doFileExtensionCommand(msg);
-                }
+                bool failed = false;
+                std::string decompressed_string
+                    = decompressString(serialized_compressed_string, failed);
                 serialized_compressed_string.clear();
+                if (!failed) {
+                    iss << decompressed_string;
+                    try {
+                        boost::archive::text_iarchive ia(iss);
+                        ia >> msg;
+                        doFileExtensionCommand(msg);
+                    } catch (boost::archive::archive_exception&) {
+                    }
+                }
             }
             try {
-                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(50)));
             } catch (boost::thread_interrupted&) {
+                receiverLoopRunning = false;
+                isMessageQueueFails = false;
                 return;
             }
         }
-        receiverLoopRunning = false;
-
-    } catch (boost::interprocess::interprocess_exception&) {
-        removeNelsonCommandFileExtensionReceiver(currentPID);
-        receiverLoopRunning = false;
     }
-    removeNelsonCommandFileExtensionReceiver(currentPID);
 }
 //=============================================================================
 void
@@ -149,28 +177,50 @@ createNelsonCommandFileExtensionReceiver(int pid)
     } catch (const std::bad_alloc&) {
         server_thread = nullptr;
         receiverLoopRunning = false;
+        isMessageQueueFails = true;
+        isMessageQueueReady = false;
     }
     if (server_thread) {
         server_thread->detach();
-        while (!isMessageQueueReady) {
-            boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-        }
+    }
+}
+//=============================================================================
+static bool
+removeMessageQueue(int pid)
+{
+    if (messageQueue) {
+        messageQueue->~message_queue_t();
+        delete messageQueue;
+        messageQueue = nullptr;
+    }
+    return boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
+}
+//=============================================================================
+static void
+waitMessageQueueUntilReady()
+{
+    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    while (!isMessageQueueReady && !isMessageQueueFails) {
+        Sleep(eval, .5);
+    }
+}
+//=============================================================================
+static void
+terminateNelsonCommandFileExtensionReceiver()
+{
+    if (server_thread) {
+        receiverLoopRunning = false;
+        server_thread->interrupt();
+        server_thread = nullptr;
     }
 }
 //=============================================================================
 bool
 removeNelsonCommandFileExtensionReceiver(int pid)
 {
-    if (server_thread) {
-        while (!isMessageQueueReady) {
-            boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-        }
-        receiverLoopRunning = false;
-        server_thread->interrupt();
-        delete server_thread;
-        server_thread = nullptr;
-    }
-    return boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
+    waitMessageQueueUntilReady();
+    terminateNelsonCommandFileExtensionReceiver();
+    return removeMessageQueue(pid);
 }
 //=============================================================================
 bool

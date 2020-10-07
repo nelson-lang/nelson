@@ -126,16 +126,12 @@ private:
         case NLS_INT64: {
             ar& asInt64;
         } break;
+        case NLS_SCOMPLEX:
         case NLS_SINGLE: {
             ar& asSingle;
         } break;
+        case NLS_DCOMPLEX:
         case NLS_DOUBLE: {
-            ar& asDouble;
-        } break;
-        case NLS_SCOMPLEX: {
-            ar& asSingle;
-        } break;
-        case NLS_DCOMPLEX: {
             ar& asDouble;
         } break;
         case NLS_CHAR: {

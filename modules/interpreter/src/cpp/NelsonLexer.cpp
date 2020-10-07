@@ -796,7 +796,8 @@ lexInitialState()
 {
     if (isNewline() != 0) {
         NextLine();
-    } else if (isWhitespace() != 0) {
+    } else if (isWhitespace() != 0) { // lgtm [cpp/empty-block]
+        // nothing
     } else if (match(";") != 0) { // lgtm [cpp/empty-block]
         // nothing
     } else if ((match("%") != 0) || (match("//") != 0) || (match("#") != 0)) {

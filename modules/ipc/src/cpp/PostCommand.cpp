@@ -23,14 +23,28 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsEngine_exports.h"
+#include "PostCommand.hpp"
+#include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSENGINE_IMPEXP bool
-RemoveIpcOldFiles();
-//=============================================================================
+bool
+postCommand(const std::wstring& commandToExecute)
+{
+    void* veval = GetNelsonMainEvaluatorDynamicFunction();
+    if (veval != nullptr) {
+        std::wstring _cmd = commandToExecute + L";";
+        auto* eval = static_cast<Evaluator*>(veval);
+        eval->addCommandToQueue(_cmd, true);
+        Interface* io = eval->getInterface();
+        if (io != nullptr) {
+            io->interruptGetLineByEvent();
+        }
+        return true;
+    }
+    return false;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

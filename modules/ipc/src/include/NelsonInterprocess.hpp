@@ -23,48 +23,41 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StartNelsonUserScript.hpp"
-#include "CloseAllFiles.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "GetPreferencesPath.hpp"
-#include "Interface.hpp"
-#include <boost/filesystem.hpp>
+#pragma once
+//=============================================================================
+#include <string>
+//=============================================================================
+#include "nlsIpc_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-StartNelsonUserScript(Evaluator* eval)
-{
-    Context* ctx = eval->getContext();
-    if (ctx != nullptr) {
-        std::wstring prefPath = GetPreferencesPath();
-        boost::filesystem::path path(prefPath);
-        path += L"/startup.nls";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile) {
-            std::wstring wstr = path.generic_wstring();
-            try {
-                EvaluateScriptFile(eval, wstr.c_str());
-            } catch (const Exception& e) {
-                // close all opened files
-                CloseAllFiles();
-                Interface* io = eval->getInterface();
-                eval->setLastErrorException(e);
-                std::wstring errmsg = _W("User startup.nls failed to run.");
-                if (io != nullptr) {
-                    io->errorMessage(errmsg);
-                } else {
-                    const wchar_t* format = L"%s\n";
-                    fwprintf(
-                        stderr, format, errmsg.c_str()); // lgtm [cpp/wrong-type-format-argument]
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-    return false;
-}
+NLSIPC_IMPEXP
+void
+createNelsonInterprocessReceiver(int pid);
 //=============================================================================
-} // namespace Nelson
+NLSIPC_IMPEXP
+bool
+removeNelsonInterprocessReceiver(int pid);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendVariableToNelsonInterprocessReceiver(
+    int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+isVariableFromNelsonInterprocessReceiver(
+    int pidDestination, const std::wstring& name, const std::wstring& scope);
+//=============================================================================
+NLSIPC_IMPEXP
+ArrayOf
+getVariableFromNelsonInterprocessReceiver(
+    int pidDestination, const std::wstring& name, const std::wstring& scope);
+//=============================================================================
+}
 //=============================================================================

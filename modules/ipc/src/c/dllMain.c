@@ -23,43 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "getpidBuiltin.hpp"
-#include "Error.hpp"
-#include "NelsonPIDs.hpp"
+#include "nlsConfig.h"
+#include <Windows.h>
 //=============================================================================
-using namespace Nelson;
+#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_program_options-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_thread-", BOOST_TARGET, ".lib"))
 //=============================================================================
-ArrayOfVector
-Nelson::EngineGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
     }
-    switch (argIn.size()) {
-    case 0: {
-        retval.push_back(ArrayOf::doubleConstructor((double)getCurrentPID()));
-    } break;
-    case 1: {
-        std::wstring param = argIn[0].getContentAsWideString();
-        if (param == L"available") {
-            std::vector<int> pids = getNelsonPIDs();
-            ArrayOf res;
-            Dimensions dims(1, pids.size());
-            double* pd = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, pids.size());
-            res = ArrayOf(NLS_DOUBLE, dims, pd);
-            for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                pd[k] = (double)pids[k];
-            }
-            retval.push_back(res);
-        } else {
-            Error(_("Wrong value for #1 argument: 'available' expected."));
-        }
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
-    }
-    return retval;
+    return 1;
 }
 //=============================================================================

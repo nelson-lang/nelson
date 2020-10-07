@@ -25,24 +25,27 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <vector>
-#include "nlsEngine_exports.h"
+#include "nlsIpc_exports.h"
+#include "Evaluator.hpp"
+#include "Types.hpp"
+#include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSENGINE_IMPEXP
-void
-createNelsonCommandFileExtensionReceiver(int pid);
-//=============================================================================
-NLSENGINE_IMPEXP
+NLSIPC_IMPEXP
 bool
-removeNelsonCommandFileExtensionReceiver(int pid);
+OpenFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
 //=============================================================================
-NLSENGINE_IMPEXP
+NLSIPC_IMPEXP
 bool
-sendCommandToFileExtensionReceiver(
-    int pidDestination, const std::string& commandType, const std::vector<std::wstring>& filenames);
+LoadFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+ExecuteFilesAssociated(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
 //=============================================================================
 }
 //=============================================================================

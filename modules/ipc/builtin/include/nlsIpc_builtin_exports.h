@@ -25,40 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-//=============================================================================
-#include "nlsEngine_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSENGINE_IMPEXP
-void
-createNelsonInterprocessReceiver(int pid);
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-removeNelsonInterprocessReceiver(int pid);
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command);
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-sendVariableToNelsonInterprocessReceiver(
-    int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope);
-//=============================================================================
-NLSENGINE_IMPEXP
-bool
-isVariableFromNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& name, const std::wstring& scope);
-//=============================================================================
-NLSENGINE_IMPEXP
-ArrayOf
-getVariableFromNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& name, const std::wstring& scope);
-//=============================================================================
-
-}
+#ifdef _MSC_VER
+#ifdef NLSIPC_BUILTIN_EXPORTS
+#define NLSIPC_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSIPC_BUILTIN_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSIPC_BUILTIN_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

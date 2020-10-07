@@ -23,48 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StartNelsonUserScript.hpp"
-#include "CloseAllFiles.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "GetPreferencesPath.hpp"
-#include "Interface.hpp"
-#include <boost/filesystem.hpp>
+#pragma once
 //=============================================================================
-namespace Nelson {
+#include <string>
+#include "nlsIpc_exports.h"
 //=============================================================================
-bool
-StartNelsonUserScript(Evaluator* eval)
+#ifdef __cplusplus
+extern "C"
 {
-    Context* ctx = eval->getContext();
-    if (ctx != nullptr) {
-        std::wstring prefPath = GetPreferencesPath();
-        boost::filesystem::path path(prefPath);
-        path += L"/startup.nls";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile) {
-            std::wstring wstr = path.generic_wstring();
-            try {
-                EvaluateScriptFile(eval, wstr.c_str());
-            } catch (const Exception& e) {
-                // close all opened files
-                CloseAllFiles();
-                Interface* io = eval->getInterface();
-                eval->setLastErrorException(e);
-                std::wstring errmsg = _W("User startup.nls failed to run.");
-                if (io != nullptr) {
-                    io->errorMessage(errmsg);
-                } else {
-                    const wchar_t* format = L"%s\n";
-                    fwprintf(
-                        stderr, format, errmsg.c_str()); // lgtm [cpp/wrong-type-format-argument]
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-    return false;
-}
+#endif
+    //=============================================================================
+    NLSIPC_IMPEXP bool
+    PostCommandDynamicFunction(const std::wstring& command);
 //=============================================================================
-} // namespace Nelson
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

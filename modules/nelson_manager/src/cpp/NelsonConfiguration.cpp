@@ -119,17 +119,5 @@ NelsonConfiguration::getNelsonRootDirectory()
     return nelsonRootPath;
 }
 //=============================================================================
-void
-NelsonConfiguration::setIpcEnabled(bool value)
-{
-    ipcEnabled = value;
-}
-//=============================================================================
-bool
-NelsonConfiguration::isIpcEnabled()
-{
-    return ipcEnabled;
-}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -62,12 +62,8 @@
 #include "ErrorEmitter.h"
 #include "NelsonPrint.hpp"
 #include "MxCall.h"
-#include "NelsonPIDs.hpp"
-#include "FilesAssociation.hpp"
-#include "FilesAssociationIPC.hpp"
-#include "NelsonInterprocess.hpp"
-#include "RemoveIpcOldFiles.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FilesAssociation.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -116,7 +112,6 @@ ErrorCommandLineMessage_file_execute(NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-
 static void
 ErrorPathDetection(NELSON_ENGINE_MODE _mode)
 {
@@ -150,7 +145,6 @@ ErrorInterpreter(NELSON_ENGINE_MODE _mode)
     fwprintf(stderr, msg.c_str());
 #endif
 }
-
 //=============================================================================
 static void
 displayVersion(NELSON_ENGINE_MODE _mode)
@@ -245,8 +239,8 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         Interface* io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
-    OpenFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToOpen);
-    LoadFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToLoad);
+    OpenFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToOpen, false);
+    LoadFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToLoad, false);
     while (eval->getState() != NLS_STATE_QUIT) {
         if (eval->getState() == NLS_STATE_ABORT) {
             eval->clearStacks();
@@ -290,36 +284,30 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         displayVersion(_mode);
         return 0;
     }
-    NelsonConfiguration::getInstance()->setIpcEnabled(!po.haveNoIpc());
-    if (_mode == NELSON_ENGINE_MODE::GUI && NelsonConfiguration::getInstance()->isIpcEnabled()) {
-        int existingPID = getLatestPidWithModeInSharedMemory(_mode);
-        if (existingPID != 0) {
-            if (po.haveFileToExecuteIPC()) {
-                std::wstring fileToExecuteIPC = po.getFileToExecuteIPC();
-                wstringVector fileToExecuteAsVector;
-                fileToExecuteAsVector.push_back(fileToExecuteIPC);
-                if (sendCommandToFileExtensionReceiver(existingPID, "run", fileToExecuteAsVector)) {
-                    return 0;
-                }
+    if (_mode == NELSON_ENGINE_MODE::GUI && !po.haveNoIpc()) {
+        bool wasSent = false;
+        if (po.haveFileToExecuteIPC()) {
+            std::wstring fileToExecuteIPC = po.getFileToExecuteIPC();
+            wstringVector fileToExecuteAsVector;
+            fileToExecuteAsVector.push_back(fileToExecuteIPC);
+            wasSent = ExecuteFilesAssociated(_mode, fileToExecuteAsVector, true);
+            if (wasSent) {
+                return 0;
             }
-            if (po.haveOpenFiles()) {
-                if (sendCommandToFileExtensionReceiver(existingPID, "open", po.getFilesToOpen())) {
-                    return 0;
-                }
+        }
+        if (po.haveOpenFiles()) {
+            wasSent = OpenFilesAssociated(_mode, po.getFilesToOpen(), true);
+            if (wasSent) {
+                return 0;
             }
-            if (po.haveLoadFiles()) {
-                if (sendCommandToFileExtensionReceiver(existingPID, "load", po.getFilesToLoad())) {
-                    return 0;
-                }
+        }
+        if (po.haveLoadFiles()) {
+            wasSent = LoadFilesAssociated(_mode, po.getFilesToLoad(), true);
+            if (wasSent) {
+                return 0;
             }
         }
     }
-
-    int latestPid = getLatestPidInSharedMemory();
-    if (latestPid == 0) {
-        RemoveIpcOldFiles();
-    }
-
     if (!SetNelSonEnvironmentVariables()) {
         ErrorPathDetection(_mode);
         return exitCode;
@@ -398,14 +386,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 
     Evaluator* eval = createMainEvaluator(_mode, lang);
     if (eval != nullptr) {
-        int currentPID = getCurrentPID();
-        if (NelsonConfiguration::getInstance()->isIpcEnabled()) {
-            registerPidInSharedMemory(currentPID, _mode);
-            if (_mode == NELSON_ENGINE_MODE::GUI) {
-                createNelsonCommandFileExtensionReceiver(currentPID);
-            }
-            createNelsonInterprocessReceiver(currentPID);
-        }
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
         setPrintInterface(eval->getInterface());
@@ -437,13 +417,6 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             po.haveNoUserModules(), commandToExecute, fileToExecute, filesToOpen, filesToLoad);
         ::destroyMainEvaluator();
         clearWarningIdsList();
-        if (NelsonConfiguration::getInstance()->isIpcEnabled()) {
-            removeNelsonInterprocessReceiver(currentPID);
-            if (_mode == NELSON_ENGINE_MODE::GUI) {
-                removeNelsonCommandFileExtensionReceiver(currentPID);
-            }
-            unregisterPidInSharedMemory(currentPID);
-        }
         destroyTimeoutThread();
     } else {
         ErrorInterpreter(_mode);

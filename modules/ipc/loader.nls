@@ -23,27 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "argvBuiltin.hpp"
-#include "getnelsonmodeBuiltin.hpp"
-#include "isquietmodeBuiltin.hpp"
-//=============================================================================
-using namespace Nelson;
-//=============================================================================
-const std::wstring gatewayName = L"engine";
-//=============================================================================
-static const nlsGateway gateway[]
-    = { { "getnelsonmode", (void*)Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0,
-            CPP_BUILTIN_WITH_EVALUATOR },
-          { "argv", (void*)Nelson::EngineGateway::argvBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
-          { "isquietmode", (void*)Nelson::EngineGateway::isquietmodeBuiltin, 1, 0,
-              CPP_BUILTIN_WITH_EVALUATOR } };
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+if ~any(contains(argv(),'--noipc'))
+    addmodule([nelsonroot() '/modules/' 'ipc'], 'ipc');
+end
 //=============================================================================

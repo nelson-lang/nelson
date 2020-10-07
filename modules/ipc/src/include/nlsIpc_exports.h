@@ -25,20 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
-#include "Types.hpp"
-#include "NelSon_engine_mode.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-bool
-OpenFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen);
-//=============================================================================
-bool
-LoadFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen);
-//=============================================================================
-bool
-ExecuteFilesAssociated(NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen);
-//=============================================================================
-}
+#ifdef _MSC_VER
+#ifdef NLSIPC_EXPORTS
+#define NLSIPC_IMPEXP __declspec(dllexport)
+#else
+#define NLSIPC_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSIPC_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

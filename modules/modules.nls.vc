@@ -79,7 +79,8 @@ modules_list = [
 "characters_encoding";
 "webtools";
 "graphics";
-"mex"
+"mex";
+"ipc"
 ];
 // ============================================================================
 // optional modules
@@ -147,6 +148,7 @@ modules_help_list = [
 "file_archiver";
 "webtools";
 "mex";
-"graphics"
+"graphics";
+"ipc"
 ];
 // ============================================================================
