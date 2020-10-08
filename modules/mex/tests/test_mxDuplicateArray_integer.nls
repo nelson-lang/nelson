@@ -33,65 +33,11 @@ if ~isbuiltin('mxDuplicateArray')
     run('loader.nls');
 end    
 //=============================================================================
-REF = [1 2];
-R = mxDuplicateArray(REF);
-assert_isequal(R, REF);
-//=============================================================================
 REF = int32([1 2]);
 R = mxDuplicateArray(REF);
 assert_isequal(R, REF);
 //=============================================================================
-REF = single([1 2]);
+REF = int64([1 2]);
 R = mxDuplicateArray(REF);
 assert_isequal(R, REF);
-//=============================================================================
-REF = single(complex([1 2], 2));
-R = mxDuplicateArray(REF);
-assert_isequal(R, REF);
-//=============================================================================
-REF = {1, single(2); '读写汉字 - 学中文', false};
-R = mxDuplicateArray(REF);
-assert_isequal(R, REF);
-//=============================================================================
-ST.a = 1;
-ST.b = single(2);
-ST.c = '读写汉字 - 学中文';
-ST.d = false;
-R = mxDuplicateArray(ST);
-assert_isequal(R, ST);
-//=============================================================================
-i = [800 1100 20];
-j = [900 1000 30];
-v = [10 100 20];
-S = sparse(i, j, v, 1300, 1500, 30);
-R = mxDuplicateArray(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
-//=============================================================================
-i = [800 1100 20];
-j = [900 1000 30];
-v = [true true true];
-S = sparse(i, j, v, 1300, 1500, 30);
-R = mxDuplicateArray(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
-//=============================================================================
-// separated complex representation
-i = [800 1100 20];
-j = [900 1000 30];
-v = complex([10 100 20], 1);
-S = sparse(i, j, v, 1300, 1500, 30);
-R = mxDuplicateArray(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
-//=============================================================================
-F = figure(33);
-R = mxDuplicateArray(F);
-assert_isequal(R.Number, F.Number);
-delete(F);
-//=============================================================================
-H = helpdlg();
-R = mxDuplicateArray(H);
-assert_isequal(R.className, H.className);
-delete(H);
 //=============================================================================
