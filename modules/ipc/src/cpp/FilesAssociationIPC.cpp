@@ -74,6 +74,7 @@ static std::string ipc_channel_name;
 //=============================================================================
 static volatile bool isMessageQueueReady = false;
 static volatile bool isMessageQueueFails = false;
+static volatile bool loopTerminated = false;
 //=============================================================================
 static boost::interprocess::message_queue* messageQueue = nullptr;
 //=============================================================================
@@ -124,7 +125,7 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
     isMessageQueueReady = true;
     std::string serialized_compressed_string;
     unsigned int maxMessageSize = messageQueue->get_max_msg_size();
-
+    loopTerminated = false;
     while (receiverLoopRunning) {
         unsigned int priority = 0;
         size_t recvd_size = 0;
@@ -163,10 +164,12 @@ createNelsonCommandFileExtensionReceiverThread(int currentPID)
             } catch (boost::thread_interrupted&) {
                 receiverLoopRunning = false;
                 isMessageQueueFails = false;
+                loopTerminated = true;
                 return;
             }
         }
     }
+    loopTerminated = true;
 }
 //=============================================================================
 void
@@ -183,17 +186,6 @@ createNelsonCommandFileExtensionReceiver(int pid)
     if (server_thread) {
         server_thread->detach();
     }
-}
-//=============================================================================
-static bool
-removeMessageQueue(int pid)
-{
-    if (messageQueue) {
-        messageQueue->~message_queue_t();
-        delete messageQueue;
-        messageQueue = nullptr;
-    }
-    return boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
 }
 //=============================================================================
 static void
@@ -220,7 +212,18 @@ removeNelsonCommandFileExtensionReceiver(int pid)
 {
     waitMessageQueueUntilReady();
     terminateNelsonCommandFileExtensionReceiver();
-    return removeMessageQueue(pid);
+    bool res = boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
+    int l = 0;
+    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    while (!loopTerminated && l < 20) {
+        Sleep(eval, .5);
+        l++;
+    }
+    if (messageQueue) {
+        delete messageQueue;
+        messageQueue = nullptr;
+    }
+    return res;
 }
 //=============================================================================
 bool
