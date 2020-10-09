@@ -33,26 +33,38 @@ function [status, message] = dlgeneratemake(varargin)
   if nargin < 4
     error(_('At least 4 input arguments expected.'));
   end
-  if nargin > 9
+  if nargin > 10
     error(_('Wrong numbers of output arguments.'));
   end
-  destinationdir = varargin{1};
-  libname = varargin{2};
-  c_cpp_files = varargin{3};
-  includes = varargin{4};
-  if nargin > 4
-    defines = varargin{5};
+
+  maketype = 'dynamic_library';
+  indexstart = 1;
+  if strcmp(varargin{1}, 'executable') == true
+    maketype = 'executable';
+    indexstart = 2;
+  end
+  if strcmp(varargin{1}, 'dynamic_library') == true
+    maketype = 'dynamic_library';
+    indexstart = 2;
+  end
+
+  destinationdir = varargin{indexstart};
+  libname = varargin{indexstart + 1};
+  c_cpp_files = varargin{indexstart + 2};
+  includes = varargin{indexstart + 3};
+  if nargin > indexstart + 3
+    defines = varargin{indexstart + 4};
   else
     defines = [];
   end
-  if nargin > 5
-    external_libraries = varargin{6};
+  if nargin > indexstart + 4
+    external_libraries = varargin{indexstart + 5};
   else
     external_libraries = [];
   end
   build_configuration = [];
-  if nargin > 6
-    build_configuration = varargin{7};
+  if nargin > indexstart + 5
+    build_configuration = varargin{indexstart + 6};
   end
   if isempty(build_configuration)
     ver_comp = version('-compiler');
@@ -63,15 +75,15 @@ function [status, message] = dlgeneratemake(varargin)
     end
   end
   c_flags = [];
-  if nargin > 7
-    c_flags = varargin{8};
+  if nargin > indexstart + 6
+    c_flags = varargin{indexstart + 7};
   end
   if isempty(c_flags)
     c_flags = '';
   end
   cxx_flags = [];
-  if nargin > 8
-    cxx_flags = varargin{9};
+  if nargin > indexstart + 7
+    cxx_flags = varargin{indexstart + 8};
   end
   if isempty(cxx_flags)
     cxx_flags = '';
@@ -131,21 +143,28 @@ function [status, message] = dlgeneratemake(varargin)
     message = _('A valid cxx_flags configuration value expected.');
     return
   end
-  templatefilename = [modulepath('dynamic_link'), '/resources/template_cmake.txt'];
+  if strcmp(maketype, 'executable') == true
+    templatefilename = [modulepath('dynamic_link'), '/resources/template_executable_cmake.txt'];
+  else
+    templatefilename = [modulepath('dynamic_link'), '/resources/template_cmake.txt'];
+  end
   if ~isfile(templatefilename)
     error(_('template file is missing.'));
   end
   template_cmake = fileread(templatefilename);
-  
   template_cmake = replace(template_cmake, '__OUTPUT_DIRECTORY__', destinationdir);
   template_cmake = replace(template_cmake, '__C_FLAGS__', c_flags);
   template_cmake = replace(template_cmake, '__CXX_FLAGS__', cxx_flags);
   template_cmake = replace(template_cmake, '__DEFINES__', defines);
-  template_cmake = replace(template_cmake, '__LIBRARY_NAME__', libname);
-  template_cmake = replace(template_cmake, '__INCLUDES__', includes);
   template_cmake = replace(template_cmake, '__C_CPP_FILES__', c_cpp_files);
+  template_cmake = replace(template_cmake, '__INCLUDES__', includes);
   template_cmake = replace(template_cmake, '__EXTERNAL_LIBRARIES__', external_libraries);
   template_cmake = replace(template_cmake, '__CMAKE_BUILD_TYPE__', build_configuration);
+  if strcmp(maketype, 'executable') == true
+    template_cmake = replace(template_cmake, '__EXECUTABLE_NAME__', libname);
+  else
+    template_cmake = replace(template_cmake, '__LIBRARY_NAME__', libname);
+  end
   template_cmake = replace(template_cmake, [newline, newline], newline);
   filewrite([destinationdir, '/CMakeLists.txt'], template_cmake);
   status = true;

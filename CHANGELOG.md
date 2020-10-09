@@ -1,5 +1,7 @@
 # 0.4.10 (2020-10-XX)
 
+  * extends dlgeneratemake to generate also executable.
+
 Bug Fixes:
 ---------
 
