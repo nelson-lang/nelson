@@ -25,15 +25,15 @@
 //=============================================================================
 // <--C/C++ COMPILER REQUIRED--> 
 //=============================================================================
-destinationdir = [tempdir(), 'test_cmake_executable'];
+destinationdir = [tempdir(), 'test_executable_c'];
 mkdir(destinationdir);
 //=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
-copyfile([currentpath, '/test_executable.c'], [destinationdir, '/test_executable.c']);
+copyfile([currentpath, '/test_executable_c.c'], [destinationdir, '/test_executable_c.c']);
 //=============================================================================
 [status, message] = dlgeneratemake('executable', destinationdir, ...
-        'test_executable', ...
-        [destinationdir, '/test_executable.c'], ...
+        'test_executable_c', ...
+        [destinationdir, '/test_executable_c.c'], ...
         [destinationdir, '/']);
 if ~status
   error(message);
@@ -41,7 +41,8 @@ end
 destinationPath = [destinationdir, '/CMakeLists.txt'];
 assert_istrue(isfile(destinationPath));
 [status, message] = dlmake(destinationdir);
-[R, msg] = unix([destinationdir, '/test_executable']);
+assert_istrue(status);
+[R, msg] = unix([destinationdir, '/test_executable_c']);
 assert_istrue(R == 0);
-assert_istrue(startsWith(msg, 'It works !!!'));
+assert_istrue(startsWith(msg, 'It works with C!!!'));
 //=============================================================================
