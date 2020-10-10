@@ -158,9 +158,8 @@ mwSize
 sizeFromClass(mxClassID classid)
 {
     switch (classid) {
-    case mxCELL_CLASS:
-        return sizeof(mxArray*);
     case mxSTRUCT_CLASS:
+    case mxCELL_CLASS:
         return sizeof(mxArray*);
     case mxLOGICAL_CLASS:
         return sizeof(mxLogical);
@@ -194,7 +193,7 @@ sizeFromClass(mxClassID classid)
 mwSize*
 GetDimensions(const Nelson::ArrayOf& array, mwSize& numdims)
 {
-    numdims = (int)array.getDimensions().getLength();
+    numdims = (mwSize)(array.getDimensions().getLength());
     auto* dim_vec = (mwSize*)mxMalloc(sizeof(mwSize) * numdims);
     for (mwSize i = 0; i < numdims; i++) {
         dim_vec[i] = array.getDimensions()[i];

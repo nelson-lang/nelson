@@ -26,7 +26,6 @@
 #include <cstdlib>
 #include <set>
 #include <cstring>
-#include "nlsConfig.h"
 #include "mex.h"
 #include "ArrayOf.hpp"
 #include "MxHelpers.hpp"
@@ -194,12 +193,29 @@ mxDuplicateArray(const mxArray* in)
         }
     } break;
     case mxCELL_CLASS: {
-        ret = mxAllocateRealArray(
-            in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-        auto** g = (mxArray**)ret->realdata;
-        auto** h = (mxArray**)in->realdata;
-        for (size_t i = 0; i < L; i++) {
-            g[i] = mxDuplicateArray(h[i]);
+        ret = mxNewArray();
+        if (ret != nullptr) {
+            ret->number_of_dims = in->number_of_dims;
+            ret->dims = copyDims(in->number_of_dims, in->dims);
+            ret->classID = mxCELL_CLASS;
+            ret->interleavedcomplex = in->interleavedcomplex;
+            ret->issparse = false;
+            ret->iscomplex = false;
+            ret->imagdata = nullptr;
+            ret->realdata = mxCalloc(
+                countElements(in->number_of_dims, in->dims), sizeFromClass(mxCELL_CLASS));
+            ret->ptr = nullptr;
+            ret->Ir = nullptr;
+            ret->Jc = nullptr;
+            ret->nzmax = (mwSize)0;
+            ret->nIr = (mwSize)0;
+            ret->nJc = (mwSize)0;
+            if (ret->realdata && in->realdata) {
+                auto** h = (mxArray**)in->realdata;
+                for (size_t i = 0; i < L; i++) {
+                    ((mxArray**)ret->realdata)[i] = mxDuplicateArray(h[i]);
+                }
+            }
         }
     } break;
     case mxSTRUCT_CLASS: {
@@ -252,21 +268,11 @@ mxDuplicateArray(const mxArray* in)
             ret->nJc = in->nJc;
             ret->Ir = (mwIndex*)mxCalloc(in->nIr, sizeof(mwIndex));
             if (ret->Ir != nullptr) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-                for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nIr; ++k) {
-                    ret->Ir[k] = in->Ir[k];
-                }
+                memcpy(ret->Ir, in->Ir, sizeof(mwSize) * in->nIr);
             }
             ret->Jc = (mwIndex*)mxCalloc(in->nJc, sizeof(mwIndex));
             if (ret->Jc != nullptr) {
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-                for (Nelson::ompIndexType k = 0; k < (Nelson::ompIndexType)in->nJc; ++k) {
-                    ret->Jc[k] = in->Jc[k];
-                }
+                memcpy(ret->Jc, in->Jc, sizeof(mwSize) * in->nJc);
             }
             if (in->interleavedcomplex) {
                 if (in->iscomplex) {
@@ -301,21 +307,26 @@ mxDuplicateArray(const mxArray* in)
                 if (in->interleavedcomplex) {
                     ret = mxAllocateInterleavedComplexArray(
                         in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-                    memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L * 2);
-                    ret->imagdata = nullptr;
+                    if (ret != nullptr) { 
+                      memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L * 2);
+                      ret->imagdata = nullptr;
+                    }
                 } else {
                     ret = mxAllocateSeparatedComplexArray(
                         in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-                    memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
-                    memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+                    if (ret != nullptr) {
+                        memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+                        memcpy(ret->imagdata, in->imagdata, mxGetElementSize(in) * L);
+                    }
                 }
             } else {
                 ret = mxAllocateRealArray(
                     in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-                memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+                if (ret != nullptr) {
+                    memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L);
+                }
             }
         }
-        return ret;
     } break;
     default: {
         mexErrMsgTxt("C MEX type not managed.");
