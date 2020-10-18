@@ -36,7 +36,7 @@ class QtMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    QtMainWindow();
+    QtMainWindow(bool minimized = false);
     ~QtMainWindow() override;
 
     QtTerminal*

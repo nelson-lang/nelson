@@ -45,6 +45,7 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/interprocess/managed_shared_memory.hpp>
 #include <cstdio>
 #include <cerrno>
 #include <iostream>
@@ -109,6 +110,7 @@
 #include "ProfilerHelpers.hpp"
 #include "ClassToString.hpp"
 #include "IsValidVariableName.hpp"
+#include "NelsonReadyNamedMutex.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -124,7 +126,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
     ~endData() = default;
     ;
 };
@@ -4086,6 +4088,13 @@ Evaluator::buildPrompt()
     return prompt;
 }
 //=============================================================================
+static bool doOnce = true;
+void
+setNamedMutexNelsonReady()
+{
+    openIsReadyNelsonMutex((int)boost::interprocess::ipcdetail::get_current_process_id());
+}
+//=============================================================================
 void
 Evaluator::evalCLI()
 {
@@ -4101,6 +4110,10 @@ Evaluator::evalCLI()
         std::wstring commandLine;
         commandQueue.get(commandLine);
         if (commandLine.empty()) {
+            if (doOnce) {
+                setNamedMutexNelsonReady();
+                doOnce = false;
+            }
             commandLine = io->getLine(buildPrompt());
             if (commandLine.empty()) {
                 InCLI = false;

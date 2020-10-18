@@ -32,6 +32,7 @@
 #endif
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
+#include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
 #include <sstream>
 #include "StartNelson.h"
@@ -64,6 +65,7 @@
 #include "MxCall.h"
 #include "NelsonConfiguration.hpp"
 #include "FilesAssociation.hpp"
+#include "NelsonReadyNamedMutex.hpp"
 //=============================================================================
 static void
 ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
@@ -239,6 +241,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         Interface* io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
+    eval->isReadyToUse = true;
     OpenFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToOpen, false);
     LoadFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToLoad, false);
     while (eval->getState() != NLS_STATE_QUIT) {
@@ -248,6 +251,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         eval->resetState();
         eval->evalCLI();
     }
+    closeIsReadyNelsonMutex((int)boost::interprocess::ipcdetail::get_current_process_id());
     eval->resetState();
 FINISH:
     if (!haveNoStartup) {
@@ -383,8 +387,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         boost::filesystem::path full_p = boost::filesystem::complete(p);
         fileToExecute = full_p.generic_wstring();
     }
-
-    Evaluator* eval = createMainEvaluator(_mode, lang);
+    
+    Evaluator* eval = createMainEvaluator(_mode, lang, po.haveOptionsMinimize());
     if (eval != nullptr) {
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);

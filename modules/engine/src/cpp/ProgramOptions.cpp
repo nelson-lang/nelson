@@ -116,6 +116,7 @@ ProgramOptions::ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode)
     _userstartup = false;
     _usermodules = false;
     _quietmode = false;
+    _minimize = false;
     _ipc = false;
     _error.clear();
     _file.clear();
@@ -138,6 +139,7 @@ ProgramOptions::~ProgramOptions()
     _usermodules = false;
     _quietmode = false;
     _ipc = false;
+    _minimize = false;
     _error.clear();
     _file.clear();
     _command.clear();
@@ -250,6 +252,7 @@ ProgramOptions::parse()
     Option nostartupOption(L"nostartup", L"", _W("no main startup file"), false, false);
     Option nouserstartupOption(L"nouserstartup", L"", _W("no user startup file"), false, false);
     Option nousermodulesOption(L"nousermodules", L"", _W("no user modules loaded"), false, false);
+    Option minimizeOption(L"minimize", L"", _W("minimize main window (GUI only)"), false, false);
     Option noIpcOption(L"noipc", L"", _W("no ipc features"), false, false);
     Option commandtoexecuteOption(L"execute", L"e", _W("command to execute"), false, true);
     Option filetoexecuteOption(L"file", L"f", _W("file to execute in an new process"), false, true);
@@ -269,6 +272,9 @@ ProgramOptions::parse()
     _options = _options + nouserstartupOption.getFullDescription() + L"\n";
     _options = _options + nousermodulesOption.getFullDescription() + L"\n";
     _options = _options + noIpcOption.getFullDescription() + L"\n";
+    if (_mode == NELSON_ENGINE_MODE::GUI) {
+        _options = _options + minimizeOption.getFullDescription() + L"\n";
+    }
     _options = _options + commandtoexecuteOption.getFullDescription() + L"\n";
     _options = _options + filetoexecuteOption.getFullDescription() + L"\n";
     _options = _options + filetoexecuteIPCOption.getFullDescription() + L"\n";
@@ -280,11 +286,15 @@ ProgramOptions::parse()
     _options = _options + timeoutOption.getFullDescription() + L"\n";
     _options = _options + openFilesOption.getFullDescription() + L"\n";
     _options = _options + loadFilesOption.getFullDescription() + L"\n";
+
     bRes = parseOption(helpOption, _ishelp);
     bRes = bRes && parseOption(versionOption, _isversion);
     bRes = bRes && parseOption(nostartupOption, _startup);
     bRes = bRes && parseOption(nouserstartupOption, _userstartup);
     bRes = bRes && parseOption(nousermodulesOption, _usermodules);
+    if (_mode == NELSON_ENGINE_MODE::GUI) {
+        bRes = bRes && parseOption(minimizeOption, _minimize);
+    }
     bRes = bRes && parseOption(noIpcOption, _ipc);
     bRes = bRes && parseOptionWithValues(openFilesOption, _filesToOpen);
     bRes = bRes && parseOptionWithValues(loadFilesOption, _filesToLoad);
@@ -337,6 +347,15 @@ ProgramOptions::haveOptionsHelp()
 {
     if (_isvalid) {
         return _ishelp;
+    }
+    return false;
+}
+//=============================================================================
+bool
+ProgramOptions::haveOptionsMinimize()
+{
+    if (_isvalid) {
+        return _minimize;
     }
     return false;
 }

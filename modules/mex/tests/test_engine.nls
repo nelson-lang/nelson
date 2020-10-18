@@ -23,18 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-namespace IpcGateway {
-    //=============================================================================
-    ArrayOfVector
-    ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+destinationdir = [tempdir(), 'test_engine/'];
+if isdir(destinationdir)
+    rmdir(destinationdir, 's');
+end
+mkdir(destinationdir);
+destination = [destinationdir, 'test_engine.c'];
+status = copyfile('test_engine.c', destinationdir);
+cd(destinationdir); 
+mex('-client', 'engine', 'test_engine.c');
+if ispc()
+    generated_executable = [destinationdir, 'test_engine.exe'];
+else
+    generated_executable = [destinationdir, 'test_engine'];
+end
+assert_istrue(isfile(generated_executable));
 //=============================================================================

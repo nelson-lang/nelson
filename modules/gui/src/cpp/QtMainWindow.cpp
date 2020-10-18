@@ -123,7 +123,7 @@ QtMainWindow::~QtMainWindow()
     }
 }
 //=============================================================================
-QtMainWindow::QtMainWindow()
+QtMainWindow::QtMainWindow(bool minimized)
 {
     nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
     QWidget* widget = new QWidget;
@@ -148,6 +148,11 @@ QtMainWindow::QtMainWindow()
     setWindowTitle(TR("Nelson"));
     setMinimumSize(640, 480);
     resize(840, 600);
+    if (minimized) {
+        showMinimized();
+    } else {
+        show();
+    }
     show();
     qtTerminal->show();
     bClosed = false;

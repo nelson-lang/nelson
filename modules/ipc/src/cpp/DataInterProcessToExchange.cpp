@@ -23,18 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "DataInterProcessToExchange.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-namespace IpcGateway {
-    //=============================================================================
-    ArrayOfVector
-    ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+void
+dataInterProcessToExchange::clear()
+{
+    valueAnswer = false;
+    pid = 0;
+    serializedCompressedVariable.clear();
+    commandType.clear();
+    lineToEvaluate.clear();
+    variableName.clear();
+    scope.clear();
 }
 //=============================================================================
-} // namespace Nelson
+bool
+dataInterProcessToExchange::isFullySerialized()
+{
+    if (commandType == "eval") {
+        return true;
+    }
+    if (commandType == "put") {
+        return fullySerialized;
+    }
+    if (commandType == "isvar") {
+        return true;
+    } else if (commandType == "isvar_answer") {
+        return true;
+    } else if (commandType == "get") {
+        return true;
+    } else if (commandType == "get_answer") {
+        return fullySerialized;
+    }
+    return false;
+}
 //=============================================================================

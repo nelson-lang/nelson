@@ -23,10 +23,6 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define EIGEN_NO_DEBUG
-//=============================================================================
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/vector.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/interprocess/ipc/message_queue.hpp>
@@ -36,11 +32,13 @@
 #include "characters_encoding.hpp"
 #include "PostCommandDynamicFunction.hpp"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "StringZLib.hpp"
-#include "ArrayOfSerialization.hpp"
 #include "Warning.hpp"
 #include "Sleep.hpp"
 #include "nlsConfig.h"
+#include "DataInterProcessToExchange.hpp"
+#include "CompressedStringHelpers.hpp"
+#include "StringZLib.hpp"
+#include "IpcReadyReceiverNamedMutex.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -73,131 +71,6 @@ sendIsVarAnswerToNelsonInterprocessReceiver(int pidDestination, bool isVar);
 //=============================================================================
 static bool
 sendGetVarAnswerToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& data);
-//=============================================================================
-static std::string
-ArrayOfToCompressedString(const ArrayOf& data, bool& fullySerialized);
-//=============================================================================
-static ArrayOf
-CompressedStringToArrayOf(const std::string& compressedString, bool& success);
-//=============================================================================
-static void
-waitMessageQueueUntilReady();
-//=============================================================================
-class dataInterProcessToExchange
-{
-    //=============================================================================
-public:
-    //=============================================================================
-    dataInterProcessToExchange(int _pid, const std::string& _commandType,
-        const std::string& compressedData, bool _fullySerialized)
-        : pid(_pid)
-        , commandType(_commandType)
-        , serializedCompressedVariable(compressedData)
-        , fullySerialized(_fullySerialized){};
-    //=============================================================================
-    dataInterProcessToExchange(int _pid, const std::string& _commandType, bool value)
-        : pid(_pid), commandType(_commandType), valueAnswer(value){};
-
-    //=============================================================================
-    dataInterProcessToExchange(const std::string& _lineToEvaluate)
-        : commandType("eval")
-        , lineToEvaluate(_lineToEvaluate)
-        , serializedCompressedVariable("")
-        , variableName("")
-        , scope(""){};
-    //=============================================================================
-    dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
-        const std::string& compressedData, bool _fullySerialized)
-        : commandType("put")
-        , serializedCompressedVariable(compressedData)
-        , fullySerialized(_fullySerialized)
-        , variableName(_variableName)
-        , scope(_scope){};
-    //=============================================================================
-    dataInterProcessToExchange(int _pid, const std::string& _commandType,
-        const std::string& _variableName, const std::string& _scope)
-        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope){};
-    //=============================================================================
-    std::string serializedCompressedVariable;
-    bool fullySerialized = false;
-    int pid = 0;
-    bool valueAnswer = false;
-    std::string commandType;
-    std::string lineToEvaluate;
-    std::string variableName;
-    std::string scope;
-    //=============================================================================
-    bool
-    isFullySerialized()
-    {
-        if (commandType == "eval") {
-            return true;
-        }
-        if (commandType == "put") {
-            return fullySerialized;
-        }
-        if (commandType == "isvar") {
-            return true;
-        } else if (commandType == "isvar_answer") {
-            return true;
-        } else if (commandType == "get") {
-            return true;
-        } else if (commandType == "get_answer") {
-            return fullySerialized;
-        }
-        return false;
-    }
-    //=============================================================================
-    void
-    clear()
-    {
-        valueAnswer = false;
-        pid = 0;
-        serializedCompressedVariable.clear();
-        commandType.clear();
-        lineToEvaluate.clear();
-        variableName.clear();
-        scope.clear();
-    }
-    //=============================================================================
-private:
-    //=============================================================================
-    friend class boost::serialization::access;
-    //=============================================================================
-    template <class Archive>
-    void
-    serialize(Archive& ar, const unsigned int version)
-    {
-        ar& commandType;
-        if (commandType == "eval") {
-            ar& lineToEvaluate;
-        }
-        if (commandType == "isvar") {
-            ar& pid;
-            ar& variableName;
-            ar& scope;
-        }
-        if (commandType == "put") {
-            ar& serializedCompressedVariable;
-            ar& fullySerialized;
-            ar& variableName;
-            ar& scope;
-        }
-        if (commandType == "isvar_answer") {
-            ar& valueAnswer;
-        }
-        if (commandType == "get") {
-            ar& pid;
-            ar& variableName;
-            ar& scope;
-        }
-        if (commandType == "get_answer") {
-            ar& serializedCompressedVariable;
-            ar& fullySerialized;
-        }
-    }
-    //=============================================================================
-};
 //=============================================================================
 static std::string
 getChannelName(int currentPID)
@@ -262,7 +135,6 @@ processMessageData(const dataInterProcessToExchange& messageData)
             bool isVar = scope->lookupVariable(messageData.variableName, result);
             res = sendGetVarAnswerToNelsonInterprocessReceiver(messageData.pid, result);
         }
-
     } else if (messageData.commandType == "get_answer") {
         bool success;
         getVarAnswer = CompressedStringToArrayOf(messageData.serializedCompressedVariable, success);
@@ -274,20 +146,14 @@ processMessageData(const dataInterProcessToExchange& messageData)
 //=============================================================================
 static boost::interprocess::message_queue* messageQueue = nullptr;
 //=============================================================================
-static boost::posix_time::ptime
-getDelay()
-{
-    return boost::posix_time::microsec_clock::universal_time() + boost::posix_time::seconds(1);
-}
-//=============================================================================
 static void
-createNelsonInterprocessReceiverThread(int currentPID)
+createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
 {
     receiverLoopRunning = true;
     isMessageQueueFails = false;
     try {
-        messageQueue = new boost::interprocess::message_queue(boost::interprocess::open_or_create,
-            getChannelName(currentPID).c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
+        std::string channelName = getChannelName(currentPID);
+        messageQueue = new boost::interprocess::message_queue(boost::interprocess::open_or_create, channelName.c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
     } catch (std::bad_alloc&) {
         messageQueue = nullptr;
     } catch (boost::interprocess::interprocess_exception&) {
@@ -296,9 +162,10 @@ createNelsonInterprocessReceiverThread(int currentPID)
     if (messageQueue == nullptr) {
         receiverLoopRunning = false;
         isMessageQueueFails = true;
-        removeNelsonInterprocessReceiver(currentPID);
+        removeNelsonInterprocessReceiver(currentPID, withEventsLoop);
         return;
     }
+    openIpcReceiverIsReadyMutex(currentPID);
     dataInterProcessToExchange msg("");
     isMessageQueueReady = true;
     std::string serialized_compressed_string;
@@ -333,8 +200,7 @@ createNelsonInterprocessReceiverThread(int currentPID)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) {
-                    }
+                    } catch (boost::archive::archive_exception&) { }
                 }
             }
         }
@@ -350,20 +216,23 @@ createNelsonInterprocessReceiverThread(int currentPID)
     loopTerminated = true;
 }
 //=============================================================================
-void
-createNelsonInterprocessReceiver(int pid)
+bool
+createNelsonInterprocessReceiver(int pid, bool withEventsLoop)
 {
     try {
-        receiver_thread = new boost::thread(createNelsonInterprocessReceiverThread, pid);
+        receiver_thread
+            = new boost::thread(createNelsonInterprocessReceiverThread, pid, withEventsLoop);
     } catch (const std::bad_alloc&) {
         receiver_thread = nullptr;
         receiverLoopRunning = false;
         isMessageQueueFails = true;
         isMessageQueueReady = false;
+        return false;
     }
     if (receiver_thread) {
         receiver_thread->detach();
     }
+    return true;
 }
 //=============================================================================
 static void
@@ -377,16 +246,26 @@ terminateNelsonInterprocessReceiverThread()
 }
 //=============================================================================
 bool
-removeNelsonInterprocessReceiver(int pid)
+removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
 {
-    waitMessageQueueUntilReady();
+    waitMessageQueueUntilReady(withEventsLoop);
     terminateNelsonInterprocessReceiverThread();
     bool res = boost::interprocess::message_queue::remove(getChannelName(pid).c_str());
+    closeIpcReceiverIsReadyMutex(pid);
     int l = 0;
-    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-    while (!loopTerminated && l < 20) {
-        Sleep(eval, .5);
-        l++;
+    if (withEventsLoop) {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        while (!loopTerminated && l < 20) {
+            Sleep(eval, .5);
+            l++;
+        }
+    } else {
+        while (!loopTerminated && l < 20) {
+            try {
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+            } catch (boost::thread_interrupted&) { }
+            l++;
+        }
     }
     if (messageQueue) {
         delete messageQueue;
@@ -404,7 +283,7 @@ sendMessage(int pid, const std::string& message)
             boost::interprocess::open_only, getChannelName(pid).c_str());
         messages.send(message.data(), message.size(), 0);
         sent = true;
-    } catch (boost::interprocess::interprocess_exception&) {
+    } catch (boost::interprocess::interprocess_exception& e) {
         sent = false;
     }
     return sent;
@@ -443,12 +322,15 @@ sendGetVarAnswerToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& 
 }
 //=============================================================================
 bool
-sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command)
+sendCommandToNelsonInterprocessReceiver(
+    int pidDestination, const std::wstring& command, bool withEventsLoop, std::wstring &errorMessage)
 {
+    errorMessage.clear();
     if (isMessageQueueFails) {
-        Error("Impossible to initialize IPC.");
+        errorMessage = _W("Impossible to initialize IPC.");
+        return false;
     }
-    waitMessageQueueUntilReady();
+    waitMessageQueueUntilReady(withEventsLoop);
     dataInterProcessToExchange msg(wstring_to_utf8(command));
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
@@ -462,13 +344,15 @@ sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
 }
 //=============================================================================
 bool
-sendVariableToNelsonInterprocessReceiver(
-    int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope)
+sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,
+    const std::wstring& name, const std::wstring& scope, bool withEventsLoop,
+    std::wstring& errorMessage)
 {
     if (isMessageQueueFails) {
-        Error("Impossible to initialize IPC.");
+        errorMessage = _W("Impossible to initialize IPC.");
+        return false;
     }
-    waitMessageQueueUntilReady();
+    waitMessageQueueUntilReady(withEventsLoop);
     bool isFullySerialized = false;
     std::string compressedData = ArrayOfToCompressedString(var, isFullySerialized);
     dataInterProcessToExchange msg(
@@ -493,13 +377,14 @@ sendVariableToNelsonInterprocessReceiver(
 }
 //=============================================================================
 bool
-isVariableFromNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& name, const std::wstring& scope)
+isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage)
 {
     if (isMessageQueueFails) {
-        Error("Impossible to initialize IPC.");
+        errorMessage = _W("Impossible to initialize IPC.");
+        return false;
     }
-    waitMessageQueueUntilReady();
+    waitMessageQueueUntilReady(withEventsLoop);
     dataInterProcessToExchange msg(
         getCurrentPID(), "isvar", wstring_to_utf8(name), wstring_to_utf8(scope));
     if (!msg.isFullySerialized()) {
@@ -511,22 +396,35 @@ isVariableFromNelsonInterprocessReceiver(
     bool failed = false;
     std::string serialized_compressed_string = compressString(oss.str(), failed);
     if (failed) {
-        Error(_W("Cannot compress data."));
+        errorMessage = _W("Cannot compress data.");
+        return false;
     }
     if (serialized_compressed_string.size() >= MAX_MSG_SIZE) {
-        Error(_W("Serialized data too big."));
+        errorMessage = _W("Serialized data too big.");
+        return false;
     }
     if (!sendMessage(pidDestination, serialized_compressed_string)) {
-        Error(_W("Cannot send serialized data."));
+        errorMessage = _W("Cannot send serialized data.");
+        return false;
     }
     int l = 0;
-    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-    while (!isVarAnswerAvailable && l < 20) {
-        Sleep(eval, .5);
-        l++;
+    if (withEventsLoop) {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        while (!isVarAnswerAvailable && l < 20) {
+            Sleep(eval, .5);
+            l++;
+        }
+    } else {
+        while (!isVarAnswerAvailable && l < 20) {
+            try {
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+            } catch (boost::thread_interrupted&) { }
+            l++;
+        }
     }
     if (l == 20) {
-        Error("Impossible to get value (Timeout).");
+        errorMessage = _W("Impossible to get value (Timeout).");
+        return false;
     } else {
         bool isVarExist = isVarAnswer;
         isVarAnswer = false;
@@ -537,13 +435,15 @@ isVariableFromNelsonInterprocessReceiver(
 }
 //=============================================================================
 ArrayOf
-getVariableFromNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& name, const std::wstring& scope)
+getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage)
 {
+    errorMessage.clear();
     if (isMessageQueueFails) {
-        Error("Impossible to initialize IPC.");
+        errorMessage = _W("Impossible to initialize IPC.");
+        return ArrayOf();
     }
-    waitMessageQueueUntilReady();
+    waitMessageQueueUntilReady(withEventsLoop);
 
     dataInterProcessToExchange msg(
         getCurrentPID(), "get", wstring_to_utf8(name), wstring_to_utf8(scope));
@@ -556,23 +456,36 @@ getVariableFromNelsonInterprocessReceiver(
     bool failed = false;
     std::string serialized_compressed_string = compressString(oss.str(), failed);
     if (failed) {
-        Error(_W("Cannot serialize data."));
+        errorMessage = _W("Cannot serialize data.");
+        return ArrayOf();
     }
     if (serialized_compressed_string.size() >= MAX_MSG_SIZE) {
-        Error(_W("Serialized data too big."));
+        errorMessage = _W("Serialized data too big.");
+        return ArrayOf();
     }
     if (!sendMessage(pidDestination, serialized_compressed_string)) {
-        Error(_W("Cannot send serialized data."));
+        errorMessage = _W("Cannot send serialized data.");
+        return ArrayOf();
     }
     int l = 0;
-    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-    while (!getVarAnswerAvailable && l < 20) {
-        Sleep(eval, .5);
-        l++;
+    if (withEventsLoop) {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        while (!getVarAnswerAvailable && l < 20) {
+            Sleep(eval, .5);
+            l++;
+        }
+    } else {
+        while (!getVarAnswerAvailable && l < 20) {
+            try {
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+            } catch (boost::thread_interrupted&) { }
+            l++;
+        }
     }
     ArrayOf result;
     if (l == 20) {
-        Error("Impossible to get value (Timeout).");
+        errorMessage = _W("Impossible to get value (Timeout).");
+        return ArrayOf();
     } else {
         result = getVarAnswer;
         getVarAnswerAvailable = false;
@@ -581,55 +494,20 @@ getVariableFromNelsonInterprocessReceiver(
     return result;
 }
 //=============================================================================
-std::string
-ArrayOfToCompressedString(const ArrayOf& data, bool& fullySerialized)
-{
-    ArrayOfSerialization serializedVariable(data);
-    fullySerialized = serializedVariable.isFullySerialized();
-    std::stringstream oss;
-    boost::archive::binary_oarchive oa(oss);
-    oa << serializedVariable;
-    bool failed = false;
-    std::string serialized_compressed_string = compressString(oss.str(), failed);
-    if (failed) {
-        fullySerialized = false;
-        return std::string();
-    }
-    return serialized_compressed_string;
-}
-//=============================================================================
-ArrayOf
-CompressedStringToArrayOf(const std::string& compressedString, bool& success)
-{
-    ArrayOf res;
-    success = false;
-    bool failed = false;
-    std::string decompressedVariable = decompressString(compressedString, failed);
-    if (!failed) {
-        std::stringstream iss;
-        iss << decompressedVariable;
-        decompressedVariable.clear();
-        ArrayOfSerialization serializedVariable;
-        try {
-            boost::archive::binary_iarchive ia(iss);
-            ia >> serializedVariable;
-            res = serializedVariable.get(success);
-            if (!success && !serializedVariable.isFullySerialized()) {
-                success = true;
-            }
-        } catch (boost::archive::archive_exception&) {
-            success = false;
-        }
-    }
-    return res;
-}
-//=============================================================================
 void
-waitMessageQueueUntilReady()
+waitMessageQueueUntilReady(bool withEventsLoop)
 {
-    auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-    while (!isMessageQueueReady && !isMessageQueueFails) {
-        Sleep(eval, .5);
+    if (withEventsLoop) {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        while (!isMessageQueueReady && !isMessageQueueFails) {
+            Sleep(eval, .5);
+        }
+    } else {
+        while (!isMessageQueueReady && !isMessageQueueFails) {
+            try {
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+            } catch (boost::thread_interrupted&) { }
+        }
     }
 }
 //=============================================================================

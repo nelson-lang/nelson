@@ -23,59 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "getpidBuiltin.hpp"
-#include "ipcBuiltin.hpp"
-#include "NelsonConfiguration.hpp"
-#include "NelsonInterprocess.hpp"
-#include "NelsonPIDs.hpp"
-#include "FilesAssociationIPC.hpp"
-#include "RemoveIpcOldFiles.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsIpc_exports.h"
 //=============================================================================
-const std::wstring gatewayName = L"ipc";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "getpid", (void*)Nelson::IpcGateway::getpidBuiltin, 1, 0, CPP_BUILTIN },
-          { "ipc", (void*)Nelson::IpcGateway::ipcBuiltin, -1, 3, CPP_BUILTIN_WITH_EVALUATOR } };
+NLSIPC_IMPEXP
+bool
+openIpcReceiverIsReadyMutex(int pid);
 //=============================================================================
-static bool
-initializeIpcModule(Nelson::Evaluator* eval)
-{
-    int latestPid = getLatestPidInSharedMemory();
-    if (latestPid == 0) {
-        RemoveIpcOldFiles();
-    }
-    int currentPID = getCurrentPID();
-    auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-    registerPidInSharedMemory(currentPID, mode);
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        createNelsonCommandFileExtensionReceiver(currentPID);
-    }
-    createNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
-    return true;
+NLSIPC_IMPEXP
+bool
+closeIpcReceiverIsReadyMutex(int pid);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+haveIpcReceiverIsReadyMutex(int pid);
+//=============================================================================
 }
-//=============================================================================
-static bool
-finishIpcModule(Nelson::Evaluator* eval)
-{
-    int currentPID = getCurrentPID();
-    auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-
-    removeNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        removeNelsonCommandFileExtensionReceiver(currentPID);
-    }
-    unregisterPidInSharedMemory(currentPID);
-    return true;
-}
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeIpcModule)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishIpcModule)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

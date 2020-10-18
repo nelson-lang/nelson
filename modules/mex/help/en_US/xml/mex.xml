@@ -14,9 +14,15 @@
 		<syntax_item>mex('-output', mexName, filenames)</syntax_item>
 		<syntax_item>mex(api, '-output', mexName, filenames)</syntax_item>
 		<syntax_item>mex(api, '-output', mexName, filenames, option1, ..., optionN)</syntax_item>
+		<syntax_item>mex('-client, 'engine', filenames)</syntax_item>
+		<syntax_item>mex('-client', 'engine', 'filenames', api, option1, ..., optionN)</syntax_item>
 	</syntax>
 	
 	<param_input>
+		<param_input_item>
+			<param_name>'-client', 'engine'</param_name>
+			<param_description>enable to build C/C++ source files into standalone engine application.</param_description>
+		</param_input_item>
 		<param_input_item>
 			<param_name>api</param_name>
 			<param_description>a string: '-R2017b' (separated complex representation) or '-R2018a' (interleaved complex representation).</param_description>
@@ -62,7 +68,7 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[
-		edit([modulepath('mex'), '/tests/test_mexPrintf.nls'])
+		edit([modulepath('mex'), '/tests/test_engine.nls'])
 ]]>
 		</example_item_data>
 	</example_item>

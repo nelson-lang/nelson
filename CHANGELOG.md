@@ -1,6 +1,13 @@
 # 0.4.10 (2020-10-XX)
 
-  * extends dlgeneratemake to generate also executable.
+  *  Nelson Engine API for C (compatible with MEX Engine).
+  
+  * extends mex function to generate also executable.
+
+  * extends dlgeneratemake function to generate also executable.
+
+  * --minimize command line argument added. minimize main GUI Window at startup.
+
 
 Bug Fixes:
 ---------

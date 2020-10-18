@@ -36,7 +36,7 @@ using namespace Nelson;
 // V = ipc(pid, 'get', name [, scope = current])
 // B = ipc(pid, 'isvar', name [, scope = current])
 ArrayOfVector
-Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     int32 pid;
@@ -59,9 +59,11 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             command = param3.getContentAsWideString();
-            bool r = sendCommandToNelsonInterprocessReceiver(pid, command);
+            std::wstring errorMessage;
+            bool r = sendCommandToNelsonInterprocessReceiver(
+                pid, command, eval->haveEventsLoop(), errorMessage);
             if (!r) {
-                Error(_W("Command not sent."));
+                Error(_W("Command not sent.") + errorMessage);
             }
         } else if (commandType == L"get") {
             if (nLhs > 1) {
@@ -71,7 +73,12 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!IsValidVariableName(name)) {
                 Error(_W("#3 Argument must contain a valid variable name."));
             }
-            ArrayOf result = getVariableFromNelsonInterprocessReceiver(pid, name, L"local");
+            std::wstring errorMessage;
+            ArrayOf result = getVariableFromNelsonInterprocessReceiver(
+                pid, name, L"local", eval->haveEventsLoop(), errorMessage);
+            if (!errorMessage.empty()) {
+                Error(errorMessage);
+            }
             retval.push_back(result);
         } else if (commandType == L"isvar") {
             if (nLhs > 1) {
@@ -81,7 +88,12 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!IsValidVariableName(name)) {
                 Error(_W("#3 Argument must contain a valid variable name."));
             }
-            bool result = isVariableFromNelsonInterprocessReceiver(pid, name, L"local");
+            std::wstring errorMessage;
+            bool result = isVariableFromNelsonInterprocessReceiver(
+                pid, name, L"local", eval->haveEventsLoop(), errorMessage);
+            if (!errorMessage.empty()) {
+                Error(errorMessage);
+            }
             retval.push_back(ArrayOf::logicalConstructor(result));
         } else {
             Error(_W("#2 parameter invalid: 'eval', 'put', 'get', or 'isvar' parameter expected."));
@@ -108,9 +120,11 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!IsValidVariableName(name)) {
                 Error(_W("#4 Argument must contain a valid variable name."));
             }
-            bool r = sendVariableToNelsonInterprocessReceiver(pid, param3, name, L"local");
+            std::wstring errorMessage;
+            bool r = sendVariableToNelsonInterprocessReceiver(
+                pid, param3, name, L"local", eval->haveEventsLoop(), errorMessage);
             if (!r) {
-                Error(_W("Variable not sent."));
+                Error(_W("Variable not sent.") + errorMessage);
             }
         } else if (commandType == L"get") {
             if (nLhs > 1) {
@@ -126,7 +140,12 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!supported) {
                 Error(_W("#4 Argument must contain a valid scope name."));
             }
-            ArrayOf result = getVariableFromNelsonInterprocessReceiver(pid, name, scope);
+            std::wstring errorMessage;
+            ArrayOf result = getVariableFromNelsonInterprocessReceiver(
+                pid, name, scope, eval->haveEventsLoop(), errorMessage);
+            if (!errorMessage.empty()) {
+                Error(errorMessage);
+            }
             retval.push_back(result);
 
         } else if (commandType == L"isvar") {
@@ -143,7 +162,12 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!supported) {
                 Error(_W("#4 Argument must contain a valid scope name."));
             }
-            bool result = isVariableFromNelsonInterprocessReceiver(pid, name, scope);
+            std::wstring errorMessage;
+            bool result = isVariableFromNelsonInterprocessReceiver(
+                pid, name, scope, eval->haveEventsLoop(), errorMessage);
+            if (!errorMessage.empty()) {
+                Error(errorMessage);
+            }
             retval.push_back(ArrayOf::logicalConstructor(result));
 
         } else {
@@ -178,9 +202,11 @@ Nelson::IpcGateway::ipcBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (nLhs != 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        bool r = sendVariableToNelsonInterprocessReceiver(pid, param3, name, scope);
+        std::wstring errorMessage;
+        bool r = sendVariableToNelsonInterprocessReceiver(
+            pid, param3, name, scope, eval->haveEventsLoop(), errorMessage);
         if (!r) {
-            Error(_W("Variable not sent."));
+            Error(_W("Variable not sent.") + errorMessage);
         }
     } break;
     default: {

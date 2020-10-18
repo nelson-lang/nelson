@@ -23,51 +23,56 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-//=============================================================================
-#include "nlsIpc_exports.h"
-#include "ArrayOf.hpp"
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include "CompressedStringHelpers.hpp"
+#include "ArrayOfSerialization.hpp"
+#include "StringZLib.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSIPC_IMPEXP
-bool
-createNelsonInterprocessReceiver(int pid, bool withEventsLoop);
+std::string
+ArrayOfToCompressedString(const ArrayOf& data, bool& fullySerialized)
+{
+    ArrayOfSerialization serializedVariable(data);
+    fullySerialized = serializedVariable.isFullySerialized();
+    std::stringstream oss;
+    boost::archive::binary_oarchive oa(oss);
+    oa << serializedVariable;
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
+    if (failed) {
+        fullySerialized = false;
+        return std::string();
+    }
+    return serialized_compressed_string;
+}
 //=============================================================================
-NLSIPC_IMPEXP
-void
-waitMessageQueueUntilReady(bool withEventsLoop);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-removeNelsonInterprocessReceiver(int pid, bool withEventsLoop);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
-    bool withEventsLoop, std::wstring& errorMessage);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,
-    const std::wstring& name, const std::wstring& scope, bool withEventsLoop,
-    std::wstring& errorMessage);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
-    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-isReadyFromNelsonInterprocessReceiver(int pidDestination);
-//=============================================================================
-NLSIPC_IMPEXP
 ArrayOf
-getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
-    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
+CompressedStringToArrayOf(const std::string& compressedString, bool& success)
+{
+    ArrayOf res;
+    success = false;
+    bool failed = false;
+    std::string decompressedVariable = decompressString(compressedString, failed);
+    if (!failed) {
+        std::stringstream iss;
+        iss << decompressedVariable;
+        decompressedVariable.clear();
+        ArrayOfSerialization serializedVariable;
+        try {
+            boost::archive::binary_iarchive ia(iss);
+            ia >> serializedVariable;
+            res = serializedVariable.get(success);
+            if (!success && !serializedVariable.isFullySerialized()) {
+                success = true;
+            }
+        } catch (boost::archive::archive_exception&) {
+            success = false;
+        }
+    }
+    return res;
+}
 //=============================================================================
 }
 //=============================================================================

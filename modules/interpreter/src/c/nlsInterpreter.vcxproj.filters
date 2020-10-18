@@ -187,6 +187,9 @@
     <ClCompile Include="..\cpp\CallMexBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\NelsonReadyNamedMutex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
@@ -353,6 +356,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NelsonReadyNamedMutex.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

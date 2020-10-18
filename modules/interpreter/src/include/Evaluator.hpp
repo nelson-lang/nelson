@@ -149,6 +149,8 @@ class NLSINTERPRETER_IMPEXP Evaluator
 public:
     std::vector<std::wstring> evaluatedFilenames;
 
+    bool isReadyToUse = false;
+
     void* mainGuiObject = nullptr;
 
     void* FileManager = nullptr;

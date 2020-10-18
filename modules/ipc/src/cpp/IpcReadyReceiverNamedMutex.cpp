@@ -23,59 +23,65 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "getpidBuiltin.hpp"
-#include "ipcBuiltin.hpp"
-#include "NelsonConfiguration.hpp"
-#include "NelsonInterprocess.hpp"
-#include "NelsonPIDs.hpp"
-#include "FilesAssociationIPC.hpp"
-#include "RemoveIpcOldFiles.hpp"
+#include <boost/interprocess/shared_memory_object.hpp>
+#include <boost/interprocess/sync/named_mutex.hpp>
+#include "IpcReadyReceiverNamedMutex.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"ipc";
+static boost::interprocess::named_mutex* ipc_receiver_ready_mutex = nullptr;
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "getpid", (void*)Nelson::IpcGateway::getpidBuiltin, 1, 0, CPP_BUILTIN },
-          { "ipc", (void*)Nelson::IpcGateway::ipcBuiltin, -1, 3, CPP_BUILTIN_WITH_EVALUATOR } };
-//=============================================================================
-static bool
-initializeIpcModule(Nelson::Evaluator* eval)
+static std::string
+getNamedMutex(int pid)
 {
-    int latestPid = getLatestPidInSharedMemory();
-    if (latestPid == 0) {
-        RemoveIpcOldFiles();
-    }
-    int currentPID = getCurrentPID();
-    auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-    registerPidInSharedMemory(currentPID, mode);
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        createNelsonCommandFileExtensionReceiver(currentPID);
-    }
-    createNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
-    return true;
+    return std::string("NELSON_IPC_") + std::to_string(pid);
 }
 //=============================================================================
-static bool
-finishIpcModule(Nelson::Evaluator* eval)
+bool
+openIpcReceiverIsReadyMutex(int pid)
 {
-    int currentPID = getCurrentPID();
-    auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-
-    removeNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        removeNelsonCommandFileExtensionReceiver(currentPID);
+    bool res = false;
+    if (ipc_receiver_ready_mutex == nullptr) {
+        std::string name = getNamedMutex(pid);
+        try {
+            boost::interprocess::named_mutex::remove(name.c_str());
+            ipc_receiver_ready_mutex = new boost::interprocess::named_mutex(
+                boost::interprocess::open_or_create, name.c_str());
+            res = true;
+        } catch (boost::interprocess::interprocess_exception&) {
+            res = false;
+        }
     }
-    unregisterPidInSharedMemory(currentPID);
-    return true;
+    return res;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeIpcModule)
+bool
+closeIpcReceiverIsReadyMutex(int pid)
+{
+    bool res = false;
+    if (ipc_receiver_ready_mutex) {
+        std::string name = getNamedMutex(pid);
+        ipc_receiver_ready_mutex->remove(name.c_str());
+        delete ipc_receiver_ready_mutex;
+        ipc_receiver_ready_mutex = nullptr;
+    }
+    return res;
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+bool
+haveIpcReceiverIsReadyMutex(int pid)
+{
+    bool res = false;
+    std::string name = getNamedMutex(pid);
+    try {
+        boost::interprocess::named_mutex other_nelson_mutex(
+            boost::interprocess::open_only, name.c_str());
+        res = true;
+    } catch (const boost::interprocess::interprocess_exception&) {
+        res = false;
+    }
+    return res;
+}
 //=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishIpcModule)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================

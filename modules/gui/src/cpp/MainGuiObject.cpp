@@ -110,11 +110,11 @@ InitGuiObjects(void)
 }
 //===================================================================================
 void*
-CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
+CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow)
 {
     CreateConsole();
     try {
-        NelSonQtMainWindow = new QtMainWindow();
+        NelSonQtMainWindow = new QtMainWindow(minimizeWindow);
     } catch (std::bad_alloc&) {
         NelSonQtMainWindow = nullptr;
     }

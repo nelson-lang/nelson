@@ -33,7 +33,7 @@ extern "C"
     NLSGUI_IMPEXP void
     InitGuiObjects(void);
     NLSGUI_IMPEXP void*
-    CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode);
+    CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow);
     NLSGUI_IMPEXP void
     DestroyMainGuiObject(void* term);
     NLSGUI_IMPEXP void*

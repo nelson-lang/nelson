@@ -252,6 +252,7 @@
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\MtimesOperator.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
+    <ClCompile Include="..\cpp\NelsonReadyNamedMutex.cpp" />
     <ClCompile Include="..\cpp\NeOperator.cpp" />
     <ClCompile Include="..\cpp\NotOperator.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
     <ClInclude Include="..\include\MacroFunctionDef.hpp" />
     <ClInclude Include="..\include\NelsonGateway.hpp" />
+    <ClInclude Include="..\include\NelsonReadyNamedMutex.hpp" />
     <ClInclude Include="..\include\nlsInterpreter_exports.h" />
     <ClInclude Include="..\include\Operators.hpp" />
     <ClInclude Include="..\include\OverloadCache.hpp" />

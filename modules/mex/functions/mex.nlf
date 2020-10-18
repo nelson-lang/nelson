@@ -28,6 +28,13 @@ function mex(varargin)
     error(_('Wrong number of input arguments.'));
   end
   params = varargin(:)';
+  if nargin() > 1
+    isengine = ischar(params{1}) && (strcmp(params{1}, '-client') == true) && ...
+    ischar(params{2}) && (strcmp(params{2}, 'engine') == true);
+  else
+    isengine = false;
+  end
+
   filenames = getFilenames(params);
   definesParams = getDefines(params);
   includesParams = getIncludes(params);
@@ -76,11 +83,16 @@ function mex(varargin)
   c_flags = [concateToChar(c_flags), ' ', concateToChar(cflagsParams),  ' ', concateToChar(undefinesParams)];
   c_flags = strtrim(c_flags);
   build_configuration = buildConfigParam;
-
-  dlgeneratecleaner(destinationPath);
-  dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
-  filenames = [filenames, 'mexGateway.c'];
-  [status, message] = dlgeneratemake(destinationPath, ...
+  
+  if ~isengine
+    dlgeneratecleaner(destinationPath);
+    dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
+    filenames = [filenames, 'mexGateway.c'];
+    maketype = 'dynamic_library';
+  else
+    maketype = 'executable';
+  end  
+  [status, message] = dlgeneratemake(maketype, destinationPath, ...
   functionName, ...
   filenames, ...
   includes, ...
@@ -92,8 +104,10 @@ function mex(varargin)
   if ~status
     error(message);
   end
-  dlgenerateloader(destinationPath, functionName, true);
-  dlgenerateunloader(destinationPath, functionName, true);
+  if ~isengine
+    dlgenerateloader(destinationPath, functionName, true);
+    dlgenerateunloader(destinationPath, functionName, true);
+  end
   [status, message] = dlmake(destinationPath);
   if ~status
     error(message);
