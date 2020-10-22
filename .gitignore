@@ -203,3 +203,6 @@ module_skeleton/src/loader.nls
 module_skeleton/src/unloader.nls
 module_skeleton/*/*.manifest
 ################################################################################
+a.out
+cmake_hdf5_test.out
+################################################################################
