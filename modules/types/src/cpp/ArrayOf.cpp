@@ -478,8 +478,7 @@ ArrayOf::ArrayOf(Class type)
 ArrayOf::~ArrayOf()
 {
     if (dp) {
-        int m;
-        m = dp->deleteCopy();
+        int m = dp->deleteCopy();
         if (m <= 1) {
             delete dp;
         }

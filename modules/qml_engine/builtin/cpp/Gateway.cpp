@@ -109,7 +109,7 @@ static const nlsGateway gateway[] = {
 static bool
 finishQmlEngineModule(Nelson::Evaluator* eval)
 {
-    QmlEngine::getInstance()->destroy();
+    terminateQmlEngine();
     return true;
 }
 //=============================================================================
