@@ -37,6 +37,9 @@ function status = test_run(varargin)
     test_suites = test_suites_process(test_suites, test_cases, '', stoponfail);
   else
     modules_idx = 1;
+    if isempty(modules_list)
+      error(_('No valid module.'));
+    end
     for m = modules_list(:)'
       if test_suites.errors ~= 0 && stoponfail
         status = false;
@@ -118,8 +121,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
   switch nargin
     case 0
       // status = test_run()
-      modules_list = getmodules();
-      
+      run([nelsonroot(), '/modules/modules.nls']);
     case 1
       // status = test_run([])
       // status = test_run('minimal_tests')
@@ -129,7 +131,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          run([nelsonroot(), '/modules/modules.nls']);
         else
           error(_('[] expected.'));
         end
