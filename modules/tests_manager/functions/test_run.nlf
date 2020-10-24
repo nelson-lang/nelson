@@ -162,7 +162,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          run([nelsonroot(), '/modules/modules.nls']);
         else
           error(_('[] expected.'));
         end
@@ -194,7 +194,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          run([nelsonroot(), '/modules/modules.nls']);
         else
           error(_('[] expected.'));
         end
@@ -237,7 +237,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param4 = args{4};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          run([nelsonroot(), '/modules/modules.nls']);
         else
           error(_('[] expected.'));
         end
@@ -259,7 +259,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       end
       if isequal(size(param4), [0 0]) && isdouble(param4)
         if ~isdouble(param4)
-            error(_('#4 argument: ''-stoponfail'' or [] expected'));
+          error(_('#4 argument: ''-stoponfail'' or [] expected'));
         end
       else
         stoponfail = haveStopOnFailOption(param4);
@@ -434,7 +434,7 @@ endfunction
 //=============================================================================
 function res = save_results(test_suites, result_outputfile)
   res = true;
-  if ~isempty(result_outputfile) && ischar(result_outputfile) 
+  if ~isempty(result_outputfile) && ischar(result_outputfile)
     [p, f, e] = fileparts(result_outputfile);
     if strcmp(e, '.*')
       res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
@@ -500,7 +500,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
             fprintf(fp, ['      <skipped/>', eol]);
           end
         end
-        fprintf(fp, ['  </testsuite>', eol]);       
+        fprintf(fp, ['  </testsuite>', eol]);
       end
       fprintf(fp, ['</testsuites>', eol]);
     end
