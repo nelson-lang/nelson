@@ -50,6 +50,9 @@ function status = test_run(varargin)
       modules_idx = modules_idx + 1;
       classname = [nelson_version_str, '.', m{1}];
       tests_dir = [modulepath(m{1}), '/tests/'];
+      if ~isdir(tests_dir)
+        tests_dir = [nelsonroot(), '/', m{1}, '/tests/'];
+      end
       test_cases = create_test_cases_directory(tests_dir, option, classname);
       test_suites = test_suites_process(test_suites, test_cases, m{1}, stoponfail);
     end
