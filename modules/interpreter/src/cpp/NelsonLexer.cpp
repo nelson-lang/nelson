@@ -157,7 +157,8 @@ isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
     if (boost::algorithm::ends_with(trimmedLine, L"\n")) {
         trimmedLine.pop_back();
     }
-    return trimmedLine == wcommand || boost::algorithm::starts_with(trimmedLine, wcommand + L" .")
+    return trimmedLine == wcommand || boost::algorithm::starts_with(trimmedLine, wcommand + L" ")
+        || boost::algorithm::starts_with(trimmedLine, wcommand + L" .")
         || boost::algorithm::starts_with(trimmedLine, wcommand + L" /")
         || boost::algorithm::starts_with(trimmedLine, wcommand + L" \\")
         || boost::algorithm::starts_with(trimmedLine, wcommand + L" *")
