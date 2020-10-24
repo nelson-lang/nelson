@@ -49,8 +49,9 @@ function status = test_run(varargin)
       fprintf(stdout, fmt, modules_idx, nbTestSuites, m{1});
       modules_idx = modules_idx + 1;
       classname = [nelson_version_str, '.', m{1}];
-      tests_dir = [modulepath(m{1}), '/tests/'];
-      if ~isdir(tests_dir)
+      try
+        tests_dir = [modulepath(m{1}), '/tests/'];
+      catch
         tests_dir = [nelsonroot(), '/', m{1}, '/tests/'];
       end
       test_cases = create_test_cases_directory(tests_dir, option, classname);
