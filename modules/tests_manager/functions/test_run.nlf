@@ -115,6 +115,21 @@ function test_suites = test_suites_process(test_suites, test_cases, name, stopon
   
 endfunction
 //=============================================================================
+function modules_list = getAllModulesList()
+  run([nelsonroot(), '/modules/modules.nls']);
+  if isempty(modules_list)
+    modules_list = getmodules();
+  else
+    if ~isequal(modules_list, getmodules())
+      for m = getmodules()'
+        if ~any(contains(modules_list, m{1}))
+          modules_list = [modules_list; m{1}];
+        end
+      end
+    end
+  end
+endfunction
+//=============================================================================
 function [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, args)
   stoponfail = false;
   modules_list = [];
@@ -125,7 +140,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
   switch nargin
     case 0
       // status = test_run()
-      run([nelsonroot(), '/modules/modules.nls']);
+      modules_list = getAllModulesList();
     case 1
       // status = test_run([])
       // status = test_run('minimal_tests')
@@ -135,7 +150,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          run([nelsonroot(), '/modules/modules.nls']);
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -166,7 +181,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          run([nelsonroot(), '/modules/modules.nls']);
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -198,7 +213,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          run([nelsonroot(), '/modules/modules.nls']);
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -241,7 +256,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param4 = args{4};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          run([nelsonroot(), '/modules/modules.nls']);
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
