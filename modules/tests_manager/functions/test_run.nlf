@@ -52,7 +52,7 @@ function status = test_run(varargin)
       try
         tests_dir = [modulepath(m{1}), '/tests/'];
       catch
-        tests_dir = [nelsonroot(), '/', m{1}, '/tests/'];
+        tests_dir = [nelsonroot(), '/modules/', m{1}, '/tests/'];
       end
       test_cases = create_test_cases_directory(tests_dir, option, classname);
       test_suites = test_suites_process(test_suites, test_cases, m{1}, stoponfail);
