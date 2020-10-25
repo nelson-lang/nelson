@@ -24,22 +24,32 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/filesystem.hpp>
-using namespace boost::filesystem;
+#include <boost/algorithm/string.hpp>
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::wstring
+removeSimpleQuotesAndTrim(const std::wstring& newpath)
+{
+    std::wstring cleanedLine = boost::algorithm::trim_copy(newpath);
+    if (boost::algorithm::starts_with(cleanedLine, L"'")
+      && boost::algorithm::ends_with(cleanedLine, L"'")) {
+        boost::algorithm::replace_first(cleanedLine, L"'", L"");
+        boost::algorithm::replace_last(cleanedLine, L"'", L"");
+        boost::algorithm::trim(cleanedLine);
+    }
+    return cleanedLine;
+}
+//=============================================================================
 ArrayOf
 Cd(const std::wstring& newpath)
 {
-    path previous_pwd = current_path();
-    try {
-        current_path(newpath);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
-        Error(_W("Cannot change directory: '") + newpath + L"'.");
+    boost::filesystem::path previous_pwd = boost::filesystem::current_path();
+    if (!ChangeDirectory(newpath)) {
+        Error(_W("Cannot change directory: '") + removeSimpleQuotesAndTrim(newpath) + L"'.");
     }
     return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
@@ -47,23 +57,15 @@ Cd(const std::wstring& newpath)
 ArrayOf
 Cd(const std::string& newpath)
 {
-    path previous_pwd = current_path();
-    try {
-        current_path(newpath);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
-        Error(_("Cannot change directory '") + newpath + "'.");
-    }
-    return ArrayOf::characterArrayConstructor(previous_pwd.generic_string());
+    return Cd(utf8_to_wstring(newpath));
 }
 //=============================================================================
 bool
 ChangeDirectory(const std::wstring& newpath)
 {
     try {
-        current_path(newpath);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        e.what();
+        boost::filesystem::current_path(removeSimpleQuotesAndTrim(newpath));
+    } catch (const boost::filesystem::filesystem_error&) {
         return false;
     }
     return true;

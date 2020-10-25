@@ -157,14 +157,12 @@ isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
     if (boost::algorithm::ends_with(trimmedLine, L"\n")) {
         trimmedLine.pop_back();
     }
-    if (boost::algorithm::starts_with(trimmedLine, wcommand)) {
-        boost::algorithm::replace_first(trimmedLine, wcommand, L"");
+    if (boost::algorithm::starts_with(trimmedLine, wcommand + L" ")) {
+        boost::algorithm::replace_first(trimmedLine, wcommand + L" ", L"");
         boost::algorithm::trim(trimmedLine);
-        return boost::algorithm::starts_with(trimmedLine, L".")
-            || boost::algorithm::starts_with(trimmedLine, L"/")
-            || boost::algorithm::starts_with(trimmedLine, L"\\")
-            || boost::algorithm::starts_with(trimmedLine, L"*")
-            || boost::algorithm::starts_with(trimmedLine, L"?");
+        bool haveSimpleQuotes = boost::algorithm::starts_with(trimmedLine, L"'")
+            && boost::algorithm::ends_with(trimmedLine, L"'");
+        return (haveSimpleQuotes || !boost::algorithm::starts_with(trimmedLine, L"("));
     }
     return false;
 }
