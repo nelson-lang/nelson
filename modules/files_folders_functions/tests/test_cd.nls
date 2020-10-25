@@ -23,18 +23,39 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+cd(nelsonroot())
 eval(['cd(''', eval('tempdir()'), ''')']);
 R = pwd();
 REF = tempdir();
 assert_isequal([R, '/'], REF);
 //=============================================================================
+cd(nelsonroot())
+eval(['cd            (''', eval('tempdir()'), ''')']);
+R = pwd();
+REF = tempdir();
+assert_isequal([R, '/'], REF);
+//=============================================================================
+cd(nelsonroot())
+eval(['cd         (      ''', eval('tempdir()'), ''')']);
+R = pwd();
+REF = tempdir();
+assert_isequal([R, '/'], REF);
+//=============================================================================
+cd(nelsonroot())
 cd(tempdir())
 R = pwd();
 REF = tempdir();
 assert_isequal([R, '/'], REF);
 //=============================================================================
+cd(nelsonroot())
 currentDirectory = pwd();
 cd .
+newDirectory = pwd();
+assert_isequal(currentDirectory, newDirectory);
+//=============================================================================
+cd(nelsonroot())
+currentDirectory = pwd();
+cd     .
 newDirectory = pwd();
 assert_isequal(currentDirectory, newDirectory);
 //=============================================================================
