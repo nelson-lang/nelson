@@ -27,6 +27,7 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/interprocess/ipc/message_queue.hpp>
 #include <boost/thread/thread.hpp>
+#include <boost/algorithm/string.hpp>
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
 #include "characters_encoding.hpp"
@@ -105,7 +106,11 @@ processMessageData(const dataInterProcessToExchange& messageData)
 {
     bool res = false;
     if (messageData.commandType == "eval") {
-        res = PostCommandDynamicFunction(utf8_to_wstring(messageData.lineToEvaluate));
+        std::wstring line = utf8_to_wstring(messageData.lineToEvaluate);
+        boost::algorithm::replace_all(line, L"'", L"''");
+        std::wstring command
+            = L"evalin('base','" + line + L"');";
+        res = PostCommandDynamicFunction(command);
     } else if (messageData.commandType == "put") {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
         Scope* scope = getScopeFromName(eval, messageData.scope);
@@ -283,7 +288,7 @@ sendMessage(int pid, const std::string& message)
             boost::interprocess::open_only, getChannelName(pid).c_str());
         messages.send(message.data(), message.size(), 0);
         sent = true;
-    } catch (boost::interprocess::interprocess_exception& e) {
+    } catch (boost::interprocess::interprocess_exception&) {
         sent = false;
     }
     return sent;
