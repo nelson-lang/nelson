@@ -968,8 +968,8 @@ lexCheckForMoreInput(int ccount)
         }
         return ((continuationCount > ccount)
             || ((bracketStackSize > 0)
-                && ((bracketStack[bracketStackSize - 1] == '[')
-                    || (bracketStack[bracketStackSize - 1] == '{')))
+                   && ((bracketStack[bracketStackSize - 1] == '[')
+                          || (bracketStack[bracketStackSize - 1] == '{')))
             || (inBlock != 0));
     } catch (Exception& e) {
         e.what();

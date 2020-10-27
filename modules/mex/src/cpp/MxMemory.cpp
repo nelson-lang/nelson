@@ -307,9 +307,9 @@ mxDuplicateArray(const mxArray* in)
                 if (in->interleavedcomplex) {
                     ret = mxAllocateInterleavedComplexArray(
                         in->number_of_dims, in->dims, sizeFromClass(in->classID), in->classID);
-                    if (ret != nullptr) { 
-                      memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L * 2);
-                      ret->imagdata = nullptr;
+                    if (ret != nullptr) {
+                        memcpy(ret->realdata, in->realdata, mxGetElementSize(in) * L * 2);
+                        ret->imagdata = nullptr;
                     }
                 } else {
                     ret = mxAllocateSeparatedComplexArray(

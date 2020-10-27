@@ -123,8 +123,8 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
             } break;
             case GUI: {
                 InitGuiObjectsDynamic();
-                mainEvaluator
-                    = static_cast<Evaluator*>(CreateGuiEvaluatorDynamic((void*)context, _mode, minimizeWindow));
+                mainEvaluator = static_cast<Evaluator*>(
+                    CreateGuiEvaluatorDynamic((void*)context, _mode, minimizeWindow));
             } break;
             default: {
                 std::string _msg = _("unknow engine.\n");

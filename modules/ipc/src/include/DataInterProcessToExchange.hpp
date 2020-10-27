@@ -39,10 +39,10 @@ public:
         : pid(_pid)
         , commandType(_commandType)
         , serializedCompressedVariable(compressedData)
-        , fullySerialized(_fullySerialized) {};
+        , fullySerialized(_fullySerialized){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, const std::string& _commandType, bool value)
-        : pid(_pid), commandType(_commandType), valueAnswer(value) {};
+        : pid(_pid), commandType(_commandType), valueAnswer(value){};
 
     //=============================================================================
     dataInterProcessToExchange(const std::string& _lineToEvaluate)
@@ -50,7 +50,7 @@ public:
         , lineToEvaluate(_lineToEvaluate)
         , serializedCompressedVariable("")
         , variableName("")
-        , scope("") {};
+        , scope(""){};
     //=============================================================================
     dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
         const std::string& compressedData, bool _fullySerialized)
@@ -58,11 +58,11 @@ public:
         , serializedCompressedVariable(compressedData)
         , fullySerialized(_fullySerialized)
         , variableName(_variableName)
-        , scope(_scope) {};
+        , scope(_scope){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, const std::string& _commandType,
         const std::string& _variableName, const std::string& _scope)
-        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope) {};
+        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope){};
     //=============================================================================
     std::string serializedCompressedVariable;
     bool fullySerialized = false;

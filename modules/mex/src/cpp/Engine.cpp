@@ -51,7 +51,7 @@
 //=============================================================================
 static void
 exit_handler(boost::process::child& process, int e, std::error_code ec)
-{ }
+{}
 //=============================================================================
 static boost::process::child*
 attach_child(int pid)
@@ -97,7 +97,8 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
             try {
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
                 l++;
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
         }
         child = attach_child(latestNelsonPID);
     }
@@ -113,7 +114,8 @@ waitUntilNelsonIsReady(int pid, int n)
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
-        } catch (boost::thread_interrupted&) { }
+        } catch (boost::thread_interrupted&) {
+        }
     }
     if (l < n) {
         return true;
@@ -129,7 +131,8 @@ waitUntilIpcReceiverIsReady(int pid, int n)
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
-        } catch (boost::thread_interrupted&) { }
+        } catch (boost::thread_interrupted&) {
+        }
     }
     if (l < n) {
         return true;
@@ -156,7 +159,8 @@ engOpen(const char* startcmd)
     bool createChild = false;
     if (latestNelsonPID < 1) {
         std::wstring args(L"--minimize");
-        if (startcmd != nullptr) { }
+        if (startcmd != nullptr) {
+        }
         child = start_child(NELSON_EXECUTABLE, args);
         createChild = true;
     } else {
@@ -216,7 +220,8 @@ engOpenSingleUse(const char* startcmd, void* reserved, int* retstatus)
         return nullptr;
     }
     std::wstring args;
-    if (startcmd != nullptr) { }
+    if (startcmd != nullptr) {
+    }
     boost::process::child* child = start_child(NELSON_EXECUTABLE, args);
     if (child == nullptr) {
         return nullptr;

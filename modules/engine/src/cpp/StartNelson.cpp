@@ -387,7 +387,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         boost::filesystem::path full_p = boost::filesystem::complete(p);
         fileToExecute = full_p.generic_wstring();
     }
-    
+
     Evaluator* eval = createMainEvaluator(_mode, lang, po.haveOptionsMinimize());
     if (eval != nullptr) {
         setWarningEvaluator(eval);

@@ -108,8 +108,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
     if (messageData.commandType == "eval") {
         std::wstring line = utf8_to_wstring(messageData.lineToEvaluate);
         boost::algorithm::replace_all(line, L"'", L"''");
-        std::wstring command
-            = L"evalin('base','" + line + L"');";
+        std::wstring command = L"evalin('base','" + line + L"');";
         res = PostCommandDynamicFunction(command);
     } else if (messageData.commandType == "put") {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
@@ -158,7 +157,8 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
     isMessageQueueFails = false;
     try {
         std::string channelName = getChannelName(currentPID);
-        messageQueue = new boost::interprocess::message_queue(boost::interprocess::open_or_create, channelName.c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
+        messageQueue = new boost::interprocess::message_queue(
+            boost::interprocess::open_or_create, channelName.c_str(), MAX_NB_MSG, MAX_MSG_SIZE);
     } catch (std::bad_alloc&) {
         messageQueue = nullptr;
     } catch (boost::interprocess::interprocess_exception&) {
@@ -205,7 +205,8 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) { }
+                    } catch (boost::archive::archive_exception&) {
+                    }
                 }
             }
         }
@@ -268,7 +269,8 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
         while (!loopTerminated && l < 20) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -327,8 +329,8 @@ sendGetVarAnswerToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& 
 }
 //=============================================================================
 bool
-sendCommandToNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& command, bool withEventsLoop, std::wstring &errorMessage)
+sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
+    bool withEventsLoop, std::wstring& errorMessage)
 {
     errorMessage.clear();
     if (isMessageQueueFails) {
@@ -423,7 +425,8 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
         while (!isVarAnswerAvailable && l < 20) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -483,7 +486,8 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
         while (!getVarAnswerAvailable && l < 20) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -511,7 +515,8 @@ waitMessageQueueUntilReady(bool withEventsLoop)
         while (!isMessageQueueReady && !isMessageQueueFails) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
         }
     }
 }

@@ -157,7 +157,8 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
         try {
             view->setSource(qUrlLocal);
-        } catch (std::runtime_error&) { }
+        } catch (std::runtime_error&) {
+        }
         topLevel = view->rootObject();
         if (topLevel == nullptr) {
             view->deleteLater();

@@ -36,7 +36,7 @@ removeSimpleQuotesAndTrim(const std::wstring& newpath)
 {
     std::wstring cleanedLine = boost::algorithm::trim_copy(newpath);
     if (boost::algorithm::starts_with(cleanedLine, L"'")
-      && boost::algorithm::ends_with(cleanedLine, L"'")) {
+        && boost::algorithm::ends_with(cleanedLine, L"'")) {
         boost::algorithm::replace_first(cleanedLine, L"'", L"");
         boost::algorithm::replace_last(cleanedLine, L"'", L"");
         boost::algorithm::trim(cleanedLine);
