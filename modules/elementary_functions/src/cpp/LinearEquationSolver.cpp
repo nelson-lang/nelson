@@ -178,7 +178,7 @@ solveLinearEquationSingle(
     lapack_int NRHS = (lapack_int)n;
     auto* A = (single*)matA.getDataPointer();
     lapack_int LDA = (lapack_int)m;
-    single* AF = (single*)new_with_exception<single>(LDA * N, true);
+    single* AF = (single*)new_with_exception<single>((size_t)(LDA * N), true);
     lapack_int LDAF = (lapack_int)m;
     lapack_int* IPIV = (lapack_int*)new_with_exception<lapack_int>(N, true);
     char EQUED;
@@ -245,7 +245,7 @@ solveLinearEquationSingleComplex(
     auto* A = reinterpret_cast<std::complex<single>*>((single*)matA.getDataPointer());
     lapack_int INFO = 0;
     std::complex<single>* AF
-        = (std::complex<single>*)new_with_exception<std::complex<single>>(LDA * N, true);
+        = (std::complex<single>*)new_with_exception<std::complex<single>>((size_t)(LDA * N), true);
     lapack_int LDAF = (lapack_int)m;
     lapack_int* IPIV = (lapack_int*)new_with_exception<lapack_int>(N, true);
     auto* B = reinterpret_cast<std::complex<single>*>((single*)matB.getDataPointer());

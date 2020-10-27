@@ -159,8 +159,6 @@ engOpen(const char* startcmd)
     bool createChild = false;
     if (latestNelsonPID < 1) {
         std::wstring args(L"--minimize");
-        if (startcmd != nullptr) {
-        }
         child = start_child(NELSON_EXECUTABLE, args);
         createChild = true;
     } else {
@@ -220,8 +218,6 @@ engOpenSingleUse(const char* startcmd, void* reserved, int* retstatus)
         return nullptr;
     }
     std::wstring args;
-    if (startcmd != nullptr) {
-    }
     boost::process::child* child = start_child(NELSON_EXECUTABLE, args);
     if (child == nullptr) {
         return nullptr;
