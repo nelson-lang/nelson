@@ -23,16 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath([nelsonroot(), '/modules/core/tests/']);
+function test_evalin2()
+  inner();
+endfunction
 //=============================================================================
-X = 33;
-R = test_evalin1();
-assert_isequal(R, X);
-//=============================================================================
-R = evalin('base', 'evalin(''caller'',''pi'')');
-assert_isequal(R, pi);
-//=============================================================================
-test_evalin2();
-R = acquirevar('base', 'XX');
-assert_isequal(R, 356);
+function inner()
+  KK = 3
+  evalin('base', 'XX = 356;');
+  disp(KK)
+endfunction
 //=============================================================================

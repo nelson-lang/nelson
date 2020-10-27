@@ -1,18 +1,26 @@
 # 0.4.10 (2020-10-XX)
 
-  * Nelson Engine API for C (compatible with MEX Engine).
+  * [IN PROGRESS] Nelson Engine API for C (compatible with MEX Engine).
+    - engOpen,
+    - engOpenSingleUse,
+    - engClose,
+    - engEvalString,
+    - engPutVariable,
+    - engGetVariable.
 
-  * extends mex function to generate also executable.
+  * extends ```mex``` function to generate also executable.
 
-  * extends dlgeneratemake function to generate also executable.
+  * extends ```dlgeneratemake``` function to generate also executable.
 
-  * --minimize command line argument added. minimize main GUI Window at startup.
+  * ```--minimize``` command line argument added. minimize main GUI Window at startup.
 
 
 Bug Fixes:
 ---------
 
-  * [#339](http://github.com/Nelson-numerical-software/nelson/issues/339): cd, dir, ls had some compatibility troubles.
+  * [#340](http://github.com/Nelson-numerical-software/nelson/issues/340): ```evalin``` did not restore correctly variables after call.
+
+  * [#339](http://github.com/Nelson-numerical-software/nelson/issues/339): ```cd```, ```dir```, ```ls``` had some compatibility troubles.
 
   * [#332](http://github.com/Nelson-numerical-software/nelson/issues/332): removes connect(2) call to /dev/shm/jack-0/default/jack_0 failed (err=No such file or directory).
 
