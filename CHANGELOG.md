@@ -1,4 +1,4 @@
-# 0.4.10 (2020-10-XX)
+# 0.4.10 (2020-10-29)
 
   * [IN PROGRESS] Nelson Engine API for C (compatible with MEX Engine).
     - engOpen,

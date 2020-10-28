@@ -8,7 +8,7 @@ Nelson is an extendable and modern numerical computing environment.
 
 Try it !
 
-## Features:
+## Features
 
 - Types managed by Nelson:
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
@@ -36,6 +36,8 @@ Try it !
 
 - C MEX API compatibility creates and shares mexFunction,
 
+- Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
+
 - Inter-process communication between Nelson's process.
 
 - Foreign Function Interface C/Fortran,
@@ -52,22 +54,21 @@ Try it !
 
 - Embedded Nelson code editor,
 
-- Help engine: 
+- Help engine
 
   Generate help files using Nelson dedicated functions.
  View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
 
-- Tests engine:
+- Tests engine
   
   Validate your algorithm using Nelson dedicated functions.
  Export the test results under the xUnit reports format.
 
-- Profiling and Code coverage tools for Nelson's language:
-   
+- Profiling and Code coverage tools for Nelson's language
    Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
 
 - Nelson cloud:
-  Instant access to Nelson anywhere from an web browser. 
+  Instant access to Nelson anywhere from an web browser.
 
 - Module skeleton to extend Nelson available here: 
    - [template macros and builtin](http://github.com/Nelson-numerical-software/module_skeleton),
