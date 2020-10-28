@@ -31,7 +31,7 @@ namespace Nelson {
 void
 InitGuiObjectsDynamic();
 void*
-CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode);
+CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow);
 void
 DestroyMainGuiObjectDynamic(void* term);
 void*

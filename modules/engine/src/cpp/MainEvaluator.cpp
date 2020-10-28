@@ -49,7 +49,7 @@ namespace Nelson {
 static Evaluator* mainEvaluator = nullptr;
 //=============================================================================
 Evaluator*
-createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang)
+createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow)
 {
     setDefaultMaxNumCompThreads();
     if (mainEvaluator == nullptr) {
@@ -123,8 +123,8 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang)
             } break;
             case GUI: {
                 InitGuiObjectsDynamic();
-                mainEvaluator
-                    = static_cast<Evaluator*>(CreateGuiEvaluatorDynamic((void*)context, _mode));
+                mainEvaluator = static_cast<Evaluator*>(
+                    CreateGuiEvaluatorDynamic((void*)context, _mode, minimizeWindow));
             } break;
             default: {
                 std::string _msg = _("unknow engine.\n");

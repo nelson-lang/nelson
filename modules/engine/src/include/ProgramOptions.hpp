@@ -88,6 +88,8 @@ public:
     wstringVector
     getFilesToLoad();
     bool
+    haveOptionsMinimize();
+    bool
     haveOptionsHelp();
     bool
     haveVersion();
@@ -135,6 +137,7 @@ private:
     bool _usermodules;
     bool _quietmode;
     bool _ipc;
+    bool _minimize;
     std::wstring _error;
     std::wstring _file;
     std::wstring _fileIPC;

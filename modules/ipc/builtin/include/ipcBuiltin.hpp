@@ -32,7 +32,7 @@ namespace Nelson {
 namespace IpcGateway {
     //=============================================================================
     ArrayOfVector
-    ipcBuiltin(int nLhs, const ArrayOfVector& argIn);
+    ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

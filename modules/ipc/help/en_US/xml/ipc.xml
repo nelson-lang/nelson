@@ -18,7 +18,7 @@
   <param_input>
     <param_input_item>
       <param_name>'eval'</param_name>
-      <param_description>a string: a command to evaluate to another nelson's process.</param_description>
+      <param_description>a string: a command to evaluate to another nelson's process in base scope.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'isvar'</param_name>

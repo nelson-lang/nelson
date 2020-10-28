@@ -28,12 +28,10 @@
 void
 mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-   mxArray* pOut = NULL;;
-     if(nrhs != 1)
-   {
+    mxArray* pOut = NULL;;
+    if(nrhs != 1) {
        mexErrMsgTxt("Wrong number or type of input argument");
-   }
-   pOut = mxDuplicateArray(prhs[0]);
-   plhs[0] = pOut;
+    }
+    plhs[0] = mxDuplicateArray(prhs[0]);
 }
 //=============================================================================

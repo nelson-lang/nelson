@@ -56,25 +56,25 @@
     - Get and install Eigen library (minimal 3.3.4)
 
     ```bash
-    git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
+    git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
     ```
 
 
     - Get and install matio library (minimal 1.5.15)
-    
-    ```bash        
+
+    ```bash
     git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install
     ```
 
     - Get and install Boost library (minimal 1.64)
-    
+
         Boost 1.65 is available on 18.04 LTS [https://packages.ubuntu.com/search?keywords=libboost1.65-all-dev]
     ```bash
         sudo apt-get install libboost1.65-all-dev
     ```
 
     backports are also available here:
-   
+
     ```bash
     sudo add-apt-repository --yes ppa:mhier/libboost-latest;
     sudo apt-get update;
@@ -90,7 +90,7 @@
     ```
 
     or you need to build it:
-    
+
     ```bash
     export CC=$USE_CC; export CXX=$USE_CXX;
     export BUILD_ROOT=$(pwd);
@@ -135,18 +135,18 @@
     cd nelson
     cmake -DLGPL21_ONLY=ON -G "Unix Makefiles" .
     ```
-    
+
     - Start the build:
     ```bash
     make
     ```
-    
+
     - Update localization files if you modify it (optional, only for dev):
     ```bash
     make updatelocalization
     ```
-    
-    - Build help files:    
+
+    - Build help files:
     ```bash
     make buildhelp
     ```

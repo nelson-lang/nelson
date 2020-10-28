@@ -31,7 +31,7 @@
 //=============================================================================
 namespace Nelson {
 NLSENGINE_IMPEXP Evaluator*
-createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang);
+createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow);
 NLSENGINE_IMPEXP Evaluator*
 getMainEvaluator();
 NLSENGINE_IMPEXP bool

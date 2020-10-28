@@ -33,31 +33,41 @@
 namespace Nelson {
 //=============================================================================
 NLSIPC_IMPEXP
+bool
+createNelsonInterprocessReceiver(int pid, bool withEventsLoop);
+//=============================================================================
+NLSIPC_IMPEXP
 void
-createNelsonInterprocessReceiver(int pid);
+waitMessageQueueUntilReady(bool withEventsLoop);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-removeNelsonInterprocessReceiver(int pid);
+removeNelsonInterprocessReceiver(int pid, bool withEventsLoop);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command);
+sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
+    bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-sendVariableToNelsonInterprocessReceiver(
-    int pidDestination, const ArrayOf& var, const std::wstring& name, const std::wstring& scope);
+sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,
+    const std::wstring& name, const std::wstring& scope, bool withEventsLoop,
+    std::wstring& errorMessage);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-isVariableFromNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& name, const std::wstring& scope);
+isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+isReadyFromNelsonInterprocessReceiver(int pidDestination);
 //=============================================================================
 NLSIPC_IMPEXP
 ArrayOf
-getVariableFromNelsonInterprocessReceiver(
-    int pidDestination, const std::wstring& name, const std::wstring& scope);
+getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================
 }
 //=============================================================================

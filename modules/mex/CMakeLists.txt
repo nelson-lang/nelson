@@ -37,6 +37,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../ipc/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include)
 # ==============================================================================
 file(GLOB FILE_ARCHIVER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -53,6 +55,7 @@ target_link_libraries(
   nlsTypes
   nlsInterpreter
   nlsSparse
+  nlsIpc
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

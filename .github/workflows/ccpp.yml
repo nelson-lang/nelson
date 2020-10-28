@@ -10,6 +10,11 @@ jobs:
     steps:
     - name: install dependencies
       run: |
+        brew uninstall openssl@1.0.2t
+        brew uninstall python@2.7.17
+        brew untap local/openssl
+        brew untap local/python2
+        brew cask install xquartz
         brew update
         brew upgrade
         brew --version
@@ -71,7 +76,7 @@ jobs:
     - name: CMake
       run: |
         export PATH=/usr/local/opt/qt5/bin:$PATH
-        cmake -G "Unix Makefiles" . 
+        cmake -G "Unix Makefiles" .
     - name: make
       run: make -j4
     - name: get module skeleton
@@ -79,7 +84,7 @@ jobs:
     - name: build help
       run: |
         export PATH=/usr/local/opt/qt5/bin:$PATH
-        make buildhelp 
+        make buildhelp
     - name: minimal tests
       run: make tests_minimal
     - name: package
@@ -103,14 +108,14 @@ jobs:
       run: |
         sudo apt update;
         sudo apt install apt-transport-https ca-certificates gnupg software-properties-common wget ;
-        sudo apt -y autoremove cmake-data;        
+        sudo apt -y autoremove cmake-data;
         sudo apt -y remove --purge --auto-remove cmake;
         sudo rm -rf /usr/local/bin/cmake
         version=3.16
         build=2
         mkdir ~/temp
         cd ~/temp
-        wget https://cmake.org/files/v$version/cmake-$version.$build-Linux-x86_64.sh 
+        wget https://cmake.org/files/v$version/cmake-$version.$build-Linux-x86_64.sh
         sudo mkdir /opt/cmake
         sudo sh cmake-$version.$build-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
         sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
@@ -150,11 +155,11 @@ jobs:
         sudo rm -rf /usr/local/share/boost
         sudo add-apt-repository --yes ppa:mhier/libboost-latest;
         sudo apt update;
-        sudo apt install libboost1.70-dev; 
-        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen;
+        sudo apt install libboost1.70-dev;
+        git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen;
         mkdir /tmp/eigen-build;
         cd /tmp/eigen;
-        git checkout 3.3.7;
+        git checkout 3.3;
         cd -;
         cd /tmp/eigen-build;
         cmake . /tmp/eigen;
@@ -176,7 +181,7 @@ jobs:
         sudo make install;
     - uses: actions/checkout@v1
     - name: CMake
-      run: source /opt/qt512/bin/qt512-env.sh && cmake -G "Ninja" . 
+      run: source /opt/qt512/bin/qt512-env.sh && cmake -G "Ninja" .
     - name: make with Ninja
       run: ninja -j4
     - name: get module skeleton

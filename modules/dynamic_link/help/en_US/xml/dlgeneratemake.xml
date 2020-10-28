@@ -9,16 +9,23 @@
 	<syntax>
 	    <syntax_item>[res, message] = dlgeneratemake(destinationdir, libname, c_cpp_files, include)</syntax_item>
 		<syntax_item>[res, message] = dlgeneratemake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)</syntax_item>
+	    <syntax_item>[res, message] = dlgeneratemake(maketype, destinationdir, libname, c_cpp_files, include)</syntax_item>
+		<syntax_item>[res, message] = dlgeneratemake(maketype, destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)</syntax_item>
+
 	</syntax>
 	
 	<param_input>
+		<param_input_item>
+			<param_name>maketype</param_name>
+			<param_description>a string: 'executable' or 'dynamic_library'.</param_description>
+		</param_input_item>
 		<param_input_item>
 			<param_name>destinationdir</param_name>
 			<param_description>a string: destination directory where is generated the makefile.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>libname</param_name>
-			<param_description>a string: destination dynamic library name</param_description>
+			<param_description>a string: destination dynamic library or executable name.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>c_cpp_files</param_name>

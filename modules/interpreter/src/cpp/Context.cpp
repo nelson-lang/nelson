@@ -226,7 +226,7 @@ Context::deleteFunctionGlobally(const std::string& funcName)
 //=============================================================================
 void
 Context::printMe()
-{}
+{ }
 //=============================================================================
 void
 Context::enterLoop()
@@ -300,22 +300,22 @@ void
 Context::bypassScope(int count)
 {
     if (count < 0) {
-        count = static_cast<int>(scopestack.size());
+        count = (scopestack.size() - 2);
     }
-    bypassstack.reserve(scopestack.size());
-    while ((count > 0) && (scopestack.back()->getName() != "base")) {
+    if (count > scopestack.size()) {
+        return;
+    }
+    for (int i = 0; i < count; i++) {
         bypassstack.push_back(scopestack.back());
         scopestack.pop_back();
-        count--;
     }
 }
 //=============================================================================
 void
 Context::restoreBypassedScopes()
 {
-    scopestack.reserve(bypassstack.size());
-    for (auto i : bypassstack) {
-        scopestack.push_back(i);
+    for (int i = 0; i < bypassstack.size(); i++) {
+        scopestack.push_back(bypassstack[bypassstack.size() - 1 - i]);
     }
     bypassstack.clear();
 }

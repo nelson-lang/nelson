@@ -4,8 +4,7 @@ The roadmap is a living document, and it is likely that priorities will change, 
 
 Please feel free to file issues on this repository if you have questions, concerns, or suggestions.
 
-
-### Nelson 1.0
+## Nelson 1.0
 
 *Features*:
 
@@ -26,6 +25,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - HDF5 used as default data file format (.nh5) (DONE v0.3.2),
 - Profiling and Coverage Tools for Nelson's language (DONE v0.3.4),
 - Mex module (Done v0.4.7),
+- Nelson Engine API for C (compatible with MEX Engine).
 - completion,
 - graphics output (Graphic objects introduced in v0.4.5),
 - some basic openCV functions,
@@ -33,17 +33,15 @@ Please feel free to file issues on this repository if you have questions, concer
 - Nelson on cloud (DONE v0.2.11),
 - RESTful API web service (DONE v0.3.9).
 
-
-### How can I help ?
+## How can I help ?
 
 Short term objectives are listed above. Our goal is to split down the workload in such way that anybody can jump in and help.
 Please comment on issues if you want to take it to avoid duplicating effort!
 Similarly, if a maintainer is already assigned on an issue you'd like to participate in, pinging him on GitHub to offer your help is
 the best way to go.
 
-### How can I add something to the roadmap ?
+## How can I add something to the roadmap ?
 
 The roadmap process is new to Nelson: we are only beginning to structure and document the project objectives.
 Our immediate goal is to be more transparent, and work with our community to
 focus our efforts on fewer prioritized topics.
-

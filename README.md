@@ -34,8 +34,7 @@ these own data types and operations on these data types by using overload.
 
 [Web site](https://nelson-numerical-software.github.io/nelson-website/)
 
-
-## Features:
+## Features
 
 - Types managed by Nelson:
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
@@ -46,7 +45,7 @@ these own data types and operations on these data types by using overload.
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
 
-- Fast Fourrier Transformation functions based on FFTW and MKL wrapper. 
+- Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
 
 - SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
 
@@ -66,6 +65,8 @@ these own data types and operations on these data types by using overload.
 
 - MEX C API compatibility.
 
+- Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
+
 - RESTful API web service.
 
 - Inter-process communication between Nelson's process.
@@ -78,7 +79,7 @@ these own data types and operations on these data types by using overload.
 
 - Embedded Nelson code editor.
 
-- Help engine: 
+- Help engine:
 
   Generate help files using Nelson dedicated functions.
  View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
@@ -89,7 +90,7 @@ these own data types and operations on these data types by using overload.
  Export the test results under the xUnit reports format.
 
 - Profiling and Code coverage tools for Nelson's language:
-   
+
    Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
 
 - [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
@@ -101,17 +102,15 @@ these own data types and operations on these data types by using overload.
 
 - Nelson Modules Manager (nmm) : package manager for Nelson
 
-
 ## Licenses
 
-Nelson is delivered under dual-license : 
+Nelson is delivered under dual-license:
 
 - [![License (GNU Lesser General Public License (LGPL) v2.1)](https://img.shields.io/badge/License-GNU%20Lesser%20General%20Public%20License%20(LGPL)%20v2.1-blue.svg?style=flat-square)](https://opensource.org/licenses/LGPL-2.1)
 
    or
 
 - [![License (GNU General Public License (GPL) v2.0)](https://img.shields.io/badge/license-GNU%20General%20Public%20License%20(GPL)%20v2-blue.svg?style=flat-square)](https://opensource.org/licenses/GPL-2.0)
-
 
 ## Resources
 
@@ -126,8 +125,7 @@ Nelson is delivered under dual-license :
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
 - **Twitter:** <https://twitter.com/Nelson_software>
 
-
-## Tested and supported platforms:
+## Tested and supported platforms
 
 Systems with ✓ downloads are available on  [downloads](https://github.com/Nelson-numerical-software/nelson/releases) page.
 
@@ -151,7 +149,4 @@ The systems listed here without CI or binaries are known to build and operate, b
 | Ubuntu (aarch64) | ARM v8 (64-bit)  |    |          |
 | Raspbian         | ARM v7 (32-bit)  |    |          |
 
-
-
 Allan CORNET (nelson.numerical.computation@gmail.com)
-

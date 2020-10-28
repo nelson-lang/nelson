@@ -51,8 +51,8 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
     int nlhs = (int)argIn.size();
     int lhsCount = (nargout < 1) ? 1 : nargout;
     try {
-        mxArgsOut = (mxArray**)mxMalloc(sizeof(mxArray*) * lhsCount);
-        for (size_t i = 0; i < lhsCount; ++i) {
+        mxArgsOut = (mxArray**)mxMalloc(mwSize(sizeof(mxArray*) * lhsCount));
+        for (size_t i = 0; i < (size_t)lhsCount; ++i) {
             mxArgsOut[i] = mxNewArray();
             mxArgsOut[i]->interleavedcomplex = interleavedComplex;
             mxArgsOut[i]->classID = mxUNKNOWN_CLASS;

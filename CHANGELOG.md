@@ -1,7 +1,26 @@
-# 0.4.10 (2020-10-XX)
+# 0.4.10 (2020-10-29)
+
+  * [IN PROGRESS] Nelson Engine API for C (compatible with MEX Engine).
+    - engOpen,
+    - engOpenSingleUse,
+    - engClose,
+    - engEvalString,
+    - engPutVariable,
+    - engGetVariable.
+
+  * extends ```mex``` function to generate also executable.
+
+  * extends ```dlgeneratemake``` function to generate also executable.
+
+  * ```--minimize``` command line argument added. minimize main GUI Window at startup.
+
 
 Bug Fixes:
 ---------
+
+  * [#340](http://github.com/Nelson-numerical-software/nelson/issues/340): ```evalin``` did not restore correctly variables after call.
+
+  * [#339](http://github.com/Nelson-numerical-software/nelson/issues/339): ```cd```, ```dir```, ```ls``` had some compatibility troubles.
 
   * [#332](http://github.com/Nelson-numerical-software/nelson/issues/332): removes connect(2) call to /dev/shm/jack-0/default/jack_0 failed (err=No such file or directory).
 
@@ -10,11 +29,13 @@ Bug Fixes:
 Compilation:
 ------------
 
-  *  SEMAPHORE CI platform updated to Ubuntu 14.04 - GCC GNU 4.8.4 (supported until it is no more possible)
+  * SEMAPHORE CI platform updated to Ubuntu 14.04 - GCC GNU 4.8.4 (supported until it is no more possible)
 
-  *  cmake binaries_directory supported (LGTM support).
+  * cmake binaries_directory supported (LGTM support).
 
   * fix some warnings detected with LGTM.
+
+  * Eigen 3.3.8 stable on all platforms (mirror url also updated).
 
 
 # 0.4.9 (2020-09-27)
@@ -44,7 +65,7 @@ Compilation:
 ------------
 
   * [#322](http://github.com/Nelson-numerical-software/nelson/issues/322): fix build with gcc 4.8 (ubuntu 14.04).
-      
+
       Nelson 0.4.9 will be last to support gcc 4.8
 
   * libsndfile 1.0.30 on Windows.
@@ -53,9 +74,9 @@ Compilation:
 # 0.4.8 (2020-08-26)
 
   * multiplatforms files association based on Inter-process communication.
-    open, load, execute files in latest created Nelson's process. 
+    open, load, execute files in latest created Nelson's process.
 
-  * event loop and command queue updated. 
+  * event loop and command queue updated.
 
   * fix play, playblocking, resume builtin.
 
@@ -68,8 +89,8 @@ Compilation:
   * username() returns current user name used on your computer.
 
   * isvector checks if input is an vector.
- 
- 
+
+
 Compilation:
 ------------
 
@@ -144,8 +165,8 @@ Compilation:
   * mexGetVariable, mexGetVariablePtr, mexPutVariable functions.
 
   * mexMakeArrayPersistent, mexMakeMemoryPersistent functions.
-  
-  
+
+
 Compilation:
 ------------
 

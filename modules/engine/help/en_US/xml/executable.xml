@@ -66,6 +66,11 @@
     </param_input_item>
 
     <param_input_item>
+      <param_name>--minimize</param_name>
+      <param_description>minimize main GUI Windows (GUI mode only).</param_description>
+    </param_input_item>
+
+    <param_input_item>
       <param_name>--noipc</param_name>
       <param_description>disable interprocess features (files association, ipc builtin).</param_description>
     </param_input_item>

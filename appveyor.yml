@@ -57,10 +57,8 @@ after_build:
 
 # tested in an long path name with space on windows
 - mv "c:\build_chain\Nelson-%APPVEYOR_BUILD_VERSION%" "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%"
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"'
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_result/tests_result.nls"'
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/benchs_all/runbenchs_all.nls"'
-
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/benchs_all/runbenchs_all.nls"'
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"'
 - copy "c:\build_chain\%GENERATED_ZIP%" "c:\build_chain\nelson\%GENERATED_ZIP%"
 - copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_TESTS_XML%" "c:\build_chain\nelson\%RESULT_TESTS_XML%"
 - copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_TESTS_JSON%" "c:\build_chain\nelson\%RESULT_TESTS_JSON%"

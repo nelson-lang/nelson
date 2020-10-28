@@ -38,7 +38,7 @@ const std::wstring gatewayName = L"ipc";
 //=============================================================================
 static const nlsGateway gateway[]
     = { { "getpid", (void*)Nelson::IpcGateway::getpidBuiltin, 1, 0, CPP_BUILTIN },
-          { "ipc", (void*)Nelson::IpcGateway::ipcBuiltin, -1, 3, CPP_BUILTIN } };
+          { "ipc", (void*)Nelson::IpcGateway::ipcBuiltin, -1, 3, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 static bool
 initializeIpcModule(Nelson::Evaluator* eval)
@@ -53,7 +53,7 @@ initializeIpcModule(Nelson::Evaluator* eval)
     if (mode == NELSON_ENGINE_MODE::GUI) {
         createNelsonCommandFileExtensionReceiver(currentPID);
     }
-    createNelsonInterprocessReceiver(currentPID);
+    createNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
     return true;
 }
 //=============================================================================
@@ -62,7 +62,8 @@ finishIpcModule(Nelson::Evaluator* eval)
 {
     int currentPID = getCurrentPID();
     auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-    removeNelsonInterprocessReceiver(currentPID);
+
+    removeNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
     if (mode == NELSON_ENGINE_MODE::GUI) {
         removeNelsonCommandFileExtensionReceiver(currentPID);
     }

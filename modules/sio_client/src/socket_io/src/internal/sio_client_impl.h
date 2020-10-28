@@ -13,7 +13,9 @@
 #define _WEBSOCKETPP_NO_CPP11_FUNCTIONAL_
 #define INTIALIZER(__TYPE__)
 #else
+#if not defined _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_STL_ 1
+#endif
 #define INTIALIZER(__TYPE__) (__TYPE__)
 #endif
 #include <websocketpp/client.hpp>

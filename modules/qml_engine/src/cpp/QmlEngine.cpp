@@ -33,6 +33,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QPointer>
 #include <QtCore/QScopedPointer>
+#include <QtCore/QThread>
 #include <QtQml/QQmlComponent>
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlEngine>
@@ -44,6 +45,14 @@ namespace Nelson {
 //=============================================================================
 QmlEngine* QmlEngine::m_pInstance = nullptr;
 QQmlEngine* qmlengine = nullptr;
+//=============================================================================
+void
+terminateQmlEngine()
+{
+    if (qmlengine != nullptr) {
+        QmlEngine::getInstance()->destroy();
+    }
+}
 //=============================================================================
 QmlEngine*
 QmlEngine::getInstance()
@@ -58,10 +67,13 @@ void
 QmlEngine::destroy()
 {
     if (qmlengine) {
+        QThread* qthread = qmlengine->thread();
+        qthread->quit();
+        qthread->wait();
         qmlengine->deleteLater();
         qmlengine = nullptr;
     }
-    if (m_pInstance) {
+    if (m_pInstance != nullptr) {
         delete m_pInstance;
         m_pInstance = nullptr;
     }
@@ -84,7 +96,7 @@ QmlHandleObject*
 QmlEngine::setData(const std::wstring& data)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
-    if (component) {
+    if (component != nullptr) {
         // clear cache to reload
         qmlengine->clearComponentCache();
         QString qdata = wstringToQString(data).toUtf8();
@@ -111,7 +123,7 @@ QmlHandleObject*
 QmlEngine::loadQmlFile(const std::wstring& filename)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
-    if (component) {
+    if (component != nullptr) {
         // clear cache to reload
         qmlengine->clearComponentCache();
         component->loadUrl(QUrl::fromLocalFile(wstringToQString(filename)));
@@ -120,7 +132,7 @@ QmlEngine::loadQmlFile(const std::wstring& filename)
             component->deleteLater();
             Error(QStringTowstring(component->errorString()));
         }
-        if (topLevel) {
+        if (topLevel != nullptr) {
             std::string classname = std::string(topLevel->metaObject()->className());
             if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
                 QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
@@ -154,7 +166,7 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         }
         topLevel->setParent(view);
         view->show();
-        if (topLevel) {
+        if (topLevel != nullptr) {
             topLevel = topLevel->parent();
             topLevel->setParent(QMainWindowParent);
             return allocateQmlHandle(topLevel);

@@ -37,6 +37,9 @@ function status = test_run(varargin)
     test_suites = test_suites_process(test_suites, test_cases, '', stoponfail);
   else
     modules_idx = 1;
+    if isempty(modules_list)
+      error(_('No valid module.'));
+    end
     for m = modules_list(:)'
       if test_suites.errors ~= 0 && stoponfail
         status = false;
@@ -46,7 +49,11 @@ function status = test_run(varargin)
       fprintf(stdout, fmt, modules_idx, nbTestSuites, m{1});
       modules_idx = modules_idx + 1;
       classname = [nelson_version_str, '.', m{1}];
-      tests_dir = [modulepath(m{1}), '/tests/'];
+      try
+        tests_dir = [modulepath(m{1}), '/tests/'];
+      catch
+        tests_dir = [nelsonroot(), '/modules/', m{1}, '/tests/'];
+      end
       test_cases = create_test_cases_directory(tests_dir, option, classname);
       test_suites = test_suites_process(test_suites, test_cases, m{1}, stoponfail);
     end
@@ -108,6 +115,21 @@ function test_suites = test_suites_process(test_suites, test_cases, name, stopon
   
 endfunction
 //=============================================================================
+function modules_list = getAllModulesList()
+  run([nelsonroot(), '/modules/modules.nls']);
+  if isempty(modules_list)
+    modules_list = getmodules();
+  else
+    if ~isequal(modules_list, getmodules())
+      for m = getmodules()'
+        if ~any(contains(modules_list, m{1}))
+          modules_list = [modules_list; m{1}];
+        end
+      end
+    end
+  end
+endfunction
+//=============================================================================
 function [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, args)
   stoponfail = false;
   modules_list = [];
@@ -118,8 +140,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
   switch nargin
     case 0
       // status = test_run()
-      modules_list = getmodules();
-      
+      modules_list = getAllModulesList();
     case 1
       // status = test_run([])
       // status = test_run('minimal_tests')
@@ -129,7 +150,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -160,7 +181,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -192,7 +213,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param1 = args{1};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -235,7 +256,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       param4 = args{4};
       if isequal(size(param1), [0 0]) && isdouble(param1)
         if isdouble(param1)
-          modules_list = getmodules();
+          modules_list = getAllModulesList();
         else
           error(_('[] expected.'));
         end
@@ -257,7 +278,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       end
       if isequal(size(param4), [0 0]) && isdouble(param4)
         if ~isdouble(param4)
-            error(_('#4 argument: ''-stoponfail'' or [] expected'));
+          error(_('#4 argument: ''-stoponfail'' or [] expected'));
         end
       else
         stoponfail = haveStopOnFailOption(param4);
@@ -432,7 +453,7 @@ endfunction
 //=============================================================================
 function res = save_results(test_suites, result_outputfile)
   res = true;
-  if ~isempty(result_outputfile) && ischar(result_outputfile) 
+  if ~isempty(result_outputfile) && ischar(result_outputfile)
     [p, f, e] = fileparts(result_outputfile);
     if strcmp(e, '.*')
       res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
@@ -498,7 +519,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
             fprintf(fp, ['      <skipped/>', eol]);
           end
         end
-        fprintf(fp, ['  </testsuite>', eol]);       
+        fprintf(fp, ['  </testsuite>', eol]);
       end
       fprintf(fp, ['</testsuites>', eol]);
     end
