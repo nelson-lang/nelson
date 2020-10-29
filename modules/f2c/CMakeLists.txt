@@ -27,8 +27,10 @@ set(module_library_name nlsF2C)
 # ==============================================================================
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 # ==============================================================================
-add_definitions(-DINTEGER_STAR_8)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 add_definitions(-D_POSIX_SOURCE)
+endif()
+add_definitions(-DINTEGER_STAR_8)
 add_definitions(-DNO_My_ctype)
 add_definitions(-DSkip_f2c_Undefs)
 # ==============================================================================
