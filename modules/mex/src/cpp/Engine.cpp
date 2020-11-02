@@ -45,7 +45,11 @@
 #ifdef _MSC_VER
 #define NELSON_EXECUTABLE L"nelson-gui"
 #else
+#if defined(__APPLE__) || defined(__MACH__)
+#define NELSON_EXECUTABLE L"nelson-gui"
+#else
 #define NELSON_EXECUTABLE L"nelson-gui-exec"
+#endif
 #endif
 #define TIMEOUT_SECONDS 20
 //=============================================================================
@@ -81,8 +85,14 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
         child = nullptr;
     }
 #else
+  #if defined(__APPLE__) || defined(__MACH__)
+    std::string command = "open -a \""
+        + boost::process::search_path(executable_name).generic_string() + "\"" + " --args "
+        + Nelson::wstring_to_utf8(arguments);
+  #else
     std::string command = Nelson::wstring_to_utf8(executable_name) + " "
         + Nelson::wstring_to_utf8(arguments) + " &";
+  #endif
     int res = system(command.c_str());
     if (res == -1) {
         child = nullptr;
@@ -97,8 +107,7 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
             try {
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
                 l++;
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
         child = attach_child(latestNelsonPID);
     }
@@ -294,8 +303,11 @@ engClose(Engine* ep)
     }
     if (ep->isSingleUse) {
         boost::process::child* child = (boost::process::child*)ep->child;
+        int res = engEvalString(ep, "quit;");
 #ifndef _MSC_VER
-        kill(child->id(), SIGKILL);
+        if (res) {
+            kill(child->id(), SIGKILL);
+        }
 #endif
         delete child;
     }
