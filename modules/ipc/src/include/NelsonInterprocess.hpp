@@ -29,6 +29,7 @@
 //=============================================================================
 #include "nlsIpc_exports.h"
 #include "ArrayOf.hpp"
+#include "DataInterProcessToExchange.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -68,6 +69,11 @@ NLSIPC_IMPEXP
 ArrayOf
 getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
     const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendCommandFileExtensionToNelsonInterprocessReceiver(
+    int pidDestination, NELSON_INTERPROCESS_COMMAND commandType, const std::vector<std::wstring>& filenames);
 //=============================================================================
 }
 //=============================================================================

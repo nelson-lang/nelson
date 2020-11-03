@@ -29,7 +29,6 @@
 #include "NelsonConfiguration.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
-#include "FilesAssociationIPC.hpp"
 #include "RemoveIpcOldFiles.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -50,9 +49,6 @@ initializeIpcModule(Nelson::Evaluator* eval)
     int currentPID = getCurrentPID();
     auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
     registerPidInSharedMemory(currentPID, mode);
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        createNelsonCommandFileExtensionReceiver(currentPID);
-    }
     createNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
     return true;
 }
@@ -64,9 +60,6 @@ finishIpcModule(Nelson::Evaluator* eval)
     auto mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
 
     removeNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        removeNelsonCommandFileExtensionReceiver(currentPID);
-    }
     unregisterPidInSharedMemory(currentPID);
     return true;
 }

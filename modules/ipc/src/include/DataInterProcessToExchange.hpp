@@ -29,49 +29,67 @@
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
 //=============================================================================
+typedef enum
+{
+    OPEN_FILES,
+    LOAD_FILES,
+    RUN_FILES,
+    EVAL,
+    PUT,
+    GET,
+    GET_ANSWER,
+    IS_VAR,
+    IS_VAR_ANSWER,
+} NELSON_INTERPROCESS_COMMAND;
+//=============================================================================
 class dataInterProcessToExchange
 {
     //=============================================================================
 public:
     //=============================================================================
-    dataInterProcessToExchange(int _pid, const std::string& _commandType,
+    dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
         const std::string& compressedData, bool _fullySerialized)
         : pid(_pid)
         , commandType(_commandType)
         , serializedCompressedVariable(compressedData)
-        , fullySerialized(_fullySerialized){};
+        , fullySerialized(_fullySerialized) {};
     //=============================================================================
-    dataInterProcessToExchange(int _pid, const std::string& _commandType, bool value)
-        : pid(_pid), commandType(_commandType), valueAnswer(value){};
+    dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
+        : pid(_pid), commandType(_commandType), valueAnswer(value) {};
 
     //=============================================================================
+    dataInterProcessToExchange(
+        NELSON_INTERPROCESS_COMMAND _commandType, const std::vector<std::string>& _filenames)
+        : commandType(_commandType), filenames(_filenames) {};
+    //=============================================================================
     dataInterProcessToExchange(const std::string& _lineToEvaluate)
-        : commandType("eval")
+        : commandType(NELSON_INTERPROCESS_COMMAND::EVAL)
         , lineToEvaluate(_lineToEvaluate)
         , serializedCompressedVariable("")
         , variableName("")
-        , scope(""){};
+        , scope("") {};
     //=============================================================================
     dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
         const std::string& compressedData, bool _fullySerialized)
-        : commandType("put")
+        : commandType(NELSON_INTERPROCESS_COMMAND::PUT)
         , serializedCompressedVariable(compressedData)
         , fullySerialized(_fullySerialized)
         , variableName(_variableName)
-        , scope(_scope){};
+        , scope(_scope) {};
     //=============================================================================
-    dataInterProcessToExchange(int _pid, const std::string& _commandType,
+    dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
         const std::string& _variableName, const std::string& _scope)
-        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope){};
+        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope) {};
     //=============================================================================
     std::string serializedCompressedVariable;
     bool fullySerialized = false;
     int pid = 0;
     bool valueAnswer = false;
-    std::string commandType;
+    int commandType;
     std::string lineToEvaluate;
     std::string variableName;
     std::string scope;
+    std::vector<std::string> filenames;
     //=============================================================================
     bool
     isFullySerialized();
@@ -88,31 +106,44 @@ private:
     serialize(Archive& ar, const unsigned int version)
     {
         ar& commandType;
-        if (commandType == "eval") {
+        switch (commandType) {
+        case OPEN_FILES: {
+            ar& filenames;
+        } break;
+        case LOAD_FILES: {
+            ar& filenames;
+        } break;
+        case RUN_FILES: {
+            ar& filenames;
+        } break;
+        case EVAL: {
             ar& lineToEvaluate;
-        }
-        if (commandType == "isvar") {
-            ar& pid;
-            ar& variableName;
-            ar& scope;
-        }
-        if (commandType == "put") {
+        } break;
+        case PUT: {
             ar& serializedCompressedVariable;
             ar& fullySerialized;
             ar& variableName;
             ar& scope;
-        }
-        if (commandType == "isvar_answer") {
+        } break;
+        case GET: {
+            ar& pid;
+            ar& variableName;
+            ar& scope;
+        } break;
+        case GET_ANSWER: {
+            ar& serializedCompressedVariable;
+            ar& fullySerialized;
+        } break;
+        case IS_VAR: {
+            ar& pid;
+            ar& variableName;
+            ar& scope;
+        } break;
+        case IS_VAR_ANSWER: {
             ar& valueAnswer;
-        }
-        if (commandType == "get") {
-            ar& pid;
-            ar& variableName;
-            ar& scope;
-        }
-        if (commandType == "get_answer") {
-            ar& serializedCompressedVariable;
-            ar& fullySerialized;
+        } break;
+        default: {
+        } break;
         }
     }
     //=============================================================================

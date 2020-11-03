@@ -170,7 +170,6 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\CompressedStringHelpers.cpp" />
     <ClCompile Include="..\cpp\DataInterProcessToExchange.cpp" />
-    <ClCompile Include="..\cpp\FilesAssociationIPC.cpp" />
     <ClCompile Include="..\cpp\FilesAssociations.cpp" />
     <ClCompile Include="..\cpp\IpcReadyReceiverNamedMutex.cpp" />
     <ClCompile Include="..\cpp\NelsonInterprocess.cpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="..\include\CompressedStringHelpers.hpp" />
     <ClInclude Include="..\include\DataInterProcessToExchange.hpp" />
     <ClInclude Include="..\include\FilesAssociation.hpp" />
-    <ClInclude Include="..\include\FilesAssociationIPC.hpp" />
     <ClInclude Include="..\include\IpcReadyReceiverNamedMutex.hpp" />
     <ClInclude Include="..\include\NelsonInterprocess.hpp" />
     <ClInclude Include="..\include\NelsonPIDs.hpp" />
