@@ -63,7 +63,7 @@ jobs:
     - name: CMake
       run: |
         export PATH=/usr/local/opt/qt5/bin:$PATH
-        cmake -G "Unix Makefiles" .
+        cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
     - name: make
       run: make -j4
     - name: get module skeleton

@@ -1,3 +1,12 @@
+# 0.4.11 (2020-11-XX)
+
+Bug Fixes:
+---------
+
+  * [#342](http://github.com/Nelson-numerical-software/nelson/issues/342): disable slicot on Macos CI.
+
+
+
 # 0.4.10 (2020-10-29)
 
   * [IN PROGRESS] Nelson Engine API for C (compatible with MEX Engine).
