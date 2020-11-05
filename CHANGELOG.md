@@ -5,6 +5,12 @@ Bug Fixes:
 
   * [#342](http://github.com/Nelson-numerical-software/nelson/issues/342): disable slicot on Macos CI.
 
+  * [#314](http://github.com/Nelson-numerical-software/nelson/issues/314): Nelson crashs randomly at exit with Qt 5.15.0
+
+Compilation:
+------------
+
+  * Qt 5.15.1 on Windows (AppVeyor CI).
 
 
 # 0.4.10 (2020-10-29)
