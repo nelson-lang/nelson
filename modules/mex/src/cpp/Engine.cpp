@@ -56,7 +56,7 @@
 //=============================================================================
 static void
 exit_handler(boost::process::child& process, int e, std::error_code ec)
-{}
+{ }
 //=============================================================================
 static boost::process::child*
 attach_child(int pid)
@@ -108,8 +108,7 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
             try {
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
                 l++;
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
         child = attach_child(latestNelsonPID);
     }
@@ -122,11 +121,13 @@ waitUntilNelsonIsReady(int pid, int n)
 {
     int l = 0;
     while (!Nelson::haveIsReadyNelsonMutex(pid) && l < n) {
+        if (!Nelson::isPIDRunning(pid)) {
+            return false;
+        }
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
-        } catch (boost::thread_interrupted&) {
-        }
+        } catch (boost::thread_interrupted&) { }
     }
     if (l < n) {
         return true;
@@ -139,11 +140,13 @@ waitUntilIpcReceiverIsReady(int pid, int n)
 {
     int l = 0;
     while (!Nelson::haveIpcReceiverIsReadyMutex(pid) && l < n) {
+        if (!Nelson::isPIDRunning(pid)) {
+            return false;
+        }
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
-        } catch (boost::thread_interrupted&) {
-        }
+        } catch (boost::thread_interrupted&) { }
     }
     if (l < n) {
         return true;
@@ -247,6 +250,7 @@ engOpenSingleUse(const char* startcmd, void* reserved, int* retstatus)
 #endif
         delete child;
         child = nullptr;
+        *retstatus = -3;
         return nullptr;
     }
     if (!waitUntilIpcReceiverIsReady(childPID, TIMEOUT_SECONDS)) {
@@ -255,11 +259,13 @@ engOpenSingleUse(const char* startcmd, void* reserved, int* retstatus)
 #endif
         delete child;
         child = nullptr;
+        *retstatus = -3;
         return nullptr;
     }
     try {
         engine = new Engine;
     } catch (std::bad_alloc&) {
+        *retstatus = -3;
         engine = nullptr;
     }
     if (engine != nullptr) {
@@ -277,6 +283,9 @@ engEvalString(Engine* ep, const char* string)
     }
     boost::process::child* child = (boost::process::child*)(ep->child);
     int childPID = child->id();
+    if (!child->valid()) {
+        return 1;
+    }
     std::wstring command = Nelson::utf8_to_wstring(string);
     std::wstring errorMessage;
     if (Nelson::sendCommandToNelsonInterprocessReceiver(childPID, command, false, errorMessage)) {
@@ -330,6 +339,9 @@ engGetVariableCommon(Engine* ep, const char* name, bool interleavedComplex)
     std::wstring wname = Nelson::utf8_to_wstring(name);
     boost::process::child* child = (boost::process::child*)(ep->child);
     int childPID = child->id();
+    if (!child->valid()) {
+        return nullptr;
+    }
     bool success = false;
     std::wstring errorMessage;
     Nelson::ArrayOf result = Nelson::getVariableFromNelsonInterprocessReceiver(
@@ -362,6 +374,9 @@ engPutVariable(Engine* ep, const char* var_name, const mxArray* ap)
     std::wstring name = Nelson::utf8_to_wstring(var_name);
     boost::process::child* child = (boost::process::child*)(ep->child);
     int childPID = child->id();
+    if (!child->valid()) {
+        return 1;
+    }
     std::wstring errorMessage;
     if (Nelson::sendVariableToNelsonInterprocessReceiver(
             childPID, var, name, L"base", false, errorMessage)) {
