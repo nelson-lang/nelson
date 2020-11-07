@@ -39,9 +39,9 @@ dataInterProcessToExchange::clear()
 bool
 dataInterProcessToExchange::isFullySerialized()
 {
-  switch (commandType) {
+    switch (commandType) {
     case OPEN_FILES: {
-      return true;
+        return true;
     } break;
     case LOAD_FILES: {
         return true;
@@ -67,9 +67,7 @@ dataInterProcessToExchange::isFullySerialized()
     case IS_VAR_ANSWER: {
         return fullySerialized;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return false;
 }
 //=============================================================================

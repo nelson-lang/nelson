@@ -85,14 +85,14 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
         child = nullptr;
     }
 #else
-  #if defined(__APPLE__) || defined(__MACH__)
+#if defined(__APPLE__) || defined(__MACH__)
     std::string command = "open -a \""
         + boost::process::search_path(executable_name).generic_string() + "\"" + " --args "
         + Nelson::wstring_to_utf8(arguments);
-  #else
+#else
     std::string command = Nelson::wstring_to_utf8(executable_name) + " "
         + Nelson::wstring_to_utf8(arguments) + " &";
-  #endif
+#endif
     int res = system(command.c_str());
     if (res == -1) {
         child = nullptr;
@@ -107,7 +107,8 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
             try {
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
                 l++;
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
         }
         child = attach_child(latestNelsonPID);
     }

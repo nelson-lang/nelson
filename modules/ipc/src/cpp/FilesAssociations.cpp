@@ -50,7 +50,6 @@ OpenFilesAssociated(
         }
         return sendCommandFileExtensionToNelsonInterprocessReceiver(
             existingPID, NELSON_INTERPROCESS_COMMAND::OPEN_FILES, filesToOpen);
-
     }
     return commonFilesAssociated(currentMode, L"edit", filesToOpen);
 }

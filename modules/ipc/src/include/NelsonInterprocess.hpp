@@ -72,8 +72,8 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-sendCommandFileExtensionToNelsonInterprocessReceiver(
-    int pidDestination, NELSON_INTERPROCESS_COMMAND commandType, const std::vector<std::wstring>& filenames);
+sendCommandFileExtensionToNelsonInterprocessReceiver(int pidDestination,
+    NELSON_INTERPROCESS_COMMAND commandType, const std::vector<std::wstring>& filenames);
 //=============================================================================
 }
 //=============================================================================
