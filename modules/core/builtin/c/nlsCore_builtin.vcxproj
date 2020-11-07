@@ -247,7 +247,7 @@
     <ClInclude Include="..\include\pauseBuiltin.hpp" />
     <ClInclude Include="..\include\prefdirBuiltin.hpp" />
     <ClInclude Include="..\include\runBuiltin.hpp" />
-    <ClInclude Include="..\include\sha256builtin.hpp" />
+    <ClInclude Include="..\include\sha256Builtin.hpp" />
     <ClInclude Include="..\include\versionBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

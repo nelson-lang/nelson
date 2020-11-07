@@ -140,7 +140,7 @@
     <ClInclude Include="..\include\evalcBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sha256builtin.hpp">
+    <ClInclude Include="..\include\sha256Builtin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

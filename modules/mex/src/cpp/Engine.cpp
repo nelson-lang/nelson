@@ -41,6 +41,7 @@
 #include "MxArrayOf.hpp"
 #include "IpcReadyReceiverNamedMutex.hpp"
 #include "NelsonReadyNamedMutex.hpp"
+#include "SystemCommand.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define NELSON_EXECUTABLE L"nelson-gui"
@@ -86,14 +87,14 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
     }
 #else
 #if defined(__APPLE__) || defined(__MACH__)
-    std::string command = "open -a \""
-        + boost::process::search_path(executable_name).generic_string() + "\"" + " --args "
-        + Nelson::wstring_to_utf8(arguments);
+    std::wstring command = L"open -a \""
+        + boost::process::search_path(executable_name).generic_wstring() + L"\"" + L" --args "
+        + arguments;
 #else
-    std::string command = Nelson::wstring_to_utf8(executable_name) + " "
-        + Nelson::wstring_to_utf8(arguments) + " &";
+    std::wstring command = executable_name + L" " + arguments + L" &";
 #endif
-    int res = system(command.c_str());
+    int res = 0;
+    Nelson::SystemCommand(command, res, false);
     if (res == -1) {
         child = nullptr;
     } else {
