@@ -43,7 +43,7 @@
 #include "prefdirBuiltin.hpp"
 #include "runBuiltin.hpp"
 #include "versionBuiltin.hpp"
-#include "sha256builtin.hpp"
+#include "sha256Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
