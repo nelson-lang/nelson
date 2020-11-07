@@ -188,9 +188,7 @@ processMessageData(const dataInterProcessToExchange& messageData)
         isVarAnswerAvailable = true;
         res = true;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return res;
 }
 //=============================================================================
@@ -251,7 +249,8 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) { }
+                    } catch (boost::archive::archive_exception&) {
+                    }
                 }
             }
         }
@@ -314,7 +313,8 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
         while (!loopTerminated && l < 20) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -343,7 +343,8 @@ sendMessage(int pid, const std::string& message)
 bool
 sendIsVarAnswerToNelsonInterprocessReceiver(int pidDestination, bool isVar)
 {
-    dataInterProcessToExchange msg(pidDestination, NELSON_INTERPROCESS_COMMAND::IS_VAR_ANSWER, isVar);
+    dataInterProcessToExchange msg(
+        pidDestination, NELSON_INTERPROCESS_COMMAND::IS_VAR_ANSWER, isVar);
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;
@@ -470,7 +471,8 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
         while (!isVarAnswerAvailable && l < 20) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -530,7 +532,8 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
         while (!getVarAnswerAvailable && l < 20) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -558,7 +561,8 @@ waitMessageQueueUntilReady(bool withEventsLoop)
         while (!isMessageQueueReady && !isMessageQueueFails) {
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
         }
     }
 }

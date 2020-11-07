@@ -226,7 +226,7 @@ Context::deleteFunctionGlobally(const std::string& funcName)
 //=============================================================================
 void
 Context::printMe()
-{ }
+{}
 //=============================================================================
 void
 Context::enterLoop()

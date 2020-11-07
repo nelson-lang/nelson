@@ -23,51 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DataInterProcessToExchange.hpp"
+#include <picosha2.h>
+#include <vector>
+#include "NelsonSHA256.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
-void
-dataInterProcessToExchange::clear()
+namespace Nelson {
+//=============================================================================
+std::wstring
+computeStringToSHA256(const std::wstring& str)
 {
-    valueAnswer = false;
-    pid = 0;
-    serializedCompressedVariable.clear();
-    lineToEvaluate.clear();
-    variableName.clear();
-    scope.clear();
+    std::string sha256;
+    picosha2::hash256_hex_string(wstring_to_utf8(str), sha256);
+    return utf8_to_wstring(sha256);
 }
 //=============================================================================
-bool
-dataInterProcessToExchange::isFullySerialized()
+std::wstring
+computeFileToSHA256(const std::wstring& filename)
 {
-    switch (commandType) {
-    case OPEN_FILES: {
-        return true;
-    } break;
-    case LOAD_FILES: {
-        return true;
-    } break;
-    case RUN_FILES: {
-        return true;
-    } break;
-    case EVAL: {
-        return true;
-    } break;
-    case PUT: {
-        return fullySerialized;
-    } break;
-    case GET: {
-        return true;
-    } break;
-    case GET_ANSWER: {
-        return fullySerialized;
-    } break;
-    case IS_VAR: {
-        return true;
-    } break;
-    case IS_VAR_ANSWER: {
-        return fullySerialized;
-    } break;
-    default: { } break; }
-    return false;
+#ifdef _MSC_VER
+    std::ifstream inputFile(filename.c_str(), std::ios::in | std::ios::binary);
+#else
+    std::ifstream inputFile(wstring_to_utf8(filename).c_str(), std::ios::in | std::ios::binary);
+#endif
+    std::string sha256;
+    if (inputFile.is_open()) {
+        std::vector<unsigned char> hashVec(picosha2::k_digest_size);
+        picosha2::hash256(inputFile, hashVec.begin(), hashVec.end());
+        picosha2::bytes_to_hex_string(hashVec.begin(), hashVec.end(), sha256);
+        inputFile.close();
+    }
+    return utf8_to_wstring(sha256);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -296,3 +296,11 @@ a FIFO-ordered associative container for C++
 > https://github.com/nlohmann/fifo_map
 
 > https://github.com/nlohmann/fifo_map/blob/master/LICENSE.MIT MIT license
+
+- picoSHA2
+
+PicoSHA2 - a C++ SHA256 hash generator
+
+> https://github.com/okdshin/PicoSHA2
+
+> https://github.com/okdshin/PicoSHA2/blob/master/LICENSE MIT license

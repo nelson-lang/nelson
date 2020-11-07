@@ -52,22 +52,22 @@ public:
         : pid(_pid)
         , commandType(_commandType)
         , serializedCompressedVariable(compressedData)
-        , fullySerialized(_fullySerialized) {};
+        , fullySerialized(_fullySerialized){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
-        : pid(_pid), commandType(_commandType), valueAnswer(value) {};
+        : pid(_pid), commandType(_commandType), valueAnswer(value){};
 
     //=============================================================================
     dataInterProcessToExchange(
         NELSON_INTERPROCESS_COMMAND _commandType, const std::vector<std::string>& _filenames)
-        : commandType(_commandType), filenames(_filenames) {};
+        : commandType(_commandType), filenames(_filenames){};
     //=============================================================================
     dataInterProcessToExchange(const std::string& _lineToEvaluate)
         : commandType(NELSON_INTERPROCESS_COMMAND::EVAL)
         , lineToEvaluate(_lineToEvaluate)
         , serializedCompressedVariable("")
         , variableName("")
-        , scope("") {};
+        , scope(""){};
     //=============================================================================
     dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
         const std::string& compressedData, bool _fullySerialized)
@@ -75,11 +75,11 @@ public:
         , serializedCompressedVariable(compressedData)
         , fullySerialized(_fullySerialized)
         , variableName(_variableName)
-        , scope(_scope) {};
+        , scope(_scope){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
         const std::string& _variableName, const std::string& _scope)
-        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope) {};
+        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope){};
     //=============================================================================
     std::string serializedCompressedVariable;
     bool fullySerialized = false;
@@ -142,9 +142,7 @@ private:
         case IS_VAR_ANSWER: {
             ar& valueAnswer;
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     //=============================================================================
 };
