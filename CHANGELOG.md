@@ -1,5 +1,7 @@
 # 0.4.11 (2020-11-XX)
 
+  * ```sha256``` builtin: get sha256 checksum of a file or a string. 
+
 Bug Fixes:
 ---------
 
