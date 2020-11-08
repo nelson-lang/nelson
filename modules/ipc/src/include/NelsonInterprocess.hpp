@@ -33,6 +33,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#define NELSON_COMMAND_INTERPROCESS "NELSON_COMMAND_INTERPROCESS"
+//=============================================================================
 NLSIPC_IMPEXP
 bool
 createNelsonInterprocessReceiver(int pid, bool withEventsLoop);

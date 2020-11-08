@@ -43,15 +43,7 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "SystemCommand.hpp"
 //=============================================================================
-#ifdef _MSC_VER
 #define NELSON_EXECUTABLE L"nelson-gui"
-#else
-#if defined(__APPLE__) || defined(__MACH__)
-#define NELSON_EXECUTABLE L"nelson-gui"
-#else
-#define NELSON_EXECUTABLE L"nelson-gui-exec"
-#endif
-#endif
 #define TIMEOUT_SECONDS 20
 //=============================================================================
 static void
@@ -64,7 +56,7 @@ attach_child(int pid)
     boost::process::child* child = nullptr;
     try {
         boost::process::pid_t _pid = (boost::process::pid_t)pid;
-        return new boost::process::child(_pid);
+        child =  new boost::process::child(_pid);
     } catch (const std::bad_alloc&) {
         child = nullptr;
     }
@@ -74,7 +66,6 @@ attach_child(int pid)
 static boost::process::child*
 start_child(const std::wstring& executable_name, const std::wstring& arguments)
 {
-
     boost::process::child* child = nullptr;
 #ifdef _MSC_VER
     try {
@@ -91,19 +82,23 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
         + boost::process::search_path(executable_name).generic_wstring() + L"\"" + L" --args "
         + arguments;
 #else
-    std::wstring command = executable_name + L" " + arguments + L" &";
+    std::wstring command
+        = boost::process::search_path(executable_name).generic_wstring() + L" " + arguments + L" &";
 #endif
     int res = 0;
     Nelson::SystemCommand(command, res, false);
     if (res == -1) {
         child = nullptr;
     } else {
-        int latestNelsonPID = Nelson::getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE::GUI);
         int l = 0;
-        while (latestNelsonPID < 1 && l < TIMEOUT_SECONDS) {
+        int latestNelsonPID = 0;
+        while (true) {
             latestNelsonPID = Nelson::getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE::GUI);
             if (latestNelsonPID > 0) {
                 break;
+            }
+            if (l >= TIMEOUT_SECONDS) { 
+              break;
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
@@ -120,17 +115,17 @@ static bool
 waitUntilNelsonIsReady(int pid, int n)
 {
     int l = 0;
-    while (!Nelson::haveIsReadyNelsonMutex(pid) && l < n) {
-        if (!Nelson::isPIDRunning(pid)) {
+    while (true) {
+        if (Nelson::haveIsReadyNelsonMutex(pid)) {
+            return true;
+        }
+        if (l >= n || !Nelson::isPIDRunning(pid)) {
             return false;
         }
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
         } catch (boost::thread_interrupted&) { }
-    }
-    if (l < n) {
-        return true;
     }
     return false;
 }
@@ -139,17 +134,17 @@ static bool
 waitUntilIpcReceiverIsReady(int pid, int n)
 {
     int l = 0;
-    while (!Nelson::haveIpcReceiverIsReadyMutex(pid) && l < n) {
-        if (!Nelson::isPIDRunning(pid)) {
+    while (true) {
+        if (Nelson::haveIpcReceiverIsReadyMutex(pid)) {
+            return true;
+        }
+        if (l >= n || !Nelson::isPIDRunning(pid)) {
             return false;
         }
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
         } catch (boost::thread_interrupted&) { }
-    }
-    if (l < n) {
-        return true;
     }
     return false;
 }

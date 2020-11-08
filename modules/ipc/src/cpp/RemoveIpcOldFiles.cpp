@@ -29,6 +29,9 @@
 #include <boost/filesystem/convenience.hpp>
 #include <boost/filesystem/operations.hpp>
 #include "RemoveIpcOldFiles.hpp"
+#include "NelsonInterprocess.hpp"
+#include "NelsonPIDs.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,11 +52,22 @@ RemoveIpcOldFiles()
         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
             boost::filesystem::path filepath = p->path();
             std::wstring filename = filepath.leaf().wstring();
-            if (boost::algorithm::starts_with(filename, L"NELSON_COMMAND_INTERPROCESS_")
-                || boost::algorithm::starts_with(filename, L"NELSON_COMMAND_FILE_EXTENSION_")) {
+            if (boost::algorithm::starts_with(filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
+                std::wstring pidStr = boost::replace_all_copy(
+                    filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS) + L"_", L"");
+                bool usedPid = false;
+                try {
+                    long pid = std::stoul(pidStr);
+                    usedPid = isPIDRunning(pid);
+
+                } catch (std::exception& e) {
+                    usedPid = true;
+                }
                 try {
                     result = true;
-                    boost::filesystem::remove(filepath);
+                    if (!usedPid) {
+                        boost::filesystem::remove(filepath);
+                    }
                 } catch (const boost::filesystem::filesystem_error&) {
                     result = false;
                 }

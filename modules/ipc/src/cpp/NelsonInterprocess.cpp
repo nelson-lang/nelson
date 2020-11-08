@@ -44,7 +44,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-constexpr auto NELSON_COMMAND_INTERPROCESS = "NELSON_COMMAND_INTERPROCESS";
 #if (defined(_LP64) || defined(_WIN64))
 constexpr auto OFF_MSG_SIZE = sizeof(double) * 16 * 1024;
 constexpr auto MAX_MSG_SIZE = sizeof(double) * (4096 * 4096) + OFF_MSG_SIZE;
@@ -53,6 +52,7 @@ constexpr auto MAX_NB_MSG = 4;
 constexpr auto MAX_MSG_SIZE = sizeof(double) * (1024 * 1024);
 constexpr auto MAX_NB_MSG = 2;
 #endif
+constexpr auto TIMEOUT_COUNT = 20;
 //=============================================================================
 static bool receiverLoopRunning = false;
 //=============================================================================
@@ -188,7 +188,9 @@ processMessageData(const dataInterProcessToExchange& messageData)
         isVarAnswerAvailable = true;
         res = true;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================
@@ -249,8 +251,7 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) {
-                    }
+                    } catch (boost::archive::archive_exception&) { }
                 }
             }
         }
@@ -305,16 +306,21 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
     int l = 0;
     if (withEventsLoop) {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        while (!loopTerminated && l < 20) {
+        while (true) {
+            if (loopTerminated || l >= TIMEOUT_COUNT) {
+                break;
+            }
             Sleep(eval, .5);
             l++;
         }
     } else {
-        while (!loopTerminated && l < 20) {
+        while (true) {
+            if (loopTerminated || l >= TIMEOUT_COUNT) {
+                break;
+            }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
             l++;
         }
     }
@@ -463,20 +469,25 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
     int l = 0;
     if (withEventsLoop) {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        while (!isVarAnswerAvailable && l < 20) {
+        while (true) {
+            if (isVarAnswerAvailable || l >= TIMEOUT_COUNT) {
+                break;
+            }
             Sleep(eval, .5);
             l++;
         }
     } else {
-        while (!isVarAnswerAvailable && l < 20) {
+        while (true) {
+            if (isVarAnswerAvailable || l >= TIMEOUT_COUNT) {
+                break;
+            }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
             l++;
         }
     }
-    if (l == 20) {
+    if (l >= TIMEOUT_COUNT) {
         errorMessage = _W("Impossible to get value (Timeout).");
         return false;
     } else {
@@ -524,21 +535,26 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
     int l = 0;
     if (withEventsLoop) {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        while (!getVarAnswerAvailable && l < 20) {
+        while (true) {
+            if (getVarAnswerAvailable || l >= TIMEOUT_COUNT) {
+                break;
+            }
             Sleep(eval, .5);
             l++;
         }
     } else {
-        while (!getVarAnswerAvailable && l < 20) {
+        while (true) {
+            if (getVarAnswerAvailable || l >= TIMEOUT_COUNT) {
+                break;
+            }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
             l++;
         }
     }
     ArrayOf result;
-    if (l == 20) {
+    if (l >= 20) {
         errorMessage = _W("Impossible to get value (Timeout).");
         return ArrayOf();
     } else {
@@ -554,15 +570,20 @@ waitMessageQueueUntilReady(bool withEventsLoop)
 {
     if (withEventsLoop) {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        while (!isMessageQueueReady && !isMessageQueueFails) {
+        while (true) {
+            if (isMessageQueueReady || isMessageQueueFails) {
+                break;
+            }
             Sleep(eval, .5);
         }
     } else {
-        while (!isMessageQueueReady && !isMessageQueueFails) {
+        while (true) {
+            if (isMessageQueueReady || isMessageQueueFails) {
+                break;
+            }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
     }
 }
