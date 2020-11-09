@@ -156,11 +156,9 @@ QtMainWindow::QtMainWindow(bool minimized)
     show();
     qtTerminal->show();
     bClosed = false;
-#if defined __APPLE__ || defined _MSC_VER
-    QString fileNameIcon = nelsonPath + "/resources/fibonacci.png";
+    QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon icon(fileNameIcon);
     setWindowIcon(icon);
-#endif
     setAcceptDrops(true);
 }
 //=============================================================================
