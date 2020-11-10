@@ -149,7 +149,17 @@ QtMainWindow::QtMainWindow(bool minimized)
     setMinimumSize(640, 480);
     resize(840, 600);
     if (minimized) {
+        // https://bugreports.qt.io/browse/QTBUG-76354
+#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
+        show();
+        setWindowState(Qt::WindowMinimized);
+  #else
         showMinimized();
+  #endif
+#else
+        showMinimized();
+#endif
     } else {
         show();
     }
