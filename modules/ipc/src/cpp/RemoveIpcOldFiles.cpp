@@ -60,7 +60,7 @@ RemoveIpcOldFiles()
                     long pid = std::stoul(pidStr);
                     usedPid = isPIDRunning(pid);
 
-                } catch (std::exception& e) {
+                } catch (const std::exception&) {
                     usedPid = true;
                 }
                 try {

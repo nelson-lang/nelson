@@ -68,6 +68,8 @@ NLSCHARACTERS_ENCODING_IMPEXP std::wstring
 utf8_to_wstring(const std::string& str);
 NLSCHARACTERS_ENCODING_IMPEXP std::wstring
 utf8_to_wstring(const char* str);
+NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::wstring>
+utf8_to_wstring(const std::vector<std::string> &strs);
 //=============================================================================
 // convert wstring to UTF-8 string
 NLSCHARACTERS_ENCODING_IMPEXP bool
@@ -76,6 +78,8 @@ NLSCHARACTERS_ENCODING_IMPEXP std::string
 wstring_to_utf8(const std::wstring& str);
 NLSCHARACTERS_ENCODING_IMPEXP std::string
 wstring_to_utf8(const wchar_t* str);
+NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::string>
+wstring_to_utf8(const std::vector<std::wstring>& strs);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

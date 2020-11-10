@@ -102,29 +102,6 @@ getScopeFromName(Evaluator* eval, const std::string& name)
     return scope;
 }
 //=============================================================================
-static wstringVector
-convertToWstringVector(const std::vector<std::string>& utf8Vector)
-{
-    wstringVector wideVector;
-    wideVector.reserve(utf8Vector.size());
-    for (auto s : utf8Vector) {
-        wideVector.push_back(utf8_to_wstring(s));
-    }
-    return wideVector;
-}
-//=============================================================================
-static stringVector
-convertToUtf8StringVector(const wstringVector& wideVector)
-{
-    stringVector utf8Vector;
-    utf8Vector.reserve(wideVector.size());
-    for (auto s : wideVector) {
-        utf8Vector.push_back(wstring_to_utf8(s));
-    }
-    return utf8Vector;
-}
-//=============================================================================
-
 static bool
 processMessageData(const dataInterProcessToExchange& messageData)
 {
@@ -132,15 +109,15 @@ processMessageData(const dataInterProcessToExchange& messageData)
     switch (messageData.commandType) {
     case OPEN_FILES: {
         res = OpenFilesAssociated(
-            NELSON_ENGINE_MODE::GUI, convertToWstringVector(messageData.filenames), false);
+            NELSON_ENGINE_MODE::GUI, utf8_to_wstring(messageData.filenames), false);
     } break;
     case LOAD_FILES: {
         res = LoadFilesAssociated(
-            NELSON_ENGINE_MODE::GUI, convertToWstringVector(messageData.filenames), false);
+            NELSON_ENGINE_MODE::GUI, utf8_to_wstring(messageData.filenames), false);
     } break;
     case RUN_FILES: {
         res = ExecuteFilesAssociated(
-            NELSON_ENGINE_MODE::GUI, convertToWstringVector(messageData.filenames), false);
+            NELSON_ENGINE_MODE::GUI, utf8_to_wstring(messageData.filenames), false);
     } break;
     case EVAL: {
         std::wstring line = utf8_to_wstring(messageData.lineToEvaluate);
@@ -592,7 +569,7 @@ bool
 sendCommandFileExtensionToNelsonInterprocessReceiver(int pidDestination,
     NELSON_INTERPROCESS_COMMAND commandType, const std::vector<std::wstring>& filenames)
 {
-    dataInterProcessToExchange msg(commandType, convertToUtf8StringVector(filenames));
+    dataInterProcessToExchange msg(commandType, wstring_to_utf8(filenames));
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;

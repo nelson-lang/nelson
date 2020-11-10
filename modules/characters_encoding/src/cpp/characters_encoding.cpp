@@ -265,6 +265,17 @@ utf8_to_wstring(const char* str)
     return utf8_to_wstring(std::string(str));
 }
 //=============================================================================
+std::vector<std::wstring>
+utf8_to_wstring(const std::vector<std::string>& strs)
+{
+    std::vector<std::wstring> wideVector;
+    wideVector.reserve(strs.size());
+    for (auto s : strs) {
+        wideVector.push_back(utf8_to_wstring(s));
+    }
+    return wideVector;
+}
+//=============================================================================
 std::string
 wstring_to_utf8(const wchar_t* str)
 {
@@ -272,6 +283,17 @@ wstring_to_utf8(const wchar_t* str)
         return std::string();
     }
     return wstring_to_utf8(std::wstring(str));
+}
+//=============================================================================
+std::vector<std::string>
+wstring_to_utf8(const std::vector<std::wstring>& strs)
+{
+    std::vector<std::string> utf8Vector;
+    utf8Vector.reserve(strs.size());
+    for (auto s : strs) {
+        utf8Vector.push_back(wstring_to_utf8(s));
+    }
+    return utf8Vector;
 }
 //=============================================================================
 std::string
