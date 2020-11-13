@@ -42,6 +42,9 @@
     <ClCompile Include="..\cpp\IpcReadyReceiverNamedMutex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\NelsonMinimizedDynamicFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\NelsonPIDs.hpp">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\IpcReadyReceiverNamedMutex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NelsonMinimizedDynamicFunction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

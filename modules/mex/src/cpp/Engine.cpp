@@ -48,7 +48,7 @@
 //=============================================================================
 static void
 exit_handler(boost::process::child& process, int e, std::error_code ec)
-{ }
+{}
 //=============================================================================
 static boost::process::child*
 attach_child(int pid)
@@ -56,7 +56,7 @@ attach_child(int pid)
     boost::process::child* child = nullptr;
     try {
         boost::process::pid_t _pid = (boost::process::pid_t)pid;
-        child =  new boost::process::child(_pid);
+        child = new boost::process::child(_pid);
     } catch (const std::bad_alloc&) {
         child = nullptr;
     }
@@ -97,13 +97,14 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
             if (latestNelsonPID > 0) {
                 break;
             }
-            if (l >= TIMEOUT_SECONDS) { 
-              break;
+            if (l >= TIMEOUT_SECONDS) {
+                break;
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
                 l++;
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
         }
         child = attach_child(latestNelsonPID);
     }
@@ -125,7 +126,8 @@ waitUntilNelsonIsReady(int pid, int n)
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
-        } catch (boost::thread_interrupted&) { }
+        } catch (boost::thread_interrupted&) {
+        }
     }
     return false;
 }
@@ -144,7 +146,8 @@ waitUntilIpcReceiverIsReady(int pid, int n)
         try {
             boost::this_thread::sleep(boost::posix_time::seconds(1));
             l++;
-        } catch (boost::thread_interrupted&) { }
+        } catch (boost::thread_interrupted&) {
+        }
     }
     return false;
 }
@@ -292,7 +295,19 @@ engEvalString(Engine* ep, const char* string)
 int
 engSetVisible(Engine* ep, bool newVal)
 {
-    return 0;
+    if (ep == nullptr) {
+        return 1;
+    }
+    boost::process::child* child = (boost::process::child*)(ep->child);
+    int childPID = child->id();
+    if (!child->valid()) {
+        return 1;
+    }
+    std::wstring errorMessage;
+    if (Nelson::sendMinimizeToNelsonInterprocessReceiver(childPID, !newVal, false, errorMessage)) {
+        return 0;
+    }
+    return 1;
 }
 //=============================================================================
 int

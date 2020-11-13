@@ -13,6 +13,8 @@
 		<syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
     	<syntax_item>ipc(pid, 'put', var, name)</syntax_item>
 		<syntax_item>ipc(pid, 'put', var, name , scope)</syntax_item>
+		<syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
+
 	</syntax>
 
   <param_input>
@@ -32,6 +34,11 @@
       <param_name>'get'</param_name>
       <param_description>a string: get a variable from another nelson's process.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>'minimize'</param_name>
+      <param_description>a string: minimize main window from another nelson's process.</param_description>
+    </param_input_item>
+
   </param_input>
 
 	<param_output>
@@ -107,6 +114,12 @@ for p = current_pids
         ipc(p, 'eval', 'exit')
     end
 end]]>
+		</example_item_data>
+	</example_item>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[ipc(getpid(), 'minimize', true)]]>
 		</example_item_data>
 	</example_item>
 

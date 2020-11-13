@@ -41,6 +41,7 @@
 #include "StringZLib.hpp"
 #include "IpcReadyReceiverNamedMutex.hpp"
 #include "FilesAssociation.hpp"
+#include "NelsonMinimizedDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -165,9 +166,23 @@ processMessageData(const dataInterProcessToExchange& messageData)
         isVarAnswerAvailable = true;
         res = true;
     } break;
-    default: {
+    case SET_MINIMIZE: {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        if ((eval != nullptr) && NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode()) {
+            setNelsonMinimizedDynamicFunction(messageData.valueAnswer);
+        }
     } break;
-    }
+    case GET_MINIMIZE: {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        bool visible = false;
+        if ((eval != nullptr) && NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode()) {
+            visible = getNelsonMinimizedDynamicFunction();
+        }
+    } break;
+    case GET_MINIMIZE_ANSWER: {
+
+    } break;
+    default: { } break; }
     return res;
 }
 //=============================================================================
@@ -228,7 +243,8 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) { }
+                    } catch (boost::archive::archive_exception&) {
+                    }
                 }
             }
         }
@@ -297,7 +313,8 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -413,6 +430,33 @@ sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,
 }
 //=============================================================================
 bool
+sendMinimizeToNelsonInterprocessReceiver(
+    int pidDestination, bool minimize, bool withEventsLoop, std::wstring& errorMessage)
+{
+    if (isMessageQueueFails) {
+        errorMessage = _W("Impossible to initialize IPC.");
+        return false;
+    }
+    waitMessageQueueUntilReady(withEventsLoop);
+    bool isFullySerialized = false;
+    dataInterProcessToExchange msg(pidDestination, SET_MINIMIZE, minimize);
+    std::stringstream oss;
+    boost::archive::binary_oarchive oa(oss);
+    oa << msg;
+    bool failed = false;
+    std::string serialized_string = oss.str();
+    std::string serialized_compressed_string = compressString(serialized_string, failed);
+    bool bSend = false;
+    if (failed) {
+        return bSend;
+    }
+    if (serialized_compressed_string.size() < MAX_MSG_SIZE) {
+        bSend = sendMessage(pidDestination, serialized_compressed_string);
+    }
+    return bSend;
+}
+//=============================================================================
+bool
 isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
     const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage)
 {
@@ -460,19 +504,20 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
     if (l >= TIMEOUT_COUNT) {
         errorMessage = _W("Impossible to get value (Timeout).");
         return false;
-    } else {
-        bool isVarExist = isVarAnswer;
-        isVarAnswer = false;
-        isVarAnswerAvailable = false;
-        return isVarExist;
     }
+    bool isVarExist = isVarAnswer;
+    isVarAnswer = false;
+    isVarAnswerAvailable = false;
+    return isVarExist;
+
     return false;
 }
 //=============================================================================
@@ -526,7 +571,8 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
             l++;
         }
     }
@@ -534,11 +580,11 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
     if (l >= 20) {
         errorMessage = _W("Impossible to get value (Timeout).");
         return ArrayOf();
-    } else {
-        result = getVarAnswer;
-        getVarAnswerAvailable = false;
-        getVarAnswer = ArrayOf();
     }
+    result = getVarAnswer;
+    getVarAnswerAvailable = false;
+    getVarAnswer = ArrayOf();
+
     return result;
 }
 //=============================================================================
@@ -560,7 +606,8 @@ waitMessageQueueUntilReady(bool withEventsLoop)
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) { }
+            } catch (boost::thread_interrupted&) {
+            }
         }
     }
 }

@@ -23,60 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DataInterProcessToExchange.hpp"
+#pragma once
 //=============================================================================
-void
-dataInterProcessToExchange::clear()
-{
-    valueAnswer = false;
-    pid = 0;
-    serializedCompressedVariable.clear();
-    lineToEvaluate.clear();
-    variableName.clear();
-    scope.clear();
-}
+#include <string>
+#include "nlsIpc_exports.h"
 //=============================================================================
-bool
-dataInterProcessToExchange::isFullySerialized()
+#ifdef __cplusplus
+extern "C"
 {
-    switch (commandType) {
-    case OPEN_FILES: {
-        return true;
-    } break;
-    case LOAD_FILES: {
-        return true;
-    } break;
-    case RUN_FILES: {
-        return true;
-    } break;
-    case EVAL: {
-        return true;
-    } break;
-    case PUT: {
-        return fullySerialized;
-    } break;
-    case GET: {
-        return true;
-    } break;
-    case GET_ANSWER: {
-        return fullySerialized;
-    } break;
-    case IS_VAR: {
-        return true;
-    } break;
-    case IS_VAR_ANSWER: {
-        return fullySerialized;
-    } break;
-    case GET_MINIMIZE: {
-        return true;
-    } break;
-    case GET_MINIMIZE_ANSWER: {
-        return true;
-    } break;
-    case SET_MINIMIZE: {
-        return true;
-    } break;
-    default: { } break; }
-    return false;
+#endif
+    //=============================================================================
+    NLSIPC_IMPEXP bool
+    setNelsonMinimizedDynamicFunction(bool minimize);
+    //===================================================================================
+    NLSIPC_IMPEXP bool
+    getNelsonMinimizedDynamicFunction();
+//=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================

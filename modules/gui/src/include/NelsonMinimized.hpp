@@ -23,60 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DataInterProcessToExchange.hpp"
-//=============================================================================
-void
-dataInterProcessToExchange::clear()
+#pragma once
+//===================================================================================
+#include "nlsGui_exports.h"
+//===================================================================================
+extern "C"
 {
-    valueAnswer = false;
-    pid = 0;
-    serializedCompressedVariable.clear();
-    lineToEvaluate.clear();
-    variableName.clear();
-    scope.clear();
+    //===================================================================================
+    NLSGUI_IMPEXP bool
+    setNelsonMinimized(bool minimize);
+    //===================================================================================
+    NLSGUI_IMPEXP bool
+    getNelsonMinimized();
+    //===================================================================================
 }
-//=============================================================================
-bool
-dataInterProcessToExchange::isFullySerialized()
-{
-    switch (commandType) {
-    case OPEN_FILES: {
-        return true;
-    } break;
-    case LOAD_FILES: {
-        return true;
-    } break;
-    case RUN_FILES: {
-        return true;
-    } break;
-    case EVAL: {
-        return true;
-    } break;
-    case PUT: {
-        return fullySerialized;
-    } break;
-    case GET: {
-        return true;
-    } break;
-    case GET_ANSWER: {
-        return fullySerialized;
-    } break;
-    case IS_VAR: {
-        return true;
-    } break;
-    case IS_VAR_ANSWER: {
-        return fullySerialized;
-    } break;
-    case GET_MINIMIZE: {
-        return true;
-    } break;
-    case GET_MINIMIZE_ANSWER: {
-        return true;
-    } break;
-    case SET_MINIMIZE: {
-        return true;
-    } break;
-    default: { } break; }
-    return false;
-}
-//=============================================================================
+//===================================================================================

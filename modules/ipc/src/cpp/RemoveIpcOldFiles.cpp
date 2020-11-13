@@ -52,7 +52,8 @@ RemoveIpcOldFiles()
         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
             boost::filesystem::path filepath = p->path();
             std::wstring filename = filepath.leaf().wstring();
-            if (boost::algorithm::starts_with(filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
+            if (boost::algorithm::starts_with(
+                    filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS))) {
                 std::wstring pidStr = boost::replace_all_copy(
                     filename, utf8_to_wstring(NELSON_COMMAND_INTERPROCESS) + L"_", L"");
                 bool usedPid = false;

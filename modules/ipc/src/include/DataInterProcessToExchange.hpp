@@ -28,6 +28,7 @@
 #include <string>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
+#include <utility>
 //=============================================================================
 typedef enum
 {
@@ -40,6 +41,10 @@ typedef enum
     GET_ANSWER,
     IS_VAR,
     IS_VAR_ANSWER,
+    GET_MINIMIZE,
+    GET_MINIMIZE_ANSWER,
+    SET_MINIMIZE,
+    UNKNOWN
 } NELSON_INTERPROCESS_COMMAND;
 //=============================================================================
 class dataInterProcessToExchange
@@ -48,38 +53,40 @@ class dataInterProcessToExchange
 public:
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
-        const std::string& compressedData, bool _fullySerialized)
+        std::string compressedData, bool _fullySerialized)
         : pid(_pid)
         , commandType(_commandType)
-        , serializedCompressedVariable(compressedData)
+        , serializedCompressedVariable(std::move(compressedData))
         , fullySerialized(_fullySerialized){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
         : pid(_pid), commandType(_commandType), valueAnswer(value){};
-
     //=============================================================================
     dataInterProcessToExchange(
         NELSON_INTERPROCESS_COMMAND _commandType, const std::vector<std::string>& _filenames)
         : commandType(_commandType), filenames(_filenames){};
     //=============================================================================
-    dataInterProcessToExchange(const std::string& _lineToEvaluate)
+    dataInterProcessToExchange(std::string _lineToEvaluate)
         : commandType(NELSON_INTERPROCESS_COMMAND::EVAL)
-        , lineToEvaluate(_lineToEvaluate)
+        , lineToEvaluate(std::move(_lineToEvaluate))
         , serializedCompressedVariable("")
         , variableName("")
         , scope(""){};
     //=============================================================================
-    dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
-        const std::string& compressedData, bool _fullySerialized)
+    dataInterProcessToExchange(std::string _variableName, std::string _scope,
+        std::string compressedData, bool _fullySerialized)
         : commandType(NELSON_INTERPROCESS_COMMAND::PUT)
-        , serializedCompressedVariable(compressedData)
+        , serializedCompressedVariable(std::move(compressedData))
         , fullySerialized(_fullySerialized)
-        , variableName(_variableName)
-        , scope(_scope){};
+        , variableName(std::move(_variableName))
+        , scope(std::move(_scope)){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
-        const std::string& _variableName, const std::string& _scope)
-        : pid(_pid), commandType(_commandType), variableName(_variableName), scope(_scope){};
+        std::string _variableName, std::string _scope)
+        : pid(_pid)
+        , commandType(_commandType)
+        , variableName(std::move(_variableName))
+        , scope(std::move(_scope)){};
     //=============================================================================
     std::string serializedCompressedVariable;
     bool fullySerialized = false;
@@ -139,6 +146,9 @@ private:
             ar& variableName;
             ar& scope;
         } break;
+        case GET_MINIMIZE:
+        case GET_MINIMIZE_ANSWER:
+        case SET_MINIMIZE:
         case IS_VAR_ANSWER: {
             ar& valueAnswer;
         } break;

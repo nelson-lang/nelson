@@ -69,7 +69,7 @@ utf8_to_wstring(const std::string& str);
 NLSCHARACTERS_ENCODING_IMPEXP std::wstring
 utf8_to_wstring(const char* str);
 NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::wstring>
-utf8_to_wstring(const std::vector<std::string> &strs);
+utf8_to_wstring(const std::vector<std::string>& strs);
 //=============================================================================
 // convert wstring to UTF-8 string
 NLSCHARACTERS_ENCODING_IMPEXP bool
