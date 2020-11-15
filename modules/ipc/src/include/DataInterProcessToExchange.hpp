@@ -41,8 +41,8 @@ typedef enum
     GET_ANSWER,
     IS_VAR,
     IS_VAR_ANSWER,
-    GET_MINIMIZE,
-    GET_MINIMIZE_ANSWER,
+    IS_MINIMIZED,
+    IS_MINIMIZED_ANSWER,
     SET_MINIMIZE,
     UNKNOWN
 } NELSON_INTERPROCESS_COMMAND;
@@ -58,6 +58,9 @@ public:
         , commandType(_commandType)
         , serializedCompressedVariable(std::move(compressedData))
         , fullySerialized(_fullySerialized){};
+    //=============================================================================
+    dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType)
+        : pid(_pid), commandType(_commandType){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
         : pid(_pid), commandType(_commandType), valueAnswer(value){};
@@ -146,8 +149,10 @@ private:
             ar& variableName;
             ar& scope;
         } break;
-        case GET_MINIMIZE:
-        case GET_MINIMIZE_ANSWER:
+        case IS_MINIMIZED: {
+            ar& pid;
+        } break;
+        case IS_MINIMIZED_ANSWER:
         case SET_MINIMIZE:
         case IS_VAR_ANSWER: {
             ar& valueAnswer;

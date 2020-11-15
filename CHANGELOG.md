@@ -2,8 +2,9 @@
 
   * Nelson Engine API for C (compatible with MEX Engine).
     - engSetVisible,
+    - engGetVisible.
 
-  * ```sha256``` builtin: get sha256 checksum of a file or a string. 
+  * ```sha256``` builtin: get sha256 checksum of a file or a string.
 
   * ```ipc``` extended with ```minimize``` argument.
 

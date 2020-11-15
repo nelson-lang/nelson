@@ -23,12 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--ADV-CLI MODE-->
+// <--GUI MODE-->
 // <--IPC REQUIRED-->
 //=============================================================================
-clear('R');
-REF = 3333;
-ipc(getpid, 'eval', 'R = 3333')
-q = 0; while(~ipc(getpid, 'isvar', 'R', 'base') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(acquirevar('base', 'R'), REF);
+ipc(getpid, 'minimize', true);
+R = ipc(getpid, 'minimize');
+assert_isequal(R, true)
+ipc(getpid, 'minimize', false);
+R = ipc(getpid, 'minimize');
+assert_isequal(R, false)
 //=============================================================================

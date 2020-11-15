@@ -66,6 +66,9 @@ static volatile bool loopTerminated = false;
 static volatile bool isVarAnswer = false;
 static volatile bool isVarAnswerAvailable = false;
 //=============================================================================
+static volatile bool isMinimizedAnswer = false;
+static volatile bool isMinimizedAnswerAvailable = false;
+//=============================================================================
 static ArrayOf getVarAnswer;
 static volatile bool getVarAnswerAvailable = false;
 //=============================================================================
@@ -74,6 +77,9 @@ sendIsVarAnswerToNelsonInterprocessReceiver(int pidDestination, bool isVar);
 //=============================================================================
 static bool
 sendGetVarAnswerToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& data);
+//=============================================================================
+static bool
+sendIsMinimizedAnswerToNelsonInterprocessReceiver(int pidDestination, bool isMinimized);
 //=============================================================================
 static std::string
 getChannelName(int currentPID)
@@ -172,15 +178,19 @@ processMessageData(const dataInterProcessToExchange& messageData)
             setNelsonMinimizedDynamicFunction(messageData.valueAnswer);
         }
     } break;
-    case GET_MINIMIZE: {
+    case IS_MINIMIZED: {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        bool visible = false;
+        bool minimized = true;
         if ((eval != nullptr) && NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode()) {
-            visible = getNelsonMinimizedDynamicFunction();
+            minimized = getNelsonMinimizedDynamicFunction();
         }
-    } break;
-    case GET_MINIMIZE_ANSWER: {
+        res = sendIsMinimizedAnswerToNelsonInterprocessReceiver(messageData.pid, minimized);
 
+    } break;
+    case IS_MINIMIZED_ANSWER: {
+        isMinimizedAnswer = messageData.valueAnswer;
+        isMinimizedAnswerAvailable = true;
+        res = true;
     } break;
     default: { } break; }
     return res;
@@ -341,6 +351,22 @@ sendMessage(int pid, const std::string& message)
 }
 //=============================================================================
 bool
+sendIsMinimizedAnswerToNelsonInterprocessReceiver(int pidDestination, bool isMinimized)
+{
+    dataInterProcessToExchange msg(
+        pidDestination, NELSON_INTERPROCESS_COMMAND::IS_MINIMIZED_ANSWER, isMinimized);
+    std::stringstream oss;
+    boost::archive::binary_oarchive oa(oss);
+    oa << msg;
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
+    if (failed) {
+        return false;
+    }
+    return sendMessage(pidDestination, serialized_compressed_string);
+}
+//=============================================================================
+bool
 sendIsVarAnswerToNelsonInterprocessReceiver(int pidDestination, bool isVar)
 {
     dataInterProcessToExchange msg(
@@ -457,9 +483,69 @@ sendMinimizeToNelsonInterprocessReceiver(
 }
 //=============================================================================
 bool
+isMinimizedFromNelsonInterprocessReceiver(
+    int pidDestination, bool withEventsLoop, std::wstring& errorMessage)
+{
+    isMinimizedAnswer = false;
+    isMinimizedAnswerAvailable = false;
+    if (isMessageQueueFails) {
+        errorMessage = _W("Impossible to initialize IPC.");
+        return false;
+    }
+    waitMessageQueueUntilReady(withEventsLoop);
+    dataInterProcessToExchange msg(getCurrentPID(), NELSON_INTERPROCESS_COMMAND::IS_MINIMIZED);
+    std::stringstream oss;
+    boost::archive::binary_oarchive oa(oss);
+    oa << msg;
+    bool failed = false;
+    std::string serialized_compressed_string = compressString(oss.str(), failed);
+    if (failed) {
+        errorMessage = _W("Cannot compress data.");
+        return false;
+    }
+    if (serialized_compressed_string.size() >= MAX_MSG_SIZE) {
+        errorMessage = _W("Serialized data too big.");
+        return false;
+    }
+    if (!sendMessage(pidDestination, serialized_compressed_string)) {
+        errorMessage = _W("Cannot send serialized data.");
+        return false;
+    }
+    if (withEventsLoop) {
+        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        while (true) {
+            if (isMinimizedAnswerAvailable || !isPIDRunning(pidDestination)) {
+                break;
+            }
+            Sleep(eval, .5);
+        }
+    } else {
+        while (true) {
+            if (isMinimizedAnswerAvailable || !isPIDRunning(pidDestination)) {
+                break;
+            }
+            try {
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+            } catch (boost::thread_interrupted&) {
+            }
+        }
+    }
+    if (!isPIDRunning(pidDestination)) {
+        errorMessage = _W("Impossible to get value (PID destination no more valid).");
+        return false;
+    }
+    bool isMinimized = isMinimizedAnswer;
+    isMinimizedAnswer = false;
+    isMinimizedAnswerAvailable = false;
+    return isMinimized;
+}
+//=============================================================================
+bool
 isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
     const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage)
 {
+    isVarAnswer = false;
+    isVarAnswerAvailable = false;
     if (isMessageQueueFails) {
         errorMessage = _W("Impossible to initialize IPC.");
         return false;
@@ -487,38 +573,33 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
         errorMessage = _W("Cannot send serialized data.");
         return false;
     }
-    int l = 0;
     if (withEventsLoop) {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
         while (true) {
-            if (isVarAnswerAvailable || l >= TIMEOUT_COUNT) {
+            if (isVarAnswerAvailable || !isPIDRunning(pidDestination)) {
                 break;
             }
             Sleep(eval, .5);
-            l++;
         }
     } else {
         while (true) {
-            if (isVarAnswerAvailable || l >= TIMEOUT_COUNT) {
+            if (isVarAnswerAvailable || !isPIDRunning(pidDestination)) {
                 break;
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
             } catch (boost::thread_interrupted&) {
             }
-            l++;
         }
     }
-    if (l >= TIMEOUT_COUNT) {
-        errorMessage = _W("Impossible to get value (Timeout).");
+    if (!isPIDRunning(pidDestination)) {
+        errorMessage = _W("Impossible to get value (PID destination no more valid).");
         return false;
     }
     bool isVarExist = isVarAnswer;
     isVarAnswer = false;
     isVarAnswerAvailable = false;
     return isVarExist;
-
-    return false;
 }
 //=============================================================================
 ArrayOf

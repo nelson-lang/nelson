@@ -65,6 +65,11 @@ sendMinimizeToNelsonInterprocessReceiver(
 //=============================================================================
 NLSIPC_IMPEXP
 bool
+isMinimizedFromNelsonInterprocessReceiver(
+    int pidDestination, bool withEventsLoop, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
 isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
     const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================

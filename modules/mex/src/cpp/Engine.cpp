@@ -313,7 +313,25 @@ engSetVisible(Engine* ep, bool newVal)
 int
 engGetVisible(Engine* ep, bool* bVal)
 {
-    return 0;
+    if (ep == nullptr) {
+        *bVal = false;
+        return 1;
+    }
+    boost::process::child* child = (boost::process::child*)(ep->child);
+    int childPID = child->id();
+    if (!child->valid()) {
+        *bVal = false;
+        return 1;
+    }
+    std::wstring errorMessage;
+    bool isminimized
+        = Nelson::isMinimizedFromNelsonInterprocessReceiver(childPID, false, errorMessage);
+    if (errorMessage.empty()) {
+        *bVal = !isminimized;
+        return 0;
+    }
+    *bVal = false;
+    return 1;
 }
 //=============================================================================
 int

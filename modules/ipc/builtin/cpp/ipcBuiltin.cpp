@@ -54,6 +54,35 @@ commandTypeToValueSwitch(const std::wstring& command)
 }
 //=============================================================================
 static ArrayOfVector
+ipcBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    // R = ipc(pid, 'minimize')
+    ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    int32 pid = param1.getContentAsInteger32Scalar();
+    if (!isPIDRunning(pid)) {
+        Error(_W("PID valid expected."));
+    }
+    std::wstring commandType = param2.getContentAsWideString();
+    if (commandType == L"minimize") {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring errorMessage;
+        bool r
+            = isMinimizedFromNelsonInterprocessReceiver(pid, eval->haveEventsLoop(), errorMessage);
+        if (!errorMessage.empty()) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+        retval.push_back(ArrayOf::logicalConstructor(r));
+    } else {
+        Error(_W("#2 parameter invalid: 'minimize' parameter expected."));
+    }
+    return retval;
+}
+//=============================================================================
+static ArrayOfVector
 ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     // ipc(pid, 'eval', cmd)
@@ -274,6 +303,9 @@ Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& a
 {
     ArrayOfVector retval;
     switch (argIn.size()) {
+    case 2: {
+        return ipcBuiltinTwoRhs(eval, nLhs, argIn);
+    } break;
     case 3: {
         return ipcBuiltinThreeRhs(eval, nLhs, argIn);
     } break;

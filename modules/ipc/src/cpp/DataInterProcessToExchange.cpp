@@ -67,10 +67,10 @@ dataInterProcessToExchange::isFullySerialized()
     case IS_VAR_ANSWER: {
         return fullySerialized;
     } break;
-    case GET_MINIMIZE: {
+    case IS_MINIMIZED: {
         return true;
     } break;
-    case GET_MINIMIZE_ANSWER: {
+    case IS_MINIMIZED_ANSWER: {
         return true;
     } break;
     case SET_MINIMIZE: {
