@@ -29,14 +29,21 @@
 #include "IsValidVariableName.hpp"
 #include "NelsonPIDs.hpp"
 #include "NelsonInterprocess.hpp"
+#include "EvaluateCommand.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static NELSON_INTERPROCESS_COMMAND
 commandTypeToValueSwitch(const std::wstring& command)
 {
+    if (command == L"post") {
+        return NELSON_INTERPROCESS_COMMAND::POST_COMMAND;
+    }
     if (command == L"eval") {
         return NELSON_INTERPROCESS_COMMAND::EVAL;
+    }
+    if (command == L"eval_answer") {
+        return NELSON_INTERPROCESS_COMMAND::EVAL_ANSWER;
     }
     if (command == L"put") {
         return NELSON_INTERPROCESS_COMMAND::PUT;
@@ -85,7 +92,9 @@ ipcBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 static ArrayOfVector
 ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    // ipc(pid, 'eval', cmd)
+    // ipc(pid, 'post', cmd)
+    // ipc(pid_destination, 'eval_answer', cmd_to_evaluate)
+    // R = ipc(pid, 'eval', cmd)
     // V = ipc(pid, 'get', name)
     // B = ipc(pid, 'isvar', name)
     // ipc(pid, 'minimize', TF)
@@ -99,14 +108,44 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     }
     std::wstring commandType = param2.getContentAsWideString();
     switch (commandTypeToValueSwitch(commandType)) {
-    case NELSON_INTERPROCESS_COMMAND::EVAL: {
+    case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
         if (nLhs != 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring command = param3.getContentAsWideString();
         std::wstring errorMessage;
-        bool r = sendCommandToNelsonInterprocessReceiver(
+        bool r = postCommandToNelsonInterprocessReceiver(
             pid, command, eval->haveEventsLoop(), errorMessage);
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::EVAL: {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring errorMessage;
+        std::wstring result;
+        bool r = false;
+        if (pid == getCurrentPID()) {
+            EvaluateConsoleCommandToString(eval, command, result);
+            r = true;
+        } else {
+            r = evalCommandToNelsonInterprocessReceiver(
+                pid, command, eval->haveEventsLoop(), result, errorMessage);
+        }
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+        retval.push_back(ArrayOf::characterArrayConstructor(result));
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::EVAL_ANSWER: {
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring contentResult;
+        std::wstring errorMessage;
+        EvaluateConsoleCommandToString(eval, command, contentResult);
+        bool r = sendEvalAnswerToNelsonInterprocessReceiver(pid, contentResult);
         if (!r) {
             Error(_W("Command not sent.") + errorMessage);
         }
@@ -156,8 +195,9 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval.push_back(ArrayOf::logicalConstructor(result));
     } break;
     default: {
-        Error(_W("#2 parameter invalid: 'eval', 'put', 'get', 'minimize' or 'isvar' parameter "
-                 "expected."));
+        Error(_W(
+            "#2 parameter invalid: 'post', 'eval', 'put', 'get', 'minimize' or 'isvar' parameter "
+            "expected."));
     } break;
     }
     return retval;
@@ -292,7 +332,8 @@ ipcBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     return retval;
 }
 //=============================================================================
-// ipc(pid, 'eval', cmd)
+// V = ipc(pid, 'eval', cmd)
+// ipc(pid, 'post', cmd)
 // ipc(pid, 'put', var, name [, scope = current])
 // V = ipc(pid, 'get', name [, scope = current])
 // B = ipc(pid, 'isvar', name [, scope = current])

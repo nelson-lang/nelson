@@ -23,29 +23,33 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "engine.h"
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
-//=============================================================================
-#include "Context.hpp"
-#include "Evaluator.hpp"
-#include "nlsCore_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, const std::wstring& command, bool bCatch);
-NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, const std::string& command, bool bCatch);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateCommand(
-    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command);
-NLSCORE_IMPEXP bool
-EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std::wstring& result);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateConsoleCommand(
-    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
-} // namespace Nelson
+int main(int argc, char *argv[])
+{
+ 	Engine *ep = NULL;
+	char buffer[256], cmd[256];
+	if (!(ep = engOpen(""))) {
+		fprintf(stderr, "\nCan't start Nelson engine.\n");
+		exit(-1);
+	}
+
+	engOutputBuffer(ep, buffer, 256);
+	
+	while (strcmp(cmd, "exit\n") != 0) {
+		printf("\nEnter a Nelson command to evaluate.\n");
+		printf("For example: X = 1:5\n");
+		printf("To finish: exit\n");
+		printf("--> ");
+		fgets(cmd, 255, stdin);
+	
+		engEvalString(ep, cmd);
+		printf("%s", buffer);
+	}
+	engClose(ep);
+	return EXIT_SUCCESS;
+}
 //=============================================================================

@@ -36,6 +36,8 @@ typedef enum
     LOAD_FILES,
     RUN_FILES,
     EVAL,
+    EVAL_ANSWER,
+    POST_COMMAND,
     PUT,
     GET,
     GET_ANSWER,
@@ -62,6 +64,10 @@ public:
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType)
         : pid(_pid), commandType(_commandType){};
     //=============================================================================
+    dataInterProcessToExchange(
+        int _pid, NELSON_INTERPROCESS_COMMAND _commandType, const std::string& content)
+        : pid(_pid), commandType(_commandType), lineToEvaluate(std::move(content)){};
+    //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
         : pid(_pid), commandType(_commandType), valueAnswer(value){};
     //=============================================================================
@@ -70,7 +76,15 @@ public:
         : commandType(_commandType), filenames(_filenames){};
     //=============================================================================
     dataInterProcessToExchange(std::string _lineToEvaluate)
-        : commandType(NELSON_INTERPROCESS_COMMAND::EVAL)
+        : commandType(NELSON_INTERPROCESS_COMMAND::POST_COMMAND)
+        , lineToEvaluate(std::move(_lineToEvaluate))
+        , serializedCompressedVariable("")
+        , variableName("")
+        , scope(""){};
+    //=============================================================================
+    dataInterProcessToExchange(int _pid, std::string _lineToEvaluate)
+        : pid(_pid)
+        , commandType(NELSON_INTERPROCESS_COMMAND::EVAL)
         , lineToEvaluate(std::move(_lineToEvaluate))
         , serializedCompressedVariable("")
         , variableName("")
@@ -126,7 +140,14 @@ private:
         case RUN_FILES: {
             ar& filenames;
         } break;
+        case POST_COMMAND: {
+            ar& lineToEvaluate;
+        } break;
         case EVAL: {
+            ar& pid;
+            ar& lineToEvaluate;
+        } break;
+        case EVAL_ANSWER: {
             ar& lineToEvaluate;
         } break;
         case PUT: {

@@ -23,29 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
-//=============================================================================
-#include "Context.hpp"
-#include "Evaluator.hpp"
-#include "nlsCore_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, const std::wstring& command, bool bCatch);
-NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, const std::string& command, bool bCatch);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateCommand(
-    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command);
-NLSCORE_IMPEXP bool
-EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std::wstring& result);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateConsoleCommand(
-    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
-} // namespace Nelson
+destinationdir = [tempdir(), 'mex_engine_demo_1/'];
+if isdir(destinationdir)
+    rmdir(destinationdir, 's');
+end
+mkdir(destinationdir);
+destination = [destinationdir, 'mex_engine_demo_1.c'];
+status = copyfile('mex_engine_demo_1.c', destinationdir);
+cd(destinationdir); 
+mex('-client', 'engine', 'mex_engine_demo_1.c');
+generated_executable = [destinationdir, 'mex_engine_demo_1'];
+disp('Open an Terminal')
+disp('Set environment variables to find Nelson (see doc mex).')
+disp('Go to:')
+disp(destinationdir)
+disp('Launch')
+disp('mex_engine_demo_1')
 //=============================================================================

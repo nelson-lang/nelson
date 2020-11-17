@@ -34,6 +34,7 @@
 #include <boost/process/async.hpp>
 #include <boost/filesystem.hpp>
 #include <algorithm>
+#include <map>
 #include "engine.h"
 #include "characters_encoding.hpp"
 #include "NelsonPIDs.hpp"
@@ -45,6 +46,11 @@
 //=============================================================================
 #define NELSON_EXECUTABLE L"nelson-gui"
 #define TIMEOUT_SECONDS 20
+//=============================================================================
+static std::map<int, char*> mapOutputBufferPointer;
+static std::map<int, int> mapoutputBufferLength;
+//=============================================================================
+static int countEngine = 0;
 //=============================================================================
 static void
 exit_handler(boost::process::child& process, int e, std::error_code ec)
@@ -204,6 +210,7 @@ engOpen(const char* startcmd)
     }
     try {
         engine = new Engine;
+        countEngine++;
     } catch (std::bad_alloc&) {
         engine = nullptr;
     }
@@ -262,6 +269,7 @@ engOpenSingleUse(const char* startcmd, void* reserved, int* retstatus)
     }
     try {
         engine = new Engine;
+        countEngine++;
     } catch (std::bad_alloc&) {
         *retstatus = -3;
         engine = nullptr;
@@ -286,7 +294,21 @@ engEvalString(Engine* ep, const char* string)
     }
     std::wstring command = Nelson::utf8_to_wstring(string);
     std::wstring errorMessage;
-    if (Nelson::sendCommandToNelsonInterprocessReceiver(childPID, command, false, errorMessage)) {
+
+    std::wstring result;
+    if ((mapOutputBufferPointer[childPID] != nullptr) && (mapoutputBufferLength[childPID] > 0)) {
+        mapOutputBufferPointer[childPID][0] = 0;
+    }
+    bool r = Nelson::evalCommandToNelsonInterprocessReceiver(
+        childPID, command, false, result, errorMessage);
+    if (errorMessage.empty()) {
+        if ((mapOutputBufferPointer[childPID] != nullptr)
+            && (mapoutputBufferLength[childPID] > 0)) {
+            std::string engineOutputBuffer = Nelson::wstring_to_utf8(result);
+            strncpy(mapOutputBufferPointer[childPID], engineOutputBuffer.c_str(),
+                mapoutputBufferLength[childPID]);
+            mapOutputBufferPointer[childPID][mapoutputBufferLength[childPID]] = 0;
+        }
         return 0;
     }
     return 1;
@@ -351,6 +373,11 @@ engClose(Engine* ep)
         delete child;
     }
     delete ep;
+    countEngine--;
+    if (countEngine == 0) {
+        mapOutputBufferPointer.clear();
+        mapoutputBufferLength.clear();
+    }
     int parentPID = Nelson::getCurrentPID();
     if (Nelson::removeNelsonInterprocessReceiver(parentPID, false)) {
         return 0;
@@ -416,6 +443,16 @@ engPutVariable(Engine* ep, const char* var_name, const mxArray* ap)
 int
 engOutputBuffer(Engine* ep, char* buffer, int buflen)
 {
+    if (ep == nullptr) {
+        return 1;
+    }
+    boost::process::child* child = (boost::process::child*)(ep->child);
+    int childPID = child->id();
+    if (!child->valid()) {
+        return 1;
+    }
+    mapOutputBufferPointer[childPID] = buffer;
+    mapoutputBufferLength[childPID] = buflen;
     return 0;
 }
 //=============================================================================

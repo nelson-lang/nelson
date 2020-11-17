@@ -92,8 +92,13 @@ install(
   FILES_MATCHING
   PATTERN "*.nls")
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.zip")
+  PATTERN "*.nls")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.c")
 # ==============================================================================

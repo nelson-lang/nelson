@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--C/C++ COMPILER REQUIRED-->
 destinationdir = [tempdir(), 'test_engine/'];
 if isdir(destinationdir)
     rmdir(destinationdir, 's');

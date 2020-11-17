@@ -3,11 +3,11 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>engEvalString</keyword>
-	<short_description>Evaluate expression in string in base scope</short_description>
+	<keyword>engOutputBuffer</keyword>
+	<short_description>Specify char buffer for Nelson output</short_description>
 	<syntax>
 		<syntax_item>#include "engine.h"</syntax_item>
-		<syntax_item>int engEvalString(Engine *ep, const char *string);</syntax_item>
+		<syntax_item>int engOutputBuffer(Engine *ep, char *p, int n);</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -16,8 +16,12 @@
 			<param_description>handle to Nelson engine.</param_description>
 		</param_input_item>
 		<param_input_item>
-			<param_name>const char *string</param_name>
-			<param_description>Expression to evaluate.</param_description>
+			<param_name>char *p</param_name>
+			<param_description>Pointer to character buffer.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>int n</param_name>
+			<param_description>Length of buffer.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -29,7 +33,8 @@
   </param_output>
 
 	<description>
-		<p>Evaluate expression in string in base scope.</p>
+		<p>Specify char buffer for Nelson output.</p>
+		<p>To turn off output buffering in C, use: <b>engOutputBuffer(ep, NULL, 0);</b></p>
 	</description>
 
 	<used_function></used_function>

@@ -23,29 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+// <--ADV-CLI MODE-->
+// <--IPC REQUIRED-->
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
-//=============================================================================
-#include "Context.hpp"
-#include "Evaluator.hpp"
-#include "nlsCore_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, const std::wstring& command, bool bCatch);
-NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, const std::string& command, bool bCatch);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateCommand(
-    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command);
-NLSCORE_IMPEXP bool
-EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std::wstring& result);
-NLSCORE_IMPEXP ArrayOfVector
-EvaluateConsoleCommand(
-    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
-} // namespace Nelson
+clear('R');
+REF = 3333;
+ipc(getpid, 'post', 'R = 3333')
+q = 0; while(~ipc(getpid, 'isvar', 'R', 'base') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(acquirevar('base', 'R'), REF);
 //=============================================================================

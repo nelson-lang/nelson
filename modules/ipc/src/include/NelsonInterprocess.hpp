@@ -49,11 +49,19 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
+postCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
     bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
+evalCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
+    bool withEventsLoop, std::wstring& result, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendEvalAnswerToNelsonInterprocessReceiver(int pidDestination, std::wstring content);
+//=============================================================================
+NLSIPC_IMPEXP bool
 sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,
     const std::wstring& name, const std::wstring& scope, bool withEventsLoop,
     std::wstring& errorMessage);

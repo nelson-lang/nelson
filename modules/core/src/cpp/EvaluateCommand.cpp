@@ -230,5 +230,40 @@ EvaluateConsoleCommand(
     return retval;
 }
 //=============================================================================
+bool
+EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std::wstring& result)
+{
+    bool success = false;
+    result.clear();
+
+    Interface* io = eval->getInterface();
+    EvaluateInterface* tempIO = nullptr;
+    try {
+        tempIO = new EvaluateInterface();
+    } catch (const std::bad_alloc&) {
+        result = _W("Error:") + _W(ERROR_MEMORY_ALLOCATION);
+        return success;
+    }
+    setPrintInterface(tempIO);
+    eval->setInterface(tempIO);
+    eval->getContext()->bypassScope(0);
+    try {
+        EvaluateCommand(eval, 0, command, L"", SCOPE_LEVEL::BASE_SCOPE);
+        result = tempIO->getOutputBuffer();
+        eval->setInterface(io);
+        setPrintInterface(io);
+        delete tempIO;
+        success = true;
+    } catch (Exception& e) {
+        e.printMe(tempIO);
+        result = tempIO->getOutputBuffer();
+        eval->setInterface(io);
+        setPrintInterface(io);
+        delete tempIO;
+        success = false;
+    }
+    return success;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
