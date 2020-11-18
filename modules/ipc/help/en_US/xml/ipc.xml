@@ -12,10 +12,11 @@
         <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
 		<syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
 		<syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
+   		<syntax_item>ipc(pid, 'post', cmd)</syntax_item>
+   		<syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
     	<syntax_item>ipc(pid, 'put', var, name)</syntax_item>
-		<syntax_item>ipc(pid, 'put', var, name , scope)</syntax_item>
+		<syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
 		<syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
-
 	</syntax>
 
   <param_input>

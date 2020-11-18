@@ -85,10 +85,14 @@ public:
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
         std::string _variableName, std::string _scope)
-        : pid(_pid)
-        , commandType(_commandType)
-        , variableName(std::move(_variableName))
-        , scope(std::move(_scope)){};
+        : pid(_pid), commandType(_commandType), scope(std::move(_scope))
+    {
+        if (_commandType == NELSON_INTERPROCESS_COMMAND::POST_COMMAND) {
+            content = _variableName;
+        } else {
+            variableName = _variableName;
+        }
+    };
     //=============================================================================
     std::string serializedCompressedVariable;
     bool fullySerialized = false;
@@ -125,7 +129,10 @@ private:
             ar& pid;
             ar& content;
         } break;
-        case POST_COMMAND:
+        case POST_COMMAND: {
+            ar& content;
+            ar& scope;
+        } break;
         case EVAL_ANSWER: {
             ar& content;
         } break;

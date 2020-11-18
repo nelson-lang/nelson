@@ -115,7 +115,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         std::wstring command = param3.getContentAsWideString();
         std::wstring errorMessage;
         bool r = postCommandToNelsonInterprocessReceiver(
-            pid, command, eval->haveEventsLoop(), errorMessage);
+            pid, command, L"base", eval->haveEventsLoop(), errorMessage);
         if (!r) {
             Error(_W("Command not sent.") + errorMessage);
         }
@@ -206,6 +206,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 static ArrayOfVector
 ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
+    // ipc(pid, 'post', cmd, scope)
     // ipc(pid, 'put', var, name)
     // V = ipc(pid, 'get', name, scope)
     // B = ipc(pid, 'isvar', name, scope)
@@ -280,8 +281,26 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
         retval.push_back(ArrayOf::logicalConstructor(result));
     } break;
+    case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring scope = param4.getContentAsWideString();
+        bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
+            || (scope == L"local"));
+        if (!supported) {
+            Error(_W("#4 Argument must contain a valid scope name."));
+        }
+        std::wstring errorMessage;
+        bool r = postCommandToNelsonInterprocessReceiver(
+            pid, command, scope, eval->haveEventsLoop(), errorMessage);
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+    } break;
     default: {
-        Error(_W("#2 parameter invalid: 'put', 'get', or 'isvar' parameter expected."));
+        Error(_W("#2 parameter invalid: 'put', 'get', 'post' or 'isvar' parameter expected."));
     } break;
     }
     return retval;

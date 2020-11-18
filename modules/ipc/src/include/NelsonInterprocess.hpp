@@ -50,7 +50,7 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop);
 NLSIPC_IMPEXP
 bool
 postCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
-    bool withEventsLoop, std::wstring& errorMessage);
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================
 NLSIPC_IMPEXP
 bool

@@ -133,7 +133,8 @@ processMessageData(const dataInterProcessToExchange& messageData)
     case POST_COMMAND: {
         std::wstring line = utf8_to_wstring(messageData.content);
         boost::algorithm::replace_all(line, L"'", L"''");
-        std::wstring command = L"evalin('base','" + line + L"');";
+        std::wstring command
+            = L"evalin('" + utf8_to_wstring(messageData.scope) + L"',' " + line + L"');";
         res = PostCommandDynamicFunction(command);
     } break;
     case EVAL: {
@@ -433,7 +434,7 @@ sendGetVarAnswerToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& 
 //=============================================================================
 bool
 postCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
-    bool withEventsLoop, std::wstring& errorMessage)
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage)
 {
     errorMessage.clear();
     if (isMessageQueueFails) {
@@ -441,8 +442,8 @@ postCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
         return false;
     }
     waitMessageQueueUntilReady(withEventsLoop);
-    dataInterProcessToExchange msg(
-        pidDestination, NELSON_INTERPROCESS_COMMAND::POST_COMMAND, wstring_to_utf8(command));
+    dataInterProcessToExchange msg(pidDestination, NELSON_INTERPROCESS_COMMAND::POST_COMMAND,
+        wstring_to_utf8(command), wstring_to_utf8(scope));
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;

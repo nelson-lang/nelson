@@ -15,6 +15,8 @@ Bug Fixes:
 
   * [#342](http://github.com/Nelson-numerical-software/nelson/issues/342): disable slicot on Macos CI.
 
+  * [#341](http://github.com/Nelson-numerical-software/nelson/issues/341): extend ```ipc(pid, 'post', cmd, scope)``` to manage scope destination.
+
   * [#314](http://github.com/Nelson-numerical-software/nelson/issues/314): Nelson crashs randomly at exit with Qt 5.15.0
 
 Compilation:

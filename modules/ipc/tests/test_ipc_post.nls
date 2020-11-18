@@ -32,3 +32,9 @@ ipc(getpid, 'post', 'R = 3333')
 q = 0; while(~ipc(getpid, 'isvar', 'R', 'base') && q < 10), sleep(1), q = q + 1; end
 assert_isequal(acquirevar('base', 'R'), REF);
 //=============================================================================
+clear('R');
+REF = 3333;
+ipc(getpid, 'post', 'R = 3333', 'local')
+q = 0; while(~ipc(getpid, 'isvar', 'R', 'local') && q < 10), sleep(1), q = q + 1; end
+assert_isequal(acquirevar('local', 'R'), REF);
+//=============================================================================
