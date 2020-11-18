@@ -59,7 +59,7 @@ evalCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-sendEvalAnswerToNelsonInterprocessReceiver(int pidDestination, std::wstring content);
+sendEvalAnswerToNelsonInterprocessReceiver(int pidDestination, const std::wstring& content);
 //=============================================================================
 NLSIPC_IMPEXP bool
 sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,

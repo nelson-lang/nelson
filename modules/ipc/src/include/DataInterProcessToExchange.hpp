@@ -66,7 +66,7 @@ public:
     //=============================================================================
     dataInterProcessToExchange(
         int _pid, NELSON_INTERPROCESS_COMMAND _commandType, const std::string& content)
-        : pid(_pid), commandType(_commandType), lineToEvaluate(std::move(content)){};
+        : pid(_pid), commandType(_commandType), content(std::move(content)){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
         : pid(_pid), commandType(_commandType), valueAnswer(value){};
@@ -74,21 +74,6 @@ public:
     dataInterProcessToExchange(
         NELSON_INTERPROCESS_COMMAND _commandType, const std::vector<std::string>& _filenames)
         : commandType(_commandType), filenames(_filenames){};
-    //=============================================================================
-    dataInterProcessToExchange(std::string _lineToEvaluate)
-        : commandType(NELSON_INTERPROCESS_COMMAND::POST_COMMAND)
-        , lineToEvaluate(std::move(_lineToEvaluate))
-        , serializedCompressedVariable("")
-        , variableName("")
-        , scope(""){};
-    //=============================================================================
-    dataInterProcessToExchange(int _pid, std::string _lineToEvaluate)
-        : pid(_pid)
-        , commandType(NELSON_INTERPROCESS_COMMAND::EVAL)
-        , lineToEvaluate(std::move(_lineToEvaluate))
-        , serializedCompressedVariable("")
-        , variableName("")
-        , scope(""){};
     //=============================================================================
     dataInterProcessToExchange(std::string _variableName, std::string _scope,
         std::string compressedData, bool _fullySerialized)
@@ -110,7 +95,7 @@ public:
     int pid = 0;
     bool valueAnswer = false;
     int commandType;
-    std::string lineToEvaluate;
+    std::string content;
     std::string variableName;
     std::string scope;
     std::vector<std::string> filenames;
@@ -131,24 +116,18 @@ private:
     {
         ar& commandType;
         switch (commandType) {
-        case OPEN_FILES: {
-            ar& filenames;
-        } break;
-        case LOAD_FILES: {
-            ar& filenames;
-        } break;
+        case OPEN_FILES:
+        case LOAD_FILES:
         case RUN_FILES: {
             ar& filenames;
         } break;
-        case POST_COMMAND: {
-            ar& lineToEvaluate;
-        } break;
         case EVAL: {
             ar& pid;
-            ar& lineToEvaluate;
+            ar& content;
         } break;
+        case POST_COMMAND:
         case EVAL_ANSWER: {
-            ar& lineToEvaluate;
+            ar& content;
         } break;
         case PUT: {
             ar& serializedCompressedVariable;
@@ -156,15 +135,11 @@ private:
             ar& variableName;
             ar& scope;
         } break;
-        case GET: {
-            ar& pid;
-            ar& variableName;
-            ar& scope;
-        } break;
         case GET_ANSWER: {
             ar& serializedCompressedVariable;
             ar& fullySerialized;
         } break;
+        case GET:
         case IS_VAR: {
             ar& pid;
             ar& variableName;

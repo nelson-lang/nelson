@@ -31,7 +31,7 @@ dataInterProcessToExchange::clear()
     valueAnswer = false;
     pid = 0;
     serializedCompressedVariable.clear();
-    lineToEvaluate.clear();
+    content.clear();
     variableName.clear();
     scope.clear();
 }
@@ -52,20 +52,16 @@ dataInterProcessToExchange::isFullySerialized()
     case EVAL: {
         return true;
     } break;
-    case PUT: {
-        return fullySerialized;
-    } break;
     case GET: {
         return true;
     } break;
-    case GET_ANSWER: {
+    case PUT:
+    case GET_ANSWER:
+    case IS_VAR_ANSWER: {
         return fullySerialized;
     } break;
     case IS_VAR: {
         return true;
-    } break;
-    case IS_VAR_ANSWER: {
-        return fullySerialized;
     } break;
     case IS_MINIMIZED: {
         return true;

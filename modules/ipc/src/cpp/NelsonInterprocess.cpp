@@ -131,20 +131,20 @@ processMessageData(const dataInterProcessToExchange& messageData)
             NELSON_ENGINE_MODE::GUI, utf8_to_wstring(messageData.filenames), false);
     } break;
     case POST_COMMAND: {
-        std::wstring line = utf8_to_wstring(messageData.lineToEvaluate);
+        std::wstring line = utf8_to_wstring(messageData.content);
         boost::algorithm::replace_all(line, L"'", L"''");
         std::wstring command = L"evalin('base','" + line + L"');";
         res = PostCommandDynamicFunction(command);
     } break;
     case EVAL: {
-        std::wstring line = utf8_to_wstring(messageData.lineToEvaluate);
+        std::wstring line = utf8_to_wstring(messageData.content);
         std::wstring pidStr = std::to_wstring(messageData.pid);
         boost::algorithm::replace_all(line, L"'", L"''");
         std::wstring command = L"ipc(" + pidStr + L", 'eval_answer', '" + line + L"');";
         res = PostCommandDynamicFunction(command);
     } break;
     case EVAL_ANSWER: {
-        evalResult = messageData.lineToEvaluate;
+        evalResult = messageData.content;
         evalAnswerAvailable = true;
     } break;
     case PUT: {
@@ -234,7 +234,7 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
         return;
     }
     openIpcReceiverIsReadyMutex(currentPID);
-    dataInterProcessToExchange msg("");
+    dataInterProcessToExchange msg(currentPID, NELSON_INTERPROCESS_COMMAND::POST_COMMAND, true);
     isMessageQueueReady = true;
     std::string serialized_compressed_string;
     unsigned int maxMessageSize = messageQueue->get_max_msg_size();
@@ -366,7 +366,7 @@ sendMessage(int pid, const std::string& message)
 }
 //=============================================================================
 bool
-sendEvalAnswerToNelsonInterprocessReceiver(int pidDestination, std::wstring content)
+sendEvalAnswerToNelsonInterprocessReceiver(int pidDestination, const std::wstring& content)
 {
     dataInterProcessToExchange msg(
         pidDestination, NELSON_INTERPROCESS_COMMAND::EVAL_ANSWER, wstring_to_utf8(content));
@@ -441,7 +441,8 @@ postCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
         return false;
     }
     waitMessageQueueUntilReady(withEventsLoop);
-    dataInterProcessToExchange msg(wstring_to_utf8(command));
+    dataInterProcessToExchange msg(
+        pidDestination, NELSON_INTERPROCESS_COMMAND::POST_COMMAND, wstring_to_utf8(command));
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;
@@ -465,7 +466,8 @@ evalCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
         return false;
     }
     waitMessageQueueUntilReady(withEventsLoop);
-    dataInterProcessToExchange msg(getCurrentPID(), wstring_to_utf8(command));
+    dataInterProcessToExchange msg(
+        getCurrentPID(), NELSON_INTERPROCESS_COMMAND::EVAL, wstring_to_utf8(command));
     std::stringstream oss;
     boost::archive::binary_oarchive oa(oss);
     oa << msg;

@@ -154,7 +154,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (nLhs != 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        bool minimize = param3.getContentAsLogicalScalar() != 0u;
+        bool minimize = param3.getContentAsLogicalScalar() != 0U;
         std::wstring errorMessage;
         bool r = sendMinimizeToNelsonInterprocessReceiver(
             pid, minimize, eval->haveEventsLoop(), errorMessage);
