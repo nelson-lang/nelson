@@ -23,5 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--INDEX 64 BIT REQUIRED-->
+//=============================================================================
 N = 50000000;
 tic();[F, E] = log2(1:N);toc()

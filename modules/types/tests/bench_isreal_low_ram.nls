@@ -23,9 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--INDEX 64 BIT REQUIRED-->
-//=============================================================================
-N = 10000;
-A = rand(N, N);
-tic();sort(A);toc()
-//=============================================================================
+N = 3500; // works on all platforms with at least 4 Go Ram
+A = eye(N);
+A(N, N) = i;
+tic();isreal(A),toc()
