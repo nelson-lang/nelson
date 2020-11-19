@@ -25,7 +25,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - HDF5 used as default data file format (.nh5) (DONE v0.3.2),
 - Profiling and Coverage Tools for Nelson's language (DONE v0.3.4),
 - Mex module (Done v0.4.7),
-- Nelson Engine API for C (compatible with MEX Engine).
+- Nelson Engine API for C (compatible with MEX Engine) (DONE v0.4.11),
 - completion,
 - graphics output (Graphic objects introduced in v0.4.5),
 - some basic openCV functions,
