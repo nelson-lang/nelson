@@ -46,7 +46,7 @@ Nelson::IpcGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::vector<int> pids = getNelsonPIDs();
             ArrayOf res;
             Dimensions dims(1, pids.size());
-            double* pd = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, pids.size());
+            double* pd = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, (indexType)pids.size());
             res = ArrayOf(NLS_DOUBLE, dims, pd);
             for (indexType k = 0; k < dims.getElementCount(); ++k) {
                 pd[k] = (double)pids[k];

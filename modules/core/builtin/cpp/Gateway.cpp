@@ -43,6 +43,7 @@
 #include "prefdirBuiltin.hpp"
 #include "runBuiltin.hpp"
 #include "versionBuiltin.hpp"
+#include "sha256Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -67,6 +68,7 @@ static const nlsGateway gateway[] = {
     { "prefdir", (void*)Nelson::CoreGateway::prefdirBuiltin, 1, 0 },
     { "maxNumCompThreads", (void*)Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1 },
     { "banner", (void*)Nelson::CoreGateway::bannerBuiltin, 0, 0 },
+    { "sha256", (void*)Nelson::CoreGateway::sha256Builtin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYNAME()

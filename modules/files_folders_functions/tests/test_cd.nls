@@ -23,28 +23,33 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+TMPDIR = tempdir();
+if ismac()
+  TMPDIR = ['/private', TMPDIR];
+end
+//=============================================================================
 cd(nelsonroot())
-eval(['cd(''', eval('tempdir()'), ''')']);
+eval(['cd(''', eval('TMPDIR'), ''')']);
 R = pwd();
-REF = tempdir();
+REF = TMPDIR;
 assert_isequal([R, '/'], REF);
 //=============================================================================
 cd(nelsonroot())
-eval(['cd            (''', eval('tempdir()'), ''')']);
+eval(['cd            (''', eval('TMPDIR'), ''')']);
 R = pwd();
-REF = tempdir();
+REF = TMPDIR;
 assert_isequal([R, '/'], REF);
 //=============================================================================
 cd(nelsonroot())
-eval(['cd         (      ''', eval('tempdir()'), ''')']);
+eval(['cd         (      ''', eval('TMPDIR'), ''')']);
 R = pwd();
-REF = tempdir();
+REF = TMPDIR;
 assert_isequal([R, '/'], REF);
 //=============================================================================
 cd(nelsonroot())
-cd(tempdir())
+cd(TMPDIR)
 R = pwd();
-REF = tempdir();
+REF = TMPDIR;
 assert_isequal([R, '/'], REF);
 //=============================================================================
 cd(nelsonroot())

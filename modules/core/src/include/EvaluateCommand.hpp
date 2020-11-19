@@ -42,6 +42,8 @@ EvaluateCommand(
     Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
 NLSCORE_IMPEXP ArrayOfVector
 EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command);
+NLSCORE_IMPEXP bool
+EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std::wstring& result);
 NLSCORE_IMPEXP ArrayOfVector
 EvaluateConsoleCommand(
     Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);

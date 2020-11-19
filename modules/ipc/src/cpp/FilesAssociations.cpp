@@ -30,8 +30,8 @@
 #include "EvaluateCommand.hpp"
 #include "NelSon_engine_mode.h"
 #include "PostCommandDynamicFunction.hpp"
-#include "FilesAssociationIPC.hpp"
 #include "NelsonPIDs.hpp"
+#include "NelsonInterprocess.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,7 +48,8 @@ OpenFilesAssociated(
         if (existingPID == 0) {
             return false;
         }
-        return sendCommandToFileExtensionReceiver(existingPID, "open", filesToOpen);
+        return sendCommandFileExtensionToNelsonInterprocessReceiver(
+            existingPID, NELSON_INTERPROCESS_COMMAND::OPEN_FILES, filesToOpen);
     }
     return commonFilesAssociated(currentMode, L"edit", filesToOpen);
 }
@@ -62,7 +63,8 @@ LoadFilesAssociated(
         if (existingPID == 0) {
             return false;
         }
-        return sendCommandToFileExtensionReceiver(existingPID, "load", filesToOpen);
+        return sendCommandFileExtensionToNelsonInterprocessReceiver(
+            existingPID, NELSON_INTERPROCESS_COMMAND::OPEN_FILES, filesToOpen);
     }
     return commonFilesAssociated(currentMode, L"load", filesToOpen);
 }
@@ -76,7 +78,8 @@ ExecuteFilesAssociated(
         if (existingPID == 0) {
             return false;
         }
-        return sendCommandToFileExtensionReceiver(existingPID, "run", filesToOpen);
+        return sendCommandFileExtensionToNelsonInterprocessReceiver(
+            existingPID, NELSON_INTERPROCESS_COMMAND::RUN_FILES, filesToOpen);
     }
     return commonFilesAssociated(currentMode, L"run", filesToOpen);
 }

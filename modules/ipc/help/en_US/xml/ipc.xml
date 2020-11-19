@@ -7,18 +7,26 @@
 	<short_description>Inter process communicator.</short_description>
 
 	<syntax>
-   		<syntax_item>ipc(pid, 'eval', cmd)</syntax_item>
+   		<syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
 		<syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
         <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
 		<syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
+		<syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
+   		<syntax_item>ipc(pid, 'post', cmd)</syntax_item>
+   		<syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
     	<syntax_item>ipc(pid, 'put', var, name)</syntax_item>
-		<syntax_item>ipc(pid, 'put', var, name , scope)</syntax_item>
+		<syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
+		<syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
 	</syntax>
 
   <param_input>
     <param_input_item>
+      <param_name>'post'</param_name>
+      <param_description>a string: post a command to evaluate to another nelson's process in base scope (not blocking).</param_description>
+    </param_input_item>
+    <param_input_item>
       <param_name>'eval'</param_name>
-      <param_description>a string: a command to evaluate to another nelson's process in base scope.</param_description>
+      <param_description>a string: post a command to evaluate to another nelson's process in base scope (blocking).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'isvar'</param_name>
@@ -32,6 +40,11 @@
       <param_name>'get'</param_name>
       <param_description>a string: get a variable from another nelson's process.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>'minimize'</param_name>
+      <param_description>a string: minimize main window from another nelson's process.</param_description>
+    </param_input_item>
+
   </param_input>
 
 	<param_output>
@@ -42,6 +55,14 @@
 		<param_output_item>
 			<param_name>V</param_name>
 			<param_description>a variable from another nelson.</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>TF</param_name>
+			<param_description>a logical: true if destination process is minimized.</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>O</param_name>
+			<param_description>a character array: output of evaluate string.</param_description>
 		</param_output_item>
 
 	</param_output>
@@ -86,7 +107,7 @@ n = 0;
 for p = current_pids
     if p ~= master_pid
         cmd = sprintf('rng(%d);M = rand(10, 10); disp(M)', n);
-        ipc(p, 'eval', cmd);
+        ipc(p, 'post', cmd);
         n = n + 1;
     end
 end
@@ -104,9 +125,24 @@ end
 // close all clients
 for p = current_pids
     if p ~= master_pid
-        ipc(p, 'eval', 'exit')
+        ipc(p, 'post', 'exit')
     end
 end]]>
+		</example_item_data>
+	</example_item>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[ipc(getpid(), 'eval', 'dir')]]>
+		</example_item_data>
+	</example_item>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[ipc(getpid(), 'minimize', true)
+ipc(getpid(), 'minimize')]]>
 		</example_item_data>
 	</example_item>
 
@@ -118,6 +154,9 @@ end]]>
 		</see_also_item>
 		<see_also_item>
 			<link linkend="${os_functions}unix">unix</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${core}eval">eval</link>
 		</see_also_item>
 
 	</see_also>

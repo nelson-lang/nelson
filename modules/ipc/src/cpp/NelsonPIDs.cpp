@@ -23,12 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/interprocess/managed_shared_memory.hpp>
 #if _MSC_VER
-#include <Windows.h>
-#else
-#include <signal.h>
+#define _WIN32_WINNT 0x0550
 #endif
+//=============================================================================
+#include <boost/interprocess/managed_shared_memory.hpp>
+#include <boost/process.hpp>
 #include "NelsonPIDs.hpp"
 #include "GetUsername.hpp"
 #include "characters_encoding.hpp"
@@ -48,22 +48,14 @@ isPIDRunning(int pID)
     if (pID <= 0) {
         return false;
     }
-#if _MSC_VER
-    HANDLE handle = OpenProcess(SYNCHRONIZE, 0, pID);
-    if (handle == nullptr) {
-        return false;
-    }
-    bool alive = WaitForSingleObject(handle, 0) == WAIT_TIMEOUT;
-    CloseHandle(handle);
-    return alive;
+    try {
 
-#else
-    if (kill(pID, 0) == -1) {
+        boost::process::pid_t _pid = (boost::process::pid_t)pID;
+        boost::process::child child(_pid);
+        return child.valid();
+    } catch (std::runtime_error& err) {
         return false;
-    } else {
-        return true;
     }
-#endif
 }
 //=============================================================================
 int

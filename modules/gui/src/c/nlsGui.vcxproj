@@ -27,6 +27,7 @@
     <ClCompile Include="..\cpp\moc_QtTerminal.cpp" />
     <ClCompile Include="..\cpp\NelsonColors.cpp" />
     <ClCompile Include="..\cpp\NelsonPalette.cpp" />
+    <ClCompile Include="..\cpp\NelsonMinimized.cpp" />
     <ClCompile Include="..\cpp\ProcessEvents.cpp" />
     <ClCompile Include="..\cpp\QStringConverter.cpp" />
     <ClCompile Include="..\cpp\QtLookAndFeel.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="..\include\HtmlToPdf.hpp" />
     <ClInclude Include="..\include\NelsonColors.hpp" />
     <ClInclude Include="..\include\NelsonPalette.hpp" />
+    <ClInclude Include="..\include\NelsonMinimized.hpp" />
     <ClInclude Include="..\include\QStringConverter.hpp" />
     <ClInclude Include="..\include\QtLookAndFeel.hpp" />
     <ClInclude Include="..\include\QtTranslation.hpp" />

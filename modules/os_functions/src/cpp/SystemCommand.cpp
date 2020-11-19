@@ -70,7 +70,7 @@ CleanCommand(const std::wstring& command);
 static std::wstring
 DetectDetachProcess(const std::wstring& command, bool& haveDetach);
 //=============================================================================
-ArrayOf
+std::wstring
 SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
 {
     bool mustDetach = false;
@@ -175,7 +175,7 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
         deleteFile(tempOutputFile);
         deleteFile(tempErrorFile);
     }
-    return ArrayOf::characterArrayConstructor(result);
+    return utf8_to_wstring(result);
 }
 //=============================================================================
 std::wstring

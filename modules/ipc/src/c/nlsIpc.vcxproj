@@ -170,11 +170,11 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\CompressedStringHelpers.cpp" />
     <ClCompile Include="..\cpp\DataInterProcessToExchange.cpp" />
-    <ClCompile Include="..\cpp\FilesAssociationIPC.cpp" />
     <ClCompile Include="..\cpp\FilesAssociations.cpp" />
     <ClCompile Include="..\cpp\IpcReadyReceiverNamedMutex.cpp" />
     <ClCompile Include="..\cpp\NelsonInterprocess.cpp" />
     <ClCompile Include="..\cpp\NelsonPIDs.cpp" />
+    <ClCompile Include="..\cpp\NelsonMinimizedDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\PostCommandDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\RemoveIpcOldFiles.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -184,10 +184,10 @@
     <ClInclude Include="..\include\CompressedStringHelpers.hpp" />
     <ClInclude Include="..\include\DataInterProcessToExchange.hpp" />
     <ClInclude Include="..\include\FilesAssociation.hpp" />
-    <ClInclude Include="..\include\FilesAssociationIPC.hpp" />
     <ClInclude Include="..\include\IpcReadyReceiverNamedMutex.hpp" />
     <ClInclude Include="..\include\NelsonInterprocess.hpp" />
     <ClInclude Include="..\include\NelsonPIDs.hpp" />
+    <ClInclude Include="..\include\NelsonMinimizedDynamicFunction.hpp" />
     <ClInclude Include="..\include\PostCommandDynamicFunction.hpp" />
     <ClInclude Include="..\include\RemoveIpcOldFiles.hpp" />
   </ItemGroup>

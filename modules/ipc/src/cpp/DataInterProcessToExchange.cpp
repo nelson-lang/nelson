@@ -31,8 +31,7 @@ dataInterProcessToExchange::clear()
     valueAnswer = false;
     pid = 0;
     serializedCompressedVariable.clear();
-    commandType.clear();
-    lineToEvaluate.clear();
+    content.clear();
     variableName.clear();
     scope.clear();
 }
@@ -40,21 +39,40 @@ dataInterProcessToExchange::clear()
 bool
 dataInterProcessToExchange::isFullySerialized()
 {
-    if (commandType == "eval") {
+    switch (commandType) {
+    case OPEN_FILES: {
         return true;
-    }
-    if (commandType == "put") {
+    } break;
+    case LOAD_FILES: {
+        return true;
+    } break;
+    case RUN_FILES: {
+        return true;
+    } break;
+    case EVAL: {
+        return true;
+    } break;
+    case GET: {
+        return true;
+    } break;
+    case PUT:
+    case GET_ANSWER:
+    case IS_VAR_ANSWER: {
         return fullySerialized;
-    }
-    if (commandType == "isvar") {
+    } break;
+    case IS_VAR: {
         return true;
-    } else if (commandType == "isvar_answer") {
+    } break;
+    case IS_MINIMIZED: {
         return true;
-    } else if (commandType == "get") {
+    } break;
+    case IS_MINIMIZED_ANSWER: {
         return true;
-    } else if (commandType == "get_answer") {
-        return fullySerialized;
-    }
+    } break;
+    case SET_MINIMIZE: {
+        return true;
+    } break;
+    default: { } break; }
     return false;
 }
 //=============================================================================

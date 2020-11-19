@@ -1,3 +1,30 @@
+# 0.4.11 (2020-11-XX)
+
+  * Nelson Engine API for C (compatible with MEX Engine 100%).
+    - engSetVisible,
+    - engGetVisible,
+    - engEvalString,
+    - engOutputBuffer.
+
+  * ```sha256``` builtin: get sha256 checksum of a file or a string.
+
+  * ```ipc``` extended with ```minimize``` argument.
+
+Bug Fixes:
+---------
+
+  * [#342](http://github.com/Nelson-numerical-software/nelson/issues/342): disable slicot on Macos CI.
+
+  * [#341](http://github.com/Nelson-numerical-software/nelson/issues/341): extend ```ipc(pid, 'post', cmd, scope)``` to manage scope destination.
+
+  * [#314](http://github.com/Nelson-numerical-software/nelson/issues/314): Nelson crashs randomly at exit with Qt 5.15.0
+
+Compilation:
+------------
+
+  * Qt 5.15.1 on Windows (AppVeyor CI).
+
+
 # 0.4.10 (2020-10-29)
 
   * [IN PROGRESS] Nelson Engine API for C (compatible with MEX Engine).

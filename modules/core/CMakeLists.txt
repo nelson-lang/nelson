@@ -38,7 +38,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include/picoSHA2)
 # ==============================================================================
 file(GLOB CORE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
@@ -73,7 +74,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${CORE_BUILTIN})
 # ==============================================================================
@@ -87,6 +89,7 @@ target_link_libraries(
   nlsTypes
   nlsI18n
   nlsApi_nelson
+  nlsData_structures
   nlsOverload)
 # ==============================================================================
 set_target_properties(

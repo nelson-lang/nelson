@@ -29,8 +29,11 @@
 //=============================================================================
 #include "nlsIpc_exports.h"
 #include "ArrayOf.hpp"
+#include "DataInterProcessToExchange.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+#define NELSON_COMMAND_INTERPROCESS "NELSON_COMMAND_INTERPROCESS"
 //=============================================================================
 NLSIPC_IMPEXP
 bool
@@ -46,14 +49,32 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
-sendCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
-    bool withEventsLoop, std::wstring& errorMessage);
+postCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
+    const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
+evalCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& command,
+    bool withEventsLoop, std::wstring& result, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendEvalAnswerToNelsonInterprocessReceiver(int pidDestination, const std::wstring& content);
+//=============================================================================
+NLSIPC_IMPEXP bool
 sendVariableToNelsonInterprocessReceiver(int pidDestination, const ArrayOf& var,
     const std::wstring& name, const std::wstring& scope, bool withEventsLoop,
     std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendMinimizeToNelsonInterprocessReceiver(
+    int pidDestination, bool minimize, bool withEventsLoop, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+isMinimizedFromNelsonInterprocessReceiver(
+    int pidDestination, bool withEventsLoop, std::wstring& errorMessage);
 //=============================================================================
 NLSIPC_IMPEXP
 bool
@@ -68,6 +89,11 @@ NLSIPC_IMPEXP
 ArrayOf
 getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring& name,
     const std::wstring& scope, bool withEventsLoop, std::wstring& errorMessage);
+//=============================================================================
+NLSIPC_IMPEXP
+bool
+sendCommandFileExtensionToNelsonInterprocessReceiver(int pidDestination,
+    NELSON_INTERPROCESS_COMMAND commandType, const std::vector<std::wstring>& filenames);
 //=============================================================================
 }
 //=============================================================================

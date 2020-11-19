@@ -28,167 +28,301 @@
 #include "NelsonInterprocess.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonPIDs.hpp"
+#include "NelsonInterprocess.hpp"
+#include "EvaluateCommand.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// ipc(pid, 'eval', cmd)
-// ipc(pid, 'put', var, name [, scope = current])
-// V = ipc(pid, 'get', name [, scope = current])
-// B = ipc(pid, 'isvar', name [, scope = current])
-ArrayOfVector
-Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static NELSON_INTERPROCESS_COMMAND
+commandTypeToValueSwitch(const std::wstring& command)
 {
+    if (command == L"post") {
+        return NELSON_INTERPROCESS_COMMAND::POST_COMMAND;
+    }
+    if (command == L"eval") {
+        return NELSON_INTERPROCESS_COMMAND::EVAL;
+    }
+    if (command == L"eval_answer") {
+        return NELSON_INTERPROCESS_COMMAND::EVAL_ANSWER;
+    }
+    if (command == L"put") {
+        return NELSON_INTERPROCESS_COMMAND::PUT;
+    }
+    if (command == L"get") {
+        return NELSON_INTERPROCESS_COMMAND::GET;
+    }
+    if (command == L"isvar") {
+        return NELSON_INTERPROCESS_COMMAND::IS_VAR;
+    }
+    if (command == L"minimize") {
+        return NELSON_INTERPROCESS_COMMAND::SET_MINIMIZE;
+    }
+    return NELSON_INTERPROCESS_COMMAND::UNKNOWN;
+}
+//=============================================================================
+static ArrayOfVector
+ipcBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    // R = ipc(pid, 'minimize')
+    ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    int32 pid = param1.getContentAsInteger32Scalar();
+    if (!isPIDRunning(pid)) {
+        Error(_W("PID valid expected."));
+    }
+    std::wstring commandType = param2.getContentAsWideString();
+    if (commandType == L"minimize") {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring errorMessage;
+        bool r
+            = isMinimizedFromNelsonInterprocessReceiver(pid, eval->haveEventsLoop(), errorMessage);
+        if (!errorMessage.empty()) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+        retval.push_back(ArrayOf::logicalConstructor(r));
+    } else {
+        Error(_W("#2 parameter invalid: 'minimize' parameter expected."));
+    }
+    return retval;
+}
+//=============================================================================
+static ArrayOfVector
+ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    // ipc(pid, 'post', cmd)
+    // ipc(pid_destination, 'eval_answer', cmd_to_evaluate)
+    // R = ipc(pid, 'eval', cmd)
+    // V = ipc(pid, 'get', name)
+    // B = ipc(pid, 'isvar', name)
+    // ipc(pid, 'minimize', TF)
+    ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    ArrayOf param3 = argIn[2];
+    int32 pid = param1.getContentAsInteger32Scalar();
+    if (!isPIDRunning(pid)) {
+        Error(_W("PID valid expected."));
+    }
+    std::wstring commandType = param2.getContentAsWideString();
+    switch (commandTypeToValueSwitch(commandType)) {
+    case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring errorMessage;
+        bool r = postCommandToNelsonInterprocessReceiver(
+            pid, command, L"base", eval->haveEventsLoop(), errorMessage);
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::EVAL: {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring errorMessage;
+        std::wstring result;
+        bool r = false;
+        if (pid == getCurrentPID()) {
+            EvaluateConsoleCommandToString(eval, command, result);
+            r = true;
+        } else {
+            r = evalCommandToNelsonInterprocessReceiver(
+                pid, command, eval->haveEventsLoop(), result, errorMessage);
+        }
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+        retval.push_back(ArrayOf::characterArrayConstructor(result));
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::EVAL_ANSWER: {
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring contentResult;
+        std::wstring errorMessage;
+        EvaluateConsoleCommandToString(eval, command, contentResult);
+        bool r = sendEvalAnswerToNelsonInterprocessReceiver(pid, contentResult);
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::SET_MINIMIZE: {
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        bool minimize = param3.getContentAsLogicalScalar() != 0U;
+        std::wstring errorMessage;
+        bool r = sendMinimizeToNelsonInterprocessReceiver(
+            pid, minimize, eval->haveEventsLoop(), errorMessage);
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
+        }
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::GET: {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring name = param3.getContentAsWideString();
+        if (!IsValidVariableName(name)) {
+            Error(_W("#3 Argument must contain a valid variable name."));
+        }
+        std::wstring errorMessage;
+        ArrayOf result = getVariableFromNelsonInterprocessReceiver(
+            pid, name, L"local", eval->haveEventsLoop(), errorMessage);
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+        retval.push_back(result);
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::IS_VAR: {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring name = param3.getContentAsWideString();
+        if (!IsValidVariableName(name)) {
+            Error(_W("#3 Argument must contain a valid variable name."));
+        }
+        std::wstring errorMessage;
+        bool result = isVariableFromNelsonInterprocessReceiver(
+            pid, name, L"local", eval->haveEventsLoop(), errorMessage);
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+        retval.push_back(ArrayOf::logicalConstructor(result));
+    } break;
+    default: {
+        Error(_W(
+            "#2 parameter invalid: 'post', 'eval', 'put', 'get', 'minimize' or 'isvar' parameter "
+            "expected."));
+    } break;
+    }
+    return retval;
+}
+//=============================================================================
+static ArrayOfVector
+ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    // ipc(pid, 'post', cmd, scope)
+    // ipc(pid, 'put', var, name)
+    // V = ipc(pid, 'get', name, scope)
+    // B = ipc(pid, 'isvar', name, scope)
     ArrayOfVector retval;
     int32 pid;
-    std::wstring command;
-    switch (argIn.size()) {
-    case 3: {
-        // ipc(pid, 'eval', cmd)
-        // V = ipc(pid, 'get', name)
-        // B = ipc(pid, 'isvar', name)
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        ArrayOf param3 = argIn[2];
-        pid = param1.getContentAsInteger32Scalar();
-        if (!isPIDRunning(pid)) {
-            Error(_W("PID valid expected."));
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    ArrayOf param3 = argIn[2];
+    ArrayOf param4 = argIn[3];
+    pid = param1.getContentAsInteger32Scalar();
+    if (!isPIDRunning(pid)) {
+        Error(_W("PID valid expected."));
+    }
+    std::wstring commandType = param2.getContentAsWideString();
+    switch (commandTypeToValueSwitch(commandType)) {
+    case NELSON_INTERPROCESS_COMMAND::PUT: {
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        std::wstring commandType = param2.getContentAsWideString();
-        if (commandType == L"eval") {
-            if (nLhs != 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-            command = param3.getContentAsWideString();
-            std::wstring errorMessage;
-            bool r = sendCommandToNelsonInterprocessReceiver(
-                pid, command, eval->haveEventsLoop(), errorMessage);
-            if (!r) {
-                Error(_W("Command not sent.") + errorMessage);
-            }
-        } else if (commandType == L"get") {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-            std::wstring name = param3.getContentAsWideString();
-            if (!IsValidVariableName(name)) {
-                Error(_W("#3 Argument must contain a valid variable name."));
-            }
-            std::wstring errorMessage;
-            ArrayOf result = getVariableFromNelsonInterprocessReceiver(
-                pid, name, L"local", eval->haveEventsLoop(), errorMessage);
-            if (!errorMessage.empty()) {
-                Error(errorMessage);
-            }
-            retval.push_back(result);
-        } else if (commandType == L"isvar") {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-            std::wstring name = param3.getContentAsWideString();
-            if (!IsValidVariableName(name)) {
-                Error(_W("#3 Argument must contain a valid variable name."));
-            }
-            std::wstring errorMessage;
-            bool result = isVariableFromNelsonInterprocessReceiver(
-                pid, name, L"local", eval->haveEventsLoop(), errorMessage);
-            if (!errorMessage.empty()) {
-                Error(errorMessage);
-            }
-            retval.push_back(ArrayOf::logicalConstructor(result));
-        } else {
-            Error(_W("#2 parameter invalid: 'eval', 'put', 'get', or 'isvar' parameter expected."));
+        std::wstring name = param4.getContentAsWideString();
+        if (!IsValidVariableName(name)) {
+            Error(_W("#4 Argument must contain a valid variable name."));
+        }
+        std::wstring errorMessage;
+        bool r = sendVariableToNelsonInterprocessReceiver(
+            pid, param3, name, L"local", eval->haveEventsLoop(), errorMessage);
+        if (!r) {
+            Error(_W("Variable not sent.") + errorMessage);
         }
     } break;
-    case 4: {
-        // ipc(pid, 'put', var, name)
-        // V = ipc(pid, 'get', name, scope)
-        // B = ipc(pid, 'isvar', name, scope)
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        ArrayOf param3 = argIn[2];
-        ArrayOf param4 = argIn[3];
-        pid = param1.getContentAsInteger32Scalar();
-        if (!isPIDRunning(pid)) {
-            Error(_W("PID valid expected."));
+    case NELSON_INTERPROCESS_COMMAND::GET: {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        std::wstring commandType = param2.getContentAsWideString();
-        if (commandType == L"put") {
-            if (nLhs != 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-            std::wstring name = param4.getContentAsWideString();
-            if (!IsValidVariableName(name)) {
-                Error(_W("#4 Argument must contain a valid variable name."));
-            }
-            std::wstring errorMessage;
-            bool r = sendVariableToNelsonInterprocessReceiver(
-                pid, param3, name, L"local", eval->haveEventsLoop(), errorMessage);
-            if (!r) {
-                Error(_W("Variable not sent.") + errorMessage);
-            }
-        } else if (commandType == L"get") {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-            std::wstring name = param3.getContentAsWideString();
-            if (!IsValidVariableName(name)) {
-                Error(_W("#3 Argument must contain a valid variable name."));
-            }
-            std::wstring scope = param4.getContentAsWideString();
-            bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
-                || (scope == L"local"));
-            if (!supported) {
-                Error(_W("#4 Argument must contain a valid scope name."));
-            }
-            std::wstring errorMessage;
-            ArrayOf result = getVariableFromNelsonInterprocessReceiver(
-                pid, name, scope, eval->haveEventsLoop(), errorMessage);
-            if (!errorMessage.empty()) {
-                Error(errorMessage);
-            }
-            retval.push_back(result);
-
-        } else if (commandType == L"isvar") {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
-            std::wstring name = param3.getContentAsWideString();
-            if (!IsValidVariableName(name)) {
-                Error(_W("#3 Argument must contain a valid variable name."));
-            }
-            std::wstring scope = param4.getContentAsWideString();
-            bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
-                || (scope == L"local"));
-            if (!supported) {
-                Error(_W("#4 Argument must contain a valid scope name."));
-            }
-            std::wstring errorMessage;
-            bool result = isVariableFromNelsonInterprocessReceiver(
-                pid, name, scope, eval->haveEventsLoop(), errorMessage);
-            if (!errorMessage.empty()) {
-                Error(errorMessage);
-            }
-            retval.push_back(ArrayOf::logicalConstructor(result));
-
-        } else {
-            Error(_W("#2 parameter invalid: 'put', 'get', or 'isvar' parameter expected."));
+        std::wstring name = param3.getContentAsWideString();
+        if (!IsValidVariableName(name)) {
+            Error(_W("#3 Argument must contain a valid variable name."));
+        }
+        std::wstring scope = param4.getContentAsWideString();
+        bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
+            || (scope == L"local"));
+        if (!supported) {
+            Error(_W("#4 Argument must contain a valid scope name."));
+        }
+        std::wstring errorMessage;
+        ArrayOf result = getVariableFromNelsonInterprocessReceiver(
+            pid, name, scope, eval->haveEventsLoop(), errorMessage);
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+        retval.push_back(result);
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::IS_VAR: {
+        if (nLhs > 1) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring name = param3.getContentAsWideString();
+        if (!IsValidVariableName(name)) {
+            Error(_W("#3 Argument must contain a valid variable name."));
+        }
+        std::wstring scope = param4.getContentAsWideString();
+        bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
+            || (scope == L"local"));
+        if (!supported) {
+            Error(_W("#4 Argument must contain a valid scope name."));
+        }
+        std::wstring errorMessage;
+        bool result = isVariableFromNelsonInterprocessReceiver(
+            pid, name, scope, eval->haveEventsLoop(), errorMessage);
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+        retval.push_back(ArrayOf::logicalConstructor(result));
+    } break;
+    case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        std::wstring command = param3.getContentAsWideString();
+        std::wstring scope = param4.getContentAsWideString();
+        bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
+            || (scope == L"local"));
+        if (!supported) {
+            Error(_W("#4 Argument must contain a valid scope name."));
+        }
+        std::wstring errorMessage;
+        bool r = postCommandToNelsonInterprocessReceiver(
+            pid, command, scope, eval->haveEventsLoop(), errorMessage);
+        if (!r) {
+            Error(_W("Command not sent.") + errorMessage);
         }
     } break;
-    case 5: {
-        // ipc(pid, 'put', var, name , scope)
-        ArrayOf param1 = argIn[0]; // pid
-        ArrayOf param2 = argIn[1]; // put
-        ArrayOf param3 = argIn[2]; // var
-        ArrayOf param4 = argIn[3]; // name
-        ArrayOf param5 = argIn[4]; // scope
-        pid = param1.getContentAsInteger32Scalar();
-        if (!isPIDRunning(pid)) {
-            Error(_W("PID valid expected."));
-        }
-        std::wstring commandType = param2.getContentAsWideString();
-        if (commandType != L"put") {
-            Error(_W("#2 parameter invalid: 'put' parameter expected."));
-        }
+    default: {
+        Error(_W("#2 parameter invalid: 'put', 'get', 'post' or 'isvar' parameter expected."));
+    } break;
+    }
+    return retval;
+}
+//=============================================================================
+static ArrayOfVector
+ipcBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    // ipc(pid, 'put', var, name , scope)
+    ArrayOfVector retval;
+    ArrayOf param1 = argIn[0]; // pid
+    ArrayOf param2 = argIn[1]; // put
+    ArrayOf param3 = argIn[2]; // var
+    ArrayOf param4 = argIn[3]; // name
+    ArrayOf param5 = argIn[4]; // scope
+    int32 pid = param1.getContentAsInteger32Scalar();
+    if (!isPIDRunning(pid)) {
+        Error(_W("PID valid expected."));
+    }
+    std::wstring commandType = param2.getContentAsWideString();
+    switch (commandTypeToValueSwitch(commandType)) {
+    case NELSON_INTERPROCESS_COMMAND::PUT: {
         std::wstring name = param4.getContentAsWideString();
         if (!IsValidVariableName(name)) {
             Error(_W("#4 Argument must contain a valid variable name."));
@@ -208,6 +342,38 @@ Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& a
         if (!r) {
             Error(_W("Variable not sent.") + errorMessage);
         }
+        return retval;
+    } break;
+    default: {
+        Error(_W("#2 parameter invalid: 'put' parameter expected."));
+    } break;
+    }
+    return retval;
+}
+//=============================================================================
+// V = ipc(pid, 'eval', cmd)
+// ipc(pid, 'post', cmd)
+// ipc(pid, 'put', var, name [, scope = current])
+// V = ipc(pid, 'get', name [, scope = current])
+// B = ipc(pid, 'isvar', name [, scope = current])
+// V = ipc(pid, 'minimize')
+// ipc(pid, 'minimize', TF)
+ArrayOfVector
+Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    switch (argIn.size()) {
+    case 2: {
+        return ipcBuiltinTwoRhs(eval, nLhs, argIn);
+    } break;
+    case 3: {
+        return ipcBuiltinThreeRhs(eval, nLhs, argIn);
+    } break;
+    case 4: {
+        return ipcBuiltinFourRhs(eval, nLhs, argIn);
+    } break;
+    case 5: {
+        return ipcBuiltinFiveRhs(eval, nLhs, argIn);
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

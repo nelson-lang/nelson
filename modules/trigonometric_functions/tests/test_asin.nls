@@ -28,12 +28,11 @@ assert_isequal(nargout('asin'), 1);
 //=============================================================================
 assert_isequal(asin(NaN), NaN);
 assert_isequal(asin(-NaN), NaN);
-if ismac()
+if ismac() || ispc()
+  // Visual Studio 2019 16.8.1 required
   assert_isequal(asin(Inf), complex(pi * 0.5, Inf));
 else
-  if ispc()
-    assert_isequal(asin(Inf), complex(pi * 0.5, -Inf));
-  else
+  if ~ispc()
     assert_isequal(real(asin(Inf)), real(pi * 0.5));
   end
 end

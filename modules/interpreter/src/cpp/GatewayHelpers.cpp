@@ -38,7 +38,7 @@ NelsonAddGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void* g
     auto* _eval = (Nelson::Evaluator*)eval;
     Context* ctx = _eval->getContext();
     if (ctx != nullptr) {
-        for (size_t k = 0; k < nbBuiltins; k++) {
+        for (size_t k = 0; k < (size_t)nbBuiltins; k++) {
             Nelson::BuiltInFunctionDefManager::getInstance()->add(_gateway[k].functionName,
                 _gateway[k].fptr, _gateway[k].nRhs, _gateway[k].nLhs, moduleFilename, gatewayName,
                 (size_t)_gateway[k].builtinPrototype, true);
@@ -61,7 +61,7 @@ NelsonRemoveGatewayWithEvaluator(void* eval, const wchar_t* moduleFilename, void
     auto* _eval = (Nelson::Evaluator*)eval;
     Context* ctx = _eval->getContext();
     if (ctx != nullptr) {
-        for (size_t k = 0; k < nbBuiltins; ++k) {
+        for (size_t k = 0; k < (size_t)nbBuiltins; ++k) {
             Nelson::BuiltInFunctionDefManager::getInstance()->remove(_gateway[k].fptr);
         }
         if ((void*)ptrFinishFunction != nullptr) {

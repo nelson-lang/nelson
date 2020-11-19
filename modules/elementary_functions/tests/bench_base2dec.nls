@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--INDEX 64 BIT REQUIRED-->
+//=============================================================================
 A = strings(1000, 1000);
 A(A == "") = "A1";
 base2dec(A, 16);

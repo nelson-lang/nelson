@@ -82,6 +82,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${ENGINE_BUILTIN})
@@ -93,6 +94,7 @@ target_link_libraries(
   nlsI18n
   nlsInterpreter
   nlsNelson_manager
+  nlsCore
   nlsTypes)
 # ==============================================================================
 set_target_properties(

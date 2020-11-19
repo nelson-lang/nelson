@@ -25,12 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "nlsOs_functions_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
-NLSOS_FUNCTIONS_IMPEXP ArrayOf
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP std::wstring
 SystemCommand(const std::wstring& command, int& ierr, bool withLoopEvents);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -149,18 +149,26 @@ QtMainWindow::QtMainWindow(bool minimized)
     setMinimumSize(640, 480);
     resize(840, 600);
     if (minimized) {
+        // https://bugreports.qt.io/browse/QTBUG-76354
+#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
+        setWindowState(Qt::WindowMinimized);
+        setVisible(true);
+#else
         showMinimized();
+#endif
+#else
+        showMinimized();
+#endif
     } else {
         show();
     }
     show();
     qtTerminal->show();
     bClosed = false;
-#if defined __APPLE__ || defined _MSC_VER
-    QString fileNameIcon = nelsonPath + "/resources/fibonacci.png";
+    QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon icon(fileNameIcon);
     setWindowIcon(icon);
-#endif
     setAcceptDrops(true);
 }
 //=============================================================================

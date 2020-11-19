@@ -26,23 +26,20 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <vector>
 #include "nlsIpc_exports.h"
 //=============================================================================
-namespace Nelson {
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    //=============================================================================
+    NLSIPC_IMPEXP bool
+    setNelsonMinimizedDynamicFunction(bool minimize);
+    //===================================================================================
+    NLSIPC_IMPEXP bool
+    getNelsonMinimizedDynamicFunction();
 //=============================================================================
-NLSIPC_IMPEXP
-void
-createNelsonCommandFileExtensionReceiver(int pid);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-removeNelsonCommandFileExtensionReceiver(int pid);
-//=============================================================================
-NLSIPC_IMPEXP
-bool
-sendCommandToFileExtensionReceiver(
-    int pidDestination, const std::string& commandType, const std::vector<std::wstring>& filenames);
-//=============================================================================
+#ifdef __cplusplus
 }
+#endif
 //=============================================================================
