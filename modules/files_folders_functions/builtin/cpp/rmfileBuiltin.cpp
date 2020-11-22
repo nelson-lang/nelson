@@ -46,7 +46,7 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     switch (nLhs) {
     case 0: {
         bRes = RemoveFile(filenameToDelete, msg);
-        if (bRes == false) {
+        if (static_cast<int>(bRes) == false) {
             Error(msg);
         }
     } break;

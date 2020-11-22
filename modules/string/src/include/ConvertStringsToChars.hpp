@@ -33,5 +33,8 @@ namespace Nelson {
 NLSSTRING_IMPEXP ArrayOfVector
 ConvertStringsToChars(const ArrayOfVector& A);
 //=============================================================================
+NLSSTRING_IMPEXP ArrayOf
+ConvertStringsToChars(const ArrayOf& A);
+//=============================================================================
 }
 //=============================================================================

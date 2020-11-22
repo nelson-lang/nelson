@@ -68,7 +68,7 @@ FileDiff(const std::wstring& filename1, const std::wstring& filename2, logical e
 #endif
     elem buf;
     sequence ALines, BLines;
-    if (!eolcompare) {
+    if (eolcompare == 0u) {
         while (safegetline(Aifs, buf)) {
             ALines.push_back(buf);
         }
