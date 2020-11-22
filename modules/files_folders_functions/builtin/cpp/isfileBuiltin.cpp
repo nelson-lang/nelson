@@ -58,7 +58,8 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf cell(argIn[0]);
                     auto* arg = (ArrayOf*)(cell.getDataPointer());
                     if (arg[k].isRowVectorCharacterArray()) {
-                        bmat[k] = IsFile(arg[k].getContentAsWideString());
+                        bmat[k]
+                            = static_cast<Nelson::logical>(IsFile(arg[k].getContentAsWideString()));
                     } else {
                         delete[] bmat;
                         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);

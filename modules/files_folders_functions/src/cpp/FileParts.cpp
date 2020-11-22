@@ -47,10 +47,10 @@ FilePartsFilename(const std::wstring& fullpath)
     if (pathToSplit.has_filename()) {
         res = pathToSplit.stem().generic_wstring();
     }
-    if (res.compare(L".") == 0) {
+    if (res == L".") {
         res = L"";
     }
-    if (res.compare(L"/") == 0 || res.compare(L"\\") == 0) {
+    if (res == L"/" || res == L"\\") {
         res = L"";
     }
     return res;
@@ -73,7 +73,7 @@ FileParts(const std::wstring& fullpath, std::wstring& path, std::wstring& filena
 {
     path = FilePartsPath(fullpath);
     filename = FilePartsFilename(fullpath);
-    if (path.compare(L"") == 0 && (filename.size() > 1 && filename[1] == L':')) {
+    if (path == L"" && (filename.size() > 1 && filename[1] == L':')) {
         path = filename;
         filename = L"";
     }

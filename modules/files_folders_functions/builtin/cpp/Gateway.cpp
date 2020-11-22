@@ -41,6 +41,7 @@
 #include "tempdirBuiltin.hpp"
 #include "userdirBuiltin.hpp"
 #include "fullpathBuiltin.hpp"
+#include "fullfileBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -65,6 +66,7 @@ static const nlsGateway gateway[] = {
     { "fullpath", (void*)Nelson::FilesFoldersGateway::fullpathBuiltin, 1, 1 },
     { "tempdir", (void*)Nelson::FilesFoldersGateway::tempdirBuiltin, 1, 0 },
     { "userdir", (void*)Nelson::FilesFoldersGateway::userdirBuiltin, 1, 0 },
+    { "fullfile", (void*)Nelson::FilesFoldersGateway::fullfileBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

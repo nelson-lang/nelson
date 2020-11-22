@@ -42,11 +42,11 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
             }
             if (argIn[1].isRowVectorCharacterArray()) {
                 wtype = argIn[1].getContentAsWideString();
-                if (wtype.compare(L"path") == 0) {
+                if (wtype == L"path") {
                     // OK
-                } else if (wtype.compare(L"filename") == 0) {
+                } else if (wtype == L"filename") {
                     // OK
-                } else if (wtype.compare(L"extension") == 0) {
+                } else if (wtype == L"extension") {
                     // OK
                 } else {
                     Error(_W("Argument #2 must contain a valid string 'path', 'filename' or "
@@ -78,11 +78,11 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
                 retval.push_back(ArrayOf::characterArrayConstructor(resextension));
             }
         } else {
-            if (wtype.compare(L"path") == 0) {
+            if (wtype == L"path") {
                 retval.push_back(ArrayOf::characterArrayConstructor(respath));
-            } else if (wtype.compare(L"filename") == 0) {
+            } else if (wtype == L"filename") {
                 retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
-            } else if (wtype.compare(L"extension") == 0) {
+            } else if (wtype == L"extension") {
                 retval.push_back(ArrayOf::characterArrayConstructor(resextension));
             }
         }

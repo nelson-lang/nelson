@@ -23,59 +23,60 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ConvertStringsToChars.hpp"
-#include "Exception.hpp"
-#include "nlsConfig.h"
+#include <boost/algorithm/string.hpp>
+#include "FullFile.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-ConvertStringsToChars(const ArrayOf& A)
-{
-    ArrayOf res;
-    if (A.isStringArray()) {
-        Dimensions dims = A.getDimensions();
-        if (dims.isEmpty(false)) {
-            res = ArrayOf(NLS_CELL_ARRAY, dims, nullptr);
-        } else if (dims.isScalar()) {
-            auto* elementsStr = (ArrayOf*)A.getDataPointer();
-            ArrayOf element = elementsStr[0];
-            if (element.getDataClass() == NLS_CHAR) {
-                res = ArrayOf::characterArrayConstructor(element.getContentAsWideString());
-            } else {
-                res = ArrayOf::characterArrayConstructor("");
-            }
-        } else {
-            auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
-            ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
-            auto* elementsStr = (ArrayOf*)A.getDataPointer();
-            ompIndexType elementCount = dims.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
+#if _MSC_VER
+#define FILE_SEPW L"\\"
+#else
+#define FILE_SEPW L"/"
 #endif
-            for (ompIndexType q = 0; q < elementCount; q++) {
-                if (elementsStr[q].getDataClass() == NLS_CHAR) {
-                    elementsCell[q] = elementsStr[q];
-                } else {
-                    elementsCell[q] = ArrayOf::characterArrayConstructor("");
-                }
-            }
-            res = valueAsCell;
-        }
-    } else {
-        res = A;
+//=============================================================================
+static std::wstring
+FullFilename(const std::wstring& path)
+{
+    std::wstring result = path;
+    bool haveSeparatorAtTheEnd
+        = boost::algorithm::ends_with(path, L"\\") || boost::algorithm::ends_with(path, L"/");
+#if _MSC_VER
+    bool isUNC = boost::algorithm::starts_with(path, L"\\\\");
+    boost::replace_all(result, L"/", FILE_SEPW);
+    boost::replace_all(result, L"\\.\\", L"");
+    while (boost::algorithm::contains(result, L"\\\\")) {
+        boost::replace_all(result, L"\\\\", FILE_SEPW);
     }
-    return res;
+    if (isUNC) {
+        boost::replace_first(result, FILE_SEPW, L"\\\\");
+    }
+#else
+    boost::replace_all(result, L"\\", FILE_SEPW);
+    boost::replace_all(result, L"/./", L"");
+    while (boost::algorithm::contains(result, L"//")) {
+        boost::replace_all(result, L"//", FILE_SEPW);
+    }
+
+#endif
+    if (haveSeparatorAtTheEnd && !boost::algorithm::ends_with(result, FILE_SEPW)) {
+        result = result + FILE_SEPW;
+    }
+    return result;
 }
 //=============================================================================
-ArrayOfVector
-ConvertStringsToChars(const ArrayOfVector& A)
+std::wstring
+FullFile(const wstringVector& parts)
 {
-    ArrayOfVector res;
-    for (auto value : A) {
-        res.push_back(ConvertStringsToChars(value));
+    std::wstring result;
+    indexType nbParts = parts.size();
+    for (indexType k = 0; k < nbParts; ++k) {
+        if (k == 0) {
+            result = parts[k];
+        } else {
+            result = result + FILE_SEPW + parts[k];
+        }
     }
-    return res;
+    return FullFilename(result);
 }
 //=============================================================================
 } // namespace Nelson

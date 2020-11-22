@@ -175,6 +175,7 @@
     <ClInclude Include="..\include\FileDiff.hpp" />
     <ClInclude Include="..\include\FileInfo.hpp" />
     <ClInclude Include="..\include\FileParts.hpp" />
+    <ClInclude Include="..\include\FullFile.hpp" />
     <ClInclude Include="..\include\ListFiles.hpp" />
     <ClInclude Include="..\include\MakeDirectory.hpp" />
     <ClInclude Include="..\include\NormalizePath.hpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\cpp\FileDiff.cpp" />
     <ClCompile Include="..\cpp\FileInfo.cpp" />
     <ClCompile Include="..\cpp\FileParts.cpp" />
+    <ClCompile Include="..\cpp\FullFile.cpp" />
     <ClCompile Include="..\cpp\GetCurrentDirectory.cpp" />
     <ClCompile Include="..\cpp\GetSystemTemporaryDirectory.cpp" />
     <ClCompile Include="..\cpp\GetUserDirectory.cpp" />

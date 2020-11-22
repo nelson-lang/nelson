@@ -10,6 +10,8 @@
 
   * ```ipc``` extended with ```minimize``` argument.
 
+  * ```fullfile``` builtin: build full file name from parts. 
+
 Bug Fixes:
 ---------
 

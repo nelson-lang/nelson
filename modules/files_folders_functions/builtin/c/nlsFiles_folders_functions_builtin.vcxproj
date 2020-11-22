@@ -173,6 +173,7 @@
     <ClCompile Include="..\cpp\diff_fileBuiltin.cpp" />
     <ClCompile Include="..\cpp\filepartsBuiltin.cpp" />
     <ClCompile Include="..\cpp\filesepBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fullfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\isdirBuiltin.cpp" />
     <ClCompile Include="..\cpp\isfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="..\include\diff_fileBuiltin.hpp" />
     <ClInclude Include="..\include\filepartsBuiltin.hpp" />
     <ClInclude Include="..\include\filesepBuiltin.hpp" />
+    <ClInclude Include="..\include\fullfileBuiltin.hpp" />
     <ClInclude Include="..\include\fullpathBuiltin.hpp" />
     <ClInclude Include="..\include\isdirBuiltin.hpp" />
     <ClInclude Include="..\include\isfileBuiltin.hpp" />

@@ -211,7 +211,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             bool
             operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
             {
-                return a.isDir() > b.isDir();
+                return static_cast<int>(a.isDir()) > static_cast<int>(b.isDir());
             }
         } customIsDirLess;
         if (!res.empty()) {
