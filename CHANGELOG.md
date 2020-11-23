@@ -1,4 +1,4 @@
-# 0.4.11 (2020-11-XX)
+# 0.4.11 (2020-11-24)
 
   * Nelson Engine API for C (compatible with MEX Engine 100%).
     - engSetVisible,
@@ -10,7 +10,7 @@
 
   * ```ipc``` extended with ```minimize``` argument.
 
-  * ```fullfile``` builtin: build full file name from parts. 
+  * ```fullfile``` builtin: build full file name from parts.
 
 Bug Fixes:
 ---------
