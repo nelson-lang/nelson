@@ -16,8 +16,6 @@ file a new issue.
 
 ### [Windows](BUILDIN_Windows.md)
 
-
 You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.travis.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files to help you to see dependencies.
 
- [.travis.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.travis.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files are always more up-to-date than this help.
-
+[.travis.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.travis.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files are always more up-to-date than this help.

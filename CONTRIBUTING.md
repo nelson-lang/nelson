@@ -54,20 +54,21 @@ $ git commit
 The commit message should describe what changed and why.
 
 1. The first line should:
+
    - contain a short description of the change
    - be 50 characters or less
    - be entirely in lowercase with the exception of proper nouns, acronyms, and
-   the words that refer to code, like function/variable names
+     the words that refer to code, like function/variable names
    - be prefixed with the name of the changed subsystem and start with an
-   imperative verb. Check the output of `git log --oneline files/you/changed` to
-   find out what subsystems your changes touch.
+     imperative verb. Check the output of `git log --oneline files/you/changed` to
+     find out what subsystems your changes touch.
 
 2. Keep the second line blank.
 3. Wrap all other lines at 72 columns.
 
 4. If your patch fixes an open issue, you can add a reference to it at the end
-of the log. Use the `Fixes:` prefix and the full issue URL. For other references
-use `Refs:`.
+   of the log. Use the `Fixes:` prefix and the full issue URL. For other references
+   use `Refs:`.
 
 ### Step 4: Rebase
 
@@ -199,11 +200,11 @@ merged in.
 
 By making a contribution to this project, I certify that:
 
-* (a) The contribution was created in whole or in part by me and I
+- (a) The contribution was created in whole or in part by me and I
   have the right to submit it under the open source license
   indicated in the file; or
 
-* (b) The contribution is based upon previous work that, to the best
+- (b) The contribution is based upon previous work that, to the best
   of my knowledge, is covered under an appropriate open source
   license and I have the right under that license to submit that
   work with modifications, whether created in whole or in part
@@ -211,15 +212,15 @@ By making a contribution to this project, I certify that:
   permitted to submit under a different license), as indicated
   in the file; or
 
-* (c) The contribution was provided directly to me by some other
+- (c) The contribution was provided directly to me by some other
   person who certified (a), (b) or (c) and I have not modified
   it.
 
-* (d) I understand and agree that this project and the contribution
+- (d) I understand and agree that this project and the contribution
   are public and that a record of the contribution (including all
   personal information I submit with it, including my sign-off) is
   maintained indefinitely and may be redistributed consistent with
   this project or the open source license(s) involved.
 
-* (e) As contributor, you must agree a [Contributor Licensing Agreement](https://cla-assistant.io/Nelson-numerical-software/nelson).
-This CLA allows to main author(s) to re-licensing Nelson (GPLv3, LGPL, ...) without need to ask all others contributors.
+- (e) As contributor, you must agree a [Contributor Licensing Agreement](https://cla-assistant.io/Nelson-numerical-software/nelson).
+  This CLA allows to main author(s) to re-licensing Nelson (GPLv3, LGPL, ...) without need to ask all others contributors.

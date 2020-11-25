@@ -6,7 +6,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 ## Nelson 1.0
 
-*Features*:
+_Features_:
 
 - String array type (DONE v0.2.10),
 - Foreign Function Interface (DONE v0.2.4),

@@ -1,4 +1,4 @@
-### Third party modules and libraries used by Nelson. 
+### Third party modules and libraries used by Nelson.
 
 Nelson includes code from the following projects, which have their own licenses:
 
@@ -44,7 +44,7 @@ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
 
 > http://www.openblas.net/
 
-- fftw3.h 
+- fftw3.h
 
 FFTW header
 
@@ -172,7 +172,6 @@ International Components for Unicode
 
 > https://github.com/isagalaev/highlight.js/blob/master/LICENSE
 
-
 - dtl
 
 The Diff Template Library written by C++
@@ -192,22 +191,21 @@ The Diff Template Library written by C++
 > https://github.com/zserge/jsmn
 
 > https://github.com/zserge/jsmn/blob/master/LICENSE
-MIT license
+> MIT license
 
 - cpp-json-prettify
 
 > https://github.com/Borisas/cpp-json-prettify
 
 > https://github.com/Borisas/cpp-json-prettify/blob/master/license.txt
-MIT license
+> MIT license
 
 - Portaudio
 
 PortAudio is a free, cross-platform, open-source, audio I/O library
 
-> http://www.portaudio.com/
-> http://www.portaudio.com/license.html
-MIT license
+> http://www.portaudio.com/ > http://www.portaudio.com/license.html
+> MIT license
 
 - libsndfile
 
@@ -216,7 +214,7 @@ Libsndfile is a C library for reading and writing files containing sampled sound
 > http://www.mega-nerd.com/libsndfile/
 
 > https://github.com/erikd/libsndfile/blob/master/COPYING
-LGPL
+> LGPL
 
 - taglib
 
@@ -225,7 +223,7 @@ TagLib Audio Meta-Data Library
 > http://taglib.org/
 
 > https://github.com/taglib/taglib/blob/master/COPYING.LGPL
-LGPL
+> LGPL
 
 - Socket.IO C++ Client
 
@@ -235,7 +233,7 @@ C++11 implementation of Socket.IO client
 
 > https://github.com/llamerada-jp/socket.io-cpp-client-sample
 
->https://github.com/socketio/socket.io-client-cpp/blob/master/LICENSE (MIT)
+> https://github.com/socketio/socket.io-client-cpp/blob/master/LICENSE (MIT)
 
 - rapidJSON
 
@@ -261,15 +259,13 @@ libcurl - the multiprotocol file transfer library
 
 > https://curl.haxx.se/docs/copyright.html
 
-
 - libgit2
 
 libgit2 is a portable, pure C implementation of the Git core methods.
 
 > https://libgit2.org/
 
-> https://github.com/libgit2/libgit2/blob/master/COPYING  GPL with LINKING EXCEPTION
-
+> https://github.com/libgit2/libgit2/blob/master/COPYING GPL with LINKING EXCEPTION
 
 - semver.c
 
@@ -279,7 +275,6 @@ Semantic version v2.0 parser and render written in ANSI C with zero dependencies
 
 > https://github.com/h2non/semver.c/blob/master/LICENSE MIT license
 
-
 - asio
 
 Asio C++ Library
@@ -287,7 +282,6 @@ Asio C++ Library
 > http://think-async.com/Asio/
 
 > https://github.com/chriskohlhoff/asio/blob/master/asio/COPYING (Boost 1.0)
-
 
 - fifo_map
 
