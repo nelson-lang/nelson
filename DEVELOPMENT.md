@@ -20,13 +20,13 @@ see [BUILDING.md](https://github.com/Nelson-numerical-software/nelson/blob/maste
 
 ## Indent C/C++ code
 
-* on Macos X and Linux, you need to install clang-format > 3.8. On root directory:
+- on Macos X and Linux, you need to install clang-format > 3.8. On root directory:
 
 ```
 make clang-format
 ```
 
-* on Windows, go to /tools/clang_format directory
+- on Windows, go to /tools/clang_format directory
 
 ```
 clang_format.bat

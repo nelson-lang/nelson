@@ -1,5 +1,4 @@
-Individual Contributor License Agreement ("Agreement") V2.0
-============================================================
+# Individual Contributor License Agreement ("Agreement") V2.0
 
 Thank you for your interest in Nelson project being administered by
 Allan CORNET ("We" or "Us").
@@ -78,7 +77,7 @@ Contributions.
    separate Corporate CLA with Us.
 
 5. You represent that each of Your Contributions is Your original
-   creation (see section 7 for submissions on behalf of others).  You
+   creation (see section 7 for submissions on behalf of others). You
    represent that Your Contribution submissions include complete
    details of any third-party license or other restriction (including,
    but not limited to, related patents and trademarks) of which you
