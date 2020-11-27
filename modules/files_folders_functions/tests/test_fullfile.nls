@@ -26,12 +26,32 @@
 assert_isequal(nargin('fullfile'), -1);
 assert_isequal(nargout('fullfile'), 1);
 //=============================================================================
+R = fullfile([]);
+REF = '';
+assert_isequal(R, REF);
+//=============================================================================
+R = fullfile({});
+REF = {};
+assert_isequal(R, REF);
+//=============================================================================
 R = fullfile('');
 REF = '';
 assert_isequal(R, REF);
 //=============================================================================
 R = fullfile('.');
 REF = '.';
+assert_isequal(R, REF);
+//=============================================================================
+R = fullfile("rr");
+REF = "rr";
+assert_isequal(R, REF);
+//=============================================================================
+R = fullfile(["rr", string(NaN)]);
+REF = ["rr", ""];
+assert_isequal(R, REF);
+//=============================================================================
+R = fullfile(string(NaN));
+REF = "";
 assert_isequal(R, REF);
 //=============================================================================
 R = fullfile('./');
@@ -183,6 +203,14 @@ if ispc()
     REF = {'\home\username\data\f1.csv', '\home\username\f\f1.csv'; '\home\username\data2\f1.csv', '\home\username\f\f1.csv'};
 else
     REF = {'/home/username/data/f1.csv', '/home/username/f/f1.csv'; '/home/username/data2/f1.csv', '/home/username/f/f1.csv'};
+end
+assert_isequal(R, REF);
+//=============================================================================
+R = fullfile('/home/username', [string(NaN); "data2"], {'f1.csv'});
+if ispc()
+    REF = ["\home\username\f1.csv";  "\home\username\data2\f1.csv"];
+else
+    REF = ["/home/username/f1.csv";  "/home/username/data2/f1.csv"];
 end
 assert_isequal(R, REF);
 //=============================================================================

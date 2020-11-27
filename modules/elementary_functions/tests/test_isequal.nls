@@ -149,3 +149,11 @@ assert_isequal(isequal(int16(ones(3, 3, 3)), int32(ones(3, 3, 3))), true);
 assert_isequal(isequal(int32(ones(3, 3, 3)), int64(ones(3, 3, 3))), true);
 assert_isequal(isequal(int64(ones(3, 3, 3)), int8(ones(3, 3, 3))), true);
 //=============================================================================
+A = string(NaN);
+B = string(NaN);
+assert_isequal(isequal(A, B), true);
+//=============================================================================
+A = string(NaN);
+B = "";
+assert_isequal(isequal(A, B), false);
+//=============================================================================

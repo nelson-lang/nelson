@@ -53,7 +53,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
         }
         if (param4.isScalar() && param4.isLogical()) {
-            forceAsCell = param4.getContentAsLogicalScalar();
+            forceAsCell = (param4.getContentAsLogicalScalar() != 0u);
         } else {
             Error(ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED);
         }

@@ -23,47 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "matchesBuiltin.hpp"
-#include "Error.hpp"
-#include "StringMatches.hpp"
-#include "OverloadFunction.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::StringGateway::matchesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 2 && argIn.size() != 4) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-
-    bool ignoreCase = false;
-    if (argIn.size() == 4) {
-        ArrayOf param3 = argIn[2];
-        std::wstring fieldname = param3.getContentAsWideString();
-        if (fieldname != L"IgnoreCase") {
-            Error(_W("Wrong value for #3: 'IgnoreCase' expected."));
-        }
-        ArrayOf param4 = argIn[3];
-        ignoreCase = (param4.getContentAsLogicalScalar() != 0u);
-    }
-
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "matches", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf A = argIn[0];
-        ArrayOf B = argIn[1];
-        retval.push_back(StringMatches(A, B, ignoreCase));
-    }
-    return retval;
+namespace Nelson {
+//=============================================================================
+namespace StringGateway {
+    //=============================================================================
+    ArrayOfVector
+    appendBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -23,15 +23,21 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "fullfileBuiltin.hpp"
+#define _SCL_SECURE_NO_WARNINGS
+#define BOOST_UUID_RANDOM_GENERATOR_COMPAT // BOOST 1.67
+//=============================================================================
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <boost/algorithm/string.hpp>
+#include "strcatBuiltin.hpp"
 #include "Error.hpp"
-#include "FullFile.hpp"
 #include "ConvertStringsToChars.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.empty()) {
@@ -43,13 +49,15 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
     bool containsCellOrStringInput = false;
     bool containsStringInput = false;
     ArrayOfVector theInputs = argIn;
+    std::vector<Class> classType;
     for (auto& theInput : theInputs) {
+        classType.push_back(theInput.getDataClass());
         ArrayOf inputElement = theInput;
         containsCellOrStringInput = containsCellOrStringInput || inputElement.isCell();
         if (inputElement.isStringArray()) {
             containsStringInput = true;
             containsCellOrStringInput = true;
-            theInput = ConvertStringsToChars(theInput, false);
+            theInput = ConvertStringsToChars(theInput, true);
         } else if (inputElement.isCell()) {
             if (inputElement.isScalar()) {
                 ArrayOf* cells = (ArrayOf*)inputElement.getDataPointer();
@@ -63,13 +71,16 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
         }
     }
     if (!containsStringInput && !containsCellOrStringInput) {
-        wstringVector strs;
-        strs.reserve(theInputs.size());
+        std::wstring strs;
         for (auto& theInput : theInputs) {
-            strs.push_back(theInput.getContentAsArrayOfCharacters());
+            strs = strs.append(
+                boost::algorithm::trim_right_copy(theInput.getContentAsArrayOfCharacters()));
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(FullFile(strs)));
+        retval.push_back(ArrayOf::characterArrayConstructor(strs));
     } else {
+        boost::uuids::uuid uuid = boost::uuids::random_generator()();
+        std::wstring missing_str = boost::uuids::to_wstring(uuid);
+
         Dimensions dimsOutput;
         bool haveDimsOutput = false;
         for (auto theInput : theInputs) {
@@ -102,9 +113,14 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
         std::vector<wstringVector> vectorOfStringVector;
         vectorOfStringVector.reserve(theInputs.size());
 
-        for (auto v : theInputs) {
+        for (indexType k = 0; k < theInputs.size(); ++k) {
+            ArrayOf v = theInputs[k];
+            Class cl = classType[k];
             if (v.isCharacterArray()) {
                 std::wstring str = v.getContentAsWideString();
+                if (cl == NLS_CHAR) {
+                    boost::algorithm::trim_right(str);
+                }
                 wstringVector vstr;
                 vstr.reserve(nbElements);
                 for (indexType i = 0; i < nbElements; ++i) {
@@ -119,9 +135,21 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
                 for (indexType q = 0; q < nbCells; ++q) {
                     ArrayOf c = cells[q];
                     if (c.isCharacterArray()) {
-                        vstr.push_back(c.getContentAsWideString());
-                    } else {
-                        if (c.isEmpty()) {
+                        std::wstring s = c.getContentAsWideString();
+                        if (cl == NLS_CHAR) {
+                            boost::algorithm::trim_right(s);
+                        }
+                        vstr.push_back(s);
+                     } else {
+                        if (c.isDoubleType(true)) {
+                            if (std::isnan(c.getContentAsDoubleScalar())) {
+                                vstr.push_back(missing_str);
+                            } else if (c.isEmpty()) {
+                                vstr.push_back(L"");
+                            } else {
+                                Error(_W("Cell of strings expected."));
+                            }
+                        } else if (c.isEmpty()) {
                             vstr.push_back(L"");
                         } else {
                             Error(_W("Cell of strings expected."));
@@ -134,18 +162,29 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
                          "character vectors."));
             }
         }
+
         wstringVector resultAsVector;
         resultAsVector.reserve(nbElements);
         for (indexType m = 0; m < nbElements; ++m) {
-            wstringVector r;
-            r.reserve(theInputs.size());
+            std::wstring r;
             for (indexType k = 0; k < theInputs.size(); ++k) {
-                r.push_back(vectorOfStringVector[k][m]);
+                if (r.compare(missing_str) != 0) {
+                    std::wstring v = vectorOfStringVector[k][m];
+                    if (v.compare(missing_str) == 0) {
+                        r = missing_str;
+                    } else {
+                        r = r.append(v);
+                    }
+                }
             }
-            resultAsVector.push_back(FullFile(r));
+            resultAsVector.push_back(r);
         }
         for (indexType k = 0; k < nbElements; ++k) {
-            elements[k] = ArrayOf::characterArrayConstructor(resultAsVector[k]);
+            if (resultAsVector[k].compare(missing_str) == 0) {
+                elements[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+            } else {
+                elements[k] = ArrayOf::characterArrayConstructor(resultAsVector[k]);
+            }
         }
         retval.push_back(res);
     }
