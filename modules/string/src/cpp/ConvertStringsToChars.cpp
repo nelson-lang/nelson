@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ConvertStringsToChars(const ArrayOf& A)
+ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN)
 {
     ArrayOf res;
     if (A.isStringArray()) {
@@ -43,7 +43,13 @@ ConvertStringsToChars(const ArrayOf& A)
             if (element.getDataClass() == NLS_CHAR) {
                 res = ArrayOf::characterArrayConstructor(element.getContentAsWideString());
             } else {
-                res = ArrayOf::characterArrayConstructor("");
+                if (missingAsNaN) {
+                    auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
+                    res = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
+                    elementsCell[0] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                } else {
+                    res = ArrayOf::characterArrayConstructor("");
+                }
             }
         } else {
             auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
@@ -57,7 +63,11 @@ ConvertStringsToChars(const ArrayOf& A)
                 if (elementsStr[q].getDataClass() == NLS_CHAR) {
                     elementsCell[q] = elementsStr[q];
                 } else {
-                    elementsCell[q] = ArrayOf::characterArrayConstructor("");
+                    if (missingAsNaN) {
+                        elementsCell[q] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                    } else {
+                        elementsCell[q] = ArrayOf::characterArrayConstructor("");
+                    }
                 }
             }
             res = valueAsCell;
@@ -73,7 +83,7 @@ ConvertStringsToChars(const ArrayOfVector& A)
 {
     ArrayOfVector res;
     for (auto value : A) {
-        res.push_back(ConvertStringsToChars(value));
+        res.push_back(ConvertStringsToChars(value, false));
     }
     return res;
 }

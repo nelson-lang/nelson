@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\appendBuiltin.cpp" />
     <ClCompile Include="..\cpp\blanksBuiltin.cpp" />
     <ClCompile Include="..\cpp\charBuiltin.cpp" />
     <ClCompile Include="..\cpp\containsBuiltin.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\startsWithBuiltin.cpp" />
     <ClCompile Include="..\cpp\str2doubleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\strcatBuiltin.cpp" />
     <ClCompile Include="..\cpp\strcmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
     <ClCompile Include="..\cpp\stringBuiltin.cpp" />
@@ -226,6 +228,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\appendBuiltin.hpp" />
     <ClInclude Include="..\include\blanksBuiltin.hpp" />
     <ClInclude Include="..\include\charBuiltin.hpp" />
     <ClInclude Include="..\include\containsBuiltin.hpp" />
@@ -242,6 +245,7 @@
     <ClInclude Include="..\include\sprintfBuiltin.hpp" />
     <ClInclude Include="..\include\startsWithBuiltin.hpp" />
     <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
+    <ClInclude Include="..\include\strcatBuiltin.hpp" />
     <ClInclude Include="..\include\strfindBuiltin.hpp" />
     <ClInclude Include="..\include\stringBuiltin.hpp" />
     <ClInclude Include="..\include\stringsBuiltin.hpp" />

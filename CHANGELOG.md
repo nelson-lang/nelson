@@ -1,3 +1,13 @@
+# 0.4.12 (2020-12-XX)
+
+- `strcat` builtin: concatenate strings horizontally.
+
+- `append` builtin: combine strings horizontally.
+
+- extends `fullfile` compatibility with string type.
+
+- extends `assert_isequal`, `isequal` to manage missing type.
+
 # 0.4.11 (2020-11-24)
 
 - Nelson Engine API for C (compatible with MEX Engine 100%).

@@ -85,6 +85,14 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
             for (indexType k = 0; k < nbElementsA; k++) {
                 ArrayOf el1 = elementA[k];
                 ArrayOf el2 = elementB[k];
+                bool isMissingEl1 = !el1.isCharacterArray();
+                bool isMissingEl2 = !el2.isCharacterArray();
+                if (isMissingEl1 && isMissingEl2) {
+                    return true;
+                }
+                if (isMissingEl1 || isMissingEl2) {
+                    return false;
+                }
                 bool res = IsEqual(el1, el2, sameTypes, withNaN, needToOverload);
                 if (needToOverload) {
                     return false;
