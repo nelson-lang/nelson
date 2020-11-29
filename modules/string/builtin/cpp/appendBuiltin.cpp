@@ -130,7 +130,7 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
                     if (c.isCharacterArray()) {
                         std::wstring s = c.getContentAsWideString();
                         vstr.push_back(s);
-                     } else {
+                    } else {
                         if (c.isDoubleType(true)) {
                             if (std::isnan(c.getContentAsDoubleScalar())) {
                                 vstr.push_back(missing_str);

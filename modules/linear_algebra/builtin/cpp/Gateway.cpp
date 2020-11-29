@@ -54,8 +54,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "issymmetric", (void*)Nelson::LinearAlgebraGateway::issymmetricBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "det", (void*)Nelson::LinearAlgebraGateway::detBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "det", (void*)Nelson::LinearAlgebraGateway::detBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

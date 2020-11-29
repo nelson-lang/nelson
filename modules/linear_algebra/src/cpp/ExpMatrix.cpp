@@ -101,56 +101,54 @@ ExpMatrix(ArrayOf A)
             R.promoteType(NLS_DOUBLE);
         }
         return R;
-
-    } else {
-        if (A.getDataClass() == NLS_SINGLE) {
-            ArrayOf R(A);
-            R.ensureSingleOwner();
-            Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-                (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
-            Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(),
-                (Eigen::Index)R.getDimensions().getRows(),
-                (Eigen::Index)R.getDimensions().getColumns());
-            if (!matA.allFinite()) {
-                matA.setConstant(std::nanf("NaN"));
-            } else {
-                matR = matA.exp();
-            }
-            return R;
-        } // NLS_SCOMPLEX
-
+    }
+    if (A.getDataClass() == NLS_SINGLE) {
         ArrayOf R(A);
         R.ensureSingleOwner();
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
+        Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
+            (Eigen::Index)A.getDimensions().getRows(),
             (Eigen::Index)A.getDimensions().getColumns());
-        Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
+        Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(),
+            (Eigen::Index)R.getDimensions().getRows(),
             (Eigen::Index)R.getDimensions().getColumns());
         if (!matA.allFinite()) {
-            singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
-            matR.setConstant(cst);
+            matA.setConstant(std::nanf("NaN"));
         } else {
-            // [V, D] = eig(A);
-            // expm = V * diag(exp(diag(D))) * inv(V);
-            Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
-            auto evects = es.eigenvectors();
-            auto evals = es.eigenvalues();
+            matR = matA.exp();
+        }
+        return R;
+    } // NLS_SCOMPLEX
+
+    ArrayOf R(A);
+    R.ensureSingleOwner();
+    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+    auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
+        (Eigen::Index)A.getDimensions().getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
+        (Eigen::Index)R.getDimensions().getColumns());
+    if (!matA.allFinite()) {
+        singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
+        matR.setConstant(cst);
+    } else {
+        // [V, D] = eig(A);
+        // expm = V * diag(exp(diag(D))) * inv(V);
+        Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
+        auto evects = es.eigenvectors();
+        auto evals = es.eigenvalues();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
-                evals(i) = std::exp(evals(i));
-            }
-            auto evalsdiag = evals.asDiagonal();
-            matR = evects * evalsdiag * evects.inverse();
+        for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
+            evals(i) = std::exp(evals(i));
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
-        return R;
+        auto evalsdiag = evals.asDiagonal();
+        matR = evects * evalsdiag * evects.inverse();
     }
+    if (R.allReal()) {
+        R.promoteType(NLS_SINGLE);
+    }
+    return R;
 }
 //=============================================================================
 } // namespace Nelson
