@@ -1,5 +1,7 @@
 # 0.4.12 (2020-12-XX)
 
+- `det` builtin: Matrix determinant.
+
 - `strcat` builtin: concatenate strings horizontally.
 
 - `append` builtin: combine strings horizontally.

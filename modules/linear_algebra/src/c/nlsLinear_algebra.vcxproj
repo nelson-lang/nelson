@@ -190,6 +190,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\DeterminantMatrix.hpp" />
     <ClInclude Include="..\include\ExpMatrix.hpp" />
     <ClInclude Include="..\include\InverseMatrix.hpp" />
     <ClInclude Include="..\include\IsSymmetric.hpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\include\TraceMatrix.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\DeterminantMatrix.cpp" />
     <ClCompile Include="..\cpp\ExpMatrix.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>

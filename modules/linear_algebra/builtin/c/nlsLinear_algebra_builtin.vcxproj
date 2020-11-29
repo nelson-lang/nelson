@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\detBuiltin.cpp" />
     <ClCompile Include="..\cpp\expmBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\invBuiltin.cpp" />
@@ -216,6 +217,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\detBuiltin.hpp" />
     <ClInclude Include="..\include\expmBuiltin.hpp" />
     <ClInclude Include="..\include\invBuiltin.hpp" />
     <ClInclude Include="..\include\issymmetricBuiltin.hpp" />
