@@ -60,21 +60,19 @@ TraceMatrix(ArrayOf A)
             (Eigen::Index)A.getDimensions().getColumns());
         doublecomplex res = matA.trace();
         return ArrayOf::dcomplexConstructor(res.real(), res.imag());
-
-    } else {
-        if (A.getDataClass() == NLS_SINGLE) {
-            Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-                (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
-            return ArrayOf::singleConstructor(matA.trace());
-        } else // NLS_SCOMPLEX
-        {
-            auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-            Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
-            singlecomplex res = matA.trace();
-            return ArrayOf::complexConstructor(res.real(), res.imag());
-        }
+    }
+    if (A.getDataClass() == NLS_SINGLE) {
+        Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
+            (Eigen::Index)A.getDimensions().getRows(),
+            (Eigen::Index)A.getDimensions().getColumns());
+        return ArrayOf::singleConstructor(matA.trace());
+    } else // NLS_SCOMPLEX
+    {
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
+            (Eigen::Index)A.getDimensions().getColumns());
+        singlecomplex res = matA.trace();
+        return ArrayOf::complexConstructor(res.real(), res.imag());
     }
 }
 //=============================================================================

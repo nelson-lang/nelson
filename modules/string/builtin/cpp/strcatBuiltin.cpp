@@ -140,7 +140,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
                             boost::algorithm::trim_right(s);
                         }
                         vstr.push_back(s);
-                     } else {
+                    } else {
                         if (c.isDoubleType(true)) {
                             if (std::isnan(c.getContentAsDoubleScalar())) {
                                 vstr.push_back(missing_str);
