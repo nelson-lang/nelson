@@ -69,6 +69,8 @@ decomplexify(const ArrayOf& A)
                 res = A;
                 res.promoteType(NLS_SINGLE);
             }
+        } else {
+            res = A;
         }
     } else {
         res = A;
