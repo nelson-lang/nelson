@@ -6,11 +6,13 @@
 
 - `append` builtin: combine strings horizontally.
 
+- `fft` is faster: plan was not correctly cached.
+
+- `magic` function: creates an n-by-n magic square matrix.
+
 - extends `fullfile` compatibility with string type.
 
 - extends `assert_isequal`, `isequal` to manage missing type.
-
-- `fft` is faster: plan was not correctly cached.
 
 ## Bug Fixes:
 
