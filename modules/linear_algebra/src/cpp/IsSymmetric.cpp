@@ -24,11 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
 #define _SCL_SECURE_NO_WARNINGS
 #endif
+//=============================================================================
+#include <cstdio>
+#include "nlsConfig.h"
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
 #include "IsSymmetric.hpp"
 #include "ClassName.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -143,8 +148,9 @@ isSymmetricComplex(T* data, indexType N, double tol)
 }
 //=============================================================================
 bool
-IsSymmetric(ArrayOf A, bool skew)
+IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload)
 {
+    needToOverload = false;
     bool res = false;
     if (!A.is2D()) {
         return false;
@@ -153,6 +159,12 @@ IsSymmetric(ArrayOf A, bool skew)
         return false;
     }
     switch (A.getDataClass()) {
+    case NLS_LOGICAL: {
+        if (skew) {
+            return false;
+        }
+        return isSymmetricNoSkew<uint8>((uint8*)A.getDataPointer(), A.getDimensions().getRows());
+    }
     case NLS_SINGLE:
         return isSymmetric<single>((single*)A.getDataPointer(), A.getDimensions().getRows(), skew);
     case NLS_DOUBLE:
@@ -196,16 +208,31 @@ IsSymmetric(ArrayOf A, bool skew)
         return isSymmetricNoSkew<uint64>((uint64*)A.getDataPointer(), A.getDimensions().getRows());
     }
     default: {
-        Error(
-            _("Undefined function 'inv' for input arguments of type") + " '" + ClassName(A) + "'.");
+        needToOverload = true;
+        res = false;
     } break;
     }
     return res;
 }
 //=============================================================================
 bool
-IsSymmetric(ArrayOf A, double tol)
+IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName)
 {
+    bool needToOverload;
+    bool res = IsSymmetric(A, skew, needToOverload);
+    if (needToOverload) {
+        char errorBuffer[1024];
+        std::string fmt = _("Undefined function '%s' for input arguments of type '%s'");
+        sprintf(errorBuffer, fmt.c_str(), functionName.c_str(), ClassName(A).c_str());
+        Error(errorBuffer);
+    }
+    return res;
+}
+//=============================================================================
+bool
+IsSymmetric(const ArrayOf& A, double tol, bool& needToOverload)
+{
+    needToOverload = false;
     bool res = false;
     if (!A.is2D()) {
         return false;
@@ -214,6 +241,8 @@ IsSymmetric(ArrayOf A, double tol)
         return false;
     }
     switch (A.getDataClass()) {
+    case NLS_LOGICAL:
+        return isSymmetric<uint8>((uint8*)A.getDataPointer(), A.getDimensions().getRows(), tol);
     case NLS_SINGLE:
         return isSymmetric<single>((single*)A.getDataPointer(), A.getDimensions().getRows(), tol);
     case NLS_DOUBLE:
@@ -241,9 +270,23 @@ IsSymmetric(ArrayOf A, double tol)
     case NLS_UINT64:
         return isSymmetric<uint64>((uint64*)A.getDataPointer(), A.getDimensions().getRows(), tol);
     default: {
-        Error(
-            _("Undefined function 'inv' for input arguments of type") + " '" + ClassName(A) + "'.");
+        needToOverload = true;
+        res = false;
     } break;
+    }
+    return res;
+}
+//=============================================================================
+bool
+IsSymmetric(const ArrayOf& A, double tol, const std::string& functionName)
+{
+    bool needToOverload;
+    bool res = IsSymmetric(A, tol, needToOverload);
+    if (needToOverload) {
+        char errorBuffer[1024];
+        std::string fmt = _("Undefined function '%s' for input arguments of type '%s'");
+        sprintf(errorBuffer, fmt.c_str(), functionName.c_str(), ClassName(A).c_str());
+        Error(errorBuffer);
     }
     return res;
 }

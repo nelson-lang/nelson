@@ -26,21 +26,15 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsLinear_algebra_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf &A, bool skew, bool& needToOverload);
-//=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf &A, double tol, bool &needToOverload);
-//=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName);
-//=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, double tol, const std::string& functionName);
+namespace LinearAlgebraGateway {
+    //=============================================================================
+    ArrayOfVector
+    ishermitianBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -31,16 +31,16 @@
 namespace Nelson {
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf &A, bool skew, bool& needToOverload);
+IsHermitian(const ArrayOf &A, bool skew, bool& needToOverload);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf &A, double tol, bool &needToOverload);
+IsHermitian(const ArrayOf& A, double tol, bool& needToOverload);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName);
+IsHermitian(const ArrayOf& A, bool skew, const std::string& functionName);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, double tol, const std::string& functionName);
+IsHermitian(const ArrayOf& A, double tol, const std::string& functionName);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

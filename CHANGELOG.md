@@ -2,17 +2,19 @@
 
 - `det` builtin: Matrix determinant.
 
+- `ishermitian` builtin: Checks if an matrix is hermitian or skew-hermitian.
+
 - `strcat` builtin: concatenate strings horizontally.
 
 - `append` builtin: combine strings horizontally.
 
 - `fft` is faster: plan was not correctly cached.
 
-- `magic` function: creates an n-by-n magic square matrix.
-
 - extends `fullfile` compatibility with string type.
 
 - extends `assert_isequal`, `isequal` to manage missing type.
+
+- extends `issymmetric` to manage boolean type.
 
 ## Bug Fixes:
 
