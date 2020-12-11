@@ -85,3 +85,9 @@ assert_istrue(ishermitian(A));
 //=============================================================================
 assert_isfalse(ishermitian(ones(3,3,3)));
 //=============================================================================
+assert_isfalse(ishermitian(-2i-9))
+assert_isfalse(ishermitian(2i-9))
+assert_isfalse(ishermitian(-2i))
+assert_isfalse(ishermitian(2i))
+assert_istrue(ishermitian(3))
+//=============================================================================

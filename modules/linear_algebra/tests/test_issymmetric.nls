@@ -88,3 +88,9 @@ assert_istrue(issymmetric(A));
 //=============================================================================
 assert_isfalse(issymmetric(ones(3,3,3)));
 //=============================================================================
+assert_istrue(issymmetric(-2i-9))
+assert_istrue(issymmetric(2i-9))
+assert_istrue(issymmetric(-2i))
+assert_istrue(issymmetric(2i))
+assert_istrue(issymmetric(3))
+//=============================================================================

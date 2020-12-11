@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
-IsHermitian(const ArrayOf &A, bool skew, bool& needToOverload);
+IsHermitian(const ArrayOf& A, bool skew, bool& needToOverload);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
 IsHermitian(const ArrayOf& A, double tol, bool& needToOverload);

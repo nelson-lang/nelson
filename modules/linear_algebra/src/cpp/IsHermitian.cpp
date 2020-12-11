@@ -41,9 +41,11 @@ template <class T>
 bool
 isHermitianComplex(T* data, indexType N, bool skew)
 {
-    indexType i, j;
-    for (i = 0; i < N; i++) {
-        for (j = 1; j < N; j++) {
+    if (N == 1) {
+        return false;
+    }
+    for (indexType i = 0; i < N; i++) {
+        for (indexType j = 1; j < N; j++) {
             T realA = data[2 * (i + j * N)];
             T realB = data[2 * (j + i * N)];
             T imagA = data[2 * (i + j * N) + 1];

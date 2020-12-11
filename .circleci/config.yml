@@ -43,7 +43,7 @@ jobs:
       - run: git clone https://github.com/tbeu/matio /tmp/matio
       - run: cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_10_5/hdf5 && make && make install;
       - run: git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
-      - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
+      - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.9 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
       - checkout
       - run: cmake -G "Unix Makefiles" .
       - run: make -j4

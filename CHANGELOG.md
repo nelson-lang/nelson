@@ -1,5 +1,7 @@
 # 0.4.12 (2020-12-XX)
 
+- `eig` builtin: Eigenvalues and eigenvectors.
+
 - `det` builtin: Matrix determinant.
 
 - `ishermitian` builtin: Checks if an matrix is hermitian or skew-hermitian.

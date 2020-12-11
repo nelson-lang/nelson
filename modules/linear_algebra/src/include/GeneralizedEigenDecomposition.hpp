@@ -25,22 +25,31 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload);
+NLSLINEAR_ALGEBRA_IMPEXP
+bool
+GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B, ArrayOf& D,
+    bool& needToOverload, std::wstring& errorMessage);
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, double tol, bool& needToOverload);
+NLSLINEAR_ALGEBRA_IMPEXP
+bool
+GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, ArrayOf& V,
+    ArrayOf& D, bool& needToOverload, std::wstring& errorMessage);
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName);
+NLSLINEAR_ALGEBRA_IMPEXP
+bool
+GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, ArrayOf& V, ArrayOf& D,
+    bool& needToOverload, std::wstring& errorMessage);
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, double tol, const std::string& functionName);
+NLSLINEAR_ALGEBRA_IMPEXP
+bool
+GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, ArrayOf& D,
+    bool& needToOverload, std::wstring& errorMessage);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

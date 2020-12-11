@@ -25,22 +25,41 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <string>
+#include <complex>
 #include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload);
+NLSLINEAR_ALGEBRA_IMPEXP void
+doubleEigenDecompositionSymmetric(int n, double* v, double* d, double* a, bool eigenvectors);
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, double tol, bool& needToOverload);
+NLSLINEAR_ALGEBRA_IMPEXP void
+singleEigenDecompositionSymmetric(int n, float* v, float* d, float* a, bool eigenvectors);
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName);
+NLSLINEAR_ALGEBRA_IMPEXP void
+singleComplexEigenDecompositionSymmetric(
+    int n, std::complex<float>* v, float* d, std::complex<float>* a, bool eigenvectors);
 //=============================================================================
-NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, double tol, const std::string& functionName);
+NLSLINEAR_ALGEBRA_IMPEXP void
+doubleComplexEigenDecompositionSymmetric(
+    int n, std::complex<double>* v, double* d, std::complex<double>* a, bool eigenvectors);
 //=============================================================================
-} // namespace Nelson
+NLSLINEAR_ALGEBRA_IMPEXP void
+singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, float* a,
+    bool eigenvectors, bool balance);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP void
+doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d, double* a,
+    bool eigenvectors, bool balance);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP void
+singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d,
+    std::complex<float>* a, bool eigenvectors, bool balance);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP void
+doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d,
+    std::complex<double>* a, bool eigenvectors, bool balance);
+//=============================================================================
+}
 //=============================================================================
