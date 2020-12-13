@@ -10,6 +10,11 @@
 
 - extends `assert_isequal`, `isequal` to manage missing type.
 
+## Bug Fixes:
+
+- [#360](http://github.com/Nelson-numerical-software/nelson/issues/360): `ctranpose` and `transpose` are faster.
+
+
 # 0.4.11 (2020-11-24)
 
 - Nelson Engine API for C (compatible with MEX Engine 100%).
