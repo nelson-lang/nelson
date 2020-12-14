@@ -23,13 +23,37 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
+#include "nlsConfig.h"
 #include "AbsoluteValue.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+template <class T>
+void
+absoluteValueRealTemplate(T* ptrA, indexType N, T * ptrRes)
+{
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            ptrRes[i] = std::abs(ptrA[i]);
+    }
+}
+//=============================================================================
+template <class T>
+void
+absoluteValueComplexTemplate(T* ptrA, indexType N, T* ptrRes)
+{
+    auto* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+        ptrRes[i] = std::abs(matCplxA[i]);
+    }
+}
 //=============================================================================
 ArrayOf
 AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
@@ -64,94 +88,66 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
         res.promoteType(NLS_DOUBLE);
     } break;
     case NLS_INT8: {
-        res = arrayIn;
-        res.ensureSingleOwner();
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int8*)arrayIn.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matAbs(
-            (int8*)res.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        matAbs = matOrigin.cwiseAbs();
+        Dimensions dimsRes = arrayIn.getDimensions();
+        int8* ptrRes = (int8*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+        absoluteValueRealTemplate<int8>(
+            (int8*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_INT16: {
-        res = arrayIn;
-        res.ensureSingleOwner();
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int16*)arrayIn.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matAbs(
-            (int16*)res.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        matAbs = matOrigin.cwiseAbs();
+        Dimensions dimsRes = arrayIn.getDimensions();
+        int16* ptrRes
+            = (int16*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+        absoluteValueRealTemplate<int16>(
+            (int16*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_INT32: {
-        res = arrayIn;
-        res.ensureSingleOwner();
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int32*)arrayIn.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matAbs(
-            (int32*)res.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        matAbs = matOrigin.cwiseAbs();
+        Dimensions dimsRes = arrayIn.getDimensions();
+        int32* ptrRes
+            = (int32*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+        absoluteValueRealTemplate<int32>(
+            (int32*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_INT64: {
-        res = arrayIn;
-        res.ensureSingleOwner();
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (int64*)arrayIn.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matAbs(
-            (int64*)res.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        matAbs = matOrigin.cwiseAbs();
+        Dimensions dimsRes = arrayIn.getDimensions();
+        int64* ptrRes
+            = (int64*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+        absoluteValueRealTemplate<int64>(
+            (int64*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_SINGLE: {
-        res = arrayIn;
-        res.ensureSingleOwner();
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (single*)arrayIn.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matAbs(
-            (single*)res.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        matAbs = matOrigin.cwiseAbs();
+        Dimensions dimsRes = arrayIn.getDimensions();
+        single* ptrRes
+            = (single*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+        absoluteValueRealTemplate<single>(
+            (single*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_DOUBLE: {
-        res = arrayIn;
-        res.ensureSingleOwner();
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-            (double*)arrayIn.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matAbs(
-            (double*)res.getDataPointer(), 1, dimsArrayIn.getElementCount());
-        matAbs = matOrigin.cwiseAbs();
+        Dimensions dimsRes = arrayIn.getDimensions();
+        double* ptrRes
+            = (double*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+        absoluteValueRealTemplate<double>(
+            (double*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_DCOMPLEX: {
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        double* dp = static_cast<double*>(ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, dimsArrayIn.getElementCount(), stringVector(), false));
-        auto* matzArrayIn = reinterpret_cast<doublecomplex*>((double*)arrayIn.getDataPointer());
-        ompIndexType elementCount = dimsArrayIn.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real())
-                + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
-        }
-        res = ArrayOf(NLS_DOUBLE, dimsArrayIn, dp);
+        Dimensions dimsRes = arrayIn.getDimensions();
+        double* ptrRes
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+        res = ArrayOf(NLS_DOUBLE, dimsRes, ptrRes);
+        absoluteValueComplexTemplate<double>(
+            (double*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_SCOMPLEX: {
-        Dimensions dimsArrayIn = arrayIn.getDimensions();
-        single* dp = static_cast<single*>(ArrayOf::allocateArrayOf(
-            NLS_SINGLE, dimsArrayIn.getElementCount(), stringVector(), false));
-        auto* matzArrayIn = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
-        ompIndexType elementCount = dimsArrayIn.getElementCount();
-#if defined(_NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real())
-                + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
-        }
-        res = ArrayOf(NLS_SINGLE, dimsArrayIn, dp);
+        Dimensions dimsRes = arrayIn.getDimensions();
+        single* ptrRes = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsRes.getElementCount());
+        res = ArrayOf(NLS_SINGLE, dimsRes, ptrRes);
+        absoluteValueComplexTemplate<single>(
+            (single*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     }
     return res;
