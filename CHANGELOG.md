@@ -12,6 +12,8 @@
 
 ## Bug Fixes:
 
+- [#361](http://github.com/Nelson-numerical-software/nelson/issues/361): `abs` is faster.
+
 - [#360](http://github.com/Nelson-numerical-software/nelson/issues/360): `ctranpose` and `transpose` are faster.
 
 
