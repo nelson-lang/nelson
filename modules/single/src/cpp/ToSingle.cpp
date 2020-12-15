@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ToSingle.hpp"
+#include "nlsConfig.h"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -34,12 +35,15 @@ ToSingle(const ArrayOf& A)
 {
     single* pSingle
         = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), A.getLength(), 1);
-    Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matC(
-        pSingle, A.getLength(), 1);
-    matC = matA.template cast<single>();
     ArrayOf r = ArrayOf(NLS_SINGLE, A.getDimensions(), pSingle, A.isSparse());
+    T* ptrA = (T*)A.getDataPointer();
+    ompIndexType N = (ompIndexType)A.getLength();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < N; ++i) {
+        pSingle[i] = (single)ptrA[i];
+    }
     return r;
 }
 //=============================================================================

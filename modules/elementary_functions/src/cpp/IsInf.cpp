@@ -23,10 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
+#include <Eigen/Dense>
 #include "IsInf.hpp"
 #include "ClassName.hpp"
-#include <Eigen/Dense>
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

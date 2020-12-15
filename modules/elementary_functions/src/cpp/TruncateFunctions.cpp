@@ -23,9 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
 #include <cmath>
 #include <functional>
+#include <Eigen/Dense>
+#include "nlsConfig.h"
 #include "TruncateFunctions.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -95,7 +96,11 @@ truncateArray(ArrayOf arrayIn, T (*ptrFunc)(T))
     void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
     T* rp = (T*)ptr;
     T* dp = (T*)arrayIn.getDataPointer();
-    for (size_t i = 0; i < len * 2; i++) {
+
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)(len * 2); i++) {
         if (std::isfinite(dp[i])) {
             rp[i] = (ptrFunc)((T)dp[i]);
         } else {
@@ -203,7 +208,10 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = static_cast<double>(dp[i]);
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
@@ -213,7 +221,10 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = (dp[i] == 0 ? 0 : 1);
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);

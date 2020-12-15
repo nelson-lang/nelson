@@ -23,9 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "IsFinite.hpp"
 #include "ClassName.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +33,10 @@ template <class T>
 void
 boolean_isfinite(indexType N, logical* C, const T* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isfinite(A[i]);
     }
 }
@@ -42,7 +45,10 @@ template <class T>
 void
 boolean_isfinite_cplx(indexType N, logical* C, const T* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = std::isfinite(A[i].real()) && std::isfinite(A[i].imag());
     }
 }
@@ -98,7 +104,11 @@ IsFinite(ArrayOf A)
         void* Cp
             = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
-        for (indexType i = 0; i < A.getLength(); i++) {
+        ompIndexType N = (ompIndexType)A.getLength();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < N; i++) {
             CpLogical[i] = static_cast<logical>(0);
         }
         C.setDataPointer(Cp);

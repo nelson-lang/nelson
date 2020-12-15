@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "ImagPart.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -42,7 +43,10 @@ ImagPart(ArrayOf arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = sp[2 * i + 1];
         }
         res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
@@ -52,7 +56,10 @@ ImagPart(ArrayOf arrayIn)
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
-        for (size_t i = 0; i < len; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = dp[2 * i + 1];
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
