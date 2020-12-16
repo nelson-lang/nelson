@@ -18,6 +18,10 @@
 
 - [#360](http://github.com/Nelson-numerical-software/nelson/issues/360): `ctranpose` and `transpose` are faster.
 
+## Compilation:
+
+- Qt 5.15.2 on Windows (AppVeyor CI).
+
 
 # 0.4.11 (2020-11-24)
 
