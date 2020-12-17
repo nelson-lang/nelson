@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include "nlsConfig.h"
 #include "Equals.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
@@ -48,7 +49,10 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
-    for (indexType i = 0; i < Clen; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
             Cp[i] = (*stringRelationOperator)(classA, ptrA, ptrB, i, i);
@@ -115,7 +119,10 @@ scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
-    for (indexType i = 0; i < Clen; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
             Cp[i] = stringRelationOperator(classA, ptrA, ptrB, 0, i);
@@ -182,7 +189,10 @@ matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
-    for (indexType i = 0; i < Clen; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)Clen; i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
             Cp[i] = stringRelationOperator(classA, ptrA, ptrB, i, 0);

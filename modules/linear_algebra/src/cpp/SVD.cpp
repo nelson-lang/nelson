@@ -203,7 +203,10 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
-        for (size_t k = 0; k < (size_t)minMN; k++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)minMN; k++) {
             matS(k, k) = matStmp(k);
         }
         delete[] dstemp;

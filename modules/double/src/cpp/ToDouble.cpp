@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Eigen/Dense>
+#include "nlsConfig.h"
 #include "ToDouble.hpp"
 #include "StringToDoubleComplex.hpp"
 #include "SparseDynamicFunctions.hpp"
@@ -36,12 +37,15 @@ ToDouble(ArrayOf A)
 {
     double* pDouble
         = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), A.getLength(), 1);
-    Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matC(
-        pDouble, A.getLength(), 1);
-    matC = matA.template cast<double>();
     ArrayOf r = ArrayOf(NLS_DOUBLE, A.getDimensions(), pDouble, A.isSparse());
+    T* ptrA = (T*)A.getDataPointer();
+    ompIndexType N = (ompIndexType)A.getLength();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < N; ++i) {
+        pDouble[i] = (double)ptrA[i];
+    }
     return r;
 }
 //=============================================================================

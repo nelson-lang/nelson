@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include "Negate.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,11 +31,14 @@ template <class T>
 void
 negate(indexType N, T* C, const T* A)
 {
-    for (indexType i = 0; i < N; i++) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         C[i] = -A[i];
     }
 }
-
+//=============================================================================
 ArrayOf
 Negate(ArrayOf A)
 {

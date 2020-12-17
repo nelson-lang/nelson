@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
+#include "nlsConfig.h"
 #include "ComplexConjugate.hpp"
 #include "ClassName.hpp"
 //=============================================================================
@@ -38,28 +38,42 @@ ComplexConjugate(ArrayOf A)
             + "'.");
     }
     Dimensions dimsA = A.getDimensions();
-    ArrayOf C(A);
-    C.ensureSingleOwner();
+    ArrayOf C;
+    if (A.isEmpty()) {
+        C = A;
+        C.ensureSingleOwner();
+        return C;
+    }
     switch (classA) {
     case NLS_SCOMPLEX: {
         if (!A.isEmpty()) {
             auto* psingleA = (single*)A.getDataPointer();
             auto* Az = reinterpret_cast<singlecomplex*>(psingleA);
-            Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, dimsA.getElementCount());
-            auto* psingleC = (single*)C.getDataPointer();
-            auto* Cz = reinterpret_cast<singlecomplex*>(psingleC);
-            Eigen::Map<Eigen::MatrixXcf> matC(Cz, 1, dimsA.getElementCount());
-            matC = matA.conjugate().eval();
+            singlecomplex* ptrC
+                = (singlecomplex*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsA.getElementCount());
+            C = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
+            ompIndexType N = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+            for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+                ptrC[i] = std::conj(Az[i]);
+            }
         }
     } break;
     case NLS_DCOMPLEX: {
         auto* pdoubleA = (double*)A.getDataPointer();
         auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
-        Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, dimsA.getElementCount());
-        auto* pdoubleC = (double*)C.getDataPointer();
-        auto* Cz = reinterpret_cast<doublecomplex*>(pdoubleC);
-        Eigen::Map<Eigen::MatrixXcd> matC(Cz, 1, dimsA.getElementCount());
-        matC = matA.conjugate().eval();
+        doublecomplex* ptrC
+            = (doublecomplex*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsA.getElementCount());
+        C = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
+        ompIndexType N = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+                ptrC[i] = std::conj(Az[i]);
+        }
     } break;
     case NLS_DOUBLE:
     case NLS_SINGLE:
@@ -72,6 +86,8 @@ ComplexConjugate(ArrayOf A)
     case NLS_INT64:
     case NLS_UINT64: {
         // returns same value
+        C = A;
+        C.ensureSingleOwner();
     } break;
     case NLS_CHAR:
     case NLS_LOGICAL:
