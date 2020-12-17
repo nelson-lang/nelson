@@ -87,6 +87,7 @@ HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestf
     printer.setOutputFileName(wstringToQString(pdfdestfilename));
     QTextDocument doc;
     doc.setHtml(wstringToQString(htmlstream));
+    doc.setPageSize(printer.pageLayout().fullRect().size());
     doc.print(&printer);
     return true;
 }
