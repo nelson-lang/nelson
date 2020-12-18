@@ -32,13 +32,13 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 void
-absoluteValueRealTemplate(T* ptrA, indexType N, T * ptrRes)
+absoluteValueRealTemplate(T* ptrA, indexType N, T* ptrRes)
 {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
-            ptrRes[i] = std::abs(ptrA[i]);
+        ptrRes[i] = std::abs(ptrA[i]);
     }
 }
 //=============================================================================
@@ -89,7 +89,8 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     } break;
     case NLS_INT8: {
         Dimensions dimsRes = arrayIn.getDimensions();
-        int8* ptrRes = (int8*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
+        int8* ptrRes
+            = (int8*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
         res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
         absoluteValueRealTemplate<int8>(
             (int8*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
@@ -136,8 +137,7 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     } break;
     case NLS_DCOMPLEX: {
         Dimensions dimsRes = arrayIn.getDimensions();
-        double* ptrRes
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+        double* ptrRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
         res = ArrayOf(NLS_DOUBLE, dimsRes, ptrRes);
         absoluteValueComplexTemplate<double>(
             (double*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
