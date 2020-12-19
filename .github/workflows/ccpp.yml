@@ -10,8 +10,6 @@ jobs:
     steps:
     - name: install dependencies
       run: |
-        brew update
-        brew upgrade
         brew --version
         brew install zlib
         brew install libtool
