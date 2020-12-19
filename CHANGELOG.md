@@ -10,6 +10,8 @@
 
 - extends `assert_isequal`, `isequal` to manage missing type.
 
+- `fft` is faster: plan was not correctly cached.
+
 ## Bug Fixes:
 
 - [#364](http://github.com/Nelson-numerical-software/nelson/issues/364): `isinf`, `isnan`, `conj`, `double`, `single`, `real`, `imag` are faster.

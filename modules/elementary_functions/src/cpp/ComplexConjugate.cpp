@@ -72,7 +72,7 @@ ComplexConjugate(ArrayOf A)
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
-                ptrC[i] = std::conj(Az[i]);
+            ptrC[i] = std::conj(Az[i]);
         }
     } break;
     case NLS_DOUBLE:

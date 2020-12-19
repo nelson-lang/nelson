@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <omp.h>
 #include "FFTWDynamicLibrary.hpp"
 #include "FFTWWrapper.hpp"
 #include "dynamic_library.hpp"
@@ -53,6 +54,8 @@ using PROC_fftwf_export_wisdom_to_string = char* (*)(void);
 using PROC_fftwf_forget_wisdom = void (*)(void);
 using PROC_fftwf_plan_dft_1d
     = fftwf_plan (*)(int n, fftwf_complex* in, fftwf_complex* out, int sign, unsigned flags);
+using PROC_fftw_plan_with_nthreads = void (*)(int nthreads);
+using PROC_fftw_init_threads = int (*)(void);
 //=============================================================================
 PROC_fftw_execute fftw_executePtr = nullptr;
 PROC_fftw_plan_dft_1d fftw_plan_dft_1dPtr = nullptr;
@@ -62,6 +65,8 @@ PROC_fftw_export_wisdom_to_string fftw_export_wisdom_to_stringPtr = nullptr;
 PROC_fftw_import_wisdom_from_string fftw_import_wisdom_from_stringPtr = nullptr;
 PROC_fftw_malloc fftw_mallocPtr = nullptr;
 PROC_fftw_free fftw_freePtr = nullptr;
+PROC_fftw_plan_with_nthreads fftw_plan_with_nthreadsPtr = nullptr;
+PROC_fftw_init_threads fftw_init_threadsPtr = nullptr;
 //=============================================================================
 PROC_fftwf_execute fftwf_executePtr = nullptr;
 PROC_fftwf_plan_dft_1d fftwf_plan_dft_1dPtr = nullptr;
@@ -158,6 +163,10 @@ loadFTTWSymbols()
     if (!fftw_freePtr) {
         return false;
     }
+    fftw_plan_with_nthreadsPtr = reinterpret_cast<PROC_fftw_plan_with_nthreads>(
+        get_function(fftw_handle, "fftw_plan_with_nthreads"));
+    fftw_init_threadsPtr
+        = reinterpret_cast<PROC_fftw_init_threads>(get_function(fftw_handle, "fftw_init_threads"));
     return true;
 }
 //=============================================================================
@@ -181,6 +190,8 @@ freeFFTWLibrary()
         fftwf_import_wisdom_from_stringPtr = nullptr;
         fftwf_mallocPtr = nullptr;
         fftwf_freePtr = nullptr;
+        fftw_plan_with_nthreadsPtr = nullptr;
+        fftw_init_threadsPtr = nullptr;
         if (fftwf_handle) {
             close_dynamic_library(fftwf_handle);
             fftwf_handle = nullptr;
@@ -200,21 +211,28 @@ loadFFTWLibrary(void)
     if (fftwLoaded) {
         return true;
     }
+    bool res = false;
 #ifdef _MSC_VER
     std::wstring fftwLibraryName = L"libfftw3-3.dll";
     std::wstring fftwfLibraryName = L"libfftw3f-3.dll";
-    return loadFFTWLibrary(fftwLibraryName, fftwfLibraryName);
+    res = loadFFTWLibrary(fftwLibraryName, fftwfLibraryName);
 #else
     std::string fftwLibraryName = "libfftw3" + get_dynamic_library_extension();
     std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension();
-    bool res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
+    res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
     if (!res) {
         std::string fftwLibraryName = "libfftw3" + get_dynamic_library_extension() + ".3";
         std::string fftwfLibraryName = "libfftw3f" + get_dynamic_library_extension() + ".3";
         res = loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
     }
-    return res;
 #endif
+    if (res) {
+        if (fftw_init_threadsPtr && fftw_plan_with_nthreadsPtr) {
+            fftw_init_threadsPtr();
+            fftw_plan_with_nthreadsPtr(omp_get_max_threads());
+        }
+    }
+    return res;
 }
 //=============================================================================
 bool
