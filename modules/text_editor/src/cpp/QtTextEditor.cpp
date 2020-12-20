@@ -981,8 +981,13 @@ void
 QtTextEditor::printDocument()
 {
     QPrinter printer;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setPageOrientation(QPageLayout::Portrait);
+#else
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOrientation(QPrinter::Portrait);
+#endif
     QPrintPreviewDialog* printPreview = new QPrintPreviewDialog(
         &printer, this, Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
     if (printPreview != nullptr) {
