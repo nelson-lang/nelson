@@ -377,7 +377,7 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
             return ArrayOf(b);
         }
@@ -412,7 +412,7 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                         (const T*)a.getDataPointer(), dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
                 } else {
                     if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
                         if (a.isVector()) {
@@ -431,11 +431,11 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                                 classDestination, b, a);
                         }
                     } else {
-                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
                     }
                 }
             } else {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
         }
     }
@@ -473,7 +473,7 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
             return ArrayOf(b);
         }
@@ -506,7 +506,7 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                         dimsB.getElementCount(), (T*)a.getDataPointer(), dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
                 } else {
                     T* ptrA = (T*)a.getDataPointer();
                     T* ptrB = (T*)b.getDataPointer();
@@ -528,11 +528,11 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                                 classDestination, b, a);
                         }
                     } else {
-                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
                     }
                 }
             } else {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
         }
     }

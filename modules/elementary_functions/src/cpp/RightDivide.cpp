@@ -29,6 +29,7 @@
 #include "LeftDivide.hpp"
 #include "MatrixCheck.hpp"
 #include "ComplexTranspose.hpp"
+#include "FindCommonClass.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,8 +40,38 @@ ArrayOf
 RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 {
     if (A.isEmpty() || B.isEmpty()) {
-        Dimensions dims(0, 1);
-        return ArrayOf::emptyConstructor(dims);
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+
+        if (A.isEmpty() && B.isScalar()) {
+            return A;
+        }
+        if (B.isEmpty() && A.isScalar()) {
+            if (dimsB.getColumns() == 1 && dimsB.is2D()) {
+                return ArrayOf::emptyConstructor(Dimensions(1, 0));
+            } else {
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+            }
+        }
+        dimsA.simplify();
+        dimsB.simplify();
+        if (dimsA.getColumns() != dimsB.getColumns()) {
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+        }
+        if (dimsA.equals(dimsB)) {
+            return A;
+        }
+        if (dimsA.getLength() > 2 || dimsB.getLength() > 2) {
+            Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        }
+        if (dimsA[0] != 0 && dimsB[0] != 0) {
+            Dimensions dimsC(dimsA[0], dimsB[0]);
+            Class commonClass = FindCommonClass(A, B, needToOverload);
+            void* pT = ArrayOf::allocateArrayOf(
+                commonClass, dimsC.getElementCount(), stringVector(), true);
+            return ArrayOf(commonClass, dimsC, pT, false);
+        }
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
     }
 
     if (B.isScalar()) {

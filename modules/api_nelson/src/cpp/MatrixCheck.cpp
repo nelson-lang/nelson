@@ -48,7 +48,7 @@ VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + opname);
     }
 }
 //=============================================================================
@@ -119,7 +119,7 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " " + opname);
     }
 }
 //=============================================================================

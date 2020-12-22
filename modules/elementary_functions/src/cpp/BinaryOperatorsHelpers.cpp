@@ -23,67 +23,39 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "EqHandle.hpp"
-#include "Error.hpp"
-#include "Exception.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
-#include "MatrixCheck.hpp"
+#include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-EqHandle(ArrayOf A, ArrayOf B)
+binaryOperatorEmptyMatrixEmptryMatrix(
+    const ArrayOf& A, const ArrayOf& B, Class commonClass, const std::string& operatorName)
 {
-    ArrayOf res;
-    if (!A.isHandle() && !B.isHandle()) {
-        Error(_W("handle expected."));
+    std::vector<indexType> dimsA = A.getDimensions().getAsVector();
+    std::vector<indexType> dimsB = B.getDimensions().getAsVector();
+    indexType nDim = std::max(dimsA.size(), dimsB.size());
+    while (dimsA.size() != nDim) {
+        dimsA.push_back(1);
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " " + "eq");
+    while (dimsB.size() != nDim) {
+        dimsB.push_back(1);
     }
-    int Astride = 0;
-    int Bstride = 0;
-    indexType Clen = 0;
-    Dimensions Cdim;
-    if (A.isScalar()) {
-        Astride = 0;
-        Bstride = 1;
-        Cdim = dimsB;
-    } else if (B.isScalar()) {
-        Astride = 1;
-        Bstride = 0;
-        Cdim = dimsA;
-    } else {
-        Astride = 1;
-        Bstride = 1;
-        Cdim = dimsA;
-    }
-    Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<logical>(Clen, false);
-    auto* C = static_cast<logical*>(Cp);
-    if (A.isHandle() && B.isHandle()) {
-        auto* hA = (nelson_handle*)A.getDataPointer();
-        auto* hB = (nelson_handle*)B.getDataPointer();
-        if ((Astride == 1) && (Bstride == 1)) {
-            for (indexType i = 0; i < Clen; i++) {
-                C[i] = (hA[i] == hB[i]) ? 1 : 0;
-            }
+    std::vector<indexType> dimsOut(nDim, 0);
+    for (int i = 0; i < nDim; i++) {
+        indexType idx = dimsA[i];
+        indexType idy = dimsB[i];
+        if (idx == 1) {
+            dimsOut[i] = idy;
+        } else if (idy == 1 || idx == idy) {
+            dimsOut[i] = idx;
         } else {
-            if (Astride != 0) {
-                for (indexType i = 0; i < Clen; i++) {
-                    C[i] = (hA[i] == hB[0]) ? 1 : 0;
-                }
-            } else {
-                for (indexType i = 0; i < Clen; i++) {
-                    C[i] = (hA[0] == hB[i]) ? 1 : 0;
-                }
-            }
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + operatorName);
         }
     }
-    return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+    Dimensions dims(dimsOut);
+    ArrayOf res = ArrayOf::emptyConstructor(dims);
+    res.promoteType(commonClass);
+    return res;
 }
 //=============================================================================
 } // namespace Nelson
