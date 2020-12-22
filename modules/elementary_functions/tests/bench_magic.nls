@@ -23,6 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = eye(1000, 1000);
-tic();issymmetric(A);toc()
+tic;magic(1000);toc()
 //=============================================================================

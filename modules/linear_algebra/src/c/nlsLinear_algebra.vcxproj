@@ -191,8 +191,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DeterminantMatrix.hpp" />
+    <ClInclude Include="..\include\EigenDecomposition.hpp" />
+    <ClInclude Include="..\include\EigenLapackHelpers.hpp" />
     <ClInclude Include="..\include\ExpMatrix.hpp" />
+    <ClInclude Include="..\include\GeneralizedEigenDecomposition.hpp" />
+    <ClInclude Include="..\include\GeneralizedEigenLapackHelpers.hpp" />
     <ClInclude Include="..\include\InverseMatrix.hpp" />
+    <ClInclude Include="..\include\IsHermitian.hpp" />
     <ClInclude Include="..\include\IsSymmetric.hpp" />
     <ClInclude Include="..\include\lapack_eigen.hpp" />
     <ClInclude Include="..\include\LogMatrix.hpp" />
@@ -206,11 +211,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\DeterminantMatrix.cpp" />
+    <ClCompile Include="..\cpp\EigenDecomposition.cpp" />
+    <ClCompile Include="..\cpp\EigenLapackHelpers.cpp" />
     <ClCompile Include="..\cpp\ExpMatrix.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="..\cpp\GeneralizedEigenDecomposition.cpp" />
+    <ClCompile Include="..\cpp\GeneralizedEigenLapackHelpers.cpp" />
     <ClCompile Include="..\cpp\InverseMatrix.cpp" />
+    <ClCompile Include="..\cpp\IsHermitian.cpp" />
     <ClCompile Include="..\cpp\IsSymmetric.cpp" />
     <ClCompile Include="..\cpp\LogMatrix.cpp" />
     <ClCompile Include="..\cpp\MatrixPower.cpp">

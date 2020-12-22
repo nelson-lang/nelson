@@ -169,9 +169,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\detBuiltin.cpp" />
+    <ClCompile Include="..\cpp\eigBuiltin.cpp" />
     <ClCompile Include="..\cpp\expmBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\invBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ishermitianBuiltin.cpp" />
     <ClCompile Include="..\cpp\issymmetricBuiltin.cpp" />
     <ClCompile Include="..\cpp\logmBuiltin.cpp" />
     <ClCompile Include="..\cpp\rcondBuiltin.cpp" />
@@ -218,8 +220,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\detBuiltin.hpp" />
+    <ClInclude Include="..\include\eigBuiltin.hpp" />
     <ClInclude Include="..\include\expmBuiltin.hpp" />
     <ClInclude Include="..\include\invBuiltin.hpp" />
+    <ClInclude Include="..\include\ishermitianBuiltin.hpp" />
     <ClInclude Include="..\include\issymmetricBuiltin.hpp" />
     <ClInclude Include="..\include\logmBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_builtin_exports.h" />

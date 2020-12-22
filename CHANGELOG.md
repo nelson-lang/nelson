@@ -1,16 +1,22 @@
 # 0.4.12 (2020-12-XX)
 
+- `eig` builtin: Eigenvalues and eigenvectors.
+
 - `det` builtin: Matrix determinant.
+
+- `ishermitian` builtin: Checks if an matrix is hermitian or skew-hermitian.
 
 - `strcat` builtin: concatenate strings horizontally.
 
 - `append` builtin: combine strings horizontally.
 
+- `fft` is faster: plan was not correctly cached.
+
 - extends `fullfile` compatibility with string type.
 
 - extends `assert_isequal`, `isequal` to manage missing type.
 
-- `fft` is faster: plan was not correctly cached.
+- extends `issymmetric` to manage boolean type.
 
 ## Bug Fixes:
 
@@ -20,10 +26,11 @@
 
 - [#360](http://github.com/Nelson-numerical-software/nelson/issues/360): `ctranpose` and `transpose` are faster.
 
+- [#353](http://github.com/Nelson-numerical-software/nelson/issues/353): `N = i; N(1)` returned wrong value.
+
 ## Compilation:
 
 - Qt 5.15.2 on Windows (AppVeyor CI).
-
 
 # 0.4.11 (2020-11-24)
 

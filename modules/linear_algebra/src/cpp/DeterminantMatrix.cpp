@@ -69,7 +69,7 @@ DeterminantSparseComplexMatrix(const void* ptrValues)
 }
 //=============================================================================
 ArrayOf
-DeterminantMatrix(ArrayOf& A, bool& needToOverload)
+DeterminantMatrix(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     bool isSupportedTypes = A.isDoubleClass() || (A.isSingleClass() && !A.isSparse());

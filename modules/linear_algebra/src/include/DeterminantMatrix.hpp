@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-DeterminantMatrix(ArrayOf& A, bool& needToOverload);
+DeterminantMatrix(const ArrayOf& A, bool& needToOverload);
 }
 //=============================================================================

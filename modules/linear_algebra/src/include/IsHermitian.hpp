@@ -23,6 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = eye(1000, 1000);
-tic();issymmetric(A);toc()
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsHermitian(const ArrayOf& A, bool skew, bool& needToOverload);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsHermitian(const ArrayOf& A, double tol, bool& needToOverload);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsHermitian(const ArrayOf& A, bool skew, const std::string& functionName);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsHermitian(const ArrayOf& A, double tol, const std::string& functionName);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

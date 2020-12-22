@@ -23,6 +23,55 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = eye(1000, 1000);
-tic();issymmetric(A);toc()
+function M = magic(N)
+  if (nargin ~= 1)
+    error(_('Wrong number of input arguments.'));
+  end
+  if (nargout > 1)
+    error(_('Wrong number of output arguments.'));
+  end
+  N = double(fix(real(N(1))));
+  if N <= 0
+    N = 0;
+  end
+  if (mod(N, 2) == 1)
+    M = caseModN2(N);
+  else
+    if (mod(N, 4) == 0)
+      M = caseModN4(N);
+    else
+      M = caseModNOther(N);
+    end
+  end
+endfunction
+//=============================================================================
+function M = caseModN2(N)
+  M = mod((1:N)' + 2 * (1:N) - 2, N) + 1 + N * mod((1:N)' + [1:N] - (N + 3) / 2, N);
+endfunction
+//=============================================================================
+function M = caseModN4(N)
+  if N == 0
+    M =  [];
+  else
+    J = fix(mod(1:N, 4) / 2);
+    K = (J' == J);
+    M = (1:N:(N * N))' + [0:N - 1];
+    M(K) = N * (N + 1) - M(K);
+  end
+endfunction
+//=============================================================================
+function M = caseModNOther(N)
+  P = N / 2;
+  M = caseModN2(P);
+  M = [M (M + 2 * P^2); (M + 3 * P^2) (M + P^2)];
+  if N ~= 2
+    I = (1:P)';
+    K = (N - 2) / 4;
+    J = [1:K(N - K + 2):N];
+    M([I; I + P], J) = M([I + P; I], J);
+    I = K + 1;
+    J = [1 I];
+    M([I; I + P], J) = M([I + P; I], J);
+  end
+endfunction
 //=============================================================================
