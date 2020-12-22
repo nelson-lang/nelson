@@ -126,7 +126,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     singlecomplex complexVal = pComplexValue[x + y * dims.getRows()];
-                    res = complexToString<singlecomplex>(complexVal, formatNumber);
+                    res = res + complexToString<singlecomplex>(complexVal, formatNumber) + L" ";
                 }
                 if (boost::algorithm::ends_with(res, L" ")) {
                     res.pop_back();
@@ -140,7 +140,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     doublecomplex complexVal = pComplexValue[x + y * dims.getRows()];
-                    res = complexToString<doublecomplex>(complexVal, formatNumber);
+                    res = res + complexToString<doublecomplex>(complexVal, formatNumber) + L" ";
                 }
                 if (boost::algorithm::ends_with(res, L" ")) {
                     res.pop_back();
