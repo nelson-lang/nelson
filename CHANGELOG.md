@@ -4,6 +4,8 @@
 
 - `det` builtin: Matrix determinant.
 
+- `gcd` builtin: Greatest common divisor.
+
 - `ishermitian` builtin: Checks if an matrix is hermitian or skew-hermitian.
 
 - `strcat` builtin: concatenate strings horizontally.
