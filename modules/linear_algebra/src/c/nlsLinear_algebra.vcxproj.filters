@@ -80,6 +80,9 @@
     <ClInclude Include="..\include\GeneralizedEigenLapackHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\CholeskyFactorization.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\LogMatrix.cpp">
@@ -131,6 +134,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GeneralizedEigenLapackHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\CholeskyFactorization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

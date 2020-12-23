@@ -190,6 +190,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\CholeskyFactorization.hpp" />
     <ClInclude Include="..\include\DeterminantMatrix.hpp" />
     <ClInclude Include="..\include\EigenDecomposition.hpp" />
     <ClInclude Include="..\include\EigenLapackHelpers.hpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="..\include\TraceMatrix.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\CholeskyFactorization.cpp" />
     <ClCompile Include="..\cpp\DeterminantMatrix.cpp" />
     <ClCompile Include="..\cpp\EigenDecomposition.cpp" />
     <ClCompile Include="..\cpp\EigenLapackHelpers.cpp" />
