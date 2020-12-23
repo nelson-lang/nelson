@@ -78,15 +78,13 @@ IsFinite(double t)
 bool
 IsIntegerForm(double t)
 {
-    auto x = static_cast<int64_t>(std::floor(t));
-    return ((static_cast<double>(x) == t) || !IsFinite(t));
+    return (std::trunc(t) == t || !IsFinite(t));
 }
 //=============================================================================
 bool
 IsIntegerForm(float t)
 {
-    auto x = static_cast<int64_t>(std::floor(t));
-    return ((static_cast<float>(x) == t) || !IsFinite(t));
+    return (std::trunc(t) == t || !IsFinite(t));
 }
 //=============================================================================
 bool

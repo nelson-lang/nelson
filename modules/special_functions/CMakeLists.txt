@@ -52,6 +52,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsI18n
   nlsTypes
+  nlsElementary_mathematics
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}

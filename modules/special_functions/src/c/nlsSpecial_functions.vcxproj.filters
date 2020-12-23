@@ -24,12 +24,18 @@
     <ClCompile Include="..\cpp\BetaIncomplete.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\GCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Gamma.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BetaIncomplete.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GCD.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
