@@ -252,7 +252,7 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
             return ArrayOf(a);
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
         }
         return ArrayOf(b);
     }
@@ -274,7 +274,7 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
             return vector_string_addition(a, b);
         }
         if ((a.isRowVector() && b.isRowVector()) || (a.isColumnVector() && b.isColumnVector())) {
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
         } else {
             if (dimsA[1] == dimsB[1]) {
                 if (a.isVector()) {
@@ -288,10 +288,10 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
                 }
                 return matrix_vector_string_addition(a, b);
             }
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
         }
     } else {
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
     }
 
     return ArrayOf::emptyConstructor();

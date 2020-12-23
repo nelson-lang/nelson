@@ -727,7 +727,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
             return res;
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
+            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + operatorName);
         }
         ArrayOf res = ArrayOf::emptyConstructor(dimsB);
         res.promoteType(NLS_LOGICAL);
@@ -760,7 +760,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
         }
         if ((_A.isRowVector() && _B.isRowVector())
             || (_A.isColumnVector() && _B.isColumnVector())) {
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
+            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + operatorName);
         } else {
             if (dimsA[1] == dimsB[1]) {
                 if (A.isVector()) {
@@ -778,10 +778,10 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
                 return matrix_vector_operator(
                     _A, _B, realRelationOperator, complexRelationOperator, stringRelationOperator);
             }
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
+            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + operatorName);
         }
     } else {
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
+        Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + operatorName);
     }
     needToOverload = true;
     return ArrayOf();

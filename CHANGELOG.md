@@ -28,6 +28,8 @@
 
 - [#353](http://github.com/Nelson-numerical-software/nelson/issues/353): `N = i; N(1)` returned wrong value.
 
+- [#351](http://github.com/Nelson-numerical-software/nelson/issues/351): binary operators and empty matrix (behavior described in book of Carl de Boor in An Empty Exercise)
+
 ## Compilation:
 
 - Qt 5.15.2 on Windows (AppVeyor CI).

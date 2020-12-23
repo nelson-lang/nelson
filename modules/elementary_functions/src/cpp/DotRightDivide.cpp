@@ -33,6 +33,7 @@
 #include "DotRightDivideComplex.hpp"
 #include "DotRightDivideInteger.hpp"
 #include "FindCommonClass.hpp"
+#include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,12 +49,7 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, Class commonClass)
                 res = A;
             }
         } else {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
-            if (!(SameSizeCheck(dimsA, dimsB))) {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"./");
-            }
-            res = B;
+            res = binaryOperatorEmptyMatrixEmptryMatrix(A, B, commonClass, "./");
         }
         if (res.getDataClass() == NLS_DCOMPLEX) {
             if (res.allReal()) {

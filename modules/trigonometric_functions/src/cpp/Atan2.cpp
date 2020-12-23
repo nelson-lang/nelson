@@ -180,7 +180,7 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
             return ArrayOf(A);
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
         }
         return ArrayOf(B);
     }
@@ -211,7 +211,7 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                 dimsA.getElementCount(), (const T*)B.getDataPointer(), dimsB.getElementCount());
         } else if ((A.isRowVector() && B.isRowVector())
             || (A.isColumnVector() && B.isColumnVector())) {
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
         } else {
             const T* ptrA = (const T*)A.getDataPointer();
             const T* ptrB = (const T*)B.getDataPointer();
@@ -228,10 +228,10 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                 }
                 return vector_column_atan2<T>(classDestination, B, A);
             }
-            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
         }
     } else {
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+        Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
     }
 
     return ArrayOf(classDestination, dimsC, Cp, false);

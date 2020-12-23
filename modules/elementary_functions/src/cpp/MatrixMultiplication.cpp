@@ -318,7 +318,7 @@ T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf&
             res.promoteType(realClass);
             return res;
         }
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
     if (!A.is2D() || !B.is2D()) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
@@ -328,7 +328,7 @@ T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf&
         || (A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector()));
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && isVector
         && dimsA.getColumns() != dimsB.getRows()) {
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
     if (A.isEmpty()) {
         size_t mA = dimsA.getRows();
@@ -400,7 +400,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
             res.promoteType(A.getDataClass());
             return res;
         }
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
     if (!A.is2D() || !B.is2D()) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
@@ -409,7 +409,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
         || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector()));
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && !isVector
         && dimsA.getColumns() != dimsB.getRows()) {
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
     if (A.isEmpty()) {
         size_t mA = dimsA.getRows();
