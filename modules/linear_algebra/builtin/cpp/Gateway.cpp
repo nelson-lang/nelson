@@ -36,6 +36,7 @@
 #include "traceBuiltin.hpp"
 #include "detBuiltin.hpp"
 #include "eigBuiltin.hpp"
+#include "cholBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -60,6 +61,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "det", (void*)Nelson::LinearAlgebraGateway::detBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "eig", (void*)Nelson::LinearAlgebraGateway::eigBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "chol", (void*)Nelson::LinearAlgebraGateway::cholBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

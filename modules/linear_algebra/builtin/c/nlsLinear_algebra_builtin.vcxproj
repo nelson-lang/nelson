@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\cholBuiltin.cpp" />
     <ClCompile Include="..\cpp\detBuiltin.cpp" />
     <ClCompile Include="..\cpp\eigBuiltin.cpp" />
     <ClCompile Include="..\cpp\expmBuiltin.cpp" />
@@ -219,6 +220,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\cholBuiltin.hpp" />
     <ClInclude Include="..\include\detBuiltin.hpp" />
     <ClInclude Include="..\include\eigBuiltin.hpp" />
     <ClInclude Include="..\include\expmBuiltin.hpp" />
