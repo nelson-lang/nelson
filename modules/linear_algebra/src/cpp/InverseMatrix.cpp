@@ -26,33 +26,56 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
+#include "nlsConfig.h"
 #include "InverseMatrix.hpp"
 #include "ClassName.hpp"
 #include "ReciprocalConditionNumber.hpp"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
+#include <Eigen/src/misc/lapacke.h>
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static ArrayOf
 InverseDouble(ArrayOf A, double rcond)
 {
-    ArrayOf res(A);
+    ArrayOf res = A;
     res.ensureSingleOwner();
+    double* ptrD = (double*)res.getDataPointer();
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
         (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-    Eigen::Map<Eigen::MatrixXd> matR((double*)res.getDataPointer(),
-        (Eigen::Index)res.getDimensions().getRows(),
-        (Eigen::Index)res.getDimensions().getColumns());
-    if (matA.hasNaN()) {
-        matR.setConstant(std::nan("NaN"));
+    if (matA.isDiagonal()) {
+        if (std::isnan(rcond)) {
+            Eigen::Map<Eigen::MatrixXd> matR(ptrD, (Eigen::Index)res.getDimensions().getRows(),
+                (Eigen::Index)res.getDimensions().getColumns());
+            matR.setConstant(std::nan("NaN"));
+            return res;
+        }
+        int N = (int)A.getDimensions().getColumns();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
+            ptrD[k + (k * N)] = 1 / ptrD[k + (k * N)];
+        }
     } else {
-        Eigen::FullPivLU<Eigen::MatrixXd> luFull(matA);
-        if (luFull.isInvertible()) {
-            matR = luFull.inverse();
+        int N = (int)A.getDimensions().getColumns();
+        int* IPIV = new_with_exception<int>(N);
+        int LWORK = std::max(1, 4 * N);
+        int INFO = 0;
+
+        LAPACK_dgetrf(&N, &N, ptrD, &N, IPIV, &INFO);
+        if (INFO == 0) {
+            double* WORK = new_with_exception<double>(LWORK);
+            LAPACK_dgetri(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
+            delete[] WORK;
+            delete[] IPIV;
         } else {
-            double det = luFull.determinant();
-            if (rcond == 0 && det == 0) {
+            delete[] IPIV;
+            Eigen::Map<Eigen::MatrixXd> matR(ptrD, (Eigen::Index)res.getDimensions().getRows(),
+                (Eigen::Index)res.getDimensions().getColumns());
+            if (rcond == 0) {
                 matR.setConstant(std::numeric_limits<double>::infinity());
             } else {
                 matR = matA.inverse();
@@ -73,33 +96,37 @@ InverseDoubleComplex(ArrayOf A, double rcond)
         (Eigen::Index)A.getDimensions().getColumns());
     Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)res.getDimensions().getRows(),
         (Eigen::Index)res.getDimensions().getColumns());
-    if (matA.hasNaN()) {
-        doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
-        matR.setConstant(cst);
+    if (matA.isDiagonal()) {
+        if (std::isnan(rcond)) {
+            doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
+            matR.setConstant(cst);
+            return res;
+        }
+        int N = (int)A.getDimensions().getColumns();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
+            Rz[k + (k * N)] = std::complex<double>(1, 0) / Rz[k + (k * N)];
+        }
     } else {
-        Eigen::FullPivLU<Eigen::MatrixXcd> luFull(matA);
-        if (luFull.isInvertible()) {
-            matR = luFull.inverse();
+        int N = (int)A.getDimensions().getColumns();
+        int* IPIV = new_with_exception<int>(N);
+        int LWORK = std::max(1, 4 * N);
+        int INFO = 0;
+        LAPACK_zgetrf(&N, &N, Rz, &N, IPIV, &INFO);
+        if (INFO == 0) {
+            doublecomplex* WORK = new_with_exception<doublecomplex>(LWORK);
+            LAPACK_zgetri(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
+            delete[] WORK;
+            delete[] IPIV;
         } else {
-            Eigen::PartialPivLU<Eigen::MatrixXcd> luPartial(matA);
-            doublecomplex det = luPartial.determinant();
-            if (std::isnan(rcond)) {
-                if (std::isnan(det.real()) && std::isnan(det.imag())) {
-                    doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
-                    matR.setConstant(cst);
-                }
+            delete[] IPIV;
+            if (rcond == 0) {
+                doublecomplex cst(std::numeric_limits<double>::infinity(), 0);
+                matR.setConstant(cst);
             } else {
-                if ((rcond == 0.) && (det == 0.)) {
-                    doublecomplex cst(std::numeric_limits<double>::infinity(), 0);
-                    matR.setConstant(cst);
-                } else {
-                    if (rcond == 0) {
-                        doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
-                        matR.setConstant(cst);
-                    } else {
-                        matR = matA.inverse();
-                    }
-                }
+                matR = matA.inverse();
             }
         }
         if (res.allReal()) {
@@ -112,22 +139,42 @@ InverseDoubleComplex(ArrayOf A, double rcond)
 static ArrayOf
 InverseSingle(ArrayOf A, single rcond)
 {
-    ArrayOf res(A);
+    ArrayOf res = A;
     res.ensureSingleOwner();
+    single* ptrD = (single*)res.getDataPointer();
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
         (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-    Eigen::Map<Eigen::MatrixXf> matR((single*)res.getDataPointer(),
-        (Eigen::Index)res.getDimensions().getRows(),
-        (Eigen::Index)res.getDimensions().getColumns());
-    if (matA.hasNaN()) {
-        matR.setConstant(std::nanf("NaN"));
+    if (matA.isDiagonal()) {
+        if (std::isnan(rcond)) {
+            Eigen::Map<Eigen::MatrixXf> matR(ptrD, (Eigen::Index)res.getDimensions().getRows(),
+                (Eigen::Index)res.getDimensions().getColumns());
+            matR.setConstant(std::nanf("NaN"));
+            return res;
+        }
+        int N = (int)A.getDimensions().getColumns();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
+            ptrD[k + (k * N)] = 1 / ptrD[k + (k * N)];
+        }
     } else {
-        Eigen::FullPivLU<Eigen::MatrixXf> luFull(matA);
-        if (luFull.isInvertible()) {
-            matR = luFull.inverse();
+        int N = (int)A.getDimensions().getColumns();
+        int* IPIV = new_with_exception<int>(N);
+        int LWORK = std::max(1, 4 * N);
+        int INFO = 0;
+
+        LAPACK_sgetrf(&N, &N, ptrD, &N, IPIV, &INFO);
+        if (INFO == 0) {
+            single* WORK = new_with_exception<single>(LWORK);
+            LAPACK_sgetri(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
+            delete[] WORK;
+            delete[] IPIV;
         } else {
-            single det = luFull.determinant();
-            if (rcond == 0 && det == 0) {
+            delete[] IPIV;
+            Eigen::Map<Eigen::MatrixXf> matR(ptrD, (Eigen::Index)res.getDimensions().getRows(),
+                (Eigen::Index)res.getDimensions().getColumns());
+            if (rcond == 0) {
                 matR.setConstant(std::numeric_limits<single>::infinity());
             } else {
                 matR = matA.inverse();
@@ -148,33 +195,37 @@ InverseSingleComplex(ArrayOf A, single rcond)
         (Eigen::Index)A.getDimensions().getColumns());
     Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)res.getDimensions().getRows(),
         (Eigen::Index)res.getDimensions().getColumns());
-    if (matA.hasNaN()) {
-        singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
-        matR.setConstant(cst);
+    if (matA.isDiagonal()) {
+        if (std::isnan(rcond)) {
+            singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
+            matR.setConstant(cst);
+            return res;
+        }
+        int N = (int)A.getDimensions().getColumns();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
+            Rz[k + (k * N)] = std::complex<single>(1, 0) / Rz[k + (k * N)];
+        }
     } else {
-        Eigen::FullPivLU<Eigen::MatrixXcf> luFull(matA);
-        if (luFull.isInvertible()) {
-            matR = luFull.inverse();
+        int N = (int)A.getDimensions().getColumns();
+        int* IPIV = new_with_exception<int>(N);
+        int LWORK = std::max(1, 4 * N);
+        int INFO = 0;
+        LAPACK_cgetrf(&N, &N, Rz, &N, IPIV, &INFO);
+        if (INFO == 0) {
+            singlecomplex* WORK = new_with_exception<singlecomplex>(LWORK);
+            LAPACK_cgetri(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
+            delete[] WORK;
+            delete[] IPIV;
         } else {
-            Eigen::PartialPivLU<Eigen::MatrixXcf> luPartial(matA);
-            singlecomplex det = luPartial.determinant();
-            if (std::isnan(rcond)) {
-                if (std::isnan(det.real()) && std::isnan(det.imag())) {
-                    singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
-                    matR.setConstant(cst);
-                }
+            delete[] IPIV;
+            if (rcond == 0) {
+                singlecomplex cst(std::numeric_limits<single>::infinity(), 0);
+                matR.setConstant(cst);
             } else {
-                if ((rcond == 0.) && (det.real() == 0.) && (det.imag() == 0.)) {
-                    singlecomplex cst(std::numeric_limits<single>::infinity(), 0);
-                    matR.setConstant(cst);
-                } else {
-                    if (rcond == 0) {
-                        singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
-                        matR.setConstant(cst);
-                    } else {
-                        matR = matA.inverse();
-                    }
-                }
+                matR = matA.inverse();
             }
         }
         if (res.allReal()) {

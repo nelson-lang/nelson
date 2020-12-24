@@ -14,13 +14,16 @@
 
 - `fft` is faster: plan was not correctly cached.
 
+- `|`, `&`, `./` and `.^` operators are faster.
+
+- `inv` is faster.
+
 - extends `fullfile` compatibility with string type.
 
 - extends `assert_isequal`, `isequal` to manage missing type.
 
 - extends `issymmetric` to manage boolean type.
 
-- `|`, `&`, `./` and `.^` operators are faster.
 
 ## Bug Fixes:
 

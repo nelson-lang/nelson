@@ -35,9 +35,6 @@ namespace Nelson {
  * LEFTDIVIDE /  Operator
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-LeftDivide(ArrayOf A, ArrayOf B);
-
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
