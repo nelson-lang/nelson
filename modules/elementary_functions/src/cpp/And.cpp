@@ -25,6 +25,7 @@
 //=============================================================================
 #include "And.hpp"
 #include "MatrixCheck.hpp"
+#include "nlsConfig.h"
 #include <algorithm>
 //=============================================================================
 namespace Nelson {
@@ -44,13 +45,29 @@ boolean_vector_and(logical* C, const logical* A, indexType NA, const logical* B,
 static void
 boolean_and(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
-    indexType m = 0;
-    indexType p = 0;
-    for (indexType i = 0; i < N; i++) {
+    if (Astride == 1 && Bstride == 1) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            C[i] = static_cast<Nelson::logical>((A[i] != 0u) && (B[i] != 0u));
+        }
 
-        C[i] = static_cast<Nelson::logical>((A[m] != 0u) && (B[p] != 0u));
-        m += Astride;
-        p += Bstride;
+    } else if (Astride == 0 && Bstride == 1) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            C[i] = static_cast<Nelson::logical>((A[0] != 0u) && (B[i] != 0u));
+        }
+
+    } else if (Astride == 1 && Bstride == 0) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            C[i] = static_cast<Nelson::logical>((A[i] != 0u) && (B[0] != 0u));
+        }
     }
 }
 //=============================================================================

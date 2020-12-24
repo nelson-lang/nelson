@@ -25,6 +25,7 @@
 //=============================================================================
 #include "Or.hpp"
 #include "MatrixCheck.hpp"
+#include "nlsConfig.h"
 #include <algorithm>
 //=============================================================================
 namespace Nelson {
@@ -44,12 +45,27 @@ boolean_vector_or(logical* C, const logical* A, indexType NA, const logical* B, 
 static void
 boolean_or(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
-    indexType m = 0;
-    indexType p = 0;
-    for (indexType i = 0; i < N; i++) {
-        C[i] = A[m] | B[p];
-        m += Astride;
-        p += Bstride;
+    if (Astride == 1 && Bstride == 1) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            C[i] = A[i] | B[i];
+        }
+    } else if (Astride == 0 && Bstride == 1) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            C[i] = A[0] | B[i];
+        }
+    } else if (Astride == 1 && Bstride == 0) {
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
+            C[i] = A[i] | B[0];
+        }
     }
 }
 //=============================================================================

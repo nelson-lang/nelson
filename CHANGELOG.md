@@ -20,6 +20,8 @@
 
 - extends `issymmetric` to manage boolean type.
 
+- `|`, `&`, `./` and `.^` operators are faster.
+
 ## Bug Fixes:
 
 - [#364](http://github.com/Nelson-numerical-software/nelson/issues/364): `isinf`, `isnan`, `conj`, `double`, `single`, `real`, `imag` are faster.
