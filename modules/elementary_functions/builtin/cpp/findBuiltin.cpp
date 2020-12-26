@@ -23,22 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "findBuiltin.hpp"
+#include "Find.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-/**
- * Element-wise power.  A .^ B
- */
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B);
-//=============================================================================
-} // namespace Nelson
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::findBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() == 0 || argIn.size() > 3) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 3) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "find", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        retval = Find(argIn, nLhs, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "find");
+        }
+    }
+    return retval;
+}
 //=============================================================================

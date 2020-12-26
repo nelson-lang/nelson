@@ -23,12 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function res = isscalar (varargin)
-  if (nargin == 1)
-    [nr, nc] = size(varargin{1});
-    res = (nr == 1 && nc == 1);
-  else
-    error(_('Wrong number of input arguments.'));
-  end
-endfunction
+N = 5000;
+M = 1:N*N;
+M = reshape(M, N, N);
+tic();R = corrcoef(M);toc();
 //=============================================================================

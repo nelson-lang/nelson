@@ -26,19 +26,15 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-/**
- * Element-wise power.  A .^ B
- */
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B);
+namespace ElementaryFunctionsGateway {
+    //=============================================================================
+    ArrayOfVector
+    isscalarBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

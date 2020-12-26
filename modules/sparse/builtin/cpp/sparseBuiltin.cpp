@@ -82,7 +82,8 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             || V.getDataClass() == NLS_LOGICAL)
         && !V.isSparse()) {
         if (I.isVector() && J.isVector() && V.isVector()
-            || I.isScalar() && J.isScalar() && V.isScalar()) {
+            || I.isScalar() && J.isScalar() && V.isScalar()
+            || I.isEmpty() || J.isEmpty() || V.isEmpty()) {
             retval.push_back(SparseConstructor(I, J, V));
         } else {
             Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));

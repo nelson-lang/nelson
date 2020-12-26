@@ -23,22 +23,57 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "varBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "Variance.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-/**
- * Element-wise power.  A .^ B
- */
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B);
-//=============================================================================
-} // namespace Nelson
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::varBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    bool bSuccess = false;
+    bool nArgInSupported = argIn.size() > 1 || argIn.size() < 3;
+    if (!nArgInSupported) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "var", bSuccess);
+    }
+    if (!bSuccess) {
+        ArrayOf A = argIn[0];
+        int w = 0;
+        int d = -1;
+        if (argIn.size() > 1) {
+            ArrayOf arg2 = argIn[1];
+            w = (int)arg2.getContentAsScalarIndex(true);
+            bool wValid = (w == 0 || w == 1);
+            if (!wValid) {
+                Error(_W("Wrong value for #2 argument."));
+            }
+        }
+        if (argIn.size() > 2) {
+            ArrayOf arg3 = argIn[2];
+            d = (int)arg3.getContentAsScalarIndex(true);
+            if (d <= 0) {
+                Error(_W("Wrong value for #3 argument."));
+            }
+        }
+        bool needToOverload = false;
+        ArrayOf res = Variance(A, w, d, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "var");
+        } else {
+            retval.push_back(res);
+        }
+    }
+    return retval;
+}
 //=============================================================================

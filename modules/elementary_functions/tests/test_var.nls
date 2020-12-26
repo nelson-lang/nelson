@@ -23,22 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('var'), 3);
+assert_isequal(nargout('var'), 1);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+R = var([1,2,3], 0, 1);
+REF = [NaN NaN NaN];
+assert_isequal(R, REF);
 //=============================================================================
-namespace Nelson {
+A = [4 -7 3; 1 4 -2; 10 7 9];
+R = var(A);
+REF = [21.0000   54.3333   30.3333];
+assert_isapprox(R, REF, 1e-4);
 //=============================================================================
-/**
- * Element-wise power.  A .^ B
- */
+A = [4 -2 1; 9 5 7];
+R = var(A, 0, 1);
+REF = [12.5000   24.5000   18.0000];
+assert_isapprox(R, REF, 1e-4);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B);
-//=============================================================================
-} // namespace Nelson
+A = [4 -2 1; 9 5 7];
+R = var(A, 0, 2);
+REF = [9; 4];
+assert_isapprox(R, REF, 1e-4);
 //=============================================================================

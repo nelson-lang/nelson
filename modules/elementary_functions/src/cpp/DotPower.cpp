@@ -659,8 +659,7 @@ powerInteger(const ArrayOf& A, const ArrayOf& B, indexType n, int stride1, int s
     }
 }
 //=============================================================================
-
-inline ArrayOf
+ArrayOf
 DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;

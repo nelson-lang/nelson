@@ -237,6 +237,15 @@
     <ClCompile Include="..\cpp\BinaryOperatorsHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\Variance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Find.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\CorrelationCoefficients.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp">
@@ -498,6 +507,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BinaryOperatorsHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Variance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Find.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CorrelationCoefficients.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

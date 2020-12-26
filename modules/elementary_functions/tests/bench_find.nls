@@ -23,22 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-/**
- * Element-wise power.  A .^ B
- */
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B);
-//=============================================================================
-} // namespace Nelson
+N = 5000;
+M = 1:N*N;
+M = reshape(M, N, N);
+tic();find(M > 5000 & M < 6000 );toc();
 //=============================================================================

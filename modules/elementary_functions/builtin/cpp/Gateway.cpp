@@ -103,6 +103,11 @@
 #include "fliplrBuiltin.hpp"
 #include "flipudBuiltin.hpp"
 #include "meanBuiltin.hpp"
+#include "varBuiltin.hpp"
+#include "findBuiltin.hpp"
+#include "isvectorBuiltin.hpp"
+#include "isscalarBuiltin.hpp"
+#include "corrcoefBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -276,6 +281,14 @@ static const nlsGateway gateway[] = {
     { "flipud", (void*)Nelson::ElementaryFunctionsGateway::flipudBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "mean", (void*)Nelson::ElementaryFunctionsGateway::meanBuiltin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "var", (void*)Nelson::ElementaryFunctionsGateway::varBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "find", (void*)Nelson::ElementaryFunctionsGateway::findBuiltin, 3, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "isvector", (void*)Nelson::ElementaryFunctionsGateway::isvectorBuiltin, 1, 1, CPP_BUILTIN },
+    { "isscalar", (void*)Nelson::ElementaryFunctionsGateway::isscalarBuiltin, 1, 1, CPP_BUILTIN },
+    { "corrcoef", (void*)Nelson::ElementaryFunctionsGateway::corrcoefBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================

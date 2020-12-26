@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSLINEAR_ALGEBRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/constructors_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSLINEAR_ALGEBRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/constructors_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -131,7 +131,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSLINEAR_ALGEBRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/constructors_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -152,7 +152,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSLINEAR_ALGEBRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/constructors_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -164,6 +164,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\constructors_functions\src\c\nlsConstructors_functions.vcxproj">
+      <Project>{b4ed9c6b-09b7-473d-bf47-ce75cd86f4c8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
