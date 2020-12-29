@@ -1,4 +1,4 @@
-# 0.4.12 (2020-12-XX)
+# 0.4.12 (2020-12-30)
 
 - `eig` builtin: Eigenvalues and eigenvectors.
 
