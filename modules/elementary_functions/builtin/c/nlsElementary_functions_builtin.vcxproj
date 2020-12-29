@@ -179,11 +179,13 @@
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
     <ClCompile Include="..\cpp\conjBuiltin.cpp" />
+    <ClCompile Include="..\cpp\corrcoefBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\dec2baseBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
     <ClCompile Include="..\cpp\expBuiltin.cpp" />
+    <ClCompile Include="..\cpp\findBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
     <ClCompile Include="..\cpp\fliplrBuiltin.cpp" />
     <ClCompile Include="..\cpp\flipudBuiltin.cpp" />
@@ -201,6 +203,8 @@
     <ClCompile Include="..\cpp\isinfBuiltin.cpp" />
     <ClCompile Include="..\cpp\ismissingBuiltin.cpp" />
     <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isscalarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isvectorBuiltin.cpp" />
     <ClCompile Include="..\cpp\ldivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\leBuiltin.cpp" />
     <ClCompile Include="..\cpp\lengthBuiltin.cpp" />
@@ -247,6 +251,7 @@
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uplusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\varBuiltin.cpp" />
     <ClCompile Include="..\cpp\vertcatBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -288,11 +293,13 @@
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\complexBuiltin.hpp" />
     <ClInclude Include="..\include\conjBuiltin.hpp" />
+    <ClInclude Include="..\include\corrcoefBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\dec2baseBuiltin.hpp" />
     <ClInclude Include="..\include\dispBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />
     <ClInclude Include="..\include\expBuiltin.hpp" />
+    <ClInclude Include="..\include\findBuiltin.hpp" />
     <ClInclude Include="..\include\fixBuiltin.hpp" />
     <ClInclude Include="..\include\fliplrBuiltin.hpp" />
     <ClInclude Include="..\include\flipudBuiltin.hpp" />
@@ -309,6 +316,8 @@
     <ClInclude Include="..\include\isinfBuiltin.hpp" />
     <ClInclude Include="..\include\ismissingBuiltin.hpp" />
     <ClInclude Include="..\include\isnanBuiltin.hpp" />
+    <ClInclude Include="..\include\isscalarBuiltin.hpp" />
+    <ClInclude Include="..\include\isvectorBuiltin.hpp" />
     <ClInclude Include="..\include\ldivideBuiltin.hpp" />
     <ClInclude Include="..\include\leBuiltin.hpp" />
     <ClInclude Include="..\include\lengthBuiltin.hpp" />
@@ -356,6 +365,7 @@
     <ClInclude Include="..\include\transposeBuiltin.hpp" />
     <ClInclude Include="..\include\uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uplusBuiltin.hpp" />
+    <ClInclude Include="..\include\varBuiltin.hpp" />
     <ClInclude Include="..\include\vertcatBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../constructors_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -48,6 +49,7 @@ target_link_libraries(
   nlsTypes
   nlsI18n
   nlsElementary_functions
+  nlsConstructors_functions
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}

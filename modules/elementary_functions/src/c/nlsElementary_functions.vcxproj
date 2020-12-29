@@ -182,10 +182,12 @@
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
     <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
+    <ClCompile Include="..\cpp\CorrelationCoefficients.cpp" />
     <ClCompile Include="..\cpp\DecimalToBase.cpp" />
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
+    <ClCompile Include="..\cpp\Find.cpp" />
     <ClCompile Include="..\cpp\FindCommonClass.cpp" />
     <ClCompile Include="..\cpp\Flip.cpp" />
     <ClCompile Include="..\cpp\LeastSquareSolver.cpp">
@@ -254,6 +256,7 @@
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
     <ClCompile Include="..\cpp\UnaryMinus.cpp" />
     <ClCompile Include="..\cpp\UnaryPlus.cpp" />
+    <ClCompile Include="..\cpp\Variance.cpp" />
     <ClCompile Include="..\cpp\VertCat.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -287,12 +290,14 @@
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
+    <ClInclude Include="..\include\CorrelationCoefficients.hpp" />
     <ClInclude Include="..\include\DecimalToBase.hpp" />
     <ClInclude Include="..\include\DotLeftDivide.hpp" />
     <ClInclude Include="..\include\DotPower.hpp" />
     <ClInclude Include="..\include\DotRightDivide.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\Exponential.hpp" />
+    <ClInclude Include="..\include\Find.hpp" />
     <ClInclude Include="..\include\FindCommonClass.hpp" />
     <ClInclude Include="..\include\Flip.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
@@ -343,6 +348,7 @@
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
     <ClInclude Include="..\include\UnaryMinus.hpp" />
     <ClInclude Include="..\include\UnaryPlus.hpp" />
+    <ClInclude Include="..\include\Variance.hpp" />
     <ClInclude Include="..\include\VertCat.hpp" />
   </ItemGroup>
   <ItemGroup>

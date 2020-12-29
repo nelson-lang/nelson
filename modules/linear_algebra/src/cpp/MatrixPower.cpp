@@ -24,53 +24,91 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lapack_eigen.hpp"
-#include <unsupported/Eigen/MatrixFunctions>
 #include "MatrixPower.hpp"
 #include "DotPower.hpp"
 #include "InverseMatrix.hpp"
+#include "IsSymmetric.hpp"
+#include "EigenDecomposition.hpp"
+#include "MatrixMultiplication.hpp"
+#include "RightDivide.hpp"
+#include "Eye.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T>
-ArrayOf
-complexMatrixScalarPower(ArrayOf& A, ArrayOf& B)
-{
-    Error(_W("Power (^) currently not implemented in Nelson."));
-    return ArrayOf();
-}
-//=============================================================================
-template <class T>
-ArrayOf
-realMatrixScalarPower(ArrayOf& A, ArrayOf& B)
-{
-    Error(_W("Power (^) currently not implemented in Nelson."));
-    return ArrayOf();
-}
-//=============================================================================
 static ArrayOf
-matrixScalarPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+matrixScalarPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    if (A.isSingleClass()) {
-        if (A.isComplex()) {
-            return complexMatrixScalarPower<single>(A, B);
-        } else {
-            return realMatrixScalarPower<single>(A, B);
+    std::wstring errorMessage;
+    ArrayOf BB = B;
+    double value = BB.getContentAsDoubleScalar();
+    if (value == rint(value)) {
+        if (value == 0) {
+            Dimensions dimsA = A.getDimensions();
+            return Eye(dimsA.getRows(), dimsA.getColumns(), A.getDataClass());
         }
-    } else {
-        if (A.isComplex()) {
-            return complexMatrixScalarPower<double>(A, B);
-        } else {
-            return realMatrixScalarPower<double>(A, B);
+        if (value == 1) {
+            return A;
         }
+        ArrayOf res;
+        if (value > 0) {
+            res = A;
+            auto v = (long int)value;
+            long int md = v / 2;
+            long int mr = v % 2;
+            for (long int k = 1; k < md; k++) {
+                res = matrixMultiplication(res, A, needToOverload);
+            }
+            res = matrixMultiplication(res, res, needToOverload);
+            if (mr != 0) {
+                res = matrixMultiplication(res, A, needToOverload);
+            }
+        } else {
+            ArrayOf invA = A;
+            invA = InverseMatrix(invA, needToOverload);
+            res = invA;
+            auto v = (long int)abs(value);
+            long int md = v / 2;
+            long int mr = v % 2;
+            for (long int k = 1; k < md; k++) {
+                res = matrixMultiplication(res, invA, needToOverload);
+            }
+            res = matrixMultiplication(res, res, needToOverload);
+            if (mr != 0) {
+                res = matrixMultiplication(res, invA, needToOverload);
+            }
+        }
+        return res;
     }
-    return ArrayOf();
+    ArrayOf V;
+    ArrayOf D;
+    if (IsSymmetric(A, (bool)false, needToOverload)) {
+        EigenDecompositionFullSymmetric(A, V, D, needToOverload, errorMessage);
+    } else {
+        EigenDecompositionFullGeneral(A, false, V, D, needToOverload, errorMessage);
+    }
+    ArrayOf E = D.getDiagonal(0);
+    ArrayOf F = DoPowerTwoArgFunction(E, B);
+    ArrayOf G = ArrayOf::diagonalConstructor(F, 0);
+    E = matrixMultiplication(V, G, needToOverload);
+    return RightDivide(E, V, needToOverload);
 }
 //=============================================================================
 static ArrayOf
-scalarMatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
+scalarMatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    Error(_W("Power (^) currently not implemented in Nelson."));
-    return ArrayOf();
+    std::wstring errorMessage;
+    ArrayOf V;
+    ArrayOf D;
+    if (IsSymmetric(B, (bool)false, needToOverload)) {
+        EigenDecompositionFullSymmetric(B, V, D, needToOverload, errorMessage);
+    } else {
+        EigenDecompositionFullGeneral(B, false, V, D, needToOverload, errorMessage);
+    }
+    ArrayOf E = D.getDiagonal(0);
+    ArrayOf F = DoPowerTwoArgFunction(A, E);
+    ArrayOf G = ArrayOf::diagonalConstructor(F, 0);
+    E = matrixMultiplication(V, G, needToOverload);
+    return RightDivide(E, V, needToOverload);
 }
 //=============================================================================
 ArrayOf
@@ -136,6 +174,14 @@ MatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         res = matrixScalarPower(A, B, needToOverload);
     } else {
         res = scalarMatrixPower(A, B, needToOverload);
+    }
+    if (res.allReal() && !needToOverload) {
+        if (res.getDataClass() == NLS_SCOMPLEX) {
+            res.promoteType(NLS_SINGLE);
+        }
+        if (res.getDataClass() == NLS_DCOMPLEX) {
+            res.promoteType(NLS_DOUBLE);
+        }
     }
     return res;
 }

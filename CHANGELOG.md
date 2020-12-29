@@ -6,11 +6,23 @@
 
 - `gcd` builtin: Greatest common divisor.
 
+- `find` builtin: Find indices and values of nonzero elements.
+
 - `ishermitian` builtin: Checks if an matrix is hermitian or skew-hermitian.
 
 - `strcat` builtin: concatenate strings horizontally.
 
 - `append` builtin: combine strings horizontally.
+
+- `corrcoef` function: correlation coefficients.
+
+- `cov` function: covariance.
+
+- `var` builtin: variance.
+
+- `magic` function: magic square.
+
+- `mpower` builtin: matrix support added.
 
 - `fft` is faster: plan was not correctly cached.
 
@@ -23,7 +35,6 @@
 - extends `assert_isequal`, `isequal` to manage missing type.
 
 - extends `issymmetric` to manage boolean type.
-
 
 ## Bug Fixes:
 
