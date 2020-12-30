@@ -39,10 +39,10 @@
     brew install curl;
     brew install libgit2;
     brew install libomp;
+    brew install lapack;
     ```
-  - Install LAPACKE
+  - Install LAPACK
     By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).
-    LAPACKE prebuild is available for macos Sierra in nelson-thirdparty-macosx git repository.
     You can also use optimized CPU version with OpenBLAS
     `bash brew install homebrew/science/openblas `
 

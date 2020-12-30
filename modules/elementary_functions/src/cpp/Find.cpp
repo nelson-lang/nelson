@@ -99,7 +99,7 @@ RCFindModeFull(ArrayOf x)
 //=============================================================================
 template <class T>
 ArrayOfVector
-RCVFindModeFullReal(const ArrayOf &x)
+RCVFindModeFullReal(const ArrayOf& x)
 {
     const T* dp = (const T*)x.getDataPointer();
     indexType len = x.getLength();
@@ -139,7 +139,7 @@ RCVFindModeFullReal(const ArrayOf &x)
 //=============================================================================
 template <class T>
 ArrayOfVector
-RCVFindModeFullComplex(const ArrayOf &x)
+RCVFindModeFullComplex(const ArrayOf& x)
 {
     const T* dp = (const T*)x.getDataPointer();
     indexType len = x.getLength();
@@ -299,9 +299,7 @@ Find(const ArrayOfVector& argIn, int nLhs, bool& needToOverload)
     case 3: {
         return FindTrim(RCVFindModeFull(x), k, first_flag);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return retval;
 }
 //=============================================================================

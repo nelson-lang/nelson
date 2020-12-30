@@ -50,8 +50,7 @@ target_link_libraries(
   nlsApi_nelson
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY})
+  ${MAC_LAPACK_LIBRARY})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

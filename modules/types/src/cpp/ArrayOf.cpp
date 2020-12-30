@@ -44,7 +44,6 @@
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
 #include "lapack_eigen.hpp"
-#include <Eigen/src/misc/lapacke.h>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <algorithm>

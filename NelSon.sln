@@ -249,7 +249,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CMake\FindEigen3.cmake = CMake\FindEigen3.cmake
 		CMake\FindFFTW.cmake = CMake\FindFFTW.cmake
 		CMake\Findicu.cmake = CMake\Findicu.cmake
-		CMake\FindLAPACKE.cmake = CMake\FindLAPACKE.cmake
 		CMake\Findlibffi.cmake = CMake\Findlibffi.cmake
 		CMake\FindLibSndFile.cmake = CMake\FindLibSndFile.cmake
 		CMake\FindMATIO.cmake = CMake\FindMATIO.cmake

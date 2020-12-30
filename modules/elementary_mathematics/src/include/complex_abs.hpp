@@ -25,27 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <complex>
+#include <cstdlib>
+//=============================================================================
 template <class T>
 T
 complex_abs(T real, T imag)
 {
-    double temp;
-    if (real < 0) {
-        real = -real;
-    }
-    if (imag < 0) {
-        imag = -imag;
-    }
-    if (imag > real) {
-        temp = real;
-        real = imag;
-        imag = (T)(temp);
-    }
-    if ((real + imag) == real) {
-        return (real);
-    }
-    temp = imag / real;
-    temp = real * sqrt(1.0 + temp * temp);
-    return (T)(temp);
+    return (T)std::abs(std::complex<T>(real, imag));
 }
 //=============================================================================

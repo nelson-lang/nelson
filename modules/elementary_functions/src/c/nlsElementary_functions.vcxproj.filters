@@ -213,9 +213,6 @@
     <ClCompile Include="..\cpp\LeastSquareSolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\SVDDecomposition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\FindCommonClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -447,9 +444,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\LeastSquareSolver.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\SVDDecomposition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\AdditionReal.hpp">

@@ -28,7 +28,6 @@
 #include "DotLeftDivide.hpp"
 #include "LinearEquationSolver.hpp"
 #include "LeastSquareSolver.hpp"
-#include "SVDDecomposition.hpp"
 #include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
@@ -37,33 +36,29 @@ static bool
 promoteCommonType(ArrayOf& A, ArrayOf& B)
 {
     bool wasPromoted = true;
-    if (A.getDataClass() != B.getDataClass()) {
-        if (A.isComplex() || B.isComplex()) {
-            if (A.isComplex()) {
-                if (B.getDataClass() == NLS_DOUBLE) {
-                    B.promoteType(NLS_DCOMPLEX);
-                } else if (B.getDataClass() == NLS_SINGLE) {
-                    B.promoteType(NLS_SCOMPLEX);
-                } else {
-                    wasPromoted = false;
-                }
+    bool isComplex = A.isComplex() || B.isComplex();
+    bool isSingle = A.isSingleClass() || B.isSingleClass();
+    if ((A.isSingleClass() || A.isDoubleClass()) && (B.isSingleClass() || B.isDoubleClass())) {
+        if (isComplex) {
+            if (isSingle) {
+                A.promoteType(NLS_SCOMPLEX);
+                B.promoteType(NLS_SCOMPLEX);
             } else {
-                if (A.getDataClass() == NLS_DOUBLE) {
-                    A.promoteType(NLS_DCOMPLEX);
-                } else if (A.getDataClass() == NLS_SINGLE) {
-                    A.promoteType(NLS_SCOMPLEX);
-                } else {
-                    wasPromoted = false;
-                }
+                A.promoteType(NLS_DCOMPLEX);
+                B.promoteType(NLS_DCOMPLEX);
             }
         } else {
-            if (A.getDataClass() == NLS_SINGLE || B.getDataClass() == NLS_SINGLE) {
+            if (isSingle) {
                 A.promoteType(NLS_SINGLE);
                 B.promoteType(NLS_SINGLE);
+
             } else {
-                wasPromoted = false;
+                A.promoteType(NLS_DOUBLE);
+                B.promoteType(NLS_DOUBLE);
             }
         }
+    } else {
+        wasPromoted = false;
     }
     return wasPromoted;
 }
@@ -104,45 +99,49 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
     case NLS_DOUBLE: {
         if (isSquare) {
             res = solveLinearEquationDouble(A, B, warningId, warningMessage);
+            if (warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
+                std::string firstMessage = warningMessage;
+                res = solveLeastSquareDouble(A, B, warningId, warningMessage);
+                warningMessage = firstMessage;
+            }
         } else {
             res = solveLeastSquareDouble(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionDouble(A, B);
         }
     } break;
     case NLS_SINGLE: {
         if (isSquare) {
             res = solveLinearEquationSingle(A, B, warningId, warningMessage);
+            if (warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
+                std::string firstMessage = warningMessage;
+                res = solveLeastSquareSingle(A, B, warningId, warningMessage);
+                warningMessage = firstMessage;
+            }
         } else {
             res = solveLeastSquareSingle(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionSingle(A, B);
         }
     } break;
     case NLS_DCOMPLEX: {
         if (isSquare) {
             res = solveLinearEquationDoubleComplex(A, B, warningId, warningMessage);
+            if (warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
+                std::string firstMessage = warningMessage;
+                res = solveLeastSquareDoubleComplex(A, B, warningId, warningMessage);
+                warningMessage = firstMessage;
+            }
         } else {
             res = solveLeastSquareDoubleComplex(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionDoubleComplex(A, B);
         }
     } break;
     case NLS_SCOMPLEX: {
         if (isSquare) {
             res = solveLinearEquationSingleComplex(A, B, warningId, warningMessage);
+            if (warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
+                std::string firstMessage = warningMessage;
+                res = solveLeastSquareSingleComplex(A, B, warningId, warningMessage);
+                warningMessage = firstMessage;
+            }
         } else {
             res = solveLeastSquareSingleComplex(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionDoubleComplex(A, B);
         }
     } break;
 

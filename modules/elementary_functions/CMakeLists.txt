@@ -55,8 +55,7 @@ target_link_libraries(
   nlsTypes
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
-  ${LAPACKE_LIBRARIES}
-  ${MAC_LAPACKE_LIBRARY}
+  ${MAC_LAPACK_LIBRARY}
   ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 set_target_properties(

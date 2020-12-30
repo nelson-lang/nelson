@@ -24,7 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
-#include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"

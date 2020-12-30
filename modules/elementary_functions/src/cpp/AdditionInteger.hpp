@@ -26,7 +26,6 @@
 #pragma once
 //=============================================================================
 #include "nlsConfig.h"
-#include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
 #include "IntegerOperations.hpp"

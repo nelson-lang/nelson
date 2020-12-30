@@ -1877,16 +1877,16 @@ msgstr ""
 msgid "svd: cannot take svd of matrix containing Inf or NaN values."
 msgstr ""
 
-msgid "LAPACKE_dgesvd error."
+msgid "LAPACK_dgesvd error."
 msgstr ""
 
-msgid "LAPACKE_zgesvd error."
+msgid "LAPACK_zgesvd error."
 msgstr ""
 
-msgid "LAPACKE_sgesvd error."
+msgid "LAPACK_sgesvd error."
 msgstr ""
 
-msgid "LAPACKE_cgesvd error."
+msgid "LAPACK_cgesvd error."
 msgstr ""
 
 msgid "Undefined function 'svd' for input arguments of type"

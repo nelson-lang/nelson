@@ -124,10 +124,6 @@ endif()
 find_package(Portaudio REQUIRED)
 include (PortAudioConfig)
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  find_package(LAPACKE REQUIRED)
-endif()
-# ==============================================================================
 include (OpenMpConfig)
 # ==============================================================================
 find_package(MATIO REQUIRED)

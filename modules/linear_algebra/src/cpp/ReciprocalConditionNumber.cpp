@@ -28,8 +28,8 @@
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "lapack_eigen.hpp"
-#include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
+#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -62,8 +62,13 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
             int m = static_cast<int>(dimsA.getRows());
             int n = static_cast<int>(dimsA.getColumns());
             int lda = m;
-            normA = LAPACKE_dlange(
-                LAPACK_COL_MAJOR, norm, m, n, (const double*)R.getDataPointer(), lda);
+            double* work_dlange = (double*)new_with_exception<double>(std::max(1, n));
+            normA = LAPACK_dlange(
+                &norm, &m, &n, (const double*)R.getDataPointer(), &lda, work_dlange);
+            if (work_dlange) {
+                delete[] work_dlange;
+                work_dlange = nullptr;
+            }
             int info = 0;
             int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_dgetrf(&m, &n, (double*)R.getDataPointer(), &lda, ipiv, &info);
@@ -121,7 +126,12 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             int n = static_cast<int>(R.getDimensions().getColumns());
             int lda = m;
             auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-            normA = LAPACKE_zlange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);
+            double* work_zlange = (double*)new_with_exception<double>(std::max(1, n));
+            normA = LAPACK_zlange(&norm, &m, &n, Rz, &lda, work_zlange);
+            if (work_zlange) {
+                delete[] work_zlange;
+                work_zlange = nullptr;
+            }
             int info = 0;
             int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_zgetrf(&m, &n, Rz, &lda, ipiv, &info);
@@ -176,8 +186,13 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
             int m = static_cast<int>(dimsA.getRows());
             int n = static_cast<int>(dimsA.getColumns());
             int lda = m;
-            normA = LAPACKE_slange(
-                LAPACK_COL_MAJOR, norm, m, n, (const single*)R.getDataPointer(), lda);
+            single* work_slange = (single*)new_with_exception<single>(std::max(1, n));
+            normA = LAPACK_slange(
+                &norm, &m, &n, (const single*)R.getDataPointer(), &lda, work_slange);
+            if (work_slange) {
+                delete[] work_slange;
+                work_slange = nullptr;
+            }
             int info = 0;
             int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_sgetrf(&m, &n, (single*)R.getDataPointer(), &lda, ipiv, &info);
@@ -236,7 +251,12 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
             int m = static_cast<int>(dimsA.getRows());
             int n = static_cast<int>(dimsA.getColumns());
             int lda = m;
-            normA = LAPACKE_clange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);
+            single* work_clange = (single*)new_with_exception<single>(std::max(1, n));
+            normA = LAPACK_clange(&norm, &m, &n, Rz, &lda, work_clange);
+            if (work_clange) {
+                delete[] work_clange;
+                work_clange = nullptr;
+            }
             int info = 0;
             int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_cgetrf(&m, &n, Rz, &lda, ipiv, &info);

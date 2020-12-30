@@ -28,22 +28,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(Boost_NO_SYSTEM_PATHS "TRUE")
   set(MAC_FRAMEWORK_FOUNDATION_LIBRARY "-framework Foundation")
   set(MAC_FRAMEWORK_APPKIT_LIBRARY "-framework AppKit")
-  if(EXISTS "/usr/local/lib/liblapacke.a")
-    link_directories(/usr/local/lib)
-    set(MAC_LAPACKE_LIBRARY -lblas -llapack -llapacke)
-  else()
-    get_filename_component(
-      LAPACKE_LIB
-      ${CMAKE_SOURCE_DIR}/../Nelson-thirdparty-macosx/LAPACKE/sierra/lib
-      ABSOLUTE)
-    if(EXISTS ${LAPACKE_LIB})
-      link_directories(${LAPACKE_LIB})
-      set(MAC_LAPACKE_LIBRARY -lblas -llapack -llapacke)
-    else()
-      message(SEND_ERROR "LAPACKE not detected.")
-    endif()
-  endif()
-  # macports paths
+  set(MAC_LAPACK_LIBRARY -lblas -llapack)
+# macports paths
   if(EXISTS "/opt/local/include")
     include_directories(/opt/local/include)
   endif()

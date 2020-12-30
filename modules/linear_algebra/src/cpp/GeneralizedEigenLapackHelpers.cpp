@@ -28,9 +28,9 @@
 #endif
 #include <cstring>
 #include "nlsConfig.h"
-#include "Types.hpp"
 #include "lapack_eigen.hpp"
 #include <Eigen/src/misc/lapacke.h>
+#include "Types.hpp"
 #include "Exception.hpp"
 #include "EigenLapackHelpers.hpp"
 //=============================================================================

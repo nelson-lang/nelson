@@ -48,7 +48,6 @@ RUN pacman -S gcc --noconfirm
 RUN pacman -S make --noconfirm
 RUN pacman -S blas --noconfirm
 RUN pacman -S lapack --noconfirm
-RUN pacman -S lapacke --noconfirm
 RUN pacman -S fftw --noconfirm
 RUN pacman -S openmpi --noconfirm
 RUN pacman -S hdf5 --noconfirm

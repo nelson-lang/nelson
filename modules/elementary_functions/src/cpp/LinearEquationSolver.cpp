@@ -25,7 +25,6 @@
 //=============================================================================
 #include <limits>
 #include "lapack_eigen.hpp"
-#include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
 #include "LinearEquationSolver.hpp"
 #include "Exception.hpp"

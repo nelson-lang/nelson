@@ -209,12 +209,6 @@
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
     <ClCompile Include="..\cpp\Sum.cpp" />
-    <ClCompile Include="..\cpp\SVDDecomposition.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
     <ClCompile Include="..\cpp\SwapBytes.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
     <ClCompile Include="..\cpp\Exponential.cpp" />
@@ -341,7 +335,6 @@
     <ClInclude Include="..\include\Subtraction.hpp" />
     <ClInclude Include="..\include\ElementWiseMultiplication.hpp" />
     <ClInclude Include="..\include\Sum.hpp" />
-    <ClInclude Include="..\include\SVDDecomposition.hpp" />
     <ClInclude Include="..\include\SwapBytes.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />

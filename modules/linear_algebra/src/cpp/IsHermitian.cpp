@@ -28,9 +28,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <cstdio>
 #include "nlsConfig.h"
-#include "lapack_eigen.hpp"
 #include "IsHermitian.hpp"
 #include "IsSymmetric.hpp"
 #include "ClassName.hpp"

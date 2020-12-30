@@ -36,22 +36,22 @@ namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP
 ArrayOf
 solveLeastSquareDouble(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+    ArrayOf& matA, ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP
 ArrayOf
 solveLeastSquareDoubleComplex(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+    ArrayOf& matA, ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP
 ArrayOf
 solveLeastSquareSingle(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+    ArrayOf& matA, ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP
 ArrayOf
 solveLeastSquareSingleComplex(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+    ArrayOf& matA, ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
 }
 //=============================================================================

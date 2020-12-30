@@ -26,7 +26,6 @@ jobs:
       - run: pacman -S make --noconfirm
       - run: pacman -S blas --noconfirm
       - run: pacman -S lapack --noconfirm
-      - run: pacman -S lapacke --noconfirm
       - run: pacman -S fftw --noconfirm
       - run: pacman -S openmpi --noconfirm
       - run: pacman -S hdf5 --noconfirm

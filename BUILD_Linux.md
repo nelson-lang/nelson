@@ -27,7 +27,6 @@
   sudo apt-get install libicu-dev;
   sudo apt-get install libxml2-dev;
   sudo apt-get install liblapack-dev;
-  sudo apt-get install liblapacke-dev;
   sudo apt-get install fftw3;
   sudo apt-get install fftw3-dev;
   sudo apt-get install libasound-dev;

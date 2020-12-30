@@ -27,14 +27,13 @@
 #include "SVD.hpp"
 #include "ClassName.hpp"
 #include "lapack_eigen.hpp"
-#include <Eigen/Dense>
-#include <Eigen/SVD>
 #include <Eigen/src/misc/lapacke.h>
+#include <Eigen/Dense>
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// https://software.intel.com/sites/products/documentation/doclib/mkl_sa/11/mkl_lapack_examples/lapacke_dgesvd_col.c.htm
+// http://www.netlib.org/lapack/explore-html/d3/da8/group__complex16_g_esing_gad6f0c85f3cca2968e1ef901d2b6014ee.html
 //=============================================================================
 static void
 SVD_double(ArrayOf A, ArrayOf& s)
@@ -47,21 +46,32 @@ SVD_double(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    double* superb = new_with_exception<double>(std::min(m, n) - 1, true);
-    double* ds = new_with_exception<double>(std::min(m, n), true);
     double* u = nullptr;
     double* vt = nullptr;
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda,
-        ds, u, ldu, vt, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_dgesvd error."));
+    double* ds = new_with_exception<double>(std::min(m, n), true);
+    int info = 0;
+    double worksize[1];
+    int lwork = -1;
+    LAPACK_dgesvd(&JOBU, &JOBVT, &m, &n, (double*)A.getDataPointer(), &lda, ds, u, &ldu, vt, &ldvt,
+        worksize, &lwork, &info);
+    if (info < 0) {
+        Error(_("LAPACK_dgesvd error."));
     }
-    delete[] superb;
-    superb = nullptr;
+    lwork = (int)worksize[0];
+    double* work = new_with_exception<double>(lwork);
+    LAPACK_dgesvd(&JOBU, &JOBVT, &m, &n, (double*)A.getDataPointer(), &lda, ds, u, &ldu, vt, &ldvt,
+        work, &lwork, &info);
+    if (work) {
+        delete[] work;
+        work = nullptr;
+    }
+    if (info > 0) {
+        Error(_("LAPACK_dgesvd error."));
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_DOUBLE, dimsS, ds);
 }
@@ -77,8 +87,6 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    double* superb = new_with_exception<double>((std::min(m, n) - 1), true);
-    double* ds = new_with_exception<double>(std::min(m, n), true);
     auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     doublecomplex* uz = nullptr;
     doublecomplex* vtz = nullptr;
@@ -86,13 +94,31 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_zgesvd(
-        LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_zgesvd error."));
+    double* ds = new_with_exception<double>(std::min(m, n), true);
+    int info = 0;
+    doublecomplex worksize[1];
+    int lwork = -1;
+    double* rwork = new_with_exception<double>(5 * std::max(m, n));
+    LAPACK_zgesvd(
+        &JOBU, &JOBVT, &m, &n, Rz, &lda, ds, uz, &ldu, vtz, &ldvt, worksize, &lwork, rwork, &info);
+    if (info < 0) {
+        Error(_("LAPACK_zgesvd error."));
     }
-    delete[] superb;
-    superb = nullptr;
+    lwork = (int)worksize[0].real();
+    std::complex<double>* work = new_with_exception<std::complex<double>>(lwork);
+    LAPACK_zgesvd(
+        &JOBU, &JOBVT, &m, &n, Rz, &lda, ds, uz, &ldu, vtz, &ldvt, work, &lwork, rwork, &info);
+    if (rwork) {
+        delete[] rwork;
+        rwork = nullptr;
+    }
+    if (work) {
+        delete[] work;
+        work = nullptr;
+    }
+    if (info > 0) {
+        Error(_("LAPACK_zgesvd error."));
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_DOUBLE, dimsS, ds);
 }
@@ -108,21 +134,32 @@ SVD_single(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    single* superb = new_with_exception<single>(std::min(m, n) - 1, true);
-    single* ds = new_with_exception<single>(std::min(m, n), true);
     single* u = nullptr;
     single* vt = nullptr;
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda,
-        ds, u, ldu, vt, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_sgesvd error."));
+    single* ds = new_with_exception<single>(std::min(m, n), true);
+    int info = 0;
+    single worksize[1];
+    int lwork = -1;
+    LAPACK_sgesvd(&JOBU, &JOBVT, &m, &n, (single*)A.getDataPointer(), &lda, ds, u, &ldu, vt, &ldvt,
+        worksize, &lwork, &info);
+    if (info < 0) {
+        Error(_("LAPACK_sgesvd error."));
     }
-    delete[] superb;
-    superb = nullptr;
+    lwork = (int)worksize[0];
+    single* work = new_with_exception<single>(lwork);
+    LAPACK_sgesvd(&JOBU, &JOBVT, &m, &n, (single*)A.getDataPointer(), &lda, ds, u, &ldu, vt, &ldvt,
+        work, &lwork, &info);
+    if (work) {
+        delete[] work;
+        work = nullptr;
+    }
+    if (info < 0) {
+        Error(_("LAPACK_sgesvd error."));
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_SINGLE, dimsS, ds);
 }
@@ -138,8 +175,6 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    single* superb = new_with_exception<single>((std::min(m, n) - 1), true);
-    single* ds = new_with_exception<single>(std::min(m, n), true);
     auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     singlecomplex* uz = nullptr;
     singlecomplex* vtz = nullptr;
@@ -147,13 +182,31 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_cgesvd(
-        LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_cgesvd error."));
+    single* ds = new_with_exception<single>(std::min(m, n), true);
+    int info = 0;
+    singlecomplex worksize[1];
+    int lwork = -1;
+    single* rwork = new_with_exception<single>(5 * std::max(m, n));
+    LAPACK_cgesvd(
+        &JOBU, &JOBVT, &m, &n, Rz, &lda, ds, uz, &ldu, vtz, &ldvt, worksize, &lwork, rwork, &info);
+    if (info < 0) {
+        Error(_("LAPACK_cgesvd error."));
     }
-    delete[] superb;
-    superb = nullptr;
+    lwork = (int)worksize[0].real();
+    std::complex<single>* work = new_with_exception<std::complex<single>>(lwork);
+    LAPACK_cgesvd(
+        &JOBU, &JOBVT, &m, &n, Rz, &lda, ds, uz, &ldu, vtz, &ldvt, work, &lwork, rwork, &info);
+    if (rwork) {
+        delete[] rwork;
+        rwork = nullptr;
+    }
+    if (work) {
+        delete[] work;
+        work = nullptr;
+    }
+    if (info > 0) {
+        Error(_("LAPACK_cgesvd error."));
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_SINGLE, dimsS, ds);
 }
@@ -180,7 +233,6 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2), true);
         auto* uz = reinterpret_cast<doublecomplex*>(u);
@@ -190,13 +242,30 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
-        int info = LAPACKE_zgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_zgesvd error."));
+        int info = 0;
+        doublecomplex worksize[1];
+        int lwork = -1;
+        double* rwork = new_with_exception<double>(5 * std::max(m, n));
+        LAPACK_zgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, worksize,
+            &lwork, rwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_zgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0].real();
+        std::complex<double>* work = new_with_exception<std::complex<double>>(lwork);
+        LAPACK_zgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, work, &lwork,
+            rwork, &info);
+        if (rwork) {
+            delete[] rwork;
+            rwork = nullptr;
+        }
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info < 0) {
+            Error(_("LAPACK_zgesvd error."));
+        }
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
         double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
@@ -263,7 +332,6 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2, true);
         auto* uz = reinterpret_cast<doublecomplex*>(u);
@@ -273,13 +341,30 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
-        int info = LAPACKE_zgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_zgesvd error."));
+        int info = 0;
+        doublecomplex worksize[1];
+        int lwork = -1;
+        double* rwork = new_with_exception<double>(5 * std::max(m, n));
+        LAPACK_zgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, worksize,
+            &lwork, rwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_zgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0].real();
+        std::complex<double>* work = new_with_exception<std::complex<double>>(lwork);
+        LAPACK_zgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, work, &lwork,
+            rwork, &info);
+        if (rwork) {
+            delete[] rwork;
+            rwork = nullptr;
+        }
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info < 0) {
+            Error(_("LAPACK_zgesvd error."));
+        }
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
@@ -339,20 +424,33 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)(ldu) * (size_t)(m), true);
         single* vt = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_sgesvd error."));
+
+        int info = 0;
+        single worksize[1];
+        int lwork = -1;
+        LAPACK_sgesvd(&JOBU, &JOBVT, &m, &n, (single*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, worksize, &lwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_sgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0];
+        single* work = new_with_exception<single>(lwork);
+        LAPACK_sgesvd(&JOBU, &JOBVT, &m, &n, (single*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, work, &lwork, &info);
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info < 0) {
+            Error(_("LAPACK_sgesvd error."));
+        }
+
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SINGLE, dimsU, u);
         single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
@@ -416,20 +514,31 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m, true);
         single* vt = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_sgesvd error."));
+        int info = 0;
+        single worksize[1];
+        int lwork = -1;
+        LAPACK_sgesvd(&JOBU, &JOBVT, &m, &n, (single*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, worksize, &lwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_sgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0];
+        single* work = new_with_exception<single>(lwork);
+        LAPACK_sgesvd(&JOBU, &JOBVT, &m, &n, (single*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, work, &lwork, &info);
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info < 0) {
+            Error(_("LAPACK_sgesvd error."));
+        }
         U = ArrayOf(NLS_SINGLE, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
@@ -488,20 +597,33 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m, true);
         double* vt = nullptr;
         if (withV) {
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_dgesvd error."));
+
+        int info = 0;
+        double worksize[1];
+        int lwork = -1;
+        LAPACK_dgesvd(&JOBU, &JOBVT, &m, &n, (double*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, worksize, &lwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_dgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0];
+        double* work = new_with_exception<double>(lwork);
+        LAPACK_dgesvd(&JOBU, &JOBVT, &m, &n, (double*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, work, &lwork, &info);
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info > 0) {
+            Error(_("LAPACK_dgesvd error."));
+        }
+
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
         double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
@@ -568,20 +690,31 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m, true);
         double* vt = nullptr;
         if (withV) {
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_dgesvd error."));
+        int info = 0;
+        double worksize[1];
+        int lwork = -1;
+        LAPACK_dgesvd(&JOBU, &JOBVT, &m, &n, (double*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, worksize, &lwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_dgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0];
+        double* work = new_with_exception<double>(lwork);
+        LAPACK_dgesvd(&JOBU, &JOBVT, &m, &n, (double*)A.getDataPointer(), &lda, dstemp, u, &ldu, vt,
+            &ldvt, work, &lwork, &info);
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info > 0) {
+            Error(_("LAPACK_dgesvd error."));
+        }
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
@@ -641,7 +774,6 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, true);
         single* vt = nullptr;
@@ -651,13 +783,39 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
         auto* uz = reinterpret_cast<singlecomplex*>(u);
-        int info = LAPACKE_cgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_cgesvd error."));
+        int info = 0;
+        singlecomplex worksize[1];
+        int lwork = -1;
+        single* rwork = new_with_exception<single>(5 * std::max(m, n));
+        LAPACK_cgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, worksize,
+            &lwork, rwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_cgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0].real();
+        std::complex<single>* work = new_with_exception<std::complex<single>>(lwork);
+        LAPACK_cgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, work, &lwork,
+            rwork, &info);
+        if (rwork) {
+            delete[] rwork;
+            rwork = nullptr;
+        }
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info > 0) {
+            Error(_("LAPACK_cgesvd error."));
+        }
+
+        // int info = LAPACKE_cgesvd(
+        //    LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
+        // if (info > 0) {
+        //    Error(_("LAPACKE_cgesvd error."));
+        //}
+        // delete[] superb;
+        // superb = nullptr;
+
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
         single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
@@ -724,7 +882,6 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, true);
         auto* uz = reinterpret_cast<singlecomplex*>(u);
@@ -734,13 +891,30 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
-        int info = LAPACKE_cgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_cgesvd error."));
+        int info = 0;
+        singlecomplex worksize[1];
+        int lwork = -1;
+        single* rwork = new_with_exception<single>(5 * std::max(m, n));
+        LAPACK_cgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, worksize,
+            &lwork, rwork, &info);
+        if (info < 0) {
+            Error(_("LAPACK_cgesvd error."));
         }
-        delete[] superb;
-        superb = nullptr;
+        lwork = (int)worksize[0].real();
+        std::complex<single>* work = new_with_exception<std::complex<single>>(lwork);
+        LAPACK_cgesvd(&JOBU, &JOBVT, &m, &n, Rz, &lda, dstemp, uz, &ldu, vtz, &ldvt, work, &lwork,
+            rwork, &info);
+        if (rwork) {
+            delete[] rwork;
+            rwork = nullptr;
+        }
+        if (work) {
+            delete[] work;
+            work = nullptr;
+        }
+        if (info > 0) {
+            Error(_("LAPACK_cgesvd error."));
+        }
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
