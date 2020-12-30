@@ -40,6 +40,7 @@ tests_*.json
 /modules/main/help/*/html/CHANGELOG-0.1.x.html
 /modules/main/help/*/html/CHANGELOG-0.2.x.html
 /modules/main/help/*/html/CHANGELOG-0.3.x.html
+/modules/main/help/*/html/CHANGELOG-0.4.x.html
 /modules/main/help/*/html/license.html
 /modules/main/help/*/html/GPL2.html
 /modules/main/help/*/html/LGPL21.html
