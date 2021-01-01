@@ -25,17 +25,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#define EIGEN_USE_BLAS
-#define EIGEN_USE_LAPACKE_STRICT
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-#include <complex>
+namespace Nelson {
 //=============================================================================
-#pragma warning(disable : 4190)
-#ifndef lapack_complex_float
-#define lapack_complex_float std::complex<float>
-#endif
+namespace StatisticsGateway {
+    //=============================================================================
+    ArrayOfVector
+    corrcoefBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
-#ifndef lapack_complex_double
-#define lapack_complex_double std::complex<double>
-#endif
+} // namespace Nelson
 //=============================================================================

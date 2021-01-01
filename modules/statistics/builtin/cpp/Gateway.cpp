@@ -23,19 +23,29 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "NelsonGateway.hpp"
+#include "corrcoefBuiltin.hpp"
+#include "varBuiltin.hpp"
+#include "meanBuiltin.hpp"
 //=============================================================================
-#define EIGEN_USE_BLAS
-#define EIGEN_USE_LAPACKE_STRICT
+using namespace Nelson;
 //=============================================================================
-#include <complex>
+const std::wstring gatewayName = L"statistics";
 //=============================================================================
-#pragma warning(disable : 4190)
-#ifndef lapack_complex_float
-#define lapack_complex_float std::complex<float>
-#endif
+static const nlsGateway gateway[] = {
+    { "corrcoef", (void*)Nelson::StatisticsGateway::corrcoefBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "var", (void*)Nelson::StatisticsGateway::varBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "mean", (void*)Nelson::StatisticsGateway::meanBuiltin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+};
 //=============================================================================
-#ifndef lapack_complex_double
-#define lapack_complex_double std::complex<double>
-#endif
+NLSGATEWAYFUNC(gateway)
+//=============================================================================
+NLSGATEWAYINFO(gateway)
+//=============================================================================
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

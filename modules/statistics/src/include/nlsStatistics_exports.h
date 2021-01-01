@@ -25,17 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    ArrayOfVector
-    varBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSSTATISTICS_EXPORTS
+#define NLSSTATISTICS_IMPEXP __declspec(dllexport)
+#else
+#define NLSSTATISTICS_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSSTATISTICS_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

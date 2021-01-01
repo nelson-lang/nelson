@@ -26,25 +26,16 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-/**
- * mean operation.
- */
 //=============================================================================
-enum MEAN_OUT_TYPE
-{
-    DEFAULT,
-    NATIVE,
-    DOUBLE
-};
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload);
+namespace StatisticsGateway {
+    //=============================================================================
+    ArrayOfVector
+    varBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -179,7 +179,6 @@
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
     <ClCompile Include="..\cpp\conjBuiltin.cpp" />
-    <ClCompile Include="..\cpp\corrcoefBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\dec2baseBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
@@ -215,7 +214,6 @@
     <ClCompile Include="..\cpp\logBuiltin.cpp" />
     <ClCompile Include="..\cpp\ltBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxBuiltin.cpp" />
-    <ClCompile Include="..\cpp\meanBuiltin.cpp" />
     <ClCompile Include="..\cpp\minBuiltin.cpp" />
     <ClCompile Include="..\cpp\minusBuiltin.cpp" />
     <ClCompile Include="..\cpp\mldivideBuiltin.cpp" />
@@ -251,7 +249,6 @@
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uplusBuiltin.cpp" />
-    <ClCompile Include="..\cpp\varBuiltin.cpp" />
     <ClCompile Include="..\cpp\vertcatBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -293,7 +290,6 @@
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\complexBuiltin.hpp" />
     <ClInclude Include="..\include\conjBuiltin.hpp" />
-    <ClInclude Include="..\include\corrcoefBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\dec2baseBuiltin.hpp" />
     <ClInclude Include="..\include\dispBuiltin.hpp" />
@@ -328,7 +324,6 @@
     <ClInclude Include="..\include\logBuiltin.hpp" />
     <ClInclude Include="..\include\ltBuiltin.hpp" />
     <ClInclude Include="..\include\maxBuiltin.hpp" />
-    <ClInclude Include="..\include\meanBuiltin.hpp" />
     <ClInclude Include="..\include\minBuiltin.hpp" />
     <ClInclude Include="..\include\minusBuiltin.hpp" />
     <ClInclude Include="..\include\mldivideBuiltin.hpp" />
@@ -365,7 +360,6 @@
     <ClInclude Include="..\include\transposeBuiltin.hpp" />
     <ClInclude Include="..\include\uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uplusBuiltin.hpp" />
-    <ClInclude Include="..\include\varBuiltin.hpp" />
     <ClInclude Include="..\include\vertcatBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

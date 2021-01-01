@@ -26,13 +26,25 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "nlsStatistics_exports.h"
 //=============================================================================
 namespace Nelson {
+/**
+ * mean operation.
+ */
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP
-ArrayOf
-Variance(const ArrayOf& A, int w, int dim, bool& needToOverload);
+enum MEAN_OUT_TYPE
+{
+    DEFAULT,
+    NATIVE,
+    DOUBLE
+};
 //=============================================================================
-}
+NLSSTATISTICS_IMPEXP ArrayOf
+MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload);
+//=============================================================================
+NLSSTATISTICS_IMPEXP ArrayOf
+Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

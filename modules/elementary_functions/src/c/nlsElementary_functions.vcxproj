@@ -30,12 +30,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -43,6 +45,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -50,6 +53,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -182,7 +186,6 @@
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
     <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
-    <ClCompile Include="..\cpp\CorrelationCoefficients.cpp" />
     <ClCompile Include="..\cpp\DecimalToBase.cpp" />
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
@@ -201,7 +204,6 @@
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
     <ClCompile Include="..\cpp\Logarithm2.cpp" />
     <ClCompile Include="..\cpp\Maximum.cpp" />
-    <ClCompile Include="..\cpp\Mean.cpp" />
     <ClCompile Include="..\cpp\Minimum.cpp" />
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
@@ -256,7 +258,6 @@
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
     <ClCompile Include="..\cpp\UnaryMinus.cpp" />
     <ClCompile Include="..\cpp\UnaryPlus.cpp" />
-    <ClCompile Include="..\cpp\Variance.cpp" />
     <ClCompile Include="..\cpp\VertCat.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -290,7 +291,6 @@
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
-    <ClInclude Include="..\include\CorrelationCoefficients.hpp" />
     <ClInclude Include="..\include\DecimalToBase.hpp" />
     <ClInclude Include="..\include\DotLeftDivide.hpp" />
     <ClInclude Include="..\include\DotPower.hpp" />
@@ -320,7 +320,6 @@
     <ClInclude Include="..\include\Logarithm2.hpp" />
     <ClInclude Include="..\include\MatrixMultiplication.hpp" />
     <ClInclude Include="..\include\Maximum.hpp" />
-    <ClInclude Include="..\include\Mean.hpp" />
     <ClInclude Include="..\include\Minimum.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
     <ClInclude Include="..\include\NaturalLogarithm.hpp" />
@@ -348,7 +347,6 @@
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
     <ClInclude Include="..\include\UnaryMinus.hpp" />
     <ClInclude Include="..\include\UnaryPlus.hpp" />
-    <ClInclude Include="..\include\Variance.hpp" />
     <ClInclude Include="..\include\VertCat.hpp" />
   </ItemGroup>
   <ItemGroup>

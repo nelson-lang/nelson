@@ -1,8 +1,16 @@
 # 0.5.XX (2021-01-XX)
 
+## Bug Fixes:
+
+- [#388](http://github.com/Nelson-numerical-software/nelson/issues/388): Windows x64 build failed (elementary_functions module was too big).
+
+- [#385](http://github.com/Nelson-numerical-software/nelson/issues/385): `corrcoef`, `mean`, `var`, `cov` moved in statistics module.
+
 ## Compilation:
 
 - 0.5 family (CHANGELOG)
+
+- Eigen 3.3.9 used.
 
 ## Previous changelog:
 

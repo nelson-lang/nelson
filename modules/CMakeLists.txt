@@ -88,7 +88,8 @@ list(
   webtools
   graphics
   mex
-  ipc)
+  ipc
+  statistics)
 list(APPEND moduleslist main)
 # ==============================================================================
 if(NOT WITHOUT_FFTW AND NOT LGPL21_ONLY)

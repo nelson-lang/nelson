@@ -90,4 +90,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "graphics/module.iss"
 #include "mex/module.iss"
 #include "ipc/module.iss"
+#include "statistics/module.iss"
 ;==============================================================================
