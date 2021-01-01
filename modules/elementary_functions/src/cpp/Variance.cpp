@@ -48,7 +48,7 @@ VarianceReal(const T* sp, T* dp, int planes, int planesize, int linesize)
             T accum_second = 0;
             for (k = 0; k < (ompIndexType)linesize; k++) {
                 T tmp = sp[i * planesize * linesize + j + k * planesize] - accum_first;
-                accum_second += tmp * tmp / (linesize - 1.0);
+                accum_second += (T)(tmp * tmp / (linesize - 1.0));
             }
             dp[i * planesize + j] = (T)accum_second;
         }
@@ -74,7 +74,7 @@ VarianceComplex(const std::complex<T>* sp, T* dp, int planes, int planesize, int
             T accum_second = 0;
             for (k = 0; k < (ompIndexType)linesize; k++) {
                 T tmp = sp[i * planesize * linesize + j + k * planesize].real() - accum_first;
-                accum_second += tmp * tmp / (linesize - 1.0);
+                accum_second += (T)(tmp * tmp / (linesize - 1.0));
             }
             dp[i * planesize + j] = (T)accum_second;
         }
@@ -100,14 +100,14 @@ Variance(const ArrayOf& A, int w, int dim, bool& needToOverload)
     }
     Dimensions outDim(dimsA);
     outDim[dim] = 1;
-    int linesize = dimsA[dim];
+    int linesize = (int)dimsA[dim];
     int planesize = 1;
     for (int k = 0; k < dim; k++) {
-        planesize *= dimsA[k];
+        planesize *= (int)dimsA[k];
     }
     int planecount = 1;
-    for (int k = dim + 1; k < dimsA.getLength(); k++) {
-        planecount *= dimsA[k];
+    for (int k = dim + 1; k < (int)dimsA.getLength(); k++) {
+        planecount *= (int)dimsA[k];
     }
     ArrayOf res;
     switch (A.getDataClass()) {

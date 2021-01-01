@@ -340,7 +340,7 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
     } break;
     case NLS_SINGLE: {
         double m = TMeanAllReal<single>((single*)A.getDataPointer(), omitNaN, elementCount);
-        res = ArrayOf::doubleConstructor(m);
+        res = ArrayOf::singleConstructor((single)m);
     } break;
     case NLS_DOUBLE: {
         double m = TMeanAllReal<double>((double*)A.getDataPointer(), omitNaN, elementCount);
@@ -349,7 +349,7 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
     case NLS_SCOMPLEX: {
         std::complex<double> m
             = TMeanAllComplex<single>((single*)A.getDataPointer(), omitNaN, elementCount);
-        res = ArrayOf::complexConstructor(m.real(), m.imag());
+        res = ArrayOf::complexConstructor((single)m.real(), (single)m.imag());
     } break;
     case NLS_DCOMPLEX: {
         std::complex<double> m

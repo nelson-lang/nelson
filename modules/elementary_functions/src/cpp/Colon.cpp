@@ -72,7 +72,7 @@ integer_colon(Class destinationClass, T low, T high, T step)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
-        pV[k] = low + (k * step);
+        pV[k] = (T)(low + (k * step));
     }
     return ArrayOf(destinationClass, Dimensions(1, n), pV);
 }
@@ -102,7 +102,7 @@ char_colon(charType low, charType high, charType step)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
-        pV[k] = low + (k * step);
+        pV[k] = (charType)(low + (k * step));
     }
     return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
 }

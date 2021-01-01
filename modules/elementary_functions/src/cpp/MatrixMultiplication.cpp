@@ -145,7 +145,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCountB; k++) {
-            ptrC[k] = scalar_scalar_integer_times(ptrA[0], ptrB[k]);
+            ptrC[k] = scalar_scalar_integer_times<T>(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
         ompIndexType elementCountA = (ompIndexType)dimA.getElementCount();
@@ -153,7 +153,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCountA; k++) {
-            ptrC[k] = scalar_scalar_integer_times(ptrA[k], ptrB[0]);
+            ptrC[k] = scalar_scalar_integer_times<T>(ptrA[k], ptrB[0]);
         }
     } else {
         Error(_W("At least one input argument must be scalar."));

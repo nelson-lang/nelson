@@ -630,7 +630,8 @@ doPowerAssist(ArrayOf A, Class AClass, ArrayOf B, Class BClass, Class CClass, vv
 //=============================================================================
 template <typename T>
 static void
-powerInteger(const ArrayOf& A, const ArrayOf& B, indexType n, int stride1, int stride2, void* Cp)
+powerInteger(
+    const ArrayOf& A, const ArrayOf& B, indexType n, indexType stride1, indexType stride2, void* Cp)
 {
     T* a = (T*)A.getDataPointer();
     T* b = (T*)B.getDataPointer();
