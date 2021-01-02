@@ -34,6 +34,7 @@ tests_*.json
 /bin/*/LICENSE_1_0.txt
 /bin/*/license_sdk.rtf
 /bin/*/mkl_license.txt
+/bin/*/libnlsblaslapack.dll.manifest
 /bin/*/nelson-cli.exe
 /bin/*/nelson_f2c
 /modules/main/help/*/html/CHANGELOG.html
