@@ -25,17 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#define EIGEN_USE_BLAS
-#define EIGEN_USE_LAPACKE_STRICT
-//=============================================================================
-#include <complex>
-//=============================================================================
-#pragma warning(disable : 4190)
-#ifndef lapack_complex_float
-#define lapack_complex_float std::complex<float>
+#ifdef _MSC_VER
+#ifdef NLSSINGLE_BUILTIN_EXPORTS
+#define NLSSINGLE_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSSINGLE_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
-//=============================================================================
-#ifndef lapack_complex_double
-#define lapack_complex_double std::complex<double>
+#else
+#define NLSSINGLE_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

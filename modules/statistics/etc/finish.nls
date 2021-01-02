@@ -23,19 +23,4 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#define EIGEN_USE_BLAS
-#define EIGEN_USE_LAPACKE_STRICT
-//=============================================================================
-#include <complex>
-//=============================================================================
-#pragma warning(disable : 4190)
-#ifndef lapack_complex_float
-#define lapack_complex_float std::complex<float>
-#endif
-//=============================================================================
-#ifndef lapack_complex_double
-#define lapack_complex_double std::complex<double>
-#endif
-//=============================================================================
+removegateway(modulepath(nelsonroot(), 'statistics', 'builtin'));

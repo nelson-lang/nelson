@@ -16,7 +16,7 @@ platform:
 - x64
 
 #init:
-#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))    
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 #  - ps: $blockRdp = $true
 
 install:
@@ -36,7 +36,7 @@ before_build:
 
 build_script:
 - cd "c:\build_chain\nelson"
-- msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui" /m:4 
+- msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
 after_build:
 - if %platform%==x64 (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe) else (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.exe)

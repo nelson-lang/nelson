@@ -23,19 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
 //=============================================================================
-#define EIGEN_USE_BLAS
-#define EIGEN_USE_LAPACKE_STRICT
+#pragma comment(lib, "libnlsblaslapack.lib")
 //=============================================================================
-#include <complex>
-//=============================================================================
-#pragma warning(disable : 4190)
-#ifndef lapack_complex_float
-#define lapack_complex_float std::complex<float>
-#endif
-//=============================================================================
-#ifndef lapack_complex_double
-#define lapack_complex_double std::complex<double>
-#endif
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
+}
 //=============================================================================

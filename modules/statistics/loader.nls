@@ -23,15 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-CorrelationCoefficients(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-} // namespace Nelson
+addmodule([nelsonroot() '/modules/' 'statistics'], 'statistics');
 //=============================================================================

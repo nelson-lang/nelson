@@ -23,19 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    ArrayOfVector
-    corrcoefBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
-//=============================================================================
+addgateway(modulepath(nelsonroot(), 'statistics', 'builtin'));
+addpath(modulepath(nelsonroot(), 'statistics', 'functions'), '-frozen');

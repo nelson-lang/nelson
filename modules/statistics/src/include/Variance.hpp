@@ -25,17 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#define EIGEN_USE_BLAS
-#define EIGEN_USE_LAPACKE_STRICT
+#include "ArrayOf.hpp"
+#include "nlsStatistics_exports.h"
 //=============================================================================
-#include <complex>
+namespace Nelson {
 //=============================================================================
-#pragma warning(disable : 4190)
-#ifndef lapack_complex_float
-#define lapack_complex_float std::complex<float>
-#endif
+NLSSTATISTICS_IMPEXP
+ArrayOf
+Variance(const ArrayOf& A, int w, int dim, bool& needToOverload);
 //=============================================================================
-#ifndef lapack_complex_double
-#define lapack_complex_double std::complex<double>
-#endif
+}
 //=============================================================================

@@ -80,7 +80,8 @@ modules_list = [
 "webtools";
 "graphics";
 "mex";
-"ipc"
+"ipc";
+"statistics";
 ];
 // ============================================================================
 // optional modules
@@ -149,6 +150,7 @@ modules_help_list = [
 "webtools";
 "mex";
 "graphics";
-"ipc"
+"ipc";
+"statistics";
 ];
 // ============================================================================
