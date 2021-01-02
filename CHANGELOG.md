@@ -12,6 +12,10 @@
 
 - Eigen 3.3.9 used.
 
+- [#367](http://github.com/Nelson-numerical-software/nelson/issues/367): add fftw_init_threads and fftw_plan_with_nthreads to MKL wrapper for FFTW.
+
+- [#356](http://github.com/Nelson-numerical-software/nelson/issues/356): MKL OneAPI v2021 support.
+
 ## Previous changelog:
 
 [Changelog v0.4.x](CHANGELOG-0.4.x.md)
