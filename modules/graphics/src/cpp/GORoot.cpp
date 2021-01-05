@@ -27,7 +27,6 @@
 #include <QtGui/QCursor>
 #include <QtGui/QGuiApplication>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 #include "GORoot.hpp"
 #include "GOStringProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"

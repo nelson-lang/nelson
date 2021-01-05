@@ -23,14 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "SmartIndent.hpp"
-#include "QStringConverter.hpp"
-#include "SmartIndent.h"
+#include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegExp>
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 #include <QtGui/QTextDocumentFragment>
+#include "SmartIndent.hpp"
+#include "QStringConverter.hpp"
+#include "SmartIndent.h"
 //=============================================================================
 QString
 setIndentSpace(QString lineToIndent, int leadingSpace)
@@ -202,7 +203,9 @@ smartIndent(const std::wstring& filename, int tabsize, bool doBackup)
     QFile file(wstringToQString(filename));
     if (file.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         in.setCodec("UTF-8");
+#endif
         QString content = in.readAll();
         file.close();
         if (doBackup) {
@@ -216,7 +219,9 @@ smartIndent(const std::wstring& filename, int tabsize, bool doBackup)
             smartIndent(textEdit, tabsize);
             if (file.open(QFile::WriteOnly | QFile::Text)) {
                 QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 out.setCodec("UTF-8");
+#endif
                 out << textEdit->toPlainText();
                 file.close();
             }

@@ -27,7 +27,6 @@
 //=============================================================================
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
@@ -54,7 +53,7 @@ GOWindow::GOWindow(unsigned id)
     m_qtChild = new QtBaseFigure(NULL, m_goFig);
     m_layout = new QStackedWidget(this);
     QHBoxLayout* box = new QHBoxLayout(this);
-    box->setMargin(0);
+    box->setContentsMargins(0, 0, 0, 0);
     setLayout(box);
     m_layout->addWidget(m_qtChild);
     m_layout->show();
@@ -106,8 +105,13 @@ GOWindow::closeEvent(QCloseEvent* e)
 void
 GOWindow::mousePressEvent(QMouseEvent* e)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    m_clickX = e->position().x();
+    m_clickY = e->position().y();
+#else
     m_clickX = e->x();
     m_clickY = e->y();
+#endif
     m_loop.exit();
 }
 //=============================================================================

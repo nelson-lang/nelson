@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeData>
 #include <QtCore/QTextStream>
@@ -32,7 +33,11 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinter>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtGui/QAction>
+#else
 #include <QtWidgets/QAction>
+#endif
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QFontDialog>
@@ -144,7 +149,7 @@ QtTextEditor::createActions()
     fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/document-save-all.svg"));
     saveAllAction = new QAction(QIcon(fileNameIcon), TR("Save A&ll"), this);
-    saveAllAction->setShortcut(Qt::Key_S | Qt::CTRL | Qt::SHIFT);
+    saveAllAction->setShortcut(QKeySequence(Qt::Key_S, Qt::CTRL, Qt::SHIFT));
     connect(saveAllAction, SIGNAL(triggered()), this, SLOT(saveAll()));
     for (int i = 0; i < MAX_RECENT_FILES; ++i) {
         recentFileActions[i] = new QAction(this);

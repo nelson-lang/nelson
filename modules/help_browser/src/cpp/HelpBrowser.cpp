@@ -23,13 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "HelpBrowser.hpp"
-#include "GetNelsonBinariesPath.hpp"
-#include "GetNelsonPath.hpp"
-#include "GetQtPath.hpp"
-#include "IsFile.hpp"
-#include "QStringConverter.hpp"
-#include "RemoveDirectory.hpp"
+#include <QtCore/QStandardPaths>
 #include <QtCore/QtGlobal>
 #include <QtCore/QByteArray>
 #include <QtCore/QProcess>
@@ -44,6 +38,13 @@
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <boost/thread/thread.hpp>
+#include "HelpBrowser.hpp"
+#include "GetNelsonBinariesPath.hpp"
+#include "GetNelsonPath.hpp"
+#include "GetQtPath.hpp"
+#include "IsFile.hpp"
+#include "QStringConverter.hpp"
+#include "RemoveDirectory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -103,7 +104,7 @@ HelpBrowser::sendCommand(const std::wstring& cmd)
 std::wstring
 HelpBrowser::getCachePath()
 {
-    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
     return QStringTowstring(cacheLocation) + std::wstring(L"/help");
 }
 //=============================================================================
