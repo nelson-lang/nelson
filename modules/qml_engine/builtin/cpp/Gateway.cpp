@@ -59,6 +59,7 @@
 #include "QObject_setBuiltin.hpp"
 #include "QObject_undefineBuiltin.hpp"
 #include "QObject_usedBuiltin.hpp"
+#include "qt_versionBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -104,6 +105,8 @@ static const nlsGateway gateway[] = {
     { "QObject_root", (void*)Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
     { "QObject_findchildren", (void*)Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
     { "QObject_used", (void*)Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
+    { "qt_version", (void*)Nelson::QmlEngineGateway::qt_versionBuiltin, 1, 0 },
+
 };
 //=============================================================================
 static bool
