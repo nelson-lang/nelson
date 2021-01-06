@@ -27,6 +27,9 @@
 //=============================================================================
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QApplication>
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#include <QtWidgets/QDesktopWidget>
+#endif
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
