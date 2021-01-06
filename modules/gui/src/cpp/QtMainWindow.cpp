@@ -156,12 +156,12 @@ QtMainWindow::QtMainWindow(bool minimized)
     // https://bugreports.qt.io/browse/QTBUG-76354
     if (minimized) {
 #if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
-  #if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
         setWindowState(Qt::WindowMinimized);
         setVisible(true);
-  #else
+#else
         showMinimized();
-  #endif
+#endif
 #else
         showMinimized();
 #endif

@@ -25,9 +25,9 @@
 //=============================================================================
 #include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
-#include <QtCore/QRegExp>
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
+#include <QtCore/QRegularExpression>
 #include <QtGui/QTextDocumentFragment>
 #include "SmartIndent.hpp"
 #include "QStringConverter.hpp"
@@ -36,35 +36,45 @@
 QString
 setIndentSpace(QString lineToIndent, int leadingSpace)
 {
-    QRegExp whitespace("^\\s*");
+    QRegularExpression regWhitespace("^\\s*");
     int k;
-    if ((k = lineToIndent.indexOf(whitespace, 0)) != -1) {
-        lineToIndent.remove(0, whitespace.matchedLength());
+    if ((k = lineToIndent.indexOf(regWhitespace, 0)) != -1) {
+        QRegularExpressionMatch match = regWhitespace.match(lineToIndent);
+        if (match.hasMatch()) {
+            lineToIndent.remove(0, match.capturedLength());
+        }
     }
     lineToIndent = QString(leadingSpace, ' ') + lineToIndent;
     return lineToIndent;
 }
 //=============================================================================
 void
-removeMatch(QString& line, QRegExp& pattern)
+removeMatch(QString& line, QString& patternStr)
 {
+    QRegularExpression pattern(patternStr);
     int j = 0;
     while ((j = line.indexOf(pattern, j)) != -1) {
-        for (int i = 0; i < pattern.matchedLength(); i++) {
-            line.replace(j + i, 1, 'X');
+        QRegularExpressionMatch match = pattern.match(line);
+        if (match.hasMatch()) {
+            int len = match.capturedLength();
+            for (int i = 0; i < len; i++) {
+                line.replace(j + i, 1, 'X');
+            }
+            j += len;
         }
-        j += pattern.matchedLength();
     }
 }
 //=============================================================================
 int
-countMatches(QString line, QRegExp& pattern)
+countMatches(QString line, QString& patternStr)
 {
+    QRegularExpression pattern(patternStr);
     int matchCount = 0;
     int i = 0;
     while ((i = line.indexOf(pattern, i)) != -1) {
         matchCount++;
-        i += pattern.matchedLength();
+        QRegularExpressionMatch match = pattern.match(line);
+        i += match.capturedLength();
     }
     return matchCount;
 }
@@ -72,15 +82,15 @@ countMatches(QString line, QRegExp& pattern)
 QString
 stripLine(QString line)
 {
-    QRegExp literal("\'([^\']*)\'");
+    QString literal("\'([^\']*)\'");
     removeMatch(line, literal);
-    QRegExp endparenthese("\\([^\\)]*(\\b(end|endfunction)\\b)[^\\)]*\\)");
+    QString endparenthese("\\([^\\)]*(\\b(end|endfunction)\\b)[^\\)]*\\)");
     removeMatch(line, endparenthese);
-    QRegExp endbracket("\\{[^\\}]*(\\b(end|endfunction)\\b)[^\\}]*\\}");
+    QString endbracket("\\{[^\\}]*(\\b(end|endfunction)\\b)[^\\}]*\\}");
     removeMatch(line, endbracket);
-    QRegExp commentPercent("%.*");
+    QString commentPercent("%.*");
     removeMatch(line, commentPercent);
-    QRegExp commentSlash("//.*");
+    QString commentSlash("//.*");
     removeMatch(line, commentSlash);
     return line;
 }
@@ -88,8 +98,8 @@ stripLine(QString line)
 int
 computeIndexIncrement(QString a)
 {
-    QRegExp keywordIn("\\b(if|for|function|try|while|switch)\\b");
-    QRegExp keywordOut("\\b(end|endfunction)\\b");
+    QString keywordIn("\\b(if|for|function|try|while|switch)\\b");
+    QString keywordOut("\\b(end|endfunction)\\b");
     return countMatches(a, keywordIn) - countMatches(a, keywordOut);
 }
 //=============================================================================
@@ -119,31 +129,32 @@ smartIndentLine(QString lineToIndent, QStringList previousText, int indentSize)
     last = stripLine(last);
     int indentIncrement = computeIndexIncrement(last);
     QString stripped = stripLine(lineToIndent);
-    QRegExp keyword_adjust("^\\s*\\b(endfunction|end|else|elseif|catch)\\b");
+    QRegularExpression keyword_adjust("^\\s*\\b(endfunction|end|else|elseif|catch)\\b");
     if (stripped.indexOf(keyword_adjust) >= 0) {
         indentIncrement--;
     }
     if (last.indexOf(keyword_adjust) >= 0) {
         indentIncrement++;
     }
-    QRegExp keyword_case("^\\s*\\b(case|otherwise)\\b");
-    QRegExp keyword_switch("^\\s*\\b(switch)\\b");
-    QRegExp keyword_end("^\\s*\\b(end)\\b");
+    QRegularExpression keyword_case("^\\s*\\b(case|otherwise)\\b");
+    QRegularExpression keyword_switch("^\\s*\\b(switch)\\b");
+    QRegularExpression keyword_end("^\\s*\\b(end)\\b");
     if (stripped.indexOf(keyword_case) >= 0 && last.indexOf(keyword_switch) < 0) {
         indentIncrement--;
     }
     if (last.indexOf(keyword_case) >= 0 && stripped.indexOf(keyword_end) < 0) {
         indentIncrement++;
     }
-    QRegExp function_det("^\\s*\\b(function)\\b");
+    QRegularExpression function_det("^\\s*\\b(function)\\b");
     if (stripped.indexOf(function_det) >= 0) {
         return setIndentSpace(lineToIndent, 0);
     }
-    QRegExp whitespace("^\\s*");
+    QRegularExpression whitespace("^\\s*");
     int leadingSpace = 0;
     int i = 0;
     if ((i = last.indexOf(whitespace, 0)) != -1) {
-        leadingSpace = whitespace.matchedLength();
+        QRegularExpressionMatch match = whitespace.match(last);
+        leadingSpace = match.capturedLength();
     }
     leadingSpace += indentIncrement * indentSize;
     leadingSpace = qMax(leadingSpace, 0);
