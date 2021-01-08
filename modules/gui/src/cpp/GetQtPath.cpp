@@ -35,7 +35,6 @@ namespace Nelson {
 #else
 #define getPathLocation QLibraryInfo::location
 #endif
-#define getPathLocation QLibraryInfo::location
 //=============================================================================
 std::wstring
 GetQtPath(const std::wstring& libraryLocation)

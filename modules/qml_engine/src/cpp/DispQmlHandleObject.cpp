@@ -40,7 +40,9 @@
 #include <QtCore/QUuid>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix4x4>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QMatrix>
+#endif
 #include <QtGui/QQuaternion>
 #include <QtGui/QTransform>
 #include <QtGui/QVector2D>
@@ -177,8 +179,13 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
                 } else {
                     QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldname).c_str());
                     if (propertyValue.isValid()) {
-                        QMetaType metaType = QMetaType(propertyValue.type());
-                        switch (metaType.id()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        QMetaType metaType = propertyValue.metaType();
+                        int id = metaType.id();
+#else
+                        int id = QMetaType::type(propertyValue.typeName());
+#endif
+                        switch (id) {
                         case QMetaType::Type::QRect: {
                             QRect qrect = propertyValue.toRect();
                             dispQRect(qrect, wfieldname, msg);
@@ -219,7 +226,9 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
                         case QMetaType::Type::QLine:
                         case QMetaType::Type::QLineF:
                         case QMetaType::Type::QUuid:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                         case QMetaType::Type::QMatrix:
+#endif
                         case QMetaType::Type::QTransform:
                         case QMetaType::Type::QMatrix4x4:
                         case QMetaType::Type::QVector2D:

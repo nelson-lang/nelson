@@ -59,8 +59,13 @@ bool
 canBeConvertedToArrayOf(QVariant Q)
 {
     bool res = false;
-    QMetaType metaType = QMetaType(Q.type());
-    switch (metaType.id()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QMetaType metaType = Q.metaType();
+    int id = metaType.id();
+#else
+    int id = QMetaType::type(Q.typeName());
+#endif
+    switch (id) {
     case QMetaType::Type::Bool:
     case QMetaType::Type::Int:
     case QMetaType::Type::UInt:
@@ -86,7 +91,9 @@ canBeConvertedToArrayOf(QVariant Q)
     case QMetaType::Type::QPointF:
     case QMetaType::Type::QUuid:
     case QMetaType::Type::QColor:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     case QMetaType::Type::QMatrix:
+#endif
     case QMetaType::Type::QTransform:
     case QMetaType::Type::QMatrix4x4:
     case QMetaType::Type::QVector2D:
@@ -115,9 +122,15 @@ canBeConvertedToArrayOf(QVariant Q)
         return true;
     } break;
     default: {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        if (Q.metaType().id() == QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
+            return true;
+        }
+#else
         if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
             return true;
         }
+#endif
         QQmlListReference ref = Q.value<QQmlListReference>();
         if (ref.isValid() && ref.canCount() && ref.canAt()) {
             int len = ref.count();
@@ -158,8 +171,13 @@ QVariantToArrayOf(QVariant Q)
     if (!Q.isValid()) {
         Error(_W("QVariant invalid."));
     }
-    QMetaType metaType = QMetaType(Q.type());
-    switch (metaType.id()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QMetaType metaType = Q.metaType();
+    int id = metaType.id();
+#else
+    int id = QMetaType::type(Q.typeName());
+#endif
+    switch (id) {
     case QMetaType::Type::Bool: {
         return ArrayOf::logicalConstructor(Q.toBool());
     } break;
@@ -345,6 +363,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     case QMetaType::Type::QMatrix: {
         QMatrix qmatrix = qvariant_cast<QMatrix>(Q);
         double* arrayDouble
@@ -358,6 +377,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 6);
         return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
     } break;
+#endif
     case QMetaType::Type::QTransform: {
         QTransform qtransform = qvariant_cast<QTransform>(Q);
         double* arrayDouble
@@ -452,7 +472,11 @@ QVariantToArrayOf(QVariant Q)
         return structArray;
     } break;
     default: {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        if (Q.metaType().id() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
+#else
         if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
+#endif
             QObject* qobject = Q.value<QObject*>();
             if (qobject) {
                 Dimensions dims(1, 1);
@@ -563,7 +587,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     }
     return res;
-} 
+}
 //=============================================================================
 QVariant
 ArrayOfToQVariant(ArrayOf A, int id)
@@ -787,6 +811,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         QColor color(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = color;
     } break;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     case QMetaType::Type::QMatrix: {
         QMatrix qmatrix;
         Dimensions dimsA = A.getDimensions();
@@ -800,6 +825,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
             arrayDouble[4], arrayDouble[5]);
         res = qmatrix;
     } break;
+#endif
     case QMetaType::Type::QTransform: {
         QTransform qtransform;
         Dimensions dimsA = A.getDimensions();
