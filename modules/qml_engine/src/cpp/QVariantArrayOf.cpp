@@ -23,15 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QVariantArrayOf.hpp"
-#include "Error.hpp"
-#include "GetQmlHandleObject.hpp"
-#include "HandleManager.hpp"
-#include "IsCellOfStrings.hpp"
-#include "QStringConverter.hpp"
-#include "QmlHandleObject.hpp"
-#include "ToCellString.hpp"
-#include "characters_encoding.hpp"
+#include <QtCore/QtGlobal>
 #include <QtCore/QBitArray>
 #include <QtCore/QDateTime>
 #include <QtCore/QLine>
@@ -43,12 +35,23 @@
 #include <QtCore/QUuid>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix4x4>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QMatrix>
+#endif
 #include <QtGui/QQuaternion>
 #include <QtGui/QTransform>
 #include <QtGui/QVector2D>
 #include <QtQml/QJSValue>
 #include <QtQml/QQmlListProperty>
+#include "QVariantArrayOf.hpp"
+#include "Error.hpp"
+#include "GetQmlHandleObject.hpp"
+#include "HandleManager.hpp"
+#include "IsCellOfStrings.hpp"
+#include "QStringConverter.hpp"
+#include "QmlHandleObject.hpp"
+#include "ToCellString.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -56,43 +59,43 @@ bool
 canBeConvertedToArrayOf(QVariant Q)
 {
     bool res = false;
-    QVariant::Type typeDest = Q.type();
-    switch (typeDest) {
-    case QVariant::Type::Bool:
-    case QVariant::Type::Int:
-    case QVariant::Type::UInt:
-    case QVariant::Type::LongLong:
-    case QVariant::Type::ULongLong:
-    case QVariant::Type::Double:
-    case QVariant::Type::Char:
-    case QVariant::Type::String:
-    case QVariant::Type::StringList:
-    case QVariant::Type::ByteArray:
-    case QVariant::Type::BitArray:
-    case QVariant::Type::Date:
-    case QVariant::Type::Time:
-    case QVariant::Type::DateTime:
-    case QVariant::Type::Url:
-    case QVariant::Type::Rect:
-    case QVariant::Type::RectF:
-    case QVariant::Type::Size:
-    case QVariant::Type::SizeF:
-    case QVariant::Type::Line:
-    case QVariant::Type::LineF:
-    case QVariant::Type::Point:
-    case QVariant::Type::PointF:
-    case QVariant::Type::Uuid:
-    case QVariant::Type::Color:
-    case QVariant::Type::Matrix:
-    case QVariant::Type::Transform:
-    case QVariant::Type::Matrix4x4:
-    case QVariant::Type::Vector2D:
-    case QVariant::Type::Vector3D:
-    case QVariant::Type::Vector4D:
-    case QVariant::Type::Quaternion: {
+    QMetaType metaType = QMetaType(Q.type());
+    switch (metaType.id()) {
+    case QMetaType::Type::Bool:
+    case QMetaType::Type::Int:
+    case QMetaType::Type::UInt:
+    case QMetaType::Type::LongLong:
+    case QMetaType::Type::ULongLong:
+    case QMetaType::Type::Double:
+    case QMetaType::Type::Char:
+    case QMetaType::Type::QString:
+    case QMetaType::Type::QStringList:
+    case QMetaType::Type::QByteArray:
+    case QMetaType::Type::QBitArray:
+    case QMetaType::Type::QDate:
+    case QMetaType::Type::QTime:
+    case QMetaType::Type::QDateTime:
+    case QMetaType::Type::QUrl:
+    case QMetaType::Type::QRect:
+    case QMetaType::Type::QRectF:
+    case QMetaType::Type::QSize:
+    case QMetaType::Type::QSizeF:
+    case QMetaType::Type::QLine:
+    case QMetaType::Type::QLineF:
+    case QMetaType::Type::QPoint:
+    case QMetaType::Type::QPointF:
+    case QMetaType::Type::QUuid:
+    case QMetaType::Type::QColor:
+    case QMetaType::Type::QMatrix:
+    case QMetaType::Type::QTransform:
+    case QMetaType::Type::QMatrix4x4:
+    case QMetaType::Type::QVector2D:
+    case QMetaType::Type::QVector3D:
+    case QMetaType::Type::QVector4D:
+    case QMetaType::Type::QQuaternion: {
         res = true;
     } break;
-    case QVariant::Type::List: {
+    case QMetaType::Type::QVariantList: {
         QList<QVariant> qlistVariant = qvariant_cast<QList<QVariant>>(Q);
         for (int k = 0; k < qlistVariant.size(); k++) {
             if (!canBeConvertedToArrayOf(qlistVariant[k])) {
@@ -101,7 +104,7 @@ canBeConvertedToArrayOf(QVariant Q)
         }
         return true;
     } break;
-    case QVariant::Type::Map: {
+    case QMetaType::Type::QVariantMap: {
         QVariantMap qvariantMap = qvariant_cast<QVariantMap>(Q);
         for (QVariantMap::const_iterator iter = qvariantMap.begin(); iter != qvariantMap.end();
              ++iter) {
@@ -111,31 +114,6 @@ canBeConvertedToArrayOf(QVariant Q)
         }
         return true;
     } break;
-    case QVariant::Type::Palette:
-    case QVariant::Type::Image:
-    case QVariant::Type::KeySequence:
-    case QVariant::Type::SizePolicy:
-    case QVariant::Type::Locale:
-    case QVariant::Type::TextLength:
-    case QVariant::Type::TextFormat:
-    case QVariant::Type::Pen:
-    case QVariant::Type::UserType:
-    case QVariant::Type::LastType:
-    case QVariant::Type::Invalid:
-    case QVariant::Type::RegExp:
-    case QVariant::Type::RegularExpression:
-    case QVariant::Type::Hash:
-    case QVariant::Type::EasingCurve:
-    case QVariant::Type::ModelIndex:
-    case QVariant::Type::Font:
-    case QVariant::Type::Pixmap:
-    case QVariant::Type::Brush:
-    case QVariant::Type::Icon:
-    case QVariant::Type::Bitmap:
-    case QVariant::Type::Cursor:
-    case QVariant::Type::Polygon:
-    case QVariant::Type::PolygonF:
-    case QVariant::Type::Region:
     default: {
         if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
             return true;
@@ -160,9 +138,11 @@ canBeConvertedToArrayOf(QVariant Q)
             } else {
                 res = false;
             }
-        } else if (strcmp(name, "QJSValue") == 0) {
+        } else if (Q.canConvert<QJSValue>()) {
             QVariant v = Q.value<QJSValue>().toVariant();
             res = v.isValid();
+        } else if (Q.canConvert<int>() || Q.canConvert<QString>() || Q.canConvert<QStringList>()) {
+            res = true;
         } else {
             res = false;
         }
@@ -178,35 +158,35 @@ QVariantToArrayOf(QVariant Q)
     if (!Q.isValid()) {
         Error(_W("QVariant invalid."));
     }
-    QVariant::Type qtype = Q.type();
-    switch (qtype) {
-    case QVariant::Type::Bool: {
+    QMetaType metaType = QMetaType(Q.type());
+    switch (metaType.id()) {
+    case QMetaType::Type::Bool: {
         return ArrayOf::logicalConstructor(Q.toBool());
     } break;
-    case QVariant::Type::Int: {
+    case QMetaType::Type::Int: {
         return ArrayOf::int32Constructor(Q.toInt());
     } break;
-    case QVariant::Type::UInt: {
+    case QMetaType::Type::UInt: {
         return ArrayOf::uint32Constructor(Q.toUInt());
     } break;
-    case QVariant::Type::LongLong: {
+    case QMetaType::Type::LongLong: {
         return ArrayOf::int64Constructor(Q.toLongLong());
     } break;
-    case QVariant::Type::ULongLong: {
+    case QMetaType::Type::ULongLong: {
         return ArrayOf::uint64Constructor(Q.toULongLong());
     } break;
-    case QVariant::Type::Double: {
+    case QMetaType::Type::Double: {
         return ArrayOf::doubleConstructor(Q.toDouble());
     } break;
-    case QVariant::Type::Char: {
+    case QMetaType::Type::Char: {
         char c = qvariant_cast<char>(Q);
         int8 i8 = (int8)c;
         return ArrayOf::int8Constructor(i8);
     } break;
-    case QVariant::Type::String: {
+    case QMetaType::Type::QString: {
         return ArrayOf::characterArrayConstructor(QStringTowstring(Q.toString()));
     } break;
-    case QVariant::Type::StringList: {
+    case QMetaType::Type::QStringList: {
         QStringList stringlist = qvariant_cast<QStringList>(Q);
         wstringVector wvector;
         for (int k = 0; k < stringlist.size(); k++) {
@@ -214,7 +194,7 @@ QVariantToArrayOf(QVariant Q)
         }
         return ToCellStringAsRow(wvector);
     } break;
-    case QVariant::Type::ByteArray: {
+    case QMetaType::Type::QByteArray: {
         QByteArray qbytearray = Q.toByteArray();
         int count = qbytearray.count();
         const char* data = qbytearray.data();
@@ -225,7 +205,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, count);
         return ArrayOf(NLS_INT8, dims, (void*)arrayInt8);
     } break;
-    case QVariant::Type::BitArray: {
+    case QMetaType::Type::QBitArray: {
         QBitArray qbitarray = Q.toBitArray();
         int count = qbitarray.count();
         logical* arrayLogical
@@ -236,7 +216,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, count);
         return ArrayOf(NLS_LOGICAL, dims, (void*)arrayLogical);
     } break;
-    case QVariant::Type::Date: {
+    case QMetaType::Type::QDate: {
         QDate qdate = qvariant_cast<QDate>(Q);
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 3, stringVector(), false);
         arrayInt32[0] = qdate.year();
@@ -245,7 +225,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 3);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::Time: {
+    case QMetaType::Type::QTime: {
         QTime qtime = qvariant_cast<QTime>(Q);
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qtime.hour();
@@ -255,7 +235,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::DateTime: {
+    case QMetaType::Type::QDateTime: {
         QDateTime qdatetime = qvariant_cast<QDateTime>(Q);
         qdatetime.setTimeSpec(Qt::UTC); // FORCE UTC
         QDate qdate = qdatetime.date();
@@ -271,11 +251,11 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 7);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::Url: {
+    case QMetaType::Type::QUrl: {
         QUrl qurl = qvariant_cast<QUrl>(Q);
         res = ArrayOf::characterArrayConstructor(QStringTowstring(qurl.toString()));
     } break;
-    case QVariant::Type::Rect: {
+    case QMetaType::Type::QRect: {
         QRect qrect = Q.toRect();
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qrect.x();
@@ -285,7 +265,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::RectF: {
+    case QMetaType::Type::QRectF: {
         QRectF qrectf = Q.toRectF();
         double* arrayDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4, stringVector(), false);
@@ -296,7 +276,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
     } break;
-    case QVariant::Type::Size: {
+    case QMetaType::Type::QSize: {
         QSize qsize = Q.toSize();
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 2, stringVector(), false);
         arrayInt32[0] = qsize.width();
@@ -304,7 +284,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 2);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::SizeF: {
+    case QMetaType::Type::QSizeF: {
         QSizeF qsizef = Q.toSizeF();
         double* arrayDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_INT32, 2, stringVector(), false);
@@ -313,7 +293,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 2);
         return ArrayOf(NLS_INT32, dims, (void*)arrayDouble);
     } break;
-    case QVariant::Type::Line: {
+    case QMetaType::Type::QLine: {
         QLine qline = Q.toLine();
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qline.x1();
@@ -323,7 +303,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::LineF: {
+    case QMetaType::Type::QLineF: {
         QLineF qlinef = Q.toLineF();
         double* arrayDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4, stringVector(), false);
@@ -334,7 +314,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
     } break;
-    case QVariant::Type::Point: {
+    case QMetaType::Type::QPoint: {
         QPoint qpoint = Q.toPoint();
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 2, stringVector(), false);
         arrayInt32[0] = qpoint.x();
@@ -342,7 +322,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 2);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::PointF: {
+    case QMetaType::Type::QPointF: {
         QPointF qpointf = Q.toPointF();
         double* arrayDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 2, stringVector(), false);
@@ -351,11 +331,11 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 2);
         return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
     } break;
-    case QVariant::Type::Uuid: {
+    case QMetaType::Type::QUuid: {
         QUuid quuid = Q.toUuid();
         return ArrayOf::characterArrayConstructor(QStringTowstring(quuid.toString()));
     } break;
-    case QVariant::Type::Color: {
+    case QMetaType::Type::QColor: {
         QColor qcolor = qvariant_cast<QColor>(Q);
         int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qcolor.red();
@@ -365,7 +345,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-    case QVariant::Type::Matrix: {
+    case QMetaType::Type::QMatrix: {
         QMatrix qmatrix = qvariant_cast<QMatrix>(Q);
         double* arrayDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 6, stringVector(), false);
@@ -378,7 +358,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 6);
         return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
     } break;
-    case QVariant::Type::Transform: {
+    case QMetaType::Type::QTransform: {
         QTransform qtransform = qvariant_cast<QTransform>(Q);
         double* arrayDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 9, stringVector(), false);
@@ -394,7 +374,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(3, 3);
         return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
     } break;
-    case QVariant::Type::Matrix4x4: {
+    case QMetaType::Type::QMatrix4x4: {
         QMatrix4x4 qmatrix4x4 = qvariant_cast<QMatrix4x4>(Q);
         single* arraySingle
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 16, stringVector(), false);
@@ -405,7 +385,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(4, 4);
         return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
     } break;
-    case QVariant::Type::Vector2D: {
+    case QMetaType::Type::QVector2D: {
         QVector2D qvector2d = qvariant_cast<QVector2D>(Q);
         single* arraySingle
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 2, stringVector(), false);
@@ -414,7 +394,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 2);
         return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
     } break;
-    case QVariant::Type::Vector3D: {
+    case QMetaType::Type::QVector3D: {
         QVector3D qvector3d = qvariant_cast<QVector3D>(Q);
         single* arraySingle
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 3, stringVector(), false);
@@ -424,7 +404,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 3);
         return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
     } break;
-    case QVariant::Type::Vector4D: {
+    case QMetaType::Type::QVector4D: {
         QVector4D qvector4d = qvariant_cast<QVector4D>(Q);
         single* arraySingle
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 4, stringVector(), false);
@@ -435,7 +415,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
     } break;
-    case QVariant::Type::Quaternion: {
+    case QMetaType::Type::QQuaternion: {
         QQuaternion qq = qvariant_cast<QQuaternion>(Q);
         single* arraySingle
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 4, stringVector(), false);
@@ -446,7 +426,7 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
     } break;
-    case QVariant::Type::List: {
+    case QMetaType::Type::QVariantList: {
         QVariantList qlistVariant = qvariant_cast<QVariantList>(Q);
         Dimensions dimsCellArray(1, qlistVariant.size());
         ArrayOf* cellArray = (ArrayOf*)ArrayOf::allocateArrayOf(
@@ -456,7 +436,7 @@ QVariantToArrayOf(QVariant Q)
         }
         return ArrayOf(NLS_CELL_ARRAY, dimsCellArray, cellArray);
     } break;
-    case QVariant::Type::Map: {
+    case QMetaType::Type::QVariantMap: {
         QVariantMap qvariantMap = qvariant_cast<QVariantMap>(Q);
         wstringVector fieldnames;
         ArrayOfVector fieldvalues;
@@ -560,7 +540,10 @@ QVariantToArrayOf(QVariant Q)
                 }
                 return ArrayOf(NLS_HANDLE, dims, (void*)nh);
             }
-        } else if (strcmp(name, "QJSValue") == 0) {
+        } else if (Q.canConvert<QJSValue>()) {
+            Q = Q.value<QJSValue>().toVariant();
+            return QVariantToArrayOf(Q);
+        } else if (Q.canConvert<double>()) {
             Q = Q.value<QJSValue>().toVariant();
             return QVariantToArrayOf(Q);
         }
@@ -580,49 +563,49 @@ QVariantToArrayOf(QVariant Q)
     } break;
     }
     return res;
-}
+} 
 //=============================================================================
 QVariant
-ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
+ArrayOfToQVariant(ArrayOf A, int id)
 {
     QVariant res;
-    switch (typeDest) {
-    case QVariant::Type::Bool: {
+    switch (id) {
+    case QMetaType::Type::Bool: {
         if (A.getContentAsLogicalScalar() == 1) {
             res = true;
         } else {
             res = false;
         }
     } break;
-    case QVariant::Type::Int: {
+    case QMetaType::Type::Int: {
         int32 v = A.getContentAsInteger32Scalar();
         res = v;
     } break;
-    case QVariant::Type::UInt: {
+    case QMetaType::Type::UInt: {
         uint32 v = A.getContentAsUnsignedInteger32Scalar();
         res = v;
     } break;
-    case QVariant::Type::LongLong: {
+    case QMetaType::Type::LongLong: {
         int64 v = A.getContentAsInteger64Scalar();
         res = QVariant((long long)v);
     } break;
-    case QVariant::Type::ULongLong: {
+    case QMetaType::Type::ULongLong: {
         uint64 v = A.getContentAsUnsignedInt64Scalar();
         res = QVariant((unsigned long long)v);
     } break;
-    case QVariant::Type::Double: {
+    case QMetaType::Type::Double: {
         double v = A.getContentAsDoubleScalar();
         res = v;
     } break;
-    case QVariant::Type::Char: {
+    case QMetaType::Type::Char: {
         int8 v = A.getContentAsInteger8Scalar();
         res = v;
     } break;
-    case QVariant::Type::String: {
+    case QMetaType::Type::QString: {
         std::wstring wstr = A.getContentAsWideString();
         res = wstringToQString(wstr);
     } break;
-    case QVariant::Type::StringList: {
+    case QMetaType::Type::QStringList: {
         wstringVector v = A.getContentAsWideStringVector(true);
         QStringList stringlist;
         for (size_t k = 0; k < v.size(); k++) {
@@ -630,7 +613,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         }
         res = stringlist;
     } break;
-    case QVariant::Type::ByteArray: {
+    case QMetaType::Type::QByteArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
             Error(_W("vector expected."));
@@ -645,7 +628,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         }
         res = qbytearray;
     } break;
-    case QVariant::Type::BitArray: {
+    case QMetaType::Type::QBitArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
             Error(_W("vector expected."));
@@ -659,7 +642,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         }
         res = qbitarray;
     } break;
-    case QVariant::Type::Date: {
+    case QMetaType::Type::QDate: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
@@ -670,7 +653,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QDate date(arrayInt[0], arrayInt[1], arrayInt[2]);
         res = date;
     } break;
-    case QVariant::Type::Time: {
+    case QMetaType::Type::QTime: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -681,7 +664,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QTime time(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = time;
     } break;
-    case QVariant::Type::DateTime: {
+    case QMetaType::Type::QDateTime: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 7);
         if (!dimsA.equals(dimsExpected)) {
@@ -695,12 +678,12 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         datetime.setTimeSpec(Qt::UTC); // FORCE UTC
         res = datetime;
     } break;
-    case QVariant::Type::Url: {
+    case QMetaType::Type::QUrl: {
         std::wstring wstr = A.getContentAsWideString();
         QUrl qurl(wstringToQString(wstr));
         res = qurl;
     } break;
-    case QVariant::Type::Rect: {
+    case QMetaType::Type::QRect: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -711,7 +694,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QRect qrect(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = qrect;
     } break;
-    case QVariant::Type::RectF: {
+    case QMetaType::Type::QRectF: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -722,7 +705,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QRectF qrectf(arrayDouble[0], arrayDouble[1], arrayDouble[2], arrayDouble[3]);
         res = qrectf;
     } break;
-    case QVariant::Type::Size: {
+    case QMetaType::Type::QSize: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
@@ -733,7 +716,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QSize qsize(arrayInt[0], arrayInt[1]);
         res = qsize;
     } break;
-    case QVariant::Type::SizeF: {
+    case QMetaType::Type::QSizeF: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
@@ -744,7 +727,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QSizeF qsizef(arrayDouble[0], arrayDouble[1]);
         res = qsizef;
     } break;
-    case QVariant::Type::Line: {
+    case QMetaType::Type::QLine: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -755,7 +738,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QLine qline(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = qline;
     } break;
-    case QVariant::Type::LineF: {
+    case QMetaType::Type::QLineF: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -766,7 +749,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QLineF qlinef(arrayDouble[0], arrayDouble[1], arrayDouble[2], arrayDouble[3]);
         res = qlinef;
     } break;
-    case QVariant::Type::Point: {
+    case QMetaType::Type::QPoint: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
@@ -777,7 +760,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QPoint point(arrayInt[0], arrayInt[1]);
         res = point;
     } break;
-    case QVariant::Type::PointF: {
+    case QMetaType::Type::QPointF: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
@@ -788,12 +771,12 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QPointF pointf(arrayDouble[0], arrayDouble[1]);
         res = pointf;
     } break;
-    case QVariant::Type::Uuid: {
+    case QMetaType::Type::QUuid: {
         std::wstring wstr = A.getContentAsWideString();
         QUuid quuid(wstringToQString(wstr));
         res = quuid;
     } break;
-    case QVariant::Type::Color: {
+    case QMetaType::Type::QColor: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -804,7 +787,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QColor color(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = color;
     } break;
-    case QVariant::Type::Matrix: {
+    case QMetaType::Type::QMatrix: {
         QMatrix qmatrix;
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 6);
@@ -817,7 +800,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
             arrayDouble[4], arrayDouble[5]);
         res = qmatrix;
     } break;
-    case QVariant::Type::Transform: {
+    case QMetaType::Type::QTransform: {
         QTransform qtransform;
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(3, 3);
@@ -830,7 +813,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
             arrayDouble[4], arrayDouble[5], arrayDouble[6], arrayDouble[7], arrayDouble[8]);
         res = qtransform;
     } break;
-    case QVariant::Type::Matrix4x4: {
+    case QMetaType::Type::QMatrix4x4: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(4, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -845,7 +828,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         }
         res = qmatrix4x4;
     } break;
-    case QVariant::Type::Vector2D: {
+    case QMetaType::Type::QVector2D: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
@@ -856,7 +839,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QVector2D qvector2d(arraySingle[0], arraySingle[1]);
         res = qvector2d;
     } break;
-    case QVariant::Type::Vector3D: {
+    case QMetaType::Type::QVector3D: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
@@ -867,7 +850,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QVector3D qvector3d(arraySingle[0], arraySingle[1], arraySingle[2]);
         res = qvector3d;
     } break;
-    case QVariant::Type::Vector4D: {
+    case QMetaType::Type::QVector4D: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -878,7 +861,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QVector4D qvector4d(arraySingle[0], arraySingle[1], arraySingle[2], arraySingle[3]);
         res = qvector4d;
     } break;
-    case QVariant::Type::Quaternion: {
+    case QMetaType::Type::QQuaternion: {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
@@ -889,13 +872,13 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         QQuaternion qq(arraySingle[0], arraySingle[1], arraySingle[2], arraySingle[3]);
         res = qq;
     } break;
-    case QVariant::Type::List: {
+    case QMetaType::Type::QVariantList: {
         if (!A.isCell()) {
             Error(_W("cell expected."));
         }
         res = ArrayOfToQVariant(A);
     } break;
-    case QVariant::Type::Map: {
+    case QMetaType::Type::QVariantMap: {
         if (!A.isStruct()) {
             Error(_W("structs expected."));
         }
@@ -957,7 +940,7 @@ ArrayOfToQVariant(ArrayOf A)
     switch (ClassA) {
     case NLS_LOGICAL: {
         if (A.isScalar()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::Bool);
+            res = ArrayOfToQVariant(A, QMetaType::Type::Bool);
         } else {
             res = NelsonTypeToQVariant<logical>(A);
         }
@@ -980,28 +963,28 @@ ArrayOfToQVariant(ArrayOf A)
     } break;
     case NLS_UINT32: {
         if (A.isScalar()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::UInt);
+            res = ArrayOfToQVariant(A, QMetaType::Type::UInt);
         } else {
             res = NelsonTypeToQVariant<uint32>(A);
         }
     } break;
     case NLS_INT32: {
         if (A.isScalar()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::Int);
+            res = ArrayOfToQVariant(A, QMetaType::Type::Int);
         } else {
             res = NelsonTypeToQVariant<int>(A);
         }
     } break;
     case NLS_UINT64: {
         if (A.isScalar()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::ULongLong);
+            res = ArrayOfToQVariant(A, QMetaType::Type::ULongLong);
         } else {
             res = NelsonTypeToQVariant<unsigned long long>(A);
         }
     } break;
     case NLS_INT64: {
         if (A.isScalar()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::LongLong);
+            res = ArrayOfToQVariant(A, QMetaType::Type::LongLong);
         } else {
             res = NelsonTypeToQVariant<long long>(A);
         }
@@ -1012,14 +995,14 @@ ArrayOfToQVariant(ArrayOf A)
     } break;
     case NLS_DOUBLE: {
         if (A.isScalar()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::Double);
+            res = ArrayOfToQVariant(A, QMetaType::Type::Double);
         } else {
             res = NelsonTypeToQVariant<double>(A);
         }
     } break;
     case NLS_CHAR: {
         if (A.isRowVectorCharacterArray()) {
-            res = ArrayOfToQVariant(A, QVariant::Type::String);
+            res = ArrayOfToQVariant(A, QMetaType::Type::QString);
         } else {
             Error(_W("Type conversion to QVariant not managed."));
         }

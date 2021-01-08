@@ -86,8 +86,8 @@ SetQmlHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
             QVariant v = ArrayOfToQVariant(B);
             qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
         } else {
-            QVariant::Type qtype = propertyValue.type();
-            QVariant v = ArrayOfToQVariant(B, qtype);
+            QMetaType metatype = QMetaType(propertyValue.type());
+            QVariant v = ArrayOfToQVariant(B, metatype.id());
             if (v.isValid()) {
                 qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
             } else {

@@ -177,54 +177,55 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
                 } else {
                     QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldname).c_str());
                     if (propertyValue.isValid()) {
-                        switch (propertyValue.type()) {
-                        case QVariant::Type::Rect: {
+                        QMetaType metaType = QMetaType(propertyValue.type());
+                        switch (metaType.id()) {
+                        case QMetaType::Type::QRect: {
                             QRect qrect = propertyValue.toRect();
                             dispQRect(qrect, wfieldname, msg);
                         } break;
-                        case QVariant::Type::RectF: {
+                        case QMetaType::Type::QRectF: {
                             QRectF qrect = propertyValue.toRectF();
                             dispQRectF(qrect, wfieldname, msg);
                         } break;
-                        case QVariant::Type::Point: {
+                        case QMetaType::Type::QPoint: {
                             QPoint qpoint = propertyValue.toPoint();
                             dispQPoint(qpoint, wfieldname, msg);
                         } break;
-                        case QVariant::Type::PointF: {
+                        case QMetaType::Type::QPointF: {
                             QPointF qpointf = propertyValue.toPointF();
                             dispQPointF(qpointf, wfieldname, msg);
                         } break;
-                        case QVariant::Type::Color: {
+                        case QMetaType::Type::QColor: {
                             QColor qcolor = qvariant_cast<QColor>(propertyValue);
                             dispQColor(qcolor, wfieldname, msg);
                         } break;
-                        case QVariant::Type::Bool:
-                        case QVariant::Type::Int:
-                        case QVariant::Type::UInt:
-                        case QVariant::Type::LongLong:
-                        case QVariant::Type::ULongLong:
-                        case QVariant::Type::Double:
-                        case QVariant::Type::Char:
-                        case QVariant::Type::String:
-                        case QVariant::Type::StringList:
-                        case QVariant::Type::ByteArray:
-                        case QVariant::Type::BitArray:
-                        case QVariant::Type::Date:
-                        case QVariant::Type::Time:
-                        case QVariant::Type::DateTime:
-                        case QVariant::Type::Url:
-                        case QVariant::Type::Size:
-                        case QVariant::Type::SizeF:
-                        case QVariant::Type::Line:
-                        case QVariant::Type::LineF:
-                        case QVariant::Type::Uuid:
-                        case QVariant::Type::Matrix:
-                        case QVariant::Type::Transform:
-                        case QVariant::Type::Matrix4x4:
-                        case QVariant::Type::Vector2D:
-                        case QVariant::Type::Vector3D:
-                        case QVariant::Type::Vector4D:
-                        case QVariant::Type::Quaternion:
+                        case QMetaType::Type::Bool:
+                        case QMetaType::Type::Int:
+                        case QMetaType::Type::UInt:
+                        case QMetaType::Type::LongLong:
+                        case QMetaType::Type::ULongLong:
+                        case QMetaType::Type::Double:
+                        case QMetaType::Type::Char:
+                        case QMetaType::Type::QString:
+                        case QMetaType::Type::QStringList:
+                        case QMetaType::Type::QByteArray:
+                        case QMetaType::Type::QBitArray:
+                        case QMetaType::Type::QDate:
+                        case QMetaType::Type::QTime:
+                        case QMetaType::Type::QDateTime:
+                        case QMetaType::Type::QUrl:
+                        case QMetaType::Type::QSize:
+                        case QMetaType::Type::QSizeF:
+                        case QMetaType::Type::QLine:
+                        case QMetaType::Type::QLineF:
+                        case QMetaType::Type::QUuid:
+                        case QMetaType::Type::QMatrix:
+                        case QMetaType::Type::QTransform:
+                        case QMetaType::Type::QMatrix4x4:
+                        case QMetaType::Type::QVector2D:
+                        case QMetaType::Type::QVector3D:
+                        case QMetaType::Type::QVector4D:
+                        case QMetaType::Type::QQuaternion:
                         default: {
                             if (propertyValue.canConvert<QString>()) {
                                 msg = msg + L"\t" + wfieldname + L": "

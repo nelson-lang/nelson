@@ -107,8 +107,7 @@ fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVect
                     if (canBeConvertedToArrayOf(propertyValue)) {
                         fieldnames.push_back(utf8_to_wstring(allField));
                     } else {
-                        QObject* obj = qvariant_cast<QObject*>(propertyValue);
-                        if (obj != nullptr) {
+                        if (propertyValue.canConvert<QObject*>()) {
                             fieldnames.push_back(utf8_to_wstring(allField));
                         }
                     }
