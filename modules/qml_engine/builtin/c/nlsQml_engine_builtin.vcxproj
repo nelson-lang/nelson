@@ -227,6 +227,7 @@
     <ClCompile Include="..\cpp\QObject_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_loadfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_usedBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qt_constantBuiltin.cpp" />
     <ClCompile Include="..\cpp\qt_versionBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -267,6 +268,7 @@
     <ClInclude Include="..\include\nlsQml_engine_builtin_exports.h" />
     <ClInclude Include="..\include\qml_loadfileBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_usedBuiltin.hpp" />
+    <ClInclude Include="..\include\qt_constantBuiltin.hpp" />
     <ClInclude Include="..\include\qt_versionBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

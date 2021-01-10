@@ -2,6 +2,8 @@
 
 - `qt_version` builtin: returns the version number of Qt at run-time.
 
+- `qt_constant` builtin: returns value of an Qt constant.
+
 ## Bug Fixes:
 
 - [#388](http://github.com/Nelson-numerical-software/nelson/issues/388): Windows x64 build failed (elementary_functions module was too big).

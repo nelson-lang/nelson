@@ -189,6 +189,7 @@
     <ClCompile Include="..\cpp\nelsonObject.cpp" />
     <ClCompile Include="..\cpp\QmlEngine.cpp" />
     <ClCompile Include="..\cpp\QmlHandleObject.cpp" />
+    <ClCompile Include="..\cpp\QtConstants.cpp" />
     <ClCompile Include="..\cpp\QtVersion.cpp" />
     <ClCompile Include="..\cpp\QVariantArrayOf.cpp" />
     <ClCompile Include="..\cpp\rootQObject.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="..\include\methodSignatureQObject.hpp" />
     <ClInclude Include="..\include\methodsQObject.hpp" />
     <ClInclude Include="..\include\QmlHandleObject.hpp" />
+    <ClInclude Include="..\include\QtConstants.hpp" />
     <ClInclude Include="..\include\QtVersion.hpp" />
     <ClInclude Include="..\include\QVariantArrayOf.hpp" />
     <ClInclude Include="..\include\rootQObject.hpp" />

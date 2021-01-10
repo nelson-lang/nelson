@@ -197,10 +197,10 @@ function varargout = msgbox(varargin)
   h.visible = true;
   varargout{1} = h;
   if strcmp(mode, 'modal') == true
-    h.modality = qml_evaluatestring('Qt.WindowModal');
+    h.modality = qt_constant('Qt.WindowModal');
     msgwait(h);
   else
-    h.modality = qml_evaluatestring('Qt.NonModal');
+    h.modality = qt_constant('Qt.NonModal');
   end
 
 endfunction
