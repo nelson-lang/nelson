@@ -230,8 +230,8 @@ namespace sio
     
     socket::impl::impl(client_impl *client,std::string const& nsp):
         m_client(client),
-        m_nsp(nsp),
-        m_connected(false)
+        m_connected(false),
+        m_nsp(nsp)
     {
         NULL_GUARD(client);
         if(m_client->opened())
@@ -269,10 +269,6 @@ namespace sio
     void socket::impl::send_connect()
     {
         NULL_GUARD(m_client);
-        if(m_nsp == "/")
-        {
-            return;
-        }
         packet p(packet::type_connect,m_nsp);
         m_client->send(p);
         m_connection_timer.reset(new asio::steady_timer(m_client->get_io_service()));
@@ -451,7 +447,7 @@ namespace sio
         }
     }
     
-    void socket::impl::ack(int msgId, const string &name, const message::list &ack_message)
+    void socket::impl::ack(int msgId, const string &, const message::list &ack_message)
     {
         packet p(m_nsp, ack_message.to_array_message(),msgId,true);
         send_packet(p);

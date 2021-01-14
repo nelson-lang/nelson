@@ -4,11 +4,12 @@
 
 set -e
 
-DOXYGEN_VER=doxygen-1.8.13
+DOXYGEN_VER=doxygen-1.8.7
 DOXYGEN_TAR=${DOXYGEN_VER}.linux.bin.tar.gz
 DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/${DOXYGEN_TAR}"
+DOXYGEN_BIN="/usr/local/bin/doxygen"
 
-: ${GITHUB_REPO:="Tencent/rapidjson"}
+: ${GITHUB_REPO:="miloyip/rapidjson"}
 GITHUB_HOST="github.com"
 GITHUB_CLONE="git://${GITHUB_HOST}/${GITHUB_REPO}"
 GITHUB_URL="https://${GITHUB_HOST}/${GITHUB_PUSH-${GITHUB_REPO}}"
@@ -41,8 +42,8 @@ abort() {
 	skip "Running Doxygen only for updates on 'master' branch (current: ${TRAVIS_BRANCH})."
 
 # check for job number
-# [ "${TRAVIS_JOB_NUMBER}" = "${TRAVIS_BUILD_NUMBER}.1" ] || \
-# 	skip "Running Doxygen only on first job of build ${TRAVIS_BUILD_NUMBER} (current: ${TRAVIS_JOB_NUMBER})."
+[ "${TRAVIS_JOB_NUMBER}" = "${TRAVIS_BUILD_NUMBER}.1" ] || \
+	skip "Running Doxygen only on first job of build ${TRAVIS_BUILD_NUMBER} (current: ${TRAVIS_JOB_NUMBER})."
 
 # install doxygen binary distribution
 doxygen_install()
@@ -56,7 +57,6 @@ doxygen_run()
 {
 	cd "${TRAVIS_BUILD_DIR}";
 	doxygen ${TRAVIS_BUILD_DIR}/build/doc/Doxyfile;
-	doxygen ${TRAVIS_BUILD_DIR}/build/doc/Doxyfile.zh-cn;
 }
 
 gh_pages_prepare()
@@ -77,7 +77,6 @@ gh_pages_prepare()
 
 gh_pages_commit() {
 	cd "${TRAVIS_BUILD_DIR}/build/doc/html";
-	echo "rapidjson.org" > CNAME
 	git add --all;
 	git diff-index --quiet HEAD || git commit -m "Automatic doxygen build";
 }

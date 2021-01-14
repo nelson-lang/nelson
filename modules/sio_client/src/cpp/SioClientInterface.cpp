@@ -23,11 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "SioClientInterface.hpp"
+#include "SioClientCommand.hpp"
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include "SioClientInterface.hpp"
-#include "SioClientCommand.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

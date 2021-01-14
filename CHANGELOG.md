@@ -14,6 +14,8 @@
 
 - Eigen 3.3.9 used.
 
+- [#394](http://github.com/Nelson-numerical-software/nelson/issues/394): Upgrade socket.IO dependency to v3.0.
+
 - [#367](http://github.com/Nelson-numerical-software/nelson/issues/367): add fftw_init_threads and fftw_plan_with_nthreads to MKL wrapper for FFTW.
 
 - [#356](http://github.com/Nelson-numerical-software/nelson/issues/356): MKL OneAPI v2021 support.

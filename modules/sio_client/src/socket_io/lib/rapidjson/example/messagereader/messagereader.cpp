@@ -17,11 +17,6 @@ RAPIDJSON_DIAG_PUSH
 RAPIDJSON_DIAG_OFF(effc++)
 #endif
 
-#ifdef __clang__
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(switch-enum)
-#endif
-
 struct MessageHandler
     : public BaseReaderHandler<UTF8<>, MessageHandler> {
     MessageHandler() : messages_(), state_(kExpectObjectStart), name_() {}
@@ -59,7 +54,7 @@ struct MessageHandler
     enum State {
         kExpectObjectStart,
         kExpectNameOrObjectEnd,
-        kExpectValue
+        kExpectValue,
     }state_;
     std::string name_;
 };
@@ -68,11 +63,7 @@ struct MessageHandler
 RAPIDJSON_DIAG_POP
 #endif
 
-#ifdef __clang__
-RAPIDJSON_DIAG_POP
-#endif
-
-static void ParseMessages(const char* json, MessageMap& messages) {
+void ParseMessages(const char* json, MessageMap& messages) {
     Reader reader;
     MessageHandler handler;
     StringStream ss(json);

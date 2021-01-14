@@ -1,16 +1,22 @@
-// Tencent is pleased to support the open source community by making RapidJSON available.
-// 
-// Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip. All rights reserved.
+// Copyright (C) 2011 Milo Yip
 //
-// Licensed under the MIT License (the "License"); you may not use this file except
-// in compliance with the License. You may obtain a copy of the License at
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// http://opensource.org/licenses/MIT
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
-// Unless required by applicable law or agreed to in writing, software distributed 
-// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
-// CONDITIONS OF ANY KIND, either express or implied. See the License for the 
-// specific language governing permissions and limitations under the License.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #include "perftest.h"
 
@@ -20,6 +26,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
+#include "rapidjson/filestream.h"
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/encodedstream.h"
 #include "rapidjson/memorystream.h"
@@ -28,8 +35,6 @@
 #define SIMD_SUFFIX(name) name##_SSE2
 #elif defined(RAPIDJSON_SSE42)
 #define SIMD_SUFFIX(name) name##_SSE42
-#elif defined(RAPIDJSON_NEON)
-#define SIMD_SUFFIX(name) name##_NEON
 #else
 #define SIMD_SUFFIX(name) name
 #endif
@@ -47,10 +52,7 @@ public:
         temp_ = (char *)malloc(length_ + 1);
 
         // Parse as a document
-        EXPECT_FALSE(doc_.Parse(json_).HasParseError());
-
-        for (size_t i = 0; i < 7; i++)
-            EXPECT_FALSE(typesDoc_[i].Parse(types_[i]).HasParseError());
+        EXPECT_FALSE(doc_.Parse(json_).IsNull());
     }
 
     virtual void TearDown() {
@@ -65,7 +67,6 @@ private:
 protected:
     char *temp_;
     Document doc_;
-    Document typesDoc_[7];
 };
 
 TEST_F(RapidJson, SIMD_SUFFIX(ReaderParseInsitu_DummyHandler)) {
@@ -97,35 +98,6 @@ TEST_F(RapidJson, SIMD_SUFFIX(ReaderParse_DummyHandler)) {
     }
 }
 
-#define TEST_TYPED(index, Name)\
-TEST_F(RapidJson, SIMD_SUFFIX(ReaderParse_DummyHandler_##Name)) {\
-    for (size_t i = 0; i < kTrialCount * 10; i++) {\
-        StringStream s(types_[index]);\
-        BaseReaderHandler<> h;\
-        Reader reader;\
-        EXPECT_TRUE(reader.Parse(s, h));\
-    }\
-}\
-TEST_F(RapidJson, SIMD_SUFFIX(ReaderParseInsitu_DummyHandler_##Name)) {\
-    for (size_t i = 0; i < kTrialCount * 10; i++) {\
-        memcpy(temp_, types_[index], typesLength_[index] + 1);\
-        InsituStringStream s(temp_);\
-        BaseReaderHandler<> h;\
-        Reader reader;\
-        EXPECT_TRUE(reader.Parse<kParseInsituFlag>(s, h));\
-    }\
-}
-
-TEST_TYPED(0, Booleans)
-TEST_TYPED(1, Floats)
-TEST_TYPED(2, Guids)
-TEST_TYPED(3, Integers)
-TEST_TYPED(4, Mixed)
-TEST_TYPED(5, Nulls)
-TEST_TYPED(6, Paragraphs)
-
-#undef TEST_TYPED
-
 TEST_F(RapidJson, SIMD_SUFFIX(ReaderParse_DummyHandler_FullPrecision)) {
     for (size_t i = 0; i < kTrialCount; i++) {
         StringStream s(json_);
@@ -151,35 +123,6 @@ TEST_F(RapidJson, SIMD_SUFFIX(ReaderParseIterativeInsitu_DummyHandler)) {
         BaseReaderHandler<> h;
         Reader reader;
         EXPECT_TRUE(reader.Parse<kParseIterativeFlag|kParseInsituFlag>(s, h));
-    }
-}
-
-TEST_F(RapidJson, SIMD_SUFFIX(ReaderParseIterativePull_DummyHandler)) {
-    for (size_t i = 0; i < kTrialCount; i++) {
-        StringStream s(json_);
-        BaseReaderHandler<> h;
-        Reader reader;
-        reader.IterativeParseInit();
-        while (!reader.IterativeParseComplete()) {
-            if (!reader.IterativeParseNext<kParseDefaultFlags>(s, h))
-                break;
-        }
-        EXPECT_FALSE(reader.HasParseError());
-    }
-}
-
-TEST_F(RapidJson, SIMD_SUFFIX(ReaderParseIterativePullInsitu_DummyHandler)) {
-    for (size_t i = 0; i < kTrialCount; i++) {
-        memcpy(temp_, json_, length_ + 1);
-        InsituStringStream s(temp_);
-        BaseReaderHandler<> h;
-        Reader reader;
-        reader.IterativeParseInit();
-        while (!reader.IterativeParseComplete()) {
-            if (!reader.IterativeParseNext<kParseDefaultFlags|kParseInsituFlag>(s, h))
-                break;
-        }
-        EXPECT_FALSE(reader.HasParseError());
     }
 }
 
@@ -217,25 +160,6 @@ TEST_F(RapidJson, SIMD_SUFFIX(DocumentParse_MemoryPoolAllocator)) {
         ASSERT_TRUE(doc.IsObject());
     }
 }
-
-TEST_F(RapidJson, SIMD_SUFFIX(DocumentParseLength_MemoryPoolAllocator)) {
-    for (size_t i = 0; i < kTrialCount; i++) {
-        Document doc;
-        doc.Parse(json_, length_);
-        ASSERT_TRUE(doc.IsObject());
-    }
-}
-
-#if RAPIDJSON_HAS_STDSTRING
-TEST_F(RapidJson, SIMD_SUFFIX(DocumentParseStdString_MemoryPoolAllocator)) {
-    const std::string s(json_, length_);
-    for (size_t i = 0; i < kTrialCount; i++) {
-        Document doc;
-        doc.Parse(s);
-        ASSERT_TRUE(doc.IsObject());
-    }
-}
-#endif
 
 TEST_F(RapidJson, SIMD_SUFFIX(DocumentParseIterative_MemoryPoolAllocator)) {
     for (size_t i = 0; i < kTrialCount; i++) {
@@ -333,10 +257,8 @@ TEST_F(RapidJson, DocumentAccept) {
 }
 
 struct NullStream {
-    typedef char Ch;
-
     NullStream() /*: length_(0)*/ {}
-    void Put(Ch) { /*++length_;*/ }
+    void Put(char) { /*++length_;*/ }
     void Flush() {}
     //size_t length_;
 };
@@ -351,7 +273,7 @@ TEST_F(RapidJson, Writer_NullStream) {
     }
 }
 
-TEST_F(RapidJson, SIMD_SUFFIX(Writer_StringBuffer)) {
+TEST_F(RapidJson, Writer_StringBuffer) {
     for (size_t i = 0; i < kTrialCount; i++) {
         StringBuffer s(0, 1024 * 1024);
         Writer<StringBuffer> writer(s);
@@ -363,28 +285,7 @@ TEST_F(RapidJson, SIMD_SUFFIX(Writer_StringBuffer)) {
     }
 }
 
-#define TEST_TYPED(index, Name)\
-TEST_F(RapidJson, SIMD_SUFFIX(Writer_StringBuffer_##Name)) {\
-    for (size_t i = 0; i < kTrialCount * 10; i++) {\
-        StringBuffer s(0, 1024 * 1024);\
-        Writer<StringBuffer> writer(s);\
-        typesDoc_[index].Accept(writer);\
-        const char* str = s.GetString();\
-        (void)str;\
-    }\
-}
-
-TEST_TYPED(0, Booleans)
-TEST_TYPED(1, Floats)
-TEST_TYPED(2, Guids)
-TEST_TYPED(3, Integers)
-TEST_TYPED(4, Mixed)
-TEST_TYPED(5, Nulls)
-TEST_TYPED(6, Paragraphs)
-
-#undef TEST_TYPED
-
-TEST_F(RapidJson, SIMD_SUFFIX(PrettyWriter_StringBuffer)) {
+TEST_F(RapidJson, PrettyWriter_StringBuffer) {
     for (size_t i = 0; i < kTrialCount; i++) {
         StringBuffer s(0, 2048 * 1024);
         PrettyWriter<StringBuffer> writer(s);
@@ -404,28 +305,11 @@ TEST_F(RapidJson, internal_Pow10) {
     EXPECT_GT(sum, 0.0);
 }
 
-TEST_F(RapidJson, SkipWhitespace_Basic) {
+TEST_F(RapidJson, SIMD_SUFFIX(Whitespace)) {
     for (size_t i = 0; i < kTrialCount; i++) {
-        rapidjson::StringStream s(whitespace_);
-        while (s.Peek() == ' ' || s.Peek() == '\n' || s.Peek() == '\r' || s.Peek() == '\t')
-            s.Take();
-        ASSERT_EQ('[', s.Peek());
-    }
-}
-
-TEST_F(RapidJson, SIMD_SUFFIX(SkipWhitespace)) {
-    for (size_t i = 0; i < kTrialCount; i++) {
-        rapidjson::StringStream s(whitespace_);
-        rapidjson::SkipWhitespace(s);
-        ASSERT_EQ('[', s.Peek());
-    }
-}
-
-TEST_F(RapidJson, SkipWhitespace_strspn) {
-    for (size_t i = 0; i < kTrialCount; i++) {
-        const char* s = whitespace_ + std::strspn(whitespace_, " \t\r\n");
-        ASSERT_EQ('[', *s);
-    }
+        Document doc;
+        ASSERT_TRUE(doc.Parse(whitespace_).IsArray());
+    }       
 }
 
 TEST_F(RapidJson, UTF8_Validate) {
@@ -439,6 +323,17 @@ TEST_F(RapidJson, UTF8_Validate) {
         EXPECT_TRUE(result);
     }
 }
+
+// Deprecated.
+//TEST_F(RapidJson, FileStream_Read) {
+//  for (size_t i = 0; i < kTrialCount; i++) {
+//      FILE *fp = fopen(filename_, "rb");
+//      FileStream s(fp);
+//      while (s.Take() != '\0')
+//          ;
+//      fclose(fp);
+//  }
+//}
 
 TEST_F(RapidJson, FileReadStream) {
     for (size_t i = 0; i < kTrialCount; i++) {
@@ -461,12 +356,6 @@ TEST_F(RapidJson, SIMD_SUFFIX(ReaderParse_DummyHandler_FileReadStream)) {
         reader.Parse(s, h);
         fclose(fp);
     }
-}
-
-TEST_F(RapidJson, StringBuffer) {
-    StringBuffer sb;
-    for (int i = 0; i < 32 * 1024 * 1024; i++)
-        sb.Put(i & 0x7f);
 }
 
 #endif // TEST_RAPIDJSON

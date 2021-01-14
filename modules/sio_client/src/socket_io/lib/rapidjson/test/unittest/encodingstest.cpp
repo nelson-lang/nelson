@@ -1,16 +1,22 @@
-// Tencent is pleased to support the open source community by making RapidJSON available.
-// 
-// Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip. All rights reserved.
+// Copyright (C) 2011 Milo Yip
 //
-// Licensed under the MIT License (the "License"); you may not use this file except
-// in compliance with the License. You may obtain a copy of the License at
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// http://opensource.org/licenses/MIT
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
-// Unless required by applicable law or agreed to in writing, software distributed 
-// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
-// CONDITIONS OF ANY KIND, either express or implied. See the License for the 
-// specific language governing permissions and limitations under the License.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #include "unittest.h"
 #include "rapidjson/filereadstream.h"
@@ -240,6 +246,7 @@ static const unsigned kCodepointRanges[] = {
 // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
 
 #define UTF8_ACCEPT 0u
+#define UTF8_REJECT 12u
 
 static const unsigned char utf8d[] = {
     // The first part of the table maps bytes to character classes that
@@ -267,7 +274,7 @@ static unsigned inline decode(unsigned* state, unsigned* codep, unsigned byte) {
 
     *codep = (*state != UTF8_ACCEPT) ?
         (byte & 0x3fu) | (*codep << 6) :
-    (0xffu >> type) & (byte);
+    (0xff >> type) & (byte);
 
     *state = utf8d[256 + *state + type];
     return *state;
@@ -297,14 +304,13 @@ TEST(EncodingsTest, UTF8) {
 
                 unsigned decodedCount = 0;
                 for (const char* s = encodedStr; *s; ++s)
-                    if (!decode(&state, &decodedCodepoint, static_cast<unsigned char>(*s))) {
+                    if (!decode(&state, &decodedCodepoint, (unsigned char)*s)) {
                         EXPECT_EQ(codepoint, decodedCodepoint);
                         decodedCount++;
                     }
 
-                if (*encodedStr) {                  // This decoder cannot handle U+0000
+                if (*encodedStr)                // This decoder cannot handle U+0000
                     EXPECT_EQ(1u, decodedCount);    // Should only contain one code point
-                }
 
                 EXPECT_EQ(UTF8_ACCEPT, state);
                 if (UTF8_ACCEPT != state)
@@ -355,7 +361,7 @@ TEST(EncodingsTest, UTF16) {
                 unsigned state = 0;
                 UTF16<>::Ch buffer[3], *p = &buffer[0];
                 for (const char* s = utf8os.GetString(); *s; ++s) {
-                    if (!decode(&state, &decodedCodepoint, static_cast<unsigned char>(*s)))
+                    if (!decode(&state, &decodedCodepoint, (unsigned char)*s))
                         break;
                 }
 
@@ -421,31 +427,6 @@ TEST(EncodingsTest, UTF32) {
                 EXPECT_TRUE(result);
                 EXPECT_EQ(0, StrCmp(encodedStr, os2.GetString()));
             }
-        }
-    }
-}
-
-TEST(EncodingsTest, ASCII) {
-    StringBuffer os, os2;
-    for (unsigned codepoint = 0; codepoint < 128; codepoint++) {
-        os.Clear();
-        ASCII<>::Encode(os, codepoint);
-        const ASCII<>::Ch* encodedStr = os.GetString();
-        {
-            StringStream is(encodedStr);
-            unsigned decodedCodepoint;
-            bool result = ASCII<>::Decode(is, &decodedCodepoint);
-            if (!result || codepoint != decodedCodepoint)
-                std::cout << std::hex << codepoint << " " << decodedCodepoint << std::endl;
-        }
-
-        // Validate
-        {
-            StringStream is(encodedStr);
-            os2.Clear();
-            bool result = ASCII<>::Validate(is, os2);
-            EXPECT_TRUE(result);
-            EXPECT_EQ(0, StrCmp(encodedStr, os2.GetString()));
         }
     }
 }

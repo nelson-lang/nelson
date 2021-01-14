@@ -5,7 +5,6 @@
 #define _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_FUNCTIONAL_
 
-
 #include <cstdint>
 #ifdef _WIN32
 #define _WEBSOCKETPP_CPP11_THREAD_
@@ -15,8 +14,7 @@
 #else
 #if not defined _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_STL_ 1
-#endif
-#define INTIALIZER(__TYPE__) (__TYPE__)
+#endif #define INTIALIZER(__TYPE__)(__TYPE__)
 #endif
 #include <websocketpp/client.hpp>
 #if _DEBUG || DEBUG
@@ -177,7 +175,7 @@ namespace sio
         //socketio callbacks
         void on_handshake(message::ptr const& message);
 
-        void on_pong();
+        void on_ping();
 
         void reset_states();
 
@@ -189,6 +187,9 @@ namespace sio
         context_ptr on_tls_init(connection_hdl con);
         #endif
         
+        // Percent encode query string
+        std::string encode_query_string(const std::string &query);
+
         // Connection pointer for client functions.
         connection_hdl m_con;
         client_type m_client;
@@ -204,8 +205,6 @@ namespace sio
         std::unique_ptr<std::thread> m_network_thread;
         
         packet_manager m_packet_mgr;
-        
-        std::unique_ptr<asio::steady_timer> m_ping_timer;
         
         std::unique_ptr<asio::steady_timer> m_ping_timeout_timer;
 

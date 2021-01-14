@@ -38,7 +38,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/internal
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/websocketpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/asio/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/asio/asio/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/rapidjson/include)
 # ==============================================================================
 file(GLOB SIO_CLIENT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
