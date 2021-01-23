@@ -35,10 +35,8 @@ const std::wstring gatewayName = L"statistics";
 static const nlsGateway gateway[] = {
     { "corrcoef", (void*)Nelson::StatisticsGateway::corrcoefBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "var", (void*)Nelson::StatisticsGateway::varBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "mean", (void*)Nelson::StatisticsGateway::meanBuiltin, 1, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "var", (void*)Nelson::StatisticsGateway::varBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "mean", (void*)Nelson::StatisticsGateway::meanBuiltin, 1, 4, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

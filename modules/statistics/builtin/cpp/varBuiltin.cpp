@@ -32,8 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StatisticsGateway::varBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StatisticsGateway::varBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     bool bSuccess = false;
