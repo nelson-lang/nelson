@@ -51,13 +51,13 @@ Nelson::StringGateway::num2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         bool needToOverload;
         if (argIn.size() == 2) {
             ArrayOf arg1 = argIn[1];
-          if (argIn[1].isNumeric()) {
+            if (argIn[1].isNumeric()) {
                 double N = arg1.getContentAsDoubleScalar();
-              res = NumberToString(argIn[0], N, needToOverload);
+                res = NumberToString(argIn[0], N, needToOverload);
             } else {
-              std::wstring format = arg1.getContentAsWideString();
-              res = NumberToString(argIn[0], format, needToOverload);
-          }
+                std::wstring format = arg1.getContentAsWideString();
+                res = NumberToString(argIn[0], format, needToOverload);
+            }
         } else {
             res = NumberToString(argIn[0], needToOverload);
         }

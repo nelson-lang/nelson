@@ -298,3 +298,11 @@ PicoSHA2 - a C++ SHA256 hash generator
 > https://github.com/okdshin/PicoSHA2
 
 > https://github.com/okdshin/PicoSHA2/blob/master/LICENSE MIT license
+
+- fmtlib
+
+A modern formatting library
+
+> https://fmt.dev/latest/index.html
+
+> https://github.com/fmtlib/fmt/blob/master/LICENSE.rst MIT license

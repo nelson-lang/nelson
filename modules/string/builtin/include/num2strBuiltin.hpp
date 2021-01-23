@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-  namespace StringGateway {
+namespace StringGateway {
     ArrayOfVector
     num2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }

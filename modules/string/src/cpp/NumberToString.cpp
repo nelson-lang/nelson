@@ -28,7 +28,12 @@
 //=============================================================================
 #include <cstdio>
 //=============================================================================
+#include <fmt/locale.h>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 #include "NumberToString.hpp"
 #include "nlsConfig.h"
 #include "characters_encoding.hpp"
@@ -36,102 +41,39 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define BUFFER_LEN 2048
+typedef enum
+{
+    AUTO = 0,
+    PRECISION = 1,
+    FORMAT = 2
+} NUM2STR_ENUM;
 //=============================================================================
 template <class T>
 static ArrayOf
-NumberToStringHelperComplex(const ArrayOf& A, bool withPrecision, const std::wstring& format)
+NumberToStringHelperLogical(const ArrayOf& A, NUM2STR_ENUM formatType, const std::wstring& format)
 {
-    ArrayOf res;
-    char buffer_re[BUFFER_LEN];
-    char buffer_im[BUFFER_LEN];
-    T* dp = (T*)A.getDataPointer();
-    std::complex<T>* dpz = reinterpret_cast<std::complex<T>*>(dp);
-    Dimensions dimsA = A.getDimensions();
-    size_t maxlen = 0;
-    bool allint = true;
-    std::string uformat = wstring_to_utf8(format);
-    boost::replace_all(uformat, "%%", "%");
-    if (!withPrecision) {
-        for (indexType i = 0; i < dimsA.getElementCount(); i++) {
-            allint = allint && (dpz[i].real() == round(dpz[i].real()));
-            allint = allint && (dpz[i].imag() == round(dpz[i].imag()));
-            sprintf(buffer_re, uformat.c_str(), fabs(static_cast<double>(dpz[i].real())));
-            sprintf(buffer_im, uformat.c_str(), fabs(static_cast<double>(dpz[i].imag())));
-            maxlen = std::max(maxlen, strlen(buffer_re) + strlen(buffer_im));
-        }
-        if (!allint) {
-            maxlen = std::max(maxlen, (size_t)20);
-        }
+    std::string uformat;
+    if (formatType == NUM2STR_ENUM::FORMAT) {
+        uformat = wstring_to_utf8(format);
+        boost::replace_all(uformat, "%%", "%");
+    } else if (formatType == NUM2STR_ENUM::PRECISION) {
+        uformat = wstring_to_utf8(format);
+    } else if (formatType == NUM2STR_ENUM::AUTO) {
+        uformat = "%2d";
     }
+    T* dp = (T*)A.getDataPointer();
+    size_t maxlen = 1;
     stringVector rows;
+    Dimensions dimsA = A.getDimensions();
     indexType m = dimsA.getRows();
     indexType n = dimsA.getColumns();
+    std::string s;
     for (indexType i = 0; i < m; i++) {
         std::string row;
         for (indexType j = 0; j < n; j++) {
-            sprintf(buffer_re, uformat.c_str(), dpz[j * m + i].real());
-            sprintf(buffer_im, uformat.c_str(), dpz[j * m + i].imag());
-            std::string sr(buffer_re);
-            std::string si(buffer_im);
-            boost::replace_all(sr, "inf", "Inf");
-            boost::replace_all(sr, "nan", "NaN");
-            boost::replace_all(si, "inf", "Inf");
-            boost::replace_all(si, "nan", "NaN");
-            if (dpz[j * m + i].imag() > 0) {
-                si = "+" + si;
-            }
-            std::string s = sr + si + "i";
-            if (j != 0 && !withPrecision) {
-                int l = maxlen - s.length() + 5;
-                row += std::string(l > 0 ? l : 5, ' ');
-            }
-            row += s;
-        }
-        boost::trim_left(row);
-        rows.push_back(row);
-    }
-    return ArrayOf::characterVectorToCharacterArray(rows);
-}
-//=============================================================================
-template <class T>
-static ArrayOf
-NumberToStringHelperReal(const ArrayOf& A, bool withPrecision, const std::wstring& format)
-{
-    ArrayOf res;
-    char buffer[BUFFER_LEN];
-    T* dp = (T*)A.getDataPointer();
-    Dimensions dimsA = A.getDimensions();
-    size_t maxlen = 0;
-    bool allint = true;
-    std::string uformat = wstring_to_utf8(format);
-    boost::replace_all(uformat, "%%", "%");
-    if (!withPrecision) {
-        for (indexType i = 0; i < dimsA.getElementCount(); i++) {
-            allint = allint && (dp[i] == round(dp[i]));
-            sprintf(buffer, uformat.c_str(), fabs(static_cast<double>(dp[i])));
-            maxlen = std::max(maxlen, strlen(buffer));
-        }
-        if (!allint) {
-            maxlen = std::max(maxlen, (size_t)10);
-        }
-    }
-    stringVector rows;
-    indexType m = dimsA.getRows();
-    indexType n = dimsA.getColumns();
-    for (indexType i = 0; i < m; i++) {
-        std::string row;
-        for (indexType j = 0; j < n; j++) {
-            if (allint) {
-                sprintf(buffer, uformat.c_str(), static_cast<double>(dp[j * m + i]));
-            } else {
-                sprintf(buffer, uformat.c_str(), dp[j * m + i]);
-            }
-            std::string s(buffer);
-            boost::replace_all(s, "inf", "Inf");
-            boost::replace_all(s, "nan", "NaN");
-            if (j != 0 && !withPrecision) {
-                int l = maxlen - s.length() + 2;
+            s = fmt::sprintf(uformat, (int)dp[j * m + i]);
+            if (formatType == NUM2STR_ENUM::AUTO) {
+                int l = (int)(maxlen - s.length() + 2);
                 row += std::string(l > 0 ? l : 2, ' ');
             }
             row += s;
@@ -142,64 +84,309 @@ NumberToStringHelperReal(const ArrayOf& A, bool withPrecision, const std::wstrin
     return ArrayOf::characterVectorToCharacterArray(rows);
 }
 //=============================================================================
+template <class T>
 static ArrayOf
-NumberToString(
-    const ArrayOf& A, bool withPrecision, const std::wstring& format, bool& needToOverload)
+NumberToStringHelperInteger(const ArrayOf& A)
+{
+    T* dp = (T*)A.getDataPointer();
+    Dimensions dimsA = A.getDimensions();
+    long double maxAbsValue = std::fabsl(static_cast<long double>(dp[0]));
+    std::string uformat;
+    for (indexType i = 0; i < dimsA.getElementCount(); i++) {
+        maxAbsValue = std::max(maxAbsValue, std::fabsl(static_cast<long double>(dp[i])));
+    }
+    std::string maxString = std::to_string(static_cast<T>(maxAbsValue));
+    size_t maxlen = maxString.size();
+    stringVector rows;
+    indexType m = dimsA.getRows();
+    indexType n = dimsA.getColumns();
+    for (indexType i = 0; i < m; i++) {
+        std::string row;
+        for (indexType j = 0; j < n; j++) {
+            std::string s = std::to_string(dp[j * m + i]);
+            int l = (int)(maxlen - s.length() + 2);
+            row += std::string(l > 0 ? l : 2, ' ');
+            row += s;
+        }
+        boost::trim_left(row);
+        rows.push_back(row);
+    }
+    return ArrayOf::characterVectorToCharacterArray(rows);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+NumberToStringHelperComplex(
+    const ArrayOf& A, NUM2STR_ENUM formatType, const std::wstring& format, int precision)
+{
+    std::string uformat;
+    T* dp = (T*)A.getDataPointer();
+    std::complex<T>* dpz = reinterpret_cast<std::complex<T>*>(dp);
+    Dimensions dimsA = A.getDimensions();
+    bool allint = true;
+    size_t maxlen = 0;
+
+    if (formatType == NUM2STR_ENUM::AUTO) {
+        long double maxAbsValue = std::nan("NaN");
+        for (indexType i = 0; i < dimsA.getElementCount(); i++) {
+            long double value_real = fabsl((long double)dpz[i].real());
+            long double value_imag = fabsl((long double)dpz[i].imag());
+            if (std::isfinite(value_real)) {
+                if (std::isnan(maxAbsValue)) {
+                    maxAbsValue = value_real;
+                }
+                maxAbsValue = std::max(maxAbsValue, value_real);
+                allint = allint && (dpz[i].real() == round(dpz[i].real()));
+            } else {
+                allint = false;
+            }
+            if (std::isfinite(value_imag)) {
+                if (std::isnan(maxAbsValue)) {
+                    maxAbsValue = value_imag;
+                }
+                maxAbsValue = std::max(maxAbsValue, value_imag);
+                allint = allint && (dpz[i].imag() == round(dpz[i].imag()));
+            } else {
+                allint = false;
+            }
+        }
+        int ndigit = 0;
+        if (std::isfinite(maxAbsValue)) {
+            ndigit = (int)std::floor(log10(maxAbsValue));
+        }
+
+        if (ndigit > 15 || !allint) {
+            if (dimsA.isScalar()) {
+                ndigit = std::max(ndigit + 6, 6);
+            } else {
+
+                ndigit = std::max(ndigit + 5, 5);
+            }
+            ndigit = std::min(ndigit, 16);
+            uformat = "%" + std::to_string(ndigit + 7) + "." + std::to_string(ndigit) + "g";
+        } else {
+            ndigit += 3;
+            if (!std::isfinite(maxAbsValue)) {
+                ndigit = std::max(ndigit, 5);
+            }
+            uformat = "%" + std::to_string(ndigit) + ".0f";
+        }
+        std::string s;
+        if (allint) {
+            s = fmt::sprintf(uformat, static_cast<long double>(maxAbsValue));
+        } else {
+            s = fmt::sprintf(uformat, maxAbsValue);
+        }
+        precision = ndigit;
+        maxlen = s.size();
+    } else if (formatType == NUM2STR_ENUM::FORMAT) {
+        uformat = wstring_to_utf8(format);
+        boost::replace_all(uformat, "%%", "%");
+    } else if (formatType == NUM2STR_ENUM::PRECISION) {
+        uformat = wstring_to_utf8(format);
+    }
+    stringVector rows;
+    indexType m = dimsA.getRows();
+    indexType n = dimsA.getColumns();
+    for (indexType i = 0; i < m; i++) {
+        std::string row;
+        for (indexType j = 0; j < n; j++) {
+            std::string strRealPart;
+            if (allint) {
+                strRealPart
+                    = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].real()));
+            } else {
+                strRealPart
+                    = fmt::sprintf(uformat, dpz[j * m + i].real());
+            }
+            std::string strImagPart;
+            if (allint) {
+                strImagPart
+                    = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].imag()));
+            } else {
+                strImagPart = fmt::sprintf(uformat, dpz[j * m + i].imag());
+            }
+            boost::algorithm::erase_all(strImagPart, " ");
+            std::string s;
+            if (dpz[j * m + i].imag() < 0) {
+                s = strRealPart + strImagPart + "i";
+            } else {
+                s = strRealPart + "+" + strImagPart + "i";
+            }
+            boost::replace_all(s, "inf", "Inf");
+            boost::replace_all(s, "nan", "NaN");
+            size_t nbSpace = 0;
+            if (formatType == NUM2STR_ENUM::FORMAT) {
+                nbSpace = 0;
+            } else if (formatType == NUM2STR_ENUM::AUTO) {
+                if (allint) {
+                    nbSpace = (size_t)1;
+                } else {
+                    nbSpace = (size_t)10;
+                }
+            } else if (formatType == NUM2STR_ENUM::PRECISION) {
+                nbSpace = (size_t)5 + (size_t)precision;
+            }
+            row += std::string(nbSpace, ' ');
+            row += s;
+        }
+        boost::trim_left(row);
+        rows.push_back(row);
+    }
+    return ArrayOf::characterVectorToCharacterArray(rows);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+NumberToStringHelperReal(
+    const ArrayOf& A, NUM2STR_ENUM formatType, const std::wstring& format, int precision)
+{
+    std::string uformat;
+    T* dp = (T*)A.getDataPointer();
+    Dimensions dimsA = A.getDimensions();
+    bool allint = true;
+    size_t maxlen = 0;
+
+    if (formatType == NUM2STR_ENUM::AUTO) {
+        long double maxAbsValue = std::nan("NaN");
+        for (indexType i = 0; i < dimsA.getElementCount(); i++) {
+            long double value_real = fabsl((long double)dp[i]);
+            if (std::isfinite(value_real)) {
+                if (std::isnan(maxAbsValue)) {
+                    maxAbsValue = value_real;
+                }
+                maxAbsValue = std::max(maxAbsValue, value_real);
+                allint = allint && (dp[i] == round(dp[i]));
+            } else {
+                allint = false;
+            }
+        }
+        int ndigit = 0;
+        if (std::isfinite(maxAbsValue)) {
+            ndigit = (int)std::floor(log10(maxAbsValue));
+        }
+        if (ndigit > 15 || !allint) {
+            if (dimsA.isScalar()) {
+                ndigit = std::max(ndigit + 6, 6);
+            } else {
+                ndigit = std::max(ndigit + 5, 5);
+            }
+            ndigit = std::min(ndigit, 16);
+            uformat = "%" + std::to_string(ndigit + 7) + "." + std::to_string(ndigit) + "g";
+        } else {
+            ndigit += 3;
+            if (!std::isfinite(maxAbsValue)) {
+                ndigit = std::max(ndigit, 5);
+            }
+            uformat = "%" + std::to_string(ndigit) + ".0f";
+        }
+        std::string s;
+        if (allint) {
+            s = fmt::sprintf(uformat, static_cast<long double>(maxAbsValue));
+        } else {
+            s = fmt::sprintf(uformat, maxAbsValue);
+        }
+        precision = ndigit;
+        maxlen = s.size();
+    } else if (formatType == NUM2STR_ENUM::FORMAT) {
+        uformat = wstring_to_utf8(format);
+        boost::replace_all(uformat, "%%", "%");
+    } else if (formatType == NUM2STR_ENUM::PRECISION) {
+        uformat = wstring_to_utf8(format);
+    }
+    stringVector rows;
+    indexType m = dimsA.getRows();
+    indexType n = dimsA.getColumns();
+    for (indexType i = 0; i < m; i++) {
+        std::string row;
+        for (indexType j = 0; j < n; j++) {
+            std::string s;
+            if (allint) {
+                s = fmt::sprintf(uformat, static_cast<long double>(dp[j * m + i]));
+            } else {
+                s = fmt::sprintf(uformat, dp[j * m + i]);
+            }
+            boost::replace_all(s, "inf", "Inf");
+            boost::replace_all(s, "nan", "NaN");
+            row += s;
+        }
+        boost::trim_left(row);
+        rows.push_back(row);
+    }
+    return ArrayOf::characterVectorToCharacterArray(rows);
+}
+//=============================================================================
+static ArrayOf
+NumberToString(const ArrayOf& A, NUM2STR_ENUM formatType, const std::wstring& format, int precision,
+    bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
     if (A.isEmpty()) {
         return ArrayOf::characterArrayConstructor(L"");
     }
+    ArrayOf as2D;
+    if (!A.is2D() && !A.isScalar()) {
+        as2D = A;
+        Dimensions dimsA = A.getDimensions();
+        indexType N = dimsA.getElementCount();
+        Dimensions dims2d(dimsA.getRows(), N / dimsA.getRows());
+        as2D.reshape(dims2d);
+    } else if (A.isSparse()) {
+        as2D = A;
+        as2D.makeDense();
+    } else {
+        as2D = A;
+    }
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
-        res = NumberToStringHelperReal<double>(A, withPrecision, format);
+        res = NumberToStringHelperReal<double>(as2D, formatType, format, precision);
     } break;
     case NLS_DCOMPLEX: {
         if (A.allReal()) {
-            ArrayOf B = RealPart(A);
-            res = NumberToStringHelperReal<double>(B, withPrecision, format);
+            ArrayOf B = RealPart(as2D);
+            res = NumberToStringHelperReal<double>(B, formatType, format, precision);
         } else {
-            res = NumberToStringHelperComplex<double>(A, withPrecision, format);
+            res = NumberToStringHelperComplex<double>(as2D, formatType, format, precision);
         }
     } break;
     case NLS_SINGLE: {
-        res = NumberToStringHelperReal<single>(A, withPrecision, format);
+        res = NumberToStringHelperReal<single>(as2D, formatType, format, precision);
     } break;
     case NLS_SCOMPLEX: {
-        if (A.allReal()) {
-            ArrayOf B = RealPart(A);
-            res = NumberToStringHelperReal<single>(B, withPrecision, format);
+        if (as2D.allReal()) {
+            ArrayOf B = RealPart(as2D);
+            res = NumberToStringHelperReal<single>(as2D, formatType, format, precision);
         } else {
-            res = NumberToStringHelperComplex<single>(A, withPrecision, format);
+            res = NumberToStringHelperComplex<single>(as2D, formatType, format, precision);
         }
     } break;
     case NLS_LOGICAL: {
-        res = NumberToStringHelperReal<logical>(A, withPrecision, format);
+        res = NumberToStringHelperLogical<logical>(as2D, formatType, format);
     } break;
     case NLS_UINT8: {
-        res = NumberToStringHelperReal<uint8>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<uint8>(as2D);
     } break;
     case NLS_INT8: {
-        res = NumberToStringHelperReal<int8>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<int8>(as2D);
     } break;
     case NLS_UINT16: {
-        res = NumberToStringHelperReal<uint16>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<uint16>(as2D);
     } break;
     case NLS_INT16: {
-        res = NumberToStringHelperReal<int16>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<int16>(as2D);
     } break;
     case NLS_UINT32: {
-        res = NumberToStringHelperReal<uint32>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<uint32>(as2D);
     } break;
     case NLS_INT32: {
-        res = NumberToStringHelperReal<int32>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<int32>(as2D);
     } break;
     case NLS_UINT64: {
-        res = NumberToStringHelperReal<uint64>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<uint64>(as2D);
     } break;
     case NLS_INT64: {
-        res = NumberToStringHelperReal<int64>(A, withPrecision, format);
+        res = NumberToStringHelperInteger<int64>(as2D);
     } break;
     case NLS_CHAR: {
         res = A;
@@ -214,22 +401,38 @@ NumberToString(
 ArrayOf
 NumberToString(const ArrayOf& A, bool& needToOverload)
 {
-    std::wstring format = L"%%.5g";
-    return NumberToString(A, format, needToOverload);
+    return NumberToString(A, NUM2STR_ENUM::AUTO, L"", 0, needToOverload);
 }
 //=============================================================================
 ArrayOf
 NumberToString(const ArrayOf& A, const std::wstring& format, bool& needToOverload)
 {
-    return NumberToString(A, false, format, needToOverload);
+    boost::format bformat;
+    try {
+        bformat = bformat.parse(wstring_to_utf8(format));
+    } catch (boost::io::bad_format_string&) {
+        Error(_W("Wrong format string."));
+    }
+    return NumberToString(A, NUM2STR_ENUM::FORMAT, format, 0, needToOverload);
 }
 //=============================================================================
 ArrayOf
 NumberToString(const ArrayOf& A, double N, bool& needToOverload)
 {
-    std::wstring format
-        = L"%%" + std::to_wstring((int)(N + 7)) + L"." + std::to_wstring((int)N) + L"g";
-    return NumberToString(A, true, format, needToOverload);
+    std::wstring format;
+    if (!std::isfinite(N)) {
+        Error(_("PRECISION must be a scalar integer >= 0."));
+    }
+    int precision = (int)N;
+    if (A.getDataClass() == NLS_LOGICAL) {
+        format = L"%" + std::to_wstring(precision + 7) + L"d";
+    } else {
+        if (N < 0) {
+            Error(_("PRECISION must be a scalar integer >= 0."));
+        }
+        format = L"%" + std::to_wstring(precision + 7) + L"." + std::to_wstring(precision) + L"g";
+    }
+    return NumberToString(A, NUM2STR_ENUM::PRECISION, format, precision, needToOverload);
 }
 //=============================================================================
 } // namespace Nelson

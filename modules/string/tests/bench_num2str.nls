@@ -23,21 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsString_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSSTRING_IMPEXP ArrayOf
-NumberToString(const ArrayOf& A, const std::wstring& format, bool& needToOverload);
-//=============================================================================
-NLSSTRING_IMPEXP ArrayOf
-NumberToString(const ArrayOf& A, double N, bool& needToOverload);
-//=============================================================================
-NLSSTRING_IMPEXP ArrayOf
-NumberToString(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-}
+A = 0:0.000001:1-0.000001;
+A = reshape(A, 1000, 1000);
+tic(); S = num2str(A); toc()
 //=============================================================================
