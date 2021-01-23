@@ -41,8 +41,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include)
 # ==============================================================================
-file(GLOB STRING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
-file(GLOB STRING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/src/*.cc")
+file(GLOB STRING_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/src/*.cc")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${STRING_SRC})
 # ==============================================================================

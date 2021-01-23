@@ -27,6 +27,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
 #include <cstdio>
+#include <math.h>
 //=============================================================================
 #include <fmt/locale.h>
 #include <fmt/printf.h>
@@ -90,10 +91,10 @@ NumberToStringHelperInteger(const ArrayOf& A)
 {
     T* dp = (T*)A.getDataPointer();
     Dimensions dimsA = A.getDimensions();
-    long double maxAbsValue = std::fabsl(static_cast<long double>(dp[0]));
+    long double maxAbsValue = fabsl(static_cast<long double>(dp[0]));
     std::string uformat;
     for (indexType i = 0; i < dimsA.getElementCount(); i++) {
-        maxAbsValue = std::max(maxAbsValue, std::fabsl(static_cast<long double>(dp[i])));
+        maxAbsValue = std::max(maxAbsValue, fabsl(static_cast<long double>(dp[i])));
     }
     std::string maxString = std::to_string(static_cast<T>(maxAbsValue));
     size_t maxlen = maxString.size();
@@ -196,8 +197,7 @@ NumberToStringHelperComplex(
                 strRealPart
                     = fmt::sprintf(uformat, static_cast<long double>(dpz[j * m + i].real()));
             } else {
-                strRealPart
-                    = fmt::sprintf(uformat, dpz[j * m + i].real());
+                strRealPart = fmt::sprintf(uformat, dpz[j * m + i].real());
             }
             std::string strImagPart;
             if (allint) {
