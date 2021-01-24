@@ -23,11 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
 #include <Windows.h>
+#include <QtCore/QtGlobal>
+#include "nlsConfig.h"
 //=============================================================================
 #pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
+//=============================================================================
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#pragma comment(lib, "Qt6Core.lib")
+#pragma comment(lib, "Qt6Widgets.lib")
+#pragma comment(lib, "Qt6Gui.lib")
+#pragma comment(lib, "Qt6Qml.lib")
+#pragma comment(lib, "Qt6Quick.lib")
+#else
+#pragma comment(lib, "Qt5Core.lib")
+#pragma comment(lib, "Qt5Widgets.lib")
+#pragma comment(lib, "Qt5Gui.lib")
+#pragma comment(lib, "Qt5Qml.lib")
+#pragma comment(lib, "Qt5Quick.lib")
+#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

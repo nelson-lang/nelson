@@ -27,7 +27,9 @@
 #include <QtGui/QCursor>
 #include <QtGui/QGuiApplication>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#include <QtWidgets/QDesktopWidget>	
+#endif
 #include "GORoot.hpp"
 #include "GOStringProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"

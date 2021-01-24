@@ -23,6 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QtGlobal>
+#include <QtCore/QMimeData>
+#include <QtGui/QClipboard>
+#include <QtGui/QCloseEvent>
+#include <QtGui/QDesktopServices>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtGui/QAction>
+#else
+#include <QtWidgets/QAction>
+#endif
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QVBoxLayout>
 #include "QtMainWindow.h"
 #include "PostCommand.hpp"
 #include "GetNelsonPath.hpp"
@@ -33,18 +50,6 @@
 #include "UiGetDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPalette.hpp"
-#include <QtCore/QMimeData>
-#include <QtGui/QClipboard>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QDesktopServices>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QStatusBar>
-#include <QtWidgets/QVBoxLayout>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -133,7 +138,7 @@ QtMainWindow::QtMainWindow(bool minimized)
     QWidget* bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QVBoxLayout* layout = new QVBoxLayout;
-    layout->setMargin(5);
+    layout->setContentsMargins(5, 5, 5, 5);
     layout->addWidget(topFiller);
     layout->addWidget(bottomFiller);
     layout->setMenuBar(this->menuBar());
@@ -148,8 +153,8 @@ QtMainWindow::QtMainWindow(bool minimized)
     setWindowTitle(TR("Nelson"));
     setMinimumSize(640, 480);
     resize(840, 600);
+    // https://bugreports.qt.io/browse/QTBUG-76354
     if (minimized) {
-        // https://bugreports.qt.io/browse/QTBUG-76354
 #if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
 #if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
         setWindowState(Qt::WindowMinimized);

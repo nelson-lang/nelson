@@ -23,8 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QtGlobal>
 #include <QtCore/QLocale>
 #include <QtCore/QMimeData>
+#include <QtCore/QFile>
 #include <QtGui/QClipboard>
 #include <QtGui/QImageReader>
 #include <QtGui/QKeyEvent>
@@ -32,7 +34,11 @@
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtGui/QTextImageFormat>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtGui/QAction>
+#else
 #include <QtWidgets/QAction>
+#endif
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>

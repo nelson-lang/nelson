@@ -51,9 +51,15 @@ GOColorProperty::set(ArrayOf _value)
         if (!color.isValid()) {
             Error(_("an valid [R, G, B] color expected."));
         }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        float r;
+        float g;
+        float b;
+#else
         qreal r;
         qreal g;
         qreal b;
+#endif
         color.getRgbF(&r, &g, &b);
         R = r;
         G = g;
@@ -63,9 +69,15 @@ GOColorProperty::set(ArrayOf _value)
         if (QColor::isValidColor(colorName.c_str())) {
             QColor color;
             color.setNamedColor(colorName.c_str());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            float r;
+            float g;
+            float b;
+#else
             qreal r;
             qreal g;
             qreal b;
+#endif
             color.getRgbF(&r, &g, &b);
             R = r;
             G = g;

@@ -60,6 +60,7 @@
 #include "QObject_undefineBuiltin.hpp"
 #include "QObject_usedBuiltin.hpp"
 #include "qt_versionBuiltin.hpp"
+#include "qt_constantBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -106,6 +107,7 @@ static const nlsGateway gateway[] = {
     { "QObject_findchildren", (void*)Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
     { "QObject_used", (void*)Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
     { "qt_version", (void*)Nelson::QmlEngineGateway::qt_versionBuiltin, 1, 0 },
+    { "qt_constant", (void*)Nelson::QmlEngineGateway::qt_constantBuiltin, 1, 1 },
 
 };
 //=============================================================================

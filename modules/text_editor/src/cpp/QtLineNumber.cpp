@@ -32,11 +32,13 @@
 //=============================================================================
 QtLineNumber::QtLineNumber(QtTextEdit* editor) : QWidget(), tEditor(editor)
 {
+    int width;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
-    setFixedWidth(QFontMetrics(font()).horizontalAdvance(QLatin1String("0000") + 5));
+    width = QFontMetrics(font()).horizontalAdvance(QLatin1String("0000")) + 5;
 #else
-    setFixedWidth(fontMetrics().width(QLatin1String("0000") + 5));
+    width = fontMetrics().width(QLatin1String("0000")) + 5;
 #endif
+    setFixedWidth(width);
     connect((QTextEdit*)tEditor->document()->documentLayout(), SIGNAL(update(const QRectF&)), this,
         SLOT(update()));
     connect(

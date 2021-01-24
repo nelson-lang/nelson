@@ -23,38 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
-#include <Windows.h>
-#include <QtCore/QtGlobal>
+#pragma once
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
+#include <string>
+#include "Types.hpp"
+#include "nlsQml_engine_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#pragma comment(lib, "Qt6Core.lib")
-#pragma comment(lib, "Qt6Widgets.lib")
-#pragma comment(lib, "Qt6Gui.lib")
-#pragma comment(lib, "Qt6PrintSupport.lib")
-#else
-#pragma comment(lib, "Qt5Core.lib")
-#pragma comment(lib, "Qt5Widgets.lib")
-#pragma comment(lib, "Qt5Gui.lib")
-#pragma comment(lib, "Qt5PrintSupport.lib")
-#endif
+namespace Nelson {
 //=============================================================================
-int WINAPI
-DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
-        break;
-    case DLL_PROCESS_DETACH:
-        break;
-    case DLL_THREAD_ATTACH:
-        break;
-    case DLL_THREAD_DETACH:
-        break;
-    }
-    return 1;
-}
+NLSQML_ENGINE_IMPEXP wstringVector QtConstants();
+//=============================================================================
+NLSQML_ENGINE_IMPEXP ArrayOf
+QtConstant(std::wstring name, bool& found);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

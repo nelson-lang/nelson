@@ -23,38 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
-#include <Windows.h>
-#include <QtCore/QtGlobal>
+#include "qt_constantBuiltin.hpp"
+#include "QtConstants.hpp"
+#include "Error.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
+using namespace Nelson;
 //=============================================================================
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#pragma comment(lib, "Qt6Core.lib")
-#pragma comment(lib, "Qt6Widgets.lib")
-#pragma comment(lib, "Qt6Gui.lib")
-#pragma comment(lib, "Qt6PrintSupport.lib")
-#else
-#pragma comment(lib, "Qt5Core.lib")
-#pragma comment(lib, "Qt5Widgets.lib")
-#pragma comment(lib, "Qt5Gui.lib")
-#pragma comment(lib, "Qt5PrintSupport.lib")
-#endif
-//=============================================================================
-int WINAPI
-DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+ArrayOfVector
+Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
-        break;
-    case DLL_PROCESS_DETACH:
-        break;
-    case DLL_THREAD_ATTACH:
-        break;
-    case DLL_THREAD_DETACH:
-        break;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    return 1;
+    ArrayOfVector retval;
+    switch (argIn.size()) {
+    case 0: {
+        retval.push_back(ToCellStringAsColumn(QtConstants()));
+    } break;
+    case 1: {
+        std::wstring constantName = argIn[0].getContentAsWideString();
+        bool found;
+        ArrayOf res = QtConstant(constantName, found);
+        if (!found) {
+            Error(_W("Name not found."));
+        } else {
+            retval.push_back(res);
+        }
+    } break;
+    default: {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
+    }
+    return retval;
 }
 //=============================================================================

@@ -24,13 +24,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Windows.h>
-//=============================================================================
+#include <QtCore/QtGlobal>
 #include "nlsConfig.h"
 //=============================================================================
 #pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_thread-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, "shlwapi.lib") // AllocConsole
+//=============================================================================
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#pragma comment(lib, "Qt6Core.lib")
+#pragma comment(lib, "Qt6Widgets.lib")
+#pragma comment(lib, "Qt6Gui.lib")
+#else
+#pragma comment(lib, "Qt5Core.lib")
+#pragma comment(lib, "Qt5Widgets.lib")
+#pragma comment(lib, "Qt5Gui.lib")
+#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

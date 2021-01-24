@@ -116,9 +116,15 @@ GOFigure::refreshColorProperty()
         QPalette qPalette = qWidget->palette();
         QBrush qBrush = qPalette.base();
         QColor qColor = qBrush.color();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        float r;
+        float g;
+        float b;
+#else
         qreal r;
         qreal g;
         qreal b;
+#endif
         qColor.getRgbF(&r, &g, &b);
         GOProperty* property = this->searchProperty(COLOR_PROPERTY_STR);
         if (property != nullptr) {

@@ -2,6 +2,8 @@
 
 - `qt_version` builtin: returns the version number of Qt at run-time.
 
+- `qt_constant` builtin: returns value of an Qt constant.
+
 ## Bug Fixes:
 
 - [#388](http://github.com/Nelson-numerical-software/nelson/issues/388): Windows x64 build failed (elementary_functions module was too big).
@@ -19,6 +21,8 @@
 - [#367](http://github.com/Nelson-numerical-software/nelson/issues/367): add fftw_init_threads and fftw_plan_with_nthreads to MKL wrapper for FFTW.
 
 - [#356](http://github.com/Nelson-numerical-software/nelson/issues/356): MKL OneAPI v2021 support.
+
+- [#355](http://github.com/Nelson-numerical-software/nelson/issues/355): Qt6 support.
 
 - fix cirle CI build.
 
