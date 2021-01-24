@@ -30,7 +30,7 @@ jobs:
       - run: pacman -S fftw --noconfirm
       - run: pacman -S openmpi --noconfirm
       - run: pacman -S hdf5 --noconfirm
-      - run: pacman -S libmatio --noconfirm
+#      - run: pacman -S libmatio --noconfirm
       - run: pacman -S taglib --noconfirm
       - run: pacman -S portaudio --noconfirm
       - run: pacman -S libsndfile --noconfirm
