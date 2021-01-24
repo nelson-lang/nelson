@@ -18,6 +18,8 @@
 
 - [#356](http://github.com/Nelson-numerical-software/nelson/issues/356): MKL OneAPI v2021 support.
 
+- fix cirle CI build.
+
 ## Previous changelog:
 
 [Changelog v0.4.x](CHANGELOG-0.4.x.md)
