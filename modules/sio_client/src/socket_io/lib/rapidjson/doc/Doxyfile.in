@@ -765,17 +765,14 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = readme.md \
-                         CHANGELOG.md \
                          include/rapidjson/rapidjson.h \
                          include/ \
                          doc/features.md \
                          doc/tutorial.md \
-                         doc/pointer.md \
                          doc/stream.md \
                          doc/encoding.md \
                          doc/dom.md \
                          doc/sax.md \
-                         doc/schema.md \
                          doc/performance.md \
                          doc/internals.md \
                          doc/faq.md
@@ -1126,7 +1123,7 @@ HTML_STYLESHEET        =
 # defined cascading style sheet that is included after the standard style sheets
 # created by doxygen. Using this option one can overrule certain style aspects.
 # This is preferred over using HTML_STYLESHEET since it does not replace the
-# standard style sheet and is therefore more robust against future updates.
+# standard style sheet and is therefor more robust against future updates.
 # Doxygen will copy the style sheet file to the output directory. For an example
 # see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.

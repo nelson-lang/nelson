@@ -1,6 +1,5 @@
 #ifndef SIO_SOCKET_H
 #define SIO_SOCKET_H
-
 #include "sio_message.h"
 #include <functional>
 namespace sio
@@ -92,8 +91,8 @@ namespace sio
         
     private:
         //disable copy constructor and assign operator.
-        socket(socket const& sock){}
-        void operator=(socket const& sock){}
+        socket(socket const&){}
+        void operator=(socket const&){}
 
         class impl;
         impl *m_impl;

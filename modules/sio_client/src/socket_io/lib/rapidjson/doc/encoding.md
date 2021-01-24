@@ -10,7 +10,7 @@ The earlier [RFC4627](http://www.ietf.org/rfc/rfc4627.txt) stated that,
 
 > (in §6) JSON may be represented using UTF-8, UTF-16, or UTF-32. When JSON is written in UTF-8, JSON is 8bit compatible.  When JSON is written in UTF-16 or UTF-32, the binary content-transfer-encoding must be used.
 
-RapidJSON supports various encodings. It can also validate the encodings of JSON, and transcoding JSON among encodings. All these features are implemented internally, without the need for external libraries (e.g. [ICU](http://site.icu-project.org/)).
+RapidJSON supports various encodings. It can also validate the encodings of JSON, and transconding JSON among encodings. All these features are implemented internally, without the need for external libraries (e.g. [ICU](http://site.icu-project.org/)).
 
 [TOC]
 
@@ -73,7 +73,7 @@ typedef GenericDocument<UTF16<> > WDocument;
 typedef GenericValue<UTF16<> > WValue;
 ~~~~~~~~~~
 
-For a detail example, please check the example in [DOM's Encoding](doc/stream.md) section.
+For a detail example, please check the example in [DOM's Encoding](doc/stream.md#Encoding) section.
 
 ## Character Type {#CharacterType}
 
@@ -131,8 +131,8 @@ StringStream source(s);
 GenericStringBuffer<UTF16<> > target;
 
 bool hasError = false;
-while (source.Peek() != '\0')
-    if (!Transcoder<UTF8<>, UTF16<> >::Transcode(source, target)) {
+while (source.Peak() != '\0')
+    if (!Transcoder::Transcode<UTF8<>, UTF16<> >(source, target)) {
         hasError = true;
         break;
     }
