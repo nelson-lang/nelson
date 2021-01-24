@@ -28,7 +28,7 @@ and others state of art numerical libraries.
 It has sophisticated data structures (including cell, struct, linear systems, …),
 an interpreter and a high level programming language.
 
-Nelson has been developped to be an open/modular system where an user can define
+Nelson has been developed to be an open/modular system where an user can define
 these own data types and operations on these data types by using overload.
 
 [Web site](https://nelson-numerical-software.github.io/nelson-website/)

@@ -68,7 +68,7 @@
 
     <param_output_item>
       <param_name>st</param_name>
-      <param_description>a structure: contains log informations.</param_description>
+      <param_description>a structure: contains log information.</param_description>
     </param_output_item>
 
     <param_output_item>

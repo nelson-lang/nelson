@@ -199,7 +199,7 @@
 
   - COM_xlsread : read a xls/xlsx file.
   - COM_xlswrite : write a xls/xlsx file.
-  - COM_xlsfinfo : get informations about xls/xlsx file.
+  - COM_xlsfinfo : get information about xls/xlsx file.
 
 - Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
 
