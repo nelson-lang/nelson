@@ -22,6 +22,8 @@
 
 - [#356](http://github.com/Nelson-numerical-software/nelson/issues/356): MKL OneAPI v2021 support.
 
+- [#355](http://github.com/Nelson-numerical-software/nelson/issues/355): Qt6 support.
+
 - fix cirle CI build.
 
 ## Previous changelog:
