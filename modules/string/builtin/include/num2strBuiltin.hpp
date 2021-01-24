@@ -23,27 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "corrcoefBuiltin.hpp"
-#include "varBuiltin.hpp"
-#include "meanBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"statistics";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "corrcoef", (void*)Nelson::StatisticsGateway::corrcoefBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "var", (void*)Nelson::StatisticsGateway::varBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "mean", (void*)Nelson::StatisticsGateway::meanBuiltin, 1, 4, CPP_BUILTIN_WITH_EVALUATOR },
-};
+namespace StringGateway {
+    ArrayOfVector
+    num2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================

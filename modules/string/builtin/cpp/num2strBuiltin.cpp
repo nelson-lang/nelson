@@ -23,27 +23,53 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "corrcoefBuiltin.hpp"
-#include "varBuiltin.hpp"
-#include "meanBuiltin.hpp"
+#include "num2strBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "NumberToString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"statistics";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "corrcoef", (void*)Nelson::StatisticsGateway::corrcoefBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "var", (void*)Nelson::StatisticsGateway::varBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "mean", (void*)Nelson::StatisticsGateway::meanBuiltin, 1, 4, CPP_BUILTIN_WITH_EVALUATOR },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+ArrayOfVector
+Nelson::StringGateway::num2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() < 1 || argIn.size() > 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    // Call overload if it exists
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "num2str", bSuccess);
+    }
+    if (!bSuccess) {
+        ArrayOf res;
+        bool needToOverload;
+        if (argIn.size() == 2) {
+            ArrayOf arg1 = argIn[1];
+            if (argIn[1].isNumeric()) {
+                double N = arg1.getContentAsDoubleScalar();
+                res = NumberToString(argIn[0], N, needToOverload);
+            } else {
+                std::wstring format = arg1.getContentAsWideString();
+                res = NumberToString(argIn[0], format, needToOverload);
+            }
+        } else {
+            res = NumberToString(argIn[0], needToOverload);
+        }
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "num2str", bSuccess);
+            if (!bSuccess) {
+                OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+            }
+        } else {
+            retval.push_back(res);
+        }
+    }
+    return retval;
+}
 //=============================================================================

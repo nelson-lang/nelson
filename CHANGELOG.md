@@ -4,6 +4,8 @@
 
 - `qt_constant` builtin: returns value of an Qt constant.
 
+- [#374](http://github.com/Nelson-numerical-software/nelson/issues/374): `num2str` builtin: converts numbers to character array.
+
 ## Bug Fixes:
 
 - [#388](http://github.com/Nelson-numerical-software/nelson/issues/388): Windows x64 build failed (elementary_functions module was too big).
@@ -16,6 +18,8 @@
 
 - Eigen 3.3.9 used.
 
+- fix cirle CI build.
+
 - [#394](http://github.com/Nelson-numerical-software/nelson/issues/394): Upgrade socket.IO dependency to v3.0.
 
 - [#367](http://github.com/Nelson-numerical-software/nelson/issues/367): add fftw_init_threads and fftw_plan_with_nthreads to MKL wrapper for FFTW.
@@ -24,7 +28,7 @@
 
 - [#355](http://github.com/Nelson-numerical-software/nelson/issues/355): Qt6 support.
 
-- fix cirle CI build.
+- [#317](http://github.com/Nelson-numerical-software/nelson/issues/317): uses fmtlib.
 
 ## Previous changelog:
 

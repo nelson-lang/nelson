@@ -29,6 +29,7 @@
 #include "countBuiltin.hpp"
 #include "endsWithBuiltin.hpp"
 #include "int2strBuiltin.hpp"
+#include "num2strBuiltin.hpp"
 #include "mat2strBuiltin.hpp"
 #include "replaceBuiltin.hpp"
 #include "sprintfBuiltin.hpp"
@@ -70,6 +71,7 @@ static const nlsGateway gateway[] = {
     { "strfind", (void*)Nelson::StringGateway::strfindBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "sprintf", (void*)Nelson::StringGateway::sprintfBuiltin, 2, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "int2str", (void*)Nelson::StringGateway::int2strBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "num2str", (void*)Nelson::StringGateway::num2strBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "str2double", (void*)Nelson::StringGateway::str2doubleBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "mat2str", (void*)Nelson::StringGateway::mat2strBuiltin, 1, -2, CPP_BUILTIN_WITH_EVALUATOR },
