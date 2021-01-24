@@ -539,7 +539,7 @@ void check_format_string(S);
 
 struct error_handler {
   constexpr error_handler() = default;
-  constexpr error_handler(const error_handler&) = default;
+  constexpr error_handler(const error_handler&) = default; // lgtm [cpp/rule-of-two]
 
   // This function is intentionally not constexpr to give a compile-time error.
   FMT_NORETURN FMT_API void on_error(const char* message);

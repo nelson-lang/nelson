@@ -345,7 +345,7 @@ namespace detail {
 
 struct buffer_size {
   size_t value = 0;
-  buffer_size operator=(size_t val) const {
+  buffer_size operator=(size_t val) const { // lgtm [cpp/assignment-does-not-return-this]
     auto bs = buffer_size();
     bs.value = val;
     return bs;
