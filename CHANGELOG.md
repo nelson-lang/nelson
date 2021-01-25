@@ -18,6 +18,8 @@
 
 - Eigen 3.3.9 used.
 
+- libsndfile 1.0.31 on Windows.
+
 - fix cirle CI build.
 
 - [#394](http://github.com/Nelson-numerical-software/nelson/issues/394): Upgrade socket.IO dependency to v3.0.
