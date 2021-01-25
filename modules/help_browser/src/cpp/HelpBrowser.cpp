@@ -104,7 +104,11 @@ HelpBrowser::sendCommand(const std::wstring& cmd)
 std::wstring
 HelpBrowser::getCachePath()
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+#else
     QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+#endif
     return QStringTowstring(cacheLocation) + std::wstring(L"/help");
 }
 //=============================================================================
