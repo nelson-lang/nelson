@@ -113,12 +113,11 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.ClickFocus"] = Qt::ClickFocus;
     mapConstants[L"Qt.StrongFocus"] = Qt::StrongFocus;
     mapConstants[L"Qt.WheelFocus"] = Qt::WheelFocus;
-    mapConstants[L"Qt.NoTabFocus"] = Qt::NoTabFocus;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+    mapConstants[L"Qt.NoTabFocus"] = Qt::NoTabFocus;
     mapConstants[L"Qt.TabFocusTextControls"] = Qt::TabFocusTextControls;
     mapConstants[L"Qt.TabFocusListControls"] = Qt::TabFocusListControls;
     mapConstants[L"Qt.TabFocusAllControls"] = Qt::TabFocusAllControls;
-
 #endif
     mapConstants[L"Qt.AscendingOrder"] = Qt::AscendingOrder;
     mapConstants[L"Qt.DescendingOrder"] = Qt::DescendingOrder;
