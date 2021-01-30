@@ -1,4 +1,4 @@
-# 0.5.XX (2021-01-XX)
+# 0.5.1 (2021-01-30)
 
 - `qt_version` builtin: returns the version number of Qt at run-time.
 
