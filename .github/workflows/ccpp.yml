@@ -43,14 +43,10 @@ jobs:
         brew install libmatio
         brew install eigen
         brew install libomp
+        brew install openblas
         export BUILD_ROOT=$(pwd);
         cd /Users/runner/work/nelson;
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
-        cd nelson-thirdparty-macosx;
-        cd gfortran;
-        sudo hdiutil attach gfortran-6.3-Sierra.dmg;
-        sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
-        sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
 
     - uses: actions/checkout@v1
     - name: CMake

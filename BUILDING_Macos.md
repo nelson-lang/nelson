@@ -1,6 +1,7 @@
 ### MacOs X
 
 - Prerequirements:
+
   - install xcode 6.1 or above and command line version
   - install homebrew for mac
     ```bash
@@ -39,10 +40,9 @@
     brew install curl;
     brew install libgit2;
     brew install libomp;
+    brew install openblas;
     ```
   - Install LAPACKE
-    By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).
-    LAPACKE prebuild is available for macos Sierra in nelson-thirdparty-macosx git repository.
     You can also use optimized CPU version with OpenBLAS
     `bash brew install homebrew/science/openblas `
 
@@ -50,14 +50,11 @@
     You can install from Qt.io or brew
     Current brew version does not package Qt help assistant
     `bash brew install qt5 export PATH=/usr/local/opt/qt5/bin:$PATH `
+
 - Creates Nelson main directory
   ```bash
   mkdir nelson
   cd  nelson
-  ```
-- Clone mac third party:
-  ```bash
-  git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git
   ```
 - Get sources:
   ```bash
