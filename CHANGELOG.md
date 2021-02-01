@@ -1,3 +1,9 @@
+# 0.5.2 (UNRELEASED)
+
+## Compilation:
+
+- MacOS build uses openBLAS. lapacke included in openBLAS. No more thirdparty repository required for MacOS build.
+
 # 0.5.1 (2021-01-30)
 
 - `qt_version` builtin: returns the version number of Qt at run-time.

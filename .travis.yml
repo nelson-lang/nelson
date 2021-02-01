@@ -105,16 +105,6 @@ before_install:
     - if [ $TRAVIS_OS_NAME == osx ];
       then export BUILD_ROOT=$(pwd);
       cd $BUILD_ROOT;
-      cd ..;
-      git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
-      fi
-    - if [ $TRAVIS_OS_NAME == osx ];
-      then cd nelson-thirdparty-macosx;
-      cd gfortran;
-      sudo hdiutil attach gfortran-6.3-Sierra.dmg;
-      sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
-      sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
-      fi
 
     - if [ `uname` = "Darwin" ];
       then brew update;
@@ -150,6 +140,7 @@ before_install:
       brew install libmatio;
       brew install eigen;
       brew install libomp;
+      brew install openblas;
       fi
 
 install:
