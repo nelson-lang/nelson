@@ -247,6 +247,7 @@
     <ClCompile Include="..\cpp\swapbytesBuiltin.cpp" />
     <ClCompile Include="..\cpp\timesBuiltin.cpp" />
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\triuBuiltin.cpp" />
     <ClCompile Include="..\cpp\uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uplusBuiltin.cpp" />
     <ClCompile Include="..\cpp\vertcatBuiltin.cpp" />
@@ -358,6 +359,7 @@
     <ClInclude Include="..\include\swapbytesBuiltin.hpp" />
     <ClInclude Include="..\include\timesBuiltin.hpp" />
     <ClInclude Include="..\include\transposeBuiltin.hpp" />
+    <ClInclude Include="..\include\triuBuiltin.hpp" />
     <ClInclude Include="..\include\uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uplusBuiltin.hpp" />
     <ClInclude Include="..\include\vertcatBuiltin.hpp" />

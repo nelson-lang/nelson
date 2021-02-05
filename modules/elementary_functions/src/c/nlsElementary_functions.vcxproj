@@ -258,6 +258,7 @@
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
     <ClCompile Include="..\cpp\UnaryMinus.cpp" />
     <ClCompile Include="..\cpp\UnaryPlus.cpp" />
+    <ClCompile Include="..\cpp\UpperTrianglePart.cpp" />
     <ClCompile Include="..\cpp\VertCat.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -347,6 +348,7 @@
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
     <ClInclude Include="..\include\UnaryMinus.hpp" />
     <ClInclude Include="..\include\UnaryPlus.hpp" />
+    <ClInclude Include="..\include\UpperTrianglePart.hpp" />
     <ClInclude Include="..\include\VertCat.hpp" />
   </ItemGroup>
   <ItemGroup>
