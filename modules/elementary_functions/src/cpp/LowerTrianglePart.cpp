@@ -25,60 +25,59 @@
 //=============================================================================
 #include <cstring>
 #include "nlsConfig.h"
-#include "UpperTrianglePart.hpp"
+#include "LowerTrianglePart.hpp"
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-UpperTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
+LowerTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
 {
     Class classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
     indexType nbElements = dimsA.getElementCount();
-    T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);
+    ArrayOf res = A;
+    res.ensureSingleOwner();
+    T* D = (T*)res.getDataPointer();
     auto* Dz = reinterpret_cast<std::complex<T>*>(D);
-    T* S = (T*)A.getDataPointer();
-    auto* Sz = reinterpret_cast<std::complex<T>*>(S);
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
-        auto v = (signedIndexType)(i + 1 - offset);
+        auto v = (signedIndexType)(i - offset);
         indexType iSize = std::min(std::max(v, (signedIndexType)0), (signedIndexType)R);
-        memcpy(&Dz[i * R], &Sz[i * R], iSize * sizeof(std::complex<T>));
+        memset(&Dz[i * R], 0x00, iSize * sizeof(std::complex<T>));
     }
-    return ArrayOf(classA, dimsA, D);
+    return res;
 }
 //=============================================================================
-
 template <class T>
 ArrayOf
-UpperTrianglePartReal(const ArrayOf& A, signedIndexType offset)
+LowerTrianglePartReal(const ArrayOf& A, signedIndexType offset)
 {
     Class classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
-    indexType nbElements = dimsA.getElementCount();
-    T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);
-    T* S = (T*)A.getDataPointer();
+    ArrayOf res = A;
+    res.ensureSingleOwner();
+    T* D = (T*)res.getDataPointer();
     indexType C = dimsA.getColumns();
     indexType R = dimsA.getRows();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
-        auto v = (signedIndexType)(i + 1 - offset);
+        auto v = (signedIndexType)(i - offset);
         indexType iSize = std::min(std::max(v, (signedIndexType)0), (signedIndexType)R);
-        memcpy(&D[i * R], &S[i * R], iSize * sizeof(T));
+        memset(&D[i * R], 0x00, iSize * sizeof(T));
     }
-    return ArrayOf(classA, dimsA, D);
+    return res;
 }
 //=============================================================================
 ArrayOf
-UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload)
+LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
@@ -92,57 +91,56 @@ UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
             needToOverload = true;
             return ArrayOf();
         }
-        res = UpperTrianglePartReal<logical>(A, offset);
+        res = LowerTrianglePartReal<logical>(A, offset);
 
     } break;
     case NLS_CHAR: {
-        res = UpperTrianglePartReal<charType>(A, offset);
+        res = LowerTrianglePartReal<charType>(A, offset);
     } break;
     case NLS_UINT8: {
-        res = UpperTrianglePartReal<uint8>(A, offset);
+        res = LowerTrianglePartReal<uint8>(A, offset);
     } break;
     case NLS_UINT16: {
-        res = UpperTrianglePartReal<uint16>(A, offset);
+        res = LowerTrianglePartReal<uint16>(A, offset);
     } break;
     case NLS_UINT32: {
-        res = UpperTrianglePartReal<uint32>(A, offset);
+        res = LowerTrianglePartReal<uint32>(A, offset);
     } break;
     case NLS_UINT64: {
-        res = UpperTrianglePartReal<uint64>(A, offset);
+        res = LowerTrianglePartReal<uint64>(A, offset);
     } break;
     case NLS_INT8: {
-        res = UpperTrianglePartReal<int8>(A, offset);
+        res = LowerTrianglePartReal<int8>(A, offset);
     } break;
     case NLS_INT16: {
-        res = UpperTrianglePartReal<int16>(A, offset);
+        res = LowerTrianglePartReal<int16>(A, offset);
     } break;
     case NLS_INT32: {
-        res = UpperTrianglePartReal<int32>(A, offset);
+        res = LowerTrianglePartReal<int32>(A, offset);
     } break;
     case NLS_INT64: {
-        res = UpperTrianglePartReal<int64>(A, offset);
+        res = LowerTrianglePartReal<int64>(A, offset);
     } break;
     case NLS_SINGLE: {
-        res = UpperTrianglePartReal<single>(A, offset);
+        res = LowerTrianglePartReal<single>(A, offset);
     } break;
     case NLS_DOUBLE: {
         if (A.isSparse()) {
             needToOverload = true;
             return ArrayOf();
         }
-        res = UpperTrianglePartReal<double>(A, offset);
+        res = LowerTrianglePartReal<double>(A, offset);
 
     } break;
     case NLS_SCOMPLEX: {
-        res = UpperTrianglePartComplex<single>(A, offset);
+        res = LowerTrianglePartComplex<single>(A, offset);
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
             needToOverload = true;
             return ArrayOf();
         }
-        res = UpperTrianglePartComplex<double>(A, offset);
-
+        res = LowerTrianglePartComplex<double>(A, offset);
     } break;
     default: {
         needToOverload = true;

@@ -4,6 +4,14 @@
 
 - `triu` builtin: Upper triangular part of matrix.
 
+- `tril` builtin: Lower triangular part of matrix.
+
+- `istriu` checks if matrix is upper triangular part of matrix.
+
+- `istril`: checks if matrix is lower triangular part of matrix.
+
+- `isdiag`: checks if matrix is diagonal.
+
 ## Compilation:
 
 - MacOS build uses openBLAS. lapacke included in openBLAS. No more thirdparty repository required for MacOS build.
