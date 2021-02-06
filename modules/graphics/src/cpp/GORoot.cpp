@@ -28,7 +28,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtWidgets/QApplication>
 #if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#include <QtWidgets/QDesktopWidget>	
+#include <QtWidgets/QDesktopWidget>
 #endif
 #include "GORoot.hpp"
 #include "GOStringProperty.hpp"

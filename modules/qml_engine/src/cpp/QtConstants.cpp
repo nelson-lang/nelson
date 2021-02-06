@@ -1093,7 +1093,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.EnterKeySearch"] = Qt::EnterKeySearch;
     mapConstants[L"Qt.EnterKeyNext"] = Qt::EnterKeyNext;
     mapConstants[L"Qt.EnterKeyPrevious"] = Qt::EnterKeyPrevious;
-#endif 
+#endif
     mapConstants[L"Qt.ToolButtonIconOnly"] = Qt::ToolButtonIconOnly;
     mapConstants[L"Qt.ToolButtonTextOnly"] = Qt::ToolButtonTextOnly;
     mapConstants[L"Qt.ToolButtonTextBesideIcon"] = Qt::ToolButtonTextBesideIcon;
@@ -1243,7 +1243,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.MouseEventFlagMask"] = Qt::MouseEventFlagMask;
     mapConstants[L"Qt.ChecksumIso3309"] = Qt::ChecksumIso3309;
     mapConstants[L"Qt.ChecksumItuV41"] = Qt::ChecksumItuV41;
-#endif    
+#endif
     mapConstants[L"Qt.Widget"] = Qt::Widget;
 }
 //=============================================================================

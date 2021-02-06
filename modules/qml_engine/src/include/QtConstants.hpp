@@ -32,7 +32,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSQML_ENGINE_IMPEXP wstringVector QtConstants();
+NLSQML_ENGINE_IMPEXP wstringVector
+QtConstants();
 //=============================================================================
 NLSQML_ENGINE_IMPEXP ArrayOf
 QtConstant(std::wstring name, bool& found);
