@@ -23,20 +23,48 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <cmath>
+#include "trilBuiltin.hpp"
+#include "LowerTrianglePart.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsQml_engine_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSQML_ENGINE_IMPEXP wstringVector
-QtConstants();
-//=============================================================================
-NLSQML_ENGINE_IMPEXP ArrayOf
-QtConstant(std::wstring name, bool& found);
-//=============================================================================
-} // namespace Nelson
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::trilBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    signedIndexType offset = 0;
+    ArrayOf A;
+    switch (argIn.size()) {
+    case 1: {
+        A = argIn[0];
+    } break;
+    case 2: {
+        A = argIn[0];
+        ArrayOf param2 = argIn[1];
+        double param2AsDouble = param2.getContentAsDoubleScalar();
+        offset = (signedIndexType)std::trunc(param2AsDouble);
+        if ((double)offset != param2AsDouble) {
+            Error(_W("K-th diagonal input must be an integer scalar."));
+        }
+    } break;
+    default: {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
+    }
+    bool needToOverload;
+    ArrayOf res = LowerTrianglePart(A, offset, needToOverload);
+    if (needToOverload) {
+        retval = OverloadFunction(eval, nLhs, argIn, "tril");
+    } else {
+        retval.push_back(res);
+    }
+    return retval;
+}
 //=============================================================================

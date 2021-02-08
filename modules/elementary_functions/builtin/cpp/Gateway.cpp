@@ -105,6 +105,8 @@
 #include "findBuiltin.hpp"
 #include "isvectorBuiltin.hpp"
 #include "isscalarBuiltin.hpp"
+#include "triuBuiltin.hpp"
+#include "trilBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -281,6 +283,10 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isvector", (void*)Nelson::ElementaryFunctionsGateway::isvectorBuiltin, 1, 1, CPP_BUILTIN },
     { "isscalar", (void*)Nelson::ElementaryFunctionsGateway::isscalarBuiltin, 1, 1, CPP_BUILTIN },
+    { "triu", (void*)Nelson::ElementaryFunctionsGateway::triuBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "tril", (void*)Nelson::ElementaryFunctionsGateway::trilBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

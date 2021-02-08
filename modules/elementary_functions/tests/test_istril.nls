@@ -23,20 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_istrue(istril(ones(2, 0)));
 //=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsQml_engine_exports.h"
-#include "ArrayOf.hpp"
+assert_istrue(istril([]));
 //=============================================================================
-namespace Nelson {
+assert_isfalse(istril([3 2]));
 //=============================================================================
-NLSQML_ENGINE_IMPEXP wstringVector
-QtConstants();
+assert_isfalse(istril(ones(2, 2, 2)));
 //=============================================================================
-NLSQML_ENGINE_IMPEXP ArrayOf
-QtConstant(std::wstring name, bool& found);
+assert_istrue(istril(eye(10, 10)));
 //=============================================================================
-} // namespace Nelson
+assert_istrue(istril(tril(magic(5))));
+//=============================================================================
+assert_isfalse(istril(triu(magic(5))));
 //=============================================================================

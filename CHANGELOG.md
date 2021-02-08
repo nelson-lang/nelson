@@ -1,10 +1,24 @@
 # 0.5.2 (UNRELEASED)
 
+## Features:
+
+- `triu` builtin: Upper triangular part of matrix.
+
+- `tril` builtin: Lower triangular part of matrix.
+
+- `istriu` checks if matrix is upper triangular part of matrix.
+
+- `istril`: checks if matrix is lower triangular part of matrix.
+
+- `isdiag`: checks if matrix is diagonal.
+
 ## Compilation:
 
 - MacOS build uses openBLAS. lapacke included in openBLAS. No more thirdparty repository required for MacOS build.
 
 # 0.5.1 (2021-01-30)
+
+## Features:
 
 - `qt_version` builtin: returns the version number of Qt at run-time.
 

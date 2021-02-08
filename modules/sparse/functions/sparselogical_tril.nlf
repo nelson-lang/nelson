@@ -23,20 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsQml_engine_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSQML_ENGINE_IMPEXP wstringVector
-QtConstants();
-//=============================================================================
-NLSQML_ENGINE_IMPEXP ArrayOf
-QtConstant(std::wstring name, bool& found);
-//=============================================================================
-} // namespace Nelson
+function R = sparselogical_tril(varargin)
+    A = varargin{1};
+    if nargin == 1
+        k = 0;
+    else
+        k = varargin{2};
+    end
+    [I, J, V, m, n] = IJV(A);
+    IJ = [I, J];
+    L = find(IJ(:, 1) >= (IJ(:, 2) - k));
+    S = IJ(L, :);
+    R = sparse(S(:,1), S(:,2), V(L), m, n);
+endfunction
 //=============================================================================

@@ -25,18 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
-#include "nlsQml_engine_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSQML_ENGINE_IMPEXP wstringVector
-QtConstants();
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload);
 //=============================================================================
-NLSQML_ENGINE_IMPEXP ArrayOf
-QtConstant(std::wstring name, bool& found);
-//=============================================================================
-} // namespace Nelson
+}
 //=============================================================================
