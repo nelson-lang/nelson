@@ -30,8 +30,6 @@
 //=============================================================================
 #include <cstdio>
 #include "nlsConfig.h"
-#include "lapack_eigen.hpp"
-#include <Eigen/Dense>
 #include "IsSymmetric.hpp"
 #include "ClassName.hpp"
 //=============================================================================

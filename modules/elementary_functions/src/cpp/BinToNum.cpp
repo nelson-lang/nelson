@@ -26,7 +26,6 @@
 #include <boost/algorithm/string.hpp>
 #include <bitset>
 #include <stdexcept>
-#include <Eigen/Dense>
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "BinToNum.hpp"

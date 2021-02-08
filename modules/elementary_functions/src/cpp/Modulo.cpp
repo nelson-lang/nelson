@@ -23,10 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <limits>
 #include "Modulo.hpp"
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
-#include <Eigen/Dense>
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
