@@ -286,7 +286,8 @@ namespace sio
         if(ec || m_con.expired())
         {
             if (ec != asio::error::operation_aborted)
-                LOG("ping exit,con is expired?" << endl;) {};
+                LOG("ping exit,con is expired?" << m_con.expired() << ",ec:" << ec.message()
+                                                << endl);
             return;
         }
         packet p(packet::frame_ping);
@@ -366,6 +367,11 @@ namespace sio
 
     void client_impl::on_fail(connection_hdl)
     {
+        if (m_con_state == con_closing) {
+            LOG("Connection failed while closing." << endl);
+            this->close();
+            return;
+        }
         m_con.reset();
         m_con_state = con_closed;
         this->sockets_invoke_void(&sio::socket::on_disconnect);
@@ -388,6 +394,11 @@ namespace sio
     
     void client_impl::on_open(connection_hdl con)
     {
+        if (m_con_state == con_closing) {
+            LOG("Connection opened while closing." << endl);
+            this->close();
+            return;
+        }
         LOG("Connected." << endl);
         m_con_state = con_opened;
         m_con = con;
