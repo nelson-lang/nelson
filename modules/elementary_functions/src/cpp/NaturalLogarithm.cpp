@@ -24,7 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NaturalLogarithm.hpp"
-#include <Eigen/Dense>
 #include <complex>
 #include "nlsConfig.h"
 //=============================================================================

@@ -23,9 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
 #include "Ones.hpp"
 #include "Error.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 ArrayOf
@@ -53,14 +53,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (logical)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (logical*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -72,14 +68,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (int8)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (int8*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -91,14 +83,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (uint8)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (uint8*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -110,14 +98,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (int16)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (int16*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -129,14 +113,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (uint16)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (uint16*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -148,14 +128,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (int32)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (int32*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -167,14 +143,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (uint32)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (uint32*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -186,14 +158,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (int64)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (int64*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -205,14 +173,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (uint64)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (uint64*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -224,14 +188,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (single)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (single*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -243,14 +203,10 @@ Ones(Dimensions& dims, Class cl)
                 ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
             for (ompIndexType k = 0; k < (ompIndexType)nbElements; ++k) {
                 mat[k] = (double)1;
             }
-#else
-            Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEigen(
-                (double*)mat, 1, dims.getElementCount());
-            matEigen.setOnes();
-#endif
         }
         return ArrayOf(cl, dims, mat, false);
     } break;

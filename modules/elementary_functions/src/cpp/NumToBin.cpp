@@ -24,7 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <bitset>
-#include <Eigen/Dense>
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "NumToBin.hpp"

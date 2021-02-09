@@ -23,7 +23,6 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
 #include "nlsConfig.h"
 #include "ToDouble.hpp"
 #include "StringToDoubleComplex.hpp"
