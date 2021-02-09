@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <limits>
+#include <typeinfo>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Dimensions.hpp"
