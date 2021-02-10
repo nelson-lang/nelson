@@ -34,7 +34,7 @@ TransposeSparseLogical(ArrayOf A)
 {
     ArrayOf C;
     if (A.isEmpty()) {
-        Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
+        Dimensions dimsC(A.getColumns(), A.getRows());
         C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
     } else {
         Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA

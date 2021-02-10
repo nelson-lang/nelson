@@ -109,15 +109,15 @@ Or(ArrayOf A, ArrayOf B)
         if (A.isRowVector() && B.isColumnVector()) {
             boolean_vector_or(static_cast<logical*>(Cp),
                 static_cast<const logical*>(A.getDataPointer()),
-                A.getDimensions().getElementCount(),
+                A.getElementCount(),
                 static_cast<const logical*>(B.getDataPointer()),
-                B.getDimensions().getElementCount());
+                B.getElementCount());
         } else if (A.isColumnVector() && B.isRowVector()) {
             boolean_vector_or(static_cast<logical*>(Cp),
                 static_cast<const logical*>(B.getDataPointer()),
-                B.getDimensions().getElementCount(),
+                B.getElementCount(),
                 static_cast<const logical*>(A.getDataPointer()),
-                A.getDimensions().getElementCount());
+                A.getElementCount());
         }
     } else {
         boolean_or(Clen, static_cast<logical*>(Cp), static_cast<const logical*>(A.getDataPointer()),

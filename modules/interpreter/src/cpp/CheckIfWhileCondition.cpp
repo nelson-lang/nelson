@@ -40,7 +40,7 @@ checkIfWhileCondition(const ArrayOf& A)
         if (!first) {
             return false;
         }
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             T valueToCompare = ((T*)A.getDataPointer())[i];
             if (!valueToCompare) {
@@ -69,7 +69,7 @@ checkIfWhileCondition(const ArrayOf& A)
                 if (A.isScalar()) {
                     return (nnz == 1);
                 } else {
-                    return (nnz == A.getDimensions().getElementCount());
+                    return (nnz == A.getElementCount());
                 }
             } break;
             case NLS_DOUBLE: {
@@ -79,7 +79,7 @@ checkIfWhileCondition(const ArrayOf& A)
                 if (A.isScalar()) {
                     return (nnz == 1);
                 } else {
-                    return (nnz == A.getDimensions().getElementCount());
+                    return (nnz == A.getElementCount());
                 }
             } break;
             case NLS_DCOMPLEX: {

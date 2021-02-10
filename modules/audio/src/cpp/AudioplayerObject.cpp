@@ -386,8 +386,8 @@ AudioplayerObject::setSamples(
             errorMessage = _W("Vector or matrix 2D expected.");
             return false;
         }
-        indexType rows = data.getDimensions().getRows();
-        indexType columns = data.getDimensions().getColumns();
+        indexType rows = data.getRows();
+        indexType columns = data.getColumns();
         if (columns > rows) {
             bool needToOverload = false;
             audioData = ComplexTranspose(data, needToOverload);
@@ -428,7 +428,7 @@ AudioplayerObject::setSamples(
         _SampleRate = SampleRate;
         _BitsPerSample = BitsPerSample;
         _TotalSamples
-            = static_cast<int>(audioData.getDimensions().getElementCount() / _NumberOfChannels);
+            = static_cast<int>(audioData.getElementCount() / _NumberOfChannels);
         outputStreamParameters.suggestedLatency
             = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
         outputStreamParameters.hostApiSpecificStreamInfo = NULL;

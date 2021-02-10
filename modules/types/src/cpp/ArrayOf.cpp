@@ -84,6 +84,7 @@ ArrayOf::copyObject(const ArrayOf& copy)
 {
     if (copy.dp) {
         dp = copy.dp->getCopy();
+        dp->refreshDimensionCache();
     } else {
         dp = nullptr;
     }
@@ -500,6 +501,7 @@ ArrayOf::operator=(const ArrayOf& copy)
     }
     if (copy.dp) {
         dp = copy.dp->getCopy();
+        dp->refreshDimensionCache();
     } else {
         dp = nullptr;
     }
@@ -510,19 +512,26 @@ ArrayOf::getReferenceCount() const
 {
     if (dp) {
         return dp->numberOfOwners();
-    } else {
-        return 0;
     }
+    return (int)0;
+}
+//=============================================================================
+indexType
+ArrayOf::nDims() const
+{
+    if (dp) {
+        return dp->getLength();
+    }
+    return (indexType)0;
 }
 //=============================================================================
 indexType
 ArrayOf::getLength() const
 {
     if (dp) {
-        return dp->dimensions.getElementCount();
-    } else {
-        return 0;
+        return dp->getElementCount();
     }
+    return (indexType)0;
 }
 //=============================================================================
 Dimensions
@@ -530,9 +539,8 @@ ArrayOf::getDimensions() const
 {
     if (dp) {
         return dp->dimensions;
-    } else {
-        return Dimensions();
     }
+    return Dimensions();
 }
 //=============================================================================
 indexType
@@ -615,6 +623,7 @@ ArrayOf::resize(Dimensions& a)
     if (newSize.getElementCount() == getLength()) {
         ensureSingleOwner();
         dp->dimensions = newSize;
+        dp->refreshDimensionCache();
         return;
     }
     if (isSparse()) {
@@ -703,12 +712,14 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
                 dp->dataClass, dp->dimensions[0], dp->dimensions[1], a[0], a[1], dp->getData());
             dp = dp->putData(dp->dataClass, a, reshapedSparseMatrix, true);
             dp->dimensions = a;
+            dp->refreshDimensionCache();
         } else {
             Error(_W("Reshape operation not allowed with N Dimensions sparse arrays."));
         }
     } else {
         ensureSingleOwner();
         dp->dimensions = a;
+        dp->refreshDimensionCache();
     }
 }
 //=============================================================================
@@ -725,6 +736,7 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
         Error(_W("changeDimensions operation cannot change the number of elements in array."));
     }
     dp->dimensions = a;
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**
@@ -788,7 +800,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -991,6 +1005,24 @@ ArrayOf::isScalar() const
     return dp->dimensions.isScalar();
 }
 //=============================================================================
+indexType
+ArrayOf::getColumns() const
+{
+    return dp->getColumns();
+}
+//=============================================================================
+indexType
+ArrayOf::getRows() const
+{
+    return dp->getRows();
+}
+//=============================================================================
+indexType
+ArrayOf::getElementCount() const
+{
+    return dp->getElementCount();
+}
+//=============================================================================
 /**
  * Returns TRUE if we are 2-Dimensional.
  */
@@ -1015,19 +1047,19 @@ ArrayOf::isSquare() const
 bool
 ArrayOf::isVector() const
 {
-    return dp->dimensions.isVector();
+    return dp->isVector();
 }
 //=============================================================================
 bool
 ArrayOf::isRowVector() const
 {
-    return dp->dimensions.isRowVector();
+    return dp->isRowVector();
 }
 //=============================================================================
 bool
 ArrayOf::isColumnVector() const
 {
-    return dp->dimensions.isColumnVector();
+    return dp->isColumnVector();
 }
 //=============================================================================
 /**
@@ -1085,7 +1117,7 @@ ArrayOf::allReal() const
         } else {
             single* psingle = (single*)dp->getData();
             singlecomplex* Bz = reinterpret_cast<singlecomplex*>(psingle);
-            Eigen::Map<Eigen::MatrixXcf> mat(Bz, 1, dp->getDimensions().getElementCount());
+            Eigen::Map<Eigen::MatrixXcf> mat(Bz, 1, dp->getElementCount());
             res = mat.imag().isZero(0);
         }
     } break;
@@ -1102,7 +1134,7 @@ ArrayOf::allReal() const
             } else {
                 double* pdouble = (double*)dp->getData();
                 doublecomplex* Bz = reinterpret_cast<doublecomplex*>(pdouble);
-                Eigen::Map<Eigen::MatrixXcd> mat(Bz, 1, dp->getDimensions().getElementCount());
+                Eigen::Map<Eigen::MatrixXcd> mat(Bz, 1, dp->getElementCount());
                 res = mat.imag().isZero(0);
             }
         }
@@ -1263,7 +1295,7 @@ ArrayOf::getContentAsIndexPointer()
 {
     promoteType(NLS_DOUBLE);
     double* qp = (double*)dp->getData();
-    size_t nbElements = dp->getDimensions().getElementCount();
+    size_t nbElements = dp->getElementCount();
     indexType* pIndex = new_with_exception<indexType>(nbElements, false);
     double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {

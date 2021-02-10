@@ -49,8 +49,8 @@ ArrayOf::getDiagonal(int64 diagonalOrder)
         res.promoteType(dp->dataClass);
         return res;
     }
-    indexType rows = dp->dimensions.getRows();
-    indexType cols = dp->dimensions.getColumns();
+    indexType rows = dp->getRows();
+    indexType cols = dp->getColumns();
     int64 outLen;
     Dimensions outDims;
     int64 srcIndex;

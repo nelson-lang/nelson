@@ -92,7 +92,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
     MPI_Pack(&idclass, 1, MPI_INT, buffer, bufsize, packpos, comm);
     int issparse = static_cast<int>(A.isSparse());
     MPI_Pack(&issparse, 1, MPI_INT, buffer, bufsize, packpos, comm);
-    int dimlength = static_cast<int>(A.getDimensions().getLength());
+    int dimlength = static_cast<int>(A.nDims());
     MPI_Pack(&dimlength, 1, MPI_INT, buffer, bufsize, packpos, comm);
     for (int j = 0; j < dimlength; j++) {
         int tmp = static_cast<int>(A.getDimensionLength(j));

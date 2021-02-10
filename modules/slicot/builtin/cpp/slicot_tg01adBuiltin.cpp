@@ -91,16 +91,16 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
     // LOCAL VARIABLES
     ArrayOf L = ArrayOf::int32VectorConstructor(1);
     int* L_ptr = (int*)L.getDataPointer();
-    L_ptr[0] = (int)A.getDimensions().getRows();
+    L_ptr[0] = (int)A.getRows();
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getDimensions().getColumns();
+    N_ptr[0] = (int)A.getColumns();
     ArrayOf M = ArrayOf::int32VectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)B.getDimensions().getColumns();
+    M_ptr[0] = (int)B.getColumns();
     ArrayOf P = ArrayOf::int32VectorConstructor(1);
     int* P_ptr = (int*)P.getDataPointer();
-    P_ptr[0] = (int)C.getDimensions().getRows();
+    P_ptr[0] = (int)C.getRows();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)L.getContentAsInteger32Scalar());

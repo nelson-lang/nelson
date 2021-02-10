@@ -552,7 +552,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             }
         }
         if (isEmpty()) {
-            if ((dataCount > rightData.getDimensions().getElementCount()) && !haveColonOperator) {
+            if ((dataCount > rightData.getElementCount()) && !haveColonOperator) {
                 Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
             }
         }
@@ -614,7 +614,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             return;
         }
         resize(a);
-        if (a.getElementCount() < rightData.getDimensions().getElementCount()) {
+        if (a.getElementCount() < rightData.getElementCount()) {
             Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
         myDims = dp->dimensions;

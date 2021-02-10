@@ -211,7 +211,7 @@ vector_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         if (mustCastIntegerAsLongDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * a.getDimensions().getRows();
+                    indexType m = i + j * a.getRows();
                     C[m]
                         = numeric_cast<long double, T>((long double)ptrB[m] * (long double)ptrA[q]);
                 }
@@ -220,7 +220,7 @@ vector_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         } else if (mustCastIntegerAsDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * a.getDimensions().getRows();
+                    indexType m = i + j * a.getRows();
                     C[m] = numeric_cast<double, T>((double)ptrB[m] * (double)ptrA[q]);
                 }
                 q++;
@@ -228,7 +228,7 @@ vector_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         } else {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * a.getDimensions().getRows();
+                    indexType m = i + j * a.getRows();
                     C[m] = numeric_cast<single, T>((single)ptrB[m] * (single)ptrA[q]);
                 }
                 q++;
@@ -237,7 +237,7 @@ vector_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
     } else {
         for (indexType i = 0; i < dimsC.getRows(); i++) {
             for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * a.getDimensions().getRows();
+                indexType m = i + j * a.getRows();
                 C[m] = ptrB[m] * ptrA[q];
             }
             q++;
@@ -263,7 +263,7 @@ complex_vector_matrix_elementWiseMultiplication(
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getRows();
+            indexType m = i + j * a.getRows();
             Cz[m] = Bz[m] * Az[q];
         }
         q++;
@@ -285,7 +285,7 @@ vector_column_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         if (mustCastIntegerAsLongDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * b.getDimensions().getRows();
+                    indexType m = i + j * b.getRows();
                     C[m]
                         = numeric_cast<long double, T>((long double)ptrB[m] * (long double)ptrA[j]);
                 }
@@ -293,7 +293,7 @@ vector_column_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         } else if (mustCastIntegerAsDouble(classDestination)) {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * b.getDimensions().getRows();
+                    indexType m = i + j * b.getRows();
                     C[m] = numeric_cast<double, T>((double)ptrB[m] * (double)ptrA[j]);
                 }
             }
@@ -301,7 +301,7 @@ vector_column_elementWiseMultiplication(Class classDestination, const ArrayOf& a
         } else {
             for (indexType i = 0; i < dimsC.getRows(); i++) {
                 for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                    indexType m = i + j * b.getDimensions().getRows();
+                    indexType m = i + j * b.getRows();
                     C[m] = numeric_cast<single, T>((single)ptrB[m] * (single)ptrA[j]);
                 }
             }
@@ -309,7 +309,7 @@ vector_column_elementWiseMultiplication(Class classDestination, const ArrayOf& a
     } else {
         for (indexType i = 0; i < dimsC.getRows(); i++) {
             for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * b.getDimensions().getRows();
+                indexType m = i + j * b.getRows();
                 C[m] = ptrB[m] * ptrA[j];
             }
         }
@@ -334,7 +334,7 @@ complex_vector_column_elementWiseMultiplication(
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * b.getDimensions().getRows();
+            indexType m = i + j * b.getRows();
             Cz[m] = Bz[m] * Az[j];
         }
     }

@@ -154,9 +154,9 @@ isempty_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_LOGICAL, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
@@ -178,9 +178,9 @@ islogical_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_LOGICAL, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
@@ -202,9 +202,9 @@ isreal_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_LOGICAL, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
@@ -226,9 +226,9 @@ length_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_DOUBLE, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
@@ -265,13 +265,13 @@ ndims_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_DOUBLE, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
-            indexType len = arg[k].getDimensions().getLength();
+            indexType len = arg[k].nDims();
             if (len < 2) {
                 len = 2;
             }
@@ -293,13 +293,13 @@ prodofsize_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_DOUBLE, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
-            matDouble[k] = static_cast<double>(arg[k].getDimensions().getElementCount());
+            matDouble[k] = static_cast<double>(arg[k].getElementCount());
         }
     }
     retval.push_back(ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble));
@@ -319,9 +319,9 @@ size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     indexType idx = param3.getContentAsScalarIndex(false);
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_DOUBLE, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
@@ -350,9 +350,9 @@ isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     std::wstring classExpected = param3.getContentAsWideString();
     ArrayOf Cell = argIn[1];
-    indexType nbElements = Cell.getDimensions().getElementCount();
+    indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, Cell.getDimensions().getElementCount(), stringVector(), false));
+        NLS_LOGICAL, Cell.getElementCount(), stringVector(), false));
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {

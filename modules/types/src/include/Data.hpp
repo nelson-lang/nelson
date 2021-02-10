@@ -42,13 +42,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
 #include "ArrayOf.hpp"
 #include "nlsTypes_exports.h"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 /**
  * This is a helper class that is used by the ArrayOf class to
  * support the reference counting scheme used by the ArrayOf objects.
@@ -57,11 +57,13 @@ namespace Nelson {
  * counting).  The ArrayOf class is declared a friend, as all the
  * methods (including the constructors) are private.
  */
+//=============================================================================
 class NLSTYPES_IMPEXP Data
 {
     friend class ArrayOf;
 
 private:
+
     /**
      * The Class of the data block.  Useful for determining how the data
      * block must be treated.
@@ -190,6 +192,89 @@ private:
      * Check sparsity.
      */
     bool
-    isSparse();
+    isSparse() const;
+    //=============================================================================
+    indexType dimensionsGetElementCountCache = 0;
+    indexType dimensionsGetLengthCache = 0;
+    bool dimensionsIsScalarCache = false;
+    indexType dimensionsGetRowsCache = 0;
+    indexType dimensionsGetColumnsCache = 0;
+    bool dimensionsIs2DCache = false;
+    bool dimensionsIsVectorCache = false;
+    bool dimensionsIsRowVectorCache = false;
+    bool dimensionsIsColumnVectorCache = false;
+    bool dimensionsIsSquareCache = false;
+    bool dimensionsIsFullEmptyCache = false;
+    bool dimensionsIsEmptyCache = false;
+    //=============================================================================
+    indexType 
+      getLength() const
+    {
+        return dimensionsGetLengthCache;
+    }
+    //=============================================================================
+    indexType
+    getElementCount() const
+    {
+        return dimensionsGetElementCountCache;
+    }
+    //=============================================================================
+    bool
+    isScalar() const
+    {
+        return dimensionsIsScalarCache;
+    }
+    //=============================================================================
+    indexType
+    getRows() const
+    {
+        return dimensionsGetRowsCache;
+    }
+    //=============================================================================
+    indexType
+    getColumns() const
+    {
+        return dimensionsGetColumnsCache;
+    }
+    //=============================================================================
+    bool
+    is2D() const
+    {
+        return dimensionsIs2DCache;
+    }
+    //=============================================================================
+    bool
+    isVector() const
+    {
+        return dimensionsIsVectorCache;
+    }
+    //=============================================================================
+    bool
+    isRowVector() const
+    {
+        return dimensionsIsRowVectorCache;
+    }
+    //=============================================================================
+    bool
+    isColumnVector() const
+    {
+        return dimensionsIsColumnVectorCache;
+    }
+    //=============================================================================
+    bool isSquare() const { 
+      return dimensionsIsSquareCache;
+    }
+    //=============================================================================
+    bool
+    isEmpty(bool allDimensionsIsZero) const
+    {
+        return allDimensionsIsZero ? dimensionsIsFullEmptyCache : dimensionsIsEmptyCache;
+    }
+    //=============================================================================
+    void
+    refreshDimensionCache();
+    //=============================================================================
 };
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

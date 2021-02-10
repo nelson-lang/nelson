@@ -43,9 +43,9 @@ sqrtmComplex(ArrayOf& A)
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az,
-        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+        (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
-        (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+        (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
     if (!matA.allFinite()) {
         Error(_("Input must be finite."));
     } else {

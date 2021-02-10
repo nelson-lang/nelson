@@ -32,7 +32,7 @@ template <class T>
 ArrayOf
 uminusReal(const ArrayOf& A)
 {
-    indexType nbElements = A.getDimensions().getElementCount();
+    indexType nbElements = A.getElementCount();
     T* pRes
         = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
@@ -45,7 +45,7 @@ template <class T>
 ArrayOf
 uminusComplex(const ArrayOf& A)
 {
-    indexType nbElements = A.getDimensions().getElementCount();
+    indexType nbElements = A.getElementCount();
     void* pRes
         = ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
     std::complex<T>* pResz = reinterpret_cast<std::complex<T>*>(pRes);
@@ -60,7 +60,7 @@ template <class T>
 ArrayOf
 uminusInteger(const ArrayOf& A)
 {
-    indexType nbElements = A.getDimensions().getElementCount();
+    indexType nbElements = A.getElementCount();
     T* pRes
         = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
@@ -91,7 +91,7 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT32:
     case NLS_UINT64: {
         void* Cp = ArrayOf::allocateArrayOf(
-            A.getDataClass(), A.getDimensions().getElementCount(), stringVector(), true);
+            A.getDataClass(), A.getElementCount(), stringVector(), true);
         res = ArrayOf(A.getDataClass(), A.getDimensions(), Cp);
     } break;
     case NLS_INT8: {

@@ -130,7 +130,7 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     B.promoteType(NLS_LOGICAL);
     if (A.isVector() && B.isVector()) {
         if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
-            if (A.getDimensions().getElementCount() != B.getDimensions().getElementCount()) {
+            if (A.getElementCount() != B.getElementCount()) {
                 Error(std::string(_("Size mismatch on arguments to ")) + opname);
             }
         }

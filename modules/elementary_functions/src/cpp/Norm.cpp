@@ -41,8 +41,8 @@ T
 NormPVector(const ArrayOf& arrayIn, double p)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     T returnedValue = 0;
     if (p == 1) {
         returnedValue = matArrayIn.template lpNorm<1>();
@@ -69,8 +69,8 @@ NormPComplexVector(const ArrayOf& arrayIn, double p)
 {
     std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(arrayInz,
-        (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     T returnedValue = 0;
     if (p == 1) {
         returnedValue = matArrayIn.template lpNorm<1>();
@@ -96,8 +96,8 @@ T
 NormP2Matrix(const ArrayOf& arrayIn)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     Eigen::JacobiSVD<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> svd(matArrayIn);
     T res = svd.singularValues()(0, 0);
     if (std::isnan(res)) {
@@ -114,8 +114,8 @@ NormP2ComplexMatrix(const ArrayOf& arrayIn)
 {
     std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(arrayInz,
-        (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     Eigen::JacobiSVD<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> svd(
         matArrayIn);
     T res = svd.singularValues()(0, 0);
@@ -133,8 +133,8 @@ NormP1ComplexMatrix(const ArrayOf& arrayIn)
 {
     std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(arrayInz,
-        (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
         T res = matArrayIn.template lpNorm<1>();
         return res;
@@ -154,8 +154,8 @@ T
 NormP1Matrix(const ArrayOf& arrayIn)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
         T res = matArrayIn.template lpNorm<1>();
         return res;
@@ -176,8 +176,8 @@ NormPInfComplexMatrix(const ArrayOf& arrayIn)
 {
     std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(arrayInz,
-        (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
         return matArrayIn.template lpNorm<Eigen::Infinity>();
     }
@@ -203,8 +203,8 @@ T
 NormPInfMatrix(const ArrayOf& arrayIn)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
         return matArrayIn.template lpNorm<Eigen::Infinity>();
     }
@@ -231,8 +231,8 @@ NormFrobeniusComplexMatrix(const ArrayOf& arrayIn)
 {
     std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(arrayInz,
-        (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     return matArrayIn.norm();
 }
 //=============================================================================
@@ -241,8 +241,8 @@ T
 NormFrobeniusMatrix(const ArrayOf& arrayIn)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
-        (Eigen::Index)arrayIn.getDimensions().getColumns());
+        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
+        (Eigen::Index)arrayIn.getColumns());
     return matArrayIn.norm();
 }
 //=============================================================================

@@ -206,7 +206,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
         if (str != L":") {
             Error(_W("index must either be real positive integers or logicals."));
         }
-        index = ArrayOf::integerRangeConstructor(1, 1, dp->dimensions.getElementCount(), true);
+        index = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
     }
     index.toOrdinalType();
     // Get the maximum index
@@ -462,7 +462,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
         // Now, we copy data from dp to our real part,
         // computing indices along the way.
-        Dimensions currentIndex(dp->dimensions.getLength());
+        Dimensions currentIndex(dp->getLength());
         indexType j;
         while (argPointer.inside(argLengths)) {
             ArrayOf front = data.front();

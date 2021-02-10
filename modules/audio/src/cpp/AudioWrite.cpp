@@ -111,8 +111,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
         errorMessage = _W("Vector or matrix 2D expected.");
         return false;
     }
-    indexType rows = data.getDimensions().getRows();
-    indexType columns = data.getDimensions().getColumns();
+    indexType rows = data.getRows();
+    indexType columns = data.getColumns();
     ArrayOf audioData;
     if (columns > rows) {
         bool needToOverload;
@@ -120,8 +120,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
     } else {
         audioData = data;
     }
-    rows = audioData.getDimensions().getRows();
-    columns = audioData.getDimensions().getColumns();
+    rows = audioData.getRows();
+    columns = audioData.getColumns();
     int nbChannels = static_cast<int>(columns);
     boost::filesystem::path pathFilename = filename;
     std::wstring extension;

@@ -81,11 +81,11 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
         delete[] deletionMap;
         deletionMap = nullptr;
         Dimensions newDim;
-        if (dp->dimensions.isScalar()) {
+        if (dp->isScalar()) {
             newDim.reset();
             newDim[0] = 1;
             newDim[1] = newSize;
-        } else if (dp->dimensions.isVector()) {
+        } else if (dp->isVector()) {
             newDim = dp->dimensions;
             if (dp->dimensions[0] != 1) {
                 newDim[0] = newSize;
@@ -149,8 +149,8 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         }
         // First, add enough "1" singleton references to pad the
         // index set out to the size of our variable.
-        if (static_cast<indexType>(args.size()) < dp->dimensions.getLength()) {
-            for (i = args.size(); i < dp->dimensions.getLength(); i++) {
+        if (static_cast<indexType>(args.size()) < dp->getLength()) {
+            for (i = args.size(); i < dp->getLength(); i++) {
                 args.push_back(ArrayOf::uint32Constructor(1));
             }
         }
@@ -255,7 +255,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             indexType dstIndex = 0;
             // Inintialize an ND pointer to the first element in the
             // current data structure.
-            indexType L = dp->dimensions.getLength();
+            indexType L = dp->getLength();
             Dimensions curPos(L);
             // Loop until we have exhausted the original data.
             while (curPos.inside(dp->dimensions)) {

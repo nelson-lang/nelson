@@ -86,26 +86,26 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     // LOCAL VARIABLES
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getDimensions().getColumns();
+    N_ptr[0] = (int)A.getColumns();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
+    LDA_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf LDX = ArrayOf::int32VectorConstructor(1);
     int* LDX_ptr = (int*)LDX.getDataPointer();
-    LDX_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, (int)A.getDimensions().getColumns());
+    LDX_ptr[0] = std::max(1, (int)A.getColumns());
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, (int)A.getColumns());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
     ArrayOf NBLCKS_output = ArrayOf::int32VectorConstructor(1);
     int* NBLCKS_output_ptr = (int*)NBLCKS_output.getDataPointer();
     ArrayOf BLSIZE_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getDimensions().getColumns());
+        (indexType)1, (indexType)(int)A.getColumns());
     double* BLSIZE_output_ptr = (double*)BLSIZE_output.getDataPointer();
     ArrayOf WR_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getDimensions().getColumns());
+        (indexType)1, (indexType)(int)A.getColumns());
     double* WR_output_ptr = (double*)WR_output.getDataPointer();
     ArrayOf WI_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getDimensions().getColumns());
+        (indexType)1, (indexType)(int)A.getColumns());
     double* WI_output_ptr = (double*)WI_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
@@ -120,13 +120,13 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
         Error(_W("Input argument #3: scalar expected."));
     }
     Dimensions dimsA_expected(
-        std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
+        std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
     Dimensions dimsX_expected(
-        std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
+        std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsX.equals(dimsX_expected)) {
         Error(_("Input argument #5: wrong size.") + " " + dimsX_expected.toString() + " "
             + "expected" + ".");

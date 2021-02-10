@@ -111,48 +111,48 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     // LOCAL VARIABLES
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getDimensions().getRows();
+    N_ptr[0] = (int)A.getRows();
     ArrayOf M = ArrayOf::int32VectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)B.getDimensions().getColumns();
+    M_ptr[0] = (int)B.getColumns();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    LDA_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
-    LDB_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    LDB_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDU = ArrayOf::int32VectorConstructor(1);
     int* LDU_ptr = (int*)LDU.getDataPointer();
-    LDU_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    LDU_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDV = ArrayOf::int32VectorConstructor(1);
     int* LDV_ptr = (int*)LDV.getDataPointer();
     LDV_ptr[0] = STAGES.getContentAsCString().compare("F") != 0
             && JOBV.getContentAsCString().compare("I") == 0
-        ? std::max(1, (int)B.getDimensions().getColumns())
+        ? std::max(1, (int)B.getColumns())
         : 1;
-    ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1, (int)B.getDimensions().getColumns());
+    ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1, (int)B.getColumns());
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
         std::max(1,
-            std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
+            std::max((int)A.getRows(), (int)B.getColumns())
                 + std::max(
-                      (int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns())));
+                      (int)A.getRows(), 3 * (int)B.getColumns())));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = STAGES.getContentAsCString().compare("B") != 0
         ? std::max(1,
-              std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
+              std::max((int)A.getRows(), (int)B.getColumns())
                   + std::max(
-                        (int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns()))
+                        (int)A.getRows(), 3 * (int)B.getColumns()))
         : std::max(1,
-              std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
+              std::max((int)A.getRows(), (int)B.getColumns())
                   + std::max(
-                        (int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()));
+                        (int)A.getRows(), (int)B.getColumns()));
     // OUTPUT VARIABLES
     ArrayOf V_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)B.getDimensions().getColumns()),
-        (indexType)(int)B.getDimensions().getColumns());
+        (indexType)std::max(1, (int)B.getColumns()),
+        (indexType)(int)B.getColumns());
     double* V_output_ptr = (double*)V_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
@@ -167,19 +167,19 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
         Error(_W("Input argument #3: scalar expected."));
     }
     Dimensions dimsA_expected(
-        std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
+        std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
     Dimensions dimsB_expected(
-        std::max(1, (int)A.getDimensions().getRows()), (int)B.getDimensions().getColumns());
+        std::max(1, (int)A.getRows()), (int)B.getColumns());
     if (!dimsB.equals(dimsB_expected)) {
         Error(_("Input argument #5: wrong size.") + " " + dimsB_expected.toString() + " "
             + "expected" + ".");
     }
     Dimensions dimsU_expected(
-        std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
+        std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsU.equals(dimsU_expected)) {
         Error(_("Input argument #6: wrong size.") + " " + dimsU_expected.toString() + " "
             + "expected" + ".");
@@ -190,7 +190,7 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsINDCON.isScalar()) {
         Error(_W("Input argument #8: scalar expected."));
     }
-    Dimensions dimsKSTAIR_expected(1, (int)A.getDimensions().getRows());
+    Dimensions dimsKSTAIR_expected(1, (int)A.getRows());
     if (!dimsKSTAIR.equals(dimsKSTAIR_expected)) {
         Error(_("Input argument #9: wrong size.") + " " + dimsKSTAIR_expected.toString() + " "
             + "expected" + ".");

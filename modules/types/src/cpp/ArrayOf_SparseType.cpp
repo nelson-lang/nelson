@@ -78,13 +78,13 @@ indexType
 ArrayOf::getNonzeros() const
 {
     if (!isSparse()) {
-        return (dp->dimensions.getElementCount());
+        return (dp->getElementCount());
     }
     if (isEmpty()) {
         return 0;
     }
     return CountNonzerosDynamicFunction(
-        dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData());
+        dp->dataClass, dp->getRows(), dp->getColumns(), dp->getData());
 }
 //=============================================================================
 void

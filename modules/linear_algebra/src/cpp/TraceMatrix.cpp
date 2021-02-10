@@ -49,28 +49,28 @@ TraceMatrix(ArrayOf A)
     if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {
         if (A.getDataClass() == NLS_DOUBLE) {
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
-                (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
+                (Eigen::Index)A.getRows(),
+                (Eigen::Index)A.getColumns());
             double res = matA.trace();
             return ArrayOf::doubleConstructor(res);
         } // NLS_DCOMPLEX
 
         auto* Az = reinterpret_cast<doublecomplex*>((single*)A.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-            (Eigen::Index)A.getDimensions().getColumns());
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(),
+            (Eigen::Index)A.getColumns());
         doublecomplex res = matA.trace();
         return ArrayOf::dcomplexConstructor(res.real(), res.imag());
     }
     if (A.getDataClass() == NLS_SINGLE) {
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-            (Eigen::Index)A.getDimensions().getRows(),
-            (Eigen::Index)A.getDimensions().getColumns());
+            (Eigen::Index)A.getRows(),
+            (Eigen::Index)A.getColumns());
         return ArrayOf::singleConstructor(matA.trace());
     } else // NLS_SCOMPLEX
     {
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-            (Eigen::Index)A.getDimensions().getColumns());
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(),
+            (Eigen::Index)A.getColumns());
         singlecomplex res = matA.trace();
         return ArrayOf::complexConstructor(res.real(), res.imag());
     }

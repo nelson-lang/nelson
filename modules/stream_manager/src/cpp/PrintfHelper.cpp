@@ -42,7 +42,7 @@ PrintfHelper::IncrementDataPointer()
     if (args[vectorIndex].isCharacterArray()) {
         len = 1;
     } else {
-        len = args[vectorIndex].getDimensions().getElementCount();
+        len = args[vectorIndex].getElementCount();
     }
     if (++elementIndex >= len) {
         if (++vectorIndex < (indexType)args.size()) {

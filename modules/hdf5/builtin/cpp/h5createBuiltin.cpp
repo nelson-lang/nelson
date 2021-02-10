@@ -61,7 +61,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     auto* sizePtr = (double*)param3.getDataPointer();
     boost::container::vector<double> sizeData;
-    indexType nbElements = param3.getDimensions().getElementCount();
+    indexType nbElements = param3.getElementCount();
     sizeData.reserve(nbElements);
     for (indexType i = 0; i < nbElements; i++) {
         sizeData.push_back(sizePtr[i]);
@@ -117,7 +117,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error("row vector expected.");
             }
             double* chunkSizePtr = (double*)paramXvalue.getDataPointer();
-            indexType nbElements = paramXvalue.getDimensions().getElementCount();
+            indexType nbElements = paramXvalue.getElementCount();
             chunksize.reserve(nbElements);
             for (indexType i = 0; i < nbElements; i++) {
                 chunksize.push_back(chunkSizePtr[i]);

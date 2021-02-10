@@ -36,9 +36,9 @@ matrix_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
     auto* elementsA = (ArrayOf*)a.getDataPointer();
     auto* elementsB = (ArrayOf*)b.getDataPointer();
     ArrayOf* elementsC = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, a.getDimensions().getElementCount(), stringVector(), false));
+        NLS_STRING_ARRAY, a.getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, a.getDimensions(), elementsC);
-    indexType elementCount = a.getDimensions().getElementCount();
+    indexType elementCount = a.getElementCount();
     for (indexType i = 0; i < elementCount; i++) {
         if (elementsA[i].isCharacterArray() && elementsB[i].isCharacterArray()) {
             std::wstring strA = elementsA[i].getContentAsWideString();
@@ -140,7 +140,7 @@ vector_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getRows();
+            indexType m = i + j * a.getRows();
 
             if (elementsA[q].isCharacterArray() && elementsB[m].isCharacterArray()) {
                 std::wstring strA = elementsA[q].getContentAsWideString();
@@ -168,7 +168,7 @@ matrix_vector_string_addition(const ArrayOf& a, const ArrayOf& b)
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getRows();
+            indexType m = i + j * a.getRows();
 
             if (elementsA[m].isCharacterArray() && elementsB[q].isCharacterArray()) {
                 std::wstring strA = elementsA[m].getContentAsWideString();
@@ -195,7 +195,7 @@ vector_column_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getColumns();
+            indexType m = i + j * a.getColumns();
             if (elementsA[j].isCharacterArray() && elementsB[m].isCharacterArray()) {
                 std::wstring strA = elementsA[j].getContentAsWideString();
                 std::wstring strB = elementsB[m].getContentAsWideString();
@@ -220,7 +220,7 @@ matrix_vector_column_string_addition(const ArrayOf& a, const ArrayOf& b)
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * b.getDimensions().getColumns();
+            indexType m = i + j * b.getColumns();
             if (elementsA[m].isCharacterArray() && elementsB[j].isCharacterArray()) {
                 std::wstring strA = elementsA[m].getContentAsWideString();
                 std::wstring strB = elementsB[j].getContentAsWideString();

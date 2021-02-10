@@ -207,9 +207,16 @@ public:
     /**
      * Get the length of the array as a vector.  This is equivalent
      * to computing length(this(:)).
+     * getDimensions().getElementCount()
      */
     indexType
     getLength() const;
+    /**
+     * Number of array dimensions
+     * equivalent to getDimensions().getLength()
+     */
+    indexType
+    nDims() const;
     /**
      * Get a copy of our dimensions vector.
      */
@@ -348,6 +355,16 @@ public:
      */
     bool
     testForCaseMatch(ArrayOf x) const;
+    
+    indexType
+    getColumns() const;
+
+    indexType
+    getRows() const;
+
+    indexType
+    getElementCount() const;
+
     /**
      * Returns TRUE if we are empty (we have no elements).
      */

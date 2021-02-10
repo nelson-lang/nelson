@@ -89,7 +89,7 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_DCOMPLEX: {
-        ompIndexType elementCount = A.getDimensions().getElementCount();
+        ompIndexType elementCount = A.getElementCount();
         single* pSingle = static_cast<single*>(
             ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount, stringVector(), false));
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, A.isSparse());

@@ -123,7 +123,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Dimensions dimParam1 = param1.getDimensions();
                 dimParam1.simplify();
                 dimParam1.setDimensionLength(0, 1);
-                Dimensions dim(param1.getDimensions().getRows(), dimParam1.getElementCount());
+                Dimensions dim(param1.getRows(), dimParam1.getElementCount());
                 retval.push_back(ArrayOf(NLS_DOUBLE, dim, Y));
                 retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
                 if (nLhs > 2) {

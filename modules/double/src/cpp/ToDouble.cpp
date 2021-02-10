@@ -101,8 +101,8 @@ ToDouble(ArrayOf A, bool& needToOverload)
     case NLS_LOGICAL: {
         if (A.isSparse()) {
             void* pDouble
-                = TypeConvertSparseDynamicFunction(NLS_DOUBLE, A.getDimensions().getRows(),
-                    A.getDimensions().getColumns(), A.getSparseDataPointer(), NLS_LOGICAL);
+                = TypeConvertSparseDynamicFunction(NLS_DOUBLE, A.getRows(),
+                    A.getColumns(), A.getSparseDataPointer(), NLS_LOGICAL);
             return ArrayOf(NLS_DOUBLE, A.getDimensions(), pDouble, true);
         }
         return ToDouble<logical>(A);

@@ -128,7 +128,7 @@ vector_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* C = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getRows();
+            indexType m = i + j * a.getRows();
             C[m] = atan2(ptrB[m], ptrA[q]);
         }
         q++;
@@ -148,7 +148,7 @@ vector_column_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     T* C = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * b.getDimensions().getRows();
+            indexType m = i + j * b.getRows();
             C[m] = atan2(ptrB[m], ptrA[j]);
         }
     }

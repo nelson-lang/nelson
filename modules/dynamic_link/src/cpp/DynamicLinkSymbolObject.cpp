@@ -493,10 +493,10 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                 retval.push_back(retValue);
             } else {
                 void* arrayPtr = ArrayOf::allocateArrayOf(params[i].getDataClass(),
-                    params[i].getDimensions().getElementCount(), stringVector(), false);
+                    params[i].getElementCount(), stringVector(), false);
                 if (refPointers) {
                     memcpy(arrayPtr, refPointers[k],
-                        params[i].getDimensions().getElementCount() * params[i].getElementSize());
+                        params[i].getElementCount() * params[i].getElementSize());
                 }
                 retval.push_back(
                     ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));

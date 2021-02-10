@@ -42,30 +42,34 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
-#include "Data.hpp"
-
+//=============================================================================
 #include <utility>
+#include "Data.hpp"
+//=============================================================================
 #include "SparseDynamicFunctions.hpp"
 #include "SparseType.hpp"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 Data::Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag, stringVector fields)
     : cp(s), owners(1), dimensions(dims), fieldNames(std::move(fields)), dataClass(aClass)
 {
     sparse = sparseflag;
+    refreshDimensionCache();
 }
-
-Data::~Data() { freeDataBlock(); }
-
+//=============================================================================
+Data::~Data()
+{
+    freeDataBlock();
+}
+//=============================================================================
 Data*
 Data::getCopy()
 {
     owners++;
     return this;
 }
-
+//=============================================================================
 Data*
 Data::putData(
     Class aClass, const Dimensions& dims, void* s, bool sparseflag, const stringVector& fields)
@@ -78,72 +82,73 @@ Data::putData(
         fieldNames = fields;
         sparse = sparseflag;
         owners = 1;
+        refreshDimensionCache();
         return this;
     }
     owners--;
     return new Data(aClass, dims, s, sparseflag, fields);
 }
-
+//=============================================================================
 int
 Data::deleteCopy()
 {
     return owners--;
 }
-
+//=============================================================================
 const void*
 Data::getData() const
 {
     return cp;
 }
-
+//=============================================================================
 void*
 Data::getWriteableData()
 {
     return cp;
 }
-
+//=============================================================================
 const Dimensions&
 Data::getDimensions() const
 {
     return dimensions;
 }
-
+//=============================================================================
 const stringVector&
 Data::getFieldNames() const
 {
     return fieldNames;
 }
-
+//=============================================================================
 void
 Data::setDimensions(const Dimensions& dim)
 {
     dimensions = dim;
 }
-
+//=============================================================================
 void
 Data::setFieldNames(const stringVector& fields)
 {
     fieldNames = fields;
 }
-
+//=============================================================================
 std::string
 Data::getStructTypeName()
 {
     return structTypeName;
 }
-
+//=============================================================================
 void
 Data::setStructTypeName(const std::string& typeName)
 {
     structTypeName = typeName;
 }
-
+//=============================================================================
 int
 Data::numberOfOwners() const
 {
     return owners;
 }
-
+//=============================================================================
 void
 Data::freeDataBlock()
 {
@@ -231,15 +236,36 @@ Data::freeDataBlock()
                 auto* rp = static_cast<charType*>(cp);
                 delete[] rp;
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
             cp = nullptr;
         }
     }
 }
-
+//=============================================================================
 bool
-Data::isSparse()
+Data::isSparse() const
 {
     return sparse;
 }
+//=============================================================================
+void
+Data::refreshDimensionCache()
+{
+    dimensionsGetElementCountCache = dimensions.getElementCount();
+    dimensionsGetLengthCache = dimensions.getLength();
+    dimensionsIsScalarCache = dimensions.isScalar();
+    dimensionsGetRowsCache = dimensions.getRows();
+    dimensionsGetColumnsCache = dimensions.getColumns();
+    dimensionsIs2DCache = dimensions.is2D();
+    dimensionsIsVectorCache = dimensions.isVector();
+    dimensionsIsRowVectorCache = dimensions.isRowVector();
+    dimensionsIsColumnVectorCache = dimensions.isColumnVector();
+    dimensionsIsSquareCache = dimensions.isSquare();
+    dimensionsIsFullEmptyCache = dimensions.isEmpty(true);
+    dimensionsIsEmptyCache = dimensions.isEmpty(false);
+}
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

@@ -58,11 +58,11 @@ ExpMatrix(ArrayOf A)
             ArrayOf R(A);
             R.ensureSingleOwner();
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
-                (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
+                (Eigen::Index)A.getRows(),
+                (Eigen::Index)A.getColumns());
             Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(),
-                (Eigen::Index)R.getDimensions().getRows(),
-                (Eigen::Index)R.getDimensions().getColumns());
+                (Eigen::Index)R.getRows(),
+                (Eigen::Index)R.getColumns());
             if (!matA.allFinite()) {
                 matR.setConstant(std::nan("NaN"));
             } else {
@@ -75,10 +75,10 @@ ExpMatrix(ArrayOf A)
         R.ensureSingleOwner();
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-            (Eigen::Index)A.getDimensions().getColumns());
-        Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
-            (Eigen::Index)R.getDimensions().getColumns());
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(),
+            (Eigen::Index)A.getColumns());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getRows(),
+            (Eigen::Index)R.getColumns());
         if (!matA.allFinite()) {
             doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
             matR.setConstant(cst);
@@ -106,11 +106,11 @@ ExpMatrix(ArrayOf A)
         ArrayOf R(A);
         R.ensureSingleOwner();
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-            (Eigen::Index)A.getDimensions().getRows(),
-            (Eigen::Index)A.getDimensions().getColumns());
+            (Eigen::Index)A.getRows(),
+            (Eigen::Index)A.getColumns());
         Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(),
-            (Eigen::Index)R.getDimensions().getRows(),
-            (Eigen::Index)R.getDimensions().getColumns());
+            (Eigen::Index)R.getRows(),
+            (Eigen::Index)R.getColumns());
         if (!matA.allFinite()) {
             matA.setConstant(std::nanf("NaN"));
         } else {
@@ -123,10 +123,10 @@ ExpMatrix(ArrayOf A)
     R.ensureSingleOwner();
     auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-        (Eigen::Index)A.getDimensions().getColumns());
-    Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
-        (Eigen::Index)R.getDimensions().getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(),
+        (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getRows(),
+        (Eigen::Index)R.getColumns());
     if (!matA.allFinite()) {
         singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
         matR.setConstant(cst);

@@ -96,8 +96,8 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
 {
     ArrayOf rcond;
     auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-        (Eigen::Index)A.getDimensions().getColumns());
+    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(),
+        (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::doubleConstructor(std::nan(""));
     } else {
@@ -117,8 +117,8 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             R.ensureSingleOwner();
             double normA = 0;
             char norm = '1';
-            int m = static_cast<int>(R.getDimensions().getRows());
-            int n = static_cast<int>(R.getDimensions().getColumns());
+            int m = static_cast<int>(R.getRows());
+            int n = static_cast<int>(R.getColumns());
             int lda = m;
             auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
             normA = LAPACKE_zlange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);

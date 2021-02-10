@@ -72,7 +72,8 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
         case NLS_CHAR:
         case NLS_CELL_ARRAY:
         case NLS_STRUCT_ARRAY: {
-            double ndims = static_cast<double>(param1.getDimensions().getLength());
+            Dimensions dims = param1.getDimensions();
+            double ndims = static_cast<double>(dims.getLength());
             if (ndims < 2) {
                 ndims = 2;
             }
