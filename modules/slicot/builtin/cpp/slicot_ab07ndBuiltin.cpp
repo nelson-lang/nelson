@@ -99,8 +99,7 @@ Nelson::SlicotGateway::slicot_ab07ndBuiltin(int nLhs, const ArrayOfVector& argIn
     LDD_ptr[0] = std::max(1, (int)B.getColumns());
     ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1, 2 * (int)B.getColumns());
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(
-        1, std::max(1, 4 * (int)B.getColumns()));
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, std::max(1, 4 * (int)B.getColumns()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
@@ -111,26 +110,22 @@ Nelson::SlicotGateway::slicot_ab07ndBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsB_expected(
-        std::max(1, (int)A.getRows()), (int)B.getColumns());
+    Dimensions dimsB_expected(std::max(1, (int)A.getRows()), (int)B.getColumns());
     if (!dimsB.equals(dimsB_expected)) {
         Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsC_expected(
-        std::max(1, (int)B.getColumns()), (int)A.getRows());
+    Dimensions dimsC_expected(std::max(1, (int)B.getColumns()), (int)A.getRows());
     if (!dimsC.equals(dimsC_expected)) {
         Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsD_expected(
-        std::max(1, (int)B.getColumns()), (int)B.getColumns());
+    Dimensions dimsD_expected(std::max(1, (int)B.getColumns()), (int)B.getColumns());
     if (!dimsD.equals(dimsD_expected)) {
         Error(_("Input argument #4: wrong size.") + " " + dimsD_expected.toString() + " "
             + "expected" + ".");

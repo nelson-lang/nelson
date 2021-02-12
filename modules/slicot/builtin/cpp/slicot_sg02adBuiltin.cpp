@@ -142,12 +142,10 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
     LDB_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDQ = ArrayOf::int32VectorConstructor(1);
     int* LDQ_ptr = (int*)LDQ.getDataPointer();
-    LDQ_ptr[0] = std::max(
-        1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar()));
+    LDQ_ptr[0] = std::max(1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar()));
     ArrayOf LDR = ArrayOf::int32VectorConstructor(1);
     int* LDR_ptr = (int*)LDR.getDataPointer();
-    LDR_ptr[0] = std::max(
-        1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getColumns()));
+    LDR_ptr[0] = std::max(1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getColumns()));
     ArrayOf LDL = ArrayOf::int32VectorConstructor(1);
     int* LDL_ptr = (int*)LDL.getDataPointer();
     LDL_ptr[0] = std::max(1, (int)A.getRows());
@@ -156,65 +154,54 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
     LDX_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDS = ArrayOf::int32VectorConstructor(1);
     int* LDS_ptr = (int*)LDS.getDataPointer();
-    LDS_ptr[0]
-        = std::max(1, 2 * (int)A.getRows() + (int)B.getColumns());
+    LDS_ptr[0] = std::max(1, 2 * (int)A.getRows() + (int)B.getColumns());
     ArrayOf LDT = ArrayOf::int32VectorConstructor(1);
     int* LDT_ptr = (int*)LDT.getDataPointer();
-    LDT_ptr[0]
-        = std::max(1, 2 * (int)A.getRows() + (int)B.getColumns());
+    LDT_ptr[0] = std::max(1, 2 * (int)A.getRows() + (int)B.getColumns());
     ArrayOf LDU = ArrayOf::int32VectorConstructor(1);
     int* LDU_ptr = (int*)LDU.getDataPointer();
     LDU_ptr[0] = std::max(1, 2 * (int)A.getRows());
     ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(
-        std::max(
-            1, std::max((int)B.getColumns(), 2 * (int)A.getRows())),
-        1);
+        std::max(1, std::max((int)B.getColumns(), 2 * (int)A.getRows())), 1);
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(
         std::max(7 * (2 * (int)A.getRows() + 1) + 16,
             std::max(16 * (int)A.getRows(),
-                std::max(2 * (int)A.getRows() + (int)B.getColumns(),
-                    3 * (int)B.getColumns()))),
+                std::max(2 * (int)A.getRows() + (int)B.getColumns(), 3 * (int)B.getColumns()))),
         1);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = std::max(7 * (2 * (int)A.getRows() + 1) + 16,
         std::max(16 * (int)A.getRows(),
-            std::max(2 * (int)A.getRows() + (int)B.getColumns(),
-                3 * (int)B.getColumns())));
+            std::max(2 * (int)A.getRows() + (int)B.getColumns(), 3 * (int)B.getColumns())));
     ArrayOf BWORK = ArrayOf::int32Matrix2dConstructor(2 * (int)A.getRows(), 1);
     int* BWORK_ptr = (int*)BWORK.getDataPointer();
     // OUTPUT VARIABLES
     ArrayOf RCONDU_output = ArrayOf::doubleVectorConstructor(1);
     double* RCONDU_output_ptr = (double*)RCONDU_output.getDataPointer();
     ArrayOf X_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)A.getRows()),
-        (indexType)(int)A.getRows());
+        (indexType)std::max(1, (int)A.getRows()), (indexType)(int)A.getRows());
     double* X_output_ptr = (double*)X_output.getDataPointer();
-    ArrayOf ALFAR_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)2 * (int)A.getRows());
+    ArrayOf ALFAR_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)2 * (int)A.getRows());
     double* ALFAR_output_ptr = (double*)ALFAR_output.getDataPointer();
-    ArrayOf ALFAI_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)2 * (int)A.getRows());
+    ArrayOf ALFAI_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)2 * (int)A.getRows());
     double* ALFAI_output_ptr = (double*)ALFAI_output.getDataPointer();
-    ArrayOf BETA_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)2 * (int)A.getRows());
+    ArrayOf BETA_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)2 * (int)A.getRows());
     double* BETA_output_ptr = (double*)BETA_output.getDataPointer();
     ArrayOf S_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(
-            1, 2 * (int)A.getRows() + (int)B.getColumns()),
-        (indexType)std::max(
-            1, 2 * (int)A.getRows() + (int)B.getColumns()));
+        (indexType)std::max(1, 2 * (int)A.getRows() + (int)B.getColumns()),
+        (indexType)std::max(1, 2 * (int)A.getRows() + (int)B.getColumns()));
     double* S_output_ptr = (double*)S_output.getDataPointer();
     ArrayOf T_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(
-            1, 2 * (int)A.getRows() + (int)B.getColumns()),
+        (indexType)std::max(1, 2 * (int)A.getRows() + (int)B.getColumns()),
         (indexType)2 * (int)A.getRows());
     double* T_output_ptr = (double*)T_output.getDataPointer();
     ArrayOf U_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, 2 * (int)A.getRows()),
-        (indexType)2 * (int)A.getRows());
+        (indexType)std::max(1, 2 * (int)A.getRows()), (indexType)2 * (int)A.getRows());
     double* U_output_ptr = (double*)U_output.getDataPointer();
     ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
     int* IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
@@ -248,29 +235,25 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsP.isScalar()) {
         Error(_W("Input argument #9: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #10: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsE_expected(
-        std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsE_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsE.equals(dimsE_expected)) {
         Error(_("Input argument #11: wrong size.") + " " + dimsE_expected.toString() + " "
             + "expected" + ".");
     }
     Dimensions dimsQ_expected(
-        std::max(
-            1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar())),
+        std::max(1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar())),
         (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
         Error(_("Input argument #13: wrong size.") + " " + dimsQ_expected.toString() + " "
             + "expected" + ".");
     }
     Dimensions dimsR_expected(
-        std::max(
-            1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getColumns())),
+        std::max(1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getColumns())),
         (int)B.getColumns());
     if (!dimsR.equals(dimsR_expected)) {
         Error(_("Input argument #14: wrong size.") + " " + dimsR_expected.toString() + " "

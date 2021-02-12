@@ -91,8 +91,8 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getRows());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
-    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor((indexType)1,
-        (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
+    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor(
+        (indexType)1, (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
     double* TAU_output_ptr = (double*)TAU_output.getDataPointer();
     ArrayOf RANK_output = ArrayOf::int32VectorConstructor(1);
     int* RANK_output_ptr = (int*)RANK_output.getDataPointer();
@@ -104,8 +104,7 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsJOBRQ.isScalar()) {
         Error(_W("Input argument #1: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getRows()), (int)A.getColumns());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");

@@ -34,9 +34,8 @@ floatingNumberToLogical(const ArrayOf& A)
 {
     if (A.isDoubleClass()) {
         if (A.isSparse()) {
-            void* pLogical
-                = TypeConvertSparseDynamicFunction(NLS_LOGICAL, A.getRows(),
-                    A.getColumns(), A.getSparseDataPointer(), NLS_DOUBLE);
+            void* pLogical = TypeConvertSparseDynamicFunction(
+                NLS_LOGICAL, A.getRows(), A.getColumns(), A.getSparseDataPointer(), NLS_DOUBLE);
             return ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, true);
         }
     } else {

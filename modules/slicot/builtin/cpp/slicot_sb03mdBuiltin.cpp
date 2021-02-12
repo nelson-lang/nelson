@@ -102,19 +102,16 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf LDC = ArrayOf::int32VectorConstructor(1);
     int* LDC_ptr = (int*)LDC.getDataPointer();
     LDC_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(
-        (int)A.getRows(), (int)A.getRows());
+    ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor((int)A.getRows(), (int)A.getRows());
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
-        std::max(2 * (int)A.getRows() * (int)A.getRows()
-                + 2 * (int)A.getRows(),
-            3 * (int)A.getRows()));
+        std::max(
+            2 * (int)A.getRows() * (int)A.getRows() + 2 * (int)A.getRows(), 3 * (int)A.getRows()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
-    LDWORK_ptr[0] = std::max(2 * (int)A.getRows() * (int)A.getRows()
-            + 2 * (int)A.getRows(),
-        3 * (int)A.getRows());
+    LDWORK_ptr[0] = std::max(
+        2 * (int)A.getRows() * (int)A.getRows() + 2 * (int)A.getRows(), 3 * (int)A.getRows());
     // OUTPUT VARIABLES
     ArrayOf SCALE_output = ArrayOf::doubleVectorConstructor(1);
     double* SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
@@ -122,11 +119,11 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
     double* SEP_output_ptr = (double*)SEP_output.getDataPointer();
     ArrayOf FERR_output = ArrayOf::doubleVectorConstructor(1);
     double* FERR_output_ptr = (double*)FERR_output.getDataPointer();
-    ArrayOf WR_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getRows());
+    ArrayOf WR_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getRows());
     double* WR_output_ptr = (double*)WR_output.getDataPointer();
-    ArrayOf WI_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getRows());
+    ArrayOf WI_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getRows());
     double* WI_output_ptr = (double*)WI_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();

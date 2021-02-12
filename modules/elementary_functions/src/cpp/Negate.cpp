@@ -70,7 +70,8 @@ Negate(ArrayOf A)
         negate<float>(2 * A.getElementCount(), static_cast<float*>(Cp), (float*)A.getDataPointer());
         break;
     case NLS_DCOMPLEX:
-        negate<double>(2 * A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
+        negate<double>(
+            2 * A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
         break;
     }
     C.setDataPointer(Cp);

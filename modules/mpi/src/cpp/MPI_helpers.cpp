@@ -160,40 +160,40 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             }
             break;
         case NLS_UINT8:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer, bufsize,
-                packpos, comm);
-            break;
-        case NLS_INT8:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT8_T, buffer, bufsize,
-                packpos, comm);
-            break;
-        case NLS_UINT16:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UNSIGNED_SHORT, buffer,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer,
                 bufsize, packpos, comm);
             break;
+        case NLS_INT8:
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT8_T, buffer,
+                bufsize, packpos, comm);
+            break;
+        case NLS_UINT16:
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UNSIGNED_SHORT,
+                buffer, bufsize, packpos, comm);
+            break;
         case NLS_INT16:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_SHORT, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_SHORT, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_UINT32:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT32_T, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT32_T, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_INT32:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT32_T, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT32_T, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_UINT64:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT64_T, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT64_T, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_INT64:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT64_T, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT64_T, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_SINGLE:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_FLOAT, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_FLOAT, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_DOUBLE:
             if (A.isSparse()) {
@@ -210,13 +210,13 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packMPI(N, buffer, bufsize, packpos, comm);
                 packMPI(NNZ, buffer, bufsize, packpos, comm);
             } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_DOUBLE, buffer, bufsize,
-                    packpos, comm);
+                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_DOUBLE, buffer,
+                    bufsize, packpos, comm);
             }
             break;
         case NLS_SCOMPLEX:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_FLOAT, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_FLOAT, buffer,
+                bufsize, packpos, comm);
             break;
         case NLS_DCOMPLEX:
             if (A.isSparse()) {
@@ -233,13 +233,13 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packMPI(N, buffer, bufsize, packpos, comm);
                 packMPI(NNZ, buffer, bufsize, packpos, comm);
             } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_DOUBLE, buffer,
-                    bufsize, packpos, comm);
+                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_DOUBLE,
+                    buffer, bufsize, packpos, comm);
             }
             break;
         case NLS_CHAR:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_WCHAR, buffer, bufsize,
-                packpos, comm);
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_WCHAR, buffer,
+                bufsize, packpos, comm);
             break;
         default: {
             Error(_("Type not managed."));

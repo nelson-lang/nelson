@@ -126,12 +126,10 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     LDB_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDQ = ArrayOf::int32VectorConstructor(1);
     int* LDQ_ptr = (int*)LDQ.getDataPointer();
-    LDQ_ptr[0] = std::max(
-        1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar()));
+    LDQ_ptr[0] = std::max(1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar()));
     ArrayOf LDR = ArrayOf::int32VectorConstructor(1);
     int* LDR_ptr = (int*)LDR.getDataPointer();
-    LDR_ptr[0] = std::max(
-        1, std::max((int)B.getColumns(), (int)P.getContentAsInteger32Scalar()));
+    LDR_ptr[0] = std::max(1, std::max((int)B.getColumns(), (int)P.getContentAsInteger32Scalar()));
     ArrayOf LDL = ArrayOf::int32VectorConstructor(1);
     int* LDL_ptr = (int*)LDL.getDataPointer();
     LDL_ptr[0] = std::max(1, (int)A.getRows());
@@ -147,29 +145,24 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* LDT_ptr = (int*)LDT.getDataPointer();
     LDT_ptr[0] = (JOBB.getContentAsCString().compare("B") == 0)
         ? std::max(1, 2 * (int)A.getRows() + (int)B.getColumns())
-        : (DICO.getContentAsCString().compare("D") == 0)
-            ? std::max(1, 2 * (int)A.getRows())
-            : 1;
+        : (DICO.getContentAsCString().compare("D") == 0) ? std::max(1, 2 * (int)A.getRows()) : 1;
     ArrayOf LDU = ArrayOf::int32VectorConstructor(1);
     int* LDU_ptr = (int*)LDU.getDataPointer();
     LDU_ptr[0] = std::max(1, 2 * (int)A.getRows());
     ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1,
         JOBB.getContentAsCString().compare("B") == 0
-            ? std::max(std::max(1, (int)B.getColumns()),
-                  2 * (int)A.getRows())
+            ? std::max(std::max(1, (int)B.getColumns()), 2 * (int)A.getRows())
             : std::max(1, 2 * (int)A.getRows()));
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
-        std::max(std::max(std::max(7 * (2 * (int)A.getRows() + 1) + 16,
-                              16 * (int)A.getRows()),
+        std::max(std::max(std::max(7 * (2 * (int)A.getRows() + 1) + 16, 16 * (int)A.getRows()),
                      2 * (int)A.getRows() + (int)B.getColumns()),
             3 * (int)B.getColumns()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0]
-        = std::max(std::max(std::max(7 * (2 * (int)A.getRows() + 1) + 16,
-                                16 * (int)A.getRows()),
+        = std::max(std::max(std::max(7 * (2 * (int)A.getRows() + 1) + 16, 16 * (int)A.getRows()),
                        2 * (int)A.getRows() + (int)B.getColumns()),
             3 * (int)B.getColumns());
     ArrayOf BWORK = ArrayOf::int32Matrix2dConstructor(1, 2 * (int)A.getRows());
@@ -178,40 +171,34 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf RCOND_output = ArrayOf::doubleVectorConstructor(1);
     double* RCOND_output_ptr = (double*)RCOND_output.getDataPointer();
     ArrayOf X_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)A.getRows()),
-        (indexType)(int)A.getRows());
+        (indexType)std::max(1, (int)A.getRows()), (indexType)(int)A.getRows());
     double* X_output_ptr = (double*)X_output.getDataPointer();
-    ArrayOf ALFAR_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)2 * (int)A.getRows());
+    ArrayOf ALFAR_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)2 * (int)A.getRows());
     double* ALFAR_output_ptr = (double*)ALFAR_output.getDataPointer();
-    ArrayOf ALFAI_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)2 * (int)A.getRows());
+    ArrayOf ALFAI_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)2 * (int)A.getRows());
     double* ALFAI_output_ptr = (double*)ALFAI_output.getDataPointer();
-    ArrayOf BETA_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)2 * (int)A.getRows());
+    ArrayOf BETA_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)2 * (int)A.getRows());
     double* BETA_output_ptr = (double*)BETA_output.getDataPointer();
     ArrayOf S_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)(JOBB.getContentAsCString().compare("B") == 0)
-            ? std::max(
-                  1, 2 * (int)A.getRows() + (int)B.getColumns())
+            ? std::max(1, 2 * (int)A.getRows() + (int)B.getColumns())
             : std::max(1, 2 * (int)A.getRows()),
         (indexType)(JOBB.getContentAsCString().compare("B") == 0)
-            ? std::max(
-                  1, 2 * (int)A.getRows() + (int)B.getColumns())
+            ? std::max(1, 2 * (int)A.getRows() + (int)B.getColumns())
             : std::max(1, 2 * (int)A.getRows()));
     double* S_output_ptr = (double*)S_output.getDataPointer();
     ArrayOf T_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)(JOBB.getContentAsCString().compare("B") == 0)
-            ? std::max(
-                  1, 2 * (int)A.getRows() + (int)B.getColumns())
-            : (DICO.getContentAsCString().compare("D") == 0)
-                ? std::max(1, 2 * (int)A.getRows())
-                : 1,
+            ? std::max(1, 2 * (int)A.getRows() + (int)B.getColumns())
+            : (DICO.getContentAsCString().compare("D") == 0) ? std::max(1, 2 * (int)A.getRows())
+                                                             : 1,
         (indexType)2 * (int)A.getRows());
     double* T_output_ptr = (double*)T_output.getDataPointer();
     ArrayOf U_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, 2 * (int)A.getRows()),
-        (indexType)2 * (int)A.getRows());
+        (indexType)std::max(1, 2 * (int)A.getRows()), (indexType)2 * (int)A.getRows());
     double* U_output_ptr = (double*)U_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();

@@ -511,8 +511,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 if (isColonOperator(index[i])) {
                     haveColonOperator = true;
                     if (i == 0) {
-                        index[i]
-                            = ArrayOf::integerRangeConstructor(1, 1, rightData.getElementCount(), true);
+                        index[i] = ArrayOf::integerRangeConstructor(
+                            1, 1, rightData.getElementCount(), true);
                     } else {
                         index[i] = ArrayOf::integerRangeConstructor(1, 1, 1, true);
                     }

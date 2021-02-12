@@ -78,14 +78,13 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getRows());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
-    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor((indexType)1,
-        (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
+    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor(
+        (indexType)1, (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
     double* TAU_output_ptr = (double*)TAU_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
-    Dimensions dimsA_expected(std::max(1, (int)A.getRows()),
-        std::max(1, (int)A.getColumns()));
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), std::max(1, (int)A.getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");

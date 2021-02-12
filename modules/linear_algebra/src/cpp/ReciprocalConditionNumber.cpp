@@ -96,8 +96,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
 {
     ArrayOf rcond;
     auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(),
-        (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::doubleConstructor(std::nan(""));
     } else {

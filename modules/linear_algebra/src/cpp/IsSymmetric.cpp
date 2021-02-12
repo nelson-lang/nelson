@@ -168,11 +168,9 @@ IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload)
     case NLS_DOUBLE:
         return isSymmetric<double>((double*)A.getDataPointer(), A.getRows(), skew);
     case NLS_SCOMPLEX:
-        return isSymmetricComplex<single>(
-            (single*)A.getDataPointer(), A.getRows(), skew);
+        return isSymmetricComplex<single>((single*)A.getDataPointer(), A.getRows(), skew);
     case NLS_DCOMPLEX:
-        return isSymmetricComplex<double>(
-            (double*)A.getDataPointer(), A.getRows(), skew);
+        return isSymmetricComplex<double>((double*)A.getDataPointer(), A.getRows(), skew);
     case NLS_INT8:
         return isSymmetric<int8>((int8*)A.getDataPointer(), A.getRows(), skew);
     case NLS_INT16:
@@ -246,11 +244,9 @@ IsSymmetric(const ArrayOf& A, double tol, bool& needToOverload)
     case NLS_DOUBLE:
         return isSymmetric<double>((double*)A.getDataPointer(), A.getRows(), tol);
     case NLS_SCOMPLEX:
-        return isSymmetricComplex<single>(
-            (single*)A.getDataPointer(), A.getRows(), tol);
+        return isSymmetricComplex<single>((single*)A.getDataPointer(), A.getRows(), tol);
     case NLS_DCOMPLEX:
-        return isSymmetricComplex<double>(
-            (double*)A.getDataPointer(), A.getRows(), tol);
+        return isSymmetricComplex<double>((double*)A.getDataPointer(), A.getRows(), tol);
     case NLS_INT8:
         return isSymmetric<int8>((int8*)A.getDataPointer(), A.getRows(), tol);
     case NLS_INT16:

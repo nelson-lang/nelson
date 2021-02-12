@@ -53,8 +53,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -69,8 +69,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -81,8 +81,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -97,8 +97,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -131,8 +131,8 @@ Sin(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -147,8 +147,8 @@ Sin(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -159,8 +159,8 @@ Sin(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -175,8 +175,8 @@ Sin(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -209,8 +209,8 @@ Tan(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -225,8 +225,8 @@ Tan(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -237,8 +237,8 @@ Tan(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -253,8 +253,8 @@ Tan(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -287,8 +287,8 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -303,8 +303,8 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -315,8 +315,8 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -331,8 +331,8 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -365,8 +365,8 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -381,8 +381,8 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -393,8 +393,8 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -409,8 +409,8 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -443,8 +443,8 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -459,8 +459,8 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -471,8 +471,8 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -487,8 +487,8 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -521,8 +521,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -564,8 +564,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -629,8 +629,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -673,8 +673,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -739,8 +739,8 @@ Atan(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
@@ -755,8 +755,8 @@ Atan(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(
+            NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
@@ -767,8 +767,8 @@ Atan(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
@@ -783,8 +783,8 @@ Atan(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)

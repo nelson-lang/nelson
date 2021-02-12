@@ -115,8 +115,7 @@ Nelson::SlicotGateway::slicot_ab04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     LDD_ptr[0] = std::max(1, (int)C.getRows());
     ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1, (int)A.getRows());
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
-    ArrayOf DWORK
-        = ArrayOf::doubleMatrix2dConstructor(1, std::max(1, (int)A.getRows()));
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, std::max(1, (int)A.getRows()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
@@ -134,26 +133,22 @@ Nelson::SlicotGateway::slicot_ab04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsBETA.isScalar()) {
         Error(_W("Input argument #3: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsB_expected(
-        std::max(1, (int)A.getRows()), (int)B.getColumns());
+    Dimensions dimsB_expected(std::max(1, (int)A.getRows()), (int)B.getColumns());
     if (!dimsB.equals(dimsB_expected)) {
         Error(_("Input argument #5: wrong size.") + " " + dimsB_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsC_expected(
-        std::max(1, (int)C.getRows()), (int)A.getRows());
+    Dimensions dimsC_expected(std::max(1, (int)C.getRows()), (int)A.getRows());
     if (!dimsC.equals(dimsC_expected)) {
         Error(_("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsD_expected(
-        std::max(1, (int)C.getRows()), (int)B.getColumns());
+    Dimensions dimsD_expected(std::max(1, (int)C.getRows()), (int)B.getColumns());
     if (!dimsD.equals(dimsD_expected)) {
         Error(_("Input argument #7: wrong size.") + " " + dimsD_expected.toString() + " "
             + "expected" + ".");

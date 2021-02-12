@@ -75,7 +75,8 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
 #endif
     int istride = 0, jstride = 0, vstride = 0;
     size_t olen = 0;
-    CheckIJV(I.getElementCount(), J.getElementCount(), V.getElementCount(), istride, jstride, vstride, olen);
+    CheckIJV(I.getElementCount(), J.getElementCount(), V.getElementCount(), istride, jstride,
+        vstride, olen);
     if (I.isEmpty() || J.isEmpty() || V.isEmpty()) {
         Dimensions dim(0, 0);
         return ArrayOf(NLS_DOUBLE, dim, nullptr, true);

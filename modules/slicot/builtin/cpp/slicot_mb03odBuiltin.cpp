@@ -89,15 +89,14 @@ Nelson::SlicotGateway::slicot_mb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf DWORK
-        = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getColumns() + 1);
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getColumns() + 1);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = 3 * (int)A.getColumns() + 1;
     // OUTPUT VARIABLES
-    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor((indexType)1,
-        (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
+    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor(
+        (indexType)1, (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
     double* TAU_output_ptr = (double*)TAU_output.getDataPointer();
     ArrayOf RANK_output = ArrayOf::int32VectorConstructor(1);
     int* RANK_output_ptr = (int*)RANK_output.getDataPointer();
@@ -109,8 +108,7 @@ Nelson::SlicotGateway::slicot_mb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsJOBQR.isScalar()) {
         Error(_W("Input argument #1: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getRows()), (int)A.getColumns());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");

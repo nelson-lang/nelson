@@ -1264,7 +1264,7 @@ Evaluator::forStatement(ASTPtr t)
     }
     /* Get the code block */
     codeBlock = t->right;
-    bool isRowVector =indexSet.isRowVector();
+    bool isRowVector = indexSet.isRowVector();
     if (isRowVector) {
         elementCount = indexSet.getElementCount();
     } else if (indexSet.isColumnVector()) {

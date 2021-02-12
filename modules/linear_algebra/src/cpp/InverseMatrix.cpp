@@ -43,12 +43,12 @@ InverseDouble(ArrayOf A, double rcond)
     ArrayOf res = A;
     res.ensureSingleOwner();
     double* ptrD = (double*)res.getDataPointer();
-    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
-        (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXd> matA(
+        (double*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
-            Eigen::Map<Eigen::MatrixXd> matR(ptrD, (Eigen::Index)res.getRows(),
-                (Eigen::Index)res.getColumns());
+            Eigen::Map<Eigen::MatrixXd> matR(
+                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
             matR.setConstant(std::nan("NaN"));
             return res;
         }
@@ -73,8 +73,8 @@ InverseDouble(ArrayOf A, double rcond)
             delete[] IPIV;
         } else {
             delete[] IPIV;
-            Eigen::Map<Eigen::MatrixXd> matR(ptrD, (Eigen::Index)res.getRows(),
-                (Eigen::Index)res.getColumns());
+            Eigen::Map<Eigen::MatrixXd> matR(
+                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
             if (rcond == 0) {
                 matR.setConstant(std::numeric_limits<double>::infinity());
             } else {
@@ -92,10 +92,9 @@ InverseDoubleComplex(ArrayOf A, double rcond)
     res.ensureSingleOwner();
     auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     auto* Rz = reinterpret_cast<doublecomplex*>((double*)res.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(),
-        (Eigen::Index)A.getColumns());
-    Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)res.getRows(),
-        (Eigen::Index)res.getColumns());
+    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXcd> matR(
+        Rz, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
             doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
@@ -142,12 +141,12 @@ InverseSingle(ArrayOf A, single rcond)
     ArrayOf res = A;
     res.ensureSingleOwner();
     single* ptrD = (single*)res.getDataPointer();
-    Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-        (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXf> matA(
+        (single*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
-            Eigen::Map<Eigen::MatrixXf> matR(ptrD, (Eigen::Index)res.getRows(),
-                (Eigen::Index)res.getColumns());
+            Eigen::Map<Eigen::MatrixXf> matR(
+                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
             matR.setConstant(std::nanf("NaN"));
             return res;
         }
@@ -172,8 +171,8 @@ InverseSingle(ArrayOf A, single rcond)
             delete[] IPIV;
         } else {
             delete[] IPIV;
-            Eigen::Map<Eigen::MatrixXf> matR(ptrD, (Eigen::Index)res.getRows(),
-                (Eigen::Index)res.getColumns());
+            Eigen::Map<Eigen::MatrixXf> matR(
+                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
             if (rcond == 0) {
                 matR.setConstant(std::numeric_limits<single>::infinity());
             } else {
@@ -191,10 +190,9 @@ InverseSingleComplex(ArrayOf A, single rcond)
     res.ensureSingleOwner();
     auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     auto* Rz = reinterpret_cast<singlecomplex*>((single*)res.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(),
-        (Eigen::Index)A.getColumns());
-    Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)res.getRows(),
-        (Eigen::Index)res.getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matR(
+        Rz, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
             singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));

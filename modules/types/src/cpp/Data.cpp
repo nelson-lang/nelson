@@ -58,10 +58,7 @@ Data::Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag, strin
     refreshDimensionCache();
 }
 //=============================================================================
-Data::~Data()
-{
-    freeDataBlock();
-}
+Data::~Data() { freeDataBlock(); }
 //=============================================================================
 Data*
 Data::getCopy()
@@ -236,9 +233,7 @@ Data::freeDataBlock()
                 auto* rp = static_cast<charType*>(cp);
                 delete[] rp;
             } break;
-            default: {
-            } break;
-            }
+            default: { } break; }
             cp = nullptr;
         }
     }

@@ -101,24 +101,21 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     LDB_ptr[0] = TRANS.getContentAsCString().compare("N") == 0
         ? std::max(1, std::max((int)A.getRows(), (int)B.getRows()))
         : std::max(1, (int)A.getRows());
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
-        std::max(1,
-            4 * (int)A.getRows()
-                + std::min((int)B.getRows(), (int)A.getRows())));
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(
+        1, std::max(1, 4 * (int)A.getRows() + std::min((int)B.getRows(), (int)A.getRows())));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
-    LDWORK_ptr[0] = std::max(1,
-        4 * (int)A.getRows()
-            + std::min((int)B.getRows(), (int)A.getRows()));
+    LDWORK_ptr[0]
+        = std::max(1, 4 * (int)A.getRows() + std::min((int)B.getRows(), (int)A.getRows()));
     // OUTPUT VARIABLES
     ArrayOf SCALE_output = ArrayOf::doubleVectorConstructor(1);
     double* SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
-    ArrayOf WR_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getRows());
+    ArrayOf WR_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getRows());
     double* WR_output_ptr = (double*)WR_output.getDataPointer();
-    ArrayOf WI_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getRows());
+    ArrayOf WI_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getRows());
     double* WI_output_ptr = (double*)WI_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
@@ -132,15 +129,13 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsTRANS.isScalar()) {
         Error(_W("Input argument #3: scalar expected."));
     }
-    Dimensions dimsQ_expected(
-        std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsQ_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
         Error(_("Input argument #5: wrong size.") + " " + dimsQ_expected.toString() + " "
             + "expected" + ".");
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
-            ? std::max(
-                  1, std::max((int)A.getRows(), (int)B.getRows()))
+            ? std::max(1, std::max((int)A.getRows(), (int)B.getRows()))
             : std::max(1, (int)A.getRows()),
         (int)A.getRows());
     if (!dimsB.equals(dimsB_expected)) {

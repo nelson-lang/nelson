@@ -427,8 +427,7 @@ AudioplayerObject::setSamples(
         }
         _SampleRate = SampleRate;
         _BitsPerSample = BitsPerSample;
-        _TotalSamples
-            = static_cast<int>(audioData.getElementCount() / _NumberOfChannels);
+        _TotalSamples = static_cast<int>(audioData.getElementCount() / _NumberOfChannels);
         outputStreamParameters.suggestedLatency
             = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
         outputStreamParameters.hostApiSpecificStreamInfo = NULL;

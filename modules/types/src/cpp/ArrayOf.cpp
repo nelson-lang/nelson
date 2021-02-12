@@ -507,56 +507,6 @@ ArrayOf::operator=(const ArrayOf& copy)
     }
 }
 //=============================================================================
-int
-ArrayOf::getReferenceCount() const
-{
-    if (dp) {
-        return dp->numberOfOwners();
-    }
-    return (int)0;
-}
-//=============================================================================
-indexType
-ArrayOf::nDims() const
-{
-    if (dp) {
-        return dp->getLength();
-    }
-    return (indexType)0;
-}
-//=============================================================================
-Dimensions
-ArrayOf::getDimensions() const
-{
-    if (dp) {
-        return dp->dimensions;
-    }
-    return Dimensions();
-}
-//=============================================================================
-indexType
-ArrayOf::getDimensionLength(int t) const
-{
-    if (dp) {
-        return dp->dimensions[t];
-    } else {
-        return 0;
-    }
-}
-//=============================================================================
-const void*
-ArrayOf::getDataPointer() const
-{
-    if (isSparse()) {
-        Error(_W("operation does not support sparse matrix arguments."));
-    }
-    if (dp) {
-        return dp->getData();
-    } else {
-        return nullptr;
-    }
-}
-//=============================================================================
 void
 ArrayOf::ensureSingleOwner()
 {
@@ -791,9 +741,7 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================

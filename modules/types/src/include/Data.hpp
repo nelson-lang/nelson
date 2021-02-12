@@ -64,7 +64,6 @@ class NLSTYPES_IMPEXP Data
     friend class ArrayOf;
 
 private:
-
     /**
      * The Class of the data block.  Useful for determining how the data
      * block must be treated.
@@ -208,8 +207,8 @@ private:
     bool dimensionsIsFullEmptyCache = false;
     bool dimensionsIsEmptyCache = false;
     //=============================================================================
-    indexType 
-      getLength() const
+    indexType
+    getLength() const
     {
         return dimensionsGetLengthCache;
     }
@@ -262,8 +261,10 @@ private:
         return dimensionsIsColumnVectorCache;
     }
     //=============================================================================
-    bool isSquare() const { 
-      return dimensionsIsSquareCache;
+    bool
+    isSquare() const
+    {
+        return dimensionsIsSquareCache;
     }
     //=============================================================================
     bool

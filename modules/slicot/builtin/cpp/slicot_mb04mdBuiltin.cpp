@@ -73,8 +73,8 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getColumns());
     // OUTPUT VARIABLES
-    ArrayOf SCALE_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getColumns());
+    ArrayOf SCALE_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
     double* SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
@@ -82,8 +82,7 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsMAXRED.isScalar()) {
         Error(_W("Input argument #1: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        (int)A.getRows(), (int)A.getColumns());
+    Dimensions dimsA_expected((int)A.getRows(), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");

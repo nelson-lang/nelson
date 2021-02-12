@@ -197,12 +197,19 @@ public:
      */
     void
     operator=(const ArrayOf& copy);
+    //=============================================================================
     /**
      * Get the reference count to our data object - useful for
      * debug purposes.
      */
-    int
-    getReferenceCount() const;
+    inline int
+    ArrayOf::getReferenceCount() const
+    {
+        if (dp) {
+            return dp->numberOfOwners();
+        }
+        return (int)0;
+    }
     //=============================================================================
     /**
      * Get the length of the array as a vector.  This is equivalent
@@ -222,23 +229,46 @@ public:
      * Number of array dimensions
      * equivalent to getDimensions().getLength()
      */
-    indexType
-    nDims() const;
+    inline indexType
+    ArrayOf::nDims() const
+    {
+        if (dp) {
+            return dp->getLength();
+        }
+        return (indexType)0;
+    }
+    //=============================================================================
     /**
      * Get a copy of our dimensions vector.
      */
-    Dimensions
-    getDimensions() const;
+    inline Dimensions
+    ArrayOf::getDimensions() const
+    {
+        if (dp) {
+            return dp->dimensions;
+        }
+        return Dimensions();
+    }
+    //=============================================================================
     /**
      * Get the fieldnames.
      */
     stringVector
     getFieldNames() const;
+    //=============================================================================
     /**
      * Get our length along the given dimension.
      */
     indexType
-    getDimensionLength(int) const;
+    ArrayOf::getDimensionLength(int t) const
+    {
+        if (dp) {
+            return dp->dimensions[t];
+        } else {
+            return 0;
+        }
+    }
+    //=============================================================================
     /** Get the contents of our data block as a (read-only) void* pointer.
      * Get the contents of our data block as a void* pointer.  The
      * resulting pointer is read only, so that no modifications can
@@ -250,8 +280,19 @@ public:
      * Another option is to use getReadWriteDataPointer, which returns a
      * pointer that is free of object aliases.
      */
-    const void*
-    getDataPointer() const;
+    inline const void*
+    ArrayOf::getDataPointer() const
+    {
+        if (isSparse()) {
+            Error(_W("operation does not support sparse matrix arguments."));
+        }
+        if (dp) {
+            return dp->getData();
+        } else {
+            return nullptr;
+        }
+    }
+    //=============================================================================
     const void*
     getSparseDataPointer() const;
     /** Get the contents of our data block as a read-write void* pointer.
@@ -362,7 +403,7 @@ public:
      */
     bool
     testForCaseMatch(ArrayOf x) const;
-    
+
     indexType
     getColumns() const;
 

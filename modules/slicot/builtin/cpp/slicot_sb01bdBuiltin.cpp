@@ -114,14 +114,12 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* LDZ_ptr = (int*)LDZ.getDataPointer();
     LDZ_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
-        std::max(std::max(std::max(1, 5 * (int)B.getColumns()),
-                     5 * (int)A.getRows()),
+        std::max(std::max(std::max(1, 5 * (int)B.getColumns()), 5 * (int)A.getRows()),
             2 * (int)A.getRows() + 4 * (int)B.getColumns()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
-    LDWORK_ptr[0] = std::max(std::max(std::max(1, 5 * (int)B.getColumns()),
-                                 5 * (int)A.getRows()),
+    LDWORK_ptr[0] = std::max(std::max(std::max(1, 5 * (int)B.getColumns()), 5 * (int)A.getRows()),
         2 * (int)A.getRows() + 4 * (int)B.getColumns());
     // OUTPUT VARIABLES
     ArrayOf NFP_output = ArrayOf::int32VectorConstructor(1);
@@ -131,12 +129,10 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf NUP_output = ArrayOf::int32VectorConstructor(1);
     int* NUP_output_ptr = (int*)NUP_output.getDataPointer();
     ArrayOf F_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)B.getRows()),
-        (indexType)(int)A.getRows());
+        (indexType)std::max(1, (int)B.getRows()), (indexType)(int)A.getRows());
     double* F_output_ptr = (double*)F_output.getDataPointer();
     ArrayOf Z_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)A.getRows()),
-        (indexType)(int)A.getRows());
+        (indexType)std::max(1, (int)A.getRows()), (indexType)(int)A.getRows());
     double* Z_output_ptr = (double*)Z_output.getDataPointer();
     ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
     int* IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
@@ -149,8 +145,7 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsALPHA.isScalar()) {
         Error(_W("Input argument #2: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");

@@ -98,14 +98,14 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     // OUTPUT VARIABLES
     ArrayOf NBLCKS_output = ArrayOf::int32VectorConstructor(1);
     int* NBLCKS_output_ptr = (int*)NBLCKS_output.getDataPointer();
-    ArrayOf BLSIZE_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getColumns());
+    ArrayOf BLSIZE_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
     double* BLSIZE_output_ptr = (double*)BLSIZE_output.getDataPointer();
-    ArrayOf WR_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getColumns());
+    ArrayOf WR_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
     double* WR_output_ptr = (double*)WR_output.getDataPointer();
-    ArrayOf WI_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)(int)A.getColumns());
+    ArrayOf WI_output
+        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
     double* WI_output_ptr = (double*)WI_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
@@ -119,14 +119,12 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsPMAX.isScalar()) {
         Error(_W("Input argument #3: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getColumns()), (int)A.getColumns());
+    Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsX_expected(
-        std::max(1, (int)A.getColumns()), (int)A.getColumns());
+    Dimensions dimsX_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsX.equals(dimsX_expected)) {
         Error(_("Input argument #5: wrong size.") + " " + dimsX_expected.toString() + " "
             + "expected" + ".");

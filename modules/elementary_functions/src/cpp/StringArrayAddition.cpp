@@ -35,8 +35,8 @@ matrix_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     auto* elementsA = (ArrayOf*)a.getDataPointer();
     auto* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, a.getElementCount(), stringVector(), false));
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, a.getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, a.getDimensions(), elementsC);
     indexType elementCount = a.getElementCount();
     for (indexType i = 0; i < elementCount; i++) {

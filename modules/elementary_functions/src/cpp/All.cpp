@@ -84,8 +84,7 @@ All(ArrayOf& A, indexType dim, bool& needToOverload)
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                             NLS_LOGICAL, A.getRows(), stringVector(), false);
                         memset(logicalarray, 1, A.getRows());
-                        res = ArrayOf(
-                            NLS_LOGICAL, Dimensions(A.getRows(), 1), logicalarray);
+                        res = ArrayOf(NLS_LOGICAL, Dimensions(A.getRows(), 1), logicalarray);
                     } else {
                         Dimensions dims(A.getRows(), 0);
                         res = ArrayOf::emptyConstructor(dims);
@@ -96,8 +95,7 @@ All(ArrayOf& A, indexType dim, bool& needToOverload)
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                             NLS_LOGICAL, A.getColumns(), stringVector(), false);
                         memset(logicalarray, 1, A.getColumns());
-                        res = ArrayOf(NLS_LOGICAL, Dimensions(1, A.getColumns()),
-                            logicalarray);
+                        res = ArrayOf(NLS_LOGICAL, Dimensions(1, A.getColumns()), logicalarray);
                     } else if (dim - 1 == 1) {
                         Dimensions dims(0, 1);
                         res = ArrayOf::emptyConstructor(dims);
