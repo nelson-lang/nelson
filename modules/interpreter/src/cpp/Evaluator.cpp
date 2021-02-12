@@ -1242,11 +1242,6 @@ Evaluator::whileStatement(ASTPtr t)
 void
 Evaluator::forStatement(ASTPtr t)
 {
-    ASTPtr codeBlock;
-    ArrayOf indexSet;
-    ArrayOf indexNum;
-    std::string indexVarName;
-    ArrayOf indexVar;
     indexType elementCount = 0;
     if (t == nullptr) {
         resetState();
@@ -1256,14 +1251,14 @@ Evaluator::forStatement(ASTPtr t)
     pushID(t->context());
 
     /* Get the name of the indexing variable */
-    indexVarName = t->text;
+    std::string indexVarName = t->text;
     /* Evaluate the index set */
-    indexSet = expression(t->down);
+    ArrayOf indexSet = expression(t->down);
     if (indexSet.isEmpty()) {
         return;
     }
     /* Get the code block */
-    codeBlock = t->right;
+    ASTPtr codeBlock = t->right;
     bool isRowVector = indexSet.isRowVector();
     if (isRowVector) {
         elementCount = indexSet.getElementCount();
@@ -1275,6 +1270,7 @@ Evaluator::forStatement(ASTPtr t)
     context->enterLoop();
 
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
+        ArrayOf indexVar;
         if (isRowVector) {
             indexVar = indexSet.getValueAtIndex(elementNumber);
         } else {
@@ -1624,7 +1620,49 @@ Evaluator::handleDebug(int fullcontext)
         }
     }
 }
+//=============================================================================
+void
+Evaluator::assignStatement(ASTPtr t, bool printIt)
+{
+    uint64 ticProfiling = Profiler::getInstance()->tic();
 
+    if (t->down == nullptr) {
+        ArrayOf b(expression(t->right));
+        bool bInserted = context->insertVariable(t->text, b);
+        if (!bInserted) {
+            if (IsValidVariableName(t->text, true)) {
+                Error(_W("Redefining permanent variable."));
+            }
+            Error(_W("Valid variable name expected."));
+        }
+        if (printIt) {
+            io->outputMessage(std::string(t->text) + " =\n\n");
+            OverloadDisplay(this, b);
+        }
+    } else {
+        ArrayOf expr(expression(t->right));
+        ArrayOf c(assignExpression(t, expr));
+        if (!c.isHandle()) {
+            bool bInserted = context->insertVariable(t->text, c);
+            if (!bInserted) {
+                if (IsValidVariableName(t->text, true)) {
+                    Error(_W("Redefining permanent variable."));
+                }
+                Error(_W("Valid variable name expected."));
+            }
+            if (printIt) {
+                io->outputMessage(std::string(t->text) + " =\n\n");
+                OverloadDisplay(this, c);
+            }
+        }
+    }
+    if (ticProfiling != 0) {
+        internalProfileFunction stack
+            = computeProfileStack(this, "assign", utf8_to_wstring(cstack.back().cname));
+        Profiler::getInstance()->toc(ticProfiling, stack);
+    }
+}
+//============================================================================= 
 void
 Evaluator::statementType(ASTPtr t, bool printIt)
 {
@@ -1648,44 +1686,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
     if (t->isEmpty()) {
         /* Empty statement */
     } else if (t->opNum == (OP_ASSIGN)) {
-        uint64 ticProfiling = Profiler::getInstance()->tic();
-
-        if (t->down->down == nullptr) {
-            ArrayOf b(expression(t->down->right));
-            bool bInserted = context->insertVariable(t->down->text, b);
-            if (!bInserted) {
-                if (IsValidVariableName(t->down->text, true)) {
-                    Error(_W("Redefining permanent variable."));
-                }
-                Error(_W("Valid variable name expected."));
-            }
-            if (printIt) {
-                io->outputMessage(std::string(t->down->text) + " =\n\n");
-                OverloadDisplay(this, b);
-            }
-        } else {
-            ArrayOf expr(expression(t->down->right));
-            ArrayOf c(assignExpression(t->down, expr));
-            if (!c.isHandle()) {
-                bool bInserted = context->insertVariable(t->down->text, c);
-                if (!bInserted) {
-                    if (IsValidVariableName(t->down->text, true)) {
-                        Error(_W("Redefining permanent variable."));
-                    }
-                    Error(_W("Valid variable name expected."));
-                }
-                if (printIt) {
-                    io->outputMessage(std::string(t->down->text) + " =\n\n");
-                    OverloadDisplay(this, c);
-                }
-            }
-        }
-        if (ticProfiling != 0) {
-            internalProfileFunction stack
-                = computeProfileStack(this, "assign", utf8_to_wstring(cstack.back().cname));
-            Profiler::getInstance()->toc(ticProfiling, stack);
-        }
-
+        assignStatement(t->down, printIt);
     } else if (t->opNum == (OP_MULTICALL)) {
 
         multiFunctionCall(t->down, printIt);
@@ -1809,7 +1810,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
     }
     popID();
 }
-
+//=============================================================================
 // Trapping at the statement level is much better! - two
 // problems... try/catch and multiline statements (i.e.,atell.m)
 // The try-catch one is easy, I think...  When a try occurs,

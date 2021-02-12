@@ -644,6 +644,14 @@ public:
     void
     statement(ASTPtr t);
     /**
+     * assign statement
+     * a = 1
+     * or
+     * a(1, 1) = 1
+     */
+    void
+    assignStatement(ASTPtr t, bool printIt);
+    /**
      * Executes a sequence of statements, trapping exceptions
      * as necessary.  The AST looks like
      *   <ignored>
