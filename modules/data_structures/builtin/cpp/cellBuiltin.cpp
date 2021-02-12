@@ -87,9 +87,9 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval.push_back(c);
                 } else {
                     ArrayOf arg = argIn[0];
-                    Dimensions dims(arg.getLength());
+                    Dimensions dims(arg.getElementCount());
                     auto* dindex = (double*)arg.getDataPointer();
-                    for (indexType k = 0; k < arg.getLength(); k++) {
+                    for (indexType k = 0; k < arg.getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
                             Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);

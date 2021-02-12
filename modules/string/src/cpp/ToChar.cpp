@@ -36,9 +36,9 @@ ArrayOfDoubleToChar(const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     std::wstring res;
-    res.reserve(A.getLength());
+    res.reserve(A.getElementCount());
     auto* pDouble = (double*)A.getDataPointer();
-    for (indexType k = 0; k < A.getLength(); k++) {
+    for (indexType k = 0; k < A.getElementCount(); k++) {
         double v = pDouble[k];
         if (IsFinite(v)) {
             if (v < 0) {

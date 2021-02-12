@@ -55,7 +55,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             if (param1.getDataClass() == NLS_DCOMPLEX) {
                 param1.promoteType(NLS_DOUBLE);
             }
-            indexType len = param1.getLength();
+            indexType len = param1.getElementCount();
             auto* ptd = (double*)param1.getDataPointer();
             if (nLhs < 2) {
                 double* res = static_cast<double*>(

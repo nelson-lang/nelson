@@ -135,7 +135,7 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
     // type of the source variable.
     //
     // The index HAS to be a scalar for contents-based addressing
-    if (indexing.getLength() != 1) {
+    if (indexing.getElementCount() != 1) {
         Error(_W("Content indexing must return a single value."));
     }
     auto index_p = static_cast<constIndexPtr>(indexing.dp->getData());
@@ -143,7 +143,7 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
         Error(_W("Index exceeds cell array dimensions"));
     } else {
         indexType ndx = *index_p - 1;
-        indexType bound = getLength();
+        indexType bound = getElementCount();
         if (ndx >= bound) {
             Error(_W("Index exceeds cell array dimensions"));
         }
@@ -174,7 +174,7 @@ ArrayOf::getNDimContents(ArrayOfVector& indexing)
     // The index HAS to be a scalar for contents-based addressing.
     for (indexType i = 0; i < L; i++) {
         indexing[i].toOrdinalType();
-        if (indexing[i].getLength() != 1) {
+        if (indexing[i].getElementCount() != 1) {
             Error(_W("Content indexing must return a single value."));
         }
         auto sp = static_cast<constIndexPtr>(indexing[i].dp->getData());
@@ -212,12 +212,12 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     // Get the maximum index
     indexType max_index = index.getMaxAsIndex();
     // Get our length
-    indexType bound = getLength();
+    indexType bound = getElementCount();
     if (max_index > bound) {
         Error(_W("ArrayOf index exceeds bounds of cell-array"));
     }
     // Get the length of the index object
-    indexType index_length = index.getLength();
+    indexType index_length = index.getElementCount();
     // Get a pointer to the index data set
     auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     // Get a pointer to our data
@@ -263,7 +263,7 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
     }
     auto* indx = new_with_exception<constIndexPtr>(L, false);
     for (i = 0; i < L; i++) {
-        outDims[i] = (index[i].getLength());
+        outDims[i] = (index[i].getElementCount());
         indx[i] = static_cast<constIndexPtr>(index[i].dp->getData());
     }
     Dimensions argPointer(L);
@@ -304,10 +304,10 @@ ArrayOf::setVectorContents(ArrayOf& index, ArrayOf& data)
         Error(_W("setVectorContents not supported for sparse arrays."));
     }
     index.toOrdinalType();
-    if (index.getLength() == 0) {
+    if (index.getElementCount() == 0) {
         return;
     }
-    if (index.getLength() != 1) {
+    if (index.getElementCount() != 1) {
         Error(_W("In expression A{I} = B, I must reference a single element of cell-array A."));
     }
     auto index_p = static_cast<constIndexPtr>(index.dp->getData());
@@ -375,7 +375,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
         promoteType(NLS_CELL_ARRAY);
     }
     index.toOrdinalType();
-    if (static_cast<indexType>(data.size()) < index.getLength()) {
+    if (static_cast<indexType>(data.size()) < index.getElementCount()) {
         Error(_W("Not enough right hand side values to satisy left hand side expression."));
     }
     // Get the maximum index
@@ -387,7 +387,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     // Get a pointer to the index data set
     auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     // Get the length of the index object
-    indexType index_length = index.getLength();
+    indexType index_length = index.getElementCount();
     // Copy in the data
     ArrayOf front = data.front();
     bool isCharRowVector = front.isCharacterArray() && front.isRowVector();
@@ -450,7 +450,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions argPointer(L);
         indexType dataCount = 1;
         for (indexType i = 0; i < L; i++) {
-            argLengths[i] = index[i].getLength();
+            argLengths[i] = index[i].getElementCount();
             dataCount *= argLengths[i];
         }
         if (static_cast<int>(data.size()) < dataCount) {

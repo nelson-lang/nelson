@@ -75,7 +75,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
 #endif
     int istride = 0, jstride = 0, vstride = 0;
     size_t olen = 0;
-    CheckIJV(I.getLength(), J.getLength(), V.getLength(), istride, jstride, vstride, olen);
+    CheckIJV(I.getElementCount(), J.getElementCount(), V.getElementCount(), istride, jstride, vstride, olen);
     if (I.isEmpty() || J.isEmpty() || V.isEmpty()) {
         Dimensions dim(0, 0);
         return ArrayOf(NLS_DOUBLE, dim, nullptr, true);
@@ -83,12 +83,12 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     // Calculate the number of rows in the matrix
     auto* ip = (indexType*)I.getDataPointer();
     indexType rows = 0;
-    for (indexType i = 0; i < I.getLength(); i++) {
+    for (indexType i = 0; i < I.getElementCount(); i++) {
         rows = (static_cast<double>(ip[i]) > static_cast<double>(rows)) ? ip[i] : rows;
     }
     auto* jp = (indexType*)J.getDataPointer();
     indexType cols = 0;
-    for (indexType j = 0; j < J.getLength(); j++) {
+    for (indexType j = 0; j < J.getElementCount(); j++) {
         cols = (static_cast<double>(jp[j]) > static_cast<double>(cols)) ? jp[j] : cols;
     }
     Dimensions dim(rows, cols);

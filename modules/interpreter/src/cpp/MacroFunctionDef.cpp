@@ -255,7 +255,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                              "cell-array."));
                 }
             }
-            indexType varlen = varargout.getLength();
+            indexType varlen = varargout.getElementCount();
             int explicitCount = static_cast<int>(returnVals.size()) - 1;
             bool noArgs = (explicitCount == 0 && varlen == 0);
             if (!noArgs && !haveVarargout) {

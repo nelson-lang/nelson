@@ -101,7 +101,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
     if (A.isReferenceType()) {
         if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             auto* dp = (ArrayOf*)A.getDataPointer();
-            for (int i = 0; i < A.getLength(); i++) {
+            for (int i = 0; i < A.getElementCount(); i++) {
                 packMPI(dp[i], buffer, bufsize, packpos, comm);
             }
         } else {
@@ -133,7 +133,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 }
             } else {
                 auto* dp = (ArrayOf*)A.getDataPointer();
-                for (int i = 0; i < A.getLength() * fieldcnt; i++) {
+                for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
                     packMPI(dp[i], buffer, bufsize, packpos, comm);
                 }
             }
@@ -155,44 +155,44 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packMPI(N, buffer, bufsize, packpos, comm);
                 packMPI(NNZ, buffer, bufsize, packpos, comm);
             } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_UINT8_T, buffer,
+                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer,
                     bufsize, packpos, comm);
             }
             break;
         case NLS_UINT8:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_UINT8_T, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT8_T, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_INT8:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_INT8_T, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT8_T, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_UINT16:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_UNSIGNED_SHORT, buffer,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UNSIGNED_SHORT, buffer,
                 bufsize, packpos, comm);
             break;
         case NLS_INT16:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_SHORT, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_SHORT, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_UINT32:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_UINT32_T, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT32_T, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_INT32:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_INT32_T, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT32_T, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_UINT64:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_UINT64_T, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_UINT64_T, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_INT64:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_INT64_T, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_INT64_T, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_SINGLE:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_FLOAT, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_FLOAT, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_DOUBLE:
@@ -210,12 +210,12 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packMPI(N, buffer, bufsize, packpos, comm);
                 packMPI(NNZ, buffer, bufsize, packpos, comm);
             } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_DOUBLE, buffer, bufsize,
+                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_DOUBLE, buffer, bufsize,
                     packpos, comm);
             }
             break;
         case NLS_SCOMPLEX:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength() * 2, MPI_FLOAT, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_FLOAT, buffer, bufsize,
                 packpos, comm);
             break;
         case NLS_DCOMPLEX:
@@ -233,12 +233,12 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packMPI(N, buffer, bufsize, packpos, comm);
                 packMPI(NNZ, buffer, bufsize, packpos, comm);
             } else {
-                MPI_Pack((void*)A.getDataPointer(), (int)A.getLength() * 2, MPI_DOUBLE, buffer,
+                MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount() * 2, MPI_DOUBLE, buffer,
                     bufsize, packpos, comm);
             }
             break;
         case NLS_CHAR:
-            MPI_Pack((void*)A.getDataPointer(), (int)A.getLength(), MPI_WCHAR, buffer, bufsize,
+            MPI_Pack((void*)A.getDataPointer(), (int)A.getElementCount(), MPI_WCHAR, buffer, bufsize,
                 packpos, comm);
             break;
         default: {
@@ -453,7 +453,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
         if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             int total = 0;
             auto* dp = (ArrayOf*)A.getDataPointer();
-            for (int i = 0; i < A.getLength(); i++) {
+            for (int i = 0; i < A.getElementCount(); i++) {
                 total += getArrayOfFootPrint(dp[i], comm);
             }
             return (total + overhead);
@@ -469,11 +469,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
         int isclassstruct(static_cast<int>(A.isClassStruct()));
         if (isclassstruct) {
             ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
-            fieldsize += getCanonicalSize((int)classnameAsArray.getLength(), MPI_WCHAR, comm);
+            fieldsize += getCanonicalSize((int)classnameAsArray.getElementCount(), MPI_WCHAR, comm);
         }
         auto* dp = (ArrayOf*)A.getDataPointer();
         int total = 0;
-        for (int i = 0; i < A.getLength() * fieldcount; i++) {
+        for (int i = 0; i < A.getElementCount() * fieldcount; i++) {
             total += getArrayOfFootPrint(dp[i], comm);
         }
         return (total + overhead + fieldsize + 1);
@@ -495,26 +495,26 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             int sNNZ = getArrayOfFootPrint(NNZ, comm);
             return (overhead + sI + sJ + sV + sM + sN + sNNZ);
         } else {
-            return (overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
+            return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT8_T, comm));
         }
     case NLS_UINT8:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT8_T, comm));
     case NLS_INT8:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_INT8_T, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_INT8_T, comm));
     case NLS_UINT16:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_UNSIGNED_SHORT, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UNSIGNED_SHORT, comm));
     case NLS_INT16:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_SHORT, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_SHORT, comm));
     case NLS_UINT32:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_UINT32_T, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT32_T, comm));
     case NLS_INT32:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_INT32_T, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_INT32_T, comm));
     case NLS_UINT64:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_UINT64_T, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT64_T, comm));
     case NLS_INT64:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_INT64_T, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_INT64_T, comm));
     case NLS_SINGLE:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_FLOAT, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_FLOAT, comm));
     case NLS_DOUBLE:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
@@ -531,10 +531,10 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             int sNNZ = getArrayOfFootPrint(NNZ, comm);
             return (overhead + sI + sJ + sV + sM + sN + sNNZ);
         } else {
-            return (overhead + getCanonicalSize((int)A.getLength(), MPI_DOUBLE, comm));
+            return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_DOUBLE, comm));
         }
     case NLS_SCOMPLEX:
-        return (overhead + getCanonicalSize((int)A.getLength() * 2, MPI_FLOAT, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount() * 2, MPI_FLOAT, comm));
     case NLS_DCOMPLEX:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
@@ -551,10 +551,10 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             int sNNZ = getArrayOfFootPrint(NNZ, comm);
             return (overhead + sI + sJ + sV + sM + sN + sNNZ);
         } else {
-            return (overhead + getCanonicalSize((int)A.getLength() * 2, MPI_DOUBLE, comm));
+            return (overhead + getCanonicalSize((int)A.getElementCount() * 2, MPI_DOUBLE, comm));
         }
     case NLS_CHAR:
-        return (overhead + getCanonicalSize((int)A.getLength(), MPI_WCHAR, comm));
+        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_WCHAR, comm));
     }
     return 0;
 }

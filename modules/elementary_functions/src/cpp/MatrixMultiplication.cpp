@@ -394,7 +394,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
             return res;
         }
         // M(mxn) * [](nx0) = [](mx0)
-        if ((dimsB[0] == dimsA[1]) && (dimsB.getLength() < 3)) {
+        if ((dimsB[0] == dimsA[1]) && (dimsB.getElementCount() < 3)) {
             Dimensions dimsC(dimsA[0], 0);
             ArrayOf res = ArrayOf::emptyConstructor(dimsC);
             res.promoteType(A.getDataClass());

@@ -54,14 +54,14 @@ Cos(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::cos(Az[k]);
         }
         if (R.allReal()) {
@@ -70,26 +70,26 @@ Cos(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = cos(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::cos(Az[k]);
         }
         if (R.allReal()) {
@@ -98,13 +98,13 @@ Cos(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = cos(ptrA[k]);
         }
     } break;
@@ -132,14 +132,14 @@ Sin(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::sin(Az[k]);
         }
         if (R.allReal()) {
@@ -148,26 +148,26 @@ Sin(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = std::sin(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::sin(Az[k]);
         }
         if (R.allReal()) {
@@ -176,13 +176,13 @@ Sin(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = sin(ptrA[k]);
         }
     } break;
@@ -210,14 +210,14 @@ Tan(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::tan(Az[k]);
         }
         if (R.allReal()) {
@@ -226,26 +226,26 @@ Tan(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = tan(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = tan(Az[k]);
         }
         if (R.allReal()) {
@@ -254,13 +254,13 @@ Tan(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = tan(ptrA[k]);
         }
     } break;
@@ -288,14 +288,14 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::cosh(Az[k]);
         }
         if (R.allReal()) {
@@ -304,26 +304,26 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = cosh(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::cosh(Az[k]);
         }
         if (R.allReal()) {
@@ -332,13 +332,13 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = cosh(ptrA[k]);
         }
     } break;
@@ -366,14 +366,14 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::sinh(Az[k]);
         }
         if (R.allReal()) {
@@ -382,26 +382,26 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = sinh(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::sinh(Az[k]);
         }
         if (R.allReal()) {
@@ -410,13 +410,13 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = sinh(ptrA[k]);
         }
     } break;
@@ -444,14 +444,14 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::tanh(Az[k]);
         }
         if (R.allReal()) {
@@ -460,26 +460,26 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = tanh(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::tanh(Az[k]);
         }
         if (R.allReal()) {
@@ -488,13 +488,13 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = tanh(ptrA[k]);
         }
     } break;
@@ -522,14 +522,14 @@ Acos(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::acos(Az[k]);
         }
         if (R.allReal()) {
@@ -552,27 +552,27 @@ Acos(const ArrayOf& A, bool& needToOverload)
             R = Acos(R, needToOverload);
         } else {
             single* ptrR = (single*)ArrayOf::allocateArrayOf(
-                NLS_SINGLE, A.getLength(), stringVector(), false);
+                NLS_SINGLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
             single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+            for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = acos(ptrA[k]);
             }
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::acos(Az[k]);
         }
         if (R.allReal()) {
@@ -595,13 +595,13 @@ Acos(const ArrayOf& A, bool& needToOverload)
             R = Acos(R, needToOverload);
         } else {
             double* ptrR = (double*)ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, A.getLength(), stringVector(), false);
+                NLS_DOUBLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
             double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+            for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = acos(ptrA[k]);
             }
         }
@@ -630,14 +630,14 @@ Asin(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::asin(Az[k]);
         }
         if (R.allReal()) {
@@ -661,27 +661,27 @@ Asin(const ArrayOf& A, bool& needToOverload)
             R = Asin(R, needToOverload);
         } else {
             single* ptrR = (single*)ArrayOf::allocateArrayOf(
-                NLS_SINGLE, A.getLength(), stringVector(), false);
+                NLS_SINGLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
             single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+            for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = asin(ptrA[k]);
             }
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::asin(Az[k]);
         }
         if (R.allReal()) {
@@ -705,13 +705,13 @@ Asin(const ArrayOf& A, bool& needToOverload)
             R = Asin(R, needToOverload);
         } else {
             double* ptrR = (double*)ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, A.getLength(), stringVector(), false);
+                NLS_DOUBLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
             double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+            for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = asin(ptrA[k]);
             }
         }
@@ -740,14 +740,14 @@ Atan(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::atan(Az[k]);
         }
         if (R.allReal()) {
@@ -756,26 +756,26 @@ Atan(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         single* ptrR
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = atan(ptrA[k]);
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::atan(Az[k]);
         }
         if (R.allReal()) {
@@ -784,13 +784,13 @@ Atan(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DOUBLE: {
         double* ptrR
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); ++k) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = atan(ptrA[k]);
         }
     } break;

@@ -98,7 +98,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
     if (!src.isVector()) {
         Error(_W("Argument to diagonal constructor must by a vector!"));
     }
-    indexType length = src.getLength();
+    indexType length = src.getElementCount();
     indexType M = 0;
     M = length + abs(diagonalOrder);
     Dimensions dims;

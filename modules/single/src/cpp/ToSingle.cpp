@@ -33,10 +33,10 @@ ArrayOf
 ToSingle(const ArrayOf& A)
 {
     single* pSingle
-        = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+        = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getElementCount(), stringVector(), false);
     ArrayOf r = ArrayOf(NLS_SINGLE, A.getDimensions(), pSingle, A.isSparse());
     T* ptrA = (T*)A.getDataPointer();
-    ompIndexType N = (ompIndexType)A.getLength();
+    ompIndexType N = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif

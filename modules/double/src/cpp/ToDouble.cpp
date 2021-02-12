@@ -35,10 +35,10 @@ ArrayOf
 ToDouble(ArrayOf A)
 {
     double* pDouble
-        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
     ArrayOf r = ArrayOf(NLS_DOUBLE, A.getDimensions(), pDouble, A.isSparse());
     T* ptrA = (T*)A.getDataPointer();
-    ompIndexType N = (ompIndexType)A.getLength();
+    ompIndexType N = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -143,13 +143,13 @@ ToDouble(ArrayOf A, bool& needToOverload)
             return ArrayOf();
         }
         double* pDouble = (double*)ArrayOf::allocateArrayOf(
-            NLS_SCOMPLEX, A.getLength() * 2, stringVector(), false);
+            NLS_SCOMPLEX, A.getElementCount() * 2, stringVector(), false);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pDouble, A.isSparse());
         auto* pSingle = (float*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength() * 2; k++) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount() * 2; k++) {
             pDouble[k] = static_cast<double>(pSingle[k]);
         }
         return r;

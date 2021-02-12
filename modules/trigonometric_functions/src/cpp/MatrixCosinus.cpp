@@ -34,7 +34,7 @@ template <class T>
 ArrayOf
 cosmComplex(const ArrayOf& A)
 {
-    T* ptrR = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getLength(), stringVector(), false);
+    T* ptrR = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getElementCount(), stringVector(), false);
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)ptrR);
     Dimensions dimsA = A.getDimensions();

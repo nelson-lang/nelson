@@ -44,7 +44,8 @@
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
 #pragma once
-#include "ArrayOf.hpp"
+#include "Types.hpp"
+#include "Dimensions.hpp"
 #include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {

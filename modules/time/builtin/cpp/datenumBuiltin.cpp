@@ -58,7 +58,7 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval.push_back(ArrayOf::emptyConstructor(dims));
                 return retval;
             } else if (param1.isRowVector()) {
-                indexType len = param1.getLength();
+                indexType len = param1.getElementCount();
                 if (len == 3) {
                     param1.promoteType(NLS_DOUBLE);
                     auto* ptrDouble = (double*)param1.getDataPointer();

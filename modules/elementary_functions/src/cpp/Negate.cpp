@@ -55,22 +55,22 @@ Negate(ArrayOf A)
     }
     A.promoteType(Aclass);
     C = ArrayOf(Aclass, A.getDimensions(), nullptr);
-    void* Cp = Nelson::ArrayOf::allocateArrayOf(Aclass, A.getLength(), stringVector(), false);
+    void* Cp = Nelson::ArrayOf::allocateArrayOf(Aclass, A.getElementCount(), stringVector(), false);
     switch (Aclass) {
     case NLS_INT32:
-        negate<int32>(A.getLength(), static_cast<int32*>(Cp), (int32*)A.getDataPointer());
+        negate<int32>(A.getElementCount(), static_cast<int32*>(Cp), (int32*)A.getDataPointer());
         break;
     case NLS_SINGLE:
-        negate<float>(A.getLength(), static_cast<float*>(Cp), (float*)A.getDataPointer());
+        negate<float>(A.getElementCount(), static_cast<float*>(Cp), (float*)A.getDataPointer());
         break;
     case NLS_DOUBLE:
-        negate<double>(A.getLength(), static_cast<double*>(Cp), (double*)A.getDataPointer());
+        negate<double>(A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
         break;
     case NLS_SCOMPLEX:
-        negate<float>(2 * A.getLength(), static_cast<float*>(Cp), (float*)A.getDataPointer());
+        negate<float>(2 * A.getElementCount(), static_cast<float*>(Cp), (float*)A.getDataPointer());
         break;
     case NLS_DCOMPLEX:
-        negate<double>(2 * A.getLength(), static_cast<double*>(Cp), (double*)A.getDataPointer());
+        negate<double>(2 * A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
         break;
     }
     C.setDataPointer(Cp);

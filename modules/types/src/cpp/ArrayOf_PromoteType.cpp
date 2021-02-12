@@ -281,7 +281,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             true);
         return;
     }
-    indexType count = getLength();
+    indexType count = getElementCount();
     void* dstPtr = nullptr;
     switch (dp->dataClass) {
     case NLS_HANDLE: {
@@ -328,10 +328,10 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
                          "combination "
                          "requires fields to be deleted from one of the structures."));
             }
-            void* dstPtr = allocateArrayOf(dp->dataClass, getLength(), fNames, false);
+            void* dstPtr = allocateArrayOf(dp->dataClass, getElementCount(), fNames, false);
             const ArrayOf* src_rp = (const ArrayOf*)dp->getData();
             ArrayOf* dst_rp = (ArrayOf*)dstPtr;
-            indexType elCount(getLength());
+            indexType elCount(getElementCount());
             indexType fieldCount(dp->fieldNames.size());
             indexType newFieldCount(fNames.size());
             ;

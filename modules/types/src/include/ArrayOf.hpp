@@ -48,6 +48,7 @@
 #include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
+#include "Data.hpp"
 #include "nlsTypes_exports.h"
 #include <iostream>
 #include <string>
@@ -61,8 +62,6 @@ using ArrayOfVector = std::vector<ArrayOf>;
 NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
 
 using ArrayOfMatrix = std::vector<ArrayOfVector>;
-
-class Data;
 
 /** Ordered data array, the base Nelson data type.
  * The ArrayOf class is the base class of all data types.  It represents
@@ -204,13 +203,21 @@ public:
      */
     int
     getReferenceCount() const;
+    //=============================================================================
     /**
      * Get the length of the array as a vector.  This is equivalent
      * to computing length(this(:)).
      * getDimensions().getElementCount()
      */
-    indexType
-    getLength() const;
+    inline indexType
+    getElementCount() const
+    {
+        if (dp)
+            return dp->dimensions.getElementCount();
+        else
+            return (indexType)0;
+    }
+    //=============================================================================
     /**
      * Number of array dimensions
      * equivalent to getDimensions().getLength()
@@ -361,9 +368,6 @@ public:
 
     indexType
     getRows() const;
-
-    indexType
-    getElementCount() const;
 
     /**
      * Returns TRUE if we are empty (we have no elements).
