@@ -40,10 +40,9 @@ ClassName(ArrayOf In)
     } else if (In.getDataClass() == NLS_HANDLE) {
         classString = NLS_HANDLE_STR;
         /* handle can be 'handle' or another type but not mixed */
-        Dimensions dimsIn = In.getDimensions();
         auto* qp = (nelson_handle*)In.getDataPointer();
         if (qp) {
-            indexType elementCount = dimsIn.getElementCount();
+            indexType elementCount = In.getElementCount();
             for (indexType k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);

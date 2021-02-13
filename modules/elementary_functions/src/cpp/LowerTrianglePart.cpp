@@ -35,14 +35,13 @@ ArrayOf
 LowerTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
 {
     Class classA = A.getDataClass();
-    Dimensions dimsA = A.getDimensions();
-    indexType nbElements = dimsA.getElementCount();
+    indexType nbElements = A.getElementCount();
     ArrayOf res = A;
     res.ensureSingleOwner();
     T* D = (T*)res.getDataPointer();
     auto* Dz = reinterpret_cast<std::complex<T>*>(D);
-    indexType C = dimsA.getColumns();
-    indexType R = dimsA.getRows();
+    indexType C = A.getColumns();
+    indexType R = A.getRows();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -59,12 +58,11 @@ ArrayOf
 LowerTrianglePartReal(const ArrayOf& A, signedIndexType offset)
 {
     Class classA = A.getDataClass();
-    Dimensions dimsA = A.getDimensions();
     ArrayOf res = A;
     res.ensureSingleOwner();
     T* D = (T*)res.getDataPointer();
-    indexType C = dimsA.getColumns();
-    indexType R = dimsA.getRows();
+    indexType C = A.getColumns();
+    indexType R = A.getRows();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -84,7 +82,6 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     if (!(A.is2D() || A.isVector() || A.isEmpty())) {
         Error(_W("Vector or matrix 2D expected."));
     }
-    Dimensions dimsA = A.getDimensions();
     switch (A.getDataClass()) {
     case NLS_LOGICAL: {
         if (A.isSparse()) {

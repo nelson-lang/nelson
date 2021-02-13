@@ -108,13 +108,12 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n)
 {
     ArrayOf res;
     res = SparseConstructor(I, J, V);
-    Dimensions dims = res.getDimensions();
     Dimensions newdims(m, n);
-    if (dims.getElementCount() > newdims.getElementCount()) {
+    if (res.getElementCount() > newdims.getElementCount()) {
         Error(_W("Index exceeds matrix dimensions."));
     }
     void* spmat = Eigen_CopyResizeSparseMatrix(
-        res.getDataClass(), res.getSparseDataPointer(), dims.getRows(), dims.getColumns(), m, n);
+        res.getDataClass(), res.getSparseDataPointer(), res.getRows(), res.getColumns(), m, n);
     return ArrayOf(V.getDataClass(), newdims, spmat, true);
 }
 //=============================================================================

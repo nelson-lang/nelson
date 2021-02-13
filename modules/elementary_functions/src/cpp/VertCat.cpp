@@ -42,12 +42,10 @@ VertCatTemplate(ArrayOf A, ArrayOf B, Dimensions& dimsRes)
     void* pRes = ArrayOf::allocateArrayOf(
         A.getDataClass(), dimsRes.getRows() * dimsRes.getColumns(), stringVector(), false);
     T* ptrC = (T*)pRes;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        ptrA, dimsA.getRows(), dimsA.getColumns());
+        ptrA, A.getRows(), A.getColumns());
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        ptrB, dimsB.getRows(), dimsB.getColumns());
+        ptrB, B.getRows(), B.getColumns());
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(
         ptrC, dimsRes.getRows(), dimsRes.getColumns());
     matC << matA, matB;
@@ -64,14 +62,12 @@ VertCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions& dimsRes)
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
         Cz, dimsRes.getRows(), dimsRes.getColumns());
-    Dimensions dimsA = A.getDimensions();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        Az, dimsA.getRows(), dimsA.getColumns());
-    Dimensions dimsB = B.getDimensions();
+        Az, A.getRows(), A.getColumns());
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        Bz, dimsB.getRows(), dimsB.getColumns());
+        Bz, B.getRows(), B.getColumns());
     matC << matA, matB;
     return ArrayOf(A.getDataClass(), dimsRes, pRes);
 }
@@ -164,11 +160,11 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         bSuccess = false;
         return ArrayOf();
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns()) {
+    if (A.getColumns() != B.getColumns()) {
         Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
     if (dimsA.getLength() != dimsB.getLength()) {
         Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
@@ -209,10 +205,8 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         return res;
     }
     if (A.is2D() && B.is2D()) {
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
         indexType newColumnsSize = dimsA.getColumns();
-        indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
+        indexType newRowsSize = A.getRows() + B.getRows();
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
 
         switch (A.getDataClass()) {

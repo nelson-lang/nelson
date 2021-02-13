@@ -364,11 +364,11 @@ Evaluator::needToOverloadOperator(const ArrayOf& a)
 ArrayOf
 Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
 {
-    Dimensions dim(v.getDimensions());
     ArrayOf res;
     if (count == 1) {
-        res = ArrayOf::doubleConstructor(static_cast<double>(dim.getElementCount()));
+        res = ArrayOf::doubleConstructor(static_cast<double>(v.getElementCount()));
     } else {
+        Dimensions dim(v.getDimensions());
         res = ArrayOf::doubleConstructor(static_cast<double>(dim.getDimensionLength(index)));
     }
     return res;
@@ -800,16 +800,16 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
                 m.push_back(n[i]);
             }
         } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
-            Dimensions dim = subRoot.getDimensions();
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
-                tmp = dim.getElementCount();
+                tmp = subRoot.getElementCount();
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
                 } else {
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
                 }
             } else {
+                Dimensions dim = subRoot.getDimensions();
                 tmp = dim.getDimensionLength(index);
                 if (tmp == 0) {
                     m.push_back(ArrayOf::characterArrayConstructor(":"));
@@ -1883,9 +1883,8 @@ Evaluator::getContext()
 ArrayOf
 Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
 {
-    Dimensions rhsDimensions;
     ArrayOfVector m;
-    rhsDimensions = r.getDimensions();
+    Dimensions rhsDimensions = r.getDimensions();
     if (t->opNum == (OP_PARENS)) {
         m = expressionList(t->down, r);
         if (m.size() == 0) {
@@ -2318,8 +2317,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
     if (bDeal) {
         // C = {rand(3),nan(3),zeros(3),inf(3)}
         // [a, b, c, d] = C{ : }
-        Dimensions rhsDimensions;
-        rhsDimensions = r.getDimensions();
+        Dimensions rhsDimensions = r.getDimensions();
         m = expressionList(fAST->down->down, r);
         if (m.size() == 0) {
             Error(ERROR_INDEX_EXPRESSION_EXPECTED);

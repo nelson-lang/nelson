@@ -68,8 +68,7 @@ GOVector4DProperty::set(ArrayOf _value)
     if (_value.isSparse()) {
         Error(_W("full values expected."));
     }
-    Dimensions dims = _value.getDimensions();
-    if (dims.getElementCount() != 4) {
+    if (_value.getElementCount() != 4) {
         Error(_W("Value must be a 4 element vector."));
     }
     _value.promoteType(NLS_DOUBLE);

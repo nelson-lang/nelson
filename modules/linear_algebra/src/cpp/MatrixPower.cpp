@@ -43,8 +43,7 @@ matrixScalarPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     double value = BB.getContentAsDoubleScalar();
     if (value == rint(value)) {
         if (value == 0) {
-            Dimensions dimsA = A.getDimensions();
-            return Eye(dimsA.getRows(), dimsA.getColumns(), A.getDataClass());
+            return Eye(A.getRows(), A.getColumns(), A.getDataClass());
         }
         if (value == 1) {
             return A;

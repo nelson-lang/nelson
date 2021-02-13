@@ -44,10 +44,9 @@ Nelson::GraphicsGateway::graphic_object_classBuiltin(int nLhs, const ArrayOfVect
     if (paramGo.getDataClass() != NLS_GO_HANDLE) {
         Error(_W("graphic_object expected."));
     }
-    Dimensions dims = paramGo.getDimensions();
     std::string classType = NLS_GO_HANDLE_STR;
-    if (!dims.isEmpty(false)) {
-        if (dims.isScalar()) {
+    if (!paramGo.isEmpty(false)) {
+        if (paramGo.isScalar()) {
             auto* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
             if (go != nullptr) {
                 classType = go->getType();
@@ -58,7 +57,7 @@ Nelson::GraphicsGateway::graphic_object_classBuiltin(int nLhs, const ArrayOfVect
             if (go != nullptr) {
                 classType = go->getType();
             }
-            for (size_t k = 1; k < dims.getElementCount(); ++k) {
+            for (size_t k = 1; k < paramGo.getElementCount(); ++k) {
                 go = (GraphicObject*)NELSON_HANDLE_TO_PTR(qp[k]);
                 if (go != nullptr) {
                     if (classType != go->getType()) {

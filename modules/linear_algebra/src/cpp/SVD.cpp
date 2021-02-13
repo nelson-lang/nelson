@@ -41,9 +41,8 @@ SVD_double(ArrayOf A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
@@ -71,9 +70,8 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
@@ -102,9 +100,8 @@ SVD_single(ArrayOf A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
@@ -132,9 +129,8 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
@@ -161,9 +157,8 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
 static void
 SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
@@ -321,9 +316,8 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
 static void
 SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
@@ -470,9 +464,8 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
 static void
 SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
@@ -622,9 +615,8 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
 static void
 SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
-    Dimensions dimsA = A.getDimensions();
-    int m = static_cast<int>(dimsA.getRows());
-    int n = static_cast<int>(dimsA.getColumns());
+    int m = static_cast<int>(A.getRows());
+    int n = static_cast<int>(A.getColumns());
     auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {

@@ -84,7 +84,6 @@ ArrayOf::copyObject(const ArrayOf& copy)
 {
     if (copy.dp) {
         dp = copy.dp->getCopy();
-        dp->refreshDimensionCache();
     } else {
         dp = nullptr;
     }
@@ -501,7 +500,6 @@ ArrayOf::operator=(const ArrayOf& copy)
     }
     if (copy.dp) {
         dp = copy.dp->getCopy();
-        dp->refreshDimensionCache();
     } else {
         dp = nullptr;
     }

@@ -36,13 +36,13 @@ UpperTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
 {
     Class classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
-    indexType nbElements = dimsA.getElementCount();
+    indexType nbElements = A.getElementCount();
     T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);
     auto* Dz = reinterpret_cast<std::complex<T>*>(D);
     T* S = (T*)A.getDataPointer();
     auto* Sz = reinterpret_cast<std::complex<T>*>(S);
-    indexType C = dimsA.getColumns();
-    indexType R = dimsA.getRows();
+    indexType C = A.getColumns();
+    indexType R = A.getRows();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -61,11 +61,11 @@ UpperTrianglePartReal(const ArrayOf& A, signedIndexType offset)
 {
     Class classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
-    indexType nbElements = dimsA.getElementCount();
+    indexType nbElements = A.getElementCount();
     T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);
     T* S = (T*)A.getDataPointer();
-    indexType C = dimsA.getColumns();
-    indexType R = dimsA.getRows();
+    indexType C = A.getColumns();
+    indexType R = A.getRows();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -85,7 +85,6 @@ UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     if (!(A.is2D() || A.isVector() || A.isEmpty())) {
         Error(_W("Vector or matrix 2D expected."));
     }
-    Dimensions dimsA = A.getDimensions();
     switch (A.getDataClass()) {
     case NLS_LOGICAL: {
         if (A.isSparse()) {

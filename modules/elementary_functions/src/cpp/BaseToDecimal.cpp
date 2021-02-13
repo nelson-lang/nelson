@@ -86,8 +86,7 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
         baseConverted.clear();
         lastBase = ibase;
     }
-    Dimensions dimsA = A.getDimensions();
-    if (dimsA.isEmpty(false)) {
+    if (A.isEmpty(false)) {
         baseConverted.clear();
         res = ArrayOf::emptyConstructor();
     } else {
@@ -103,9 +102,9 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
                 bool dummy;
                 ArrayOf Transposed = Transpose(A, dummy);
                 std::wstring wstr = Transposed.getContentAsArrayOfCharacters();
-                size_t commonLength = dimsA.getColumns();
-                elements.reserve(dimsA.getElementCount() / commonLength);
-                indexType elementCount = dimsA.getElementCount();
+                size_t commonLength = A.getColumns();
+                elements.reserve(A.getElementCount() / commonLength);
+                indexType elementCount = A.getElementCount();
                 for (indexType k = 0; k < elementCount; k = k + commonLength) {
                     std::wstring s = wstr.substr(k, commonLength);
                     elements.push_back(s);

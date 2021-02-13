@@ -57,7 +57,7 @@ static ArrayOf
 scalar_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = b.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* ptrA = (T*)a.getDataPointer();
     T* ptrB = (T*)b.getDataPointer();
@@ -123,7 +123,7 @@ vector_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     const T* ptrB = (const T*)b.getDataPointer();
     indexType q = 0;
     Dimensions dimsC = b.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = b.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {

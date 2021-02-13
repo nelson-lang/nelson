@@ -48,7 +48,7 @@ iswindowtypeQObject(ArrayOf A)
     nelson_handle* qp = (nelson_handle*)A.getDataPointer();
     if (qp) {
         logical* resArray = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
+            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         indexType elementCount = dimsA.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             nelson_handle hl = qp[k];

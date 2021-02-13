@@ -316,22 +316,21 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    Dimensions dimsM = m.getDimensions();
     if (m.isEmpty()) {
         ArrayOf* elements = nullptr;
-        size_t nbElements = dimsM.getElementCount();
+        size_t nbElements = m.getElementCount();
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
         }
-        return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
+        return ArrayOf(NLS_STRING_ARRAY, m.getElementCount(), elements);
     }
     switch (m.getDataClass()) {
     case NLS_CELL_ARRAY: {
         ArrayOf* elementsOutput = nullptr;
         auto* elementsCell = (ArrayOf*)m.getDataPointer();
-        size_t nbElements = dimsM.getElementCount();
+        size_t nbElements = m.getElementCount();
         try {
             elementsOutput = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
@@ -365,7 +364,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                 Error(_W("Unable to convert supplied object to a string."));
             }
         }
-        return ArrayOf(NLS_STRING_ARRAY, dimsM, elementsOutput);
+        return ArrayOf(NLS_STRING_ARRAY, m.getElementCount(), elementsOutput);
     } break;
     case NLS_LOGICAL: {
         return logicalToStringArray(m);

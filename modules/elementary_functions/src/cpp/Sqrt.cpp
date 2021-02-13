@@ -95,7 +95,7 @@ SqrtComplex(Class classDestination, const ArrayOf& A)
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
     T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+    ompIndexType elementCount = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -115,10 +115,9 @@ Sqrt(ArrayOf A, bool& needToOverload)
         if (A.isSparse()) {
             needToOverload = true;
         } else {
-            Dimensions dimsA = A.getDimensions();
             if (classA == NLS_DOUBLE) {
                 auto* ptrIn = (double*)A.getDataPointer();
-                if (haveNegativeValue<double>(ptrIn, dimsA.getElementCount())) {
+                if (haveNegativeValue<double>(ptrIn, A.getElementCount())) {
                     A.promoteType(NLS_DCOMPLEX);
                     res = SqrtComplex<double>(NLS_DCOMPLEX, A);
                 } else {
@@ -132,10 +131,9 @@ Sqrt(ArrayOf A, bool& needToOverload)
         if (A.isSparse()) {
             needToOverload = true;
         } else {
-            Dimensions dimsA = A.getDimensions();
             if (classA == NLS_SINGLE) {
                 auto* ptrIn = (single*)A.getDataPointer();
-                if (haveNegativeValue<single>(ptrIn, dimsA.getElementCount())) {
+                if (haveNegativeValue<single>(ptrIn, A.getElementCount())) {
                     A.promoteType(NLS_SCOMPLEX);
                     res = SqrtComplex<single>(NLS_SCOMPLEX, A);
                 } else {

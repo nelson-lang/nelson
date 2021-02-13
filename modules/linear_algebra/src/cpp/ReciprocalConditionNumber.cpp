@@ -37,9 +37,8 @@ static ArrayOf
 ReciprocalConditionNumber_Double(const ArrayOf& A)
 {
     ArrayOf rcond;
-    Dimensions dimsA = A.getDimensions();
-    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)dimsA.getRows(),
-        (Eigen::Index)dimsA.getColumns());
+    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getRows(),
+        (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::doubleConstructor(std::nan(""));
     } else {
@@ -59,8 +58,8 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
             R.ensureSingleOwner();
             double normA = 0;
             char norm = '1';
-            int m = static_cast<int>(dimsA.getRows());
-            int n = static_cast<int>(dimsA.getColumns());
+            int m = static_cast<int>(A.getRows());
+            int n = static_cast<int>(A.getColumns());
             int lda = m;
             normA = LAPACKE_dlange(
                 LAPACK_COL_MAJOR, norm, m, n, (const double*)R.getDataPointer(), lda);
@@ -151,9 +150,8 @@ static ArrayOf
 ReciprocalConditionNumber_Single(const ArrayOf& A)
 {
     ArrayOf rcond;
-    Dimensions dimsA = A.getDimensions();
-    Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)dimsA.getRows(),
-        (Eigen::Index)dimsA.getColumns());
+    Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getRows(),
+        (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::singleConstructor(std::nanf(""));
     } else {
@@ -172,8 +170,8 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
             R.ensureSingleOwner();
             single normA = 0;
             char norm = '1';
-            int m = static_cast<int>(dimsA.getRows());
-            int n = static_cast<int>(dimsA.getColumns());
+            int m = static_cast<int>(A.getRows());
+            int n = static_cast<int>(A.getColumns());
             int lda = m;
             normA = LAPACKE_slange(
                 LAPACK_COL_MAJOR, norm, m, n, (const single*)R.getDataPointer(), lda);
@@ -208,10 +206,9 @@ static ArrayOf
 ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
 {
     ArrayOf rcond;
-    Dimensions dimsA = A.getDimensions();
     auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(
-        Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+        Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::singleConstructor(std::nanf(""));
     } else {
@@ -232,8 +229,8 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
             auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
             single normA = 0;
             char norm = '1';
-            int m = static_cast<int>(dimsA.getRows());
-            int n = static_cast<int>(dimsA.getColumns());
+            int m = static_cast<int>(A.getRows());
+            int n = static_cast<int>(A.getColumns());
             int lda = m;
             normA = LAPACKE_clange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);
             int info = 0;

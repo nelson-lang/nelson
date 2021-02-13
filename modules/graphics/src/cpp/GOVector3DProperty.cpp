@@ -52,8 +52,7 @@ GOVector3DProperty::set(ArrayOf _value)
     if (_value.isSparse()) {
         Error(_W("full values expected."));
     }
-    Dimensions dims = _value.getDimensions();
-    if (dims.getElementCount() != 3) {
+    if (_value.getElementCount() != 3) {
         Error(_W("Value must be a 3 element vector."));
     }
     _value.promoteType(NLS_DOUBLE);

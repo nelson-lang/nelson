@@ -124,8 +124,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
         auto* qp = static_cast<ArrayOf*>(
             ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
         size_t l = 0;
-        indexType rowCount = param1.getDimensions()[0];
-        indexType colCount = param1.getDimensions()[1];
+        indexType rowCount = param1.getRows();
+        indexType colCount = param1.getColumns();
         for (indexType i = 0; i < rowCount; i++) {
             for (indexType j = 0; j < colCount; j++) {
                 qp[l] = arg[i + j * rowCount];

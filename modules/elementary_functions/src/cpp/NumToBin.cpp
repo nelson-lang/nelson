@@ -56,14 +56,13 @@ NumToBin(ArrayOf A, bool& needToOverload)
     if (A.isEmpty(false)) {
         res = ArrayOf::characterArrayConstructor("");
     } else {
-        Dimensions dims = A.getDimensions();
         stringVector vs;
-        vs.reserve(dims.getElementCount());
+        vs.reserve(A.getElementCount());
         size_t len = 0;
         switch (A.getDataClass()) {
         case NLS_LOGICAL: {
             auto* values = (logical*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
+            indexType elementCount = A.getElementCount();
             for (indexType k = 0; k < elementCount; ++k) {
                 std::string cstr = std::bitset<1>(values[k]).to_string();
                 vs.push_back(cstr);
@@ -71,7 +70,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
         } break;
         case NLS_DOUBLE: {
             auto* values = (double*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
+            indexType elementCount = A.getElementCount();
             for (indexType k = 0; k < elementCount; ++k) {
                 unsigned long long bits = *reinterpret_cast<unsigned long long*>(&values[k]);
                 std::string cstr = std::bitset<64>(bits).to_string();
@@ -80,7 +79,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
         } break;
         case NLS_SINGLE: {
             auto* values = (single*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
+            indexType elementCount = A.getElementCount();
             for (indexType k = 0; k < elementCount; ++k) {
                 unsigned long bits = *reinterpret_cast<unsigned long*>(&values[k]);
                 std::string cstr = std::bitset<32>(bits).to_string();

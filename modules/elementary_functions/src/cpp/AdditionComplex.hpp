@@ -60,7 +60,7 @@ matrix_scalar_complex_addition(Class classDestination, const ArrayOf& A, const A
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = A.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
@@ -83,7 +83,7 @@ matrix_matrix_complex_addition(Class classDestination, const ArrayOf& A, const A
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = A.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
@@ -107,10 +107,8 @@ ArrayOf
 row_column_complex_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    indexType rows = std::max(A.getRows(), B.getRows());
+    indexType columns = std::max(A.getColumns(), B.getColumns());
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -122,8 +120,8 @@ row_column_complex_addition(Class classDestination, const ArrayOf& A, const Arra
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getColumns(); i++) {
-        for (indexType j = 0; j < dimsB.getRows(); j++) {
+    for (indexType i = 0; i < A.getColumns(); i++) {
+        for (indexType j = 0; j < B.getRows(); j++) {
             Cz[m] = Az[i] + Bz[j];
             m++;
         }
@@ -136,10 +134,8 @@ ArrayOf
 column_row_complex_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    indexType rows = std::max(A.getRows(), B.getRows());
+    indexType columns = std::max(A.getColumns(), B.getColumns());
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -151,8 +147,8 @@ column_row_complex_addition(Class classDestination, const ArrayOf& A, const Arra
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     indexType m = 0;
-    indexType elementCountB = dimsB.getElementCount();
-    indexType elementCountA = dimsA.getElementCount();
+    indexType elementCountB = B.getElementCount();
+    indexType elementCountA = A.getElementCount();
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
             Cz[m] = Az[j] + Bz[i];
@@ -168,7 +164,6 @@ row_matrix_complex_addition(Class classDestination, const ArrayOf& A, const Arra
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
-    Dimensions dimsA = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
@@ -181,7 +176,7 @@ row_matrix_complex_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+            indexType m = i + j * A.getRows();
             Cz[m] = Az[q] + Bz[m];
         }
         q++;
@@ -195,9 +190,7 @@ matrix_row_complex_addition(Class classDestination, const ArrayOf& A, const Arra
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = A.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
@@ -209,7 +202,7 @@ matrix_row_complex_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+            indexType m = i + j * B.getRows();
             Cz[m] = Az[m] + Bz[q];
         }
         q++;
@@ -223,8 +216,7 @@ column_matrix_complex_addition(Class classDestination, const ArrayOf& A, const A
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = B.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
@@ -235,7 +227,7 @@ column_matrix_complex_addition(Class classDestination, const ArrayOf& A, const A
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+            indexType m = i + j * B.getRows();
             Cz[m] = Az[j] + Bz[m];
         }
     }
@@ -249,8 +241,7 @@ matrix_column_complex_addition(Class classDestination, const ArrayOf& A, const A
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    Dimensions dimsA = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = A.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
@@ -261,7 +252,7 @@ matrix_column_complex_addition(Class classDestination, const ArrayOf& A, const A
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+            indexType m = i + j * A.getRows();
             Cz[m] = Az[m] + Bz[j];
         }
     }

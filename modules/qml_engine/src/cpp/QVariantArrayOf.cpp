@@ -638,13 +638,12 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = stringlist;
     } break;
     case QMetaType::Type::QByteArray: {
-        Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
             Error(_W("vector expected."));
         }
         A.promoteType(NLS_INT8);
         int8* arrayInt8 = (int8*)A.getDataPointer();
-        QByteArray qbytearray((int)dimsA.getElementCount(), ' ');
+        QByteArray qbytearray((int)A.getElementCount(), ' ');
         int count = qbytearray.count();
         char* data = qbytearray.data();
         for (int k = 0; k < count; k++) {
@@ -924,9 +923,8 @@ NelsonTypeToQVariant(ArrayOf A)
     QVariant res;
     if (A.isVector()) {
         QVariantList qlistVariant;
-        Dimensions dimsA = A.getDimensions();
         T* nlsArray = (T*)A.getDataPointer();
-        indexType elementCount = dimsA.getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             QVariant element = QVariant(nlsArray[k]);
             qlistVariant.push_back(element);
@@ -935,10 +933,9 @@ NelsonTypeToQVariant(ArrayOf A)
         return res;
     } else {
         QVariantList qlistVariantRows;
-        Dimensions dimsA = A.getDimensions();
         T* nlsArray = (T*)A.getDataPointer();
-        indexType rows = dimsA.getRows();
-        indexType columns = dimsA.getColumns();
+        indexType rows = A.getRows();
+        indexType columns = A.getColumns();
         for (indexType i = 0; i < rows; i++) {
             QVariantList qlistVariantColumns;
             for (indexType j = 0; j < columns; j++) {
@@ -1044,10 +1041,9 @@ ArrayOfToQVariant(ArrayOf A)
             return res;
         } else {
             QVariantList qlistVariantRows;
-            Dimensions dimsA = A.getDimensions();
             ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
-            indexType rows = dimsA.getRows();
-            indexType columns = dimsA.getColumns();
+            indexType rows = A.getRows();
+            indexType columns = A.getColumns();
             for (indexType i = 0; i < rows; i++) {
                 QVariantList qlistVariantColumns;
                 for (indexType j = 0; j < columns; j++) {
@@ -1082,10 +1078,9 @@ ArrayOfToQVariant(ArrayOf A)
             }
         } else {
             QVariantList qlistVariantRows;
-            Dimensions dimsA = A.getDimensions();
             ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
-            indexType rows = dimsA.getRows();
-            indexType columns = dimsA.getColumns();
+            indexType rows = A.getRows();
+            indexType columns = A.getColumns();
             for (indexType i = 0; i < rows; i++) {
                 QVariantList qlistVariantColumns;
                 for (indexType j = 0; j < columns; j++) {

@@ -62,13 +62,12 @@ SwapBytes(ArrayOf A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Dimensions dimsA = A.getDimensions();
     switch (A.getDataClass()) {
     case NLS_UINT8: {
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint8*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -80,7 +79,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         int8* ptr = (int8*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -92,7 +91,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint16*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -104,7 +103,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int16*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -116,7 +115,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint32*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -128,7 +127,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int32*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -140,7 +139,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (uint64*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -152,7 +151,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (int64*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -164,7 +163,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         res = A;
         res.ensureSingleOwner();
         auto* ptr = (single*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -179,7 +178,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
             res = A;
             res.ensureSingleOwner();
             auto* ptr = (double*)res.getDataPointer();
-            ompIndexType elementCount = dimsA.getElementCount();
+            ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif

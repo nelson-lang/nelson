@@ -394,9 +394,8 @@ AudioplayerObject::setSamples(
         } else {
             audioData = data;
         }
-        Dimensions dimsAudioData = audioData.getDimensions();
-        rows = dimsAudioData.getRows();
-        columns = dimsAudioData.getColumns();
+        rows = audioData.getRows();
+        columns = audioData.getColumns();
         _NumberOfChannels = static_cast<int>(columns);
         if (_NumberOfChannels > pdi_output->maxOutputChannels) {
             errorMessage = _W("Too many output channels.");

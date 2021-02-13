@@ -87,7 +87,6 @@ DeterminantMatrix(const ArrayOf& A, bool& needToOverload)
         return ArrayOf::singleConstructor(1.0);
     }
     ArrayOf R;
-    Dimensions dimsA = A.getDimensions();
     if (A.isSparse()) {
         if (A.isComplex()) {
             doublecomplex result = DeterminantSparseComplexMatrix(A.getSparseDataPointer());
@@ -99,20 +98,20 @@ DeterminantMatrix(const ArrayOf& A, bool& needToOverload)
         if (A.isComplex()) {
             if (A.isDoubleClass()) {
                 doublecomplex result = DeterminantComplexMatrix<doublecomplex, double>(
-                    (double*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
+                    (double*)A.getDataPointer(), A.getRows(), A.getColumns());
                 R = ArrayOf::dcomplexConstructor(result.real(), result.imag());
             } else {
                 singlecomplex result = DeterminantComplexMatrix<singlecomplex, single>(
-                    (single*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
+                    (single*)A.getDataPointer(), A.getRows(), A.getColumns());
                 R = ArrayOf::dcomplexConstructor(result.real(), result.imag());
             }
         } else {
             if (A.isDoubleClass()) {
                 R = ArrayOf::doubleConstructor(DeterminantRealMatrix<double>(
-                    (double*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns()));
+                    (double*)A.getDataPointer(), A.getRows(), A.getColumns()));
             } else {
                 R = ArrayOf::singleConstructor(DeterminantRealMatrix<single>(
-                    (single*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns()));
+                    (single*)A.getDataPointer(), A.getRows(), A.getColumns()));
             }
         }
     }

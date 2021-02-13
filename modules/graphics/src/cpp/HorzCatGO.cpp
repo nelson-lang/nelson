@@ -39,10 +39,8 @@ HorzCatGO(ArrayOf A, ArrayOf B)
     if (B.getDataClass() != NLS_GO_HANDLE) {
         Error(ERROR_WRONG_ARGUMENT_2_TYPE_GRAPHIC_OBJECT_EXPECTED);
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     if (!A.isEmpty(true) && !B.isEmpty(true)) {
-        if (dimsA.getRows() != dimsB.getRows()) {
+        if (A.getRows() != B.getRows()) {
             Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
         }
     }
@@ -54,8 +52,8 @@ HorzCatGO(ArrayOf A, ArrayOf B)
         ArrayOf C(A);
         return C;
     }
-    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-    indexType newRowsSize = dimsA.getRows();
+    indexType newColumnsSize = A.getColumns() + B.getColumns();
+    indexType newRowsSize = A.getRows();
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     auto* ptrA = (nelson_handle*)A.getDataPointer();
@@ -64,9 +62,9 @@ HorzCatGO(ArrayOf A, ArrayOf B)
     if (newSize != 0) {
         auto* ptrC = static_cast<nelson_handle*>(pRes);
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(
-            ptrA, dimsA.getRows(), dimsA.getColumns());
+            ptrA, A.getRows(), A.getColumns());
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matB(
-            ptrB, dimsB.getRows(), dimsB.getColumns());
+            ptrB, B.getRows(), B.getColumns());
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matC(
             ptrC, dimsC.getRows(), dimsC.getColumns());
         matC << matA, matB;

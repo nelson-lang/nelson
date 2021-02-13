@@ -90,8 +90,7 @@ BinToNum(ArrayOf A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Dimensions dims = A.getDimensions();
-    if (dims.isEmpty(false)) {
+    if (A.isEmpty(false)) {
         res = ArrayOf::emptyConstructor();
     } else {
         stringVector strs;
@@ -113,11 +112,11 @@ BinToNum(ArrayOf A, bool& needToOverload)
             std::wstring wstr = Transposed.getContentAsArrayOfCharacters();
             boost::algorithm::trim(wstr);
 
-            commonLength = dims.getColumns();
+            commonLength = A.getColumns();
             if (!isValidLength(commonLength)) {
                 Error(_W("Invalid string length: 1, 32, 64 expected."));
             }
-            indexType elementCount = dims.getElementCount();
+            indexType elementCount = A.getElementCount();
             for (indexType k = 0; k < elementCount; k = k + commonLength) {
                 std::string s = wstring_to_utf8(wstr.substr(k, k + commonLength));
                 strs.push_back(s);

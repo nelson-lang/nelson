@@ -60,8 +60,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                 }
             }
         } else {
-            Dimensions dims2Dzeros(0, 0);
-            if (A.getDimensions().equals(dims2Dzeros)) {
+            if (A.isEmpty(true)) {
                 if (dim - 1 == 0) {
                     Dimensions dims(1, 0);
                     res = ArrayOf::emptyConstructor(dims);
@@ -120,9 +119,8 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
         }
         res = ArrayOf::logicalConstructor(bRes);
     } else if (!A.isEmpty() && !A.isVector()) {
-        Dimensions dims = A.getDimensions();
-        indexType mA = dims.getRows();
-        indexType nA = dims.getColumns();
+        indexType mA = A.getRows();
+        indexType nA = A.getColumns();
         Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matA(
             (logical*)A.getDataPointer(), mA, nA);
         if ((dim == 0) || (dim == 1)) {

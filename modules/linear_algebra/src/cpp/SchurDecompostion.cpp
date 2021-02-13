@@ -44,8 +44,8 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));
     }
-    Dimensions dimsA = A.getDimensions();
     if (A.isEmpty()) {
+        Dimensions dimsA = A.getDimensions();
         T = ArrayOf::emptyConstructor(dimsA);
         T.promoteType(A.getDataClass());
         return;
@@ -55,7 +55,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             A.promoteType(NLS_SCOMPLEX);
             auto* Az = reinterpret_cast<singlecomplex*>((double*)A.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matA(
-                Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             if (!matA.allFinite()) {
                 Error(_("Input argument must not contain NaN or Inf."));
             }
@@ -63,7 +63,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             T_temp.ensureSingleOwner();
             auto* Tz = reinterpret_cast<singlecomplex*>((double*)T_temp.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matT(
-                Tz, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                Tz, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             Eigen::ComplexSchur<Eigen::MatrixXcf> schur(matA);
             matT = schur.matrixT();
             T = T_temp;
@@ -71,7 +71,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             A.promoteType(NLS_DCOMPLEX);
             auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matA(
-                Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             if (!matA.allFinite()) {
                 Error(_("Input argument must not contain NaN or Inf."));
             }
@@ -79,7 +79,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             T_temp.ensureSingleOwner();
             auto* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matT(
-                Tz, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                Tz, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             Eigen::ComplexSchur<Eigen::MatrixXcd> schur(matA);
             matT = schur.matrixT();
             T = T_temp;
@@ -89,22 +89,22 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
         T_temp.ensureSingleOwner();
         if (A.getDataClass() == NLS_SINGLE) {
             Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-                (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             if (!matA.allFinite()) {
                 Error(_("Input argument must not contain NaN or Inf."));
             }
             Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(),
-                (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             Eigen::RealSchur<Eigen::MatrixXf> schur(matA);
             matT = schur.matrixT();
         } else {
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
-                (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             if (!matA.allFinite()) {
                 Error(_("Input argument must not contain NaN or Inf."));
             }
             Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(),
-                (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+                (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
             Eigen::RealSchur<Eigen::MatrixXd> schur(matA);
             matT = schur.matrixT();
         }

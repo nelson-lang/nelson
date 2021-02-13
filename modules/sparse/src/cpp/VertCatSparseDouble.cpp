@@ -50,9 +50,7 @@ VertCatSparseDouble(ArrayOf A, ArrayOf B)
         ArrayOf C(A);
         return C;
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns()) {
+    if (A.getColumns() != B.getColumns()) {
         Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     A = CtransposeSparseDouble(A);

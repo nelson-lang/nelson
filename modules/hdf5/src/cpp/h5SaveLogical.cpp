@@ -209,8 +209,8 @@ h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::str
         Error(ERROR_MEMORY_ALLOCATION);
     }
     int nz = 0;
-    void* ptrV = SparseToIJVDynamicFunction(VariableValue.getDataClass(), dims.getRows(),
-        dims.getColumns(), VariableValue.getSparseDataPointer(), ptrI, ptrJ, nz);
+    void* ptrV = SparseToIJVDynamicFunction(VariableValue.getDataClass(), VariableValue.getRows(),
+        VariableValue.getColumns(), VariableValue.getSparseDataPointer(), ptrI, ptrJ, nz);
 
     uint64* pI
         = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, nnz, stringVector(), false));

@@ -95,8 +95,6 @@ ArrayOf
 row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -108,7 +106,7 @@ row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+            indexType m = i + j * A.getRows();
             ptrC[m] = ptrA[q] + ptrB[m];
         }
         q++;
@@ -125,14 +123,12 @@ column_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+            indexType m = i + j * B.getRows();
             ptrC[m] = ptrA[j] + ptrB[m];
         }
     }
@@ -145,12 +141,10 @@ matrix_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = A.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
@@ -158,7 +152,7 @@ matrix_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+            indexType m = i + j * B.getRows();
             ptrC[m] = ptrA[m] + ptrB[q];
         }
         q++;
@@ -172,17 +166,15 @@ matrix_column_real_addition(Class classDestination, const ArrayOf& A, const Arra
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = A.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+            indexType m = i + j * A.getRows();
             ptrC[m] = ptrA[m] + ptrB[j];
         }
     }
@@ -194,10 +186,8 @@ ArrayOf
 row_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    indexType rows = std::max(A.getRows(), B.getRows());
+    indexType columns = std::max(A.getColumns(), B.getColumns());
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -207,8 +197,8 @@ row_column_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     T* ptrC = (T*)Cp;
 
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getColumns(); i++) {
-        for (indexType j = 0; j < dimsB.getRows(); j++) {
+    for (indexType i = 0; i < A.getColumns(); i++) {
+        for (indexType j = 0; j < B.getRows(); j++) {
             ptrC[m] = ptrA[i] + ptrB[j];
             m++;
         }
@@ -221,10 +211,8 @@ ArrayOf
 column_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    indexType rows = std::max(A.getRows(), B.getRows());
+    indexType columns = std::max(A.getColumns(), B.getColumns());
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -234,8 +222,8 @@ column_row_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     T* ptrC = (T*)Cp;
 
     indexType m = 0;
-    indexType elementCountA = dimsA.getElementCount();
-    indexType elementCountB = dimsB.getElementCount();
+    indexType elementCountA = A.getElementCount();
+    indexType elementCountB = B.getElementCount();
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
             ptrC[m] = ptrA[j] + ptrB[i];

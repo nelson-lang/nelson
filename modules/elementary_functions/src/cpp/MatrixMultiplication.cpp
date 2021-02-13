@@ -62,17 +62,15 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, mC, nC);
-    Dimensions dimA = A.getDimensions();
-    size_t mA = dimA.getRows();
-    size_t nA = dimA.getColumns();
-    Dimensions dimB = B.getDimensions();
-    size_t mB = dimB.getRows();
-    size_t nB = dimB.getColumns();
+    size_t mA = A.getRows();
+    size_t nA = A.getColumns();
+    size_t mB = B.getRows();
+    size_t nB = B.getColumns();
     if (A.isScalar()) {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
         T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
-        ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
+        ompIndexType elementCount = (ompIndexType)B.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -86,7 +84,7 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
         T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
         matC = matA.array() * ptrB[0];
-        ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
+        ompIndexType elementCount = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
         for (ompIndexType k = 0; k < elementCount; k++) {
@@ -130,17 +128,15 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
     void* Cp = new_with_exception<T>(Clen, false);
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
-    Dimensions dimA = A.getDimensions();
-    size_t mA = dimA.getRows();
-    size_t nA = dimA.getColumns();
-    Dimensions dimB = B.getDimensions();
-    size_t mB = dimB.getRows();
-    size_t nB = dimB.getColumns();
+    size_t mA = A.getRows();
+    size_t nA = A.getColumns();
+    size_t mB = B.getRows();
+    size_t nB = B.getColumns();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
     if (A.isScalar()) {
-        ompIndexType elementCountB = (ompIndexType)dimB.getElementCount();
+        ompIndexType elementCountB = (ompIndexType)B.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -148,7 +144,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = scalar_scalar_integer_times<T>(ptrA[0], ptrB[k]);
         }
     } else if (B.isScalar()) {
-        ompIndexType elementCountA = (ompIndexType)dimA.getElementCount();
+        ompIndexType elementCountA = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -193,12 +189,10 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(Cz, mC, nC);
-    Dimensions dimA = A.getDimensions();
-    size_t mA = dimA.getRows();
-    size_t nA = dimA.getColumns();
-    Dimensions dimB = B.getDimensions();
-    size_t mB = dimB.getRows();
-    size_t nB = dimB.getColumns();
+    size_t mA = A.getRows();
+    size_t nA = A.getColumns();
+    size_t mB = B.getRows();
+    size_t nB = B.getColumns();
     if (A.isScalar() && B.isScalar()) {
         std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.getDataPointer());
         std::complex<T> cxa = Az[0];
@@ -226,7 +220,7 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
-            ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
+            ompIndexType elementCount = (ompIndexType)B.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
             for (ompIndexType k = 0; k < elementCount; k++) {
@@ -250,7 +244,7 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
                 A.getDataClass(), Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(A.getDataClass(), Cdim, Cp);
         } else {
-            ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
+            ompIndexType elementCount = (ompIndexType)A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
             for (ompIndexType k = 0; k < elementCount; k++) {

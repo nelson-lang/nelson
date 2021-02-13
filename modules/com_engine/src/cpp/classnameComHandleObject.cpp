@@ -118,10 +118,9 @@ classnameComHandle(ArrayOf A, wstringVector& classname)
     if (className != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    Dimensions dimsA = A.getDimensions();
     auto* qp = (nelson_handle*)A.getDataPointer();
     if (qp) {
-        indexType elementCount = dimsA.getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);

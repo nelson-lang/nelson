@@ -46,13 +46,11 @@ solveSVDDecompositionReal(Class destinationClass, const ArrayOf& matA, const Arr
 
     Dimensions outDim(n, k);
 
-    Dimensions dimsA = matA.getDimensions();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matAz(
-        (T*)matA.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
+        (T*)matA.getDataPointer(), matA.getRows(), matA.getColumns());
 
-    Dimensions dimsB = matB.getDimensions();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matBz(
-        (T*)matB.getDataPointer(), dimsB.getRows(), dimsB.getColumns());
+        (T*)matB.getDataPointer(), matB.getRows(), matB.getColumns());
 
     T* ptrC = (T*)ArrayOf::allocateArrayOf(destinationClass, n * k);
     res = ArrayOf(destinationClass, outDim, ptrC);
@@ -90,16 +88,13 @@ solveSVDDecompositionComplex(Class destinationClass, const ArrayOf& matA, const 
 
     Dimensions outDim(n, k);
 
-    Dimensions dimsA = matA.getDimensions();
     std::complex<T>* ptrAz = reinterpret_cast<std::complex<T>*>((T*)matA.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matAz(
-        ptrAz, dimsA.getRows(), dimsA.getColumns());
-
-    Dimensions dimsB = matB.getDimensions();
+        ptrAz, matA.getRows(), matA.getColumns());
 
     std::complex<T>* ptrBz = reinterpret_cast<std::complex<T>*>((T*)matB.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matBz(
-        ptrBz, dimsB.getRows(), dimsB.getColumns());
+        ptrBz, matB.getRows(), matB.getColumns());
 
     T* ptrC = (T*)ArrayOf::allocateArrayOf(destinationClass, n * k);
     res = ArrayOf(destinationClass, outDim, ptrC);

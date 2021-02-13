@@ -48,9 +48,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         ArrayOf C(A);
         return C;
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getRows() != dimsB.getRows()) {
+    if (A.getRows() != B.getRows()) {
         Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (A.isComplex() || B.isComplex()) {
@@ -61,10 +59,8 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatB
             = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)B.getSparseDataPointer();
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatC;
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        indexType newRowsSize = dimsA.getRows();
-        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+        indexType newRowsSize = A.getRows();
+        indexType newColumnsSize = A.getColumns() + B.getColumns();
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         try {
@@ -83,10 +79,8 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         Eigen::SparseMatrix<double, 0, signedIndexType>* spMatB
             = (Eigen::SparseMatrix<double, 0, signedIndexType>*)B.getSparseDataPointer();
         Eigen::SparseMatrix<double, 0, signedIndexType>* spMatC;
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        indexType newRowsSize = dimsA.getRows();
-        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+        indexType newRowsSize = A.getRows();
+        indexType newColumnsSize = A.getColumns() + B.getColumns();
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         try {

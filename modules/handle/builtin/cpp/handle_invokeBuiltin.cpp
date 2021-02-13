@@ -46,8 +46,7 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
         auto* qp = (nelson_handle*)param1.getDataPointer();
         if (qp) {
             std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
-            Dimensions dimsParam1 = param1.getDimensions();
-            indexType elementCount = dimsParam1.getElementCount();
+            indexType elementCount = param1.getElementCount();
             for (indexType k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);

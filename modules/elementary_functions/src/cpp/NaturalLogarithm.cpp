@@ -108,10 +108,9 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
         if (A.isSparse()) {
             needToOverload = true;
         } else {
-            Dimensions dimsA = A.getDimensions();
             if (classA == NLS_DOUBLE) {
                 auto* ptrIn = (double*)A.getDataPointer();
-                if (haveNegativeValue<double>(ptrIn, dimsA.getElementCount())) {
+                if (haveNegativeValue<double>(ptrIn, A.getElementCount())) {
                     A.promoteType(NLS_DCOMPLEX);
                     res = NaturalLogarithmComplex<double>(NLS_DCOMPLEX, A);
                 } else {
@@ -125,10 +124,9 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
         if (A.isSparse()) {
             needToOverload = true;
         } else {
-            Dimensions dimsA = A.getDimensions();
             if (classA == NLS_SINGLE) {
                 auto* ptrIn = (single*)A.getDataPointer();
-                if (haveNegativeValue<single>(ptrIn, dimsA.getElementCount())) {
+                if (haveNegativeValue<single>(ptrIn, A.getElementCount())) {
                     A.promoteType(NLS_SCOMPLEX);
                     res = NaturalLogarithmComplex<single>(NLS_SCOMPLEX, A);
                 } else {

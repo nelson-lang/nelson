@@ -48,9 +48,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
         ArrayOf C(A);
         return C;
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getRows() != dimsB.getRows()) {
+    if (A.getRows() != B.getRows()) {
         Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
@@ -58,8 +56,8 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatB
         = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.getSparseDataPointer();
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
-    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-    indexType newRowsSize = dimsA.getRows();
+    indexType newColumnsSize = A.getColumns() + B.getColumns();
+    indexType newRowsSize = A.getRows();
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     try {

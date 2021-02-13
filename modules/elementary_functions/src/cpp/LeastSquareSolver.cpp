@@ -50,13 +50,11 @@ solveLeastSquareReal(Class destinationClass, const ArrayOf& matA, const ArrayOf&
     warningId.clear();
     warningMessage.clear();
 
-    Dimensions dimsA = matA.getDimensions();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matAz(
-        (T*)matA.getDataPointer(), dimsA.getRows(), dimsA.getColumns());
+        (T*)matA.getDataPointer(), matA.getRows(), matA.getColumns());
 
-    Dimensions dimsB = matB.getDimensions();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matBz(
-        (T*)matB.getDataPointer(), dimsB.getRows(), dimsB.getColumns());
+        (T*)matB.getDataPointer(), matB.getRows(), matB.getColumns());
 
     T* ptrC = (T*)ArrayOf::allocateArrayOf(destinationClass, n * k);
     res = ArrayOf(destinationClass, outDim, ptrC);
@@ -112,16 +110,14 @@ solveLeastSquareComplex(Class destinationClass, const ArrayOf& matA, const Array
     warningId.clear();
     warningMessage.clear();
 
-    Dimensions dimsA = matA.getDimensions();
     std::complex<T>* ptrAz = reinterpret_cast<std::complex<T>*>((T*)matA.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matAz(
-        ptrAz, dimsA.getRows(), dimsA.getColumns());
+        ptrAz, matA.getRows(), matA.getColumns());
 
-    Dimensions dimsB = matB.getDimensions();
 
     std::complex<T>* ptrBz = reinterpret_cast<std::complex<T>*>((T*)matB.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matBz(
-        ptrBz, dimsB.getRows(), dimsB.getColumns());
+        ptrBz, matB.getRows(), matB.getColumns());
 
     T* ptrC = (T*)ArrayOf::allocateArrayOf(destinationClass, n * k);
     res = ArrayOf(destinationClass, outDim, ptrC);

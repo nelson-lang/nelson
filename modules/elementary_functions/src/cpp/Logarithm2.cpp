@@ -40,7 +40,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         return res;
     }
     Dimensions dimsA = A.getDimensions();
-    ompIndexType elementCount = dimsA.getElementCount();
+    ompIndexType elementCount = A.getElementCount();
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
         double* ptrA = (double*)A.getDataPointer();

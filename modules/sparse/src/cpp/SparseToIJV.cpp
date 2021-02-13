@@ -38,7 +38,6 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
 {
     needToOverload = false;
     if (spA.isSparse()) {
-        Dimensions dims = spA.getDimensions();
         indexType nnz = SparseNonZeros(spA);
         indexType* ptrI;
         indexType* ptrJ;
@@ -49,7 +48,7 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
             Error(ERROR_MEMORY_ALLOCATION);
         }
         int nz = 0;
-        void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
+        void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), spA.getRows(), spA.getColumns(),
             spA.getSparseDataPointer(), ptrI, ptrJ, nz);
         double* pdI = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz, stringVector(), false));
@@ -66,8 +65,8 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         J = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdJ);
         delete[] ptrJ;
         V = ArrayOf(spA.getDataClass(), Dimensions(nnz, 1), ptrV);
-        M = ArrayOf::doubleConstructor(static_cast<double>(dims.getRows()));
-        N = ArrayOf::doubleConstructor(static_cast<double>(dims.getColumns()));
+        M = ArrayOf::doubleConstructor(static_cast<double>(spA.getRows()));
+        N = ArrayOf::doubleConstructor(static_cast<double>(spA.getColumns()));
         NNZ = ArrayOf::doubleConstructor(static_cast<double>(spA.nzmax()));
     } else {
         needToOverload = true;

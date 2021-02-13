@@ -151,25 +151,24 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
         return res;
     }
     ArrayOf R = A;
-    Dimensions dimsA = A.getDimensions();
     int info = 0;
     if (A.isComplex()) {
         if (A.isDoubleClass()) {
             double* ptr = (double*)R.getReadWriteDataPointer();
             std::complex<double>* ptrZ = reinterpret_cast<std::complex<double>*>(ptr);
-            info = doubleComplexCholeskyFactorization(lowerTriangle, ptrZ, (int)dimsA.getColumns());
+            info = doubleComplexCholeskyFactorization(lowerTriangle, ptrZ, (int)A.getColumns());
         } else {
             single* ptr = (single*)R.getReadWriteDataPointer();
             std::complex<single>* ptrZ = reinterpret_cast<std::complex<single>*>(ptr);
-            info = singleComplexCholeskyFactorization(lowerTriangle, ptrZ, (int)dimsA.getColumns());
+            info = singleComplexCholeskyFactorization(lowerTriangle, ptrZ, (int)A.getColumns());
         }
     } else {
         if (A.isDoubleClass()) {
             double* ptr = (double*)R.getReadWriteDataPointer();
-            info = doubleRealCholeskyFactorization(lowerTriangle, ptr, (int)dimsA.getColumns());
+            info = doubleRealCholeskyFactorization(lowerTriangle, ptr, (int)A.getColumns());
         } else {
             single* ptr = (single*)R.getReadWriteDataPointer();
-            info = singleRealCholeskyFactorization(lowerTriangle, ptr, (int)dimsA.getColumns());
+            info = singleRealCholeskyFactorization(lowerTriangle, ptr, (int)A.getColumns());
         }
     }
     if (info != 0) {
