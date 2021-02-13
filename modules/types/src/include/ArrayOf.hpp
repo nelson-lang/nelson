@@ -203,7 +203,7 @@ public:
      * debug purposes.
      */
     inline int
-    ArrayOf::getReferenceCount() const
+    getReferenceCount() const
     {
         if (dp) {
             return dp->numberOfOwners();
@@ -230,7 +230,7 @@ public:
      * equivalent to getDimensions().getLength()
      */
     inline indexType
-    ArrayOf::nDims() const
+    nDims() const
     {
         if (dp) {
             return dp->getLength();
@@ -242,7 +242,7 @@ public:
      * Get a copy of our dimensions vector.
      */
     inline Dimensions
-    ArrayOf::getDimensions() const
+    getDimensions() const
     {
         if (dp) {
             return dp->dimensions;
@@ -260,7 +260,7 @@ public:
      * Get our length along the given dimension.
      */
     indexType
-    ArrayOf::getDimensionLength(int t) const
+    getDimensionLength(int t) const
     {
         if (dp) {
             return dp->dimensions[t];
@@ -281,7 +281,7 @@ public:
      * pointer that is free of object aliases.
      */
     inline const void*
-    ArrayOf::getDataPointer() const
+    getDataPointer() const
     {
         if (isSparse()) {
             Error(_W("operation does not support sparse matrix arguments."));
