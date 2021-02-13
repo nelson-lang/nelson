@@ -86,7 +86,7 @@ Data::putData(
     return new Data(aClass, dims, s, sparseflag, fields);
 }
 //=============================================================================
-int
+indexType
 Data::deleteCopy()
 {
     return owners--;
@@ -140,7 +140,7 @@ Data::setStructTypeName(const std::string& typeName)
     structTypeName = typeName;
 }
 //=============================================================================
-int
+indexType
 Data::numberOfOwners() const
 {
     return owners;

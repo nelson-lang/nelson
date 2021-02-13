@@ -202,13 +202,13 @@ public:
      * Get the reference count to our data object - useful for
      * debug purposes.
      */
-    inline int
+    inline indexType
     getReferenceCount() const
     {
         if (dp) {
             return dp->numberOfOwners();
         }
-        return (int)0;
+        return (indexType)0;
     }
     //=============================================================================
     /**

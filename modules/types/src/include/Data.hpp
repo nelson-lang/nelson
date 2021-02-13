@@ -80,7 +80,7 @@ private:
     /**
      * Number of owners for the data block.
      */
-    int owners;
+    indexType owners;
     /**
      * The dimensions of the data block.
      */
@@ -129,7 +129,7 @@ private:
     /**
      * Decrement the reference count (owners) by one.
      */
-    int
+    indexType
     deleteCopy();
     /**
      * Get a read-only pointer to the data.
@@ -177,7 +177,7 @@ private:
     /**
      * Get the number of owners.
      */
-    int
+    indexType
     numberOfOwners() const;
     /**
      * If the data pointer is non-null, we take one of

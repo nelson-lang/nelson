@@ -94,7 +94,7 @@ ArrayOf::getValueAtIndex(uint64 index)
         auto indx = static_cast<indexType>(index - 1);
         indexType dimsLengthZero = getDimensionLength(0);
         auto row = static_cast<indexType>(indx % dimsLengthZero);
-        auto col = static_cast<indexType>(indx / dimsLengthZero);
+        auto col = dimsLengthZero == 0 ? 0 : static_cast<indexType>(indx / dimsLengthZero);
         res = ArrayOf(dp->dataClass, retdims,
             GetSparseScalarElementDynamicFunction(dp->dataClass, dimsLengthZero,
                 getDimensionLength(1), dp->getData(), row + 1, col + 1),

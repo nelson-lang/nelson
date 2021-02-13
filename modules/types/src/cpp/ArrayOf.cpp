@@ -93,8 +93,7 @@ inline void
 ArrayOf::deleteContents(void)
 {
     if (dp) {
-        int m;
-        m = dp->deleteCopy();
+        indexType m = dp->deleteCopy();
         if (m <= 1) {
             delete dp;
         }
@@ -478,7 +477,7 @@ ArrayOf::ArrayOf(Class type)
 ArrayOf::~ArrayOf()
 {
     if (dp) {
-        int m = dp->deleteCopy();
+        indexType m = dp->deleteCopy();
         if (m <= 1) {
             delete dp;
         }
