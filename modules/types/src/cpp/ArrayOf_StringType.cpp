@@ -324,7 +324,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         } catch (const std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
         }
-        return ArrayOf(NLS_STRING_ARRAY, m.getElementCount(), elements);
+        return ArrayOf(NLS_STRING_ARRAY, m.getDimensions(), elements);
     }
     switch (m.getDataClass()) {
     case NLS_CELL_ARRAY: {
@@ -364,7 +364,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                 Error(_W("Unable to convert supplied object to a string."));
             }
         }
-        return ArrayOf(NLS_STRING_ARRAY, m.getElementCount(), elementsOutput);
+        return ArrayOf(NLS_STRING_ARRAY, m.getDimensions(), elementsOutput);
     } break;
     case NLS_LOGICAL: {
         return logicalToStringArray(m);
