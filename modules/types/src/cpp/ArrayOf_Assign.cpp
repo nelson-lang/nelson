@@ -723,7 +723,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, dp->fieldNames.size(), advance);
             break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         delete[] indx;
         dp->dimensions.simplify();
     } catch (const Exception& e) {
@@ -863,7 +865,16 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
 }
 //=============================================================================
 void
-ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
+ArrayOf::setValue(const ArrayOf& value)
+{
+    if (dp && (dp->deleteCopy() <= 1)) {
+        dp->freeDataBlock();
+    }
+    dp = value.dp->getCopy();
+}
+//=============================================================================
+void
+ArrayOf::setValueAtIndex(uint64 index, const ArrayOf& scalarValue)
 {
     if (!scalarValue.isScalar()) {
         Error(ERROR_SCALAR_EXPECTED);

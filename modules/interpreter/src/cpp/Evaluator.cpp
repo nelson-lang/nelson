@@ -1628,27 +1628,39 @@ Evaluator::assignStatement(ASTPtr t, bool printIt)
 
     if (t->down == nullptr) {
         ArrayOf b(expression(t->right));
-        bool bInserted = context->insertVariable(t->text, b);
-        if (!bInserted) {
-            if (IsValidVariableName(t->text, true)) {
-                Error(_W("Redefining permanent variable."));
+        std::string variableName = t->text;
+        ArrayOf* ptrVariable = context->lookupVariable(variableName);
+        if (ptrVariable) {
+            ptrVariable->setValue(b);
+        } else {
+            bool bInserted = context->insertVariable(t->text, b);
+            if (!bInserted) {
+                if (IsValidVariableName(t->text, true)) {
+                    Error(_W("Redefining permanent variable."));
+                }
+                Error(_W("Valid variable name expected."));
             }
-            Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            io->outputMessage(std::string(t->text) + " =\n\n");
+            io->outputMessage(variableName + " =\n\n");
             OverloadDisplay(this, b);
         }
     } else {
         ArrayOf expr(expression(t->right));
         ArrayOf c(assignExpression(t, expr));
         if (!c.isHandle()) {
-            bool bInserted = context->insertVariable(t->text, c);
-            if (!bInserted) {
-                if (IsValidVariableName(t->text, true)) {
-                    Error(_W("Redefining permanent variable."));
+            std::string variableName = t->text;
+            ArrayOf* ptrVariable = context->lookupVariable(variableName);
+            if (ptrVariable) { 
+              ptrVariable->setValue(c);
+            } else {
+                bool bInserted = context->insertVariable(variableName, c);
+                if (!bInserted) {
+                    if (IsValidVariableName(variableName, true)) {
+                        Error(_W("Redefining permanent variable."));
+                    }
+                    Error(_W("Valid variable name expected."));
                 }
-                Error(_W("Valid variable name expected."));
             }
             if (printIt) {
                 io->outputMessage(std::string(t->text) + " =\n\n");

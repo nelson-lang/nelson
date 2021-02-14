@@ -132,6 +132,24 @@ Context::insertVariable(const std::string& varName, const ArrayOf& var)
     return active->insertVariable(mapName, var);
 }
 //=============================================================================
+ArrayOf*
+Context::lookupVariable(const std::string& varName)
+{
+    Scope* active;
+    std::string mapName;
+    Scope* back = scopestack.back();
+    if (back->isVariablePersistent(varName)) {
+        mapName = back->getMangledName(varName);
+        active = scopestack.front();
+    } else if (back->isVariableGlobal(varName)) {
+        mapName = varName;
+        active = scopestack.front();
+    } else {
+        return back->lookupVariable(varName);
+    }
+    return active->lookupVariable(mapName);
+}
+//=============================================================================
 bool
 Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {

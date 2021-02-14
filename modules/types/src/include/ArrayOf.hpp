@@ -821,8 +821,10 @@ public:
     getValueAtIndex(uint64 index);
 
     void
-    setValueAtIndex(uint64 index, ArrayOf scalarValue);
+    setValueAtIndex(uint64 index, const ArrayOf &scalarValue);
 
+    void
+    setValue(const ArrayOf &value);
     /**
      * Get a subset of an ArrayOf.  This is for vector-indexing, meaning that
      * the argument is assumed to refer to the elements in their order as a

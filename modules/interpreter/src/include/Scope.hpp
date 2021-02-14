@@ -159,6 +159,8 @@ public:
      * Lookup a variable.  Return true if the variable is defined, and
      * assigns the value of the variable to the second argument.
      */
+    ArrayOf*
+    lookupVariable(const std::string& varName);
     bool
     lookupVariable(const std::string& varName, ArrayOf& val);
     /**
