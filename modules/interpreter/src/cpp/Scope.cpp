@@ -144,8 +144,8 @@ Scope::isPointerOnFunction(FuncPtr val)
 //=============================================================================
 ArrayOf*
 Scope::lookupVariable(const std::string& varName)
-{ 
-  return variablesTab.findVariable(varName);
+{
+    return variablesTab.findVariable(varName);
 }
 //=============================================================================
 bool

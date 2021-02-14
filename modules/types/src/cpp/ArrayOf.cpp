@@ -512,10 +512,10 @@ ArrayOf::ensureSingleOwner()
             std::string currentStructType = dp->getStructTypeName();
             void* np = allocateArrayOf(dp->dataClass, getElementCount(), dp->fieldNames, false);
             if (isEmpty()) {
-                Dimensions dim = dp->getDimensions();
-                dp = dp->putData(dp->dataClass, dim, np, dp->sparse, dp->fieldNames);
+                dp = dp->putData(
+                    dp->dataClass, dp->getDimensions(), np, dp->sparse, dp->fieldNames);
             } else {
-                copyElements(0, np, 0, getElementCount());
+                copyElements(0, np, 0, dp->dimensionsGetElementCountCache);
                 dp = dp->putData(dp->dataClass, dp->dimensions, np, dp->sparse, dp->fieldNames);
             }
             dp->setStructTypeName(currentStructType);
@@ -531,7 +531,7 @@ ArrayOf::ensureSingleOwner()
 void*
 ArrayOf::getReadWriteDataPointer()
 {
-    if (isSparse()) {
+    if (dp->isSparse()) {
         Warning(_W("Warning: sparse matrix converted to full for operation."));
         makeDense();
     }
@@ -920,79 +920,6 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
 }
 //=============================================================================
 /**
- * Returns TRUE if we are empty (we have no elements).
- */
-bool
-ArrayOf::isEmpty(bool allDimensionsIsZero) const
-{
-    if (dp == nullptr) {
-        return true;
-    }
-    Dimensions dims = dp->getDimensions();
-    return dims.isEmpty(allDimensionsIsZero);
-}
-//=============================================================================
-/*
- * Returns TRUE if we have only a single element.
- */
-bool
-ArrayOf::isScalar() const
-{
-    return dp->dimensions.isScalar();
-}
-//=============================================================================
-indexType
-ArrayOf::getColumns() const
-{
-    return dp->getColumns();
-}
-//=============================================================================
-indexType
-ArrayOf::getRows() const
-{
-    return dp->getRows();
-}
-//=============================================================================
-/**
- * Returns TRUE if we are 2-Dimensional.
- */
-bool
-ArrayOf::is2D() const
-{
-    return dp->dimensions.is2D();
-}
-//=============================================================================
-/**
- * Returns TRUE if we are 2-Dimensional and cols == rows.
- */
-bool
-ArrayOf::isSquare() const
-{
-    return dp->dimensions.isSquare();
-}
-//=============================================================================
-/**
- * Returns TRUE if we are a vector.
- */
-bool
-ArrayOf::isVector() const
-{
-    return dp->isVector();
-}
-//=============================================================================
-bool
-ArrayOf::isRowVector() const
-{
-    return dp->isRowVector();
-}
-//=============================================================================
-bool
-ArrayOf::isColumnVector() const
-{
-    return dp->isColumnVector();
-}
-//=============================================================================
-/**
  * Returns TRUE if we are a reference type (cell array, string array,
  * struct array, or handle).
  */
@@ -1084,7 +1011,7 @@ ArrayOf::allReal() const
 void
 ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, indexType count)
 {
-    indexType elSize(getElementSize());
+    indexType elSize = getElementSize();
     if (isSparse()) {
         Error(_W("copyElements not supported for sparse arrays."));
     }
@@ -1118,42 +1045,10 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
             }
         }
     } break;
-    case NLS_SCOMPLEX: {
-        single* src = (single*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            single* dst = (single*)dstPtr;
-            int one = 1;
-            BLASFUNC(ccopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        double* src = (double*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            double* dst = (double*)dstPtr;
-            int one = 1;
-            BLASFUNC(zcopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
-        }
-    } break;
-    case NLS_SINGLE: {
-        single* src = (single*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            single* dst = (single*)dstPtr;
-            int one = 1;
-            BLASFUNC(scopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
-        }
-    } break;
-    case NLS_DOUBLE: {
-        double* src = (double*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            double* dst = (double*)dstPtr;
-            int one = 1;
-            BLASFUNC(dcopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
-        }
-    } break;
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX:
+    case NLS_SINGLE:
+    case NLS_DOUBLE:
     default: {
         const char* sp = (const char*)dp->getData();
         if (sp != nullptr) {

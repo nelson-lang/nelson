@@ -114,7 +114,6 @@ solveLeastSquareComplex(Class destinationClass, const ArrayOf& matA, const Array
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matAz(
         ptrAz, matA.getRows(), matA.getColumns());
 
-
     std::complex<T>* ptrBz = reinterpret_cast<std::complex<T>*>((T*)matB.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matBz(
         ptrBz, matB.getRows(), matB.getColumns());

@@ -72,25 +72,16 @@ matrix_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const A
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
+#endif
     for (long long k = 0; k < (long long)Clen; ++k) {
         ptrC[k] = ptrA[k] - ptrB[k];
     }
-#else
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)B.getDataPointer(), 1, Clen);
-    matC = matA - matB;
-#endif
-
     return res;
 }
 //=============================================================================

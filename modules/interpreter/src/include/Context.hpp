@@ -131,7 +131,7 @@ public:
      * with the given name, and inserted into the scope that was
      * searched.  A pointer to this newly created variable is returned.
      */
-    ArrayOf *
+    ArrayOf*
     lookupVariable(const std::string& varName);
     bool
     lookupVariable(const std::string& varName, ArrayOf& var);

@@ -97,12 +97,11 @@ row_matrix_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
 
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)Cp;
     indexType q = 0;
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {

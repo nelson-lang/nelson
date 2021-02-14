@@ -532,6 +532,11 @@ public:
      */
     void
     forStatement(ASTPtr t);
+
+    void
+    forStatementHelperGeneric(ASTPtr codeBlock, ArrayOf& indexSet, indexType elementCount,
+        bool isRowVector, const std::string& indexVarName);
+
     /**
      * Implements the while control statement.  The AST looks like
      *     expr->codeBlock

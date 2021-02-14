@@ -403,44 +403,76 @@ public:
      */
     bool
     testForCaseMatch(ArrayOf x) const;
-
-    indexType
-    getColumns() const;
-
-    indexType
-    getRows() const;
-
+    //=============================================================================
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    bool
-    isEmpty(bool allDimensionsIsZero = false) const;
-    /**
+    inline bool
+    isEmpty(bool allDimensionsIsZero = false) const
+    {
+        if (dp == nullptr) {
+            return true;
+        }
+        return dp->getDimensions().isEmpty(allDimensionsIsZero);
+    }
+    //=============================================================================
+    /*
      * Returns TRUE if we have only a single element.
      */
-    bool
-    isScalar() const;
+    inline bool
+    isScalar() const
+    {
+        return dp->dimensions.isScalar();
+    }
+    //=============================================================================
+    inline indexType
+    getColumns() const
+    {
+        return dp->getColumns();
+    }
+    //=============================================================================
+    inline indexType
+    getRows() const
+    {
+        return dp->getRows();
+    }
+    //=============================================================================
     /**
      * Returns TRUE if we are 2-Dimensional.
      */
-    bool
-    is2D() const;
+    inline bool
+    is2D() const
+    {
+        return dp->dimensions.is2D();
+    }
+    //=============================================================================
     /**
-     * Returns TRUE if we are 2-Dimensional and rows == cols.
+     * Returns TRUE if we are 2-Dimensional and cols == rows.
      */
-    bool
-    isSquare() const;
-    /**
-     * Returns TRUE if we are a vector.
-     */
-    bool
-    isVector() const;
-
-    bool
-    isRowVector() const;
-
-    bool
-    isColumnVector() const;
+    inline bool
+    isSquare() const
+    {
+        return dp->dimensions.isSquare();
+    }
+    //=============================================================================
+    inline bool
+    isVector() const
+    {
+        return dp->isVector();
+    }
+    //=============================================================================
+    inline bool
+    isRowVector() const
+    {
+        return dp->isRowVector();
+    }
+    //=============================================================================
+    inline bool
+    isColumnVector() const
+    {
+        return dp->isColumnVector();
+    }
+    //=============================================================================
     /**
      * Returns TRUE if we are a reference type (cell array or
      * struct array).
@@ -821,10 +853,10 @@ public:
     getValueAtIndex(uint64 index);
 
     void
-    setValueAtIndex(uint64 index, const ArrayOf &scalarValue);
+    setValueAtIndex(uint64 index, const ArrayOf& scalarValue);
 
     void
-    setValue(const ArrayOf &value);
+    setValue(const ArrayOf& value);
     /**
      * Get a subset of an ArrayOf.  This is for vector-indexing, meaning that
      * the argument is assumed to refer to the elements in their order as a

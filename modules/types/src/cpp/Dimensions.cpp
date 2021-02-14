@@ -211,12 +211,9 @@ Dimensions::setDimensionLength(indexType dim, indexType len)
 indexType
 Dimensions::mapPoint(const Dimensions& point)
 {
-    indexType retval;
-    indexType nextCoeff;
-    indexType testableDims;
-    retval = 0;
-    nextCoeff = 1;
-    testableDims = (point.length < length) ? point.length : length;
+    indexType retval = 0;
+    indexType nextCoeff = 1;
+    indexType testableDims = (point.length < length) ? point.length : length;
     for (indexType i = 0; i < testableDims; i++) {
         if ((point.data[i] < 0) || (point.data[i] >= data[i])) { // lgtm [cpp/constant-comparison]
             Error(_W("Index exceeds dimensions."));

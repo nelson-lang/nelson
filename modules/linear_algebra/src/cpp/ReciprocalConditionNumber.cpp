@@ -37,8 +37,8 @@ static ArrayOf
 ReciprocalConditionNumber_Double(const ArrayOf& A)
 {
     ArrayOf rcond;
-    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getRows(),
-        (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXd> matA(
+        (double*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::doubleConstructor(std::nan(""));
     } else {
@@ -150,8 +150,8 @@ static ArrayOf
 ReciprocalConditionNumber_Single(const ArrayOf& A)
 {
     ArrayOf rcond;
-    Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getRows(),
-        (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXf> matA(
+        (single*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::singleConstructor(std::nanf(""));
     } else {
@@ -207,8 +207,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
 {
     ArrayOf rcond;
     auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcf> matA(
-        Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::singleConstructor(std::nanf(""));
     } else {
