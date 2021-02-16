@@ -124,17 +124,17 @@ def edit_cmakelist(major, minor, maintenance, build):
 		for line in lines_in:
 			line = line.replace('\r\n', '');
 			line = line.replace('\n', '');
-			if line.strip().startswith('set (Nelson_VERSION_MAJOR_DEFAULT'):
-				lines_out.append('set (Nelson_VERSION_MAJOR_DEFAULT ' + str(major) +')');
+			if line.strip().startswith('set(Nelson_VERSION_MAJOR_DEFAULT'):
+				lines_out.append('set(Nelson_VERSION_MAJOR_DEFAULT ' + str(major) +')');
 			else:
-				if line.strip().startswith('set (Nelson_VERSION_MINOR_DEFAULT'):
-					lines_out.append('set (Nelson_VERSION_MINOR_DEFAULT ' + str(minor) +')');
+				if line.strip().startswith('set(Nelson_VERSION_MINOR_DEFAULT'):
+					lines_out.append('set(Nelson_VERSION_MINOR_DEFAULT ' + str(minor) +')');
 				else:
-					if line.strip().startswith('set (Nelson_VERSION_MAINTENANCE_DEFAULT'):
-						lines_out.append('set (Nelson_VERSION_MAINTENANCE_DEFAULT ' + str(maintenance) + ')');
+					if line.strip().startswith('set(Nelson_VERSION_MAINTENANCE_DEFAULT'):
+						lines_out.append('set(Nelson_VERSION_MAINTENANCE_DEFAULT ' + str(maintenance) + ')');
 					else:
-						if line.strip().startswith('set (Nelson_VERSION_BUILD_DEFAULT'):
-							lines_out.append('set (Nelson_VERSION_BUILD_DEFAULT ' + str(build) + ')');
+						if line.strip().startswith('set(Nelson_VERSION_BUILD_DEFAULT'):
+							lines_out.append('set(Nelson_VERSION_BUILD_DEFAULT ' + str(build) + ')');
 						else:
 							lines_out.append(line);
 	with open(filename, 'w') as f:
