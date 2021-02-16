@@ -73,11 +73,11 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
             } else {
                 if (param2.isRowVector()) {
                     param2.promoteType(NLS_UINT64);
-                    if (param2.getLength() > maxDims) {
+                    if (param2.getElementCount() > maxDims) {
                         Error(_W("Too many dimensions!"));
                     }
                     auto* dp = (uint64*)param2.getDataPointer();
-                    for (indexType i = 0; i < param2.getLength(); i++) {
+                    for (indexType i = 0; i < param2.getElementCount(); i++) {
                         repcount[i] = (indexType)dp[i];
                     }
                 } else {

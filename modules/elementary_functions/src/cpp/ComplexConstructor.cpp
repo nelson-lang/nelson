@@ -98,7 +98,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
     Dimensions DestinationDims;
     if (arrayA.getDimensions().equals(arrayB.getDimensions())) {
         DestinationDims = arrayA.getDimensions();
-        size_t len = arrayA.getLength();
+        size_t len = arrayA.getElementCount();
         ptrdst = ArrayOf::allocateArrayOf(DestinationClass, len, stringVector(), true);
         if (DestinationClass == NLS_SCOMPLEX) {
             auto* psA = (single*)arrayA.getDataPointer();
@@ -113,7 +113,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
         }
     } else if (arrayA.isScalar()) {
         DestinationDims = arrayB.getDimensions();
-        size_t len = arrayB.getLength();
+        size_t len = arrayB.getElementCount();
         ptrdst = ArrayOf::allocateArrayOf(DestinationClass, len, stringVector(), true);
         if (DestinationClass == NLS_SCOMPLEX) {
             auto* ps = static_cast<single*>(ptrdst);
@@ -129,7 +129,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
     } else /* (arrayB.isScalar()) */
     {
         DestinationDims = arrayA.getDimensions();
-        size_t len = arrayA.getLength();
+        size_t len = arrayA.getElementCount();
         ptrdst = ArrayOf::allocateArrayOf(DestinationClass, len, stringVector(), true);
         if (DestinationClass == NLS_SCOMPLEX) {
             auto* ps = static_cast<single*>(ptrdst);

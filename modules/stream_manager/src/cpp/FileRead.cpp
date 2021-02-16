@@ -180,7 +180,7 @@ FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIs
             classPrecision, static_cast<indexType>(sizeToRead), stringVector(), false);
         Dimensions dim(static_cast<indexType>(sizeToRead), 1);
         toRead = ArrayOf(classPrecision, dim, ptr);
-        size_t count(toRead.getLength());
+        size_t count(toRead.getElementCount());
         size_t elsize(toRead.getElementSize());
         sizeReallyRead = static_cast<int>(fread(ptr, elsize, count, fileptr));
         if (sizeReallyRead < 0) {

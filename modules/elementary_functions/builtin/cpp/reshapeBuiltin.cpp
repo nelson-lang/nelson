@@ -65,7 +65,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
             ArrayOf v = argIn[1];
             v.promoteType(NLS_DOUBLE);
             auto* dp = (double*)v.getDataPointer();
-            for (indexType i = 0; i < v.getLength(); i++) {
+            for (indexType i = 0; i < v.getElementCount(); i++) {
                 if (!std::isfinite(dp[i])) {
                     Error(_W("finite value expected."));
                 }
@@ -141,7 +141,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                 }
             }
         }
-        if (dims.getElementCount() != M.getLength()) {
+        if (dims.getElementCount() != M.getElementCount()) {
             Error(_W("Reshape operation cannot change the number of elements in array."));
         }
         M.reshape(dims);

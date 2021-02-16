@@ -39,7 +39,7 @@ ImagPart(ArrayOf arrayIn)
     }
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
@@ -52,7 +52,7 @@ ImagPart(ArrayOf arrayIn)
         res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
     } break;
     case NLS_DCOMPLEX: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
@@ -75,7 +75,7 @@ ImagPart(ArrayOf arrayIn)
     case NLS_CHAR:
     case NLS_DOUBLE:
     case NLS_LOGICAL: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), ptr);
     } break;
@@ -88,7 +88,7 @@ ImagPart(ArrayOf arrayIn)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_SINGLE: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         res = ArrayOf(arrayIn.getDataClass(), arrayIn.getDimensions(), ptr);
     } break;

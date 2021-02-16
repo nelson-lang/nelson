@@ -43,11 +43,11 @@ floatingNumberToLogical(const ArrayOf& A)
         Error(_W("Conversion to logical from single is not possible."));
     }
     logical* pLogical = static_cast<logical*>(
-        ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false));
+        ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount(), stringVector(), false));
     ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
     if (A.isDoubleClass()) {
         auto* ptrReal = (double*)A.getDataPointer();
-        for (indexType k = 0; k < A.getLength(); k++) {
+        for (indexType k = 0; k < A.getElementCount(); k++) {
             if (std::isnan(ptrReal[k])) {
                 Error(_W("Conversion to logical with NaN is not possible."));
             }
@@ -56,7 +56,7 @@ floatingNumberToLogical(const ArrayOf& A)
 
     } else {
         auto* ptrReal = (single*)A.getDataPointer();
-        for (indexType k = 0; k < A.getLength(); k++) {
+        for (indexType k = 0; k < A.getElementCount(); k++) {
             if (std::isnan(ptrReal[k])) {
                 Error(_W("Conversion to logical with NaN is not possible."));
             }
@@ -75,13 +75,13 @@ integerToLogical(const ArrayOf& A)
         Error(_W("Conversion to logical from sparse integer is not possible."));
     } else {
         logical* pLogical = static_cast<logical*>(
-            ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false));
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount(), stringVector(), false));
         r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
         auto* ptrInt = (T*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType k = 0; k < (ompIndexType)A.getLength(); k++) {
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); k++) {
             pLogical[k] = static_cast<logical>(ptrInt[k] != 0);
         }
     }

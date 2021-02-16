@@ -60,33 +60,33 @@ IsInf(ArrayOf A)
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp
-            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
-        boolean_isinf<double>(A.getLength(), (logical*)Cp, (const double*)A.getDataPointer());
+        void* Cp = Nelson::ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
+        boolean_isinf<double>(A.getElementCount(), (logical*)Cp, (const double*)A.getDataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SINGLE: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
-        boolean_isinf<single>(A.getLength(), (logical*)Cp, (const single*)A.getDataPointer());
+        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount());
+        boolean_isinf<single>(A.getElementCount(), (logical*)Cp, (const single*)A.getDataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SCOMPLEX: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp
-            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
+        void* Cp = Nelson::ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* pValueA = (single*)A.getDataPointer();
         auto* cplx = reinterpret_cast<singlecomplex*>(pValueA);
-        boolean_isinf_cplx<singlecomplex>(A.getLength(), (logical*)Cp, cplx);
+        boolean_isinf_cplx<singlecomplex>(A.getElementCount(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
     case NLS_DCOMPLEX: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp
-            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
+        void* Cp = Nelson::ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* pValueA = (double*)A.getDataPointer();
         auto* cplx = reinterpret_cast<doublecomplex*>(pValueA);
-        boolean_isinf_cplx<doublecomplex>(A.getLength(), (logical*)Cp, cplx);
+        boolean_isinf_cplx<doublecomplex>(A.getElementCount(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
     case NLS_CHAR:
@@ -100,13 +100,13 @@ IsInf(ArrayOf A)
     case NLS_INT64:
     case NLS_UINT64: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp
-            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
+        void* Cp = Nelson::ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-        for (ompIndexType i = 0; i < (ompIndexType)A.getLength(); i++) {
+        for (ompIndexType i = 0; i < (ompIndexType)A.getElementCount(); i++) {
             CpLogical[i] = static_cast<logical>(0);
         }
         C.setDataPointer(Cp);

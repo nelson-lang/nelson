@@ -53,7 +53,7 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     if (isSupportedAsNumeric || isSupportedAsCharacterArray || isSupportedAsScalarString) {
         if (isSupportedAsNumeric) {
             param1.promoteType(NLS_UINT8);
-            indexType l = param1.getLength();
+            indexType l = param1.getElementCount();
             uint8* s = (uint8*)param1.getDataPointer();
             const char* chars = reinterpret_cast<const char*>(s);
             data = std::string(chars);

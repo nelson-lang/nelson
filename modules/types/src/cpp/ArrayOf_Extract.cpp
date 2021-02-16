@@ -99,7 +99,7 @@ ArrayOf::getValueAtIndex(uint64 index)
                 getDimensionLength(1), dp->getData(), row + 1, col + 1),
             true);
     } else {
-        auto length = static_cast<uint64>(this->getLength());
+        auto length = static_cast<uint64>(this->getElementCount());
         if (index >= length) {
             Error(_W("Index exceeds matrix dimensions."));
         }
@@ -121,7 +121,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
 {
     void* qp = nullptr;
     try {
-        if (index.getLength() == 1) {
+        if (index.getElementCount() == 1) {
             if (index.isRowVectorCharacterArray()) {
                 std::wstring str = index.getContentAsWideString();
                 if (str != L":") {
@@ -159,7 +159,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         retdims.simplify();
         if (isSparse()) {
             ArrayOf res;
-            if (index.getLength() == 1) {
+            if (index.getElementCount() == 1) {
                 indexType indx = index.getContentAsInteger32Scalar() - 1;
                 indexType row = indx % getDimensionLength(0);
                 indexType col = indx / getDimensionLength(0);
@@ -181,11 +181,11 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         // The output is the same size as the _index_, not the
         // source variable (neat, huh?).  But it inherits the
         // type of the source variable.
-        indexType length = index.getLength();
-        qp = allocateArrayOf(dp->dataClass, index.getLength(), dp->fieldNames, true);
+        indexType length = index.getElementCount();
+        qp = allocateArrayOf(dp->dataClass, index.getElementCount(), dp->fieldNames, true);
         // Get a pointer to the index data set
         const auto* index_p = static_cast<const indexType*>(index.dp->getData());
-        indexType bound = getLength();
+        indexType bound = getElementCount();
         for (indexType i = 0; i < length; i++) {
             indexType ndx = index_p[i] - 1;
             if (ndx < 0 || ndx >= bound) { // lgtm [cpp/constant-comparison]
@@ -253,7 +253,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
         // Calculate the size of the output.
         Dimensions outDims(L);
         for (i = 0; i < L; i++) {
-            outDims[i] = (index[i].getLength());
+            outDims[i] = (index[i].getElementCount());
             indx[i] = static_cast<constIndexPtr>(index[i].dp->getData());
         }
         if (outDims.getElementCount() == 0) {

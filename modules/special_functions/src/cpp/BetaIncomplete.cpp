@@ -35,7 +35,7 @@ inline Dimensions
 maxDimensions(Dimensions& a, Dimensions& b)
 {
     Dimensions ret;
-    for (unsigned int i = 0; i < std::min(a.getLength(), b.getLength()); i++) {
+    for (unsigned int i = 0; i < std::min(a.getElementCount(), b.getElementCount()); i++) {
         ret[i] = (a.getAt(i, false) > b.getAt(i, false)) ? a.getAt(i, false) : b.getAt(i, false);
     }
     return ret;
@@ -111,7 +111,8 @@ BetaIncomplete(
         needOverload = true;
         return res;
     }
-    indexType maxLen = std::max(X.getLength(), std::max(Y.getLength(), Z.getLength()));
+    indexType maxLen
+        = std::max(X.getElementCount(), std::max(Y.getElementCount(), Z.getElementCount()));
     Dimensions dimsX = X.getDimensions();
     Dimensions dimsY = Y.getDimensions();
     Dimensions dimsZ = Z.getDimensions();
