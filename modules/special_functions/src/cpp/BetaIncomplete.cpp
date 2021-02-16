@@ -35,7 +35,7 @@ inline Dimensions
 maxDimensions(Dimensions& a, Dimensions& b)
 {
     Dimensions ret;
-    for (unsigned int i = 0; i < std::min(a.getElementCount(), b.getElementCount()); i++) {
+    for (unsigned int i = 0; i < std::min(a.getLength(), b.getLength()); i++) {
         ret[i] = (a.getAt(i, false) > b.getAt(i, false)) ? a.getAt(i, false) : b.getAt(i, false);
     }
     return ret;
