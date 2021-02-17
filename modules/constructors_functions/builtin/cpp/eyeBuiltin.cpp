@@ -86,7 +86,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
             n = arg.getContentAsScalarIndex();
             m = n;
         } else if (arg.isRowVector()) {
-            if (arg.getDimensions().getElementCount() == 2) {
+            if (arg.getElementCount() == 2) {
                 indexType* pIndex = arg.getContentAsIndexPointer();
                 n = pIndex[0];
                 m = pIndex[1];

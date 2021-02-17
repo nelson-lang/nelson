@@ -292,7 +292,7 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
         return res;
     }
     Dimensions dimsOut(1, 1);
-    indexType elementCount = A.getDimensions().getElementCount();
+    indexType elementCount = A.getElementCount();
     switch (A.getDataClass()) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

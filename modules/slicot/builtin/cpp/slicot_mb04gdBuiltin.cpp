@@ -68,29 +68,28 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     // LOCAL VARIABLES
     ArrayOf M = ArrayOf::int32VectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)A.getDimensions().getRows();
+    M_ptr[0] = (int)A.getRows();
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getDimensions().getColumns();
+    N_ptr[0] = (int)A.getColumns();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getDimensions().getRows());
+    LDA_ptr[0] = std::max(1, (int)A.getRows());
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getRows());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
-    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor((indexType)1,
-        (indexType)std::min((int)A.getDimensions().getRows(), (int)A.getDimensions().getColumns()));
+    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor(
+        (indexType)1, (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
     double* TAU_output_ptr = (double*)TAU_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
-    Dimensions dimsA_expected(std::max(1, (int)A.getDimensions().getRows()),
-        std::max(1, (int)A.getDimensions().getColumns()));
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), std::max(1, (int)A.getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getDimensions().getRows()));
+    Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getRows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
         Error(_("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
             + "expected" + ".");

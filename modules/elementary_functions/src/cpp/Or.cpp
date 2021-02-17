@@ -108,16 +108,12 @@ Or(ArrayOf A, ArrayOf B)
     if (Astride == 0 && Bstride == 0) {
         if (A.isRowVector() && B.isColumnVector()) {
             boolean_vector_or(static_cast<logical*>(Cp),
-                static_cast<const logical*>(A.getDataPointer()),
-                A.getDimensions().getElementCount(),
-                static_cast<const logical*>(B.getDataPointer()),
-                B.getDimensions().getElementCount());
+                static_cast<const logical*>(A.getDataPointer()), A.getElementCount(),
+                static_cast<const logical*>(B.getDataPointer()), B.getElementCount());
         } else if (A.isColumnVector() && B.isRowVector()) {
             boolean_vector_or(static_cast<logical*>(Cp),
-                static_cast<const logical*>(B.getDataPointer()),
-                B.getDimensions().getElementCount(),
-                static_cast<const logical*>(A.getDataPointer()),
-                A.getDimensions().getElementCount());
+                static_cast<const logical*>(B.getDataPointer()), B.getElementCount(),
+                static_cast<const logical*>(A.getDataPointer()), A.getElementCount());
         }
     } else {
         boolean_or(Clen, static_cast<logical*>(Cp), static_cast<const logical*>(A.getDataPointer()),

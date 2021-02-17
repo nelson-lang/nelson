@@ -84,11 +84,9 @@ IsHermitian(const ArrayOf& A, bool skew, bool& needToOverload)
     }
     switch (A.getDataClass()) {
     case NLS_SCOMPLEX:
-        return isHermitianComplex<single>(
-            (single*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isHermitianComplex<single>((single*)A.getDataPointer(), A.getRows(), skew);
     case NLS_DCOMPLEX:
-        return isHermitianComplex<double>(
-            (double*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isHermitianComplex<double>((double*)A.getDataPointer(), A.getRows(), skew);
     case NLS_SINGLE:
         return IsSymmetric(A, skew, needToOverload);
     case NLS_DOUBLE:

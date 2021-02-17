@@ -91,11 +91,11 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     if (argIn[0].isEmpty()) {
                         Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
                     }
-                    if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims) {
+                    if (argIn[0].getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
                         double* ptrValues = (double*)dimVector.getDataPointer();
-                        ompIndexType elementCount = argIn[0].getDimensions().getElementCount();
+                        ompIndexType elementCount = argIn[0].getElementCount();
                         for (ompIndexType k = 0; k < elementCount; k++) {
                             if (ptrValues[k] > 0) {
                                 dims[k] = (indexType)ptrValues[k];

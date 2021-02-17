@@ -1271,7 +1271,7 @@ Evaluator::forStatement(ASTPtr t)
     } else if (isColumnVector) {
         elementCount = 1;
     } else {
-        elementCount = indexSet.getDimensions().getColumns();
+        elementCount = indexSet.getColumns();
     }
     context->enterLoop();
 
@@ -1279,7 +1279,7 @@ Evaluator::forStatement(ASTPtr t)
         if (isRowVector) {
             indexVar = indexSet.getValueAtIndex(elementNumber);
         } else {
-            indexType tmp = indexSet.getDimensions().getRows();
+            indexType tmp = indexSet.getRows();
             ArrayOfVector m;
             m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
             m.push_back(ArrayOf::doubleConstructor((double)(elementNumber + 1)));

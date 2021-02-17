@@ -121,7 +121,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                 }
                 if (bHaveAnEmptyMatrix) {
                     indexType nbElements = 0;
-                    indexType nbElementsM = M.getDimensions().getElementCount();
+                    indexType nbElementsM = M.getElementCount();
                     double rest = static_cast<double>(nbElementsM)
                         / static_cast<double>(dims.getElementCount());
                     if (!std::isfinite(rest)) {

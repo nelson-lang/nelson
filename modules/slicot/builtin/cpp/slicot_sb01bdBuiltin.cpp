@@ -94,35 +94,33 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     // LOCAL VARIABLES
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getDimensions().getRows();
+    N_ptr[0] = (int)A.getRows();
     ArrayOf M = ArrayOf::int32VectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)B.getDimensions().getColumns();
+    M_ptr[0] = (int)B.getColumns();
     ArrayOf NP = ArrayOf::int32VectorConstructor(1);
     int* NP_ptr = (int*)NP.getDataPointer();
-    NP_ptr[0] = (int)WR.getDimensions().getRows();
+    NP_ptr[0] = (int)WR.getRows();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    LDA_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
-    LDB_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
+    LDB_ptr[0] = std::max(1, (int)B.getRows());
     ArrayOf LDF = ArrayOf::int32VectorConstructor(1);
     int* LDF_ptr = (int*)LDF.getDataPointer();
-    LDF_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
+    LDF_ptr[0] = std::max(1, (int)B.getRows());
     ArrayOf LDZ = ArrayOf::int32VectorConstructor(1);
     int* LDZ_ptr = (int*)LDZ.getDataPointer();
-    LDZ_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    LDZ_ptr[0] = std::max(1, (int)A.getRows());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
-        std::max(std::max(std::max(1, 5 * (int)B.getDimensions().getColumns()),
-                     5 * (int)A.getDimensions().getRows()),
-            2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns()));
+        std::max(std::max(std::max(1, 5 * (int)B.getColumns()), 5 * (int)A.getRows()),
+            2 * (int)A.getRows() + 4 * (int)B.getColumns()));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
-    LDWORK_ptr[0] = std::max(std::max(std::max(1, 5 * (int)B.getDimensions().getColumns()),
-                                 5 * (int)A.getDimensions().getRows()),
-        2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns());
+    LDWORK_ptr[0] = std::max(std::max(std::max(1, 5 * (int)B.getColumns()), 5 * (int)A.getRows()),
+        2 * (int)A.getRows() + 4 * (int)B.getColumns());
     // OUTPUT VARIABLES
     ArrayOf NFP_output = ArrayOf::int32VectorConstructor(1);
     int* NFP_output_ptr = (int*)NFP_output.getDataPointer();
@@ -131,12 +129,10 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOf NUP_output = ArrayOf::int32VectorConstructor(1);
     int* NUP_output_ptr = (int*)NUP_output.getDataPointer();
     ArrayOf F_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)B.getDimensions().getRows()),
-        (indexType)(int)A.getDimensions().getRows());
+        (indexType)std::max(1, (int)B.getRows()), (indexType)(int)A.getRows());
     double* F_output_ptr = (double*)F_output.getDataPointer();
     ArrayOf Z_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)std::max(1, (int)A.getDimensions().getRows()),
-        (indexType)(int)A.getDimensions().getRows());
+        (indexType)std::max(1, (int)A.getRows()), (indexType)(int)A.getRows());
     double* Z_output_ptr = (double*)Z_output.getDataPointer();
     ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
     int* IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
@@ -149,8 +145,7 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     if (!dimsALPHA.isScalar()) {
         Error(_W("Input argument #2: scalar expected."));
     }
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
+    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");

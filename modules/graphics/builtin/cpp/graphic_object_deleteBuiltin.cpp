@@ -37,7 +37,7 @@ Nelson::GraphicsGateway::graphic_object_deleteBuiltin(int nLhs, const ArrayOfVec
     ArrayOf paramGo = argIn[0];
     auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
     if (ptrGO != nullptr) {
-        indexType nbElements = paramGo.getDimensions().getElementCount();
+        indexType nbElements = paramGo.getElementCount();
         for (indexType k = 0; k < nbElements; ++k) {
             auto* go = (GraphicObject*)NELSON_HANDLE_TO_PTR(ptrGO[k]);
             if (go != nullptr) {

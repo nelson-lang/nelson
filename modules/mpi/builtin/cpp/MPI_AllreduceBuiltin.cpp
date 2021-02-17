@@ -68,58 +68,47 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     switch (dataClass) {
     case NLS_LOGICAL:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_UINT8_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_UINT8_T, mpi_op, comm);
         break;
     case NLS_UINT8:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_UINT8_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_UINT8_T, mpi_op, comm);
         break;
     case NLS_INT8:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_INT8_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_INT8_T, mpi_op, comm);
         break;
     case NLS_UINT16:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_UNSIGNED_SHORT, mpi_op, comm);
+            (int)A.getElementCount(), MPI_UNSIGNED_SHORT, mpi_op, comm);
         break;
     case NLS_INT16:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_SHORT, mpi_op, comm);
+            (int)A.getElementCount(), MPI_SHORT, mpi_op, comm);
         break;
     case NLS_UINT32:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_UINT32_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_UINT32_T, mpi_op, comm);
         break;
     case NLS_INT32:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_INT32_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_INT32_T, mpi_op, comm);
         break;
     case NLS_UINT64:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_UINT64_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_UINT64_T, mpi_op, comm);
         break;
     case NLS_INT64:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_INT64_T, mpi_op, comm);
+            (int)A.getElementCount(), MPI_INT64_T, mpi_op, comm);
         break;
     case NLS_SINGLE:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_FLOAT, mpi_op, comm);
+            (int)A.getElementCount(), MPI_FLOAT, mpi_op, comm);
         break;
     case NLS_DOUBLE:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(),
-            MPI_DOUBLE, mpi_op, comm);
+            (int)A.getElementCount(), MPI_DOUBLE, mpi_op, comm);
         break;
     case NLS_SCOMPLEX:
         MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),

@@ -38,7 +38,7 @@ namespace Nelson {
 static mwSize*
 GetDimensions(const ArrayOf& array, mwSize& numdims)
 {
-    numdims = (int)array.getDimensions().getLength();
+    numdims = (int)array.nDims();
     auto* dim_vec = (mwSize*)mxCalloc(numdims, sizeof(mwSize));
     if (dim_vec != nullptr) {
         for (mwSize i = 0; i < numdims; i++) {

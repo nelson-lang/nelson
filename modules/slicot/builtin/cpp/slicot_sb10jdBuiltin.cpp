@@ -87,79 +87,68 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
     // LOCAL VARIABLES
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getDimensions().getColumns();
+    N_ptr[0] = (int)A.getColumns();
     ArrayOf M = ArrayOf::int32VectorConstructor(1);
     int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)B.getDimensions().getRows();
+    M_ptr[0] = (int)B.getRows();
     ArrayOf NP = ArrayOf::int32VectorConstructor(1);
     int* NP_ptr = (int*)NP.getDataPointer();
-    NP_ptr[0] = (int)C.getDimensions().getColumns();
+    NP_ptr[0] = (int)C.getColumns();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
+    LDA_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
     int* LDB_ptr = (int*)LDB.getDataPointer();
-    LDB_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
+    LDB_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf LDC = ArrayOf::int32VectorConstructor(1);
     int* LDC_ptr = (int*)LDC.getDataPointer();
-    LDC_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
+    LDC_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf LDD = ArrayOf::int32VectorConstructor(1);
     int* LDD_ptr = (int*)LDD.getDataPointer();
-    LDD_ptr[0] = std::max(1, (int)C.getDimensions().getColumns());
+    LDD_ptr[0] = std::max(1, (int)C.getColumns());
     ArrayOf LDE = ArrayOf::int32VectorConstructor(1);
     int* LDE_ptr = (int*)LDE.getDataPointer();
-    LDE_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
+    LDE_ptr[0] = std::max(1, (int)A.getColumns());
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(
         std::max(1,
-            2 * (int)A.getDimensions().getColumns() * (int)A.getDimensions().getColumns()
-                + 2 * (int)A.getDimensions().getColumns()
-                + (int)A.getDimensions().getColumns()
-                    * std::max(5,
-                          (int)A.getDimensions().getColumns() + (int)B.getDimensions().getRows()
-                              + (int)C.getDimensions().getColumns())),
+            2 * (int)A.getColumns() * (int)A.getColumns() + 2 * (int)A.getColumns()
+                + (int)A.getColumns()
+                    * std::max(5, (int)A.getColumns() + (int)B.getRows() + (int)C.getColumns())),
         1);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = std::max(1,
-        2 * (int)A.getDimensions().getColumns() * (int)A.getDimensions().getColumns()
-            + 2 * (int)A.getDimensions().getColumns()
-            + (int)A.getDimensions().getColumns()
-                * std::max(5,
-                      (int)A.getDimensions().getColumns() + (int)B.getDimensions().getRows()
-                          + (int)C.getDimensions().getColumns()));
+        2 * (int)A.getColumns() * (int)A.getColumns() + 2 * (int)A.getColumns()
+            + (int)A.getColumns()
+                * std::max(5, (int)A.getColumns() + (int)B.getRows() + (int)C.getColumns()));
     // OUTPUT VARIABLES
     ArrayOf NSYS_output = ArrayOf::int32VectorConstructor(1);
     int* NSYS_output_ptr = (int*)NSYS_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
-    Dimensions dimsA_expected(
-        std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
+    Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
         Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsB_expected(
-        std::max(1, (int)A.getDimensions().getColumns()), (int)B.getDimensions().getRows());
+    Dimensions dimsB_expected(std::max(1, (int)A.getColumns()), (int)B.getRows());
     if (!dimsB.equals(dimsB_expected)) {
         Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsC_expected(
-        std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
+    Dimensions dimsC_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsC.equals(dimsC_expected)) {
         Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsD_expected(
-        std::max(1, (int)C.getDimensions().getColumns()), (int)B.getDimensions().getRows());
+    Dimensions dimsD_expected(std::max(1, (int)C.getColumns()), (int)B.getRows());
     if (!dimsD.equals(dimsD_expected)) {
         Error(_("Input argument #4: wrong size.") + " " + dimsD_expected.toString() + " "
             + "expected" + ".");
     }
-    Dimensions dimsE_expected(
-        std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
+    Dimensions dimsE_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsE.equals(dimsE_expected)) {
         Error(_("Input argument #5: wrong size.") + " " + dimsE_expected.toString() + " "
             + "expected" + ".");

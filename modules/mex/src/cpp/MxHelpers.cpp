@@ -193,7 +193,7 @@ sizeFromClass(mxClassID classid)
 mwSize*
 GetDimensions(const Nelson::ArrayOf& array, mwSize& numdims)
 {
-    numdims = (mwSize)(array.getDimensions().getLength());
+    numdims = (mwSize)(array.nDims());
     auto* dim_vec = (mwSize*)mxMalloc(sizeof(mwSize) * numdims);
     for (mwSize i = 0; i < numdims; i++) {
         dim_vec[i] = array.getDimensions()[i];

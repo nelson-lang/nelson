@@ -84,9 +84,9 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval.push_back(param1);
                 return retval;
             } else if (param1.is2D()) {
-                if (param1.getDimensions().getColumns() == 3) {
+                if (param1.getColumns() == 3) {
                     // OK
-                } else if (param1.getDimensions().getColumns() == 6) {
+                } else if (param1.getColumns() == 6) {
                     // OK
                 } else {
                     retval.push_back(param1);

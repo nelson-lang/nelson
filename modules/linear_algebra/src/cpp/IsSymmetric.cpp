@@ -161,49 +161,47 @@ IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload)
         if (skew) {
             return false;
         }
-        return isSymmetricNoSkew<uint8>((uint8*)A.getDataPointer(), A.getDimensions().getRows());
+        return isSymmetricNoSkew<uint8>((uint8*)A.getDataPointer(), A.getRows());
     }
     case NLS_SINGLE:
-        return isSymmetric<single>((single*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetric<single>((single*)A.getDataPointer(), A.getRows(), skew);
     case NLS_DOUBLE:
-        return isSymmetric<double>((double*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetric<double>((double*)A.getDataPointer(), A.getRows(), skew);
     case NLS_SCOMPLEX:
-        return isSymmetricComplex<single>(
-            (single*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetricComplex<single>((single*)A.getDataPointer(), A.getRows(), skew);
     case NLS_DCOMPLEX:
-        return isSymmetricComplex<double>(
-            (double*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetricComplex<double>((double*)A.getDataPointer(), A.getRows(), skew);
     case NLS_INT8:
-        return isSymmetric<int8>((int8*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetric<int8>((int8*)A.getDataPointer(), A.getRows(), skew);
     case NLS_INT16:
-        return isSymmetric<int16>((int16*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetric<int16>((int16*)A.getDataPointer(), A.getRows(), skew);
     case NLS_INT32:
-        return isSymmetric<int32>((int32*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetric<int32>((int32*)A.getDataPointer(), A.getRows(), skew);
     case NLS_INT64:
-        return isSymmetric<int64>((int64*)A.getDataPointer(), A.getDimensions().getRows(), skew);
+        return isSymmetric<int64>((int64*)A.getDataPointer(), A.getRows(), skew);
     case NLS_UINT8: {
         if (skew) {
             return false;
         }
-        return isSymmetricNoSkew<uint8>((uint8*)A.getDataPointer(), A.getDimensions().getRows());
+        return isSymmetricNoSkew<uint8>((uint8*)A.getDataPointer(), A.getRows());
     }
     case NLS_UINT16: {
         if (skew) {
             return false;
         }
-        return isSymmetricNoSkew<uint16>((uint16*)A.getDataPointer(), A.getDimensions().getRows());
+        return isSymmetricNoSkew<uint16>((uint16*)A.getDataPointer(), A.getRows());
     }
     case NLS_UINT32: {
         if (skew) {
             return false;
         }
-        return isSymmetricNoSkew<uint32>((uint32*)A.getDataPointer(), A.getDimensions().getRows());
+        return isSymmetricNoSkew<uint32>((uint32*)A.getDataPointer(), A.getRows());
     }
     case NLS_UINT64: {
         if (skew) {
             return false;
         }
-        return isSymmetricNoSkew<uint64>((uint64*)A.getDataPointer(), A.getDimensions().getRows());
+        return isSymmetricNoSkew<uint64>((uint64*)A.getDataPointer(), A.getRows());
     }
     default: {
         needToOverload = true;
@@ -240,33 +238,31 @@ IsSymmetric(const ArrayOf& A, double tol, bool& needToOverload)
     }
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
-        return isSymmetric<uint8>((uint8*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<uint8>((uint8*)A.getDataPointer(), A.getRows(), tol);
     case NLS_SINGLE:
-        return isSymmetric<single>((single*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<single>((single*)A.getDataPointer(), A.getRows(), tol);
     case NLS_DOUBLE:
-        return isSymmetric<double>((double*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<double>((double*)A.getDataPointer(), A.getRows(), tol);
     case NLS_SCOMPLEX:
-        return isSymmetricComplex<single>(
-            (single*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetricComplex<single>((single*)A.getDataPointer(), A.getRows(), tol);
     case NLS_DCOMPLEX:
-        return isSymmetricComplex<double>(
-            (double*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetricComplex<double>((double*)A.getDataPointer(), A.getRows(), tol);
     case NLS_INT8:
-        return isSymmetric<int8>((int8*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<int8>((int8*)A.getDataPointer(), A.getRows(), tol);
     case NLS_INT16:
-        return isSymmetric<int16>((int16*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<int16>((int16*)A.getDataPointer(), A.getRows(), tol);
     case NLS_INT32:
-        return isSymmetric<int32>((int32*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<int32>((int32*)A.getDataPointer(), A.getRows(), tol);
     case NLS_INT64:
-        return isSymmetric<int64>((int64*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<int64>((int64*)A.getDataPointer(), A.getRows(), tol);
     case NLS_UINT8:
-        return isSymmetric<uint8>((uint8*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<uint8>((uint8*)A.getDataPointer(), A.getRows(), tol);
     case NLS_UINT16:
-        return isSymmetric<uint16>((uint16*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<uint16>((uint16*)A.getDataPointer(), A.getRows(), tol);
     case NLS_UINT32:
-        return isSymmetric<uint32>((uint32*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<uint32>((uint32*)A.getDataPointer(), A.getRows(), tol);
     case NLS_UINT64:
-        return isSymmetric<uint64>((uint64*)A.getDataPointer(), A.getDimensions().getRows(), tol);
+        return isSymmetric<uint64>((uint64*)A.getDataPointer(), A.getRows(), tol);
     default: {
         needToOverload = true;
         res = false;

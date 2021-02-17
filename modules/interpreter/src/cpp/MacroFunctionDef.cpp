@@ -267,7 +267,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
                 if (static_cast<indexType>(toFill)
-                    > static_cast<indexType>(varargout.getDimensions().getElementCount())) {
+                    > static_cast<indexType>(varargout.getElementCount())) {
                     Error(_W("Not enough outputs in varargout to satisfy call."));
                 }
                 outputs[0] = dp[0];

@@ -49,7 +49,6 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
     bool startOnly = false;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        Dimensions dimsParam2 = param2.getDimensions();
         if (param2.isScalar()) {
             start = param2.getContentAsDoubleScalar();
             startOnly = true;
@@ -57,7 +56,7 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
                 Error(_W("start >= 1 expected."));
             }
             start = start - 1;
-        } else if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
+        } else if (param2.isVector() && param2.isNumeric() && (param2.getElementCount() == 2)) {
             param2.promoteType(NLS_DOUBLE);
             auto* ptr = (double*)param2.getDataPointer();
             start = ptr[0];

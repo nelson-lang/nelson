@@ -249,10 +249,10 @@ RngSetState(Evaluator* eval, ArrayOf st)
     case RNG_TWISTER: {
         if (stClass == NLS_UINT32) {
             if (st.isVector()) {
-                if (st.getDimensions().getElementCount() == randEngine->getStateSize()) {
+                if (st.getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint32*)st.getDataPointer();
                     auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
-                    randEngine->setState(vec, st.getDimensions().getElementCount());
+                    randEngine->setState(vec, st.getElementCount());
                     return true;
                 }
                 std::wstring msg = _W("dimensions of state must be") + L" "
@@ -271,10 +271,10 @@ RngSetState(Evaluator* eval, ArrayOf st)
     case RNG_TWISTER64: {
         if (stClass == NLS_UINT64) {
             if (st.isVector()) {
-                if (st.getDimensions().getElementCount() == randEngine->getStateSize()) {
+                if (st.getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint64*)st.getDataPointer();
                     auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
-                    randEngine->setState(vec, st.getDimensions().getElementCount());
+                    randEngine->setState(vec, st.getElementCount());
                     return true;
                 }
                 std::wstring msg = _W("dimensions of state must be") + L" "
@@ -293,10 +293,10 @@ RngSetState(Evaluator* eval, ArrayOf st)
     case RNG_LAGGED_FIBONACCI_607: {
         if (stClass == NLS_UINT32) {
             if (st.isVector()) {
-                if (st.getDimensions().getElementCount() == randEngine->getStateSize()) {
+                if (st.getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint32*)st.getDataPointer();
                     auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
-                    randEngine->setState(vec, st.getDimensions().getElementCount());
+                    randEngine->setState(vec, st.getElementCount());
                     return true;
                 }
                 std::wstring msg = _W("dimensions of state must be") + L" "

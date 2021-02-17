@@ -61,7 +61,7 @@ sortCellWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecou
 {
     ArrayOfVector res;
     auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-    indexType elementCount = arrayIn.getDimensions().getElementCount();
+    indexType elementCount = arrayIn.getElementCount();
     for (indexType k = 0; k < elementCount; k++) {
         if (!arg[k].isCharacterArray()) {
             needToOverload = true;
@@ -108,7 +108,7 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
         wstringVector strs;
         strs.reserve(outDim.getElementCount());
         auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-        indexType elementCount = arrayIn.getDimensions().getElementCount();
+        indexType elementCount = arrayIn.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!arg[k].isCharacterArray()) {
                 needToOverload = true;
@@ -130,7 +130,7 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
         res.push_back(sortedValues);
     } else {
         auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-        indexType elementCount = arrayIn.getDimensions().getElementCount();
+        indexType elementCount = arrayIn.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!arg[k].isCharacterArray()) {
                 needToOverload = true;
