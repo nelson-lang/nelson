@@ -34,7 +34,7 @@ SingleFindModeFull(ArrayOf x)
 {
     x.promoteType(NLS_LOGICAL);
     const auto* dp = (const logical*)x.getDataPointer();
-    indexType len = x.getLength();
+    indexType len = x.getElementCount();
     indexType nonZero = 0;
     for (indexType i = 0; i < len; i++) {
         if (dp[i] != 0u) {
@@ -66,7 +66,7 @@ RCFindModeFull(ArrayOf x)
 {
     x.promoteType(NLS_LOGICAL);
     const logical* dp = (const logical*)x.getDataPointer();
-    indexType len = x.getLength();
+    indexType len = x.getElementCount();
     indexType nonZero = 0;
     for (indexType i = 0; i < len; i++) {
         if (dp[i] != 0u) {
@@ -102,7 +102,7 @@ ArrayOfVector
 RCVFindModeFullReal(const ArrayOf& x)
 {
     const T* dp = (const T*)x.getDataPointer();
-    indexType len = x.getLength();
+    indexType len = x.getElementCount();
     indexType nonZero = 0;
     for (indexType i = 0; i < len; i++) {
         if (dp[i]) {
@@ -142,7 +142,7 @@ ArrayOfVector
 RCVFindModeFullComplex(const ArrayOf& x)
 {
     const T* dp = (const T*)x.getDataPointer();
-    indexType len = x.getLength();
+    indexType len = x.getElementCount();
     indexType nonZero = 0;
     for (indexType i = 0; i < len; i++) {
         if (dp[2 * i] || dp[2 * i + 1]) {
@@ -223,7 +223,7 @@ FindTrim(ArrayOfVector a, int cnt, bool first_flag)
     if (cnt < 0 || a.empty()) {
         return a;
     }
-    indexType N = a[0].getLength();
+    indexType N = a[0].getElementCount();
     if (cnt > N) {
         return a;
     }

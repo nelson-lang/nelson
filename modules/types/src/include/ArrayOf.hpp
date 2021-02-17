@@ -209,7 +209,7 @@ public:
      * to computing length(this(:)).
      */
     indexType
-    getLength() const;
+    getElementCount() const;
     /**
      * Get a copy of our dimensions vector.
      */

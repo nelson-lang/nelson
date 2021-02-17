@@ -92,7 +92,7 @@ template <class T>
 ArrayOf
 truncateArray(ArrayOf arrayIn, T (*ptrFunc)(T))
 {
-    size_t len = arrayIn.getLength();
+    size_t len = arrayIn.getElementCount();
     void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
     T* rp = (T*)ptr;
     T* dp = (T*)arrayIn.getDataPointer();
@@ -204,7 +204,7 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
         }
     } break;
     case NLS_CHAR: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
@@ -217,7 +217,7 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
     } break;
     case NLS_LOGICAL: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
@@ -249,34 +249,34 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
         case TRUNCATE_LEVEL::CEIL: {
             // to speed up computations, we use a vector with eigen library and MKL
             Eigen::Map<Eigen::MatrixXd> matA(
-                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getElementCount());
             Eigen::Map<Eigen::MatrixXd> matR(
-                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
+                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getElementCount());
             matR = matA.array().ceil();
         } break;
         case TRUNCATE_LEVEL::ROUND: {
             // to speed up computations, we use a vector with eigen library and MKL
             Eigen::Map<Eigen::MatrixXd> matA(
-                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getElementCount());
             Eigen::Map<Eigen::MatrixXd> matR(
-                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
+                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getElementCount());
             matR = matA.array().round();
 
         } break;
         case TRUNCATE_LEVEL::FIX: {
             Eigen::Map<Eigen::MatrixXd> matA(
-                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getElementCount());
             Eigen::Map<Eigen::MatrixXd> matR(
-                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
+                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getElementCount());
             matR = matA.unaryExpr(std::ref(fixDouble));
 
         } break;
         case TRUNCATE_LEVEL::FLOOR: {
             // to speed up computations, we use a vector with eigen library and MKL
             Eigen::Map<Eigen::MatrixXd> matA(
-                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getElementCount());
             Eigen::Map<Eigen::MatrixXd> matR(
-                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
+                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getElementCount());
             matR = matA.array().floor();
         } break;
         }

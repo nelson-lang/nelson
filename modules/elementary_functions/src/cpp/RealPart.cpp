@@ -39,7 +39,7 @@ RealPart(ArrayOf arrayIn)
     }
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(NLS_SINGLE, len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
@@ -52,7 +52,7 @@ RealPart(ArrayOf arrayIn)
         res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
     } break;
     case NLS_DCOMPLEX: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
@@ -73,7 +73,7 @@ RealPart(ArrayOf arrayIn)
         Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_real'");
     } break;
     case NLS_CHAR: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
@@ -86,7 +86,7 @@ RealPart(ArrayOf arrayIn)
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
     } break;
     case NLS_LOGICAL: {
-        size_t len = arrayIn.getLength();
+        size_t len = arrayIn.getElementCount();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();

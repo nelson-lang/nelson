@@ -111,7 +111,8 @@ BetaIncomplete(
         needOverload = true;
         return res;
     }
-    indexType maxLen = std::max(X.getLength(), std::max(Y.getLength(), Z.getLength()));
+    indexType maxLen
+        = std::max(X.getElementCount(), std::max(Y.getElementCount(), Z.getElementCount()));
     Dimensions dimsX = X.getDimensions();
     Dimensions dimsY = Y.getDimensions();
     Dimensions dimsZ = Z.getDimensions();

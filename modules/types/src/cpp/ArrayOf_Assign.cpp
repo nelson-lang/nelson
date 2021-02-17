@@ -511,8 +511,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 if (isColonOperator(index[i])) {
                     haveColonOperator = true;
                     if (i == 0) {
-                        index[i]
-                            = ArrayOf::integerRangeConstructor(1, 1, rightData.getLength(), true);
+                        index[i] = ArrayOf::integerRangeConstructor(
+                            1, 1, rightData.getElementCount(), true);
                     } else {
                         index[i] = ArrayOf::integerRangeConstructor(1, 1, 1, true);
                     }
@@ -548,7 +548,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 dataCount *= myDims[i];
             } else {
                 a[i] = index[i].getMaxAsIndex();
-                dataCount *= index[i].getLength();
+                dataCount *= index[i].getElementCount();
             }
         }
         if (isEmpty()) {
@@ -563,7 +563,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         if (rightData.isScalar()) {
             advance = 0;
-        } else if (!isEmpty() && (rightData.getLength() == dataCount)) {
+        } else if (!isEmpty() && (rightData.getElementCount() == dataCount)) {
             advance = 1;
         } else if (!isEmpty()) {
             if (isStringArray() && rightData.isCharacterArray() && rightData.isRowVector()) {
@@ -761,7 +761,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     }
     if (isColonOperator(index)) {
         if (rightData.isScalar()) {
-            index = ArrayOf::integerRangeConstructor(1, 1, getLength(), true);
+            index = ArrayOf::integerRangeConstructor(1, 1, getElementCount(), true);
         } else {
             Dimensions myDims;
             if (!isEmpty()) {
@@ -769,7 +769,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
             } else {
                 myDims = rightData.getDimensions();
             }
-            if (myDims.getElementCount() != rightData.getLength()) {
+            if (myDims.getElementCount() != rightData.getElementCount()) {
                 Error(_("Assignment A(:) = B requires A and B to be the same size"));
             }
             dp = rightData.dp->getCopy();
@@ -779,7 +779,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     }
     // Make sure the index is an ordinal type
     index.toOrdinalType();
-    indexType index_length = index.getLength();
+    indexType index_length = index.getElementCount();
     if (index_length == 0) {
         return;
     }
@@ -796,7 +796,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         advance = 0;
     } else if (rightData.isScalar()) {
         advance = 0;
-    } else if (rightData.getLength() == index_length) {
+    } else if (rightData.getElementCount() == index_length) {
         advance = 1;
     } else {
         Error("Size mismatch in assignment A(I) = B.\n");
@@ -868,7 +868,7 @@ ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
     if (!scalarValue.isScalar()) {
         Error(ERROR_SCALAR_EXPECTED);
     }
-    auto length = static_cast<uint64>(this->getLength());
+    auto length = static_cast<uint64>(this->getElementCount());
     if (index >= length) {
         Error(_W("Index exceeds matrix dimensions."));
     }

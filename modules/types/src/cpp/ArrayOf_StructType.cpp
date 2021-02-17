@@ -243,7 +243,7 @@ ArrayOf::getFieldAsList(const std::string& fieldName)
         Error(_W("getFieldAsList not supported for sparse arrays."));
     }
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
-    indexType N = getLength();
+    indexType N = getElementCount();
     indexType fieldCount = dp->fieldNames.size();
     int64 ndx = getFieldIndex(fieldName);
     if (ndx < 0) {
@@ -321,10 +321,10 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
     if (!this->isStruct()) {
         Error(ERROR_ASSIGN_TO_NON_STRUCT);
     }
-    if ((int)data.size() < getLength()) {
+    if ((int)data.size() < getElementCount()) {
         Error(_W("Not enough right hand values to satisfy left hand side expression."));
     }
-    indexType indexLength = getLength();
+    indexType indexLength = getElementCount();
     int64 field_ndx = getFieldIndex(fieldName);
     if (field_ndx == -1) {
         field_ndx = insertFieldName(fieldName);
@@ -351,7 +351,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     stringVector names(dp->fieldNames);
     names.push_back(fieldName);
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
-    ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getLength(), names, false);
+    ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getElementCount(), names, false);
     std::string classtype = dp->getStructTypeName();
     indexType fN = names.size();
     if (fN > 1) {

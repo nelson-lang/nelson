@@ -106,7 +106,7 @@ bool*
 ArrayOf::getBinaryMap(indexType maxD)
 {
     bool* map = new_with_exception<bool>(maxD, true);
-    indexType N = getLength();
+    indexType N = getElementCount();
     constIndexPtr rp = (constIndexPtr)dp->getData();
     for (indexType i = 0; i < N; i++) {
         indexType n = (rp[i] - 1);
@@ -132,7 +132,7 @@ ArrayOf::getMaxAsIndex()
 {
     indexType maxval;
     constIndexPtr rp = (constIndexPtr)dp->getData();
-    indexType K = getLength();
+    indexType K = getElementCount();
     maxval = rp[0];
     for (indexType k = 1; k < K; k++) {
         if (rp[k] > maxval) {
@@ -157,7 +157,7 @@ ArrayOf::toOrdinalType()
         // non-zero entries.
         const logical* rp = (const logical*)dp->getData();
         int indexCount = 0;
-        indexType len = getLength();
+        indexType len = getElementCount();
         for (ompIndexType i = 0; i < (ompIndexType)len; i++)
             if (rp[i] != 0) {
                 indexCount++;
@@ -187,7 +187,7 @@ ArrayOf::toOrdinalType()
         Warning(_W("Imaginary part of complex index ignored.\n"));
         // We convert complex values into real values
         const double* rp = (const double*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx = 0;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -211,7 +211,7 @@ ArrayOf::toOrdinalType()
         Warning("Imaginary part of complex index ignored.\n");
         // We convert complex values into real values
         const single* rp = (const single*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -233,7 +233,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_DOUBLE: {
         const double* rp = (const double*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -255,7 +255,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_SINGLE: {
         const single* rp = (const single*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -277,7 +277,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_INT64: {
         const int64* rp = (const int64*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -296,7 +296,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_UINT64: {
         const uint64* rp = (const uint64*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -318,7 +318,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_INT32: {
         const int32* rp = (const int32*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -337,7 +337,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_UINT32: {
         const uint32* rp = (const uint32*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -356,7 +356,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_INT16: {
         const int16* rp = (const int16*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -375,7 +375,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_UINT16: {
         const uint16* rp = (const uint16*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -394,7 +394,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_INT8: {
         const int8* rp = (const int8*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -413,7 +413,7 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_UINT8: {
         const uint8* rp = (const uint8*)dp->getData();
-        indexType len = getLength();
+        indexType len = getElementCount();
         indexType ndx;
         // Allocate space to hold the new type
         indexType* lp = new_with_exception<indexType>(len, false);
@@ -516,7 +516,7 @@ ArrayOf::getReferenceCount() const
 }
 //=============================================================================
 indexType
-ArrayOf::getLength() const
+ArrayOf::getElementCount() const
 {
     if (dp) {
         return dp->dimensions.getElementCount();
@@ -564,12 +564,12 @@ ArrayOf::ensureSingleOwner()
     if (dp->numberOfOwners() > 1) {
         if (!dp->sparse) {
             std::string currentStructType = dp->getStructTypeName();
-            void* np = allocateArrayOf(dp->dataClass, getLength(), dp->fieldNames, false);
+            void* np = allocateArrayOf(dp->dataClass, getElementCount(), dp->fieldNames, false);
             if (isEmpty()) {
                 Dimensions dim = dp->getDimensions();
                 dp = dp->putData(dp->dataClass, dim, np, dp->sparse, dp->fieldNames);
             } else {
-                copyElements(0, np, 0, getLength());
+                copyElements(0, np, 0, getElementCount());
                 dp = dp->putData(dp->dataClass, dp->dimensions, np, dp->sparse, dp->fieldNames);
             }
             dp->setStructTypeName(currentStructType);
@@ -612,7 +612,7 @@ ArrayOf::resize(Dimensions& a)
         return;
     }
     // Check to see if the total number of elements is unchanged.
-    if (newSize.getElementCount() == getLength()) {
+    if (newSize.getElementCount() == getElementCount()) {
         ensureSingleOwner();
         dp->dimensions = newSize;
         return;
@@ -652,7 +652,7 @@ ArrayOf::resize(Dimensions& a)
 void
 ArrayOf::vectorResize(indexType max_index)
 {
-    if (max_index > getLength()) {
+    if (max_index > getElementCount()) {
         Dimensions newDim;
         if (isEmpty() || dp->dimensions.isScalar()) {
             newDim.reset();
@@ -669,7 +669,7 @@ ArrayOf::vectorResize(indexType max_index)
             // First reshape it
             Dimensions tDim(2);
             tDim[0] = 1;
-            tDim[1] = getLength();
+            tDim[1] = getElementCount();
             reshape(tDim);
             newDim.reset();
             newDim[0] = 1;
@@ -693,7 +693,7 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
         Error(_W("Reshape operation not allowed for 'function_handle' type."));
     }
     if (checkValidDimension) {
-        if (a.getElementCount() != getLength()) {
+        if (a.getElementCount() != getElementCount()) {
             Error(_W("Reshape operation cannot change the number of elements in array."));
         }
     }
@@ -721,7 +721,7 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
     if (isFunctionHandle()) {
         Error(_W("changeDimensions operation not allowed for 'function_handle' type."));
     }
-    if (a.getElementCount() != getLength()) {
+    if (a.getElementCount() != getElementCount()) {
         Error(_W("changeDimensions operation cannot change the number of elements in array."));
     }
     dp->dimensions = a;
@@ -801,7 +801,7 @@ ArrayOf::getByteSize() const
     if (isSparse()) {
         Error(_W("Byte size calculation not supported for sparse arrays."));
     }
-    return getElementSize() * getLength();
+    return getElementSize() * getElementCount();
 }
 //=============================================================================
 /**
@@ -847,17 +847,17 @@ ArrayOf::isPositive() const
     case NLS_DCOMPLEX:
         return false;
     case NLS_SINGLE:
-        return isTPositive<single>(dp->getData(), getLength());
+        return isTPositive<single>(dp->getData(), getElementCount());
     case NLS_DOUBLE:
-        return isTPositive<double>(dp->getData(), getLength());
+        return isTPositive<double>(dp->getData(), getElementCount());
     case NLS_INT8:
-        return isTPositive<int8>(dp->getData(), getLength());
+        return isTPositive<int8>(dp->getData(), getElementCount());
     case NLS_INT16:
-        return isTPositive<int16>(dp->getData(), getLength());
+        return isTPositive<int16>(dp->getData(), getElementCount());
     case NLS_INT32:
-        return isTPositive<int32>(dp->getData(), getLength());
+        return isTPositive<int32>(dp->getData(), getElementCount());
     case NLS_INT64:
-        return isTPositive<int64>(dp->getData(), getLength());
+        return isTPositive<int64>(dp->getData(), getElementCount());
     }
     return false;
 }
@@ -959,7 +959,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
         Error(_W("Case arguments must either be a scalar or a cell array"));
     }
     const ArrayOf* qp = (const ArrayOf*)x.dp->getData();
-    indexType len = x.getLength();
+    indexType len = x.getElementCount();
     bool foundMatch = false;
     indexType i = 0;
     while (i < len && !foundMatch) {
@@ -1226,7 +1226,7 @@ indexType
 ArrayOf::getContentAsScalarIndex(bool bWithZero)
 {
     indexType idx = 0;
-    if (getLength() != 1) {
+    if (getElementCount() != 1) {
         Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_DOUBLE);
@@ -1401,33 +1401,33 @@ ArrayOf::nnz()
     // OK - its not sparse... now what?
     switch (dp->dataClass) {
     case NLS_LOGICAL:
-        return DoCountNNZReal<logical>(dp->getData(), getLength());
+        return DoCountNNZReal<logical>(dp->getData(), getElementCount());
     case NLS_INT8:
-        return DoCountNNZReal<int8>(dp->getData(), getLength());
+        return DoCountNNZReal<int8>(dp->getData(), getElementCount());
     case NLS_UINT8:
-        return DoCountNNZReal<uint8>(dp->getData(), getLength());
+        return DoCountNNZReal<uint8>(dp->getData(), getElementCount());
     case NLS_CHAR:
-        return DoCountNNZReal<charType>(dp->getData(), getLength());
+        return DoCountNNZReal<charType>(dp->getData(), getElementCount());
     case NLS_INT16:
-        return DoCountNNZReal<int16>(dp->getData(), getLength());
+        return DoCountNNZReal<int16>(dp->getData(), getElementCount());
     case NLS_UINT16:
-        return DoCountNNZReal<uint16>(dp->getData(), getLength());
+        return DoCountNNZReal<uint16>(dp->getData(), getElementCount());
     case NLS_INT32:
-        return DoCountNNZReal<int32>(dp->getData(), getLength());
+        return DoCountNNZReal<int32>(dp->getData(), getElementCount());
     case NLS_UINT32:
-        return DoCountNNZReal<uint32>(dp->getData(), getLength());
+        return DoCountNNZReal<uint32>(dp->getData(), getElementCount());
     case NLS_INT64:
-        return DoCountNNZReal<int64>(dp->getData(), getLength());
+        return DoCountNNZReal<int64>(dp->getData(), getElementCount());
     case NLS_UINT64:
-        return DoCountNNZReal<uint64>(dp->getData(), getLength());
+        return DoCountNNZReal<uint64>(dp->getData(), getElementCount());
     case NLS_SINGLE:
-        return DoCountNNZReal<single>(dp->getData(), getLength());
+        return DoCountNNZReal<single>(dp->getData(), getElementCount());
     case NLS_DOUBLE:
-        return DoCountNNZReal<double>(dp->getData(), getLength());
+        return DoCountNNZReal<double>(dp->getData(), getElementCount());
     case NLS_SCOMPLEX:
-        return DoCountNNZComplex<single>(dp->getData(), getLength());
+        return DoCountNNZComplex<single>(dp->getData(), getElementCount());
     case NLS_DCOMPLEX:
-        return DoCountNNZComplex<double>(dp->getData(), getLength());
+        return DoCountNNZComplex<double>(dp->getData(), getElementCount());
     case NLS_CELL_ARRAY:
         Error(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
     case NLS_STRING_ARRAY:
@@ -1450,7 +1450,7 @@ ArrayOf::numel()
 bool
 isColonOperator(const ArrayOf& A)
 {
-    if ((A.getDataClass() == NLS_CHAR) && (A.getLength() == 1)) {
+    if ((A.getDataClass() == NLS_CHAR) && (A.getElementCount() == 1)) {
         std::wstring str = A.getContentAsWideString();
         return (str == L":");
     }
@@ -1495,7 +1495,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
                 Error(_W("Index exceeds array bounds."));
             }
             outndx[i] = (constIndexPtr)index[i].getDataPointer();
-            outDims[i] = index[i].getLength();
+            outDims[i] = index[i].getElementCount();
         }
     }
     return outndx;

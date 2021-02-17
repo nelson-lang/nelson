@@ -120,7 +120,7 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                             written = fwrite(str.c_str(), sizeof(char), str.size(), filepointer);
                         }
                     } else {
-                        size_t count(toWrite.getLength());
+                        size_t count(toWrite.getElementCount());
                         size_t elsize(toWrite.getElementSize());
                         if (bIsLittleEndian != isLittleEndianFormat()) {
                             BITSWAP(dp, count, destClass);

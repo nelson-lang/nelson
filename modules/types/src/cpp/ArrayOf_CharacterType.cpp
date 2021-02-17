@@ -219,7 +219,7 @@ ArrayOf::getContentAsArrayOfCharacters() const
 {
     std::wstring str;
     if (dp->dataClass == NLS_CHAR) {
-        indexType M = getLength();
+        indexType M = getElementCount();
         auto* buffer = new_with_exception<charType>(M + 1, false);
         const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
@@ -247,7 +247,7 @@ ArrayOf::getContentAsWideCharactersPointer() const
 {
     charType* buffer = nullptr;
     if (isRowVectorCharacterArray()) {
-        indexType M = getLength();
+        indexType M = getElementCount();
         buffer = new_with_exception<charType>(M + 1, false);
         const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
@@ -268,7 +268,7 @@ ArrayOf::getContentAsWideString() const
 {
     std::wstring str;
     if (isRowVectorCharacterArray()) {
-        indexType M = getLength();
+        indexType M = getElementCount();
         str.resize(M + 1);
         auto* buffer = new_with_exception<charType>(M + 1, false);
         const auto* qp = static_cast<const charType*>(dp->getData());

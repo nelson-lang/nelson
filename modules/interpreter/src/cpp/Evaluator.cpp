@@ -839,7 +839,7 @@ Evaluator::subsindex(const ArrayOfVector& m)
     for (size_t k = 0; k < m.size(); k++) {
         ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
         t.promoteType(NLS_UINT32);
-        size_t len = t.getLength();
+        size_t len = t.getElementCount();
         uint32* dp = (uint32*)t.getReadWriteDataPointer();
         for (size_t j = 0; j < len; j++) {
             dp[j]++;
@@ -1267,7 +1267,7 @@ Evaluator::forStatement(ASTPtr t)
     bool isRowVector = indexSet.isRowVector();
     bool isColumnVector = indexSet.isColumnVector();
     if (isRowVector) {
-        elementCount = indexSet.getLength();
+        elementCount = indexSet.getElementCount();
     } else if (isColumnVector) {
         elementCount = 1;
     } else {
@@ -2086,17 +2086,17 @@ Evaluator::countLeftHandSides(ASTPtr t)
         if (m.size() == 1) {
             // m[0] should have only one element...
             m[0].toOrdinalType();
-            if (m[0].getLength() > 1) {
+            if (m[0].getElementCount() > 1) {
                 Error(ERROR_PARENTHETICAL_EXPRESSION);
             }
             popID();
-            return (m[0].getLength());
+            return (m[0].getElementCount());
         } else {
             size_t i = 0;
             indexType outputCount = 1;
             while (i < m.size()) {
                 m[i].toOrdinalType();
-                outputCount *= m[i].getLength();
+                outputCount *= m[i].getElementCount();
                 i++;
             }
             if (outputCount > 1) {
@@ -2115,13 +2115,13 @@ Evaluator::countLeftHandSides(ASTPtr t)
             // m[0] should have only one element...
             m[0].toOrdinalType();
             popID();
-            return (m[0].getLength());
+            return (m[0].getElementCount());
         } else {
             size_t i = 0;
             indexType outputCount = 1;
             while (i < m.size()) {
                 m[i].toOrdinalType();
-                outputCount *= m[i].getLength();
+                outputCount *= m[i].getElementCount();
                 i++;
             }
             popID();
@@ -2130,7 +2130,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
     }
     if (s->opNum == (OP_DOT)) {
         popID();
-        return lhs.getLength();
+        return lhs.getElementCount();
     }
     popID();
     return static_cast<indexType>(1);
