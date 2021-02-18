@@ -127,8 +127,8 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                 if (str != L":") {
                     Error(_W("index must either be real positive integers or logicals."));
                 }
-                ArrayOf newIndex = ArrayOf::integerRangeConstructor(
-                    1, 1, dp->dimensions.getElementCount(), true);
+                ArrayOf newIndex
+                    = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
                 return getVectorSubset(newIndex);
             }
             double idx = index.getContentAsDoubleScalar();

@@ -210,7 +210,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             io->outputMessage(" string]");
         } break;
         case NLS_GO_HANDLE:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 io->outputMessage("[graphic_object]");
             } else {
                 io->outputMessage("[");
@@ -219,7 +219,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_HANDLE:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 io->outputMessage("[handle]");
             } else {
                 io->outputMessage("[");
@@ -228,7 +228,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_LOGICAL:
-            if (!isSparse() && dp->dimensions.isScalar()) {
+            if (!isSparse() && dp->isScalar()) {
                 snprintf(
                     msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const logical*>(dp->getData())));
                 io->outputMessage(msgBuffer);
@@ -242,7 +242,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_UINT8:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const uint8*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
@@ -252,7 +252,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_INT8:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const int8*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
@@ -262,7 +262,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_UINT16:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(
                     msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const uint16*>(dp->getData())));
                 io->outputMessage(msgBuffer);
@@ -273,7 +273,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_INT16:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const int16*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
@@ -283,7 +283,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_UINT32:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(
                     msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const uint32*>(dp->getData())));
                 io->outputMessage(msgBuffer);
@@ -294,7 +294,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_INT32:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const int32*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
@@ -304,7 +304,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_UINT64: {
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 uint64 val = *(static_cast<const uint64*>(dp->getData()));
                 std::string msg = "[" + std::to_string(val) + "]";
                 // snprintf(msgBuffer, MSGBUFLEN, "[" PRIu64 "]", *((const
@@ -317,7 +317,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
         } break;
         case NLS_INT64: {
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 int64 value = *(static_cast<const int64*>(dp->getData()));
                 std::string msg = std::string("[") + std::to_string(value) + std::string("]");
                 // snprintf(msgBuffer, MSGBUFLEN, "[" PRId64 "]", *((const
@@ -330,7 +330,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
         } break;
         case NLS_DOUBLE:
-            if (!isSparse() && dp->dimensions.isScalar()) {
+            if (!isSparse() && dp->isScalar()) {
                 snprintf(
                     msgBuffer, MSGBUFLEN, "[%lf]", *(static_cast<const double*>(dp->getData())));
                 io->outputMessage(msgBuffer);
@@ -344,7 +344,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_DCOMPLEX:
-            if (!isSparse() && dp->dimensions.isScalar()) {
+            if (!isSparse() && dp->isScalar()) {
                 const auto* ap = static_cast<const double*>(dp->getData());
                 snprintf(msgBuffer, MSGBUFLEN, "[%lf+%lfi]", ap[0], ap[1]);
                 io->outputMessage(msgBuffer);
@@ -358,7 +358,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_SINGLE:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 snprintf(
                     msgBuffer, MSGBUFLEN, "[%f]", *(static_cast<const single*>(dp->getData())));
                 io->outputMessage(msgBuffer);
@@ -369,7 +369,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             }
             break;
         case NLS_SCOMPLEX:
-            if (dp->dimensions.isScalar()) {
+            if (dp->isScalar()) {
                 const auto* ap = static_cast<const single*>(dp->getData());
                 snprintf(msgBuffer, MSGBUFLEN, "[%f+%fi]", ap[0], ap[1]);
                 io->outputMessage(msgBuffer);
@@ -668,7 +668,7 @@ ArrayOf::printMe(Interface* io) const
         return;
     }
     if (dp->dataClass == NLS_STRUCT_ARRAY) {
-        if (dp->dimensions.isScalar()) {
+        if (dp->isScalar()) {
             ArrayOf* ap;
             ap = (ArrayOf*)dp->getData();
             for (sizeType n = 0; n < static_cast<sizeType>(dp->fieldNames.size()); n++) {
@@ -691,8 +691,8 @@ ArrayOf::printMe(Interface* io) const
     } else {
         const void* ap = dp->getData();
         if (dp->dimensions.getLength() == 2) {
-            indexType rows = dp->dimensions.getRows();
-            indexType columns = dp->dimensions.getColumns();
+            indexType rows = dp->getRows();
+            indexType columns = dp->getColumns();
             // Determine how many columns will fit across
             // the terminal width
             auto colsPerPage = static_cast<indexType>(
@@ -703,7 +703,7 @@ ArrayOf::printMe(Interface* io) const
                  k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
                 indexType colsInThisPage = columns - colsPerPage * k;
                 colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-                if (dp->dimensions.getElementCount() > 1 && dp->dataClass != NLS_CHAR) {
+                if (dp->getElementCount() > 1 && dp->dataClass != NLS_CHAR) {
                     snprintf(msgBuffer, MSGBUFLEN, _("\nColumns %d to %d\n").c_str(),
                         k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                     io->outputMessage(msgBuffer);
@@ -741,8 +741,8 @@ ArrayOf::printMe(Interface* io) const
              * and rolling downwards.
              */
             Dimensions wdims(dp->dimensions.getLength());
-            indexType rows(dp->dimensions.getRows());
-            indexType columns(dp->dimensions.getColumns());
+            indexType rows(dp->getRows());
+            indexType columns(dp->getColumns());
             indexType offset = 0;
             while (wdims.inside(dp->dimensions)) {
                 snprintf(msgBuffer, MSGBUFLEN, "(:,:");

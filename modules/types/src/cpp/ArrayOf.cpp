@@ -512,7 +512,7 @@ indexType
 ArrayOf::getRows() const
 {
     if (dp) {
-        return dp->dimensions.getRows();
+        return dp->getRows();
     } else {
         return 0;
     }
@@ -522,7 +522,7 @@ indexType
 ArrayOf::getColumns() const
 {
     if (dp) {
-        return dp->dimensions.getColumns();
+        return dp->getColumns();
     } else {
         return 0;
     }
@@ -542,7 +542,7 @@ indexType
 ArrayOf::getElementCount() const
 {
     if (dp) {
-        return dp->dimensions.getElementCount();
+        return dp->getElementCount();
     } else {
         return 0;
     }
@@ -638,6 +638,7 @@ ArrayOf::resize(Dimensions& a)
     if (newSize.getElementCount() == getElementCount()) {
         ensureSingleOwner();
         dp->dimensions = newSize;
+        dp->refreshDimensionCache();
         return;
     }
     if (isSparse()) {
@@ -677,11 +678,11 @@ ArrayOf::vectorResize(indexType max_index)
 {
     if (max_index > getElementCount()) {
         Dimensions newDim;
-        if (isEmpty() || dp->dimensions.isScalar()) {
+        if (isEmpty() || dp->isScalar()) {
             newDim.reset();
             newDim[0] = 1;
             newDim[1] = max_index;
-        } else if (dp->dimensions.isVector()) {
+        } else if (dp->isVector()) {
             newDim = dp->dimensions;
             if (dp->dimensions[0] != 1) {
                 newDim[0] = max_index;
@@ -726,12 +727,14 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
                 dp->dataClass, dp->dimensions[0], dp->dimensions[1], a[0], a[1], dp->getData());
             dp = dp->putData(dp->dataClass, a, reshapedSparseMatrix, true);
             dp->dimensions = a;
+            dp->refreshDimensionCache();
         } else {
             Error(_W("Reshape operation not allowed with N Dimensions sparse arrays."));
         }
     } else {
         ensureSingleOwner();
         dp->dimensions = a;
+        dp->refreshDimensionCache();
     }
 }
 //=============================================================================
@@ -748,6 +751,7 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
         Error(_W("changeDimensions operation cannot change the number of elements in array."));
     }
     dp->dimensions = a;
+    dp->refreshDimensionCache();
 }
 //=============================================================================
 /**
@@ -1011,7 +1015,7 @@ ArrayOf::isEmpty(bool allDimensionsIsZero) const
 bool
 ArrayOf::isScalar() const
 {
-    return dp->dimensions.isScalar();
+    return dp->isScalar();
 }
 //=============================================================================
 /**
@@ -1020,7 +1024,7 @@ ArrayOf::isScalar() const
 bool
 ArrayOf::is2D() const
 {
-    return dp->dimensions.is2D();
+    return dp->is2D();
 }
 //=============================================================================
 /**
@@ -1038,7 +1042,7 @@ ArrayOf::isSquare() const
 bool
 ArrayOf::isVector() const
 {
-    return dp->dimensions.isVector();
+    return dp->isVector();
 }
 //=============================================================================
 bool

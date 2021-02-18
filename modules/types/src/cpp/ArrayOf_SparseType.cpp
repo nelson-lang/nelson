@@ -78,7 +78,7 @@ indexType
 ArrayOf::getNonzeros() const
 {
     if (!isSparse()) {
-        return (dp->dimensions.getElementCount());
+        return (dp->getElementCount());
     }
     if (isEmpty()) {
         return 0;

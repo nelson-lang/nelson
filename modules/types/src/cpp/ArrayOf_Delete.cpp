@@ -81,11 +81,11 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
         delete[] deletionMap;
         deletionMap = nullptr;
         Dimensions newDim;
-        if (dp->dimensions.isScalar()) {
+        if (dp->isScalar()) {
             newDim.reset();
             newDim[0] = 1;
             newDim[1] = newSize;
-        } else if (dp->dimensions.isVector()) {
+        } else if (dp->isVector()) {
             newDim = dp->dimensions;
             if (dp->dimensions[0] != 1) {
                 newDim[0] = newSize;

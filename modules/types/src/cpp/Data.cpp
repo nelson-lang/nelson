@@ -55,6 +55,7 @@ Data::Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag, strin
     : cp(s), owners(1), dimensions(dims), fieldNames(std::move(fields)), dataClass(aClass)
 {
     sparse = sparseflag;
+    refreshDimensionCache();
 }
 //=============================================================================
 Data::~Data() { freeDataBlock(); }
@@ -78,6 +79,7 @@ Data::putData(
         fieldNames = fields;
         sparse = sparseflag;
         owners = 1;
+        refreshDimensionCache();
         return this;
     }
     owners--;
@@ -118,6 +120,7 @@ void
 Data::setDimensions(const Dimensions& dim)
 {
     dimensions = dim;
+    refreshDimensionCache();
 }
 //=============================================================================
 void
@@ -127,7 +130,7 @@ Data::setFieldNames(const stringVector& fields)
 }
 //=============================================================================
 std::string
-Data::getStructTypeName()
+Data::getStructTypeName() const
 {
     return structTypeName;
 }
@@ -238,9 +241,20 @@ Data::freeDataBlock()
 }
 //=============================================================================
 bool
-Data::isSparse()
+Data::isSparse() const
 {
     return sparse;
+}
+//=============================================================================
+void
+Data::refreshDimensionCache()
+{
+    isVectorCache = dimensions.isVector();
+    is2DCache = dimensions.is2D();
+    isScalarCache = dimensions.isScalar();
+    getColumnsCache = dimensions.getColumns();
+    getRowsCache = dimensions.getRows();
+    getElementCountCache = dimensions.getElementCount();
 }
 //=============================================================================
 } // namespace Nelson
