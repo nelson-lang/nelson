@@ -861,7 +861,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             if (isIntegerA) {
                 if (B.getDataClass() == NLS_DOUBLE) {
                     auto* ptrB = (double*)B.getDataPointer();
-                    indexType elementCount = B.getDimensions().getElementCount();
+                    indexType elementCount = B.getElementCount();
                     bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
                     if (!allIntegerValue) {
                         Error(_W("Positive integral powers expected."));

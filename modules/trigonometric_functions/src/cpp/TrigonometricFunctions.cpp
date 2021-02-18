@@ -539,7 +539,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         auto* ptrA = (single*)A.getDataPointer();
         bool needToConvertAsComplex = false;
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             if (std::fabs(ptrA[i]) > 1) {
                 needToConvertAsComplex = true;
@@ -582,7 +582,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         auto* ptrA = (double*)A.getDataPointer();
         bool needToConvertAsComplex = false;
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             if (std::abs(ptrA[i]) > 1) {
                 needToConvertAsComplex = true;
@@ -647,7 +647,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         auto* ptrA = (single*)A.getDataPointer();
         bool needToConvertAsComplex = false;
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             if (std::fabs(ptrA[i]) > 1) {
                 needToConvertAsComplex = true;
@@ -691,7 +691,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         auto* ptrA = (double*)A.getDataPointer();
         bool needToConvertAsComplex = false;
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             if (std::abs(ptrA[i]) > 1) {
                 needToConvertAsComplex = true;

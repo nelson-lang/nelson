@@ -241,7 +241,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 }
                 auto* idx = (indexType*)index[i].getDataPointer();
                 if (idx != nullptr) {
-                    dimsDest[i] = idx[index[i].getDimensions().getElementCount() - 1];
+                    dimsDest[i] = idx[index[i].getElementCount() - 1];
                 }
             }
         }

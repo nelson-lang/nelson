@@ -44,16 +44,16 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     } else if (B.isVector() && A.isScalar()) {
         Cdim = B.getDimensions();
     } else if ((A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())) {
-        Cdim[0] = A.getDimensions().getRows();
-        Cdim[1] = B.getDimensions().getColumns();
+        Cdim[0] = A.getRows();
+        Cdim[1] = B.getColumns();
     } else {
         if (A.isScalar()) {
             Cdim = B.getDimensions();
         } else if (B.isScalar()) {
             Cdim = A.getDimensions();
         } else {
-            Cdim[0] = A.getDimensions().getRows();
-            Cdim[1] = B.getDimensions().getColumns();
+            Cdim[0] = A.getRows();
+            Cdim[1] = B.getColumns();
         }
     }
     indexType Clen = Cdim.getElementCount();
@@ -114,16 +114,16 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
     } else if (B.isVector() && A.isScalar()) {
         Cdim = B.getDimensions();
     } else if ((A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())) {
-        Cdim[0] = A.getDimensions().getRows();
-        Cdim[1] = B.getDimensions().getColumns();
+        Cdim[0] = A.getRows();
+        Cdim[1] = B.getColumns();
     } else {
         if (A.isScalar()) {
             Cdim = B.getDimensions();
         } else if (B.isScalar()) {
             Cdim = A.getDimensions();
         } else {
-            Cdim[0] = A.getDimensions().getRows();
-            Cdim[1] = B.getDimensions().getColumns();
+            Cdim[0] = A.getRows();
+            Cdim[1] = B.getColumns();
         }
     }
     indexType Clen = Cdim.getElementCount();
@@ -175,16 +175,16 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     } else if (B.isVector() && A.isScalar()) {
         Cdim = B.getDimensions();
     } else if ((A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())) {
-        Cdim[0] = A.getDimensions().getRows();
-        Cdim[1] = B.getDimensions().getColumns();
+        Cdim[0] = A.getRows();
+        Cdim[1] = B.getColumns();
     } else {
         if (A.isScalar()) {
             Cdim = B.getDimensions();
         } else if (B.isScalar()) {
             Cdim = A.getDimensions();
         } else {
-            Cdim[0] = A.getDimensions().getRows();
-            Cdim[1] = B.getDimensions().getColumns();
+            Cdim[0] = A.getRows();
+            Cdim[1] = B.getColumns();
         }
     }
     indexType Clen = Cdim.getElementCount();

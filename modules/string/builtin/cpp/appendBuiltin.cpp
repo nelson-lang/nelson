@@ -122,7 +122,7 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
                 vectorOfStringVector.push_back(vstr);
             } else if (v.isCell()) {
                 auto* cells = (ArrayOf*)v.getDataPointer();
-                indexType nbCells = v.getDimensions().getElementCount();
+                indexType nbCells = v.getElementCount();
                 wstringVector vstr;
                 vstr.reserve(nbCells);
                 for (indexType q = 0; q < nbCells; ++q) {

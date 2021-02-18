@@ -115,8 +115,8 @@ character2dArrayTotoStringArray(ArrayOf m)
 {
     ArrayOf res;
     auto* ptr = (wchar_t*)m.getDataPointer();
-    indexType rows = m.getDimensions().getRows();
-    indexType columns = m.getDimensions().getColumns();
+    indexType rows = m.getRows();
+    indexType columns = m.getColumns();
     wstringVector v;
     for (indexType i = 0; i < rows; i++) {
         std::wstring s;
@@ -410,10 +410,10 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         if (m.isRowVectorCharacterArray()) {
             return ArrayOf::stringArrayConstructor(m.getContentAsWideString());
         }
-        if (m.getDimensions().getLength() == 2) {
+        if (m.nDims() == 2) {
             return character2dArrayTotoStringArray(m);
         }
-        if (m.getDimensions().getLength() > 2) {
+        if (m.nDims() > 2) {
             return characterNdArrayTotoStringArray(m);
         }
     } break;

@@ -49,10 +49,10 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         if (argIn[0].getDataClass() == NLS_STRING_ARRAY) {
             ArrayOf* elementsCell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                NLS_CELL_ARRAY, argIn[0].getDimensions().getElementCount(), stringVector(), false));
+                NLS_CELL_ARRAY, argIn[0].getElementCount(), stringVector(), false));
 
             auto* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
-            ompIndexType elementCount = argIn[0].getDimensions().getElementCount();
+            ompIndexType elementCount = argIn[0].getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif

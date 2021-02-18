@@ -186,7 +186,7 @@ encode_array(ArrayOf ValueToEncode, bool close)
             json_append_char(L'[');
         }
     } else {
-        indexType nbElements = ValueToEncode.getDimensions().getElementCount();
+        indexType nbElements = ValueToEncode.getElementCount();
         if (nbElements > 1) {
             if (ValueToEncode.getDataClass() != NLS_CHAR) {
                 if (close) {
@@ -213,13 +213,13 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
 {
     auto* ptr = (T*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        indexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        indexType elementCount = ValueToEncode.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
             json_append_string(StringFormat(format.c_str(), ptr[i]));
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getDimensions().getRows();
-        indexType cols = ValueToEncode.getDimensions().getColumns();
+        indexType rows = ValueToEncode.getRows();
+        indexType cols = ValueToEncode.getColumns();
         for (int i = 0; i < rows; ++i) {
             json_append_char('[');
             for (int j = 0; j < cols; ++j) {
@@ -252,13 +252,13 @@ jsonEncodeDouble(const ArrayOf& ValueToEncode, bool convertNanInf)
 {
     auto* ptr = (double*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        ompIndexType elementCount = ValueToEncode.getElementCount();
         for (ompIndexType i = 0; i < elementCount; i++) {
             encode_double(ptr[i], convertNanInf);
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getDimensions().getRows();
-        indexType cols = ValueToEncode.getDimensions().getColumns();
+        indexType rows = ValueToEncode.getRows();
+        indexType cols = ValueToEncode.getColumns();
         for (int i = 0; i < rows; ++i) {
             json_append_char(L'[');
             for (int j = 0; j < cols; ++j) {
@@ -291,13 +291,13 @@ jsonEncodeSingle(const ArrayOf& ValueToEncode, bool convertNanInf)
 {
     auto* ptr = (single*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        ompIndexType elementCount = ValueToEncode.getElementCount();
         for (ompIndexType i = 0; i < elementCount; i++) {
             encode_single(ptr[i], convertNanInf);
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getDimensions().getRows();
-        indexType cols = ValueToEncode.getDimensions().getColumns();
+        indexType rows = ValueToEncode.getRows();
+        indexType cols = ValueToEncode.getColumns();
         for (int i = 0; i < rows; ++i) {
             json_append_char('[');
             for (int j = 0; j < cols; ++j) {
@@ -337,8 +337,8 @@ jsonEncodeCharacters(const ArrayOf& ValueToEncode)
         }
         json_append_char(L'"');
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getDimensions().getRows();
-        indexType cols = ValueToEncode.getDimensions().getColumns();
+        indexType rows = ValueToEncode.getRows();
+        indexType cols = ValueToEncode.getColumns();
         jsonString.reserve(jsonString.size() + strw.size() + 2);
         for (int i = 0; i < rows; ++i) {
             json_append_char(L'"');
@@ -373,7 +373,7 @@ jsonEncodeLogical(const ArrayOf& ValueToEncode)
 {
     auto* ptr = (logical*)ValueToEncode.getDataPointer();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-        ompIndexType elementCount = ValueToEncode.getDimensions().getElementCount();
+        ompIndexType elementCount = ValueToEncode.getElementCount();
         for (ompIndexType i = 0; i < elementCount; i++) {
             if (ptr[i] == 0) {
                 json_append_string(L"false,");
@@ -382,8 +382,8 @@ jsonEncodeLogical(const ArrayOf& ValueToEncode)
             }
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getDimensions().getRows();
-        indexType cols = ValueToEncode.getDimensions().getColumns();
+        indexType rows = ValueToEncode.getRows();
+        indexType cols = ValueToEncode.getColumns();
         for (indexType i = 0; i < rows; ++i) {
             json_append_char('[');
             for (indexType j = 0; j < cols; ++j) {
@@ -445,7 +445,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY: {
             auto* elements = (ArrayOf*)ValueToEncode.getDataPointer();
-            indexType elementCount = ValueToEncode.getDimensions().getElementCount();
+            indexType elementCount = ValueToEncode.getElementCount();
             for (indexType i = 0; i < elementCount; i++) {
                 jsonEncodeInternal(elements[i], convertNanInf, errorMessage);
                 json_append_char(L',');
@@ -453,7 +453,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         } break;
         case NLS_STRUCT_ARRAY: {
             stringVector fieldnames = ValueToEncode.getFieldNames();
-            indexType elementCount = ValueToEncode.getDimensions().getElementCount();
+            indexType elementCount = ValueToEncode.getElementCount();
             for (int i = 0; i < elementCount; i++) {
                 json_append_char(L'{');
                 for (auto fieldname : fieldnames) {

@@ -917,7 +917,7 @@ MinimumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload)
         return A;
     }
     Dimensions outDim(1, 1);
-    indexType elementCount = A.getDimensions().getElementCount();
+    indexType elementCount = A.getElementCount();
     switch (A.getDataClass()) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

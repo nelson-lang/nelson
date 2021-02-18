@@ -42,13 +42,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
+//=============================================================================
 #include "ArrayOf.hpp"
 #include "nlsTypes_exports.h"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 /**
  * This is a helper class that is used by the ArrayOf class to
  * support the reference counting scheme used by the ArrayOf objects.
@@ -78,7 +79,7 @@ private:
     /**
      * Number of owners for the data block.
      */
-    int owners;
+    indexType owners;
     /**
      * The dimensions of the data block.
      */
@@ -127,7 +128,7 @@ private:
     /**
      * Decrement the reference count (owners) by one.
      */
-    int
+    indexType
     deleteCopy();
     /**
      * Get a read-only pointer to the data.
@@ -175,7 +176,7 @@ private:
     /**
      * Get the number of owners.
      */
-    int
+    indexType
     numberOfOwners() const;
     /**
      * If the data pointer is non-null, we take one of
@@ -192,4 +193,6 @@ private:
     bool
     isSparse();
 };
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

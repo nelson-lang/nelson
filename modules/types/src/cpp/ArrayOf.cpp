@@ -93,9 +93,7 @@ inline void
 ArrayOf::deleteContents(void)
 {
     if (dp) {
-        int m;
-        m = dp->deleteCopy();
-        if (m <= 1) {
+        if (dp->deleteCopy() <= 1) {
             delete dp;
         }
         dp = nullptr;
@@ -466,11 +464,7 @@ ArrayOf::ArrayOf(
     dp = new Data(type, dims, data, sparse, fnames);
 }
 //=============================================================================
-ArrayOf::ArrayOf(Class type)
-{
-    Dimensions dims(0, 0);
-    dp = new Data(type, dims, nullptr);
-}
+ArrayOf::ArrayOf(Class type) { dp = new Data(type, Dimensions(0, 0), nullptr); }
 //=============================================================================
 /**
  * Destructor - free the data object.
@@ -478,8 +472,7 @@ ArrayOf::ArrayOf(Class type)
 ArrayOf::~ArrayOf()
 {
     if (dp) {
-        int m = dp->deleteCopy();
-        if (m <= 1) {
+        if (dp->deleteCopy() <= 1) {
             delete dp;
         }
         dp = nullptr;
@@ -505,11 +498,41 @@ ArrayOf::operator=(const ArrayOf& copy)
     }
 }
 //=============================================================================
-int
+indexType
 ArrayOf::getReferenceCount() const
 {
     if (dp) {
         return dp->numberOfOwners();
+    } else {
+        return 0;
+    }
+}
+//=============================================================================
+indexType
+ArrayOf::getRows() const
+{
+    if (dp) {
+        return dp->dimensions.getRows();
+    } else {
+        return 0;
+    }
+}
+//=============================================================================
+indexType
+ArrayOf::getColumns() const
+{
+    if (dp) {
+        return dp->dimensions.getColumns();
+    } else {
+        return 0;
+    }
+}
+//=============================================================================
+indexType
+ArrayOf::nDims() const
+{
+    if (dp) {
+        return dp->dimensions.getLength();
     } else {
         return 0;
     }

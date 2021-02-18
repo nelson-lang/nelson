@@ -75,33 +75,33 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                     res.promoteType(NLS_LOGICAL);
                 }
             } else {
-                if (A.getDimensions().getRows() > A.getDimensions().getColumns()) {
+                if (A.getRows() > A.getColumns()) {
                     if (dim - 1 == 0) {
                         Dimensions dims(1, 0);
                         res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     } else if (dim - 1 == 1) {
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                            NLS_LOGICAL, A.getDimensions().getRows(), stringVector(), true);
-                        Dimensions dims(A.getDimensions().getRows(), 1);
+                            NLS_LOGICAL, A.getRows(), stringVector(), true);
+                        Dimensions dims(A.getRows(), 1);
                         res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                     } else {
-                        Dimensions dims(A.getDimensions().getRows(), 0);
+                        Dimensions dims(A.getRows(), 0);
                         res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     }
                 } else {
                     if (dim - 1 == 0) {
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                            NLS_LOGICAL, A.getDimensions().getColumns(), stringVector(), true);
-                        Dimensions dims(1, A.getDimensions().getColumns());
+                            NLS_LOGICAL, A.getColumns(), stringVector(), true);
+                        Dimensions dims(1, A.getColumns());
                         res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                     } else if (dim - 1 == 1) {
                         Dimensions dims(0, 1);
                         res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     } else {
-                        Dimensions dims(0, A.getDimensions().getColumns());
+                        Dimensions dims(0, A.getColumns());
                         res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     }
@@ -111,7 +111,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
     } else if (A.isVector()) {
         auto* pLogical = (logical*)A.getDataPointer();
         bool bRes = false;
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (pLogical[k] != 0) {
                 bRes = true;

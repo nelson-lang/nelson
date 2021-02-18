@@ -34,7 +34,7 @@ TransposeSparseDouble(ArrayOf A)
 {
     ArrayOf C;
     if (A.isEmpty()) {
-        Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
+        Dimensions dimsC(A.getColumns(), A.getRows());
         C = ArrayOf(NLS_DOUBLE, dimsC, (void*)nullptr, true);
     } else {
         if (A.isComplex()) {

@@ -73,41 +73,32 @@ ArrayOf::isNdArrayDoubleType(bool realOnly) const
 ArrayOf
 ArrayOf::doubleConstructor(double aval)
 {
-    Dimensions dim;
-    dim.makeScalar();
     double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, 1, stringVector(), false));
     *data = aval;
-    return ArrayOf(NLS_DOUBLE, dim, data);
+    return ArrayOf(NLS_DOUBLE, Dimensions(1, 1), data);
 }
 //=============================================================================
 ArrayOf
 ArrayOf::doubleVectorConstructor(indexType len)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    dim[1] = len;
     double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, len, stringVector(), true));
-    return ArrayOf(NLS_DOUBLE, dim, data);
+    return ArrayOf(NLS_DOUBLE, Dimensions(1, len), data);
 }
 //=============================================================================
 ArrayOf
 ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
 {
-    Dimensions dim(m, n);
-    double* data = static_cast<double*>(
-        allocateArrayOf(NLS_DOUBLE, dim.getElementCount(), stringVector(), true));
-    return ArrayOf(NLS_DOUBLE, dim, data);
+    double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, m * n, stringVector(), true));
+    return ArrayOf(NLS_DOUBLE, Dimensions(m, n), data);
 }
 //=============================================================================
 ArrayOf
 ArrayOf::dcomplexConstructor(double aval, double bval)
 {
-    Dimensions dim;
-    dim.makeScalar();
     double* data = static_cast<double*>(allocateArrayOf(NLS_DCOMPLEX, 1, stringVector(), false));
     data[0] = aval;
     data[1] = bval;
-    return ArrayOf(NLS_DCOMPLEX, dim, data);
+    return ArrayOf(NLS_DCOMPLEX, Dimensions(1, 1), data);
 }
 //=============================================================================
 double

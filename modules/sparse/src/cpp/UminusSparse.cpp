@@ -59,13 +59,13 @@ sparsedouble_uminus(ArrayOf a)
 {
     switch (a.getDataClass()) {
     case NLS_DOUBLE: {
-        void* res = sparsedouble_uminus<double>(NLS_DOUBLE, a.getDimensions().getRows(),
-            a.getDimensions().getColumns(), a.getSparseDataPointer());
+        void* res = sparsedouble_uminus<double>(
+            NLS_DOUBLE, a.getRows(), a.getColumns(), a.getSparseDataPointer());
         return ArrayOf(NLS_DOUBLE, a.getDimensions(), res, true);
     } break;
     case NLS_DCOMPLEX: {
-        void* res = sparsedouble_uminus<doublecomplex>(NLS_DCOMPLEX, a.getDimensions().getRows(),
-            a.getDimensions().getColumns(), a.getSparseDataPointer());
+        void* res = sparsedouble_uminus<doublecomplex>(
+            NLS_DCOMPLEX, a.getRows(), a.getColumns(), a.getSparseDataPointer());
         return ArrayOf(NLS_DCOMPLEX, a.getDimensions(), res, true);
     } break;
     default: {
@@ -79,9 +79,8 @@ ArrayOf
 sparselogical_uminus(ArrayOf a)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* res
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)Eigen_TypeConvertSparse(NLS_DOUBLE,
-            a.getDimensions().getRows(), a.getDimensions().getColumns(), a.getSparseDataPointer(),
-            NLS_LOGICAL);
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)Eigen_TypeConvertSparse(
+            NLS_DOUBLE, a.getRows(), a.getColumns(), a.getSparseDataPointer(), NLS_LOGICAL);
     for (signedIndexType k = 0; k < res->outerSize(); ++k) {
         for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*res, k); it; ++it) {
             res->coeffRef(it.row(), it.col()) = -it.value();

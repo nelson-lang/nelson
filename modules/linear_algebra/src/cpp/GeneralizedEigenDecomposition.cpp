@@ -73,7 +73,7 @@ checkSize(const ArrayOf& M1, const ArrayOf& M2, std::wstring& errorMessage)
     if (!checkSize(M2, errorMessage)) {
         return false;
     }
-    if (M1.getDimensions().getRows() != M2.getDimensions().getRows()) {
+    if (M1.getRows() != M2.getRows()) {
         errorMessage = _W("input matrices must be the same size.");
         return false;
     }

@@ -77,7 +77,7 @@ jobs:
         path: artifacts/
 
   bionic:
-    name: Ubuntu-18.04 bionic beaver
+    name: Ubuntu-20.04 Focal
     runs-on: ubuntu-latest
     steps:
     - name: install dependencies
@@ -124,14 +124,10 @@ jobs:
         sudo apt -y install zlib1g-dev;
         sudo apt -y install libcurl4-openssl-dev;
         sudo apt -y install libgit2-dev;
-        sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.0-bionic;
+        sudo add-apt-repository --yes ppa:beineri/opt-qt-5.14.2-focal;
         sudo apt update;
-        sudo apt -y install qt512-meta-full;
-        sudo apt remove 'libboost.*-dev' --yes
-        sudo rm -rf /usr/local/share/boost
-        sudo add-apt-repository --yes ppa:mhier/libboost-latest;
-        sudo apt update;
-        sudo apt install libboost1.70-dev;
+        sudo apt -y install qt514-meta-full;
+        sudo apt-get install -y libboost-all-dev;
         git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen;
         mkdir /tmp/eigen-build;
         cd /tmp/eigen;
@@ -157,7 +153,7 @@ jobs:
         sudo make install;
     - uses: actions/checkout@v1
     - name: CMake
-      run: source /opt/qt512/bin/qt512-env.sh && cmake -G "Ninja" .
+      run: source /opt/qt514/bin/qt514-env.sh && cmake -G "Ninja" .
     - name: make with Ninja
       run: ninja -j4
     - name: get module skeleton
@@ -169,9 +165,9 @@ jobs:
     - name: package
       run: ninja package
     - name: all benchs
-      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a ninja benchs_all
+      run: source /opt/qt514/bin/qt514-env.sh && xvfb-run -a ninja benchs_all
     - name: all tests
-      run: source /opt/qt512/bin/qt512-env.sh && xvfb-run -a ninja tests_all
+      run: source /opt/qt514/bin/qt514-env.sh && xvfb-run -a ninja tests_all
     - name: Copy artifacts
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1

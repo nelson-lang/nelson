@@ -82,9 +82,8 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
     } else {
         _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
     }
-    Dimensions dimsValue = Value.getDimensions();
-    _initialDimX = static_cast<long int>(dimsValue.getRows());
-    _initialDimY = static_cast<long int>(dimsValue.getElementCount()) / _initialDimX;
+    _initialDimX = static_cast<long int>(Value.getRows());
+    _initialDimY = static_cast<long int>(Value.getElementCount()) / _initialDimX;
     _dimX = _initialDimX;
     _dimY = _initialDimY;
     if (!boost::algorithm::ends_with(DataType, L"Ptr")) {
@@ -93,13 +92,13 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
         }
     }
     if (!boost::algorithm::ends_with(DataType, L"Ptr")
-        && (dimsValue.getElementCount() > 1 || dimsValue.getElementCount() == 0)) {
+        && (Value.getElementCount() > 1 || Value.getElementCount() == 0)) {
         Error(_W("Invalid #2 argument scalar expected."));
     }
     _voidPointer = ArrayOf::allocateArrayOf(
-        Value.getDataClass(), dimsValue.getElementCount(), stringVector(), true);
+        Value.getDataClass(), Value.getElementCount(), stringVector(), true);
     memcpy(_voidPointer, Value.getReadWriteDataPointer(),
-        Value.getElementSize() * dimsValue.getElementCount());
+        Value.getElementSize() * Value.getElementCount());
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(void* pointer, const std::wstring& DataType, Class currentType)

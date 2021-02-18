@@ -69,8 +69,7 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(int nLhs, const ArrayOfVector& argIn
     DP_output.ensureSingleOwner();
     int* DP_output_ptr = (int*)DP_output.getDataPointer();
     // LOCAL VARIABLES
-    ArrayOf DWORK
-        = ArrayOf::doubleMatrix2dConstructor(1, 2 * (int)P.getDimensions().getElementCount() + 2);
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 2 * (int)P.getElementCount() + 2);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     // OUTPUT VARIABLES
     ArrayOf STABLE_output = ArrayOf::int32VectorConstructor(1);

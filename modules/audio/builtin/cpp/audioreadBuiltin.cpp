@@ -57,8 +57,7 @@ Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isCharacterArray()) {
             datatype = param2.getContentAsWideString();
         } else {
-            Dimensions dimsParam2 = param2.getDimensions();
-            if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
+            if (param2.isVector() && param2.isNumeric() && (param2.getElementCount() == 2)) {
                 param2.promoteType(NLS_DOUBLE);
                 auto* ptr = (double*)param2.getDataPointer();
                 start = ptr[0];
@@ -75,8 +74,7 @@ Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param1 = argIn[0];
         filename = param1.getContentAsWideString();
         ArrayOf param2 = argIn[1];
-        Dimensions dimsParam2 = param2.getDimensions();
-        if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
+        if (param2.isVector() && param2.isNumeric() && (param2.getElementCount() == 2)) {
             param2.promoteType(NLS_DOUBLE);
             auto* ptr = (double*)param2.getDataPointer();
             start = ptr[0];

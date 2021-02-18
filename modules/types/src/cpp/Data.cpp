@@ -42,30 +42,30 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
-#include "Data.hpp"
-
+//=============================================================================
 #include <utility>
+//=============================================================================
+#include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "SparseType.hpp"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 Data::Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag, stringVector fields)
     : cp(s), owners(1), dimensions(dims), fieldNames(std::move(fields)), dataClass(aClass)
 {
     sparse = sparseflag;
 }
-
+//=============================================================================
 Data::~Data() { freeDataBlock(); }
-
+//=============================================================================
 Data*
 Data::getCopy()
 {
     owners++;
     return this;
 }
-
+//=============================================================================
 Data*
 Data::putData(
     Class aClass, const Dimensions& dims, void* s, bool sparseflag, const stringVector& fields)
@@ -83,67 +83,67 @@ Data::putData(
     owners--;
     return new Data(aClass, dims, s, sparseflag, fields);
 }
-
-int
+//=============================================================================
+indexType
 Data::deleteCopy()
 {
     return owners--;
 }
-
+//=============================================================================
 const void*
 Data::getData() const
 {
     return cp;
 }
-
+//=============================================================================
 void*
 Data::getWriteableData()
 {
     return cp;
 }
-
+//=============================================================================
 const Dimensions&
 Data::getDimensions() const
 {
     return dimensions;
 }
-
+//=============================================================================
 const stringVector&
 Data::getFieldNames() const
 {
     return fieldNames;
 }
-
+//=============================================================================
 void
 Data::setDimensions(const Dimensions& dim)
 {
     dimensions = dim;
 }
-
+//=============================================================================
 void
 Data::setFieldNames(const stringVector& fields)
 {
     fieldNames = fields;
 }
-
+//=============================================================================
 std::string
 Data::getStructTypeName()
 {
     return structTypeName;
 }
-
+//=============================================================================
 void
 Data::setStructTypeName(const std::string& typeName)
 {
     structTypeName = typeName;
 }
-
-int
+//=============================================================================
+indexType
 Data::numberOfOwners() const
 {
     return owners;
 }
-
+//=============================================================================
 void
 Data::freeDataBlock()
 {
@@ -236,10 +236,12 @@ Data::freeDataBlock()
         }
     }
 }
-
+//=============================================================================
 bool
 Data::isSparse()
 {
     return sparse;
 }
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

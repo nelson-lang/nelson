@@ -258,8 +258,8 @@ vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    indexType nbElementsA = A.getDimensions().getElementCount();
-    indexType nbElementsB = B.getDimensions().getElementCount();
+    indexType nbElementsA = A.getElementCount();
+    indexType nbElementsB = B.getElementCount();
     Class classA = A.getDataClass();
     indexType m = 0;
     for (indexType i = 0; i < nbElementsA; i++) {
@@ -333,8 +333,8 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
     void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     indexType m = 0;
-    indexType elementCountA = A.getDimensions().getElementCount();
-    indexType elementCountB = B.getDimensions().getElementCount();
+    indexType elementCountA = A.getElementCount();
+    indexType elementCountB = B.getElementCount();
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
             switch (classA) {
@@ -408,7 +408,7 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * A.getDimensions().getRows();
+            indexType m = i + j * A.getRows();
             switch (classA) {
             case NLS_STRING_ARRAY: {
                 Cp[m] = stringRelationOperator(classA, ptrA, ptrB, q, m);
@@ -480,7 +480,7 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * A.getDimensions().getRows();
+            indexType m = i + j * A.getRows();
             switch (classA) {
             case NLS_STRING_ARRAY: {
                 Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, q);
@@ -552,7 +552,7 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * A.getDimensions().getColumns();
+            indexType m = i + j * A.getColumns();
             switch (classA) {
             case NLS_STRING_ARRAY: {
                 Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, m);
@@ -622,7 +622,7 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * B.getDimensions().getColumns();
+            indexType m = i + j * B.getColumns();
             switch (classA) {
             case NLS_STRING_ARRAY: {
                 Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, j);

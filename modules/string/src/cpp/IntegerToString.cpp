@@ -35,7 +35,7 @@ toString(ArrayOf A)
 {
     wstringVector result;
     auto* ptrValue = (double*)A.getDataPointer();
-    ompIndexType elementCount = A.getDimensions().getElementCount();
+    ompIndexType elementCount = A.getElementCount();
     for (ompIndexType k = 0; k < elementCount; k++) {
         std::wstring str;
         double dvalue = ptrValue[k];
@@ -68,7 +68,7 @@ uint64ToString(ArrayOf A)
 {
     wstringVector result;
     auto* ptrValue = (uint64*)A.getDataPointer();
-    indexType elementCount = A.getDimensions().getElementCount();
+    indexType elementCount = A.getElementCount();
     for (indexType k = 0; k < elementCount; k++) {
         std::wstring str;
         uint64 ivalue = ptrValue[k];

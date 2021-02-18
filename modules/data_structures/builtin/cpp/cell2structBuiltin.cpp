@@ -110,7 +110,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
             auto* qp = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
                 NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
             ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
-            ompIndexType elementCount = param1.getDimensions().getElementCount();
+            ompIndexType elementCount = param1.getElementCount();
             for (ompIndexType k = 0; k < elementCount; k++) {
                 qp[k] = arg[k];
             }

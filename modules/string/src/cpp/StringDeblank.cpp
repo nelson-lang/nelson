@@ -63,7 +63,7 @@ StringDeblank(const ArrayOf& A, bool& needToOverload)
         res = ArrayOf(A);
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
-        indexType elementCount = A.getDimensions().getElementCount();
+        indexType elementCount = A.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!element[k].isRowVectorCharacterArray()) {
                 Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
@@ -75,7 +75,7 @@ StringDeblank(const ArrayOf& A, bool& needToOverload)
         res = ArrayOf(A);
         res.ensureSingleOwner();
         auto* element = (ArrayOf*)(res.getDataPointer());
-        ompIndexType elementCount = A.getDimensions().getElementCount();
+        ompIndexType elementCount = A.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
