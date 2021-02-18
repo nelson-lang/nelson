@@ -161,6 +161,8 @@ public:
      */
     bool
     lookupVariable(const std::string& varName, ArrayOf& val);
+    ArrayOf*
+    lookupVariable(const std::string& varName);
     /**
      * Add a variable name to the global variables list.
      */

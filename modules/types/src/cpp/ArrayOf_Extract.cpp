@@ -108,7 +108,10 @@ ArrayOf::getValueAtIndex(uint64 index)
         copyElements(ndx, qp, 0, 1);
         res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
     }
-    return decomplexify(res);
+    if (res.isComplex()){
+        return decomplexify(res);
+    }
+    return res;
 }
 //=============================================================================
 /**
@@ -194,8 +197,10 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             copyElements(ndx, qp, i, 1);
         }
         ArrayOf res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
-        return decomplexify(res);
-
+        if (res.isComplex()) {
+            return decomplexify(res);
+        }
+        return res;
     } catch (const Exception&) {
         deleteArrayOf(qp, dp->dataClass);
         qp = nullptr;
@@ -301,7 +306,10 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
         outDims.simplify();
         ArrayOf res;
         res = ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
-        return decomplexify(res);
+        if (res.isComplex()) {
+            return decomplexify(res);
+        }
+        return res;
 
     } catch (const Exception&) {
         delete[] indx;

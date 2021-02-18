@@ -23,48 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+A = 33;
+varlock('local', 'A');
+assert_isequal(A, 33);
+assert_checkerror('A = 44;', _('Redefining permanent variable.'))
+varunlock('local', 'A');
+A = 44;
+assert_isequal(A, 44);
 //=============================================================================
-#include <unordered_map>
-#include <string>
-#include "ArrayOf.hpp"
-#include "Types.hpp"
-//=============================================================================
-namespace Nelson {
-class VariablesTable
-{
-    //=============================================================================
-private:
-    using key_type = std::string;
-    using value_type = ArrayOf;
-    stringVector lockedVariables;
-    void* variablesTable;
-    bool lockedAccess = false;
-    //=============================================================================
-public:
-    VariablesTable();
-    ~VariablesTable();
-    bool
-    findVariable(const key_type& key, value_type& dest);
-    ArrayOf*
-    findVariable(const std::string& key);
-    bool
-    isVariable(const key_type& key);
-    bool
-    deleteVariable(const key_type& key);
-    bool
-    insertVariable(const key_type& key, const value_type& val);
-    stringVector
-    getVariablesList(bool withPersistent);
-    bool
-    isLockedVariable(const std::string& key);
-    bool
-    lockVariable(const std::string& key);
-    bool
-    unlockVariable(const std::string& key);
-    stringVector
-    getLockedVariables();
-};
-//=============================================================================
-} // namespace Nelson
+B = [];
+B(2, 3) = 2;
+varlock('local', 'B');
+assert_checkerror('B(2, 3) = 44;', _('Redefining permanent variable.'))
 //=============================================================================

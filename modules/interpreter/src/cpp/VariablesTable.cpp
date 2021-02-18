@@ -52,16 +52,22 @@ VariablesTable::~VariablesTable()
     lockedVariables.clear();
 }
 //=============================================================================
+ArrayOf*
+VariablesTable::findVariable(const std::string& key)
+{ 
+    if (variablesTable != nullptr) {
+        return ((GenericTable<ArrayOf>*)variablesTable)->findSymbol(key);
+    }
+    return nullptr;
+}
+//=============================================================================
 bool
 VariablesTable::findVariable(const key_type& key, value_type& dest)
 {
-    if (variablesTable != nullptr) {
-        auto* genericTable = (GenericTable<ArrayOf>*)variablesTable;
-        value_type* v = genericTable->findSymbol(key);
-        if (v != nullptr) {
-            dest = v[0];
-            return true;
-        }
+    value_type* v = findVariable(key);
+    if (v != nullptr) {
+        dest = v[0];
+        return true;
     }
     return false;
 }
