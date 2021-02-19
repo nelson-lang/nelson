@@ -206,7 +206,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
         if (str != L":") {
             Error(_W("index must either be real positive integers or logicals."));
         }
-        index = ArrayOf::integerRangeConstructor(1, 1, dp->dimensions.getElementCount(), true);
+        index = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
     }
     index.toOrdinalType();
     // Get the maximum index

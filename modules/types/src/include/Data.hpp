@@ -145,7 +145,7 @@ private:
      */
 
     std::string
-    getStructTypeName();
+    getStructTypeName() const;
     /**
      * get struct type name (by default: struct)
      */
@@ -187,11 +187,59 @@ private:
      */
     void
     freeDataBlock();
+    //=============================================================================
     /**
      * Check sparsity.
      */
     bool
-    isSparse();
+    isSparse() const;
+    //=============================================================================
+    void
+    refreshDimensionCache();
+    //=============================================================================
+    inline indexType
+    getElementCount() const
+    {
+        return getElementCountCache;
+    }
+    //=============================================================================
+    inline bool
+    isScalar() const
+    {
+        return isScalarCache;
+    }
+    //=============================================================================
+    inline indexType
+    getRows() const
+    {
+        return getRowsCache;
+    }
+    //=============================================================================
+    inline indexType
+    getColumns() const
+    {
+        return getColumnsCache;
+    }
+    //=============================================================================
+    inline bool
+    is2D() const
+    {
+        return is2DCache;
+    }
+    //=============================================================================
+    inline bool
+    isVector() const
+    {
+        return isVectorCache;
+    }
+    //=============================================================================
+    bool isVectorCache;
+    bool is2DCache;
+    bool isScalarCache;
+    indexType getColumnsCache;
+    indexType getRowsCache;
+    indexType getElementCountCache;
+    //=============================================================================
 };
 //=============================================================================
 } // namespace Nelson
