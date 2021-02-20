@@ -776,6 +776,8 @@ public:
     void
     setValueAtIndex(uint64 index, ArrayOf scalarValue);
 
+    void
+    setValue(const ArrayOf& value);
     /**
      * Get a subset of an ArrayOf.  This is for vector-indexing, meaning that
      * the argument is assumed to refer to the elements in their order as a

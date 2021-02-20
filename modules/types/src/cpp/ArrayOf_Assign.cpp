@@ -863,6 +863,15 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
 }
 //=============================================================================
 void
+ArrayOf::setValue(const ArrayOf& value)
+{
+    if (dp && (dp->deleteCopy() <= 1)) {
+        dp->freeDataBlock();
+    }
+    dp = value.dp->getCopy();
+}
+//=============================================================================
+void
 ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
 {
     if (!scalarValue.isScalar()) {
