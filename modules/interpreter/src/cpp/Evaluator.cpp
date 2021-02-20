@@ -1803,12 +1803,10 @@ void
 Evaluator::assignStatement(ASTPtr t, bool printIt)
 {
     uint64 ticProfiling = Profiler::getInstance()->tic();
-    ArrayOf b;
     bool isHandle = false;
-    if (t->down == nullptr) {
-        b = expression(t->right);
-    } else {
-        b = assignExpression(t, expression(t->right));
+    ArrayOf b = expression(t->right);
+    if (t->down != nullptr) {
+        b = assignExpression(t, b);
         isHandle = b.isHandle();
     }
     std::string variableName = t->text;

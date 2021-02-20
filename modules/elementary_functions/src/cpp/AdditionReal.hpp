@@ -252,13 +252,18 @@ real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-
     if (SameSizeCheck(dimsA, dimsB)) {
         // A.isRowVector() && B.isRowVector() with same size
         // A.isColumnVector() && B.isColumnVector() with same size
         // A.isScalar() && B.isScalar() with same size
         // A.isMatrix() && B.isMatrix() with same size
-        res = matrix_matrix_real_addition<T>(classDestination, A, B);
+        if (A.isScalar()) {
+            T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+            ptrC[0] = ((T*)A.getDataPointer())[0] + ((T*)B.getDataPointer())[0];
+            res = ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
+        } else {
+            res = matrix_matrix_real_addition<T>(classDestination, A, B);
+        }
     } else {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
@@ -275,7 +280,7 @@ real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                     res = row_column_real_addition<T>(classDestination, A, B);
                 } else if (A.isColumnVector() && B.isRowVector()) {
                     res = column_row_real_addition<T>(classDestination, A, B);
-                } else if (dimsA.getRows() == dimsB.getRows()) {
+                } else if (A.getRows() == B.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
                             Error(
@@ -289,7 +294,7 @@ real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                         }
                         res = matrix_row_real_addition<T>(classDestination, A, B);
                     }
-                } else if (dimsA.getColumns() == dimsB.getColumns()) {
+                } else if (A.getColumns() == B.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
                             Error(

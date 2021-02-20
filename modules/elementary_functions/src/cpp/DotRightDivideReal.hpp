@@ -121,14 +121,12 @@ column_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)res.getDataPointer();
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+    for (indexType i = 0; i < res.getRows(); i++) {
+        for (indexType j = 0; j < res.getColumns(); j++) {
+            indexType m = i + j * B.getRows();
             ptrC[m] = ptrA[j] / ptrB[m];
         }
     }
@@ -142,19 +140,14 @@ matrix_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
-
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-
     indexType q = 0;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+    for (indexType i = 0; i < res.getRows(); i++) {
+        for (indexType j = 0; j < res.getColumns(); j++) {
+            indexType m = i + j * B.getRows();
             ptrC[m] = ptrA[m] / ptrB[q];
         }
         q++;
@@ -169,16 +162,13 @@ matrix_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    res = ArrayOf(classDestination, dimsC, ptrC, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+    for (indexType i = 0; i < res.getRows(); i++) {
+        for (indexType j = 0; j < res.getColumns(); j++) {
+            indexType m = i + j * A.getRows();
             ptrC[m] = ptrA[m] / ptrB[j];
         }
     }
@@ -190,10 +180,8 @@ ArrayOf
 row_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    indexType rows = std::max(A.getRows(), B.getRows());
+    indexType columns = std::max(A.getColumns(), B.getColumns());
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -203,8 +191,8 @@ row_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
     T* ptrC = (T*)res.getDataPointer();
 
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getColumns(); i++) {
-        for (indexType j = 0; j < dimsB.getRows(); j++) {
+    for (indexType i = 0; i < A.getColumns(); i++) {
+        for (indexType j = 0; j < B.getRows(); j++) {
             ptrC[m] = ptrA[i] / ptrB[j];
             m++;
         }
@@ -217,10 +205,8 @@ ArrayOf
 column_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    indexType rows = std::max(A.getRows(), B.getRows());
+    indexType columns = std::max(A.getColumns(), B.getColumns());
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -230,8 +216,8 @@ column_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
     T* ptrC = (T*)res.getDataPointer();
 
     indexType m = 0;
-    indexType elementCountA = dimsA.getElementCount();
-    indexType elementCountB = dimsB.getElementCount();
+    indexType elementCountA = A.getElementCount();
+    indexType elementCountB = B.getElementCount();
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
             ptrC[m] = ptrA[j] / ptrB[i];
@@ -248,13 +234,18 @@ real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-
     if (SameSizeCheck(dimsA, dimsB)) {
         // A.isRowVector() && B.isRowVector() with same size
         // A.isColumnVector() && B.isColumnVector() with same size
         // A.isScalar() && B.isScalar() with same size
         // A.isMatrix() && B.isMatrix() with same size
-        res = matrix_matrix_real_dotRightDivide<T>(classDestination, A, B);
+        if (A.isScalar()) {
+            T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+            ptrC[0] = ((T*)A.getDataPointer())[0] / ((T*)B.getDataPointer())[0];
+            res = ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
+        } else {
+            res = matrix_matrix_real_dotRightDivide<T>(classDestination, A, B);
+        }
     } else {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
@@ -271,7 +262,7 @@ real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                     res = row_column_real_dotRightDivide<T>(classDestination, A, B);
                 } else if (A.isColumnVector() && B.isRowVector()) {
                     res = column_row_real_dotRightDivide<T>(classDestination, A, B);
-                } else if (dimsA.getRows() == dimsB.getRows()) {
+                } else if (A.getRows() == B.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
                             Error(_("Size mismatch on arguments to arithmetic operator") + " "
@@ -285,7 +276,7 @@ real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                         }
                         res = matrix_row_real_dotRightDivide<T>(classDestination, A, B);
                     }
-                } else if (dimsA.getColumns() == dimsB.getColumns()) {
+                } else if (A.getColumns() == B.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
                             Error(_("Size mismatch on arguments to arithmetic operator") + " "
