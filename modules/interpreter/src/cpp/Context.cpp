@@ -150,7 +150,8 @@ Context::lookupVariable(const std::string& varName)
     return active->lookupVariable(mapName);
 }
 //=============================================================================
-bool Context::lookupVariable(const std::string& varName, ArrayOf& var)
+bool
+Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {
     ArrayOf* res = lookupVariable(varName);
     Scope* active;

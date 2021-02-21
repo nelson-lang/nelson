@@ -126,7 +126,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
     ~endData() = default;
     ;
 };
@@ -1242,28 +1242,39 @@ Evaluator::whileStatement(ASTPtr t)
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorComplexHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexType elementCount,
-    const std::string& indexVarName, Evaluator* eval)
+ForStatementRowVectorComplexHelper(ASTPtr codeBlock, Class indexClass, ArrayOf& indexSet,
+    indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    ArrayOf indexVar;
-    Context* context = eval->getContext();
-    T* ptrData = nullptr;
+    ArrayOf* ptrVariable = nullptr;
+    T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
+    Scope* scope = eval->getContext()->getCurrentScope();
+    if (!IsValidVariableName(indexVarName, true)) {
+        Error(_W("Valid variable name expected."));
+    }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        if (ptrData == nullptr) {
-            ArrayOf indexVar = indexSet.getValueAtIndex(elementNumber);
-            if (!context->insertVariable(indexVarName, indexVar)) {
-                if (IsValidVariableName(indexVarName, true)) {
-                    Error(_W("Redefining permanent variable."));
-                }
-                Error(_W("Valid variable name expected."));
-            }
-            ptrData = (T*)(context->lookupVariable(indexVarName))->getDataPointer();
+        if (scope->isLockedVariable(indexVarName)) {
+            Error(_W("Redefining permanent variable."));
+        }
+
+        if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
+            || (!ptrVariable->isScalar())) {
+            scope->insertVariable(indexVarName,
+                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+            ptrVariable = scope->lookupVariable(indexVarName);
+        }
+        ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
+        if (!ptrValue) {
+            scope->insertVariable(indexVarName,
+                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+            ptrVariable = scope->lookupVariable(indexVarName);
+            ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
+        }
+        if (ptrValue) {
+            ptrValue[0] = data[2 * elementNumber];
+            ptrValue[1] = data[2 * elementNumber + 1];
         } else {
-            if (ptrData == nullptr) {
-                ptrData[0] = data[2 * elementNumber];
-                ptrData[1] = data[2 * elementNumber + 1];
-            }
+            Error(_W("Cannot assign value."));
         }
         eval->block(codeBlock);
         if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
@@ -1282,27 +1293,37 @@ ForStatementRowVectorComplexHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexTyp
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexType elementCount,
-    const std::string& indexVarName, Evaluator* eval)
+ForStatementRowVectorHelper(ASTPtr codeBlock, Class indexClass, ArrayOf& indexSet,
+    indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    ArrayOf indexVar;
-    Context* context = eval->getContext();
-    T* ptrData = nullptr;
+    ArrayOf* ptrVariable = nullptr;
+    T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
+    Scope* scope = eval->getContext()->getCurrentScope();
+    if (!IsValidVariableName(indexVarName, true)) {
+        Error(_W("Valid variable name expected."));
+    }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        if (ptrData == nullptr) {
-            ArrayOf indexVar = indexSet.getValueAtIndex(elementNumber);
-            if (!context->insertVariable(indexVarName, indexVar)) {
-                if (IsValidVariableName(indexVarName, true)) {
-                    Error(_W("Redefining permanent variable."));
-                }
-                Error(_W("Valid variable name expected."));
-            }
-            ptrData = (T*)(context->lookupVariable(indexVarName))->getDataPointer();
+        if (scope->isLockedVariable(indexVarName)) {
+            Error(_W("Redefining permanent variable."));
+        }
+        if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
+            || (!ptrVariable->isScalar())) {
+            scope->insertVariable(indexVarName,
+                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+            ptrVariable = scope->lookupVariable(indexVarName);
+        }
+        ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
+        if (!ptrValue) {
+            scope->insertVariable(indexVarName,
+                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+            ptrVariable = scope->lookupVariable(indexVarName);
+            ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
+        }
+        if (ptrValue) {
+            ptrValue[0] = data[elementNumber];
         } else {
-            if (ptrData != nullptr) {
-                ptrData[0] = data[elementNumber];
-            }
+            Error(_W("Cannot assign value."));
         }
         eval->block(codeBlock);
         if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
@@ -1413,59 +1434,59 @@ Evaluator::forStatement(ASTPtr t)
         switch (indexSet.getDataClass()) {
         case NLS_LOGICAL: {
             ForStatementRowVectorHelper<logical>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_LOGICAL, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_UINT8: {
             ForStatementRowVectorHelper<uint8>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_UINT8, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_INT8: {
             ForStatementRowVectorHelper<int8>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_INT8, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_UINT16: {
             ForStatementRowVectorHelper<uint16>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_UINT16, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_INT16: {
             ForStatementRowVectorHelper<int16>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_INT16, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_UINT32: {
             ForStatementRowVectorHelper<uint32>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_UINT32, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_INT32: {
             ForStatementRowVectorHelper<int32>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_INT32, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_UINT64: {
             ForStatementRowVectorHelper<uint64>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_UINT64, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_INT64: {
             ForStatementRowVectorHelper<int64>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_INT64, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_SINGLE: {
             ForStatementRowVectorHelper<single>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_SINGLE, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_DOUBLE: {
             ForStatementRowVectorHelper<double>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_DOUBLE, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_SCOMPLEX: {
             ForStatementRowVectorComplexHelper<single>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_SCOMPLEX, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_DCOMPLEX: {
             ForStatementRowVectorComplexHelper<double>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_DCOMPLEX, indexSet, elementCount, indexVarName, this);
         } break;
         case NLS_CHAR: {
             ForStatementRowVectorHelper<charType>(
-                codeBlock, indexSet, elementCount, indexVarName, this);
+                codeBlock, NLS_CHAR, indexSet, elementCount, indexVarName, this);
         } break;
         default: {
             ForStatemenRowVectorGenericHelper(
@@ -3271,7 +3292,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             c = assignExpression(p->down, m[i]);
                         }
                         ArrayOf* ptrVar = context->lookupVariable(variableName);
-                        if (ptrVar) {
+                        if (ptrVar != nullptr) {
                             ptrVar->setValue(c);
                         } else {
                             if (!context->insertVariable(variableName, c)) {

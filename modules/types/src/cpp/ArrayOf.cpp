@@ -816,7 +816,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -1016,7 +1018,10 @@ ArrayOf::isEmpty(bool allDimensionsIsZero) const
 bool
 ArrayOf::isScalar() const
 {
-    return dp->isScalar();
+    if (dp) {
+        return dp->isScalar();
+    }
+    return false;
 }
 //=============================================================================
 /**
@@ -1025,7 +1030,10 @@ ArrayOf::isScalar() const
 bool
 ArrayOf::is2D() const
 {
-    return dp->is2D();
+    if (dp) {
+        return dp->is2D();
+    }
+    return false;
 }
 //=============================================================================
 /**
@@ -1034,7 +1042,10 @@ ArrayOf::is2D() const
 bool
 ArrayOf::isSquare() const
 {
-    return dp->dimensions.isSquare();
+    if (dp) {
+        return dp->dimensions.isSquare();
+    }
+    return false;
 }
 //=============================================================================
 /**
