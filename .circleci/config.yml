@@ -8,7 +8,10 @@ jobs:
       OMPI_ALLOW_RUN_AS_ROOT: 1
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
     steps:
-      - run: pacman -Syu --noconfirm
+      - run: pacman -Sy --noconfirm archlinux-keyring
+      - run: pacman -Sy --noconfirm
+      - run: pacman -Su --noconfirm
+      - run: pacman -Sr pacman
       - run: pacman -S base-devel --noconfirm
       - run: pacman -S inetutils --noconfirm
       - run: pacman -S gawk --noconfirm
