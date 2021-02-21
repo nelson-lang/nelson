@@ -54,7 +54,7 @@ VariablesTable::~VariablesTable()
 //=============================================================================
 ArrayOf*
 VariablesTable::findVariable(const std::string& key)
-{ 
+{
     if (variablesTable != nullptr) {
         return ((GenericTable<ArrayOf>*)variablesTable)->findSymbol(key);
     }

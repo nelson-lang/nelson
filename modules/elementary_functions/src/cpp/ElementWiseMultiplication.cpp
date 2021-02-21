@@ -365,9 +365,6 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
         Dimensions dimsC(1, 1);
         return ArrayOf(classDestination, dimsC, Cp, false);
     }
-    Dimensions dimsA = a.getDimensions();
-    Dimensions dimsB = b.getDimensions();
-    Dimensions dimsC;
     if (a.isEmpty() || b.isEmpty()) {
         if (a.isScalar() || b.isScalar()) {
             if (a.isScalar()) {
@@ -376,13 +373,22 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                 return ArrayOf(a);
             }
         } else {
+            Dimensions dimsA = a.getDimensions();
+            Dimensions dimsB = b.getDimensions();
             if (!(SameSizeCheck(dimsA, dimsB))) {
                 Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
             return ArrayOf(b);
         }
     }
+    Dimensions dimsA = a.getDimensions();
+    Dimensions dimsB = b.getDimensions();
     if (SameSizeCheck(dimsA, dimsB)) {
+        if (a.isScalar()) {
+            T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+            ptrC[0] = ((T*)a.getDataPointer())[0] * ((T*)b.getDataPointer())[0];
+            return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
+        }
         return matrix_matrix_elementWiseMultiplication<T>(classDestination, a, b);
     } else {
         if (a.isScalar() || b.isScalar()) {
@@ -393,28 +399,31 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                 return scalar_matrix_elementWiseMultiplication<T>(classDestination, b, a);
             }
         } else {
+            Dimensions dimsC;
             if (a.isVector() || b.isVector()) {
                 if (a.isRowVector() && b.isColumnVector()) {
-                    dimsC = Dimensions(std::max(dimsA.getMax(), dimsB.getMax()),
-                        std::min(dimsA.getMax(), dimsB.getMax()));
+                    dimsC = Dimensions(
+                        std::max(a.getDimensions().getMax(), b.getDimensions().getMax()),
+                        std::min(a.getDimensions().getMax(), b.getDimensions().getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
                     vector_elementWiseMultiplication(classDestination, (T*)Cp,
-                        (const T*)a.getDataPointer(), dimsA.getElementCount(),
-                        (const T*)b.getDataPointer(), dimsB.getElementCount());
+                        (const T*)a.getDataPointer(), a.getElementCount(),
+                        (const T*)b.getDataPointer(), b.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
-                    dimsC = Dimensions(std::max(dimsA.getMax(), dimsB.getMax()),
-                        std::min(dimsA.getMax(), dimsB.getMax()));
+                    dimsC = Dimensions(
+                        std::max(a.getDimensions().getMax(), b.getDimensions().getMax()),
+                        std::min(a.getDimensions().getMax(), b.getDimensions().getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
                     vector_elementWiseMultiplication<T>(classDestination, (T*)Cp,
-                        (const T*)b.getDataPointer(), dimsB.getElementCount(),
-                        (const T*)a.getDataPointer(), dimsA.getElementCount());
+                        (const T*)b.getDataPointer(), b.getElementCount(),
+                        (const T*)a.getDataPointer(), a.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
                     Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
                 } else {
-                    if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
+                    if ((a.getRows() == b.getRows()) && (a.getRows() != 1)) {
                         if (a.isVector()) {
                             return vector_matrix_elementWiseMultiplication<T>(
                                 classDestination, a, b);
@@ -422,7 +431,7 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                             return vector_matrix_elementWiseMultiplication<T>(
                                 classDestination, b, a);
                         }
-                    } else if (dimsA[1] == dimsB[1]) {
+                    } else if (a.getColumns() == b.getColumns()) {
                         if (a.isVector()) {
                             return vector_column_elementWiseMultiplication<T>(
                                 classDestination, a, b);
@@ -437,9 +446,10 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
             } else {
                 Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
+            return ArrayOf(classDestination, dimsC, Cp, false);
         }
     }
-    return ArrayOf(classDestination, dimsC, Cp, false);
+    return ArrayOf();
 }
 //=============================================================================
 template <class T>
@@ -461,8 +471,6 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
             return ArrayOf::complexConstructor((single)res.real(), (single)res.imag());
         }
     }
-    Dimensions dimsA = a.getDimensions();
-    Dimensions dimsB = b.getDimensions();
     Dimensions dimsC;
     if (a.isEmpty() || b.isEmpty()) {
         if (a.isScalar() || b.isScalar()) {
@@ -472,12 +480,16 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                 return ArrayOf(a);
             }
         } else {
+            Dimensions dimsA = a.getDimensions();
+            Dimensions dimsB = b.getDimensions();
             if (!(SameSizeCheck(dimsA, dimsB))) {
                 Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
             return ArrayOf(b);
         }
     }
+    Dimensions dimsA = a.getDimensions();
+    Dimensions dimsB = b.getDimensions();
     if (SameSizeCheck(dimsA, dimsB)) {
         return complex_matrix_matrix_elementWiseMultiplication<T>(classDestination, a, b);
     } else {
@@ -491,19 +503,21 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
         } else {
             if (a.isVector() || b.isVector()) {
                 if (a.isRowVector() && b.isColumnVector()) {
-                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    dimsC = Dimensions(
+                        std::min(a.getDimensions().getMax(), b.getDimensions().getMax()),
+                        std::max(a.getDimensions().getMax(), b.getDimensions().getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen * 2, false);
                     complex_vector_elementWiseMultiplication<T>((T*)Cp, (T*)a.getDataPointer(),
-                        dimsA.getElementCount(), (T*)b.getDataPointer(), dimsB.getElementCount());
+                        a.getElementCount(), (T*)b.getDataPointer(), b.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
-                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    dimsC = Dimensions(
+                        std::min(a.getDimensions().getMax(), b.getDimensions().getMax()),
+                        std::max(a.getDimensions().getMax(), b.getDimensions().getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen * 2, false);
                     complex_vector_elementWiseMultiplication((T*)Cp, (T*)b.getDataPointer(),
-                        dimsB.getElementCount(), (T*)a.getDataPointer(), dimsA.getElementCount());
+                        b.getElementCount(), (T*)a.getDataPointer(), a.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
                     Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
@@ -511,7 +525,7 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                     T* ptrA = (T*)a.getDataPointer();
                     T* ptrB = (T*)b.getDataPointer();
 
-                    if (dimsA[0] == dimsB[0]) {
+                    if (a.getRows() == b.getRows()) {
                         if (a.isVector()) {
                             return complex_vector_matrix_elementWiseMultiplication<T>(
                                 classDestination, a, b);
@@ -519,7 +533,7 @@ complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
                             return complex_vector_matrix_elementWiseMultiplication<T>(
                                 classDestination, b, a);
                         }
-                    } else if (dimsA[1] == dimsB[1]) {
+                    } else if (a.getColumns() == b.getColumns()) {
                         if (a.isVector()) {
                             return complex_vector_column_elementWiseMultiplication<T>(
                                 classDestination, a, b);

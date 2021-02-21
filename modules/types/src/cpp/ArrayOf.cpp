@@ -43,6 +43,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include <cstring>
 #include "lapack_eigen.hpp"
 #include <Eigen/src/misc/lapacke.h>
 #include <Eigen/Dense>
@@ -815,7 +816,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -1015,7 +1018,10 @@ ArrayOf::isEmpty(bool allDimensionsIsZero) const
 bool
 ArrayOf::isScalar() const
 {
-    return dp->isScalar();
+    if (dp) {
+        return dp->isScalar();
+    }
+    return false;
 }
 //=============================================================================
 /**
@@ -1024,7 +1030,10 @@ ArrayOf::isScalar() const
 bool
 ArrayOf::is2D() const
 {
-    return dp->is2D();
+    if (dp) {
+        return dp->is2D();
+    }
+    return false;
 }
 //=============================================================================
 /**
@@ -1033,7 +1042,10 @@ ArrayOf::is2D() const
 bool
 ArrayOf::isSquare() const
 {
-    return dp->dimensions.isSquare();
+    if (dp) {
+        return dp->dimensions.isSquare();
+    }
+    return false;
 }
 //=============================================================================
 /**
@@ -1154,13 +1166,7 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
         Error(_W("copyElements not supported for sparse arrays."));
     }
     switch (dp->dataClass) {
-    case NLS_STRING_ARRAY: {
-        const ArrayOf* sp = (const ArrayOf*)dp->getData();
-        ArrayOf* qp = (ArrayOf*)dstPtr;
-        for (indexType i = 0; i < count; i++) {
-            qp[dstIndex + i] = sp[srcIndex + i];
-        }
-    } break;
+    case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
         const ArrayOf* sp = (const ArrayOf*)dp->getData();
         ArrayOf* qp = (ArrayOf*)dstPtr;
@@ -1183,42 +1189,10 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
             }
         }
     } break;
-    case NLS_SCOMPLEX: {
-        single* src = (single*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            single* dst = (single*)dstPtr;
-            int one = 1;
-            BLASFUNC(ccopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        double* src = (double*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            double* dst = (double*)dstPtr;
-            int one = 1;
-            BLASFUNC(zcopy)(&iSize, src + (srcIndex * 2), &one, dst + (dstIndex * 2), &one);
-        }
-    } break;
-    case NLS_SINGLE: {
-        single* src = (single*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            single* dst = (single*)dstPtr;
-            int one = 1;
-            BLASFUNC(scopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
-        }
-    } break;
-    case NLS_DOUBLE: {
-        double* src = (double*)dp->getData();
-        if (src != nullptr) {
-            int iSize = (int)count;
-            double* dst = (double*)dstPtr;
-            int one = 1;
-            BLASFUNC(dcopy)(&iSize, src + srcIndex, &one, dst + dstIndex, &one);
-        }
-    } break;
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX:
+    case NLS_SINGLE:
+    case NLS_DOUBLE:
     default: {
         const char* sp = (const char*)dp->getData();
         if (sp != nullptr) {

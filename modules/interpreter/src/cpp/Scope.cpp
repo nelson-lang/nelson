@@ -142,7 +142,7 @@ Scope::isPointerOnFunction(FuncPtr val)
     return false;
 }
 //=============================================================================
-ArrayOf *
+ArrayOf*
 Scope::lookupVariable(const std::string& varName)
 {
     return variablesTab.findVariable(varName);

@@ -88,6 +88,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
         res.promoteType(NLS_DOUBLE);
     } break;
     case NLS_INT8: {
+        if (arrayIn.isScalar()) {
+            return ArrayOf::int8Constructor(std::abs(((int8*)arrayIn.getDataPointer())[0]));
+        }
         Dimensions dimsRes = arrayIn.getDimensions();
         int8* ptrRes
             = (int8*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
@@ -96,6 +99,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
             (int8*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_INT16: {
+        if (arrayIn.isScalar()) {
+            return ArrayOf::int16Constructor(std::abs(((int16*)arrayIn.getDataPointer())[0]));
+        }
         Dimensions dimsRes = arrayIn.getDimensions();
         int16* ptrRes
             = (int16*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
@@ -104,6 +110,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
             (int16*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_INT32: {
+        if (arrayIn.isScalar()) {
+            return ArrayOf::int32Constructor(std::abs(((int32*)arrayIn.getDataPointer())[0]));
+        }
         Dimensions dimsRes = arrayIn.getDimensions();
         int32* ptrRes
             = (int32*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
@@ -112,6 +121,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
             (int32*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_INT64: {
+        if (arrayIn.isScalar()) {
+            return ArrayOf::int64Constructor(std::abs(((int64*)arrayIn.getDataPointer())[0]));
+        }
         Dimensions dimsRes = arrayIn.getDimensions();
         int64* ptrRes
             = (int64*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
@@ -120,6 +132,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
             (int64*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_SINGLE: {
+        if (arrayIn.isScalar()) {
+            return ArrayOf::singleConstructor(std::abs(((single*)arrayIn.getDataPointer())[0]));
+        }
         Dimensions dimsRes = arrayIn.getDimensions();
         single* ptrRes
             = (single*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
@@ -128,6 +143,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
             (single*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
     } break;
     case NLS_DOUBLE: {
+        if (arrayIn.isScalar()) {
+            return ArrayOf::doubleConstructor(std::abs(((double*)arrayIn.getDataPointer())[0]));
+        }
         Dimensions dimsRes = arrayIn.getDimensions();
         double* ptrRes
             = (double*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());

@@ -275,7 +275,6 @@ complex_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-
     if (SameSizeCheck(dimsA, dimsB)) {
         // A.isRowVector() && B.isRowVector() with same size
         // A.isColumnVector() && B.isColumnVector() with same size
@@ -298,7 +297,7 @@ complex_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                     res = row_column_complex_subtraction<T>(classDestination, A, B);
                 } else if (A.isColumnVector() && B.isRowVector()) {
                     res = column_row_complex_subtraction<T>(classDestination, A, B);
-                } else if (dimsA.getRows() == dimsB.getRows()) {
+                } else if (A.getRows() == B.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
                             Error(
@@ -312,7 +311,7 @@ complex_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                         }
                         res = matrix_row_complex_subtraction<T>(classDestination, A, B);
                     }
-                } else if (dimsA.getColumns() == dimsB.getColumns()) {
+                } else if (A.getColumns() == B.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
                             Error(
