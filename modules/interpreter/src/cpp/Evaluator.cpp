@@ -116,7 +116,7 @@
 #define strdup _strdup
 #endif
 namespace Nelson {
-
+//=============================================================================
 /**
  * Stores the current array for which to apply the "end" expression to.
  */
@@ -131,49 +131,64 @@ public:
     ;
 };
 std::vector<endData> endStack;
-
+//=============================================================================
 void
 sigInterrupt(int arg)
 {
     NelsonConfiguration::getInstance()->setInterruptPending(true);
 }
-
+//=============================================================================
+void
+Evaluator::pushStackEntry(const std::string& name, const std::string& detail, int id)
+{
+    cstack.push_back(StackEntry(name, detail, id));
+}
+//=============================================================================
 void
 Evaluator::pushID(int a)
 {
-    if (!cstack.empty()) {
-        if (cstack.size() > cstack.capacity() - 100) {
-            cstack.reserve(cstack.capacity() * 2);
-        }
-        cstack.push_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
+    if (cstack.size() == 0) {
+        pushStackEntry("base", "base", a);
     } else {
-        cstack.push_back(StackEntry("base", "base", a));
+        pushStackEntry(cstack.back().cname, cstack.back().detail, a);
     }
 }
-
+//=============================================================================
 void
 Evaluator::popID()
 {
-    if (!cstack.empty()) {
+    if (cstack.size()) {
         cstack.pop_back();
-    } else {
-        io->outputMessage("IDERROR\n");
+    };
+}
+//=============================================================================
+void
+Evaluator::pushDebug(const std::string& fname, const std::string& detail)
+{
+    pushStackEntry(fname, detail, 0);
+}
+//======================================================================
+void
+Evaluator::popDebug()
+{
+    if (cstack.size()) {
+        cstack.pop_back();
     }
 }
-
-void
-Evaluator::resetState()
-{
-    state = NLS_STATE_OK;
-}
-
+//======================================================================
 void
 Evaluator::clearStacks()
 {
     cstack.clear();
     cstack.reserve(64);
 }
-
+//=============================================================================
+void
+Evaluator::resetState()
+{
+    state = NLS_STATE_OK;
+}
+//=============================================================================
 State
 Evaluator::setState(State newState)
 {
@@ -181,25 +196,25 @@ Evaluator::setState(State newState)
     state = newState;
     return previousState;
 }
-
+//=============================================================================
 State
 Evaluator::getState()
 {
     return state;
 }
-
+//=============================================================================
 int
 Evaluator::getExitCode()
 {
     return exitCode;
 }
-
+//=============================================================================
 void
 Evaluator::setExitCode(int _exitCode)
 {
     exitCode = _exitCode;
 }
-
+//=============================================================================
 ArrayOfVector
 Evaluator::rowDefinition(ASTPtr t)
 {
@@ -211,7 +226,7 @@ Evaluator::rowDefinition(ASTPtr t)
     popID();
     return retval;
 }
-
+//=============================================================================
 //!
 //@Module MATRIX Matrix Definitions
 //@@Section VARIABLES
@@ -294,7 +309,7 @@ Evaluator::matrixDefinition(ASTPtr t)
     popID();
     return res;
 }
-
+//=============================================================================
 //!
 //@Module CELL Cell ArrayOf Definitions
 //@@Section VARIABLES
@@ -353,14 +368,14 @@ Evaluator::cellDefinition(ASTPtr t)
     popID();
     return retval;
 }
-
+//=============================================================================
 bool
 Evaluator::needToOverloadOperator(const ArrayOf& a)
 {
     return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
         || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle());
 }
-
+//=============================================================================
 ArrayOf
 Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
 {
@@ -373,13 +388,13 @@ Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
     }
     return res;
 }
-
+//=============================================================================
 static bool
 approximatelyEqual(double a, double b, double epsilon)
 {
     return fabs(a - b) <= ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
 }
-
+//=============================================================================
 ArrayOf
 Evaluator::expression(ASTPtr t)
 {
@@ -715,7 +730,7 @@ Evaluator::expression(ASTPtr t)
     popID();
     return retval;
 }
-
+//=============================================================================
 /**
  * An expressionList allows for expansion of cell-arrays
  * and structure arrays.  Works by first screening rhs-expressions
@@ -764,7 +779,7 @@ Evaluator::expressionList(ASTPtr t)
     popID();
     return m;
 }
-
+//=============================================================================
 ArrayOfVector
 Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
 {
@@ -848,7 +863,7 @@ Evaluator::subsindex(const ArrayOfVector& m)
     }
     return n;
 }
-
+//=============================================================================
 bool
 Evaluator::conditionedStatement(ASTPtr t)
 {
@@ -868,7 +883,7 @@ Evaluator::conditionedStatement(ASTPtr t)
     popID();
     return conditionState;
 }
-
+//=============================================================================
 /**
  * This somewhat strange test is used by the switch statement.
  * If x is a scalar, and we are a scalar, this is an equality
@@ -896,7 +911,7 @@ Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
     popID();
     return caseMatched;
 }
-
+//=============================================================================
 //!
 //@Module TRY-CATCH Try and Catch Statement
 //@@Section FLOW
@@ -954,7 +969,6 @@ Evaluator::tryStatement(ASTPtr t)
         while (cstack.size() > stackdepth) {
             cstack.pop_back();
         }
-        //      cname = cstack.back().cname;
         t = t->right;
         if (t != nullptr) {
             autostop = autostop_save;
@@ -963,19 +977,19 @@ Evaluator::tryStatement(ASTPtr t)
     }
     autostop = autostop_save;
 }
-
+//=============================================================================
 bool
 Evaluator::AutoStop()
 {
     return autostop;
 }
-
+//=============================================================================
 void
 Evaluator::AutoStop(bool a)
 {
     autostop = a;
 }
-
+//=============================================================================
 //!
 //@Module SWITCH Switch statement
 //@@Section FLOW
@@ -1057,7 +1071,7 @@ Evaluator::switchStatement(ASTPtr t)
     }
     popID();
 }
-
+//=============================================================================
 //!
 //@Module IF-ELSEIF-ELSE Conditional Statements
 //@@Section FLOW
@@ -1129,7 +1143,7 @@ Evaluator::ifStatement(ASTPtr t)
     }
     popID();
 }
-
+//=============================================================================
 //!
 //@Module WHILE While Loop
 //@@Section FLOW
@@ -1190,7 +1204,7 @@ Evaluator::whileStatement(ASTPtr t)
     context->exitLoop();
     popID();
 }
-
+//=============================================================================
 //!
 //@Module FOR For Loop
 //@@Section FLOW
@@ -1766,7 +1780,7 @@ Evaluator::debugCLI()
     }
     depth--;
 }
-
+//=============================================================================
 void
 Evaluator::handleDebug(int fullcontext)
 {
@@ -1819,7 +1833,6 @@ Evaluator::handleDebug(int fullcontext)
     }
 }
 //=============================================================================
-
 void
 Evaluator::assignStatement(ASTPtr t, bool printIt)
 {
@@ -2011,8 +2024,6 @@ Evaluator::statementType(ASTPtr t, bool printIt)
 // end
 // this is represented in the parse tree as a single construct...
 //
-
-//
 void
 Evaluator::statement(ASTPtr t)
 {
@@ -2029,7 +2040,7 @@ Evaluator::statement(ASTPtr t)
         throw;
     }
 }
-
+//=============================================================================
 void
 Evaluator::block(ASTPtr t)
 {
@@ -2065,7 +2076,7 @@ Evaluator::getContext()
 {
     return context;
 }
-
+//=============================================================================
 ArrayOf
 Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
 {
@@ -2136,7 +2147,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
     }
     return (ArrayOf::emptyConstructor());
 }
-
+//=============================================================================
 void
 Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOf& value)
 {
@@ -2144,7 +2155,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOf& value)
     vec.push_back(value);
     simpleAssign(r, t, vec);
 }
-
+//=============================================================================
 void
 Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
 {
@@ -2238,7 +2249,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
     }
     popID();
 }
-
+//=============================================================================
 indexType
 Evaluator::countLeftHandSides(ASTPtr t)
 {
@@ -2321,7 +2332,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
     popID();
     return static_cast<indexType>(1);
 }
-
+//=============================================================================
 ArrayOf
 Evaluator::assignExpression(ASTPtr t, ArrayOf& val)
 {
@@ -2329,7 +2340,7 @@ Evaluator::assignExpression(ASTPtr t, ArrayOf& val)
     vec.push_back(val);
     return assignExpression(t, vec);
 }
-
+//=============================================================================
 // If we got this far, we must have at least one subindex
 ArrayOf
 Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
@@ -2392,7 +2403,7 @@ Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
     popID();
     return lhs;
 }
-
+//=============================================================================
 ArrayOfVector
 Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
 {
@@ -2430,7 +2441,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
     popID();
     return m;
 }
-
+//=============================================================================
 void
 Evaluator::addBreakpoint(StackEntry& bp)
 {
@@ -2438,7 +2449,7 @@ Evaluator::addBreakpoint(StackEntry& bp)
     adjustBreakpoints();
     debugActive = true;
 }
-
+//=============================================================================
 void
 Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
 {
@@ -2550,7 +2561,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
     }
     popID();
 }
-
+//=============================================================================
 int
 getArgumentIndex(const stringVector& list, const std::string& t)
 {
@@ -2572,7 +2583,7 @@ getArgumentIndex(const stringVector& list, const std::string& t)
     }
     return -1;
 }
-
+//=============================================================================
 //!
 //@Module FUNCTION Function Declarations
 //@@Section FUNCTIONS
@@ -3335,15 +3346,15 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
     }
     return n;
 }
-
+//=============================================================================
 int
 COST(int a, int b)
 {
     return (((a) >= (b)) ? ((a) - (b)) : 10000);
 }
-
+//=============================================================================
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
-
+//=============================================================================
 int
 GetClosestLineNumber(ASTPtr t, int lineno)
 {
@@ -3357,7 +3368,7 @@ GetClosestLineNumber(ASTPtr t, int lineno)
     int costthis = COST(retval, lineno);
     return (MIN(linedwn, MIN(linerght, costthis)));
 }
-
+//=============================================================================
 void
 Evaluator::listBreakpoints()
 {
@@ -3368,7 +3379,7 @@ Evaluator::listBreakpoints()
         io->outputMessage(buffer);
     }
 }
-
+//=============================================================================
 void
 Evaluator::deleteBreakpoint(int number)
 {
@@ -3380,7 +3391,7 @@ Evaluator::deleteBreakpoint(int number)
         Error(utf8_to_wstring(buffer));
     }
 }
-
+//=============================================================================
 bool
 Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
 {
@@ -3425,7 +3436,7 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
     }
     return true;
 }
-
+//=============================================================================
 void
 Evaluator::adjustBreakpoints()
 {
@@ -3443,7 +3454,7 @@ Evaluator::adjustBreakpoints()
         adjustBreakpoint(stepTrap, true);
     }
 }
-
+//=============================================================================
 stringVector
 Evaluator::getCallers(bool includeCurrent)
 {
@@ -3489,41 +3500,25 @@ Evaluator::getCallers(bool includeCurrent)
     }
     return callersName;
 }
-
-void
-Evaluator::pushDebug(const std::string& fname, const std::string& detail)
-{
-    cstack.push_back(StackEntry(fname, detail, 0));
-}
-
-void
-Evaluator::popDebug()
-{
-    if (!cstack.empty()) {
-        cstack.pop_back();
-    } else {
-        io->outputMessage("IDERROR\n");
-    }
-}
-
+//======================================================================
 void
 Evaluator::setInterface(Interface* _io)
 {
     io = _io;
 }
-
+//======================================================================
 Interface*
 Evaluator::getInterface()
 {
     return io;
 }
-
+//=============================================================================
 bool
 Evaluator::lookupFunction(const std::string& funcName, FuncPtr& val)
 {
     return context->lookupFunction(funcName, val);
 }
-
+//=============================================================================
 ArrayOf
 Evaluator::rhsExpressionSimple(ASTPtr t)
 {
@@ -3561,7 +3556,7 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
     popID();
     return r;
 }
-
+//=============================================================================
 //!
 //@Module INDEXING Indexing Expressions
 //@@Section VARIABLES
@@ -3962,7 +3957,6 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
     inStepMode = false;
     bpActive = false;
     clearStacks();
-    cstack.reserve(4096);
     commandLineArguments.clear();
     lineNumber = 0;
 }
@@ -4262,6 +4256,7 @@ Evaluator::buildPrompt()
 }
 //=============================================================================
 static bool doOnce = true;
+//=============================================================================
 void
 setNamedMutexNelsonReady()
 {

@@ -124,7 +124,7 @@ public:
      * Evaluate the function and return its output.
      */
     virtual ArrayOfVector
-    evaluateFunction(Evaluator*, ArrayOfVector&, int)
+    evaluateFunction(Evaluator*, const ArrayOfVector&, int)
         = 0;
 };
 

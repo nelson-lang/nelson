@@ -30,12 +30,12 @@
 //=============================================================================
 namespace Nelson {
 NLSTYPES_IMPEXP std::string
-ClassName(ArrayOf In);
+ClassName(const ArrayOf& In);
 NLSTYPES_IMPEXP stringVector
 ClassName(const ArrayOfVector& In);
 NLSTYPES_IMPEXP void
-ClassName(ArrayOf In, std::wstring& returnedClassName);
+ClassName(const ArrayOf& In, std::wstring& returnedClassName);
 NLSTYPES_IMPEXP void
-ClassName(ArrayOf In, std::string& returnedClassName);
+ClassName(const ArrayOf& In, std::string& returnedClassName);
 } // namespace Nelson
 //=============================================================================

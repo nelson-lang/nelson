@@ -121,7 +121,8 @@ public:
      *   - the variable 'varargout' is the wrong type.
      */
     ArrayOfVector
-    evaluateFunction(Evaluator* /*eval*/, ArrayOfVector& /*inputs*/, int /*nargout*/) override;
+    evaluateFunction(
+        Evaluator* /*eval*/, const ArrayOfVector& /*inputs*/, int /*nargout*/) override;
 
     std::vector<ASTPtr> ptAst;
 

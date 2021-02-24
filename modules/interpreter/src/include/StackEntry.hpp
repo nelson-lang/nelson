@@ -37,8 +37,8 @@ public:
     std::string detail;
     int tokid;
 
-    StackEntry(const std::string& cntxt, const std::string& detail, int id);
     StackEntry();
+    StackEntry(const std::string& cntxt, const std::string& detail, int id);
     ~StackEntry();
 };
 //=============================================================================

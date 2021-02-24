@@ -921,6 +921,9 @@ private:
 
     bool
     needToOverloadOperator(const ArrayOf& a);
+
+    void
+    pushStackEntry(const std::string& name, const std::string& detail, int id);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

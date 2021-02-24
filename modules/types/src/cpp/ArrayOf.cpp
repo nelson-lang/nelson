@@ -816,9 +816,7 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================
