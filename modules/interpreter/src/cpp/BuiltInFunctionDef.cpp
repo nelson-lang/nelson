@@ -44,7 +44,7 @@ BuiltInFunctionDef::BuiltInFunctionDef()
 BuiltInFunctionDef::~BuiltInFunctionDef() = default;
 //=============================================================================
 ArrayOfVector
-BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
+BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     ArrayOfVector outputs;
     eval->pushDebug(name, std::string("built-in ") + this->name);

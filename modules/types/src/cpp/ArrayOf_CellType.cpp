@@ -408,7 +408,6 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
         } else {
             qp[ndx] = front;
         }
-
         data.erase(data.begin());
     }
     dp->dimensions.simplify();

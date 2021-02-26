@@ -108,7 +108,7 @@ ArrayOf::getValueAtIndex(uint64 index)
         copyElements(ndx, qp, 0, 1);
         res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
     }
-    if (res.isComplex()){
+    if (res.isComplex()) {
         return decomplexify(res);
     }
     return res;

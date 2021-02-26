@@ -26,14 +26,15 @@
 #include "StackEntry.hpp"
 //=============================================================================
 namespace Nelson {
-StackEntry::StackEntry(const std::string& cntxt, const std::string& det, int id)
+//=============================================================================
+  StackEntry::StackEntry(const std::string& cntxt, const std::string& det, int id)
 {
-    cname.assign(cntxt);
-    detail.assign(det);
+    cname = cntxt;
+    detail = det;
     tokid = id;
 }
 //=============================================================================
-StackEntry::StackEntry() { tokid = 0; }
+StackEntry::StackEntry() : cname("base"), detail("base"), tokid(0) { }
 //=============================================================================
 StackEntry::~StackEntry() = default;
 //=============================================================================

@@ -143,7 +143,7 @@ MacroFunctionDef::printMe(Interface* io)
 }
 //=============================================================================
 ArrayOfVector
-MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
+MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     ArrayOfVector outputs;
     ArrayOf a;
@@ -299,15 +299,6 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                     }
                 }
             }
-        }
-        // Check for arguments that were passed by reference, and
-        // update their values.
-        for (size_t i = 0; i < minCount; i++) {
-            std::string arg(arguments[i]);
-            if (arg[0] == '&') {
-                arg.erase(0, 1);
-            }
-            context->lookupVariableLocally(arg, inputs[i]);
         }
         context->popScope();
         eval->popDebug();

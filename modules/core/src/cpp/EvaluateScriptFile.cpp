@@ -279,7 +279,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         resetAstBackupPosition();
         // removes stack
         while (eval->cstack.size() > stackdepth) {
-            eval->cstack.pop_back();
+            eval->popID();
         }
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);

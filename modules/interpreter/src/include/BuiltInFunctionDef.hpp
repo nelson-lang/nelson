@@ -103,7 +103,8 @@ public:
      */
 
     ArrayOfVector
-    evaluateFunction(Evaluator* /*unused*/, ArrayOfVector& /*unused*/, int /*unused*/) override;
+    evaluateFunction(
+        Evaluator* /*unused*/, const ArrayOfVector& /*unused*/, int /*unused*/) override;
 };
 //=============================================================================
 } // namespace Nelson

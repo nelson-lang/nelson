@@ -127,7 +127,7 @@ signal_handler(int signal_code)
 //=============================================================================
 #ifdef _MSC_VER
 ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, ArrayOfVector& inputs,
+EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfVector& inputs,
     int nargout, size_t builtinPrototype, bool interleavedComplex)
 {
     ArrayOfVector outputs;
@@ -169,7 +169,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, ArrayOfVector&
 //=============================================================================
 #ifndef _MSC_VER
 ArrayOfVector
-EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, ArrayOfVector& inputs,
+EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfVector& inputs,
     int nargout, size_t builtinPrototype, bool interleavedComplex)
 {
     ArrayOfVector outputs;
