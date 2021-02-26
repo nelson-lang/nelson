@@ -1,4 +1,4 @@
-# 0.5.2 (UNRELEASED)
+# 0.5.2 (U2021-02-27)
 
 ## Features:
 
@@ -17,6 +17,12 @@
 - MacOS build uses openBLAS. lapacke included in openBLAS. No more thirdparty repository required for MacOS build.
 
 - rename ArrayOf::getLength to ArrayOf::getElementCount method.
+
+- rework simple assignement.
+
+- add benchs about loop to identify existing bottleneck for next iteration.
+
+- rework loop to prepare next iteration.
 
 # 0.5.1 (2021-01-30)
 
