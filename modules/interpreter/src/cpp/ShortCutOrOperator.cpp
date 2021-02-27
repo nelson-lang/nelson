@@ -60,11 +60,11 @@ Evaluator::shortCutOrOperator(const ArrayOf& A, const ArrayOf& B)
 ArrayOf
 Evaluator::shortCutOrOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     const ArrayOf A = expression(t->down);
     const ArrayOf B = expression(t->down->right);
     ArrayOf retval = shortCutOrOperator(A, B);
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================

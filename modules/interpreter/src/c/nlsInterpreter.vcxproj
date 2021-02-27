@@ -324,6 +324,7 @@
     <ClInclude Include="..\include\AstManager.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
+    <ClInclude Include="..\include\CallStack.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
     <ClInclude Include="..\include\CommandQueue.hpp" />
     <ClInclude Include="..\include\Comments.hpp" />

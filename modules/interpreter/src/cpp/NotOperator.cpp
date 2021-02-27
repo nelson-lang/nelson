@@ -32,9 +32,9 @@ namespace Nelson {
 ArrayOf
 Evaluator::notOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     ArrayOf retval = this->notOperator(expression(t->down));
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================

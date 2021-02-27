@@ -98,7 +98,7 @@ Profiler::tic()
 }
 //=============================================================================
 void
-Profiler::toc(uint64 tic, internalProfileFunction stack)
+Profiler::toc(uint64 tic, const internalProfileFunction &stack)
 {
     if (!profileOn) {
         return;

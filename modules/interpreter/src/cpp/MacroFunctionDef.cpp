@@ -151,7 +151,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
     Context* context = eval->getContext();
     std::string filenameUtf8 = wstring_to_utf8(fileName);
     context->pushScope(name);
-    eval->pushDebug(filenameUtf8, name);
+    eval->callstack.pushDebug(filenameUtf8, name);
     // Push our local functions onto the function scope
     MacroFunctionDef* cp;
     // Walk up until we get to the head of the list
@@ -301,7 +301,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
             }
         }
         context->popScope();
-        eval->popDebug();
+        eval->callstack.popDebug();
         return outputs;
     } catch (const Exception&) {
         if (tic != 0) {
@@ -310,7 +310,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
             Profiler::getInstance()->toc(tic, stack);
         }
         context->popScope();
-        eval->popDebug();
+        eval->callstack.popDebug();
         throw;
     }
 }

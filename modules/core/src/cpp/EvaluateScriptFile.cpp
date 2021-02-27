@@ -197,7 +197,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         buffer[n + 1] = 0;
     }
     fclose(fr);
-    size_t stackdepth = eval->cstack.size();
+    size_t stackdepth = eval->callstack.size();
     eval->setCLI(true);
     try {
         NelsonConfiguration::getInstance()->setInterruptPending(false);
@@ -216,14 +216,14 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             return false;
         }
         std::string filenameUtf8 = wstring_to_utf8(filename);
-        eval->pushDebug(filenameUtf8, "filename " + filenameUtf8);
+        eval->callstack.pushDebug(filenameUtf8, "filename " + filenameUtf8);
         try {
             eval->block(tree);
         } catch (const Exception&) {
             deleteAstVector(pt);
             resetAstBackupPosition();
             tree = nullptr;
-            eval->popDebug();
+            eval->callstack.popDebug();
             eval->popEvaluateFilenameList();
             if (buffer != nullptr) {
                 delete[] buffer;
@@ -238,7 +238,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         resetAstBackupPosition();
         if (eval->getState() == NLS_STATE_RETURN) {
             if (eval->getDebugDepth() > 0) {
-                eval->popDebug();
+                eval->callstack.popDebug();
                 eval->increaseDebugDepth();
                 eval->popEvaluateFilenameList();
                 if (buffer != nullptr) {
@@ -252,7 +252,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             }
         }
         if (eval->getState() == NLS_STATE_QUIT || eval->getState() == NLS_STATE_ABORT) {
-            eval->popDebug();
+            eval->callstack.popDebug();
             eval->popEvaluateFilenameList();
             if (buffer != nullptr) {
                 delete[] buffer;
@@ -263,7 +263,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             }
             return true;
         }
-        eval->popDebug();
+        eval->callstack.popDebug();
         if (buffer != nullptr) {
             delete[] buffer;
             buffer = nullptr;
@@ -278,8 +278,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         deleteAstVector(used);
         resetAstBackupPosition();
         // removes stack
-        while (eval->cstack.size() > stackdepth) {
-            eval->popID();
+        while (eval->callstack.size() > stackdepth) {
+            eval->callstack.popID();
         }
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);

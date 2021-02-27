@@ -45,11 +45,11 @@ Evaluator::andOperator(const ArrayOf& A, const ArrayOf& B)
 ArrayOf
 Evaluator::andOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     ArrayOf A = expression(t->down);
     ArrayOf B = expression(t->down->right);
     ArrayOf retval = andOperator(A, B);
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================

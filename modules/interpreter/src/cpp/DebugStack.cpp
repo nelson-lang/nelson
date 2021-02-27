@@ -83,20 +83,20 @@ cleanupDebugStack(stackTrace stackPositions)
 }
 //=============================================================================
 void
-DebugStack(const std::vector<StackEntry>& cstack, int nbOmitLines, stackTrace& stackPositions)
+DebugStack(const CallStack &callstack, int nbOmitLines, stackTrace& stackPositions)
 {
     stackPositions.clear();
     size_t i = 0;
-    while (i < cstack.size()) {
-        if (cstack[i].tokid == 0) {
+    while (i < callstack.size()) {
+        if (callstack.getID(i) == 0) {
             size_t j = i + 1;
-            while ((j < cstack.size()) && (cstack[j].cname == cstack[i].cname)
-                && (cstack[j].detail == cstack[i].detail) && (cstack[j].tokid != 0)) {
+            while ((j < callstack.size()) && (callstack.getContext(j) == callstack.getContext(i))
+                && (callstack.getDetail(j) == callstack.getDetail(i)) && (callstack.getID(j) != 0)) {
                 j++;
             }
-            std::wstring filename = utf8_to_wstring(cstack[j - 1].cname);
-            std::wstring functionname = utf8_to_wstring(cstack[j - 1].detail);
-            int lineposition = cstack[j - 1].tokid & 0x0000FFFF;
+            std::wstring filename = utf8_to_wstring(callstack.getContext(j - 1));
+            std::wstring functionname = utf8_to_wstring(callstack.getDetail(j - 1));
+            int lineposition = callstack.getID(j - 1) & 0x0000FFFF;
             stackPositions.push_back(PositionScript(functionname, filename, lineposition));
             i = j;
         } else {

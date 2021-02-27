@@ -44,6 +44,8 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
+#include <stack>
+#include <vector>
 #include "AST.hpp"
 #include "ArrayOf.hpp"
 #include "CommandQueue.hpp"
@@ -56,9 +58,7 @@
 #include "PositionScript.hpp"
 #include "nlsInterpreter_exports.h"
 #include "Exception.hpp"
-#include <stack>
-#include <vector>
-
+#include "CallStack.hpp"
 namespace Nelson {
 
 typedef enum
@@ -156,7 +156,8 @@ public:
 
     void* HistoryManager = nullptr;
 
-    std::vector<StackEntry> cstack;
+    CallStack callstack;
+    //std::vector<StackEntry> cstack;
     void
     setCLI(bool bCLI);
     bool
@@ -179,10 +180,6 @@ public:
     handleDebug(int fullcontext);
     void
     debugCLI();
-    void
-    pushDebug(const std::string& fname, const std::string& detail);
-    void
-    popDebug();
 
     void
     addBreakpoint(StackEntry& bp);
@@ -212,17 +209,6 @@ public:
     ~Evaluator();
     /**
      * Push the given location ID onto the stack
-     */
-    void
-    pushID(int /*a*/);
-    /**
-     * Pop a location ID off the stack
-     */
-    void
-    popID();
-    /**
-     * Set the autostop flag - this flag determines what happens when
-     * an exception occurs
      */
     bool
     AutoStop();
@@ -921,9 +907,6 @@ private:
 
     bool
     needToOverloadOperator(const ArrayOf& a);
-
-    void
-    pushStackEntry(const std::string& name, const std::string& detail, int id);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

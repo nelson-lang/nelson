@@ -75,19 +75,19 @@ namespace Nelson {
 ArrayOf
 Evaluator::colonOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     ArrayOf retval = this->colonOperator(
         expression(t->down->down), expression(t->down->down->right), expression(t->down->right));
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================
 ArrayOf
 Evaluator::colonUnitOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     ArrayOf retval = this->colonUnitOperator(expression(t->down), expression(t->down->right));
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================
