@@ -25,20 +25,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
+#include <vector>
 #include "Evaluator.hpp"
 #include "PositionScript.hpp"
 #include "StackEntry.hpp"
 #include "Types.hpp"
 #include "nlsInterpreter_exports.h"
-#include <string>
-#include <vector>
+#include "CallStack.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 using stackTrace = std::vector<PositionScript>;
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-DebugStack(const std::vector<StackEntry>& cstack, int nbOmitLines, stackTrace& stackPositions);
+DebugStack(const CallStack &callstack, int nbOmitLines, stackTrace& stackPositions);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

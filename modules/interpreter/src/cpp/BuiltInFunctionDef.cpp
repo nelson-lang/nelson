@@ -47,8 +47,8 @@ ArrayOfVector
 BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     ArrayOfVector outputs;
-    eval->pushDebug(name, std::string("built-in ") + this->name);
-    size_t stackDepth = eval->cstack.size();
+    eval->callstack.pushDebug(name, std::string("built-in ") + this->name);
+    size_t stackDepth = eval->callstack.size();
     uint64 tic = 0;
     try {
         tic = Profiler::getInstance()->tic();
@@ -58,20 +58,20 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& input
             internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
             Profiler::getInstance()->toc(tic, stack);
         }
-        while (eval->cstack.size() > stackDepth) {
-            eval->cstack.pop_back();
+        while (eval->callstack.size() > stackDepth) {
+            eval->callstack.pop_back();
         }
-        eval->popDebug();
+        eval->callstack.popDebug();
         return outputs;
     } catch (const Exception&) {
         if (tic != 0) {
             internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
             Profiler::getInstance()->toc(tic, stack);
         }
-        while (eval->cstack.size() > stackDepth) {
-            eval->cstack.pop_back();
+        while (eval->callstack.size() > stackDepth) {
+            eval->callstack.pop_back();
         }
-        eval->popDebug();
+        eval->callstack.popDebug();
         throw;
     }
 }

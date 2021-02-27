@@ -23,15 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dbstackBuiltin.hpp"
-#include "DebugStack.hpp"
-#include "Error.hpp"
-#include "PositionScript.hpp"
-#include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
+#include "dbstackBuiltin.hpp"
+#include "DebugStack.hpp"
+#include "Error.hpp"
+#include "PositionScript.hpp"
+#include "CallStack.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -203,11 +204,11 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     }
 
-    std::vector<StackEntry> cstack;
+    CallStack callstack;
     if (eval != nullptr) {
-        cstack = eval->cstack;
+        callstack = eval->callstack;
     }
-    DebugStack(cstack, nbOmits, positions);
+    DebugStack(callstack, nbOmits, positions);
 
     switch (nLhs) {
     case 0: {

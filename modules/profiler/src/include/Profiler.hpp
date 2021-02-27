@@ -72,7 +72,7 @@ public:
     tic();
 
     void
-    toc(uint64 tic, internalProfileFunction stack);
+    toc(uint64 tic, const internalProfileFunction &stack);
 
     std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>
     info(Profiler::Profile_Sort_Type sortOption);

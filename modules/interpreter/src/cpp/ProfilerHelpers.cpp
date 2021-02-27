@@ -26,6 +26,7 @@
 #include <algorithm>
 #include "ProfilerHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "CallStack.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,14 +37,13 @@ computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
     profileParentStack profilerStack;
 
     if (eval != nullptr) {
-        std::vector<StackEntry> cstack = eval->cstack;
         std::tuple<std::string, uint64> previousProfilerStackElement;
         std::tuple<std::string, uint64> profilerStackElement;
 
-        for (StackEntry entry : cstack) {
-            std::string filename = entry.cname;
+        for (size_t k = 0; k < eval->callstack.size(); ++k) {
+            std::string filename = eval->callstack.getContext(k);
             if (filename != "evaluator" && filename != "EvaluateScript") {
-                int line = entry.tokid & 0xffff;
+                int line = eval->callstack.getID(k) & 0xffff;
                 if (line > 0) {
                     profilerStackElement = std::make_tuple(filename, line);
                     if (profilerStackElement != previousProfilerStackElement) {

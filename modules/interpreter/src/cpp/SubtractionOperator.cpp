@@ -32,9 +32,9 @@ namespace Nelson {
 ArrayOf
 Evaluator::subtractionOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     ArrayOf retval = this->subtractionOperator(expression(t->down), expression(t->down->right));
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================

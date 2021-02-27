@@ -52,7 +52,7 @@ NelsonWarningEmitter(const wchar_t* msg, const wchar_t* id, bool asError)
         } else {
             if (evaluatorWarning != nullptr) {
                 Nelson::stackTrace trace;
-                DebugStack(evaluatorWarning->cstack, 1, trace);
+                DebugStack(evaluatorWarning->callstack, 1, trace);
                 Nelson::Exception exception(message, trace, identifier);
                 evaluatorWarning->setLastWarningException(exception);
                 Nelson::Interface* io = evaluatorWarning->getInterface();

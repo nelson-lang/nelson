@@ -139,48 +139,9 @@ sigInterrupt(int arg)
 }
 //=============================================================================
 void
-Evaluator::pushStackEntry(const std::string& name, const std::string& detail, int id)
-{
-    cstack.push_back(StackEntry(name, detail, id));
-}
-//=============================================================================
-void
-Evaluator::pushID(int a)
-{
-    if (cstack.size() == 0) {
-        pushStackEntry("base", "base", a);
-    } else {
-        pushStackEntry(cstack.back().cname, cstack.back().detail, a);
-    }
-}
-//=============================================================================
-void
-Evaluator::popID()
-{
-    if (cstack.size()) {
-        cstack.pop_back();
-    };
-}
-//=============================================================================
-void
-Evaluator::pushDebug(const std::string& fname, const std::string& detail)
-{
-    pushStackEntry(fname, detail, 0);
-}
-//======================================================================
-void
-Evaluator::popDebug()
-{
-    if (cstack.size()) {
-        cstack.pop_back();
-    }
-}
-//======================================================================
-void
 Evaluator::clearStacks()
 {
-    cstack.clear();
-    cstack.reserve(64);
+    callstack.clear();
 }
 //=============================================================================
 void
@@ -218,12 +179,12 @@ Evaluator::setExitCode(int _exitCode)
 ArrayOfVector
 Evaluator::rowDefinition(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     if (t->opNum != OP_SEMICOLON) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     ArrayOfVector retval = expressionList(t->down);
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================
@@ -295,7 +256,7 @@ Evaluator::matrixDefinition(ASTPtr t)
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
-    pushID(s->context());
+    callstack.pushID(s->context());
     while (s != nullptr) {
         m.push_back(rowDefinition(s));
         s = s->right;
@@ -306,7 +267,7 @@ Evaluator::matrixDefinition(ASTPtr t)
         v.push_back(HorzCatOperator(this, m[k]));
     }
     ArrayOf res = VertCatOperator(this, v);
-    popID();
+    callstack.popID();
     return res;
 }
 //=============================================================================
@@ -359,13 +320,13 @@ Evaluator::cellDefinition(ASTPtr t)
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
-    pushID(s->context());
+    callstack.pushID(s->context());
     while (s != nullptr) {
         m.push_back(rowDefinition(s));
         s = s->right;
     }
     ArrayOf retval(ArrayOf::cellConstructor(m));
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================
@@ -400,7 +361,7 @@ Evaluator::expression(ASTPtr t)
 {
     ArrayOf retval;
     // by default as the target we create double
-    pushID(t->context());
+    callstack.pushID(t->context());
     switch (t->type) {
     case const_int_node: {
         retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
@@ -722,12 +683,12 @@ Evaluator::expression(ASTPtr t)
         }
         if (ticProfiling != 0 && !operatorName.empty()) {
             internalProfileFunction stack
-                = computeProfileStack(this, operatorName, utf8_to_wstring(cstack.back().cname));
+                = computeProfileStack(this, operatorName, utf8_to_wstring(callstack.getLastContext()));
             Profiler::getInstance()->toc(ticProfiling, stack);
         }
     } break;
     }
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================
@@ -748,7 +709,7 @@ Evaluator::expressionList(ASTPtr t)
     if (t == nullptr) {
         return m;
     }
-    pushID(t->context());
+    callstack.pushID(t->context());
     root = t;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
@@ -776,7 +737,7 @@ Evaluator::expressionList(ASTPtr t)
         }
         t = t->right;
     }
-    popID();
+    callstack.popID();
     return m;
 }
 //=============================================================================
@@ -792,7 +753,7 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
     if (t == nullptr) {
         return m;
     }
-    pushID(t->context());
+    callstack.pushID(t->context());
     size_t count = countSubExpressions(t);
     root = t;
     index = 0;
@@ -842,7 +803,7 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
         index++;
         t = t->right;
     }
-    popID();
+    callstack.popID();
     return m;
 }
 
@@ -872,7 +833,7 @@ Evaluator::conditionedStatement(ASTPtr t)
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
-    pushID(s->context());
+    callstack.pushID(s->context());
     ArrayOf condVar;
     condVar = expression(s);
     conditionState = checkIfWhileCondition(condVar);
@@ -880,7 +841,7 @@ Evaluator::conditionedStatement(ASTPtr t)
     if (conditionState) {
         block(codeBlock);
     }
-    popID();
+    callstack.popID();
     return conditionState;
 }
 //=============================================================================
@@ -898,7 +859,7 @@ Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
 {
     bool caseMatched;
     ArrayOf r;
-    pushID(t->context());
+    callstack.pushID(t->context());
     if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
@@ -908,7 +869,7 @@ Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
     if (caseMatched) {
         block(t->right);
     }
-    popID();
+    callstack.popID();
     return caseMatched;
 }
 //=============================================================================
@@ -962,12 +923,12 @@ Evaluator::tryStatement(ASTPtr t)
     autostop = false;
     // Get the state of the IDnum stack and the
     // contextStack and the cnameStack
-    size_t stackdepth = cstack.size();
+    size_t stackdepth = callstack.size();
     try {
         block(t);
     } catch (const Exception&) {
-        while (cstack.size() > stackdepth) {
-            cstack.pop_back();
+        while (callstack.size() > stackdepth) {
+            callstack.pop_back();
         }
         t = t->right;
         if (t != nullptr) {
@@ -1042,7 +1003,7 @@ void
 Evaluator::switchStatement(ASTPtr t)
 {
     ArrayOf switchVal;
-    pushID(t->context());
+    callstack.pushID(t->context());
     // First, extract the value to perform the switch on.
     switchVal = expression(t);
     // Assess its type to determine if this is a scalar switch
@@ -1069,7 +1030,7 @@ Evaluator::switchStatement(ASTPtr t)
             block(t);
         }
     }
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 //!
@@ -1121,7 +1082,7 @@ Evaluator::switchStatement(ASTPtr t)
 void
 Evaluator::ifStatement(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     bool condStat = conditionedStatement(t);
     if (!condStat) {
         t = t->right;
@@ -1141,7 +1102,7 @@ Evaluator::ifStatement(ASTPtr t)
             }
         }
     }
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 //!
@@ -1178,7 +1139,7 @@ Evaluator::whileStatement(ASTPtr t)
     ASTPtr codeBlock;
     bool conditionTrue;
     bool breakEncountered;
-    pushID(t->context());
+    callstack.pushID(t->context());
     testCondition = t;
     codeBlock = t->right;
     breakEncountered = false;
@@ -1202,7 +1163,7 @@ Evaluator::whileStatement(ASTPtr t)
         }
     }
     context->exitLoop();
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 //!
@@ -1424,7 +1385,7 @@ Evaluator::forStatement(ASTPtr t)
         context->exitLoop();
         return;
     }
-    pushID(t->context());
+    callstack.pushID(t->context());
 
     /* Get the name of the indexing variable */
     std::string indexVarName = t->text;
@@ -1511,7 +1472,7 @@ Evaluator::forStatement(ASTPtr t)
         ForStatemenMatrixGenericHelper(codeBlock, indexSet, elementCount, indexVarName, this);
     }
     context->exitLoop();
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 
@@ -1787,7 +1748,7 @@ Evaluator::handleDebug(int fullcontext)
     int linenumber = fullcontext & 0xffff;
     if (debugActive) {
         if (inStepMode) {
-            if ((stepTrap.cname == cstack.back().cname) && (stepTrap.tokid == linenumber)) {
+            if ((stepTrap.cname == callstack.getLastContext()) && (stepTrap.tokid == linenumber)) {
                 // Finished stepping...
                 inStepMode = false;
                 char buffer[2048];
@@ -1803,7 +1764,7 @@ Evaluator::handleDebug(int fullcontext)
             while ((j < bpStack.size()) && !found) {
                 // Is this a resolved breakpoint?
                 if ((bpStack[j].tokid >> 16) != 0) {
-                    if ((bpStack[j].cname == cstack.back().cname)
+                    if ((bpStack[j].cname == callstack.getLastContext())
                         && (bpStack[j].tokid == fullcontext)) {
                         found = true;
                     } else {
@@ -1811,7 +1772,7 @@ Evaluator::handleDebug(int fullcontext)
                         j++;
                     }
                 } else {
-                    if ((bpStack[j].cname == cstack.back().cname)
+                    if ((bpStack[j].cname == callstack.getLastContext())
                         && (bpStack[j].tokid == linenumber)) {
                         found = true;
                         bpStack[j].tokid = fullcontext;
@@ -1859,7 +1820,7 @@ Evaluator::assignStatement(ASTPtr t, bool printIt)
     }
     if (ticProfiling != 0) {
         internalProfileFunction stack
-            = computeProfileStack(this, "assign", utf8_to_wstring(cstack.back().cname));
+            = computeProfileStack(this, "assign", utf8_to_wstring(callstack.getLastContext()));
         Profiler::getInstance()->toc(ticProfiling, stack);
     }
 }
@@ -1880,7 +1841,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
     if (t == nullptr) {
         return;
     }
-    pushID(t->context());
+    callstack.pushID(t->context());
     // check the debug flag
     int fullcontext = t->context();
     handleDebug(fullcontext);
@@ -2000,14 +1961,14 @@ Evaluator::statementType(ASTPtr t, bool printIt)
             }
         }
         if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
-            popID();
+            callstack.popID();
             return;
         }
         if (bUpdateAns) {
             context->insertVariable("ans", b);
         }
     }
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 // Trapping at the statement level is much better! - two
@@ -2028,15 +1989,15 @@ void
 Evaluator::statement(ASTPtr t)
 {
     try {
-        pushID(t->context());
+        callstack.pushID(t->context());
         if (t->opNum == (OP_QSTATEMENT)) {
             statementType(t->down, false);
         } else if (t->opNum == (OP_RSTATEMENT)) {
             statementType(t->down, true && bEchoMode);
         }
-        popID();
+        callstack.popID();
     } catch (const Exception&) {
-        popID();
+        callstack.popID();
         throw;
     }
 }
@@ -2161,7 +2122,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
 {
     Dimensions rhsDimensions;
     ArrayOfVector m;
-    pushID(t->context());
+    callstack.pushID(t->context());
     if (!r.isEmpty()) {
         rhsDimensions = r.getDimensions();
     } else if (t->opNum != OP_BRACES) {
@@ -2175,11 +2136,11 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
             Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             r.setVectorSubset(m[0], value[0]);
-            popID();
+            callstack.popID();
             return;
         } else {
             r.setNDimSubset(m, value[0]);
-            popID();
+            callstack.popID();
             return;
         }
     }
@@ -2192,11 +2153,11 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
                 m[0] = ArrayOf::doubleConstructor(1);
             }
             r.setVectorContentsAsList(m[0], value);
-            popID();
+            callstack.popID();
             return;
         } else {
             r.setNDimContentsAsList(m, value);
-            popID();
+            callstack.popID();
             return;
         }
     }
@@ -2221,7 +2182,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
                 Error(ERROR_ASSIGN_TO_NON_STRUCT);
             }
         }
-        popID();
+        callstack.popID();
         return;
     }
     if (t->opNum == (OP_DOTDYN)) {
@@ -2244,10 +2205,10 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
         } else {
             r.setFieldAsList(field, value);
         }
-        popID();
+        callstack.popID();
         return;
     }
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 indexType
@@ -2264,7 +2225,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
     if (s == nullptr) {
         return 1;
     }
-    pushID(s->context());
+    callstack.pushID(s->context());
     while (s->right != nullptr) {
         if (!lhs.isEmpty()) {
             lhs = simpleSubindexExpression(lhs, s);
@@ -2286,7 +2247,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
             if (m[0].getElementCount() > 1) {
                 Error(ERROR_PARENTHETICAL_EXPRESSION);
             }
-            popID();
+            callstack.popID();
             return (m[0].getElementCount());
         } else {
             size_t i = 0;
@@ -2299,7 +2260,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
             if (outputCount > 1) {
                 Error(ERROR_PARENTHETICAL_EXPRESSION);
             }
-            popID();
+            callstack.popID();
             return (outputCount);
         }
     }
@@ -2311,7 +2272,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
         if (m.size() == 1) {
             // m[0] should have only one element...
             m[0].toOrdinalType();
-            popID();
+            callstack.popID();
             return (m[0].getElementCount());
         } else {
             size_t i = 0;
@@ -2321,15 +2282,15 @@ Evaluator::countLeftHandSides(ASTPtr t)
                 outputCount *= m[i].getElementCount();
                 i++;
             }
-            popID();
+            callstack.popID();
             return (outputCount);
         }
     }
     if (s->opNum == (OP_DOT)) {
-        popID();
+        callstack.popID();
         return lhs.getElementCount();
     }
-    popID();
+    callstack.popID();
     return static_cast<indexType>(1);
 }
 //=============================================================================
@@ -2345,11 +2306,11 @@ Evaluator::assignExpression(ASTPtr t, ArrayOf& val)
 ArrayOf
 Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     if (t->down == nullptr) {
         ArrayOf retval(value[0]);
         value.erase(value.begin());
-        popID();
+        callstack.popID();
         return retval;
     }
     // Get the variable in question
@@ -2400,7 +2361,7 @@ Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
     } else {
         lhs = tmp;
     }
-    popID();
+    callstack.popID();
     return lhs;
 }
 //=============================================================================
@@ -2424,7 +2385,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
         n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
     FuncPtr val;
-    pushID(t->context());
+    callstack.pushID(t->context());
     if (!lookupFunction(args[0], val)) {
         Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
     }
@@ -2434,11 +2395,11 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
         m = val->evaluateFunction(this, n, 0);
     } catch (const Exception&) {
         InCLI = CLIFlagsave;
-        popID();
+        callstack.popID();
         throw;
     }
     InCLI = CLIFlagsave;
-    popID();
+    callstack.popID();
     return m;
 }
 //=============================================================================
@@ -2464,7 +2425,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
     cAST = t;
     fAST = t->right;
     bool bDeal = false;
-    pushID(fAST->context());
+    callstack.pushID(fAST->context());
     ArrayOf r;
     if (!lookupFunction(fAST->text, fptr)) {
         bool isVar = context->lookupVariable(fAST->text, r);
@@ -2534,9 +2495,9 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
             Error(_W("Case not managed."));
         }
     } else {
-        std::vector<StackEntry> cstack = this->cstack;
+        CallStack backupCallStack = callstack;
         m = functionExpression(fptr, fAST, (int)lhsCount, false);
-        this->cstack = cstack;
+        callstack = backupCallStack;
     }
     s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
@@ -2559,7 +2520,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
             + WARNING_OUTPUTS_NOT_ASSIGNED;
         Warning(message);
     }
-    popID();
+    callstack.popID();
 }
 //=============================================================================
 int
@@ -3022,7 +2983,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
     ASTPtrVector keyexpr;
     int* keywordNdx = nullptr;
     int* argTypeMap = nullptr;
-    pushID(t->context());
+    callstack.pushID(t->context());
     bool CLIFlagsave = InCLI;
     try {
         {
@@ -3335,7 +3296,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
         InCLI = CLIFlagsave;
         throw;
     }
-    popID();
+    callstack.popID();
     if (keywordNdx != nullptr) {
         delete[] keywordNdx;
         keywordNdx = nullptr;
@@ -3460,15 +3421,16 @@ Evaluator::getCallers(bool includeCurrent)
 {
     stringVector callersName;
     size_t i = 0;
-    while (i < this->cstack.size()) {
-        if (this->cstack[i].tokid == 0) {
+    while (i < callstack.size()) {
+        if (callstack.getID(i) == 0) {
             size_t j = i + 1;
-            std::vector<StackEntry> cstackRef = this->cstack;
-            while ((j < cstackRef.size()) && (cstackRef[j].cname == cstackRef[i].cname)
-                && (cstackRef[j].detail == cstackRef[i].detail) && (cstackRef[j].tokid != 0)) {
+            CallStack callstackRef = callstack;
+            while ((j < callstack.size()) && (callstack.getContext(j) == callstack.getContext(i))
+                && (callstack.getDetail(j) == callstack.getDetail(i))
+                && (callstack.getID(j) != 0)) {
                 j++;
             }
-            std::string functionname = cstackRef[j - 1].detail;
+            std::string functionname = callstack.getDetail(j - 1);
             if (boost::algorithm::starts_with(functionname, "built-in ")) {
                 boost::algorithm::replace_all(functionname, "built-in ", "");
             } else if (boost::algorithm::starts_with(functionname, "filename ")) {
@@ -3527,12 +3489,12 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
     bool isVar = false;
     bool isFun = false;
     FunctionDef* funcDef;
-    pushID(t->context());
+    callstack.pushID(t->context());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     isVar = context->lookupVariable(t->text, r);
     if (isVar && (t->down == nullptr)) {
-        popID();
+        callstack.popID();
         return r;
     }
     if (!isVar) {
@@ -3541,10 +3503,10 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
     if (!isVar && isFun) {
         m = functionExpression(funcDef, t, 1, false);
         if (m.empty()) {
-            popID();
+            callstack.popID();
             return ArrayOf::emptyConstructor();
         }
-        popID();
+        callstack.popID();
         return m[0];
     }
     if (!isVar) {
@@ -3553,7 +3515,7 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
     if (!isFun) {
         Error(utf8_to_wstring(_("Undefined function:") + " " + t->text));
     }
-    popID();
+    callstack.popID();
     return r;
 }
 //=============================================================================
@@ -3745,7 +3707,7 @@ Evaluator::rhsExpression(ASTPtr t)
     ArrayOfVector rv;
     Dimensions rhsDimensions;
     FunctionDef* funcDef = nullptr;
-    pushID(t->context());
+    callstack.pushID(t->context());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     if (context->lookupVariable(t->text, r)) {
@@ -3753,10 +3715,10 @@ Evaluator::rhsExpression(ASTPtr t)
             std::string className = r.getStructType();
             std::string extractionFunctionName = className + "_extraction";
             if (lookupFunction(extractionFunctionName, funcDef)) {
-                std::vector<StackEntry> cstack = this->cstack;
+                CallStack backupCallStack = this->callstack;
                 m = functionExpression(funcDef, t, 1, false);
-                this->cstack = cstack;
-                popID();
+                callstack = backupCallStack;
+                callstack.popID();
                 return m;
             } else {
                 Error(utf8_to_wstring(_("Undefined function:") + " " + extractionFunctionName));
@@ -3765,7 +3727,7 @@ Evaluator::rhsExpression(ASTPtr t)
             if (t->down == nullptr) {
                 ArrayOfVector rv;
                 rv.push_back(r);
-                popID();
+                callstack.popID();
                 return rv;
             } else {
                 ASTPtr tt;
@@ -3777,7 +3739,7 @@ Evaluator::rhsExpression(ASTPtr t)
                             if (tt->opNum == OP_DOT) {
                                 ArrayOfVector rv;
                                 rv.push_back(r.getField(tt->down->text));
-                                popID();
+                                callstack.popID();
                                 return rv;
                             }
                         }
@@ -3791,7 +3753,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->name));
             }
             m = functionExpression(funcDef, t, 1, false);
-            popID();
+            callstack.popID();
             return m;
         } else {
             Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
@@ -3826,7 +3788,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 if (t->right == nullptr) {
                     ArrayOfVector rv;
                     rv.push_back(r);
-                    popID();
+                    callstack.popID();
                     return rv;
                 } else {
                     Error(_W("index expected."));
@@ -3936,7 +3898,7 @@ Evaluator::rhsExpression(ASTPtr t)
     if (rv.empty()) {
         rv.push_back(r);
     }
-    popID();
+    callstack.popID();
     return rv;
 }
 //=============================================================================
@@ -4036,11 +3998,11 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         return false;
     }
     tree = getParsedScriptBlock();
-    pushDebug("evaluator", command);
+    callstack.pushDebug("evaluator", command);
     if (tree == nullptr) {
         deleteAstVector(pt);
         resetAstBackupPosition();
-        popDebug();
+        callstack.popDebug();
         return false;
     }
 
@@ -4055,7 +4017,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
             throw e;
         }
         e.printMe(io);
-        popDebug();
+        callstack.popDebug();
         return false;
     }
 
@@ -4067,7 +4029,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
             depth--;
         }
     }
-    popDebug();
+    callstack.popDebug();
     return true;
 }
 //=============================================================================
@@ -4123,9 +4085,9 @@ Evaluator::getCurrentEvaluateFilename()
 std::string
 Evaluator::getCallerFunctionName()
 {
-    int ipos = (int)cstack.size() - 2;
+    int ipos = (int)callstack.size() - 2;
     if (ipos >= 0) {
-        return cstack[ipos].cname;
+        return callstack.getContext(ipos);
     }
     return std::string();
 }
@@ -4145,9 +4107,9 @@ Evaluator::getCurrentFunctionNameW()
 std::string
 Evaluator::getCurrentFunctionName()
 {
-    int ipos = (int)cstack.size() - 1;
+    int ipos = (int)callstack.size() - 1;
     if (ipos >= 0) {
-        std::string fullname = cstack[cstack.size() - 1].cname;
+        std::string fullname = callstack.getLastContext();
         if (boost::algorithm::ends_with(fullname, ".nlf")) {
             boost::filesystem::path pathForStem(fullname);
             return pathForStem.stem().string();
@@ -4336,10 +4298,10 @@ Evaluator::evalCLI()
         }
         InCLI = true;
         if (!commandLine.empty()) {
-            size_t stackdepth = cstack.size();
+            size_t stackdepth = callstack.size();
             bool evalResult = evaluateString(commandLine, false);
-            while (cstack.size() > stackdepth) {
-                cstack.pop_back();
+            while (callstack.size() > stackdepth) {
+                callstack.pop_back();
             }
             if (!evalResult || this->getState() == NLS_STATE_QUIT
                 || this->getState() == NLS_STATE_ABORT) {
@@ -4421,9 +4383,9 @@ Evaluator::simpleAssignClass(
     argIn.push_back(r);
     argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
     argIn.push_back(fieldvalue[0]);
-    std::vector<StackEntry> cstack = this->cstack;
+    CallStack backupCallStack = callstack;
     ArrayOfVector res = funcDef->evaluateFunction(this, argIn, nLhs);
-    this->cstack = cstack;
+    callstack = backupCallStack;
     return res;
 }
 //=============================================================================
@@ -4447,9 +4409,9 @@ Evaluator::extractClass(const ArrayOf& r, const std::string& fieldname, const Ar
         for (ArrayOf a : params) {
             argIn.push_back(a);
         }
-        std::vector<StackEntry> cstack = this->cstack;
+        CallStack backupCallStack = callstack;
         ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
-        this->cstack = cstack;
+        callstack = backupCallStack;
         return rv;
     }
     return ArrayOfVector();

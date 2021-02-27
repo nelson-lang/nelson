@@ -1,4 +1,10 @@
-# 0.5.2 (U2021-02-27)
+# 0.5.3 (UNRELEASED)
+
+- callstack reworks.
+
+- for loop faster x2.
+
+# 0.5.2 (2021-02-27)
 
 ## Features:
 

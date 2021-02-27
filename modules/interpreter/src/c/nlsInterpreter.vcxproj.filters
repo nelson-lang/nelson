@@ -361,6 +361,9 @@
     <ClInclude Include="..\include\NelsonReadyNamedMutex.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\CallStack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

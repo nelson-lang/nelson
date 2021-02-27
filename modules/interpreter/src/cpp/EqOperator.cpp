@@ -32,9 +32,9 @@ namespace Nelson {
 ArrayOf
 Evaluator::eqOperator(ASTPtr t)
 {
-    pushID(t->context());
+    callstack.pushID(t->context());
     ArrayOf retval = this->eqOperator(expression(t->down), expression(t->down->right));
-    popID();
+    callstack.popID();
     return retval;
 }
 //=============================================================================
