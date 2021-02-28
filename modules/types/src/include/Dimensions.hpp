@@ -42,23 +42,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
-
+//=============================================================================
+#include <iostream>
 #include "Error.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
-#include <iostream>
-
+//=============================================================================
 #ifdef _MSC_VER
 #pragma warning(disable : 4290)
 #endif
-
+//=============================================================================
 namespace Nelson {
-
-const unsigned int maxDims = 16;
-
+//=============================================================================
+#define MAXDIMS 16
+const unsigned int maxDims = MAXDIMS;
+//=============================================================================
 /**
  * The Dimensions class is used to keep track of the number of
  * dimensions for a given ArrayOf.  The Dimensions class represents
@@ -71,41 +72,48 @@ const unsigned int maxDims = 16;
  * 5, the dimension vector is automatically padded to $$[3,5,2,1,1,1]$$.
  * Calling simplify() removes the trailing '1's.
  */
+//=============================================================================
 class NLSTYPES_IMPEXP Dimensions
 {
 private:
+    //=============================================================================
     /**
      * The data array of dimensions.
      */
-    std::vector<indexType> data;
+    indexType data[MAXDIMS];
+    //=============================================================================
     /**
      * The number of dimensions currently allocated.
      */
     indexType length;
-
+    //=============================================================================
 public:
+    //=============================================================================
     /**
      * The default constructor - length is set to zero.
      */
     Dimensions();
+    //=============================================================================
     /**
      * Initialize the object with the given number of dimensions
      * and all contents set to zero.
      * Throws an Exception if the dimension count is negative.
      */
     Dimensions(indexType dimCount);
+    //=============================================================================
     /**
      * Return a 2-D dimension object with the specified number of
      * rows and columns.
      */
     Dimensions(indexType nrows, indexType ncols);
+    //=============================================================================
     /**
      * Initialize the object with the given number of dimensions
      * and all contents set to zero.
      * Throws an Exception if the dimension count is negative.
      */
     Dimensions(const std::vector<indexType>& dimsVector);
-
+    //=============================================================================
     /**
      * Return a reference to the ith dimension.  This member function
      * will adjust the number of dimensions present if the argument
@@ -116,24 +124,26 @@ public:
      * Throws an exception if the argument is bigger tha maxIndex.
      */
     indexType& operator[](indexType i);
+    //=============================================================================
     /**
      * Return a reference to the ith dimension.
      * Throws an exception if the argument is bigger tha maxIndex or length.
      */
     indexType
     getAt(indexType i, bool checkLength = true);
-
+    //=============================================================================
     /**
      * Return dimensions as vector;
      */
     std::vector<indexType>
     getAsVector();
-
+    //=============================================================================
     /**
      * Get the number of currently allocated dimensions.
      */
     indexType
     getLength() const;
+    //=============================================================================
     /**
      * Return the total number of elements in the associated ArrayOf object.
      * calculated via $$\Prod_{i=0}^{L-1} a_i$$, where $$L$$ is the value
@@ -141,6 +151,7 @@ public:
      */
     indexType
     getElementCount() const;
+    //=============================================================================
     /**
      * Map the given point using the current Dimensions.  If the argument
      * values are denoted as $$b_i$$, and our dimensions are $$a_i$$, then
@@ -152,18 +163,21 @@ public:
      */
     indexType
     mapPoint(const Dimensions& point);
+    //=============================================================================
     /**
      * Returns the first dimension value (or zero if no dimensions have
      * been defined yet).
      */
     indexType
     getRows() const;
+    //=============================================================================
     /**
      * Returns the second dimension value (or zero if no dimensions have
      * been defined yet).
      */
     indexType
     getColumns() const;
+    //=============================================================================
     /**
      * Returns the requested dimension, or a 1 if the requested dimension
      * exceeds the currently allocated number of dimensions.  Unlike
@@ -172,6 +186,7 @@ public:
      */
     indexType
     getDimensionLength(indexType arg) const;
+    //=============================================================================
     /**
      * A synonym for (*this)[dim] = len.
      */
@@ -189,6 +204,7 @@ public:
      */
     void
     expandToCover(const Dimensions& a);
+    //=============================================================================
     /**
      * Increment our current value in the given dimension (ordinal),
      * modulo the limit.  This is equivalent to first incrementing
@@ -199,17 +215,20 @@ public:
      */
     void
     incrementModulo(const Dimensions& limit, int ordinal);
+    //=============================================================================
     /**
      * Returns comparison of $$a_n < b_n$$, where $$n$$ is the maximum defined
      * dimension in $$a$$ (this object), and $$b$$ is the given argument.
      */
     bool
     inside(const Dimensions& limit);
+    //=============================================================================
     /**
      * Returns true if we match the argument (exactly).
      */
     bool
     equals(const Dimensions& alt);
+    //=============================================================================
     /**
      * This member function trims any excess singleton (length 1) dimensions
      * from our data array after the second dimension.  Thus, the dimension
@@ -218,72 +237,84 @@ public:
      */
     void
     simplify();
-
+    //=============================================================================
     /**
      * Print in a string some representation of this object as a row vector, i.e.,
      * $$[a_1 a_2 \ldots a_n]$$.
      */
     std::string
     toString() const;
-
+    //=============================================================================
     /**
      * Print some representation of this object as a row vector, i.e.,
      * $$[a_1 a_2 \ldots a_n]$$.
      */
     void
     printMe(Interface* io) const;
+    //=============================================================================
     /**
      * Reset the number of allocated dimensions to zero, and reset the
      * data pointer to NULL.
      */
     void
     reset();
+    //=============================================================================
     /**
      * Set all of the allocated dimensions to zero.
      */
     void
     zeroOut();
+    //=============================================================================
     /**
      * Force the contents to be $$[1,1]$$.
      */
     void
     makeScalar();
+    //=============================================================================
     /**
      * Get the largest dimension value, i.e., $$\max_{i=1,\ldots,n} \{a_i\}$$.
      */
     indexType
     getMax();
+    //=============================================================================
     /**
      * Returns true if and only if we are equal to $$[1,1]$$.
      */
     bool
     isScalar() const;
+    //=============================================================================
     /**
      * Returns true if and only if we are equal to $$[1,n]$$ or $$[n,1]$$ for
      * some value of $$n$$.
      */
     bool
     isVector() const;
+    //=============================================================================
     bool
     isRowVector() const;
+    //=============================================================================
     bool
     isColumnVector() const;
+    //=============================================================================
     /**
      * Returns true if we have exactly 2 dimensions allocated.
      */
     bool
     is2D() const;
-
+    //=============================================================================
     /**
      * Returns true if we have exactly 2 dimensions allocated and cols == rows.
      */
     bool
     isSquare() const;
-
+    //=============================================================================
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
     bool
     isEmpty(bool allDimensionsIsZero) const;
+    //=============================================================================
 };
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

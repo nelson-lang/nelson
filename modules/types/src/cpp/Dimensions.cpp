@@ -59,7 +59,7 @@ namespace Nelson {
 #define MSGBUFLEN 2048
 static char msgBuffer[MSGBUFLEN];
 //=============================================================================
-Dimensions::Dimensions() { reset(); }
+Dimensions::Dimensions() : length(0) { memset(data, 0, sizeof(indexType) * MAXDIMS); }
 //=============================================================================
 Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 {
@@ -351,16 +351,14 @@ Dimensions::printMe(Interface* io) const
 void
 Dimensions::reset()
 {
+    memset(data, 0, sizeof(indexType) * MAXDIMS);
     length = 0;
-    data.resize(maxDims, 0);
 }
 //=============================================================================
 void
 Dimensions::zeroOut()
 {
-    for (indexType i = 0; i < length; i++) {
-        data[i] = 0;
-    }
+    memset(data, 0, sizeof(indexType) * length);
 }
 //=============================================================================
 void
