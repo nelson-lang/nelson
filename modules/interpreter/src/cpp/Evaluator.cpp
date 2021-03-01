@@ -111,6 +111,7 @@
 #include "ClassToString.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonReadyNamedMutex.hpp"
+#include "AsciiToDouble.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -126,7 +127,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
     ~endData() = default;
     ;
 };
@@ -364,7 +365,7 @@ Evaluator::expression(ASTPtr t)
     callstack.pushID(t->context());
     switch (t->type) {
     case const_int_node: {
-        retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
+        retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
     } break;
     case const_uint64_node: {
         char* endptr = nullptr;
@@ -373,26 +374,20 @@ Evaluator::expression(ASTPtr t)
         retval = ArrayOf::uint64Constructor(r);
     } break;
     case const_float_node: {
-        boost::replace_all(t->text, "D", "e");
-        boost::replace_all(t->text, "d", "e");
-        retval = ArrayOf::singleConstructor(((float)atof(t->text.c_str())));
+        retval = ArrayOf::singleConstructor(((float)asciiToDouble(t->text)));
     } break;
     case const_double_node: {
-        boost::replace_all(t->text, "D", "e");
-        boost::replace_all(t->text, "d", "e");
-        retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
+        retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
     } break;
     case const_character_array_node: {
-        retval = ArrayOf::characterArrayConstructor(std::string(t->text.c_str()));
+        retval = ArrayOf::characterArrayConstructor(t->text);
     } break;
     case const_string_node: {
-        retval = ArrayOf::stringArrayConstructor(std::string(t->text.c_str()));
+        retval = ArrayOf::stringArrayConstructor(t->text);
     } break;
     case const_complex_node:
     case const_dcomplex_node: {
-        boost::replace_all(t->text, "D", "e");
-        boost::replace_all(t->text, "d", "e");
-        double val = atof(t->text.c_str());
+        double val = asciiToDouble(t->text);
         if (approximatelyEqual(val, 0, std::numeric_limits<double>::epsilon())) {
             retval = ArrayOf::doubleConstructor(0.);
         } else {
@@ -682,8 +677,8 @@ Evaluator::expression(ASTPtr t)
         } break;
         }
         if (ticProfiling != 0 && !operatorName.empty()) {
-            internalProfileFunction stack
-                = computeProfileStack(this, operatorName, utf8_to_wstring(callstack.getLastContext()));
+            internalProfileFunction stack = computeProfileStack(
+                this, operatorName, utf8_to_wstring(callstack.getLastContext()));
             Profiler::getInstance()->toc(ticProfiling, stack);
         }
     } break;

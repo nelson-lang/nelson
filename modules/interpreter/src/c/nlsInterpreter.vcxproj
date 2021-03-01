@@ -211,6 +211,7 @@
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AdditionOperator.cpp" />
     <ClCompile Include="..\cpp\AndOperator.cpp" />
+    <ClCompile Include="..\cpp\AsciiToDouble.cpp" />
     <ClCompile Include="..\cpp\AST.cpp" />
     <ClCompile Include="..\cpp\AstManager.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -317,6 +318,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\AsciiToDouble.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
