@@ -761,11 +761,7 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
 Class
 ArrayOf::getDataClass() const
 {
-    if (dp) {
-        return dp->dataClass;
-    } else {
-        return NLS_DOUBLE;
-    }
+    return (dp == nullptr) ? NLS_DOUBLE : dp->dataClass;
 }
 //=============================================================================
 /**
@@ -816,7 +812,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -1006,8 +1004,11 @@ ArrayOf::isEmpty(bool allDimensionsIsZero) const
     if (dp == nullptr) {
         return true;
     }
-    Dimensions dims = dp->getDimensions();
-    return dims.isEmpty(allDimensionsIsZero);
+    if (allDimensionsIsZero) {
+        Dimensions dims = dp->getDimensions();
+        return dims.isEmpty(allDimensionsIsZero);
+    }
+    return (dp->getElementCount() == 0);
 }
 //=============================================================================
 /*
