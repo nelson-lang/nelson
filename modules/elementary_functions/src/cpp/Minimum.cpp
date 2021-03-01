@@ -342,8 +342,8 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
             dp[0] = minval_r;
             dp[1] = minval_i;
         } else {
-            dp[0] = (T)atof("nan");
-            dp[1] = (T)atof("nan");
+            dp[0] = (T)std::nan("nan");
+            dp[1] = (T)std::nan("nan");
         }
 
     } else {

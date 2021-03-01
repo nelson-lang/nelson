@@ -342,8 +342,8 @@ TMaxAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
             dp[0] = maxval_r;
             dp[1] = maxval_i;
         } else {
-            dp[0] = (T)atof("nan");
-            dp[1] = (T)atof("nan");
+            dp[0] = (T)std::nan("nan");
+            dp[1] = (T)std::nan("nan");
         }
 
     } else {
