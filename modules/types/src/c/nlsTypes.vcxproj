@@ -206,6 +206,7 @@
     <ClInclude Include="..\..\src\include\SparseDynamicFunctions.hpp" />
     <ClInclude Include="..\..\src\include\StringToClass.hpp" />
     <ClInclude Include="..\..\src\include\Types.hpp" />
+    <ClInclude Include="..\include\ArrayOfVector.hpp" />
     <ClInclude Include="..\include\ClassToString.hpp" />
     <ClInclude Include="..\include\HandleGenericObject.hpp" />
     <ClInclude Include="..\include\HandleManager.hpp" />
