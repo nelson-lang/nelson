@@ -60,6 +60,9 @@
     <ClInclude Include="..\include\ClassToString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ArrayOfVector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Dimensions.cpp">

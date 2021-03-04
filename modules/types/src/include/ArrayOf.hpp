@@ -44,23 +44,18 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
+#include <iostream>
+#include <string>
 #include "Dimensions.hpp"
 #include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
+#include "ArrayOfVector.hpp"
 #include "nlsTypes_exports.h"
-#include <iostream>
-#include <string>
-#include <vector>
 
 namespace Nelson {
 
-class ArrayOf;
-
-using ArrayOfVector = std::vector<ArrayOf>;
 NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
-
-using ArrayOfMatrix = std::vector<ArrayOfVector>;
 
 class Data;
 
