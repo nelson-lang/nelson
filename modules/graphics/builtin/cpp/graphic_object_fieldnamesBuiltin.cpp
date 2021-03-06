@@ -49,7 +49,7 @@ Nelson::GraphicsGateway::graphic_object_fieldnamesBuiltin(int nLhs, const ArrayO
         Error(_W("Scalar graphic_object expected."));
     }
     auto* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
-    retval.push_back(ToCellStringAsColumn(go->getPropertiesName()));
+    retval << ToCellStringAsColumn(go->getPropertiesName());
     return retval;
 }
 //=============================================================================

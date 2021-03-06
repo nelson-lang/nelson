@@ -49,7 +49,7 @@ Nelson::StreamGateway::feofBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         Error(_W("Invalid file identifier."));
     }
     FILE* fileptr = static_cast<FILE*>(fm->getFilePointer(iValue));
-    retval.push_back(ArrayOf::doubleConstructor(feof(fileptr)));
+    retval << ArrayOf::doubleConstructor(feof(fileptr));
     return retval;
 }
 //=============================================================================

@@ -145,7 +145,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
             Error(_W("Reshape operation cannot change the number of elements in array."));
         }
         M.reshape(dims);
-        retval.push_back(M);
+        retval << M;
     }
     return retval;
 }

@@ -52,7 +52,7 @@ Nelson::DynamicLinkGateway::dlsym_getBuiltin(int nLhs, const ArrayOfVector& argI
     if (!objDlsym->get(propertyName, res)) {
         Error(ERROR_WRONG_ARGUMENT_2_VALUE);
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

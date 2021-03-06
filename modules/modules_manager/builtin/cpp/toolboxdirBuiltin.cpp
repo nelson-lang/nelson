@@ -48,7 +48,7 @@ Nelson::ModulesManagerGateway::toolboxdirBuiltin(int nLhs, const ArrayOfVector& 
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (IsExistingModuleName(moduleshortname)) {
-        retval.push_back(ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname)));
+        retval << ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname));
     } else {
         Error(_W("invalid module name."));
     }

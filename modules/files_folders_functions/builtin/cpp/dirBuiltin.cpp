@@ -106,7 +106,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
         dims[0] = res.size();
         dims[1] = 1;
         if (res.empty()) {
-            retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dims));
+            retval << ArrayOf::emptyStructConstructor(fieldnames, dims);
         } else {
             auto* elements = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
                 NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
@@ -144,7 +144,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
             st.setFieldAsList("bytes", bytes);
             st.setFieldAsList("isdir", isdirs);
             st.setFieldAsList("datenum", datenums);
-            retval.push_back(st);
+            retval << st;
         }
     }
     return retval;

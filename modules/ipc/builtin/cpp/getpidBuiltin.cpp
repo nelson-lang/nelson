@@ -38,7 +38,7 @@ Nelson::IpcGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     switch (argIn.size()) {
     case 0: {
-        retval.push_back(ArrayOf::doubleConstructor((double)getCurrentPID()));
+        retval << ArrayOf::doubleConstructor((double)getCurrentPID());
     } break;
     case 1: {
         std::wstring param = argIn[0].getContentAsWideString();
@@ -51,7 +51,7 @@ Nelson::IpcGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (indexType k = 0; k < dims.getElementCount(); ++k) {
                 pd[k] = (double)pids[k];
             }
-            retval.push_back(res);
+            retval << res;
         } else {
             Error(_("Wrong value for #1 argument: 'available' expected."));
         }

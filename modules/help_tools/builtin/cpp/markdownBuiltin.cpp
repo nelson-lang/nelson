@@ -91,10 +91,10 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bRes = bLocal;
                 }
             }
-            retval.push_back(ArrayOf::logicalConstructor(bRes));
+            retval << ArrayOf::logicalConstructor(bRes);
         } else {
             bool bRes = MarkdownFile(filenameIn, filenameOut);
-            retval.push_back(ArrayOf::logicalConstructor(bRes));
+            retval << ArrayOf::logicalConstructor(bRes);
         }
     } else {
         // argIn.size() == 1
@@ -114,7 +114,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         std::wstring stringOutput;
         if (MarkdownString(stringInput, stringOutput)) {
-            retval.push_back(ArrayOf::characterArrayConstructor(stringOutput));
+            retval << ArrayOf::characterArrayConstructor(stringOutput);
         } else {
             Error(_W("Error markdown generation."));
         }

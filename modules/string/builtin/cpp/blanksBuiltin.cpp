@@ -51,7 +51,7 @@ Nelson::StringGateway::blanksBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         nbSpacesAsDouble = 0;
     }
     auto nbSpaces = (indexType)nbSpacesAsDouble;
-    retval.push_back(Blanks(nbSpaces));
+    retval << Blanks(nbSpaces);
     return retval;
 }
 //=============================================================================

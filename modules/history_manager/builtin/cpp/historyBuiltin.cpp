@@ -40,15 +40,15 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
         std::wstring str = arg1.getContentAsWideString();
         auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         if (str == L"size") {
-            retval.push_back(ArrayOf::doubleConstructor(
-                static_cast<double>(ptrHistoryManager->getLastNCommandsSize())));
+            retval << ArrayOf::doubleConstructor(
+                static_cast<double>(ptrHistoryManager->getLastNCommandsSize()));
         } else if (str == L"enable_save") {
-            retval.push_back(ArrayOf::logicalConstructor(ptrHistoryManager->getSaveEnabled()));
+            retval << ArrayOf::logicalConstructor(ptrHistoryManager->getSaveEnabled());
         } else if (str == L"filename") {
-            retval.push_back(ArrayOf::characterArrayConstructor(ptrHistoryManager->getFilename()));
+            retval << ArrayOf::characterArrayConstructor(ptrHistoryManager->getFilename());
         } else if (str == L"get") {
             wstringVector res = ptrHistoryManager->get();
-            retval.push_back(ToCellStringAsColumn(res));
+            retval << ToCellStringAsColumn(res);
         } else if (str == L"display") {
             if (nLhs == 0) {
                 wstringVector lines = ptrHistoryManager->get();
@@ -82,13 +82,12 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"duplicated") {
-            retval.push_back(
-                ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines()));
+            retval << ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines());
         } else if (str == L"saveafter") {
-            retval.push_back(ArrayOf::doubleConstructor(
-                static_cast<double>(ptrHistoryManager->getSaveAfterNCommands())));
+            retval << ArrayOf::doubleConstructor(
+                static_cast<double>(ptrHistoryManager->getSaveAfterNCommands()));
         } else if (str == L"removeexit") {
-            retval.push_back(ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit()));
+            retval << ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit());
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
@@ -112,7 +111,7 @@ historyBuiltin_no_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             }
         }
     } else {
-        retval.push_back(ToCellStringAsColumn(res));
+        retval << ToCellStringAsColumn(res);
     }
     return retval;
 }
@@ -311,7 +310,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     std::wstring line = ptrHistoryManager->get(ivalue);
-                    retval.push_back(ArrayOf::characterArrayConstructor(line));
+                    retval << ArrayOf::characterArrayConstructor(line);
                 } else {
                     Dimensions sze(arg2.getDimensions());
                     Dimensions supported(1, 2);
@@ -339,7 +338,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                             Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
                         } else {
                             wstringVector res = ptrHistoryManager->get(ivalue1, ivalue2);
-                            retval.push_back(ToCellStringAsColumn(res));
+                            retval << ToCellStringAsColumn(res);
                         }
                     } else {
                         Error(ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);

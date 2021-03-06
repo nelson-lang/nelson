@@ -85,8 +85,8 @@ AudioSupportedFormats()
         if (extension[0] != '.') {
             extension = "." + extension;
         }
-        extensions.push_back(ArrayOf::characterArrayConstructor(extension));
-        subformats.push_back(ToCellStringAsColumn(AudioSubFormats(info.format)));
+        extensions << ArrayOf::characterArrayConstructor(extension);
+        subformats << ToCellStringAsColumn(AudioSubFormats(info.format));
     }
     st.setFieldAsList("Name", formats);
     st.setFieldAsList("Extension", extensions);

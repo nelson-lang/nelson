@@ -62,7 +62,7 @@ Nelson::ElementaryFunctionsGateway::bin2numBuiltin(
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "bin2num");
             } else {
-                retval.push_back(res);
+                retval << res;
             }
         }
     }

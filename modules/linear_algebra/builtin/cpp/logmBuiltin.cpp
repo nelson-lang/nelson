@@ -55,7 +55,7 @@ Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const Array
             }
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
-        retval.push_back(LogMatrix(argIn[0]));
+        retval << LogMatrix(argIn[0]);
     }
     return retval;
 }

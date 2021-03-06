@@ -60,7 +60,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             if (argIn.size() != 1) {
                 Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
             }
-            retval.push_back(ArrayOf::stringArrayToCharacterArray(argIn[0], false));
+            retval << ArrayOf::stringArrayToCharacterArray(argIn[0], false);
         } break;
         case NLS_CHAR: {
             if (argIn.size() == 2) {
@@ -75,7 +75,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         Error(_("Undefined function 'char' for input arguments."));
                     }
                 } else {
-                    retval.push_back(res);
+                    retval << res;
                 }
             } else if (argIn.size() == 1) {
                 bool needToOverload;
@@ -87,7 +87,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                             + ClassName(argIn[0]) + "'.");
                     }
                 } else {
-                    retval.push_back(res);
+                    retval << res;
                 }
             } else {
                 ArrayOf res = argIn[0];
@@ -105,7 +105,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         res = tmpRet[0];
                     }
                 }
-                retval.push_back(res);
+                retval << res;
             }
         } break;
         case NLS_SCOMPLEX:
@@ -155,7 +155,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         Error(_("Undefined function 'char' for input arguments."));
                     }
                 } else {
-                    retval.push_back(r);
+                    retval << r;
                 }
             } else if (argIn.size() == 1) {
                 bool needToOverload;
@@ -166,7 +166,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         Error(_("Undefined function 'char' for input arguments."));
                     }
                 } else {
-                    retval.push_back(r);
+                    retval << r;
                 }
             } else {
                 ArrayOf res = argIn[0];
@@ -186,7 +186,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         res = r;
                     }
                 }
-                retval.push_back(res);
+                retval << res;
             }
         } break;
         }

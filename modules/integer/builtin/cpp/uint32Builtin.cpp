@@ -50,7 +50,7 @@ Nelson::IntegerGateway::uint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVe
                 return retval;
             }
         }
-        retval.push_back(ToInteger(NLS_UINT32, argIn[0]));
+        retval << ToInteger(NLS_UINT32, argIn[0]);
     }
     return retval;
 }

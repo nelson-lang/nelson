@@ -340,7 +340,7 @@ Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, Arra
     // Precondition the arrays by converting to sparse and to
     // the output type
     for (ArrayOfMatrix::iterator i = m.begin(); i != m.end(); ++i) {
-        for (ArrayOfVector::iterator j = i->begin(); j != i->end(); ++j) {
+        for (std::vector<ArrayOf>::iterator j = i->begin(); j != i->end(); ++j) {
             j->promoteType(dclass);
             j->makeSparse();
         }
@@ -360,7 +360,7 @@ Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, Arra
         indexType X = 0;
         indexType Y = 0;
         for (ArrayOfMatrix::iterator i = m.begin(); i != m.end(); ++i) {
-            for (ArrayOfVector::iterator j = i->begin(); j != i->end(); ++j) {
+            for (std::vector<ArrayOf>::iterator j = i->begin(); j != i->end(); ++j) {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* src
                     = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(j->getDataPointer());
             }

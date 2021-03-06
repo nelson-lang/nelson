@@ -39,7 +39,7 @@ Nelson::FilesFoldersGateway::userdirBuiltin(int nLhs, const ArrayOfVector& argIn
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(UserDir());
+    retval << UserDir();
     return retval;
 }
 //=============================================================================

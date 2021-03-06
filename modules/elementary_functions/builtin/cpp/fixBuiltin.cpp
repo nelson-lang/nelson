@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::fixBuiltin(
                 return retval;
             }
         }
-        retval.push_back(Fix(argIn[0]));
+        retval << Fix(argIn[0]);
     }
     return retval;
 }

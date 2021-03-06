@@ -121,7 +121,7 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     default:
         Error(_W("Unsupported Type: must be a numerical type."));
     }
-    retval.push_back(dest);
+    retval << dest;
     return retval;
 }
 //=============================================================================

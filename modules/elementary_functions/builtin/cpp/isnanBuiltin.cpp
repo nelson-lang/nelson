@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::isnanBuiltin(
                 return retval;
             }
         }
-        retval.push_back(IsNaN(argIn[0]));
+        retval << IsNaN(argIn[0]);
     }
     return retval;
 }

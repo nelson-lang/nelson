@@ -46,7 +46,7 @@ Nelson::DynamicLinkGateway::libpointer_isNullBuiltin(int nLhs, const ArrayOfVect
         Error(_W("libpointer handle expected."));
     }
     LibPointerObject* libPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
-    retval.push_back(ArrayOf::logicalConstructor(libPointerObj->isNull()));
+    retval << ArrayOf::logicalConstructor(libPointerObj->isNull());
     return retval;
 }
 //=============================================================================

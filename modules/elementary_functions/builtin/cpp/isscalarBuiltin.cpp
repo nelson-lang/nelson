@@ -40,7 +40,7 @@ Nelson::ElementaryFunctionsGateway::isscalarBuiltin(int nLhs, const ArrayOfVecto
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    retval.push_back(ArrayOf::logicalConstructor(param1.isScalar()));
+    retval << ArrayOf::logicalConstructor(param1.isScalar());
     return retval;
 }
 //=============================================================================

@@ -148,15 +148,15 @@ Nelson::CoreGateway::sha256Builtin(int nLhs, const ArrayOfVector& argIn)
     }
     switch (argIn.size()) {
     case 1: {
-        retval.push_back(sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::AUTO));
+        retval << sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::AUTO);
     } break;
     case 2: {
         std::wstring param2 = argIn[1].getContentAsWideString();
         ArrayOf param1 = argIn[0];
         if (param2 == L"-file") {
-            retval.push_back(sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::FILENAME));
+            retval << sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::FILENAME);
         } else if (param2 == L"-string") {
-            retval.push_back(sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::STRING));
+            retval << sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::STRING);
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE);
         }

@@ -38,8 +38,8 @@ Nelson::ComEngineGateway::actxserverlistBuiltin(int nLhs, const ArrayOfVector& a
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(ActiveXServerList());
+    ArrayOfVector retval(1);
+    retval << ActiveXServerList();
     return retval;
 }
 //=============================================================================

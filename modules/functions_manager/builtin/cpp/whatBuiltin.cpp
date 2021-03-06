@@ -40,9 +40,9 @@ Nelson::FunctionsGateway::whatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ToCellStringAsColumn(WhatListOfBuiltin(eval)));
+    retval << ToCellStringAsColumn(WhatListOfBuiltin(eval));
     if (nLhs == 2) {
-        retval.push_back(ToCellStringAsColumn(WhatListOfMacro(eval)));
+        retval << ToCellStringAsColumn(WhatListOfMacro(eval));
     }
     return retval;
 }

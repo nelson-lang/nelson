@@ -73,7 +73,7 @@ Nelson::LinearAlgebraGateway::ishermitianBuiltin(
             }
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
-        retval.push_back(ArrayOf::logicalConstructor(IsHermitian(argIn[0], skew, "ishermitian")));
+        retval << ArrayOf::logicalConstructor(IsHermitian(argIn[0], skew, "ishermitian"));
     }
     return retval;
 }

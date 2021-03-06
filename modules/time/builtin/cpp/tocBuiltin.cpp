@@ -50,7 +50,7 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
                 std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
             } else {
-                retval.push_back(ArrayOf::doubleConstructor(r));
+                retval << ArrayOf::doubleConstructor(r);
             }
             return retval;
         }
@@ -69,7 +69,7 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
                 std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
             } else {
-                retval.push_back(ArrayOf::doubleConstructor(r));
+                retval << ArrayOf::doubleConstructor(r);
             }
             return retval;
         }

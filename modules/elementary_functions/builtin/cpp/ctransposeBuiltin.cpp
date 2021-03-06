@@ -54,7 +54,7 @@ Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(
             res = OverloadUnaryOperator(eval, a, "ctranspose", bSuccess);
         }
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

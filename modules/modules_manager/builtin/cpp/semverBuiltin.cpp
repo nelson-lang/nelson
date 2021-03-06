@@ -47,7 +47,7 @@ Nelson::ModulesManagerGateway::semverBuiltin(int nLhs, const ArrayOfVector& argI
     if (!errorMessage.empty()) {
         Error(_W("Cannot compare versions: ") + utf8_to_wstring(errorMessage));
     } else {
-        retval.push_back(ArrayOf::doubleConstructor(value));
+        retval << ArrayOf::doubleConstructor(value);
     }
     return retval;
 }

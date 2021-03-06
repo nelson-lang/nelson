@@ -52,7 +52,7 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(int nLhs, const ArrayOfVector& ar
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(res);
+        retval << res;
     } break;
     case 3: {
         std::wstring errorMessage;
@@ -70,7 +70,7 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(int nLhs, const ArrayOfVector& ar
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(res);
+        retval << res;
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

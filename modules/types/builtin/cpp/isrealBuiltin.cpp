@@ -49,7 +49,7 @@ Nelson::TypeGateway::isrealBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         if (arg.isComplex() && bRes && !arg.isEmpty(true)) {
             bRes = false;
         }
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     }
     return retval;
 }

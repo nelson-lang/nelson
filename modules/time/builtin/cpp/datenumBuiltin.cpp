@@ -55,7 +55,7 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
                 year = param1.getContentAsDoubleScalar();
             } else if (param1.isEmpty()) {
                 Dimensions dims = param1.getDimensions();
-                retval.push_back(ArrayOf::emptyConstructor(dims));
+                retval << ArrayOf::emptyConstructor(dims);
                 return retval;
             } else if (param1.isRowVector()) {
                 indexType len = param1.getElementCount();
@@ -77,11 +77,11 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
                     sec = ptrDouble[5];
                     res = DateNumber(year, month, day, hour, min, sec);
                 } else {
-                    retval.push_back(param1);
+                    retval << param1;
                     return retval;
                 }
             } else if (param1.isColumnVector()) {
-                retval.push_back(param1);
+                retval << param1;
                 return retval;
             } else if (param1.is2D()) {
                 if (param1.getColumns() == 3) {
@@ -89,11 +89,11 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } else if (param1.getColumns() == 6) {
                     // OK
                 } else {
-                    retval.push_back(param1);
+                    retval << param1;
                     return retval;
                 }
             } else {
-                retval.push_back(param1);
+                retval << param1;
                 return retval;
             }
         } else {
@@ -179,7 +179,7 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
-    retval.push_back(ArrayOf::doubleConstructor(res));
+    retval << ArrayOf::doubleConstructor(res);
     return retval;
 }
 //=============================================================================

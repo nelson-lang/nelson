@@ -86,7 +86,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             switch (fwriteError) {
             case FWRITE_NO_ERROR: {
                 if (nLhs > 0) {
-                    retval.push_back(ArrayOf::doubleConstructor((double)written));
+                    retval << ArrayOf::doubleConstructor((double)written);
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {

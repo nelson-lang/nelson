@@ -74,7 +74,7 @@ Nelson::MemoryGateway::memoryBuiltin(int nLhs, const ArrayOfVector& argIn)
         fieldvalues.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
         fieldnames.push_back(L"MemUsedNelson");
         fieldvalues.push_back(ArrayOf::doubleConstructor(getTotalPhysicalMemoryByNelson()));
-        retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
+        retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     }
     if (nLhs > 1) {
         wstringVector fieldnames;
@@ -104,7 +104,7 @@ Nelson::MemoryGateway::memoryBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf::doubleConstructor(getTotalPhysicalMemory() - getTotalPhysicalMemoryUsed()));
         fieldvalues1.push_back(ArrayOf::doubleConstructor(getTotalPhysicalMemory()));
         fieldvalues.push_back(ArrayOf::structConstructor(fieldnames1, fieldvalues1));
-        retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
+        retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     }
     return retval;
 }

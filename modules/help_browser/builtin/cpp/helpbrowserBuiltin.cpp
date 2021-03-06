@@ -49,10 +49,10 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
             }
             ArrayOfVector retval;
             if (param1 == L"-cache") {
-                retval.push_back(
-                    ArrayOf::characterArrayConstructor(HelpBrowser::getInstance()->getCachePath()));
+                retval << ArrayOf::characterArrayConstructor(
+                    HelpBrowser::getInstance()->getCachePath());
             } else {
-                retval.push_back(ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes()));
+                retval << ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes());
             }
             return retval;
         } else {

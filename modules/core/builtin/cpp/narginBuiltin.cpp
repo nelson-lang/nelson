@@ -46,7 +46,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             Error(_W("not allowed in base scope."));
         } else {
             int nargin = context->getCurrentScope()->getNargIn();
-            retval.push_back(ArrayOf::doubleConstructor(nargin));
+            retval << ArrayOf::doubleConstructor(nargin);
         }
     } else // argIn.size() == 1
     {
@@ -65,7 +65,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
         }
-        retval.push_back(ArrayOf::doubleConstructor(NargIn(eval, name)));
+        retval << ArrayOf::doubleConstructor(NargIn(eval, name));
     }
     return retval;
 }

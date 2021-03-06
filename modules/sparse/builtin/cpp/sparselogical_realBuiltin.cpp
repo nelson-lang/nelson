@@ -46,7 +46,7 @@ Nelson::SparseGateway::sparselogical_realBuiltin(
     if (!argIn[0].isLogical()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
-    retval.push_back(SparseRealPart(argIn[0]));
+    retval << SparseRealPart(argIn[0]);
     return retval;
 }
 //=============================================================================

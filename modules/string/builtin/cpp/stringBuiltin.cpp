@@ -40,7 +40,7 @@ Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.empty()) {
-        retval.push_back(ArrayOf::stringArrayConstructor(std::string()));
+        retval << ArrayOf::stringArrayConstructor(std::string());
     } else {
         bool bSuccess = false;
         if (eval->mustOverloadBasicTypes()) {
@@ -52,7 +52,7 @@ Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "string");
             } else {
-                retval.push_back(res);
+                retval << res;
             }
         }
     }

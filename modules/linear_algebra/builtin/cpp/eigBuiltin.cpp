@@ -153,7 +153,7 @@ eigCompact(Evaluator* eval, int nLhs, bool balance, bool generalizedDecompositio
                 D.promoteType(NLS_SINGLE);
             }
         }
-        retval.push_back(D);
+        retval << D;
     }
     return retval;
 }
@@ -200,7 +200,7 @@ eigFull(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
                 V.promoteType(NLS_SINGLE);
             }
         }
-        retval.push_back(V);
+        retval << V;
         if (D.allReal()) {
             if (D.getDataClass() == NLS_DCOMPLEX) {
                 D.promoteType(NLS_DOUBLE);
@@ -209,7 +209,7 @@ eigFull(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
                 D.promoteType(NLS_SINGLE);
             }
         }
-        retval.push_back(D);
+        retval << D;
     }
     return retval;
 }

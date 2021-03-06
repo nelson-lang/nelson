@@ -48,17 +48,17 @@ Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     }
     std::wstring classnameExpected = param2.getContentAsWideString();
     if (classnameExpected == L"numeric") {
-        retval.push_back(ArrayOf::logicalConstructor(param1.isNumeric()));
+        retval << ArrayOf::logicalConstructor(param1.isNumeric());
     } else if (classnameExpected == L"float") {
         bool bRes = (param1.getDataClass() == NLS_DOUBLE || param1.getDataClass() == NLS_DCOMPLEX
             || param1.getDataClass() == NLS_SINGLE || param1.getDataClass() == NLS_SCOMPLEX);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     } else if (classnameExpected == L"integer") {
         bool bRes = (param1.getDataClass() == NLS_UINT8 || param1.getDataClass() == NLS_INT8
             || param1.getDataClass() == NLS_UINT16 || param1.getDataClass() == NLS_INT16
             || param1.getDataClass() == NLS_UINT32 || param1.getDataClass() == NLS_INT32
             || param1.getDataClass() == NLS_UINT64 || param1.getDataClass() == NLS_INT64);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     } else {
         bool res = false;
         std::wstring currentClassName;
@@ -72,7 +72,7 @@ Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         } else {
             res = (currentClassName == classnameExpected);
         }
-        retval.push_back(ArrayOf::logicalConstructor(res));
+        retval << ArrayOf::logicalConstructor(res);
     }
     return retval;
 }

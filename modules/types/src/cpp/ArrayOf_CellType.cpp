@@ -224,7 +224,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     const auto* qp = static_cast<const ArrayOf*>(dp->getData());
     // Now we copy data from dp to m
     for (indexType i = 0; i < index_length; i++) {
-        m.push_back(qp[index_p[i] - 1]);
+        m << qp[index_p[i] - 1];
     }
     return m;
 }
@@ -280,7 +280,7 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
                 Error(_W("Conversion from <missing> to character vector is not supported."));
             }
         }
-        m.push_back(qp[srcindex]);
+        m << qp[srcindex];
         argPointer.incrementModulo(outDims, 0);
     }
     delete[] indx;
@@ -408,7 +408,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
         } else {
             qp[ndx] = front;
         }
-        data.erase(data.begin());
+        data.pop_front();
     }
     dp->dimensions.simplify();
 }
@@ -482,8 +482,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
             } else {
                 qp[j] = front;
             }
-
-            data.erase(data.begin());
+            data.pop_front();
             argPointer.incrementModulo(argLengths, 0);
         }
         delete[] indx;

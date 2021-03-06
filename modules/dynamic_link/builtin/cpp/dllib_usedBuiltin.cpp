@@ -40,7 +40,7 @@ Nelson::DynamicLinkGateway::dllib_usedBuiltin(int nLhs, const ArrayOfVector& arg
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(usedHandle(DLLIB_CATEGORY_STR));
+    retval << usedHandle(DLLIB_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

@@ -46,7 +46,7 @@ Nelson::TypeGateway::isclassBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             bIsClass = false;
         }
     }
-    retval.push_back(ArrayOf::logicalConstructor(bIsClass));
+    retval << ArrayOf::logicalConstructor(bIsClass);
     return retval;
 }
 //=============================================================================

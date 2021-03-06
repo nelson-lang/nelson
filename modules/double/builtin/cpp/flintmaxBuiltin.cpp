@@ -45,17 +45,17 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
         if ((paramStr == L"double" || paramStr == L"single")) {
             if (paramStr == L"double") {
                 double intmax = (1ULL << DBL_MANT_DIG);
-                retval.push_back(ArrayOf::doubleConstructor(intmax));
+                retval << ArrayOf::doubleConstructor(intmax);
             } else {
                 single intmax = (1ULL << FLT_MANT_DIG);
-                retval.push_back(ArrayOf::singleConstructor(intmax));
+                retval << ArrayOf::singleConstructor(intmax);
             }
         } else {
             Error(_W("#1 'double' or 'single' expected."));
         }
     } else {
         double intmax = (1ULL << DBL_MANT_DIG);
-        retval.push_back(ArrayOf::doubleConstructor(intmax));
+        retval << ArrayOf::doubleConstructor(intmax);
     }
     return retval;
 }

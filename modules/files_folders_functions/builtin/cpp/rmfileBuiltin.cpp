@@ -52,12 +52,12 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 1:
         bRes = RemoveFile(filenameToDelete, msg);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
         break;
     case 2:
         bRes = RemoveFile(filenameToDelete, msg);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
-        retval.push_back(ArrayOf::characterArrayConstructor(msg));
+        retval << ArrayOf::logicalConstructor(bRes);
+        retval << ArrayOf::characterArrayConstructor(msg);
         break;
     default:
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

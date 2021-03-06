@@ -40,19 +40,19 @@ Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (nLhs == 1) {
             switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
             case NLS_FORMAT_SHORT: {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"short"));
+                retval << ArrayOf::characterArrayConstructor(L"short");
             } break;
             case NLS_FORMAT_LONG: {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"long"));
+                retval << ArrayOf::characterArrayConstructor(L"long");
             } break;
             case NLS_FORMAT_SHORTE: {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"shortE"));
+                retval << ArrayOf::characterArrayConstructor(L"shortE");
             } break;
             case NLS_FORMAT_LONGE: {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"longE"));
+                retval << ArrayOf::characterArrayConstructor(L"longE");
             } break;
             case NLS_FORMAT_HEX: {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"hex"));
+                retval << ArrayOf::characterArrayConstructor(L"hex");
             } break;
             default: {
                 Error(L"Unexpected format.");
@@ -72,19 +72,19 @@ Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
                 switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
                 case NLS_FORMAT_SHORT: {
-                    retval.push_back(ArrayOf::characterArrayConstructor(L"short"));
+                    retval << ArrayOf::characterArrayConstructor(L"short");
                 } break;
                 case NLS_FORMAT_LONG: {
-                    retval.push_back(ArrayOf::characterArrayConstructor(L"long"));
+                    retval << ArrayOf::characterArrayConstructor(L"long");
                 } break;
                 case NLS_FORMAT_SHORTE: {
-                    retval.push_back(ArrayOf::characterArrayConstructor(L"shortE"));
+                    retval << ArrayOf::characterArrayConstructor(L"shortE");
                 } break;
                 case NLS_FORMAT_LONGE: {
-                    retval.push_back(ArrayOf::characterArrayConstructor(L"longE"));
+                    retval << ArrayOf::characterArrayConstructor(L"longE");
                 } break;
                 case NLS_FORMAT_HEX: {
-                    retval.push_back(ArrayOf::characterArrayConstructor(L"hex"));
+                    retval << ArrayOf::characterArrayConstructor(L"hex");
                 } break;
                 default: {
                     Error(L"Unexpected format.");

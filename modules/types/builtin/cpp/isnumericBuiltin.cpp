@@ -44,7 +44,7 @@ Nelson::TypeGateway::isnumericBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval = OverloadFunction(eval, nLhs, argIn, "isnumeric", bSuccess);
     }
     if (!bSuccess) {
-        retval.push_back(ArrayOf::logicalConstructor(argIn[0].isNumeric()));
+        retval << ArrayOf::logicalConstructor(argIn[0].isNumeric());
     }
     return retval;
 }

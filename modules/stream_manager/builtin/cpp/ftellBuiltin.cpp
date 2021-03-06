@@ -53,7 +53,7 @@ Nelson::StreamGateway::ftellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             Error(_W("Invalid file identifier."));
         }
         auto dpos = static_cast<double>(FileTell(f));
-        retval.push_back(ArrayOf::doubleConstructor(dpos));
+        retval << ArrayOf::doubleConstructor(dpos);
     } else {
         Error(_W("Invalid file identifier."));
     }

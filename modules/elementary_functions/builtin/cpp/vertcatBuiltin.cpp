@@ -37,7 +37,7 @@ Nelson::ElementaryFunctionsGateway::vertcatBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(VertCatOperator(eval, argIn));
+    retval << VertCatOperator(eval, argIn);
     return retval;
 }
 //=============================================================================

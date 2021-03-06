@@ -55,7 +55,7 @@ Nelson::LinearAlgebraGateway::sqrtmBuiltin(Evaluator* eval, int nLhs, const Arra
             }
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
-        retval.push_back(SqrtMatrix(argIn[0]));
+        retval << SqrtMatrix(argIn[0]);
     }
     return retval;
 }

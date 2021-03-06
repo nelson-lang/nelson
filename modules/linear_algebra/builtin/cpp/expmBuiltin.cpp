@@ -55,7 +55,7 @@ Nelson::LinearAlgebraGateway::expmBuiltin(Evaluator* eval, int nLhs, const Array
             }
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
-        retval.push_back(ExpMatrix(argIn[0]));
+        retval << ExpMatrix(argIn[0]);
     }
     return retval;
 }

@@ -73,7 +73,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
-    retval.push_back(ArrayOf::handleConstructor(libPointerObject));
+    retval << ArrayOf::handleConstructor(libPointerObject);
     return retval;
 }
 //=============================================================================

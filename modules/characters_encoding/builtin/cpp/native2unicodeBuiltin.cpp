@@ -32,7 +32,6 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -43,6 +42,7 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     if (param1.isSparse()) {
         Error(_W("Sparse type not supported."));
     }
+    ArrayOfVector retval(1);
     std::string data;
     bool isSupportedAsNumeric
         = param1.isNumeric() && (param1.isEmpty() || param1.isScalar() || param1.isRowVector());
@@ -78,7 +78,7 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     if (!charsetToUtf8Converter(data, charset, output)) {
         Error(_W("Cannot convert to unicode."));
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(output));
+    retval << ArrayOf::characterArrayConstructor(output);
     return retval;
 }
 //=============================================================================

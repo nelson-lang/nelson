@@ -103,7 +103,7 @@ Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         bool bRes = IntegerToString(argIn[0], result, error_message);
         if (bRes) {
             Dimensions dims = argIn[0].getDimensions();
-            retval.push_back(StringVectorToString(result, dims));
+            retval << StringVectorToString(result, dims);
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
             if (!bSuccess) {

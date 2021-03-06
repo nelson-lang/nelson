@@ -63,21 +63,21 @@ Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
             }
         } else {
-            retval.push_back(I);
+            retval << I;
             if (nLhs > 1) {
-                retval.push_back(J);
+                retval << J;
             }
             if (nLhs > 2) {
-                retval.push_back(V);
+                retval << V;
             }
             if (nLhs > 3) {
-                retval.push_back(M);
+                retval << M;
             }
             if (nLhs > 4) {
-                retval.push_back(N);
+                retval << N;
             }
             if (nLhs > 5) {
-                retval.push_back(NNZ);
+                retval << NNZ;
             }
         }
     }

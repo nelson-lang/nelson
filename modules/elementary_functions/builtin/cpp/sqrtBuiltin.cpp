@@ -52,7 +52,7 @@ Nelson::ElementaryFunctionsGateway::sqrtBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "sqrt");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

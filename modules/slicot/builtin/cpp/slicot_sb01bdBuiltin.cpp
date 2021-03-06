@@ -164,34 +164,34 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(WR_output);
+        retval << WR_output;
     }
     if (nLhs > 2) {
-        retval.push_back(WI_output);
+        retval << WI_output;
     }
     if (nLhs > 3) {
-        retval.push_back(NFP_output);
+        retval << NFP_output;
     }
     if (nLhs > 4) {
-        retval.push_back(NAP_output);
+        retval << NAP_output;
     }
     if (nLhs > 5) {
-        retval.push_back(NUP_output);
+        retval << NUP_output;
     }
     if (nLhs > 6) {
-        retval.push_back(F_output);
+        retval << F_output;
     }
     if (nLhs > 7) {
-        retval.push_back(Z_output);
+        retval << Z_output;
     }
     if (nLhs > 8) {
-        retval.push_back(IWARN_output);
+        retval << IWARN_output;
     }
     if (nLhs > 9) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

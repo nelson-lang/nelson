@@ -40,15 +40,15 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn[0].isEmpty()) {
-        retval.push_back(ArrayOf::logicalConstructor(false));
+        retval << ArrayOf::logicalConstructor(false);
     } else if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
-        retval.push_back(ArrayOf::logicalConstructor(IsDirectory(wpath)));
+        retval << ArrayOf::logicalConstructor(IsDirectory(wpath));
     } else {
         if (argIn[0].getDataClass() == NLS_CELL_ARRAY) {
             Dimensions dim = argIn[0].getDimensions();
             if (argIn[0].isEmpty()) {
-                retval.push_back(ArrayOf::emptyConstructor(dim));
+                retval << ArrayOf::emptyConstructor(dim);
             } else {
                 ArrayOf cell(argIn[0]);
                 logical* bmat = static_cast<logical*>(ArrayOf::allocateArrayOf(
@@ -66,7 +66,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
                 ArrayOf res = ArrayOf(NLS_LOGICAL, dim, bmat, false);
-                retval.push_back(res);
+                retval << res;
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);

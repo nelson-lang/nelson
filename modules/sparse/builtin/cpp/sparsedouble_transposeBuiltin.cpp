@@ -44,7 +44,7 @@ Nelson::SparseGateway::sparsedouble_transposeBuiltin(
     if (!A.isSparseDoubleType()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
-    retval.push_back(TransposeSparseDouble(A));
+    retval << TransposeSparseDouble(A);
     return retval;
 }
 //=============================================================================

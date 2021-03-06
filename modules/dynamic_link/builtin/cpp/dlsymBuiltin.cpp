@@ -43,8 +43,7 @@ Nelson::DynamicLinkGateway::dlsymBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring returnTypeString = param3.getContentAsWideString();
     ArrayOf param4 = argIn[3];
     wstringVector argumentsString = param4.getContentAsWideStringVector(true);
-    retval.push_back(
-        createDynamicLinkSymbolObject(param1, symbolName, returnTypeString, argumentsString));
+    retval << createDynamicLinkSymbolObject(param1, symbolName, returnTypeString, argumentsString);
     return retval;
 }
 //=============================================================================

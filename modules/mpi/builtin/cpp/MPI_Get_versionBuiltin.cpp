@@ -42,9 +42,9 @@ Nelson::MpiGateway::MPI_Get_versionBuiltin(int nLhs, const ArrayOfVector& argIn)
     int version = 0;
     int subversion = 0;
     MPI_Get_version(&version, &subversion);
-    retval.push_back(ArrayOf::doubleConstructor(version));
+    retval << ArrayOf::doubleConstructor(version);
     if (nLhs > 1) {
-        retval.push_back(ArrayOf::doubleConstructor(subversion));
+        retval << ArrayOf::doubleConstructor(subversion);
     }
     return retval;
 }

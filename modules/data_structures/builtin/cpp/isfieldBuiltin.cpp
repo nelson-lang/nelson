@@ -62,12 +62,12 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
                         res = true;
                     }
                 }
-                retval.push_back(ArrayOf::logicalConstructor(res));
+                retval << ArrayOf::logicalConstructor(res);
             } else if (param2.isCell()) {
                 stringVector fieldnames = param1.getFieldNames();
                 Dimensions dims2 = param2.getDimensions();
                 if (dims2.getElementCount() == 0) {
-                    retval.push_back(ArrayOf::logicalConstructor(false));
+                    retval << ArrayOf::logicalConstructor(false);
                 } else {
                     auto* elements = (ArrayOf*)(param2.getDataPointer());
                     logical* res = static_cast<logical*>(ArrayOf::allocateArrayOf(
@@ -84,13 +84,13 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
                             }
                         }
                     }
-                    retval.push_back(ArrayOf(NLS_LOGICAL, dims2, res));
+                    retval << ArrayOf(NLS_LOGICAL, dims2, res);
                 }
             } else {
-                retval.push_back(ArrayOf::logicalConstructor(false));
+                retval << ArrayOf::logicalConstructor(false);
             }
         } else {
-            retval.push_back(ArrayOf::logicalConstructor(false));
+            retval << ArrayOf::logicalConstructor(false);
         }
     }
     return retval;

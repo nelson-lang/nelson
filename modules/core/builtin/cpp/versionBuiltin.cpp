@@ -44,9 +44,9 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         version.append(" (");
         version.append(NELSON_RELEASE_NAME);
         version.append(")");
-        retval.push_back(ArrayOf::characterArrayConstructor(version));
+        retval << ArrayOf::characterArrayConstructor(version);
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::characterArrayConstructor(__DATE__));
+            retval << ArrayOf::characterArrayConstructor(__DATE__);
         }
     } else if (argIn.size() == 1) {
         if (nLhs > 1) {
@@ -59,15 +59,15 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (option == L"-date") {
-            retval.push_back(ArrayOf::characterArrayConstructor(__TIMESTAMP__));
+            retval << ArrayOf::characterArrayConstructor(__TIMESTAMP__);
         } else if (option == L"-description") {
-            retval.push_back(ArrayOf::characterArrayConstructor(L""));
+            retval << ArrayOf::characterArrayConstructor(L"");
         } else if (option == L"-release") {
-            retval.push_back(ArrayOf::characterArrayConstructor(NELSON_RELEASE_NAME));
+            retval << ArrayOf::characterArrayConstructor(NELSON_RELEASE_NAME);
         } else if (option == L"-compiler") {
-            retval.push_back(ToCellStringAsRow(VersionCompilerFlags()));
+            retval << ToCellStringAsRow(VersionCompilerFlags());
         } else if (option == L"-commit_hash") {
-            retval.push_back(ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH));
+            retval << ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH);
         } else if (option == L"-number") {
             ArrayOf vectRes = ArrayOf::doubleVectorConstructor(4);
             auto* vectAsDouble = static_cast<double*>(vectRes.getReadWriteDataPointer());
@@ -77,7 +77,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
                 vectAsDouble[2] = NELSON_VERSION_MAINTENANCE;
                 vectAsDouble[3] = NELSON_VERSION_BUILD;
             }
-            retval.push_back(vectRes);
+            retval << vectRes;
         } else {
             Error(_W("Unknow option."));
         }

@@ -52,7 +52,7 @@ strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseS
     if (!bSuccess) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        retval.push_back(StringCompare(A, B, bCaseSensitive));
+        retval << StringCompare(A, B, bCaseSensitive);
     }
     return retval;
 }

@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::realBuiltin(
                 return retval;
             }
         }
-        retval.push_back(RealPart(argIn[0]));
+        retval << RealPart(argIn[0]);
     }
     return retval;
 }

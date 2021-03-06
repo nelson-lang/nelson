@@ -51,7 +51,7 @@ Nelson::ElementaryFunctionsGateway::powerBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "power");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

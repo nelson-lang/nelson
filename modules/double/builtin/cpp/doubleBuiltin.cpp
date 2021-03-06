@@ -48,7 +48,7 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "double");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

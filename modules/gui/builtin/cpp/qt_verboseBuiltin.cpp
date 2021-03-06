@@ -45,7 +45,7 @@ Nelson::GuiGateway::qt_verboseBuiltin(int nLhs, const ArrayOfVector& argIn)
         logical newVerbose = param1.getContentAsLogicalScalar();
         QtMessageVerbose((newVerbose == 1));
     }
-    retval.push_back(ArrayOf::logicalConstructor(previous));
+    retval << ArrayOf::logicalConstructor(previous);
     return retval;
 }
 //=============================================================================

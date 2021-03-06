@@ -40,13 +40,12 @@ Nelson::ComEngineGateway::COM_getBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    ArrayOfVector params;
-    for (size_t k = 2; k < argIn.size(); k++) {
-        params.push_back(argIn[k]);
-    }
+    ArrayOfVector params(argIn);
+    params.pop_front();
+    params.pop_front();
     std::wstring propertyName = param2.getContentAsWideString();
-    ArrayOfVector retval;
-    retval.push_back(GetComHandleObject(param1, propertyName, params));
+    ArrayOfVector retval(1);
+    retval << GetComHandleObject(param1, propertyName, params);
     return retval;
 }
 //=============================================================================

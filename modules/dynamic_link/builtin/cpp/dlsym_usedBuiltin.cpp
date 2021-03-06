@@ -40,7 +40,7 @@ Nelson::DynamicLinkGateway::dlsym_usedBuiltin(int nLhs, const ArrayOfVector& arg
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(usedHandle(DLSYM_CATEGORY_STR));
+    retval << usedHandle(DLSYM_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

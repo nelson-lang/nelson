@@ -127,7 +127,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
     ~endData() = default;
     ;
 };
@@ -262,10 +262,9 @@ Evaluator::matrixDefinition(ASTPtr t)
         m.push_back(rowDefinition(s));
         s = s->right;
     }
-    ArrayOfVector v;
-    v.reserve(m.size());
+    ArrayOfVector v(m.size());
     for (size_t k = 0; k < m.size(); k++) {
-        v.push_back(HorzCatOperator(this, m[k]));
+        v << HorzCatOperator(this, m[k]);
     }
     ArrayOf res = VertCatOperator(this, v);
     callstack.popID();
@@ -2304,7 +2303,7 @@ Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
     callstack.pushID(t->context());
     if (t->down == nullptr) {
         ArrayOf retval(value[0]);
-        value.erase(value.begin());
+        value.pop_front();
         callstack.popID();
         return retval;
     }
@@ -3155,14 +3154,14 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                     // C(X1, ..., XN)
                     // we call : C_extract(C, X1, ..., XN)
                     if (m.size() > 0) {
-                        m.insert(m.begin(), r);
+                        m.push_front(r);
                     } else {
                         // C() or C
                         if (t->down != nullptr) {
                             s = t->down;
                             // C()
                             if (s->opNum == (OP_PARENS)) {
-                                m.insert(m.begin(), r);
+                                m.push_front(r);
                             }
                             // C others ? C{}, C. ?
                             // we do currently nothing

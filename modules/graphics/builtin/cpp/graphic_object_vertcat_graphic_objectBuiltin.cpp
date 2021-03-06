@@ -42,7 +42,7 @@ Nelson::GraphicsGateway::graphic_object_vertcat_graphic_objectBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(VertCatGO(A, B));
+    retval << VertCatGO(A, B);
     return retval;
 }
 //=============================================================================

@@ -49,7 +49,7 @@ Nelson::FilesFoldersGateway::relativepathBuiltin(int nLhs, const ArrayOfVector& 
             result = L"./" + result;
         }
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(result));
+    retval << ArrayOf::characterArrayConstructor(result);
     return retval;
 }
 //=============================================================================

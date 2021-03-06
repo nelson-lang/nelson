@@ -54,8 +54,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
         } break;
         case 2: {
             // C = min(A, B)
-            ArrayOf res = Minimum(omitNaN, argIn[0], argIn[1], needToOverload);
-            retval.push_back(res);
+            retval << Minimum(omitNaN, argIn[0], argIn[1], needToOverload);
         } break;
         case 3: {
             // [M, I] = min(A, [], dim)
@@ -81,8 +80,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
                     } else {
                         Error(_("Invalid third argument."));
                     }
-                    ArrayOf res = Minimum(omitNaN, param1, param2, needToOverload);
-                    retval.push_back(res);
+                    retval << Minimum(omitNaN, param1, param2, needToOverload);
                 } else {
                     Error(_("Invalid third argument."));
                 }
@@ -111,8 +109,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
                     if (nLhs > 1) {
                         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                     }
-                    ArrayOf res = MinimumAll(omitNaN, param1, needToOverload);
-                    retval.push_back(res);
+                    retval << MinimumAll(omitNaN, param1, needToOverload);
                 } else if (dim == 0) {
                     retval = Minimum(omitNaN, param1, nLhs, needToOverload);
                 } else {
@@ -150,8 +147,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
                 if (nLhs > 1) {
                     Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
-                ArrayOf res = MinimumAll(omitNaN, param1, needToOverload);
-                retval.push_back(res);
+                retval << MinimumAll(omitNaN, param1, needToOverload);
             } else {
                 indexType dim = param3.getContentAsScalarIndex(false);
                 retval = Minimum(omitNaN, param1, dim, nLhs, needToOverload);

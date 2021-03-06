@@ -38,16 +38,16 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         if (nLhs >= 0) {
-            retval.push_back(ArrayOf::characterArrayConstructor(GetArchitectureType()));
+            retval << ArrayOf::characterArrayConstructor(GetArchitectureType());
         }
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::doubleConstructor(GetMaxArrayOfSizeSupported()));
+            retval << ArrayOf::doubleConstructor(GetMaxArrayOfSizeSupported());
         }
         if (nLhs > 2) {
             if (IsBigEndian()) {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"B"));
+                retval << ArrayOf::characterArrayConstructor(L"B");
             } else {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"L"));
+                retval << ArrayOf::characterArrayConstructor(L"L");
             }
         }
     } else if (argIn.size() == 1) {
@@ -61,7 +61,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
         if (warg.compare(L"arch") != 0) {
             Error(_W("Unknown command option."));
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(GetArchitecture()));
+        retval << ArrayOf::characterArrayConstructor(GetArchitecture());
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

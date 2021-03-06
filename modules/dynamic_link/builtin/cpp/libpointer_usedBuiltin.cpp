@@ -33,14 +33,14 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::DynamicLinkGateway::libpointer_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(usedHandle(LIBPOINTER_CATEGORY_STR));
+    ArrayOfVector retval(1);
+    retval << usedHandle(LIBPOINTER_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

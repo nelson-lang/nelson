@@ -32,13 +32,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CharactersEncodingGateway::unicode2nativeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() < 1 || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOfVector retval(nLhs);
     ArrayOf param1 = argIn[0];
     std::string data = param1.getContentAsCString();
     std::string charset;
@@ -62,8 +62,7 @@ Nelson::CharactersEncodingGateway::unicode2nativeBuiltin(int nLhs, const ArrayOf
     const uint8_t* src = reinterpret_cast<const uint8_t*>(output.data());
     uint8* values = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, output.length());
     memcpy(values, src, sizeof(uint8) * output.length());
-    ArrayOf res = ArrayOf(NLS_UINT8, dims, values);
-    retval.push_back(res);
+    retval << ArrayOf(NLS_UINT8, dims, values);
     return retval;
 }
 //=============================================================================

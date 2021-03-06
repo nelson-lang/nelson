@@ -46,7 +46,7 @@ Nelson::SparseGateway::sparselogical_imagBuiltin(
     if (!argIn[0].isLogical()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
-    retval.push_back(SparseImagPart(argIn[0]));
+    retval << SparseImagPart(argIn[0]);
     return retval;
 }
 //=============================================================================

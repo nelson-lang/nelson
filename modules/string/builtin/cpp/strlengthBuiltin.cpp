@@ -51,12 +51,12 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         switch (param.getDataClass()) {
         case NLS_CHAR:
         case NLS_STRING_ARRAY: {
-            retval.push_back(StringLength(argIn[0]));
+            retval << StringLength(argIn[0]);
         } break;
         default:
         case NLS_CELL_ARRAY: {
             if (IsCellOfString(param)) {
-                retval.push_back(StringLength(argIn[0]));
+                retval << StringLength(argIn[0]);
             } else {
                 retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
                 if (!bSuccess) {

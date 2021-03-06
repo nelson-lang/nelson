@@ -40,9 +40,8 @@ Nelson::ComEngineGateway::COM_ispropBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    ArrayOfVector retval;
-    ArrayOf res = ispropComHandleObject(argIn[0], propertyName);
-    retval.push_back(res);
+    ArrayOfVector retval(1);
+    retval << ispropComHandleObject(argIn[0], propertyName);
     return retval;
 }
 //=============================================================================

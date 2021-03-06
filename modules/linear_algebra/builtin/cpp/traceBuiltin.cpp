@@ -55,7 +55,7 @@ Nelson::LinearAlgebraGateway::traceBuiltin(Evaluator* eval, int nLhs, const Arra
             }
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
-        retval.push_back(TraceMatrix(argIn[0]));
+        retval << TraceMatrix(argIn[0]);
     }
     return retval;
 }

@@ -41,7 +41,7 @@ Nelson::MpiGateway::MPI_InitializedBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     int flag = 0;
     MPI_Initialized(&flag);
-    retval.push_back(ArrayOf::logicalConstructor(flag));
+    retval << ArrayOf::logicalConstructor(flag);
     return retval;
 }
 //=============================================================================

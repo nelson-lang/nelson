@@ -47,8 +47,8 @@ Nelson::DynamicLinkGateway::gatewayinfoBuiltin(int nLhs, const ArrayOfVector& ar
         std::wstring errorMessage;
         bool bRes = GatewayInfo(dynlibName, moduleName, builtinList, errorMessage);
         if (bRes) {
-            retval.push_back(ArrayOf::characterArrayConstructor(moduleName));
-            retval.push_back(ToCellStringAsColumn(builtinList));
+            retval << ArrayOf::characterArrayConstructor(moduleName);
+            retval << ToCellStringAsColumn(builtinList);
         } else {
             Error(errorMessage);
         }

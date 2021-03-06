@@ -59,7 +59,7 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
             }
         }
         Exception lasterror = eval->getLastErrorException();
-        retval.push_back(ErrorToStruct(lasterror));
+        retval << ErrorToStruct(lasterror);
     }
     return retval;
 }

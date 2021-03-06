@@ -39,7 +39,7 @@ Nelson::DataStructuresGateway::iscellstrBuiltin(int nLhs, const ArrayOfVector& a
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(ArrayOf::logicalConstructor(IsCellOfString(argIn[0])));
+    retval << ArrayOf::logicalConstructor(IsCellOfString(argIn[0]));
     return retval;
 }
 //=============================================================================

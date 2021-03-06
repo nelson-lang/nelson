@@ -56,7 +56,7 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(int nLhs, const ArrayOfVector&
             Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

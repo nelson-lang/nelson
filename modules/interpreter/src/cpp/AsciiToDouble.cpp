@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 double
-asciiToDouble(const std::string &str)
+asciiToDouble(const std::string& str)
 {
     std::string s(str);
     std::replace(s.begin(), s.end(), 'D', 'E');

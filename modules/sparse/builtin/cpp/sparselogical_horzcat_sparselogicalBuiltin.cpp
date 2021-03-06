@@ -42,7 +42,7 @@ Nelson::SparseGateway::sparselogical_horzcat_sparselogicalBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(HorzCatSparseLogical(A, B));
+    retval << HorzCatSparseLogical(A, B);
     return retval;
 }
 //=============================================================================

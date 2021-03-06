@@ -81,11 +81,9 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         if (withTol) {
-            retval.push_back(
-                ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol, "issymmetric")));
+            retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol, "issymmetric"));
         } else {
-            retval.push_back(
-                ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew, "issymmetric")));
+            retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew, "issymmetric"));
         }
     }
     return retval;

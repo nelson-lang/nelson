@@ -69,8 +69,8 @@ Nelson::GraphicsGateway::figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: { } break; }
-    ArrayOfVector retval;
-    retval.push_back(res);
+    ArrayOfVector retval(1);
+    retval << res;
     return retval;
 }
 //=============================================================================

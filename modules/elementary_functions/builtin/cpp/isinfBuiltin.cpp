@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::isinfBuiltin(
                 return retval;
             }
         }
-        retval.push_back(IsInf(argIn[0]));
+        retval << IsInf(argIn[0]);
     }
     return retval;
 }

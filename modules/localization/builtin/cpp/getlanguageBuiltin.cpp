@@ -39,8 +39,7 @@ Nelson::LocalizationGateway::getlanguageBuiltin(int nLhs, const ArrayOfVector& a
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(
-        ArrayOf::characterArrayConstructor(Localization::Instance()->getCurrentLanguage()));
+    retval << ArrayOf::characterArrayConstructor(Localization::Instance()->getCurrentLanguage());
     return retval;
 }
 //=============================================================================

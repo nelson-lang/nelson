@@ -130,7 +130,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
     }
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::characterArrayConstructor(previousPaths));
+        retval << ArrayOf::characterArrayConstructor(previousPaths);
     }
     return retval;
 }

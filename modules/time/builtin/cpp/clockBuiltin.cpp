@@ -39,8 +39,8 @@ Nelson::TimeGateway::clockBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(Clock());
+    ArrayOfVector retval(1);
+    retval << Clock();
     return retval;
 }
 //=============================================================================

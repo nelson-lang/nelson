@@ -233,7 +233,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
         }
         bool warningIssued = false;
         if (outputArgCount() != -1) {
-            outputs = ArrayOfVector(returnVals.size());
+            outputs.resize(returnVals.size());
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
@@ -263,7 +263,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
             }
             if (explicitCount == 0 && varlen > 0 && nargout < 2) {
                 indexType toFill = 1;
-                outputs = ArrayOfVector(toFill);
+                outputs.resize(toFill);
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
                 if (static_cast<indexType>(toFill)
@@ -272,7 +272,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
                 }
                 outputs[0] = dp[0];
             } else {
-                outputs = ArrayOfVector(nargout);
+                outputs.resize(nargout);
                 // For each explicit argument (that we have), insert it
                 // into the scope.
                 for (int i = 0; i < explicitCount; i++) {

@@ -36,13 +36,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::MpiGateway::MPI_ProbeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(2);
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
@@ -74,8 +74,8 @@ Nelson::MpiGateway::MPI_ProbeBuiltin(int nLhs, const ArrayOfVector& argIn)
     fieldvalues.push_back(ArrayOf::doubleConstructor(stat.MPI_ERROR));
     fieldvalues.push_back(ArrayOf::doubleConstructor(count));
     fieldvalues.push_back(ArrayOf::doubleConstructor(cancelled));
-    retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
-    retval.push_back(ArrayOf::doubleConstructor((double)info));
+    retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
+    retval << ArrayOf::doubleConstructor((double)info);
     return retval;
 }
 //=============================================================================

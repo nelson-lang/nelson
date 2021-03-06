@@ -51,13 +51,13 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
             normalizedPaths.push_back(NormalizePath(s));
         }
         if (param1.isStringArray()) {
-            retval.push_back(ArrayOf::stringArrayConstructor(normalizedPaths, dims));
+            retval << ArrayOf::stringArrayConstructor(normalizedPaths, dims);
         } else {
-            retval.push_back(ToCellStringAsColumn(normalizedPaths));
+            retval << ToCellStringAsColumn(normalizedPaths);
         }
     } else {
         std::wstring path = argIn[0].getContentAsWideString();
-        retval.push_back(ArrayOf::characterArrayConstructor(NormalizePath(path)));
+        retval << ArrayOf::characterArrayConstructor(NormalizePath(path));
     }
     return retval;
 }

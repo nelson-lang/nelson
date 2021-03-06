@@ -39,7 +39,7 @@ Nelson::OsFunctionsGateway::hostnameBuiltin(int nLhs, const ArrayOfVector& argIn
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(GetHostname()));
+    retval << ArrayOf::characterArrayConstructor(GetHostname());
     return retval;
 }
 //=============================================================================

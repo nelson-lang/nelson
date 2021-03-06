@@ -51,7 +51,7 @@ runBuiltinCommon(
         }
     }
     if (errorCatch) {
-        retval.push_back(ArrayOf::logicalConstructor(bSuccess));
+        retval << ArrayOf::logicalConstructor(bSuccess);
     }
     return retval;
 }

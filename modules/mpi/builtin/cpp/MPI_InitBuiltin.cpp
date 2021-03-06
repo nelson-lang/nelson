@@ -43,7 +43,7 @@ Nelson::MpiGateway::MPI_InitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (eval->haveEventsLoop()) {
         Error(_W("Wrong engine mode."));
     }
-    retval.push_back(ArrayOf::logicalConstructor(initializeMPI()));
+    retval << ArrayOf::logicalConstructor(initializeMPI());
     return retval;
 }
 //=============================================================================

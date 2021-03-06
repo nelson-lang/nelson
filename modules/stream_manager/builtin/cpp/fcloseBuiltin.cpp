@@ -49,9 +49,9 @@ Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isOpened(iValue)) {
             if (FileClose(fm, iValue)) {
-                retval.push_back(ArrayOf::doubleConstructor(0.));
+                retval << ArrayOf::doubleConstructor(0.);
             } else {
-                retval.push_back(ArrayOf::doubleConstructor(-1.));
+                retval << ArrayOf::doubleConstructor(-1.);
             }
         } else {
             Error(_W("Invalid file identifier."));

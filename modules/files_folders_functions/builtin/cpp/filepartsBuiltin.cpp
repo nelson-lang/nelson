@@ -70,20 +70,20 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
         std::wstring resextension;
         FileParts(wpath, respath, resfilename, resextension);
         if (wtype.empty()) {
-            retval.push_back(ArrayOf::characterArrayConstructor(respath));
+            retval << ArrayOf::characterArrayConstructor(respath);
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
+                retval << ArrayOf::characterArrayConstructor(resfilename);
             }
             if (nLhs > 2) {
-                retval.push_back(ArrayOf::characterArrayConstructor(resextension));
+                retval << ArrayOf::characterArrayConstructor(resextension);
             }
         } else {
             if (wtype == L"path") {
-                retval.push_back(ArrayOf::characterArrayConstructor(respath));
+                retval << ArrayOf::characterArrayConstructor(respath);
             } else if (wtype == L"filename") {
-                retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
+                retval << ArrayOf::characterArrayConstructor(resfilename);
             } else if (wtype == L"extension") {
-                retval.push_back(ArrayOf::characterArrayConstructor(resextension));
+                retval << ArrayOf::characterArrayConstructor(resextension);
             }
         }
     } else {

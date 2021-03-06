@@ -56,7 +56,7 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
                 found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
             }
             if (found) {
-                retval.push_back(ArrayOf::characterArrayConstructor(functionname));
+                retval << ArrayOf::characterArrayConstructor(functionname);
             } else {
                 Error(_W("#1 Argument must contain a valid function_handle."));
             }

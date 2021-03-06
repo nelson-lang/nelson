@@ -31,15 +31,15 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TypeGateway::isuint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     bool bRes = (argIn[0].getDataClass() == NLS_UINT16);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }
 //=============================================================================

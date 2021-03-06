@@ -57,7 +57,7 @@ Nelson::LogicalGateway::xorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         ArrayOf B = argIn[1];
         A.promoteType(NLS_LOGICAL);
         B.promoteType(NLS_LOGICAL);
-        retval.push_back(XorLogical(A, B));
+        retval << XorLogical(A, B);
     }
     return retval;
 }

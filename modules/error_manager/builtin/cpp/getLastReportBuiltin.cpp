@@ -40,9 +40,9 @@ Nelson::ErrorManagerGateway::getLastReportBuiltin(
     }
     Exception e = eval->getLastErrorException();
     if (e.getMessage().empty()) {
-        retval.push_back(ArrayOf::characterArrayConstructor(""));
+        retval << ArrayOf::characterArrayConstructor("");
     } else {
-        retval.push_back(ArrayOf::characterArrayConstructor(e.getFormattedErrorMessage()));
+        retval << ArrayOf::characterArrayConstructor(e.getFormattedErrorMessage());
     }
     return retval;
 }

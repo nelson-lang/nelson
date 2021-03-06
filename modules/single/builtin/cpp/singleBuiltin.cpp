@@ -53,7 +53,7 @@ Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE);
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

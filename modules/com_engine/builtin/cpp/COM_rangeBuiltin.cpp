@@ -38,17 +38,17 @@ Nelson::ComEngineGateway::COM_rangeBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
+    ArrayOfVector retval(nLhs);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
         std::wstring range = param1.getContentAsWideString();
-        retval.push_back(ArrayOf::logicalConstructor(isValidRange(range)));
+        retval << ArrayOf::logicalConstructor(isValidRange(range));
     } else {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
         indexType m = param1.getContentAsScalarIndex();
         indexType n = param2.getContentAsScalarIndex();
-        retval.push_back(ArrayOf::characterArrayConstructor(xlsIndexToRange(m, n)));
+        retval << ArrayOf::characterArrayConstructor(xlsIndexToRange(m, n));
     }
     return retval;
 }

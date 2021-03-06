@@ -74,7 +74,7 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(
                 }
             }
         }
-        retval.push_back(ArrayOf::doubleConstructor(len));
+        retval << ArrayOf::doubleConstructor(len);
     }
     return retval;
 }

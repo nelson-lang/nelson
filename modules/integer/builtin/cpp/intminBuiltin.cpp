@@ -40,7 +40,7 @@ Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     if (argIn.empty()) {
         int32 v = std::numeric_limits<int32>::min();
-        retval.push_back(ArrayOf::int32Constructor(v));
+        retval << ArrayOf::int32Constructor(v);
     } else {
         ArrayOf param1 = argIn[0];
         if (!param1.isRowVectorCharacterArray()) {
@@ -48,23 +48,23 @@ Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         }
         std::wstring classInt = param1.getContentAsWideString();
         if (classInt == L"int8") {
-            retval.push_back(ArrayOf::int8Constructor(-128));
+            retval << ArrayOf::int8Constructor(-128);
         } else if (classInt == L"uint8") {
-            retval.push_back(ArrayOf::uint8Constructor(0));
+            retval << ArrayOf::uint8Constructor(0);
         } else if (classInt == L"int16") {
-            retval.push_back(ArrayOf::int16Constructor(-32768));
+            retval << ArrayOf::int16Constructor(-32768);
         } else if (classInt == L"uint16") {
-            retval.push_back(ArrayOf::uint16Constructor(0));
+            retval << ArrayOf::uint16Constructor(0);
         } else if (classInt == L"int32") {
             int32 v = std::numeric_limits<int32>::min();
-            retval.push_back(ArrayOf::int32Constructor(v));
+            retval << ArrayOf::int32Constructor(v);
         } else if (classInt == L"uint32") {
-            retval.push_back(ArrayOf::uint32Constructor(0));
+            retval << ArrayOf::uint32Constructor(0);
         } else if (classInt == L"int64") {
             int64 v = std::numeric_limits<int64>::min();
-            retval.push_back(ArrayOf::int64Constructor(v));
+            retval << ArrayOf::int64Constructor(v);
         } else if (classInt == L"uint64") {
-            retval.push_back(ArrayOf::uint64Constructor(0));
+            retval << ArrayOf::uint64Constructor(0);
         } else {
             Error(_W("The name of an integer class expected."));
         }

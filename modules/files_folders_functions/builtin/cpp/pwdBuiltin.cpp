@@ -47,7 +47,7 @@ Nelson::FilesFoldersGateway::pwdBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs == 0) {
         NelsonPrint(pwd);
     } else {
-        retval.push_back(ArrayOf::characterArrayConstructor(pwd));
+        retval << ArrayOf::characterArrayConstructor(pwd);
     }
     return retval;
 }

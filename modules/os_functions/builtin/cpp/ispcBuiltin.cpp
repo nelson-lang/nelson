@@ -39,7 +39,7 @@ Nelson::OsFunctionsGateway::ispcBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(IsPc());
+    retval << IsPc();
     return retval;
 }
 //=============================================================================

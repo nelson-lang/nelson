@@ -113,11 +113,11 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
                     ptr[k] = (double)(sze[dimsVal[k] - 1]);
                 }
             }
-            retval.push_back(res);
+            retval << res;
         } else {
             if (nLhs > 1) {
                 for (int i = 0; i < nLhs; i++) {
-                    retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(sze[i])));
+                    retval << ArrayOf::doubleConstructor(static_cast<double>(sze[i]));
                 }
             } else {
                 double* dims = static_cast<double*>(
@@ -133,7 +133,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
                     retDim[0] = 1;
                     retDim[1] = sze.getLength();
                 }
-                retval.push_back(ArrayOf(NLS_DOUBLE, retDim, dims));
+                retval << ArrayOf(NLS_DOUBLE, retDim, dims);
             }
         }
     }

@@ -38,7 +38,7 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.empty()) {
-        retval.push_back(ArrayOf::stringArrayConstructor(std::string()));
+        retval << ArrayOf::stringArrayConstructor(std::string());
     }
     if (argIn.size() == 1) {
         if (argIn[0].getDataClass() == NLS_DOUBLE) {
@@ -61,8 +61,7 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     for (indexType k = 0; k < index * index; k++) {
                         elements[k] = ArrayOf::characterArrayConstructor("");
                     }
-                    ArrayOf c = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-                    retval.push_back(c);
+                    retval << ArrayOf(NLS_STRING_ARRAY, dims, elements);
                 } else {
                     ArrayOf arg = argIn[0];
                     Dimensions dims(arg.getElementCount());
@@ -90,8 +89,7 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     for (ompIndexType k = 0; k < elementCount; k++) {
                         elements[k] = ArrayOf::characterArrayConstructor("");
                     }
-                    ArrayOf c = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-                    retval.push_back(c);
+                    retval << ArrayOf(NLS_STRING_ARRAY, dims, elements);
                 }
             } else {
                 Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED);
@@ -137,8 +135,7 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         for (ompIndexType k = 0; k < elementCount; k++) {
             elements[k] = ArrayOf::characterArrayConstructor("");
         }
-        ArrayOf c = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-        retval.push_back(c);
+        retval << ArrayOf(NLS_STRING_ARRAY, dims, elements);
     }
     return retval;
 }

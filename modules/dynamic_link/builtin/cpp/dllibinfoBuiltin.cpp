@@ -50,7 +50,7 @@ Nelson::DynamicLinkGateway::dllibinfoBuiltin(int nLhs, const ArrayOfVector& argI
     if (!errorMessage.empty()) {
         Error(_("Cannot get library symbols: ") + errorMessage);
     }
-    retval.push_back(ToCellStringAsColumn(symbols));
+    retval << ToCellStringAsColumn(symbols);
     return retval;
 }
 //=============================================================================

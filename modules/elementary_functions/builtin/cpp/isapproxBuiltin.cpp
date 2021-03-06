@@ -72,7 +72,7 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(
                 param1.promoteType(NLS_DOUBLE);
                 param2.promoteType(NLS_DOUBLE);
             }
-            retval.push_back(ArrayOf::logicalConstructor(IsApprox(param1, param2, precision)));
+            retval << ArrayOf::logicalConstructor(IsApprox(param1, param2, precision));
         } else {
             Error(_W("Numerics types expected."));
         }

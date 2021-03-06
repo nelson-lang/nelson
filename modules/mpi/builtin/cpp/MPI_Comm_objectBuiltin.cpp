@@ -58,7 +58,7 @@ Nelson::MpiGateway::MPI_Comm_objectBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(description + _W(" not allowed."));
         }
     }
-    retval.push_back(MpiCommToHandle(comm));
+    retval << MpiCommToHandle(comm);
     return retval;
 }
 //=============================================================================

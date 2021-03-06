@@ -650,17 +650,17 @@ Maximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 ArrayOfVector
 Maximum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     needToOverload = false;
     if (A.isEmpty()) {
-        retval.push_back(A);
+        retval << A;
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::emptyConstructor());
+            retval << ArrayOf::emptyConstructor();
         }
     } else if (A.isScalar()) {
-        retval.push_back(A);
+        retval << A;
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::doubleConstructor(1));
+            retval << ArrayOf::doubleConstructor(1);
         }
     } else {
         Dimensions dimA(A.getDimensions());
@@ -689,16 +689,16 @@ Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
         return retval;
     }
     if (A.isEmpty()) {
-        retval.push_back(A);
+        retval << A;
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::emptyConstructor());
+            retval << ArrayOf::emptyConstructor();
         }
         return retval;
     }
     if (A.isScalar()) {
-        retval.push_back(A);
+        retval << A;
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::doubleConstructor(1));
+            retval << ArrayOf::doubleConstructor(1);
         }
         return retval;
     }
@@ -722,7 +722,7 @@ Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
 
     if (dimsA.equals(outDim)) {
         outDim.simplify();
-        retval.push_back(A);
+        retval << A;
         if (nLhs > 1) {
             iptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
             index = ArrayOf(NLS_DOUBLE, outDim, iptr);
@@ -732,7 +732,7 @@ Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
             for (ompIndexType k = 0; k < (ompIndexType)outDim.getElementCount(); ++k) {
                 iptr[k] = 1;
             }
-            retval.push_back(index);
+            retval << index;
         }
         return retval;
     }
@@ -894,9 +894,9 @@ Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
         res = ArrayOf(NLS_DOUBLE, outDim, ptr);
     } break;
     }
-    retval.push_back(res);
+    retval << res;
     if (nLhs > 1) {
-        retval.push_back(index);
+        retval << index;
     }
     return retval;
 }

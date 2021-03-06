@@ -38,7 +38,7 @@ Nelson::TypeGateway::issparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::logicalConstructor(argIn[0].isSparse()));
+    retval << ArrayOf::logicalConstructor(argIn[0].isSparse());
     return retval;
 }
 //=============================================================================

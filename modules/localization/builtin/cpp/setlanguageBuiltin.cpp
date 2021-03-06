@@ -41,10 +41,10 @@ Nelson::LocalizationGateway::setlanguageBuiltin(int nLhs, const ArrayOfVector& a
     }
     std::wstring desiredLang = argIn[0].getContentAsWideString();
     if (Localization::Instance()->isSupportedLanguage(desiredLang)) {
-        retval.push_back(
-            ArrayOf::logicalConstructor(Localization::Instance()->setLanguage(desiredLang, true)));
+        retval << ArrayOf::logicalConstructor(
+            Localization::Instance()->setLanguage(desiredLang, true));
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(false));
+        retval << ArrayOf::logicalConstructor(false);
     }
     return retval;
 }

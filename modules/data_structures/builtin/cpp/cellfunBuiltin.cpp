@@ -71,9 +71,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
             } catch (Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
-                for (const auto& k : input) {
-                    in2.push_back(k);
-                }
+                in2 += input;
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
             if ((int)ret.size() < nargout) {
@@ -112,9 +110,7 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
             } catch (Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
-                for (const auto& k : input) {
-                    in2.push_back(k);
-                }
+                in2 += input;
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
             if ((int)ret.size() < nargout) {
@@ -163,7 +159,7 @@ isempty_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             matLogical[k] = arg[k].isEmpty();
         }
     }
-    retval.push_back(ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical));
+    retval << ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical);
     return retval;
 }
 //=============================================================================
@@ -187,7 +183,7 @@ islogical_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             matLogical[k] = arg[k].isLogical();
         }
     }
-    retval.push_back(ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical));
+    retval << ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical);
     return retval;
 }
 //=============================================================================
@@ -211,7 +207,7 @@ isreal_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             matLogical[k] = arg[k].allReal();
         }
     }
-    retval.push_back(ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical));
+    retval << ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical);
     return retval;
 }
 //=============================================================================
@@ -250,7 +246,7 @@ length_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             matDouble[k] = len;
         }
     }
-    retval.push_back(ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble));
+    retval << ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble);
     return retval;
 }
 //=============================================================================
@@ -278,7 +274,7 @@ ndims_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             matDouble[k] = static_cast<double>(len);
         }
     }
-    retval.push_back(ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble));
+    retval << ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble);
     return retval;
 }
 //=============================================================================
@@ -302,7 +298,7 @@ prodofsize_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             matDouble[k] = static_cast<double>(arg[k].getElementCount());
         }
     }
-    retval.push_back(ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble));
+    retval << ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble);
     return retval;
 }
 //=============================================================================
@@ -333,7 +329,7 @@ size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             }
         }
     }
-    retval.push_back(ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble));
+    retval << ArrayOf(NLS_DOUBLE, Cell.getDimensions(), matDouble);
     return retval;
 }
 //=============================================================================
@@ -369,7 +365,7 @@ isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             }
         }
     }
-    retval.push_back(ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical));
+    retval << ArrayOf(NLS_LOGICAL, Cell.getDimensions(), matLogical);
     return retval;
 }
 //=============================================================================

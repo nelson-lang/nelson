@@ -37,12 +37,11 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
     Class destClass = NLS_DOUBLE;
     indexType n = 1;
     indexType m = 1;
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     sizeType nRhs = argIn.size();
-    ArrayOf res;
     if (nRhs == 0) {
         m = 1;
         n = 1;
@@ -105,8 +104,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    res = Eye(n, m, destClass, bIsSparse);
-    retval.push_back(res);
+    retval << Eye(n, m, destClass, bIsSparse);
     return retval;
 }
 //=============================================================================

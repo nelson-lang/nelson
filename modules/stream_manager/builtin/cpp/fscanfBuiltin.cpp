@@ -103,9 +103,9 @@ Nelson::StreamGateway::fscanfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     indexType count = 0;
     ArrayOf value = FscanF(filepointer, format, encoding, m, n, haveThirdArgument, count);
-    retval.push_back(value);
+    retval << value;
     if (nLhs > 1) {
-        retval.push_back(ArrayOf::doubleConstructor((double)count));
+        retval << ArrayOf::doubleConstructor((double)count);
     }
     return retval;
 }

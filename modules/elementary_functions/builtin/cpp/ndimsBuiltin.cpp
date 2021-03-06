@@ -76,7 +76,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
             if (ndims < 2) {
                 ndims = 2;
             }
-            retval.push_back(ArrayOf::doubleConstructor(ndims));
+            retval << ArrayOf::doubleConstructor(ndims);
         } break;
         default: {
             retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);

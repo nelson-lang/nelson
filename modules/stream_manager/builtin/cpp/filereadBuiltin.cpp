@@ -132,7 +132,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 res = ToCellStringAsColumn(results);
             }
         }
-        retval.push_back(res);
+        retval << res;
     } else {
         if (!errorMessage.empty()) {
             Error(errorMessage);

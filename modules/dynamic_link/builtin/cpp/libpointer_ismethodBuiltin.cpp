@@ -45,7 +45,7 @@ Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin(int nLhs, const ArrayOfVe
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodName = param2.getContentAsWideString();
-    retval.push_back(ArrayOf::logicalConstructor(param1.isHandleMethod(methodName)));
+    retval << ArrayOf::logicalConstructor(param1.isHandleMethod(methodName));
     return retval;
 }
 //=============================================================================

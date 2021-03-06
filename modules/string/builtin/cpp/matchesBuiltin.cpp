@@ -62,7 +62,7 @@ Nelson::StringGateway::matchesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!bSuccess) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        retval.push_back(StringMatches(A, B, ignoreCase));
+        retval << StringMatches(A, B, ignoreCase);
     }
     return retval;
 }

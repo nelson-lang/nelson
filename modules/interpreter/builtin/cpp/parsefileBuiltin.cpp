@@ -51,13 +51,13 @@ Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const Ar
     ParserState parserState = ParseFile(eval, filename);
     switch (parserState) {
     case ScriptBlock: {
-        retval.push_back(ArrayOf::characterArrayConstructor("script"));
+        retval << ArrayOf::characterArrayConstructor("script");
     } break;
     case FuncDef: {
-        retval.push_back(ArrayOf::characterArrayConstructor("function"));
+        retval << ArrayOf::characterArrayConstructor("function");
     } break;
     default: {
-        retval.push_back(ArrayOf::characterArrayConstructor("error"));
+        retval << ArrayOf::characterArrayConstructor("error");
     } break;
     }
     return retval;

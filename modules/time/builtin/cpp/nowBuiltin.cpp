@@ -39,8 +39,8 @@ Nelson::TimeGateway::nowBuiltin(int nLhs, const ArrayOfVector& argIn)
     if ((nLhs != 0) && (nLhs != 1)) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(ArrayOf::doubleConstructor(Now()));
+    ArrayOfVector retval(1);
+    retval << ArrayOf::doubleConstructor(Now());
     return retval;
 }
 //=============================================================================

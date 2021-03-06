@@ -48,7 +48,7 @@ Nelson::DynamicLinkGateway::libpointer_ispropBuiltin(int nLhs, const ArrayOfVect
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    retval.push_back(ArrayOf::logicalConstructor(objLibPointer->isProperty(propertyName)));
+    retval << ArrayOf::logicalConstructor(objLibPointer->isProperty(propertyName));
     return retval;
 }
 //=============================================================================

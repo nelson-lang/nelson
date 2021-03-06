@@ -62,7 +62,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
                     if (ret.size() == 1) {
                         res = ret[0].getContentAsLogicalScalar(false) == 0 ? false : true;
                         if (!res) {
-                            retval.push_back(ArrayOf::logicalConstructor(res));
+                            retval << ArrayOf::logicalConstructor(res);
                             return retval;
                         }
                     } else {
@@ -71,12 +71,12 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
                 }
             } else {
                 if (!res) {
-                    retval.push_back(ArrayOf::logicalConstructor(res));
+                    retval << ArrayOf::logicalConstructor(res);
                     return retval;
                 }
             }
         }
-        retval.push_back(ArrayOf::logicalConstructor(res));
+        retval << ArrayOf::logicalConstructor(res);
     }
     return retval;
 }

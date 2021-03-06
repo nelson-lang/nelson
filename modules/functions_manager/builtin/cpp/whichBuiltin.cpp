@@ -60,7 +60,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                retval.push_back(ArrayOf::characterArrayConstructor(Which(wfunctionname)));
+                retval << ArrayOf::characterArrayConstructor(Which(wfunctionname));
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -90,7 +90,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                retval.push_back(ToCellStringAsColumn(res));
+                retval << ToCellStringAsColumn(res);
             }
         } else if (wparam2 == L"-module") {
             wstringVector res = WhichModule(wfunctionname);
@@ -99,7 +99,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     NelsonPrint(re + L"\n");
                 }
             } else {
-                retval.push_back(ToCellStringAsColumn(res));
+                retval << ToCellStringAsColumn(res);
             }
         } else {
             Error(_W("#2 Argument must be \'-all\' or  \'-module\'."));

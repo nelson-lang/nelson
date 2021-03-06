@@ -50,7 +50,7 @@ Nelson::MpiGateway::MPI_BarrierBuiltin(int nLhs, const ArrayOfVector& argIn)
         comm = HandleToMpiComm(argIn[0]);
     }
     int info = MPI_Barrier(comm);
-    retval.push_back(ArrayOf::doubleConstructor((double)info));
+    retval << ArrayOf::doubleConstructor((double)info);
     return retval;
 }
 //=============================================================================

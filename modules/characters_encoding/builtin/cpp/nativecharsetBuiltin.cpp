@@ -33,13 +33,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
         Error(_W("Sparse type not supported."));
@@ -71,7 +71,7 @@ Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfV
         Error("Type or dimensions not supported.");
     }
     stringVector encodings = detectEncodings(data);
-    retval.push_back(ToCellStringAsColumn(encodings));
+    retval << ToCellStringAsColumn(encodings);
     return retval;
 }
 //=============================================================================

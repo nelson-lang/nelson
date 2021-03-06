@@ -83,7 +83,7 @@ cleanupDebugStack(stackTrace stackPositions)
 }
 //=============================================================================
 void
-DebugStack(const CallStack &callstack, int nbOmitLines, stackTrace& stackPositions)
+DebugStack(const CallStack& callstack, int nbOmitLines, stackTrace& stackPositions)
 {
     stackPositions.clear();
     size_t i = 0;
@@ -91,7 +91,8 @@ DebugStack(const CallStack &callstack, int nbOmitLines, stackTrace& stackPositio
         if (callstack.getID(i) == 0) {
             size_t j = i + 1;
             while ((j < callstack.size()) && (callstack.getContext(j) == callstack.getContext(i))
-                && (callstack.getDetail(j) == callstack.getDetail(i)) && (callstack.getID(j) != 0)) {
+                && (callstack.getDetail(j) == callstack.getDetail(i))
+                && (callstack.getID(j) != 0)) {
                 j++;
             }
             std::wstring filename = utf8_to_wstring(callstack.getContext(j - 1));

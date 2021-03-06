@@ -47,7 +47,7 @@ Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const Arra
     if (static_cast<int>(eval->lookupFunction(uname, pfun)) == true) {
         res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
     }
-    retval.push_back(ArrayOf::logicalConstructor(res));
+    retval << ArrayOf::logicalConstructor(res);
     return retval;
 }
 //=============================================================================

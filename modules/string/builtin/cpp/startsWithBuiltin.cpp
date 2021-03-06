@@ -62,7 +62,7 @@ Nelson::StringGateway::startsWithBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 logical fieldvalue = param4.getContentAsLogicalScalar();
                 bCaseSensitive = (fieldvalue == 0);
             }
-            retval.push_back(StringStartsWith(A, B, bCaseSensitive));
+            retval << StringStartsWith(A, B, bCaseSensitive);
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "startsWith", bSuccess);
             if (!bSuccess) {

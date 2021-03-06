@@ -49,7 +49,7 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     bool bIsGlobal = globalScope->isVariable(arg);
     ArrayOfVector retval;
-    retval.push_back(ArrayOf::logicalConstructor(bIsGlobal));
+    retval << ArrayOf::logicalConstructor(bIsGlobal);
     return retval;
 }
 //=============================================================================

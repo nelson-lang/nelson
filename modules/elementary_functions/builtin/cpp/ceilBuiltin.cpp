@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::ceilBuiltin(
                 return retval;
             }
         }
-        retval.push_back(Ceil(argIn[0]));
+        retval << Ceil(argIn[0]);
     }
     return retval;
 }

@@ -58,7 +58,7 @@ Nelson::ElementaryFunctionsGateway::allBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "all");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

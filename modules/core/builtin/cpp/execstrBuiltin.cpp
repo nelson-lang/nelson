@@ -36,7 +36,6 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     bool bErrorCatch = false;
     if (argIn.empty() || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
@@ -44,6 +43,7 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(nLhs);
     std::wstring line;
     if (argIn[0].isRowVectorCharacterArray()) {
         line = argIn[0].getContentAsWideString();
@@ -74,7 +74,7 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } catch (const Exception&) {
             bRes = false;
         }
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     } else {
         EvaluateCommand(eval, line, false);
     }

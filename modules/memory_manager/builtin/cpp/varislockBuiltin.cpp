@@ -74,7 +74,7 @@ Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(_W("#2 Argument must be an existing variable name."));
     }
     bool bIsLocked = IsLockedVariable(varname, scope);
-    retval.push_back(ArrayOf::logicalConstructor(bIsLocked));
+    retval << ArrayOf::logicalConstructor(bIsLocked);
     return retval;
 }
 //=============================================================================

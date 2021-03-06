@@ -71,12 +71,12 @@ Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const Arra
             ArrayOf U;
             ArrayOf T;
             SchurDecomposition(argIn[0], asComplex, U, T);
-            retval.push_back(U);
-            retval.push_back(T);
+            retval << U;
+            retval << T;
         } else {
             ArrayOf T;
             SchurDecomposition(argIn[0], asComplex, T);
-            retval.push_back(T);
+            retval << T;
         }
     }
     return retval;

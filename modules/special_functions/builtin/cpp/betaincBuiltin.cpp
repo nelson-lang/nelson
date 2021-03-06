@@ -61,7 +61,7 @@ Nelson::SpecialFunctionsGateway::betaincBuiltin(
                 Error(_("Wrong value of the fourth argument 'upper' or 'lower' expected."));
             }
         }
-        retval.push_back(BetaIncomplete(argIn[0], argIn[1], argIn[2], isLower, needToOverload));
+        retval << BetaIncomplete(argIn[0], argIn[1], argIn[2], isLower, needToOverload);
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "betainc");
         }

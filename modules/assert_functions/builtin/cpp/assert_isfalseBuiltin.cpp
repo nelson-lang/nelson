@@ -33,13 +33,13 @@ ArrayOfVector
 Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (argIn.empty() || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(nLhs);
     std::wstring modifiedmsg;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
@@ -60,9 +60,9 @@ Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(
             Error(msg);
         }
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(res == 0 ? false : true));
+        retval << ArrayOf::logicalConstructor(res == 0 ? false : true);
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::characterArrayConstructor(msg));
+            retval << ArrayOf::characterArrayConstructor(msg);
         }
     }
     return retval;

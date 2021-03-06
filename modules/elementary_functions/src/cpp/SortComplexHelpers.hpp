@@ -669,7 +669,6 @@ sortComplex(const ArrayOf& arrayIn, Class dataClass, bool withIndex, indexType l
     ArrayOf sortedValues, indexValues;
     bool isVector = arrayIn.isVector();
     if (withIndex) {
-        res.reserve(2);
         T* ptrValue = nullptr;
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);

@@ -42,7 +42,7 @@ Nelson::OsFunctionsGateway::getenvBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring varEnvName = argIn[0].getContentAsWideString();
         std::wstring ret = GetVariableEnvironment(varEnvName);
-        retval.push_back(ArrayOf::characterArrayConstructor(ret));
+        retval << ArrayOf::characterArrayConstructor(ret);
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

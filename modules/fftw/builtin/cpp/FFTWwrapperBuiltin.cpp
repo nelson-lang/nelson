@@ -40,9 +40,9 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 1: {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"load") {
-            retval.push_back(ArrayOf::logicalConstructor(loadFFTWLibrary()));
+            retval << ArrayOf::logicalConstructor(loadFFTWLibrary());
         } else if (param1 == L"free") {
-            retval.push_back(ArrayOf::logicalConstructor(freeFFTWLibrary()));
+            retval << ArrayOf::logicalConstructor(freeFFTWLibrary());
         } else {
             Error(_W("Wrong value for #1: 'load' or 'free' expected."));
         }
@@ -52,7 +52,7 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param1 == L"load") {
             std::wstring fftwName = argIn[0].getContentAsWideString();
             std::wstring fftwfName = argIn[1].getContentAsWideString();
-            retval.push_back(ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName)));
+            retval << ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName));
         } else {
             Error(_W("Wrong value for #1: 'load' expected."));
         }

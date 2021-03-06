@@ -50,7 +50,7 @@ Nelson::FunctionsGateway::clearfunBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    retval.push_back(ArrayOf::logicalConstructor(ClearBuiltin(functionname)));
+    retval << ArrayOf::logicalConstructor(ClearBuiltin(functionname));
     return retval;
 }
 //=============================================================================

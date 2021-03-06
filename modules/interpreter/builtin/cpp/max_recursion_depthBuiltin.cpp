@@ -39,7 +39,7 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
     Context* context = eval->getContext();
     if (argIn.size() == 0) {
         size_t recursiondepth = context->getRecursionDepth();
-        retval.push_back(ArrayOf::doubleConstructor((double)recursiondepth));
+        retval << ArrayOf::doubleConstructor((double)recursiondepth);
     } else if (argIn.size() == 1) {
         size_t previousrecursiondepth = context->getRecursionDepth();
         ArrayOf param1 = argIn[0];
@@ -58,7 +58,7 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
                 Error(_W("Argument #1: valid value expected."));
             }
         }
-        retval.push_back(ArrayOf::doubleConstructor((double)previousrecursiondepth));
+        retval << ArrayOf::doubleConstructor((double)previousrecursiondepth);
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

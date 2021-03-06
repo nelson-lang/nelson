@@ -50,8 +50,8 @@ Nelson::GraphicsGateway::gcfBuiltin(int nLhs, const ArrayOfVector& argIn)
         GOFigure* goPtr = Nelson::newFigure(currentWindowsID);
         res = ArrayOf::graphicObjectConstructor(goPtr);
     }
-    ArrayOfVector retval;
-    retval.push_back(res);
+    ArrayOfVector retval(1);
+    retval << res;
     return retval;
 }
 //=============================================================================

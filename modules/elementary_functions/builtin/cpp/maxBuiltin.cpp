@@ -54,8 +54,7 @@ Nelson::ElementaryFunctionsGateway::maxBuiltin(
         } break;
         case 2: {
             // C = max(A, B)
-            ArrayOf res = Maximum(omitNaN, argIn[0], argIn[1], needToOverload);
-            retval.push_back(res);
+            retval << Maximum(omitNaN, argIn[0], argIn[1], needToOverload);
         } break;
         case 3: {
             // [M, I] = max(A, [], dim)
@@ -81,8 +80,7 @@ Nelson::ElementaryFunctionsGateway::maxBuiltin(
                     } else {
                         Error(_("Invalid third argument."));
                     }
-                    ArrayOf res = Maximum(omitNaN, param1, param2, needToOverload);
-                    retval.push_back(res);
+                    retval << Maximum(omitNaN, param1, param2, needToOverload);
                 } else {
                     Error(_("Invalid third argument."));
                 }
@@ -111,8 +109,7 @@ Nelson::ElementaryFunctionsGateway::maxBuiltin(
                     if (nLhs > 1) {
                         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                     }
-                    ArrayOf res = MaximumAll(omitNaN, param1, needToOverload);
-                    retval.push_back(res);
+                    retval << MaximumAll(omitNaN, param1, needToOverload);
                 } else if (dim == 0) {
                     retval = Maximum(omitNaN, param1, nLhs, needToOverload);
                 } else {
@@ -150,8 +147,7 @@ Nelson::ElementaryFunctionsGateway::maxBuiltin(
                 if (nLhs > 1) {
                     Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
-                ArrayOf res = MaximumAll(omitNaN, param1, needToOverload);
-                retval.push_back(res);
+                retval = MaximumAll(omitNaN, param1, needToOverload);
             } else {
                 indexType dim = param3.getContentAsScalarIndex(false);
                 retval = Maximum(omitNaN, param1, dim, nLhs, needToOverload);

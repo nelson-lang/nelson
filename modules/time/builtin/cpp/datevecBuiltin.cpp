@@ -72,7 +72,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     res[k + len * 5] = S;
                 }
                 Dimensions dim(len, 6);
-                retval.push_back(ArrayOf(NLS_DOUBLE, dim, res));
+                retval << ArrayOf(NLS_DOUBLE, dim, res);
             } else {
                 double* Y = nullptr;
                 double* M = nullptr;
@@ -124,19 +124,19 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 dimParam1.simplify();
                 dimParam1.setDimensionLength(0, 1);
                 Dimensions dim(param1.getRows(), dimParam1.getElementCount());
-                retval.push_back(ArrayOf(NLS_DOUBLE, dim, Y));
-                retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
+                retval << ArrayOf(NLS_DOUBLE, dim, Y);
+                retval << ArrayOf(NLS_DOUBLE, dim, M);
                 if (nLhs > 2) {
-                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, D));
+                    retval << ArrayOf(NLS_DOUBLE, dim, D);
                 }
                 if (nLhs > 3) {
-                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, H));
+                    retval << ArrayOf(NLS_DOUBLE, dim, H);
                 }
                 if (nLhs > 4) {
-                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, MN));
+                    retval << ArrayOf(NLS_DOUBLE, dim, MN);
                 }
                 if (nLhs > 5) {
-                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, S));
+                    retval << ArrayOf(NLS_DOUBLE, dim, S);
                 }
             }
         } else {

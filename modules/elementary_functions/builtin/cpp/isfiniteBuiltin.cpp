@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::isfiniteBuiltin(
                 return retval;
             }
         }
-        retval.push_back(IsFinite(argIn[0]));
+        retval << IsFinite(argIn[0]);
     }
     return retval;
 }

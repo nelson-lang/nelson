@@ -55,9 +55,9 @@ Nelson::StreamGateway::fgetlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             File* f = fm->getFile(iValue);
             std::wstring result;
             if (FileGetLine(f, -1, false, result)) {
-                retval.push_back(ArrayOf::characterArrayConstructor(result));
+                retval << ArrayOf::characterArrayConstructor(result);
             } else {
-                retval.push_back(ArrayOf::doubleConstructor(-1));
+                retval << ArrayOf::doubleConstructor(-1);
             }
         } else {
             Error(_W("Invalid file identifier."));

@@ -226,7 +226,7 @@ Nelson::StatisticsGateway::meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "mean");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

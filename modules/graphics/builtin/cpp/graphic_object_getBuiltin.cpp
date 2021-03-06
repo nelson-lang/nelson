@@ -33,13 +33,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::GraphicsGateway::graphic_object_getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     ArrayOf param = argIn[0];
     ArrayOf paramName = argIn[1];
     auto* go = (GraphicObject*)param.getContentAsGraphicObjectScalar();
     std::string propertyName = paramName.getContentAsCString();
     if (go != nullptr) {
-        retval.push_back(graphicObjectGet(go, propertyName));
+        retval << graphicObjectGet(go, propertyName);
     }
     return retval;
 }

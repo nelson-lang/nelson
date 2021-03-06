@@ -51,7 +51,7 @@ Nelson::SpecialFunctionsGateway::gcdBuiltin(Evaluator* eval, int nLhs, const Arr
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "gcd");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

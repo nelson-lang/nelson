@@ -118,9 +118,9 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
     std::string IsEqualToName = "isequalto";
     if (context->lookupFunction(IsEqualToName, funcDef)) {
         if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-            ArrayOfVector argInCopy;
-            argInCopy.push_back(computedArray);
-            argInCopy.push_back(expectedArray);
+            ArrayOfVector argInCopy(2);
+            argInCopy << computedArray;
+            argInCopy << expectedArray;
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {

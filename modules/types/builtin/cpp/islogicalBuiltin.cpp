@@ -44,7 +44,7 @@ Nelson::TypeGateway::islogicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval = OverloadFunction(eval, nLhs, argIn, "islogical", bSuccess);
     }
     if (!bSuccess) {
-        retval.push_back(ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_LOGICAL));
+        retval << ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_LOGICAL);
     }
     return retval;
 }

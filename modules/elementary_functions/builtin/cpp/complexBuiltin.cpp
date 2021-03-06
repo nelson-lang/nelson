@@ -54,9 +54,9 @@ Nelson::ElementaryFunctionsGateway::complexBuiltin(
             }
         }
         if (argIn.size() == 1) {
-            retval.push_back(ComplexConstructor(argIn[0]));
+            retval << ComplexConstructor(argIn[0]);
         } else {
-            retval.push_back(ComplexConstructor(argIn[0], argIn[1]));
+            retval << ComplexConstructor(argIn[0], argIn[1]);
         }
     }
     return retval;

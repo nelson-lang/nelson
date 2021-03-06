@@ -38,10 +38,10 @@ Nelson::ComEngineGateway::COM_classBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     std::wstring classname;
     classnameComHandle(argIn[0], classname);
-    retval.push_back(ArrayOf::characterArrayConstructor(classname));
+    retval << ArrayOf::characterArrayConstructor(classname);
     return retval;
 }
 //=============================================================================

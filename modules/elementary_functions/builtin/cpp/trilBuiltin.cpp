@@ -63,7 +63,7 @@ Nelson::ElementaryFunctionsGateway::trilBuiltin(
     if (needToOverload) {
         retval = OverloadFunction(eval, nLhs, argIn, "tril");
     } else {
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

@@ -51,7 +51,7 @@ Nelson::ModulesManagerGateway::usermodulesdirBuiltin(int nLhs, const ArrayOfVect
     if (haveError) {
         Error(_W("Impossible to get external modules directory."));
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(externalModulesPath));
+    retval << ArrayOf::characterArrayConstructor(externalModulesPath);
     return retval;
 }
 //=============================================================================

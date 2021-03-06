@@ -39,8 +39,8 @@ Nelson::ComEngineGateway::COM_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(usedHandle(COM_CATEGORY_STR));
+    ArrayOfVector retval(nLhs);
+    retval << usedHandle(COM_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

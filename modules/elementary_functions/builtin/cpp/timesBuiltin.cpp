@@ -39,7 +39,7 @@ Nelson::ElementaryFunctionsGateway::timesBuiltin(
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    retval.push_back(eval->timesOperator(arg1, arg2));
+    retval << eval->timesOperator(arg1, arg2);
     return retval;
 }
 //=============================================================================

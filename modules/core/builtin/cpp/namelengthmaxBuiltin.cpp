@@ -39,7 +39,7 @@ Nelson::CoreGateway::namelengthmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::doubleConstructor(IDENTIFIER_LENGTH_MAX));
+    retval << ArrayOf::doubleConstructor(IDENTIFIER_LENGTH_MAX);
     return retval;
 }
 //=============================================================================

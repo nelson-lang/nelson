@@ -63,7 +63,7 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& 
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (IsExistingModuleName(moduleshortname)) {
-            retval.push_back(ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname)));
+            retval << ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname));
         } else {
             Error(_W("invalid module name."));
         }
@@ -88,20 +88,20 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& 
             Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
         }
         if (option == STR_OPTION_ETC) {
-            retval.push_back(ArrayOf::characterArrayConstructor(
-                ModulePath(modulerootpath, moduleshortname, GET_ETC_PATH)));
+            retval << ArrayOf::characterArrayConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_ETC_PATH));
         } else if (option == STR_OPTION_BIN) {
-            retval.push_back(ArrayOf::characterArrayConstructor(
-                ModulePath(modulerootpath, moduleshortname, GET_BINARY_PATH)));
+            retval << ArrayOf::characterArrayConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_BINARY_PATH));
         } else if (option == STR_OPTION_ROOT) {
-            retval.push_back(ArrayOf::characterArrayConstructor(
-                ModulePath(modulerootpath, moduleshortname, GET_ROOT_PATH)));
+            retval << ArrayOf::characterArrayConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_ROOT_PATH));
         } else if (option == STR_OPTION_BUILTIN) {
-            retval.push_back(ArrayOf::characterArrayConstructor(
-                ModulePath(modulerootpath, moduleshortname, GET_DYNLIB_FULLPATH)));
+            retval << ArrayOf::characterArrayConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_DYNLIB_FULLPATH));
         } else if (option == STR_OPTION_SCRIPTS) {
-            retval.push_back(ArrayOf::characterArrayConstructor(
-                ModulePath(modulerootpath, moduleshortname, GET_SCRIPT_PATH)));
+            retval << ArrayOf::characterArrayConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_SCRIPT_PATH));
         } else {
             Error(_W("Argument #3 must be a valid option."));
         }

@@ -32,7 +32,6 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -56,12 +55,13 @@ Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Wrong value for #1 argument."));
         }
     }
+    ArrayOfVector retval(nLhs);
     if (nLhs > 0) {
         bool beepState = getBeepState();
         if (beepState) {
-            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
+            retval << ArrayOf::characterArrayConstructor(L"on");
         } else {
-            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
+            retval << ArrayOf::characterArrayConstructor(L"off");
         }
     }
     return retval;

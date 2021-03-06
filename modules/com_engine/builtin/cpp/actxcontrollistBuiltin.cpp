@@ -38,8 +38,8 @@ Nelson::ComEngineGateway::actxcontrollistBuiltin(int nLhs, const ArrayOfVector& 
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(ActiveXContolList());
+    ArrayOfVector retval(1);
+    retval << ActiveXContolList();
     return retval;
 }
 //=============================================================================

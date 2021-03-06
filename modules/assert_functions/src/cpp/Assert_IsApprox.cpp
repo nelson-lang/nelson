@@ -39,10 +39,10 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
     std::string IsApproxName = "isapprox";
     if (context->lookupFunction(IsApproxName, funcDef)) {
         if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-            ArrayOfVector argInCopy;
-            argInCopy.push_back(computedArray);
-            argInCopy.push_back(expectedArray);
-            argInCopy.push_back(ArrayOf::doubleConstructor(precision));
+            ArrayOfVector argInCopy(3);
+            argInCopy << computedArray;
+            argInCopy << expectedArray;
+            argInCopy << ArrayOf::doubleConstructor(precision);
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {

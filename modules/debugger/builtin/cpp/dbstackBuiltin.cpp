@@ -220,15 +220,15 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     case 1: {
-        retval.push_back(dbstackAsStruct(positions, withCompleteNames));
+        retval << dbstackAsStruct(positions, withCompleteNames);
     } break;
     case 2: {
-        retval.push_back(dbstackAsStruct(positions, withCompleteNames));
+        retval << dbstackAsStruct(positions, withCompleteNames);
         auto indexWorkspace = static_cast<double>(positions.size());
         if (indexWorkspace <= 0) {
             indexWorkspace = 1;
         }
-        retval.push_back(ArrayOf::doubleConstructor(indexWorkspace));
+        retval << ArrayOf::doubleConstructor(indexWorkspace);
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

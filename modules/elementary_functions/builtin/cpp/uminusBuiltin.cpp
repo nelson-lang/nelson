@@ -51,10 +51,10 @@ Nelson::ElementaryFunctionsGateway::uminusBuiltin(
         if (needToOverload) {
             res = OverloadUnaryOperator(eval, a, "uminus");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     } else {
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

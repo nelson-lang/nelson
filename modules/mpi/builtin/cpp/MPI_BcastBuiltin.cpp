@@ -65,7 +65,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             MPI_Bcast(&packpos, 1, MPI_INT, rootID, comm);
             MPI_Bcast(cp, packpos, MPI_PACKED, rootID, comm);
             free(cp);
-            retval.push_back(A);
+            retval << A;
         } else {
             Error(_W("Memory allocation."));
         }
@@ -76,9 +76,8 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (cp) {
             MPI_Bcast(cp, msgsize, MPI_PACKED, rootID, comm);
             int packpos = 0;
-            ArrayOf A2(unpackMPI(cp, msgsize, &packpos, comm));
+            retval << unpackMPI(cp, msgsize, &packpos, comm);
             free(cp);
-            retval.push_back(A2);
         } else {
             Error(_W("Memory allocation."));
         }

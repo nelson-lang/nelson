@@ -45,7 +45,7 @@ Nelson::TypeGateway::isint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_INT16);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     }
     return retval;
 }

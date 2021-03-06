@@ -54,7 +54,7 @@ Nelson::StreamGateway::fsizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             auto sz = static_cast<double>(FileSize(f));
-            retval.push_back(ArrayOf::doubleConstructor(sz));
+            retval << ArrayOf::doubleConstructor(sz);
         } else {
             Error(_W("Invalid file identifier."));
         }

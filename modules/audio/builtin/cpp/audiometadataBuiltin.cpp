@@ -88,9 +88,9 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     ArrayOfVector fieldvalues;
     for (size_t i = 0; i < names.size(); i++) {
-        fieldvalues.push_back(ArrayOf::characterArrayConstructor(values[i]));
+        fieldvalues << ArrayOf::characterArrayConstructor(values[i]);
     }
-    retval.push_back(ArrayOf::structConstructor(names, fieldvalues));
+    retval << ArrayOf::structConstructor(names, fieldvalues);
     return retval;
 }
 //=============================================================================

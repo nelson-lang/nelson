@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::conjBuiltin(
                 return retval;
             }
         }
-        retval.push_back(ComplexConjugate(argIn[0]));
+        retval << ComplexConjugate(argIn[0]);
     }
     return retval;
 }

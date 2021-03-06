@@ -79,18 +79,18 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
     case 0: {
         if (!wasReset) {
             std::wstring message = lastWarning.getMessage();
-            retval.push_back(ArrayOf::characterArrayConstructor(message));
+            retval << ArrayOf::characterArrayConstructor(message);
         }
     } break;
     case 1: {
         std::wstring message = lastWarning.getMessage();
-        retval.push_back(ArrayOf::characterArrayConstructor(message));
+        retval << ArrayOf::characterArrayConstructor(message);
     } break;
     case 2: {
         std::wstring message = lastWarning.getMessage();
         std::wstring identifier = lastWarning.getIdentifier();
-        retval.push_back(ArrayOf::characterArrayConstructor(message));
-        retval.push_back(ArrayOf::characterArrayConstructor(identifier));
+        retval << ArrayOf::characterArrayConstructor(message);
+        retval << ArrayOf::characterArrayConstructor(identifier);
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

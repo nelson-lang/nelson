@@ -80,7 +80,7 @@ fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

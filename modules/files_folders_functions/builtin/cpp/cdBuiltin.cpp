@@ -49,7 +49,7 @@ Nelson::FilesFoldersGateway::cdBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (nLhs == 0) {
                 NelsonPrint(pwd);
             } else {
-                retval.push_back(ArrayOf::characterArrayConstructor(pwd));
+                retval << ArrayOf::characterArrayConstructor(pwd);
             }
         }
     } else // argIn.size() == 1
@@ -58,7 +58,7 @@ Nelson::FilesFoldersGateway::cdBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring wpath = argIn[0].getContentAsWideString();
             ArrayOf res = Cd(wpath);
             if (nLhs == 1) {
-                retval.push_back(res);
+                retval << res;
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

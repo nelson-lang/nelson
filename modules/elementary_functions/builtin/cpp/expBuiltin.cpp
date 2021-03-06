@@ -52,7 +52,7 @@ Nelson::ElementaryFunctionsGateway::expBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "exp");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

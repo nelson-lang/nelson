@@ -39,7 +39,7 @@ Nelson::TypeGateway::isuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bRes = (argIn[0].getDataClass() == NLS_UINT8);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }
 //=============================================================================

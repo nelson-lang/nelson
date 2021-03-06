@@ -40,7 +40,7 @@ Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     if (argIn.empty()) {
         Dimensions dim(1, 1);
-        retval.push_back(TrueConstructor(dim, bIsSparse));
+        retval << TrueConstructor(dim, bIsSparse);
     } else {
         Dimensions dim;
         indexType idxMax = argIn.size();
@@ -73,7 +73,7 @@ Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
             dim[1] = dim[0];
         }
         dim.simplify();
-        retval.push_back(TrueConstructor(dim, bIsSparse));
+        retval << TrueConstructor(dim, bIsSparse);
     }
     return retval;
 }

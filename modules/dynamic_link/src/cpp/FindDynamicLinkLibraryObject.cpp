@@ -53,9 +53,9 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
         } catch (const std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
-            retval.push_back(ArrayOf::logicalConstructor(false));
+            retval << ArrayOf::logicalConstructor(false);
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::emptyConstructor());
+                retval << ArrayOf::emptyConstructor();
             }
         }
 
@@ -63,17 +63,17 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             auto* obj = (DynamicLinkLibraryObject*)hlObj;
             if (boost::algorithm::ends_with(obj->getLibraryPath(), fullLibraryName)) {
-                retval.push_back(ArrayOf::logicalConstructor(true));
+                retval << ArrayOf::logicalConstructor(true);
                 if (nLhs > 1) {
-                    retval.push_back(ArrayOf::handleConstructor(hl));
+                    retval << ArrayOf::handleConstructor(hl);
                 }
                 return retval;
             }
         }
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(false));
+        retval << ArrayOf::logicalConstructor(false);
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::emptyConstructor());
+            retval << ArrayOf::emptyConstructor();
         }
     }
     return retval;

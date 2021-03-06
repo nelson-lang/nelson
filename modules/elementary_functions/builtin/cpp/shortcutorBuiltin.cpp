@@ -38,7 +38,7 @@ Nelson::ElementaryFunctionsGateway::shortcutorBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(eval->shortCutOrOperator(A, B));
+    retval << eval->shortCutOrOperator(A, B);
     return retval;
 }
 //=============================================================================

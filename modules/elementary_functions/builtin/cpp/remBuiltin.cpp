@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::remBuiltin(
                 return retval;
             }
         }
-        retval.push_back(Remainder(argIn[0], argIn[1]));
+        retval << Remainder(argIn[0], argIn[1]);
     }
     return retval;
 }

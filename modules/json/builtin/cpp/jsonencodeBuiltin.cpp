@@ -70,7 +70,7 @@ Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

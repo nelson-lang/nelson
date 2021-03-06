@@ -41,7 +41,7 @@ Nelson::TypeGateway::ishandleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     bool bRes
         = (argIn[0].getDataClass() == NLS_HANDLE) || (argIn[0].getDataClass() == NLS_GO_HANDLE);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }
 //=============================================================================

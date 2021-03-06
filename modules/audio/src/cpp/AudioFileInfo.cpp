@@ -250,39 +250,38 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
     fieldnames.push_back("Filename");
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(filename));
+    fieldvalues << ArrayOf::characterArrayConstructor(filename);
     fieldnames.push_back("CompressionMethod");
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(CompressionMethod));
+    fieldvalues << ArrayOf::characterArrayConstructor(CompressionMethod);
     fieldnames.push_back("NumChannels");
-    fieldvalues.push_back(ArrayOf::doubleConstructor(NumChannels));
+    fieldvalues << ArrayOf::doubleConstructor(NumChannels);
     fieldnames.push_back("SampleRate");
-    fieldvalues.push_back(ArrayOf::doubleConstructor(SampleRate));
+    fieldvalues << ArrayOf::doubleConstructor(SampleRate);
     fieldnames.push_back("TotalSamples");
-    fieldvalues.push_back(ArrayOf::doubleConstructor(TotalSamples));
+    fieldvalues << ArrayOf::doubleConstructor(TotalSamples);
     fieldnames.push_back("Duration");
-    fieldvalues.push_back(ArrayOf::doubleConstructor(Duration));
+    fieldvalues << ArrayOf::doubleConstructor(Duration);
     fieldnames.push_back("Title");
     if (Title.empty()) {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
+        fieldvalues << ArrayOf::emptyConstructor();
     } else {
-        fieldvalues.push_back(ArrayOf::characterArrayConstructor(Title));
+        fieldvalues << ArrayOf::characterArrayConstructor(Title);
     }
     fieldnames.push_back("Comment");
     if (Comment.empty()) {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
+        fieldvalues << ArrayOf::emptyConstructor();
     } else {
-        fieldvalues.push_back(ArrayOf::characterArrayConstructor(Comment));
+        fieldvalues << ArrayOf::characterArrayConstructor(Comment);
     }
     fieldnames.push_back("Artist");
     if (Artist.empty()) {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
+        fieldvalues << ArrayOf::emptyConstructor();
     } else {
-        fieldvalues.push_back(ArrayOf::characterArrayConstructor(Artist));
+        fieldvalues << ArrayOf::characterArrayConstructor(Artist);
     }
     fieldnames.push_back("BitsPerSample");
-    fieldvalues.push_back(ArrayOf::doubleConstructor(BitsPerSample));
-    res = ArrayOf::structConstructor(fieldnames, fieldvalues);
-    return res;
+    fieldvalues << ArrayOf::doubleConstructor(BitsPerSample);
+    return ArrayOf::structConstructor(fieldnames, fieldvalues);
 }
 //=============================================================================
 } // namespace Nelson

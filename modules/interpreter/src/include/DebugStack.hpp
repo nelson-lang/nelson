@@ -39,7 +39,7 @@ namespace Nelson {
 using stackTrace = std::vector<PositionScript>;
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-DebugStack(const CallStack &callstack, int nbOmitLines, stackTrace& stackPositions);
+DebugStack(const CallStack& callstack, int nbOmitLines, stackTrace& stackPositions);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
