@@ -56,7 +56,7 @@ Nelson::ComEngineGateway::COM_fieldnamesBuiltin(int nLhs, const ArrayOfVector& a
     }
     wstringVector fieldnames;
     fieldnamesComHandleObject(param1, fullList, fieldnames);
-    retval.push_back(ToCellStringAsColumn(fieldnames));
+    retval << ToCellStringAsColumn(fieldnames);
     return retval;
 }
 //=============================================================================

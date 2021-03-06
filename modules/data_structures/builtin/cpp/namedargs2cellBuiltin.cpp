@@ -63,7 +63,7 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(
             elements[k + 1] = param1.getField(name);
             k = k + 2;
         }
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

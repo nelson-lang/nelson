@@ -239,31 +239,31 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(RCOND_output);
+        retval << RCOND_output;
     }
     if (nLhs > 1) {
-        retval.push_back(X_output);
+        retval << X_output;
     }
     if (nLhs > 2) {
-        retval.push_back(ALFAR_output);
+        retval << ALFAR_output;
     }
     if (nLhs > 3) {
-        retval.push_back(ALFAI_output);
+        retval << ALFAI_output;
     }
     if (nLhs > 4) {
-        retval.push_back(BETA_output);
+        retval << BETA_output;
     }
     if (nLhs > 5) {
-        retval.push_back(S_output);
+        retval << S_output;
     }
     if (nLhs > 6) {
-        retval.push_back(T_output);
+        retval << T_output;
     }
     if (nLhs > 7) {
-        retval.push_back(U_output);
+        retval << U_output;
     }
     if (nLhs > 8) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

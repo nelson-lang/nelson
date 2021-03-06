@@ -32,13 +32,13 @@ ArrayOfVector
 Nelson::ElementaryFunctionsGateway::andBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(eval->andOperator(A, B));
+    retval << eval->andOperator(A, B);
     return retval;
 }
 //=============================================================================

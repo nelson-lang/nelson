@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::roundBuiltin(
                 return retval;
             }
         }
-        retval.push_back(Round(argIn[0]));
+        retval << Round(argIn[0]);
     }
     return retval;
 }

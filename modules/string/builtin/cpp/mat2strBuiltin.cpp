@@ -102,7 +102,7 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             return retval;
         }
         std::wstring res = MatrixToString(A, defautPrecision, withClass);
-        retval.push_back(ArrayOf::characterArrayConstructor(res));
+        retval << ArrayOf::characterArrayConstructor(res);
     }
     return retval;
 }

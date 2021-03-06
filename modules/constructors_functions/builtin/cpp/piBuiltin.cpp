@@ -42,8 +42,8 @@ Nelson::ConstructorsGateway::piBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(ArrayOf::doubleConstructor(M_PI));
+    ArrayOfVector retval(1);
+    retval << ArrayOf::doubleConstructor(M_PI);
     return retval;
 }
 //=============================================================================

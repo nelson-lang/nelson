@@ -62,7 +62,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         if (eval->RandomEngine == nullptr) {
             Error(_W("random engine not initialized."));
         }
-        retval.push_back(backupCurrentRng(eval));
+        retval << backupCurrentRng(eval);
     } break;
     case 1: {
         ArrayOf arg1 = argIn[0];
@@ -78,16 +78,15 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             if (param == L"default") {
                 RngSetDefault(eval);
                 if (nLhs == 1) {
-                    retval.push_back(backupCurrentRngStruct);
+                    retval << backupCurrentRngStruct;
                 }
             } else if (param == L"shuffle") {
                 RngShuffle(eval);
                 if (nLhs == 1) {
-                    retval.push_back(backupCurrentRngStruct);
+                    retval << backupCurrentRngStruct;
                 }
             } else if (param == L"enginelist") {
-                wstringVector enginelist = getSupportedRngEngineName();
-                retval.push_back(ToCellStringAsColumn(enginelist));
+                retval << ToCellStringAsColumn(getSupportedRngEngineName());
             }
         } else if (arg1.isNumeric()) {
             double s = arg1.getContentAsDoubleScalar();
@@ -97,7 +96,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
             RngSetSeed(eval, s);
             if (nLhs == 1) {
-                retval.push_back(backupCurrentRngStruct);
+                retval << backupCurrentRngStruct;
             }
         } else if (arg1.isStruct()) {
             ArrayOfVector elements = splitRngStruct(eval, arg1);
@@ -124,7 +123,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
             RngSetEngine(eval, s, genname);
             if (nLhs == 1) {
-                retval.push_back(backupCurrentRngStruct);
+                retval << backupCurrentRngStruct;
             }
         } else if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
@@ -142,7 +141,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             RngSetEngine(eval, 0, genname);
             RngShuffle(eval);
             if (nLhs == 1) {
-                retval.push_back(backupCurrentRngStruct);
+                retval << backupCurrentRngStruct;
             }
         } else {
             Error(ERROR_WRONG_ARGUMENTS_TYPE);

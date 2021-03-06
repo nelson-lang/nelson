@@ -44,7 +44,7 @@ Nelson::FunctionsGateway::ismacroBuiltin(Evaluator* eval, int nLhs, const ArrayO
     std::wstring name = param1.getContentAsWideString();
     wstringVector filenames;
     bool res = PathFuncManager::getInstance()->find(name, filenames);
-    retval.push_back(ArrayOf::logicalConstructor(res));
+    retval << ArrayOf::logicalConstructor(res);
     return retval;
 }
 //=============================================================================

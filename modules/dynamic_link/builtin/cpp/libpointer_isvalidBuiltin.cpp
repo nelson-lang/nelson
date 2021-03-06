@@ -39,8 +39,8 @@ Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(IsValidHandle(eval, argIn[0]));
+    ArrayOfVector retval(1);
+    retval << IsValidHandle(eval, argIn[0]);
     return retval;
 }
 //=============================================================================

@@ -40,8 +40,7 @@ Nelson::ElementaryFunctionsGateway::notBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOf res = eval->notOperator(argIn[0]);
-    retval.push_back(res);
+    retval << eval->notOperator(argIn[0]);
     return retval;
 }
 //=============================================================================

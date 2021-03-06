@@ -46,17 +46,17 @@ Nelson::DoubleGateway::realmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
         if ((paramStr == L"double" || paramStr == L"single")) {
             if (paramStr == L"double") {
                 double realmax = std::numeric_limits<double>::max();
-                retval.push_back(ArrayOf::doubleConstructor(realmax));
+                retval << ArrayOf::doubleConstructor(realmax);
             } else {
                 single realmax = std::numeric_limits<single>::max();
-                retval.push_back(ArrayOf::singleConstructor(realmax));
+                retval << ArrayOf::singleConstructor(realmax);
             }
         } else {
             Error(_W("#1 'double' or 'single' expected."));
         }
     } else {
         double realmax = std::numeric_limits<double>::max();
-        retval.push_back(ArrayOf::doubleConstructor(realmax));
+        retval << ArrayOf::doubleConstructor(realmax);
     }
     return retval;
 }

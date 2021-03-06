@@ -51,7 +51,7 @@ Nelson::MpiGateway::MPI_Comm_sizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     int comm_size;
     MPI_Comm_size(comm, &comm_size);
-    retval.push_back(ArrayOf::doubleConstructor(comm_size));
+    retval << ArrayOf::doubleConstructor(comm_size);
     return retval;
 }
 //=============================================================================

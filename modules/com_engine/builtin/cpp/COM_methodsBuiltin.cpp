@@ -39,14 +39,14 @@ Nelson::ComEngineGateway::COM_methodsBuiltin(int nLhs, const ArrayOfVector& argI
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
+    ArrayOfVector retval(nLhs);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     wstringVector methods;
     methodsComHandleObject(param1, methods);
-    retval.push_back(ToCellStringAsColumn(methods));
+    retval << ToCellStringAsColumn(methods);
     return retval;
 }
 //=============================================================================

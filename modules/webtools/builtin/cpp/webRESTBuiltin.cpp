@@ -85,7 +85,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     WebOptions options(param5);
     std::wstring fullFilename
         = WebREST(url, data, filename, names, values, options, eval->haveEventsLoop());
-    retval.push_back(ArrayOf::characterArrayConstructor(fullFilename));
+    retval << ArrayOf::characterArrayConstructor(fullFilename);
     return retval;
 }
 //=============================================================================

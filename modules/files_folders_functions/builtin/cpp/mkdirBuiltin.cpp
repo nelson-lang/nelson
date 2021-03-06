@@ -64,10 +64,10 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         } else {
             if (nLhs > 0) {
-                retval.push_back(ArrayOf::logicalConstructor(bOK));
+                retval << ArrayOf::logicalConstructor(bOK);
             }
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::characterArrayConstructor(message));
+                retval << ArrayOf::characterArrayConstructor(message);
             }
         }
     } else {

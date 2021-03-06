@@ -203,8 +203,8 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         for (size_t k = 0; k < fieldnamesA.size(); k++) {
             ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
             ArrayOfVector fieldsB = B.getFieldAsList(fieldnamesA[k]);
-            ArrayOfVector fieldsC = fieldsA;
-            fieldsC.insert(fieldsC.end(), fieldsB.begin(), fieldsB.end());
+            ArrayOfVector fieldsC(fieldsA);
+            fieldsC += fieldsB;
             res.setFieldAsList(fieldnamesA[k], fieldsC);
         }
         bSuccess = true;

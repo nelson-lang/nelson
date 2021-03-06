@@ -67,8 +67,8 @@ Nelson::StreamGateway::ferrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (!FileError(fm, iValue, withClear, errorCode, errorMessage)) {
         Error(_W("Invalid file identifier."));
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
-    retval.push_back(ArrayOf::doubleConstructor((double)errorCode));
+    retval << ArrayOf::characterArrayConstructor(errorMessage);
+    retval << ArrayOf::doubleConstructor((double)errorCode);
     return retval;
 }
 //=============================================================================

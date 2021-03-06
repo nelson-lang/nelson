@@ -55,7 +55,7 @@ Nelson::TrigonometricGateway::cosBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     + ClassName(argIn[0]) + "'.");
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

@@ -62,7 +62,7 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         case NLS_DOUBLE:
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX:
-            retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(R.nzmax())));
+            retval << ArrayOf::doubleConstructor(static_cast<double>(R.nzmax()));
             break;
         case NLS_STRING_ARRAY:
             retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);

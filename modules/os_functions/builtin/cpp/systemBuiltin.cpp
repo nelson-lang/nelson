@@ -72,10 +72,9 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         std::wstring msg = ret.getContentAsWideString();
         io->outputMessage(msg);
     }
-    ArrayOf err = ArrayOf::doubleConstructor(static_cast<double>(ierr));
-    retval.push_back(err);
+    retval << ArrayOf::doubleConstructor(static_cast<double>(ierr));
     if (nLhs > 1) {
-        retval.push_back(ret);
+        retval << ret;
     }
     return retval;
 }

@@ -58,7 +58,7 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
-        retval.push_back(res);
+        retval << res;
     } else {
         ArrayOf param1 = argIn[0];
         std::wstring fieldname = param1.getContentAsWideString();
@@ -109,7 +109,7 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
-        retval.push_back(previousvalue);
+        retval << previousvalue;
     }
     return retval;
 }

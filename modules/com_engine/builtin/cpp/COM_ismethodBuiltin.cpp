@@ -40,9 +40,8 @@ Nelson::ComEngineGateway::COM_ismethodBuiltin(int nLhs, const ArrayOfVector& arg
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    ArrayOfVector retval;
-    ArrayOf res = ismethodComHandleObject(argIn[0], propertyName);
-    retval.push_back(res);
+    ArrayOfVector retval(1);
+    retval << ismethodComHandleObject(argIn[0], propertyName);
     return retval;
 }
 //=============================================================================

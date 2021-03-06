@@ -181,7 +181,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         st.setFieldAsList("NumCalls", NumCalls);
         st.setFieldAsList("TotalTime", TotalTime);
         st.setFieldAsList("PerCall", PerCall);
-        retval.push_back(st);
+        retval << st;
         validOption = true;
     }
 
@@ -219,7 +219,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
         values.push_back(ArrayOf::characterArrayConstructor("off"));
         values.push_back(ArrayOf::doubleConstructor(1));
-        retval.push_back(ArrayOf::structScalarConstructor(fieldnames, values));
+        retval << ArrayOf::structScalarConstructor(fieldnames, values);
         validOption = true;
     }
 

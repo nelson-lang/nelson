@@ -91,7 +91,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                     }
                 }
             } else {
-                retval.push_back(ToCellStringAsColumn(comments));
+                retval << ToCellStringAsColumn(comments);
             }
         } break;
         case HEADCOMMENTS_ERROR::NOT_A_MACRO: {

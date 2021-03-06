@@ -37,8 +37,8 @@ Nelson::ConstructorsGateway::iBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(ArrayOf::dcomplexConstructor(0, 1));
+    ArrayOfVector retval(1);
+    retval << ArrayOf::dcomplexConstructor(0, 1);
     return retval;
 }
 //=============================================================================

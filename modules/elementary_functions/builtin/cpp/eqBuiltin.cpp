@@ -40,7 +40,7 @@ Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(eval->eqOperator(A, B));
+    retval << eval->eqOperator(A, B);
     return retval;
 }
 //=============================================================================

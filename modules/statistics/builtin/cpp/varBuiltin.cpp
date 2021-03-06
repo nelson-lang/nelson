@@ -70,7 +70,7 @@ Nelson::StatisticsGateway::varBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "var");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

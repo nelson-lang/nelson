@@ -53,9 +53,9 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
         }
         bReverse = true;
     }
-    retval.push_back(ToCellStringAsColumn(GetModulesName(bReverse)));
+    retval << ToCellStringAsColumn(GetModulesName(bReverse));
     if (nLhs > 1) {
-        retval.push_back(ToCellStringAsColumn(GetModulesPath(bReverse)));
+        retval << ToCellStringAsColumn(GetModulesPath(bReverse));
     }
     if (nLhs > 2) {
         std::vector<versionElement> versionList = GetModulesVersion(bReverse);
@@ -70,7 +70,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
             pData[1] = std::get<1>(versionList[i]);
             pData[2] = std::get<2>(versionList[i]);
         }
-        retval.push_back(data);
+        retval << data;
     }
     if (nLhs > 3) {
         std::vector<bool> protectedList = GetModulesProtected(bReverse);
@@ -80,7 +80,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
         for (size_t i = 0; i < protectedList.size(); i++) {
             pData[i] = protectedList[i];
         }
-        retval.push_back(data);
+        retval << data;
     }
     return retval;
 }

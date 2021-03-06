@@ -163,25 +163,25 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(B_output);
+        retval << B_output;
     }
     if (nLhs > 2) {
-        retval.push_back(C_output);
+        retval << C_output;
     }
     if (nLhs > 3) {
-        retval.push_back(D_output);
+        retval << D_output;
     }
     if (nLhs > 4) {
-        retval.push_back(E_output);
+        retval << E_output;
     }
     if (nLhs > 5) {
-        retval.push_back(NSYS_output);
+        retval << NSYS_output;
     }
     if (nLhs > 6) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

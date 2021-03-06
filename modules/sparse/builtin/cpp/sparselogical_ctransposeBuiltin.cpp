@@ -44,7 +44,7 @@ Nelson::SparseGateway::sparselogical_ctransposeBuiltin(
     if (!A.isSparseLogicalType()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
-    retval.push_back(CtransposeSparseLogical(A));
+    retval << CtransposeSparseLogical(A);
     return retval;
 }
 //=============================================================================

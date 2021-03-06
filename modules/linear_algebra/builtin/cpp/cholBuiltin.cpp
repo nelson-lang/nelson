@@ -53,7 +53,7 @@ Nelson::LinearAlgebraGateway::cholBuiltin(Evaluator* eval, int nLhs, const Array
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "chol");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

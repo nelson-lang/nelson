@@ -67,9 +67,9 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
                 Error(errorMessage);
             }
         } else {
-            retval.push_back(ArrayOf::logicalConstructor(bRes));
+            retval << ArrayOf::logicalConstructor(bRes);
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
+                retval << ArrayOf::characterArrayConstructor(errorMessage);
             }
             if (nLhs > 2) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

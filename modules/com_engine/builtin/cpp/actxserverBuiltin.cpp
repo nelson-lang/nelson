@@ -56,7 +56,7 @@ Nelson::ComEngineGateway::actxserverBuiltin(int nLhs, const ArrayOfVector& argIn
     } break;
     }
     ComHandleObject* comhandle = ActiveXServer(progid, machine);
-    retval.push_back(ArrayOf::handleConstructor(comhandle));
+    retval << ArrayOf::handleConstructor(comhandle);
 #else
     Error(_W("Not implemented on this platform."));
 #endif

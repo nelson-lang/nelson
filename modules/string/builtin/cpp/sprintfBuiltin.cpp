@@ -65,8 +65,8 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 Dimensions dims(1, 0);
                 ArrayOf strArr = ArrayOf::emptyConstructor(dims);
                 strArr.promoteType(NLS_CHAR);
-                retval.push_back(strArr);
-                retval.push_back(ArrayOf::characterArrayConstructor(error_message));
+                retval << strArr;
+                retval << ArrayOf::characterArrayConstructor(error_message);
             } else {
                 Error(error_message);
             }
@@ -76,19 +76,19 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     Dimensions dims(1, 0);
                     ArrayOf strArr = ArrayOf::emptyConstructor(dims);
                     strArr.promoteType(NLS_CHAR);
-                    retval.push_back(strArr);
+                    retval << strArr;
                 } else {
-                    retval.push_back(ArrayOf::stringArrayConstructor(result));
+                    retval << ArrayOf::stringArrayConstructor(result);
                 }
             } else {
                 if (param1.getDataClass() == NLS_CHAR) {
-                    retval.push_back(ArrayOf::characterArrayConstructor(result));
+                    retval << ArrayOf::characterArrayConstructor(result);
                 } else {
-                    retval.push_back(ArrayOf::stringArrayConstructor(result));
+                    retval << ArrayOf::stringArrayConstructor(result);
                 }
             }
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::characterArrayConstructor(L""));
+                retval << ArrayOf::characterArrayConstructor(L"");
             }
         }
     }

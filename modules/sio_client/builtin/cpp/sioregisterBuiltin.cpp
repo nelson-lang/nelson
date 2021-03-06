@@ -40,7 +40,7 @@ Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argI
         }
         stringVector list = sioregisterList();
         Dimensions dims(list.size(), 1);
-        retval.push_back(ArrayOf::stringArrayConstructor(list, dims));
+        retval << ArrayOf::stringArrayConstructor(list, dims);
     } break;
     case 2: {
         if (nLhs != 0) {

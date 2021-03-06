@@ -49,7 +49,7 @@ Nelson::FileArchiverGateway::unzipBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     UnZip(zipFilename, rootPath, filenames);
     if (nLhs > 0) {
-        retval.push_back(ToCellStringAsRow(filenames));
+        retval << ToCellStringAsRow(filenames);
     }
     return retval;
 }

@@ -43,8 +43,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
         auto index = static_cast<indexType>(0);
         Dimensions dims(index, index);
         auto* elements = new ArrayOf[index];
-        ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-        retval.push_back(c);
+        retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     }
     if (argIn.size() == 1) {
         if (argIn[0].getDataClass() == NLS_STRING_ARRAY) {
@@ -62,7 +61,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
             ArrayOf res = ArrayOf(NLS_CELL_ARRAY, argIn[0].getDimensions(), elementsCell);
-            retval.push_back(res);
+            retval << res;
         } else if (argIn[0].getDataClass() == NLS_DOUBLE) {
             if (argIn[0].isVector() || argIn[0].isScalar()) {
                 if (argIn[0].isScalar()) {
@@ -83,8 +82,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (indexType k = 0; k < index * index; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
-                    ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-                    retval.push_back(c);
+                    retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
                 } else {
                     ArrayOf arg = argIn[0];
                     Dimensions dims(arg.getElementCount());
@@ -112,8 +110,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (ompIndexType k = 0; k < elementCount; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
-                    ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-                    retval.push_back(c);
+                    retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
                 }
             } else {
                 Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED);
@@ -159,8 +156,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
         for (ompIndexType k = 0; k < elementCount; k++) {
             elements[k] = ArrayOf::emptyConstructor();
         }
-        ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-        retval.push_back(c);
+        retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     }
     return retval;
 }

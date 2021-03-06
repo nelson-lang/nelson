@@ -39,7 +39,7 @@ Nelson::CoreGateway::nelsonrootBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(GetRootFolder());
+    retval << GetRootFolder();
     return retval;
 }
 //=============================================================================

@@ -94,9 +94,9 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                     io->warningMessage(std::wstring(L"\t") + _W("No warning.") + L"\n");
                 }
             } else {
-                retval.push_back(ToCellStringAsColumn(errorRes));
+                retval << ToCellStringAsColumn(errorRes);
                 if (nLhs > 1) {
-                    retval.push_back(ToCellStringAsColumn(warningRes));
+                    retval << ToCellStringAsColumn(warningRes);
                 }
             }
         } else {

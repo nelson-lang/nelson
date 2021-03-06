@@ -43,7 +43,7 @@ Nelson::SparseGateway::sparselogical_uminusBuiltin(
     if (argIn[0].getDataClass() != NLS_LOGICAL && !argIn[0].isSparse()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
-    retval.push_back(sparselogical_uminus(argIn[0]));
+    retval << sparselogical_uminus(argIn[0]);
     return retval;
 }
 //=============================================================================

@@ -62,7 +62,7 @@ Nelson::StringGateway::containsBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 logical fieldvalue = param4.getContentAsLogicalScalar();
                 bCaseSensitive = (fieldvalue == 0);
             }
-            retval.push_back(StringContains(A, B, bCaseSensitive));
+            retval << StringContains(A, B, bCaseSensitive);
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "contains", bSuccess);
             if (!bSuccess) {

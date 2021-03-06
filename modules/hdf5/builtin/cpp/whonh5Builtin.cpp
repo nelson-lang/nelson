@@ -46,7 +46,7 @@ Nelson::Hdf5Gateway::whonh5Builtin(Evaluator* eval, int nLhs, const ArrayOfVecto
     Interface* io = eval->getInterface();
     ArrayOf ce = whoNh5File(io, filename, names, nLhs == 1);
     if (nLhs == 1) {
-        retval.push_back(ce);
+        retval << ce;
     }
     return retval;
 }

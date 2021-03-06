@@ -45,8 +45,7 @@ Nelson::DynamicLinkGateway::dllib_ispropBuiltin(int nLhs, const ArrayOfVector& a
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    ArrayOf res = ArrayOf::logicalConstructor(param1.isHandleProperty(propertyName));
-    retval.push_back(res);
+    retval << ArrayOf::logicalConstructor(param1.isHandleProperty(propertyName));
     return retval;
 }
 //=============================================================================

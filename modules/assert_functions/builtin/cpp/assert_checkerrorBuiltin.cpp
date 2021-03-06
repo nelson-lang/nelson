@@ -33,7 +33,7 @@ ArrayOfVector
 Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(2);
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -55,9 +55,9 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
             Error(msg);
         }
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(res));
+        retval << ArrayOf::logicalConstructor(res);
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::characterArrayConstructor(msg));
+            retval << ArrayOf::characterArrayConstructor(msg);
         }
     }
     return retval;

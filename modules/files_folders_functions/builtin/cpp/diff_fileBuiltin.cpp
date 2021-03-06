@@ -51,7 +51,7 @@ Nelson::FilesFoldersGateway::diff_fileBuiltin(int nLhs, const ArrayOfVector& arg
     }
     std::wstring res;
     FileDiff(filename1, filename2, eolCompare, res);
-    retval.push_back(ArrayOf::characterArrayConstructor(res));
+    retval << ArrayOf::characterArrayConstructor(res);
     return retval;
 }
 //=============================================================================

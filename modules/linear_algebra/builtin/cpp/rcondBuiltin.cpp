@@ -55,7 +55,7 @@ Nelson::LinearAlgebraGateway::rcondBuiltin(Evaluator* eval, int nLhs, const Arra
             }
             OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
-        retval.push_back(ReciprocalConditionNumber(argIn[0]));
+        retval << ReciprocalConditionNumber(argIn[0]);
     }
     return retval;
 }

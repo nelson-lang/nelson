@@ -40,24 +40,24 @@ Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring previousLf = GetCurrentLookAndFeel();
     switch (argIn.size()) {
     case 0: {
-        retval.push_back(ArrayOf::characterArrayConstructor(previousLf));
+        retval << ArrayOf::characterArrayConstructor(previousLf);
     } break;
     case 1: {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"stylesheet") {
             std::wstring previousStyleSheet = GetCurrentStyleSheet();
-            retval.push_back(ArrayOf::characterArrayConstructor(previousStyleSheet));
+            retval << ArrayOf::characterArrayConstructor(previousStyleSheet);
             return retval;
         } else if (param1 == L"available") {
             wstringVector lfs = GetLookAndFeelAvailable();
-            retval.push_back(ToCellStringAsColumn(lfs));
+            retval << ToCellStringAsColumn(lfs);
             return retval;
         }
         bool res = SetCurrentLookAndFeel(param1);
         if (!res) {
             Error(_W("look and feel not applied."));
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(previousLf));
+        retval << ArrayOf::characterArrayConstructor(previousLf);
     } break;
     case 2: {
         std::wstring param1 = argIn[0].getContentAsWideString();
@@ -65,7 +65,7 @@ Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring param2 = argIn[1].getContentAsWideString();
             std::wstring previousStyleSheet = GetCurrentStyleSheet();
             SetCurrentStyleSheet(param2);
-            retval.push_back(ArrayOf::characterArrayConstructor(previousStyleSheet));
+            retval << ArrayOf::characterArrayConstructor(previousStyleSheet);
         } else {
             Error(_W("\"stylesheet\" expected as first argument."));
         }

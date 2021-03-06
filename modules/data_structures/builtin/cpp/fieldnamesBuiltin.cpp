@@ -60,10 +60,9 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
                     Dimensions dim(0, 1);
                     ArrayOf res = ArrayOf::emptyConstructor(dim);
                     res.promoteType(NLS_CELL_ARRAY);
-                    retval.push_back(res);
+                    retval << res;
                 } else {
-                    stringVector fieldnames = arg1.getFieldNames();
-                    retval.push_back(ToCellStringAsColumn(fieldnames));
+                    retval << ToCellStringAsColumn(arg1.getFieldNames());
                 }
             } else {
                 retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);

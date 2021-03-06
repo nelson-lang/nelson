@@ -32,9 +32,9 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(nLhs);
     if (argIn.empty()) {
-        retval.push_back(ArrayOf::emptyStructWithoutFields());
+        retval << ArrayOf::emptyStructWithoutFields();
         return retval;
     }
     if (argIn.size() == 1) {
@@ -42,14 +42,14 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
             ArrayOf asStruct = argIn[0];
             asStruct.ensureSingleOwner();
             asStruct.setStructType(NLS_STRUCT_ARRAY_STR);
-            retval.push_back(asStruct);
+            retval << asStruct;
             return retval;
         } else if (!argIn[0].isEmpty()) {
             Error(_W("struct([]) expected."));
         }
         Dimensions dim = argIn[0].getDimensions();
         wstringVector fieldnames;
-        retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dim));
+        retval << ArrayOf::emptyStructConstructor(fieldnames, dim);
     } else {
         if (argIn.size() % 2) {
             Error(_W("requires pairs of field names and values."));
@@ -71,7 +71,7 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
             names.push_back(field);
             values[i / 2] = argIn[i + 1];
         }
-        retval.push_back(ArrayOf::structConstructor(names, values));
+        retval << ArrayOf::structConstructor(names, values);
     }
     return retval;
 }

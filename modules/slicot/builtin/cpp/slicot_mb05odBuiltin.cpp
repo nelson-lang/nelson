@@ -127,19 +127,19 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(MDIG_output);
+        retval << MDIG_output;
     }
     if (nLhs > 2) {
-        retval.push_back(IDIG_output);
+        retval << IDIG_output;
     }
     if (nLhs > 3) {
-        retval.push_back(IWARN_output);
+        retval << IWARN_output;
     }
     if (nLhs > 4) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

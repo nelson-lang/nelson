@@ -70,7 +70,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     case 2:
         break;
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(path.generic_wstring()));
+    retval << ArrayOf::characterArrayConstructor(path.generic_wstring());
     return retval;
 }
 //=============================================================================

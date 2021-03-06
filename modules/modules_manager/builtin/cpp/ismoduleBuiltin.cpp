@@ -46,7 +46,7 @@ Nelson::ModulesManagerGateway::ismoduleBuiltin(int nLhs, const ArrayOfVector& ar
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     bool bRes = IsExistingModuleName(moduleshortname);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }
 //=============================================================================

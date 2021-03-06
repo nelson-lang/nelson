@@ -87,7 +87,7 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
     } else {
         if (nLhs > 0) {
             Dimensions dims(0, 0);
-            retval.push_back(ArrayOf::emptyConstructor(dims));
+            retval << ArrayOf::emptyConstructor(dims);
         }
     }
     return retval;

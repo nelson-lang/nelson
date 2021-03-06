@@ -44,7 +44,7 @@ Nelson::TypeGateway::isemptyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
     }
     if (!bSuccess) {
-        retval.push_back(ArrayOf::logicalConstructor(argIn[0].isEmpty()));
+        retval << ArrayOf::logicalConstructor(argIn[0].isEmpty());
     }
     return retval;
 }

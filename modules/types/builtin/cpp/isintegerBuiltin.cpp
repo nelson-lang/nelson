@@ -48,7 +48,7 @@ Nelson::TypeGateway::isintegerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             || argIn[0].getDataClass() == NLS_UINT16 || argIn[0].getDataClass() == NLS_INT16
             || argIn[0].getDataClass() == NLS_UINT32 || argIn[0].getDataClass() == NLS_INT32
             || argIn[0].getDataClass() == NLS_UINT64 || argIn[0].getDataClass() == NLS_INT64);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     }
     return retval;
 }

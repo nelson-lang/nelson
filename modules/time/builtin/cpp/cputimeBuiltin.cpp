@@ -40,7 +40,7 @@ Nelson::TimeGateway::cputimeBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    retval.push_back(ArrayOf::doubleConstructor(CpuTime()));
+    retval << ArrayOf::doubleConstructor(CpuTime());
     return retval;
 }
 //=============================================================================

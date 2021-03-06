@@ -100,7 +100,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
         } catch (Exception& e) {
             Error(e.getMessage());
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(outputModuleName));
+        retval << ArrayOf::characterArrayConstructor(outputModuleName);
     } else {
         Error(xmlDirs.getLastError());
     }

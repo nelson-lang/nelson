@@ -40,7 +40,7 @@ Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     ArrayOf paramOne = argIn[0];
     bool bRes = paramOne.isStruct();
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }
 //=============================================================================

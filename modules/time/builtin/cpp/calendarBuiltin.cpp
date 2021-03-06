@@ -85,12 +85,12 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
         NelsonPrint(msg);
     } break;
     case 1: {
-        retval.push_back(cal->get());
+        retval << cal->get();
         delete cal;
     } break;
     case 2: {
-        retval.push_back(cal->get());
-        retval.push_back(ToCellStringAsRow(cal->getNameOfDays()));
+        retval << cal->get();
+        retval << ToCellStringAsRow(cal->getNameOfDays());
         delete cal;
     } break;
     default: {

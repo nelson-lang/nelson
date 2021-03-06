@@ -43,7 +43,7 @@ Nelson::LocalizationGateway::getavailablelanguagesBuiltin(int nLhs, const ArrayO
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     Localization::Instance()->getManagedLanguages(langs);
-    retval.push_back(ToCellStringAsColumn(langs));
+    retval << ToCellStringAsColumn(langs);
     return retval;
 }
 //=============================================================================

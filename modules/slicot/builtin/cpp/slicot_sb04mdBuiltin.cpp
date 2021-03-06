@@ -139,19 +139,19 @@ Nelson::SlicotGateway::slicot_sb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(B_output);
+        retval << B_output;
     }
     if (nLhs > 2) {
-        retval.push_back(C_output);
+        retval << C_output;
     }
     if (nLhs > 3) {
-        retval.push_back(Z_output);
+        retval << Z_output;
     }
     if (nLhs > 4) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

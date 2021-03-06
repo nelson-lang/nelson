@@ -44,8 +44,7 @@ Nelson::TypeGateway::isint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVect
         retval = OverloadFunction(eval, nLhs, argIn, "isint64", bSuccess);
     }
     if (!bSuccess) {
-        bool bRes = (argIn[0].getDataClass() == NLS_INT64);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor((argIn[0].getDataClass() == NLS_INT64));
     }
     return retval;
 }

@@ -45,7 +45,7 @@ Nelson::TypeGateway::isint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_INT8);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     }
     return retval;
 }

@@ -40,7 +40,7 @@ Nelson::GraphicsGateway::grootBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     void* grootPtr = getGraphicRoot();
-    retval.push_back(ArrayOf::graphicObjectConstructor(grootPtr));
+    retval << ArrayOf::graphicObjectConstructor(grootPtr);
     return retval;
 }
 //=============================================================================

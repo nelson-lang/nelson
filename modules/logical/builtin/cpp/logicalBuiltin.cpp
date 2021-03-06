@@ -53,7 +53,7 @@ Nelson::LogicalGateway::logicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 return retval;
             }
         }
-        retval.push_back(ToLogical(argIn[0]));
+        retval << ToLogical(argIn[0]);
     }
     return retval;
 }

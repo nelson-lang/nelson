@@ -50,7 +50,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 }
             }
             std::string str = ClassName(argIn[0]);
-            retval.push_back(ArrayOf::characterArrayConstructor(str));
+            retval << ArrayOf::characterArrayConstructor(str);
         }
     } else if (argIn.size() == 2) {
         Context* ctx = eval->getContext();
@@ -78,7 +78,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 Error(ERROR_TYPE_ALREADY_RESERVED);
             }
             arg1.setStructType(newType);
-            retval.push_back(arg1);
+            retval << arg1;
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
         }

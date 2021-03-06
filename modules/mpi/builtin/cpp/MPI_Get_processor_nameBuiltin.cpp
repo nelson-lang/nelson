@@ -50,12 +50,12 @@ Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(int nLhs, const ArrayOfVector&
     int info = MPI_Get_processor_name(argv, &lenReturned);
     argv[lenReturned] = '\0';
     processorName = argv;
-    retval.push_back(ArrayOf::characterArrayConstructor(processorName));
+    retval << ArrayOf::characterArrayConstructor(processorName);
     if (nLhs > 1) {
-        retval.push_back(ArrayOf::doubleConstructor(lenReturned));
+        retval << ArrayOf::doubleConstructor(lenReturned);
     }
     if (nLhs > 2) {
-        retval.push_back(ArrayOf::doubleConstructor(info));
+        retval << ArrayOf::doubleConstructor(info);
     }
     return retval;
 }

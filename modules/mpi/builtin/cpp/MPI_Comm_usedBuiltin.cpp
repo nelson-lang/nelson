@@ -39,8 +39,8 @@ Nelson::MpiGateway::MPI_Comm_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    retval.push_back(usedHandle(MPI_COMM_CATEGORY_STR));
+    ArrayOfVector retval(1);
+    retval << usedHandle(MPI_COMM_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

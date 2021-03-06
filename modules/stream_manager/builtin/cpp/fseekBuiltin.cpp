@@ -34,13 +34,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (argIn.size() != 3) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
@@ -78,9 +78,9 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (!FileSeek(f, iOffset, ORIGIN)) {
-            retval.push_back(ArrayOf::doubleConstructor(-1));
+            retval << ArrayOf::doubleConstructor(-1);
         } else {
-            retval.push_back(ArrayOf::doubleConstructor(0));
+            retval << ArrayOf::doubleConstructor(0);
         }
     } else {
         Error(_W("Invalid file identifier."));

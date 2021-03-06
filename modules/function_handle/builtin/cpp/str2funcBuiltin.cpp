@@ -50,7 +50,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
     if (fptr == 0) {
         Error(_W("A valid function name expected."));
     }
-    retval.push_back(ArrayOf::functionHandleConstructor(wfunctionname, fptr));
+    retval << ArrayOf::functionHandleConstructor(wfunctionname, fptr);
     return retval;
 }
 //=============================================================================

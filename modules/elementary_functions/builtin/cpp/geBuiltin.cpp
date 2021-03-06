@@ -32,13 +32,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ElementaryFunctionsGateway::geBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOfVector retval(nLhs);
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    retval.push_back(eval->geOperator(arg1, arg2));
+    retval << eval->geOperator(arg1, arg2);
     return retval;
 }
 //=============================================================================

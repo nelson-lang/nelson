@@ -32,15 +32,15 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     if (argIn.empty()) {
-        retval.push_back(ArrayOf::doubleConstructor(Epsilon(1.0)));
+        retval << ArrayOf::doubleConstructor(Epsilon(1.0));
     } else {
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
             if (!argIn[0].isScalar()) {
@@ -48,7 +48,7 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             auto* pV = (double*)argIn[0].getDataPointer();
             double dV = pV[0];
-            retval.push_back(ArrayOf::doubleConstructor(Epsilon(dV)));
+            retval << ArrayOf::doubleConstructor(Epsilon(dV));
         } else if (argIn[0].getDataClass() == NLS_SINGLE
             || argIn[0].getDataClass() == NLS_SCOMPLEX) {
             if (!argIn[0].isScalar()) {
@@ -56,13 +56,13 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             auto* pV = (single*)argIn[0].getDataPointer();
             single dV = pV[0];
-            retval.push_back(ArrayOf::singleConstructor(Epsilon(dV)));
+            retval << ArrayOf::singleConstructor(Epsilon(dV));
         } else if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring arg = argIn[0].getContentAsWideString();
             if (arg == L"single") {
-                retval.push_back(ArrayOf::singleConstructor(Epsilon(static_cast<single>(1.0))));
+                retval << ArrayOf::singleConstructor(Epsilon(static_cast<single>(1.0)));
             } else if (arg == L"double") {
-                retval.push_back(ArrayOf::doubleConstructor(Epsilon(1.0)));
+                retval << ArrayOf::doubleConstructor(Epsilon(1.0));
             } else {
                 Error(_W("Type \'double\' or \'single\' expected."));
             }

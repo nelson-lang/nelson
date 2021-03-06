@@ -40,9 +40,9 @@ Nelson::SlicotGateway::SLICOTWrapperBuiltin(int nLhs, const ArrayOfVector& argIn
     case 1: {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"load") {
-            retval.push_back(ArrayOf::logicalConstructor(loadSlicotLibrary()));
+            retval << ArrayOf::logicalConstructor(loadSlicotLibrary());
         } else if (param1 == L"free") {
-            retval.push_back(ArrayOf::logicalConstructor(freeSlicotLibrary()));
+            retval << ArrayOf::logicalConstructor(freeSlicotLibrary());
         } else {
             Error(_W("Wrong value for #1: 'load' or 'free' expected."));
         }
@@ -51,7 +51,7 @@ Nelson::SlicotGateway::SLICOTWrapperBuiltin(int nLhs, const ArrayOfVector& argIn
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"load") {
             std::wstring slicotName = argIn[0].getContentAsWideString();
-            retval.push_back(ArrayOf::logicalConstructor(loadSlicotLibrary(slicotName)));
+            retval << ArrayOf::logicalConstructor(loadSlicotLibrary(slicotName));
         } else {
             Error(_W("Wrong value for #1: 'load' expected."));
         }

@@ -59,8 +59,8 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            retval.push_back(ArrayOf::characterArrayConstructor(
-                PathFuncManager::getInstance()->getPathNameAsString()));
+            retval << ArrayOf::characterArrayConstructor(
+                PathFuncManager::getInstance()->getPathNameAsString());
         }
     }
     if (argIn.size() == 1) {

@@ -46,7 +46,7 @@ Nelson::MatioGateway::whosmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     Interface* io = eval->getInterface();
     ArrayOf st = WhosMatioFile(io, filename, names, nLhs == 1);
     if (nLhs == 1) {
-        retval.push_back(st);
+        retval << st;
     }
     return retval;
 }

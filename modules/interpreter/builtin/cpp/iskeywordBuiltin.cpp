@@ -44,14 +44,13 @@ Nelson::InterpreterGateway::iskeywordBuiltin(int nLhs, const ArrayOfVector& argI
             elements[k] = ArrayOf::characterArrayConstructor(keys[k]);
         }
         Dimensions dims(keys.size(), 1);
-        ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-        retval.push_back(c);
+        retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     } else {
         if (!argIn[0].isRowVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
-        retval.push_back(ArrayOf::logicalConstructor(isKeyword(warg)));
+        retval << ArrayOf::logicalConstructor(isKeyword(warg));
     }
     return retval;
 }

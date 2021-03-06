@@ -43,7 +43,7 @@ Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         ArrayOf param1 = argIn[0];
         std::wstring varName = param1.getContentAsWideString();
         bool res = IsVariable(eval, SCOPE_LEVEL::LOCAL_SCOPE, varName);
-        retval.push_back(ArrayOf::logicalConstructor(res));
+        retval << ArrayOf::logicalConstructor(res);
     } else {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
@@ -61,7 +61,7 @@ Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } else {
             Error(_W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
         }
-        retval.push_back(ArrayOf::logicalConstructor(res));
+        retval << ArrayOf::logicalConstructor(res);
     }
     return retval;
 }

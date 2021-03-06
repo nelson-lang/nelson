@@ -73,7 +73,7 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
         for (auto& theInput : theInputs) {
             strs = strs.append(theInput.getContentAsArrayOfCharacters());
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(strs));
+        retval << ArrayOf::characterArrayConstructor(strs);
     } else {
         boost::uuids::uuid uuid = boost::uuids::random_generator()();
         std::wstring missing_str = boost::uuids::to_wstring(uuid);
@@ -176,7 +176,7 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
                 elements[k] = ArrayOf::characterArrayConstructor(resultAsVector[k]);
             }
         }
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

@@ -73,8 +73,8 @@ Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode,
         msg = _W("Impossible to open file.");
     } break;
     }
-    retval.push_back(ArrayOf::doubleConstructor((double)filepos));
-    retval.push_back(ArrayOf::characterArrayConstructor(msg));
+    retval << ArrayOf::doubleConstructor((double)filepos);
+    retval << ArrayOf::characterArrayConstructor(msg);
     return retval;
 }
 //=============================================================================
@@ -92,9 +92,9 @@ FopenAll(Evaluator* eval)
         }
         Dimensions dim(1, IDs.size());
         ArrayOf res = ArrayOf(NLS_DOUBLE, dim, dIDs);
-        retval.push_back(res);
+        retval << res;
     } else {
-        retval.push_back(ArrayOf::emptyConstructor());
+        retval << ArrayOf::emptyConstructor();
     }
     return retval;
 }
@@ -122,16 +122,16 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             }
             if (_file) {
                 if (nLhs >= 0) {
-                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getFileName()));
+                    retval << ArrayOf::characterArrayConstructor(_file->getFileName());
                 }
                 if (nLhs > 1) {
-                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getFileMode()));
+                    retval << ArrayOf::characterArrayConstructor(_file->getFileMode());
                 }
                 if (nLhs > 2) {
-                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getMachineFormat()));
+                    retval << ArrayOf::characterArrayConstructor(_file->getMachineFormat());
                 }
                 if (nLhs > 3) {
-                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getEncoding()));
+                    retval << ArrayOf::characterArrayConstructor(_file->getEncoding());
                 }
             } else {
                 Error(_W("Invalid file identifier."));

@@ -78,7 +78,7 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
         delete objPlayer;
         Error(errorMessage);
     } else {
-        retval.push_back(ArrayOf::handleConstructor(objPlayer));
+        retval << ArrayOf::handleConstructor(objPlayer);
     }
     return retval;
 }

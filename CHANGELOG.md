@@ -4,6 +4,8 @@
 
 - for loop faster x2.
 
+- reworks ArrayOfVector (internal).
+
 # 0.5.2 (2021-02-27)
 
 ## Features:

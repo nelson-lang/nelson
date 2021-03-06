@@ -44,7 +44,7 @@ Nelson::HandleGateway::handle_isequalBuiltin(int nLhs, const ArrayOfVector& argI
     if (!A.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
-    retval.push_back(ArrayOf::logicalConstructor(IsEqualHandle(A, B)));
+    retval << ArrayOf::logicalConstructor(IsEqualHandle(A, B));
     return retval;
 }
 //=============================================================================

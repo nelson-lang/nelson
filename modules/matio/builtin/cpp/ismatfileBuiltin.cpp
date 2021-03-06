@@ -43,12 +43,12 @@ Nelson::MatioGateway::ismatfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf matVersions;
     ArrayOf matHeaders;
     IsMatioFile(filenames, isMat, matVersions, matHeaders);
-    retval.push_back(isMat);
+    retval << isMat;
     if (nLhs > 1) {
-        retval.push_back(matVersions);
+        retval << matVersions;
     }
     if (nLhs > 2) {
-        retval.push_back(matHeaders);
+        retval << matHeaders;
     }
     return retval;
 }

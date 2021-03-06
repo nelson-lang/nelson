@@ -53,7 +53,7 @@ Nelson::LinearAlgebraGateway::invBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "inv");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

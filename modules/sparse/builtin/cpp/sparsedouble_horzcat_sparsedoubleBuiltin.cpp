@@ -42,7 +42,7 @@ Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(HorzCatSparseDouble(A, B));
+    retval << HorzCatSparseDouble(A, B);
     return retval;
 }
 //=============================================================================

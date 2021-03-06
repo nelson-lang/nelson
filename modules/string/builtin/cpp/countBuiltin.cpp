@@ -62,7 +62,7 @@ Nelson::StringGateway::countBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 logical fieldvalue = param4.getContentAsLogicalScalar();
                 bCaseSensitive = (fieldvalue == 0);
             }
-            retval.push_back(StringCount(A, B, bCaseSensitive));
+            retval << StringCount(A, B, bCaseSensitive);
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
             if (!bSuccess) {

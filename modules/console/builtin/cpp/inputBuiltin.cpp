@@ -59,8 +59,8 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (io) {
         curline = io->getInput(param1);
     }
-    ArrayOfVector retval;
-    retval.push_back(ArrayOf::characterArrayConstructor(curline));
+    ArrayOfVector retval(1);
+    retval << ArrayOf::characterArrayConstructor(curline);
     return retval;
 }
 //=============================================================================

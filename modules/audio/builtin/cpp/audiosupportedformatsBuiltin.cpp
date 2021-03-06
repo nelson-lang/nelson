@@ -34,14 +34,14 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::audiosupportedformatsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(AudioSupportedFormats());
+    ArrayOfVector retval(1);
+    retval << AudioSupportedFormats();
     return retval;
 }
 //=============================================================================

@@ -54,7 +54,7 @@ strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCase
         }
     }
     if (!bSuccess) {
-        retval.push_back(StringCompare(A, B, bCaseSensitive, len));
+        retval << StringCompare(A, B, bCaseSensitive, len);
     }
     return retval;
 }

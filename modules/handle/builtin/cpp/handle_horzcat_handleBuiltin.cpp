@@ -41,7 +41,7 @@ Nelson::HandleGateway::handle_horzcat_handleBuiltin(int nLhs, const ArrayOfVecto
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(HorzCatHandle(A, B));
+    retval << HorzCatHandle(A, B);
     return retval;
 }
 //=============================================================================

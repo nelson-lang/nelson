@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::modBuiltin(
                 return retval;
             }
         }
-        retval.push_back(Modulo(argIn[0], argIn[1]));
+        retval << Modulo(argIn[0], argIn[1]);
     }
     return retval;
 }

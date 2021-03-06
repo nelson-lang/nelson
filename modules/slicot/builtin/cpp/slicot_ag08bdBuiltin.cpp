@@ -225,46 +225,46 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(E_output);
+        retval << E_output;
     }
     if (nLhs > 2) {
-        retval.push_back(NFZ_output);
+        retval << NFZ_output;
     }
     if (nLhs > 3) {
-        retval.push_back(NRANK_output);
+        retval << NRANK_output;
     }
     if (nLhs > 4) {
-        retval.push_back(NIZ_output);
+        retval << NIZ_output;
     }
     if (nLhs > 5) {
-        retval.push_back(DINFZ_output);
+        retval << DINFZ_output;
     }
     if (nLhs > 6) {
-        retval.push_back(NKROR_output);
+        retval << NKROR_output;
     }
     if (nLhs > 7) {
-        retval.push_back(NINFE_output);
+        retval << NINFE_output;
     }
     if (nLhs > 8) {
-        retval.push_back(NKROL_output);
+        retval << NKROL_output;
     }
     if (nLhs > 9) {
-        retval.push_back(INFZ_output);
+        retval << INFZ_output;
     }
     if (nLhs > 10) {
-        retval.push_back(KRONR_output);
+        retval << KRONR_output;
     }
     if (nLhs > 11) {
-        retval.push_back(INFE_output);
+        retval << INFE_output;
     }
     if (nLhs > 12) {
-        retval.push_back(KRONL_output);
+        retval << KRONL_output;
     }
     if (nLhs > 13) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

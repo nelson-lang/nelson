@@ -42,13 +42,13 @@ Nelson::ComEngineGateway::COM_invokeBuiltin(int nLhs, const ArrayOfVector& argIn
     std::wstring methodname = param2.getContentAsWideString();
     ArrayOfVector params;
     for (size_t k = 2; k < argIn.size(); k++) {
-        params.push_back(argIn[k]);
+        params << argIn[k];
     }
     ArrayOfVector retval;
     bool haveFunctionReturn = false;
     ArrayOf res = invokeComHandleObject(argIn[0], methodname, params, haveFunctionReturn);
     if (haveFunctionReturn) {
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

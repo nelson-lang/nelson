@@ -34,13 +34,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (!(argIn.size() == 1 || argIn.size() == 2)) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 3) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(nLhs);
     // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
@@ -79,23 +79,23 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
         case 1: {
             ArrayOf s;
             SVD(argIn[0], s);
-            retval.push_back(s);
+            retval << s;
         } break;
         case 2: {
             ArrayOf U;
             ArrayOf S;
             SVD(argIn[0], svdFlag, U, S);
-            retval.push_back(U);
-            retval.push_back(S);
+            retval << U;
+            retval << S;
         } break;
         case 3: {
             ArrayOf U;
             ArrayOf S;
             ArrayOf V;
             SVD(argIn[0], svdFlag, U, S, V);
-            retval.push_back(U);
-            retval.push_back(S);
-            retval.push_back(V);
+            retval << U;
+            retval << S;
+            retval << V;
         } break;
         default:
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

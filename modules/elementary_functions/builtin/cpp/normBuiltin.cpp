@@ -58,17 +58,17 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
                     if (argIn[1].isRowVectorCharacterArray()) {
                         std::wstring param = argIn[1].getContentAsWideString();
                         if (param == L"fro") {
-                            retval.push_back(NormFrobenius(argIn[0]));
+                            retval << NormFrobenius(argIn[0]);
                         } else {
                             Error(ERROR_WRONG_ARGUMENT_2_VALUE);
                         }
                     } else {
                         ArrayOf param = argIn[1];
                         double p = param.getContentAsDoubleScalar();
-                        retval.push_back(Norm(argIn[0], p));
+                        retval << Norm(argIn[0], p);
                     }
                 } else {
-                    retval.push_back(Norm(argIn[0], 2));
+                    retval << Norm(argIn[0], 2);
                 }
             }
         } else {

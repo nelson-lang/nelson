@@ -64,12 +64,12 @@ Nelson::MpiGateway::MPI_RecvBuiltin(int nLhs, const ArrayOfVector& argIn)
     int packpos = 0;
     ArrayOf A(unpackMPI(cp, msgsize, &packpos, comm));
     free(cp);
-    retval.push_back(A);
+    retval << A;
     if (nLhs > 1) {
-        retval.push_back(ArrayOf::int32Constructor(status.MPI_SOURCE));
+        retval << ArrayOf::int32Constructor(status.MPI_SOURCE);
     }
     if (nLhs > 2) {
-        retval.push_back(ArrayOf::int32Constructor(status.MPI_TAG));
+        retval << ArrayOf::int32Constructor(status.MPI_TAG);
     }
     return retval;
 }

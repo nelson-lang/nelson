@@ -56,7 +56,7 @@ Nelson::SparseGateway::fullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         ArrayOf R(argIn[0]);
         try {
             R.makeDense();
-            retval.push_back(R);
+            retval << R;
         } catch (const Exception&) {
             retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
             if (bSuccess) {

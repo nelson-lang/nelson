@@ -76,7 +76,7 @@ Nelson::ConstructorsGateway::diagBuiltin(Evaluator* eval, int nLhs, const ArrayO
         } else {
             diag = a.getDiagonal(diagonalOrder);
         }
-        retval.push_back(diag);
+        retval << diag;
     }
     return retval;
 }

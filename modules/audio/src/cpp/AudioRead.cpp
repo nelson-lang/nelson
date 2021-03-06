@@ -42,7 +42,7 @@ ArrayOfVector
 AudioRead(const std::wstring& filename, double dstart, double dend, std::wstring datatype,
     std::wstring& errorMessage)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(2);
     SNDFILE* file = nullptr;
     if (datatype != L"native" && datatype != L"double") {
         errorMessage = _W("'native' or 'double' expected.");
@@ -92,8 +92,8 @@ AudioRead(const std::wstring& filename, double dstart, double dend, std::wstring
         Range = Eigen::Matrix<int32, Eigen::Dynamic, 1>::LinSpaced(n, start, end);
         rangeIndex = ArrayOf(NLS_INT32, dims, pV);
 #endif
-        index.push_back(rangeIndex);
-        index.push_back(ArrayOf::characterArrayConstructor(":"));
+        index << rangeIndex;
+        index << ArrayOf::characterArrayConstructor(":");
         allFrames = false;
     }
     if (sf_command(file, SFC_SET_NORM_DOUBLE, NULL, SF_TRUE) == SF_FALSE) {
@@ -248,8 +248,8 @@ AudioRead(const std::wstring& filename, double dstart, double dend, std::wstring
         if (!allFrames) {
             y = y.getNDimSubset(index);
         }
-        retval.push_back(y);
-        retval.push_back(ArrayOf::doubleConstructor(sfinfo.samplerate));
+        retval << y;
+        retval << ArrayOf::doubleConstructor(sfinfo.samplerate);
     }
     return retval;
 }

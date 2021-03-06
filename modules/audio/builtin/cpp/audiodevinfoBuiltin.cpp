@@ -127,7 +127,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

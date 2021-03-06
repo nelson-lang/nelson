@@ -67,7 +67,7 @@ Nelson::StringGateway::num2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

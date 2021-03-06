@@ -121,7 +121,7 @@ warningStruct(const WARNING_IDS_STATES& list)
     dims[0] = list.IDs.size();
     dims[1] = 1;
     if (list.IDs.empty()) {
-        retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dims));
+        retval << ArrayOf::emptyStructConstructor(fieldnames, dims);
     } else {
         auto* elements = static_cast<ArrayOf*>(
             ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
@@ -150,7 +150,7 @@ warningStruct(const WARNING_IDS_STATES& list)
         }
         st.setFieldAsList("identifier", identifiers);
         st.setFieldAsList("state", states);
-        retval.push_back(st);
+        retval << st;
     }
     return retval;
 }
@@ -177,7 +177,7 @@ warningBuiltinNoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 static ArrayOfVector
 warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(nLhs);
     if (argIn[0].isStruct()) {
         wstringVector identifiers;
         wstringVector states;
@@ -203,11 +203,11 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             case 0: {
             } break;
             case 1: {
-                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
+                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
             } break;
             case 2: {
-                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
-                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
+                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
+                retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -246,11 +246,11 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 // NOTHING TO DO
             } break;
             case 1: {
-                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
+                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
             } break;
             case 2: {
-                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
-                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
+                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
+                retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -283,7 +283,7 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             fieldnames.push_back(L"state");
             fieldvalues.push_back(ArrayOf::characterArrayConstructor(msg));
             fieldvalues.push_back(ArrayOf::characterArrayConstructor(id));
-            retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
+            retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
         } break;
         default: {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -297,11 +297,11 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             // NOTHING TO DO
         } break;
         case 1: {
-            retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
+            retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
         } break;
         case 2: {
-            retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
-            retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
+            retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
+            retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
         } break;
         default: {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

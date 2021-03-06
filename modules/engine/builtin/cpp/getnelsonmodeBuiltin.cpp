@@ -42,25 +42,25 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
     auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
     switch (_mode) {
     case BASIC_ENGINE: {
-        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_ENGINE"));
+        retval << ArrayOf::characterArrayConstructor("BASIC_ENGINE");
     } break;
     case ADVANCED_ENGINE: {
-        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_ENGINE"));
+        retval << ArrayOf::characterArrayConstructor("ADVANCED_ENGINE");
     } break;
     case BASIC_TERMINAL: {
-        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_TERMINAL"));
+        retval << ArrayOf::characterArrayConstructor("BASIC_TERMINAL");
     } break;
     case ADVANCED_TERMINAL: {
-        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_TERMINAL"));
+        retval << ArrayOf::characterArrayConstructor("ADVANCED_TERMINAL");
     } break;
     case BASIC_SIO_CLIENT: {
-        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_SIO_CLIENT"));
+        retval << ArrayOf::characterArrayConstructor("BASIC_SIO_CLIENT");
     } break;
     case ADVANCED_SIO_CLIENT: {
-        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_SIO_CLIENT"));
+        retval << ArrayOf::characterArrayConstructor("ADVANCED_SIO_CLIENT");
     } break;
     case GUI: {
-        retval.push_back(ArrayOf::characterArrayConstructor("GUI"));
+        retval << ArrayOf::characterArrayConstructor("GUI");
     } break;
     default: {
         Error(_W("unknown mode."));

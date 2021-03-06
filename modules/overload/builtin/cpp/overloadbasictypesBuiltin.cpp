@@ -48,10 +48,10 @@ Nelson::OverloadGateway::overloadbasictypesBuiltin(
             eval->disableOverloadBasicTypes();
         }
         if (nLhs > 0) {
-            retval.push_back(ArrayOf::logicalConstructor(previousValue));
+            retval << ArrayOf::logicalConstructor(previousValue);
         }
     }
-    retval.push_back(ArrayOf::logicalConstructor(previousValue));
+    retval << ArrayOf::logicalConstructor(previousValue);
     return retval;
 }
 //=============================================================================

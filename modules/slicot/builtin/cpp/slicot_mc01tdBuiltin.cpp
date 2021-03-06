@@ -96,19 +96,19 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(DP_output);
+        retval << DP_output;
     }
     if (nLhs > 1) {
-        retval.push_back(STABLE_output);
+        retval << STABLE_output;
     }
     if (nLhs > 2) {
-        retval.push_back(NZ_output);
+        retval << NZ_output;
     }
     if (nLhs > 3) {
-        retval.push_back(IWARN_output);
+        retval << IWARN_output;
     }
     if (nLhs > 4) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

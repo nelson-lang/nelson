@@ -38,15 +38,14 @@ Nelson::DynamicLinkGateway::dlsym_ismethodBuiltin(int nLhs, const ArrayOfVector&
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    ArrayOf res = ArrayOf::logicalConstructor(param1.isHandleMethod(propertyName));
-    retval.push_back(res);
+    retval << ArrayOf::logicalConstructor(param1.isHandleMethod(propertyName));
     return retval;
 }
 //=============================================================================

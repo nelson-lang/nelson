@@ -33,13 +33,13 @@ ArrayOfVector
 Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (!((argIn.size() == 2) || (argIn.size() == 3))) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(nLhs);
     double precision = 0.;
     if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
@@ -54,9 +54,9 @@ Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(
             Error(msg);
         }
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::characterArrayConstructor(msg));
+            retval << ArrayOf::characterArrayConstructor(msg);
         }
     }
     return retval;

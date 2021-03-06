@@ -103,16 +103,16 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(JPVT_output);
+        retval << JPVT_output;
     }
     if (nLhs > 2) {
-        retval.push_back(TAU_output);
+        retval << TAU_output;
     }
     if (nLhs > 3) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

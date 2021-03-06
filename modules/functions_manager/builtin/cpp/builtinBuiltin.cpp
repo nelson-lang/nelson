@@ -59,7 +59,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
     }
     ArrayOfVector newarg(argIn);
-    newarg.erase(newarg.begin());
+    newarg.pop_front();
     eval->disableOverload();
     ArrayOfVector retval = funcDef->evaluateFunction(eval, newarg, nLhs);
     eval->enableOverload();

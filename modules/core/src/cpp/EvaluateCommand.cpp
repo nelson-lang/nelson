@@ -226,7 +226,7 @@ EvaluateConsoleCommand(
             throw;
         }
     }
-    retval.insert(retval.begin(), ArrayOf::characterArrayConstructor(buffer));
+    retval.push_front(ArrayOf::characterArrayConstructor(buffer));
     return retval;
 }
 //=============================================================================

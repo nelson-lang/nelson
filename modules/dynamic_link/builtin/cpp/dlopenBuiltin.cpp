@@ -52,7 +52,7 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(int nLhs, const ArrayOfVector& argIn)
         } catch (const Exception&) {
             throw;
         }
-        retval.push_back(ArrayOf::handleConstructor(dlObject));
+        retval << ArrayOf::handleConstructor(dlObject);
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

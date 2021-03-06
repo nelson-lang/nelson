@@ -144,19 +144,18 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     }
                     if (sizeReallyRead == im * in) {
                         toRead.reshape(dim);
-                        retval.push_back(toRead);
+                        retval << toRead;
                     } else {
                         void* ptr = ArrayOf::allocateArrayOf(toRead.getDataClass(),
                             static_cast<indexType>(im * in), stringVector(), false);
                         memcpy(ptr, toRead.getReadWriteDataPointer(), toRead.getByteSize());
-                        ArrayOf Resized = ArrayOf(toRead.getDataClass(), dim, ptr);
-                        retval.push_back(Resized);
+                        retval << ArrayOf(toRead.getDataClass(), dim, ptr);
                     }
                 } else {
-                    retval.push_back(toRead);
+                    retval << toRead;
                 }
                 if (nLhs > 1) {
-                    retval.push_back(ArrayOf::doubleConstructor(sizeReallyRead));
+                    retval << ArrayOf::doubleConstructor(sizeReallyRead);
                 }
             } else {
                 Error(_W("Problem to read data."));

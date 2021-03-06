@@ -46,12 +46,12 @@ Nelson::Hdf5Gateway::isnh5fileBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf nh5Versions;
     ArrayOf nh5Headers;
     isNh5File(filenames, isNh5, nh5Versions, nh5Headers);
-    retval.push_back(isNh5);
+    retval << isNh5;
     if (nLhs > 1) {
-        retval.push_back(nh5Versions);
+        retval << nh5Versions;
     }
     if (nLhs > 2) {
-        retval.push_back(nh5Headers);
+        retval << nh5Headers;
     }
     return retval;
 }

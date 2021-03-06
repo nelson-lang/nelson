@@ -42,7 +42,7 @@ Nelson::SparseGateway::sparselogical_vertcat_sparselogicalBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(VertCatSparseLogical(A, B));
+    retval << VertCatSparseLogical(A, B);
     return retval;
 }
 //=============================================================================

@@ -77,7 +77,7 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     ArrayOf res = Whos(eval, filename, onlyGlobal, names, nLhs == 1);
     if (nLhs == 1) {
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

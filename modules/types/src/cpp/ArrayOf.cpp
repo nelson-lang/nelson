@@ -75,8 +75,8 @@ static int objectBalance;
 ArrayOfVector
 scalarArrayOfToArrayOfVector(ArrayOf a)
 {
-    ArrayOfVector retval;
-    retval.push_back(a);
+    ArrayOfVector retval(1);
+    retval << a;
     return retval;
 }
 //=============================================================================
@@ -812,9 +812,7 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================

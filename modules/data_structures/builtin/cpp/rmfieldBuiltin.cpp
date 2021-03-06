@@ -100,7 +100,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
                 for (std::string c : common) {
                     values.push_back(param1.getField(c));
                 }
-                retval.push_back(ArrayOf::structConstructor(common, values));
+                retval << ArrayOf::structConstructor(common, values);
             } else {
                 Dimensions dims = param1.getDimensions();
                 auto* qp = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
@@ -111,7 +111,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
                     ArrayOfVector data = param1.getFieldAsList(c);
                     st.setFieldAsList(c, data);
                 }
-                retval.push_back(st);
+                retval << st;
             }
         } else {
             Error(_W("Wrong type for argument #1. struct expected."));

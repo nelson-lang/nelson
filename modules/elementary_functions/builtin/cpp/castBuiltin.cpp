@@ -75,7 +75,7 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
             destinationClass = argIn[2].getDataClass();
             isSparse = argIn[2].isSparse();
         }
-        retval.push_back(Cast(argIn[0], destinationClass, isSparse));
+        retval << Cast(argIn[0], destinationClass, isSparse);
     }
     return retval;
 }

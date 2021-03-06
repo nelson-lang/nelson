@@ -33,13 +33,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     Class cl = NLS_DOUBLE;
     if (argIn.empty()) {
-        retval.push_back(Ones(cl));
+        retval << Ones(cl);
     } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
@@ -141,7 +141,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         }
         if (nRhs == 0) {
-            retval.push_back(Ones(cl));
+            retval << Ones(cl);
             return retval;
         }
         Dimensions dims;
@@ -186,7 +186,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                 dims[1] = dims[0];
             }
         }
-        retval.push_back(Ones(dims, cl));
+        retval << Ones(dims, cl);
     }
     return retval;
 }

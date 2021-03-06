@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::mpowerBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "mpower");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

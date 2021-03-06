@@ -39,7 +39,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     Class cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
-        retval.push_back(Rand(eval, cl));
+        retval << Rand(eval, cl);
     } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
@@ -81,7 +81,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             }
         }
         if (nRhs == 0) {
-            retval.push_back(Rand(eval, cl));
+            retval << Rand(eval, cl);
             return retval;
         }
         Dimensions dims;
@@ -126,7 +126,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 dims[1] = dims[0];
             }
         }
-        retval.push_back(Rand(eval, dims, cl));
+        retval << Rand(eval, dims, cl);
     }
     return retval;
 }

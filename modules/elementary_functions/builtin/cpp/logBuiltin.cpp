@@ -52,7 +52,7 @@ Nelson::ElementaryFunctionsGateway::logBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "log");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

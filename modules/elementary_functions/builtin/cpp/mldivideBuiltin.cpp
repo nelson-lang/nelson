@@ -33,11 +33,11 @@ ArrayOfVector
 Nelson::ElementaryFunctionsGateway::mldivideBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(eval->leftDivideOperator(argIn[0], argIn[1]));
+    retval << eval->leftDivideOperator(argIn[0], argIn[1]);
     return retval;
 }
 //=============================================================================

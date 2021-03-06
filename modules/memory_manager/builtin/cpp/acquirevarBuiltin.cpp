@@ -76,17 +76,16 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     if (argIn.size() == 2) {
         if (bFind) {
-            retval.push_back(value);
+            retval << value;
         } else {
             Error(_W("variable not found."));
         }
     } else // argIn.size() == 3
     {
         if (bFind) {
-            retval.push_back(value);
+            retval << value;
         } else {
-            ArrayOf varValue = argIn[2];
-            retval.push_back(varValue);
+            retval << argIn[2];
         }
     }
     return retval;

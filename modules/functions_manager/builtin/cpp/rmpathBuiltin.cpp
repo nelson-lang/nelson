@@ -70,7 +70,7 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::characterArrayConstructor(previousPaths));
+        retval << ArrayOf::characterArrayConstructor(previousPaths);
     }
     return retval;
 }

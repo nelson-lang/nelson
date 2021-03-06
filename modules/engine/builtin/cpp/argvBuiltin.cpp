@@ -39,7 +39,7 @@ Nelson::EngineGateway::argvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ToCellStringAsColumn(eval->getCommandLineArguments()));
+    retval << ToCellStringAsColumn(eval->getCommandLineArguments());
     return retval;
 }
 //=============================================================================

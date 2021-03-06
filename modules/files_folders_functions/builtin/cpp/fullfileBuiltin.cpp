@@ -68,7 +68,7 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
         for (auto& theInput : theInputs) {
             strs.push_back(theInput.getContentAsArrayOfCharacters());
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(FullFile(strs)));
+        retval << ArrayOf::characterArrayConstructor(FullFile(strs));
     } else {
         Dimensions dimsOutput;
         bool haveDimsOutput = false;
@@ -147,7 +147,7 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
         for (indexType k = 0; k < nbElements; ++k) {
             elements[k] = ArrayOf::characterArrayConstructor(resultAsVector[k]);
         }
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

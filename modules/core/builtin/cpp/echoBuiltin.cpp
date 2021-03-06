@@ -34,16 +34,16 @@ Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
+    ArrayOfVector retval(nLhs);
     if (argIn.empty()) {
         bool toggle = eval->getEchoMode();
         if (nLhs == 0) {
             eval->setEchoMode(!toggle);
         } else {
             if (toggle) {
-                retval.push_back(ArrayOf::characterArrayConstructor("on"));
+                retval << ArrayOf::characterArrayConstructor("on");
             } else {
-                retval.push_back(ArrayOf::characterArrayConstructor("off"));
+                retval << ArrayOf::characterArrayConstructor("off");
             }
         }
     } else if (argIn.size() == 1) {

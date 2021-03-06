@@ -39,7 +39,7 @@ Nelson::TypeGateway::ischarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::logicalConstructor(argIn[0].isCharacterArray()));
+    retval << ArrayOf::logicalConstructor(argIn[0].isCharacterArray());
     return retval;
 }
 //=============================================================================

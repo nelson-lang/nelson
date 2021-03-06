@@ -157,7 +157,7 @@ public:
     void* HistoryManager = nullptr;
 
     CallStack callstack;
-    //std::vector<StackEntry> cstack;
+    // std::vector<StackEntry> cstack;
     void
     setCLI(bool bCLI);
     bool

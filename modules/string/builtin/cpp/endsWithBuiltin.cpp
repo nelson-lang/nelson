@@ -62,7 +62,7 @@ Nelson::StringGateway::endsWithBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 logical fieldvalue = param4.getContentAsLogicalScalar();
                 bCaseSensitive = (fieldvalue == 0);
             }
-            retval.push_back(StringEndsWith(A, B, bCaseSensitive));
+            retval << StringEndsWith(A, B, bCaseSensitive);
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
             if (!bSuccess) {

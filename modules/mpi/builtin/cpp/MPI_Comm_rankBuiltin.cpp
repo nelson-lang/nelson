@@ -51,7 +51,7 @@ Nelson::MpiGateway::MPI_Comm_rankBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     int comm_rank = 0;
     MPI_Comm_rank(comm, &comm_rank);
-    retval.push_back(ArrayOf::doubleConstructor(comm_rank));
+    retval << ArrayOf::doubleConstructor(comm_rank);
     return retval;
 }
 //=============================================================================

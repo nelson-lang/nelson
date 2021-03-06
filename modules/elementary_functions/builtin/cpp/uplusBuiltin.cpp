@@ -51,10 +51,10 @@ Nelson::ElementaryFunctionsGateway::uplusBuiltin(
         if (needToOverload) {
             res = OverloadUnaryOperator(eval, a, "uplus");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     } else {
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

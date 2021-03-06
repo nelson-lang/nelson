@@ -56,7 +56,7 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 if (output.allReal()) {
                     output.promoteType(NLS_DOUBLE);
                 }
-                retval.push_back(output);
+                retval << output;
                 return retval;
             }
             if (param1.isStringArray() || param1.isCell()) {
@@ -81,7 +81,7 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 if (output.allReal()) {
                     output.promoteType(NLS_DOUBLE);
                 }
-                retval.push_back(output);
+                retval << output;
                 return retval;
             }
             retval = OverloadFunction(eval, nLhs, argIn, "str2double", bSuccess);

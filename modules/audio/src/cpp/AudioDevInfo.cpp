@@ -181,14 +181,13 @@ getDevicesInfo(const boost::container::vector<AudioDeviceInfo>& infos, bool inpu
                     double defaultLowLatency = (double)info.padeviceInfo->defaultLowInputLatency;
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name.push_back(ArrayOf::characterArrayConstructor(deviceName));
-                    driverversion.push_back(
-                        ArrayOf::characterArrayConstructor(deviceDriverVersion));
-                    maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
-                    defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
-                    defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
-                    defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
-                    id.push_back(ArrayOf::doubleConstructor((double)info.Id));
+                    name << ArrayOf::characterArrayConstructor(deviceName);
+                    driverversion << ArrayOf::characterArrayConstructor(deviceDriverVersion);
+                    maxchannels << ArrayOf::doubleConstructor(maxChannels);
+                    defaultsamplerate << ArrayOf::doubleConstructor(defaultSampleRate);
+                    defaultlowlatency << ArrayOf::doubleConstructor(defaultLowLatency);
+                    defaulthighlatency << ArrayOf::doubleConstructor(defaultHighLatency);
+                    id << ArrayOf::doubleConstructor((double)info.Id);
                 }
             } else {
                 if (isOutput) {
@@ -196,14 +195,13 @@ getDevicesInfo(const boost::container::vector<AudioDeviceInfo>& infos, bool inpu
                     double defaultLowLatency = (double)info.padeviceInfo->defaultLowOutputLatency;
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name.push_back(ArrayOf::characterArrayConstructor(deviceName));
-                    driverversion.push_back(
-                        ArrayOf::characterArrayConstructor(deviceDriverVersion));
-                    defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
-                    maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
-                    defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
-                    defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
-                    id.push_back(ArrayOf::doubleConstructor((double)info.Id));
+                    name << ArrayOf::characterArrayConstructor(deviceName);
+                    driverversion << ArrayOf::characterArrayConstructor(deviceDriverVersion);
+                    defaultsamplerate << ArrayOf::doubleConstructor(defaultSampleRate);
+                    maxchannels << ArrayOf::doubleConstructor(maxChannels);
+                    defaultlowlatency << ArrayOf::doubleConstructor(defaultLowLatency);
+                    defaulthighlatency << ArrayOf::doubleConstructor(defaultHighLatency);
+                    id << ArrayOf::doubleConstructor((double)info.Id);
                 }
             }
         }
@@ -235,11 +233,11 @@ AudioDevInfo(std::wstring& errorMessage)
     ArrayOf structInputs = getDevicesInfo(audioDevices, true, nbInputs, nbOutputs);
     ArrayOf structOutputs = getDevicesInfo(audioDevices, false, nbInputs, nbOutputs);
     stringVector fieldnames;
-    ArrayOfVector fieldvalues;
+    ArrayOfVector fieldvalues(2);
     fieldnames.push_back("input");
     fieldnames.push_back("output");
-    fieldvalues.push_back(structInputs);
-    fieldvalues.push_back(structOutputs);
+    fieldvalues << structInputs;
+    fieldvalues << structOutputs;
     return ArrayOf::structConstructor(fieldnames, fieldvalues);
 }
 //=============================================================================
@@ -282,11 +280,11 @@ AudioDevInfoDefault(std::wstring& errorMessage)
     ArrayOf structInputs = getDevicesInfo(infoInput, true, infoInput.size(), 0);
     ArrayOf structOutputs = getDevicesInfo(infoOutput, false, 0, infoOutput.size());
     stringVector fieldnames;
-    ArrayOfVector fieldvalues;
+    ArrayOfVector fieldvalues(2);
     fieldnames.push_back("input");
     fieldnames.push_back("output");
-    fieldvalues.push_back(structInputs);
-    fieldvalues.push_back(structOutputs);
+    fieldvalues << structInputs;
+    fieldvalues << structOutputs;
     return ArrayOf::structConstructor(fieldnames, fieldvalues);
 }
 //=============================================================================

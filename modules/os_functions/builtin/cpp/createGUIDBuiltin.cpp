@@ -41,13 +41,13 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(int nLhs, const ArrayOfVector& arg
     }
     ArrayOfVector retval;
     if (argIn.empty()) {
-        retval.push_back(ArrayOf::characterArrayConstructor(CreateGUID()));
+        retval << ArrayOf::characterArrayConstructor(CreateGUID());
     } else {
         ArrayOf arg1 = argIn[0];
         if (arg1.isNumeric()) {
             indexType idx = arg1.getContentAsScalarIndex();
             wstringVector strs = CreateGUID(static_cast<size_t>(idx));
-            retval.push_back(ToCellStringAsColumn(strs));
+            retval << ToCellStringAsColumn(strs);
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         }

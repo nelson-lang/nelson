@@ -51,7 +51,7 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(int nLhs, const ArrayOfVector& argI
         varEnvName = argIn[1].getContentAsWideString();
     }
     wstringVector res = SearchVariableEnvironmentW(fileToSearch, varEnvName);
-    retval.push_back(ToCellStringAsColumn(res));
+    retval << ToCellStringAsColumn(res);
     return retval;
 }
 //=============================================================================

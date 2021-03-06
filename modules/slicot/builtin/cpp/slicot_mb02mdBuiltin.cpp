@@ -180,22 +180,22 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(RANK_output);
+        retval << RANK_output;
     }
     if (nLhs > 1) {
-        retval.push_back(C_output);
+        retval << C_output;
     }
     if (nLhs > 2) {
-        retval.push_back(S_output);
+        retval << S_output;
     }
     if (nLhs > 3) {
-        retval.push_back(X_output);
+        retval << X_output;
     }
     if (nLhs > 4) {
-        retval.push_back(IWARN_output);
+        retval << IWARN_output;
     }
     if (nLhs > 5) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

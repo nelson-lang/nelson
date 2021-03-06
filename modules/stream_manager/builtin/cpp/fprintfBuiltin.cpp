@@ -118,7 +118,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             }
         }
         if (nLhs > 0) {
-            retval.push_back(ArrayOf::doubleConstructor((double)len));
+            retval << ArrayOf::doubleConstructor((double)len);
         }
     } else {
         Error(_W("Wrong value for #1 argument: a valid file ID expected."));

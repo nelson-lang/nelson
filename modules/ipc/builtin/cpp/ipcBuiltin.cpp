@@ -82,7 +82,7 @@ ipcBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!errorMessage.empty()) {
             Error(_W("Command not sent.") + errorMessage);
         }
-        retval.push_back(ArrayOf::logicalConstructor(r));
+        retval << ArrayOf::logicalConstructor(r);
     } else {
         Error(_W("#2 parameter invalid: 'minimize' parameter expected."));
     }
@@ -138,7 +138,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!r) {
             Error(_W("Command not sent.") + errorMessage);
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(result));
+        retval << ArrayOf::characterArrayConstructor(result);
     } break;
     case NELSON_INTERPROCESS_COMMAND::EVAL_ANSWER: {
         std::wstring command = param3.getContentAsWideString();
@@ -176,7 +176,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(result);
+        retval << result;
     } break;
     case NELSON_INTERPROCESS_COMMAND::IS_VAR: {
         if (nLhs > 1) {
@@ -192,7 +192,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(ArrayOf::logicalConstructor(result));
+        retval << ArrayOf::logicalConstructor(result);
     } break;
     default: {
         Error(_W(
@@ -257,7 +257,7 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(result);
+        retval << result;
     } break;
     case NELSON_INTERPROCESS_COMMAND::IS_VAR: {
         if (nLhs > 1) {
@@ -279,7 +279,7 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!errorMessage.empty()) {
             Error(errorMessage);
         }
-        retval.push_back(ArrayOf::logicalConstructor(result));
+        retval << ArrayOf::logicalConstructor(result);
     } break;
     case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
         if (nLhs != 0) {

@@ -42,7 +42,7 @@ Nelson::GraphicsGateway::graphic_object_horzcat_graphic_objectBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(HorzCatGO(A, B));
+    retval << HorzCatGO(A, B);
     return retval;
 }
 //=============================================================================

@@ -107,7 +107,7 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         } else {
             if (nLhs > 0) {
                 Dimensions dims(0, 0);
-                retval.push_back(ArrayOf::emptyConstructor(dims));
+                retval << ArrayOf::emptyConstructor(dims);
             }
         }
     }

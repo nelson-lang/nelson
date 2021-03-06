@@ -157,7 +157,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         wstringVector branches = RepositoryBranchList(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval.push_back(ToCellStringAsColumn(branches));
+            retval << ToCellStringAsColumn(branches);
         }
     } else if (command == L"tag") {
         if (nLhs > 1) {
@@ -169,7 +169,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         wstringVector branches = RepositoryTagList(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval.push_back(ToCellStringAsColumn(branches));
+            retval << ToCellStringAsColumn(branches);
         }
     } else if (command == L"remove_branch") {
         if (nLhs > 0) {
@@ -209,7 +209,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         ArrayOf logs = RepositoryLog(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval.push_back(logs);
+            retval << logs;
         }
     } else if (command == L"current_branch") {
         if (nLhs > 1) {
@@ -221,7 +221,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         std::wstring currentBranchName = RepositoryGetCurrentBranchName(localPath, errorMessage);
         if (errorMessage.empty()) {
-            retval.push_back(ArrayOf::characterArrayConstructor(currentBranchName));
+            retval << ArrayOf::characterArrayConstructor(currentBranchName);
         }
     } else {
         Error(_W("Wrong value for #1 argument."));

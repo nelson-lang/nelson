@@ -143,7 +143,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
         }
-        retval.push_back(Prod(X, d, strtype, withnan));
+        retval << Prod(X, d, strtype, withnan);
     }
     return retval;
 }

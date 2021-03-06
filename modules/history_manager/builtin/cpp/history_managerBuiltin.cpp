@@ -39,9 +39,9 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
     ArrayOfVector retval;
     if (argIn.empty()) {
         if (eval->HistoryManager) {
-            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
+            retval << ArrayOf::characterArrayConstructor(L"on");
         } else {
-            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
+            retval << ArrayOf::characterArrayConstructor(L"off");
         }
     } else if (argIn.size() == 1) {
         if (argIn[0].isCharacterArray()) {
@@ -67,9 +67,9 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
                 Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
             if (bOldMode) {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
+                retval << ArrayOf::characterArrayConstructor(L"on");
             } else {
-                retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
+                retval << ArrayOf::characterArrayConstructor(L"off");
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

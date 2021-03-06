@@ -51,9 +51,9 @@ Nelson::FilesFoldersGateway::rmdirBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error(errorMessage);
             }
         } else {
-            retval.push_back(ArrayOf::logicalConstructor(res));
+            retval << ArrayOf::logicalConstructor(res);
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
+                retval << ArrayOf::characterArrayConstructor(errorMessage);
             } else {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }

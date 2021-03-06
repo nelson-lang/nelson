@@ -32,14 +32,14 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TypeGateway::iscellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_CELL_ARRAY));
+    ArrayOfVector retval(1);
+    retval << ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_CELL_ARRAY);
     return retval;
 }
 //=============================================================================

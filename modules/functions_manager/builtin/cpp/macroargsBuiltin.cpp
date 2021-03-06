@@ -50,9 +50,9 @@ Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nLhs, const Arra
     wstringVector Outputs;
     bool bOK = MacroArguments(eval, wfunctionname, Inputs, Outputs);
     if (bOK) {
-        retval.push_back(ToCellStringAsColumn(Inputs));
+        retval << ToCellStringAsColumn(Inputs);
         if (nLhs > 1) {
-            retval.push_back(ToCellStringAsColumn(Outputs));
+            retval << ToCellStringAsColumn(Outputs);
         }
     } else {
         Error(_W("function macro name not found."));

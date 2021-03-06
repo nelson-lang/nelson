@@ -61,7 +61,7 @@ Nelson::ElementaryFunctionsGateway::bin2decBuiltin(
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "bin2dec");
             } else {
-                retval.push_back(res);
+                retval << res;
             }
         }
     }
@@ -99,7 +99,7 @@ Nelson::ElementaryFunctionsGateway::hex2decBuiltin(
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "hex2dec");
             } else {
-                retval.push_back(res);
+                retval << res;
             }
         }
     }
@@ -137,7 +137,7 @@ Nelson::ElementaryFunctionsGateway::base2decBuiltin(
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "base2dec");
             } else {
-                retval.push_back(res);
+                retval << res;
             }
         }
     }

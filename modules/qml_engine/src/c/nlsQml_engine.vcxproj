@@ -93,7 +93,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -112,7 +112,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -133,7 +133,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -156,7 +156,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>

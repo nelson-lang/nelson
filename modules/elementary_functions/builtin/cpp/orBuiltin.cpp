@@ -37,7 +37,7 @@ Nelson::ElementaryFunctionsGateway::orBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(eval->orOperator(A, B));
+    retval << eval->orOperator(A, B);
     return retval;
 }
 //=============================================================================

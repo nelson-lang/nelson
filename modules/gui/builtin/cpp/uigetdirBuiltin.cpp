@@ -58,9 +58,9 @@ Nelson::GuiGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     bool bCancelled = UiGetDirectory(pathOrigin, title, pathSelected);
     if (bCancelled) {
-        retval.push_back(ArrayOf::doubleConstructor(0));
+        retval << ArrayOf::doubleConstructor(0);
     } else {
-        retval.push_back(ArrayOf::characterArrayConstructor(pathSelected));
+        retval << ArrayOf::characterArrayConstructor(pathSelected);
     }
     return retval;
 }

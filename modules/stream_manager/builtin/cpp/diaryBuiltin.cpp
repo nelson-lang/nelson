@@ -94,12 +94,12 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             std::wstring param2 = argIn[1].getContentAsWideString();
             if (param2.compare(L"Diary") == 0) {
                 if (io->diary.getState()) {
-                    retval.push_back(ArrayOf::characterArrayConstructor("on"));
+                    retval << ArrayOf::characterArrayConstructor("on");
                 } else {
-                    retval.push_back(ArrayOf::characterArrayConstructor("off"));
+                    retval << ArrayOf::characterArrayConstructor("off");
                 }
             } else if (param2.compare(L"DiaryFile") == 0) {
-                retval.push_back(ArrayOf::characterArrayConstructor(io->diary.getFilename()));
+                retval << ArrayOf::characterArrayConstructor(io->diary.getFilename());
             } else {
                 Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }

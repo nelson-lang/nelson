@@ -395,85 +395,85 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             } catch (const std::bad_alloc&) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
-            retval.push_back(ArrayOf::handleConstructor(obj));
+            retval << ArrayOf::handleConstructor(obj);
         }
     } else if (_returnType == L"logical") {
         logical returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::logicalConstructor(returnedValue));
+            retval << ArrayOf::logicalConstructor(returnedValue);
         }
     } else if (_returnType == L"uint8") {
         static uint8_t returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::uint8Constructor(returnedValue));
+            retval << ArrayOf::uint8Constructor(returnedValue);
         }
     } else if (_returnType == L"int8") {
         static int8_t returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::int8Constructor(returnedValue));
+            retval << ArrayOf::int8Constructor(returnedValue);
         }
     } else if (_returnType == L"uint16") {
         static uint16 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::uint16Constructor(returnedValue));
+            retval << ArrayOf::uint16Constructor(returnedValue);
         }
     } else if (_returnType == L"int16") {
         static int16 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::int16Constructor(returnedValue));
+            retval << ArrayOf::int16Constructor(returnedValue);
         }
     } else if (_returnType == L"uint32") {
         static uint32 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::uint32Constructor(returnedValue));
+            retval << ArrayOf::uint32Constructor(returnedValue);
         }
     } else if (_returnType == L"int32") {
         static int32 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::int32Constructor(returnedValue));
+            retval << ArrayOf::int32Constructor(returnedValue);
         }
     } else if (_returnType == L"uint64") {
         static uint64 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::uint64Constructor(returnedValue));
+            retval << ArrayOf::uint64Constructor(returnedValue);
         }
     } else if (_returnType == L"int64") {
         static int64 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::int64Constructor(returnedValue));
+            retval << ArrayOf::int64Constructor(returnedValue);
         }
     } else if ((_returnType == L"float") || (_returnType == L"single")) {
         static single returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::singleConstructor(returnedValue));
+            retval << ArrayOf::singleConstructor(returnedValue);
         }
     } else if (_returnType == L"double") {
         static double returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::doubleConstructor(returnedValue));
+            retval << ArrayOf::doubleConstructor(returnedValue);
         }
     } else if (_returnType == L"cstring") {
         char* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
+            retval << ArrayOf::characterArrayConstructor(returnedValue);
         }
     } else if (_returnType == L"wstring") {
         wchar_t* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > (int)retval.size()) {
-            retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
+            retval << ArrayOf::characterArrayConstructor(returnedValue);
         }
     } else {
         int dummy;
@@ -490,7 +490,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                     = (LibPointerObject*)params[i].getContentAsHandleScalar();
                 ArrayOf retValue;
                 objLibPointer->get(L"Value", retValue);
-                retval.push_back(retValue);
+                retval << retValue;
             } else {
                 void* arrayPtr = ArrayOf::allocateArrayOf(
                     params[i].getDataClass(), params[i].getElementCount(), stringVector(), false);
@@ -498,8 +498,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                     memcpy(arrayPtr, refPointers[k],
                         params[i].getElementCount() * params[i].getElementSize());
                 }
-                retval.push_back(
-                    ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));
+                retval << ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr);
             }
         }
     }

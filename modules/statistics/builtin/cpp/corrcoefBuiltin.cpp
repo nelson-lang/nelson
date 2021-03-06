@@ -50,7 +50,7 @@ Nelson::StatisticsGateway::corrcoefBuiltin(Evaluator* eval, int nLhs, const Arra
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "corr");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

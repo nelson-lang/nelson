@@ -39,7 +39,7 @@ Nelson::EngineGateway::isquietmodeBuiltin(Evaluator* eval, int nLhs, const Array
     if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::logicalConstructor(eval->isQuietMode()));
+    retval << ArrayOf::logicalConstructor(eval->isQuietMode());
     return retval;
 }
 //=============================================================================

@@ -56,18 +56,18 @@ Nelson::InterpreterGateway::parsestringBuiltin(
     }
     switch (parserState) {
     case ScriptBlock: {
-        retval.push_back(ArrayOf::characterArrayConstructor("script"));
+        retval << ArrayOf::characterArrayConstructor("script");
     } break;
     case FuncDef: {
         MacroFunctionDef* cp = getParsedFunctionDef();
         if (cp) {
-            retval.push_back(ArrayOf::characterArrayConstructor("function"));
+            retval << ArrayOf::characterArrayConstructor("function");
         } else {
-            retval.push_back(ArrayOf::characterArrayConstructor("script"));
+            retval << ArrayOf::characterArrayConstructor("script");
         }
     } break;
     default: {
-        retval.push_back(ArrayOf::characterArrayConstructor("error"));
+        retval << ArrayOf::characterArrayConstructor("error");
     } break;
     }
     return retval;

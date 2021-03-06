@@ -52,7 +52,7 @@ Nelson::FileArchiverGateway::zipBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     Zip(zipFilename, names, rootPath, filenames);
     if (nLhs > 0) {
-        retval.push_back(ToCellStringAsRow(filenames));
+        retval << ToCellStringAsRow(filenames);
     }
     return retval;
 }

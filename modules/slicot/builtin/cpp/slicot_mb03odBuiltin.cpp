@@ -134,22 +134,22 @@ Nelson::SlicotGateway::slicot_mb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 1) {
-        retval.push_back(JPVT_output);
+        retval << JPVT_output;
     }
     if (nLhs > 2) {
-        retval.push_back(TAU_output);
+        retval << TAU_output;
     }
     if (nLhs > 3) {
-        retval.push_back(RANK_output);
+        retval << RANK_output;
     }
     if (nLhs > 4) {
-        retval.push_back(SVAL_output);
+        retval << SVAL_output;
     }
     if (nLhs > 5) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

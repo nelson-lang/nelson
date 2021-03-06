@@ -52,7 +52,7 @@ Nelson::ElementaryFunctionsGateway::swapbytesBuiltin(
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "swapbytes");
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

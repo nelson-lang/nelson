@@ -47,7 +47,7 @@ Nelson::Hdf5Gateway::h5readattBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring filename = param1.getContentAsWideString();
     std::wstring location = param2.getContentAsWideString();
     std::wstring attribute = param3.getContentAsWideString();
-    retval.push_back(h5ReadAttribute(filename, location, attribute));
+    retval << h5ReadAttribute(filename, location, attribute);
     return retval;
 }
 //=============================================================================

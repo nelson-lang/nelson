@@ -45,7 +45,7 @@ Nelson::Hdf5Gateway::h5loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     ArrayOf st = h5Load(eval, filename, names, nLhs == 1);
     if (nLhs == 1) {
-        retval.push_back(st);
+        retval << st;
     }
     return retval;
 }

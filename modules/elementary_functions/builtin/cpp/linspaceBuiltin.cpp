@@ -146,7 +146,7 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(
             res = linspaceReal<double>(destinationClass, startValue, endValue, n);
         }
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

@@ -101,7 +101,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         } else {
             ArrayOf v = Who(eval, filename, names, nLhs == 1);
             if (nLhs == 1) {
-                retval.push_back(v);
+                retval << v;
             }
             return retval;
         }
@@ -130,7 +130,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             io->outputMessage("\n");
         }
     } else {
-        retval.push_back(ToCellStringAsColumn(variablesName));
+        retval << ToCellStringAsColumn(variablesName);
     }
     return retval;
 }

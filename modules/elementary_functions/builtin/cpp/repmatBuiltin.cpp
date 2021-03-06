@@ -127,7 +127,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         } else {
             res = ArrayOf(classx, outdims, dp);
         }
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

@@ -95,16 +95,16 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
-        retval.push_back(MAXRED_output);
+        retval << MAXRED_output;
     }
     if (nLhs > 1) {
-        retval.push_back(A_output);
+        retval << A_output;
     }
     if (nLhs > 2) {
-        retval.push_back(SCALE_output);
+        retval << SCALE_output;
     }
     if (nLhs > 3) {
-        retval.push_back(INFO_output);
+        retval << INFO_output;
     }
     return retval;
 }

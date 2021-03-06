@@ -48,9 +48,9 @@ sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             || (A.is2D()
                    && ((A.getDataClass() == NLS_DOUBLE) || (A.getDataClass() == NLS_DCOMPLEX)
                           || (A.getDataClass() == NLS_LOGICAL)))) {
-            retval.push_back(SparseConstructor(A));
+            retval << SparseConstructor(A);
         } else {
-            retval.push_back(OverloadUnaryOperator(eval, A, "sparse"));
+            retval << OverloadUnaryOperator(eval, A, "sparse");
         }
     }
     return retval;
@@ -66,8 +66,8 @@ sparseBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf N = argIn[1];
     indexType m = M.getContentAsScalarIndex();
     indexType n = N.getContentAsScalarIndex();
-    ArrayOfVector retval;
-    retval.push_back(SparseConstructor(m, n));
+    ArrayOfVector retval(1);
+    retval << SparseConstructor(m, n);
     return retval;
 }
 //=============================================================================
@@ -84,13 +84,12 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (I.isVector() && J.isVector() && V.isVector()
             || I.isScalar() && J.isScalar() && V.isScalar() || I.isEmpty() || J.isEmpty()
             || V.isEmpty()) {
-            retval.push_back(SparseConstructor(I, J, V));
+            retval << SparseConstructor(I, J, V);
         } else {
             Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
     } else {
-        ArrayOf r = OverloadUnaryOperator(eval, argIn[2], "sparse");
-        retval.push_back(r);
+        retval << OverloadUnaryOperator(eval, argIn[2], "sparse");
     }
     return retval;
 }
@@ -119,13 +118,12 @@ sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             || V.getDataClass() == NLS_LOGICAL)
         && !V.isSparse()) {
         if (argIn.size() == 6) {
-            retval.push_back(SparseConstructor(I, J, V, m, n, nnz));
+            retval << SparseConstructor(I, J, V, m, n, nnz);
         } else {
-            retval.push_back(SparseConstructor(I, J, V, m, n));
+            retval << SparseConstructor(I, J, V, m, n);
         }
     } else {
-        ArrayOf r = OverloadUnaryOperator(eval, argIn[2], "sparse");
-        retval.push_back(r);
+        retval << OverloadUnaryOperator(eval, argIn[2], "sparse");
     }
     return retval;
 }

@@ -46,7 +46,7 @@ Nelson::TypeGateway::issingleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (!bSuccess) {
         bool bRes
             = (argIn[0].getDataClass() == NLS_SINGLE || argIn[0].getDataClass() == NLS_SCOMPLEX);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval << ArrayOf::logicalConstructor(bRes);
     }
     return retval;
 }

@@ -32,13 +32,13 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     TestTags tags;
     ArrayOf param1 = argIn[0];
     std::wstring value = param1.getContentAsWideString();
@@ -91,8 +91,7 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     fieldnames.push_back(L"ipc_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIpcRequired()));
 
-    ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
-    retval.push_back(stack);
+    retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     return retval;
 }
 //=============================================================================

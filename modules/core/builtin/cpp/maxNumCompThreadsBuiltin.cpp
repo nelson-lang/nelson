@@ -39,7 +39,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
     unsigned int currentValue = getMaxNumCompThreads();
     switch (argIn.size()) {
     case 0: {
-        retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(currentValue)));
+        retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));
     } break;
     case 1: {
         ArrayOf param1 = argIn[0];
@@ -54,7 +54,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
             indexType N = param1.getContentAsScalarIndex(false);
             setMaxNumCompThreads(static_cast<unsigned int>(N));
         }
-        retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(currentValue)));
+        retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

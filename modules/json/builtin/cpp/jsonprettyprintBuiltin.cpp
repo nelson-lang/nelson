@@ -53,10 +53,7 @@ Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const Arr
                 return retval;
             }
         }
-        ArrayOf param1 = argIn[0];
-        std::wstring jsonString = param1.getContentAsWideString();
-        ArrayOf res = jsonPrettyPrint(jsonString);
-        retval.push_back(res);
+        retval << jsonPrettyPrint(argIn[0].getContentAsWideString());
     }
     return retval;
 }

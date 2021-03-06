@@ -32,7 +32,6 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::FunctionHandleGateway::function_handle_isequalBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -41,8 +40,8 @@ Nelson::FunctionHandleGateway::function_handle_isequalBuiltin(int nLhs, const Ar
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    bool bRes = FunctionHandleIsEqual(arg1, arg2);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    ArrayOfVector retval(1);
+    retval << ArrayOf::logicalConstructor(FunctionHandleIsEqual(arg1, arg2));
     return retval;
 }
 //=============================================================================

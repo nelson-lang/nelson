@@ -56,7 +56,7 @@ Nelson::StringGateway::replaceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 Error(_W("Invalid input argument(s): cell or string expected."));
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

@@ -49,7 +49,7 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

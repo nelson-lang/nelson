@@ -47,7 +47,7 @@ Nelson::DynamicLinkGateway::libpointer_plusBuiltin(int nLhs, const ArrayOfVector
     auto* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     indexType offset = param2.getContentAsScalarIndex(true);
-    retval.push_back(ArrayOf::handleConstructor(objLibPointer->plus(offset)));
+    retval << ArrayOf::handleConstructor(objLibPointer->plus(offset));
     return retval;
 }
 //=============================================================================

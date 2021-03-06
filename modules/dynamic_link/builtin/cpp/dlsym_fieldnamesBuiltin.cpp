@@ -47,8 +47,7 @@ Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
         Error(_W("dlsym handle expected."));
     }
     auto* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
-    wstringVector fieldnames = objDlsym->fieldnames();
-    retval.push_back(ToCellStringAsColumn(fieldnames));
+    retval << ToCellStringAsColumn(objDlsym->fieldnames());
     return retval;
 }
 //=============================================================================

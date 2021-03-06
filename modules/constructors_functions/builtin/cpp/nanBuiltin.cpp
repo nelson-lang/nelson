@@ -34,11 +34,11 @@ Nelson::ConstructorsGateway::nanBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     uint32 m = 1;
     uint32 n = 1;
-    ArrayOfVector retval;
     ArrayOf p;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    ArrayOfVector retval(1);
     if (argIn.empty()) {
         m = 1;
         n = 1;
@@ -51,8 +51,7 @@ Nelson::ConstructorsGateway::nanBuiltin(int nLhs, const ArrayOfVector& argIn)
         p = argIn[1];
         n = p.getContentAsInteger32Scalar();
     }
-    ArrayOf Mat = NaN(m, n);
-    retval.push_back(Mat);
+    retval << NaN(m, n);
     return retval;
 }
 //=============================================================================

@@ -45,7 +45,7 @@ Nelson::MatioGateway::loadmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     ArrayOf st = LoadMatioFile(eval, filename, names, nLhs == 1);
     if (nLhs == 1) {
-        retval.push_back(st);
+        retval << st;
     }
     return retval;
 }

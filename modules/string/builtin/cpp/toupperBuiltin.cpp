@@ -55,7 +55,7 @@ Nelson::StringGateway::toupperBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

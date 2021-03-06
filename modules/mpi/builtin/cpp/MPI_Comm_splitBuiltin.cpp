@@ -55,7 +55,7 @@ Nelson::MpiGateway::MPI_Comm_splitBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (MPI_Comm_split(comm, color, key, &newcomm) != MPI_SUCCESS) {
         Error(_W("MPI_Comm_split fails."));
     }
-    retval.push_back(MpiCommToHandle(newcomm));
+    retval << MpiCommToHandle(newcomm);
     return retval;
 }
 //=============================================================================

@@ -48,7 +48,7 @@ Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(int nLhs, const ArrayOf
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objLibPointer->fieldnames();
-    retval.push_back(ToCellStringAsColumn(fieldnames));
+    retval << ToCellStringAsColumn(fieldnames);
     return retval;
 }
 //=============================================================================

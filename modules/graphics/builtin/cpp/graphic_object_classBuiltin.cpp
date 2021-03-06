@@ -72,7 +72,7 @@ Nelson::GraphicsGateway::graphic_object_classBuiltin(int nLhs, const ArrayOfVect
             }
         }
     }
-    retval.push_back(ArrayOf::characterArrayConstructor(classType));
+    retval << ArrayOf::characterArrayConstructor(classType);
     return retval;
 }
 //=============================================================================

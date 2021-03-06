@@ -34,7 +34,6 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -95,6 +94,6 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!res) {
         Error(errorMessage);
     }
-    return retval;
+    return ArrayOfVector();
 }
 //=============================================================================

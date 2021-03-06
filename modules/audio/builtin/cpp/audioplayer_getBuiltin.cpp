@@ -43,7 +43,7 @@ Nelson::AudioGateway::audioplayer_getBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
@@ -52,7 +52,7 @@ Nelson::AudioGateway::audioplayer_getBuiltin(int nLhs, const ArrayOfVector& argI
     if (!objPlayer->get(propertyName, res)) {
         Error(ERROR_WRONG_ARGUMENT_2_VALUE);
     }
-    retval.push_back(res);
+    retval << res;
     return retval;
 }
 //=============================================================================

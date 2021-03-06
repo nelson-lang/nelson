@@ -62,7 +62,7 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVecto
         }
         NelsonPrint(msg);
     } else {
-        retval.push_back(ToCellStringAsColumn(fieldnames));
+        retval << ToCellStringAsColumn(fieldnames);
     }
     return retval;
 }

@@ -37,7 +37,7 @@ Nelson::ElementaryFunctionsGateway::horzcatBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(HorzCatOperator(eval, argIn));
+    retval << HorzCatOperator(eval, argIn);
     return retval;
 }
 //=============================================================================

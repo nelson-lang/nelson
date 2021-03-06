@@ -53,7 +53,7 @@ Nelson::ElementaryFunctionsGateway::imagBuiltin(
                 return retval;
             }
         }
-        retval.push_back(ImagPart(argIn[0]));
+        retval << ImagPart(argIn[0]);
     }
     return retval;
 }

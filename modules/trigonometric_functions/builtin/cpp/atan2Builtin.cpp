@@ -55,7 +55,7 @@ Nelson::TrigonometricGateway::atan2Builtin(Evaluator* eval, int nLhs, const Arra
                 OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
 

@@ -56,8 +56,8 @@ SingleFindModeFull(ArrayOf x)
         retDim.setDimensionLength(0, nonZero);
         retDim.setDimensionLength(1, 1);
     }
-    ArrayOfVector retval;
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op));
+    ArrayOfVector retval(1);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op);
     return retval;
 }
 //=============================================================================
@@ -91,9 +91,9 @@ RCFindModeFull(ArrayOf x)
         retDim.setDimensionLength(0, nonZero);
         retDim.setDimensionLength(1, 1);
     }
-    ArrayOfVector retval;
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op_row));
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op_col));
+    ArrayOfVector retval(2);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op_row);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op_col);
     return retval;
 }
 //=============================================================================
@@ -129,11 +129,10 @@ RCVFindModeFullReal(const ArrayOf& x)
         retDim.setDimensionLength(0, nonZero);
         retDim.setDimensionLength(1, 1);
     }
-    ArrayOfVector retval;
-    retval.reserve(3);
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op_row));
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op_col));
-    retval.push_back(ArrayOf(x.getDataClass(), retDim, op_val));
+    ArrayOfVector retval(3);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op_row);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op_col);
+    retval << ArrayOf(x.getDataClass(), retDim, op_val);
     return retval;
 }
 //=============================================================================
@@ -171,11 +170,10 @@ RCVFindModeFullComplex(const ArrayOf& x)
         retDim.setDimensionLength(0, nonZero);
         retDim.setDimensionLength(1, 1);
     }
-    ArrayOfVector retval;
-    retval.reserve(3);
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op_row));
-    retval.push_back(ArrayOf(NLS_DOUBLE, retDim, op_col));
-    retval.push_back(ArrayOf(x.getDataClass(), retDim, op_val));
+    ArrayOfVector retval(3);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op_row);
+    retval << ArrayOf(NLS_DOUBLE, retDim, op_col);
+    retval << ArrayOf(x.getDataClass(), retDim, op_val);
     return retval;
 }
 //=============================================================================

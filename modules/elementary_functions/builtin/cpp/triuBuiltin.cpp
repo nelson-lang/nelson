@@ -63,7 +63,7 @@ Nelson::ElementaryFunctionsGateway::triuBuiltin(
     if (needToOverload) {
         retval = OverloadFunction(eval, nLhs, argIn, "triu");
     } else {
-        retval.push_back(res);
+        retval << res;
     }
     return retval;
 }

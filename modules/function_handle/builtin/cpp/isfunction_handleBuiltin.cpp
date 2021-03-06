@@ -41,9 +41,9 @@ Nelson::FunctionHandleGateway::isfunction_handleBuiltin(int nLhs, const ArrayOfV
     }
     ArrayOf arg1 = argIn[0];
     if (arg1.isFunctionHandle()) {
-        retval.push_back(ArrayOf::logicalConstructor(true));
+        retval << ArrayOf::logicalConstructor(true);
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(false));
+        retval << ArrayOf::logicalConstructor(false);
     }
     return retval;
 }

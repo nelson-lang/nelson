@@ -36,7 +36,7 @@ Nelson::GraphicsGateway::graphic_object_isvalidBuiltin(int nLhs, const ArrayOfVe
     ArrayOfVector retval;
     ArrayOf paramGo = argIn[0];
     if (paramGo.getDataClass() != NLS_GO_HANDLE) {
-        retval.push_back(ArrayOf::logicalConstructor(false));
+        retval << ArrayOf::logicalConstructor(false);
     }
     Dimensions dims = paramGo.getDimensions();
     logical* res = (logical*)ArrayOf::allocateArrayOf(
@@ -55,7 +55,7 @@ Nelson::GraphicsGateway::graphic_object_isvalidBuiltin(int nLhs, const ArrayOfVe
             }
         }
     }
-    retval.push_back(values);
+    retval << values;
     return retval;
 }
 //=============================================================================

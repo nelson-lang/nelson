@@ -41,7 +41,7 @@ Nelson::TimeGateway::ticBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     }
     Tic(eval);
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::uint64Constructor(eval->TimerValue));
+        retval << ArrayOf::uint64Constructor(eval->TimerValue);
         eval->TimerValue = static_cast<uint64>(0);
     }
     return retval;

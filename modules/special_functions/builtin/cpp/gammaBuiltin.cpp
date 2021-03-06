@@ -51,7 +51,7 @@ Nelson::SpecialFunctionsGateway::gammaBuiltin(Evaluator* eval, int nLhs, const A
             Error(_W("Input argument must be dense and real."));
         }
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
-            retval.push_back(Gamma(argIn[0]));
+            retval << Gamma(argIn[0]);
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "gamma");
         }

@@ -45,7 +45,7 @@ Nelson::MpiGateway::MPI_FinalizeBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(_W("MPI must be initialized."));
     }
     int flag = MPI_Finalize();
-    retval.push_back(ArrayOf::logicalConstructor(flag));
+    retval << ArrayOf::logicalConstructor(flag);
     return retval;
 }
 //=============================================================================

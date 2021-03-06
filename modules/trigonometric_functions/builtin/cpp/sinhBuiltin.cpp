@@ -55,7 +55,7 @@ Nelson::TrigonometricGateway::sinhBuiltin(Evaluator* eval, int nLhs, const Array
                     + ClassName(argIn[0]) + "'.");
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

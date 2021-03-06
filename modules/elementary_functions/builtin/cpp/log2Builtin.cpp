@@ -49,7 +49,7 @@ Nelson::ElementaryFunctionsGateway::log2Builtin(
     if (!bSuccess) {
         bool needToOverload;
         if (nLhs < 2) {
-            retval.push_back(Logarithm2(argIn[0], needToOverload));
+            retval << Logarithm2(argIn[0], needToOverload);
         } else {
             retval = Frexp(argIn[0], needToOverload);
         }

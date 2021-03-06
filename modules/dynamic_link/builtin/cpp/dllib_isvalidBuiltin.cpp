@@ -40,7 +40,7 @@ Nelson::DynamicLinkGateway::dllib_isvalidBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    retval.push_back(IsValidHandle(eval, argIn[0]));
+    retval << IsValidHandle(eval, argIn[0]);
     return retval;
 }
 //=============================================================================

@@ -47,8 +47,7 @@ Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
         Error(_W("dllib handle expected."));
     }
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
-    wstringVector fieldnames = objDllib->fieldnames();
-    retval.push_back(ToCellStringAsColumn(fieldnames));
+    retval << ToCellStringAsColumn(objDllib->fieldnames());
     return retval;
 }
 //=============================================================================

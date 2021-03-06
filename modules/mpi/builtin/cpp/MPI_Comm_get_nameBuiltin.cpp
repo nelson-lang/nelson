@@ -46,8 +46,7 @@ Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(int nLhs, const ArrayOfVector& argI
     if (!flagInit) {
         Error(_W("MPI must be initialized."));
     }
-    MPI_Comm comm = HandleToMpiComm(argIn[0]);
-    retval.push_back(ArrayOf::characterArrayConstructor(getMpiCommName(comm)));
+    retval << ArrayOf::characterArrayConstructor(getMpiCommName(HandleToMpiComm(argIn[0])));
     return retval;
 }
 //=============================================================================

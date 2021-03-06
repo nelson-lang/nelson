@@ -63,7 +63,7 @@ Nelson::ElementaryFunctionsGateway::fliplrBuiltin(
                 }
             }
         } else {
-            retval.push_back(res);
+            retval << res;
         }
     }
     return retval;

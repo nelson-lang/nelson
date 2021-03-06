@@ -38,11 +38,11 @@ Nelson::ComEngineGateway::actxGetRunningServerBuiltin(int nLhs, const ArrayOfVec
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
+    ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     std::wstring progId = param1.getContentAsWideString();
     ComHandleObject* comhandle = GetRunningActiveXServer(progId);
-    retval.push_back(ArrayOf::handleConstructor(comhandle));
+    retval << ArrayOf::handleConstructor(comhandle);
     return retval;
 }
 //=============================================================================

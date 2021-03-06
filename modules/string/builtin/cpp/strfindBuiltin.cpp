@@ -93,16 +93,16 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                     elements[k] = StringFind(
                                         A.getContentAsWideString(), B.getContentAsWideString());
                                 }
-                                retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
+                                retval << ArrayOf(NLS_CELL_ARRAY, dimA, elements);
                             } else {
-                                retval.push_back(StringFind(
-                                    A.getContentAsWideString(), B.getContentAsWideString()));
+                                retval << StringFind(
+                                    A.getContentAsWideString(), B.getContentAsWideString());
                             }
                         } else {
                             Error(_W("Second argument a single string expected."));
                         }
                     } else {
-                        retval.push_back(ArrayOf::emptyConstructor());
+                        retval << ArrayOf::emptyConstructor();
                     }
                 } else if (A.isCell() || A.isStringArray()) {
                     Dimensions dimA = A.getDimensions();
@@ -138,10 +138,10 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                             }
                         }
                     }
-                    retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
+                    retval << ArrayOf(NLS_CELL_ARRAY, dimA, elements);
                 } else if (A.isNumeric()) {
                     if ((A.isRowVector() && !A.isEmpty()) || A.isScalar() || A.isEmpty(true)) {
-                        retval.push_back(ArrayOf::emptyConstructor());
+                        retval << ArrayOf::emptyConstructor();
                     } else {
                         Error(_W("Input strings must have one row."));
                     }
