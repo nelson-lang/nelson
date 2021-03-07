@@ -1739,8 +1739,8 @@ Evaluator::debugCLI()
 void
 Evaluator::handleDebug(int fullcontext)
 {
-    int linenumber = fullcontext & 0xffff;
     if (debugActive) {
+        int linenumber = fullcontext & 0xffff;
         if (inStepMode) {
             if ((stepTrap.cname == callstack.getLastContext()) && (stepTrap.tokid == linenumber)) {
                 // Finished stepping...
@@ -1800,12 +1800,21 @@ Evaluator::assignStatement(ASTPtr t, bool printIt)
     }
     std::string variableName = t->text;
     if (!isHandle) {
-        bool bInserted = context->insertVariable(variableName, b);
-        if (!bInserted) {
-            if (IsValidVariableName(variableName, true)) {
+        ArrayOf* var = context->lookupVariable(variableName);
+        if (var == nullptr) {
+            b.ensureSingleOwner();
+            bool bInserted = context->insertVariable(variableName, b);
+            if (!bInserted) {
+                if (IsValidVariableName(variableName, true)) {
+                    Error(_W("Redefining permanent variable."));
+                }
+                Error(_W("Valid variable name expected."));
+            }
+        } else {
+            if (context->isLockedVariable(variableName)) {
                 Error(_W("Redefining permanent variable."));
             }
-            Error(_W("Valid variable name expected."));
+            var->setValue(b);
         }
     }
     if (printIt) {

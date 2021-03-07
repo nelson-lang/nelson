@@ -619,7 +619,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         myDims = dp->dimensions;
         // Get a writable data pointer
-        void* qp = getReadWriteDataPointer();
+        void* qp = (void*)getDataPointer();
         indexType outDimsInt[maxDims];
         indexType srcDimsInt[maxDims];
         for (indexType i = 0; i < L; i++) {

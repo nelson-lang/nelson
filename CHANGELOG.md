@@ -4,6 +4,8 @@
 
 - for loop faster > x2.
 
+- assignment does not copy matrix. 
+
 - reworks ArrayOfVector (internal).
 
 - C++ API nargincheck, nargoutcheck helpers added.
