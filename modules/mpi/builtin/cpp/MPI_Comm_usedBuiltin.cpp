@@ -33,12 +33,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::MpiGateway::MPI_Comm_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     retval << usedHandle(MPI_COMM_CATEGORY_STR);
     return retval;

@@ -36,12 +36,8 @@ Nelson::ElementaryFunctionsGateway::findBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0 || argIn.size() > 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 3);
+    nargoutcheck(nLhs, 0, 3);
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "find", bSuccess);

@@ -59,12 +59,8 @@ ArrayOfVector
 Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 1 || argIn.size() > 4) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 4);
+    nargoutcheck(nLhs, 0, 1);
     std::wstring fileToRead = argIn[0].getContentAsWideString();
     bool bIsFile
         = boost::filesystem::exists(fileToRead) && !boost::filesystem::is_directory(fileToRead);

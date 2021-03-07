@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::HandleGateway::handle_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 3);
+    nargoutcheck(nLhs, 0, 1);
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "handle_set", bSuccess);
     if (!bSuccess) {

@@ -71,9 +71,7 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         std::wstring arg2 = argIn[1].getContentAsWideString();
         if (arg2.compare(L"errcatch") == 0) {
             bErrorCatch = true;
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 1);
         } else if (arg2.compare(L"nocatch") == 0) {
             bErrorCatch = false;
         } else {
@@ -97,18 +95,14 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     bool bChangeDir = true;
     std::wstring wpath;
     if (argIn[1].isLogical()) {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         bChangeDir = (argIn[1].getContentAsLogicalScalar() == 0) ? false : true;
     } else {
         if (argIn[1].isRowVectorCharacterArray()) {
             std::wstring arg2 = argIn[1].getContentAsWideString();
             if (arg2.compare(L"errcatch") == 0) {
                 bErrorCatch = true;
-                if (nLhs > 1) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0, 1);
             } else if (arg2.compare(L"nocatch") == 0) {
                 bErrorCatch = false;
             } else {
@@ -129,9 +123,7 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 static ArrayOfVector
 runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
     std::wstring wpath;
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();

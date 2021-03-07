@@ -33,34 +33,30 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (argIn.size() > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } else {
-        if (argIn.size() == 1) {
-            ArrayOf arg1 = argIn[0];
-            if (arg1.isRowVectorCharacterArray()) {
-                std::wstring str = arg1.getContentAsWideString();
-                if (str == L"reset") {
-                    eval->setLastErrorException(Exception());
-                } else {
-                    Error(_W("Wrong value for #2 input argument.") + _W("'reset' expected."));
-                }
-            } else if (arg1.isStruct()) {
-                Exception e;
-                if (IsErrorStruct(arg1, e)) {
-                    eval->setLastErrorException(e);
-                } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_VALUE);
-                }
+    ArrayOfVector retval(nLhs);
+    nargincheck(argIn, 0, 1);
+    if (argIn.size() == 1) {
+        ArrayOf arg1 = argIn[0];
+        if (arg1.isRowVectorCharacterArray()) {
+            std::wstring str = arg1.getContentAsWideString();
+            if (str == L"reset") {
+                eval->setLastErrorException(Exception());
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE
-                    + _W("a structure or the string 'reset' expected."));
+                Error(_W("Wrong value for #2 input argument.") + _W("'reset' expected."));
             }
+        } else if (arg1.isStruct()) {
+            Exception e;
+            if (IsErrorStruct(arg1, e)) {
+                eval->setLastErrorException(e);
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            }
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE + _W("a structure or the string 'reset' expected."));
         }
-        Exception lasterror = eval->getLastErrorException();
-        retval << ErrorToStruct(lasterror);
     }
+    Exception lasterror = eval->getLastErrorException();
+    retval << ErrorToStruct(lasterror);
     return retval;
 }
 //=============================================================================

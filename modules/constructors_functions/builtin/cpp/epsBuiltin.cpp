@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 0, 1);
     ArrayOfVector retval(1);
     if (argIn.empty()) {
         retval << ArrayOf::doubleConstructor(Epsilon(1.0));

@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (!((argIn.size() == 3) || (argIn.size() == 2))) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 2, 3);
     if (!argIn[0].isRowVectorCharacterArray()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

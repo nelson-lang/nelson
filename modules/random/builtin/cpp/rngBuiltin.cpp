@@ -54,9 +54,7 @@ ArrayOfVector
 Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
         if (eval->RandomEngine == nullptr) {

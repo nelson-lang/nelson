@@ -37,12 +37,8 @@ ArrayOfVector
 Nelson::MpiGateway::MPI_ReduceBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 3) || (argIn.size() > 4)) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 3, 4);
+    nargoutcheck(nLhs, 0, 1);
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {

@@ -36,9 +36,7 @@ ArrayOfVector
 Nelson::Hdf5Gateway::h5writeattBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
     indexType nbArgIn = argIn.size();
     if (!(nbArgIn == 4 || nbArgIn == 6)) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

@@ -40,16 +40,12 @@ ArrayOfVector
 Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 2);
     ArrayOf param1 = argIn[0];
     std::wstring errorMessage;
     std::wstring command = param1.getContentAsWideString();
     if (command == L"clone") {
-        if (nLhs > 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring url;
         std::wstring localPath;
         std::wstring branchOrTag;
@@ -96,9 +92,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         RepositoryClone(url, username, password, branchOrTag, localPath, errorMessage);
     } else if (command == L"export") {
-        if (nLhs > 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring url;
         std::wstring localPath;
         std::wstring branchOrTag;
@@ -138,55 +132,37 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         RepositoryExport(url, username, username, branchOrTag, localPath, errorMessage);
     } else if (command == L"checkout") {
-        if (nLhs > 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 3) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
+        nargincheck(argIn, 3, 3);
         std::wstring localPath = argIn[1].getContentAsWideString();
         std::wstring branchOrTag = argIn[2].getContentAsWideString();
         RepositoryCheckout(localPath, branchOrTag, errorMessage);
     } else if (command == L"branch") {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 2) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
+        nargincheck(argIn, 2, 2);
         std::wstring localPath = argIn[1].getContentAsWideString();
         wstringVector branches = RepositoryBranchList(localPath, errorMessage);
         if (errorMessage.empty()) {
             retval << ToCellStringAsColumn(branches);
         }
     } else if (command == L"tag") {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 2) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
+        nargincheck(argIn, 2, 2);
         std::wstring localPath = argIn[1].getContentAsWideString();
         wstringVector branches = RepositoryTagList(localPath, errorMessage);
         if (errorMessage.empty()) {
             retval << ToCellStringAsColumn(branches);
         }
     } else if (command == L"remove_branch") {
-        if (nLhs > 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 3) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
+        nargincheck(argIn, 3, 3);
         std::wstring localPath = argIn[1].getContentAsWideString();
         std::wstring branchName = argIn[2].getContentAsWideString();
         RepositoryRemoveBranch(localPath, branchName, errorMessage);
     } else if (command == L"fetch") {
         // repo('fetch', destination)
         // repo('fetch', destination, username, password)
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         bool checkNbArgsIn = (argIn.size() == 2) || (argIn.size() == 4);
         if (!checkNbArgsIn) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
@@ -200,24 +176,16 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring localPath = argIn[1].getContentAsWideString();
         RepositoryFetch(localPath, username, password, errorMessage);
     } else if (command == L"log") {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 2) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
+        nargincheck(argIn, 2, 2);
         std::wstring localPath = argIn[1].getContentAsWideString();
         ArrayOf logs = RepositoryLog(localPath, errorMessage);
         if (errorMessage.empty()) {
             retval << logs;
         }
     } else if (command == L"current_branch") {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
-        if (argIn.size() != 2) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
+        nargincheck(argIn, 2, 2);
         std::wstring localPath = argIn[1].getContentAsWideString();
         std::wstring currentBranchName = RepositoryGetCurrentBranchName(localPath, errorMessage);
         if (errorMessage.empty()) {

@@ -35,12 +35,8 @@ ArrayOfVector
 Nelson::Hdf5Gateway::h5readattBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 3, 3);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];

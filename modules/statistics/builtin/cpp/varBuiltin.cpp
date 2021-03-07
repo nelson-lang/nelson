@@ -36,13 +36,8 @@ Nelson::StatisticsGateway::varBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     bool bSuccess = false;
-    bool nArgInSupported = argIn.size() > 0 && argIn.size() < 4;
-    if (!nArgInSupported) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 4);
+    nargoutcheck(nLhs, 0, 1);
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "var", bSuccess);
     }

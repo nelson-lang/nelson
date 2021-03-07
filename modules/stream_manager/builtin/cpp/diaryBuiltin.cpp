@@ -49,19 +49,13 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring param = argIn[0].getContentAsWideString();
             if (param.compare(L"on") == 0) {
-                if (nLhs != 0) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0);
                 io->diary.setState(true);
             } else if (param.compare(L"off") == 0) {
-                if (nLhs != 0) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0);
                 io->diary.setState(false);
             } else {
-                if (nLhs != 0) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0);
                 bool bRes = io->diary.SetFilename(param);
                 if (!bRes) {
                     Error(_W("Error using diary."));
@@ -76,17 +70,12 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             return retval;
         }
     } else if (argIn.empty()) {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         io->diary.toggle();
     } else if (argIn.size() == 2) {
         // get
         if ((argIn[0].isRowVectorCharacterArray()) && (argIn[1].isRowVectorCharacterArray())) {
-            bool bLhs = (nLhs == 0) || (nLhs == 1);
-            if (!bLhs) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 1);
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"get") != 0) {
                 Error(_W("#1 Argument \'get\' expected."));

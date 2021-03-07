@@ -34,12 +34,8 @@ Nelson::ElementaryFunctionsGateway::dispBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
     OverloadDisplay(eval, argIn[0], true);
     return retval;
 }

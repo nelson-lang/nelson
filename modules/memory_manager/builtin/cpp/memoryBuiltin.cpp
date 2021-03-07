@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::MemoryGateway::memoryBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (!argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 2);
+    nargincheck(argIn, 0, 0);
     if (nLhs == 0) {
         std::wstring msg;
         unsigned int val;

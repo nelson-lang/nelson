@@ -50,12 +50,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_ab08ndBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 11) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 9) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 11);
+    nargincheck(argIn, 9, 9);
     // INPUT VARIABLES
     ArrayOf EQUIL = argIn[0];
     Dimensions dimsEQUIL = EQUIL.getDimensions();

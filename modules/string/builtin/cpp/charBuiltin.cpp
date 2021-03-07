@@ -36,12 +36,8 @@ ArrayOfVector
 Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1);
     // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
@@ -57,9 +53,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
         switch (argIn[0].getDataClass()) {
         case NLS_STRING_ARRAY: {
-            if (argIn.size() != 1) {
-                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-            }
+            nargincheck(argIn, 1, 1);
             retval << ArrayOf::stringArrayToCharacterArray(argIn[0], false);
         } break;
         case NLS_CHAR: {

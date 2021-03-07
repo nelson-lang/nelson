@@ -32,9 +32,7 @@ ArrayOfVector
 Nelson::HandleGateway::handle_methodsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
         Error(_W("Invalid handle."));

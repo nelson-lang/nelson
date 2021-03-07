@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::OsFunctionsGateway::setenvBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 2 || argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 0);
     std::wstring varEnvName;
     std::wstring varEnvValue;
     if (argIn[0].isRowVectorCharacterArray()) {

@@ -41,12 +41,8 @@ ArrayOfVector
 Nelson::StreamGateway::fscanfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 3);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOf param1 = argIn[0];
     double dID = param1.getContentAsDoubleScalar();
     auto* fm = static_cast<FilesManager*>(eval->FileManager);

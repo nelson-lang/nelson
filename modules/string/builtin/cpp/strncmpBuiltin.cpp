@@ -34,12 +34,8 @@ static ArrayOfVector
 strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 3, 3);
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     ArrayOf C = argIn[2];

@@ -40,10 +40,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector retval(nLhs);
     std::wstring errorMessage;
     ArrayOf res;
     switch (argIn.size()) {

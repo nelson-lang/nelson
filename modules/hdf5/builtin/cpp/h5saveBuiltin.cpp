@@ -32,12 +32,8 @@ ArrayOfVector
 Nelson::Hdf5Gateway::h5saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1);
     std::wstring filename = argIn[0].getContentAsWideString();
     wstringVector names;
     bool bAppend = false;

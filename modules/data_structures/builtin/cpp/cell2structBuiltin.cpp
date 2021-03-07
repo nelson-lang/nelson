@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector ret;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if ((argIn.size() > 3) || (argIn.size() < 2)) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 2, 3);
     ArrayOf param1 = argIn[0];
     if (!param1.isCell()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
@@ -94,14 +90,13 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
                 dims[1] = 1;
             }
             if (dims.isScalar()) {
-                ret.push_back(ArrayOf::emptyStructWithoutFields());
+                ret << ArrayOf::emptyStructWithoutFields();
             } else if (dims.getElementCount() == 0) {
                 ArrayOf c = ArrayOf::emptyConstructor(dims);
                 c.promoteType(NLS_STRUCT_ARRAY);
-                ret.push_back(c);
+                ret << c;
             } else {
-                ArrayOf c = ArrayOf::emptyStructConstructor(fieldnames, dims);
-                ret.push_back(c);
+                ret << ArrayOf::emptyStructConstructor(fieldnames, dims);
             }
         } else {
             Dimensions dims;
@@ -114,7 +109,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
             for (ompIndexType k = 0; k < elementCount; k++) {
                 qp[k] = arg[k];
             }
-            ret.push_back(c);
+            ret << c;
         }
     } else /* dim == 1 */
     {
@@ -132,8 +127,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
                 l++;
             }
         }
-        ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
-        ret.push_back(c);
+        ret << ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
     }
     return ret;
 }

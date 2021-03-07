@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() == 0) {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring msg;
         if (!HelpBrowser::getInstance()->startBrowser(msg)) {
             Error(msg);
@@ -44,9 +42,7 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
     } else if (argIn.size() == 1) {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"-cache" || param1 == L"-attributes") {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 1);
             ArrayOfVector retval;
             if (param1 == L"-cache") {
                 retval << ArrayOf::characterArrayConstructor(
@@ -56,9 +52,7 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
             }
             return retval;
         } else {
-            if (nLhs != 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (param1 == L"-close") {
                 HelpBrowser::getInstance()->closeBrowser();
             } else if (param1 == L"-clearcache") {
@@ -70,9 +64,7 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
             }
         }
     } else if (argIn.size() == 2) {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring param1 = argIn[0].getContentAsWideString();
         std::wstring param2 = argIn[1].getContentAsWideString();
         if (param1 == L"-register") {

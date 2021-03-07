@@ -34,12 +34,8 @@ Nelson::ElementaryFunctionsGateway::notBuiltin(
 {
     ArrayOfVector retval;
     bool bSuccess = false;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1);
     retval << eval->notOperator(argIn[0]);
     return retval;
 }

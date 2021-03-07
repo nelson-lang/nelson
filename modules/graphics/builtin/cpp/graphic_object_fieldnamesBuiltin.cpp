@@ -34,13 +34,8 @@ ArrayOfVector
 Nelson::GraphicsGateway::graphic_object_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf paramGo = argIn[0];
     if (paramGo.getDataClass() != NLS_GO_HANDLE) {
         Error(_W("graphic_object expected."));

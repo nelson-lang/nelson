@@ -33,13 +33,9 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TimeGateway::cputimeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (!argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if ((nLhs > 1)) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOfVector retval;
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector retval(nLhs);
     retval << ArrayOf::doubleConstructor(CpuTime());
     return retval;
 }

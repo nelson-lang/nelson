@@ -52,6 +52,7 @@
 #include "Types.hpp"
 #include "ArrayOfVector.hpp"
 #include "nlsTypes_exports.h"
+#include "CheckerHelpers.hpp"
 
 namespace Nelson {
 
@@ -1145,7 +1146,7 @@ public:
      * number of elements
      */
     indexType
-    numel();
+    numel() const;
 
     bool
     isCell() const;

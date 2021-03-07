@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 2);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOfVector retval;
     bool bEcho = false;
     if (argIn.size() > 1) {
@@ -52,9 +48,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
     }
-    if (argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1);
     if (nLhs == 0) {
         bEcho = true;
     }

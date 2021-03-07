@@ -35,9 +35,7 @@ Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsSparse = false;
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.empty()) {
         Dimensions dim(1, 1);
         retval << TrueConstructor(dim, bIsSparse);

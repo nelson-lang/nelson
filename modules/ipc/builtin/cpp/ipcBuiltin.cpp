@@ -73,9 +73,7 @@ ipcBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     }
     std::wstring commandType = param2.getContentAsWideString();
     if (commandType == L"minimize") {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring errorMessage;
         bool r
             = isMinimizedFromNelsonInterprocessReceiver(pid, eval->haveEventsLoop(), errorMessage);
@@ -109,9 +107,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     std::wstring commandType = param2.getContentAsWideString();
     switch (commandTypeToValueSwitch(commandType)) {
     case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring command = param3.getContentAsWideString();
         std::wstring errorMessage;
         bool r = postCommandToNelsonInterprocessReceiver(
@@ -121,9 +117,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     case NELSON_INTERPROCESS_COMMAND::EVAL: {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring command = param3.getContentAsWideString();
         std::wstring errorMessage;
         std::wstring result;
@@ -151,9 +145,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     case NELSON_INTERPROCESS_COMMAND::SET_MINIMIZE: {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         bool minimize = param3.getContentAsLogicalScalar() != 0U;
         std::wstring errorMessage;
         bool r = sendMinimizeToNelsonInterprocessReceiver(
@@ -163,9 +155,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     case NELSON_INTERPROCESS_COMMAND::GET: {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring name = param3.getContentAsWideString();
         if (!IsValidVariableName(name)) {
             Error(_W("#3 Argument must contain a valid variable name."));
@@ -179,9 +169,7 @@ ipcBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval << result;
     } break;
     case NELSON_INTERPROCESS_COMMAND::IS_VAR: {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring name = param3.getContentAsWideString();
         if (!IsValidVariableName(name)) {
             Error(_W("#3 Argument must contain a valid variable name."));
@@ -223,9 +211,7 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     std::wstring commandType = param2.getContentAsWideString();
     switch (commandTypeToValueSwitch(commandType)) {
     case NELSON_INTERPROCESS_COMMAND::PUT: {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring name = param4.getContentAsWideString();
         if (!IsValidVariableName(name)) {
             Error(_W("#4 Argument must contain a valid variable name."));
@@ -238,9 +224,7 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     case NELSON_INTERPROCESS_COMMAND::GET: {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring name = param3.getContentAsWideString();
         if (!IsValidVariableName(name)) {
             Error(_W("#3 Argument must contain a valid variable name."));
@@ -260,9 +244,7 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval << result;
     } break;
     case NELSON_INTERPROCESS_COMMAND::IS_VAR: {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring name = param3.getContentAsWideString();
         if (!IsValidVariableName(name)) {
             Error(_W("#3 Argument must contain a valid variable name."));
@@ -282,9 +264,7 @@ ipcBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(result);
     } break;
     case NELSON_INTERPROCESS_COMMAND::POST_COMMAND: {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring command = param3.getContentAsWideString();
         std::wstring scope = param4.getContentAsWideString();
         bool supported = ((scope == L"global") || (scope == L"base") || (scope == L"caller")
@@ -333,9 +313,7 @@ ipcBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (!supported) {
             Error(_W("#4 Argument must contain a valid scope name."));
         }
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         std::wstring errorMessage;
         bool r = sendVariableToNelsonInterprocessReceiver(
             pid, param3, name, scope, eval->haveEventsLoop(), errorMessage);

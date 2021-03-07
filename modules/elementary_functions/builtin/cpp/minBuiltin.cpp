@@ -37,9 +37,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
 {
     ArrayOfVector retval;
     bool bSuccess = false;
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 2);
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "min", bSuccess);
     }
@@ -67,9 +65,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
             Dimensions dimsA = param1.getDimensions();
             Dimensions dimsB = param2.getDimensions();
             if (dimsA.equals(dimsB)) {
-                if (nLhs > 1) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0, 1);
                 if (param3.isRowVectorCharacterArray()
                     || (param3.isStringArray() && param3.isScalar())) {
                     std::wstring s = param3.getContentAsWideString();
@@ -106,9 +102,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
                     dim = param3.getContentAsScalarIndex(false);
                 }
                 if (isAll) {
-                    if (nLhs > 1) {
-                        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                    }
+                    nargoutcheck(nLhs, 0, 1);
                     retval << MinimumAll(omitNaN, param1, needToOverload);
                 } else if (dim == 0) {
                     retval = Minimum(omitNaN, param1, nLhs, needToOverload);
@@ -144,9 +138,7 @@ Nelson::ElementaryFunctionsGateway::minBuiltin(
                 if (s != L"all") {
                     Error(_("Invalid third argument."));
                 }
-                if (nLhs > 1) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0, 1);
                 retval << MinimumAll(omitNaN, param1, needToOverload);
             } else {
                 indexType dim = param3.getContentAsScalarIndex(false);

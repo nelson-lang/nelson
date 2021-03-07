@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::QmlEngineGateway::qml_offlinestoragepathBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     std::wstring res = QmlEngine::getInstance()->offlineStoragePath();
     retval.push_back(ArrayOf::characterArrayConstructor(res));

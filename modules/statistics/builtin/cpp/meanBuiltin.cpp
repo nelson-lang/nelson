@@ -36,9 +36,7 @@ Nelson::StatisticsGateway::meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     bool bSuccess = false;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "mean", bSuccess);
     }

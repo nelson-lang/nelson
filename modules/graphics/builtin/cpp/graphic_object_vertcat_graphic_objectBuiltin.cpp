@@ -34,12 +34,8 @@ Nelson::GraphicsGateway::graphic_object_vertcat_graphic_objectBuiltin(
     int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     retval << VertCatGO(A, B);

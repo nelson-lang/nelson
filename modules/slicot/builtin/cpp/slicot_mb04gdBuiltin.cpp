@@ -45,12 +45,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 4) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 4);
+    nargincheck(argIn, 2, 2);
     // INPUT VARIABLES
     // IN/OUT VARIABLES
     ArrayOf A = argIn[0];

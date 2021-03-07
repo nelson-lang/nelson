@@ -33,12 +33,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (!param1.isRowVectorCharacterArray()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

@@ -35,13 +35,8 @@ ArrayOfVector
 Nelson::LinearAlgebraGateway::cholBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    // Call overload if it exists
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1); // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "chol", bSuccess);

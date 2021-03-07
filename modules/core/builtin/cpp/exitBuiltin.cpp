@@ -32,9 +32,7 @@ ArrayOfVector
 Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 1);
     int iValue = 0;
     if (argIn.empty()) {
         iValue = 0;

@@ -34,9 +34,7 @@ Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.empty()) {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         if (nLhs == 1) {
             switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
             case NLS_FORMAT_SHORT: {
@@ -67,9 +65,7 @@ Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring str = argIn[0].getContentAsWideString();
             if (str == L"get") {
-                if (nLhs > 1) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0, 1);
                 switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
                 case NLS_FORMAT_SHORT: {
                     retval << ArrayOf::characterArrayConstructor(L"short");
@@ -91,9 +87,7 @@ Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } break;
                 }
             } else {
-                if (nLhs != 0) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0);
                 if (str == L"short") {
                     NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORT);
                 } else if (str == L"long") {

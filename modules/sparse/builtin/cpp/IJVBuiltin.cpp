@@ -36,12 +36,8 @@ ArrayOfVector
 Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 6) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 6);
+    nargincheck(argIn, 1, 1);
     // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {

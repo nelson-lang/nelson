@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     std::wstring previousLf = GetCurrentLookAndFeel();
     switch (argIn.size()) {
     case 0: {

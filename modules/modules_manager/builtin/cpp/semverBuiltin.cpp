@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::ModulesManagerGateway::semverBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     std::string param1 = argIn[0].getContentAsCString();
     std::string param2 = argIn[1].getContentAsCString();
     std::string errorMessage;

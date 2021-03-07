@@ -36,14 +36,9 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    indexType nbArgIn = argIn.size();
-    if (nbArgIn < 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    ArrayOfVector retval(nLhs);
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 3);
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
     ArrayOf param2 = argIn[1];

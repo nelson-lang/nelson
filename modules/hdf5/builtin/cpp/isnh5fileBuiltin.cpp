@@ -34,13 +34,8 @@ ArrayOfVector
 Nelson::Hdf5Gateway::isnh5fileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    indexType nbArgIn = argIn.size();
-    if (nbArgIn != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 3);
+    nargincheck(argIn, 1, 1);
     wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
     ArrayOf isNh5;
     ArrayOf nh5Versions;

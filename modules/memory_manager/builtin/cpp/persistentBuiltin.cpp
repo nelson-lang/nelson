@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::MemoryGateway::persistentBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
         Error(_W("A 'persistent' declaration is only allowed in a script file function."));

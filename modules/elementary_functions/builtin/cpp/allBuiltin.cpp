@@ -37,12 +37,8 @@ Nelson::ElementaryFunctionsGateway::allBuiltin(
 {
     ArrayOfVector retval;
     bool bSuccess = false;
-    if (!((argIn.size() == 1) || (argIn.size() == 2))) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 1);
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
     }

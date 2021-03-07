@@ -52,6 +52,19 @@ scalar_matrix_real_addition(Class classDestination, const ArrayOf& A, const Arra
 //=============================================================================
 template <class T>
 ArrayOf
+scalar_scalar_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    T* ptrA = (T*)A.getDataPointer();
+    T* ptrB = (T*)B.getDataPointer();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    ptrC[0] = ptrA[0] + ptrB[0];
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+ArrayOf
 matrix_scalar_real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
@@ -265,7 +278,9 @@ real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
             res = matrix_matrix_real_addition<T>(classDestination, A, B);
         }
     } else {
-        if (A.isScalar() || B.isScalar()) {
+        if (A.isScalar() && B.isScalar()) {
+            res = scalar_scalar_real_addition<T>(classDestination, A, B);
+        } else if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
                 res = scalar_matrix_real_addition<T>(classDestination, A, B);
             } else {

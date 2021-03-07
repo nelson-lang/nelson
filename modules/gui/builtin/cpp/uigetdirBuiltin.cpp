@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::GuiGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 0, 2);
     std::wstring pathSelected;
     std::wstring pathOrigin;
     std::wstring title;

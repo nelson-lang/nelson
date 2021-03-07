@@ -36,9 +36,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.empty()) {
-        if (nLhs > 2) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 2);
         std::string version;
         version.append(NELSON_VERSION_STRING);
         version.append(" (");
@@ -49,9 +47,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::characterArrayConstructor(__DATE__);
         }
     } else if (argIn.size() == 1) {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         std::wstring option;
         if (argIn[0].isRowVectorCharacterArray()) {
             option = argIn[0].getContentAsWideString();

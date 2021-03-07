@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::MpiGateway::MPI_Get_versionBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 2);
     int version = 0;
     int subversion = 0;
     MPI_Get_version(&version, &subversion);

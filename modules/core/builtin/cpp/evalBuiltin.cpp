@@ -32,9 +32,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.empty() || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 2);
     std::wstring command;
     std::wstring catchCommand;
     if (argIn[0].isRowVectorCharacterArray()) {

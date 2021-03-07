@@ -35,13 +35,8 @@ ArrayOfVector
 Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 2 || argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    // Call overload if it exists
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 2); // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "schur", bSuccess);

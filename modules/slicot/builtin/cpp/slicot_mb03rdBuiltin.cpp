@@ -47,12 +47,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 7) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 6) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 7);
+    nargincheck(argIn, 6, 6);
     // INPUT VARIABLES
     ArrayOf JOBX = argIn[0];
     Dimensions dimsJOBX = JOBX.getDimensions();

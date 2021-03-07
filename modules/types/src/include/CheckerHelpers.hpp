@@ -23,19 +23,62 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "mtimesBuiltin.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::mtimesBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+/**
+ * Validate number of input arguments
+ */
+inline void
+nargincheck(const ArrayOfVector& argIn, int minArgs)
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 2, 2);
-    retval << OverloadBinaryOperator(eval, argIn[0], argIn[1], "mtimes");
-    return retval;
+    if (argIn.size() < minArgs) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+}
+//=============================================================================
+/**
+ * Validate number of input arguments
+ */
+inline void
+nargincheck(const ArrayOfVector& argIn, int minArgs, int maxArgs)
+{
+    if (argIn.size() < minArgs) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (argIn.size() > maxArgs) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+}
+//=============================================================================
+/**
+ * Validate number of output arguments
+ */
+inline void
+nargoutcheck(int nLhs, int minArgs)
+{
+    if (nLhs < minArgs) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+}
+//=============================================================================
+/**
+ * Validate number of output arguments
+ */
+inline void
+nargoutcheck(int nLhs, int minArgs, int maxArgs)
+{
+    if (nLhs < minArgs) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (nLhs > maxArgs) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+}
+//=============================================================================
 }
 //=============================================================================

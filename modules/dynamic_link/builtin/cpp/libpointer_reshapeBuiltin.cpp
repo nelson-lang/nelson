@@ -35,12 +35,8 @@ ArrayOfVector
 Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 3, 3);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(_W("libpointer handle expected."));

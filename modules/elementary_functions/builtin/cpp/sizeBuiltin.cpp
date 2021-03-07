@@ -100,9 +100,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
         Dimensions sze(param1.getDimensions());
         sze.simplify();
         if (bChooseDimension) {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 1);
             double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsVal.size());
             Dimensions outDims(1, dimsVal.size());
             ArrayOf res = ArrayOf(NLS_DOUBLE, outDims, ptr);

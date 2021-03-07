@@ -33,13 +33,10 @@ ArrayOfVector
 Nelson::SparseGateway::sparselogical_dispBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } else if (!argIn[0].isSparse()) {
+    ArrayOfVector retval(nLhs);
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 1);
+    if (!argIn[0].isSparse()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     } else {
         if (argIn[0].getDataClass() == NLS_LOGICAL) {

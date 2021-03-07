@@ -52,15 +52,9 @@ function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
     txt{end + 1} = ['ArrayOfVector Nelson::', NIG_FUNCTION.NELSON_NAME, 'Builtin(int nLhs, const ArrayOfVector& argIn)'];
   end
   txt{end + 1} = '{';
-  txt{end + 1} = '    ArrayOfVector retval;';
-  txt{end + 1} = ['    if (nLhs > ', int2str(nig_nargout(NIG_FUNCTION)) ,')'];
-  txt{end + 1} = '    {';
-  txt{end + 1} = '        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);';
-  txt{end + 1} = '    }';
-  txt{end + 1} = ['    if (argIn.size() != ', int2str(nig_nargin(NIG_FUNCTION)), ')'];
-  txt{end + 1} = '    {';
-  txt{end + 1} = '        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);';
-  txt{end + 1} = '    }';
+  txt{end + 1} = '    ArrayOfVector retval(nLhs);';
+  txt{end + 1} = ['    nargoutcheck(nLhs, 0, ', int2str(nig_nargout(NIG_FUNCTION)) ,')'];
+  txt{end + 1} = ['    nargincheck(argIn, ', int2str(nig_nargin(NIG_FUNCTION)), ', ', int2str(nig_nargin(NIG_FUNCTION)), ')'];
   txt{end + 1} = '';
 
   // INPUT VARIABLES DEFINITION

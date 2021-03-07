@@ -37,9 +37,7 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     Calendar* cal = nullptr;
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 2);
     switch (argIn.size()) {
     case 0: {
         cal = new Calendar();

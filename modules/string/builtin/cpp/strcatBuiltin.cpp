@@ -40,12 +40,8 @@ ArrayOfVector
 Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1);
+    nargoutcheck(nLhs, 0, 1);
     bool containsCellOrStringInput = false;
     bool containsStringInput = false;
     ArrayOfVector theInputs = argIn;

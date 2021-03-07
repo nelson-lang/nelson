@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::AudioGateway::playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty() || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "play", bSuccess);
     if (!bSuccess) {

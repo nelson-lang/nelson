@@ -41,9 +41,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring wpath;
     std::wstring woption;
     bool bSubDirectories = false;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
         wpath = GetCurrentDirectory();

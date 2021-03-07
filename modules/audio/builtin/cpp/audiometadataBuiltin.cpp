@@ -37,12 +37,8 @@ ArrayOfVector
 Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty() || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 1);
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();

@@ -34,13 +34,9 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TrigonometricGateway::acosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector retval(nLhs);
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "acos", bSuccess);

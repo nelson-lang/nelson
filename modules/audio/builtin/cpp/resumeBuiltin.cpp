@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::AudioGateway::resumeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 1);
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "resume", bSuccess);
     if (!bSuccess) {

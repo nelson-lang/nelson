@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::TypeGateway::ischarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 1);
     retval << ArrayOf::logicalConstructor(argIn[0].isCharacterArray());
     return retval;
 }

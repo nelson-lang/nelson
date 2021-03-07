@@ -143,12 +143,8 @@ static ArrayOfVector
 isempty_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(
@@ -167,12 +163,8 @@ static ArrayOfVector
 islogical_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(
@@ -191,12 +183,8 @@ static ArrayOfVector
 isreal_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getElementCount();
     logical* matLogical = static_cast<logical*>(
@@ -215,12 +203,8 @@ static ArrayOfVector
 length_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(
@@ -254,12 +238,8 @@ static ArrayOfVector
 ndims_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(
@@ -282,12 +262,8 @@ static ArrayOfVector
 prodofsize_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getElementCount();
     double* matDouble = static_cast<double*>(
@@ -306,12 +282,8 @@ static ArrayOfVector
 size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 3, 3);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf param3 = argIn[2];
     indexType idx = param3.getContentAsScalarIndex(false);
     ArrayOf Cell = argIn[1];
@@ -337,12 +309,8 @@ static ArrayOfVector
 isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 3, 3);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf param3 = argIn[2];
     std::wstring classExpected = param3.getContentAsWideString();
     ArrayOf Cell = argIn[1];
@@ -372,11 +340,9 @@ isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 ArrayOfVector
 Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    ArrayOfVector retval(nLhs);
+    nargincheck(argIn, 2);
     int nbElementsInput = static_cast<int>(argIn.size());
-    if (nbElementsInput < 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
     bool bHaveErrorHandlerArgs = false;
     bool bHaveUniformOutputArgs = false;
     bool isUniformOutput = true;

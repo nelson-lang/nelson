@@ -34,12 +34,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() < 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 3);
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();

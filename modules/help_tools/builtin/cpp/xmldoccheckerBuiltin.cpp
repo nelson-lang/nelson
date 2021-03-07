@@ -37,12 +37,8 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();

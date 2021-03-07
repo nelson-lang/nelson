@@ -34,12 +34,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (!(argIn.size() == 1 || argIn.size() == 2)) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 3);
     ArrayOfVector retval(nLhs);
     // Call overload if it exists
     bool bSuccess = false;

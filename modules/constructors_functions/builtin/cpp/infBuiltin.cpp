@@ -35,9 +35,7 @@ Nelson::ConstructorsGateway::infBuiltin(int nLhs, const ArrayOfVector& argIn)
     uint32 m = 1;
     uint32 n = 1;
     ArrayOf p;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     if (argIn.empty()) {
         m = 1;

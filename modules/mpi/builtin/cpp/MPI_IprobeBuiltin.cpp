@@ -36,12 +36,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::MpiGateway::MPI_IprobeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 3, 3);
+    nargoutcheck(nLhs, 0, 3);
     ArrayOfVector retval(3);
     int flagInit = 0;
     MPI_Initialized(&flagInit);

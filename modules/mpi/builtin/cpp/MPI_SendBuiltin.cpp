@@ -35,9 +35,7 @@ ArrayOfVector
 Nelson::MpiGateway::MPI_SendBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
