@@ -34,12 +34,8 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2);
+    nargoutcheck(nLhs, 0, 1);
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "reshape", bSuccess);
@@ -82,9 +78,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                 dims[i] = static_cast<indexType>(ivalue);
             }
         } else {
-            if (argIn.size() < 3) {
-                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-            }
+            nargincheck(argIn, 3);
             bool bAllIsScalar = true;
             for (size_t j = 1; j < argIn.size(); j++) {
                 bAllIsScalar &= argIn[j].isScalar();

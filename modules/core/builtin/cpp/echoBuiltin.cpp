@@ -31,9 +31,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);
     if (argIn.empty()) {
         bool toggle = eval->getEchoMode();

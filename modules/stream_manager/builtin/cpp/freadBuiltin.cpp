@@ -244,9 +244,7 @@ freadBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 ArrayOfVector
 Nelson::StreamGateway::freadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 2);
     switch (argIn.size()) {
     case 2:
         return freadBuiltinTwoRhs(eval, nLhs, argIn);

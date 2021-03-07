@@ -36,12 +36,8 @@ ArrayOfVector
 Nelson::FunctionsGateway::restoredefaultpathBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 0) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 0, 0);
     PathFuncManager::getInstance()->clearUserPath();
     PathFuncManager::getInstance()->resetUserPath();
     PathFuncManager::getInstance()->clear();

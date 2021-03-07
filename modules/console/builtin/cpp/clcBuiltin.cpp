@@ -32,14 +32,9 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ConsoleGateway::clcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (!argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 0);
     ClearConsole(eval);
-    ArrayOfVector retval;
-    return retval;
+    return ArrayOfVector();
 }
 //=============================================================================

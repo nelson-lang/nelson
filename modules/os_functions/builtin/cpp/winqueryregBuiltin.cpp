@@ -34,12 +34,8 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(int nLhs, const ArrayOfVector& ar
 {
     ArrayOfVector retval;
 #ifdef _MSC_VER
-    if (argIn.size() < 2 || argIn.size() > 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 3);
+    nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 2: {
         std::wstring rootkey = argIn[0].getContentAsWideString();

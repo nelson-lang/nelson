@@ -35,17 +35,13 @@ Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOfVector retval;
     switch (argIn.size()) {
     case 0: {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         stringVector list = sioregisterList();
         Dimensions dims(list.size(), 1);
         retval << ArrayOf::stringArrayConstructor(list, dims);
     } break;
     case 2: {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         ArrayOf param1 = argIn[0];
         std::string event_name = param1.getContentAsCString();
         ArrayOf param2 = argIn[1];

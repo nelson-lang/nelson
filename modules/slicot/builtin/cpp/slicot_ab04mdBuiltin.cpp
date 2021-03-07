@@ -47,12 +47,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_ab04mdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 5) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 7) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 5);
+    nargincheck(argIn, 7, 7);
     // INPUT VARIABLES
     ArrayOf TYPE = argIn[0];
     Dimensions dimsTYPE = TYPE.getDimensions();

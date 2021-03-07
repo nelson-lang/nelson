@@ -35,12 +35,8 @@ ArrayOfVector
 Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 2, 2);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (!param2.isRowVectorCharacterArray()) {

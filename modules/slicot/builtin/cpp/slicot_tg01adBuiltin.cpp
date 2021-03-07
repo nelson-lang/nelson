@@ -48,12 +48,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 7) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 6) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 7);
+    nargincheck(argIn, 6, 6);
     // INPUT VARIABLES
     ArrayOf JOB = argIn[0];
     Dimensions dimsJOB = JOB.getDimensions();

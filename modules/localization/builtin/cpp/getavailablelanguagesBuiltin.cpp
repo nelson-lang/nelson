@@ -36,12 +36,8 @@ Nelson::LocalizationGateway::getavailablelanguagesBuiltin(int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     wstringVector langs;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (!argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 0, 0);
     Localization::Instance()->getManagedLanguages(langs);
     retval << ToCellStringAsColumn(langs);
     return retval;

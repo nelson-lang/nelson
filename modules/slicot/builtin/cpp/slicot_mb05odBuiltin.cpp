@@ -46,12 +46,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_mb05odBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 5) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 4) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 5);
+    nargincheck(argIn, 4, 4);
     // INPUT VARIABLES
     ArrayOf BALANC = argIn[0];
     Dimensions dimsBALANC = BALANC.getDimensions();

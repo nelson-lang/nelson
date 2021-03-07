@@ -33,9 +33,7 @@ Nelson::ElementaryFunctionsGateway::shortcutorBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     retval << eval->shortCutOrOperator(A, B);

@@ -35,12 +35,8 @@ ArrayOfVector
 Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 2) || (argIn.size() > 3)) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 3);
+    nargoutcheck(nLhs, 0, 2);
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {

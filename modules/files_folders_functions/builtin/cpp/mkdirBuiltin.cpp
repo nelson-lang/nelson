@@ -34,9 +34,7 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() == 1 || argIn.size() == 2) {
-        if (nLhs > 2) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 2);
         std::wstring parentDir;
         std::wstring newDir;
         if (argIn.size() == 2) {

@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.empty()) {
         retval << ArrayOf::stringArrayConstructor(std::string());
     }

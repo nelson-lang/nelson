@@ -33,9 +33,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     Class cl = NLS_DOUBLE;
     if (argIn.empty()) {

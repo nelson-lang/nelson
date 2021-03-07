@@ -32,9 +32,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
     SCOPE_LEVEL scope = SCOPE_LEVEL::LOCAL_SCOPE;
     std::wstring command;
     if (argIn[0].isRowVectorCharacterArray()) {

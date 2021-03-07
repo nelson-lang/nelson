@@ -2,9 +2,11 @@
 
 - callstack reworks.
 
-- for loop faster x2.
+- for loop faster > x2.
 
 - reworks ArrayOfVector (internal).
+
+- C++ API nargincheck, nargoutcheck helpers added.
 
 # 0.5.2 (2021-02-27)
 

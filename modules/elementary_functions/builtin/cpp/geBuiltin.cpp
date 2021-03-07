@@ -32,9 +32,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ElementaryFunctionsGateway::geBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
     ArrayOfVector retval(nLhs);
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];

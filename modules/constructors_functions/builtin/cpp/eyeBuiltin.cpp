@@ -37,9 +37,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
     Class destClass = NLS_DOUBLE;
     indexType n = 1;
     indexType m = 1;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     sizeType nRhs = argIn.size();
     if (nRhs == 0) {

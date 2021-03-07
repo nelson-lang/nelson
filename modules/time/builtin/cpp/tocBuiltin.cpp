@@ -34,18 +34,14 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if ((nLhs != 0) && (nLhs != 1)) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         ArrayOf paramOne = argIn[0];
         uint64 t = paramOne.getContentAsUnsignedInt64Scalar();
         double r = 0;
         if (Toc(t, r)) {
-            ArrayOfVector retval;
+            ArrayOfVector retval(1);
             if (nLhs == 0) {
                 std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
                 eval->getInterface()->outputMessage(msg + L"\n");

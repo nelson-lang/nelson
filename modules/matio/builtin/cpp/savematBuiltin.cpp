@@ -45,12 +45,8 @@ ArrayOfVector
 Nelson::MatioGateway::savematBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1);
     std::wstring filename = argIn[0].getContentAsWideString();
     wstringVector names;
     std::wstring matFileVersion = L"-v7.3";

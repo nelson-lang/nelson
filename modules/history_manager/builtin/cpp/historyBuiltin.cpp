@@ -126,9 +126,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         std::wstring str = arg1.getContentAsWideString();
         auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         if (str == L"size") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.getDataClass() == NLS_DOUBLE) {
                     double dvalue = arg2.getContentAsDoubleScalar();
@@ -150,9 +148,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"enable_save") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
                     logical bEnable = arg2.getContentAsLogicalScalar();
@@ -164,9 +160,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"delete") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.getDataClass() == NLS_DOUBLE) {
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
@@ -217,9 +211,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
             }
         } else if (str == L"append") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring str = arg2.getContentAsWideString();
                 auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
@@ -235,9 +227,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_OR_CELL_EXPECTED);
             }
         } else if (str == L"filename") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->setFilename(filename);
@@ -245,9 +235,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else if (str == L"load") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->loadFromFile(filename);
@@ -255,9 +243,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else if (str == L"save") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->saveToFile(filename);
@@ -265,9 +251,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else if (str == L"duplicated") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
                     logical bDuplicated = arg2.getContentAsLogicalScalar();
@@ -279,9 +263,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"removeexit") {
-            if (nLhs > 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
                     logical bRemove = arg2.getContentAsLogicalScalar();
@@ -293,9 +275,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"get") {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 1);
             if (arg2.getDataClass() == NLS_DOUBLE) {
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
@@ -345,9 +325,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else if (str == L"saveafter") {
-                if (nLhs > 0) {
-                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                }
+                nargoutcheck(nLhs, 0, 0);
                 if (arg2.isScalar()) {
                     if (arg2.getDataClass() == NLS_DOUBLE) {
                         double dvalue = arg2.getContentAsDoubleScalar();
@@ -387,9 +365,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
     if (eval->HistoryManager == nullptr) {
         Error(_W("History manager not enabled."));
     }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
         return historyBuiltin_no_rhs(eval, nLhs, argIn);

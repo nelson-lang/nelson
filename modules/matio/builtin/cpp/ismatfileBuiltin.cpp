@@ -32,12 +32,8 @@ ArrayOfVector
 Nelson::MatioGateway::ismatfileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 3);
+    nargincheck(argIn, 1, 1);
     wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
     ArrayOf isMat;
     ArrayOf matVersions;

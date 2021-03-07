@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (!((argIn.size() == 2) || (argIn.size() == 3))) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 3);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOfVector retval(nLhs);
     double precision = 0.;
     if (argIn.size() == 3) {

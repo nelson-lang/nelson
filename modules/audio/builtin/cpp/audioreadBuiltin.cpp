@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty() || argIn.size() > 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 2);
+    nargincheck(argIn, 1, 3);
     std::wstring errorMessage;
     std::wstring datatype = L"double";
     double start = 1;

@@ -33,9 +33,7 @@ ArrayOfVector
 Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     unsigned int currentValue = getMaxNumCompThreads();
     switch (argIn.size()) {
     case 0: {

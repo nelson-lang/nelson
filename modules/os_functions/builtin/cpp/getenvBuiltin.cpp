@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::OsFunctionsGateway::getenvBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() > 1 || argIn.empty()) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring varEnvName = argIn[0].getContentAsWideString();

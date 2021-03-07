@@ -35,12 +35,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::audioplayer_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 1);
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {

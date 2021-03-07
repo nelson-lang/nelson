@@ -33,9 +33,7 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     Context* context = eval->getContext();
     if (argIn.size() == 0) {
         size_t recursiondepth = context->getRecursionDepth();

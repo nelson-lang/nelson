@@ -48,12 +48,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 8) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 10) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 8);
+    nargincheck(argIn, 10, 10);
     // INPUT VARIABLES
     ArrayOf STAGES = argIn[0];
     Dimensions dimsSTAGES = STAGES.getDimensions();

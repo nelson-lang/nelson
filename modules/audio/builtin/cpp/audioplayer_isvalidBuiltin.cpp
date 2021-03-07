@@ -34,12 +34,8 @@ ArrayOfVector
 Nelson::AudioGateway::audioplayer_isvalidBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     retval << IsValidHandle(eval, argIn[0]);
     return retval;

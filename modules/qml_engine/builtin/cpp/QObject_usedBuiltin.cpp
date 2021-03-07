@@ -33,12 +33,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::QmlEngineGateway::QObject_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     retval.push_back(usedHandle(QOBJECT_CATEGORY_STR));
     return retval;

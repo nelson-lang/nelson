@@ -33,9 +33,7 @@ ArrayOfVector
 Nelson::IpcGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 1);
     switch (argIn.size()) {
     case 0: {
         retval << ArrayOf::doubleConstructor((double)getCurrentPID());

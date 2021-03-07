@@ -35,12 +35,8 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 0);
     std::wstring modulerootpath;
     std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {

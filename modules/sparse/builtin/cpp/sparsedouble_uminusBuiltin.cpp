@@ -34,12 +34,8 @@ Nelson::SparseGateway::sparsedouble_uminusBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs != 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 1, 1);
     if (((argIn[0].getDataClass() != NLS_DOUBLE) || (argIn[0].getDataClass() != NLS_DCOMPLEX))
         && !argIn[0].isSparse()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);

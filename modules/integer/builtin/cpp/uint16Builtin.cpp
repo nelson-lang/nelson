@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::IntegerGateway::uint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
     // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {

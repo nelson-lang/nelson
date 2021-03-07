@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CharactersEncodingGateway::unicode2nativeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() < 1 || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 2);
     ArrayOfVector retval(nLhs);
     ArrayOf param1 = argIn[0];
     std::string data = param1.getContentAsCString();

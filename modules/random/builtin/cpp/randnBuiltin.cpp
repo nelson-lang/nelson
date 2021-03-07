@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     Class cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
         retval << RandNormal(eval, cl);

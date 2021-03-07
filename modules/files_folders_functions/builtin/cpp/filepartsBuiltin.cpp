@@ -37,9 +37,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
         std::wstring wpath;
         std::wstring wtype;
         if (argIn.size() == 2) {
-            if (nLhs > 1) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 1);
             if (argIn[1].isRowVectorCharacterArray()) {
                 wtype = argIn[1].getContentAsWideString();
                 if (wtype == L"path") {
@@ -56,9 +54,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else {
-            if (nLhs > 3) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 3);
         }
         if (argIn[0].isRowVectorCharacterArray()) {
             wpath = argIn[0].getContentAsWideString();

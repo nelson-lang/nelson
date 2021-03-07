@@ -38,13 +38,9 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
     // previous = fftw('planner', method)
     // str = fftw('dwisdom', str)
     // previous = fftw('swisdom', str)
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.empty() || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 2);
+    ArrayOfVector retval(nLhs);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
         std::wstring infoDesired = param1.getContentAsWideString();

@@ -31,7 +31,7 @@ function txt = nig_assign_output_variables(NIG_FUNCTION)
     if strcmp(k.MODE, 'output') || strcmp(k.MODE, 'in_out')
       txt{end + 1} = ['    if (nLhs > ', int2str(n), ')'];
       txt{end + 1} = '    {';
-      txt{end + 1} = ['        retval.push_back(', k.NAME, '_output);'];
+      txt{end + 1} = ['        retval << ', k.NAME, ';'];
       txt{end + 1} = '    }';
       n = n + 1;
     end

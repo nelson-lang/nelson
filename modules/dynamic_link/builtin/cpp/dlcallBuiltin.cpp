@@ -35,9 +35,7 @@ ArrayOfVector
 Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));

@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ComEngineGateway::COM_ispropBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);

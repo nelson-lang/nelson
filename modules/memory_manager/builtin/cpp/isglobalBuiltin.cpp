@@ -34,12 +34,8 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     Context* ctxt = eval->getContext();
     Scope* globalScope = ctxt->getGlobalScope();
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 1);
     if (!argIn[0].isRowVectorCharacterArray()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

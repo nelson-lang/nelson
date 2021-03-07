@@ -1439,7 +1439,7 @@ ArrayOf::nnz()
 }
 //=============================================================================
 indexType
-ArrayOf::numel()
+ArrayOf::numel() const
 {
     Dimensions dims = getDimensions();
     return dims.getElementCount();

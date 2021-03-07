@@ -34,9 +34,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
 {
     ArrayOfVector retval;
     if (argIn.empty()) {
-        if (nLhs > 3) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 3);
         if (nLhs >= 0) {
             retval << ArrayOf::characterArrayConstructor(GetArchitectureType());
         }
@@ -51,9 +49,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
             }
         }
     } else if (argIn.size() == 1) {
-        if (nLhs > 1) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 1);
         if (!argIn[0].isRowVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }

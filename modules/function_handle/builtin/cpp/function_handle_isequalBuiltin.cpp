@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::FunctionHandleGateway::function_handle_isequalBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 2, 2);
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
     ArrayOfVector retval(1);

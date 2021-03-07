@@ -33,12 +33,8 @@ ArrayOfVector
 Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.empty() || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOfVector retval(nLhs);
     std::wstring modifiedmsg;
     if (argIn.size() == 2) {

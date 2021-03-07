@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
     Context* context = eval->getContext();
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {

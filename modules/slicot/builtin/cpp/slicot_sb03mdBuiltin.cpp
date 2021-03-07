@@ -49,12 +49,8 @@ ArrayOfVector
 Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 8) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 7) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 8);
+    nargincheck(argIn, 7, 7);
     // INPUT VARIABLES
     ArrayOf DICO = argIn[0];
     Dimensions dimsDICO = DICO.getDimensions();

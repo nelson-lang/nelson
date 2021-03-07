@@ -33,9 +33,7 @@ ArrayOfVector
 Nelson::TextEditorGateway::smartindentBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
     std::wstring filename;
     indexType tabSize = 2;
     logical doBackup = false;

@@ -51,12 +51,8 @@ ArrayOfVector
 Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 0, 2);
     std::wstring fullDirname;
     if (argIn.size() == 2) {
         std::wstring dirname = argIn[1].getContentAsWideString();

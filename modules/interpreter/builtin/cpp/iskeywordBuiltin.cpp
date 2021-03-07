@@ -34,9 +34,7 @@ ArrayOfVector
 Nelson::InterpreterGateway::iskeywordBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 0) {
         wstringVector keys = GetKeywords(true);
         ArrayOf* elements = new_with_exception<ArrayOf>(keys.size(), false);

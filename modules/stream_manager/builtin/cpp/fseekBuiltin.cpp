@@ -34,12 +34,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 3, 3);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];

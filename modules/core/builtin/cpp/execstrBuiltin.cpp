@@ -37,12 +37,8 @@ ArrayOfVector
 Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     bool bErrorCatch = false;
-    if (argIn.empty() || argIn.size() > 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);
     std::wstring line;
     if (argIn[0].isRowVectorCharacterArray()) {

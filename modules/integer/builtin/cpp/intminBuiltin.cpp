@@ -32,12 +32,8 @@ ArrayOfVector
 Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.empty()) {
         int32 v = std::numeric_limits<int32>::min();
         retval << ArrayOf::int32Constructor(v);

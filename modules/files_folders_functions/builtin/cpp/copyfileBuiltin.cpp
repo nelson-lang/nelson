@@ -71,9 +71,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
             if (nLhs > 1) {
                 retval << ArrayOf::characterArrayConstructor(errorMessage);
             }
-            if (nLhs > 2) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            nargoutcheck(nLhs, 0, 2);
         }
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

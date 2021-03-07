@@ -34,9 +34,7 @@ Nelson::ComEngineGateway::actxserverBuiltin(int nLhs, const ArrayOfVector& argIn
 {
     ArrayOfVector retval;
 #ifdef _MSC_VER
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
     std::wstring progid;
     std::wstring machine;
     switch (argIn.size()) {

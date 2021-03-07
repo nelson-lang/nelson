@@ -32,9 +32,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1, 1);
     ArrayOfVector retval(1);
     retval << IsValidHandle(eval, argIn[0]);
     return retval;

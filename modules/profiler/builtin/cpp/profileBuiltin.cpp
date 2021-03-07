@@ -78,60 +78,38 @@ ArrayOfVector
 Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() < 1 || argIn.size() > 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 3);
     ArrayOf param1 = argIn[0];
     std::string arg1AsString = param1.getContentAsCString();
     bool validOption = false;
     if (arg1AsString == "on") {
-        if (argIn.size() > 1) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargincheck(argIn, 0, 1);
+        nargoutcheck(nLhs, 0, 0);
         Profiler::getInstance()->on();
         validOption = true;
     }
     if (arg1AsString == "off") {
-        if (argIn.size() > 1) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargincheck(argIn, 0, 1);
+        nargoutcheck(nLhs, 0, 0);
         Profiler::getInstance()->off();
         validOption = true;
     }
     if (arg1AsString == "resume") {
-        if (argIn.size() > 1) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargincheck(argIn, 0, 1);
+        nargoutcheck(nLhs, 0, 0);
         Profiler::getInstance()->resume();
         validOption = true;
     }
     if (arg1AsString == "clear") {
-        if (argIn.size() > 1) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargincheck(argIn, 0, 1);
+        nargoutcheck(nLhs, 0, 0);
         Profiler::getInstance()->clear();
         validOption = true;
     }
 
     if (arg1AsString == "info") {
-        if (argIn.size() > 2) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargincheck(argIn, 0, 2);
         Profiler::Profile_Sort_Type sortOption = getSortArgument(argIn, validOption);
         std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>
             profileLines = Profiler::getInstance()->info(sortOption);
@@ -186,9 +164,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     if (arg1AsString == "show") {
-        if (nLhs != 0) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-        }
+        nargoutcheck(nLhs, 0, 0);
         int nbLinesToDisplay = -1;
         if (argIn.size() > 2) {
             ArrayOf param3 = argIn[2];
@@ -204,9 +180,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     if (arg1AsString == "status") {
-        if (argIn.size() > 1) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
+        nargincheck(argIn, 0, 1);
         stringVector fieldnames;
         fieldnames.push_back("ProfilerStatus");
         fieldnames.push_back("HistoryTracking");

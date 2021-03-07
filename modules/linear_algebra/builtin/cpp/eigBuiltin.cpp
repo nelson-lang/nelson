@@ -56,10 +56,7 @@ Nelson::LinearAlgebraGateway::eigBuiltin(Evaluator* eval, int nLhs, const ArrayO
     ArrayOfVector retval;
     bool balance = false;
     bool needToOverload = false;
-    if (nLhs > 2) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    // Call overload if it exists
+    nargoutcheck(nLhs, 0, 2); // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "eig", bSuccess);
@@ -70,9 +67,7 @@ Nelson::LinearAlgebraGateway::eigBuiltin(Evaluator* eval, int nLhs, const ArrayO
     bool compactDecomposition = (nLhs < 2);
     bool generalizedDecomposition = false;
 
-    if (argIn.size() == 0) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargincheck(argIn, 1);
     if (argIn.size() == 1) {
         balance = true;
     } else {

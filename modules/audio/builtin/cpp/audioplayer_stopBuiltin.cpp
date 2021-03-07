@@ -35,12 +35,8 @@ ArrayOfVector
 Nelson::AudioGateway::audioplayer_stopBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));

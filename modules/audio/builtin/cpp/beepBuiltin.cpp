@@ -32,12 +32,8 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() > 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 0, 1);
     if (argIn.empty()) {
         if (nLhs == 0) {
             beep();
