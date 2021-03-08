@@ -472,12 +472,7 @@ ArrayOf::ArrayOf(Class type) { dp = new Data(type, Dimensions(0, 0), nullptr); }
  */
 ArrayOf::~ArrayOf()
 {
-    if (dp) {
-        if (dp->deleteCopy() <= 1) {
-            delete dp;
-        }
-        dp = nullptr;
-    }
+    deleteContents();
 }
 //=============================================================================
 void
@@ -486,12 +481,7 @@ ArrayOf::operator=(const ArrayOf& copy)
     if (this == &copy) {
         return;
     }
-    if (dp) {
-        if (dp->deleteCopy() <= 1) {
-            delete dp;
-        }
-        dp = nullptr;
-    }
+    deleteContents();
     if (copy.dp) {
         dp = copy.dp->getCopy();
     } else {
