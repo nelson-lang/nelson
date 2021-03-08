@@ -154,19 +154,11 @@ bool
 Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {
     ArrayOf* res = lookupVariable(varName);
-    Scope* active;
-    std::string mapName;
-    Scope* back = scopestack.back();
-    if (back->isVariablePersistent(varName)) {
-        mapName = back->getMangledName(varName);
-        active = scopestack.front();
-    } else if (back->isVariableGlobal(varName)) {
-        mapName = varName;
-        active = scopestack.front();
-    } else {
-        return back->lookupVariable(varName, var);
+    if (res) {
+        var = res[0];
+        return true;
     }
-    return active->lookupVariable(mapName, var);
+    return false;
 }
 //=============================================================================
 bool
