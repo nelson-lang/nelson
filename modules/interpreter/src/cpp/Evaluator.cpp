@@ -3728,10 +3728,8 @@ Evaluator::rhsExpression(ASTPtr t)
             }
         } else {
             if (t->down == nullptr) {
-                ArrayOfVector rv;
-                rv.push_back(r);
                 callstack.popID();
-                return rv;
+                return ArrayOfVector(r);
             } else {
                 ASTPtr tt;
                 tt = t->down;
@@ -3740,8 +3738,7 @@ Evaluator::rhsExpression(ASTPtr t)
                         if (tt->right != nullptr) {
                             tt = tt->right;
                             if (tt->opNum == OP_DOT) {
-                                ArrayOfVector rv;
-                                rv.push_back(r.getField(tt->down->text));
+                                ArrayOfVector rv(r.getField(tt->down->text));
                                 callstack.popID();
                                 return rv;
                             }
@@ -3789,10 +3786,8 @@ Evaluator::rhsExpression(ASTPtr t)
             }
             if (m.size() == 0) {
                 if (t->right == nullptr) {
-                    ArrayOfVector rv;
-                    rv.push_back(r);
                     callstack.popID();
-                    return rv;
+                    return ArrayOfVector(r);
                 } else {
                     Error(_W("index expected."));
                 }
