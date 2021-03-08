@@ -26,17 +26,26 @@
 #include <string>
 #include <algorithm>
 #include <cstdlib>
+#include <unordered_map>
 #include "AsciiToDouble.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::unordered_map<std::string, double> map;
+//=============================================================================
 double
 asciiToDouble(const std::string& str)
 {
+    std::unordered_map<std::string, double>::const_iterator found = map.find(str);
+    if (found != map.end()) {
+        return found->second;
+    }
     std::string s(str);
     std::replace(s.begin(), s.end(), 'D', 'E');
     std::replace(s.begin(), s.end(), 'd', 'e');
-    return atof(s.c_str());
+    double value = atof(s.c_str());
+    map.emplace(str, value);
+    return value;
 }
 //=============================================================================
 }; // namespace Nelson
