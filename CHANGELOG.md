@@ -1,5 +1,7 @@
 # 0.5.3 (UNRELEASED)
 
+## Features:
+
 - callstack reworks.
 
 - for loop faster > x2.
@@ -9,6 +11,10 @@
 - reworks ArrayOfVector (internal).
 
 - C++ API nargincheck, nargoutcheck helpers added.
+
+## Bug Fixes:
+
+- [#413](http://github.com/Nelson-numerical-software/nelson/issues/413): circle CI Arch docker did not work.
 
 # 0.5.2 (2021-02-27)
 

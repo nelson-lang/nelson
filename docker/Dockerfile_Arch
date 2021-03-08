@@ -30,6 +30,7 @@ MAINTAINER Allan CORNET "nelson.numerical.computation@gmail.com"
 ARG BRANCH_NAME
 RUN echo "Nelson's branch: ${BRANCH_NAME}"
 
+RUN patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && curl -LO "https://repo.archlinuxcn.org/x86_64/$patched_glibc" && bsdtar -C / -xvf "$patched_glibc"
 RUN pacman -Syu --noconfirm
 RUN pacman -S base-devel --noconfirm
 RUN pacman -S inetutils --noconfirm
@@ -52,7 +53,6 @@ RUN pacman -S lapacke --noconfirm
 RUN pacman -S fftw --noconfirm
 RUN pacman -S openmpi --noconfirm
 RUN pacman -S hdf5 --noconfirm
-RUN pacman -S libmatio --noconfirm
 RUN pacman -S taglib --noconfirm
 RUN pacman -S portaudio --noconfirm
 RUN pacman -S libsndfile --noconfirm

@@ -1,13 +1,15 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/
     docker:
-      - image: archlinux/base:latest
+      - image: archlinux:latest
     environment:
       DISPLAY: ""
       OMPI_ALLOW_RUN_AS_ROOT: 1
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
     steps:
+      - run: patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && curl -LO "https://repo.archlinuxcn.org/x86_64/$patched_glibc" && bsdtar -C / -xvf "$patched_glibc"
       - run: pacman -Syu --noconfirm
       - run: pacman -S base-devel --noconfirm
       - run: pacman -S inetutils --noconfirm
@@ -44,14 +46,33 @@ jobs:
       - run: cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_10_5/hdf5 && make && make install;
       - run: git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
       - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.9 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
-      - checkout
-      - run: cmake -G "Unix Makefiles" .
-      - run: make -j4
-      - run: make get_module_skeleton
-      - run: make buildhelp
-      - run: make tests_minimal
-      - run: make package
-      - run: make benchs_all_no_display
+      - run: git clone https://github.com/Nelson-numerical-software/nelson.git
+      - run: 
+          command: git checkout ${CIRCLE_BRANCH}
+          working_directory: ~/nelson
+      - run: 
+          command: cmake -G "Unix Makefiles" .
+          working_directory: ~/nelson
+      - run: 
+          command: make -j4
+          working_directory: ~/nelson
+      - run: 
+          command: make get_module_skeleton
+          working_directory: ~/nelson
+      - run: 
+          command: make buildhelp
+          working_directory: ~/nelson
+      - run: 
+          command: make tests_minimal
+          working_directory: ~/nelson
+      - run: 
+          command: make package
+          working_directory: ~/nelson
+      - run: 
+          command: make benchs_all_no_display
+          working_directory: ~/nelson
       - run: rm -rf ~/.gitconfig 2> /dev/null
       - run: rm -rf /etc/gitconfig 2> /dev/null
-      - run: make tests_all_no_display
+      - run: 
+          command: make tests_all_no_display
+          working_directory: ~/nelson
