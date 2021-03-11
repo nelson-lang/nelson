@@ -42,7 +42,7 @@
     <ClCompile Include="..\cpp\getLastReportBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\mexception_extractionBuiltin.cpp">
+    <ClCompile Include="..\cpp\MException_extractionBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="..\include\getLastReportBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\mexception_extractionBuiltin.hpp">
+    <ClInclude Include="..\include\MException_extractionBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

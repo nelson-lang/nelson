@@ -23,10 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function mexception_disp(e)
-    r = struct(e); 
-    d = evalc('disp(r);');
-    disp(replace(d, '<struct>', '<mexception>'))
-  endfunction
-  //=============================================================================
-  
+#include "MException_extractionBuiltin.hpp"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::ErrorManagerGateway::MException_extractionBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    return retval;
+}
+//=============================================================================

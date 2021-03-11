@@ -12,6 +12,8 @@
 
 - C++ API nargincheck, nargoutcheck helpers added.
 
+- rename `mexception` to `MException`
+
 ## Bug Fixes:
 
 - [#413](http://github.com/Nelson-numerical-software/nelson/issues/413): circle CI Arch docker did not work.

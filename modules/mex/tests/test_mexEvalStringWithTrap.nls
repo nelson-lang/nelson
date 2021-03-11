@@ -37,7 +37,7 @@ R = mexEvalStringWithTrap('A');
 assert_isequal(R, 'It works !!!');
 //=============================================================================
 R = mexEvalStringWithTrap();
-assert_isequal(class(R), 'mexception');
+assert_isequal(class(R), 'MException');
 REF = 'Undefined variable or function: NOT_EXIST';
 assert_isequal(R.message, REF);
 //=============================================================================

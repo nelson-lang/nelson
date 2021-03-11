@@ -23,15 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "mexception_extractionBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::ErrorManagerGateway::mexception_extractionBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
-    return retval;
+namespace Nelson {
+namespace ErrorManagerGateway {
+    ArrayOfVector
+    MException_extractionBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

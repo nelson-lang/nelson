@@ -108,7 +108,7 @@ createMexception(Nelson::Exception& e)
         Nelson::ArrayOf::emptyStructConstructor(Nelson::wstringVector(), emptyDims));
     Nelson::ArrayOf res = Nelson::ArrayOf::structConstructor(fieldnames, fieldvalues);
 
-    res.setStructType("mexception");
+    res.setStructType("MException");
     return res;
 }
 //=============================================================================

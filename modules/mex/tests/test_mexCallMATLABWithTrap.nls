@@ -37,7 +37,7 @@ R = mexCallMATLABWithTrap(pi);
 assert_isequal(R, 'It works !!!');
 //=============================================================================
 R = mexCallMATLABWithTrap('A');
-assert_isequal(class(R), 'mexception');
+assert_isequal(class(R), 'MException');
 //=============================================================================
 REF = 'Undefined function ''sin'' for input arguments of type ''char''.';
 assert_isequal(R.message, REF);
