@@ -23,41 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "errorBuiltin.hpp"
-#include "lasterrorBuiltin.hpp"
-#include "lastwarnBuiltin.hpp"
-#include "warningBuiltin.hpp"
-#include "getLastReportBuiltin.hpp"
-#include "MException_extractionBuiltin.hpp"
-#include "MExceptionBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"error_manager";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "error", (void*)Nelson::ErrorManagerGateway::errorBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "warning", (void*)Nelson::ErrorManagerGateway::warningBuiltin, 1, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "lasterror", (void*)Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "lastwarn", (void*)Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "getLastReport", (void*)Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "MException_extraction", (void*)Nelson::ErrorManagerGateway::MException_extractionBuiltin, 0,
-        1, CPP_BUILTIN },
-    { "MException", (void*)Nelson::ErrorManagerGateway::MExceptionBuiltin, 1,
-        2, CPP_BUILTIN },
-
-};
+namespace ErrorManagerGateway {
+    //=============================================================================
+    ArrayOfVector
+    MExceptionBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================
