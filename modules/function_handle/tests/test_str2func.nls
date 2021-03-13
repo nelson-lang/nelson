@@ -23,16 +23,6 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-namespace ErrorManagerGateway {
-    ArrayOfVector
-    MException_extractionBuiltin(int nLhs, const ArrayOfVector& argIn);
-}
-//=============================================================================
-} // namespace Nelson
+F = str2func('cos');
+assert_isequal(F(.5), cos(.5));
 //=============================================================================

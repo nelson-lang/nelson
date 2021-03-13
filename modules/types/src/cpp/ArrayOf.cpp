@@ -470,10 +470,7 @@ ArrayOf::ArrayOf(Class type) { dp = new Data(type, Dimensions(0, 0), nullptr); }
 /**
  * Destructor - free the data object.
  */
-ArrayOf::~ArrayOf()
-{
-    deleteContents();
-}
+ArrayOf::~ArrayOf() { deleteContents(); }
 //=============================================================================
 void
 ArrayOf::operator=(const ArrayOf& copy)

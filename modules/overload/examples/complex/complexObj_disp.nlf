@@ -29,5 +29,5 @@ disp('real part');
 disp(obj.r);
 disp('imag part');
 disp(obj.i);
-
+endfunction
 

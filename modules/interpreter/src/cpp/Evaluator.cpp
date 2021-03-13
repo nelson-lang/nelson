@@ -112,6 +112,7 @@
 #include "IsValidVariableName.hpp"
 #include "NelsonReadyNamedMutex.hpp"
 #include "AsciiToDouble.hpp"
+#include "MException.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -127,7 +128,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
     ~endData() = default;
     ;
 };
@@ -920,14 +921,22 @@ Evaluator::tryStatement(ASTPtr t)
     size_t stackdepth = callstack.size();
     try {
         block(t);
-    } catch (const Exception&) {
+    } catch (const Exception& e) {
         while (callstack.size() > stackdepth) {
             callstack.pop_back();
         }
         t = t->right;
         if (t != nullptr) {
-            autostop = autostop_save;
-            block(t);
+            if (t->type == id_node) {
+                std::string variableName = t->text;
+                ArrayOf mException = ExceptionToArrayOf(e);
+                this->context->insertVariable(variableName, mException);
+                t = t->down;
+            }
+            if (t != nullptr) {
+                autostop = autostop_save;
+                block(t);
+            }
         }
     }
     autostop = autostop_save;
@@ -2167,8 +2176,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
     if (t->opNum == (OP_DOT)) {
         if (r.isClassStruct()) {
             std::string fieldname = t->down->text;
-            ArrayOfVector res;
-            res = simpleAssignClass(r, fieldname, value);
+            ArrayOfVector res = simpleAssignClass(r, fieldname, value);
             if (res.size() != 1) {
                 Error(_("Invalid LHS."));
             }
@@ -3714,34 +3722,20 @@ Evaluator::rhsExpression(ASTPtr t)
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     if (context->lookupVariable(t->text, r)) {
-        if (r.isClassStruct()) {
-            std::string className = r.getStructType();
-            std::string extractionFunctionName = className + "_extraction";
-            if (lookupFunction(extractionFunctionName, funcDef)) {
-                CallStack backupCallStack = this->callstack;
-                m = functionExpression(funcDef, t, 1, false);
-                callstack = backupCallStack;
-                callstack.popID();
-                return m;
-            } else {
-                Error(utf8_to_wstring(_("Undefined function:") + " " + extractionFunctionName));
-            }
+        if (t->down == nullptr) {
+            callstack.popID();
+            return ArrayOfVector(r);
         } else {
-            if (t->down == nullptr) {
-                callstack.popID();
-                return ArrayOfVector(r);
-            } else {
-                ASTPtr tt;
-                tt = t->down;
-                if (tt->opNum == OP_PARENS) {
-                    if (tt->down == nullptr) {
-                        if (tt->right != nullptr) {
-                            tt = tt->right;
-                            if (tt->opNum == OP_DOT) {
-                                ArrayOfVector rv(r.getField(tt->down->text));
-                                callstack.popID();
-                                return rv;
-                            }
+            ASTPtr tt;
+            tt = t->down;
+            if (tt->opNum == OP_PARENS) {
+                if (tt->down == nullptr) {
+                    if (tt->right != nullptr) {
+                        tt = tt->right;
+                        if (tt->opNum == OP_DOT) {
+                            ArrayOfVector rv(r.getField(tt->down->text));
+                            callstack.popID();
+                            return rv;
                         }
                     }
                 }
@@ -3784,6 +3778,19 @@ Evaluator::rhsExpression(ASTPtr t)
                     m = expressionList(t->down, r);
                 }
             }
+            if (r.isFunctionHandle()) {
+                std::string className = r.getStructType();
+                std::string extractionFunctionName = className + "_extraction";
+                if (lookupFunction(extractionFunctionName, funcDef)) {
+                    CallStack backupCallStack = this->callstack;
+                    ArrayOfVector paramsIn(m);
+                    paramsIn.push_front(r);
+                    ArrayOfVector rr = funcDef->evaluateFunction(this, paramsIn, 1);
+                    callstack = backupCallStack;
+                    callstack.popID();
+                    return rr;
+                }
+            }
             if (m.size() == 0) {
                 if (t->right == nullptr) {
                     callstack.popID();
@@ -3792,9 +3799,29 @@ Evaluator::rhsExpression(ASTPtr t)
                     Error(_W("index expected."));
                 }
             } else if (m.size() == 1) {
-                r = r.getVectorSubset(m[0]);
+                if (r.isClassStruct()) {
+                    bool haveFunction;
+                    ArrayOfVector rr = extractClass(r, std::string(), m, haveFunction);
+                    if (haveFunction) {
+                        r = rr[0];
+                    } else {
+                        r = r.getVectorSubset(m[0]);
+                    }
+                } else {
+                    r = r.getVectorSubset(m[0]);
+                }
             } else {
-                r = r.getNDimSubset(m);
+                if (r.isClassStruct()) {
+                    bool haveFunction;
+                    ArrayOfVector rr = extractClass(r, std::string(), m, haveFunction);
+                    if (haveFunction) {
+                        r = rr[0];
+                    } else {
+                        r = r.getNDimSubset(m);
+                    }
+                } else {
+                    r = r.getNDimSubset(m);
+                }
             }
         }
         if (t->opNum == (OP_BRACES)) {
@@ -3839,7 +3866,8 @@ Evaluator::rhsExpression(ASTPtr t)
                     params = expressionList(t->right->down, r);
                     t = t->right;
                 }
-                rv = extractClass(r, fieldname, params);
+                bool haveFunction;
+                rv = extractClass(r, fieldname, params, haveFunction);
             } else if (r.isHandle() || r.isGraphicObject()) {
                 ArrayOfVector params;
                 logical isValidMethod = false;
@@ -3879,7 +3907,8 @@ Evaluator::rhsExpression(ASTPtr t)
             }
             if (r.isClassStruct()) {
                 ArrayOfVector v;
-                rv = extractClass(r, field, v);
+                bool haveFunction;
+                rv = extractClass(r, field, v, haveFunction);
             } else if (r.isHandle()) {
                 ArrayOfVector v;
                 rv = getHandle(r, field, v);
@@ -4388,25 +4417,28 @@ Evaluator::simpleAssignClass(
 }
 //=============================================================================
 ArrayOfVector
-Evaluator::extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params)
+Evaluator::extractClass(
+    const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params, bool& haveFunction)
 {
-    ArrayOfVector argIn;
-    std::string currentClass;
-    ClassName(r, currentClass);
+    haveFunction = false;
+    std::string currentClass = ClassName(r);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     std::string functionNamesimpleExtractClass = currentClass + "_extraction";
     if (_context->lookupFunction(functionNamesimpleExtractClass, funcDef)) {
+        haveFunction = true;
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
             Error(_W("Type function not valid."));
         }
         int nLhs = 1;
-        argIn.reserve(params.size() + 1);
+        ArrayOfVector argIn;
+        argIn.reserve(params.size() + 2);
         argIn.push_back(r);
-        for (ArrayOf a : params) {
-            argIn.push_back(a);
+        if (!fieldname.empty()) {
+            argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
         }
+        argIn += params;
         CallStack backupCallStack = callstack;
         ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
         callstack = backupCallStack;

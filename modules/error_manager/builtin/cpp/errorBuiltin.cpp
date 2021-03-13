@@ -29,6 +29,7 @@
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
 #include "IsErrorStruct.hpp"
+#include "MException.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,7 +37,7 @@ ArrayOfVector
 Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     // Call overload if it exists
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
@@ -50,18 +51,31 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
                 return retval;
             }
         }
-        if (argIn[0].isRowVectorCharacterArray()) {
-            std::wstring msg = argIn[0].getContentAsWideString();
-            if (msg != L"") {
-                Error(msg);
+        std::wstring message;
+        std::wstring identifier;
+
+        if (argIn.size() == 1) {
+            if (argIn[0].isRowVectorCharacterArray()) {
+                message = argIn[0].getContentAsWideString();
+            } else {
+                Exception e;
+                if (IsErrorStruct(argIn[0], e)) {
+                    eval->setLastErrorException(e);
+                    throw e;
+                } else {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+                }
             }
         } else {
-            Exception e;
-            if (IsErrorStruct(argIn[0], e)) {
-                eval->setLastErrorException(e);
-                throw e;
+            // nargin == 2
+            identifier = argIn[0].getContentAsWideString();
+            if (!isValidMExceptionIdentifier(identifier)) {
+                Error(_W("First input argument must be a valid message identifier."));
             }
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            message = argIn[0].getContentAsWideString();
+        }
+        if (message != L"") {
+            Error(message, identifier);
         }
     }
     return retval;

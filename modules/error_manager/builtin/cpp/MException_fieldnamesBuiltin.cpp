@@ -23,10 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = complexObj(a,b)
- s.r = a;
- s.i = b;
- r = class(s, 'complexObj');
-endfunction 
- 
- 
+#include "MException_fieldnamesBuiltin.hpp"
+#include "MException.hpp"
+#include "ClassName.hpp"
+#include "ToCellString.hpp"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 1);
+    if (argIn[0].isClassStruct() && ClassName(argIn[0]) == "MException") {
+        stringVector fieldnames = argIn[0].getFieldNames();
+        retval << ToCellStringAsColumn(argIn[0].getFieldNames());
+    } else {
+        Error(_W("MException expected."));
+     }
+    return retval;
+}
+//=============================================================================

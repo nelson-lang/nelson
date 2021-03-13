@@ -30,41 +30,49 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-ErrorToStruct(Exception& e)
+inline ArrayOf
+ErrorToStruct(const Exception& e)
 {
-    ArrayOf result;
-    wstringVector fieldnames;
-    ArrayOfVector fieldvalues;
-    fieldnames.push_back(L"file");
-    fieldnames.push_back(L"name");
-    fieldnames.push_back(L"line");
+    Dimensions dimsRes(1, 1);
+    stringVector fieldnames;
+    fieldnames.reserve(3);
+    fieldnames.push_back("message");
+    fieldnames.push_back("identifier");
+    fieldnames.push_back("stack");
+    ArrayOf* elementRes = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsRes.getElementCount(), fieldnames, false));
+    ArrayOf res = ArrayOf(NLS_STRUCT_ARRAY, dimsRes, elementRes, false, fieldnames);
+
     ArrayOf stack;
-    if (e.isEmpty()) {
-        Dimensions dims(0, 1);
-        stack = ArrayOf::emptyStructConstructor(fieldnames, dims);
-    } else {
-        if ((e.getFilename().empty()) || (e.getFilename() == L"EvaluateScript")
-            || (e.getFunctionName().empty()) || (e.getLine() == -1)) {
-            Dimensions dim(0, 1);
-            stack = ArrayOf::emptyStructConstructor(fieldnames, dim);
-        } else {
-            fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getFilename()));
-            fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getFunctionName()));
-            fieldvalues.push_back(ArrayOf::doubleConstructor(e.getLine()));
-            stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
-        }
+    std::vector<PositionScript> trace = e.getTrace();
+    stringVector traceFieldnames(3);
+    traceFieldnames[0] = "file";
+    traceFieldnames[1] = "name";
+    traceFieldnames[2] = "line";
+    Dimensions dims(trace.size(), 1);
+    auto* elements = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), traceFieldnames, false));
+    stack = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, traceFieldnames);
+    ArrayOfVector files(trace.size());
+    ArrayOfVector names(trace.size());
+    ArrayOfVector lines(trace.size());
+    for (indexType k = 0; k < trace.size(); ++k) {
+        files.push_back(ArrayOf::characterArrayConstructor(trace[k].getFilename()));
+        names.push_back(ArrayOf::characterArrayConstructor(trace[k].getFunctionName()));
+        lines.push_back(ArrayOf::doubleConstructor(trace[k].getLine()));
     }
-    fieldnames.clear();
-    fieldnames.push_back(L"message");
-    fieldnames.push_back(L"identifier");
-    fieldnames.push_back(L"stack");
-    fieldvalues.clear();
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getMessage()));
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getIdentifier()));
-    fieldvalues.push_back(stack);
-    result = ArrayOf::structConstructor(fieldnames, fieldvalues);
-    return result;
+    if (!trace.empty()) {
+        stack.setFieldAsList(traceFieldnames[0], files);
+        stack.setFieldAsList(traceFieldnames[1], names);
+        stack.setFieldAsList(traceFieldnames[2], lines);
+    }
+    ArrayOfVector messageVector(ArrayOf::characterArrayConstructor(e.getMessage()));
+    res.setFieldAsList(fieldnames[0], messageVector);
+    ArrayOfVector identifierVector(ArrayOf::characterArrayConstructor(e.getIdentifier()));
+    res.setFieldAsList(fieldnames[1], identifierVector);
+    ArrayOfVector stackVector(stack);
+    res.setFieldAsList(fieldnames[2], stackVector);
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

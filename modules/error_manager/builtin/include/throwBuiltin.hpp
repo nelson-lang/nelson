@@ -23,10 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = complexObj(a,b)
- s.r = a;
- s.i = b;
- r = class(s, 'complexObj');
-endfunction 
- 
- 
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+namespace ErrorManagerGateway {
+    ArrayOfVector
+    throwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
+} // namespace Nelson
+//=============================================================================

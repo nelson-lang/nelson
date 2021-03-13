@@ -23,10 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = complexObj(a,b)
- s.r = a;
- s.i = b;
- r = class(s, 'complexObj');
-endfunction 
- 
- 
+#include "rethrowBuiltin.hpp"
+#include "MException.hpp"
+#include "Error.hpp"
+#include "ClassName.hpp"
+#include "DebugStack.hpp"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::ErrorManagerGateway::rethrowBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    if (argIn[0].isClassStruct() && ClassName(argIn[0]) == "MException") {
+        if (argIn[0].isScalar()) {
+            throw ArrayOfToException(argIn[0]);
+        }
+        Error(_W("MException scalar expected."));
+    }
+    Error(_W("MException expected."));
+    ArrayOfVector retval;
+    return retval;
+}
+//=============================================================================

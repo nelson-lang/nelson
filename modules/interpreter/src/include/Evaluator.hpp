@@ -809,7 +809,7 @@ private:
     simpleAssignClass(
         const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
     ArrayOfVector
-    extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params);
+    extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params, bool &haveFunction);
 
     void
     setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue);

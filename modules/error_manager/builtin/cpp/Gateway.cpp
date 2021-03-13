@@ -29,15 +29,18 @@
 #include "lastwarnBuiltin.hpp"
 #include "warningBuiltin.hpp"
 #include "getLastReportBuiltin.hpp"
-#include "MException_extractionBuiltin.hpp"
+#include "MException_fieldnamesBuiltin.hpp"
 #include "MExceptionBuiltin.hpp"
+#include "throwBuiltin.hpp"
+#include "throwAsCallerBuiltin.hpp"
+#include "rethrowBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"error_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "error", (void*)Nelson::ErrorManagerGateway::errorBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "error", (void*)Nelson::ErrorManagerGateway::errorBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "warning", (void*)Nelson::ErrorManagerGateway::warningBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "lasterror", (void*)Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1,
@@ -46,11 +49,13 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "getLastReport", (void*)Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "MException_extraction", (void*)Nelson::ErrorManagerGateway::MException_extractionBuiltin, 0,
-        1, CPP_BUILTIN },
-    { "MException", (void*)Nelson::ErrorManagerGateway::MExceptionBuiltin, 1,
-        2, CPP_BUILTIN },
-
+    { "MException", (void*)Nelson::ErrorManagerGateway::MExceptionBuiltin, 1, 2, CPP_BUILTIN },
+    { "throw", (void*)Nelson::ErrorManagerGateway::throwBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "throwAsCaller", (void*)Nelson::ErrorManagerGateway::throwAsCallerBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "rethrow", (void*)Nelson::ErrorManagerGateway::rethrowBuiltin, 0, 1, CPP_BUILTIN },
+    { "MException_fieldnames", (void*)Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin, 1,
+        1, CPP_BUILTIN }
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

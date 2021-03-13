@@ -82,29 +82,52 @@ IsErrorStruct(const ArrayOf& arg, Exception& e)
     message = msgArray.getContentAsWideString();
     identifier = idArray.getContentAsWideString();
     if (!stack.isEmpty()) {
-        ArrayOf fileArray = stack.getField("file");
-        ArrayOf nameArray = stack.getField("name");
-        ArrayOf lineArray = stack.getField("line");
-        if (!fileArray.isRowVectorCharacterArray()) {
+        stringVector fieldnames = stack.getFieldNames();
+        if (fieldnames.size() != 3) {
             return false;
         }
-        if (!nameArray.isRowVectorCharacterArray()) {
+        if (fieldnames[0] != "file") {
             return false;
         }
-        if (!lineArray.isDoubleType() || !lineArray.isScalar()) {
+        if (fieldnames[1] != "name") {
             return false;
         }
-        filename = fileArray.getContentAsWideString();
-        functionName = nameArray.getContentAsWideString();
-        if (!lineArray.isEmpty()) {
-            line = static_cast<int>(lineArray.getContentAsDoubleScalar());
+        if (fieldnames[2] != "line") {
+            return false;
         }
-        PositionScript position(functionName, filename, line);
-        Exception newException(message, position, identifier);
-        e = newException;
+        ArrayOfVector fileArray = stack.getFieldAsList("file");
+        ArrayOfVector nameArray = stack.getFieldAsList("name");
+        ArrayOfVector lineArray = stack.getFieldAsList("line");
+        for (ArrayOf element : fileArray) {
+            if (!element.isRowVectorCharacterArray()) {
+                return false;
+            }
+        }
+        for (ArrayOf element : nameArray) {
+            if (!element.isRowVectorCharacterArray()) {
+                return false;
+            }
+        }
+        for (ArrayOf element : lineArray) {
+            if (!element.isDoubleType() || !element.isScalar()) {
+                return false;
+            }
+        }
+
+        std::vector<PositionScript> trace;
+        trace.reserve(fileArray.size());
+        for (indexType k = 0; k < fileArray.size(); k++) {
+            std::wstring file = fileArray[k].getContentAsWideString();
+            std::wstring name = nameArray[k].getContentAsWideString();
+            int line = (int)lineArray[k].getContentAsDoubleScalar();
+            trace.push_back(PositionScript(name, file, line));
+        }
+        e.setTrace(trace);
+        e.setMessage(message);
+        e.setIdentifier(identifier);
     } else {
-        Exception newException(message, identifier);
-        e = newException;
+        e.setMessage(message);
+        e.setIdentifier(identifier);
     }
     return true;
 }

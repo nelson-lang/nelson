@@ -52,13 +52,14 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
             Error(utf8_to_wstring(arg1.getStructType()) + L"_fieldnames " + _W("not defined."));
         } else {
             if (arg1.isStruct()) {
-                if (arg1.isEmpty()) {
+                stringVector fieldnames = arg1.getFieldNames();
+                if (fieldnames.empty()) {
                     Dimensions dim(0, 1);
                     ArrayOf res = ArrayOf::emptyConstructor(dim);
                     res.promoteType(NLS_CELL_ARRAY);
                     retval << res;
                 } else {
-                    retval << ToCellStringAsColumn(arg1.getFieldNames());
+                    retval << ToCellStringAsColumn(fieldnames);
                 }
             } else {
                 retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
