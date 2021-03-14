@@ -41,7 +41,7 @@ Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin(int nLhs, const ArrayO
         retval << ToCellStringAsColumn(argIn[0].getFieldNames());
     } else {
         Error(_W("MException expected."));
-     }
+    }
     return retval;
 }
 //=============================================================================

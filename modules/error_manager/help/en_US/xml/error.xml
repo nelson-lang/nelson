@@ -7,11 +7,16 @@
   <short_description>Raise an error message.</short_description>
 
   <syntax>
+    <syntax_item>error(id, msg)</syntax_item>
     <syntax_item>error(msg)</syntax_item>
     <syntax_item>error(error_structure)</syntax_item>
   </syntax>
 
   <param_input>
+    <param_input_item>
+      <param_name>id</param_name>
+      <param_description>a string: error identifier.</param_description>
+    </param_input_item>
     <param_input_item>
       <param_name>msg</param_name>
       <param_description>a string.</param_description>
@@ -26,7 +31,7 @@
   <description>
     <p><b>error</b> stops the current script execution.</p>
     <p><b>error('')</b> will be ignored and the script will continue to run.</p>
-
+    <p>identifier includes one or more component fields and a mnemonic field (example: 'nelson:matrix:empty')</p>
   </description>
 
 
@@ -39,6 +44,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[error('your error message.')
+error('nelson:identifier', 'your error message.')
+  
 error('')]]>
     </example_item_data>
   </example_item>
@@ -59,6 +66,9 @@ c = lasterror()]]>
 </examples>
 
   <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}MException">MException</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${error_manager}lasterror">lasterror</link>
     </see_also_item>

@@ -72,7 +72,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
             if (!isValidMExceptionIdentifier(identifier)) {
                 Error(_W("First input argument must be a valid message identifier."));
             }
-            message = argIn[0].getContentAsWideString();
+            message = argIn[1].getContentAsWideString();
         }
         if (message != L"") {
             Error(message, identifier);

@@ -128,7 +128,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
     ~endData() = default;
     ;
 };
@@ -3868,6 +3868,9 @@ Evaluator::rhsExpression(ASTPtr t)
                 }
                 bool haveFunction;
                 rv = extractClass(r, fieldname, params, haveFunction);
+                if (!haveFunction) {
+                    rv = r.getFieldAsList(fieldname);
+                }
             } else if (r.isHandle() || r.isGraphicObject()) {
                 ArrayOfVector params;
                 logical isValidMethod = false;
@@ -3909,6 +3912,9 @@ Evaluator::rhsExpression(ASTPtr t)
                 ArrayOfVector v;
                 bool haveFunction;
                 rv = extractClass(r, field, v, haveFunction);
+                if (!haveFunction) {
+                    rv = r.getFieldAsList(field);
+                }
             } else if (r.isHandle()) {
                 ArrayOfVector v;
                 rv = getHandle(r, field, v);

@@ -33,7 +33,7 @@ namespace Nelson {
 namespace ErrorManagerGateway {
     //=============================================================================
     ArrayOfVector
-    MExceptionBuiltin(int nLhs, const ArrayOfVector& argIn);
+    MExceptionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

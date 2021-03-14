@@ -32,7 +32,8 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ErrorManagerGateway::throwAsCallerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ErrorManagerGateway::throwAsCallerBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);

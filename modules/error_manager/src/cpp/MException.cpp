@@ -51,9 +51,11 @@ isValidMExceptionIdentifier(std::wstring identifier)
         if (!iswalpha(component[0])) {
             return false;
         }
-        component.erase(0, 1);
-        if (find_if(component.begin(), component.end(), isAlphaNum) == component.end()) {
-            return false;
+        if (component.size() > 1) {
+            component.erase(0, 1);
+            if (find_if(component.begin(), component.end(), isAlphaNum) == component.end()) {
+                return false;
+            }
         }
     }
     return true;

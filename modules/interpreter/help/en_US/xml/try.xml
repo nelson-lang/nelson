@@ -9,11 +9,15 @@
 
   <syntax>
     <syntax_item>try, statements_1, catch, statements_2, end</syntax_item>
+    <syntax_item>try, statements_1, catch exception, statements_2, end</syntax_item>
+
   </syntax>
   
 
   <description>
   <p><b>try</b> and <b>catch</b> statements are used for error handling and control in files.</p>
+  <p><b>exception</b> is an <b>MException</b> object that allows you to identify the error.</p>
+  <p>The catch block assigns the current exception object to the variable in exception.</p>
 </description>
 
   <used_function></used_function>
@@ -33,6 +37,17 @@ end]]>
     </example_item_data>
   </example_item>
 
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>try/catch in a script file</example_item_description>
+    <example_item_data><![CDATA[try 
+error('an error')
+catch ME
+  ME
+end]]>
+    </example_item_data>
+  </example_item>
+
 </examples>
 
 	<see_also>
@@ -41,6 +56,9 @@ end]]>
 		</see_also_item>
 		<see_also_item>
 			<link linkend="${core}execstr">execstr</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${error_manager}MException">MException</link>
 		</see_also_item>
 
 	</see_also>
