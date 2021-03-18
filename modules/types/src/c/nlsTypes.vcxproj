@@ -209,6 +209,7 @@
     <ClInclude Include="..\include\ArrayOfVector.hpp" />
     <ClInclude Include="..\include\CheckerHelpers.hpp" />
     <ClInclude Include="..\include\ClassToString.hpp" />
+    <ClInclude Include="..\include\Decomplexify.hpp" />
     <ClInclude Include="..\include\HandleGenericObject.hpp" />
     <ClInclude Include="..\include\HandleManager.hpp" />
     <ClInclude Include="..\include\IsValidVariableName.hpp" />
@@ -240,6 +241,7 @@
     <ClCompile Include="..\cpp\ClassName.cpp" />
     <ClCompile Include="..\cpp\ClassToString.cpp" />
     <ClCompile Include="..\cpp\Data.cpp" />
+    <ClCompile Include="..\cpp\Decomplexify.cpp" />
     <ClCompile Include="..\cpp\Dimensions.cpp" />
     <ClCompile Include="..\cpp\HandleGenericObject.cpp" />
     <ClCompile Include="..\cpp\HandleManager.cpp" />

@@ -2,6 +2,8 @@
 
 ## Features:
 
+- [#373](http://github.com/Nelson-numerical-software/nelson/issues/373): `sign` builtin.
+
 - `MException` comes default exception in Nelson.
 
 - `try, catch` extended to manage `MException`.

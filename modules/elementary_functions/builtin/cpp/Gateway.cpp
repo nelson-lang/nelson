@@ -107,6 +107,7 @@
 #include "isscalarBuiltin.hpp"
 #include "triuBuiltin.hpp"
 #include "trilBuiltin.hpp"
+#include "signBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -287,6 +288,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "tril", (void*)Nelson::ElementaryFunctionsGateway::trilBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "sign", (void*)Nelson::ElementaryFunctionsGateway::signBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
