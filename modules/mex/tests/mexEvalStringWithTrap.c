@@ -31,16 +31,16 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     if (nlhs != 1) {
         mexErrMsgIdAndTxt("Nelson:mexevalstring:nOutput", "One output arguments required.");
     } 
-    mxArray *mexception;
+    mxArray *MException;
     if(nrhs ==1){
-        mexception = mexEvalStringWithTrap("B = 100");
+        MException = mexEvalStringWithTrap("B = 100");
     } else {
-        mexception = mexEvalStringWithTrap("NOT_EXIST");
+        MException = mexEvalStringWithTrap("NOT_EXIST");
     }
-    if (mexception == NULL){
+    if (MException == NULL){
         plhs[0] = mxCreateString("It works !!!");
     } else {
-        plhs[0] = mexception;
+        plhs[0] = MException;
     }
 }
 //=============================================================================

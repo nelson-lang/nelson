@@ -136,14 +136,20 @@ Exception::matches(const std::string& tst_msg)
     return (msg == utf8_to_wstring(tst_msg));
 }
 //=============================================================================
-std::wstring
-Exception::getMessage()
+void
+Exception::setMessage(const std::wstring& message_in)
 {
-    return msg;
+    msg = message_in;
+}
+//=============================================================================
+void
+Exception::setMessage(const std::string& message_in)
+{
+    msg = utf8_to_wstring(message_in);
 }
 //=============================================================================
 int
-Exception::getLine()
+Exception::getLine() const
 {
     if (backtrace.empty()) {
         return -1;
@@ -152,7 +158,7 @@ Exception::getLine()
 }
 //=============================================================================
 std::wstring
-Exception::getFunctionName()
+Exception::getFunctionName() const
 {
     if (backtrace.empty()) {
         return L"";
@@ -161,7 +167,7 @@ Exception::getFunctionName()
 }
 //=============================================================================
 std::wstring
-Exception::getFilename()
+Exception::getFilename() const
 {
     if (backtrace.empty()) {
         return L"";
@@ -170,7 +176,7 @@ Exception::getFilename()
 }
 //=============================================================================
 std::wstring
-Exception::getFormattedErrorMessage()
+Exception::getFormattedErrorMessage() const
 {
     std::wstring message = getMessage();
     std::vector<PositionScript> traces = getTrace();
@@ -242,21 +248,9 @@ Exception::getFormattedErrorMessage()
 }
 //=============================================================================
 bool
-Exception::isEmpty()
+Exception::isEmpty() const
 {
     return backtrace.empty() && (this->msg.empty());
-}
-//=============================================================================
-std::vector<PositionScript>
-Exception::getTrace()
-{
-    return this->backtrace;
-}
-//=============================================================================
-std::wstring
-Exception::getIdentifier()
-{
-    return this->identifier;
 }
 //=============================================================================
 void

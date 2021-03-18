@@ -66,85 +66,135 @@ namespace Nelson {
  */
 class NLSERROR_MANAGER_IMPEXP Exception
 {
+    //=============================================================================
 private:
     std::vector<PositionScript> backtrace;
+    std::vector<Exception> cause;
     std::wstring identifier = L"";
     std::wstring msg = L"";
-
+    //=============================================================================
 public:
     Exception(const std::string& msg_in, std::vector<PositionScript> positions,
         const std::string& identifier_in = "");
+    //=============================================================================
     Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
         const std::wstring& identifier_in = L"");
+    //=============================================================================
     Exception(const std::string& msg_in, const PositionScript& position,
         const std::string& identifier_in = "");
+    //=============================================================================
     Exception(const std::wstring& msg_in, const PositionScript& position,
         const std::wstring& identifier_in = L"");
+    //=============================================================================
     Exception(const std::string& msg_in, const std::string& identifier_in = "");
+    //=============================================================================
     Exception(const std::wstring& msg_in, const std::wstring& identifier_in = L"");
+    //=============================================================================
     Exception();
-
+    //=============================================================================
     /**
      * Copy constructor.
      */
     Exception(const Exception& copy);
+    //=============================================================================
     /**
      * Assignment operator.
      */
     void
     operator=(const Exception& copy);
+    //=============================================================================
     /**
      * Standard destructor.
      */
     ~Exception();
+    //=============================================================================
     /**
      * Output the contents of the exception to the console.
      */
     void
     printMe(Interface* io);
+    //=============================================================================
     /**
      * compares messages
      */
     bool
     matches(const std::string& tst_msg);
+    //=============================================================================
     bool
     matches(const std::wstring& tst_msg);
+    //=============================================================================
     /**
      * Get the message member function.
      */
     std::wstring
-    getMessage();
-
-    void
-    setIdentifier(const std::wstring& identifier_in);
-    void
-    setIdentifier(const std::string& identifier_in);
-
-    std::wstring
-    getFormattedErrorMessage();
-    std::wstring
-    what()
+    getMessage() const
     {
         return msg;
     }
-
+    //=============================================================================
+    void
+    setMessage(const std::wstring& message_in);
+    //=============================================================================
+    void
+    setMessage(const std::string& message_in);
+    //=============================================================================
+    void
+    setIdentifier(const std::wstring& identifier_in);
+    //=============================================================================
+    void
+    setIdentifier(const std::string& identifier_in);
+    //=============================================================================
+    std::vector<Exception>
+    getCause() const
+    {
+        return cause;
+    }
+    //=============================================================================
+    void
+    setCause(const std::vector<Exception>& _cause)
+    {
+        cause = _cause;
+    }
+    //=============================================================================
     std::wstring
-    getFilename();
-
+    getFormattedErrorMessage() const;
+    //=============================================================================
+    std::wstring
+    what() const
+    {
+        return msg;
+    }
+    //=============================================================================
+    std::wstring
+    getFilename() const;
+    //=============================================================================
     int
-    getLine();
-
+    getLine() const;
+    //=============================================================================
     std::wstring
-    getFunctionName();
-
+    getFunctionName() const;
+    //=============================================================================
     bool
-    isEmpty();
-
+    isEmpty() const;
+    //=============================================================================
     std::wstring
-    getIdentifier();
-
+    getIdentifier() const
+    {
+        return identifier;
+    }
+    //=============================================================================
     std::vector<PositionScript>
-    getTrace();
+    getTrace() const
+    {
+        return backtrace;
+    }
+    //=============================================================================
+    void
+    setTrace(const std::vector<PositionScript>& _trace)
+    {
+        backtrace = _trace;
+    }
+    //=============================================================================
 };
 //=============================================================================
 template <class T>

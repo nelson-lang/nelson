@@ -71,7 +71,7 @@ public:
     }
     //=============================================================================
     std::wstring
-    getFilename()
+    getFilename() const
     {
         return this->filename;
     }
@@ -83,7 +83,7 @@ public:
     }
     //=============================================================================
     int
-    getLine()
+    getLine() const
     {
         return this->line;
     }
@@ -95,7 +95,7 @@ public:
     }
     //=============================================================================
     std::wstring
-    getFunctionName()
+    getFunctionName() const
     {
         return this->functionname;
     }

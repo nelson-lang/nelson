@@ -33,7 +33,7 @@ namespace Nelson {
 NLSINTERPRETER_IMPEXP void
 setErrorEvaluator(Evaluator* eval);
 NLSINTERPRETER_IMPEXP void
-throwException(Exception& e);
+throwException(const Exception& e);
 } // namespace Nelson
 //=============================================================================
 #ifdef __cplusplus

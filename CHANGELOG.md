@@ -2,7 +2,15 @@
 
 ## Features:
 
-- callstack reworks.
+- `MException` comes default exception in Nelson.
+
+- `try, catch` extended to manage `MException`.
+
+- `throw`, `throwAsCaller`, `rethrow` functions added.
+
+- `error` extended to manage identifier.
+
+- callstack reworks, available with `MException`.
 
 - for loop faster > x2.
 
@@ -11,6 +19,8 @@
 - reworks ArrayOfVector (internal).
 
 - C++ API nargincheck, nargoutcheck helpers added.
+
+- rename `mexception` to `MException`
 
 ## Bug Fixes:
 

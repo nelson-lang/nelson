@@ -23,15 +23,37 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "mexception_extractionBuiltin.hpp"
+#include "MExceptionBuiltin.hpp"
+#include "MException.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ErrorManagerGateway::mexception_extractionBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ErrorManagerGateway::MExceptionBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    std::wstring identifier = argIn[0].getContentAsWideString();
+    if (argIn.size() == 1) {
+        if (identifier == L"reset") {
+            eval->resetLastErrorException();
+            return retval;
+        }
+        if (identifier == L"last") {
+            retval << ExceptionToArrayOf(eval->getLastErrorException());
+            return retval;
+        }
+        Error("'reset' or 'last' value expected.");
+    }
+    if (!isValidMExceptionIdentifier(identifier)) {
+        Error(_W("First input argument must be a valid message identifier."));
+    }
+    std::wstring message = argIn[1].getContentAsWideString();
+    retval << ExceptionToArrayOf(Exception(message, identifier));
     return retval;
 }
 //=============================================================================

@@ -38,7 +38,7 @@ setErrorEvaluator(Evaluator* eval)
 }
 //=============================================================================
 void
-throwException(Exception& e)
+throwException(const Exception& e)
 {
     throw e;
 }
