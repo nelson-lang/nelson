@@ -243,6 +243,9 @@
     <ClCompile Include="..\cpp\LowerTrianglePart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\Sign.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp">
@@ -510,6 +513,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\LowerTrianglePart.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Sign.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

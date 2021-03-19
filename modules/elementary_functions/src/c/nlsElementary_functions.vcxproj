@@ -206,6 +206,7 @@
     <ClCompile Include="..\cpp\LowerTrianglePart.cpp" />
     <ClCompile Include="..\cpp\Maximum.cpp" />
     <ClCompile Include="..\cpp\Minimum.cpp" />
+    <ClCompile Include="..\cpp\Sign.cpp" />
     <ClCompile Include="..\cpp\Sort.cpp" />
     <ClCompile Include="..\cpp\SortCellHelpers.cpp" />
     <ClCompile Include="..\cpp\SortStringHelpers.cpp" />
@@ -338,6 +339,7 @@
     <ClInclude Include="..\include\RelationOperator.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
+    <ClInclude Include="..\include\Sign.hpp" />
     <ClInclude Include="..\include\Sort.hpp" />
     <ClInclude Include="..\include\Sqrt.hpp" />
     <ClInclude Include="..\include\StringArrayAddition.hpp" />

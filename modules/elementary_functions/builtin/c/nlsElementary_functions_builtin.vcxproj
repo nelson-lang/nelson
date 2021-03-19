@@ -239,6 +239,7 @@
     <ClCompile Include="..\cpp\roundBuiltin.cpp" />
     <ClCompile Include="..\cpp\shortcutandBuiltin.cpp" />
     <ClCompile Include="..\cpp\shortcutorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\signBuiltin.cpp" />
     <ClCompile Include="..\cpp\sizeBuiltin.cpp" />
     <ClCompile Include="..\cpp\sortBuiltin.cpp" />
     <ClCompile Include="..\cpp\sqrtBuiltin.cpp" />
@@ -352,6 +353,7 @@
     <ClInclude Include="..\include\roundBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutandBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutorBuiltin.hpp" />
+    <ClInclude Include="..\include\signBuiltin.hpp" />
     <ClInclude Include="..\include\sizeBuiltin.hpp" />
     <ClInclude Include="..\include\sortBuiltin.hpp" />
     <ClInclude Include="..\include\sqrtBuiltin.hpp" />
