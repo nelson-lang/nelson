@@ -24,7 +24,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 
-FROM archlinux/base:latest
+FROM archlinux:latest
 MAINTAINER Allan CORNET "nelson.numerical.computation@gmail.com"
 
 ARG BRANCH_NAME
@@ -87,7 +87,7 @@ USER nelsonuser
 
 ENV AUDIODEV null
 
-RUN cmake -G "Unix Makefiles" .
+RUN cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
 RUN make -j4
 RUN make get_module_skeleton
 

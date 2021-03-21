@@ -28,6 +28,8 @@
 
 - [#413](http://github.com/Nelson-numerical-software/nelson/issues/413): circle CI Arch docker did not work.
 
+- [#412](http://github.com/Nelson-numerical-software/nelson/issues/412) docker fedora 35 support.
+
 # 0.5.2 (2021-02-27)
 
 ## Features:

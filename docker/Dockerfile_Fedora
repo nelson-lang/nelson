@@ -24,7 +24,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 
-FROM fedora:30
+FROM fedora:35
 MAINTAINER Allan CORNET "nelson.numerical.computation@gmail.com"
 
 ARG BRANCH_NAME
@@ -50,10 +50,12 @@ RUN dnf install -y libicu-devel
 RUN dnf install -y libxml2-devel
 RUN dnf install -y lapack-devel
 RUN dnf install -y fftw3-devel
-RUN dnf install -y portaudio-devel.x86_64
-RUN dnf install -y libsndfile-devel.x86_64
+RUN dnf install -y portaudio-devel
+RUN dnf install -y libsndfile-devel
+RUN dnf install -y jack-audio-connection-kit-devel
 RUN dnf install -y taglib-devel
-RUN dnf install -y qt5-devel
+RUN dnf install -y qt5-qtbase-devel
+RUN dnf install -y qt5-qtdeclarative-devel
 RUN dnf install -y qt5-assistant
 RUN dnf install -y qt5-doctools
 RUN dnf install -y qt5-qtquickcontrols
@@ -61,15 +63,9 @@ RUN dnf install -y boost-devel
 RUN dnf install -y zlib-devel
 RUN dnf install -y curl-devel
 RUN dnf install -y libgit2-devel
-
-RUN git clone https://github.com/HDFGroup/hdf5.git /tmp/hdf5-1_10_5
-RUN cd /tmp/hdf5-1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && make install -C src
-
-RUN git clone https://github.com/tbeu/matio /tmp/matio
-RUN cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_10_5/hdf5 && make && make install;
-
-RUN git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
-RUN mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
+RUN dnf install -y matio-devel
+RUN dnf install -y hdf5-devel
+RUN dnf install -y eigen3-devel
 
 RUN git clone https://github.com/Nelson-numerical-software/nelson.git
 WORKDIR "/nelson"
@@ -88,11 +84,13 @@ USER nelsonuser
 
 ENV AUDIODEV null
 ENV PATH="/usr/lib64/openmpi/bin:${PATH}"
-ENV HDF5_LIBRARIES="/tmp/hdf5-1_10_5/hdf5/lib"
-ENV HDF5_INCLUDE_DIRS="/tmp/hdf5-1_10_5/hdf5"
-ENV HDF5_ROOT="/tmp/hdf5-1_10_5/hdf5"
-ENV LD_LIBRARY_PATH="${HDF5_LIBRARIES}:/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
-RUN cmake -G "Unix Makefiles" .
+#ENV HDF5_LIBRARIES="//usr/lib64/"
+#ENV HDF5_INCLUDE_DIRS="/tmp/hdf5-1_10_5/hdf5"
+#ENV HDF5_ROOT="/tmp/hdf5-1_10_5/hdf5"
+#ENV LD_LIBRARY_PATH="${HDF5_LIBRARIES}:/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
+ENV LD_LIBRARY_PATH="/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
+
+RUN cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
 RUN make -j4
 RUN make get_module_skeleton
 
