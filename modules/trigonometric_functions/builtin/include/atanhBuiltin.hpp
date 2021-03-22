@@ -26,39 +26,16 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsTrigonometric_functions_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cos(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sin(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tan(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Acos(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Asin(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Atan(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cosh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sinh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tanh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Atanh(const ArrayOf& A, bool& needToOverload);
+namespace TrigonometricGateway {
+    //=============================================================================
+    ArrayOfVector
+    atanhBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

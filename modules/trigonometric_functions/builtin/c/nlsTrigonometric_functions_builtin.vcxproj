@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\asinBuiltin.cpp" />
     <ClCompile Include="..\cpp\atan2Builtin.cpp" />
     <ClCompile Include="..\cpp\atanBuiltin.cpp" />
+    <ClCompile Include="..\cpp\atanhBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosBuiltin.cpp" />
     <ClCompile Include="..\cpp\coshBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosmBuiltin.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="..\include\asinBuiltin.hpp" />
     <ClInclude Include="..\include\atan2Builtin.hpp" />
     <ClInclude Include="..\include\atanBuiltin.hpp" />
+    <ClInclude Include="..\include\atanhBuiltin.hpp" />
     <ClInclude Include="..\include\cosBuiltin.hpp" />
     <ClInclude Include="..\include\coshBuiltin.hpp" />
     <ClInclude Include="..\include\cosmBuiltin.hpp" />

@@ -23,6 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
+//=============================================================================
 #include <Eigen/Dense>
 #include <cmath>
 #include <complex>
@@ -31,6 +35,7 @@
 #include "nlsConfig.h"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -796,6 +801,98 @@ Atan(const ArrayOf& A, bool& needToOverload)
     } break;
     }
     return R;
+}
+//=============================================================================
+template <typename T>
+static inline void
+arctanh(bool asComplex, T xr, T xi, T& yr, T& yi)
+{
+    if ((xr >= 0 && std::isinf(xr)) && (xi == 0)) {
+        yr = 0;
+        yi = (T)M_PI / 2.0;
+        return;
+    }
+    if ((xr < 0 && std::isinf(xr)) && (xi == 0)) {
+        yr = 0;
+        yi = -(T)M_PI / 2.0;
+        return;
+    }
+    std::complex<T> v(xr, xi);
+    std::complex<T> r = std::atanh(v);
+    yr = r.real();
+    yi = r.imag();
+
+    if (!asComplex) {
+        if (std::isnan(yr) && std::isnan(yi)) {
+            yi = 0;
+        }
+    }
+}
+//=============================================================================
+ArrayOf
+Atanh(const ArrayOf& A, bool& needToOverload)
+{
+    needToOverload = false;
+    ArrayOf R;
+    if (A.isEmpty()) {
+        R = A;
+        R.ensureSingleOwner();
+        return R;
+    }
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
+    switch (A.getDataClass()) {
+    default: {
+        needToOverload = true;
+    } break;
+    case NLS_SCOMPLEX: {
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount());
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        single* ptrA = (single*)A.getDataPointer();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); k = k + 2) {
+            arctanh<single>(true, ptrA[k], ptrA[k + 1], ptrR[k], ptrR[k + 1]);
+        }
+    } break;
+    case NLS_SINGLE: {
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getElementCount());
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        single* ptrA = (single*)A.getDataPointer();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
+            arctanh<single>(false, ptrA[k], 0, ptrR[2 * k], ptrR[(2 * k) + 1]);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount());
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        double* ptrA = (double*)A.getDataPointer();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); k = k + 2) {
+            arctanh<double>(true, ptrA[k], ptrA[k + 1], ptrR[k], ptrR[k + 1]);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getElementCount());
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        double* ptrA = (double*)A.getDataPointer();
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
+            arctanh<double>(false, ptrA[k], 0, ptrR[2 * k], ptrR[(2 * k) + 1]);
+        }
+    } break;
+    }
+    return decomplexify(R);
 }
 //=============================================================================
 } // namespace Nelson

@@ -38,6 +38,7 @@
 #include "sinmBuiltin.hpp"
 #include "tanmBuiltin.hpp"
 #include "atan2Builtin.hpp"
+#include "atanhBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -58,6 +59,9 @@ static const nlsGateway gateway[] = {
     { "tanm", (void*)Nelson::TrigonometricGateway::tanmBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "atan2", (void*)Nelson::TrigonometricGateway::atan2Builtin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "atanh", (void*)Nelson::TrigonometricGateway::atanhBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
