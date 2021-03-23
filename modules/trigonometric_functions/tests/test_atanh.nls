@@ -23,42 +23,32 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('atanh'), 1);
+assert_isequal(nargout('atanh'), 1);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsTrigonometric_functions_exports.h"
+assert_isequal(atanh(NaN),  NaN);
+assert_isequal(atanh(-NaN), NaN);
+assert_isequal(atanh(Inf), complex(0,pi * 0.5));
+assert_isequal(atanh(-Inf), complex(0,-pi * 0.5));
 //=============================================================================
-namespace Nelson {
+v = [1.   0.8660254   0.7071068   0.5   0.   0.  -0.5  -0.7071068  -0.8660254  -1];
+r = atanh(v);
+ref = [Inf,  1.3170, 0.8814, 0.5493, 0, 0, -0.5493, -0.8814, -1.3170, -Inf];
+assert_isapprox(real(r), ref, 1e-4);
 //=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cos(const ArrayOf& A, bool& needToOverload);
+x = atanh(0i);
+ref = 0;
+assert_isequal(x, ref);
 //=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sin(const ArrayOf& A, bool& needToOverload);
+X = atanh(zeros(3, 3, 3));
+REF = zeros(3, 3, 3);
+assert_isequal(X, REF);
 //=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tan(const ArrayOf& A, bool& needToOverload);
+R = atanh([12, NaN]);
+REF = [0.0835+1.5708i, complex(NaN, 0)];
+assert_isapprox(R, REF, 1e-3);
 //=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Acos(const ArrayOf& A, bool& needToOverload);
+assert_isequal(atanh([]), []);
 //=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Asin(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Atan(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cosh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sinh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tanh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Atanh(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-} // namespace Nelson
+assert_checkerror('atanh(''a'')', [_('Undefined function ''atanh'' for input arguments of type '''), class('a'), '''.']);
 //=============================================================================
