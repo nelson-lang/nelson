@@ -82,8 +82,7 @@ SignReal(Class outputClass, const T* ptrA, const Dimensions& dimsA)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         if (std::isnan(ptrA[k])) {
             ptrB[k] = (T)std::nan("NaN");
-        } else
-        if (ptrA[k] < (T)0) {
+        } else if (ptrA[k] < (T)0) {
             ptrB[k] = (T)(-1);
         } else if (ptrA[k] == (T)0) {
             ptrB[k] = (T)(0);
@@ -137,9 +136,9 @@ Sign(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT16: {
         Dimensions dimsA = A.getDimensions();
         return SignUnsignedInteger<uint16>(NLS_UINT16, (uint16*)A.getDataPointer(), dimsA);
-     } break;
+    } break;
     case NLS_INT16: {
-         Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.getDimensions();
         return SignSignedInteger<int16>(NLS_INT16, (int16*)A.getDataPointer(), dimsA);
     } break;
     case NLS_UINT32: {
@@ -153,9 +152,9 @@ Sign(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT64: {
         Dimensions dimsA = A.getDimensions();
         return SignUnsignedInteger<uint64>(NLS_UINT64, (uint64*)A.getDataPointer(), dimsA);
-     } break;
+    } break;
     case NLS_INT64: {
-         Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.getDimensions();
         return SignSignedInteger<int64>(NLS_INT64, (int64*)A.getDataPointer(), dimsA);
     } break;
     case NLS_SINGLE: {
