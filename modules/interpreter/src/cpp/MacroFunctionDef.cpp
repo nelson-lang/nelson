@@ -170,22 +170,29 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
     // argument function, then use the following logic:
     minCount = 0;
     if (inputArgCount() != -1) {
+        if (inputs.size() > arguments.size()) {
+            context->popScope();
+            eval->callstack.popDebug();
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         minCount = (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
         for (size_t i = 0; i < minCount; i++) {
             std::string arg(arguments[i]);
-            if (arg[0] == '&') {
-                arg.erase(0, 1);
-            }
             context->insertVariableLocally(arg, inputs[i]);
         }
-        // context->insertVariableLocally("nargin",
-        // ArrayOf::doubleConstructor((double)minCount));
         context->getCurrentScope()->setNargIn(static_cast<int>(minCount));
     } else {
         // Count the number of supplied arguments
         size_t inputCount = inputs.size();
-        // context->insertVariableLocally("nargin",
-        // ArrayOf::doubleConstructor((double)inputCount));
+        size_t nbArgumentsWithoutVarArgIn = arguments.size();
+        if (arguments[arguments.size() - 1] == "varargin") {
+            nbArgumentsWithoutVarArgIn = nbArgumentsWithoutVarArgIn - 1;
+        }
+        if (inputCount < nbArgumentsWithoutVarArgIn) {
+            context->popScope();
+            eval->callstack.popDebug();
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         context->getCurrentScope()->setNargIn(static_cast<int>(inputCount));
         // Get the number of explicit arguments
         int explicitCount = static_cast<int>(arguments.size()) - 1;
@@ -197,9 +204,6 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
         size_t i;
         for (i = 0; i < minCount; i++) {
             std::string arg(arguments[i]);
-            if (arg[0] == '&') {
-                arg.erase(0, 1);
-            }
             context->insertVariableLocally(arg, inputs[i]);
         }
         inputCount -= minCount;
@@ -212,8 +216,6 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
         }
         context->insertVariableLocally("varargin", varg);
     }
-    // context->insertVariableLocally("nargout",
-    // ArrayOf::doubleConstructor(nargout));
     context->getCurrentScope()->setNargOut(nargout);
     uint64 tic = 0;
     try {
@@ -251,6 +253,8 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
             bool haveVarargout = context->lookupVariableLocally("varargout", varargout);
             if (haveVarargout) {
                 if (varargout.getDataClass() != NLS_CELL_ARRAY) {
+                    context->popScope();
+                    eval->callstack.popDebug();
                     Error(_W("The special variable 'varargout' was not defined as a "
                              "cell-array."));
                 }
@@ -259,6 +263,8 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
             int explicitCount = static_cast<int>(returnVals.size()) - 1;
             bool noArgs = (explicitCount == 0 && varlen == 0);
             if (!noArgs && !haveVarargout) {
+                context->popScope();
+                eval->callstack.popDebug();
                 Error(_W("The special variable 'varargout' was not defined as expected."));
             }
             if (explicitCount == 0 && varlen > 0 && nargout < 2) {
