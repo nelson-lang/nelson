@@ -1,3 +1,9 @@
+# 0.5.4 (UNRELEASED)
+
+## Features:
+
+- [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
+
 # 0.5.3 (2021-03-24)
 
 ## Features:
@@ -18,7 +24,7 @@
 
 - for loop faster > x2.
 
-- assignment does not copy matrix. 
+- assignment does not copy matrix.
 
 - reworks ArrayOfVector (internal).
 

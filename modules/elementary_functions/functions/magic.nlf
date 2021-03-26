@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function M = magic(N)
-  if (nargin ~= 1)
+  if (nargin < 1)
     error(_('Wrong number of input arguments.'));
   end
   if (nargout > 1)
