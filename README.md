@@ -45,6 +45,8 @@ these own data types and operations on these data types by using overload.
   - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   - handle objects.
 
+- `OpenMP` and `SIMD` extensions used.
+
 - Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
 
 - SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).

@@ -64,10 +64,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
 #if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcf> matEigen(
-            Az, R.getDimensions().getElementCount());
-        Eigen::Map<Eigen::VectorXcf> matRes(
-            Rz, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().cos();
 #else
 #if defined(_NLS_WITH_OPENMP)
@@ -109,10 +107,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
 
 #if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcd> matEigen(
-            Az, R.getDimensions().getElementCount());
-        Eigen::Map<Eigen::VectorXcd> matRes(
-            Rz, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
         matRes = matEigen.array().cos();
 #else
 #if defined(_NLS_WITH_OPENMP)

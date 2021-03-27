@@ -2,6 +2,10 @@
 
 ## Features:
 
+- `ceil`, `round`, `fix`, `floor` use SIMD extensions.
+
+- `cos` uses SIMD extensions.
+
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
 # 0.5.3 (2021-03-24)
