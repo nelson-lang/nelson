@@ -23,13 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#undef EIGEN_USE_MKL_VML
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
+#include <Eigen/src/misc/lapacke.h>
 #include "ReciprocalConditionNumber.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
-#include "lapack_eigen.hpp"
-#include <Eigen/Dense>
-#include <Eigen/src/misc/lapacke.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

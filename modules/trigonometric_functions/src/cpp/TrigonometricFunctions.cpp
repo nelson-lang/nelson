@@ -27,12 +27,12 @@
 #define _USE_MATH_DEFINES
 #endif
 //=============================================================================
+#include "nlsConfig.h"
 #include <Eigen/Dense>
 #include <cmath>
 #include <complex>
 #include <functional>
 #include "TrigonometricFunctions.hpp"
-#include "nlsConfig.h"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "Decomplexify.hpp"
@@ -63,12 +63,20 @@ Cos(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcf> matEigen(
+            Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matRes(
+            Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().cos();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::cos(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -77,6 +85,13 @@ Cos(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXf> matEigen(
+            (single*)A.getDataPointer(), R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXf> matRes(
+            (single*)R.getDataPointer(), R.getDimensions().getElementCount());
+        matRes = matEigen.array().cos();
+#else
         single* ptrA = (single*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -84,6 +99,7 @@ Cos(const ArrayOf& A, bool& needToOverload)
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = cos(ptrA[k]);
         }
+#endif
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -91,12 +107,21 @@ Cos(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcd> matEigen(
+            Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matRes(
+            Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().cos();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::cos(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -105,6 +130,13 @@ Cos(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXd> matEigen(
+            (double*)A.getDataPointer(), R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXd> matRes(
+            (double*)R.getDataPointer(), R.getDimensions().getElementCount());
+        matRes = matEigen.array().cos();
+#else
         double* ptrA = (double*)A.getDataPointer();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -112,6 +144,7 @@ Cos(const ArrayOf& A, bool& needToOverload)
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = cos(ptrA[k]);
         }
+#endif
     } break;
     }
     return R;
