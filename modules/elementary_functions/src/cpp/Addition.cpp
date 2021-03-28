@@ -24,6 +24,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include "nlsConfig.h"
+#if defined(_NLS_WITH_VML)
+#include <mkl_vml.h>
+#endif
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
@@ -87,26 +91,112 @@ Addition(const ArrayOf& A, const ArrayOf& B, Class commonClass)
     } else {
         switch (commonClass) {
         case NLS_SINGLE: {
-            res = real_addition<single>(NLS_SINGLE, A, B);
+            if (A.isScalar() && B.isScalar()) {
+                res = scalar_scalar_real_addition<single>(NLS_SINGLE, A, B);
+            } else {
+                Dimensions dimsA = A.getDimensions();
+                Dimensions dimsB = B.getDimensions();
+                if (SameSizeCheck(dimsA, dimsB)) {
+#if defined(_NLS_WITH_VML)
+                    Dimensions dimsC = A.getDimensions();
+                    indexType Clen = dimsC.getElementCount();
+                    single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, Clen);
+                    const single* ptrA = (const single*)A.getDataPointer();
+                    const single* ptrB = (const single*)B.getDataPointer();
+                    res = ArrayOf(NLS_SINGLE, dimsC, ptrC, false);
+                    vsAdd((MKL_INT)Clen, ptrA, ptrB, ptrC);
+#else
+                    res = matrix_matrix_real_addition<single>(NLS_SINGLE, A, B);
+#endif
+                } else {
+                    res = real_addition<single>(NLS_SINGLE, A, B);
+                }
+            }
         } break;
         case NLS_DOUBLE: {
-            res = real_addition<double>(NLS_DOUBLE, A, B);
+            if (A.isScalar() && B.isScalar()) {
+                res = scalar_scalar_real_addition<double>(NLS_DOUBLE, A, B);
+            } else {
+                Dimensions dimsA = A.getDimensions();
+                Dimensions dimsB = B.getDimensions();
+                if (SameSizeCheck(dimsA, dimsB)) {
+#if defined(_NLS_WITH_VML)
+                    Dimensions dimsC = A.getDimensions();
+                    indexType Clen = dimsC.getElementCount();
+                    double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen);
+                    const double* ptrA = (const double*)A.getDataPointer();
+                    const double* ptrB = (const double*)B.getDataPointer();
+                    res = ArrayOf(NLS_DOUBLE, dimsC, ptrC, false);
+                    vdAdd((MKL_INT)Clen, ptrA, ptrB, ptrC);
+#else
+                    res = matrix_matrix_real_addition<double>(NLS_DOUBLE, A, B);
+#endif
+                } else {
+                    res = real_addition<double>(NLS_DOUBLE, A, B);
+                }
+            }
         } break;
         case NLS_SCOMPLEX: {
-            res = complex_addition<single>(NLS_SCOMPLEX, A, B);
+            if (A.isScalar() && B.isScalar()) {
+                res = scalar_scalar_complex_addition<single>(NLS_SCOMPLEX, A, B);
+            } else {
+                Dimensions dimsA = A.getDimensions();
+                Dimensions dimsB = B.getDimensions();
+                if (SameSizeCheck(dimsA, dimsB)) {
+#if defined(_NLS_WITH_VML)
+                    Dimensions dimsC = A.getDimensions();
+                    indexType Clen = dimsC.getElementCount();
+                    single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, Clen);
+                    res = ArrayOf(NLS_SCOMPLEX, dimsC, ptrC, false);
+                    single* ptrA = (single*)A.getDataPointer();
+                    single* ptrB = (single*)B.getDataPointer();
+                    MKL_Complex8* ptrAz = reinterpret_cast<MKL_Complex8*>(ptrA);
+                    MKL_Complex8* ptrBz = reinterpret_cast<MKL_Complex8*>(ptrB);
+                    MKL_Complex8* ptrCz = reinterpret_cast<MKL_Complex8*>(ptrC);
+                    vcAdd((MKL_INT)Clen, ptrAz, ptrBz, ptrCz);
+#else
+                    res = matrix_matrix_complex_addition<single>(NLS_SCOMPLEX, A, B);
+#endif
+                } else {
+                    res = complex_addition<single>(NLS_SCOMPLEX, A, B);
+                }
+            }
             if (res.allReal()) {
                 res.promoteType(NLS_SINGLE);
             }
         } break;
         case NLS_DCOMPLEX: {
-            res = complex_addition<double>(NLS_DCOMPLEX, A, B);
+            if (A.isScalar() && B.isScalar()) {
+                res = scalar_scalar_complex_addition<double>(NLS_DCOMPLEX, A, B);
+            } else {
+                Dimensions dimsA = A.getDimensions();
+                Dimensions dimsB = B.getDimensions();
+                if (SameSizeCheck(dimsA, dimsB)) {
+#if defined(_NLS_WITH_VML)
+                    Dimensions dimsC = A.getDimensions();
+                    indexType Clen = dimsC.getElementCount();
+                    double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, Clen);
+                    res = ArrayOf(NLS_DCOMPLEX, dimsC, ptrC, false);
+                    double* ptrA = (double*)A.getDataPointer();
+                    double* ptrB = (double*)B.getDataPointer();
+                    MKL_Complex16* ptrAz = reinterpret_cast<MKL_Complex16*>(ptrA);
+                    MKL_Complex16* ptrBz = reinterpret_cast<MKL_Complex16*>(ptrB);
+                    MKL_Complex16* ptrCz = reinterpret_cast<MKL_Complex16*>(ptrC);
+                    vzAdd((MKL_INT)Clen, ptrAz, ptrBz, ptrCz);
+#else
+                    res = matrix_matrix_complex_addition<single>(NLS_DCOMPLEX, A, B);
+#endif
+                } else {
+                    res = complex_addition<double>(NLS_DCOMPLEX, A, B);
+                }
+            }
             if (res.allReal()) {
                 res.promoteType(NLS_DOUBLE);
             }
         } break;
-        default:
+        default: {
             Error(_W("Type not managed."));
-            break;
+        } break;
         }
     }
     return res;

@@ -24,7 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsConfig.h"
-#undef _NLS_WITH_VML
 #include <cmath>
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
@@ -355,7 +354,7 @@ getNotSupportedTypeMessage(ArrayOf arrayIn, TRUNCATE_LEVEL level)
 }
 //=============================================================================
 static ArrayOf
-Truncate(const ArrayOf &arrayIn, TRUNCATE_LEVEL level)
+Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
 {
     if (arrayIn.isSparse()) {
         Error(getNotSupportedTypeMessage(arrayIn, level));
@@ -474,7 +473,7 @@ Truncate(const ArrayOf &arrayIn, TRUNCATE_LEVEL level)
 }
 //=============================================================================
 ArrayOf
-Round(const ArrayOf &arrayIn)
+Round(const ArrayOf& arrayIn)
 {
     return Truncate(arrayIn, TRUNCATE_LEVEL::ROUND);
 }
