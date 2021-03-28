@@ -4,7 +4,7 @@
 
 - Functions using SIMD extensions:
 
-  - `ceil`, `round`, `fix`, `floor`, `abs`,
+  - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`, 
   - `cos`,
   - addition.
 

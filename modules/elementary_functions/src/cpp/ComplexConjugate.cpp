@@ -24,6 +24,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsConfig.h"
+#if defined(_NLS_WITH_VML)
+#include <mkl_vml.h>
+#endif
 #include "ComplexConjugate.hpp"
 #include "ClassName.hpp"
 //=============================================================================
@@ -48,32 +51,44 @@ ComplexConjugate(ArrayOf A)
     case NLS_SCOMPLEX: {
         if (!A.isEmpty()) {
             auto* psingleA = (single*)A.getDataPointer();
-            auto* Az = reinterpret_cast<singlecomplex*>(psingleA);
             singlecomplex* ptrC
                 = (singlecomplex*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsA.getElementCount());
             C = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
             ompIndexType N = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_VML)
+            MKL_Complex8* ptrAz = reinterpret_cast<MKL_Complex8*>(psingleA);
+            MKL_Complex8* ptrCz = reinterpret_cast<MKL_Complex8*>(ptrC);
+            vcConj((MKL_INT)A.getElementCount(), ptrAz, ptrCz);
+#else
+            auto* Az = reinterpret_cast<singlecomplex*>(psingleA);
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 ptrC[i] = std::conj(Az[i]);
             }
+#endif
         }
     } break;
     case NLS_DCOMPLEX: {
         auto* pdoubleA = (double*)A.getDataPointer();
-        auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
         doublecomplex* ptrC
             = (doublecomplex*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsA.getElementCount());
         C = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
         ompIndexType N = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_VML)
+        MKL_Complex16* ptrAz = reinterpret_cast<MKL_Complex16*>(pdoubleA);
+        MKL_Complex16* ptrCz = reinterpret_cast<MKL_Complex16*>(ptrC);
+        vzConj((MKL_INT)A.getElementCount(), ptrAz, ptrCz);
+#else
 #if defined(_NLS_WITH_OPENMP)
+        auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             ptrC[i] = std::conj(Az[i]);
         }
+#endif
     } break;
     case NLS_DOUBLE:
     case NLS_SINGLE:
