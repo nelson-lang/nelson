@@ -24,6 +24,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsConfig.h"
+#if defined(_NLS_WITH_VML)
+#include <mkl_vml.h>
+#endif
 #include "AbsoluteValue.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -139,8 +142,12 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
         single* ptrRes
             = (single*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
         res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+#if defined(_NLS_WITH_VML)
+        vsAbs((MKL_INT)arrayIn.getElementCount(), (const single*)arrayIn.getDataPointer(), ptrRes);
+#else
         absoluteValueRealTemplate<single>(
             (single*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
+#endif
     } break;
     case NLS_DOUBLE: {
         if (arrayIn.isScalar()) {
@@ -150,22 +157,36 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
         double* ptrRes
             = (double*)ArrayOf::allocateArrayOf(arrayIn.getDataClass(), dimsRes.getElementCount());
         res = ArrayOf(arrayIn.getDataClass(), dimsRes, ptrRes);
+#if defined(_NLS_WITH_VML)
+        vdAbs((MKL_INT)arrayIn.getElementCount(), (const double*)arrayIn.getDataPointer(), ptrRes);
+#else
         absoluteValueRealTemplate<double>(
             (double*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
+#endif
     } break;
     case NLS_DCOMPLEX: {
         Dimensions dimsRes = arrayIn.getDimensions();
         double* ptrRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
         res = ArrayOf(NLS_DOUBLE, dimsRes, ptrRes);
+#if defined(_NLS_WITH_VML)
+        MKL_Complex16* ptrAz = reinterpret_cast<MKL_Complex16*>((double*)arrayIn.getDataPointer());
+        vzAbs((MKL_INT)arrayIn.getElementCount(), ptrAz, ptrRes);
+#else
         absoluteValueComplexTemplate<double>(
             (double*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
+#endif
     } break;
     case NLS_SCOMPLEX: {
         Dimensions dimsRes = arrayIn.getDimensions();
         single* ptrRes = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsRes.getElementCount());
         res = ArrayOf(NLS_SINGLE, dimsRes, ptrRes);
+#if defined(_NLS_WITH_VML)
+        MKL_Complex8* ptrAz = reinterpret_cast<MKL_Complex8*>((single*)arrayIn.getDataPointer());
+        vcAbs((MKL_INT)arrayIn.getElementCount(), ptrAz, ptrRes);
+#else
         absoluteValueComplexTemplate<single>(
-            (single*)arrayIn.getDataPointer(), dimsRes.getElementCount(), ptrRes);
+            (single*)arrayIn.getDataPointer(), arrayIn.getElementCount(), ptrRes);
+#endif
     } break;
     }
     return res;
