@@ -184,7 +184,7 @@ Addition(const ArrayOf& A, const ArrayOf& B, Class commonClass)
                     MKL_Complex16* ptrCz = reinterpret_cast<MKL_Complex16*>(ptrC);
                     vzAdd((MKL_INT)Clen, ptrAz, ptrBz, ptrCz);
 #else
-                    res = matrix_matrix_complex_addition<single>(NLS_DCOMPLEX, A, B);
+                    res = matrix_matrix_complex_addition<double>(NLS_DCOMPLEX, A, B);
 #endif
                 } else {
                     res = complex_addition<double>(NLS_DCOMPLEX, A, B);
