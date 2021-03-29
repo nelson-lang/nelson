@@ -25,6 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
@@ -92,13 +93,12 @@ matrix_matrix_complex_addition(Class classDestination, const ArrayOf& A, const A
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
-        (std::complex<T>*)Cz, 1, Clen);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (std::complex<T>*)Az, 1, Clen);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (std::complex<T>*)Bz, 1, Clen);
-    matC = matA + matB;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
+        Cz[k] = Az[k] + Bz[k];
+    }
     return res;
 }
 //=============================================================================

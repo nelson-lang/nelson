@@ -4,9 +4,9 @@
 
 - Functions using SIMD extensions:
 
-  - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`, 
+  - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,
   - `cos`,
-  - addition.
+  - addition, substraction.
 
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
