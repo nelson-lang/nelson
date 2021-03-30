@@ -6,7 +6,7 @@
 
   - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,
   - `cos`,
-  - addition, substraction.
+  - addition, substraction, multiplication vectors.
 
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
