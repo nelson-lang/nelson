@@ -25,6 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "nlsConfig.h"
@@ -77,12 +78,21 @@ matrix_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
     res = ArrayOf(classDestination, dimsC, Cp, false);
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
+#if defined(_NLS_WITH_VML)
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+        (T*)A.getDataPointer(), 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+        (T*)B.getDataPointer(), 1, Clen);
+    matC = matA.array() / matB.array();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
         Cp[k] = ptrA[k] / ptrB[k];
     }
+#endif
     return res;
 }
 //=============================================================================

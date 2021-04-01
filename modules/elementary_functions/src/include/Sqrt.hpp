@@ -29,7 +29,9 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Sqrt(ArrayOf arrayIn, bool& needToOverload);
+Sqrt(const ArrayOf& arrayIn, bool& needToOverload);
+//=============================================================================
 }
 //=============================================================================
