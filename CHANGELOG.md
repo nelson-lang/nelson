@@ -5,7 +5,7 @@
 - Functions using SIMD extensions:
 
   - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,
-  - `exp`, `sqrt`, 
+  - `exp`, `sqrt`, `log1p`
   - `cos`,
   - addition, substraction, multiplication, division vectors.
 
