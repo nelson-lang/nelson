@@ -11,6 +11,8 @@
 
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
+- [#382](http://github.com/Nelson-numerical-software/nelson/issues/382): optimize `corrcoef`.
+
 # 0.5.3 (2021-03-24)
 
 ## Features:
