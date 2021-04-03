@@ -5,8 +5,9 @@
 - Functions using SIMD extensions:
 
   - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,
-  - `exp`, `sqrt`, `log1p`, `log10`
-  - `cos`, `atan2`
+  - `exp`, `sqrt`, `log1p`, `log10`, `log`
+  - `cos`, `sin`, `tan`
+  - `atan2`, `acos`, `asin`
   - addition, substraction, multiplication, division vectors.
 
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.

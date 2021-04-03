@@ -28,6 +28,9 @@
 #endif
 //=============================================================================
 #include "nlsConfig.h"
+#if defined(_NLS_WITH_VML)
+#include <mkl.h>
+#endif
 #include <Eigen/Dense>
 #include <cmath>
 #include <complex>
@@ -170,12 +173,18 @@ Sin(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().sin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::sin(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -185,12 +194,18 @@ Sin(const ArrayOf& A, bool& needToOverload)
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
+        matRes = matEigen.array().sin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = std::sin(ptrA[k]);
         }
+#endif
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -198,12 +213,18 @@ Sin(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().sin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::sin(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -213,12 +234,18 @@ Sin(const ArrayOf& A, bool& needToOverload)
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
+        matRes = matEigen.array().sin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = sin(ptrA[k]);
         }
+#endif
     } break;
     }
     return R;
@@ -248,12 +275,18 @@ Tan(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().tan();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::tan(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -263,12 +296,18 @@ Tan(const ArrayOf& A, bool& needToOverload)
             NLS_SINGLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
         single* ptrA = (single*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
+        matRes = matEigen.array().tan();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = tan(ptrA[k]);
         }
+#endif
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -276,12 +315,18 @@ Tan(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().tan();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = tan(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -291,12 +336,18 @@ Tan(const ArrayOf& A, bool& needToOverload)
             NLS_DOUBLE, A.getElementCount(), stringVector(), false);
         R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         double* ptrA = (double*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
+        matRes = matEigen.array().tan();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             ptrR[k] = tan(ptrA[k]);
         }
+#endif
     } break;
     }
     return R;
@@ -560,12 +611,18 @@ Acos(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().acos();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::acos(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -589,12 +646,18 @@ Acos(const ArrayOf& A, bool& needToOverload)
                 NLS_SINGLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
             single* ptrA = (single*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+            Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.getDimensions().getElementCount());
+            Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
+            matRes = matEigen.array().acos();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = acos(ptrA[k]);
             }
+#endif
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -603,12 +666,18 @@ Acos(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().acos();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::acos(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -632,12 +701,18 @@ Acos(const ArrayOf& A, bool& needToOverload)
                 NLS_DOUBLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
             double* ptrA = (double*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+            Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.getDimensions().getElementCount());
+            Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
+            matRes = matEigen.array().acos();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = acos(ptrA[k]);
             }
+#endif
         }
     } break;
     }
@@ -668,12 +743,18 @@ Asin(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().asin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::asin(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -690,7 +771,6 @@ Asin(const ArrayOf& A, bool& needToOverload)
         }
         if (needToConvertAsComplex) {
             R = A;
-            R.ensureSingleOwner();
             R.promoteType(NLS_SCOMPLEX);
             R = Asin(R, needToOverload);
         } else {
@@ -698,12 +778,18 @@ Asin(const ArrayOf& A, bool& needToOverload)
                 NLS_SINGLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
             single* ptrA = (single*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+            Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.getDimensions().getElementCount());
+            Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.getDimensions().getElementCount());
+            matRes = matEigen.array().asin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = asin(ptrA[k]);
             }
+#endif
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -712,12 +798,18 @@ Asin(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.getDimensions().getElementCount());
+        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.getDimensions().getElementCount());
+        matRes = matEigen.array().asin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
             Rz[k] = std::asin(Az[k]);
         }
+#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -734,7 +826,6 @@ Asin(const ArrayOf& A, bool& needToOverload)
         }
         if (needToConvertAsComplex) {
             R = A;
-            R.ensureSingleOwner();
             R.promoteType(NLS_DCOMPLEX);
             R = Asin(R, needToOverload);
         } else {
@@ -742,12 +833,18 @@ Asin(const ArrayOf& A, bool& needToOverload)
                 NLS_DOUBLE, A.getElementCount(), stringVector(), false);
             R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
             double* ptrA = (double*)A.getDataPointer();
+#if defined(_NLS_WITH_VML)
+            Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.getDimensions().getElementCount());
+            Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.getDimensions().getElementCount());
+            matRes = matEigen.array().asin();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (ompIndexType k = 0; k < (ompIndexType)A.getElementCount(); ++k) {
                 ptrR[k] = asin(ptrA[k]);
             }
+#endif
         }
     } break;
     }
