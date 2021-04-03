@@ -51,7 +51,7 @@ matrix_matrix_atan2_double(const ArrayOf& a, const ArrayOf& b)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
-        C[k] = atan2(ptrA[k], ptrB[k]);
+        ptrC[k] = atan2(ptrA[k], ptrB[k]);
     }
 #endif
     return ArrayOf(NLS_DOUBLE, dimsC, ptrC, false);
@@ -72,7 +72,7 @@ matrix_matrix_atan2_single(const ArrayOf& a, const ArrayOf& b)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
-        C[k] = atan2(ptrA[k], ptrB[k]);
+        ptrC[k] = atan2(ptrA[k], ptrB[k]);
     }
 #endif
     return ArrayOf(NLS_SINGLE, dimsC, ptrC, false);
