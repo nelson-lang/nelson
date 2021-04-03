@@ -23,79 +23,76 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include <complex>
 #include "Logarithm10.hpp"
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 template <class T>
-void
-log10Complex(Class destinationClass, T* values, Dimensions& dims)
+ArrayOf
+log10Complex(Class destinationClass, T* values, bool allReal, Dimensions& dims)
 {
-    std::complex<T>* cz = reinterpret_cast<std::complex<T>*>(values);
     ompIndexType elementCount = dims.getElementCount();
+    T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, elementCount);
+    std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
+    if (allReal) {
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-    for (ompIndexType k = 0; k < elementCount; ++k) {
-        std::complex<T> current = cz[k];
-        if (current.imag() == 0.) {
-            std::complex<T> v(std::log10(cz[k].real()), 0);
-            cz[k] = v;
-        } else {
-            cz[k] = std::log10(cz[k]);
+        for (ompIndexType k = 0; k < elementCount; ++k) {
+            std::complex<T> current(values[k], (T)0);
+            outZ[k] = std::log10(current);
+            if (std::isnan(outZ[k].imag())) {
+                outZ[k].imag((T)0);
+            }
+        }
+    } else {
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(values);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (ompIndexType k = 0; k < elementCount; ++k) {
+            outZ[k] = std::log10(Az[k]);
         }
     }
+    return ArrayOf(destinationClass, dims, ptrOut);
 }
 //=============================================================================
 ArrayOf
 Logarithm10(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return res;
+    }
     needToOverload = false;
-    Class classA = A.getDataClass();
-    switch (classA) {
+    switch (A.getDataClass()) {
     case NLS_DOUBLE: {
-        if (A.isSparse()) {
-            needToOverload = true;
-        } else {
-            Dimensions dimsA = A.getDimensions();
-            res = ArrayOf(A);
-            res.promoteType(NLS_DCOMPLEX);
-            log10Complex<double>(NLS_DCOMPLEX, (double*)res.getDataPointer(), dimsA);
-            if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
-            }
+        Dimensions dimsA = A.getDimensions();
+        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.getDataPointer(), true, dimsA);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_DCOMPLEX: {
-        if (A.isSparse()) {
-            needToOverload = true;
-        } else {
-            Dimensions dimsA = A.getDimensions();
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            log10Complex<double>(NLS_DCOMPLEX, (double*)res.getDataPointer(), dimsA);
-            if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
-            }
+        Dimensions dimsA = A.getDimensions();
+        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.getDataPointer(), false, dimsA);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_SINGLE: {
         Dimensions dimsA = A.getDimensions();
-        res = ArrayOf(A);
-        res.promoteType(NLS_SCOMPLEX);
-        log10Complex<single>(NLS_SCOMPLEX, (single*)res.getDataPointer(), dimsA);
+        res = log10Complex<single>(NLS_SCOMPLEX, (single*)A.getDataPointer(), true, dimsA);
         if (res.allReal()) {
             res.promoteType(NLS_SINGLE);
         }
     } break;
     case NLS_SCOMPLEX: {
         Dimensions dimsA = A.getDimensions();
-        res = ArrayOf(A);
-        res.ensureSingleOwner();
-        log10Complex<single>(NLS_SCOMPLEX, (single*)res.getDataPointer(), dimsA);
+        res = log10Complex<single>(NLS_SCOMPLEX, (single*)res.getDataPointer(), false, dimsA);
         if (res.allReal()) {
             res.promoteType(NLS_SINGLE);
         }
