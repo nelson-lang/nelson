@@ -27,12 +27,13 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsConfig.h"
-#include "InverseMatrix.hpp"
-#include "ClassName.hpp"
-#include "ReciprocalConditionNumber.hpp"
+#undef EIGEN_USE_MKL_VML
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>
+#include "InverseMatrix.hpp"
+#include "ClassName.hpp"
+#include "ReciprocalConditionNumber.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {

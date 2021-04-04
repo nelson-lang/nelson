@@ -26,6 +26,7 @@
 #include "nlsConfig.h"
 #include "Sqrt.hpp"
 #include <complex>
+#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -72,16 +73,21 @@ static ArrayOf
 SqrtReal(Class classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
+    ompIndexType elementCount = (ompIndexType)A.getElementCount();
     T* ptrIn = (T*)A.getDataPointer();
-    T* ptrOut = (T*)ArrayOf::allocateArrayOf(
-        classDestination, dimsA.getElementCount(), stringVector(), false);
-    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+    T* ptrOut = (T*)ArrayOf::allocateArrayOf(classDestination, elementCount, stringVector(), false);
+#if defined(_NLS_WITH_VML)
+    Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matIn(ptrIn, elementCount);
+    Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matOut(ptrOut, elementCount);
+    matOut = matIn.array().sqrt();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
         ptrOut[k] = SqrtRealScalar<T>(ptrIn[k]);
     }
+#endif
     return ArrayOf(classDestination, dimsA, ptrOut);
 }
 //=============================================================================
@@ -90,65 +96,79 @@ static ArrayOf
 SqrtComplex(Class classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
+    ompIndexType elementCount = (ompIndexType)A.getElementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
         classDestination, dimsA.getElementCount(), stringVector(), false);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
     T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+#if defined(_NLS_WITH_VML)
+    Eigen::Map<Eigen::Matrix<std::complex<T>, 1, Eigen::Dynamic>> matIn(Az, elementCount);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, 1, Eigen::Dynamic>> matOut(Cz, elementCount);
+    matOut = matIn.array().sqrt();
+#else
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
         Cz[k] = SqrtComplexScalar<T>(Az[k]);
     }
+#endif
     return ArrayOf(classDestination, dimsA, ptrOut);
 }
 //=============================================================================
 ArrayOf
-Sqrt(ArrayOf A, bool& needToOverload)
+Sqrt(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Class classA = A.getDataClass();
-    if (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX) {
-        if (A.isSparse()) {
-            needToOverload = true;
-        } else {
-            Dimensions dimsA = A.getDimensions();
-            if (classA == NLS_DOUBLE) {
-                auto* ptrIn = (double*)A.getDataPointer();
-                if (haveNegativeValue<double>(ptrIn, dimsA.getElementCount())) {
-                    A.promoteType(NLS_DCOMPLEX);
-                    res = SqrtComplex<double>(NLS_DCOMPLEX, A);
-                } else {
-                    res = SqrtReal<double>(NLS_DOUBLE, A);
-                }
-            } else {
-                res = SqrtComplex<double>(NLS_DCOMPLEX, A);
-            }
-        }
-    } else if (classA == NLS_SINGLE || classA == NLS_SCOMPLEX) {
-        if (A.isSparse()) {
-            needToOverload = true;
-        } else {
-            Dimensions dimsA = A.getDimensions();
-            if (classA == NLS_SINGLE) {
-                auto* ptrIn = (single*)A.getDataPointer();
-                if (haveNegativeValue<single>(ptrIn, dimsA.getElementCount())) {
-                    A.promoteType(NLS_SCOMPLEX);
-                    res = SqrtComplex<single>(NLS_SCOMPLEX, A);
-                } else {
-                    res = SqrtReal<single>(NLS_SINGLE, A);
-                }
-            } else {
-                res = SqrtComplex<single>(NLS_SCOMPLEX, A);
-            }
-        }
-    } else {
+    bool asComplex = false;
+    if (A.isSparse()) {
         needToOverload = true;
+        return res;
+    }
+    Class classA = A.getDataClass();
+    ArrayOf AA(A);
+
+    if (classA == NLS_DOUBLE) {
+        auto* ptrIn = (double*)A.getDataPointer();
+        if (haveNegativeValue<double>(ptrIn, A.getElementCount())) {
+            AA.promoteType(NLS_DCOMPLEX);
+        }
+    } else if (classA == NLS_SINGLE) {
+        auto* ptrIn = (single*)A.getDataPointer();
+        if (haveNegativeValue<single>(ptrIn, A.getElementCount())) {
+            AA.promoteType(NLS_SCOMPLEX);
+        }
+    }
+
+    Class classAA = AA.getDataClass();
+    switch (AA.getDataClass()) {
+    case NLS_DOUBLE: {
+        res = SqrtReal<double>(NLS_DOUBLE, AA);
+    } break;
+    case NLS_SINGLE: {
+        res = SqrtReal<single>(NLS_SINGLE, AA);
+    } break;
+    case NLS_DCOMPLEX: {
+        res = SqrtComplex<double>(NLS_DCOMPLEX, AA);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
+    } break;
+    case NLS_SCOMPLEX: {
+        res = SqrtComplex<single>(NLS_SCOMPLEX, AA);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
+    } break;
+    default: {
+        needToOverload = true;
+        return res;
+    } break;
     }
     return res;
+    //=============================================================================
 } // namespace Nelson
 //=============================================================================
 } // namespace Nelson

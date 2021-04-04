@@ -23,9 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
+#include "nlsConfig.h"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
+#include <algorithm>
 #include "CorrelationCoefficients.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"

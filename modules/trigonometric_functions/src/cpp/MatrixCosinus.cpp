@@ -24,10 +24,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsConfig.h"
-#include "MatrixCosinus.hpp"
-#include "ClassName.hpp"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
+#include "MatrixCosinus.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>

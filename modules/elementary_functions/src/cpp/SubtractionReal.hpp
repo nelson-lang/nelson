@@ -67,13 +67,17 @@ matrix_scalar_real_subtraction(Class classDestination, const ArrayOf& A, const A
 //=============================================================================
 template <class T>
 ArrayOf
+scalar_scalar_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
+    ptrC[0] = ((T*)A.getDataPointer())[0] - ((T*)B.getDataPointer())[0];
+    return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
+}
+//=============================================================================
+template <class T>
+ArrayOf
 matrix_matrix_real_subtraction(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
-    if (A.isScalar() && B.isScalar()) {
-        T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
-        ptrC[0] = ((T*)A.getDataPointer())[0] - ((T*)B.getDataPointer())[0];
-        return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
-    }
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();

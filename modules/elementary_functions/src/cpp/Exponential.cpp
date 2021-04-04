@@ -23,10 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include <complex>
 #include <Eigen/Dense>
 #include "Exponential.hpp"
-#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -64,7 +64,7 @@ Exponential(ArrayOf A, bool& needToOverload)
                 auto* ptrIn = (double*)A.getDataPointer();
                 Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsA.getElementCount());
-                matOut = matIn.unaryExpr(std::ref(ExponentialRealScalar<double>));
+                matOut = matIn.array().exp();
                 res = ArrayOf(NLS_DOUBLE, dimsA, ptrOut);
             } else {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
@@ -74,6 +74,9 @@ Exponential(ArrayOf A, bool& needToOverload)
                 auto* Az = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
                 Eigen::Map<Eigen::ArrayXcd> matOut(Cz, 1, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXcd> matIn(Az, 1, dimsA.getElementCount());
+#if defined(_NLS_WITH_VML)
+                matOut = matIn.array().exp();
+#else
                 ompIndexType elementCount = dimsA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -81,7 +84,12 @@ Exponential(ArrayOf A, bool& needToOverload)
                 for (ompIndexType k = 0; k < elementCount; k++) {
                     matOut[k] = ExponentialComplexScalar<std::complex<double>>(matIn[k]);
                 }
+
+#endif
                 res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrOut);
+                if (res.allReal()) {
+                    res.promoteType(NLS_DOUBLE);
+                }
             }
         }
     } else if (classA == NLS_SINGLE || classA == NLS_SCOMPLEX) {
@@ -95,7 +103,7 @@ Exponential(ArrayOf A, bool& needToOverload)
                 auto* ptrIn = (single*)A.getDataPointer();
                 Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsA.getElementCount());
-                matOut = matIn.unaryExpr(std::ref(ExponentialRealScalar<single>));
+                matOut = matIn.array().exp();
                 res = ArrayOf(NLS_SINGLE, dimsA, ptrOut);
             } else {
                 single* ptrOut = (single*)ArrayOf::allocateArrayOf(
@@ -105,6 +113,9 @@ Exponential(ArrayOf A, bool& needToOverload)
                 auto* Az = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
                 Eigen::Map<Eigen::ArrayXcf> matOut(Cz, 1, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXcf> matIn(Az, 1, dimsA.getElementCount());
+#if defined(_NLS_WITH_VML)
+                matOut = matIn.array().exp();
+#else
                 ompIndexType elementCount = dimsA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -112,7 +123,11 @@ Exponential(ArrayOf A, bool& needToOverload)
                 for (ompIndexType k = 0; k < elementCount; k++) {
                     matOut[k] = ExponentialComplexScalar<std::complex<single>>(matIn[k]);
                 }
+#endif
                 res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrOut);
+                if (res.allReal()) {
+                    res.promoteType(NLS_SINGLE);
+                }
             }
         }
     } else {

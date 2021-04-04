@@ -100,6 +100,7 @@ find_package(
              date_time
              iostreams
   REQUIRED)
+find_package(MKL)  
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Qml REQUIRED)

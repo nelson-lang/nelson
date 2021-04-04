@@ -23,9 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsConfig.h"
 #include <Windows.h>
 //=============================================================================
 #pragma comment(lib, "libnlsblaslapack.lib")
+#if defined(_NLS_WITH_VML)
+#pragma comment(lib, "libnlsvml_mkl.lib")
+#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

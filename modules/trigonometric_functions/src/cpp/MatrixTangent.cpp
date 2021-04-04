@@ -24,10 +24,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsConfig.h"
-#include "MatrixTangent.hpp"
-#include "ClassName.hpp"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
+#include "MatrixTangent.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>

@@ -34,11 +34,28 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static bool
+isSizeMismatch(const ArrayOf& A, const ArrayOf& B)
+{
+    if (!A.isScalar() && !B.isScalar()) {
+        return A.getColumns() != B.getRows();
+    }
+    bool isVectorOrScalar = ((A.isVector() && B.isScalar()) || (B.isVector() && A.isScalar())
+        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())
+        || (A.isScalar() || B.isScalar()));
+    return !isVectorOrScalar;
+}
+//=============================================================================
 template <class T>
 static ArrayOf
 real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
+    if (A.isScalar() && B.isScalar()) {
+        T* ptrC = (T*)ArrayOf::allocateArrayOf(currentClass, 1);
+        ptrC[0] = ((T*)A.getDataPointer())[0] * ((T*)B.getDataPointer())[0];
+        return ArrayOf(currentClass, Dimensions(1, 1), ptrC, false);
+    }
     if (A.isVector() && B.isScalar()) {
         Cdim = A.getDimensions();
     } else if (B.isVector() && A.isScalar()) {
@@ -69,7 +86,6 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     size_t mB = dimB.getRows();
     size_t nB = dimB.getColumns();
     if (A.isScalar()) {
-        Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
         T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
@@ -79,13 +95,12 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = ptrA[0] * ptrB[k];
         }
 #else
+        Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
         matC = ptrA[0] * matB.array();
 #endif
     } else if (B.isScalar()) {
-        Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
         T* ptrA = (T*)A.getDataPointer();
         T* ptrB = (T*)B.getDataPointer();
-        matC = matA.array() * ptrB[0];
         ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -93,9 +108,9 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = ptrA[k] * ptrB[0];
         }
 #else
+        Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
         matC = matA.array() * ptrB[0];
 #endif
-
     } else {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
@@ -323,11 +338,7 @@ T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf&
     if (!A.is2D() || !B.is2D()) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
-    bool isVector = ((A.isVector() && B.isScalar()) || (B.isVector() && A.isScalar())
-        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector())
-        || (A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector()));
-    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && isVector
-        && dimsA.getColumns() != dimsB.getRows()) {
+    if (isSizeMismatch(A, B)) {
         Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
     if (A.isEmpty()) {
@@ -405,10 +416,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
     if (!A.is2D() || !B.is2D()) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
-    bool isVector = ((A.isVector() && B.isScalar()) || (B.isVector() && A.isScalar())
-        || (A.isRowVector() && B.isColumnVector()) || (B.isRowVector() && A.isColumnVector()));
-    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar()) && !isVector
-        && dimsA.getColumns() != dimsB.getRows()) {
+    if (isSizeMismatch(A, B)) {
         Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
     if (A.isEmpty()) {

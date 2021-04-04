@@ -29,13 +29,18 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Floor(ArrayOf arrayIn);
+Floor(const ArrayOf& arrayIn);
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Round(ArrayOf arrayIn);
+Round(const ArrayOf& arrayIn);
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Ceil(ArrayOf arrayIn);
+Ceil(const ArrayOf& arrayIn);
+//=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Fix(ArrayOf arrayIn);
+Fix(const ArrayOf& arrayIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

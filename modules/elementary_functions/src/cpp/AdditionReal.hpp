@@ -263,72 +263,50 @@ ArrayOf
 real_addition(Class classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (SameSizeCheck(dimsA, dimsB)) {
-        // A.isRowVector() && B.isRowVector() with same size
-        // A.isColumnVector() && B.isColumnVector() with same size
-        // A.isScalar() && B.isScalar() with same size
-        // A.isMatrix() && B.isMatrix() with same size
+    if (A.isScalar() || B.isScalar()) {
         if (A.isScalar()) {
-            T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, 1);
-            ptrC[0] = ((T*)A.getDataPointer())[0] + ((T*)B.getDataPointer())[0];
-            res = ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
+            res = scalar_matrix_real_addition<T>(classDestination, A, B);
         } else {
-            res = matrix_matrix_real_addition<T>(classDestination, A, B);
+            res = matrix_scalar_real_addition<T>(classDestination, A, B);
         }
     } else {
-        if (A.isScalar() && B.isScalar()) {
-            res = scalar_scalar_real_addition<T>(classDestination, A, B);
-        } else if (A.isScalar() || B.isScalar()) {
-            if (A.isScalar()) {
-                res = scalar_matrix_real_addition<T>(classDestination, A, B);
-            } else {
-                res = matrix_scalar_real_addition<T>(classDestination, A, B);
-            }
-        } else {
-            if (A.isVector() || B.isVector()) {
-                if ((A.isRowVector() && B.isRowVector())
-                    || (A.isColumnVector() && B.isColumnVector())) {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                } else if (A.isRowVector() && B.isColumnVector()) {
-                    res = row_column_real_addition<T>(classDestination, A, B);
-                } else if (A.isColumnVector() && B.isRowVector()) {
-                    res = column_row_real_addition<T>(classDestination, A, B);
-                } else if (A.getRows() == B.getRows()) {
-                    if (A.isVector()) {
-                        if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = row_matrix_real_addition<T>(classDestination, A, B);
-                    } else {
-                        if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = matrix_row_real_addition<T>(classDestination, A, B);
+        if (A.isVector() || B.isVector()) {
+            if ((A.isRowVector() && B.isRowVector())
+                || (A.isColumnVector() && B.isColumnVector())) {
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+            } else if (A.isRowVector() && B.isColumnVector()) {
+                res = row_column_real_addition<T>(classDestination, A, B);
+            } else if (A.isColumnVector() && B.isRowVector()) {
+                res = column_row_real_addition<T>(classDestination, A, B);
+            } else if (A.getRows() == B.getRows()) {
+                if (A.isVector()) {
+                    if (!B.is2D()) {
+                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
                     }
-                } else if (A.getColumns() == B.getColumns()) {
-                    if (A.isVector()) {
-                        if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = column_matrix_real_addition<T>(classDestination, A, B);
-                    } else {
-                        if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = matrix_column_real_addition<T>(classDestination, A, B);
-                    }
+                    res = row_matrix_real_addition<T>(classDestination, A, B);
                 } else {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                    if (!A.is2D()) {
+                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                    }
+                    res = matrix_row_real_addition<T>(classDestination, A, B);
+                }
+            } else if (A.getColumns() == B.getColumns()) {
+                if (A.isVector()) {
+                    if (!B.is2D()) {
+                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                    }
+                    res = column_matrix_real_addition<T>(classDestination, A, B);
+                } else {
+                    if (!A.is2D()) {
+                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                    }
+                    res = matrix_column_real_addition<T>(classDestination, A, B);
                 }
             } else {
                 Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
             }
+        } else {
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
         }
     }
     return res;
