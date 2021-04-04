@@ -41,15 +41,15 @@ log10Complex(Class destinationClass, T* values, bool allReal, Dimensions& dims)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            if (values[k] >= 0){
+            if (values[k] >= 0) {
                 outZ[k].real(std::log10(values[k]));
                 outZ[k].imag(0);
             } else {
-            std::complex<T> current(values[k], (T)0);
-            outZ[k] = std::log10(current);
-            if (std::isnan(outZ[k].imag())) {
-                outZ[k].imag((T)0);
-            }
+                std::complex<T> current(values[k], (T)0);
+                outZ[k] = std::log10(current);
+                if (std::isnan(outZ[k].imag())) {
+                    outZ[k].imag((T)0);
+                }
             }
         }
     } else {
