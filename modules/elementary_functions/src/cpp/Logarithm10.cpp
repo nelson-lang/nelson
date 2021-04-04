@@ -23,9 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
 #include <complex>
 #include "Logarithm10.hpp"
+#include "nlsConfig.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -41,10 +41,15 @@ log10Complex(Class destinationClass, T* values, bool allReal, Dimensions& dims)
 #pragma omp parallel for
 #endif
         for (ompIndexType k = 0; k < elementCount; ++k) {
+            if (values[k] >= 0){
+                outZ[k].real(std::log10(values[k]));
+                outZ[k].imag(0);
+            } else {
             std::complex<T> current(values[k], (T)0);
             outZ[k] = std::log10(current);
             if (std::isnan(outZ[k].imag())) {
                 outZ[k].imag((T)0);
+            }
             }
         }
     } else {
