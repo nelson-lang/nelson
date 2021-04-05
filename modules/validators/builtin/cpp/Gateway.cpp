@@ -23,18 +23,23 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "NelsonGateway.hpp"
+#include "mustBeLogicalScalarBuiltin.hpp"
 //=============================================================================
-#include "nlsError_manager_exports.h"
-#include "Messages.hpp"
-#include <string>
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
+const std::wstring gatewayName = L"validators";
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
+static const nlsGateway gateway[] = {
+    { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, 1,
+        CPP_BUILTIN },
+};
 //=============================================================================
-} // namespace Nelson
+NLSGATEWAYFUNC(gateway)
+//=============================================================================
+NLSGATEWAYINFO(gateway)
+//=============================================================================
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

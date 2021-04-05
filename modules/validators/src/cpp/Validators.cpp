@@ -23,18 +23,35 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsError_manager_exports.h"
-#include "Messages.hpp"
-#include <string>
+#include "Validators.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
+void
+mustBeLogical(const ArrayOf& arg, bool asCaller = false)
+{
+    std::string name = ClassName(arg);
+    bool isLogical = (arg.isLogical() || name == "logical");
+    if (!isLogical) {
+        std::wstring msg = _W("Value must be logical.");
+        std::wstring id = _W("Nelson:validators:mustBeLogical");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false)
+{
+    std::string name = ClassName(arg);
+    bool isLogicalScalar = (arg.isLogical() || name == "logical") && arg.isScalar();
+    if (!isLogicalScalar) {
+        std::wstring msg = _W("Value must be logical scalar.");
+        std::wstring id = _W("Nelson:validators:mustBeLogicalScalar");
+        Error(msg, id, asCaller);
+    }
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

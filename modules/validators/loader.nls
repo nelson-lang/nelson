@@ -23,18 +23,5 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsError_manager_exports.h"
-#include "Messages.hpp"
-#include <string>
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
-//=============================================================================
-} // namespace Nelson
+addmodule([nelsonroot() '/modules/' 'validators'], 'validators');
 //=============================================================================

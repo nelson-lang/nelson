@@ -25,16 +25,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsError_manager_exports.h"
-#include "Messages.hpp"
-#include <string>
+#include "nlsValidators_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
+NLSVALIDATORS_IMPEXP void
+mustBeLogical(const ArrayOf& arg, bool asCaller);
 //=============================================================================
-} // namespace Nelson
+NLSVALIDATORS_IMPEXP void
+mustBeLogicalScalar(const ArrayOf& arg, bool asCaller);
+//=============================================================================
+}
 //=============================================================================

@@ -23,18 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
 //=============================================================================
-#include "nlsError_manager_exports.h"
-#include "Messages.hpp"
-#include <string>
+#include "nlsConfig.h"
 //=============================================================================
-namespace Nelson {
+#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
-//=============================================================================
-} // namespace Nelson
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
+}
 //=============================================================================

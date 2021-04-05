@@ -89,7 +89,8 @@ list(
   graphics
   mex
   ipc
-  statistics)
+  statistics
+  validators)
 list(APPEND moduleslist main)
 # ==============================================================================
 if(NOT WITHOUT_FFTW AND NOT LGPL21_ONLY)

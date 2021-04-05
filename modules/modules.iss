@@ -91,4 +91,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "mex/module.iss"
 #include "ipc/module.iss"
 #include "statistics/module.iss"
+#include "validators/module.iss"
 ;==============================================================================

@@ -23,18 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "mustBeLogicalScalarBuiltin.hpp"
+#include "Validators.hpp"
 //=============================================================================
-#include "nlsError_manager_exports.h"
-#include "Messages.hpp"
-#include <string>
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false);
-NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false);
-//=============================================================================
-} // namespace Nelson
+ArrayOfVector
+Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    mustBeLogicalScalar(argIn[0], true);
+    return retval;
+}
 //=============================================================================

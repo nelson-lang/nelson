@@ -2,6 +2,9 @@
 
 ## Features:
 
+- Validators functions available from Nelson and C++ API
+  - `mustBeLogicalScalar`, 
+
 - Functions using SIMD extensions:
 
   - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,

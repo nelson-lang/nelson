@@ -81,6 +81,7 @@ modules_list = [
 "mex";
 "ipc";
 "statistics";
+"validators"
 ];
 // ============================================================================
 // optional modules
@@ -151,5 +152,6 @@ modules_help_list = [
 "graphics";
 "ipc";
 "statistics";
+"validators"
 ];
 // ============================================================================
