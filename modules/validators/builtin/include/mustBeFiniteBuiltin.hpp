@@ -23,42 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "Validators.hpp"
-#include "mustBeLogicalScalarBuiltin.hpp"
-#include "mustBeLogicalBuiltin.hpp"
-#include "mustBeFiniteBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"validators";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "mustBeLogical", (void*)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, 1,
-        CPP_BUILTIN },
-    { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, 1,
-        CPP_BUILTIN },
-    { "mustBeFinite", (void*)Nelson::ValidatorsGateway::mustBeFiniteBuiltin, 0, 1, CPP_BUILTIN },
-};
-//=============================================================================
-static bool
-initializeValidatorsModule(Nelson::Evaluator* eval)
-{
-    setEvaluator(eval);
-    return true;
+namespace ValidatorsGateway {
+    //=============================================================================
+    ArrayOfVector
+    mustBeFiniteBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
 //=============================================================================
-static bool
-finishValidatorsModule(Nelson::Evaluator* eval)
-{
-    return true;
-}
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeValidatorsModule)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishValidatorsModule)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================

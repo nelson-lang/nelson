@@ -29,8 +29,48 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static Evaluator* _eval = nullptr;
+//=============================================================================
 void
-mustBeLogical(const ArrayOf& arg, bool asCaller = false)
+setEvaluator(Evaluator* eval)
+{
+    _eval = eval;
+}
+//=============================================================================
+static ArrayOf
+callUnaryFunction(const ArrayOf& arg, const std::string& functionName)
+{
+    Context* context = _eval->getContext();
+    FunctionDef* funcDef = nullptr;
+    if (context->lookupFunction(functionName, funcDef)) {
+        if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+            ArrayOfVector argIn(arg);
+            ArrayOfVector argOut = funcDef->evaluateFunction(_eval, argIn, 1);
+            if (argOut.empty()) {
+                return ArrayOf();
+            }
+            return argOut[0];
+        }
+    }
+    return ArrayOf();
+}
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeFinite(const ArrayOf& arg, bool asCaller)
+{
+    bool asLogicalIsAllFinite = false;
+    ArrayOf isFinite = callUnaryFunction(arg, "isfinite");
+    ArrayOf isAllFinite = callUnaryFunction(isFinite, "all");
+    asLogicalIsAllFinite = isAllFinite.getContentAsLogicalScalar();
+    if (!asLogicalIsAllFinite) {
+        std::wstring msg = _W("Value must be finite.");
+        std::wstring id = _W("Nelson:validators:mustBeFinite");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeLogical(const ArrayOf& arg, bool asCaller)
 {
     std::string name = ClassName(arg);
     bool isLogical = (arg.isLogical() || name == "logical");
@@ -42,10 +82,13 @@ mustBeLogical(const ArrayOf& arg, bool asCaller = false)
 }
 //=============================================================================
 void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false)
+mustBeLogicalScalar(const ArrayOf& arg, bool asCaller)
 {
     std::string name = ClassName(arg);
-    bool isLogicalScalar = (arg.isLogical() || name == "logical") && arg.isScalar();
+    bool isLogical = (arg.isLogical() || name == "logical");
+    ArrayOf isScalarArrayOf = callUnaryFunction(arg, "isscalar");
+    bool isScalar = isScalarArrayOf.getContentAsLogicalScalar();
+    bool isLogicalScalar = isLogical && isScalar;
     if (!isLogicalScalar) {
         std::wstring msg = _W("Value must be logical scalar.");
         std::wstring id = _W("Nelson:validators:mustBeLogicalScalar");

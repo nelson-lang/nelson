@@ -23,9 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('mustBeLogical'), 1);
-assert_isequal(nargout('mustBeLogical'), 0);
+assert_isequal(nargin('mustBeFinite'), 1);
+assert_isequal(nargout('mustBeFinite'), 0);
 //=============================================================================
-mustBeLogical([true, false]);
-assert_checkerror('mustBeLogical(1)', _('Value must be logical.'));
+mustBeFinite(1);
+assert_checkerror('mustBeFinite(Inf)', _('Value must be finite.'));
 //=============================================================================

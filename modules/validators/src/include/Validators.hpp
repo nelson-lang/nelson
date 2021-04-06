@@ -27,14 +27,20 @@
 //=============================================================================
 #include "nlsValidators_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOf& arg, bool asCaller);
+setEvaluator(Evaluator *eval);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller);
+mustBeLogical(const ArrayOf& arg, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeFinite(const ArrayOf& arg, bool asCaller = false);
 }
 //=============================================================================

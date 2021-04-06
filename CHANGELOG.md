@@ -3,7 +3,8 @@
 ## Features:
 
 - Validators functions available from Nelson and C++ API
-  - `mustBeLogicalScalar`, 
+  - `mustBeLogicalScalar`, `mustBeLogical`, 
+  - `mustBeFinite`, 
 
 - Functions using SIMD extensions:
 
