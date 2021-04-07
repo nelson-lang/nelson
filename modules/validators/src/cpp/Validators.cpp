@@ -100,5 +100,20 @@ mustBeLogicalScalar(const ArrayOf& arg, bool asCaller)
     }
 }
 //=============================================================================
+void
+mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller)
+{
+    ArrayOf isEmptyArrayOf = callUnaryFunction(arg, "isempty");
+    bool isEmpty = isEmptyArrayOf.getContentAsLogicalScalar();
+    ArrayOf isScalarArrayOf = callUnaryFunction(arg, "isscalar");
+    bool isScalar = isScalarArrayOf.getContentAsLogicalScalar();
+    bool isScalarOrEmpty = isScalar || isEmpty;
+    if (!isScalarOrEmpty) {
+        std::wstring msg = _W("Value must be scalar or empty.");
+        std::wstring id = _W("Nelson:validators:mustBeScalarOrEmpty");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\mustBeFiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalScalarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +205,7 @@
     <ClInclude Include="..\include\mustBeFiniteBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalScalarBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeScalarOrEmptyBuiltin.hpp" />
     <ClInclude Include="..\include\nlsValidators_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

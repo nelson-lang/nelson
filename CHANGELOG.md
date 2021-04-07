@@ -5,11 +5,11 @@
 - Validators functions available from Nelson and C++ API
 
   - `mustBeLogicalScalar`, `mustBeLogical`,
-  - `mustBeFinite`,
+  - `mustBeFinite`, `mustBeScalarOrEmpty`
 
 - extends `assert_checkerror` to check also error identifier.
 
-- `isvector`, `isscalar` support overload. 
+- `isvector`, `isscalar` support overload.
 
 - Functions using SIMD extensions:
 

@@ -23,46 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "Validators.hpp"
-#include "mustBeLogicalScalarBuiltin.hpp"
-#include "mustBeLogicalBuiltin.hpp"
-#include "mustBeFiniteBuiltin.hpp"
 #include "mustBeScalarOrEmptyBuiltin.hpp"
+#include "Validators.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"validators";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "mustBeLogical", (void*)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, 1,
-        CPP_BUILTIN },
-    { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, 1,
-        CPP_BUILTIN },
-    { "mustBeFinite", (void*)Nelson::ValidatorsGateway::mustBeFiniteBuiltin, 0, 1, CPP_BUILTIN },
-    { "mustBeScalarOrEmpty", (void*)Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin, 0, 1,
-        CPP_BUILTIN },
-
-};
-//=============================================================================
-static bool
-initializeValidatorsModule(Nelson::Evaluator* eval)
+ArrayOfVector
+Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    setEvaluator(eval);
-    return true;
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    mustBeScalarOrEmpty(argIn[0], true);
+    return retval;
 }
-//=============================================================================
-static bool
-finishValidatorsModule(Nelson::Evaluator* eval)
-{
-    return true;
-}
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeValidatorsModule)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishValidatorsModule)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

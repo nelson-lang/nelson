@@ -23,28 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeScalarOrEmpty'), 1);
+assert_isequal(nargout('mustBeScalarOrEmpty'), 0);
 //=============================================================================
-#include "nlsValidators_exports.h"
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-setEvaluator(Evaluator *eval);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-}
+mustBeScalarOrEmpty(1);
+mustBeScalarOrEmpty([]);
+assert_checkerror('mustBeScalarOrEmpty([1 2])', _('Value must be scalar or empty.'), 'Nelson:validators:mustBeScalarOrEmpty');
 //=============================================================================
