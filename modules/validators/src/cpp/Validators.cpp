@@ -73,11 +73,15 @@ void
 mustBeLogical(const ArrayOf& arg, bool asCaller)
 {
     std::string name = ClassName(arg);
-    bool isLogical = (arg.isLogical() || name == "logical");
-    if (!isLogical) {
-        std::wstring msg = _W("Value must be logical.");
-        std::wstring id = _W("Nelson:validators:mustBeLogical");
-        Error(msg, id, asCaller);
+    ArrayOf isEmptyArrayOf = callUnaryFunction(arg, "isempty");
+    bool isEmpty = isEmptyArrayOf.getContentAsLogicalScalar();
+    if (!isEmpty) {
+        bool isLogical = (arg.isLogical() || name == "logical");
+        if (!isLogical) {
+            std::wstring msg = _W("Value must be logical.");
+            std::wstring id = _W("Nelson:validators:mustBeLogical");
+            Error(msg, id, asCaller);
+        }
     }
 }
 //=============================================================================

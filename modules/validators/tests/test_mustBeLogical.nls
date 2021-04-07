@@ -23,9 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('mustBeLogicalScalar'), 1);
-assert_isequal(nargout('mustBeLogicalScalar'), 0);
+assert_isequal(nargin('mustBeLogical'), 1);
+assert_isequal(nargout('mustBeLogical'), 0);
 //=============================================================================
-mustBeLogicalScalar(true);
-assert_checkerror('mustBeLogicalScalar(1)', _('Value must be logical scalar.'));
+mustBeLogical([]);
+mustBeLogical([true, false]);
+assert_checkerror('mustBeLogical(1)', _('Value must be logical.'));
 //=============================================================================
+

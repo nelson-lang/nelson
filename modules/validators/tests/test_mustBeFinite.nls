@@ -27,5 +27,5 @@ assert_isequal(nargin('mustBeFinite'), 1);
 assert_isequal(nargout('mustBeFinite'), 0);
 //=============================================================================
 mustBeFinite(1);
-assert_checkerror('mustBeFinite(Inf)', _('Value must be finite.'));
+assert_checkerror('mustBeFinite(Inf)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite');
 //=============================================================================
