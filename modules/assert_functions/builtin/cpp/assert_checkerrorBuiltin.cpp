@@ -33,18 +33,26 @@ ArrayOfVector
 Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 2);
     ArrayOfVector retval(2);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring command = param1.getContentAsWideString();
     std::wstring expectedmsg = param2.getContentAsWideString();
+   
     if (expectedmsg.empty()) {
         Error(_W("empty string not allowed as expected message."));
     }
     std::wstring msg;
-    bool res = Assert_CheckError(eval, command, expectedmsg, msg);
+    bool res;
+    if (argIn.size() == 3) {
+        std::wstring expectedid = argIn[2].getContentAsWideString();
+        res = Assert_CheckError(eval, command, expectedmsg, expectedid, msg);
+    } else {
+        res = Assert_CheckError(eval, command, expectedmsg, msg);
+    }
+
     if (nLhs == 0) {
         if (!res) {
             Error(msg);

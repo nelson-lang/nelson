@@ -10,7 +10,11 @@
 		<syntax_item>assert_checkerror(command, expected_error_message)</syntax_item>
 		<syntax_item>r = assert_checkerror(command, expected_error_message)</syntax_item>
 		<syntax_item>[r, msg] = assert_checkerror(command, expected_error_message)</syntax_item>
-	
+
+		<syntax_item>assert_checkerror(command, expected_error_message, expected_error_identifier)</syntax_item>
+		<syntax_item>r = assert_checkerror(command, expected_error_message, expected_error_identifier)</syntax_item>
+		<syntax_item>[r, msg] = assert_checkerror(command, expected_error_message, expected_error_identifier)</syntax_item>
+
 	</syntax>
 	
 	<param_input>
@@ -21,7 +25,12 @@
 
 		<param_input_item>
 			<param_name>expected_error_message</param_name>
-			<param_description>a string, the expectederror message.</param_description>
+			<param_description>a string, the expected error message.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>expected_error_identifier</param_name>
+			<param_description>a string, the expected error identifier.</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -57,6 +66,14 @@
 		<example_item_data><![CDATA[assert_checkerror('cos', _('Wrong error message.'));]]>
 		</example_item_data>
 	</example_item>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')]]>
+		</example_item_data>
+	</example_item>
+
 </examples>
 
 	<see_also>

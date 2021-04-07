@@ -41,7 +41,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "assert_isfalse", (void*)Nelson::AssertFunctionsGateway::assert_isfalseBuiltin, 2, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "assert_checkerror", (void*)Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin, 2, 2,
+    { "assert_checkerror", (void*)Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin, 2, -2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "assert_isequal", (void*)Nelson::AssertFunctionsGateway::assert_isequalBuiltin, 2, 2,
         CPP_BUILTIN_WITH_EVALUATOR },

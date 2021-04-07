@@ -59,5 +59,42 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
     return bRes;
 }
 //=============================================================================
+bool
+Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
+    const std::wstring& expectedid, std::wstring& msg)
+{
+    bool bEval = false;
+    std::wstring computedmsg;
+    std::wstring computedid;
+    try {
+        bEval = EvaluateCommand(eval, command, true);
+    } catch (Exception& e) {
+        bEval = false;
+        computedmsg = e.getMessage();
+        computedid = e.getIdentifier();
+    }
+    bool bRes = false;
+    if (bEval == false) {
+        if (computedmsg == expectedmsg && computedid == expectedid) {
+            bRes = true;
+            msg.clear();
+        } else {
+            bRes = false;
+            if (computedmsg != expectedmsg) {
+                msg = _W("Assertion failed : expected error message =") + L" \"" + expectedmsg
+                    + +L"\" " + _W("computed error message =") + L" \"" + computedmsg + L"\"";
+                return bRes;
+            }
+            if (computedid != expectedid) {
+                msg = _W("Assertion failed : expected error identifier =") + L" \"" + expectedid
+                    + +L"\" " + _W("computed error identifier =") + L" \"" + computedid + L"\"";
+            }
+        }
+    } else {
+        Error(_W("No error was produced while evaluating command."));
+    }
+    return bRes;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
