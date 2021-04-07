@@ -32,7 +32,7 @@ namespace Nelson {
 namespace ElementaryFunctionsGateway {
     //=============================================================================
     ArrayOfVector
-    isscalarBuiltin(int nLhs, const ArrayOfVector& argIn);
+    isscalarBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================
