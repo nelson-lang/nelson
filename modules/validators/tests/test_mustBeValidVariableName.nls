@@ -23,31 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeValidVariableName'), 1);
+assert_isequal(nargout('mustBeValidVariableName'), 0);
 //=============================================================================
-#include "nlsValidators_exports.h"
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+mustBeValidVariableName('t8');
+mustBeValidVariableName("t8");
 //=============================================================================
-namespace Nelson {
+assert_checkerror('mustBeValidVariableName(1)', _('Value must be valid variable name.'));
 //=============================================================================
-NLSVALIDATORS_IMPEXP void
-setEvaluator(Evaluator *eval);
+assert_checkerror('mustBeValidVariableName("8t")', _('Value must be valid variable name.'));
 //=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-}
+assert_checkerror('mustBeValidVariableName("8t")', _('Value must be valid variable name.'), 'Nelson:validators:mustBeValidVariableName');
 //=============================================================================

@@ -5,7 +5,8 @@
 - Validators functions available from Nelson and C++ API
 
   - `mustBeLogicalScalar`, `mustBeLogical`,
-  - `mustBeFinite`, `mustBeScalarOrEmpty`
+  - `mustBeFinite`, `mustBeScalarOrEmpty`,
+  - `mustBeValidVariableName`
 
 - extends `assert_checkerror` to check also error identifier.
 

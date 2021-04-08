@@ -29,6 +29,7 @@
 #include "mustBeLogicalBuiltin.hpp"
 #include "mustBeFiniteBuiltin.hpp"
 #include "mustBeScalarOrEmptyBuiltin.hpp"
+#include "mustBeValidVariableNameBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,7 +43,8 @@ static const nlsGateway gateway[] = {
     { "mustBeFinite", (void*)Nelson::ValidatorsGateway::mustBeFiniteBuiltin, 0, 1, CPP_BUILTIN },
     { "mustBeScalarOrEmpty", (void*)Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin, 0, 1,
         CPP_BUILTIN },
-
+    { "mustBeValidVariableName", (void*)Nelson::ValidatorsGateway::mustBeValidVariableNameBuiltin, 0, 1,
+        CPP_BUILTIN },
 };
 //=============================================================================
 static bool

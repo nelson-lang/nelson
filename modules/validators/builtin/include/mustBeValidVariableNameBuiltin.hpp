@@ -25,29 +25,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsValidators_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSVALIDATORS_IMPEXP void
-setEvaluator(Evaluator *eval);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
+namespace ValidatorsGateway {
+    //=============================================================================
+    ArrayOfVector
+    mustBeValidVariableNameBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

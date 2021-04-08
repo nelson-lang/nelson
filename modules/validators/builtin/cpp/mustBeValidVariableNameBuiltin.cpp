@@ -23,31 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "mustBeValidVariableNameBuiltin.hpp"
+#include "Validators.hpp"
 //=============================================================================
-#include "nlsValidators_exports.h"
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-setEvaluator(Evaluator *eval);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
+ArrayOfVector
+Nelson::ValidatorsGateway::mustBeValidVariableNameBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    mustBeValidVariableName(argIn[0], true);
+    return retval;
 }
 //=============================================================================

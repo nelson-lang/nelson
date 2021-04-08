@@ -30,6 +30,7 @@
 #include "allBuiltin.hpp"
 #include "isemptyBuiltin.hpp"
 #include "isscalarBuiltin.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -98,6 +99,21 @@ mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller)
             std::wstring id = _W("Nelson:validators:mustBeScalarOrEmpty");
             Error(msg, id, asCaller);
         }
+    }
+}
+//=============================================================================
+void
+mustBeValidVariableName(const ArrayOf& arg, bool asCaller)
+{
+    bool isvarname = false;
+    if (arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar())) {
+        isvarname = IsValidVariableName(arg.getContentAsWideString());
+    }
+    if (!isvarname) {
+        std::wstring msg = _W("Value must be valid variable name.");
+        std::wstring id = _W("Nelson:validators:mustBeValidVariableName");
+        Error(msg, id, asCaller);
+
     }
 }
 //=============================================================================
