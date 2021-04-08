@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\isuint64Builtin.cpp" />
     <ClCompile Include="..\cpp\isuint8Builtin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\isvarnameBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +223,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\classBuiltin.hpp" />
     <ClInclude Include="..\include\isaBuiltin.hpp" />
+    <ClInclude Include="..\include\isvarnameBuiltin.hpp" />
     <ClInclude Include="..\include\iscellBuiltin.hpp" />
     <ClInclude Include="..\include\ischarBuiltin.hpp" />
     <ClInclude Include="..\include\isclassBuiltin.hpp" />

@@ -11,6 +11,8 @@
 
 - `isvector`, `isscalar` support overload.
 
+- `isvarname` builtin: check if input is valid variable name.
+
 - Functions using SIMD extensions:
 
   - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,
