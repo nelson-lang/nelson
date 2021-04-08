@@ -8,6 +8,7 @@
 
   <syntax>
     <syntax_item>mustBeLogical(var)</syntax_item>
+    <syntax_item>C++: void mustBeLogical(const ArrayOf&amp; arg)</syntax_item>
   </syntax>
   
   <param_input>

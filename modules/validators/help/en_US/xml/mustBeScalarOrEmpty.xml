@@ -8,6 +8,7 @@
 
   <syntax>
     <syntax_item>mustBeScalarOrEmpty(var)</syntax_item>
+    <syntax_item>C++: void mustBeScalarOrEmpty(const ArrayOf&amp; arg)</syntax_item>
   </syntax>
   
   <param_input>

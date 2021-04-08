@@ -8,6 +8,7 @@
 
   <syntax>
     <syntax_item>mustBeLogicalScalar(var)</syntax_item>
+    <syntax_item>C++: void mustBeLogicalScalar(const ArrayOf&amp; arg)</syntax_item>
   </syntax>
   
   <param_input>

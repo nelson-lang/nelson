@@ -8,6 +8,8 @@
 
   <syntax>
     <syntax_item>mustBeFinite(var)</syntax_item>
+    <syntax_item>C++: void mustBeFinite(const ArrayOf&amp; arg)</syntax_item>
+
   </syntax>
   
   <param_input>

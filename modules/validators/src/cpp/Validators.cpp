@@ -26,6 +26,10 @@
 #include "Validators.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "isfiniteBuiltin.hpp"
+#include "allBuiltin.hpp"
+#include "isemptyBuiltin.hpp"
+#include "isscalarBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,32 +41,14 @@ setEvaluator(Evaluator* eval)
     _eval = eval;
 }
 //=============================================================================
-static ArrayOf
-callUnaryFunction(const ArrayOf& arg, const std::string& functionName)
-{
-    Context* context = _eval->getContext();
-    FunctionDef* funcDef = nullptr;
-    if (context->lookupFunction(functionName, funcDef)) {
-        if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-            ArrayOfVector argIn(arg);
-            ArrayOfVector argOut = funcDef->evaluateFunction(_eval, argIn, 1);
-            if (argOut.empty()) {
-                return ArrayOf();
-            }
-            return argOut[0];
-        }
-    }
-    return ArrayOf();
-}
-//=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeFinite(const ArrayOf& arg, bool asCaller)
 {
     bool asLogicalIsAllFinite = false;
-    ArrayOf isFinite = callUnaryFunction(arg, "isfinite");
-    ArrayOf isAllFinite = callUnaryFunction(isFinite, "all");
-    asLogicalIsAllFinite = isAllFinite.getContentAsLogicalScalar();
-    if (!asLogicalIsAllFinite) {
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, arg);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = _W("Value must be finite.");
         std::wstring id = _W("Nelson:validators:mustBeFinite");
         Error(msg, id, asCaller);
@@ -72,11 +58,10 @@ mustBeFinite(const ArrayOf& arg, bool asCaller)
 void
 mustBeLogical(const ArrayOf& arg, bool asCaller)
 {
-    std::string name = ClassName(arg);
-    ArrayOf isEmptyArrayOf = callUnaryFunction(arg, "isempty");
-    bool isEmpty = isEmptyArrayOf.getContentAsLogicalScalar();
-    if (!isEmpty) {
-        bool isLogical = (arg.isLogical() || name == "logical");
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
         if (!isLogical) {
             std::wstring msg = _W("Value must be logical.");
             std::wstring id = _W("Nelson:validators:mustBeLogical");
@@ -88,30 +73,31 @@ mustBeLogical(const ArrayOf& arg, bool asCaller)
 void
 mustBeLogicalScalar(const ArrayOf& arg, bool asCaller)
 {
-    std::string name = ClassName(arg);
-    bool isLogical = (arg.isLogical() || name == "logical");
-    ArrayOf isScalarArrayOf = callUnaryFunction(arg, "isscalar");
-    bool isScalar = isScalarArrayOf.getContentAsLogicalScalar();
-    bool isLogicalScalar = isLogical && isScalar;
-    if (!isLogicalScalar) {
-        std::wstring msg = _W("Value must be logical scalar.");
-        std::wstring id = _W("Nelson:validators:mustBeLogicalScalar");
-        Error(msg, id, asCaller);
+    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    if (isLogical) {
+        ArrayOfVector argIn(arg);
+        ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argIn);
+        if (argOut[0].getContentAsLogicalScalar()) {
+            return;
+        }
     }
+    std::wstring msg = _W("Value must be logical scalar.");
+    std::wstring id = _W("Nelson:validators:mustBeLogicalScalar");
+    Error(msg, id, asCaller);
 }
 //=============================================================================
 void
 mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller)
 {
-    ArrayOf isEmptyArrayOf = callUnaryFunction(arg, "isempty");
-    bool isEmpty = isEmptyArrayOf.getContentAsLogicalScalar();
-    ArrayOf isScalarArrayOf = callUnaryFunction(arg, "isscalar");
-    bool isScalar = isScalarArrayOf.getContentAsLogicalScalar();
-    bool isScalarOrEmpty = isScalar || isEmpty;
-    if (!isScalarOrEmpty) {
-        std::wstring msg = _W("Value must be scalar or empty.");
-        std::wstring id = _W("Nelson:validators:mustBeScalarOrEmpty");
-        Error(msg, id, asCaller);
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argIn);
+        if (!argOut[0].getContentAsLogicalScalar()) {
+            std::wstring msg = _W("Value must be scalar or empty.");
+            std::wstring id = _W("Nelson:validators:mustBeScalarOrEmpty");
+            Error(msg, id, asCaller);
+        }
     }
 }
 //=============================================================================
