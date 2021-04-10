@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>mustBeLogical(var)</syntax_item>
     <syntax_item>mustBeLogical(var, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeLogical(const ArrayOfVector& args, int argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeLogical(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>

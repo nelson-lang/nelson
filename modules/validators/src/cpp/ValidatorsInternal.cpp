@@ -32,6 +32,7 @@
 #include "isemptyBuiltin.hpp"
 #include "isscalarBuiltin.hpp"
 #include "IsValidVariableName.hpp"
+#include "isdirBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,7 +49,8 @@ invalidPositionMessage(int argPosition)
 {
     std::wstring msg;
     if (argPosition > 0) {
-        msg = str(boost::wformat { _W("Invalid input argument at position %d.") } % argPosition) + L"\n";
+        msg = str(boost::wformat{ _W("Invalid input argument at position %d.") } % argPosition)
+            + L"\n";
     }
     return msg;
 }
@@ -125,6 +127,31 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
         std::wstring msg
             = invalidPositionMessage(argPosition) + _W("Value must be valid variable name.");
         std::wstring id = _W("Nelson:validators:mustBeValidVariableName");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeTextScalar(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    bool isTextScalar = arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar());
+    if (!isTextScalar) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + _W("Value must be a character vector or string scalar.");
+        std::wstring id = _W("Nelson:validators:mustBeTextScalar");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    mustBeTextScalar(arg, argPosition, asCaller);
+    ArrayOfVector argOut = FilesFoldersGateway::isdirBuiltin(1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be folder.");
+        std::wstring id = _W("Nelson:validators:mustBeFolder");
         Error(msg, id, asCaller);
     }
 }

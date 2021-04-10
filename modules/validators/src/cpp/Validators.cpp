@@ -32,7 +32,7 @@ namespace Nelson {
 static void
 checkArgumentPosition(const ArrayOfVector& args, int argPosition)
 {
-    if (argPosition < args.size() || argPosition >= args.size()) {
+    if (argPosition < 0 || argPosition >= args.size()) {
         std::wstring msg = _W("Invalid input argument position.");
         std::wstring id = _W("Nelson:validators:invalidInputPosition");
         Error(msg, id);
@@ -43,36 +43,40 @@ void
 mustBeLogical(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeLogical(args[argPosition], argPosition);
+    mustBeLogical(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void
 mustBeLogicalScalar(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeLogicalScalar(args[argPosition], argPosition);
+    mustBeLogicalScalar(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void
 mustBeFinite(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeFinite(args[argPosition], argPosition);
+    mustBeFinite(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void
 mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeScalarOrEmpty(args[argPosition], argPosition);
+    mustBeScalarOrEmpty(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void
-mustBeValidVariableName(const ArrayOfVector& args, int argPosition, bool asCaller)
+mustBeValidVariableName(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeValidVariableName(args[argPosition], argPosition);
+    mustBeValidVariableName(args[argPosition], argPosition + 1);
 }
+//=============================================================================
+void
+mustBeTextScalar(const ArrayOfVector& args, int argPosition)
+{}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

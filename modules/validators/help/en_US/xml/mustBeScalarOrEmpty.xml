@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>mustBeScalarOrEmpty(var)</syntax_item>
     <syntax_item>mustBeScalarOrEmpty(var, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeScalarOrEmpty(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>

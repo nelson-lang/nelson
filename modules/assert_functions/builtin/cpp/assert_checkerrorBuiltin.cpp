@@ -40,7 +40,7 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     ArrayOf param2 = argIn[1];
     std::wstring command = param1.getContentAsWideString();
     std::wstring expectedmsg = param2.getContentAsWideString();
-   
+
     if (expectedmsg.empty()) {
         Error(_W("empty string not allowed as expected message."));
     }

@@ -2,11 +2,12 @@
 
 ## Features:
 
-- Validators functions available from Nelson and C++ API
+- Validators functions available from Nelson and C++ API:
 
   - `mustBeLogicalScalar`, `mustBeLogical`,
   - `mustBeFinite`, `mustBeScalarOrEmpty`,
   - `mustBeValidVariableName`
+  - `mustBeTextScalar`, `mustBeFolder`
 
 - extends `assert_checkerror` to check also error identifier.
 

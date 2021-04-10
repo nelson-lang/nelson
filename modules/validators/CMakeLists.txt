@@ -41,6 +41,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
@@ -60,7 +61,7 @@ target_link_libraries(
   nlsModules_manager
   nlsDynamic_link
   nlsI18n
-  nlsFiles_folders_functions
+  nlsFiles_folders_functions_builtin
   nlsString)
 # ==============================================================================
 set_target_properties(

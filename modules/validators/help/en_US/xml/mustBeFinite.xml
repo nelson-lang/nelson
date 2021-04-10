@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>mustBeFinite(var)</syntax_item>
     <syntax_item>mustBeFinite(var, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeFinite(const ArrayOfVector& args, int argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeFinite(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
 
   </syntax>
   

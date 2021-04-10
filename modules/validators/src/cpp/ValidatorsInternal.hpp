@@ -49,6 +49,11 @@ mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
-
+NLSVALIDATORS_IMPEXP void
+mustBeTextScalar(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================

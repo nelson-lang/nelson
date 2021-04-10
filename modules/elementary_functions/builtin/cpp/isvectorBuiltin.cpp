@@ -30,7 +30,8 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::isvectorBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::isvectorBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);

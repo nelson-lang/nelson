@@ -34,7 +34,7 @@ namespace ElementaryFunctionsGateway {
     //=============================================================================
     NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
     ArrayOfVector
-    isscalarBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector& argIn);
+    isscalarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

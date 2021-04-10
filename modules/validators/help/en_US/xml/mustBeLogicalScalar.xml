@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>mustBeLogicalScalar(var)</syntax_item>
     <syntax_item>mustBeLogicalScalar(var, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeLogicalScalar(const ArrayOfVector& args, int argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeLogicalScalar(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>

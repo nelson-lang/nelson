@@ -23,30 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "mustBeTextScalarBuiltin.hpp"
+#include "ValidatorsInternal.hpp"
 //=============================================================================
-#include "nlsValidators_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeTextScalar(const ArrayOfVector& args, int argPosition);
-//=============================================================================
+ArrayOfVector
+Nelson::ValidatorsGateway::mustBeTextScalarBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
+    int argPos = -1;
+    if (argIn.size() == 2) {
+        ArrayOf param2 = argIn[1];
+        argPos = param2.getContentAsInteger32Scalar();
+        if (argPos < 1) {
+            Error(_W("The last argument must be a positive integer."));
+        }
+    }
+    mustBeTextScalar(argIn[0], argPos);
+    return retval;
 }
 //=============================================================================
