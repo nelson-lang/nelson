@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "mustBeFiniteBuiltin.hpp"
-#include "Validators.hpp"
+#include "ValidatorsInternal.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,9 +32,17 @@ ArrayOfVector
 Nelson::ValidatorsGateway::mustBeFiniteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    mustBeFinite(argIn[0], true);
+    nargincheck(argIn, 1, 2);
+    int argPos = -1;
+    if (argIn.size() == 2) {
+        ArrayOf param2 = argIn[1];
+        argPos = param2.getContentAsInteger32Scalar();
+        if (argPos < 1) {
+            Error(_W("The last argument must be a positive integer."));
+        }
+    }
+    mustBeFinite(argIn[0], argPos);
     return retval;
 }
 //=============================================================================

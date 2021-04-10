@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('mustBeValidVariableName'), 1);
+assert_isequal(nargin('mustBeValidVariableName'), -1);
 assert_isequal(nargout('mustBeValidVariableName'), 0);
 //=============================================================================
 mustBeValidVariableName('t8');
@@ -34,4 +34,7 @@ assert_checkerror('mustBeValidVariableName(1)', _('Value must be valid variable 
 assert_checkerror('mustBeValidVariableName("8t")', _('Value must be valid variable name.'));
 //=============================================================================
 assert_checkerror('mustBeValidVariableName("8t")', _('Value must be valid variable name.'), 'Nelson:validators:mustBeValidVariableName');
+//=============================================================================
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be valid variable name.')];
+assert_checkerror('mustBeValidVariableName("8t", 3)', msg);
 //=============================================================================

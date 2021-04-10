@@ -29,9 +29,10 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/builtin/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include

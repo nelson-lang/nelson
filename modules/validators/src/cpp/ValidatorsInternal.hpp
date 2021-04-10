@@ -23,26 +23,32 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "mustBeLogicalBuiltin.hpp"
-#include "ValidatorsInternal.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsValidators_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::ValidatorsGateway::mustBeLogicalBuiltin(int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 2);
-    int argPos = -1;
-    if (argIn.size() == 2) {
-        ArrayOf param2 = argIn[1];
-        argPos = param2.getContentAsInteger32Scalar();
-        if (argPos < 1) {
-            Error(_W("The last argument must be a positive integer."));
-        }
-    }
-    mustBeLogical(argIn[0], argPos);
-    return retval;
+namespace Nelson {
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+setEvaluator(Evaluator* eval);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeLogical(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeLogicalScalar(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+
 }
 //=============================================================================

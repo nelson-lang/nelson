@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "Validators.hpp"
+#include "ValidatorsInternal.hpp"
 #include "mustBeLogicalScalarBuiltin.hpp"
 #include "mustBeLogicalBuiltin.hpp"
 #include "mustBeFiniteBuiltin.hpp"
@@ -36,14 +36,14 @@ using namespace Nelson;
 const std::wstring gatewayName = L"validators";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "mustBeLogical", (void*)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, 1,
+    { "mustBeLogical", (void*)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, 1,
+    { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBeFinite", (void*)Nelson::ValidatorsGateway::mustBeFiniteBuiltin, 0, 1, CPP_BUILTIN },
-    { "mustBeScalarOrEmpty", (void*)Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin, 0, 1,
+    { "mustBeFinite", (void*)Nelson::ValidatorsGateway::mustBeFiniteBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeScalarOrEmpty", (void*)Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBeValidVariableName", (void*)Nelson::ValidatorsGateway::mustBeValidVariableNameBuiltin, 0, 1,
+    { "mustBeValidVariableName", (void*)Nelson::ValidatorsGateway::mustBeValidVariableNameBuiltin, 0, -1,
         CPP_BUILTIN },
 };
 //=============================================================================

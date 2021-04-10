@@ -8,7 +8,8 @@
 
   <syntax>
     <syntax_item>mustBeFinite(var)</syntax_item>
-    <syntax_item>C++: void mustBeFinite(const ArrayOf&amp; arg)</syntax_item>
+    <syntax_item>mustBeFinite(var, argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeFinite(const ArrayOfVector& args, int argPosition)</syntax_item>
 
   </syntax>
   
@@ -16,6 +17,10 @@
     <param_input_item>
       <param_name>var</param_name>
       <param_description>a variable: all supported types and classes that implement isfinite methods.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argPosition</param_name>
+      <param_description>a positive integer value: Position of input argument.</param_description>
     </param_input_item>
   </param_input>
 

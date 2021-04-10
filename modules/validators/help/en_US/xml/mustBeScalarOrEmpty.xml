@@ -8,13 +8,18 @@
 
   <syntax>
     <syntax_item>mustBeScalarOrEmpty(var)</syntax_item>
-    <syntax_item>C++: void mustBeScalarOrEmpty(const ArrayOf&amp; arg)</syntax_item>
+    <syntax_item>mustBeScalarOrEmpty(var, argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
       <param_description>a variable: all supported types and classes that implement isscalar and isempty methods.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argPosition</param_name>
+      <param_description>a positive integer value: Position of input argument.</param_description>
     </param_input_item>
   </param_input>
 

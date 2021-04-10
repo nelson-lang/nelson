@@ -24,97 +24,54 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Validators.hpp"
-#include "ClassName.hpp"
 #include "Error.hpp"
-#include "isfiniteBuiltin.hpp"
-#include "allBuiltin.hpp"
-#include "isemptyBuiltin.hpp"
-#include "isscalarBuiltin.hpp"
-#include "IsValidVariableName.hpp"
+#include "ValidatorsInternal.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static Evaluator* _eval = nullptr;
-//=============================================================================
-void
-setEvaluator(Evaluator* eval)
+static void
+checkArgumentPosition(const ArrayOfVector& args, int argPosition)
 {
-    _eval = eval;
-}
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOf& arg, bool asCaller)
-{
-    bool asLogicalIsAllFinite = false;
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, arg);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        std::wstring msg = _W("Value must be finite.");
-        std::wstring id = _W("Nelson:validators:mustBeFinite");
-        Error(msg, id, asCaller);
+    if (argPosition < args.size() || argPosition >= args.size()) {
+        std::wstring msg = _W("Invalid input argument position.");
+        std::wstring id = _W("Nelson:validators:invalidInputPosition");
+        Error(msg, id);
     }
 }
 //=============================================================================
 void
-mustBeLogical(const ArrayOf& arg, bool asCaller)
+mustBeLogical(const ArrayOfVector& args, int argPosition)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, argIn);
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-        if (!isLogical) {
-            std::wstring msg = _W("Value must be logical.");
-            std::wstring id = _W("Nelson:validators:mustBeLogical");
-            Error(msg, id, asCaller);
-        }
-    }
+    checkArgumentPosition(args, argPosition);
+    mustBeLogical(args[argPosition], argPosition);
 }
 //=============================================================================
 void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller)
+mustBeLogicalScalar(const ArrayOfVector& args, int argPosition)
 {
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    if (isLogical) {
-        ArrayOfVector argIn(arg);
-        ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argIn);
-        if (argOut[0].getContentAsLogicalScalar()) {
-            return;
-        }
-    }
-    std::wstring msg = _W("Value must be logical scalar.");
-    std::wstring id = _W("Nelson:validators:mustBeLogicalScalar");
-    Error(msg, id, asCaller);
+    checkArgumentPosition(args, argPosition);
+    mustBeLogicalScalar(args[argPosition], argPosition);
 }
 //=============================================================================
 void
-mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller)
+mustBeFinite(const ArrayOfVector& args, int argPosition)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, argIn);
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argIn);
-        if (!argOut[0].getContentAsLogicalScalar()) {
-            std::wstring msg = _W("Value must be scalar or empty.");
-            std::wstring id = _W("Nelson:validators:mustBeScalarOrEmpty");
-            Error(msg, id, asCaller);
-        }
-    }
+    checkArgumentPosition(args, argPosition);
+    mustBeFinite(args[argPosition], argPosition);
 }
 //=============================================================================
 void
-mustBeValidVariableName(const ArrayOf& arg, bool asCaller)
+mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition)
 {
-    bool isvarname = false;
-    if (arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar())) {
-        isvarname = IsValidVariableName(arg.getContentAsWideString());
-    }
-    if (!isvarname) {
-        std::wstring msg = _W("Value must be valid variable name.");
-        std::wstring id = _W("Nelson:validators:mustBeValidVariableName");
-        Error(msg, id, asCaller);
-
-    }
+    checkArgumentPosition(args, argPosition);
+    mustBeScalarOrEmpty(args[argPosition], argPosition);
+}
+//=============================================================================
+void
+mustBeValidVariableName(const ArrayOfVector& args, int argPosition, bool asCaller)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeValidVariableName(args[argPosition], argPosition);
 }
 //=============================================================================
 } // namespace Nelson

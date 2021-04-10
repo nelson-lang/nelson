@@ -27,27 +27,23 @@
 //=============================================================================
 #include "nlsValidators_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-setEvaluator(Evaluator *eval);
+mustBeLogical(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOf& arg, bool asCaller = false);
+mustBeLogicalScalar(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOf& arg, bool asCaller = false);
+mustBeFinite(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOf& arg, bool asCaller = false);
+mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOf& arg, bool asCaller = false);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOf& arg, bool asCaller = false);
+mustBeValidVariableName(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 }
 //=============================================================================

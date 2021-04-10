@@ -165,10 +165,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Validators.cpp" />
+    <ClCompile Include="..\cpp\ValidatorsInternal.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsValidators_exports.h" />
+    <ClInclude Include="..\cpp\ValidatorsInternal.hpp" />
     <ClInclude Include="..\include\Validators.hpp" />
   </ItemGroup>
   <ItemGroup>
