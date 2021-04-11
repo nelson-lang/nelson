@@ -76,7 +76,10 @@ mustBeValidVariableName(const ArrayOfVector& args, int argPosition)
 //=============================================================================
 void
 mustBeTextScalar(const ArrayOfVector& args, int argPosition)
-{}
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeTextScalar(args[argPosition], argPosition + 1);
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

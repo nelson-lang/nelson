@@ -15,6 +15,8 @@
 
 - `isvarname` builtin: check if input is valid variable name.
 
+- `isdir` manages string array.
+
 - Functions using SIMD extensions:
 
   - `ceil`, `round`, `fix`, `floor`, `abs`, `conj`,
