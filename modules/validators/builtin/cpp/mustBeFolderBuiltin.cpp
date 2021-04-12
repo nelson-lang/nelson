@@ -42,7 +42,7 @@ Nelson::ValidatorsGateway::mustBeFolderBuiltin(int nLhs, const ArrayOfVector& ar
             Error(_W("The last argument must be a positive integer."));
         }
     }
-    mustBeFolder(argIn[0], argPos);
+    mustBeFolder(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================

@@ -42,7 +42,7 @@ Nelson::ValidatorsGateway::mustBeValidVariableNameBuiltin(int nLhs, const ArrayO
             Error(_W("The last argument must be a positive integer."));
         }
     }
-    mustBeValidVariableName(argIn[0], argPos);
+    mustBeValidVariableName(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================

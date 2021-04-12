@@ -176,6 +176,7 @@
     <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeTextScalarBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeValidVariableNameBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeVectorBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +216,7 @@
     <ClInclude Include="..\include\mustBeTextScalarBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeValidVariableNameBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeScalarOrEmptyBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeVectorBuiltin.hpp" />
     <ClInclude Include="..\include\nlsValidators_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

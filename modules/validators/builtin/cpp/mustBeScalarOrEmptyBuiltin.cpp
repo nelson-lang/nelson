@@ -42,7 +42,7 @@ Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin(int nLhs, const ArrayOfVec
             Error(_W("The last argument must be a positive integer."));
         }
     }
-    mustBeScalarOrEmpty(argIn[0], argPos);
+    mustBeScalarOrEmpty(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================

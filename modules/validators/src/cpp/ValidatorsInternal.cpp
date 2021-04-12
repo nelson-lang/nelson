@@ -33,6 +33,7 @@
 #include "isscalarBuiltin.hpp"
 #include "IsValidVariableName.hpp"
 #include "isdirBuiltin.hpp"
+#include "isvectorBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,7 +50,7 @@ invalidPositionMessage(int argPosition)
 {
     std::wstring msg;
     if (argPosition > 0) {
-        msg = str(boost::wformat{ _W("Invalid input argument at position %d.") } % argPosition)
+        msg = str(boost::wformat { _W("Invalid input argument at position %d.") } % argPosition)
             + L"\n";
     }
     return msg;
@@ -152,6 +153,24 @@ mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be folder.");
         std::wstring id = _W("Nelson:validators:mustBeFolder");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeVector(const ArrayOf& arg, bool allowsAllEmpties, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::isvectorBuiltin(_eval, 1, argIn);
+    bool isVectorOrEmpty = argOut[0].getContentAsLogicalScalar();
+
+    if (!isVectorOrEmpty && allowsAllEmpties) {
+        argOut = TypeGateway::isemptyBuiltin(_eval, 1, argIn);
+        isVectorOrEmpty = argOut[0].getContentAsLogicalScalar();
+    }
+    if (!isVectorOrEmpty) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a vector.");
+        std::wstring id = _W("Nelson:validators:mustBeVector");
         Error(msg, id, asCaller);
     }
 }

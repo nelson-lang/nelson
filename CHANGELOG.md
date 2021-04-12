@@ -5,7 +5,7 @@
 - Validators functions available from Nelson and C++ API:
 
   - `mustBeLogicalScalar`, `mustBeLogical`,
-  - `mustBeFinite`, `mustBeScalarOrEmpty`,
+  - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector` 
   - `mustBeValidVariableName`
   - `mustBeTextScalar`, `mustBeFolder`
 

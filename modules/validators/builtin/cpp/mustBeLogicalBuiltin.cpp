@@ -42,7 +42,7 @@ Nelson::ValidatorsGateway::mustBeLogicalBuiltin(int nLhs, const ArrayOfVector& a
             Error(_W("The last argument must be a positive integer."));
         }
     }
-    mustBeLogical(argIn[0], argPos);
+    mustBeLogical(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================

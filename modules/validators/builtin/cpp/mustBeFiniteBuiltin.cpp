@@ -42,7 +42,7 @@ Nelson::ValidatorsGateway::mustBeFiniteBuiltin(int nLhs, const ArrayOfVector& ar
             Error(_W("The last argument must be a positive integer."));
         }
     }
-    mustBeFinite(argIn[0], argPos);
+    mustBeFinite(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================

@@ -81,5 +81,12 @@ mustBeTextScalar(const ArrayOfVector& args, int argPosition)
     mustBeTextScalar(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeVector(args[argPosition], allowsAllEmpties, argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
