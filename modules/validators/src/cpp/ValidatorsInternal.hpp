@@ -61,5 +61,8 @@ mustBeVector(const ArrayOf& arg, bool allowsAllEmpties, int argPosition, bool as
 NLSVALIDATORS_IMPEXP void
 mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================

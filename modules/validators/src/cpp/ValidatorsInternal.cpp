@@ -35,6 +35,7 @@
 #include "isdirBuiltin.hpp"
 #include "isvectorBuiltin.hpp"
 #include "isfloatBuiltin.hpp"
+#include "isnumericBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,7 +52,7 @@ invalidPositionMessage(int argPosition)
 {
     std::wstring msg;
     if (argPosition > 0) {
-        msg = str(boost::wformat { _W("Invalid input argument at position %d.") } % argPosition)
+        msg = str(boost::wformat{ _W("Invalid input argument at position %d.") } % argPosition)
             + L"\n";
     }
     return msg;
@@ -184,6 +185,18 @@ mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a float.");
         std::wstring id = _W("Nelson:validators:mustBeFloat");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be numeric.");
+        std::wstring id = _W("Nelson:validators:mustBeNumeric");
         Error(msg, id, asCaller);
     }
 }

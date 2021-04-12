@@ -7,7 +7,8 @@
   - `mustBeLogicalScalar`, `mustBeLogical`, `mustBeFloat`, 
   - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector`, 
   - `mustBeValidVariableName`,
-  - `mustBeTextScalar`, `mustBeFolder`.
+  - `mustBeTextScalar`, `mustBeFolder`,
+  - `mustBeNumeric`.
 
 - extends `assert_checkerror` to check also error identifier.
 

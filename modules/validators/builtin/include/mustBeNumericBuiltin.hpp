@@ -23,32 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isnumericBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::TypeGateway::isnumericBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isnumeric", bSuccess);
-    }
-    if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
-        bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, argIn, "isnumeric", bSuccess);
-        if (bSuccess) {
-            return retval;
-        }
-    }
-    if (!bSuccess) {
-        retval << ArrayOf::logicalConstructor(argIn[0].isNumeric());
-    }
-    return retval;
+namespace Nelson {
+//=============================================================================
+namespace ValidatorsGateway {
+    //=============================================================================
+    ArrayOfVector
+    mustBeNumericBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -33,4 +33,3 @@ assert_checkerror('mustBeLogical(1)', _('Value must be logical.'));
 msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be logical.')];
 assert_checkerror('mustBeLogical(1, 3)', msg);
 //=============================================================================
-

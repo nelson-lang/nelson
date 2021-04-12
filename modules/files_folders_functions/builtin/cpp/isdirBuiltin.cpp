@@ -36,8 +36,8 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (IsCellOfString(argIn[0]) || argIn[0].isStringArray()) { 
-            Dimensions dim = argIn[0].getDimensions();
+    if (IsCellOfString(argIn[0]) || argIn[0].isStringArray()) {
+        Dimensions dim = argIn[0].getDimensions();
         if (argIn[0].isEmpty()) {
             retval << ArrayOf::emptyConstructor(dim);
         } else {
