@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\mustBeFiniteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeFloatBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFolderBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalScalarBuiltin.cpp" />
@@ -210,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\mustBeFiniteBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeFloatBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFolderBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalScalarBuiltin.hpp" />

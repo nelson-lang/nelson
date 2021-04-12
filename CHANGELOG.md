@@ -4,10 +4,10 @@
 
 - Validators functions available from Nelson and C++ API:
 
-  - `mustBeLogicalScalar`, `mustBeLogical`,
-  - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector` 
-  - `mustBeValidVariableName`
-  - `mustBeTextScalar`, `mustBeFolder`
+  - `mustBeLogicalScalar`, `mustBeLogical`, `mustBeFloat`, 
+  - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector`, 
+  - `mustBeValidVariableName`,
+  - `mustBeTextScalar`, `mustBeFolder`.
 
 - extends `assert_checkerror` to check also error identifier.
 

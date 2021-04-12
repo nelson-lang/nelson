@@ -88,5 +88,12 @@ mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition)
     mustBeVector(args[argPosition], allowsAllEmpties, argPosition + 1);
 }
 //=============================================================================
+void
+mustBeFloat(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeFloat(args[argPosition], argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

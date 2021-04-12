@@ -33,6 +33,7 @@
 #include "mustBeTextScalarBuiltin.hpp"
 #include "mustBeFolderBuiltin.hpp"
 #include "mustBeVectorBuiltin.hpp"
+#include "mustBeFloatBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,6 +52,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "mustBeFolder", (void*)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeVector", (void*)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeFloat", (void*)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

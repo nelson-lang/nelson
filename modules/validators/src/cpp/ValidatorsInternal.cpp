@@ -34,6 +34,7 @@
 #include "IsValidVariableName.hpp"
 #include "isdirBuiltin.hpp"
 #include "isvectorBuiltin.hpp"
+#include "isfloatBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -171,6 +172,18 @@ mustBeVector(const ArrayOf& arg, bool allowsAllEmpties, int argPosition, bool as
     if (!isVectorOrEmpty) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a vector.");
         std::wstring id = _W("Nelson:validators:mustBeVector");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isfloatBuiltin(_eval, 1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a float.");
+        std::wstring id = _W("Nelson:validators:mustBeFloat");
         Error(msg, id, asCaller);
     }
 }

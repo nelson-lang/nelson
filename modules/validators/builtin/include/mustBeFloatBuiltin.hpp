@@ -25,37 +25,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsValidators_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeTextScalar(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFolder(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFloat(const ArrayOfVector& args, int argPosition);
-//=============================================================================
+namespace ValidatorsGateway {
+    //=============================================================================
+    ArrayOfVector
+    mustBeFloatBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

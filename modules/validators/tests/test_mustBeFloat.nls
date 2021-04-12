@@ -23,39 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeFloat'), -1);
+assert_isequal(nargout('mustBeFloat'), 0);
 //=============================================================================
-#include "nlsValidators_exports.h"
-#include "ArrayOf.hpp"
+mustBeFloat([]);
+mustBeFloat(single(3));
 //=============================================================================
-namespace Nelson {
+assert_checkerror('mustBeFloat(int32(1))', _('Value must be a float.'));
 //=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogical(const ArrayOfVector& args, int argPosition);
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be a float.')];
+assert_checkerror('mustBeFloat(int32(1), 3)', msg);
 //=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeLogicalScalar(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFinite(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeValidVariableName(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeTextScalar(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFolder(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition);
-//=============================================================================
-NLSVALIDATORS_IMPEXP void
-mustBeFloat(const ArrayOfVector& args, int argPosition);
-//=============================================================================
-}
-//=============================================================================
+
