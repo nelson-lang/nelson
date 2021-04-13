@@ -37,6 +37,7 @@
 #include <boost/process/shell.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
@@ -264,6 +265,24 @@ void
 ProcessEventsDynamicFunction()
 {
     ProcessEventsDynamicFunction(false);
+}
+//=============================================================================
+wstringVector
+ParallelSystemCommand(const wstringVector& commands, std::vector<int>& ierrs)
+{
+    ompIndexType nbCommands = (ompIndexType)commands.size();
+    wstringVector results;
+    results.resize(nbCommands);
+    ierrs.resize(nbCommands);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < nbCommands; k++) {
+        int ierr;
+        results[k] = SystemCommand(commands[k], ierr, false);
+        ierrs[k] = ierr;
+    }
+    return results;
 }
 //=============================================================================
 } // namespace Nelson

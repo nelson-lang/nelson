@@ -26,6 +26,8 @@
   - `atan2`, `acos`, `asin`
   - addition, substraction, multiplication, division vectors.
 
+- `system` allows to run shell command execution in parallel.
+
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
 - [#382](http://github.com/Nelson-numerical-software/nelson/issues/382): optimize `corrcoef`.

@@ -26,6 +26,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <vector>
 #include "ArrayOf.hpp"
 #include "nlsOs_functions_exports.h"
 //=============================================================================
@@ -33,6 +34,9 @@ namespace Nelson {
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP std::wstring
 SystemCommand(const std::wstring& command, int& ierr, bool withLoopEvents);
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP wstringVector
+ParallelSystemCommand(const wstringVector& commands, std::vector<int> &ierrs);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
