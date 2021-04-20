@@ -24,12 +24,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mexPrintf')
-     status = copyfile('mexPrintf.c', tempdir());
+     test_dir = [tempdir(), 'mexPrintf'];
+     if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+     status = copyfile('mexPrintf.c', test_dir);
      assert_istrue(status);
-     cd(tempdir()); 
+     cd(test_dir); 
      mex('mexPrintf.c');
      run('loader.nls');
-end
+ end
 //=============================================================================
 R = evalc('mexPrintf()');
 REF = 'Result 0

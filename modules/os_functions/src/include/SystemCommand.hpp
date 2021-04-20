@@ -36,7 +36,7 @@ NLSOS_FUNCTIONS_IMPEXP std::wstring
 SystemCommand(const std::wstring& command, int& ierr, bool withLoopEvents);
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP wstringVector
-ParallelSystemCommand(const wstringVector& commands, std::vector<int> &ierrs);
+ParallelSystemCommand(const wstringVector& commands, std::vector<int>& ierrs, bool withEventsLoop);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxCreateSparse')
-    status = copyfile('mxCreateSparse.c', tempdir());
+    test_dir = [tempdir(), 'mxCreateSparse'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxCreateSparse.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxCreateSparse.c');
     run('loader.nls');
 end

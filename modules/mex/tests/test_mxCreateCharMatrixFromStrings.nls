@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxCreateCharMatrixFromStrings')
-    status = copyfile('mxCreateCharMatrixFromStrings.c', tempdir());
+    test_dir = [tempdir(), 'mxCreateCharMatrixFromStrings'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxCreateCharMatrixFromStrings.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxCreateCharMatrixFromStrings.c');
     run('loader.nls');
 end

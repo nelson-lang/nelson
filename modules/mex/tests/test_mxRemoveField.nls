@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxRemoveField')
-    status = copyfile('mxRemoveField.c', tempdir());
+    test_dir = [tempdir(), 'mxRemoveField'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxRemoveField.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxRemoveField.c');
     run('loader.nls');
 end

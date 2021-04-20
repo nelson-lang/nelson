@@ -28,6 +28,8 @@
 
 - `system` allows to run shell command execution in parallel.
 
+- `test_run` executes on parallel process.
+
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
 - [#382](http://github.com/Nelson-numerical-software/nelson/issues/382): optimize `corrcoef`.

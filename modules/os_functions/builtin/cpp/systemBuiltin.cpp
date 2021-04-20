@@ -57,7 +57,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         wstringVector commands = argIn[0].getContentAsWideStringVector(false);
         Dimensions outDims = argIn[0].getDimensions();
         std::vector<int> ierrs;
-        wstringVector results = ParallelSystemCommand(commands, ierrs);
+        wstringVector results = ParallelSystemCommand(commands, ierrs, eval->haveEventsLoop());
         double* pdRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, commands.size());
         ArrayOf ret = ArrayOf(NLS_DOUBLE, outDims, pdRes);
         for (size_t k = 0; k < commands.size(); ++k) {
