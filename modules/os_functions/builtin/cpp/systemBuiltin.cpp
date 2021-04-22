@@ -37,8 +37,8 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
     bool bEcho = false;
     bool bParallel = false;
-    if (argIn.size() > 1) { 
-    if (argIn[1].isRowVectorCharacterArray()) {
+    if (argIn.size() > 1) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             std::wstring flag = argIn[1].getContentAsWideString();
             if (flag.compare(L"-echo") == 0) {
                 bEcho = true;
