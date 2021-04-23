@@ -282,7 +282,7 @@ ParallelSystemCommand(const wstringVector& commands, std::vector<int>& ierrs, bo
     std::vector<boost::filesystem::path> tempOutputFiles;
     std::vector<boost::filesystem::path> tempErrorFiles;
     tempOutputFiles.reserve(nbCommands);
-    tempErrorFiles.resize(nbCommands);
+    tempErrorFiles.reserve(nbCommands);
     boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
     for (ompIndexType k = 0; k < nbCommands; k++) {
         boost::filesystem::path tempOutputFile = pwd;
@@ -292,7 +292,6 @@ ParallelSystemCommand(const wstringVector& commands, std::vector<int>& ierrs, bo
         tempOutputFiles.push_back(tempOutputFile);
         tempErrorFiles.push_back(tempErrorFile);
     }
-
     wstringVector results;
     results.resize(nbCommands);
     ierrs.resize(nbCommands);
