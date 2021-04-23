@@ -25,7 +25,7 @@
 //=============================================================================
 function status = test_run(varargin)
   nbWorkers = maxNumCompThreads();
-  __totalTimeBegin = tic;
+  __totalTimeBegin = time();
   [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, varargin);
   nelson_version = version('-number');
   nelson_version_str = sprintf('Nelson-%d.%d.%d.%d', nelson_version(1), nelson_version(2), nelson_version(3), nelson_version(4));
@@ -73,9 +73,9 @@ function status = test_run(varargin)
     test_suites.time = test_suite.time;
     test_suites.tests_list = test_suite;
   end
-  __totalTimeEnd = tic;
+  __totalTimeEnd = time();
   status = test_suites.errors == 0;
-  test_suites.total_time = (double(__totalTimeEnd - __totalTimeBegin)) * 1e-9;
+  test_suites.total_time = __totalTimeEnd - __totalTimeBegin;
   disp_summary(test_suites);
   res = save_results(test_suites, result_outputfile);
   if ~res

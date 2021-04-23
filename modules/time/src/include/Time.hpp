@@ -23,37 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "TicToc.hpp"
-#include <boost/chrono/chrono.hpp>
+#pragma once
+//=============================================================================
+#include "nlsTime_exports.h"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static uint64
-nowAsNanoseconds()
-{
-    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-    return uint64(static_cast<boost::uint64_t>(ns.count()));
-}
+NLSTIME_IMPEXP uint64
+TimeAsNanoSeconds();
 //=============================================================================
-bool
-Tic(Evaluator* eval)
-{
-    eval->TimerValue = nowAsNanoseconds();
-    return true;
-}
-//=============================================================================
-bool
-Toc(Evaluator* eval, double& tValue)
-{
-    return Toc(eval->TimerValue, tValue);
-}
-//=============================================================================
-bool
-Toc(uint64 t, double& tValue)
-{
-    tValue = double(nowAsNanoseconds() - t) * 1e-9;
-    return true;
-}
+NLSTIME_IMPEXP double
+TimeAsSeconds();
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

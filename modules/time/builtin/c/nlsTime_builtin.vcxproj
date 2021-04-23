@@ -173,6 +173,7 @@
     <ClCompile Include="..\cpp\nowBuiltin.cpp" />
     <ClCompile Include="..\cpp\sleepBuiltin.cpp" />
     <ClCompile Include="..\cpp\ticBuiltin.cpp" />
+    <ClCompile Include="..\cpp\timeBuiltin.cpp" />
     <ClCompile Include="..\cpp\tocBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -218,6 +219,7 @@
     <ClInclude Include="..\include\nowBuiltin.hpp" />
     <ClInclude Include="..\include\sleepBuiltin.hpp" />
     <ClInclude Include="..\include\ticBuiltin.hpp" />
+    <ClInclude Include="..\include\timeBuiltin.hpp" />
     <ClInclude Include="..\include\tocBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

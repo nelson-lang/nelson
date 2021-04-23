@@ -23,36 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "TicToc.hpp"
+#include <boost/date_time/local_time/local_time.hpp>
+#include <boost/date_time/posix_time/ptime.hpp>
 #include <boost/chrono/chrono.hpp>
+#include "Time.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static uint64
-nowAsNanoseconds()
+uint64
+TimeAsNanoSeconds()
 {
-    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-    return uint64(static_cast<boost::uint64_t>(ns.count()));
+    boost::posix_time::ptime now(boost::posix_time::microsec_clock::universal_time());
+    boost::posix_time::ptime const EPOCH(boost::gregorian::date(1970, 1, 1));
+    boost::posix_time::time_duration delta(now - EPOCH);
+    return uint64(static_cast<boost::uint64_t>(delta.total_nanoseconds()));
 }
 //=============================================================================
-bool
-Tic(Evaluator* eval)
+double
+TimeAsSeconds()
 {
-    eval->TimerValue = nowAsNanoseconds();
-    return true;
-}
-//=============================================================================
-bool
-Toc(Evaluator* eval, double& tValue)
-{
-    return Toc(eval->TimerValue, tValue);
-}
-//=============================================================================
-bool
-Toc(uint64 t, double& tValue)
-{
-    tValue = double(nowAsNanoseconds() - t) * 1e-9;
-    return true;
+    uint64 _now = TimeAsNanoSeconds();
+    return double(_now) * 1e-9;
 }
 //=============================================================================
 } // namespace Nelson
