@@ -2,7 +2,7 @@
 
 ## Features:
 
-- Validators functions available from Nelson and C++ API:
+- Validators functions (part 1) available from Nelson and C++ API:
 
   - `mustBeLogicalScalar`, `mustBeLogical`, `mustBeFloat`, 
   - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector`, 
@@ -17,6 +17,8 @@
 - `isvarname` builtin: check if input is valid variable name.
 
 - `isdir` manages string array.
+
+- `time` returns current time as the number of seconds or nanoseconds since the epoch.
 
 - Functions using SIMD extensions:
 

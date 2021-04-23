@@ -50,6 +50,9 @@ t = toc()
     <see_also_item>
       <link linkend="${time}sleep">sleep</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${time}time">time</link>
+    </see_also_item>
 
   </see_also>
 

@@ -34,6 +34,7 @@
 #include "sleepBuiltin.hpp"
 #include "ticBuiltin.hpp"
 #include "tocBuiltin.hpp"
+#include "timeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -49,6 +50,7 @@ static const nlsGateway gateway[] = {
     { "clock", (void*)Nelson::TimeGateway::clockBuiltin, 1, 0 },
     { "cputime", (void*)Nelson::TimeGateway::cputimeBuiltin, 1, 0 },
     { "datenum", (void*)Nelson::TimeGateway::datenumBuiltin, 1, 6 },
+    { "time", (void*)Nelson::TimeGateway::timeBuiltin, 1, 0, CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

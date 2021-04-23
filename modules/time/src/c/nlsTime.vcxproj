@@ -170,6 +170,7 @@
     <ClInclude Include="..\..\src\include\TicToc.hpp" />
     <ClInclude Include="..\include\CpuTime.hpp" />
     <ClInclude Include="..\include\DateVector.hpp" />
+    <ClInclude Include="..\include\Time.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Calendar.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="..\cpp\Now.cpp" />
     <ClCompile Include="..\cpp\Sleep.cpp" />
     <ClCompile Include="..\cpp\TicToc.cpp" />
+    <ClCompile Include="..\cpp\Time.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
