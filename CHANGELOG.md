@@ -1,24 +1,14 @@
-# 0.5.4 (UNRELEASED)
+# 0.5.4 (2021-04-24)
 
 ## Features:
 
-- Validators functions (part 1) available from Nelson and C++ API:
+- Validators functions available from Nelson and C++ API (part 1):
 
-  - `mustBeLogicalScalar`, `mustBeLogical`, `mustBeFloat`, 
-  - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector`, 
+  - `mustBeLogicalScalar`, `mustBeLogical`, `mustBeFloat`,
+  - `mustBeFinite`, `mustBeScalarOrEmpty`, `mustBeVector`,
   - `mustBeValidVariableName`,
   - `mustBeTextScalar`, `mustBeFolder`,
   - `mustBeNumeric`.
-
-- extends `assert_checkerror` to check also error identifier.
-
-- `isvector`, `isscalar` support overload.
-
-- `isvarname` builtin: check if input is valid variable name.
-
-- `isdir` manages string array.
-
-- `time` returns current time as the number of seconds or nanoseconds since the epoch.
 
 - Functions using SIMD extensions:
 
@@ -31,6 +21,18 @@
 - `system` allows to run shell command execution in parallel.
 
 - `test_run` executes on parallel process.
+
+- extends `assert_checkerror` to check also error identifier.
+
+- `isvector`, `isscalar` support overload.
+
+- `isvarname` builtin: check if input is valid variable name.
+
+- `isdir` manages string array.
+
+- `time` returns current time as the number of seconds or nanoseconds since the epoch.
+
+## Bug Fixes:
 
 - [#352](http://github.com/Nelson-numerical-software/nelson/issues/352): number of input arguments checked in macro.
 
