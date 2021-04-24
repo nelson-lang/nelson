@@ -42,7 +42,7 @@ extern "C"
 #endif
     //=============================================================================
     NLSINTERPRETER_IMPEXP void
-    NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id);
+    NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id, bool asCaller);
 //=============================================================================
 #ifdef __cplusplus
 }

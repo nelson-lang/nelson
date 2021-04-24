@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxSetComplexSingles')
-    status = copyfile('mxSetComplexSingles.c', tempdir());
+    test_dir = [tempdir(), 'mxSetComplexSingles'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxSetComplexSingles.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir);
     mex('mxSetComplexSingles.c', '-R2018a');
     run('loader.nls');
 end

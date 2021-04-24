@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxGetNChars')
-    status = copyfile('mxGetNChars.c', tempdir());
+    test_dir = [tempdir(), 'mxGetNChars'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxGetNChars.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxGetNChars.c');
     run('loader.nls');
 end

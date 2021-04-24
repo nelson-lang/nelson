@@ -46,14 +46,14 @@ throwException(const Exception& e)
 } // namespace Nelson
 //=============================================================================
 void
-NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id)
+NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id, bool asCaller)
 {
     std::wstring message(msg);
     if (!message.empty()) {
         if (evaluatorError != nullptr) {
             std::wstring identifier(id);
             Nelson::stackTrace trace;
-            DebugStack(evaluatorError->callstack, 0, trace);
+            DebugStack(evaluatorError->callstack, asCaller ? 1 : 0, trace);
             Nelson::Exception exception(message, trace, identifier);
             Nelson::throwException(exception);
         }

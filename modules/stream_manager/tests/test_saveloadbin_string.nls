@@ -29,9 +29,9 @@ A = ["NelSon";
 "is";
 "not";
 "LensOn"];
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_string.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_string.bin']);
 assert_isequal(A, REF);
 //=============================================================================

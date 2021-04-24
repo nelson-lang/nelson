@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxIsInteger')
-    status = copyfile('mxIsInteger.c', tempdir());
+    test_dir = [tempdir(), 'mxIsInteger'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxIsInteger.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxIsInteger.c');
     run('loader.nls');
 end

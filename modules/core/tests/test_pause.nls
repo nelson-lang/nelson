@@ -29,8 +29,8 @@ assert_isequal(nargout('pause'), 1);
 s = pause('query');
 assert_isequal(s, 'on');
 //=============================================================================
-tic();pause(30);t = toc();
-assert_istrue(t > 29);
+tic();pause(5);t = toc();
+assert_istrue(t > 4);
 //=============================================================================
 pause('off')
 tic();pause(30);t = toc();

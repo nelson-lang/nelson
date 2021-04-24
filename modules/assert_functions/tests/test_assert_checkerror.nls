@@ -43,4 +43,4 @@ if strcmp(msg, expectedmsg) == false
   error(_('assert_checkerror fails.'));
 end
 //=============================================================================
-
+assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')

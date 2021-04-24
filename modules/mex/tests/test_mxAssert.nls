@@ -26,11 +26,16 @@
 // <--ENGLISH IMPOSED-->
 //=============================================================================
 if ~isbuiltin('mxAssert')
-     status = copyfile('mxAssert.c', tempdir());
-     assert_istrue(status);
-     cd(tempdir()); 
-     mex('mxAssert.c');
-     run('loader.nls');
+   test_dir = [tempdir(), 'mxAssert'];
+   if isdir(test_dir)
+      rmdir(test_dir,'s');
+   end
+   mkdir(test_dir);
+   status = copyfile('mxAssert.c', test_dir);
+   assert_istrue(status);
+   cd(test_dir); 
+   mex('mxAssert.c');
+   run('loader.nls');
 end
 //=============================================================================
 R = mxAssert(1);

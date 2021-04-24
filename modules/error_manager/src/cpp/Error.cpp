@@ -71,9 +71,9 @@ initInterpreterDynamicLibrary()
 }
 //=============================================================================
 void
-Error(const std::wstring& msg, const std::wstring& id)
+Error(const std::wstring& msg, const std::wstring& id, bool asCaller)
 {
-    using PROC_NelsonErrorEmitter = void (*)(const wchar_t*, const wchar_t*);
+    using PROC_NelsonErrorEmitter = void (*)(const wchar_t*, const wchar_t*, bool);
     static PROC_NelsonErrorEmitter NelsonErrorEmitterPtr = nullptr;
     initInterpreterDynamicLibrary();
     if (NelsonErrorEmitterPtr == nullptr) {
@@ -81,14 +81,14 @@ Error(const std::wstring& msg, const std::wstring& id)
             Nelson::get_function(nlsInterpreterHandleDynamicLibrary, "NelsonErrorEmitter"));
     }
     if (NelsonErrorEmitterPtr != nullptr) {
-        NelsonErrorEmitterPtr(msg.c_str(), id.c_str());
+        NelsonErrorEmitterPtr(msg.c_str(), id.c_str(), asCaller);
     }
 }
 //=============================================================================
 void
-Error(const std::string& msg, const std::string& id)
+Error(const std::string& msg, const std::string& id, bool asCaller)
 {
-    Error(utf8_to_wstring(msg), utf8_to_wstring(id));
+    Error(utf8_to_wstring(msg), utf8_to_wstring(id), asCaller);
 }
 //=============================================================================
 } // namespace Nelson

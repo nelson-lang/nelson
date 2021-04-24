@@ -26,9 +26,14 @@
 // <--ENGLISH IMPOSED-->
 //=============================================================================
 if ~isbuiltin('mexCallMATLABWithTrap')
-    status = copyfile('mexCallMATLABWithTrap.c', tempdir());
+    test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexCallMATLABWithTrap.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mexCallMATLABWithTrap.c');
     run('loader.nls');
 end

@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mexFunctionName')
-    status = copyfile('mexFunctionName.c', tempdir());
+    test_dir = [tempdir(), 'mexFunctionName'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexFunctionName.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mexFunctionName.c');
     run('loader.nls');
 end

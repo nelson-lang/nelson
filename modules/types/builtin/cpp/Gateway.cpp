@@ -49,6 +49,7 @@
 #include "isuint64Builtin.hpp"
 #include "isuint8Builtin.hpp"
 #include "isstringBuiltin.hpp"
+#include "isvarnameBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -80,6 +81,7 @@ static const nlsGateway gateway[] = {
     { "isempty", (void*)Nelson::TypeGateway::isemptyBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "isclass", (void*)Nelson::TypeGateway::isclassBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "ishandle", (void*)Nelson::TypeGateway::ishandleBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "isvarname", (void*)Nelson::TypeGateway::isvarnameBuiltin, 1, 1, CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

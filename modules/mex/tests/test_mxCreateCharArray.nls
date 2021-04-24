@@ -24,12 +24,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxCreateCharArray')
-    status = copyfile('mxCreateCharArray.c', tempdir());
+    test_dir = [tempdir(), 'mxCreateCharArray'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxCreateCharArray.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxCreateCharArray.c');
     run('loader.nls');
-end
+ end
 //=============================================================================
 R = mxCreateCharArray();
 REF = ['ac'; 'bd'];

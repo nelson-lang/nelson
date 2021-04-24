@@ -28,12 +28,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static uint64
+nowAsNanoseconds()
+{
+    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
+    return uint64(static_cast<boost::uint64_t>(ns.count()));
+}
+//=============================================================================
 bool
 Tic(Evaluator* eval)
 {
-    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-    uint64 _now = uint64(static_cast<boost::uint64_t>(ns.count()));
-    eval->TimerValue = _now;
+    eval->TimerValue = nowAsNanoseconds();
     return true;
 }
 //=============================================================================
@@ -46,10 +51,7 @@ Toc(Evaluator* eval, double& tValue)
 bool
 Toc(uint64 t, double& tValue)
 {
-    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-    uint64 _now = uint64(static_cast<boost::uint64_t>(ns.count()));
-    tValue = double(_now - t);
-    tValue = tValue * 1e-9;
+    tValue = double(nowAsNanoseconds() - t) * 1e-9;
     return true;
 }
 //=============================================================================

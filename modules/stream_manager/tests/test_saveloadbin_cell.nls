@@ -27,27 +27,27 @@ addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 //=============================================================================
 // empty 2D cell
 A = cell(3,4);
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_cell.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_cell.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // cell
 A = {'jim', 89, [5 2 1] ; 'george', pi, 3i}; 
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_cell.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_cell.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array cell
 A = cell(3, 4, 2);
 A{1, 1} = 3;
 A{3, 4, 2} = 6; 
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_cell.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_cell.bin']);
 assert_isequal(A, REF);
 //=============================================================================

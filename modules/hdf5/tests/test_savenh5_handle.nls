@@ -25,7 +25,7 @@
 //=============================================================================
 // <--GUI MODE-->
 //=============================================================================
-test_h5save_file = [tempdir(), 'test_h5save.nh5'];
+test_h5save_file = [tempdir(), 'test_h5save_handle.nh5'];
 if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end

@@ -30,8 +30,14 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSASSERT_FUNCTIONS_IMPEXP bool
 Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
     std::wstring& msg);
+//=============================================================================
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
+    const std::wstring& expectedid, std::wstring& msg);
+//=============================================================================
 }
 //=============================================================================

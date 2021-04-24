@@ -27,9 +27,9 @@ addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 //=============================================================================
 // function_handle
 A = str2func('sin');
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_fh.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_fh.bin']);
 assert_isequal(A, REF);
 //=============================================================================

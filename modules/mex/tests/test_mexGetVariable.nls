@@ -26,9 +26,14 @@
 // <--ADV-CLI MODE--> 
 //=============================================================================
 if ~isbuiltin('mexGetVariable')
-    status = copyfile('mexGetVariable.c', tempdir());
+    test_dir = [tempdir(), 'mexGetVariable'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexGetVariable.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mexGetVariable.c');
     run('loader.nls');
 end

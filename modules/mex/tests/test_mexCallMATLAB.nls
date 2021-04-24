@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mexCallMATLAB')
-    status = copyfile('mexCallMATLAB.c', tempdir());
+    test_dir = [tempdir(), 'mexCallMATLAB'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexCallMATLAB.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mexCallMATLAB.c');
     run('loader.nls');
 end

@@ -13,12 +13,14 @@
     <syntax_item>status = system(command)</syntax_item>
     <syntax_item>status = dos(command)</syntax_item>
     <syntax_item>status = unix(command)</syntax_item>
+    <syntax_item>s = unix(commands, '-parallel')</syntax_item>
     <syntax_item>[status, output] = system(command)</syntax_item>
     <syntax_item>[status, output] = dos(command)</syntax_item>
     <syntax_item>[status, output] = unix(command)</syntax_item>
     <syntax_item>[status, output] = system(command, '-echo')</syntax_item>
     <syntax_item>[status, output] = dos(command, '-echo')</syntax_item>
     <syntax_item>[status, output] = unix(command, '-echo')</syntax_item>
+    <syntax_item>[s, outputs] = unix(commands, '-parallel')</syntax_item>
   </syntax>
 
   <param_input>
@@ -26,6 +28,11 @@
       <param_name>command</param_name>
       <param_description>a string: command to execute in command shell.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>commands</param_name>
+      <param_description>a cell of string or a string array: commands to execute in command shell in parallel.</param_description>
+    </param_input_item>
+
   </param_input>
 
   <param_output>
@@ -36,6 +43,15 @@
     <param_output_item>
       <param_name>output</param_name>
       <param_description>a string: output of the command.</param_description>
+    </param_output_item>
+
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>an matrix of integer value: exit code value of the commands (same dimensions than commands).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>a string array: output of the commands.</param_description>
     </param_output_item>
 
   </param_output>
@@ -58,6 +74,13 @@
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[[s,w] = system('dir');
 [s,w] = system('dir','-echo');]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"]'-parallel')]]>
     </example_item_data>
   </example_item>
 

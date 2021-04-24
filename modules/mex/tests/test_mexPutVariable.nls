@@ -26,9 +26,14 @@
 // <--ADV-CLI MODE--> 
 //=============================================================================
 if ~isbuiltin('mexPutVariable')
-    status = copyfile('mexPutVariable.c', tempdir());
+    test_dir = [tempdir(), 'mexPutVariable'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexPutVariable.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mexPutVariable.c');
     run('loader.nls');
 end

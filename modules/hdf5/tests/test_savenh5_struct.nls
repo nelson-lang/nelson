@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-test_h5save_file = [tempdir(), 'test_h5save.nh5'];
+test_h5save_file = [tempdir(), 'test_h5save_struct.nh5'];
 if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end

@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxGetFieldByNumber')
-    status = copyfile('mxGetFieldByNumber.c', tempdir());
+    test_dir = [tempdir(), 'mxGetFieldByNumber'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxGetFieldByNumber.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxGetFieldByNumber.c');
     run('loader.nls');
 end

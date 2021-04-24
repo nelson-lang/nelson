@@ -27,12 +27,14 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsElementary_functions_builtin_exports.h"
 //=============================================================================
 namespace Nelson {
 namespace ElementaryFunctionsGateway {
     //=============================================================================
+    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
     ArrayOfVector
-    isscalarBuiltin(int nLhs, const ArrayOfVector& argIn);
+    isscalarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

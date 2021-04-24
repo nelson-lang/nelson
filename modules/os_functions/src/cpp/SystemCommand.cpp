@@ -32,11 +32,13 @@
 #endif
 #include <string>
 #include <vector>
+#include <cstdio>
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
@@ -54,13 +56,12 @@ static void
 deleteFile(boost::filesystem::path p)
 {
     if (boost::filesystem::exists(p)) {
-        try {
-            boost::filesystem::remove(p);
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                // ONLY FOR DEBUG
-            }
-        }
+
+#ifdef _MSC_VER
+        int res = _wremove(p.generic_wstring().c_str());
+#else
+        int res = remove(p.generic_string().c_str());
+#endif
     }
 }
 //=============================================================================
@@ -70,8 +71,9 @@ CleanCommand(const std::wstring& command);
 static std::wstring
 DetectDetachProcess(const std::wstring& command, bool& haveDetach);
 //=============================================================================
-std::wstring
-SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
+static std::wstring
+internalSystemCommand(const std::wstring& command, const boost::filesystem::path& tempOutputFile,
+    const boost::filesystem::path& tempErrorFile, int& ierr, bool withEventsLoop)
 {
     bool mustDetach = false;
     std::wstring _command = DetectDetachProcess(command, mustDetach);
@@ -90,12 +92,6 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
         childProcess.detach();
         ierr = 0;
     } else {
-        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
-        boost::filesystem::path tempOutputFile = pwd;
-        boost::filesystem::path tempErrorFile = pwd;
-        tempOutputFile /= boost::filesystem::unique_path();
-        tempErrorFile /= boost::filesystem::unique_path();
-
         cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command
             + L"\"";
 
@@ -172,10 +168,23 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
             }
             fclose(pFile);
         }
-        deleteFile(tempOutputFile);
-        deleteFile(tempErrorFile);
     }
     return utf8_to_wstring(result);
+}
+//=============================================================================
+std::wstring
+SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
+{
+    boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
+    boost::filesystem::path tempOutputFile = pwd;
+    boost::filesystem::path tempErrorFile = pwd;
+    tempOutputFile /= boost::filesystem::unique_path();
+    tempErrorFile /= boost::filesystem::unique_path();
+    std::wstring result
+        = internalSystemCommand(command, tempOutputFile, tempErrorFile, ierr, withEventsLoop);
+    deleteFile(tempOutputFile);
+    deleteFile(tempErrorFile);
+    return result;
 }
 //=============================================================================
 std::wstring
@@ -264,6 +273,42 @@ void
 ProcessEventsDynamicFunction()
 {
     ProcessEventsDynamicFunction(false);
+}
+//=============================================================================
+wstringVector
+ParallelSystemCommand(const wstringVector& commands, std::vector<int>& ierrs, bool withEventsLoop)
+{
+    ompIndexType nbCommands = (ompIndexType)commands.size();
+    std::vector<boost::filesystem::path> tempOutputFiles;
+    std::vector<boost::filesystem::path> tempErrorFiles;
+    tempOutputFiles.reserve(nbCommands);
+    tempErrorFiles.reserve(nbCommands);
+    boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
+    for (ompIndexType k = 0; k < nbCommands; k++) {
+        boost::filesystem::path tempOutputFile = pwd;
+        boost::filesystem::path tempErrorFile = pwd;
+        tempOutputFile /= boost::filesystem::unique_path();
+        tempErrorFile /= boost::filesystem::unique_path();
+        tempOutputFiles.push_back(tempOutputFile);
+        tempErrorFiles.push_back(tempErrorFile);
+    }
+    wstringVector results;
+    results.resize(nbCommands);
+    ierrs.resize(nbCommands);
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (ompIndexType k = 0; k < nbCommands; k++) {
+        int ierr;
+        results[k] = internalSystemCommand(
+            commands[k], tempOutputFiles[k], tempErrorFiles[k], ierr, withEventsLoop);
+        ierrs[k] = ierr;
+    }
+    for (ompIndexType k = 0; k < nbCommands; k++) {
+        deleteFile(tempOutputFiles[k]);
+        deleteFile(tempErrorFiles[k]);
+    }
+    return results;
 }
 //=============================================================================
 } // namespace Nelson

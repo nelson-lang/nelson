@@ -27,26 +27,26 @@ addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 //=============================================================================
 // logical
 A = logical(eye(5, 4));
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_logical.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_logical.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // sparse logical
 A = sparse(logical(eye(3,3)));
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_logical.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_logical.bin']);
 assert_isequal(A, REF);
 //=============================================================================
 // nd array logical
 A = ones(3, 4, 6);
 A = logical(A);
-savebin([tempdir(), 'test_saveload.bin'], 'A');
+savebin([tempdir(), 'test_saveload_logical.bin'], 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload.bin']);
+loadbin([tempdir(), 'test_saveload_logical.bin']);
 assert_isequal(A, REF);
 //=============================================================================

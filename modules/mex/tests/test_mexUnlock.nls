@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mexUnlock')
-    status = copyfile('mexUnlock.c', tempdir());
+    test_dir = [tempdir(), 'mexUnlock'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexUnlock.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mexUnlock.c');
     run('loader.nls');
 end

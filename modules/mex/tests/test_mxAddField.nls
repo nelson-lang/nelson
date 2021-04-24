@@ -24,9 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~isbuiltin('mxAddField')
-    status = copyfile('mxAddField.c', tempdir());
+    test_dir = [tempdir(), 'mxAddField'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mxAddField.c', test_dir);
     assert_istrue(status);
-    cd(tempdir()); 
+    cd(test_dir); 
     mex('mxAddField.c');
     run('loader.nls');
 end
