@@ -33,6 +33,7 @@
 #include "isscalarBuiltin.hpp"
 #include "IsValidVariableName.hpp"
 #include "isdirBuiltin.hpp"
+#include "isfileBuiltin.hpp"
 #include "isvectorBuiltin.hpp"
 #include "isfloatBuiltin.hpp"
 #include "isnumericBuiltin.hpp"
@@ -155,6 +156,19 @@ mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be folder.");
         std::wstring id = _W("Nelson:validators:mustBeFolder");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeFile(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    mustBeTextScalar(arg, argPosition, asCaller);
+    ArrayOfVector argOut = FilesFoldersGateway::isfileBuiltin(1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be file.");
+        std::wstring id = _W("Nelson:validators:mustBeFile");
         Error(msg, id, asCaller);
     }
 }

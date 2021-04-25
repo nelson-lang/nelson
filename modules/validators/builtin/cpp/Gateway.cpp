@@ -32,6 +32,7 @@
 #include "mustBeValidVariableNameBuiltin.hpp"
 #include "mustBeTextScalarBuiltin.hpp"
 #include "mustBeFolderBuiltin.hpp"
+#include "mustBeFileBuiltin.hpp"
 #include "mustBeVectorBuiltin.hpp"
 #include "mustBeFloatBuiltin.hpp"
 #include "mustBeNumericBuiltin.hpp"
@@ -52,6 +53,7 @@ static const nlsGateway gateway[] = {
     { "mustBeTextScalar", (void*)Nelson::ValidatorsGateway::mustBeTextScalarBuiltin, 0, -1,
         CPP_BUILTIN },
     { "mustBeFolder", (void*)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeFile", (void*)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeVector", (void*)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFloat", (void*)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeNumeric", (void*)Nelson::ValidatorsGateway::mustBeNumericBuiltin, 0, -1, CPP_BUILTIN },

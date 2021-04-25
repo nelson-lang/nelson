@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>mustBeFolder</keyword>
-  <short_description>Checks that input path refers to folder.</short_description>
+  <keyword>mustBeFile</keyword>
+  <short_description>Checks that input path refers to file.</short_description>
 
   <syntax>
-    <syntax_item>mustBeFolder(var)</syntax_item>
-    <syntax_item>mustBeFolder(var, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeFolder(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
+    <syntax_item>mustBeFile(var)</syntax_item>
+    <syntax_item>mustBeFile(var, argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeFile(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>
@@ -25,7 +25,7 @@
 
 
   <description>
-  <p><b>mustBeFolder</b> that input path refers to folder or raise an error.</p>
+  <p><b>mustBeFile</b> that input path refers to file or raise an error.</p>
 </description>
 
   <used_function></used_function>
@@ -35,15 +35,15 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[mustBeFolder(tempdir())
-mustBeFolder('hello_nelson')]]>
+    <example_item_data><![CDATA[mustBeFile(tempdir())
+ mustBeFile([nelsonroot(), '/etc/startup.nls'])]]>
     </example_item_data>
   </example_item>
 </examples>
 
   <see_also>
     <see_also_item>
-      <link linkend="${files_folders_functions}isdir">isdir</link>
+      <link linkend="${files_folders_functions}isfile">isfile</link>
     </see_also_item>
   </see_also>
 

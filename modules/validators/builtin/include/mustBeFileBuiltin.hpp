@@ -26,15 +26,13 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsFiles_folders_functions_builtin_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace FilesFoldersGateway {
+namespace ValidatorsGateway {
     //=============================================================================
-    NLSFILES_FOLDERS_FUNCTIONS_BUILTIN_IMPEXP
     ArrayOfVector
-    isfileBuiltin(int nLhs, const ArrayOfVector& argIn);
+    mustBeFileBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

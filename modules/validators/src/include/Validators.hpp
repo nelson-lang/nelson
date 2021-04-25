@@ -52,6 +52,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeFolder(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeFile(const ArrayOfVector& args, int argPosition);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void

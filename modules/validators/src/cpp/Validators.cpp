@@ -95,5 +95,19 @@ mustBeFloat(const ArrayOfVector& args, int argPosition)
     mustBeFloat(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeFolder(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeFolder(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+void
+mustBeFile(const ArrayOfVector& args, int argPosition)
+{ 
+    checkArgumentPosition(args, argPosition);
+    mustBeFile(args[argPosition], argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
