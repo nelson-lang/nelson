@@ -4,7 +4,8 @@
 
 - Validators functions available from Nelson and C++ API (part 2):
 
-  - `mustBeFile`
+  - `mustBeFile`,
+  - `mustBeNonempty`
 
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 

@@ -28,6 +28,7 @@
 #include "mustBeLogicalScalarBuiltin.hpp"
 #include "mustBeLogicalBuiltin.hpp"
 #include "mustBeFiniteBuiltin.hpp"
+#include "mustBeNonemptyBuiltin.hpp"
 #include "mustBeScalarOrEmptyBuiltin.hpp"
 #include "mustBeValidVariableNameBuiltin.hpp"
 #include "mustBeTextScalarBuiltin.hpp"
@@ -57,6 +58,7 @@ static const nlsGateway gateway[] = {
     { "mustBeVector", (void*)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFloat", (void*)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeNumeric", (void*)Nelson::ValidatorsGateway::mustBeNumericBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonempty", (void*)Nelson::ValidatorsGateway::mustBeNonemptyBuiltin, 0, -1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

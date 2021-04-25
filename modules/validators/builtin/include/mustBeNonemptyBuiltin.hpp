@@ -23,32 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isemptyBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::TypeGateway::isemptyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << ArrayOf::logicalConstructor(argIn[0].isEmpty());
-    }
-    return retval;
+namespace Nelson {
+//=============================================================================
+namespace ValidatorsGateway {
+    //=============================================================================
+    ArrayOfVector
+    mustBeNonemptyBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

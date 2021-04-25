@@ -175,6 +175,7 @@
     <ClCompile Include="..\cpp\mustBeFolderBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalScalarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonemptyBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNumericBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeTextScalarBuiltin.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\include\mustBeFolderBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalScalarBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonemptyBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNumericBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeTextScalarBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeValidVariableNameBuiltin.hpp" />

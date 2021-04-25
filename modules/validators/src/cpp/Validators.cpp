@@ -61,6 +61,13 @@ mustBeFinite(const ArrayOfVector& args, int argPosition)
 }
 //=============================================================================
 void
+mustBeNonempty(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNonempty(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+void
 mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);

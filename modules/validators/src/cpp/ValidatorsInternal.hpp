@@ -44,6 +44,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeNonempty(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void

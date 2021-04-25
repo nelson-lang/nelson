@@ -23,32 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isemptyBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+assert_isequal(nargin('mustBeNonempty'), -1);
+assert_isequal(nargout('mustBeNonempty'), 0);
 //=============================================================================
-using namespace Nelson;
+mustBeNonempty(1);
+assert_checkerror('mustBeNonempty([])', _('Value must not be empty.'), 'Nelson:validators:mustBeNonempty');
 //=============================================================================
-ArrayOfVector
-Nelson::TypeGateway::isemptyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval << ArrayOf::logicalConstructor(argIn[0].isEmpty());
-    }
-    return retval;
-}
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must not be empty.')];
+assert_checkerror('mustBeNonempty([], 3)', msg, 'Nelson:validators:mustBeNonempty');
 //=============================================================================

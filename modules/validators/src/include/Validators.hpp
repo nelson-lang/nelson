@@ -40,6 +40,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeFinite(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeNonempty(const ArrayOfVector& args, int argPosition);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void

@@ -89,6 +89,19 @@ mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller)
 }
 //=============================================================================
 void
+mustBeNonempty(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, arg);
+    if (argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be empty.");
+        std::wstring id = _W("Nelson:validators:mustBeNonempty");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+
+void
 mustBeLogicalScalar(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");

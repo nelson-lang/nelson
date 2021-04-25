@@ -23,32 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isemptyBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
+#include "mustBeNonemptyBuiltin.hpp"
+#include "ValidatorsInternal.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::TypeGateway::isemptyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ValidatorsGateway::mustBeNonemptyBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 1);
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
+    int argPos = -1;
+    if (argIn.size() == 2) {
+        ArrayOf param2 = argIn[1];
+        argPos = param2.getContentAsInteger32Scalar();
+        if (argPos < 1) {
+            Error(_W("The last argument must be a positive integer."));
         }
-        retval << ArrayOf::logicalConstructor(argIn[0].isEmpty());
     }
+    mustBeNonempty(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================
