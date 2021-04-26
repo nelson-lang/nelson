@@ -39,6 +39,7 @@
 #include "isnumericBuiltin.hpp"
 #include "isrealBuiltin.hpp"
 #include "gtBuiltin.hpp"
+#include "geBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -296,6 +297,43 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!isPositive) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be positive.");
         std::wstring id = _W("Nelson:validators:mustBePositive");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
+        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        Error(msg, id, asCaller);
+    }
+
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    bool isReal = argOut[0].getContentAsLogicalScalar();
+    if (!isReal) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
+        std::wstring id = _W("Nelson:validators:mustBeReal");
+        Error(msg, id, asCaller);
+    }
+    Dimensions dimsA = argIn[0].getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = argIn[0];
+    asVector.reshape(dimsV);
+    ArrayOfVector vAsArrayOfVector(asVector);
+    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
+    argOut = ElementaryFunctionsGateway::geBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    bool isNonnegative = argOut[0].getContentAsLogicalScalar();
+    if (!isNonnegative) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be nonnegative.");
+        std::wstring id = _W("Nelson:validators:mustBeNonnegative");
         Error(msg, id, asCaller);
     }
 }

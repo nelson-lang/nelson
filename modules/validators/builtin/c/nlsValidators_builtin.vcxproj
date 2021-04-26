@@ -177,6 +177,7 @@
     <ClCompile Include="..\cpp\mustBeLogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalScalarBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNonemptyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonnegativeBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNumericBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBePositiveBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\include\mustBeLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalScalarBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNonemptyBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonnegativeBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNumericBuiltin.hpp" />
     <ClInclude Include="..\include\mustBePositiveBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeTextScalarBuiltin.hpp" />

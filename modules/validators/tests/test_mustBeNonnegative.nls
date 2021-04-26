@@ -23,21 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeNonnegative'), -1);
+assert_isequal(nargout('mustBeNonnegative'), 0);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+mustBePositive([1, 2]);
+assert_checkerror('mustBeNonnegative(-Inf)', _('Value must be nonnegative.'), 'Nelson:validators:mustBeNonnegative');
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    geBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be nonnegative.')];
+assert_checkerror('mustBeNonnegative(-Inf, 3)', msg, 'Nelson:validators:mustBeNonnegative');
 //=============================================================================
