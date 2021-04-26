@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\mustBeABuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFileBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFloatBuiltin.cpp" />
@@ -213,6 +214,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\mustBeABuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFileBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFiniteBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFloatBuiltin.hpp" />

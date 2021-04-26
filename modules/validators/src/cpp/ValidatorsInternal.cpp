@@ -53,7 +53,7 @@ invalidPositionMessage(int argPosition)
 {
     std::wstring msg;
     if (argPosition > 0) {
-        msg = str(boost::wformat{ _W("Invalid input argument at position %d.") } % argPosition)
+        msg = str(boost::wformat { _W("Invalid input argument at position %d.") } % argPosition)
             + L"\n";
     }
     return msg;
@@ -100,7 +100,6 @@ mustBeNonempty(const ArrayOf& arg, int argPosition, bool asCaller)
     }
 }
 //=============================================================================
-
 void
 mustBeLogicalScalar(const ArrayOf& arg, int argPosition, bool asCaller)
 {
@@ -228,5 +227,40 @@ mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
     }
 }
 //=============================================================================
+void
+mustBeA(const ArrayOf& arg, const wstringVector &classNames, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    std::wstring currentClassName;
+    ClassName(arg, currentClassName);
+    bool findClass = false;
+    for (size_t k = 0; k < classNames.size(); ++k) {
+        if (currentClassName == classNames[k]) {
+            findClass = true;
+        }
+    }
+    if (!findClass) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be one of the following types:") + L" ";
+        std::wstring concatClass;
+        for (size_t k = 0; k < classNames.size(); ++k) {
+            if (k == 0) {
+                concatClass = L"'" + classNames[k] + L"'";
+            } else if (k == classNames.size() - 1) {
+                concatClass = concatClass + L", " + _W("or") + L" " + L"'" + classNames[k] + L"'";
+            } else {
+                concatClass = concatClass + L", " + L"'" + classNames[k] + L"'";
+            }
+            if (k == classNames.size() - 1) {
+                concatClass = concatClass + L".";
+            }
+        }
+        msg = msg + concatClass;
+        std::wstring id = _W("Nelson:validators:mustBeA");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================
