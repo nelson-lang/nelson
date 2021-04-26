@@ -37,6 +37,8 @@
 #include "isvectorBuiltin.hpp"
 #include "isfloatBuiltin.hpp"
 #include "isnumericBuiltin.hpp"
+#include "isrealBuiltin.hpp"
+#include "gtBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -228,7 +230,7 @@ mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
 }
 //=============================================================================
 void
-mustBeA(const ArrayOf& arg, const wstringVector &classNames, int argPosition, bool asCaller)
+mustBeA(const ArrayOf& arg, const wstringVector& classNames, int argPosition, bool asCaller)
 {
     ArrayOfVector argIn(arg);
     std::wstring currentClassName;
@@ -240,8 +242,8 @@ mustBeA(const ArrayOf& arg, const wstringVector &classNames, int argPosition, bo
         }
     }
     if (!findClass) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be one of the following types:") + L" ";
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + _W("Value must be one of the following types:") + L" ";
         std::wstring concatClass;
         for (size_t k = 0; k < classNames.size(); ++k) {
             if (k == 0) {
@@ -261,6 +263,42 @@ mustBeA(const ArrayOf& arg, const wstringVector &classNames, int argPosition, bo
     }
 }
 //=============================================================================
+void
+mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
+        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        Error(msg, id, asCaller);
+    }
 
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    bool isReal = argOut[0].getContentAsLogicalScalar();
+    if (!isReal) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be real.");
+        std::wstring id = _W("Nelson:validators:mustBeReal");
+        Error(msg, id, asCaller);
+    }
+    Dimensions dimsA = argIn[0].getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = argIn[0];
+    asVector.reshape(dimsV);
+    ArrayOfVector vAsArrayOfVector(asVector);
+    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
+    argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    bool isPositive = argOut[0].getContentAsLogicalScalar();
+    if (!isPositive) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be positive.");
+        std::wstring id = _W("Nelson:validators:mustBePositive");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

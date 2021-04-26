@@ -38,6 +38,7 @@
 #include "mustBeFloatBuiltin.hpp"
 #include "mustBeNumericBuiltin.hpp"
 #include "mustBeABuiltin.hpp"
+#include "mustBePositiveBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,6 +63,8 @@ static const nlsGateway gateway[] = {
     { "mustBeNonempty", (void*)Nelson::ValidatorsGateway::mustBeNonemptyBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeA", (void*)Nelson::ValidatorsGateway::mustBeABuiltin, 0, -2,
         CPP_BUILTIN },
+    { "mustBePositive", (void*)Nelson::ValidatorsGateway::mustBePositiveBuiltin, 0, -1, CPP_BUILTIN },
+
 };
 //=============================================================================
 static bool

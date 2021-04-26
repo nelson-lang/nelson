@@ -130,5 +130,13 @@ mustBeA(const ArrayOfVector& args, const wstringVector &classNames, int argPosit
     mustBeA(args[argPosition], classNames, argPosition + 1);
 }
 //=============================================================================
+void
+mustBePositive(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBePositive(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================
