@@ -75,5 +75,9 @@ mustBePositive(const ArrayOfVector& args, int argPosition);
 NLSVALIDATORS_IMPEXP void
 mustBeNonnegative(const ArrayOfVector& args, int argPosition);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNegative(const ArrayOfVector& args, int argPosition);
+//=============================================================================
+
 }
 //=============================================================================

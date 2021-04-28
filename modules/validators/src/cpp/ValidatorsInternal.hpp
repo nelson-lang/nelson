@@ -79,5 +79,8 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================
