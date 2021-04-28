@@ -138,6 +138,13 @@ mustBePositive(const ArrayOfVector& args, int argPosition)
 }
 //=============================================================================
 void
+mustBeNonpositive(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNonpositive(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+void
 mustBeNonnegative(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);

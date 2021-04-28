@@ -7,7 +7,7 @@
   - `mustBeFile`,
   - `mustBeNonempty`,
   - `mustBeA`,
-  - `mustBePositive`, `mustBeNonnegative`, `mustBeNegative`
+  - `mustBePositive`, `mustBeNonpositive`, `mustBeNonnegative`, `mustBeNegative`
 
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 
