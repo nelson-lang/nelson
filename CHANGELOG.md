@@ -13,7 +13,7 @@
 
 - benchs are executed sequentialy (better bench results).
 
-- `all` behavior with empty matrix updated.
+- `all`, `any` behavior with empty matrix updated.
 
 ## Bug Fixes:
 
