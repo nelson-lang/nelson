@@ -13,6 +13,8 @@
 
 - benchs are executed sequentialy (better bench results).
 
+- `all` behavior with empty matrix updated.
+
 ## Bug Fixes:
 
 - [#435](http://github.com/Nelson-numerical-software/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.

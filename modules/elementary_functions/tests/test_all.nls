@@ -23,21 +23,24 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('all'), 2)
+assert_isequal(nargout('all'), 1)
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+assert_isequal(all([]), true)
+assert_isequal(all([], 1), logical(zeros(1, 0)))
+assert_isequal(all([], 2), logical(zeros(0, 1))) 
+assert_isequal(all([], 3), logical(zeros(0, 0)))
 //=============================================================================
-namespace Nelson {
+assert_isequal(all(ones(1, 0)), true)
+assert_isequal(all(ones(0, 1)), true)
 //=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    ltBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+assert_isequal(all(ones(0, 0, 0)), logical(zeros(1, 0, 0)))
 //=============================================================================
-} // namespace Nelson
+assert_isequal(all(ones(0, 2)), [true true])
+assert_isequal(all(ones(3,0)), logical(ones(1, 0)))
+assert_isequal(all(ones(3, 0, 1)), logical(ones(1, 0)))
+//=============================================================================
+assert_isequal(all([0 0 3;0 0 3;0 0 3]), logical([0   0   1]))
+//=============================================================================
+assert_isequal(all([0 0 3;0 0 3;0 0 3], 2), logical([0;   0;   0]))
 //=============================================================================

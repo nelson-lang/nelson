@@ -162,7 +162,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "any", (void*)Nelson::ElementaryFunctionsGateway::anyBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "all", (void*)Nelson::ElementaryFunctionsGateway::allBuiltin, 1, 1,
+    { "all", (void*)Nelson::ElementaryFunctionsGateway::allBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "power", (void*)Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
