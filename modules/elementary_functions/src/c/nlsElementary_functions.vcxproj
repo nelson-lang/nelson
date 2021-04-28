@@ -190,6 +190,7 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
+    <ClCompile Include="..\cpp\EmptyHelpers.cpp" />
     <ClCompile Include="..\cpp\Find.cpp" />
     <ClCompile Include="..\cpp\FindCommonClass.cpp" />
     <ClCompile Include="..\cpp\Flip.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="..\cpp\DotRightDivideComplex.hpp" />
     <ClInclude Include="..\cpp\DotRightDivideInteger.hpp" />
     <ClInclude Include="..\cpp\DotRightDivideReal.hpp" />
+    <ClInclude Include="..\cpp\EmptyHelpers.hpp" />
     <ClInclude Include="..\cpp\SortCellHelpers.hpp" />
     <ClInclude Include="..\cpp\SortComplexHelpers.hpp" />
     <ClInclude Include="..\cpp\SortHelpers.hpp" />
