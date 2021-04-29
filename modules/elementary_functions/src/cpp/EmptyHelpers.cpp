@@ -31,19 +31,38 @@ Dimensions
 emptyDimensionsHelper(Dimensions& dims, indexType dim)
 {
     Dimensions dimsOut(dims);
-    if (dims.getLength() == 2 && dims[0] == 0 && dims[1] == 0) {
-        if (dim == 0) {
+    if (dims.getLength() == 2) {
+        switch (dim) {
+        case 0: {
             dimsOut[0] = 1;
-            dimsOut[1] = 1;
-        } else if (dim == 1) {
+            if (dims[0] == 0 && dims[1] == 0) {
+                dimsOut[1] = 1;
+            } else {
+                if (dims[0] == 1) {
+                    dimsOut[1] = 1;
+                }
+            }
+        } break;
+        case 1: {
             dimsOut[0] = 1;
-            dimsOut[1] = 0;
-        } else if (dim == 2) {
-            dimsOut[0] = 0;
+            if (dims[0] == 0 && dims[1] == 0) {
+                dimsOut[1] = 0;
+            }
+        } break;
+        case 2: {
+            if (dims[0] == 0 && dims[1] == 0) {
+                dimsOut[0] = 0;
+            } else {
+                dimsOut[0] = dims.getAt(0);
+            }
             dimsOut[1] = 1;
-        } else {
-            dimsOut[0] = 0;
-            dimsOut[1] = 0;
+        } break;
+        default: {
+            if (dims[0] == 0 && dims[1] == 0) {
+                dimsOut[0] = 0;
+                dimsOut[1] = 0;
+            }
+        } break;
         }
         return dimsOut;
     }
