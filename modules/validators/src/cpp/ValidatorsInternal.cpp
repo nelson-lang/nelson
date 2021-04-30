@@ -29,6 +29,7 @@
 #include "Error.hpp"
 #include "isfiniteBuiltin.hpp"
 #include "allBuiltin.hpp"
+#include "anyBuiltin.hpp"
 #include "isemptyBuiltin.hpp"
 #include "isscalarBuiltin.hpp"
 #include "IsValidVariableName.hpp"
@@ -42,6 +43,7 @@
 #include "geBuiltin.hpp"
 #include "ltBuiltin.hpp"
 #include "leBuiltin.hpp"
+#include "isnanBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -411,6 +413,27 @@ mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be negative.");
         std::wstring id = _W("Nelson:validators:mustBeNegative");
         Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        Dimensions dimsA = argIn[0].getDimensions();
+        Dimensions dimsV(1, dimsA.getElementCount());
+        ArrayOf asVector = argIn[0];
+        asVector.reshape(dimsV);
+        ArrayOfVector argOut = ElementaryFunctionsGateway::isnanBuiltin(_eval, 1, asVector);
+        argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut);
+        bool isNaN = argOut[0].getContentAsLogicalScalar();
+        if (isNaN) {
+            std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be NaN.");
+            std::wstring id = _W("Nelson:validators:mustBeNonNan");
+            Error(msg, id, asCaller);
+        }
     }
 }
 //=============================================================================

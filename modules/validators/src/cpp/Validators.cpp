@@ -158,5 +158,12 @@ mustBeNegative(const ArrayOfVector& args, int argPosition)
     mustBeNegative(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeNonNan(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNonNan(args[argPosition], argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

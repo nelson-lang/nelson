@@ -23,21 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeNonNan'), -1);
+assert_isequal(nargout('mustBeNonNan'), 0);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+mustBeNonNan(1);
+assert_checkerror('mustBeNonNan(NaN)', _('Value must not be NaN.'), 'Nelson:validators:mustBeNonNan');
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must not be NaN.')];
+assert_checkerror('mustBeNonNan(NaN, 3)', msg, 'Nelson:validators:mustBeNonNan');
 //=============================================================================
