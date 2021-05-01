@@ -8,6 +8,9 @@ jobs:
     name: Ubuntu-20.04 Focal
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    env:
+      NELSON_VERSION: 0.5.4
+
     steps:
     - name: install dependencies
       run: |
