@@ -7,10 +7,34 @@ jobs:
   windows_win64:
     name: Windows 64 bits
     runs-on: windows-2019
+    defaults: 
+      run:
+       shell: cmd
     timeout-minutes: 120    
     steps:
+    - uses: actions/checkout@v1
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+        dir: '${{ github.workspace }}/QT5_X64/'
+        install-deps: 'true'
+        modules: 'qtcharts, qtdatavis3d, qtpurchasing, qtvirtualkeyboard, qtwebengine, qtnetworkauth, qtwebglplugin, qtscript, debug_info'
+        cached: 'false'        
+
     - name: install dependencies
       run: |
-        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git;
+        set QTDIR64=%Qt5_Dir%
+        set QTDIR=%QTDIR64%
+        cd ..
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git
+        pwd
+        dir
         cd nelson-thirdparty-x64
+        pwd
+        dir
         .\install.bat
