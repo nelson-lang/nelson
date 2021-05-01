@@ -7,6 +7,7 @@ jobs:
   catalina:
     name: MacOS X Catalina
     runs-on: macos-10.15
+    timeout-minutes: 120    
     steps:
     - name: install dependencies
       run: |
