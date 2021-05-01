@@ -1,0 +1,16 @@
+name: Windows 64 bits CI
+
+on: [push]
+
+jobs:
+
+  windows_win64:
+    name: Windows 64 bits
+    runs-on: windows-2019
+    timeout-minutes: 120    
+    steps:
+    - name: install dependencies
+      run: |
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git;
+        cd nelson-thirdparty-x64
+        .\install.bat
