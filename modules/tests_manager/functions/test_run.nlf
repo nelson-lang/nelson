@@ -759,8 +759,7 @@ endfunction
 function r = have_mpi()
   persistent mpi_required
   if isempty(mpi_required)
-    mpi_required = false;
-    mpi_required =unix('mpiexec');
+    mpi_required = (unix('mpiexec') == 0);
   end
   r = mpi_required;
 endfunction
@@ -872,7 +871,7 @@ endfunction
 function cmd = build_command_nelson_mode(exe, command, withMPI)
   nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
   nelson_exe_path = ['"', nelson_bin_path, '/', exe, '"'];
-  cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
+  cmd = [prefixCommand(have_mpi()), nelson_exe_path, ' ' , command];
 endfunction
 //=============================================================================
 function pc = prefixCommand(withMPI)

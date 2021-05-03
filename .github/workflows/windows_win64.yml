@@ -15,10 +15,6 @@ jobs:
 
     steps:
 
-    - name: environment variables
-      run: |
-        set
-
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
@@ -99,11 +95,13 @@ jobs:
 
     - name: benchs
       run: |
+        set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
         "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.nls"
 
     - name: tests
       run: |
+        set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
         "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.nls"
 
