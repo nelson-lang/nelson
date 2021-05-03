@@ -119,7 +119,7 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
             disp(_('    Error:'));
             if strcmp(class(accumulator(i).msg), 'cell') == 1
               for k = accumulator(i).msg(:)'
-                disp(['      ', k]);
+                disp(['      ', k{1}]);
               end
             else
               if strcmp(class(accumulator(i).msg), 'struct') == true

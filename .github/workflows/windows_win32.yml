@@ -1,0 +1,115 @@
+name: Windows 32 bits CI
+
+on: [push]
+
+jobs:
+  windows_win32:
+    name: Windows 32 bits
+    runs-on: windows-latest
+    defaults: 
+      run:
+       shell: cmd
+    timeout-minutes: 120
+    env:
+      NELSON_VERSION: 0.5.4
+
+    steps:
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: install MS-MPI
+      run: |
+        $null = mkdir c:/install
+        (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\install\MSMpiSetup.exe")
+        C:/install/MSMpiSetup.exe -unattend -minimal
+      shell: powershell
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Update version
+      run: |  
+        python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
+
+    - name: Install Qt 5
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win32_msvc2019'
+        dir: 'C:/install/QT5/'
+        install-deps: 'true'
+        modules: 'qtcharts, qtdatavis3d, qtpurchasing, qtvirtualkeyboard, qtwebengine, qtnetworkauth, qtwebglplugin, qtscript, debug_info'
+        cached: 'false'        
+
+    - name: install dependencies
+      run: |
+        set QTDIR32=C:\install\QT5\Qt\5.15.2\msvc2019
+        set QTDIR=%QTDIR32%
+        cd ..
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git
+        cd nelson-thirdparty-win32
+        install.bat
+        cd ..
+
+    - name: Build Nelson
+      run: |
+        set QTDIR32=C:\install\QT5\Qt\5.15.2\msvc2019
+        set QTDIR=%QTDIR32%
+        SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
+        cd nelson
+        msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
+
+    - name: Download module skeleton
+      run: |
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/clone_module_skeleton/clone.nls
+
+    - name: Build help
+      run: |
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/buildhelp/buildhelp.nls
+
+    - name: Inno setup
+      run: |    
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.nls');exit"
+        iscc "%GITHUB_WORKSPACE%/tools/innosetup/Nelson.iss"
+
+    - name: Install Nelson installer
+      run: |
+        %GITHUB_WORKSPACE%/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%-x86-32.exe /SP- /SILENT /DIR="c:/install/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%"
+
+    - name: creates artifacts directory
+      run: |
+        $null = mkdir %GITHUB_WORKSPACE%/artifacts
+      shell: powershell
+
+    - name: zip Nelson install directory
+      run: |
+        "C:/Program Files/7-Zip/7z" a -tzip %GITHUB_WORKSPACE%/artifacts/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%-x86-32.zip c:/install/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%
+
+    - name: tests moved in an long path name with space on windows 
+      run: |
+        mv "c:/install/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%" "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%"
+
+    - name: benchs
+      run: |
+        set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+        set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
+        "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.nls"
+
+    - name: tests
+      run: |
+        set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+        set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
+        "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.nls"
+
+    - name: Copy installer in artifacts directory
+      run: |        
+        mv Nelson-*.exe artifacts
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: nelson-github-action-artifacts
+        path: artifacts/
