@@ -271,6 +271,11 @@ function test_case = create_test_case(filename)
   test_case.time = 0;
   test_case.isbench = isbench(filename);
   test_case.skip = false;
+
+  if (test_case.options.mpi_mode && ~have_mpi())
+    test_case.status = 'Skip';
+    test_case.skip = true;
+  end
   if (test_case.options.audio_input_required && ~have_audio_input())
     test_case.status = 'Skip';
     test_case.skip = true;
@@ -749,6 +754,15 @@ endfunction
 function r = isbench(filename)
   [p, fwext] = fileparts(filename);
   r = startsWith(fwext, 'bench_');
+endfunction
+//=============================================================================
+function r = have_mpi()
+  persistent mpi_required
+  if isempty(mpi_required)
+    mpi_required = false;
+    mpi_required =unix('mpiexec');
+  end
+  r = mpi_required;
 endfunction
 //=============================================================================
 function r = have_audio_input()
