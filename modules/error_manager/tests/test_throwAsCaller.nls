@@ -30,7 +30,7 @@ assert_isequal(ME.identifier, 'sayHello:inputError');
 assert_isequal(ME.cause, {})
 assert_isequal(class(ME.stack), 'struct')
 n = numel(ME.stack);
-if n == 1 || n == 5
+if n == 3 || n == 6
     assert_isequal(ME.stack(1).name, 'test_MException_3')
     assert_isequal(ME.stack(1).line, 28)
     assert_isequal(ME.Correction, {})

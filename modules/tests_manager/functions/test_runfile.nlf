@@ -47,26 +47,19 @@ function struct_res = test_runfile(varargin)
       error(_('reference diary expected.'));
     end
     
-    // save previous diary
-    previousDiaryFile = diary('get','DiaryFile');
-    previousDiaryMode = diary('get','Diary');
-    diary('off')
-    
     [p, f, e] = fileparts(filename);
     dia_res = [tempdir(), '', f, '.res'];
     rm = rmfile(dia_res);
-    diary(dia_res);
-    diary('on');
   end
   
   current_path_test_runfile = path();
   // 'test_run_options' variable protected of clear('all') in test files
   varlock('local', 'test_run_options')
   varlock('local', 'current_path_test_runfile')
-  ticBeginRunFile = tic;
+  ticBeginRunFile = time('ns');
   varlock('local', 'ticBeginRunFile');
-  r = run(filename, 'errcatch');
-  ticEndRunFile = tic;
+  output_test = evalc('r = run(filename, ''errcatch'');')';
+  ticEndRunFile = time('ns');
   timing = (double(ticEndRunFile) - double(ticBeginRunFile)) * 1e-9;
   varunlock('local','ticBeginRunFile');
   varunlock('local','test_run_options');
@@ -80,12 +73,10 @@ function struct_res = test_runfile(varargin)
   end
   
   if (test_run_options.check_ref)
-    // restore previous diary
-    try 
-      diary(previousDiaryMode);
-      diary(previousDiaryFile);
-    catch
-    end
+    fileID = fopen(dia_res, 'wt');
+    output_test = replace(output_test(:)', char([13 10]), char(10));
+    fwrite(fileID, output_test, 'char');
+    fclose(fileID);
     res = diff_file(dia_ref, dia_res, false);
     if (strcmp(res, '') == false)
       r = false;
