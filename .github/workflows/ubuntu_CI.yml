@@ -83,7 +83,12 @@ jobs:
         ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/usr/local;
         make;
         sudo make install;
-    - uses: actions/checkout@v1
+
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Update version
+      run: |
+        python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
     - name: CMake
       run: source /opt/qt514/bin/qt514-env.sh && cmake -G "Ninja" .
     - name: make with Ninja

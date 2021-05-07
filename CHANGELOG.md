@@ -1,3 +1,9 @@
+# 0.5.X (UNRELEASED)
+
+## Compilation:
+
+- Move Windows CI build to GitHub (appveyor CI removed, too slow).
+
 # 0.5.4 (2021-04-24)
 
 ## Features:

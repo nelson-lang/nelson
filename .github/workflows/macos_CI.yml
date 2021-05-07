@@ -52,7 +52,13 @@ jobs:
         cd /Users/runner/work/nelson;
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
 
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Update version
+      run: |
+        python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
+ 
     - name: CMake
       run: |
         export PATH=/usr/local/opt/qt5/bin:$PATH

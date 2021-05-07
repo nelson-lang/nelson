@@ -36,11 +36,7 @@ TESTS_RESULT_DIR = getenv('TESTS_RESULT_DIR');
 if strcmp(TESTS_RESULT_DIR, '') == true
   TESTS_RESULT_DIR = nelsonroot();
 end
-if ispc()
-  stop_on_fail = '-stoponfail';
-else
-  stop_on_fail = []; 
-end
+stop_on_fail = []; 
 filedest = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
 try
   r = test_run([], 'all_tests', [TESTS_RESULT_DIR, '/', filedest], stop_on_fail);
