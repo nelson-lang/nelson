@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function status = test_run(varargin)
-  nbWorkers = maxNumCompThreads();
+  nbWorkers = 1; //maxNumCompThreads();
   __totalTimeBegin = time();
   [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, varargin);
   nelson_version = version('-number');

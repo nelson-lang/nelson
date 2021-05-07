@@ -10,8 +10,6 @@ jobs:
       run:
        shell: cmd
     timeout-minutes: 120
-    env:
-      NELSON_VERSION: 0.5.4
 
     steps:
 
@@ -27,6 +25,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Get package version 
+      uses: nyaascii/package-version@v1
 
     - name: Update version
       run: |  
@@ -82,7 +83,7 @@ jobs:
 
     - name: Install Nelson with installer
       run: |
-        %GITHUB_WORKSPACE%/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%-x86-64.exe /SP- /SILENT /DIR="c:/install/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%"
+        %GITHUB_WORKSPACE%/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%-x86-64.exe /SP- /SILENT /DIR="c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%"
 
     - name: creates artifacts directory
       run: |
@@ -91,23 +92,23 @@ jobs:
 
     - name: Zip Nelson install directory
       run: |
-        "C:/Program Files/7-Zip/7z" a -tzip %GITHUB_WORKSPACE%/artifacts/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%-x86-64.zip c:/install/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%
+        "C:/Program Files/7-Zip/7z" a -tzip %GITHUB_WORKSPACE%/artifacts/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%-x86-64.zip c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
 
     - name: Tests moved in an long path name with space on windows 
       run: |
-        mv "c:/install/Nelson-%NELSON_VERSION%.%GITHUB_RUN_NUMBER%" "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%"
+        mv "c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%" "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%"
 
     - name: Benchs
       run: |
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-        "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.nls"
+        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.nls"
 
     - name: Tests
       run: |
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-        "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson %NELSON_VERSION%.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.nls"
+        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.nls"
 
     - name: Copy installer in artifacts directory
       run: |        

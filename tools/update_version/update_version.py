@@ -22,6 +22,7 @@ import os
 import argparse
 import subprocess
 import sys
+import json
 
 
 def is_dirty_git():
@@ -43,22 +44,6 @@ def get_git_revision_short_hash():
     status = status.decode('utf-8')
     status = status.rstrip(os.linesep)
     return status
-
-
-def get_appveyor_repo_commit():
-    return os.getenv('APPVEYOR_REPO_COMMIT')
-
-
-def get_appveyor_build_number():
-    return int(os.getenv('APPVEYOR_BUILD_NUMBER'))
-
-
-def get_appveyor_build_version():
-    return os.getenv('APPVEYOR_BUILD_VERSION')
-
-
-def use_appveyor_variables():
-    return get_appveyor_repo_commit() is not None and get_appveyor_build_number() is not None and get_appveyor_build_version() is not None
 
 
 def use_github_variables():
@@ -175,24 +160,6 @@ def edit_cmakelist(major, minor, maintenance, build):
             f.write(l + '\n')
 
 
-def edit_appveyor_yml(major, minor, maintenance):
-    lines_out = []
-    filename = './appveyor.yml'
-    with open(filename) as f:
-        lines_in = f.readlines()
-        for line in lines_in:
-            line = line.replace('\r\n', '')
-            line = line.replace('\n', '')
-            if line.strip().startswith('version:'):
-                lines_out.append('version: ' + str(major) + '.' +
-                                 str(minor) + '.' + str(maintenance) + '.{build}')
-            else:
-                lines_out.append(line)
-    with open(filename, 'w') as f:
-        for l in lines_out:
-            f.write(l + '\n')
-
-
 def delete_nelson_version_h():
     filename = './modules/core/src/include/Nelson_VERSION.h'
     if os.path.isfile(filename) is True:
@@ -253,23 +220,25 @@ def edit_nelson_version_h_in(git_hash):
 
 def get_current_version():
     version = []
-    filename = './appveyor.yml'
+    filename = './package.json'
     version_str = None
-    with open(filename) as f:
-        lines_in = f.readlines()
-        for line in lines_in:
-            line = line.strip()
-            if line.startswith('version:'):
-                version_str = line
-                break
+    with open(filename) as json_file:
+        data = json.load(json_file)
+        version_str = data['version']
     if version_str is not None:
-        version_str = version_str.replace('version:', '')
-        version_str = version_str.replace('.{build}', '')
         split = version_str.split('.')
         if len(split) == 3:
             version = [int(split[0]), int(split[1]), int(split[2])]
     return version
 
+def edit_package_json(major, minor, maintenance):
+    filename = './package.json'
+    version_str = None
+    with open(filename) as json_file:
+        data = json.load(json_file)
+    data['version'] = str(major) + '.' + str(minor) + '.' + str(maintenance)
+    with open(filename, 'w') as outfile:
+        json.dump(data, outfile, indent=4)
 
 if __name__ == '__main__':
     major = None
@@ -279,54 +248,42 @@ if __name__ == '__main__':
     current_version = get_current_version()
     update_from_command_line = False
 
-    if use_appveyor_variables() is True:
-        print('USE APPVEYOR')
-        print('REPO COMMIT: ' + get_appveyor_repo_commit())
-        print('BUILD NUMBER: ' + str(get_appveyor_build_number()))
-        print('BUILD VERSION: ' + get_appveyor_build_version())
+    if use_github_variables() is True:
+        print('USE GITHUB')
+        print('REPO COMMIT: ' + get_github_repo_commit())
+        print('BUILD NUMBER: ' + str(get_github_build_number()))
         major = current_version[0]
         minor = current_version[1]
         maintenance = current_version[2]
-        build = get_appveyor_build_number()
-        git_hash = get_appveyor_repo_commit()
-
+        build = get_github_build_number()
+        git_hash = get_github_repo_commit()
+    elif use_travis() is True:
+        print('USE TRAVIS')
+        print('REPO COMMIT: ' + get_travis_commit())
+        print('BUILD NUMBER: ' + str(get_travis_build_number()))
+        major = current_version[0]
+        minor = current_version[1]
+        maintenance = current_version[2]
+        build = get_travis_build_number()
+        git_hash = get_travis_commit()
     else:
-        if use_github_variables() is True:
-            print('USE GITHUB')
-            print('REPO COMMIT: ' + get_github_repo_commit())
-            print('BUILD NUMBER: ' + str(get_github_build_number()))
-            major = current_version[0]
-            minor = current_version[1]
-            maintenance = current_version[2]
-            build = get_github_build_number()
-            git_hash = get_github_repo_commit()
-        elif use_travis() is True:
-            print('USE TRAVIS')
-            print('REPO COMMIT: ' + get_travis_commit())
-            print('BUILD NUMBER: ' + str(get_travis_build_number()))
-            major = current_version[0]
-            minor = current_version[1]
-            maintenance = current_version[2]
-            build = get_travis_build_number()
-            git_hash = get_travis_commit()
-        else:
-            print('USE COMMAND LINE')
-            parser = argparse.ArgumentParser(
-                description='Update Nelson version.')
-            parser.add_argument("major", type=int,
-                                help='major version index', default=None)
-            parser.add_argument("minor", type=int,
-                                help='minor version index', default=None)
-            parser.add_argument(
-                "maintenance", help='maintenance version index', type=int, default=None)
-            parser.add_argument(
-                "build", help='build version index', type=int, default=None)
-            args = parser.parse_args()
-            major = args.major
-            minor = args.minor
-            maintenance = args.maintenance
-            build = args.build
-            update_from_command_line = True
+        print('USE COMMAND LINE')
+        parser = argparse.ArgumentParser(
+            description='Update Nelson version.')
+        parser.add_argument("major", type=int,
+                            help='major version index', default=None)
+        parser.add_argument("minor", type=int,
+                            help='minor version index', default=None)
+        parser.add_argument(
+            "maintenance", help='maintenance version index', type=int, default=None)
+        parser.add_argument(
+            "build", help='build version index', type=int, default=None)
+        args = parser.parse_args()
+        major = args.major
+        minor = args.minor
+        maintenance = args.maintenance
+        build = args.build
+        update_from_command_line = True
 
     if major is None or minor is None or maintenance is None or build is None:
         sys.stderr.write('error on version definition.')
@@ -350,6 +307,6 @@ if __name__ == '__main__':
     edit_nelson_version_h_vc(major, minor, maintenance, build, git_hash)
     edit_nelson_version_h_in(git_hash)
     if update_from_command_line == True:
-        edit_appveyor_yml(major, minor, maintenance)
+        edit_package_json(major, minor, maintenance)   
     edit_homepage_md(version_str)
     sys.exit(0)
