@@ -25,7 +25,7 @@
 //=============================================================================
 // <--ADV-CLI MODE-->
 // <--WITH DISPLAY-->
-// <--INDEX 64 BIT REQUIRED-->
+// <--NATIVE ARCHITECTURE TEST REQUIRED-->
 //=============================================================================
 if ispc()
   qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];

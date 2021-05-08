@@ -25,6 +25,40 @@ import sys
 import json
 
 
+def get_appveyor_repo_commit():
+    return os.getenv('APPVEYOR_REPO_COMMIT')
+
+
+def get_appveyor_build_number():
+    return int(os.getenv('APPVEYOR_BUILD_NUMBER'))
+
+
+def get_appveyor_build_version():
+    return os.getenv('APPVEYOR_BUILD_VERSION')
+
+
+def use_appveyor_variables():
+    return get_appveyor_repo_commit() is not None and get_appveyor_build_number() is not None and get_appveyor_build_version() is not None
+
+
+def edit_appveyor_yml(major, minor, maintenance):
+    lines_out = []
+    filename = './appveyor.yml'
+    with open(filename) as f:
+        lines_in = f.readlines()
+        for line in lines_in:
+            line = line.replace('\r\n', '')
+            line = line.replace('\n', '')
+            if line.strip().startswith('version:'):
+                lines_out.append('version: ' + str(major) + '.' +
+                                 str(minor) + '.' + str(maintenance) + '.{build}')
+            else:
+                lines_out.append(line)
+    with open(filename, 'w') as f:
+        for l in lines_out:
+            f.write(l + '\n')
+
+
 def is_dirty_git():
     status = subprocess.check_output(['git', 'status', '-uno', '--porcelain'])
     status = status.decode('utf-8')
@@ -231,6 +265,7 @@ def get_current_version():
             version = [int(split[0]), int(split[1]), int(split[2])]
     return version
 
+
 def edit_package_json(major, minor, maintenance):
     filename = './package.json'
     version_str = None
@@ -240,6 +275,7 @@ def edit_package_json(major, minor, maintenance):
     with open(filename, 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
+
 if __name__ == '__main__':
     major = None
     minor = None
@@ -248,7 +284,17 @@ if __name__ == '__main__':
     current_version = get_current_version()
     update_from_command_line = False
 
-    if use_github_variables() is True:
+    if use_appveyor_variables() is True:
+        print('USE APPVEYOR')
+        print('REPO COMMIT: ' + get_appveyor_repo_commit())
+        print('BUILD NUMBER: ' + str(get_appveyor_build_number()))
+        print('BUILD VERSION: ' + get_appveyor_build_version())
+        major = current_version[0]
+        minor = current_version[1]
+        maintenance = current_version[2]
+        build = get_appveyor_build_number()
+        git_hash = get_appveyor_repo_commit()
+    elif use_github_variables() is True:
         print('USE GITHUB')
         print('REPO COMMIT: ' + get_github_repo_commit())
         print('BUILD NUMBER: ' + str(get_github_build_number()))
@@ -307,6 +353,7 @@ if __name__ == '__main__':
     edit_nelson_version_h_vc(major, minor, maintenance, build, git_hash)
     edit_nelson_version_h_in(git_hash)
     if update_from_command_line == True:
-        edit_package_json(major, minor, maintenance)   
+        edit_appveyor_yml(major, minor, maintenance)
+        edit_package_json(major, minor, maintenance)
     edit_homepage_md(version_str)
     sys.exit(0)

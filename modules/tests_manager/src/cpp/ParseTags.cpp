@@ -124,6 +124,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
         bool firstIndex64BitRequiredTag = true;
         bool firstNoUserModules = true;
         bool firstIpcRequired = true;
+        bool firstSequentialTestRequired = true;
+        bool firstNativeArchitectureTestRequired = true;
         std::string line;
         while (!istream.eof()) {
             std::getline(istream, line);
@@ -398,6 +400,29 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
                 }
                 options.setNoUserModules(true);
                 firstNoUserModules = false;
+                continue;
+            }
+            if (compareTag(line, SEQUENTIAL_TEST_REQUIRED_TAG) && firstSequentialTestRequired) {
+                if (!firstSequentialTestRequired) {
+                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
+                        utf8_to_wstring(SEQUENTIAL_TEST_REQUIRED_TAG).c_str());
+                    istream.close();
+                    return false;
+                }
+                options.setSequentialTestRequired(true);
+                firstSequentialTestRequired = false;
+                continue;
+            }
+            if (compareTag(line, NATIVE_ARCHITECTURE_REQUIRED_TAG)
+                && firstNativeArchitectureTestRequired) {
+                if (!firstNativeArchitectureTestRequired) {
+                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
+                        utf8_to_wstring(NATIVE_ARCHITECTURE_REQUIRED_TAG).c_str());
+                    istream.close();
+                    return false;
+                }
+                options.setNativeArchitecturedRequired(true);
+                firstNativeArchitectureTestRequired = false;
                 continue;
             }
         }

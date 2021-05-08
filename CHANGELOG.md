@@ -1,5 +1,10 @@
 # 0.5.X (UNRELEASED)
 
+## Features:
+
+- `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE ARCHITECTURE TEST REQUIRED` tags.
+- benchs are executed sequentialy (better bench results).
+
 ## Compilation:
 
 - Move Windows CI build to GitHub (appveyor CI removed, too slow).

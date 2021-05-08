@@ -42,10 +42,11 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     if (!ParseTags(value, tags, msg)) {
         Error(msg);
     }
+    size_t nbFields = 64;
     wstringVector fieldnames;
-    fieldnames.reserve(64);
+    fieldnames.reserve(nbFields);
     ArrayOfVector fieldvalues;
-    fieldvalues.reserve(64);
+    fieldvalues.reserve(nbFields);
     fieldnames.push_back(L"not_fixed");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNotFixed()));
     fieldnames.push_back(L"interactive_test");
@@ -86,6 +87,10 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNoUserModules()));
     fieldnames.push_back(L"ipc_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIpcRequired()));
+    fieldnames.push_back(L"sequential_test_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isSequentialTestRequired()));
+    fieldnames.push_back(L"native_architecture_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNativeArchitecturedRequired()));
 
     retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
     return retval;
