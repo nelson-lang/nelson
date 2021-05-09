@@ -25,6 +25,7 @@
 //=============================================================================
 // <--ADV-CLI MODE-->
 // <--WITH DISPLAY-->
+// <--NATIVE ARCHITECTURE TEST REQUIRED-->
 //=============================================================================
 if ispc()
   qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];

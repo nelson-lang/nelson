@@ -25,6 +25,7 @@
 //=============================================================================
 // <--ADV-CLI MODE-->
 // <--IPC REQUIRED-->
+// <--SEQUENTIAL TEST REQUIRED-->
 //=============================================================================
 clear('R');
 REF = 'simplified Chinese: 汉字; traditional Chinese: 漢字; pinyin: Hàn Zì'; 

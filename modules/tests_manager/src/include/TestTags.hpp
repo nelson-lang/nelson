@@ -52,6 +52,8 @@ namespace Nelson {
 #define INDEX_64_BIT_REQUIRED_TAG "<--INDEX 64 BIT REQUIRED-->"
 #define NO_USER_MODULES_TAG "<--NO USER MODULES-->"
 #define IPC_REQUIRED_TAG "<--IPC REQUIRED-->"
+#define SEQUENTIAL_TEST_REQUIRED_TAG "<--SEQUENTIAL TEST REQUIRED-->"
+#define NATIVE_ARCHITECTURE_REQUIRED_TAG "<--NATIVE ARCHITECTURE TEST REQUIRED-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -76,6 +78,8 @@ private:
     bool _index64BitRequired;
     bool _noUserModules;
     bool _ipcRequired;
+    bool _sequentialTestRequired;
+    bool _nativeArchitectureRequired;
 
 public:
     TestTags()
@@ -100,6 +104,8 @@ public:
         _index64BitRequired = false;
         _noUserModules = false;
         _ipcRequired = false;
+        _sequentialTestRequired = false;
+        _nativeArchitectureRequired = false;
     }
 
     bool
@@ -203,6 +209,18 @@ public:
         return _ipcRequired;
     }
 
+    bool
+    isSequentialTestRequired()
+    {
+        return _sequentialTestRequired;
+    }
+
+    bool
+    isNativeArchitecturedRequired()
+    {
+        return _nativeArchitectureRequired;
+    }
+
     void
     setWithDisplay(bool val)
     {
@@ -303,6 +321,18 @@ public:
     setIpcRequired(bool val)
     {
         _ipcRequired = val;
+    }
+
+    void
+    setSequentialTestRequired(bool val)
+    {
+        _sequentialTestRequired = val;
+    }
+
+    void
+    setNativeArchitecturedRequired(bool val)
+    {
+        _nativeArchitectureRequired = val;
     }
 };
 //=============================================================================

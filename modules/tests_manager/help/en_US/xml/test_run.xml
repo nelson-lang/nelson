@@ -94,9 +94,14 @@
   <p><b>&lt;--INDEX 64 BIT REQUIRED--&gt;</b> This test will be executed if 64 bit index is available.</p>
   <p><b>&lt;--NO USER MODULES--&gt;</b> This test will be executed without load user modules.</p>
   <p><b>&lt;--IPC REQUIRED--&gt;</b> This test will be executed if IPC is available.</p>
+  <p><b>&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> This test will be executed sequentialy (1 worker).</p>
+  <p><b>&lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;</b> This test will be executed if application's build and architecture are same.</p>
+
   <p></p>
   <p>To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer of 6 minutes.</p>
   <p><b>test_run</b> uses n th workers to execute and speed up tests executions.</p>
+  <p>Tests with <b>&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> are evaluated last.</p>
+  <p>Benchs are evaluated sequentialy.</p>
   </description>
   <used_function></used_function>
   <bibliography></bibliography>

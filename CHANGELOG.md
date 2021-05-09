@@ -1,3 +1,14 @@
+# 0.5.X (UNRELEASED)
+
+## Features:
+
+- `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE ARCHITECTURE TEST REQUIRED` tags.
+- benchs are executed sequentialy (better bench results).
+
+## Compilation:
+
+- Move Windows build to GitHub CI. Appveyor is no more the principal build CI for Windows.
+
 # 0.5.4 (2021-04-24)
 
 ## Features:

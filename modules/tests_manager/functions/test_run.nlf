@@ -83,8 +83,49 @@ function status = test_run(varargin)
   end
 endfunction
 //=============================================================================
+function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalTests, initialIndex)
+  accumulator = [];
+  test_cases_updated = [];  
+  nbTests = length(test_cases);
+  count = 0;
+  lenCharsNbTests = length(int2str(nbTotalTests));
+  if lenCharsNbTests < 2
+    lenCharsNbTests = lenCharsNbTests + 1;
+  end
+  fmtStart = ['  ', '%0', int2str(lenCharsNbTests), 'd/', '%0', int2str(lenCharsNbTests),'d - %s'];
+  indexTest = initialIndex;
+  for test_case = test_cases
+    accumulator = [accumulator; test_case];
+    if (length(accumulator) == nbWorkers || count == nbTests - 1)
+      commands = {accumulator(1:length(accumulator)).command};
+      [s, m] = unix(commands, '-parallel');
+      for i = 1:length(accumulator)
+        accumulator(i).msg = m{i};
+        accumulator(i).res_cmd = s(i);
+        accumulator(i) = post_run_test_case(accumulator(i));
+        test_cases_updated = [test_cases_updated; accumulator(i)];
+        startChars = sprintf(fmtStart, indexTest, nbTotalTests,  accumulator(i).name);
+        nb_spaces = 80 - length(startChars) - length(accumulator(i).status) + 1;
+        fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), accumulator(i).status, newline); 
+        indexTest = indexTest + 1;
+      end   
+      accumulator = [];
+    end
+    count = count + 1;
+  end
+  if ~isempty(test_cases_updated)
+    test_cases_updated = rmfield(test_cases_updated, 'command');
+    test_cases_updated = rmfield(test_cases_updated, 'outputfile');
+    test_cases_updated = rmfield(test_cases_updated, 'redirect_err');
+    test_cases_updated = rmfield(test_cases_updated, 'command_filename');
+    test_cases_updated = rmfield(test_cases_updated, 'res_cmd');
+    test_cases_updated = rmfield(test_cases_updated, 'skip');
+  end
+endfunction  
+//=============================================================================
 function test_suite = process_files_to_test(test_files_list, option, classname, module_name, nbWorkers)
   test_suite = create_test_suite();
+  test_suite.name = module_name;
   test_cases = [];
   time_test = 0;
   nbTests = length(test_files_list);
@@ -96,78 +137,42 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
     lenCharsNbTests = lenCharsNbTests + 1;
   end
   fmtStart = ['  ', '%0', int2str(lenCharsNbTests), 'd/', '%0', int2str(lenCharsNbTests),'d - %s'];
-  accumulator = [];
-  countTests = 1;
-  count = 0;
+  parallel_tests = [];
+  sequential_tests = [];
   for file = test_files_list(:)'
     test_case = create_test_case(file{1});
     test_case.classname = classname;
-    accumulator = [accumulator; test_case];
-    if (length(accumulator) == nbWorkers || count == nbTests - 1)
-      commands = {accumulator(1:length(accumulator)).command};
-      [s, m] = unix(commands, '-parallel');
-      for i = 1:length(accumulator)
-        accumulator(i).msg = m{i};
-        accumulator(i).res_cmd = s(i);
-        accumulator(i) = post_run_test_case(accumulator(i));
-        startChars = sprintf(fmtStart, countTests, nbTests,  accumulator(i).name);
-        nb_spaces = 80 - length(startChars) - length(accumulator(i).status) + 1;
-        fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), accumulator(i).status, newline);
-        if strcmp(accumulator(i).status, 'Fail') == true
-          disp(['    run(''', accumulator(i).filename, ''')']);
-          if strcmp(accumulator(i).msg, '') == false
-            disp(_('    Error:'));
-            if strcmp(class(accumulator(i).msg), 'cell') == 1
-              for k = accumulator(i).msg(:)'
-                disp(['      ', k]);
-              end
-            else
-              if strcmp(class(accumulator(i).msg), 'struct') == true
-                disp(['      ', accumulator(i).msg.message]);
-              else
-                disp(['      ', accumulator(i).msg]);
-              end
-            end
-          end
-          disp(' ');
-        end
-        countTests = countTests + 1;
-        
-        if accumulator(i).isbench
-          test_suite.bench = test_suite.bench + 1;
-        elseif strcmp(accumulator(i).status, 'Fail')
-          test_suite.tests = test_suite.tests + 1;
-          test_suite.errors = test_suite.errors + 1;
-        elseif strcmp(accumulator(i).status, 'Pass')
-          test_suite.tests = test_suite.tests + 1;
-          test_suite.passed = test_suite.passed + 1;
-        elseif strcmp(accumulator(i).status, 'Skip') || strcmp(accumulator(i).status, 'Interactive') || strcmp(accumulator(i).status, 'No display')
-          test_suite.tests = test_suite.tests + 1;
-          test_suite.disabled = test_suite.disabled + 1;
-        end
-        time_test = time_test + accumulator(i).time;
-      end
-      test_cases = [test_cases; accumulator];
-      accumulator = [];
+    if test_case.options.sequential_test_required || test_case.isbench
+      sequential_tests = [sequential_tests, test_case];
+    else
+      parallel_tests = [parallel_tests, test_case];
     end
-    count = count + 1;
   end
-  test_suite.name = module_name;
-  
-  if ~isempty(test_cases)
-    test_cases = rmfield(test_cases, 'command');
-    test_cases = rmfield(test_cases, 'outputfile');
-    test_cases = rmfield(test_cases, 'redirect_err');
-    test_cases = rmfield(test_cases, 'command_filename');
-    test_cases = rmfield(test_cases, 'res_cmd');
-    test_cases = rmfield(test_cases, 'skip');
+  nbTotalTests = length(sequential_tests) + length(parallel_tests);
+  test_cases_parallel = process_test_cases(parallel_tests, nbWorkers, nbTotalTests, 1);
+  test_cases_sequential = process_test_cases(sequential_tests, 1, nbTotalTests, length(test_cases_parallel) + 1);
+  test_cases = [test_cases_sequential; test_cases_parallel];
+  time_test = 0;
+  for test_case = test_cases(:)'
+    if test_case.isbench
+      test_suite.bench = test_suite.bench + 1;
+    elseif strcmp(test_case.status, 'Fail')
+      test_suite.tests = test_suite.tests + 1;
+      test_suite.errors = test_suite.errors + 1;
+    elseif strcmp(test_case.status, 'Pass')
+      test_suite.tests = test_suite.tests + 1;
+      test_suite.passed = test_suite.passed + 1;
+    elseif strcmp(test_case.status, 'Skip') || strcmp(test_case.status, 'Interactive') || strcmp(test_case.status, 'No display')
+      test_suite.tests = test_suite.tests + 1;
+      test_suite.disabled = test_suite.disabled + 1;
+    end
+    time_test = time_test + test_case.time;
   end
   test_suite.test_cases_list = test_cases;
   test_suite.time = test_suite.time + time_test;
 endfunction
 //=============================================================================
 function test_suite = process_test_cases_directory(tests_dir, option, classname, module_name, nbWorkers)
-  
   if isdir(tests_dir)
     test_files_list = getFilesListByOption(tests_dir, option);
     test_suite = process_files_to_test(test_files_list, option, classname, module_name, nbWorkers);
@@ -271,6 +276,11 @@ function test_case = create_test_case(filename)
   test_case.time = 0;
   test_case.isbench = isbench(filename);
   test_case.skip = false;
+
+  if (test_case.options.mpi_mode && ~have_mpi())
+    test_case.status = 'Skip';
+    test_case.skip = true;
+  end
   if (test_case.options.audio_input_required && ~have_audio_input())
     test_case.status = 'Skip';
     test_case.skip = true;
@@ -288,6 +298,10 @@ function test_case = create_test_case(filename)
     test_case.skip = true;
   end
   if (test_case.options.excel_required && ~have_excel())
+    test_case.status = 'Skip';
+    test_case.skip = true;
+  end
+  if (test_case.options.native_architecture_required && ~is_native_platform())
     test_case.status = 'Skip';
     test_case.skip = true;
   end
@@ -751,6 +765,18 @@ function r = isbench(filename)
   r = startsWith(fwext, 'bench_');
 endfunction
 //=============================================================================
+function r = have_mpi()
+  persistent mpi_required
+  if isempty(mpi_required)
+    if ispc()
+      mpi_required = (unix('mpiexec -help') == 0);
+    else
+      mpi_required = (unix('mpiexec --help') == 0);
+    end
+  end
+  r = mpi_required;
+endfunction
+//=============================================================================
 function r = have_audio_input()
   persistent audio_input_required
   if isempty(audio_input_required)
@@ -827,6 +853,29 @@ function r = is_release()
     is_release_version = startsWith(ver_comp{2}, 'release');
   end
   r = is_release_version;
+endfunction
+//=============================================================================
+function r = is_native_platform()
+  persistent is_native;
+  if isempty(is_native)
+    if ispc()
+      ver_comp = version('-compiler');
+      targetAMD64 = startsWith(ver_comp{3}, '64');
+      targetX86 = startsWith(ver_comp{3}, '32');
+      arch = getenv('PROCESSOR_ARCHITECTURE');
+      archW6432 = getenv('PROCESSOR_ARCHITEW6432');
+      if targetX86
+        is_native = strcmp(arch, 'x86') && strcmp(archW6432, '');
+      elseif targetAMD64
+        is_native = strcmp(arch, 'AMD64') && strcmp(archW6432, '');
+      else
+        is_native = false;
+      end
+    else
+      is_native = true;
+    end
+  end
+  r = is_native;
 endfunction
 //=============================================================================
 function res = haveDisplay()
