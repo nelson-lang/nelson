@@ -23,31 +23,29 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#if defined(_OPENMP)
-#include <omp.h>
-#endif
-#include "ComputionalThreads.hpp"
-#include "GetVariableEnvironment.hpp"
-#include "SetVariableEnvironment.hpp"
 #include <Eigen/Dense>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread/thread.hpp>
+#include "nlsConfig.h"
+#include "ComputionalThreads.hpp"
+#include "GetVariableEnvironment.hpp"
+#include "SetVariableEnvironment.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static unsigned int nbOfCoresToUse = 0;
+static unsigned int nbOfThreadsToUse = 0;
 //=============================================================================
 unsigned int
 getMaxNumCompThreads()
 {
-    return nbOfCoresToUse;
+    return nbOfThreadsToUse;
 }
 //=============================================================================
 unsigned int
 setMaxNumCompThreads(unsigned int _nbOfCores)
 {
-    unsigned int previousValue = nbOfCoresToUse;
-    nbOfCoresToUse = _nbOfCores;
+    unsigned int previousValue = nbOfThreadsToUse;
+    nbOfThreadsToUse = _nbOfCores;
 #if defined(_NLS_WITH_OPENMP)
     omp_set_num_threads(_nbOfCores);
 #endif
@@ -60,19 +58,19 @@ setDefaultMaxNumCompThreads()
 {
     std::wstring omp_env = GetVariableEnvironment(L"OMP_NUM_THREADS", L"0");
     if (omp_env == L"0") {
-        nbOfCoresToUse = boost::thread::physical_concurrency();
+        nbOfThreadsToUse = boost::thread::hardware_concurrency();
     } else {
         try {
-            nbOfCoresToUse = boost::lexical_cast<unsigned int>(omp_env.c_str());
+            nbOfThreadsToUse = boost::lexical_cast<unsigned int>(omp_env.c_str());
         } catch (const boost::bad_lexical_cast&) {
-            nbOfCoresToUse = 0;
+            nbOfThreadsToUse = 0;
         }
-        if (nbOfCoresToUse == 0) {
-            nbOfCoresToUse = boost::thread::physical_concurrency();
+        if (nbOfThreadsToUse == 0) {
+            nbOfThreadsToUse = boost::thread::hardware_concurrency();
         }
     }
-    setMaxNumCompThreads(nbOfCoresToUse);
-    return nbOfCoresToUse;
+    setMaxNumCompThreads(nbOfThreadsToUse);
+    return nbOfThreadsToUse;
 }
 //=============================================================================
 } // namespace Nelson

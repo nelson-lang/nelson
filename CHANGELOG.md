@@ -2,8 +2,12 @@
 
 ## Features:
 
-- `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE ARCHITECTURE TEST REQUIRED` tags.
+- `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 - benchs are executed sequentialy (better bench results).
+
+## Bug Fixes:
+
+- [#435](http://github.com/Nelson-numerical-software/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.
 
 ## Compilation:
 

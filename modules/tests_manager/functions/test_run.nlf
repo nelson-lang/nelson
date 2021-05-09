@@ -106,7 +106,8 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
         test_cases_updated = [test_cases_updated; accumulator(i)];
         startChars = sprintf(fmtStart, indexTest, nbTotalTests,  accumulator(i).name);
         nb_spaces = 80 - length(startChars) - length(accumulator(i).status) + 1;
-        fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), accumulator(i).status, newline); 
+        fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), accumulator(i).status, newline);
+        displayTestCaseFail(accumulator(i))
         indexTest = indexTest + 1;
       end   
       accumulator = [];
@@ -122,6 +123,27 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
     test_cases_updated = rmfield(test_cases_updated, 'skip');
   end
 endfunction  
+//=============================================================================
+function displayTestCaseFail(test_case)
+  if strcmp(test_case.status, 'Fail') == true
+    disp(['    run(''', test_case.filename, ''')']);
+    if strcmp(test_case.msg, '') == false
+      disp(_('    Error:'));
+      if strcmp(class(test_case.msg), 'cell') == 1
+        for k = test_case.msg(:)'
+          disp(['      ', k]);
+        end
+      else
+        if strcmp(class(test_case.msg), 'struct') == true
+          disp(['      ', test_case.msg.message]);
+        else
+          disp(['      ', test_case.msg]);
+        end
+      end
+    end
+    disp(' ');
+  end
+endfunction
 //=============================================================================
 function test_suite = process_files_to_test(test_files_list, option, classname, module_name, nbWorkers)
   test_suite = create_test_suite();
