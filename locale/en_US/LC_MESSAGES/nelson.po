@@ -11,79 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.4\n"
 
-#, c-format
-msgid ""
-"at line %5d\n"
-"of '%s'\n"
-msgstr ""
-
-#, c-format
-msgid "at line %5d of '%s'\n"
-msgstr ""
-
-#, c-format
-msgid "Invalid type for #%d input argument: %ls expected."
-msgstr ""
-
-msgid "one or more outputs not assigned in call"
-msgstr ""
-
-msgid "The special variable 'varargout' was not defined as expected"
-msgstr ""
-
-msgid "The special variable 'varargout' was not defined as a cell-array"
-msgstr ""
-
-msgid "Not enough outputs in varargout to satisfy call"
-msgstr ""
-
-msgid "startup.nls does not exist."
-msgstr ""
-
-msgid "Cannot call unix command."
-msgstr ""
-
-msgid "Cannot duplicate stdout (1)."
-msgstr ""
-
-msgid "Cannot duplicate stdin (1)."
-msgstr ""
-
-msgid "Cannot duplicate stderr (1)."
-msgstr ""
-
-msgid "Cannot redirect stdout."
-msgstr ""
-
-msgid "Cannot redirect stderr."
-msgstr ""
-
-msgid "Cannot restore stdout."
-msgstr ""
-
-msgid "Cannot restore stdin."
-msgstr ""
-
-msgid "Cannot close redirected stdout."
-msgstr ""
-
-msgid "Cannot close redirected stderr."
-msgstr ""
-
-msgid "Cannot close redirected stdin."
-msgstr ""
-
-msgid "Cannot read results."
-msgstr ""
-
-msgid "Cannot read file."
-msgstr ""
-
-msgid ""
-"Cannot write file %1:\n"
-"%2."
-msgstr ""
-
 msgid "Cannot apply numeric operation "
 msgstr ""
 
@@ -93,7 +20,7 @@ msgstr ""
 msgid "Same reference type expected."
 msgstr ""
 
-msgid "Size mismatch on arguments to arithmetic operator "
+msgid "Size mismatch on arguments to arithmetic operator"
 msgstr ""
 
 msgid "Cannot apply matrix operation "
@@ -117,6 +44,12 @@ msgstr ""
 msgid "No error was produced while evaluating command."
 msgstr ""
 
+msgid "Assertion failed : expected error identifier ="
+msgstr ""
+
+msgid "computed error identifier ="
+msgstr ""
+
 msgid "isapprox returns more than one output argument."
 msgstr ""
 
@@ -126,6 +59,29 @@ msgstr ""
 msgid "Assertion failed: expected and computed values are too different."
 msgstr ""
 
+#, c-format
+msgid ""
+"Assertion failed: expected '%ls' and computed '%ls' values are different."
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: expected (%ls) and computed (%ls) values are different."
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: expected \"%ls\" and computed \"%ls\" values are different."
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: expected (%lg) and computed (%lg) values are different."
+msgstr ""
+
+msgid "Assertion failed: expected and computed values are different."
+msgstr ""
+
 msgid "isequalto returns more than one output argument."
 msgstr ""
 
@@ -133,9 +89,6 @@ msgid "isequalto must return an logical."
 msgstr ""
 
 msgid "isequalto returns an unexpected error."
-msgstr ""
-
-msgid "Assertion failed: expected and computed values are different."
 msgstr ""
 
 msgid "Assertion failed: found false entry in condition = true."
@@ -237,6 +190,15 @@ msgstr ""
 msgid "Sparse type not supported."
 msgstr ""
 
+msgid "Cannot convert to unicode."
+msgstr ""
+
+msgid "Invalid charset: "
+msgstr ""
+
+msgid "Cannot convert string to expected charset."
+msgstr ""
+
 msgid "'machine' value expected."
 msgstr ""
 
@@ -294,6 +256,12 @@ msgstr ""
 msgid "Unrecognized option. \"s\" expected."
 msgstr ""
 
+msgid "Second argument must be a scalar."
+msgstr ""
+
+msgid "First argument to 'diag' function must be 2D."
+msgstr ""
+
 msgid "Type 'double' or 'single' expected."
 msgstr ""
 
@@ -349,6 +317,9 @@ msgid "Invalid use of statement list."
 msgstr ""
 
 msgid "'local', 'caller', 'base' scope expected."
+msgstr ""
+
+msgid "Error:"
 msgstr ""
 
 msgid "input function not allowed from evalc."
@@ -411,6 +382,13 @@ msgstr ""
 msgid "not defined."
 msgstr ""
 
+msgid "Wrong type for argument #1. struct expected."
+msgstr ""
+
+#, c-format
+msgid "A field named '%s' doesn't exist."
+msgstr ""
+
 msgid "struct([]) expected."
 msgstr ""
 
@@ -426,22 +404,19 @@ msgstr ""
 msgid "'-completenames' expected or scalar integer value required."
 msgstr ""
 
+msgid "#1 'double' or 'single' expected."
+msgstr ""
+
 msgid "dlsym handle expected."
 msgstr ""
 
 msgid "dllib handle expected."
 msgstr ""
 
+msgid "Cannot get library symbols: "
+msgstr ""
+
 msgid "libpointer handle expected."
-msgstr ""
-
-msgid "File not found."
-msgstr ""
-
-msgid "Module not loaded: symbol not found."
-msgstr ""
-
-msgid "Module not loaded: library not loaded.\n"
 msgstr ""
 
 msgid "Wrong type for argument #1: dllib scalar handle expected."
@@ -450,10 +425,12 @@ msgstr ""
 msgid "Valid handle expected."
 msgstr ""
 
-msgid "Invalid argument type:"
+#, c-format
+msgid "Invalid argument type: %ls."
 msgstr ""
 
-msgid "Invalid symbol name."
+#, c-format
+msgid "Invalid symbol name: %ls"
 msgstr ""
 
 msgid "dllib valid handle expected."
@@ -472,6 +449,10 @@ msgstr ""
 msgid "import type %s not defined in FFI type table."
 msgstr ""
 
+#, c-format
+msgid "import type %ls not defined in FFI type table."
+msgstr ""
+
 msgid "'void' not allowed as input type."
 msgstr ""
 
@@ -484,7 +465,26 @@ msgstr ""
 msgid "cell array"
 msgstr ""
 
+#, c-format
+msgid "Invalid type for #%zu input argument: %ls expected."
+msgstr ""
+
+msgid "File not found."
+msgstr ""
+
+msgid "Module not loaded: symbol not found."
+msgstr ""
+
 msgid "Module not loaded: library not loaded."
+msgstr ""
+
+msgid "Module not loaded: library not loaded.\n"
+msgstr ""
+
+msgid "Module not loaded: library handle not found."
+msgstr ""
+
+msgid "Invalid argument type:"
 msgstr ""
 
 msgid "Invalid #2 argument type expected:"
@@ -538,6 +538,21 @@ msgstr ""
 msgid "Undefined function 'length' for input arguments of type"
 msgstr ""
 
+msgid "Inputs parameters must be scalars."
+msgstr ""
+
+msgid "Third argument should be an integer value."
+msgstr ""
+
+msgid "Invalid third argument."
+msgstr ""
+
+msgid "Invalid second argument."
+msgstr ""
+
+msgid "Invalid 4th argument."
+msgstr ""
+
 msgid "Undefined function 'ndims' for input arguments of type"
 msgstr ""
 
@@ -581,7 +596,40 @@ msgstr ""
 msgid "Undefined function 'size' for input arguments of type"
 msgstr ""
 
-msgid "Integer type not managed."
+msgid "'auto', 'first', or 'last' for 'MissingPlacement' parameter."
+msgstr ""
+
+msgid "'auto', 'real', or 'abs' for 'ComparisonMethod' parameter."
+msgstr ""
+
+msgid "Dimension argument to sort should be positive"
+msgstr ""
+
+msgid "Sort direction must be either the string 'ascend' or 'descend'"
+msgstr ""
+
+msgid "'ComparisonMethod' or 'MissingPlacement' expected."
+msgstr ""
+
+msgid "K-th diagonal input must be an integer scalar."
+msgstr ""
+
+msgid "Type not managed."
+msgstr ""
+
+msgid "Cannot convert: "
+msgstr ""
+
+msgid "The base must be an integer value between 2 and 36."
+msgstr ""
+
+msgid "2D char array expected."
+msgstr ""
+
+msgid "Binary character vector may consist only of characters 0 and 1."
+msgstr ""
+
+msgid "Invalid string length: 1, 32, 64 expected."
 msgstr ""
 
 msgid "Invalid conversion from complex."
@@ -614,6 +662,12 @@ msgstr ""
 msgid "ctranspose on N-D array is undefined."
 msgstr ""
 
+msgid "An array of integers values, 0 <= D <= flintmax expected."
+msgstr ""
+
+msgid "#3 parameter: positive integer value expected."
+msgstr ""
+
 msgid "Size mismatch on arguments to power (^) operator."
 msgstr ""
 
@@ -632,7 +686,13 @@ msgstr ""
 msgid "integers of the same class, or scalar doubles expected."
 msgstr ""
 
-msgid "Complex integer not allowed for arithmetic operator "
+msgid "Integer type not managed."
+msgstr ""
+
+msgid "Integers of the same class expected."
+msgstr ""
+
+msgid "Invalid third input argument. 'first' or 'last' expected."
 msgstr ""
 
 msgid "function"
@@ -653,7 +713,17 @@ msgstr ""
 msgid "Undefined function 'isnan' for input arguments of type"
 msgstr ""
 
-msgid "LeftDivide currently not implemented in Nelson."
+msgid "Matrix is rank deficient to machine precision:"
+msgstr ""
+
+msgid ""
+"Requested divide operation requires arguments to have correct dimensions."
+msgstr ""
+
+msgid "Matrix is singular to working precision:"
+msgstr ""
+
+msgid "Imaginary part ignored."
 msgstr ""
 
 msgid "At least one input argument must be scalar."
@@ -662,6 +732,15 @@ msgstr ""
 msgid ""
 "using operator '*' \n"
 " Matrix dimensions must agree."
+msgstr ""
+
+msgid "Complex integer not allowed for arithmetic operator "
+msgstr ""
+
+msgid "Input Arguments must have same size."
+msgstr ""
+
+msgid "Dimension argument must be a positive integer scalar."
 msgstr ""
 
 msgid "Undefined function 'mod' for complex input argument."
@@ -679,10 +758,16 @@ msgstr ""
 msgid "Input argument must be real."
 msgstr ""
 
+msgid "First argument must be real."
+msgstr ""
+
 msgid "Undefined function 'rem' for complex input argument."
 msgstr ""
 
 msgid "Undefined function 'rem' for sparse input argument."
+msgstr ""
+
+msgid "Only one input parameter is supported for cell arrays."
 msgstr ""
 
 msgid "transpose on N-D array is undefined."
@@ -727,10 +812,22 @@ msgstr ""
 msgid "no user startup file"
 msgstr ""
 
+msgid "no user modules loaded"
+msgstr ""
+
+msgid "minimize main window (GUI only)"
+msgstr ""
+
+msgid "no ipc features"
+msgstr ""
+
 msgid "command to execute"
 msgstr ""
 
-msgid "file to execute"
+msgid "file to execute in an new process"
+msgstr ""
+
+msgid "file to execute in an existing process"
 msgstr ""
 
 msgid "language used in current session"
@@ -748,7 +845,16 @@ msgstr ""
 msgid "opens files in text editor"
 msgstr ""
 
+msgid "load .nh5, .mat files in Nelson"
+msgstr ""
+
 msgid "socketio address required."
+msgstr ""
+
+msgid "'-F' option, GUI mode required."
+msgstr ""
+
+msgid "'open' in editor, GUI mode required."
 msgstr ""
 
 msgid "wrong value for timeout option."
@@ -760,25 +866,19 @@ msgstr ""
 msgid "'nostartup' and  'startup' are mutual exclusive.\n"
 msgstr ""
 
-msgid "too many arguments -f and -e are exclusive."
+msgid "Too many arguments -f and -e are exclusive."
 msgstr ""
 
 msgid "Error"
 msgstr ""
 
-msgid "ERROR: too many arguments -f and -e are exclusive."
+msgid "Too many arguments -f and -F are exclusive."
 msgstr ""
 
 msgid "Nelson paths not initialized."
 msgstr ""
 
-msgid "Nelson paths not initialized.\n"
-msgstr ""
-
 msgid "Nelson interpreter not initialized."
-msgstr ""
-
-msgid "Nelson interpreter not initialized.\n"
 msgstr ""
 
 msgid ""
@@ -795,7 +895,19 @@ msgstr ""
 msgid "Main startup.nls failed to run."
 msgstr ""
 
+msgid "Module already loaded: "
+msgstr ""
+
+msgid "Impossible to load module: "
+msgstr ""
+
+msgid "Impossible to read modules.json"
+msgstr ""
+
 msgid "User startup.nls failed to run."
+msgstr ""
+
+msgid "First input argument must be a valid message identifier."
 msgstr ""
 
 msgid "Wrong value for #2 input argument."
@@ -807,6 +919,12 @@ msgstr ""
 msgid "a structure or the string 'reset' expected."
 msgstr ""
 
+msgid "MException expected."
+msgstr ""
+
+msgid "MException scalar expected."
+msgstr ""
+
 msgid "By default, warnings are enabled ('on'):"
 msgstr ""
 
@@ -816,7 +934,26 @@ msgstr ""
 msgid "warning('query') does not require an second argument."
 msgstr ""
 
+msgid "Error: "
+msgstr ""
+
+msgid "Error in "
+msgstr ""
+
+msgid "line"
+msgstr ""
+
+#, c-format
+msgid "at line %5d of '%ls'\n"
+msgstr ""
+
 msgid "Cannot apply wisdom."
+msgstr ""
+
+msgid "Wrong value for #1: 'load' or 'free' expected."
+msgstr ""
+
+msgid "Wrong value for #1: 'load' expected."
 msgstr ""
 
 msgid "Undefined function 'fft' for input arguments of type"
@@ -836,10 +973,29 @@ msgid ""
 "expected."
 msgstr ""
 
+msgid ""
+"All inputs must be strings, character vectors, or cell arrays of character "
+"vectors."
+msgstr ""
+
+msgid "All string and cell array inputs must be the same size or scalars."
+msgstr ""
+
+msgid "Cell of strings expected."
+msgstr ""
+
 msgid "Cannot change directory: '"
 msgstr ""
 
 msgid "File source does not exist."
+msgstr ""
+
+#, c-format
+msgid "Source directory %ls does not exist or is not a directory."
+msgstr ""
+
+#, c-format
+msgid "Cannot create destination directory %ls"
 msgstr ""
 
 msgid "Directory source does not exist."
@@ -863,7 +1019,43 @@ msgstr ""
 msgid "an existing file expected."
 msgstr ""
 
+msgid "Cannot create directory."
+msgstr ""
+
+msgid "Cannot read file:"
+msgstr ""
+
+msgid "Cannot read file global info."
+msgstr ""
+
+msgid "Cannot read file info."
+msgstr ""
+
 msgid "Cannot open file."
+msgstr ""
+
+msgid "Cannot open destination file."
+msgstr ""
+
+msgid "Cannot read data."
+msgstr ""
+
+msgid "Cannot read next file."
+msgstr ""
+
+msgid "Invalid value."
+msgstr ""
+
+msgid "Invalid root path."
+msgstr ""
+
+msgid "Nothing to zip."
+msgstr ""
+
+msgid "Cannot write file:"
+msgstr ""
+
+msgid "Cannot add entry:"
 msgstr ""
 
 msgid "Warning: Not a directory:"
@@ -923,6 +1115,69 @@ msgstr ""
 msgid "function_handle not valid."
 msgstr ""
 
+msgid "Scalar value expected."
+msgstr ""
+
+msgid "Integer value expected."
+msgstr ""
+
+msgid "Integer positive value expected."
+msgstr ""
+
+msgid "An valid figure object expected."
+msgstr ""
+
+msgid "graphic_object expected."
+msgstr ""
+
+msgid "Cannot delete graphic_object."
+msgstr ""
+
+msgid "Scalar graphic_object expected."
+msgstr ""
+
+msgid "Read only property."
+msgstr ""
+
+msgid "an valid [R, G, B] color expected."
+msgstr ""
+
+msgid "an valid string color expected."
+msgstr ""
+
+msgid "[R, G, B] vector or string color expected."
+msgstr ""
+
+msgid "Numeric values expected."
+msgstr ""
+
+msgid "full values expected."
+msgstr ""
+
+msgid "Value must be a 2 element vector."
+msgstr ""
+
+msgid "Value must be a 3 element vector."
+msgstr ""
+
+msgid "Value must be a 4 element vector."
+msgstr ""
+
+msgid "Deleted graphic_object.\n"
+msgstr ""
+
+msgid "Valid property expected."
+msgstr ""
+
+msgid "Valid graphic_object expected."
+msgstr ""
+
+msgid "look and feel not applied."
+msgstr ""
+
+msgid "\"stylesheet\" expected as first argument."
+msgstr ""
+
 msgid "Nelson"
 msgstr ""
 
@@ -933,6 +1188,18 @@ msgid "Interpreter currently runs."
 msgstr ""
 
 msgid "Nelson (*.nls)"
+msgstr ""
+
+msgid "Load workspace..."
+msgstr ""
+
+msgid "Nelson (*.nh5 *.mat)"
+msgstr ""
+
+msgid "Save workspace..."
+msgstr ""
+
+msgid "Nelson (*.nh5);;MAT files (*.mat)"
 msgstr ""
 
 msgid "About Nelson..."
@@ -948,6 +1215,18 @@ msgid "&Execute..."
 msgstr ""
 
 msgid "Execute a .nls file"
+msgstr ""
+
+msgid "&Load Workspace..."
+msgstr ""
+
+msgid "Load a .nh5 file"
+msgstr ""
+
+msgid "&Save Workspace..."
+msgstr ""
+
+msgid "Save a .nh5 file"
 msgstr ""
 
 msgid "&Change current directory"
@@ -1076,12 +1355,6 @@ msgstr ""
 msgid "Handles being catenated have incompatible classes."
 msgstr ""
 
-msgid "Type not managed."
-msgstr ""
-
-msgid "Scalar value expected."
-msgstr ""
-
 msgid "Unsupported value type."
 msgstr ""
 
@@ -1139,6 +1412,15 @@ msgstr ""
 msgid "H5Dcreate fails."
 msgstr ""
 
+msgid "Invalid file format."
+msgstr ""
+
+msgid "Variable not found:"
+msgstr ""
+
+msgid "Cannot read variable:"
+msgstr ""
+
 msgid "Cannot read attribute."
 msgstr ""
 
@@ -1167,6 +1449,21 @@ msgid "Impossible to open hdf5 file."
 msgstr ""
 
 msgid "Impossible to read dimensions and maximum size of data set."
+msgstr ""
+
+msgid "Invalid variable name:"
+msgstr ""
+
+msgid "Variable does not exist:"
+msgstr ""
+
+msgid "Cannot replace file"
+msgstr ""
+
+msgid "Invalid file version."
+msgstr ""
+
+msgid "Cannot save variable:"
 msgstr ""
 
 msgid "Valid text encoding expected."
@@ -1200,6 +1497,24 @@ msgid "Complex number not supported."
 msgstr ""
 
 msgid "String class not supported."
+msgstr ""
+
+msgid "Your variables are:"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Bytes"
+msgstr ""
+
+msgid "Class"
+msgstr ""
+
+msgid "Attributes"
 msgstr ""
 
 msgid "Qt Assistant not found."
@@ -1236,9 +1551,6 @@ msgid "format not supported: 'help', 'html' or 'md' expected."
 msgstr ""
 
 msgid "Errors:"
-msgstr ""
-
-msgid "Error:"
 msgstr ""
 
 msgid "No error."
@@ -1386,6 +1698,9 @@ msgstr ""
 msgid "' matrix."
 msgstr ""
 
+msgid "' from graphic_object is not possible."
+msgstr ""
+
 msgid "' from handle is not possible."
 msgstr ""
 
@@ -1410,9 +1725,6 @@ msgstr ""
 msgid "Argument #1: valid value expected."
 msgstr ""
 
-msgid "Integers of the same class expected."
-msgstr ""
-
 msgid "Complex cannot be converted to logical."
 msgstr ""
 
@@ -1420,6 +1732,9 @@ msgid "Unable to convert variable type to test for if/while statement"
 msgstr ""
 
 msgid "System error detected: "
+msgstr ""
+
+msgid "BUILTIN type not managed."
 msgstr ""
 
 msgid "System error detected."
@@ -1440,7 +1755,13 @@ msgstr ""
 msgid "Illegal use of the ':' operator"
 msgstr ""
 
+msgid "Valid variable name expected."
+msgstr ""
+
 msgid "Redefining permanent variable."
+msgstr ""
+
+msgid "Cannot assign value."
 msgstr ""
 
 #, c-format
@@ -1455,6 +1776,12 @@ msgstr ""
 msgid ""
 "\n"
 "%d of %d:\n"
+msgstr ""
+
+msgid "Invalid LHS."
+msgstr ""
+
+msgid "Syntax error."
 msgstr ""
 
 msgid "unable to resolve "
@@ -1539,6 +1866,18 @@ msgstr ""
 msgid "arguments: "
 msgstr ""
 
+msgid "The special variable 'varargout' was not defined as a cell-array."
+msgstr ""
+
+msgid "The special variable 'varargout' was not defined as expected."
+msgstr ""
+
+msgid "Not enough outputs in varargout to satisfy call."
+msgstr ""
+
+msgid "one or more outputs not assigned in call."
+msgstr ""
+
 #, c-format
 msgid ""
 "Lexical error '%s'\n"
@@ -1611,6 +1950,9 @@ msgid "Expecting %s"
 msgstr ""
 
 msgid "bison-runtime"
+msgstr ""
+
+msgid "statement list or function definition"
 msgstr ""
 
 msgid "legal function name or return declaration after 'function'"
@@ -1784,6 +2126,66 @@ msgstr ""
 msgid "expecting keyword identifier after '/' in keyword assignment"
 msgstr ""
 
+msgid "Wrong value for #1 argument: 'available' expected."
+msgstr ""
+
+msgid "PID valid expected."
+msgstr ""
+
+msgid "Command not sent."
+msgstr ""
+
+msgid "#2 parameter invalid: 'minimize' parameter expected."
+msgstr ""
+
+msgid "#3 Argument must contain a valid variable name."
+msgstr ""
+
+msgid ""
+"#2 parameter invalid: 'post', 'eval', 'put', 'get', 'minimize' or 'isvar' "
+"parameter expected."
+msgstr ""
+
+msgid "#4 Argument must contain a valid variable name."
+msgstr ""
+
+msgid "Variable not sent."
+msgstr ""
+
+msgid "#4 Argument must contain a valid scope name."
+msgstr ""
+
+msgid ""
+"#2 parameter invalid: 'put', 'get', 'post' or 'isvar' parameter expected."
+msgstr ""
+
+msgid "#2 parameter invalid: 'put' parameter expected."
+msgstr ""
+
+msgid "Impossible to initialize IPC."
+msgstr ""
+
+msgid "Cannot compress data."
+msgstr ""
+
+msgid "Serialized data too big."
+msgstr ""
+
+msgid "Cannot send serialized data."
+msgstr ""
+
+msgid "Impossible to get value (PID destination no more valid)."
+msgstr ""
+
+msgid "Variable not fully serialized."
+msgstr ""
+
+msgid "Cannot serialize data."
+msgstr ""
+
+msgid "Impossible to get value (Timeout)."
+msgstr ""
+
 msgid "Wrong value for argument #2: 'ConvertInfAndNaN' expected."
 msgstr ""
 
@@ -1805,6 +2207,9 @@ msgstr ""
 msgid "Unsupported type to convert as JSON."
 msgstr ""
 
+msgid "option #2 must be 'balance', or 'nobalance'."
+msgstr ""
+
 msgid "Second input must be 'skew' or 'nonskew'."
 msgstr ""
 
@@ -1817,22 +2222,32 @@ msgstr ""
 msgid "svd(X, 0) or svd(X, 'econ') expected."
 msgstr ""
 
-msgid "Undefined function 'expm' for input arguments of type"
-msgstr ""
-
 msgid "Square matrix expected."
 msgstr ""
 
-msgid "Undefined function 'inv' for input arguments of type"
+msgid "One argument had an illegal value."
+msgstr ""
+
+msgid "Positive finite matrix expected."
+msgstr ""
+
+msgid "Input(s) array must be 2 - dimensional."
+msgstr ""
+
+msgid "input matrices must be the same size."
+msgstr ""
+
+msgid "Undefined function 'expm' for input arguments of type"
+msgstr ""
+
+#, c-format
+msgid "Undefined function '%s' for input arguments of type '%s'"
 msgstr ""
 
 msgid "Input must be finite."
 msgstr ""
 
 msgid "Undefined function 'sqrtm' for input arguments of type"
-msgstr ""
-
-msgid "Power (^) currently not implemented in Nelson."
 msgstr ""
 
 msgid "Cannot apply exponential operation to N-Dimensional arrays."
@@ -1913,6 +2328,9 @@ msgstr ""
 msgid "Conversion to logical from sparse integer is not possible."
 msgstr ""
 
+msgid "Conversion to logical from graphic_object is not possible."
+msgstr ""
+
 msgid "Conversion to logical from handle is not possible."
 msgstr ""
 
@@ -1932,6 +2350,27 @@ msgid "Conversion to logical from complex is not possible."
 msgstr ""
 
 msgid "Size mismatch on arguments."
+msgstr ""
+
+msgid "Invalid option:"
+msgstr ""
+
+msgid "Cannot read variable."
+msgstr ""
+
+msgid "Cannot open .mat file."
+msgstr ""
+
+msgid "Unknown save format."
+msgstr ""
+
+msgid "Cannot append variable (-v7.3 required)."
+msgstr ""
+
+msgid "handle not saved."
+msgstr ""
+
+msgid "Valid .mat file expected."
 msgstr ""
 
 msgid ""
@@ -1978,7 +2417,69 @@ msgstr ""
 msgid "#2 Argument must be an existing variable name."
 msgstr ""
 
+msgid "filename expected after '-file'."
+msgstr ""
+
+msgid "-file must be the first argument."
+msgstr ""
+
+msgid "who file function expected."
+msgstr ""
+
 msgid "Wrong scope."
+msgstr ""
+
+msgid "whos file function expected."
+msgstr ""
+
+msgid "Filename does not exist."
+msgstr ""
+
+msgid "C MEX type not managed."
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: %s, at line %d of file \"%s\".\n"
+"%s\n"
+msgstr ""
+
+#, c-format
+msgid "Assertion failed: %s, at line %d of file \"%s\".\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: at line %d of file \"%s\".\n"
+"%s\n"
+msgstr ""
+
+#, c-format
+msgid "Assertion failed: at line %d of file \"%s\".\n"
+msgstr ""
+
+msgid "mxGetPi not allowed with interleaved complex."
+msgstr ""
+
+msgid "mxGetDoubles complex expected."
+msgstr ""
+
+msgid "mxGetDoubles real expected."
+msgstr ""
+
+msgid "mxGetSingles complex expected."
+msgstr ""
+
+msgid "mxGetSingles real expected."
+msgstr ""
+
+msgid "mxGetPr not allowed with interleaved complex."
+msgstr ""
+
+msgid "mxGetProperty object expected."
+msgstr ""
+
+msgid "mxSetProperty object expected."
 msgstr ""
 
 msgid "Wrong value for #1 argument, 'reverse' expected."
@@ -1993,13 +2494,31 @@ msgstr ""
 msgid " is not installed."
 msgstr ""
 
-msgid ": This module is already used."
+msgid "Cannot compare versions: "
 msgstr ""
 
-msgid "An existing module with the same name already used."
+msgid "Impossible to get external modules directory."
 msgstr ""
 
-msgid "An existing module with the same path already defined."
+msgid ": This module is already used: "
+msgstr ""
+
+msgid "An existing module with the same name already used: "
+msgstr ""
+
+msgid "An existing module with the same path already defined: \n"
+msgstr ""
+
+msgid "startup.nls does not exist"
+msgstr ""
+
+msgid "An existing module root path expected"
+msgstr ""
+
+msgid "Invalid value #1"
+msgstr ""
+
+msgid "Invalid value #2"
 msgstr ""
 
 msgid "Path does not exist:"
@@ -2071,7 +2590,7 @@ msgstr ""
 msgid "Cannot set environment variable."
 msgstr ""
 
-msgid "Unrecognized option. \"-echo\" expected."
+msgid "Unrecognized option. \"-echo\" or \"-parallel\" expected."
 msgstr ""
 
 msgid "Filename not associated to an application."
@@ -2095,7 +2614,97 @@ msgstr ""
 msgid "option not managed."
 msgstr ""
 
+msgid "Profile struct expected."
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Profile Summary"
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "Number of Calls"
+msgstr ""
+
+msgid "Total Time (s)"
+msgstr ""
+
+msgid "Coverage %"
+msgstr ""
+
+msgid "Lines where the most time was spent"
+msgstr ""
+
+msgid "Line Number"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Calls"
+msgstr ""
+
+msgid "Total time (s)"
+msgstr ""
+
+msgid "Coverage results"
+msgstr ""
+
+msgid "Total lines in file"
+msgstr ""
+
+msgid "Non-code lines (comments, blank lines)"
+msgstr ""
+
+msgid "Code lines that did run"
+msgstr ""
+
+msgid "Code lines (lines that can run)"
+msgstr ""
+
+msgid "Code lines (Code lines that did not run)"
+msgstr ""
+
+msgid "Coverage (did run/can run)"
+msgstr ""
+
+msgid "Function listing"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Time (s)"
+msgstr ""
+
+msgid "Source code"
+msgstr ""
+
+msgid "lines"
+msgstr ""
+
+msgid "Profile and Coverage"
+msgstr ""
+
 msgid "File"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "NumCalls"
+msgstr ""
+
+msgid "TotalTime (s)"
+msgstr ""
+
+msgid "PerCall (s)"
+msgstr ""
+
+msgid "Filename:LinePosition(FunctionName)"
 msgstr ""
 
 msgid "QObject handle expected."
@@ -2105,6 +2714,9 @@ msgid "No property for class: QObject."
 msgstr ""
 
 msgid "Properties for class: QObject:"
+msgstr ""
+
+msgid "Name not found."
 msgstr ""
 
 msgid "QObject scalar handle expected."
@@ -2123,6 +2735,9 @@ msgid "Invalid parameters"
 msgstr ""
 
 msgid "Cannot create QQuickView."
+msgstr ""
+
+msgid "Cannot set parent."
 msgstr ""
 
 msgid "QML engine not initialized."
@@ -2371,6 +2986,9 @@ msgstr ""
 msgid "Unsupported type in CopySparseMatrix."
 msgstr ""
 
+msgid "Invalid sparse."
+msgstr ""
+
 msgid "Unsupported type in CountNonzeros."
 msgstr ""
 
@@ -2422,7 +3040,51 @@ msgstr ""
 msgid "Cannot do uminus with current type"
 msgstr ""
 
+msgid "Wrong value of the fourth argument 'upper' or 'lower' expected."
+msgstr ""
+
 msgid "Input argument must be dense and real."
+msgstr ""
+
+msgid "Error evaluating betainc."
+msgstr ""
+
+msgid "Wrong size for #1 argument."
+msgstr ""
+
+msgid "Wrong size for #2 argument."
+msgstr ""
+
+msgid "Wrong size for #3 argument."
+msgstr ""
+
+msgid "Wrong value for #2 argument. positive value expected."
+msgstr ""
+
+msgid "Wrong value for #3 argument. positive value expected."
+msgstr ""
+
+msgid "Wrong value for #1 argument. [0, 1] values expected."
+msgstr ""
+
+msgid "Inputs must be the same size."
+msgstr ""
+
+msgid "Inputs must be real integers."
+msgstr ""
+
+msgid ""
+"Integers can only be combined with integers of the same class, or scalar "
+"doubles."
+msgstr ""
+
+msgid "Inputs must be 2-D."
+msgstr ""
+
+msgid "Native accumulation on char array is not supported."
+msgstr ""
+
+msgid "Second argument must be 0."
 msgstr ""
 
 msgid "Error using diary."
@@ -2467,6 +3129,9 @@ msgstr ""
 msgid "Wrong value for #1: 'all' expected."
 msgstr ""
 
+msgid "'clear' expected as second argument."
+msgstr ""
+
 msgid "Not implemented for requested file identifier."
 msgstr ""
 
@@ -2474,6 +3139,9 @@ msgid "Second argument must be greater than zero."
 msgstr ""
 
 msgid "A valid filename expected."
+msgstr ""
+
+msgid "Encoding not supported."
 msgstr ""
 
 msgid "Invalid name."
@@ -2485,13 +3153,25 @@ msgstr ""
 msgid "Impossible to add file."
 msgstr ""
 
+msgid "Invalid machine format."
+msgstr ""
+
+msgid "Invalid encoding."
+msgstr ""
+
 msgid "Impossible to open file."
+msgstr ""
+
+msgid "machine format option ignored."
 msgstr ""
 
 msgid "valid format expected."
 msgstr ""
 
 msgid "ID not supported."
+msgstr ""
+
+msgid "Cannot use encoding: "
 msgstr ""
 
 msgid "Wrong value for #1 argument: a valid file ID expected."
@@ -2536,6 +3216,21 @@ msgstr ""
 msgid "Endian conversion not supported for this file identifier."
 msgstr ""
 
+msgid "encoding conversion not supported for this file identifier."
+msgstr ""
+
+msgid "Filename is empty"
+msgstr ""
+
+msgid "Valid option expected."
+msgstr ""
+
+msgid "load function expected."
+msgstr ""
+
+msgid "save function expected."
+msgstr ""
+
 msgid "An numeric matrix expected."
 msgstr ""
 
@@ -2550,6 +3245,9 @@ msgid ""
 "\n"
 "  Columns %d to %d\n"
 "\n"
+msgstr ""
+
+msgid "Cannot to use encoding:"
 msgstr ""
 
 msgid "Unable to open file "
@@ -2573,6 +3271,9 @@ msgstr ""
 msgid "NaN and Inf not allowed."
 msgstr ""
 
+msgid "Expected a integer value."
+msgstr ""
+
 msgid "Attempt to convert to unimplemented sparse type."
 msgstr ""
 
@@ -2586,6 +3287,9 @@ msgid "Conversion to char from complex is not possible."
 msgstr ""
 
 msgid "char vector or cell of strings expected."
+msgstr ""
+
+msgid "Number of Input arguments must the same as output."
 msgstr ""
 
 msgid "'class' argument expected."
@@ -2620,6 +3324,12 @@ msgstr ""
 msgid "A 2D matrix expected."
 msgstr ""
 
+msgid "Wrong format string."
+msgstr ""
+
+msgid "PRECISION must be a scalar integer >= 0."
+msgstr ""
+
 msgid "Same size or scalar expected."
 msgstr ""
 
@@ -2639,73 +3349,15 @@ msgstr ""
 msgid "wrong file prefix 'test_' or 'bug_' expected."
 msgstr ""
 
-msgid "duplicated tag detected: <--WITH DISPLAY-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--NOT FIXED-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--INTERACTIVE TEST-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--ENGLISH IMPOSED-->."
+#, c-format
+msgid "Duplicated tag detected: %ls"
 msgstr ""
 
 msgid "Check tags used."
 msgstr ""
 
-msgid "duplicated tag detected: <--CLI MODE-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--ADV-CLI MODE-->."
-msgstr ""
-
-msgid "Multiple exclusive tags detected: <--GUI MODE-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--GUI MODE-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--CHECK REF-->."
-msgstr ""
-
-msgid "Multiple exclusive tags detected: <--WINDOWS ONLY-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--WINDOWS ONLY-->."
-msgstr ""
-
-msgid "Multiple exclusive tags detected: <--MACOS ONLY-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--MACOS ONLY-->."
-msgstr ""
-
-msgid "Multiple exclusive tags detected: <--UNIX ONLY-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--UNIX ONLY-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--RELEASE ONLY-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--EXCEL REQUIRED-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--MPI MODE-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--AUDIO INPUT REQUIRED-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--AUDIO OUTPUT REQUIRED-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--C/C++ COMPILER REQUIRED-->."
-msgstr ""
-
-msgid "duplicated tag detected: <--INDEX 64 BIT REQUIRED-->."
+#, c-format
+msgid "Multiple exclusive tags detected: %ls"
 msgstr ""
 
 msgid "Cannot edit the directory: %1"
@@ -2791,6 +3443,11 @@ msgstr ""
 msgid "File saved"
 msgstr ""
 
+msgid ""
+"Cannot write file:\n"
+"%1."
+msgstr ""
+
 msgid "File not saved"
 msgstr ""
 
@@ -2840,6 +3497,9 @@ msgid "Year value is wrong [1400, 9999] expected."
 msgstr ""
 
 msgid "Month value is wrong [1, 12] expected."
+msgstr ""
+
+msgid "Argument #2: 'ns' or 's' expected."
 msgstr ""
 
 #, c-format
@@ -2920,6 +3580,9 @@ msgstr ""
 msgid "Undefined function 'atan' for input arguments of type"
 msgstr ""
 
+msgid "Undefined function 'atanh' for input arguments of type"
+msgstr ""
+
 msgid "Undefined function 'cos' for input arguments of type"
 msgstr ""
 
@@ -2983,6 +3646,9 @@ msgstr ""
 msgid "Cannot convert structure arrays to indices."
 msgstr ""
 
+msgid "Cannot convert unknown type to indices."
+msgstr ""
+
 msgid "operation does not support sparse matrix arguments."
 msgstr ""
 
@@ -2999,6 +3665,16 @@ msgid "Reshape operation not allowed for 'function_handle' type."
 msgstr ""
 
 msgid "Reshape operation not allowed with N Dimensions sparse arrays."
+msgstr ""
+
+msgid "changeDimensions operation not allowed for overloaded type."
+msgstr ""
+
+msgid "changeDimensions operation not allowed for 'function_handle' type."
+msgstr ""
+
+msgid ""
+"changeDimensions operation cannot change the number of elements in array."
 msgstr ""
 
 msgid "Invalid data class."
@@ -3020,26 +3696,6 @@ msgid "Case arguments must either be a scalar or a cell array"
 msgstr ""
 
 msgid "copyElements not supported for sparse arrays."
-msgstr ""
-
-msgid "Cannot convert handle-arrays to any other type."
-msgstr ""
-
-msgid "Cannot convert cell-arrays to any other type."
-msgstr ""
-
-msgid "Cannot convert string-arrays to any other type."
-msgstr ""
-
-msgid ""
-"Cannot combine structures with different fields if the combination requires "
-"fields to be deleted from one of the structures."
-msgstr ""
-
-msgid "Cannot convert struct-arrays to any other type."
-msgstr ""
-
-msgid "Cannot convert base types to reference types."
 msgstr ""
 
 msgid "Invalid index value > limit max."
@@ -3153,6 +3809,12 @@ msgstr ""
 msgid "Not enough right hand side values to satisfy left hand side expression"
 msgstr ""
 
+msgid "String array expected."
+msgstr ""
+
+msgid "Conversion <missing> to character vector is not supported."
+msgstr ""
+
 msgid "Unable to convert supplied object to a string."
 msgstr ""
 
@@ -3168,10 +3830,13 @@ msgstr ""
 msgid "A vector expected."
 msgstr ""
 
-msgid "A cell expected."
+msgid "A column vector expected."
 msgstr ""
 
-msgid "A column vector expected."
+msgid "Input must be 2-D"
+msgstr ""
+
+msgid "Sparse matrix not managed."
 msgstr ""
 
 msgid "Argument to diagonal constructor must by a vector!"
@@ -3216,10 +3881,36 @@ msgstr ""
 msgid "Expected a function_handle."
 msgstr ""
 
-msgid "Expected a handle scalar."
+msgid "Expected an graphic object."
+msgstr ""
+
+msgid "Expected an graphic object scalar."
 msgstr ""
 
 msgid "Expected a valid handle."
+msgstr ""
+
+msgid "Expected a handle scalar."
+msgstr ""
+
+msgid "Cannot convert base types to reference types."
+msgstr ""
+
+msgid "Cannot convert handle-arrays to any other type."
+msgstr ""
+
+msgid "Cannot convert cell-arrays to any other type."
+msgstr ""
+
+msgid ""
+"Cannot combine structures with different fields if the combination requires "
+"fields to be deleted from one of the structures."
+msgstr ""
+
+msgid "Cannot convert struct-arrays to any other type."
+msgstr ""
+
+msgid "Cannot convert string-arrays to any other type."
 msgstr ""
 
 msgid "Cannot make n-dimensional arrays sparse."
@@ -3273,6 +3964,9 @@ msgstr ""
 msgid "Illegal argument to Dimensions constructor"
 msgstr ""
 
+msgid "Invalid dimension position."
+msgstr ""
+
 msgid "Index exceeds dimensions."
 msgstr ""
 
@@ -3286,6 +3980,97 @@ msgid "Sparse Function not loaded."
 msgstr ""
 
 msgid "input must be a valid class name."
+msgstr ""
+
+msgid "The last argument must be a positive integer."
+msgstr ""
+
+msgid "The last argument must be a positive integer or 'allows-all-empties'."
+msgstr ""
+
+msgid "Second argument must be a 'allows-all-empties'."
+msgstr ""
+
+msgid "Invalid input argument position."
+msgstr ""
+
+msgid "Nelson:validators:invalidInputPosition"
+msgstr ""
+
+#, c-format, python-format
+msgid "Invalid input argument at position %d."
+msgstr ""
+
+msgid "Value must be logical."
+msgstr ""
+
+msgid "Nelson:validators:mustBeLogical"
+msgstr ""
+
+msgid "Value must be finite."
+msgstr ""
+
+msgid "Nelson:validators:mustBeFinite"
+msgstr ""
+
+msgid "Value must be logical scalar."
+msgstr ""
+
+msgid "Nelson:validators:mustBeLogicalScalar"
+msgstr ""
+
+msgid "Value must be scalar or empty."
+msgstr ""
+
+msgid "Nelson:validators:mustBeScalarOrEmpty"
+msgstr ""
+
+msgid "Value must be valid variable name."
+msgstr ""
+
+msgid "Nelson:validators:mustBeValidVariableName"
+msgstr ""
+
+msgid "Value must be a character vector or string scalar."
+msgstr ""
+
+msgid "Nelson:validators:mustBeTextScalar"
+msgstr ""
+
+msgid "Value must be folder."
+msgstr ""
+
+msgid "Nelson:validators:mustBeFolder"
+msgstr ""
+
+msgid "Value must be a vector."
+msgstr ""
+
+msgid "Nelson:validators:mustBeVector"
+msgstr ""
+
+msgid "Value must be a float."
+msgstr ""
+
+msgid "Nelson:validators:mustBeFloat"
+msgstr ""
+
+msgid "Value must be numeric."
+msgstr ""
+
+msgid "Nelson:validators:mustBeNumeric"
+msgstr ""
+
+msgid "Wrong type for argument #4. struct expected."
+msgstr ""
+
+msgid "Wrong size for argument #4. scalar struct expected."
+msgstr ""
+
+msgid "Type not supported. Only char, string, numeric or logical allowed."
+msgstr ""
+
+msgid "Wrong type for argument #5. weboptions object expected."
 msgstr ""
 
 msgid "HEAD detached at "
@@ -3306,6 +4091,144 @@ msgid "repository error %d"
 msgstr ""
 
 msgid "local branch name does not exist."
+msgstr ""
+
+msgid "Bad Request (400)"
+msgstr ""
+
+msgid "Unauthorized (401)"
+msgstr ""
+
+msgid "Payment Required (402)"
+msgstr ""
+
+msgid "Forbidden (403)"
+msgstr ""
+
+msgid "Not Found (404)"
+msgstr ""
+
+msgid "Method Not Allowed (405)"
+msgstr ""
+
+msgid "Not Acceptable (406)"
+msgstr ""
+
+msgid "Proxy Authentication Required (407)"
+msgstr ""
+
+msgid "Request Timeout (408)"
+msgstr ""
+
+msgid "Conflict (409)"
+msgstr ""
+
+msgid "Gone (410)"
+msgstr ""
+
+msgid "Length Required (411)"
+msgstr ""
+
+msgid "Precondition Failed (412)"
+msgstr ""
+
+msgid "Payload Too Large (413)"
+msgstr ""
+
+msgid "URI Too Long (414)"
+msgstr ""
+
+msgid "Unsupported Media Type (415)"
+msgstr ""
+
+msgid "Range Not Satisfiable (416)"
+msgstr ""
+
+msgid "Expectation Failed (417)"
+msgstr ""
+
+msgid "I'm a teapot (418)"
+msgstr ""
+
+msgid "Misdirected Request (421)"
+msgstr ""
+
+msgid "Unprocessable Entity (422)"
+msgstr ""
+
+msgid "Locked (423)"
+msgstr ""
+
+msgid "Failed Dependency (424)"
+msgstr ""
+
+msgid "Too Early (425)"
+msgstr ""
+
+msgid "Upgrade Required (426)"
+msgstr ""
+
+msgid "Precondition Required (428)"
+msgstr ""
+
+msgid "Too Many Requests (429)"
+msgstr ""
+
+msgid "Request Header Fields Too Large (431)"
+msgstr ""
+
+msgid "Unavailable For Legal Reasons (451)"
+msgstr ""
+
+msgid "Internal Server Error (500)"
+msgstr ""
+
+msgid "Not Implemented (501)"
+msgstr ""
+
+msgid "Bad Gateway (502)"
+msgstr ""
+
+msgid "Service Unavailable (503)"
+msgstr ""
+
+msgid "Gateway Timeout (504)"
+msgstr ""
+
+msgid "HTTP Version Not Supported (505)"
+msgstr ""
+
+msgid "Variant Also Negotiates (506)"
+msgstr ""
+
+msgid "Insufficient Storage (507)"
+msgstr ""
+
+msgid "Loop Detected (508)"
+msgstr ""
+
+msgid "Not Extended(510)"
+msgstr ""
+
+msgid "Network Authentication Required (511)"
+msgstr ""
+
+msgid "HTTP Client error code: "
+msgstr ""
+
+msgid "HTTP Server error code: "
+msgstr ""
+
+msgid "weboptions object expected."
+msgstr ""
+
+msgid "Cannot create destination file."
+msgstr ""
+
+msgid "Cannot initialize webwrite."
+msgstr ""
+
+msgid "Cannot initialize websave."
 msgstr ""
 
 msgid "Allowable stack depth exceeded..."
@@ -3551,13 +4474,13 @@ msgstr ""
 msgid "Wrong type for #1 argument: numeric value expected."
 msgstr ""
 
+msgid "Wrong type for #2 argument: numeric value expected."
+msgstr ""
+
 msgid "Wrong type for argument #1. cell expected."
 msgstr ""
 
 msgid "Wrong type for argument #2. cell expected."
-msgstr ""
-
-msgid "Wrong type for argument #1. struct expected."
 msgstr ""
 
 msgid "Wrong type for argument #2. struct expected."
@@ -3674,9 +4597,6 @@ msgstr ""
 msgid "Wrong value for #1 argument. positive value expected."
 msgstr ""
 
-msgid "Wrong value for #2 argument. positive value expected."
-msgstr ""
-
 #, c-format
 msgid "Wrong value for #%d argument. positive value expected."
 msgstr ""
@@ -3712,6 +4632,22 @@ msgstr ""
 msgid "Wrong type for argument #%d: handle expected."
 msgstr ""
 
+msgid "Wrong type for argument #1: graphic object expected."
+msgstr ""
+
+msgid "Wrong type for argument #2: graphic object expected."
+msgstr ""
+
+msgid "Wrong type for argument #3: graphic object expected."
+msgstr ""
+
+#, c-format
+msgid "Wrong type for argument #%d: graphic object expected."
+msgstr ""
+
+msgid "'off' or 'on' expected."
+msgstr ""
+
 msgid "Wrong Overloading::OverloadClass."
 msgstr ""
 
@@ -3730,6 +4666,10 @@ msgstr ""
 msgid "assert_checkerror fails."
 msgstr ""
 
+#, python-format
+msgid "Assertion failed: expected (%g) and computed (%g) values are different."
+msgstr ""
+
 msgid "assert_isfalse fails."
 msgstr ""
 
@@ -3742,13 +4682,16 @@ msgstr ""
 msgid "Welcome to COM Interface for Nelson !"
 msgstr ""
 
-msgid "statement list or function definition"
-msgstr ""
-
 msgid "an expression after +"
 msgstr ""
 
 msgid "Cell must be string scalars or character arrays."
+msgstr ""
+
+msgid "Input should be a string or character array."
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator "
 msgstr ""
 
 msgid "Invalid type for #2 input argument: doublePtr expected."
@@ -3773,6 +4716,22 @@ msgid "Size mismatch on arguments to arithmetic operator >="
 msgstr ""
 
 msgid "Size mismatch on arguments to arithmetic operator <="
+msgstr ""
+
+#, python-format
+msgid "function %s_log10 undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s_log1p undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s_num2bin undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s_swapbytes undefined."
 msgstr ""
 
 msgid "warning(query) does not require an second argument."
@@ -3800,6 +4759,13 @@ msgstr ""
 msgid "function int16_plus_single undefined."
 msgstr ""
 
+msgid "Expecting statement list or function definition"
+msgstr ""
+
+#, python-format
+msgid "function %s_det undefined."
+msgstr ""
+
 msgid "MPI dependency not loaded."
 msgstr ""
 
@@ -3816,6 +4782,9 @@ msgid "Undefined function asin for input arguments of type "
 msgstr ""
 
 msgid "Undefined function atan for input arguments of type "
+msgstr ""
+
+msgid "Undefined function atanh for input arguments of type "
 msgstr ""
 
 msgid "Undefined function cos for input arguments of type "
@@ -3845,11 +4814,8 @@ msgstr ""
 msgid "Undefined function tanm for input arguments of type "
 msgstr ""
 
-msgid "Please install and configure a C/C++ compiler"
-msgstr ""
-
 #, python-format
-msgid "Module %s already loaded."
+msgid "%s is not a recognized parameter."
 msgstr ""
 
 msgid "help build failed."
@@ -3955,10 +4921,10 @@ msgstr ""
 msgid "vertcat does not support cell-struct."
 msgstr ""
 
-msgid "Wrong numbers of input arguments."
+msgid "Invalid Input struct expected."
 msgstr ""
 
-msgid "Invalid Input(s) must be strings or cell arrays."
+msgid "Wrong numbers of input arguments."
 msgstr ""
 
 msgid "cmake not found."
@@ -4096,10 +5062,69 @@ msgstr ""
 msgid "Second argument must start with /."
 msgstr ""
 
-msgid "Indexing help files"
+msgid "Indexing help files:"
 msgstr ""
 
 msgid "helpproject.qhp is missing."
+msgstr ""
+
+msgid "#2 argument: characters expected."
+msgstr ""
+
+msgid "#3 argument: Logical scalar expected."
+msgstr ""
+
+msgid "module name or existing directory installed is expected."
+msgstr ""
+
+msgid "An valid git url or local directory expected."
+msgstr ""
+
+msgid "filename extension .nmz expected."
+msgstr ""
+
+msgid "module-lock.json is missing."
+msgstr ""
+
+#, python-format
+msgid "%s already installed."
+msgstr ""
+
+#, python-format
+msgid "%s not installed."
+msgstr ""
+
+msgid "platform not supported."
+msgstr ""
+
+msgid "Valid module repository expected."
+msgstr ""
+
+msgid "Visual studio detected and configured to be used with Nelson."
+msgstr ""
+
+#, python-format
+msgid "An C/C++ compiler is required by %s"
+msgstr ""
+
+#, python-format
+msgid "Platform not supported: %s"
+msgstr ""
+
+msgid "Invalid type in platforms"
+msgstr ""
+
+msgid "loader.nls is missing."
+msgstr ""
+
+msgid "module.json is missing."
+msgstr ""
+
+#, python-format
+msgid "%s already loaded."
+msgstr ""
+
+msgid "an valid module name expected."
 msgstr ""
 
 msgid "#2 argument: integer value expected."
@@ -4115,6 +5140,12 @@ msgid "Wrong type for argument #1: MPI_Comm expected."
 msgstr ""
 
 msgid "Undefined function gamma for input arguments of type int32."
+msgstr ""
+
+msgid "Wrong value for #3 argument: 0 or 1 expected."
+msgstr ""
+
+msgid "arguments #1 and #2 must have same length."
 msgstr ""
 
 msgid "An existing filename expected."
@@ -4138,21 +5169,14 @@ msgstr ""
 msgid "<--CHECK REF--> tag expected."
 msgstr ""
 
-msgid "a valid module name expected."
+msgid "No valid module."
 msgstr ""
 
-msgid "a cell of modules name."
+#, python-format
+msgid "Tests running on %d workers."
 msgstr ""
 
-msgid ""
-"\"all\", \"all_tests\", \"unitary_tests\", \"nonreg_tests\", \"benchs\" "
-"expected as second input arguments."
-msgstr ""
-
-msgid "invalid filename:"
-msgstr ""
-
-msgid "test failed"
+msgid "Impossible to save results file."
 msgstr ""
 
 msgid "reference diary expected."
@@ -4162,4 +5186,23 @@ msgid "output res and ref are not equal."
 msgstr ""
 
 msgid "Cannot edit the directory: "
+msgstr ""
+
+#, python-format
+msgid "invalid value for %s field."
+msgstr ""
+
+msgid "String or characters expected."
+msgstr ""
+
+msgid "weboptions must be last argument."
+msgstr ""
+
+msgid "Invalid type for #1 input argument: char or string expected."
+msgstr ""
+
+msgid "Invalid #3 Argument: weboptions expected."
+msgstr ""
+
+msgid "unmanaged case."
 msgstr ""
