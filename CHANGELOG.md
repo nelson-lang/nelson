@@ -7,7 +7,7 @@
 
 ## Compilation:
 
-- Move Windows CI build to GitHub (appveyor CI removed, too slow).
+- Move Windows build to GitHub CI. Appveyor is no more the principal build CI for Windows.
 
 # 0.5.4 (2021-04-24)
 

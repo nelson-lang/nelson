@@ -84,7 +84,7 @@ jobs:
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-macos64-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
+        name: nelson-github-action-artifacts-macos64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
 
   bionic:
@@ -194,7 +194,7 @@ jobs:
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-linux64-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
+        name: nelson-github-action-artifacts-linux64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
         path: artifacts/
 
   windows_win32:
@@ -310,7 +310,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-win32-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
+        name: nelson-github-action-artifacts-win32-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
 
   windows_win64:
@@ -426,5 +426,5 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-x64-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
+        name: nelson-github-action-artifacts-x64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
