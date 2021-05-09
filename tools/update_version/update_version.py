@@ -268,7 +268,6 @@ def get_current_version():
 
 def edit_package_json(major, minor, maintenance):
     filename = './package.json'
-    version_str = None
     with open(filename) as json_file:
         data = json.load(json_file)
     data['version'] = str(major) + '.' + str(minor) + '.' + str(maintenance)
