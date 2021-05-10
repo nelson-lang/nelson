@@ -94,5 +94,8 @@ mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeNonSparse(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================

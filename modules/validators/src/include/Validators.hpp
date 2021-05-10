@@ -90,5 +90,8 @@ mustBeNonZero(const ArrayOfVector& args, int argPosition);
 NLSVALIDATORS_IMPEXP void
 mustBeNonSparse(const ArrayOfVector& args, int argPosition);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeReal(const ArrayOfVector& args, int argPosition);
+//=============================================================================
 }
 //=============================================================================

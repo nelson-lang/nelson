@@ -179,5 +179,12 @@ mustBeNonSparse(const ArrayOfVector& args, int argPosition)
     mustBeNonSparse(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeReal(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeReal(args[argPosition], argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

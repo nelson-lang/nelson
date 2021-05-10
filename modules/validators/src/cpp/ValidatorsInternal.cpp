@@ -46,6 +46,7 @@
 #include "eqBuiltin.hpp"
 #include "isnanBuiltin.hpp"
 #include "issparseBuiltin.hpp"
+#include "isrealBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -475,6 +476,18 @@ mustBeNonSparse(const ArrayOf& arg, int argPosition, bool asCaller)
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be sparse.");
         std::wstring id = _W("Nelson:validators:mustBeNonSparse");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
+        std::wstring id = _W("Nelson:validators:mustBeReal");
         Error(msg, id, asCaller);
     }
 }
