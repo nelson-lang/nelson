@@ -43,6 +43,7 @@
 #include "mustBeNegativeBuiltin.hpp"
 #include "mustBeNonpositiveBuiltin.hpp"
 #include "mustBeNonNanBuiltin.hpp"
+#include "mustBeNonZeroBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -64,18 +65,20 @@ static const nlsGateway gateway[] = {
     { "mustBeVector", (void*)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFloat", (void*)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeNumeric", (void*)Nelson::ValidatorsGateway::mustBeNumericBuiltin, 0, -1, CPP_BUILTIN },
-    { "mustBeNonempty", (void*)Nelson::ValidatorsGateway::mustBeNonemptyBuiltin, 0, -1, CPP_BUILTIN },
-    { "mustBeA", (void*)Nelson::ValidatorsGateway::mustBeABuiltin, 0, -2,
+    { "mustBeNonempty", (void*)Nelson::ValidatorsGateway::mustBeNonemptyBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBePositive", (void*)Nelson::ValidatorsGateway::mustBePositiveBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeA", (void*)Nelson::ValidatorsGateway::mustBeABuiltin, 0, -2, CPP_BUILTIN },
+    { "mustBePositive", (void*)Nelson::ValidatorsGateway::mustBePositiveBuiltin, 0, -1,
+        CPP_BUILTIN },
     { "mustBeNonnegative", (void*)Nelson::ValidatorsGateway::mustBeNonnegativeBuiltin, 0, -1,
         CPP_BUILTIN },
     { "mustBeNegative", (void*)Nelson::ValidatorsGateway::mustBeNegativeBuiltin, 0, -1,
         CPP_BUILTIN },
     { "mustBeNonpositive", (void*)Nelson::ValidatorsGateway::mustBeNonpositiveBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBeNonNan", (void*)Nelson::ValidatorsGateway::mustBeNonNanBuiltin, 0, -1,
-        CPP_BUILTIN },
+    { "mustBeNonNan", (void*)Nelson::ValidatorsGateway::mustBeNonNanBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonZero", (void*)Nelson::ValidatorsGateway::mustBeNonZeroBuiltin, 0, -1, CPP_BUILTIN },
+
 };
 //=============================================================================
 static bool

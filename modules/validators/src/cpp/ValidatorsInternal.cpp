@@ -43,6 +43,7 @@
 #include "geBuiltin.hpp"
 #include "ltBuiltin.hpp"
 #include "leBuiltin.hpp"
+#include "eqBuiltin.hpp"
 #include "isnanBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
@@ -276,7 +277,8 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     bool isNumeric = argOut[0].getContentAsLogicalScalar();
     if (!isNumeric && !isLogical) {
-        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
         std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
         Error(msg, id, asCaller);
     }
@@ -284,8 +286,7 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be real.");
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
         std::wstring id = _W("Nelson:validators:mustBeReal");
         Error(msg, id, asCaller);
     }
@@ -437,5 +438,34 @@ mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
     }
 }
 //=============================================================================
+void
+mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
+        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        Error(msg, id, asCaller);
+    }
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector vAsArrayOfVector(asVector);
+    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
+    argOut = ElementaryFunctionsGateway::eqBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut);
+    if (argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be zero.");
+        std::wstring id = _W("Nelson:validators:mustBeNonZero");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

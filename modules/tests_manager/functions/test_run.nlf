@@ -934,7 +934,10 @@ function cmd = build_command_nelson_gui(command, withMPI)
 endfunction
 //=============================================================================
 function cmd = build_command_nelson_mode(exe, command, withMPI)
-  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  persistent nelson_bin_path
+  if isempty(nelson_bin_path)
+    nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  end
   nelson_exe_path = ['"', nelson_bin_path, '/', exe, '"'];
   cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
 endfunction

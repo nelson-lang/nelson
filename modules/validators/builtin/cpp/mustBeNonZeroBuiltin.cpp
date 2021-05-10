@@ -23,21 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "mustBeNonZeroBuiltin.hpp"
+#include "ValidatorsInternal.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    eqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+ArrayOfVector
+Nelson::ValidatorsGateway::mustBeNonZeroBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
+    int argPos = -1;
+    if (argIn.size() == 2) {
+        ArrayOf param2 = argIn[1];
+        argPos = param2.getContentAsInteger32Scalar();
+        if (argPos < 1) {
+            Error(_W("The last argument must be a positive integer."));
+        }
+    }
+    mustBeNonZero(argIn[0], argPos, true);
+    return retval;
 }
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

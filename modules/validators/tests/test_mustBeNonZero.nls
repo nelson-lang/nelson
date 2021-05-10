@@ -23,21 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeNonZero'), -1);
+assert_isequal(nargout('mustBeNonZero'), 0);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+mustBeNonZero(1);
+assert_checkerror('mustBeNonZero(0)', _('Value must not be zero.'), 'Nelson:validators:mustBeNonZero');
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    eqBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must not be zero.')];
+assert_checkerror('mustBeNonZero(0, 3)', msg, 'Nelson:validators:mustBeNonZero');
 //=============================================================================
