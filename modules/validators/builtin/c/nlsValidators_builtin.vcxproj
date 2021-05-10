@@ -181,6 +181,7 @@
     <ClCompile Include="..\cpp\mustBeNonNanBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNonnegativeBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNonpositiveBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonSparseBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNonZeroBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNumericBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBePositiveBuiltin.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\include\mustBeNonNanBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNonnegativeBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNonpositiveBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonSparseBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNonZeroBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNumericBuiltin.hpp" />
     <ClInclude Include="..\include\mustBePositiveBuiltin.hpp" />

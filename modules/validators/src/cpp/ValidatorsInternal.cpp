@@ -45,6 +45,7 @@
 #include "leBuiltin.hpp"
 #include "eqBuiltin.hpp"
 #include "isnanBuiltin.hpp"
+#include "issparseBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -466,6 +467,17 @@ mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
     }
 }
 //=============================================================================
-
+void
+mustBeNonSparse(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::issparseBuiltin(_eval, 1, argIn);
+    if (argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be sparse.");
+        std::wstring id = _W("Nelson:validators:mustBeNonSparse");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

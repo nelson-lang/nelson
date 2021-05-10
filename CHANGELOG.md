@@ -5,7 +5,7 @@
 - Validators functions available from Nelson and C++ API (part 2):
 
   - `mustBeFile`,
-  - `mustBeNonempty`, `mustBeNonNan`, `mustBeNonZero`,
+  - `mustBeNonempty`, `mustBeNonNan`, `mustBeNonZero`, `mustBeNonSparse`,
   - `mustBeA`,
   - `mustBePositive`, `mustBeNonpositive`, `mustBeNonnegative`, `mustBeNegative`
 

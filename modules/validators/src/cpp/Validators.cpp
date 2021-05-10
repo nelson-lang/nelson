@@ -172,5 +172,12 @@ mustBeNonZero(const ArrayOfVector& args, int argPosition)
     mustBeNonZero(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeNonSparse(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNonSparse(args[argPosition], argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
