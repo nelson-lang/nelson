@@ -26,16 +26,13 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace ElementaryFunctionsGateway {
+namespace ValidatorsGateway {
     //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
     ArrayOfVector
-    floorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    mustBeIntegerBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

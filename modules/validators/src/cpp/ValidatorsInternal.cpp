@@ -47,6 +47,7 @@
 #include "isnanBuiltin.hpp"
 #include "issparseBuiltin.hpp"
 #include "isrealBuiltin.hpp"
+#include "floorBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -89,7 +90,11 @@ mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     bool asLogicalIsAllFinite = false;
     ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, arg);
+    Dimensions dimsA = argIn[0].getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = argIn[0];
+    asVector.reshape(dimsV);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, asVector);
     argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be finite.");
@@ -488,6 +493,49 @@ mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
         std::wstring id = _W("Nelson:validators:mustBeReal");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
+        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        Error(msg, id, asCaller);
+    }
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    bool isReal = argOut[0].getContentAsLogicalScalar();
+    if (!isReal) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
+        std::wstring id = _W("Nelson:validators:mustBeReal");
+        Error(msg, id, asCaller);
+    }
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector vAsArrayOfVector(asVector);
+    argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, asVector);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
+        std::wstring id = _W("Nelson:validators:mustBeInteger");
+        Error(msg, id, asCaller);
+    }
+    argOut = ElementaryFunctionsGateway::floorBuiltin(_eval, 1, asVector);
+    argOut.push_back(asVector);
+    argOut = ElementaryFunctionsGateway::eqBuiltin(_eval, 1, argOut);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
+        std::wstring id = _W("Nelson:validators:mustBeInteger");
         Error(msg, id, asCaller);
     }
 }

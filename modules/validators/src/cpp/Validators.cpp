@@ -186,5 +186,12 @@ mustBeReal(const ArrayOfVector& args, int argPosition)
     mustBeReal(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeInteger(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeInteger(args[argPosition], argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
