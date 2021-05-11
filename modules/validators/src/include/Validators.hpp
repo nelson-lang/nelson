@@ -96,5 +96,8 @@ mustBeReal(const ArrayOfVector& args, int argPosition);
 NLSVALIDATORS_IMPEXP void
 mustBeInteger(const ArrayOfVector& args, int argPosition);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNonmissing(const ArrayOfVector& args, int argPosition);
+//=============================================================================
 }
 //=============================================================================

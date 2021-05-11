@@ -48,6 +48,7 @@
 #include "issparseBuiltin.hpp"
 #include "isrealBuiltin.hpp"
 #include "floorBuiltin.hpp"
+#include "ismissingBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -536,6 +537,22 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
         std::wstring id = _W("Nelson:validators:mustBeInteger");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
+{ 
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::ismissingBuiltin(_eval, 1, asVector);
+    argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut[0]);
+    if (argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non missing.");
+        std::wstring id = _W("Nelson:validators:mustBeNonmissing");
         Error(msg, id, asCaller);
     }
 }

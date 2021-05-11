@@ -193,5 +193,13 @@ mustBeInteger(const ArrayOfVector& args, int argPosition)
     mustBeInteger(args[argPosition], argPosition + 1);
 }
 //=============================================================================
+void
+mustBeNonmissing(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNonmissing(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

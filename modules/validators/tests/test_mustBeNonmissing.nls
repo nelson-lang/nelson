@@ -23,21 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('mustBeNonmissing'), -1);
+assert_isequal(nargout('mustBeNonmissing'), 0);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+mustBeNonmissing([]);
+mustBeNonmissing([true, false]);
+assert_checkerror('mustBeNonmissing(["hello" string(NaN)])', _('Value must be non missing.'));
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
-    ArrayOfVector
-    ismissingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be non missing.')];
+assert_checkerror('mustBeNonmissing(NaN, 3)', msg);
 //=============================================================================

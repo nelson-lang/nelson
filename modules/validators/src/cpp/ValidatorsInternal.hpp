@@ -100,5 +100,8 @@ mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================

@@ -47,6 +47,7 @@
 #include "mustBeNonSparseBuiltin.hpp"
 #include "mustBeRealBuiltin.hpp"
 #include "mustBeIntegerBuiltin.hpp"
+#include "mustBeNonmissingBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -85,6 +86,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "mustBeReal", (void*)Nelson::ValidatorsGateway::mustBeRealBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeInteger", (void*)Nelson::ValidatorsGateway::mustBeIntegerBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonmissing", (void*)Nelson::ValidatorsGateway::mustBeNonmissingBuiltin, 0, -1,
+        CPP_BUILTIN },
 };
 //=============================================================================
 static bool
