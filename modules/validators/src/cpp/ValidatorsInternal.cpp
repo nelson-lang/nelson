@@ -543,7 +543,7 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
 //=============================================================================
 void
 mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
-{ 
+{
     Dimensions dimsA = arg.getDimensions();
     Dimensions dimsV(1, dimsA.getElementCount());
     ArrayOf asVector = arg;
@@ -553,6 +553,126 @@ mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non missing.");
         std::wstring id = _W("Nelson:validators:mustBeNonmissing");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+std::wstring
+createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstring& defaultMessage)
+{
+    std::wstring valueAsString;
+    switch (c.getDataClass()) {
+    case NLS_LOGICAL: {
+        if (c.getContentAsLogicalScalar()) {
+            valueAsString = L"true";
+        } else {
+            valueAsString = L"false";
+        }
+    } break;
+    case NLS_UINT8: {
+        uint8 value = ArrayOf(c).getContentAsUnsignedInteger8Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_INT8: {
+        int8 value = ArrayOf(c).getContentAsInteger8Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_UINT16: {
+        uint16 value = ArrayOf(c).getContentAsUnsignedInteger16Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_INT16: {
+        int16 value = ArrayOf(c).getContentAsInteger16Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_UINT32: {
+        uint32 value = ArrayOf(c).getContentAsUnsignedInteger32Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_INT32: {
+        int32 value = ArrayOf(c).getContentAsInteger32Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_UINT64: {
+        uint64 value = ArrayOf(c).getContentAsUnsignedInt64Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_INT64: {
+        int64 value = ArrayOf(c).getContentAsInteger64Scalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_SINGLE: {
+        single value = ArrayOf(c).getContentAsSingleScalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    case NLS_DOUBLE: {
+        double value = ArrayOf(c).getContentAsDoubleScalar();
+        valueAsString = std::to_wstring(value);
+    } break;
+    }
+    std::wstring msg;
+    if (valueAsString.empty()) {
+        msg = defaultMessage;
+    } else {
+        msg = str(boost::wformat { fmt } % valueAsString);
+    }
+    return msg;
+}
+//=============================================================================
+void
+mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
+{
+    ArrayOfVector argC(c);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argC);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = _W("Second input to function 'mustBeGreaterThan' must be a scalar.");
+        std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
+        Error(msg, id, asCaller);
+    }
+    argOut = TypeGateway::isnumericBuiltin(_eval, 1, argC);
+    bool isLogical = (c.isLogical() || ClassName(c) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        std::wstring msg = _W("Inputs to function 'mustBeGreaterThan' must be numeric or logical.");
+        std::wstring id = _W("Nelson:validatorUsage:nonNumericOrLogicalInput");
+        Error(msg, id, asCaller);
+    }
+    ArrayOfVector argIn(arg);
+    argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    if (!isNumeric && !isLogical) {
+        std::wstring msg = _W("Value must be numeric or logical.");
+        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        Error(msg, id, asCaller);
+    }
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argC);
+    bool isReal = argOut[0].getContentAsLogicalScalar();
+    if (!isReal) {
+        std::wstring msg = _W("Inputs to function 'mustBeGreaterThan' must be real.");
+        std::wstring id = _W("Nelson:validatorUsage:nonRealInput");
+        Error(msg, id, asCaller);
+    }
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    isReal = argOut[0].getContentAsLogicalScalar();
+    if (!isReal) {
+        std::wstring msg = _W("Value must be real.");
+        std::wstring id = _W("Nelson:validators:mustBeReal");
+        Error(msg, id, asCaller);
+    }
+
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector params(asVector);
+    params.push_back(c);
+    argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, params);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + createPrintableScalar(c, _W("Value must be greater than %s."),
+                _W("Value must be greater than compared value."));
+        std::wstring id = _W("Nelson:validators:mustBeGreaterThan");
         Error(msg, id, asCaller);
     }
 }

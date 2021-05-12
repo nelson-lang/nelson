@@ -118,13 +118,13 @@ mustBeFolder(const ArrayOfVector& args, int argPosition)
 //=============================================================================
 void
 mustBeFile(const ArrayOfVector& args, int argPosition)
-{ 
+{
     checkArgumentPosition(args, argPosition);
     mustBeFile(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void
-mustBeA(const ArrayOfVector& args, const wstringVector &classNames, int argPosition)
+mustBeA(const ArrayOfVector& args, const wstringVector& classNames, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
     mustBeA(args[argPosition], classNames, argPosition + 1);
@@ -200,6 +200,12 @@ mustBeNonmissing(const ArrayOfVector& args, int argPosition)
     mustBeNonmissing(args[argPosition], argPosition + 1);
 }
 //=============================================================================
-
+void
+mustBeGreaterThan(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeGreaterThan(args[argPosition], c, argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

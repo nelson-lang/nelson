@@ -103,5 +103,8 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================
