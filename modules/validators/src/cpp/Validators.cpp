@@ -207,5 +207,19 @@ mustBeGreaterThan(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
     mustBeGreaterThan(args[argPosition], c, argPosition + 1);
 }
 //=============================================================================
+void
+mustBeLessThan(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeLessThan(args[argPosition], c, argPosition + 1);
+}
+//=============================================================================
+void
+mustBeGreaterThanOrEqual(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeGreaterThanOrEqual(args[argPosition], c, argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

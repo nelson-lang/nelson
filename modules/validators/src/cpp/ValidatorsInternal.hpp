@@ -71,7 +71,8 @@ NLSVALIDATORS_IMPEXP void
 mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeA(const ArrayOf& arg, const wstringVector &classNames, int argPosition, bool asCaller = false);
+mustBeA(
+    const ArrayOf& arg, const wstringVector& classNames, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller = false);
@@ -105,6 +106,13 @@ mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeGreaterThanOrEqual(
+    const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
 //=============================================================================
 }
 //=============================================================================

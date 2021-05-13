@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>mustBeGreaterThan(var, c)</syntax_item>
     <syntax_item>mustBeGreaterThan(var, c, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeFile(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeGreaterThan(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>

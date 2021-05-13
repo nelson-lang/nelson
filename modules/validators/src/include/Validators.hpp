@@ -102,5 +102,11 @@ mustBeNonmissing(const ArrayOfVector& args, int argPosition);
 NLSVALIDATORS_IMPEXP void
 mustBeGreaterThan(const ArrayOfVector& args, const ArrayOf& c, int argPosition);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeLessThan(const ArrayOfVector& args, const ArrayOf& c, int argPosition);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeGreaterThanOrEqual(const ArrayOfVector& args, const ArrayOf& c, int argPosition);
+//=============================================================================
 }
 //=============================================================================

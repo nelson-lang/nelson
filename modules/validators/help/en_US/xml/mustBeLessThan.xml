@@ -3,24 +3,24 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>mustBeA</keyword>
-  <short_description>Checks that input value comes from one of specified classes.</short_description>
+  <keyword>mustBeLessThan</keyword>
+  <short_description>Checks that value is less than another value or issue error.</short_description>
 
   <syntax>
-    <syntax_item>mustBeA(var, classNames)</syntax_item>
-    <syntax_item>mustBeA(var, classNames, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeA(const ArrayOfVector&amp; args, const wstringVector &amp;classNames, int argPosition)</syntax_item>
+    <syntax_item>mustBeLessThan(var, c)</syntax_item>
+    <syntax_item>mustBeLessThan(var, c, argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeLessThan(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
   </syntax>
   
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
-      <param_description>a variable.</param_description>
+      <param_description>a variable: logical or numeric array.</param_description>
     </param_input_item>
 
     <param_input_item>
-      <param_name>classNames</param_name>
-      <param_description>a variable: name of data type or class.</param_description>
+      <param_name>c</param_name>
+      <param_description>a variable: scalar numeric value.</param_description>
     </param_input_item>
 
      <param_input_item>
@@ -31,7 +31,7 @@
 
 
   <description>
-  <p><b>mustBeA</b> that input value comes from one of specified classes.</p>
+  <p><b>mustBeLessThan</b> that value is less than another value or issue error.</p>
 </description>
 
   <used_function></used_function>
@@ -41,8 +41,8 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[mustBeA(1, 'double')
-mustBeA([], ["double", "single"])]]>
+    <example_item_data><![CDATA[mustBeLessThan(1, 0)
+mustBeLessThan(1, 2)]]>
     </example_item_data>
   </example_item>
 </examples>

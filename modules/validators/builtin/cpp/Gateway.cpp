@@ -49,6 +49,8 @@
 #include "mustBeIntegerBuiltin.hpp"
 #include "mustBeNonmissingBuiltin.hpp"
 #include "mustBeGreaterThanBuiltin.hpp"
+#include "mustBeLessThanBuiltin.hpp"
+#include "mustBeGreaterThanOrEqualBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -90,6 +92,10 @@ static const nlsGateway gateway[] = {
     { "mustBeNonmissing", (void*)Nelson::ValidatorsGateway::mustBeNonmissingBuiltin, 0, -1,
         CPP_BUILTIN },
     { "mustBeGreaterThan", (void*)Nelson::ValidatorsGateway::mustBeGreaterThanBuiltin, 0, -2,
+        CPP_BUILTIN },
+    { "mustBeLessThan", (void*)Nelson::ValidatorsGateway::mustBeLessThanBuiltin, 0, -2,
+        CPP_BUILTIN },
+    { "mustBeGreaterThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeGreaterThanOrEqualBuiltin, 0, -2,
         CPP_BUILTIN },
 };
 //=============================================================================
