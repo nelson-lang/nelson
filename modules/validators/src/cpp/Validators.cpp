@@ -228,5 +228,13 @@ mustBeLessThanOrEqual(const ArrayOfVector& args, const ArrayOf& c, int argPositi
     mustBeLessThanOrEqual(args[argPosition], c, argPosition + 1);
 }
 //=============================================================================
+void
+mustBeNumericOrLogical(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNumericOrLogical(args[argPosition], c, argPosition + 1);
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

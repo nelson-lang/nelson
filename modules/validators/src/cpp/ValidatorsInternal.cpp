@@ -280,18 +280,9 @@ mustBeA(const ArrayOf& arg, const wstringVector& classNames, int argPosition, bo
 void
 mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
     ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
-        Error(msg, id, asCaller);
-    }
-
-    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
@@ -317,18 +308,9 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
     ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
-        Error(msg, id, asCaller);
-    }
-
-    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
@@ -354,18 +336,9 @@ mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
     ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
-        Error(msg, id, asCaller);
-    }
-
-    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
@@ -391,18 +364,9 @@ mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
     ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
-        Error(msg, id, asCaller);
-    }
-
-    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
@@ -449,23 +413,14 @@ mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
-        Error(msg, id, asCaller);
-    }
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
     Dimensions dimsA = arg.getDimensions();
     Dimensions dimsV(1, dimsA.getElementCount());
     ArrayOf asVector = arg;
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = ElementaryFunctionsGateway::eqBuiltin(_eval, 1, vAsArrayOfVector);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::eqBuiltin(_eval, 1, vAsArrayOfVector);
     argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be zero.");
@@ -501,17 +456,9 @@ mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
 {
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
     ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
-    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        std::wstring msg
-            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
-        Error(msg, id, asCaller);
-    }
-    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
@@ -853,5 +800,21 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     }
 }
 //=============================================================================
+void
+mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
+{ 
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        std::wstring msg
+            = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
+        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

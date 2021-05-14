@@ -118,5 +118,8 @@ NLSVALIDATORS_IMPEXP void
 mustBeLessThanOrEqual(
     const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================

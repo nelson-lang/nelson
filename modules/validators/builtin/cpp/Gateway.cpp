@@ -52,12 +52,15 @@
 #include "mustBeLessThanBuiltin.hpp"
 #include "mustBeGreaterThanOrEqualBuiltin.hpp"
 #include "mustBeLessThanOrEqualBuiltin.hpp"
+#include "mustBeNumericOrLogicalBuiltin.hpp "
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"validators";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "mustBeNumericOrLogical", (void*)Nelson::ValidatorsGateway::mustBeNumericOrLogicalBuiltin, 0,
+        -1, CPP_BUILTIN },
     { "mustBeLogical", (void*)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, -1,
         CPP_BUILTIN },
@@ -96,10 +99,10 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "mustBeLessThan", (void*)Nelson::ValidatorsGateway::mustBeLessThanBuiltin, 0, -2,
         CPP_BUILTIN },
-    { "mustBeGreaterThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeGreaterThanOrEqualBuiltin, 0, -2,
-        CPP_BUILTIN },
-    { "mustBeLessThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeLessThanOrEqualBuiltin,
+    { "mustBeGreaterThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeGreaterThanOrEqualBuiltin,
         0, -2, CPP_BUILTIN },
+    { "mustBeLessThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeLessThanOrEqualBuiltin, 0,
+        -2, CPP_BUILTIN },
 
 };
 //=============================================================================

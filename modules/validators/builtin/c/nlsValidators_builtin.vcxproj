@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\mustBeNonSparseBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNonZeroBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNumericBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNumericOrLogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBePositiveBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeRealBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="..\include\mustBeNonSparseBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNonZeroBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNumericBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNumericOrLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBePositiveBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeRealBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeTextScalarBuiltin.hpp" />

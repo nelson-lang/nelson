@@ -111,5 +111,8 @@ mustBeGreaterThanOrEqual(const ArrayOfVector& args, const ArrayOf& c, int argPos
 NLSVALIDATORS_IMPEXP void
 mustBeLessThanOrEqual(const ArrayOfVector& args, const ArrayOf& c, int argPosition);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNumericOrLogical(const ArrayOfVector& args, int argPosition);
+//=============================================================================
 }
 //=============================================================================
