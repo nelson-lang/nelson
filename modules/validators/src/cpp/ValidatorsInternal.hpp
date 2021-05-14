@@ -56,6 +56,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeTextScalar(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeText(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void

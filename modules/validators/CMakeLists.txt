@@ -40,7 +40,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
@@ -53,6 +53,7 @@ add_library(${module_library_name} SHARED ${VALIDATORS_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
+  nlsData_structures
   nlsError_manager
   nlsInterpreter
   nlsTypes

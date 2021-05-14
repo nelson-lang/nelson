@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -113,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -155,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSVALIDATORS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/types/builtin/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/files_folders_functions/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -180,6 +180,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\data_structures\src\c\nlsData_structures.vcxproj">
+      <Project>{e0b4427b-0cb1-4490-9c40-04e6e7365b40}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\dynamic_link\src\c\nlsDynamic_link.vcxproj">
       <Project>{1d386695-18b8-4565-b198-b700b57bf4a2}</Project>

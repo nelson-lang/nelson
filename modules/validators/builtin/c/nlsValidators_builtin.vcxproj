@@ -198,6 +198,7 @@
     <ClCompile Include="..\cpp\mustBePositiveBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeRealBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeTextBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeTextScalarBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeValidVariableNameBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeVectorBuiltin.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="..\include\mustBeNumericOrLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBePositiveBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeRealBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeTextBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeTextScalarBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeValidVariableNameBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeScalarOrEmptyBuiltin.hpp" />

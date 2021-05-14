@@ -32,6 +32,7 @@
 #include "mustBeScalarOrEmptyBuiltin.hpp"
 #include "mustBeValidVariableNameBuiltin.hpp"
 #include "mustBeTextScalarBuiltin.hpp"
+#include "mustBeTextBuiltin.hpp"
 #include "mustBeFolderBuiltin.hpp"
 #include "mustBeFileBuiltin.hpp"
 #include "mustBeVectorBuiltin.hpp"
@@ -52,7 +53,7 @@
 #include "mustBeLessThanBuiltin.hpp"
 #include "mustBeGreaterThanOrEqualBuiltin.hpp"
 #include "mustBeLessThanOrEqualBuiltin.hpp"
-#include "mustBeNumericOrLogicalBuiltin.hpp "
+#include "mustBeNumericOrLogicalBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -70,6 +71,8 @@ static const nlsGateway gateway[] = {
     { "mustBeValidVariableName", (void*)Nelson::ValidatorsGateway::mustBeValidVariableNameBuiltin,
         0, -1, CPP_BUILTIN },
     { "mustBeTextScalar", (void*)Nelson::ValidatorsGateway::mustBeTextScalarBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeText", (void*)Nelson::ValidatorsGateway::mustBeTextBuiltin, 0, -1,
         CPP_BUILTIN },
     { "mustBeFolder", (void*)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFile", (void*)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1, CPP_BUILTIN },

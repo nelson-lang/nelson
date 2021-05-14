@@ -52,6 +52,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeTextScalar(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeText(const ArrayOfVector& args, int argPosition);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeFolder(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void

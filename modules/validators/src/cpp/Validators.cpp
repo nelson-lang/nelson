@@ -89,6 +89,13 @@ mustBeTextScalar(const ArrayOfVector& args, int argPosition)
 }
 //=============================================================================
 void
+mustBeText(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeText(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+void
 mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition)
 {
     checkArgumentPosition(args, argPosition);

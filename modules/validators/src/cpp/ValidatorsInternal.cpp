@@ -49,6 +49,7 @@
 #include "isrealBuiltin.hpp"
 #include "floorBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -159,6 +160,19 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
         std::wstring msg
             = invalidPositionMessage(argPosition) + _W("Value must be valid variable name.");
         std::wstring id = _W("Nelson:validators:mustBeValidVariableName");
+        Error(msg, id, asCaller);
+    }
+}
+//=============================================================================
+void
+mustBeText(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray() || IsCellOfString(arg);
+    if (!isText) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + _W("Value must be a character vector, string array or cell array of character "
+                 "vectors.");
+        std::wstring id = _W("Nelson:validators:mustBeText");
         Error(msg, id, asCaller);
     }
 }
@@ -688,7 +702,8 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     ArrayOfVector argC(c);
     ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argC);
     if (!argOut[0].getContentAsLogicalScalar()) {
-        std::wstring msg = _W("Second input to function 'mustBeGreaterThanOrEqual' must be a scalar.");
+        std::wstring msg
+            = _W("Second input to function 'mustBeGreaterThanOrEqual' must be a scalar.");
         std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
         Error(msg, id, asCaller);
     }
@@ -696,7 +711,8 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     bool isLogical = (c.isLogical() || ClassName(c) == "logical");
     bool isNumeric = argOut[0].getContentAsLogicalScalar();
     if (!isNumeric && !isLogical) {
-        std::wstring msg = _W("Inputs to function 'mustBeGreaterThanOrEqual' must be numeric or logical.");
+        std::wstring msg
+            = _W("Inputs to function 'mustBeGreaterThanOrEqual' must be numeric or logical.");
         std::wstring id = _W("Nelson:validatorUsage:nonNumericOrLogicalInput");
         Error(msg, id, asCaller);
     }
@@ -746,8 +762,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     ArrayOfVector argC(c);
     ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argC);
     if (!argOut[0].getContentAsLogicalScalar()) {
-        std::wstring msg
-            = _W("Second input to function 'mustBeLessThanOrEqual' must be a scalar.");
+        std::wstring msg = _W("Second input to function 'mustBeLessThanOrEqual' must be a scalar.");
         std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
         Error(msg, id, asCaller);
     }
@@ -802,7 +817,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
 //=============================================================================
 void
 mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
-{ 
+{
     ArrayOfVector argIn(arg);
     ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
     bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");

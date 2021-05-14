@@ -105,6 +105,9 @@
     <ClCompile Include="..\cpp\mustBeNumericOrLogicalBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\mustBeTextBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -195,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\mustBeNumericOrLogicalBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\mustBeTextBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
