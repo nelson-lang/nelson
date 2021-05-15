@@ -50,6 +50,7 @@
 #include "floorBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
 #include "IsCellOfStrings.hpp"
+#include "strlengthBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -830,6 +831,31 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
     }
 }
 //=============================================================================
-
+void
+mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
+{
+    bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray() || IsCellOfString(arg);
+    if (!isText) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + _W("Value must be a character vector, string array or cell array of character "
+                 "vectors.");
+        std::wstring id = _W("Nelson:validators:mustBeNonzeroLengthText");
+        Error(msg, id, asCaller);
+    } else {
+        ArrayOfVector argIn(arg);
+        ArrayOfVector argOut = StringGateway::strlengthBuiltin(_eval, 1, argIn);
+        argOut.push_back(ArrayOf::doubleConstructor(0));
+        argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, argOut);
+        argOut.push_back(ArrayOf::characterArrayConstructor("all"));
+        argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+        if (!argOut[0].getContentAsLogicalScalar()) {
+            std::wstring msg
+                = invalidPositionMessage(argPosition) + _W("Value must be non zero length text.");
+            std::wstring id = _W("Nelson:validators:mustBeNonzeroLengthText");
+            Error(msg, id, asCaller);
+        }
+   }
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

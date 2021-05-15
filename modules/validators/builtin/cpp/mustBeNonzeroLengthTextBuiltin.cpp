@@ -23,50 +23,26 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "allBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
-#include "All.hpp"
+#include "mustBeNonzeroLengthTextBuiltin.hpp"
+#include "ValidatorsInternal.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::allBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ValidatorsGateway::mustBeNonzeroLengthTextBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    bool bSuccess = false;
+    nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1, 2);
-    nargoutcheck(nLhs, 0, 1);
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
-    }
-    if (!bSuccess) {
-        bool doOverAllElements = false;
-        indexType d = 0;
-        ArrayOf arg1 = argIn[0];
-        if (argIn.size() > 1) {
-            ArrayOf arg2 = argIn[1];
-            if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
-                std::wstring paramAsString = arg2.getContentAsWideString();
-                if (paramAsString != L"all") {
-                    Error(_W("Wrong value for #2 argument."));
-                } else {
-                    doOverAllElements = true;
-                }
-            } else {
-                d = arg2.getContentAsScalarIndex(false);
-            }
-        }
-        bool needToOverload = false;
-        ArrayOf res = All(arg1, d, doOverAllElements, needToOverload);
-        if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "all");
-        } else {
-            retval << res;
+    int argPos = -1;
+    if (argIn.size() == 2) {
+        ArrayOf param2 = argIn[1];
+        argPos = param2.getContentAsInteger32Scalar();
+        if (argPos < 1) {
+            Error(_W("The last argument must be a positive integer."));
         }
     }
+    mustBeNonzeroLengthText(argIn[0], argPos, true);
     return retval;
 }
 //=============================================================================

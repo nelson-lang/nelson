@@ -9,10 +9,11 @@
   <syntax>
     <syntax_item>R = all(M)</syntax_item>
     <syntax_item>R = all(M, dim)</syntax_item>
-  </syntax>
-  
+    <syntax_item>R = all(M, 'all')</syntax_item>
+   </syntax>
+
   <param_input>
-    
+
     <param_input_item>
       <param_name>M</param_name>
       <param_description>a matrix.</param_description>
@@ -21,6 +22,11 @@
     <param_input_item>
       <param_name>dim</param_name>
       <param_description>a integer value: dimension along it works.</param_description>
+    </param_input_item>
+
+   <param_input_item>
+      <param_name>'all'</param_name>
+      <param_description>tests over all elements of M.</param_description>
     </param_input_item>
 
   </param_input>

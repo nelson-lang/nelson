@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-All(ArrayOf& A, indexType dim, bool& needToOverload)
+All(ArrayOf& A, indexType dim, bool doOverAllElements, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
@@ -49,6 +49,17 @@ All(ArrayOf& A, indexType dim, bool& needToOverload)
             NLS_LOGICAL, dimsRes.getElementCount(), stringVector(), false);
         memset(logicalarray, 1, dimsRes.getElementCount());
         res = ArrayOf(NLS_LOGICAL, dimsRes, logicalarray);
+    } else if (doOverAllElements) {
+        bool bres = true;
+        indexType elementCount = A.getElementCount();
+        auto* pLogical = (logical*)A.getDataPointer();
+        for (indexType k = 0; k < elementCount; k++) {
+            if (!(pLogical[k] != 0)) {
+                bres = false;
+                break;
+            }
+        }
+        res = ArrayOf::logicalConstructor(bres);
     } else if (A.isVector()) {
         auto* pLogical = (logical*)A.getDataPointer();
         bool bRes = true;

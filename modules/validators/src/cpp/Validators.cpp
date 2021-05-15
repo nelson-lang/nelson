@@ -242,6 +242,12 @@ mustBeNumericOrLogical(const ArrayOfVector& args, const ArrayOf& c, int argPosit
     mustBeNumericOrLogical(args[argPosition], c, argPosition + 1);
 }
 //=============================================================================
-
+void
+mustBeNonzeroLengthText(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeNonzeroLengthText(args[argPosition], c, argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

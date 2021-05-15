@@ -44,6 +44,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../string/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 # ==============================================================================
 file(GLOB VALIDATORS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -63,6 +64,7 @@ target_link_libraries(
   nlsDynamic_link
   nlsI18n
   nlsFiles_folders_functions_builtin
+  nlsString_builtin
   nlsString)
 # ==============================================================================
 set_target_properties(

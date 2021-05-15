@@ -9,13 +9,15 @@
   - `mustBeA`, `mustBeReal`, `mustBeInteger`, `mustBeNonmissing`,
   - `mustBePositive`, `mustBeNonpositive`, `mustBeNonnegative`, `mustBeNegative`,
   - `mustBeGreaterThan`, `mustBeGreaterThanOrEqual`, `mustBeLessThan`,
-  - `mustBeNumericOrLogical`, `mustBeText`.
+  - `mustBeNumericOrLogical`, `mustBeText`, `mustBeNonzeroLengthText`.
 
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 
 - benchs are executed sequentialy (better bench results).
 
 - `all`, `any` behavior with empty matrix updated.
+
+- extends `all` to manage over all elements.
 
 ## Bug Fixes:
 

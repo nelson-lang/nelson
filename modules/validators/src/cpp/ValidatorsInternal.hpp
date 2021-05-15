@@ -124,5 +124,9 @@ mustBeLessThanOrEqual(
 NLSVALIDATORS_IMPEXP void
 mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+
 }
 //=============================================================================

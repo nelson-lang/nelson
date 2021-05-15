@@ -54,6 +54,7 @@
 #include "mustBeGreaterThanOrEqualBuiltin.hpp"
 #include "mustBeLessThanOrEqualBuiltin.hpp"
 #include "mustBeNumericOrLogicalBuiltin.hpp"
+#include "mustBeNonzeroLengthTextBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -72,8 +73,9 @@ static const nlsGateway gateway[] = {
         0, -1, CPP_BUILTIN },
     { "mustBeTextScalar", (void*)Nelson::ValidatorsGateway::mustBeTextScalarBuiltin, 0, -1,
         CPP_BUILTIN },
-    { "mustBeText", (void*)Nelson::ValidatorsGateway::mustBeTextBuiltin, 0, -1,
-        CPP_BUILTIN },
+    { "mustBeText", (void*)Nelson::ValidatorsGateway::mustBeTextBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonzeroLengthText", (void*)Nelson::ValidatorsGateway::mustBeNonzeroLengthTextBuiltin,
+        0, -1, CPP_BUILTIN },
     { "mustBeFolder", (void*)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFile", (void*)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeVector", (void*)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1, CPP_BUILTIN },
