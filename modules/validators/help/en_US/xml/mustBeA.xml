@@ -11,7 +11,7 @@
     <syntax_item>mustBeA(var, classNames, argPosition)</syntax_item>
     <syntax_item>C++: void mustBeA(const ArrayOfVector&amp; args, const wstringVector &amp;classNames, int argPosition)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
@@ -31,7 +31,7 @@
 
 
   <description>
-  <p><b>mustBeA</b> that input value comes from one of specified classes.</p>
+  <p><b>mustBeA</b> checks that input value comes from one of specified classes.</p>
 </description>
 
   <used_function></used_function>

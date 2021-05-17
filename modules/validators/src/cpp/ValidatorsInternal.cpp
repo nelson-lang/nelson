@@ -51,6 +51,7 @@
 #include "ismissingBuiltin.hpp"
 #include "IsCellOfStrings.hpp"
 #include "strlengthBuiltin.hpp"
+#include "ismemberBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -861,6 +862,25 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
             Error(msg, id, asCaller);
         }
    }
+}
+//=============================================================================
+void
+mustBeMember(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
+{
+    ArrayOfVector argIn(arg);
+    argIn << c;
+    ArrayOfVector argOut = ElementaryFunctionsGateway::ismemberBuiltin(_eval, 1, argIn);
+    Dimensions dims = argOut[0].getDimensions();
+    Dimensions dimsV(1, dims.getElementCount());
+    ArrayOf asVector = argOut[0];
+    asVector.reshape(dimsV);
+    argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, asVector);
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + _W("Value must be member of the compared value.");
+        std::wstring id = _W("Nelson:validators:mustBeMember");
+        Error(msg, id, asCaller);
+    }
 }
 //=============================================================================
 } // namespace Nelson

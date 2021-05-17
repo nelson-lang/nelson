@@ -3,24 +3,24 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>mustBeLessThan</keyword>
-  <short_description>Checks that value is less than another value or issue error.</short_description>
+  <keyword>mustBeMember</keyword>
+  <short_description>Checks that value is member of specified array or issue error.</short_description>
 
   <syntax>
-    <syntax_item>mustBeLessThan(var, c)</syntax_item>
-    <syntax_item>mustBeLessThan(var, c, argPosition)</syntax_item>
-    <syntax_item>C++: void mustBeLessThan(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
+    <syntax_item>mustBeMember(var, c)</syntax_item>
+    <syntax_item>mustBeMember(var, c, argPosition)</syntax_item>
+    <syntax_item>C++: void mustBeMember(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
   </syntax>
 
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
-      <param_description>a variable: logical or numeric array.</param_description>
+      <param_description>a variable.</param_description>
     </param_input_item>
 
     <param_input_item>
       <param_name>c</param_name>
-      <param_description>a variable: scalar numeric value.</param_description>
+      <param_description>a variable.</param_description>
     </param_input_item>
 
      <param_input_item>
@@ -31,7 +31,7 @@
 
 
   <description>
-  <p><b>mustBeLessThan</b> checks that value is less than another value or issue error.</p>
+  <p><b>mustBeMember</b> checks that value is member of an array or issue error.</p>
 </description>
 
   <used_function></used_function>
@@ -41,15 +41,17 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[mustBeLessThan(1, 0)
-mustBeLessThan(1, 2)]]>
+    <example_item_data><![CDATA[A = "red";
+B = ["yellow","red","blue"];
+mustBeMember(A,B)
+]]>
     </example_item_data>
   </example_item>
 </examples>
 
   <see_also>
     <see_also_item>
-      <link linkend="${validators}mustBeNumeric">mustBeNumeric</link>
+      <link linkend="${validators}mustBeNonempty">mustBeNonempty</link>
     </see_also_item>
   </see_also>
 

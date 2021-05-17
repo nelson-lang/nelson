@@ -9,7 +9,8 @@
   - `mustBeA`, `mustBeReal`, `mustBeInteger`, `mustBeNonmissing`,
   - `mustBePositive`, `mustBeNonpositive`, `mustBeNonnegative`, `mustBeNegative`,
   - `mustBeGreaterThan`, `mustBeGreaterThanOrEqual`, `mustBeLessThan`,
-  - `mustBeNumericOrLogical`, `mustBeText`, `mustBeNonzeroLengthText`.
+  - `mustBeNumericOrLogical`, `mustBeText`, `mustBeNonzeroLengthText`,
+  - `mustBeMember`.
 
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 

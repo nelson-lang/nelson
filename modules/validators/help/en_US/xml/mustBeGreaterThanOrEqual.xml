@@ -11,7 +11,7 @@
     <syntax_item>mustBeGreaterThanOrEqual(var, c, argPosition)</syntax_item>
     <syntax_item>C++: void mustBeGreaterThanOrEqual(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
@@ -31,7 +31,7 @@
 
 
   <description>
-  <p><b>mustBeGreaterThanOrEqual</b> that value is greater than or equal to another value or issue error.</p>
+  <p><b>mustBeGreaterThanOrEqual</b> checks that value is greater than or equal to another value or issue error.</p>
 </description>
 
   <used_function></used_function>
