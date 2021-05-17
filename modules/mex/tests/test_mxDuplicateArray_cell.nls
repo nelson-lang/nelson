@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--ADV-CLI MODE--> 
+// <--ADV-CLI MODE-->
 //=============================================================================
 if ~isbuiltin('mxDuplicateArray')
     test_dir = [tempdir(), 'mxDuplicateArray_cell'];
@@ -33,12 +33,17 @@ if ~isbuiltin('mxDuplicateArray')
     mkdir(test_dir);
     status = copyfile('mxDuplicateArray.c', test_dir);
     assert_istrue(status);
-    cd(test_dir); 
+    cd(test_dir);
     mex('mxDuplicateArray.c');
     run('loader.nls');
-end    
+end
 //=============================================================================
 REF = {1, single(2); 'Nelson Text in a cell', false};
 R = mxDuplicateArray(REF);
+assert_istrue(iscell(R));
+assert_isequal(R{1}, REF{1});
+assert_isequal(R{2}, REF{2});
+assert_isequal(R{3}, REF{3});
+assert_isequal(R{4}, REF{4});
 assert_isequal(R, REF);
 //=============================================================================
