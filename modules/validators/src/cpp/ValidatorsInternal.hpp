@@ -121,8 +121,7 @@ mustBeGreaterThanOrEqual(
     const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
-mustBeLessThanOrEqual(
-    const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
+mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller = false);
@@ -132,6 +131,11 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller = fal
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeMember(const ArrayOf& arg, const ArrayOf& S, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
+    const std::wstring& boundflag1, const std::wstring& boundflag2, int argPosition,
+    bool asCaller = false);
 //=============================================================================
 }
 //=============================================================================

@@ -256,5 +256,13 @@ mustBeMember(const ArrayOfVector& args, const ArrayOf& S, int argPosition)
     mustBeMember(args[argPosition], S, argPosition + 1);
 }
 //=============================================================================
+void
+mustBeInRange(const ArrayOfVector& args, const ArrayOf& upper, const ArrayOf& lower,
+    const std::wstring& boundflag1, const std::wstring& boundflag2, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeInRange(args[argPosition], upper, lower, boundflag1, boundflag2, argPosition + 1);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

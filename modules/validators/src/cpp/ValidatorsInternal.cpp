@@ -588,6 +588,20 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
     return msg;
 }
 //=============================================================================
+static bool
+mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c)
+{
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector params(asVector);
+    params.push_back(c);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, params);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    return argOut[0].getContentAsLogicalScalar();
+}
+//=============================================================================
 void
 mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
 {
@@ -628,22 +642,27 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool as
         std::wstring id = _W("Nelson:validators:mustBeReal");
         Error(msg, id, asCaller);
     }
-
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
-    if (!argOut[0].getContentAsLogicalScalar()) {
+    if (!mustBeGreaterThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than %s."),
                 _W("Value must be greater than compared value."));
         std::wstring id = _W("Nelson:validators:mustBeGreaterThan");
         Error(msg, id, asCaller);
     }
+}
+//=============================================================================
+static bool
+mustBeLessThan(const ArrayOf& arg, const ArrayOf& c)
+{
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector params(asVector);
+    params.push_back(c);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::ltBuiltin(_eval, 1, params);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
 void
@@ -686,22 +705,27 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCal
         std::wstring id = _W("Nelson:validators:mustBeReal");
         Error(msg, id, asCaller);
     }
-
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    argOut = ElementaryFunctionsGateway::ltBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
-    if (!argOut[0].getContentAsLogicalScalar()) {
+    if (!mustBeLessThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than %s."),
                 _W("Value must be less than compared value."));
         std::wstring id = _W("Nelson:validators:mustBeLessThan");
         Error(msg, id, asCaller);
     }
+}
+//=============================================================================
+static bool
+mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
+{
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector params(asVector);
+    params.push_back(c);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::geBuiltin(_eval, 1, params);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
 void
@@ -746,22 +770,27 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
         std::wstring id = _W("Nelson:validators:mustBeReal");
         Error(msg, id, asCaller);
     }
-
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    argOut = ElementaryFunctionsGateway::geBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
-    if (!argOut[0].getContentAsLogicalScalar()) {
+    if (!mustBeGreaterThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than or equal to %s."),
                 _W("Value must be greater than or equal to compared value."));
         std::wstring id = _W("Nelson:validators:mustBeGreaterThanOrEqual");
         Error(msg, id, asCaller);
     }
+}
+//=============================================================================
+static bool
+mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
+{
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector params(asVector);
+    params.push_back(c);
+    ArrayOfVector argOut = ElementaryFunctionsGateway::leBuiltin(_eval, 1, params);
+    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
 void
@@ -805,16 +834,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
         std::wstring id = _W("Nelson:validators:mustBeReal");
         Error(msg, id, asCaller);
     }
-
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    argOut = ElementaryFunctionsGateway::leBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
-    if (!argOut[0].getContentAsLogicalScalar()) {
+    if (!mustBeLessThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than or equal to %s."),
                 _W("Value must be less than or equal to compared value."));
@@ -861,7 +881,7 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
             std::wstring id = _W("Nelson:validators:mustBeNonzeroLengthText");
             Error(msg, id, asCaller);
         }
-   }
+    }
 }
 //=============================================================================
 void
@@ -881,6 +901,107 @@ mustBeMember(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCalle
         std::wstring id = _W("Nelson:validators:mustBeMember");
         Error(msg, id, asCaller);
     }
+}
+//=============================================================================
+void
+mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
+    const std::wstring& boundflag1, const std::wstring& boundflag2, int argPosition, bool asCaller)
+{
+    bool includeLower = false;
+    bool includeUpper = false;
+
+    if (boundflag1 == boundflag2 && boundflag1 == L"") {
+        includeLower = true;
+        includeUpper = true;
+    } else if (boundflag1 == L"inclusive" && boundflag2 == L"") {
+        includeLower = true;
+        includeUpper = true;
+    } else if (boundflag1 == L"exclusive" && boundflag2 == L"") {
+        includeLower = false;
+        includeUpper = false;
+    } else if (boundflag1 == L"exclude-lower" && boundflag2 == L"") {
+        includeLower = false;
+        includeUpper = true;
+    } else if (boundflag1 == L"exclude-upper" && boundflag2 == L"") {
+        includeLower = true;
+        includeUpper = false;
+    } else if (boundflag1 == L"exclude-lower" && boundflag2 == L"exclude-upper") {
+        includeLower = false;
+        includeUpper = false;
+    } else {
+        if (boundflag1 == boundflag2) {
+            std::wstring msg = str(
+                boost::wformat { _W("A combinaison of '%s' and '%s' options is not supported.") }
+                % boundflag1 % boundflag2);
+            std::wstring id = _W("Nelson:validatorUsage:ConflictingBoundaryOptions");
+            Error(msg, id, asCaller);
+        } else {
+            std::wstring msg
+                = _W("Value must 'inclusive', 'exclusive', 'exclude-lower' or 'exclude-upper'.");
+            std::wstring id = _W("Nelson:validators:BoundInclusivity");
+            Error(msg, id, asCaller);
+        }
+    }
+    mustBeNumericOrLogical(value, 1, asCaller);
+    mustBeReal(value, 1, asCaller);
+
+    ArrayOfVector argIn(lower);
+    ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    bool isnumeric = argOut[0].getContentAsLogicalScalar();
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    bool isreal = argOut[0].getContentAsLogicalScalar();
+    argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argIn);
+    bool isscalar = argOut[0].getContentAsLogicalScalar();
+    bool isLogical = (argOut[0].isLogical() || ClassName(argOut[0]) == "logical");
+    if (!((isnumeric && isreal) || isLogical) || !isscalar) {
+        std::wstring id = _W("Nelson:validatorUsage:invalidLowerBound");
+        std::wstring msg
+            = _W("Second input to function 'mustBeInRange' must be a real or scalar value.");
+        Error(msg, id, asCaller);
+    }
+
+    argIn = upper;
+    argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
+    isnumeric = argOut[0].getContentAsLogicalScalar();
+    argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
+    isreal = argOut[0].getContentAsLogicalScalar();
+    argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argIn);
+    isscalar = argOut[0].getContentAsLogicalScalar();
+    isLogical = (argOut[0].isLogical() || ClassName(argOut[0]) == "logical");
+    if (!((isnumeric && isreal) || isLogical) || !isscalar) {
+        std::wstring id = _W("Nelson:validatorUsage:invalidLowerBound");
+        std::wstring msg
+            = _W("Third input to function 'mustBeInRange' must be a real or scalar value.");
+        Error(msg, id, asCaller);
+    }
+    std::wstring id;
+    if (includeLower) {
+        if (includeUpper) {
+            if (mustBeGreaterThanOrEqual(value, lower) && mustBeLessThanOrEqual(value, upper)) {
+                return;
+            }
+            id = _W("Nelson:validators:LeftClosedRightClosed");
+        } else {
+            if (mustBeGreaterThanOrEqual(value, lower) && mustBeLessThan(value, upper)) {
+                return;
+            }
+            id = _W("Nelson:validators:LeftClosedRightOpen");
+        }
+    } else {
+        if (includeUpper) {
+            if (mustBeGreaterThan(value, lower) && mustBeLessThanOrEqual(value, upper)) {
+                return;
+            }
+            id = _W("Nelson:validators:LeftOpenRightClosed");
+        } else {
+            if (mustBeGreaterThan(value, lower) && mustBeLessThan(value, upper)) {
+                return;
+            }
+            id = _W("Nelson:validators:LeftOpenRightOpen");
+        }
+    }
+    std::wstring msg = _W("Value must be in range.");
+    Error(msg, id, asCaller);
 }
 //=============================================================================
 } // namespace Nelson

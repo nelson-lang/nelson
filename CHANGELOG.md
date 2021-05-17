@@ -10,7 +10,7 @@
   - `mustBePositive`, `mustBeNonpositive`, `mustBeNonnegative`, `mustBeNegative`,
   - `mustBeGreaterThan`, `mustBeGreaterThanOrEqual`, `mustBeLessThan`,
   - `mustBeNumericOrLogical`, `mustBeText`, `mustBeNonzeroLengthText`,
-  - `mustBeMember`.
+  - `mustBeMember`, `mustBeInRange`.
 
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 
@@ -21,7 +21,6 @@
 - extends `all` to manage over all elements.
 
 - `ismember` builtin: Array elements that are members of another array.
-
 
 ## Bug Fixes:
 
