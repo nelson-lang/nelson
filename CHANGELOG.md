@@ -19,6 +19,9 @@
 
 - extends `all` to manage over all elements.
 
+- `ismember` builtin: Array elements that are members of another array.
+
+
 ## Bug Fixes:
 
 - [#435](http://github.com/Nelson-numerical-software/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.

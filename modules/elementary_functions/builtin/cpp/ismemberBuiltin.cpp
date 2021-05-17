@@ -23,6 +23,34 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = ones(5000,5000);A(2500,2500)=1;
-tic();R = ismember(A,1);toc()
+#include "ismemberBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "IsMember.hpp"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::ismemberBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    bool bSuccess = false;
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "ismember", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload = false;
+        ArrayOf res = IsMember(argIn[0], argIn[1], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "ismember");
+        } else {
+            retval << res;
+        }
+    }
+    return retval;
+}
 //=============================================================================

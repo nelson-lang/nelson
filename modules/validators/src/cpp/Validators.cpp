@@ -249,5 +249,14 @@ mustBeNonzeroLengthText(const ArrayOfVector& args, const ArrayOf& c, int argPosi
     mustBeNonzeroLengthText(args[argPosition], c, argPosition + 1);
 }
 //=============================================================================
+void
+mustBeMember(const ArrayOfVector& args, const ArrayOf& S, int argPosition)
+{
+    /*
+    checkArgumentPosition(args, argPosition);
+    mustBeMember(args[argPosition], S, argPosition + 1);
+    */
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

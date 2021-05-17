@@ -204,6 +204,7 @@
     <ClCompile Include="..\cpp\isequaltoBuiltin.cpp" />
     <ClCompile Include="..\cpp\isfiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\isinfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ismemberBuiltin.cpp" />
     <ClCompile Include="..\cpp\ismissingBuiltin.cpp" />
     <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
     <ClCompile Include="..\cpp\isscalarBuiltin.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\include\isequaltoBuiltin.hpp" />
     <ClInclude Include="..\include\isfiniteBuiltin.hpp" />
     <ClInclude Include="..\include\isinfBuiltin.hpp" />
+    <ClInclude Include="..\include\ismemberBuiltin.hpp" />
     <ClInclude Include="..\include\ismissingBuiltin.hpp" />
     <ClInclude Include="..\include\isnanBuiltin.hpp" />
     <ClInclude Include="..\include\isscalarBuiltin.hpp" />

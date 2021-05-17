@@ -34,6 +34,9 @@ namespace Nelson {
 NLSVALIDATORS_IMPEXP void
 setEvaluator(Evaluator* eval);
 //=============================================================================
+NLSVALIDATORS_IMPEXP Evaluator*
+getEvaluator();
+//=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeLogical(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
@@ -127,6 +130,8 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller = fals
 NLSVALIDATORS_IMPEXP void
 mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
-
+NLSVALIDATORS_IMPEXP void
+mustBeMember(const ArrayOf& arg, const ArrayOf& S, int argPosition, bool asCaller = false);
+//=============================================================================
 }
 //=============================================================================

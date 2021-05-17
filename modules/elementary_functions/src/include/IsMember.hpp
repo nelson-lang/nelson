@@ -23,6 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = ones(5000,5000);A(2500,2500)=1;
-tic();R = ismember(A,1);toc()
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+IsMember(const ArrayOf& A, const ArrayOf &B, bool& needToOverload);
+//=============================================================================
+}
 //=============================================================================

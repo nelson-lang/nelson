@@ -23,6 +23,21 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = ones(5000,5000);A(2500,2500)=1;
-tic();R = ismember(A,1);toc()
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+#include "nlsElementary_functions_builtin_exports.h"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+namespace ElementaryFunctionsGateway {
+    //=============================================================================
+    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
+    ArrayOfVector
+    ismemberBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -120,5 +120,8 @@ mustBeNumericOrLogical(const ArrayOfVector& args, int argPosition);
 NLSVALIDATORS_IMPEXP void
 mustBeNonzeroLengthText(const ArrayOfVector& args, int argPosition);
 //=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeMember(const ArrayOfVector& args, const ArrayOf& S, int argPosition);
+//=============================================================================
 }
 //=============================================================================

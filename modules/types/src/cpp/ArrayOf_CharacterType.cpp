@@ -317,17 +317,22 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
         if (is2D()) {
             indexType rows = getDimensions().getRows();
             indexType columns = getDimensions().getColumns();
-            res.reserve(rows);
-            for (indexType i = 0; i < rows; i++) {
-                std::wstring str;
-                str.reserve(columns);
-                const auto* qp = static_cast<const charType*>(dp->getData());
-                for (indexType j = 0; j < columns; j++) {
-                    size_t idx = i + j * rows;
-                    str.push_back(qp[idx]);
+            if (rows == 0 && columns == 0) {
+                res.reserve(1);
+                res.push_back(L"");
+            } else {
+                res.reserve(rows);
+                for (indexType i = 0; i < rows; i++) {
+                    std::wstring str;
+                    str.reserve(columns);
+                    const auto* qp = static_cast<const charType*>(dp->getData());
+                    for (indexType j = 0; j < columns; j++) {
+                        size_t idx = i + j * rows;
+                        str.push_back(qp[idx]);
+                    }
+                    res.push_back(str);
+                    str.clear();
                 }
-                res.push_back(str);
-                str.clear();
             }
         } else {
             res.push_back(getContentAsWideString());
