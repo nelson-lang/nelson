@@ -24,8 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function narginchk(minargs, maxargs)
-	if (nargin ~= 2)
-		error(_('Wrong number of input arguments.'));
+  if (nargin ~= 2)
+    error(_('Wrong number of input arguments.'));
   elseif (~isnumeric (minargs) || ~isscalar (minargs))
     error(_('minargs must be a numeric scalar'));
   elseif (~isnumeric (maxargs) || ~isscalar (maxargs))
