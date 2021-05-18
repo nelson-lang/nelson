@@ -27,11 +27,12 @@
 #include "All.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
+#include "EmptyHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-All(ArrayOf& A, indexType dim, bool& needToOverload)
+All(ArrayOf& A, indexType dim, bool doOverAllElements, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
@@ -42,72 +43,23 @@ All(ArrayOf& A, indexType dim, bool& needToOverload)
         return ArrayOf();
     }
     if (A.isEmpty()) {
-        if (dim == 0) {
-            Dimensions dims2Dzeros(0, 0);
-            Dimensions dimsA = A.getDimensions();
-            if (dimsA.equals(dims2Dzeros)) {
-                res = ArrayOf::logicalConstructor(true);
-            } else {
-                if (dimsA.getRows() > dimsA.getColumns()) {
-                    Dimensions dims(1, 0);
-                    res = ArrayOf::emptyConstructor(dims);
-                    res.promoteType(NLS_LOGICAL);
-                } else {
-                    logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                        NLS_LOGICAL, dimsA.getColumns(), stringVector(), false);
-                    memset(logicalarray, 1, dimsA.getColumns());
-                    res = ArrayOf(NLS_LOGICAL, Dimensions(1, dimsA.getColumns()), logicalarray);
-                }
-            }
-        } else {
-            Dimensions dims2Dzeros(0, 0);
-            if (A.getDimensions().equals(dims2Dzeros)) {
-                if (dim - 1 == 0) {
-                    Dimensions dims(1, 0);
-                    res = ArrayOf::emptyConstructor(dims);
-                    res.promoteType(NLS_LOGICAL);
-                } else if (dim - 1 == 1) {
-                    Dimensions dims(0, 1);
-                    res = ArrayOf::emptyConstructor(dims);
-                    res.promoteType(NLS_LOGICAL);
-                } else {
-                    res = ArrayOf::emptyConstructor();
-                    res.promoteType(NLS_LOGICAL);
-                }
-            } else {
-                if (A.getRows() > A.getColumns()) {
-                    if (dim - 1 == 0) {
-                        Dimensions dims(1, 0);
-                        res = ArrayOf::emptyConstructor(dims);
-                        res.promoteType(NLS_LOGICAL);
-                    } else if (dim - 1 == 1) {
-                        logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                            NLS_LOGICAL, A.getRows(), stringVector(), false);
-                        memset(logicalarray, 1, A.getRows());
-                        res = ArrayOf(NLS_LOGICAL, Dimensions(A.getRows(), 1), logicalarray);
-                    } else {
-                        Dimensions dims(A.getRows(), 0);
-                        res = ArrayOf::emptyConstructor(dims);
-                        res.promoteType(NLS_LOGICAL);
-                    }
-                } else {
-                    if (dim - 1 == 0) {
-                        logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                            NLS_LOGICAL, A.getColumns(), stringVector(), false);
-                        memset(logicalarray, 1, A.getColumns());
-                        res = ArrayOf(NLS_LOGICAL, Dimensions(1, A.getColumns()), logicalarray);
-                    } else if (dim - 1 == 1) {
-                        Dimensions dims(0, 1);
-                        res = ArrayOf::emptyConstructor(dims);
-                        res.promoteType(NLS_LOGICAL);
-                    } else {
-                        Dimensions dims(0, A.getColumns());
-                        res = ArrayOf::emptyConstructor(dims);
-                        res.promoteType(NLS_LOGICAL);
-                    }
-                }
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsRes = emptyDimensionsHelper(dimsA, dim);
+        logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, dimsRes.getElementCount(), stringVector(), false);
+        memset(logicalarray, 1, dimsRes.getElementCount());
+        res = ArrayOf(NLS_LOGICAL, dimsRes, logicalarray);
+    } else if (doOverAllElements) {
+        bool bres = true;
+        indexType elementCount = A.getElementCount();
+        auto* pLogical = (logical*)A.getDataPointer();
+        for (indexType k = 0; k < elementCount; k++) {
+            if (!(pLogical[k] != 0)) {
+                bres = false;
+                break;
             }
         }
+        res = ArrayOf::logicalConstructor(bres);
     } else if (A.isVector()) {
         auto* pLogical = (logical*)A.getDataPointer();
         bool bRes = true;

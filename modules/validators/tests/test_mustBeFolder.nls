@@ -23,13 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('mustBeTextScalar'), -1);
-assert_isequal(nargout('mustBeTextScalar'), 0);
+assert_isequal(nargin('mustBeFolder'), -1);
+assert_isequal(nargout('mustBeFolder'), 0);
 //=============================================================================
-mustBeTextScalar('a text');
-mustBeTextScalar("a text");
-assert_checkerror('mustBeTextScalar(Inf)', _('Value must be a character vector or string scalar.'), 'Nelson:validators:mustBeTextScalar');
+mustBeFolder(tempdir());
+assert_checkerror('mustBeFolder(Inf)', _('Value must be a character vector or string scalar.'), 'Nelson:validators:mustBeTextScalar');
 //=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be a character vector or string scalar.')];
-assert_checkerror('mustBeTextScalar(Inf, 3)', msg, 'Nelson:validators:mustBeTextScalar');
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be folder.')];
+assert_checkerror('mustBeFolder(''Inf'', 3)', msg, 'Nelson:validators:mustBeFolder');
 //=============================================================================

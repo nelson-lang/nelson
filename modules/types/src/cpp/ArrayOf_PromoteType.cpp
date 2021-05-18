@@ -1149,5 +1149,369 @@ ArrayOf::promoteType(Class dstClass)
     promoteType(dstClass, dummy);
 }
 //=============================================================================
+bool
+ArrayOf::canBePromotedTo(Class dstClass)
+{
+    if (isEmpty()) {
+        return true;
+    }
+    if (dp->dataClass != dstClass) {
+        if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
+            || (dstClass == NLS_STRUCT_ARRAY)) {
+            return false;
+        }
+    }
+    if (dp->dataClass == dstClass) {
+        return true;
+    }
+    if (isSparse()) {
+        if ((dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX)
+            || (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)
+            || (dp->dataClass == NLS_LOGICAL)) {
+            return true;
+        }
+    }
+    switch (dp->dataClass) {
+    case NLS_HANDLE: {
+        return false;
+    } break;
+    case NLS_CELL_ARRAY: {
+        return false;
+    } break;
+    case NLS_STRUCT_ARRAY: {
+        return false;
+    } break;
+    case NLS_STRING_ARRAY: {
+        return false;
+    } break;
+    case NLS_LOGICAL: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_UINT8: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_INT8: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_INT8:
+        case NLS_UINT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_UINT16: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return true;
+        } break;
+        }
+    } break;
+    case NLS_INT16: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_INT16:
+        case NLS_UINT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_UINT32: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_INT32: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_INT32:
+        case NLS_UINT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_UINT64: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_INT64: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_INT64:
+        case NLS_UINT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_SINGLE: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_DOUBLE: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_SCOMPLEX: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_DCOMPLEX:
+        case NLS_SCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    case NLS_CHAR: {
+        switch (dstClass) {
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        case NLS_CHAR: {
+            return true;
+        } break;
+        default: {
+            return false;
+        } break;
+        }
+    } break;
+    default: {
+        return false;
+    } break;
+    }
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

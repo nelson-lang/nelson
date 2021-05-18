@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-All(ArrayOf& A, indexType dim, bool& needToOverload);
+All(ArrayOf& A, indexType dim, bool doOverAllElements, bool& needToOverload);
 //=============================================================================
 }
 //=============================================================================

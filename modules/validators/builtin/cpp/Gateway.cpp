@@ -28,19 +28,43 @@
 #include "mustBeLogicalScalarBuiltin.hpp"
 #include "mustBeLogicalBuiltin.hpp"
 #include "mustBeFiniteBuiltin.hpp"
+#include "mustBeNonemptyBuiltin.hpp"
 #include "mustBeScalarOrEmptyBuiltin.hpp"
 #include "mustBeValidVariableNameBuiltin.hpp"
 #include "mustBeTextScalarBuiltin.hpp"
+#include "mustBeTextBuiltin.hpp"
 #include "mustBeFolderBuiltin.hpp"
+#include "mustBeFileBuiltin.hpp"
 #include "mustBeVectorBuiltin.hpp"
 #include "mustBeFloatBuiltin.hpp"
 #include "mustBeNumericBuiltin.hpp"
+#include "mustBeABuiltin.hpp"
+#include "mustBePositiveBuiltin.hpp"
+#include "mustBeNonnegativeBuiltin.hpp"
+#include "mustBeNegativeBuiltin.hpp"
+#include "mustBeNonpositiveBuiltin.hpp"
+#include "mustBeNonNanBuiltin.hpp"
+#include "mustBeNonZeroBuiltin.hpp"
+#include "mustBeNonSparseBuiltin.hpp"
+#include "mustBeRealBuiltin.hpp"
+#include "mustBeIntegerBuiltin.hpp"
+#include "mustBeNonmissingBuiltin.hpp"
+#include "mustBeGreaterThanBuiltin.hpp"
+#include "mustBeLessThanBuiltin.hpp"
+#include "mustBeGreaterThanOrEqualBuiltin.hpp"
+#include "mustBeLessThanOrEqualBuiltin.hpp"
+#include "mustBeNumericOrLogicalBuiltin.hpp"
+#include "mustBeNonzeroLengthTextBuiltin.hpp"
+#include "mustBeMemberBuiltin.hpp"
+#include "mustBeInRangeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"validators";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "mustBeNumericOrLogical", (void*)Nelson::ValidatorsGateway::mustBeNumericOrLogicalBuiltin, 0,
+        -1, CPP_BUILTIN },
     { "mustBeLogical", (void*)Nelson::ValidatorsGateway::mustBeLogicalBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeLogicalScalar", (void*)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0, -1,
         CPP_BUILTIN },
@@ -51,10 +75,43 @@ static const nlsGateway gateway[] = {
         0, -1, CPP_BUILTIN },
     { "mustBeTextScalar", (void*)Nelson::ValidatorsGateway::mustBeTextScalarBuiltin, 0, -1,
         CPP_BUILTIN },
+    { "mustBeText", (void*)Nelson::ValidatorsGateway::mustBeTextBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonzeroLengthText", (void*)Nelson::ValidatorsGateway::mustBeNonzeroLengthTextBuiltin,
+        0, -1, CPP_BUILTIN },
     { "mustBeFolder", (void*)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeFile", (void*)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeVector", (void*)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeFloat", (void*)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1, CPP_BUILTIN },
     { "mustBeNumeric", (void*)Nelson::ValidatorsGateway::mustBeNumericBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonempty", (void*)Nelson::ValidatorsGateway::mustBeNonemptyBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeA", (void*)Nelson::ValidatorsGateway::mustBeABuiltin, 0, -2, CPP_BUILTIN },
+    { "mustBePositive", (void*)Nelson::ValidatorsGateway::mustBePositiveBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeNonnegative", (void*)Nelson::ValidatorsGateway::mustBeNonnegativeBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeNegative", (void*)Nelson::ValidatorsGateway::mustBeNegativeBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeNonpositive", (void*)Nelson::ValidatorsGateway::mustBeNonpositiveBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeNonNan", (void*)Nelson::ValidatorsGateway::mustBeNonNanBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonZero", (void*)Nelson::ValidatorsGateway::mustBeNonZeroBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonSparse", (void*)Nelson::ValidatorsGateway::mustBeNonSparseBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeReal", (void*)Nelson::ValidatorsGateway::mustBeRealBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeInteger", (void*)Nelson::ValidatorsGateway::mustBeIntegerBuiltin, 0, -1, CPP_BUILTIN },
+    { "mustBeNonmissing", (void*)Nelson::ValidatorsGateway::mustBeNonmissingBuiltin, 0, -1,
+        CPP_BUILTIN },
+    { "mustBeGreaterThan", (void*)Nelson::ValidatorsGateway::mustBeGreaterThanBuiltin, 0, -2,
+        CPP_BUILTIN },
+    { "mustBeLessThan", (void*)Nelson::ValidatorsGateway::mustBeLessThanBuiltin, 0, -2,
+        CPP_BUILTIN },
+    { "mustBeGreaterThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeGreaterThanOrEqualBuiltin,
+        0, -2, CPP_BUILTIN },
+    { "mustBeLessThanOrEqual", (void*)Nelson::ValidatorsGateway::mustBeLessThanOrEqualBuiltin, 0,
+        -2, CPP_BUILTIN },
+    { "mustBeMember", (void*)Nelson::ValidatorsGateway::mustBeMemberBuiltin, 0, -2, CPP_BUILTIN },
+    { "mustBeInRange", (void*)Nelson::ValidatorsGateway::mustBeInRangeBuiltin, 0, -3, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

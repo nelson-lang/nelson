@@ -27,5 +27,6 @@
 // https://github.com/Nelson-numerical-software/nelson/issues/104
 // <-- Short Description -->
 // mpiexec did not work on some linux
+// <--SEQUENTIAL TEST REQUIRED-->
 //=============================================================================
 mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.nls'], 4)

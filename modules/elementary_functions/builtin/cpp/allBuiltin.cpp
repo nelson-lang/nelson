@@ -43,14 +43,24 @@ Nelson::ElementaryFunctionsGateway::allBuiltin(
         retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
     }
     if (!bSuccess) {
+        bool doOverAllElements = false;
         indexType d = 0;
         ArrayOf arg1 = argIn[0];
         if (argIn.size() > 1) {
             ArrayOf arg2 = argIn[1];
-            d = arg2.getContentAsScalarIndex(false);
+            if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
+                std::wstring paramAsString = arg2.getContentAsWideString();
+                if (paramAsString != L"all") {
+                    Error(_W("Wrong value for #2 argument."));
+                } else {
+                    doOverAllElements = true;
+                }
+            } else {
+                d = arg2.getContentAsScalarIndex(false);
+            }
         }
         bool needToOverload = false;
-        ArrayOf res = All(arg1, d, needToOverload);
+        ArrayOf res = All(arg1, d, doOverAllElements, needToOverload);
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "all");
         } else {

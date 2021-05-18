@@ -40,10 +40,11 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../string/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
 # ==============================================================================
 file(GLOB VALIDATORS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -53,6 +54,7 @@ add_library(${module_library_name} SHARED ${VALIDATORS_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
+  nlsData_structures
   nlsError_manager
   nlsInterpreter
   nlsTypes
@@ -62,6 +64,7 @@ target_link_libraries(
   nlsDynamic_link
   nlsI18n
   nlsFiles_folders_functions_builtin
+  nlsString_builtin
   nlsString)
 # ==============================================================================
 set_target_properties(
@@ -103,6 +106,12 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/include
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/include
+  FILES_MATCHING
+  PATTERN "*.h"
+  PATTERN "*.hpp")
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls

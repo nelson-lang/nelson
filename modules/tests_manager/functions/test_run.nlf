@@ -286,6 +286,15 @@ function test_case_cleaned = post_run_test_case(test_case_res)
   test_case_cleaned = test_case_res;
 endfunction
 //=============================================================================
+function r = isSupportedPlatform(test_case)
+  is_all_platforms =  ~test_case.options.windows_only && ~test_case.options.mac_only && ~test_case.options.unix_only;
+  if is_all_platforms
+    r = true;
+  else  
+    r = (ispc() && test_case.options.windows_only) || (ismac() && test_case.options.mac_only) || (isunix() && ~ismac() && test_case.options.unix_only);
+  end
+endfunction
+//=============================================================================
 function test_case = create_test_case(filename)
   test_case.filename = filename;
   test_case.options = test_parsetags(filename);
@@ -348,9 +357,7 @@ function test_case = create_test_case(filename)
   test_case.redirect_err = '';
   test_case.command_filename = '';
   if ~test_case.skip
-    is_all_platforms =  ~test_case.options.windows_only && ~test_case.options.mac_only && ~test_case.options.unix_only;
-    is_current_platform = (ispc() && test_case.options.windows_only) || (ismac() && test_case.options.mac_only) || (isunix() && ~ismac() && test_case.options.unix_only);
-    if (is_all_platforms || is_current_platform)
+    if isSupportedPlatform(test_case)
       testfile = test_case.filename;
       [p, f, e] = fileparts(testfile);
       outputfile = [tempdir(), '' , f, '.output'];
@@ -927,7 +934,10 @@ function cmd = build_command_nelson_gui(command, withMPI)
 endfunction
 //=============================================================================
 function cmd = build_command_nelson_mode(exe, command, withMPI)
-  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  persistent nelson_bin_path
+  if isempty(nelson_bin_path)
+    nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  end
   nelson_exe_path = ['"', nelson_bin_path, '/', exe, '"'];
   cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
 endfunction

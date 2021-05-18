@@ -48,7 +48,7 @@ mustBeFinite(Inf)]]>
       <link linkend="${elementary_functions}isfinite">isfinite</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}isinteger">isempty</link>
+      <link linkend="${types}isempty">isempty</link>
     </see_also_item>
   </see_also>
 

@@ -97,6 +97,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)thirdparty/$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,6 +114,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)thirdparty/$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,6 +133,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)thirdparty/$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +154,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)thirdparty/$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

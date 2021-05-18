@@ -98,6 +98,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/cpp;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/validators/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +117,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/cpp;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/validators/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,6 +138,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/cpp;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/validators/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +161,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/validators/src/cpp;$(SolutionDir)modules/validators/src/include;$(SolutionDir)modules/validators/builtin/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,13 +173,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\mustBeABuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeFileBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFloatBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeFolderBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeGreaterThanBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeGreaterThanOrEqualBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeInRangeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeIntegerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeLessThanBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeLessThanOrEqualBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLogicalScalarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeMemberBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNegativeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonemptyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonmissingBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonNanBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonnegativeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonpositiveBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonSparseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonZeroBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNonzeroLengthTextBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeNumericBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeNumericOrLogicalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBePositiveBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeRealBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeScalarOrEmptyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeTextBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeTextScalarBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeValidVariableNameBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeVectorBuiltin.cpp" />
@@ -211,12 +237,34 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\mustBeABuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeFileBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFiniteBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFloatBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeFolderBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeGreaterThanBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeGreaterThanOrEqualBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeInRangeBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeIntegerBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeLessThanBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeLessThanOrEqualBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLogicalScalarBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeMemberBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNegativeBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonemptyBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonmissingBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonNanBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonnegativeBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonpositiveBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonSparseBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonZeroBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNonzeroLengthTextBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeNumericBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeNumericOrLogicalBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBePositiveBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeRealBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeTextBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeTextScalarBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeValidVariableNameBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeScalarOrEmptyBuiltin.hpp" />

@@ -523,6 +523,12 @@ public:
     promoteType(Class new_type);
 
     /**
+    * returns if array can be promoted to new type
+    */
+    bool
+    canBePromotedTo(Class new_type);
+
+    /**
      * Diagonal constructor - construct an array from a given vector, with
      * the contents of the vector stored into the specified diagonal of the
      * matrix.

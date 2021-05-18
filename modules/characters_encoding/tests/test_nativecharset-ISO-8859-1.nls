@@ -33,7 +33,7 @@ fclose(F);
 ce = nativecharset(R');
 assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'ISO-8859-1'));
+assert_istrue(any(contains(ce, 'ISO-8859-1')))
 //=============================================================================
 pt = [modulepath('characters_encoding'), '/tests/portugal_ISO-8859-1.txt'];
 F = fopen(pt, 'rt');
@@ -42,5 +42,5 @@ fclose(F);
 ce = nativecharset(R');
 assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'ISO-8859-1'));
+assert_istrue(any(contains(ce, 'ISO-8859-1')))
 //=============================================================================

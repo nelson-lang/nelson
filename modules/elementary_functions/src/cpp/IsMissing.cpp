@@ -122,6 +122,18 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             resultAslogical[k] = static_cast<Nelson::logical>(ptrA[k] == L' ');
         }
     } break;
+    case NLS_LOGICAL:
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64: {
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), true));
+    } break;
     default: {
         needToOverload = true;
         return ArrayOf();

@@ -33,5 +33,5 @@ fclose(F);
 ce = nativecharset(R');
 assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
-assert_isequal(ce{1}, 'ISO-8859-1');
+assert_istrue(any(contains(ce, 'ISO-8859-1')))
 //=============================================================================

@@ -33,5 +33,5 @@ fclose(F);
 ce = nativecharset(R');
 assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
-assert_istrue(strcmp(ce{1}, 'windows-1251'));
+assert_istrue(any(contains(ce, 'windows-1251')));
 //=============================================================================

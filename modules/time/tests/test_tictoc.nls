@@ -29,14 +29,14 @@ assert_isequal(nargin('toc'), 0);
 assert_isequal(nargout('toc'), 1);
 //=============================================================================
 tic();
-sleep(10);
+sleep(5);
 t = toc();
-assert_isapprox(t, 10, 1e-1);
+assert_isapprox(t, 5, 1e-1);
 tic();
-sleep(10)
+sleep(5)
+t = toc();
+assert_isapprox(t, 5, 1e-1);
+sleep(5)
 t = toc();
 assert_isapprox(t, 10, 1e-1);
-sleep(10)
-t = toc();
-assert_isapprox(t, 20, 1e-1);
 //=============================================================================

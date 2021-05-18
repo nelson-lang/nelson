@@ -2,8 +2,25 @@
 
 ## Features:
 
+- Validators functions available from Nelson and C++ API (part 2):
+
+  - `mustBeFile`,
+  - `mustBeNonempty`, `mustBeNonNan`, `mustBeNonZero`, `mustBeNonSparse`,
+  - `mustBeA`, `mustBeReal`, `mustBeInteger`, `mustBeNonmissing`,
+  - `mustBePositive`, `mustBeNonpositive`, `mustBeNonnegative`, `mustBeNegative`,
+  - `mustBeGreaterThan`, `mustBeGreaterThanOrEqual`, `mustBeLessThan`,
+  - `mustBeNumericOrLogical`, `mustBeText`, `mustBeNonzeroLengthText`,
+  - `mustBeMember`, `mustBeInRange`.
+
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
+
 - benchs are executed sequentialy (better bench results).
+
+- `all`, `any` behavior with empty matrix updated.
+
+- extends `all` to manage over all elements.
+
+- `ismember` builtin: Array elements that are members of another array.
 
 ## Bug Fixes:
 

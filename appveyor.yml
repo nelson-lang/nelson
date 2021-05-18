@@ -53,25 +53,25 @@ after_build:
 - iscc "c:/build_chain/nelson/tools/innosetup/Nelson.iss"
 
 - 'c:/build_chain/nelson/%GENERATED_EXE% /SP- /SILENT /DIR="c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%"'
-- 7z a -tzip c:/build_chain/%GENERATED_ZIP% c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
+- 7z a -tzip -mx9 c:/build_chain/%GENERATED_ZIP% c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
 
 # tested in an long path name with space on windows
 - mv "c:\build_chain\Nelson-%APPVEYOR_BUILD_VERSION%" "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%"
-- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/benchs_all/runbenchs_all.nls"'
+#- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/benchs_all/runbenchs_all.nls"'
 - '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --noipc --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"'
 - copy "c:\build_chain\%GENERATED_ZIP%" "c:\build_chain\nelson\%GENERATED_ZIP%"
 - copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_TESTS_XML%" "c:\build_chain\nelson\%RESULT_TESTS_XML%"
 - copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_TESTS_JSON%" "c:\build_chain\nelson\%RESULT_TESTS_JSON%"
-- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_BENCHS_XML%" "c:\build_chain\nelson\%RESULT_BENCHS_XML%"
-- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_BENCHS_JSON%" "c:\build_chain\nelson\%RESULT_BENCHS_JSON%"
+#- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_BENCHS_XML%" "c:\build_chain\nelson\%RESULT_BENCHS_XML%"
+#- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_BENCHS_JSON%" "c:\build_chain\nelson\%RESULT_BENCHS_JSON%"
 
 artifacts:
   - path: ./%GENERATED_EXE%
   - path: ./%GENERATED_ZIP%
   - path: ./%RESULT_TESTS_XML%
   - path: ./%RESULT_TESTS_JSON%
-  - path: ./%RESULT_BENCHS_XML%
-  - path: ./%RESULT_BENCHS_JSON%
+#  - path: ./%RESULT_BENCHS_XML%
+#  - path: ./%RESULT_BENCHS_JSON%
 
 notifications:
 - provider: Email

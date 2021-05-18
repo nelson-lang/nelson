@@ -286,7 +286,7 @@ jobs:
 
     - name: Zip Nelson install directory
       run: |
-        "C:/Program Files/7-Zip/7z" a -tzip %GITHUB_WORKSPACE%/artifacts/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%-x86-32.zip c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
+        "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%-x86-32.zip c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
 
     - name: Tests moved in an long path name with space on windows
       run: |
@@ -402,7 +402,7 @@ jobs:
 
     - name: Zip Nelson install directory
       run: |
-        "C:/Program Files/7-Zip/7z" a -tzip %GITHUB_WORKSPACE%/artifacts/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%-x86-64.zip c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
+        "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%-x86-64.zip c:/install/Nelson-${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%
 
     - name: Tests moved in an long path name with space on windows 
       run: |

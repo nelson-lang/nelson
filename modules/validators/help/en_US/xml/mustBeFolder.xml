@@ -11,7 +11,7 @@
     <syntax_item>mustBeFolder(var, argPosition)</syntax_item>
     <syntax_item>C++: void mustBeFolder(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
@@ -25,7 +25,7 @@
 
 
   <description>
-  <p><b>mustBeFolder</b> that input path refers to folder or raise an error.</p>
+  <p><b>mustBeFolder</b> checks that input path refers to folder or raise an error.</p>
 </description>
 
   <used_function></used_function>
@@ -58,5 +58,3 @@ mustBeFolder('hello_nelson')]]>
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-
