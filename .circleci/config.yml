@@ -3,14 +3,13 @@ jobs:
   build:
     working_directory: ~/
     docker:
-      - image: archlinux:latest
+      - image: quay.io/aminvakil/archlinux:devel
     environment:
       DISPLAY: ""
       OMP_NUM_THREADS: 4
       OMPI_ALLOW_RUN_AS_ROOT: 1
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
     steps:
-      - run: patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && curl -LO "https://repo.archlinuxcn.org/x86_64/$patched_glibc" && bsdtar -C / -xvf "$patched_glibc"
       - run: pacman -Syu --noconfirm
       - run: pacman -S base-devel --noconfirm
       - run: pacman -S inetutils --noconfirm
@@ -48,32 +47,32 @@ jobs:
       - run: git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
       - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.9 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
       - run: git clone https://github.com/Nelson-numerical-software/nelson.git
-      - run: 
+      - run:
           command: git checkout ${CIRCLE_BRANCH}
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: cmake -G "Unix Makefiles" .
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: make -j4
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: make get_module_skeleton
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: make buildhelp
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: make tests_minimal
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: make package
           working_directory: ~/nelson
-      - run: 
+      - run:
           command: make benchs_all_no_display
           working_directory: ~/nelson
       - run: rm -rf ~/.gitconfig 2> /dev/null
       - run: rm -rf /etc/gitconfig 2> /dev/null
-      - run: 
+      - run:
           command: make tests_all_no_display
           working_directory: ~/nelson
