@@ -35,6 +35,7 @@ list(
   types
   api_nelson
   stream_manager
+  operators
   elementary_functions
   special_functions
   interpreter

@@ -42,6 +42,7 @@ modules_list = [
 "double";
 "data_structures";
 "integer";
+"operators";
 "elementary_functions";
 "special_functions";
 "trigonometric_functions";
@@ -102,6 +103,7 @@ modules_help_list = [
 "error_manager";
 "memory_manager";
 "modules_manager";
+"operators";
 "elementary_functions";
 "special_functions";
 "constructors_functions";

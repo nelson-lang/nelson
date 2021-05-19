@@ -32,6 +32,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/builtin/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -60,6 +61,7 @@ target_link_libraries(
   nlsTypes
   nlsTypes_builtin
   nlsElementary_functions_builtin
+  nlsOperators_builtin
   nlsModules_manager
   nlsDynamic_link
   nlsI18n

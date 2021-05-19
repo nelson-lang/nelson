@@ -25,20 +25,13 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "absBuiltin.hpp"
-#include "andBuiltin.hpp"
 #include "castBuiltin.hpp"
 #include "ceilBuiltin.hpp"
-#include "colonBuiltin.hpp"
 #include "complexBuiltin.hpp"
 #include "conjBuiltin.hpp"
-#include "ctransposeBuiltin.hpp"
 #include "dispBuiltin.hpp"
-#include "eqBuiltin.hpp"
 #include "fixBuiltin.hpp"
 #include "floorBuiltin.hpp"
-#include "geBuiltin.hpp"
-#include "gtBuiltin.hpp"
-#include "horzcatBuiltin.hpp"
 #include "imagBuiltin.hpp"
 #include "isapproxBuiltin.hpp"
 #include "isequalBuiltin.hpp"
@@ -47,42 +40,18 @@
 #include "isfiniteBuiltin.hpp"
 #include "isinfBuiltin.hpp"
 #include "isnanBuiltin.hpp"
-#include "ldivideBuiltin.hpp"
-#include "leBuiltin.hpp"
 #include "lengthBuiltin.hpp"
-#include "ltBuiltin.hpp"
-#include "minusBuiltin.hpp"
-#include "mldivideBuiltin.hpp"
 #include "modBuiltin.hpp"
-#include "mpowerBuiltin.hpp"
-#include "mrdivideBuiltin.hpp"
-#include "mtimesBuiltin.hpp"
 #include "ndimsBuiltin.hpp"
-#include "neBuiltin.hpp"
-#include "notBuiltin.hpp"
-#include "allBuiltin.hpp"
-#include "anyBuiltin.hpp"
 #include "numelBuiltin.hpp"
-#include "orBuiltin.hpp"
-#include "plusBuiltin.hpp"
-#include "powerBuiltin.hpp"
 #include "prodBuiltin.hpp"
 #include "sumBuiltin.hpp"
-#include "rdivideBuiltin.hpp"
 #include "realBuiltin.hpp"
 #include "remBuiltin.hpp"
 #include "repmatBuiltin.hpp"
 #include "reshapeBuiltin.hpp"
 #include "roundBuiltin.hpp"
-#include "shortcutandBuiltin.hpp"
-#include "shortcutorBuiltin.hpp"
 #include "sizeBuiltin.hpp"
-#include "subsindexBuiltin.hpp"
-#include "timesBuiltin.hpp"
-#include "transposeBuiltin.hpp"
-#include "uminusBuiltin.hpp"
-#include "uplusBuiltin.hpp"
-#include "vertcatBuiltin.hpp"
 #include "normBuiltin.hpp"
 #include "expBuiltin.hpp"
 #include "logBuiltin.hpp"
@@ -108,75 +77,14 @@
 #include "triuBuiltin.hpp"
 #include "trilBuiltin.hpp"
 #include "signBuiltin.hpp"
-#include "ismemberBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"elementary_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "plus", (void*)Nelson::ElementaryFunctionsGateway::plusBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "minus", (void*)Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "uminus", (void*)Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "uplus", (void*)Nelson::ElementaryFunctionsGateway::uplusBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "and", (void*)Nelson::ElementaryFunctionsGateway::andBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "colon", (void*)Nelson::ElementaryFunctionsGateway::colonBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "ctranspose", (void*)Nelson::ElementaryFunctionsGateway::ctransposeBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "transpose", (void*)Nelson::ElementaryFunctionsGateway::transposeBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
     { "disp", (void*)Nelson::ElementaryFunctionsGateway::dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "eq", (void*)Nelson::ElementaryFunctionsGateway::eqBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "ge", (void*)Nelson::ElementaryFunctionsGateway::geBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "gt", (void*)Nelson::ElementaryFunctionsGateway::gtBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "le", (void*)Nelson::ElementaryFunctionsGateway::leBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "lt", (void*)Nelson::ElementaryFunctionsGateway::ltBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "ne", (void*)Nelson::ElementaryFunctionsGateway::neBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "ldivide", (void*)Nelson::ElementaryFunctionsGateway::ldivideBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "rdivide", (void*)Nelson::ElementaryFunctionsGateway::rdivideBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "mldivide", (void*)Nelson::ElementaryFunctionsGateway::mldivideBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "mrdivide", (void*)Nelson::ElementaryFunctionsGateway::mrdivideBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "mtimes", (void*)Nelson::ElementaryFunctionsGateway::mtimesBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "times", (void*)Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "not", (void*)Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "or", (void*)Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "any", (void*)Nelson::ElementaryFunctionsGateway::anyBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "all", (void*)Nelson::ElementaryFunctionsGateway::allBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "power", (void*)Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "mpower", (void*)Nelson::ElementaryFunctionsGateway::mpowerBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "shortcutor", (void*)Nelson::ElementaryFunctionsGateway::shortcutorBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "shortcutand", (void*)Nelson::ElementaryFunctionsGateway::shortcutandBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "subsindex", (void*)Nelson::ElementaryFunctionsGateway::subsindexBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    //"subsasgn"
-    //"subsref"
     { "size", (void*)Nelson::ElementaryFunctionsGateway::sizeBuiltin, -1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "length", (void*)Nelson::ElementaryFunctionsGateway::lengthBuiltin, 1, 1,
@@ -188,10 +96,6 @@ static const nlsGateway gateway[] = {
     { "imag", (void*)Nelson::ElementaryFunctionsGateway::imagBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "complex", (void*)Nelson::ElementaryFunctionsGateway::complexBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "horzcat", (void*)Nelson::ElementaryFunctionsGateway::horzcatBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "vertcat", (void*)Nelson::ElementaryFunctionsGateway::vertcatBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isequal", (void*)Nelson::ElementaryFunctionsGateway::isequalBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
@@ -292,8 +196,6 @@ static const nlsGateway gateway[] = {
     { "tril", (void*)Nelson::ElementaryFunctionsGateway::trilBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sign", (void*)Nelson::ElementaryFunctionsGateway::signBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "ismember", (void*)Nelson::ElementaryFunctionsGateway::ismemberBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
