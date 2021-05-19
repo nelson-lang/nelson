@@ -22,6 +22,8 @@
 
 - `ismember` builtin: Array elements that are members of another array.
 
+- [#439](http://github.com/Nelson-numerical-software/nelson/issues/439): split elementary_functions module and creates operators modules.
+
 ## Bug Fixes:
 
 - [#435](http://github.com/Nelson-numerical-software/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.

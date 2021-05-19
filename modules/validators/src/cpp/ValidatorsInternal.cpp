@@ -28,8 +28,6 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "isfiniteBuiltin.hpp"
-#include "allBuiltin.hpp"
-#include "anyBuiltin.hpp"
 #include "isemptyBuiltin.hpp"
 #include "isscalarBuiltin.hpp"
 #include "IsValidVariableName.hpp"
@@ -39,11 +37,6 @@
 #include "isfloatBuiltin.hpp"
 #include "isnumericBuiltin.hpp"
 #include "isrealBuiltin.hpp"
-#include "gtBuiltin.hpp"
-#include "geBuiltin.hpp"
-#include "ltBuiltin.hpp"
-#include "leBuiltin.hpp"
-#include "eqBuiltin.hpp"
 #include "isnanBuiltin.hpp"
 #include "issparseBuiltin.hpp"
 #include "isrealBuiltin.hpp"
@@ -52,6 +45,13 @@
 #include "IsCellOfStrings.hpp"
 #include "strlengthBuiltin.hpp"
 #include "ismemberBuiltin.hpp"
+#include "gtBuiltin.hpp"
+#include "geBuiltin.hpp"
+#include "ltBuiltin.hpp"
+#include "leBuiltin.hpp"
+#include "eqBuiltin.hpp"
+#include "allBuiltin.hpp"
+#include "anyBuiltin.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -105,7 +105,7 @@ mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOf asVector = argIn[0];
     asVector.reshape(dimsV);
     ArrayOfVector argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, asVector);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be finite.");
         std::wstring id = _W("Nelson:validators:mustBeFinite");
@@ -317,8 +317,8 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, vAsArrayOfVector);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::gtBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     bool isPositive = argOut[0].getContentAsLogicalScalar();
     if (!isPositive) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be positive.");
@@ -345,8 +345,8 @@ mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = ElementaryFunctionsGateway::leBuiltin(_eval, 1, vAsArrayOfVector);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::leBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     bool isNonpositive = argOut[0].getContentAsLogicalScalar();
     if (!isNonpositive) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non positive.");
@@ -373,8 +373,8 @@ mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = ElementaryFunctionsGateway::geBuiltin(_eval, 1, vAsArrayOfVector);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::geBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     bool isNonnegative = argOut[0].getContentAsLogicalScalar();
     if (!isNonnegative) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be nonnegative.");
@@ -401,8 +401,8 @@ mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = ElementaryFunctionsGateway::ltBuiltin(_eval, 1, vAsArrayOfVector);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::ltBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     bool isNegative = argOut[0].getContentAsLogicalScalar();
     if (!isNegative) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be negative.");
@@ -422,7 +422,7 @@ mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
         ArrayOf asVector = argIn[0];
         asVector.reshape(dimsV);
         ArrayOfVector argOut = ElementaryFunctionsGateway::isnanBuiltin(_eval, 1, asVector);
-        argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut);
+        argOut = OperatorsGateway::anyBuiltin(_eval, 1, argOut);
         bool isNaN = argOut[0].getContentAsLogicalScalar();
         if (isNaN) {
             std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be NaN.");
@@ -442,8 +442,8 @@ mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    ArrayOfVector argOut = ElementaryFunctionsGateway::eqBuiltin(_eval, 1, vAsArrayOfVector);
-    argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut);
+    ArrayOfVector argOut = OperatorsGateway::eqBuiltin(_eval, 1, vAsArrayOfVector);
+    argOut = OperatorsGateway::anyBuiltin(_eval, 1, argOut);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be zero.");
         std::wstring id = _W("Nelson:validators:mustBeNonZero");
@@ -493,7 +493,7 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     asVector.reshape(dimsV);
     ArrayOfVector vAsArrayOfVector(asVector);
     argOut = ElementaryFunctionsGateway::isfiniteBuiltin(_eval, 1, asVector);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
         std::wstring id = _W("Nelson:validators:mustBeInteger");
@@ -501,8 +501,8 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     }
     argOut = ElementaryFunctionsGateway::floorBuiltin(_eval, 1, asVector);
     argOut.push_back(asVector);
-    argOut = ElementaryFunctionsGateway::eqBuiltin(_eval, 1, argOut);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::eqBuiltin(_eval, 1, argOut);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
         std::wstring id = _W("Nelson:validators:mustBeInteger");
@@ -518,7 +518,7 @@ mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOf asVector = arg;
     asVector.reshape(dimsV);
     ArrayOfVector argOut = ElementaryFunctionsGateway::ismissingBuiltin(_eval, 1, asVector);
-    argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, argOut[0]);
+    argOut = OperatorsGateway::anyBuiltin(_eval, 1, argOut[0]);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non missing.");
         std::wstring id = _W("Nelson:validators:mustBeNonmissing");
@@ -597,8 +597,8 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    ArrayOfVector argOut = OperatorsGateway::gtBuiltin(_eval, 1, params);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
@@ -660,8 +660,8 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::ltBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    ArrayOfVector argOut = OperatorsGateway::ltBuiltin(_eval, 1, params);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
@@ -723,8 +723,8 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::geBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    ArrayOfVector argOut = OperatorsGateway::geBuiltin(_eval, 1, params);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
@@ -788,8 +788,8 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
     asVector.reshape(dimsV);
     ArrayOfVector params(asVector);
     params.push_back(c);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::leBuiltin(_eval, 1, params);
-    argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+    ArrayOfVector argOut = OperatorsGateway::leBuiltin(_eval, 1, params);
+    argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     return argOut[0].getContentAsLogicalScalar();
 }
 //=============================================================================
@@ -872,9 +872,9 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
         ArrayOfVector argIn(arg);
         ArrayOfVector argOut = StringGateway::strlengthBuiltin(_eval, 1, argIn);
         argOut.push_back(ArrayOf::doubleConstructor(0));
-        argOut = ElementaryFunctionsGateway::gtBuiltin(_eval, 1, argOut);
+        argOut = OperatorsGateway::gtBuiltin(_eval, 1, argOut);
         argOut.push_back(ArrayOf::characterArrayConstructor("all"));
-        argOut = ElementaryFunctionsGateway::allBuiltin(_eval, 1, argOut);
+        argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
         if (!argOut[0].getContentAsLogicalScalar()) {
             std::wstring msg
                 = invalidPositionMessage(argPosition) + _W("Value must be non zero length text.");
@@ -889,12 +889,12 @@ mustBeMember(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCalle
 {
     ArrayOfVector argIn(arg);
     argIn << c;
-    ArrayOfVector argOut = ElementaryFunctionsGateway::ismemberBuiltin(_eval, 1, argIn);
+    ArrayOfVector argOut = OperatorsGateway::ismemberBuiltin(_eval, 1, argIn);
     Dimensions dims = argOut[0].getDimensions();
     Dimensions dimsV(1, dims.getElementCount());
     ArrayOf asVector = argOut[0];
     asVector.reshape(dimsV);
-    argOut = ElementaryFunctionsGateway::anyBuiltin(_eval, 1, asVector);
+    argOut = OperatorsGateway::anyBuiltin(_eval, 1, asVector);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be member of the compared value.");

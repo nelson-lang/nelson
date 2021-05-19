@@ -29,6 +29,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "characters_encoding/module.iss"
 #include "nelson_manager/module.iss"
 #include "terminal/module.iss"
+#include "operators/module.iss"
 #include "elementary_mathematics/module.iss"
 #include "api_nelson/module.iss"
 #include "dynamic_link/module.iss"

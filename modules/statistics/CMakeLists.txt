@@ -36,6 +36,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 file(GLOB STATISTICS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -49,6 +50,7 @@ target_link_libraries(
   nlsTypes
   nlsI18n
   nlsElementary_functions
+  nlsOperators
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}

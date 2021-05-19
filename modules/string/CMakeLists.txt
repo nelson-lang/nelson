@@ -37,6 +37,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include)
@@ -51,6 +52,7 @@ target_link_libraries(
   nlsInterpreter
   nlsElementary_mathematics
   nlsElementary_functions
+  nlsOperators
   nlsTypes
   nlsData_structures
   nlsI18n
@@ -71,14 +73,15 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${STRING_BUILTIN})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsElementary_functions
+  nlsOperators
   nlsError_manager
   nlsInterpreter
   nlsOverload

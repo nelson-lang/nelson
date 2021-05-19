@@ -34,7 +34,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
@@ -48,7 +48,7 @@ target_link_libraries(
   nlsInterpreter
   nlsNelson_manager
   nlsTypes
-  nlsElementary_functions
+  nlsOperators
   nlsElementary_mathematics
   nlsCharacters_encoding
   nlsI18n
