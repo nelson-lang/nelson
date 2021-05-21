@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function txt = nig_check_dimensions_input_variables_definition(NIG_FUNCTION)
-  txt = {'    % CHECK INPUT VARIABLES DIMENSIONS';
+  txt = {'    // CHECK INPUT VARIABLES DIMENSIONS';
          ''};
   n = 0;
   for k = NIG_FUNCTION.VARIABLES(:)'

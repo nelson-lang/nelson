@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function txt = nig_get_output_variables_definition(NIG_FUNCTION)
-  txt = {'    % OUTPUT VARIABLES';
+  txt = {'    // OUTPUT VARIABLES';
          ''};
   for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'output')

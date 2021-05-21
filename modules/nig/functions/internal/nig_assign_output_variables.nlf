@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function txt = nig_assign_output_variables(NIG_FUNCTION)
-  txt = {'    % ASSIGN OUTPUT VARIABLES';
+  txt = {'    // ASSIGN OUTPUT VARIABLES';
          ''};
   n = 0;
   for k = NIG_FUNCTION.VARIABLES(:)'

@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function txt = nig_get_local_variables_definition(NIG_FUNCTION)
-  txt = {'    % LOCAL VARIABLES';
+  txt = {'    // LOCAL VARIABLES';
          ''};
   for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'local')

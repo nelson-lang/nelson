@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function txt = nig_get_in_out_variables_definition(NIG_FUNCTION)
-  txt = {'    % IN/OUT VARIABLES';
+  txt = {'    // IN/OUT VARIABLES';
          ''};
   n = 0;
   for k = NIG_FUNCTION.VARIABLES(:)'

@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function txt = nig_call_function(NIG_FUNCTION)
-  txt = {'    % CALL EXTERN FUNCTION';
+  txt = {'    // CALL EXTERN FUNCTION';
          ''};
   txt{end + 1} = '    try';
   txt{end + 1} = '    {';
