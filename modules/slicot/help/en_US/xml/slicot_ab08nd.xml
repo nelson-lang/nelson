@@ -9,9 +9,9 @@
   <syntax>
     <syntax_item>[NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, P, A, B, C, D, TOL)</syntax_item>
   </syntax>
-  
+
   <param_input>
-  
+
     <param_input_item>
       <param_name>EQUIL</param_name>
       <param_description>'S':  Perform balancing (scaling) or 'N':  Do not perform balancing.</param_description>
@@ -56,7 +56,7 @@
       <param_name>TOL</param_name>
       <param_description> A tolerance used in rank decisions.</param_description>
     </param_input_item>
-    
+
   </param_input>
 
   <param_output>
@@ -138,35 +138,35 @@ M = 2;
 P = 3;
 TOL = 0.0;
 EQUIL = 'N';
-//=============================================================================
+%=============================================================================
 A  = [1.0   0.0   0.0   0.0   0.0   0.0;
    0.0   1.0   0.0   0.0   0.0   0.0;
    0.0   0.0   3.0   0.0   0.0   0.0;
    0.0   0.0   0.0  -4.0   0.0   0.0;
    0.0   0.0   0.0   0.0  -1.0   0.0;
    0.0   0.0   0.0   0.0   0.0   3.0];
-//=============================================================================
+%=============================================================================
 B = [0.0  -1.0;
   -1.0   0.0;
    1.0  -1.0;
    0.0   0.0;
    0.0   1.0;
   -1.0  -1.0];
-//=============================================================================
+%=============================================================================
 C = [1.0   0.0   0.0   1.0   0.0   0.0;
    0.0   1.0   0.0   1.0   0.0   1.0;
    0.0   0.0   1.0   0.0   0.0   1.0];
 D = [0.0   0.0;
    0.0   0.0;
    0.0   0.0];
-//=============================================================================
-// Check the observability and compute the ordered set of the observability indices (call the routine with M = 0).
+%=============================================================================
+% Check the observability and compute the ordered set of the observability indices (call the routine with M = 0).
 [NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, 0, P, A, B, C, D, TOL)
 
-// Check the controllability and compute the ordered set of the controllability indices (call the routine with P = 0)
+% Check the controllability and compute the ordered set of the controllability indices (call the routine with P = 0)
 [NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, 0, A, B, C, D, TOL)
 
-// Compute the structural invariants of the given system.
+% Compute the structural invariants of the given system.
 [NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, P, A, B, C, D, TOL)
 ]]>
     </example_item_data>

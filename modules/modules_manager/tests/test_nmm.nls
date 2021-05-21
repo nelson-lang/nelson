@@ -33,7 +33,7 @@ if needToRestore
     nmm('uninstall', 'module_skeleton_basic')
 end
 %=============================================================================
-nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v1.0.0');
+nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v2.0.0');
 r = nmm('list');
 r = any(contains(fieldnames(r), 'module_skeleton_basic'));
 assert_istrue(r);
@@ -66,7 +66,7 @@ if isempty(r)
 end
 assert_isfalse(r);
 %=============================================================================
-nmm('install', [modulepath('modules_manager'), '/tests/module_skeleton_basic-all-1.0.0.nmz']);
+nmm('install', [modulepath('modules_manager'), '/tests/module_skeleton_basic-all-2.0.0.nmz']);
 r = nmm('list');
 r = any(contains(fieldnames(r), 'module_skeleton_basic'));
 assert_istrue(r);
@@ -79,6 +79,6 @@ end
 assert_isfalse(r);
 %=============================================================================
 if needToRestore
-  nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v1.0.0');
+  nmm('install', 'https://github.com/Nelson-numerical-software/module_skeleton_basic.git#v2.0.0');
 end
 %=============================================================================

@@ -47,13 +47,13 @@
 		<example_item_data><![CDATA[p = getpid()
 getpid('available')
 unix('nelson-gui &')
-sleep(5) // detached process need to wait to see available
+sleep(5) % detached process need to wait to see available
 getpid('available')
 unix('nelson-gui &')
-sleep(5) // detached process need to wait to see available
+sleep(5) % detached process need to wait to see available
 getpid('available')
 unix('nelson-gui &')
-sleep(5) // detached process need to wait to see available
+sleep(5) % detached process need to wait to see available
 getpid('available')]]>
 		</example_item_data>
 	</example_item>
