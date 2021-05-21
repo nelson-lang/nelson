@@ -214,7 +214,7 @@ setTokenType(int type)
 }
 //=============================================================================
 inline int
-match(char* str)
+match(const char* str)
 {
     if (strncmp(str, datap, strlen(str)) == 0) {
         datap += strlen(str);
