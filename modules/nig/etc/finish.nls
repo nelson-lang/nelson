@@ -24,4 +24,4 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 rmpath(modulepath(nelsonroot(), 'nig', 'functions'));
-//removegateway(modulepath(nelsonroot(), 'nig', 'builtin'))
+%removegateway(modulepath(nelsonroot(), 'nig', 'builtin'))

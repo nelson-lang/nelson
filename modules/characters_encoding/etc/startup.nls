@@ -23,6 +23,6 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-//addpath(modulepath(nelsonroot(), 'characters_encoding', 'functions'), '-frozen');
+%addpath(modulepath(nelsonroot(), 'characters_encoding', 'functions'), '-frozen');
 addgateway(modulepath(nelsonroot(), 'characters_encoding', 'builtin'));
 %=============================================================================

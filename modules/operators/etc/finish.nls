@@ -23,6 +23,6 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-//rmpath(modulepath(nelsonroot(), 'operators', 'functions'));
+%rmpath(modulepath(nelsonroot(), 'operators', 'functions'));
 removegateway(modulepath(nelsonroot(), 'operators', 'builtin'))
 %=============================================================================

@@ -24,4 +24,4 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 rmpath(modulepath(nelsonroot(), 'f2c', 'functions'));
-//removegateway(modulepath(nelsonroot(), 'f2c', 'builtin'));
+%removegateway(modulepath(nelsonroot(), 'f2c', 'builtin'));

@@ -23,5 +23,5 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-//addgateway(modulepath(nelsonroot(), 'nig', 'builtin'));
+%addgateway(modulepath(nelsonroot(), 'nig', 'builtin'));
 addpath(modulepath(nelsonroot(), 'nig', 'functions'));
