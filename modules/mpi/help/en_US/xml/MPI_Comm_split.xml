@@ -37,7 +37,7 @@
 
 
   <description>
-  <p>Partitions the group that is associated with the specified communicator into a specified number of disjoint subgroups.</p> 
+  <p>Partitions the group that is associated with the specified communicator into a specified number of disjoint subgroups.</p>
 </description>
 
   <used_function></used_function>
@@ -64,8 +64,8 @@ world_size = MPI_Comm_size();
 
 color = world_rank * inv(4);
 
-// Split the communicator based on the color and use the
-// original rank for ordering
+% Split the communicator based on the color and use the
+% original rank for ordering
 row_comm = MPI_Comm_split(comm, color, world_rank);
 
 row_rank = MPI_Comm_rank();

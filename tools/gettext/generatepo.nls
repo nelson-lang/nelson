@@ -1,38 +1,38 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 tic();
 
 if ispc()
   XGETTEXT = ['"', nelsonroot(), '/tools/gettext/bin/xgettext.exe', '"'];
-  MSGMERGE = ['"', nelsonroot(), '/tools/gettext/bin/msgmerge.exe', '"']; 
-  MSGCAT = ['"', nelsonroot(), '/tools/gettext/bin/msgcat.exe', '"']; 
+  MSGMERGE = ['"', nelsonroot(), '/tools/gettext/bin/msgmerge.exe', '"'];
+  MSGCAT = ['"', nelsonroot(), '/tools/gettext/bin/msgcat.exe', '"'];
 else
   XGETTEXT = 'xgettext';
-  MSGMERGE = 'msgmerge'; 
-  MSGCAT = 'msgcat'; 
+  MSGMERGE = 'msgmerge';
+  MSGCAT = 'msgcat';
 end
 
 MSGCAT_OPTIONS = '--lang=en_US --force-po --no-location';
@@ -49,7 +49,7 @@ DOMAIN ='nelson';
 TARGETDIR = [tempdir(), '', DOMAIN, '_pot'];
 if isdir(TARGETDIR)
   rmdir(TARGETDIR, 's');
-end  
+end
 [status, msg] = mkdir(TARGETDIR);
 
 FILESINFO_SRC = [];
@@ -130,7 +130,7 @@ for l = langs(:)'
   if isfile(pofiledest)
     MSGCAT_OPTIONS = ' --force-po --no-location --unique --use-first';
     CMD = [MSGCAT, ' ', MSGCAT_OPTIONS, ' ', pofiledest, ' ', potfile, ' -o ', pofiledest];
-  else 
+  else
     header_po = poheader(DOMAIN, l{1});
     filewrite(pofiledest, header_pot)
     CMD = [MSGMERGE, ' --update ', pofiledest, ' ', potfile];
@@ -143,4 +143,4 @@ end
 
 toc()
 exit
-//=============================================================================
+%=============================================================================

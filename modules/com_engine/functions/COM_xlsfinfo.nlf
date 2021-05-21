@@ -1,28 +1,28 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 function varargout = COM_xlsfinfo(filename)
   status = 'Microsoft Excel Spreadsheet';
   sheets = {};
@@ -30,7 +30,7 @@ function varargout = COM_xlsfinfo(filename)
   if ~isfile(filename)
     error(_('Valid filename expected.'));
   end
-  
+
   try
     excelApplication = actxserver('Excel.Application');
   catch
@@ -42,11 +42,11 @@ function varargout = COM_xlsfinfo(filename)
   for i = 1:500
     format = workBook.FileFormat;
   end
-  
+
   if isempty(format)
     format = workBook.FileFormat;
   end
-  
+
   workSheets = workBook.Worksheets;
   nbSheets = double(workSheets.Count);
   sheets = cell(1, nbSheets);
@@ -54,15 +54,15 @@ function varargout = COM_xlsfinfo(filename)
     sheet = get(workSheets, 'item', idx);
     sheets{idx} = sheet.Name;
   end
-  
+
   excelApplication.Quit;
   delete(excelApplication);
   clear excelApplication
-  
+
   format = COM_xlsformat(format);
   varargout{1} = status;
   varargout{2} = sheets;
   varargout{3} = format;
 
 endfunction
-//=============================================================================
+%=============================================================================

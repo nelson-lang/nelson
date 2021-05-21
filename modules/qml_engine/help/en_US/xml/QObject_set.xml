@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>R = set(h, property_name, value)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
@@ -48,8 +48,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[h = errordlg()
-h.visible = false; // or set(h, 'visible', false)
-h.title = 'new title' // or set(h, 'title', 'new title')
+h.visible = false; % or set(h, 'visible', false)
+h.title = 'new title' % or set(h, 'title', 'new title')
 h.visible = true;]]>
     </example_item_data>
   </example_item>

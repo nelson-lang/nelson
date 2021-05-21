@@ -1,30 +1,30 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
-//=============================================================================
+%=============================================================================
 clear teststruct
 teststruct_ref = struct();
 teststruct_ref.stringfield = 'Rats live on no evil star.';
@@ -35,28 +35,28 @@ assert_isequal(fieldnames(teststruct), fieldnames(teststruct_ref));
 assert_isequal(teststruct.stringfield, teststruct_ref.stringfield);
 assert_isapprox(teststruct.doublefield, teststruct_ref.doublefield, 1e-5);
 assert_isapprox(teststruct.complexfield, teststruct_ref.complexfield, 1e-5);
-//=============================================================================
+%=============================================================================
 clear teststruct
 loadmat([mat_dir, 'test_struct_6.5.1_GLNX86.mat']);
 assert_isequal(fieldnames(teststruct), fieldnames(teststruct_ref));
 assert_isequal(teststruct.stringfield, teststruct_ref.stringfield);
 assert_isapprox(teststruct.doublefield, teststruct_ref.doublefield, 1e-5);
 assert_isapprox(teststruct.complexfield, teststruct_ref.complexfield, 1e-5);
-//=============================================================================
+%=============================================================================
 clear teststruct
-loadmat([mat_dir, 'test_struct_7.1_GLNX86.mat']);            
+loadmat([mat_dir, 'test_struct_7.1_GLNX86.mat']);
 assert_isequal(fieldnames(teststruct), fieldnames(teststruct_ref));
 assert_isequal(teststruct.stringfield, teststruct_ref.stringfield);
 assert_isapprox(teststruct.doublefield, teststruct_ref.doublefield, 1e-5);
 assert_isapprox(teststruct.complexfield, teststruct_ref.complexfield, 1e-5);
-//=============================================================================
+%=============================================================================
 clear teststruct
 loadmat([mat_dir, 'test_struct_7.4_GLNX86.mat']);
 assert_isequal(fieldnames(teststruct), fieldnames(teststruct_ref));
 assert_isequal(teststruct.stringfield, teststruct_ref.stringfield);
 assert_isapprox(teststruct.doublefield, teststruct_ref.doublefield, 1e-5);
 assert_isapprox(teststruct.complexfield, teststruct_ref.complexfield, 1e-5);
-//=============================================================================
+%=============================================================================
 teststructarr_ref = struct();
 teststructarr_ref(1).one = 1;
 teststructarr_ref(1).two = 2;
@@ -65,40 +65,40 @@ teststructarr_ref(2).two = 'number 2';
 clear teststructarr
 loadmat([mat_dir, 'test_struct_array_6.1_SOL2.mat']);
 assert_isequal(teststructarr, teststructarr_ref);
-//=============================================================================
+%=============================================================================
 clear teststructarr
 loadmat([mat_dir, 'test_struct_array_6.5.1_GLNX86.mat']);
 assert_isequal(teststructarr, teststructarr_ref);
-//=============================================================================
+%=============================================================================
 clear teststructarr
 loadmat([mat_dir, 'test_struct_array_7.1_GLNX86.mat']);
 assert_isequal(teststructarr, teststructarr_ref);
-//=============================================================================
+%=============================================================================
 clear teststructarr
 loadmat([mat_dir, 'test_struct_array_7.4_GLNX86.mat']);
 assert_isequal(teststructarr, teststructarr_ref);
-//=============================================================================
+%=============================================================================
 teststructnest_ref = struct();
 teststructnest_ref.one = 1;
 teststructnest_ref.two = struct('three','number 3');
 clear teststructnest
-loadmat([mat_dir, 'test_struct_nest_6.1_SOL2.mat']);  
-assert_isequal(teststructnest, teststructnest_ref);  
-//=============================================================================
+loadmat([mat_dir, 'test_struct_nest_6.1_SOL2.mat']);
+assert_isequal(teststructnest, teststructnest_ref);
+%=============================================================================
 clear teststructnest
 loadmat([mat_dir, 'test_struct_nest_6.5.1_GLNX86.mat']);
-assert_isequal(teststructnest, teststructnest_ref);  
-//=============================================================================
+assert_isequal(teststructnest, teststructnest_ref);
+%=============================================================================
 clear teststructnest
 loadmat([mat_dir, 'test_struct_nest_7.1_GLNX86.mat']);
 assert_isequal(teststructnest, teststructnest_ref);
-//=============================================================================
+%=============================================================================
 clear teststructnest
 loadmat([mat_dir, 'test_struct_nest_7.4_GLNX86.mat']);
-assert_isequal(teststructnest, teststructnest_ref);  
-//=============================================================================
+assert_isequal(teststructnest, teststructnest_ref);
+%=============================================================================
 clear a
 loadmat([mat_dir, 'test_empty_struct.mat']);
 ref = struct();
-assert_isequal(a, ref);  
-//=============================================================================
+assert_isequal(a, ref);
+%=============================================================================

@@ -523,8 +523,8 @@ public:
     promoteType(Class new_type);
 
     /**
-    * returns if array can be promoted to new type
-    */
+     * returns if array can be promoted to new type
+     */
     bool
     canBePromotedTo(Class new_type);
 

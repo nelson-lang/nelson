@@ -75,6 +75,7 @@ list(
   help_tools
   localization
   modules_manager
+  validators
   sio_client
   engine
   assert_functions
@@ -90,8 +91,7 @@ list(
   graphics
   mex
   ipc
-  statistics
-  validators)
+  statistics)
 list(APPEND moduleslist main)
 # ==============================================================================
 if(NOT WITHOUT_FFTW AND NOT LGPL21_ONLY)

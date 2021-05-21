@@ -586,15 +586,10 @@ Profiler::getFiveLinesConsumingMostTime(
 static bool
 isKeyWordWithMaybeComments(std::string key)
 {
-    size_t index1 = key.find('%', 0);
-    size_t index2 = key.find("//", 0);
-    if (index1 == std::string::npos) {
-        index1 = key.length();
+    size_t index = key.find('%', 0);
+    if (index == std::string::npos) {
+        index = key.length();
     }
-    if (index2 == std::string::npos) {
-        index2 = key.length();
-    }
-    size_t index = std::min(index1, index2);
     std::string cleanKey;
     if (index > 0) {
         cleanKey = key.substr(0, index);
@@ -626,8 +621,7 @@ Profiler::coverageAnalyzer(
     size_t res = 0;
     for (std::string line : functionContent) {
         std::string temp = boost::algorithm::trim_copy(line);
-        if (temp.empty() || boost::algorithm::starts_with(temp, "//")
-            || boost::algorithm::starts_with(temp, "%")) {
+        if (temp.empty() || boost::algorithm::starts_with(temp, "%")) {
             nonCodeLines++;
         } else if (isKeyWordWithMaybeComments(temp)) {
             keywords++;

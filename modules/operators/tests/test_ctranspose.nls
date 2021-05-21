@@ -1,72 +1,72 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 A = zeros(3, 0);
 R = A';
 assert_isequal(size(R), [0 3]);
-//=============================================================================
+%=============================================================================
 A = 3;
 R = A';
 assert_isequal(R, 3);
-//=============================================================================
+%=============================================================================
 A = -i;
 R = A';
 assert_isequal(R, i);
-//=============================================================================
+%=============================================================================
 A = [20 10; 90 70; 20 80; 30 50];
 R = A';
 REF = [    20    90    20    30;
 10    70    80    50];
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 A = [-1i, 2+1i; 4+2i, -2i];
 R = A';
 REF = [i, 4-2i; 2-i, 2i];
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 A = 'Nelson';
 R = A';
 REF = ['N';'e';'l';'s';'o';'n'];
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 A = single([-1i, 2+1i; 4+2i, -2i]);
 R = A';
 REF = single([i, 4-2i; 2-i, 2i]);
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 A = int64([20 10; 90 70; 20 80; 30 50]);
 R = A';
 REF = [    20    90    20    30;
 10    70    80    50];
 assert_isequal(R, int64(REF));
-//=============================================================================
+%=============================================================================
 A = {1 2 3};
 R = A';
 REF = {1; 2; 3};
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 C.a = 1;
 C.b = 2;
 D.a = 3;
@@ -79,4 +79,4 @@ assert_isequal(R(1).a, 1);
 assert_isequal(R(2).a, 3);
 assert_isequal(R(1).b, 2);
 assert_isequal(R(2).b, 4);
-//=============================================================================
+%=============================================================================

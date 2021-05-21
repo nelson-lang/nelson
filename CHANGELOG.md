@@ -24,6 +24,10 @@
 
 - [#439](http://github.com/Nelson-numerical-software/nelson/issues/439): split elementary_functions module and creates operators modules.
 
+## Changed:
+
+- default comment symbol is '%', '//' support removed from nelson's code. It will allow to be more compatible with final goal.
+
 ## Bug Fixes:
 
 - [#435](http://github.com/Nelson-numerical-software/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.

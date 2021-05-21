@@ -1,31 +1,31 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 function r = indexhelp(varargin)
-// private function used to index help files
-// indexhelp(true) forces indexing
+% private function used to index help files
+% indexhelp(true) forces indexing
   force = false;
   if nargin > 1
     error(_('Wrong number of input arguments.'));
@@ -62,20 +62,20 @@ function r = indexhelp(varargin)
   if needToIndex
     r = reindexhelp(pref_help);
   else
-    r = false;    
+    r = false;
   end
 endfunction
-//=============================================================================
+%=============================================================================
 function modules_help_list = getModulesHelpList()
     run([nelsonroot() '/modules/' 'modules.nls']);
     modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
 endfunction
-//=============================================================================
+%=============================================================================
 function external_modules = getExternalModules()
   [m, p, v, pm] = getmodules();
   external_modules = m(pm == false);
 endfunction
-//=============================================================================
+%=============================================================================
 function r = compareVersion(previous, current)
   if (previous(1) == current(1))
     if (previous(2) == current(2))
@@ -103,14 +103,14 @@ function r = compareVersion(previous, current)
     end
   end
 endfunction
-//=============================================================================
+%=============================================================================
 function r = reindexhelp(pref_help)
     helpbrowser('-clearcache');
     helpbrowser();
     helpbrowser('-hide', 'bookmarks');
     homepage = [nelsonroot(), '/modules/main/help/', getlanguage(), '/', 'org.nelson.help.qch'];
-    if ~isfile(homepage) 
-      homepage = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch']; 
+    if ~isfile(homepage)
+      homepage = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch'];
     end
     lastDisplayedPercent = dispPercentLevel(0, '');
     if isfile(homepage)
@@ -136,7 +136,7 @@ function r = reindexhelp(pref_help)
     save(pref_help, 'modules_help_available', 'version_help');
     r = true;
 endfunction
-//=============================================================================
+%=============================================================================
 function newPrevious = dispPercentLevel(percent, previous)
   if ~isempty(previous)
     backspace = repmat(sprintf('\b'), 1, length(previous));
@@ -147,19 +147,19 @@ function newPrevious = dispPercentLevel(percent, previous)
     fprintf(stdout, '\n%s %s', _('Indexing help files:'), newPrevious);
   end
 endfunction
-//=============================================================================
+%=============================================================================
 function help_file = getHelpFile(module_name)
   help_file = '';
   module_path = [nelsonroot() , '/modules/', module_name];
   if ismodule(module_name)
     module_path = modulepath(module_name);
     help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
-  end    
+  end
   if ~isfile(help_file)
     help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
   end
 endfunction
-//=============================================================================
+%=============================================================================
 function forceaddmodule(module_name, help_file)
   for i = 1:5
     helpbrowser();
@@ -170,4 +170,4 @@ function forceaddmodule(module_name, help_file)
     end
   end
 endfunction
-//=============================================================================
+%=============================================================================

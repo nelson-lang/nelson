@@ -639,7 +639,7 @@ lexScanningState()
         continuationCount++;
     }
     // comments suppported
-    if ((match("//") != 0) || (match("%") != 0) || (match("#") != 0)) {
+    if (match("%") != 0) {
         while (isNewline() == 0) {
             discardChar();
         }
@@ -813,7 +813,7 @@ lexInitialState()
         // nothing
     } else if (match(";") != 0) { // lgtm [cpp/empty-block]
         // nothing
-    } else if ((match("%") != 0) || (match("//") != 0) || (match("#") != 0)) {
+    } else if ((match("%") != 0)) {
         while (isNewline() == 0) {
             discardChar();
         }

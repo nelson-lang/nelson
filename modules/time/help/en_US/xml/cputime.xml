@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>t = cputime()</syntax_item>
   </syntax>
-  
+
 
   <param_output>
     <param_output_item>
@@ -34,7 +34,7 @@ sleep(10);
 t2 = cputime;
 t2 - t1
 
-// versus tic toc
+% versus tic toc
 tic()
 sleep(10);
 toc()]]>

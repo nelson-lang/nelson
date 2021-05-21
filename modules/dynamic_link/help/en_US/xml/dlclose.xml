@@ -11,7 +11,7 @@
     <syntax_item>delete(h)</syntax_item>
     <syntax_item>dlclose(h)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
@@ -21,7 +21,7 @@
 
   <description>
   <p><b>dlclose(h)</b> or <b>delete(h)</b> releases dllib object.</p>
-  <p>Do not forget to clear h afterward.</p> 
+  <p>Do not forget to clear h afterward.</p>
  </description>
 
   <used_function></used_function>
@@ -35,7 +35,7 @@
     <example_item_data><![CDATA[path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref)
 isvalid(lib)
-dlclose(lib); // or delete(lib)
+dlclose(lib); % or delete(lib)
 isvalid(lib)]]>
     </example_item_data>
   </example_item>

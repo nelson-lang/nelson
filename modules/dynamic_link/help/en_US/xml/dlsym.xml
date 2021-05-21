@@ -10,7 +10,7 @@
 		<syntax_item>f = dlsym(lib, symbol_name, return_type, params_types)</syntax_item>
 
 	</syntax>
-	
+
 	<param_input>
 		<param_input_item>
 			<param_name>lib</param_name>
@@ -54,15 +54,15 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
 V = double([1 2;3 4]);
-// C prototype:
-// int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
+% C prototype:
+% int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
 f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
 [r1, r2] = dlcall(f, V, int32(numel(V)))
 delete(f);
 delete(lib);
 ]]>
 	</example_item_data>
-	
+
 	</example_item>
 
 	<example_item>
@@ -71,7 +71,7 @@ delete(lib);
 		<example_item_data><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.nls']);
 ]]>
 	</example_item_data>
-	
+
 	</example_item>
 
 	<example_item>
@@ -79,7 +79,7 @@ delete(lib);
 		<example_item_description>Call fortran DASUM (blas) function</example_item_description>
 		<example_item_data><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.nls']);]]>
 	</example_item_data>
-	
+
 	</example_item>
 
 

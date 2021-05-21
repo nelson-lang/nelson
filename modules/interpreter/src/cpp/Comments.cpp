@@ -32,18 +32,14 @@ void
 getSupportedCommentSymbols(stringVector& comments)
 {
     comments.clear();
-    comments.push_back("//");
     comments.push_back("%");
-    comments.push_back("#");
 }
 //=============================================================================
 void
 getSupportedCommentSymbols(wstringVector& comments)
 {
     comments.clear();
-    comments.push_back(L"//");
     comments.push_back(L"%");
-    comments.push_back(L"#");
 }
 //=============================================================================
 bool
