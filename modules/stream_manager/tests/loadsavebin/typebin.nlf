@@ -1,28 +1,28 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 function res = typebin(strtype)
 	switch(strtype)
 	case 'sparsedouble'
@@ -40,19 +40,19 @@ function res = typebin(strtype)
 	case 'ndarrayint16'
 		res = 184;
 	case 'ndarrayuint32'
-		res = 185;	
+		res = 185;
 	case 'ndarrayint32'
-		res = 186;	
+		res = 186;
 	case 'ndarrayuint64'
-		res = 187;	
+		res = 187;
 	case 'ndarrayint64'
-		res = 188;	
+		res = 188;
 	case 'ndarraysingle'
-		res = 102;	
+		res = 102;
 	case 'ndarraydouble'
-		res = 101;	
+		res = 101;
 	case 'ndarraychar'
-		res = 110;	
+		res = 110;
 	case 'ndarraycell'
 		res = 117;
 	case 'ndarraystruct'
@@ -70,29 +70,29 @@ function res = typebin(strtype)
 	case 'int8'
 		res = 82;
 	case 'uint16'
-		res = 83;	
+		res = 83;
 	case 'int16'
-		res = 84;	
+		res = 84;
 	case 'uint32'
-		res = 85;	
+		res = 85;
 	case 'int32'
-		res = 86;	
+		res = 86;
 	case 'uint64'
-		res = 87;	
+		res = 87;
 	case 'int64'
-		res = 88;	
+		res = 88;
 	case 'single'
-		res = 2;	
+		res = 2;
 	case 'double'
-		res = 1;	
+		res = 1;
 	case 'char'
 		res = 10;
 	case 'function_handle'
-		res = 14;	
+		res = 14;
 	case 'handle'
 		res = 9;
 	case 'generic'
-		res = 1000;	
+		res = 1000;
 	otherwise
 		res = -1;
 	end

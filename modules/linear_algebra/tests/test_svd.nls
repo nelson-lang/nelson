@@ -1,34 +1,34 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 assert_isequal(nargin('svd'), 2);
 assert_isequal(nargout('svd'), 3);
-//=============================================================================
+%=============================================================================
 assert_checkerror('[U, S, V] = svd(Inf);', _('svd: cannot take svd of matrix containing Inf or NaN values.'));
 assert_checkerror('[U, S, V] = svd(NaN);', _('svd: cannot take svd of matrix containing Inf or NaN values.'));
-//=============================================================================
+%=============================================================================
 [U, S, V] = svd([0 0;i() 3]);
 U_REF = [0.0000 + 0.0000i   0.0000 + 1.0000i;
 0.0000 - 1.0000i   0.0000 + 0.0000i];
@@ -38,19 +38,19 @@ V_REF = [-0.3162 + 0.0000i  -0.9487 + 0.0000i;
 0.0000 - 0.9487i   0.0000 + 0.3162i];
 assert_isapprox(abs(U), abs(U_REF), 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 A = zeros(0, 5);
 s = svd(A);
 REF = zeros(0, 1);
 assert_isequal(s, REF);
 assert_isequal(A, zeros(0, 5));
-//=============================================================================
+%=============================================================================
 A = zeros(3, 5);
 s = svd(A);
 REF = zeros(3, 1);
 assert_isequal(s, REF);
 assert_isequal(A, zeros(3, 5));
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -66,7 +66,7 @@ REF = [27.4687;
 2.0149];
 assert_isapprox(s, REF, 1e-4);
 assert_isequal(A, A_REF);
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -84,7 +84,7 @@ REF = [27.4687;
 REF = single(REF);
 assert_isapprox(s, REF, 1e-4);
 assert_isequal(A, A_REF);
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -101,7 +101,7 @@ REF = [38.8467;
 2.8495];
 assert_isapprox(s, REF, 1e-4);
 assert_isequal(B, B_REF);
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -119,27 +119,27 @@ REF = [38.8467;
 REF = single(REF);
 assert_isapprox(s, REF, 1e-4);
 assert_isequal(B, B_REF);
-//=============================================================================
+%=============================================================================
 [U, S, V] = svd([]);
 assert_isequal(U, []);
 assert_isequal(S, []);
 assert_isequal(V, []);
-//=============================================================================
+%=============================================================================
 [U, S, V] = svd(single([]));
 assert_isequal(U, single([]));
 assert_isequal(S, single([]));
 assert_isequal(V, single([]));
-//=============================================================================
+%=============================================================================
 [U, S, V] = svd(zeros(3, 0));
 assert_isequal(U, eye(3, 3));
 assert_isequal(S, zeros(3, 0));
 assert_isequal(V, zeros(0, 0));
-//=============================================================================
+%=============================================================================
 [U, S, V] = svd(zeros(0, 3));
 assert_isequal(U, zeros(0, 0));
 assert_isequal(S, zeros(0, 3));
 assert_isequal(V, eye(3, 3));
-//=============================================================================
+%=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 [U, S, V] = svd(A);
 U_REF = [-0.1525   -0.8226   -0.3945   -0.3800;
@@ -155,7 +155,7 @@ V_REF = [-0.6414    0.7672;
 assert_isapprox(abs(U), abs(U_REF), 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_isapprox(abs(V), abs(V_REF), 1e-4);
-//=============================================================================
+%=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 [U, S, V] = svd(A, 'econ');
 U_REF = [-0.1525   -0.8226
@@ -169,7 +169,7 @@ V_REF = [-0.6414    0.7672;
 assert_isapprox(abs(U), abs(U_REF), 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_isapprox(abs(V), abs(V_REF), 1e-4);
-//=============================================================================
+%=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 [U, S, V] = svd(A, 0);
 U_REF = [-0.1525   -0.8226
@@ -183,7 +183,7 @@ V_REF = [-0.6414    0.7672;
 assert_isapprox(abs(U), abs(U_REF), 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_isapprox(abs(V), abs(V_REF), 1e-4);
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -212,7 +212,7 @@ V_REF = [-0.2514    0.8148   -0.2606    0.3967   -0.2180;
 assert_isapprox(U, U_REF, 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_isapprox(V, V_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -239,7 +239,7 @@ V_REF = [-0.2514    0.8148   -0.2606    0.3967   -0.2180;
 assert_isapprox(U, U_REF, 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_isapprox(V, V_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 A = [     8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -266,7 +266,7 @@ V_REF = [-0.2514    0.8148   -0.2606    0.3967   -0.2180;
 assert_isapprox(U, U_REF, 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_isapprox(V, V_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 A = ones(2, 3);
 [U, S, V] = svd(A, 'econ');
 U_REF = [-0.7071   -0.7071;
@@ -282,14 +282,14 @@ V_REF_MKL = [-0.5774, -0.5774;
 assert_isapprox(abs(U), abs(U_REF), 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
 assert_istrue(isapprox(abs(V), abs(V_REF), 1e-4) || isapprox(V, V_REF_MKL, 1e-4));
-//=============================================================================
+%=============================================================================
 A = ones(3, 3);
 [U1, S1, V1] = svd(A, 'econ');
 [U2, S2, V2] = svd(A);
 assert_isapprox(U1, U2, 1e-4);
 assert_isapprox(S1, S2, 1e-4);
 assert_isapprox(V1, V1, 1e-4);
-//=============================================================================
+%=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A, 'econ');
 U1_REF = [-0.5774   -0.5774;
@@ -300,7 +300,7 @@ S1_REF = [2.4495         0;
 V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
 
-// MKL does not return same result on some CORE I7
+% MKL does not return same result on some CORE I7
 U2_REF = [-0.5774      0.8165;
 -0.5774     -0.4082;
 -0.5774     -0.4082];
@@ -317,7 +317,7 @@ else
   assert_isapprox(S, S1_REF, 1e-4);
   assert_isapprox(abs(V), abs(V1_REF), 1e-4);
 end
-//=============================================================================
+%=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A);
 U1_REF = [-0.5774   -0.5774   -0.5774;
@@ -329,12 +329,12 @@ S1_REF = [2.4495         0;
 V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
 
-// standard blas macos
+% standard blas macos
 U3_REF = [-0.5774     -0.5774      0.0000;
 -0.5774      0.7887     -0.2113;
 -0.5774     -0.2113      0.7887];
 
-// MKL on some CORE I7
+% MKL on some CORE I7
 U2_REF = [ -0.5774      0.8165     -0.0000;
 -0.5774     -0.4082     -0.7071;
 -0.5774     -0.4082      0.7071];
@@ -369,7 +369,7 @@ if isapprox(U, U4_REF, 1e-4)
 end
 assert_isapprox(S, S1_REF, 1e-4);
 assert_isapprox(abs(V), abs(V1_REF), 1e-4);
-//=============================================================================
+%=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A, 0);
 U1_REF = [-0.5774   -0.5774;
@@ -379,7 +379,7 @@ S1_REF = [2.4495         0;
 0         0];
 V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
-// MKL on some CORE I7
+% MKL on some CORE I7
 U2_REF = [-0.5774      0.8165;
 -0.5774     -0.4082;
 -0.5774     -0.4082];
@@ -396,7 +396,7 @@ else
   assert_isapprox(S, S1_REF, 1e-4);
   assert_isapprox(abs(V), abs(V1_REF), 1e-4);
 end
-//=============================================================================
+%=============================================================================
 A = ones(3, 3);
 [U, S, V] = svd(A);
 U_REF = [-0.5774   -0.5774   -0.5774;
@@ -409,7 +409,7 @@ V_REF = [-0.5774         0    0.8165;
 -0.5774   -0.7071   -0.4082;
 -0.5774    0.7071   -0.4082];
 assert_isapprox(S, S_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 A = ones(3, 2);
 [U, S] = svd(A, 0);
 U1_REF = [-0.5774   -0.5774;
@@ -417,7 +417,7 @@ U1_REF = [-0.5774   -0.5774;
 -0.5774   -0.2113];
 S1_REF = [2.4495         0;
 0         0];
-// MKL on some CORE I7
+% MKL on some CORE I7
 U2_REF = [-0.5774      0.8165;
 -0.5774     -0.4082;
 -0.5774     -0.4082];
@@ -430,7 +430,7 @@ else
   assert_isapprox(abs(U(:,1)), abs(U1_REF(:,1)), 1e-4);
   assert_isapprox(S, S1_REF, 1e-4);
 end
-//=============================================================================
+%=============================================================================
 A = [8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -459,7 +459,7 @@ V_REF = [-0.2514 + 0.0000i   0.8148 + 0.0000i   0.2606 + 0.0000i  -0.3967 + 0.00
 -0.4076 - 0.0000i  -0.0980 - 0.0000i   0.4933 + 0.0000i   0.6227 - 0.0000i  -0.4396 + 0.0000i];
 assert_isapprox(imag(U), imag(U_REF), 1e-4);
 assert_isapprox(imag(S), imag(S_REF), 1e-4);
-//=============================================================================
+%=============================================================================
 A = [8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
 -9.15  -7.93   4.86   4.85   3.01;
@@ -491,4 +491,4 @@ V_REF = [-0.2514 + 0.0000i   0.8148 + 0.0000i   0.2606 + 0.0000i  -0.3967 + 0.00
 V_REF = single(V_REF);
 assert_isapprox(imag(U), imag(U_REF), 1e-4);
 assert_isapprox(imag(S), imag(S_REF), 1e-4);
-//=============================================================================
+%=============================================================================

@@ -89,7 +89,7 @@ mustBeLogical(const ArrayOf& arg, int argPosition, bool asCaller)
         bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
         if (!isLogical) {
             std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be logical.");
-            std::wstring id = _W("Nelson:validators:mustBeLogical");
+            std::wstring id = L"Nelson:validators:mustBeLogical";
             Error(msg, id, asCaller);
         }
     }
@@ -108,7 +108,7 @@ mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller)
     argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be finite.");
-        std::wstring id = _W("Nelson:validators:mustBeFinite");
+        std::wstring id = L"Nelson:validators:mustBeFinite";
         Error(msg, id, asCaller);
     }
 }
@@ -120,7 +120,7 @@ mustBeNonempty(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = TypeGateway::isemptyBuiltin(_eval, 1, arg);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be empty.");
-        std::wstring id = _W("Nelson:validators:mustBeNonempty");
+        std::wstring id = L"Nelson:validators:mustBeNonempty";
         Error(msg, id, asCaller);
     }
 }
@@ -137,7 +137,7 @@ mustBeLogicalScalar(const ArrayOf& arg, int argPosition, bool asCaller)
         }
     }
     std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be logical scalar.");
-    std::wstring id = _W("Nelson:validators:mustBeLogicalScalar");
+    std::wstring id = L"Nelson:validators:mustBeLogicalScalar";
     Error(msg, id, asCaller);
 }
 //=============================================================================
@@ -151,7 +151,7 @@ mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller)
         if (!argOut[0].getContentAsLogicalScalar()) {
             std::wstring msg
                 = invalidPositionMessage(argPosition) + _W("Value must be scalar or empty.");
-            std::wstring id = _W("Nelson:validators:mustBeScalarOrEmpty");
+            std::wstring id = L"Nelson:validators:mustBeScalarOrEmpty";
             Error(msg, id, asCaller);
         }
     }
@@ -167,7 +167,7 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!isvarname) {
         std::wstring msg
             = invalidPositionMessage(argPosition) + _W("Value must be valid variable name.");
-        std::wstring id = _W("Nelson:validators:mustBeValidVariableName");
+        std::wstring id = L"Nelson:validators:mustBeValidVariableName";
         Error(msg, id, asCaller);
     }
 }
@@ -180,7 +180,7 @@ mustBeText(const ArrayOf& arg, int argPosition, bool asCaller)
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector, string array or cell array of character "
                  "vectors.");
-        std::wstring id = _W("Nelson:validators:mustBeText");
+        std::wstring id = L"Nelson:validators:mustBeText";
         Error(msg, id, asCaller);
     }
 }
@@ -192,7 +192,7 @@ mustBeTextScalar(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!isTextScalar) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector or string scalar.");
-        std::wstring id = _W("Nelson:validators:mustBeTextScalar");
+        std::wstring id = L"Nelson:validators:mustBeTextScalar";
         Error(msg, id, asCaller);
     }
 }
@@ -205,7 +205,7 @@ mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = FilesFoldersGateway::isdirBuiltin(1, argIn);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be folder.");
-        std::wstring id = _W("Nelson:validators:mustBeFolder");
+        std::wstring id = L"Nelson:validators:mustBeFolder";
         Error(msg, id, asCaller);
     }
 }
@@ -218,7 +218,7 @@ mustBeFile(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = FilesFoldersGateway::isfileBuiltin(1, argIn);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be file.");
-        std::wstring id = _W("Nelson:validators:mustBeFile");
+        std::wstring id = L"Nelson:validators:mustBeFile";
         Error(msg, id, asCaller);
     }
 }
@@ -236,7 +236,7 @@ mustBeVector(const ArrayOf& arg, bool allowsAllEmpties, int argPosition, bool as
     }
     if (!isVectorOrEmpty) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a vector.");
-        std::wstring id = _W("Nelson:validators:mustBeVector");
+        std::wstring id = L"Nelson:validators:mustBeVector";
         Error(msg, id, asCaller);
     }
 }
@@ -248,7 +248,7 @@ mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = TypeGateway::isfloatBuiltin(_eval, 1, argIn);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be a float.");
-        std::wstring id = _W("Nelson:validators:mustBeFloat");
+        std::wstring id = L"Nelson:validators:mustBeFloat";
         Error(msg, id, asCaller);
     }
 }
@@ -260,7 +260,7 @@ mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = TypeGateway::isnumericBuiltin(_eval, 1, argIn);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be numeric.");
-        std::wstring id = _W("Nelson:validators:mustBeNumeric");
+        std::wstring id = L"Nelson:validators:mustBeNumeric";
         Error(msg, id, asCaller);
     }
 }
@@ -294,7 +294,7 @@ mustBeA(const ArrayOf& arg, const wstringVector& classNames, int argPosition, bo
             }
         }
         msg = msg + concatClass;
-        std::wstring id = _W("Nelson:validators:mustBeA");
+        std::wstring id = L"Nelson:validators:mustBeA";
         Error(msg, id, asCaller);
     }
 }
@@ -308,7 +308,7 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     Dimensions dimsA = argIn[0].getDimensions();
@@ -322,7 +322,7 @@ mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isPositive = argOut[0].getContentAsLogicalScalar();
     if (!isPositive) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be positive.");
-        std::wstring id = _W("Nelson:validators:mustBePositive");
+        std::wstring id = L"Nelson:validators:mustBePositive";
         Error(msg, id, asCaller);
     }
 }
@@ -336,7 +336,7 @@ mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     Dimensions dimsA = argIn[0].getDimensions();
@@ -350,7 +350,7 @@ mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isNonpositive = argOut[0].getContentAsLogicalScalar();
     if (!isNonpositive) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non positive.");
-        std::wstring id = _W("Nelson:validators:mustBeNonpositive");
+        std::wstring id = L"Nelson:validators:mustBeNonpositive";
         Error(msg, id, asCaller);
     }
 }
@@ -364,7 +364,7 @@ mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     Dimensions dimsA = argIn[0].getDimensions();
@@ -378,7 +378,7 @@ mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isNonnegative = argOut[0].getContentAsLogicalScalar();
     if (!isNonnegative) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be nonnegative.");
-        std::wstring id = _W("Nelson:validators:mustBeNonnegative");
+        std::wstring id = L"Nelson:validators:mustBeNonnegative";
         Error(msg, id, asCaller);
     }
 }
@@ -392,7 +392,7 @@ mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     Dimensions dimsA = argIn[0].getDimensions();
@@ -406,7 +406,7 @@ mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isNegative = argOut[0].getContentAsLogicalScalar();
     if (!isNegative) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be negative.");
-        std::wstring id = _W("Nelson:validators:mustBeNegative");
+        std::wstring id = L"Nelson:validators:mustBeNegative";
         Error(msg, id, asCaller);
     }
 }
@@ -426,7 +426,7 @@ mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
         bool isNaN = argOut[0].getContentAsLogicalScalar();
         if (isNaN) {
             std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be NaN.");
-            std::wstring id = _W("Nelson:validators:mustBeNonNan");
+            std::wstring id = L"Nelson:validators:mustBeNonNan";
             Error(msg, id, asCaller);
         }
     }
@@ -446,7 +446,7 @@ mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
     argOut = OperatorsGateway::anyBuiltin(_eval, 1, argOut);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be zero.");
-        std::wstring id = _W("Nelson:validators:mustBeNonZero");
+        std::wstring id = L"Nelson:validators:mustBeNonZero";
         Error(msg, id, asCaller);
     }
 }
@@ -458,7 +458,7 @@ mustBeNonSparse(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = TypeGateway::issparseBuiltin(_eval, 1, argIn);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must not be sparse.");
-        std::wstring id = _W("Nelson:validators:mustBeNonSparse");
+        std::wstring id = L"Nelson:validators:mustBeNonSparse";
         Error(msg, id, asCaller);
     }
 }
@@ -470,7 +470,7 @@ mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
 }
@@ -484,7 +484,7 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     Dimensions dimsA = arg.getDimensions();
@@ -496,7 +496,7 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
-        std::wstring id = _W("Nelson:validators:mustBeInteger");
+        std::wstring id = L"Nelson:validators:mustBeInteger";
         Error(msg, id, asCaller);
     }
     argOut = ElementaryFunctionsGateway::floorBuiltin(_eval, 1, asVector);
@@ -505,7 +505,7 @@ mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
     argOut = OperatorsGateway::allBuiltin(_eval, 1, argOut);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be integer.");
-        std::wstring id = _W("Nelson:validators:mustBeInteger");
+        std::wstring id = L"Nelson:validators:mustBeInteger";
         Error(msg, id, asCaller);
     }
 }
@@ -521,7 +521,7 @@ mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
     argOut = OperatorsGateway::anyBuiltin(_eval, 1, argOut[0]);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non missing.");
-        std::wstring id = _W("Nelson:validators:mustBeNonmissing");
+        std::wstring id = L"Nelson:validators:mustBeNonmissing";
         Error(msg, id, asCaller);
     }
 }
@@ -609,7 +609,7 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool as
     ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argC);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = _W("Second input to function 'mustBeGreaterThan' must be a scalar.");
-        std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
+        std::wstring id = L"Nelson:validatorUsage:nonScalarSecondInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isnumericBuiltin(_eval, 1, argC);
@@ -617,7 +617,7 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool as
     bool isNumeric = argOut[0].getContentAsLogicalScalar();
     if (!isNumeric && !isLogical) {
         std::wstring msg = _W("Inputs to function 'mustBeGreaterThan' must be numeric or logical.");
-        std::wstring id = _W("Nelson:validatorUsage:nonNumericOrLogicalInput");
+        std::wstring id = L"Nelson:validatorUsage:nonNumericOrLogicalInput";
         Error(msg, id, asCaller);
     }
     ArrayOfVector argIn(arg);
@@ -625,28 +625,28 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool as
     isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     if (!isNumeric && !isLogical) {
         std::wstring msg = _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        std::wstring id = L"Nelson:validators:mustBeNumericOrLogical";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argC);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Inputs to function 'mustBeGreaterThan' must be real.");
-        std::wstring id = _W("Nelson:validatorUsage:nonRealInput");
+        std::wstring id = L"Nelson:validatorUsage:nonRealInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     if (!mustBeGreaterThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than %s."),
                 _W("Value must be greater than compared value."));
-        std::wstring id = _W("Nelson:validators:mustBeGreaterThan");
+        std::wstring id = L"Nelson:validators:mustBeGreaterThan";
         Error(msg, id, asCaller);
     }
 }
@@ -672,7 +672,7 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCal
     ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argC);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = _W("Second input to function 'mustBeLessThan' must be a scalar.");
-        std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
+        std::wstring id = L"Nelson:validatorUsage:nonScalarSecondInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isnumericBuiltin(_eval, 1, argC);
@@ -680,7 +680,7 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCal
     bool isNumeric = argOut[0].getContentAsLogicalScalar();
     if (!isNumeric && !isLogical) {
         std::wstring msg = _W("Inputs to function 'mustBeLessThan' must be numeric or logical.");
-        std::wstring id = _W("Nelson:validatorUsage:nonNumericOrLogicalInput");
+        std::wstring id = L"Nelson:validatorUsage:nonNumericOrLogicalInput";
         Error(msg, id, asCaller);
     }
     ArrayOfVector argIn(arg);
@@ -688,28 +688,28 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCal
     isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     if (!isNumeric && !isLogical) {
         std::wstring msg = _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        std::wstring id = L"Nelson:validators:mustBeNumericOrLogical";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argC);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Inputs to function 'mustBeLessThan' must be real.");
-        std::wstring id = _W("Nelson:validatorUsage:nonRealInput");
+        std::wstring id = L"Nelson:validatorUsage:nonRealInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     if (!mustBeLessThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than %s."),
                 _W("Value must be less than compared value."));
-        std::wstring id = _W("Nelson:validators:mustBeLessThan");
+        std::wstring id = L"Nelson:validators:mustBeLessThan";
         Error(msg, id, asCaller);
     }
 }
@@ -736,7 +736,7 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg
             = _W("Second input to function 'mustBeGreaterThanOrEqual' must be a scalar.");
-        std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
+        std::wstring id = L"Nelson:validatorUsage:nonScalarSecondInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isnumericBuiltin(_eval, 1, argC);
@@ -745,7 +745,7 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     if (!isNumeric && !isLogical) {
         std::wstring msg
             = _W("Inputs to function 'mustBeGreaterThanOrEqual' must be numeric or logical.");
-        std::wstring id = _W("Nelson:validatorUsage:nonNumericOrLogicalInput");
+        std::wstring id = L"Nelson:validatorUsage:nonNumericOrLogicalInput";
         Error(msg, id, asCaller);
     }
     ArrayOfVector argIn(arg);
@@ -753,28 +753,28 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     if (!isNumeric && !isLogical) {
         std::wstring msg = _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        std::wstring id = L"Nelson:validators:mustBeNumericOrLogical";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argC);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Inputs to function 'mustBeGreaterThanOrEqual' must be real.");
-        std::wstring id = _W("Nelson:validatorUsage:nonRealInput");
+        std::wstring id = L"Nelson:validatorUsage:nonRealInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     if (!mustBeGreaterThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than or equal to %s."),
                 _W("Value must be greater than or equal to compared value."));
-        std::wstring id = _W("Nelson:validators:mustBeGreaterThanOrEqual");
+        std::wstring id = L"Nelson:validators:mustBeGreaterThanOrEqual";
         Error(msg, id, asCaller);
     }
 }
@@ -800,7 +800,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     ArrayOfVector argOut = ElementaryFunctionsGateway::isscalarBuiltin(_eval, 1, argC);
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = _W("Second input to function 'mustBeLessThanOrEqual' must be a scalar.");
-        std::wstring id = _W("Nelson:validatorUsage:nonScalarSecondInput");
+        std::wstring id = L"Nelson:validatorUsage:nonScalarSecondInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isnumericBuiltin(_eval, 1, argC);
@@ -809,7 +809,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     if (!isNumeric && !isLogical) {
         std::wstring msg
             = _W("Inputs to function 'mustBeLessThanOrEqual' must be numeric or logical.");
-        std::wstring id = _W("Nelson:validatorUsage:nonNumericOrLogicalInput");
+        std::wstring id = L"Nelson:validatorUsage:nonNumericOrLogicalInput";
         Error(msg, id, asCaller);
     }
     ArrayOfVector argIn(arg);
@@ -817,28 +817,28 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     if (!isNumeric && !isLogical) {
         std::wstring msg = _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        std::wstring id = L"Nelson:validators:mustBeNumericOrLogical";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argC);
     bool isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Inputs to function 'mustBeLessThanOrEqual' must be real.");
-        std::wstring id = _W("Nelson:validatorUsage:nonRealInput");
+        std::wstring id = L"Nelson:validatorUsage:nonRealInput";
         Error(msg, id, asCaller);
     }
     argOut = TypeGateway::isrealBuiltin(_eval, 1, argIn);
     isReal = argOut[0].getContentAsLogicalScalar();
     if (!isReal) {
         std::wstring msg = _W("Value must be real.");
-        std::wstring id = _W("Nelson:validators:mustBeReal");
+        std::wstring id = L"Nelson:validators:mustBeReal";
         Error(msg, id, asCaller);
     }
     if (!mustBeLessThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than or equal to %s."),
                 _W("Value must be less than or equal to compared value."));
-        std::wstring id = _W("Nelson:validators:mustBeLessThanOrEqual");
+        std::wstring id = L"Nelson:validators:mustBeLessThanOrEqual";
         Error(msg, id, asCaller);
     }
 }
@@ -853,7 +853,7 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!isNumeric && !isLogical) {
         std::wstring msg
             = invalidPositionMessage(argPosition) + _W("Value must be numeric or logical.");
-        std::wstring id = _W("Nelson:validators:mustBeNumericOrLogical");
+        std::wstring id = L"Nelson:validators:mustBeNumericOrLogical";
         Error(msg, id, asCaller);
     }
 }
@@ -866,7 +866,7 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be a character vector, string array or cell array of character "
                  "vectors.");
-        std::wstring id = _W("Nelson:validators:mustBeNonzeroLengthText");
+        std::wstring id = L"Nelson:validators:mustBeNonzeroLengthText";
         Error(msg, id, asCaller);
     } else {
         ArrayOfVector argIn(arg);
@@ -878,7 +878,7 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
         if (!argOut[0].getContentAsLogicalScalar()) {
             std::wstring msg
                 = invalidPositionMessage(argPosition) + _W("Value must be non zero length text.");
-            std::wstring id = _W("Nelson:validators:mustBeNonzeroLengthText");
+            std::wstring id = L"Nelson:validators:mustBeNonzeroLengthText";
             Error(msg, id, asCaller);
         }
     }
@@ -898,7 +898,7 @@ mustBeMember(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCalle
     if (!argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + _W("Value must be member of the compared value.");
-        std::wstring id = _W("Nelson:validators:mustBeMember");
+        std::wstring id = L"Nelson:validators:mustBeMember";
         Error(msg, id, asCaller);
     }
 }
@@ -933,12 +933,12 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
             std::wstring msg = str(
                 boost::wformat { _W("A combinaison of '%s' and '%s' options is not supported.") }
                 % boundflag1 % boundflag2);
-            std::wstring id = _W("Nelson:validatorUsage:ConflictingBoundaryOptions");
+            std::wstring id = L"Nelson:validatorUsage:ConflictingBoundaryOptions";
             Error(msg, id, asCaller);
         } else {
             std::wstring msg
                 = _W("Value must 'inclusive', 'exclusive', 'exclude-lower' or 'exclude-upper'.");
-            std::wstring id = _W("Nelson:validators:BoundInclusivity");
+            std::wstring id = L"Nelson:validators:BoundInclusivity";
             Error(msg, id, asCaller);
         }
     }
@@ -954,7 +954,7 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
     bool isscalar = argOut[0].getContentAsLogicalScalar();
     bool isLogical = (argOut[0].isLogical() || ClassName(argOut[0]) == "logical");
     if (!((isnumeric && isreal) || isLogical) || !isscalar) {
-        std::wstring id = _W("Nelson:validatorUsage:invalidLowerBound");
+        std::wstring id = L"Nelson:validatorUsage:invalidLowerBound";
         std::wstring msg
             = _W("Second input to function 'mustBeInRange' must be a real or scalar value.");
         Error(msg, id, asCaller);
@@ -969,7 +969,7 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
     isscalar = argOut[0].getContentAsLogicalScalar();
     isLogical = (argOut[0].isLogical() || ClassName(argOut[0]) == "logical");
     if (!((isnumeric && isreal) || isLogical) || !isscalar) {
-        std::wstring id = _W("Nelson:validatorUsage:invalidLowerBound");
+        std::wstring id = L"Nelson:validatorUsage:invalidLowerBound";
         std::wstring msg
             = _W("Third input to function 'mustBeInRange' must be a real or scalar value.");
         Error(msg, id, asCaller);
@@ -980,24 +980,24 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
             if (mustBeGreaterThanOrEqual(value, lower) && mustBeLessThanOrEqual(value, upper)) {
                 return;
             }
-            id = _W("Nelson:validators:LeftClosedRightClosed");
+            id = L"Nelson:validators:LeftClosedRightClosed";
         } else {
             if (mustBeGreaterThanOrEqual(value, lower) && mustBeLessThan(value, upper)) {
                 return;
             }
-            id = _W("Nelson:validators:LeftClosedRightOpen");
+            id = L"Nelson:validators:LeftClosedRightOpen";
         }
     } else {
         if (includeUpper) {
             if (mustBeGreaterThan(value, lower) && mustBeLessThanOrEqual(value, upper)) {
                 return;
             }
-            id = _W("Nelson:validators:LeftOpenRightClosed");
+            id = L"Nelson:validators:LeftOpenRightClosed";
         } else {
             if (mustBeGreaterThan(value, lower) && mustBeLessThan(value, upper)) {
                 return;
             }
-            id = _W("Nelson:validators:LeftOpenRightOpen");
+            id = L"Nelson:validators:LeftOpenRightOpen";
         }
     }
     std::wstring msg = _W("Value must be in range.");

@@ -50,11 +50,8 @@ compareTag(const std::string& line, const std::string& tag)
 {
     std::string modifiedLine = boost::algorithm::trim_left_copy(line);
     bool wasComment = false;
-    if (boost::algorithm::starts_with(modifiedLine, "//")) {
-        boost::algorithm::replace_first(modifiedLine, "//", "");
-        wasComment = true;
-    } else if (boost::algorithm::starts_with(modifiedLine, "#")) {
-        boost::algorithm::replace_first(modifiedLine, "#", "");
+    if (boost::algorithm::starts_with(modifiedLine, "%")) {
+        boost::algorithm::replace_first(modifiedLine, "%", "");
         wasComment = true;
     }
     if (wasComment) {

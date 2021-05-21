@@ -1,68 +1,68 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
-// <--WINDOWS ONLY-->
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--WINDOWS ONLY-->
+%=============================================================================
 % write a xml file
 xmlDoc = actxserver('Microsoft.XMLDOM');
 assert_isequal(class(xmlDoc), 'COM.MSXML2DOMDocument');
-//=============================================================================
+%=============================================================================
 % create root element
 oRoot = invoke(xmlDoc, 'createElement', 'Root');
 assert_isequal(class(oRoot), 'COM.MSXML2IXMLDOMElement');
 r = invoke(xmlDoc, 'appendChild', oRoot);
 assert_isequal(class(r), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 % add element
 oElement = invoke(xmlDoc, 'selectSingleNode', 'Root');
 assert_isequal(class(oElement), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 % create a child
-oElement = invoke(xmlDoc, 'createElement' , 'element'); 
+oElement = invoke(xmlDoc, 'createElement' , 'element');
 assert_isequal(class(oElement), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 pdocumentElement = xmlDoc.documentElement;
 assert_isequal(class(pdocumentElement), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 % add child to root element
 r = invoke(pdocumentElement, 'appendChild', oElement);
 assert_isequal(class(r), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 oName = invoke(xmlDoc,'createElement','name');
 assert_isequal(class(oName), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 oName.Text = 'CORNET';
 r = invoke(oElement, 'appendChild', oName);
 assert_isequal(class(r), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 oFirstname = invoke(xmlDoc,'createElement','firstname');
 assert_isequal(class(oFirstname), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 set(oFirstname,'Text', 'Allan');
 r = invoke(oElement, 'appendChild', oFirstname);
 assert_isequal(class(r), 'COM.MSXML2IXMLDOMElement');
-//=============================================================================
+%=============================================================================
 delete(COM_used());
-//=============================================================================
+%=============================================================================
