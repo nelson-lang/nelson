@@ -799,7 +799,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
@@ -854,9 +856,6 @@ ArrayOf::isPositive() const
     case NLS_UINT32:
     case NLS_UINT64:
         return true;
-    case NLS_SCOMPLEX:
-    case NLS_DCOMPLEX:
-        return false;
     case NLS_SINGLE:
         return isTPositive<single>(dp->getData(), getElementCount());
     case NLS_DOUBLE:
@@ -869,6 +868,19 @@ ArrayOf::isPositive() const
         return isTPositive<int32>(dp->getData(), getElementCount());
     case NLS_INT64:
         return isTPositive<int64>(dp->getData(), getElementCount());
+    case NLS_NOT_TYPED:
+    case NLS_GO_HANDLE:
+    case NLS_HANDLE:
+    case NLS_CELL_ARRAY:
+    case NLS_STRUCT_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_LOGICAL:
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX:
+    case NLS_CHAR:
+    default: {
+        return false;
+    } break;
     }
     return false;
 }

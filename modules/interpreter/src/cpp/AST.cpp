@@ -299,6 +299,8 @@ printAST(ASTPtr t)
             cnum(OP_SCALL, "special call");
             cnum(OP_KEYWORD, "keyword");
             cnum(OP_DOTDYN, ".()");
+        default: {
+        } break;
         }
         printf("\r\n");
     } else if (t->type == id_node) {

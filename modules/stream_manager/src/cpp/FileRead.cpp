@@ -100,7 +100,17 @@ FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIs
         } break;
         case NLS_CHAR: {
             sizeToRead = sizeToRead / sizeof(char);
-        }
+        } break;
+        case NLS_NOT_TYPED:
+        case NLS_GO_HANDLE:
+        case NLS_HANDLE:
+        case NLS_CELL_ARRAY:
+        case NLS_STRUCT_ARRAY:
+        case NLS_STRING_ARRAY:
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX:
+        default: {
+        } break;
         }
     }
     if (classPrecision == NLS_CHAR) {
