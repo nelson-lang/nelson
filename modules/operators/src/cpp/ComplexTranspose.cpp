@@ -30,7 +30,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 void
-complexTransposeRealTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+complexTransposeRealTemplate(const Dimensions &dimsA, T* ptrA, T* ptrRes)
 {
     ompIndexType nbRows = dimsA.getRows();
     ompIndexType nbColumns = dimsA.getColumns();
@@ -48,7 +48,7 @@ complexTransposeRealTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
 //=============================================================================
 template <class T>
 void
-complexTransposeComplexTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+complexTransposeComplexTemplate(const Dimensions &dimsA, T* ptrA, T* ptrRes)
 {
     auto* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
     auto* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);

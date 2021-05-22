@@ -96,7 +96,7 @@ RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 //=============================================================================
 template <class T>
 void
-complexTransposeInPlaceRealTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+complexTransposeInPlaceRealTemplate(const Dimensions &dimsA, T* ptrA, T* ptrRes)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
         (T*)ptrA, dimsA.getRows(), dimsA.getColumns());
@@ -107,7 +107,7 @@ complexTransposeInPlaceRealTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
 //=============================================================================
 template <class T>
 void
-complexTransposeInPlaceComplexTemplate(Dimensions dimsA, T* ptrA, T* ptrRes)
+complexTransposeInPlaceComplexTemplate(const Dimensions &dimsA, T* ptrA, T* ptrRes)
 {
     std::complex<T>* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
