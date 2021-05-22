@@ -95,19 +95,19 @@ for k = keys_need_documented(:)'
 end
 
 fprintf(stdout, ['', char(10)]);
-fprintf(stdout, ['%=============================================================================', char(10)]);
-fprintf(stdout, ['% ', _('Number of undocumented functions'), _(' : '), int2str(length(missing)), char(10)]);
-fprintf(stdout, ['% ', _('Number of existing help files'), _(' : '), int2str(length(helps)), char(10)]);
-fprintf(stdout, ['%=============================================================================', char(10)]);
+fprintf(stdout, ['%%=============================================================================', char(10)]);
+fprintf(stdout, ['%% ', _('Number of undocumented functions'), _(' : '), int2str(length(missing)), char(10)]);
+fprintf(stdout, ['%% ', _('Number of existing help files'), _(' : '), int2str(length(helps)), char(10)]);
+fprintf(stdout, ['%%=============================================================================', char(10)]);
 if length(missing) == 0
-  fprintf(stdout, ['% ', _('Congratulations all functions are documented.'), char(10)]);
+  fprintf(stdout, ['%% ', _('Congratulations all functions are documented.'), char(10)]);
 end
 for m = missing(:)'
   if iskeyword(m{1})
-    fprintf(stdout, ['% ', m{1}, char(10)]);
+    fprintf(stdout, ['%% ', m{1}, char(10)]);
   else
-    fprintf(stdout, ['% ', m{1}, ' ', which(m{1}), char(10)]);
+    fprintf(stdout, ['%% ', m{1}, ' ', which(m{1}), char(10)]);
   end
 end
-fprintf(stdout, ['%=============================================================================', char(10)]);
+fprintf(stdout, ['%%=============================================================================', char(10)]);
 exit();
