@@ -1,28 +1,28 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 i = [  1,  1,  1,  2,  2,  3,  3,  3,  3 ];
 j = [  1,  2,  5,  2,  3,  1,  3,  4,  5 ];
 s = [ 11, 12, 15, 22, 23, 31, 33, 34, 35 ];
@@ -31,22 +31,22 @@ n = 5;
 nz_max = 9;
 a = sparse ( i, j, s, m, n, nz_max );
 assert_isequal(nzmax(a), nz_max);
-//=============================================================================
+%=============================================================================
 A = sparse(eye(3, 3));
 assert_isequal(nzmax(A), 3);
-//=============================================================================
+%=============================================================================
 I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
 sp = sparse(I, J, V);
 assert_isequal(nzmax(sp), 3);
-//=============================================================================
+%=============================================================================
 A = eye(3, 3);
 assert_isequal(nzmax(A), 9);
-//=============================================================================
+%=============================================================================
 A = [    0     1     2     3;
 1     0     0     0;
 5     0     1     0];
 S = sparse(A);
 assert_isequal(nzmax(S), 6);
-//=============================================================================
+%=============================================================================

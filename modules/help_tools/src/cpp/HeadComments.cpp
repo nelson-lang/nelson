@@ -72,15 +72,11 @@ static std::string
 removeCommentCharacters(const std::string& line)
 {
     std::string res;
-    stringVector comments;
-    getSupportedCommentSymbols(comments);
+    const std::string commentSymbol = getCommentSymbol();
     std::string str = boost::algorithm::trim_left_copy(line);
-    for (size_t k = 0; k < comments.size(); k++) {
-        if (boost::algorithm::starts_with(str, comments[k])) {
-            boost::algorithm::erase_first(str, comments[k]);
-            res = str;
-            break;
-        }
+    if (boost::algorithm::starts_with(str, commentSymbol)) {
+        boost::algorithm::erase_first(str, commentSymbol);
+        res = str;
     }
     return res;
 }

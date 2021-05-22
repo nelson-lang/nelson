@@ -11,7 +11,7 @@
 		<syntax_item>ptr = libpointer(datatype)</syntax_item>
 		<syntax_item>ptr = libpointer(datatype, value)</syntax_item>
 	</syntax>
-	
+
 	<param_input>
 		<param_input_item>
 			<param_name>datatype</param_name>
@@ -50,7 +50,7 @@ p.isNull()
 p.DataType
 p.Value]]>
 	</example_item_data>
-	
+
 	</example_item>
 
 
@@ -76,14 +76,14 @@ lib = dlopen(path_ref);
 f = dlsym(lib, 'multiplicationDoubleByReference', 'libpointer', {'doublePtr'});
 [r1, r2] = dlcall(f, xPtr);
 r2
-// r1 is an libpointer of type '' (voidPointer) and it need to be change type and size.
+% r1 is an libpointer of type '' (voidPointer) and it need to be change type and size.
 r1.setdatatype('doublePtr');
 r1.reshape(1, 1);
 get(r1)
 
 ]]>
 	</example_item_data>
-	
+
 	</example_item>
 
 
@@ -102,7 +102,7 @@ get(r1)
 		<see_also_item>
 			<link linkend="${dynamic_link}libpointer_setdatatype">libpointer.setdatatype</link>
 		</see_also_item>
-		
+
 	</see_also>
 
 	<history>

@@ -1,43 +1,43 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 assert_isequal(nargin('det'), 1);
 assert_isequal(nargout('det'), 1);
-//=============================================================================
+%=============================================================================
 R = chol([]);
 REF = [];
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 assert_checkerror('chol([1 2;3 4])', _('Positive finite matrix expected.'));
-//=============================================================================
+%=============================================================================
 A = [      1.4834      1.5929      0.6517      1.7214      1.3592;
 1.5929      2.4007      0.8535      2.5614      2.0422;
 0.6517      0.8535      0.7954      1.0757      0.6566;
 1.7214      2.5614      1.0757      2.8708      2.1766;
 1.3592      2.0422      0.6566      2.1766      1.7726];
-//=============================================================================
+%=============================================================================
 B = A * A';
 R = chol(B);
 REF = [      3.1580      4.4104      1.7697      4.8242      3.7534;
@@ -46,7 +46,7 @@ REF = [      3.1580      4.4104      1.7697      4.8242      3.7534;
 0.0000      0.0000      0.0000      0.0585      0.0127;
 0.0000      0.0000      0.0000      0.0000      0.0158];
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================
 B = complex(A, A);
 B = B * B';
 R = chol(B);
@@ -56,4 +56,4 @@ REF = [    4.4661    6.2372    2.5027    6.8224    5.3081;
 0         0         0    0.0827    0.0179;
 0         0         0         0    0.0223];
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================

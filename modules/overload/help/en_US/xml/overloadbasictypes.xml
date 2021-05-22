@@ -10,7 +10,7 @@
     <syntax_item>tf = overloadbasictypes()</syntax_item>
     <syntax_item>tf_previous = overloadbasictypes(tf_new)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>tf_new</param_name>
@@ -50,7 +50,7 @@ With overloadbasictypes(true), interpreter searchs first an overloaded function.
     <example_item_description>By default, overload on basic types is disabled (fast)</example_item_description>
     <example_item_data>
       <![CDATA[overloadbasictypes()
-//overloadbasictypes(false);
+%overloadbasictypes(false);
 tic;for i=1:1e5;3 == 3;end;toc()]]>
     </example_item_data>
   </example_item>

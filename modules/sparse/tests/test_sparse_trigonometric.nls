@@ -1,61 +1,61 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 A = sparse([]);
 R = acos(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = asin(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = atan(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = cos(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = cosh(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = sin(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = sinh(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = tan(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 R = tanh(A);
 assert_isequal(size(R), [0 0]);
-//=============================================================================
+%=============================================================================
 A = sparse(eye(3, 2));
 REF = sparse(acos(eye(3, 2)));
 R = acos(A);
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 A = sparse(eye(3, 2));
 REF = sparse([1;2], [1;2], [1.5708; 1.5708], 3, 2);
 R = asin(A);
@@ -64,32 +64,32 @@ if ismac()
 else
   assert_isapprox(R, REF, 1e-4);
 end
-//=============================================================================
+%=============================================================================
 REF = sparse([1;2], [1;2], [0.7854; 0.7854], 3, 2);
 R = atan(A);
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================
 R = cos(A);
 REF = sparse(cos(eye(3, 2)));
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 R = cosh(A);
 REF = sparse(cosh(eye(3, 2)));
 assert_isequal(R, REF);
-//=============================================================================
+%=============================================================================
 R = sin(A);
 REF = sparse([1;2], [1;2], [0.8415; 0.8415], 3, 2);
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================
 R = sinh(A);
 REF = sparse([1;2], [1;2], [1.1752; 1.1752], 3, 2);
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================
 R = tan(A);
 REF = sparse([1;2], [1;2], [1.5574; 1.5574], 3, 2);
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================
 R = tanh(A);
 REF = sparse([1;2], [1;2], [0.7616; 0.7616], 3, 2);
 assert_isapprox(R, REF, 1e-4);
-//=============================================================================
+%=============================================================================

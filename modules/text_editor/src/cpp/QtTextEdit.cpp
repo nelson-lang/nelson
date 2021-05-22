@@ -315,17 +315,6 @@ QtTextEdit::uncomment()
                     textPosition.deleteChar();
                 }
                 break;
-            } else if (textPosition.selectedText() == "/") {
-                textPosition.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-                if (textPosition.selectedText() == "//") {
-                    textPosition.deletePreviousChar();
-                    textPosition.deleteChar();
-                    textPosition.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
-                    if (textPosition.selectedText() == " ") {
-                        textPosition.deleteChar();
-                    }
-                    break;
-                }
             } else {
                 break;
             }

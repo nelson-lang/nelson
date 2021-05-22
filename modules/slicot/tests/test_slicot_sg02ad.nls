@@ -1,33 +1,33 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
-// http://slicot.org/objects/software/shared/doc/SG02AD.html
-// [RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL)
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
+% http://slicot.org/objects/software/shared/doc/SG02AD.html
+% [RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL)
 assert_isequal(nargin('slicot_sg02ad'), 16);
 assert_isequal(nargout('slicot_sg02ad'), 10);
-//=============================================================================
+%=============================================================================
 N = 2;
 M = 1;
 P = 3;
@@ -54,46 +54,46 @@ R = [0.0;
 1.0];
 L = zeros(N, N);
 [RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL);
-//=============================================================================
+%=============================================================================
 RCONDU_REF = 0.3013;
 assert_isapprox(RCONDU, RCONDU_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 X_REF = [1.7321      1.0000;
 1.0000      1.7321];
 assert_isapprox(X, X_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 ALFAR_REF = [-1.2679     -1.2679      1.2679      1.2679];
 assert_isapprox(ALFAR, ALFAR_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 ALFAI_REF = [0.7321     -0.7321      0.7321     -0.7321];
 assert_isapprox(ALFAI, ALFAI_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 BETA_REF = [1.4641      1.4641      1.4641      1.4641];
 assert_isapprox(BETA, BETA_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 S_REF = [-0.6928     -0.3883     -0.2739      0.3070      0.0000;
 0.6481     -0.9340     -0.4148     -0.7853      0.4142;
 0.0000      0.0000      0.6495     -0.4507      0.0000;
 0.0000      0.0000      0.5183      0.8517      0.0000;
 0.0000      0.0000      0.0000     -0.7071     -1.4142];
 assert_isapprox(S, S_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 T_REF = [1.0000      0.0000     -0.0000     -0.0000;
 0.0000      0.8987     -0.0000     -0.2707;
 0.0000      0.0000      1.0000      0.0000;
 0.0000      0.0000      0.0000      0.7868;
 0.0000     -0.7071      0.0000      0.0000];
 assert_isapprox(T, T_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 U_REF = [-0.4472      0.4297     -0.7071      0.3397;
 0.0000     -0.6202     -0.0000      0.7845;
 -0.7746      0.1240      0.6124      0.0981;
 -0.4472     -0.6445     -0.3536     -0.5095];
 assert_isapprox(U, U_REF, 1e-4);
-//=============================================================================
+%=============================================================================
 IWARN_REF = int32(0);
 assert_isequal(IWARN, IWARN_REF);
-//=============================================================================
+%=============================================================================
 INFO_REF = int32(0);
 assert_isequal(INFO, INFO_REF);
-//=============================================================================
+%=============================================================================

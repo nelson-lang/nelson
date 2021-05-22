@@ -34,7 +34,7 @@ checkArgumentPosition(const ArrayOfVector& args, int argPosition)
 {
     if (argPosition < 0 || argPosition >= args.size()) {
         std::wstring msg = _W("Invalid input argument position.");
-        std::wstring id = _W("Nelson:validators:invalidInputPosition");
+        std::wstring id = L"Nelson:validators:invalidInputPosition";
         Error(msg, id);
     }
 }

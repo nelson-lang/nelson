@@ -1,35 +1,35 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 assert_checkerror('isequal()', _('Wrong number of input arguments.'));
 assert_checkerror('isequal(1)', _('Wrong number of input arguments.'));
 assert_checkerror('isequal([1, 1])', _('Wrong number of input arguments.'));
-//=============================================================================
+%=============================================================================
 assert_isequal(nargin('isequal'), -1);
 assert_isequal(nargout('isequal'), 1);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(struct([]), struct([])), true);
 assert_isequal(isequal(struct('nelson', 1), struct('nelson', 1)), true);
 assert_isequal(isequal(struct('nelson', 1), struct('nelson', 2)), false);
@@ -38,26 +38,26 @@ assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('nelson', 1, 'so
 assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('sonnel', 2, 'nelson', 1)), false);
 assert_isequal(isequal(struct('nelson', 1, 'sonnel', 2), struct('nelson', 1, 'sonnel', 2), struct ('nelson', 1, 'sonnel', 2)), true);
 assert_isequal(isequal(struct('nelson', 'abc', 'sonnel', 2), struct ('nelson', 'abc', 'sonnel', 2)), true);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(11, 11), true);
 assert_isequal(isequal([11, 11], [11, 11]), true);
 assert_isequal(isequal([11; 11; 11], [11; 11; 11]), true);
 assert_isequal(isequal(complex(11, 0), 11), true);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal([11, 21, 31, 41], [11, 21, 31, 41]), true);
 assert_isequal(isequal([11; 21; 31; 41], [11; 21; 31; 41]), true);
 assert_isequal(isequal([11, 21, 31, 41], [11; 21; 31; 41]), false);
 assert_isequal(isequal([11, 21, 31, 41], [11, 21; 31, 41]), false);
 assert_isequal(isequal([11, 21, 31, 41], [11, 31; 21, 41]), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal([], []), true);
 assert_isequal(isequal([], single([])), true);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal([], [], 1), false);
 assert_isequal(isequal([], 1, []), false);
 assert_isequal(isequal(1, [], []), false);
 assert_isequal(isequal(1, [], []), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal('nelson', 'nelson'), true);
 assert_isequal(isequal('nelson', 'sonnel'), false);
 assert_isequal(isequal('nelsonsonnelnelsonsonnel', ['nelson', 'sonnel', 'nelson', 'sonnel']), true);
@@ -65,12 +65,12 @@ assert_isequal(isequal(['nelson', 'sonnel', 'son', 'nel'], ['nelson', 'sonnel', 
 assert_isequal(isequal(['nelson', 'sonnel', 'son', 'e'], ['nelson', 'sonnel', 'son', 'nel']), false);
 assert_isequal(isequal(['TesT   '; 'sTring '], ['TesT   '; 'sTring '], ['TesT   '; 'sTring ']), true);
 assert_isequal(isequal(['nelson', 'sonnel', 'son', 'nel'], ['nelson'; 'sonnel'; 'son   '; 'nel   ']), false);
-//=============================================================================
+%=============================================================================
 A = str2func('cos');
 B = str2func('sin');
 assert_isequal(isequal(A, A), true);
 assert_isequal(isequal(A, B), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(cell(11, 11), cell(11, 11)), true);
 assert_isequal(isequal(cell(11, 11), cell(11, 21)), false);
 assert_isequal(isequal({'nelson', 1}, {'nelson', 1}), true);
@@ -83,7 +83,7 @@ assert_isequal(isequal({'nelson', 'abc', 'sonnel', 2}, {'nelson', 'abc', 'sonnel
 assert_isequal(isequal({'nelson', 'sonnel', 'son', 'nel'}, {'nelson', 'sonnel', 'son', 'nel'}), true);
 assert_isequal(isequal({'nelson', 'sonnel', 'son', 'nel'}, {'nelson'; 'sonnel'; 'son'; 'nel'}), false);
 assert_isequal(isequal(['nelson', 'sonnel', 'son', 'nel'], {'nelson', 'sonnel', 'son', 'nel'}), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(sparse([]), []), true);
 assert_isequal(isequal([], sparse([])), true);
 assert_isequal(isequal(sparse([]), sparse([])), true);
@@ -92,13 +92,13 @@ assert_isequal(isequal(sparse(0, 1), zeros(0, 1)), true);
 assert_isequal(isequal(sparse(2, 2), sparse(2, 2)), true);
 assert_isequal(isequal(zeros(2, 2), sparse(2, 2)), true);
 assert_isequal(isequal(sparse(0, 1), sparse(1, 0)), false)
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(NaN, NaN), false);
 assert_isequal(isequal(NaN, Inf), false);
 assert_isequal(isequal(NaN, 1.0), false);
 assert_isequal(isequal([11, 12, NaN, 14], [11, 12, NaN, 14]), false);
 assert_isequal(isequal(struct('nelson', NaN, 'nel', 2), struct('nelson', NaN, 'nel', 2), struct('nelson', NaN, 'nel', 2)), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(11, 11, 11, 11, 11), true);
 assert_isequal(isequal(11, 11, 41, 21, 11), false);
 assert_isequal(isequal(0i+11, 11, 11, 11), true);
@@ -128,32 +128,32 @@ assert_isequal(isequal({'test_nelson', ['ab'; 'cd'], 21i-81i}, {'test_nelson',['
 assert_isequal(isequal({11, 21, 31}, {31; 41; 51}), false);
 assert_isequal(isequal({11, 21, 31}, {11, 21, 51}), false);
 assert_isequal(isequal({11, 21, 31}, {11, 21, 5i-31}), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(false, false), true);
 assert_isequal(isequal(false, true), false);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(single(1), double(1)), true);
 assert_isequal(isequal(single(1), single(2)), false);
 assert_isequal(isequal(single(1), single(1)), true);
 assert_isequal(isequal(single(ones(3, 3, 3)), single(ones(3, 3, 3))), true);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(int8(1), double(1)), true);
 assert_isequal(isequal(int8(1), int8(1)), true);
 assert_isequal(isequal(int8(ones(3, 3, 3)), int8(ones(3, 3, 3))), true);
 assert_isequal(isequal(int16(ones(3, 3, 3)), int16(ones(3, 3, 3))), true);
 assert_isequal(isequal(int32(ones(3, 3, 3)), int32(ones(3, 3, 3))), true);
 assert_isequal(isequal(int64(ones(3, 3, 3)), int64(ones(3, 3, 3))), true);
-//=============================================================================
+%=============================================================================
 assert_isequal(isequal(int8(ones(3, 3, 3)), int16(ones(3, 3, 3))), true);
 assert_isequal(isequal(int16(ones(3, 3, 3)), int32(ones(3, 3, 3))), true);
 assert_isequal(isequal(int32(ones(3, 3, 3)), int64(ones(3, 3, 3))), true);
 assert_isequal(isequal(int64(ones(3, 3, 3)), int8(ones(3, 3, 3))), true);
-//=============================================================================
+%=============================================================================
 A = string(NaN);
 B = string(NaN);
 assert_isequal(isequal(A, B), true);
-//=============================================================================
+%=============================================================================
 A = string(NaN);
 B = "";
 assert_isequal(isequal(A, B), false);
-//=============================================================================
+%=============================================================================

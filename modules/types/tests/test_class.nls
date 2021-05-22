@@ -1,113 +1,113 @@
-//=============================================================================
-// Copyright (c) 2016-present Allan CORNET (Nelson)
-//=============================================================================
-// This file is part of the Nelson.
-//=============================================================================
-// LICENCE_BLOCK_BEGIN
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
-//
-// Alternatively, you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public
-// License along with this program. If not, see <http://www.gnu.org/licenses/>.
-// LICENCE_BLOCK_END
-//=============================================================================
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of the Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU Lesser General Public
+% License as published by the Free Software Foundation; either
+% version 2.1 of the License, or (at your option) any later version.
+%
+% Alternatively, you can redistribute it and/or
+% modify it under the terms of the GNU General Public License as
+% published by the Free Software Foundation; either version 2 of
+% the License, or (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public
+% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% LICENCE_BLOCK_END
+%=============================================================================
 assert_isequal(nargin('class'), 2);
 assert_isequal(nargout('class'), 1);
-//=============================================================================
+%=============================================================================
 A = 3;
 res = class(A);
 assert_isequal(res, 'double');
-//=============================================================================
+%=============================================================================
 C = [1 ; 3i];
 res = class(C);
 assert_isequal(res, 'double');
-//=============================================================================
+%=============================================================================
 addpath([nelsonroot(), '/modules/overload/examples/complex']);
 c = complexObj(3,4);
 res = class(c);
 assert_isequal(res, 'complexObj');
-//=============================================================================
+%=============================================================================
 A = sparse(2i);
 res = class(A);
 assert_isequal(res, 'sparsedouble');
-//=============================================================================
+%=============================================================================
 A = sparse(true);
 res = class(A);
 assert_isequal(res, 'sparselogical');
-//=============================================================================
+%=============================================================================
 A = ones(3, 3, 3);
 res = class(A);
 assert_isequal(res, 'double');
-//=============================================================================
+%=============================================================================
 A = {'r', 1};
 res = class(A);
 assert_isequal(res, 'cell');
-//=============================================================================
+%=============================================================================
 A = struct([]);
 A.f1 = 3;
 res = class(A);
 assert_isequal(res, 'struct');
-//=============================================================================
+%=============================================================================
 A = single(i);
 res = class(A);
 assert_isequal(res, 'single');
-//=============================================================================
+%=============================================================================
 A = true;
 res = class(A);
 assert_isequal(res, 'logical');
-//=============================================================================
+%=============================================================================
 A = 'Nelson';
 res = class(A);
 assert_isequal(res, 'char');
-//=============================================================================
+%=============================================================================
 A = int8(3);
 res = class(A);
 assert_isequal(res, 'int8');
-//=============================================================================
+%=============================================================================
 A = int16(3);
 res = class(A);
 assert_isequal(res, 'int16');
-//=============================================================================
+%=============================================================================
 A = int32(3);
 res = class(A);
 assert_isequal(res, 'int32');
-//=============================================================================
+%=============================================================================
 A = int64(3);
 res = class(A);
 assert_isequal(res, 'int64');
-//=============================================================================
+%=============================================================================
 A = uint8(3);
 res = class(A);
 assert_isequal(res, 'uint8');
-//=============================================================================
+%=============================================================================
 A = uint16(3);
 res = class(A);
 assert_isequal(res, 'uint16');
-//=============================================================================
+%=============================================================================
 A = uint32(3);
 res = class(A);
 assert_isequal(res, 'uint32');
-//=============================================================================
+%=============================================================================
 A = uint64(3);
 res = class(A);
 assert_isequal(res, 'uint64');
-//=============================================================================
+%=============================================================================
 A = str2func('cos');
 res = class(A);
 assert_isequal(res, 'function_handle');
-//=============================================================================
+%=============================================================================
 assert_checkerror('[a, b] = class(''a'')', _('Wrong numbers of output arguments.'));
 assert_checkerror('r = class(''a'', 3, 4)', _('Wrong number of input arguments.'));
-//=============================================================================
+%=============================================================================

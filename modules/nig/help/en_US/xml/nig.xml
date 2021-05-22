@@ -9,7 +9,7 @@
   <syntax>
     <syntax_item>nig(NIG_FUNCTIONS, DESTINATION_DIR)</syntax_item>
   </syntax>
-  
+
   <param_input>
     <param_input_item>
       <param_name>NIG_FUNCTIONS</param_name>
@@ -30,11 +30,11 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>NIG_FUNCTION description</example_item_description>
-    <example_item_data><![CDATA[// Nelson Interface Generator (NIG) example
+    <example_item_data><![CDATA[% Nelson Interface Generator (NIG) example
 
 NIG_FUNCTION = struct();
 NIG_FUNCTION.NELSON_NAME = 'example_nig_sum';
-NIG_FUNCTION.NELSON_NAMESPACE = 'Example'; // optional
+NIG_FUNCTION.NELSON_NAMESPACE = 'Example'; % optional
 NIG_FUNCTION.MODULE_NAME = 'example';
 NIG_FUNCTION.SYMBOL = 'sum';
 NIG_FUNCTION.LANGUAGE = 'fortran';

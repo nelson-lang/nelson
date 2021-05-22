@@ -214,7 +214,7 @@ setTokenType(int type)
 }
 //=============================================================================
 inline int
-match(char* str)
+match(const char* str)
 {
     if (strncmp(str, datap, strlen(str)) == 0) {
         datap += strlen(str);
@@ -622,6 +622,15 @@ lexNumber()
     return 1;
 }
 //=============================================================================
+static void
+fetchComment()
+{
+    while (isNewline() == 0) {
+        discardChar();
+    }
+    NextLine();
+}
+//=============================================================================
 /*
  * String detection is a bit tricky, I suppose....  A quote character
  * immediately following (without whitespace) a bracket or a alphanumeric
@@ -639,12 +648,9 @@ lexScanningState()
         continuationCount++;
     }
     // comments suppported
-    if ((match("//") != 0) || (match("%") != 0) || (match("#") != 0)) {
-        while (isNewline() == 0) {
-            discardChar();
-        }
+    if (currentChar() == '%') {
+        fetchComment();
         setTokenType(ENDSTMNT);
-        NextLine();
         return;
     }
     if (currentChar() == '\"') {
@@ -813,11 +819,8 @@ lexInitialState()
         // nothing
     } else if (match(";") != 0) { // lgtm [cpp/empty-block]
         // nothing
-    } else if ((match("%") != 0) || (match("//") != 0) || (match("#") != 0)) {
-        while (isNewline() == 0) {
-            discardChar();
-        }
-        NextLine();
+    } else if (currentChar() == '%') {
+        fetchComment();
     } else if (testSpecialFuncs()) {
         lexIdentifier();
         lexState = SpecScan;
@@ -968,8 +971,8 @@ lexCheckForMoreInput(int ccount)
         }
         return ((continuationCount > ccount)
             || ((bracketStackSize > 0)
-                   && ((bracketStack[bracketStackSize - 1] == '[')
-                          || (bracketStack[bracketStackSize - 1] == '{')))
+                && ((bracketStack[bracketStackSize - 1] == '[')
+                    || (bracketStack[bracketStackSize - 1] == '{')))
             || (inBlock != 0));
     } catch (Exception& e) {
         e.what();
