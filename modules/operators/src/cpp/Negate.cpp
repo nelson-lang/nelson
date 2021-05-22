@@ -73,6 +73,8 @@ Negate(ArrayOf A)
         negate<double>(
             2 * A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
         break;
+    default: {
+    } break;
     }
     C.setDataPointer(Cp);
     return C;

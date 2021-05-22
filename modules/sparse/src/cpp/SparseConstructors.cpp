@@ -159,6 +159,8 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
             Error(_W("Index exceeds matrix dimensions."));
         }
     } break;
+    default: {
+    } break;
     }
     return res;
 }

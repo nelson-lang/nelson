@@ -744,6 +744,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         case NLS_UINT64: {
             powerInteger<uint64>(A, B, n, stride1, stride2, Cp);
         } break;
+        default: {
+          // never here
+        } break;
         }
         C.setDataPointer(Cp);
         return C;

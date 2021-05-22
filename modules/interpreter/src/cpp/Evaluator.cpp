@@ -43,6 +43,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
@@ -3325,8 +3326,6 @@ COST(int a, int b)
     return (((a) >= (b)) ? ((a) - (b)) : 10000);
 }
 //=============================================================================
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-//=============================================================================
 int
 GetClosestLineNumber(ASTPtr t, int lineno)
 {
@@ -3338,7 +3337,7 @@ GetClosestLineNumber(ASTPtr t, int lineno)
     int retval = (t->context() & 0xffff);
     ;
     int costthis = COST(retval, lineno);
-    return (MIN(linedwn, MIN(linerght, costthis)));
+    return (std::min(linedwn, std::min(linerght, costthis)));
 }
 //=============================================================================
 void
@@ -3381,7 +3380,7 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
         while (mptr != nullptr) {
             ASTPtr code = mptr->code;
             int nxt = GetClosestLineNumber(code, bp.tokid & 0xffff);
-            clinenum = MIN(clinenum, nxt);
+            clinenum = std::min(clinenum, nxt);
             mptr = mptr->nextFunction;
         }
         if (clinenum == 10000) {

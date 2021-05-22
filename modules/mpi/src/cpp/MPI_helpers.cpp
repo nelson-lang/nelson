@@ -555,7 +555,9 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
         }
     case NLS_CHAR:
         return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_WCHAR, comm));
-    }
+    default: {
+    } break;
+    } 
     return 0;
 }
 //=============================================================================

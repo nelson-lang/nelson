@@ -578,6 +578,8 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
         double value = ArrayOf(c).getContentAsDoubleScalar();
         valueAsString = std::to_wstring(value);
     } break;
+    default: {
+    } break;
     }
     std::wstring msg;
     if (valueAsString.empty()) {

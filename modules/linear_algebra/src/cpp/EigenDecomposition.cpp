@@ -204,6 +204,8 @@ EigenDecompositionFullSymmetric(
         V = ArrayOf(NLS_DCOMPLEX, Vdims, Vp);
         delete[] eigenvals;
     } break;
+    default: {
+    } break;
     }
     return true;
 }
@@ -383,6 +385,8 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         V = ArrayOf(NLS_DCOMPLEX, Vdims, Vp);
         delete[] eigenvals;
     } break;
+    default: {
+    } break;
     }
     return true;
 }
@@ -435,6 +439,8 @@ EigenDecompositionCompactSymmetric(
         auto* ptrAz = reinterpret_cast<doublecomplex*>(ptrA);
         doubleComplexEigenDecompositionSymmetric((int)N, nullptr, eigenvals, ptrAz, false);
         D = ArrayOf(NLS_DCOMPLEX, Ddims, eigenvals);
+    } break;
+    default: {
     } break;
     }
     return true;
@@ -493,6 +499,8 @@ EigenDecompositionCompactGeneral(
         auto* ptrAz = reinterpret_cast<doublecomplex*>(ptrA);
         doubleComplexEigenDecomposition((int)N, nullptr, eigenvals, ptrAz, false, balance);
         D = ArrayOf(NLS_DCOMPLEX, Ddims, eigenvals);
+    } break;
+    default: {
     } break;
     }
     return true;

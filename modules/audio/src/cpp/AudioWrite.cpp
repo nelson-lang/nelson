@@ -302,6 +302,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
             } while (writecount > 0 && total < rows);
             delete[] buffer;
         } break;
+        default: {
+        } break;
         }
         // metadata works only for wav
         std::string title = wstring_to_utf8(metadata[0]);
