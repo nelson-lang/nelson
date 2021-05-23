@@ -63,12 +63,6 @@ setEvaluator(Evaluator* eval)
     _eval = eval;
 }
 //=============================================================================
-Evaluator*
-getEvaluator()
-{
-    return _eval;
-}
-//=============================================================================
 static std::wstring
 invalidPositionMessage(int argPosition)
 {
