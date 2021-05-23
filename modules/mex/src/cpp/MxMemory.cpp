@@ -195,6 +195,7 @@ mxDuplicateArray(const mxArray* in)
     case mxCELL_CLASS: {
         ret = mxNewArray();
         if (ret != nullptr) {
+            mwSize n = countElements(in->number_of_dims, in->dims);
             ret->number_of_dims = in->number_of_dims;
             ret->dims = copyDims(in->number_of_dims, in->dims);
             ret->classID = mxCELL_CLASS;
@@ -212,7 +213,7 @@ mxDuplicateArray(const mxArray* in)
             ret->nJc = (mwSize)0;
             if (ret->realdata && in->realdata) {
                 auto** h = (mxArray**)in->realdata;
-                for (size_t i = 0; i < L; i++) {
+                for (size_t i = 0; i < n; i++) {
                     ((mxArray**)ret->realdata)[i] = mxDuplicateArray(h[i]);
                 }
             }

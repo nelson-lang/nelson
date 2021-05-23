@@ -27,7 +27,7 @@ assert_isequal(nargin('time'), 0);
 assert_isequal(nargout('time'), 1);
 %=============================================================================
 t = time();sleep(5);t2 = time();
-assert_isequal(fix(t2 - t), 5);
+assert_isapprox(fix(t2 - t), 5, 1);
 %=============================================================================
 t = time('s');
 assert_isequal(class(t), 'double');

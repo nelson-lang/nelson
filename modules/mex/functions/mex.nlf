@@ -78,8 +78,8 @@ function mex(varargin)
     cxx_flags = '';
   end
 
-  includes = [{destinationPath}; includesParams'; dlgetnelsonincludes()];
-  libraries = [librariesParams'; dlgetnelsonlibraries()];
+  includes = [{destinationPath}; includesParams'; getMexIncludes()];
+  libraries = [librariesParams'; getMexLibraries()];
   c_flags = [concateToChar(c_flags), ' ', concateToChar(cflagsParams),  ' ', concateToChar(undefinesParams)];
   c_flags = strtrim(c_flags);
   build_configuration = buildConfigParam;
@@ -297,5 +297,14 @@ function ext = getSupportedLibraryExtension()
       ext = '.so';
     end
   end
+endfunction
+%=============================================================================
+function includes = getMexIncludes()
+  includes = {[modulepath('mex'), '/src/include']};
+
+endfunction
+%=============================================================================
+function libraries = getMexLibraries()
+  libraries = {[modulepath(nelsonroot(),'mex','bin'), '/libnlsMex']};
 endfunction
 %=============================================================================
