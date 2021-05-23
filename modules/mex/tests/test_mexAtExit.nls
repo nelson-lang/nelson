@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ~isbuiltin('mexAtExit')
-    status = copyfile('mexAtExit.c', tempdir());
+    status = copyfile([modulepath('mex'), '/tests/', 'mexAtExit.c'], tempdir());
     assert_istrue(status);
     cd(tempdir());
     mex('mexAtExit.c');
