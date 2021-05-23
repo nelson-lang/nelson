@@ -38,6 +38,8 @@
 
 - [#441](http://github.com/Nelson-numerical-software/nelson/issues/441): Circle CI (ArchLinux build) fixed.
 
+- [#357](http://github.com/Nelson-numerical-software/nelson/issues/357): Curl 7.76.1 on Windows.
+
 # 0.5.4 (2021-04-24)
 
 ## Features:
