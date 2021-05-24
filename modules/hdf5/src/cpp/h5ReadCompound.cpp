@@ -150,9 +150,7 @@ h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, siz
             auto* ptrINT64 = static_cast<int64*>(ptrVoid);
             ptrINT64[k] = ((int64*)(data + offset + (sizeType * k)))[0];
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     return fieldvalue;
 }

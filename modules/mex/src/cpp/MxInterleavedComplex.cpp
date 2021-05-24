@@ -240,9 +240,7 @@ sizeComplex(mxClassID classId)
         return sizeof(mxComplexInt64);
     case mxUINT64_CLASS:
         return sizeof(mxComplexUint64);
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================

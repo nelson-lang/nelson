@@ -68,7 +68,7 @@ invalidPositionMessage(int argPosition)
 {
     std::wstring msg;
     if (argPosition > 0) {
-        msg = str(boost::wformat { _W("Invalid input argument at position %d.") } % argPosition)
+        msg = str(boost::wformat{ _W("Invalid input argument at position %d.") } % argPosition)
             + L"\n";
     }
     return msg;
@@ -572,14 +572,12 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
         double value = ArrayOf(c).getContentAsDoubleScalar();
         valueAsString = std::to_wstring(value);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     std::wstring msg;
     if (valueAsString.empty()) {
         msg = defaultMessage;
     } else {
-        msg = str(boost::wformat { fmt } % valueAsString);
+        msg = str(boost::wformat{ fmt } % valueAsString);
     }
     return msg;
 }
@@ -641,7 +639,7 @@ mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool as
     if (!mustBeGreaterThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than %s."),
-                _W("Value must be greater than compared value."));
+                  _W("Value must be greater than compared value."));
         std::wstring id = L"Nelson:validators:mustBeGreaterThan";
         Error(msg, id, asCaller);
     }
@@ -704,7 +702,7 @@ mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCal
     if (!mustBeLessThan(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than %s."),
-                _W("Value must be less than compared value."));
+                  _W("Value must be less than compared value."));
         std::wstring id = L"Nelson:validators:mustBeLessThan";
         Error(msg, id, asCaller);
     }
@@ -769,7 +767,7 @@ mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, 
     if (!mustBeGreaterThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be greater than or equal to %s."),
-                _W("Value must be greater than or equal to compared value."));
+                  _W("Value must be greater than or equal to compared value."));
         std::wstring id = L"Nelson:validators:mustBeGreaterThanOrEqual";
         Error(msg, id, asCaller);
     }
@@ -833,7 +831,7 @@ mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, boo
     if (!mustBeLessThanOrEqual(arg, c)) {
         std::wstring msg = invalidPositionMessage(argPosition)
             + createPrintableScalar(c, _W("Value must be less than or equal to %s."),
-                _W("Value must be less than or equal to compared value."));
+                  _W("Value must be less than or equal to compared value."));
         std::wstring id = L"Nelson:validators:mustBeLessThanOrEqual";
         Error(msg, id, asCaller);
     }
@@ -927,7 +925,7 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
     } else {
         if (boundflag1 == boundflag2) {
             std::wstring msg = str(
-                boost::wformat { _W("A combinaison of '%s' and '%s' options is not supported.") }
+                boost::wformat{ _W("A combinaison of '%s' and '%s' options is not supported.") }
                 % boundflag1 % boundflag2);
             std::wstring id = L"Nelson:validatorUsage:ConflictingBoundaryOptions";
             Error(msg, id, asCaller);

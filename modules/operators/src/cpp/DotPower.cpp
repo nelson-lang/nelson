@@ -745,7 +745,7 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             powerInteger<uint64>(A, B, n, stride1, stride2, Cp);
         } break;
         default: {
-          // never here
+            // never here
         } break;
         }
         C.setDataPointer(Cp);

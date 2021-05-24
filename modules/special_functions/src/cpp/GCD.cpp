@@ -48,7 +48,7 @@ basic_gcd(double a, double b)
 //=============================================================================
 template <class T>
 static ArrayOf
-realGCD(Class destinationClass, T* ptrA, T* ptrB, const Dimensions &commonDims)
+realGCD(Class destinationClass, T* ptrA, T* ptrB, const Dimensions& commonDims)
 {
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
@@ -64,7 +64,7 @@ realGCD(Class destinationClass, T* ptrA, T* ptrB, const Dimensions &commonDims)
 //=============================================================================
 template <class T>
 static ArrayOf
-realGCD(Class destinationClass, T* ptrA, T b, const Dimensions &commonDims)
+realGCD(Class destinationClass, T* ptrA, T b, const Dimensions& commonDims)
 {
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
@@ -80,7 +80,7 @@ realGCD(Class destinationClass, T* ptrA, T b, const Dimensions &commonDims)
 //=============================================================================
 template <class T>
 static ArrayOf
-realGCD(Class destinationClass, T a, T* ptrB, const Dimensions &commonDims)
+realGCD(Class destinationClass, T a, T* ptrB, const Dimensions& commonDims)
 {
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
@@ -96,7 +96,7 @@ realGCD(Class destinationClass, T a, T* ptrB, const Dimensions &commonDims)
 //=============================================================================
 template <class T>
 static ArrayOf
-integerGCD(Class destinationClass, T* ptrA, T* ptrB, const Dimensions &commonDims)
+integerGCD(Class destinationClass, T* ptrA, T* ptrB, const Dimensions& commonDims)
 {
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
@@ -112,7 +112,7 @@ integerGCD(Class destinationClass, T* ptrA, T* ptrB, const Dimensions &commonDim
 //=============================================================================
 template <class T>
 static ArrayOf
-integerGCD(Class destinationClass, T* ptrA, T b, const Dimensions &commonDims)
+integerGCD(Class destinationClass, T* ptrA, T b, const Dimensions& commonDims)
 {
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
@@ -128,7 +128,7 @@ integerGCD(Class destinationClass, T* ptrA, T b, const Dimensions &commonDims)
 //=============================================================================
 template <class T>
 static ArrayOf
-integerGCD(Class destinationClass, T a, T* ptrB, const Dimensions &commonDims)
+integerGCD(Class destinationClass, T a, T* ptrB, const Dimensions& commonDims)
 {
     indexType N = commonDims.getElementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);

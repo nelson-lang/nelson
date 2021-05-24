@@ -59,8 +59,8 @@ Nelson::ValidatorsGateway::mustBeInRangeBuiltin(int nLhs, const ArrayOfVector& a
     case 5: {
         boundflag1 = argIn[3].getContentAsWideString();
         ArrayOf param5 = argIn[4];
-        if (param5.isCharacterArray()) { 
-          boundflag2 = param5.getContentAsWideString();
+        if (param5.isCharacterArray()) {
+            boundflag2 = param5.getContentAsWideString();
         } else {
             argPos = param5.getContentAsInteger32Scalar();
             if (argPos < 1) {

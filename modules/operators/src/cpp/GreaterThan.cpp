@@ -94,9 +94,7 @@ realComparatorGreaterThan(
         auto* ptrB = static_cast<charType*>(vptrB);
         return static_cast<Nelson::logical>(ptrA[idxA] > ptrB[idxB]);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================
@@ -117,9 +115,7 @@ complexComparatorGreaterThan(
         return static_cast<Nelson::logical>(complex_abs<double>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
             > complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================

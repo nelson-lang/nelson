@@ -519,9 +519,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
                 case NLS_INT16: {
                     *outAsInt16++ = 0;
                 } break;
-                default: {
-                } break;
-                }
+                default: { } break; }
             }
         }
         data->_CurrentSample++;
