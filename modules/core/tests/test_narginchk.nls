@@ -25,12 +25,11 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/core/tests/']);
 %=============================================================================
-R = nargin('test_nargin_1');
-assert_isequal(R, -3);
+assert_checkerror('test_narginchk()', _('Wrong number of input arguments.'), 'Nelson:narginchk:notEnoughInputs');
 %=============================================================================
-R = nargin('test_nargin_2');
-assert_isequal(R, 3);
+test_narginchk(1)
 %=============================================================================
-R = nargin('test_nargin_3');
-assert_isequal(R, -1);
+test_narginchk(1,2)
+%=============================================================================
+assert_checkerror('test_narginchk(1, 2, 3)', _('Wrong number of input arguments.'), 'Nelson:narginchk:tooManyInputs');
 %=============================================================================

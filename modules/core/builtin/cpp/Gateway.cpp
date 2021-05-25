@@ -44,6 +44,7 @@
 #include "runBuiltin.hpp"
 #include "versionBuiltin.hpp"
 #include "sha256Builtin.hpp"
+#include "narginchkBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -59,6 +60,7 @@ static const nlsGateway gateway[] = {
     { "evalin", (void*)Nelson::CoreGateway::evalinBuiltin, -1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "echo", (void*)Nelson::CoreGateway::echoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "nargin", (void*)Nelson::CoreGateway::narginBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "narginchk", (void*)Nelson::CoreGateway::narginchkBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "nargout", (void*)Nelson::CoreGateway::nargoutBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "pause", (void*)Nelson::CoreGateway::pauseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "namelengthmax", (void*)Nelson::CoreGateway::namelengthmaxBuiltin, 1, 1 },

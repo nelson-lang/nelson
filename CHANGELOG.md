@@ -1,5 +1,9 @@
 # 0.5.6 (UNRELEASED)
 
+## Features:
+
+- `narginchk` builtin: checks number of input arguments.
+
 ## Bug Fixes:
 
 - `nmm('install', existing_module_directory)` did not work as expected.
