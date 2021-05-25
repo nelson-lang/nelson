@@ -98,6 +98,9 @@ function info = readModuleLockJson(lockfile)
 endfunction
 %=============================================================================
 function nmm_install_directory(directory)
+  if ~endsWith(directory, '/')
+    directory = [directory, '/'];
+  end
   if ~is_local_module(directory)
     error(_('Valid module repository expected.'));
   end
@@ -121,7 +124,7 @@ function nmm_install_directory(directory)
       error(sprintf(_('An C/C++ compiler is required by %s'), module_description.module));
     end
   end
-  destination_dir = copyModule(destinationTempPath, module_description.module, module_description.version);
+  destination_dir = copyModule(directory, module_description.module, module_description.version);
 
   try
     run([destination_dir, 'builder.nls']);

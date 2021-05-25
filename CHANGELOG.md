@@ -1,3 +1,9 @@
+# 0.5.6 (UNRELEASED)
+
+## Bug Fixes:
+
+- `nmm('install', existing_module_directory)` did not work as expected.
+
 # 0.5.5 (2021-05-24)
 
 ## Features:
