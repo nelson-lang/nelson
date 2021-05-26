@@ -13,11 +13,11 @@
 	<param_input>
 		<param_input_item>
 			<param_name>minArgs</param_name>
-			<param_description>a string: function name</param_description>
+			<param_description>minimum number of accepted inputs (scalar integer value).</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>maxArgs</param_name>
-			<param_description>a function handle</param_description>
+			<param_description>maximum number of accepted inputs (scalar integer value).</param_description>
 		</param_input_item>
 	</param_input>
 

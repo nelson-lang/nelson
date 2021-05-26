@@ -4884,9 +4884,6 @@ msgstr ""
 msgid "sheet name not found."
 msgstr ""
 
-msgid "Wrong number of output arguments."
-msgstr ""
-
 msgid "No empty matrix expected."
 msgstr ""
 

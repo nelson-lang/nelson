@@ -11,7 +11,6 @@
 	</syntax>
 
 	<param_output>
-
 		<param_output_item>
 			<param_name>nelson_path</param_name>
 			<param_description>a string: the root folder of Nelson.</param_description>

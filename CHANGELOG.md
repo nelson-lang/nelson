@@ -3,6 +3,7 @@
 ## Features:
 
 - `narginchk` builtin: checks number of input arguments.
+- `nargoutchk` builtin: checks number of outnput arguments.
 
 ## Bug Fixes:
 
