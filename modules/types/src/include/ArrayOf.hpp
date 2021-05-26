@@ -754,9 +754,9 @@ public:
      *  - the non-scalar values do not agree in dimension
      */
     static ArrayOf
-    structConstructor(const stringVector& fNames, ArrayOfVector& values);
+    structConstructor(const stringVector& fNames, const ArrayOfVector& values);
     static ArrayOf
-    structConstructor(const wstringVector& fNames, ArrayOfVector& values);
+    structConstructor(const wstringVector& fNames, const ArrayOfVector& values);
 
     static ArrayOf
     emptyStructWithoutFields();
@@ -766,7 +766,7 @@ public:
     emptyStructConstructor(const wstringVector& fNames, Dimensions& dim);
 
     static ArrayOf
-    structScalarConstructor(const stringVector& fNames, ArrayOfVector& values);
+    structScalarConstructor(const stringVector& fNames, const ArrayOfVector& values);
 
     /**
      * returns value as an array =A(index)
@@ -1035,42 +1035,42 @@ public:
      * Throws an exception if we are not a scalar integer type.
      */
     int8
-    getContentAsInteger8Scalar(bool arrayAsScalar = false);
+    getContentAsInteger8Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint8
-    getContentAsUnsignedInteger8Scalar(bool arrayAsScalar = false);
+    getContentAsUnsignedInteger8Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int16
-    getContentAsInteger16Scalar(bool arrayAsScalar = false);
+    getContentAsInteger16Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint16
-    getContentAsUnsignedInteger16Scalar(bool arrayAsScalar = false);
+    getContentAsUnsignedInteger16Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int32
-    getContentAsInteger32Scalar(bool arrayAsScalar = false);
+    getContentAsInteger32Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint32
-    getContentAsUnsignedInteger32Scalar(bool arrayAsScalar = false);
+    getContentAsUnsignedInteger32Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as a double scalar.
@@ -1078,21 +1078,21 @@ public:
      * be converted to a double precision value.
      */
     double
-    getContentAsDoubleScalar(bool arrayAsScalar = false);
+    getContentAsDoubleScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     uint64
-    getContentAsUnsignedInt64Scalar(bool arrayAsScalar = false);
+    getContentAsUnsignedInt64Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     int64
-    getContentAsInteger64Scalar(bool arrayAsScalar = false);
+    getContentAsInteger64Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as a index type scalar.
@@ -1100,7 +1100,7 @@ public:
      * be converted to a index typevalue.
      */
     indexType
-    getContentAsScalarIndex(bool bWithZero = true);
+    getContentAsScalarIndex(bool bWithZero = true) const;
 
     indexType*
     getContentAsIndexPointer();
@@ -1111,7 +1111,7 @@ public:
      * be converted to a double precision value.
      */
     doublecomplex
-    getContentAsDoubleComplexScalar(bool arrayAsScalar = false);
+    getContentAsDoubleComplexScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as a float scalar.
@@ -1119,7 +1119,7 @@ public:
      * be converted to a double precision value.
      */
     single
-    getContentAsSingleScalar(bool arrayAsScalar = false);
+    getContentAsSingleScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as a single complex scalar.
@@ -1127,7 +1127,7 @@ public:
      * be converted to a single precision value.
      */
     std::complex<single>
-    getContentAsSingleComplexScalar(bool arrayAsScalar = false);
+    getContentAsSingleComplexScalar(bool arrayAsScalar = false) const;
 
     /**
      * Returns true if the given Class is either NLS_CELL_ARRAY or

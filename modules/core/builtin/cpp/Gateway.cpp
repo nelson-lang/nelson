@@ -37,6 +37,8 @@
 #include "namelengthmaxBuiltin.hpp"
 #include "narginBuiltin.hpp"
 #include "nargoutBuiltin.hpp"
+#include "narginchkBuiltin.hpp"
+#include "nargoutchkBuiltin.hpp"
 #include "nelsonrootBuiltin.hpp"
 #include "nfilenameBuiltin.hpp"
 #include "pauseBuiltin.hpp"
@@ -44,7 +46,6 @@
 #include "runBuiltin.hpp"
 #include "versionBuiltin.hpp"
 #include "sha256Builtin.hpp"
-#include "narginchkBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,6 +63,7 @@ static const nlsGateway gateway[] = {
     { "nargin", (void*)Nelson::CoreGateway::narginBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "narginchk", (void*)Nelson::CoreGateway::narginchkBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "nargout", (void*)Nelson::CoreGateway::nargoutBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "nargoutchk", (void*)Nelson::CoreGateway::nargoutchkBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "pause", (void*)Nelson::CoreGateway::pauseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "namelengthmax", (void*)Nelson::CoreGateway::namelengthmaxBuiltin, 1, 1 },
     { "format", (void*)Nelson::CoreGateway::formatBuiltin, 1, 1 },

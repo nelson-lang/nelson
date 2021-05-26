@@ -83,7 +83,7 @@ ArrayOf::setStructType(const std::string& structname)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::structScalarConstructor(const stringVector& fNames, ArrayOfVector& values)
+ArrayOf::structScalarConstructor(const stringVector& fNames, const ArrayOfVector& values)
 {
     const ArrayOf* rptr;
     Dimensions dims;
@@ -119,7 +119,7 @@ ArrayOf::structScalarConstructor(const stringVector& fNames, ArrayOfVector& valu
 }
 //=============================================================================
 ArrayOf
-ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
+ArrayOf::structConstructor(const stringVector& fNames, const ArrayOfVector& values)
 {
     const ArrayOf* rptr;
     Dimensions dims;
@@ -204,7 +204,7 @@ ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::structConstructor(const wstringVector& fNames, ArrayOfVector& values)
+ArrayOf::structConstructor(const wstringVector& fNames, const ArrayOfVector& values)
 {
     stringVector fNamesUtf8;
     for (size_t k = 0; k < fNames.size(); k++) {

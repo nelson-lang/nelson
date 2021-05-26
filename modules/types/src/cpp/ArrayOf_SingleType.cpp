@@ -101,30 +101,40 @@ ArrayOf::complexConstructor(float aval, float bval)
 }
 //=============================================================================
 single
-ArrayOf::getContentAsSingleScalar(bool arrayAsScalar)
+ArrayOf::getContentAsSingleScalar(bool arrayAsScalar) const
 {
     single* qp;
     if (isComplex() || isReferenceType() || isCharacterArray() || isSparse() || isEmpty()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real value scalar."));
     }
-    promoteType(NLS_SINGLE);
+    if (getDataClass() != NLS_SINGLE) {
+        ArrayOf P(*this);
+        P.promoteType(NLS_SINGLE);
+        qp = (single*)P.getDataPointer();
+        return (*qp);
+    }
     qp = (single*)dp->getData();
     return (*qp);
 }
 //=============================================================================
 std::complex<single>
-ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar)
+ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar) const
 {
     if (isReferenceType() || isCharacterArray() || isEmpty() || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real valued scalar"));
     }
-    promoteType(NLS_SCOMPLEX);
+    if (getDataClass() != NLS_SCOMPLEX) {
+        ArrayOf P(*this);
+        P.promoteType(NLS_SCOMPLEX);
+        auto* qp = (single*)P.getDataPointer();
+        std::complex<single> cx(qp[0], qp[1]);
+        return cx;
+    }
     auto* qp = (single*)dp->getData();
     std::complex<single> cx(qp[0], qp[1]);
     return cx;
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

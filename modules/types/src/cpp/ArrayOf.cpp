@@ -1218,27 +1218,35 @@ isDoubleOrSingleClass(Class classIn)
 #undef caseMacro
 //=============================================================================
 indexType
-ArrayOf::getContentAsScalarIndex(bool bWithZero)
+ArrayOf::getContentAsScalarIndex(bool bWithZero) const
 {
     indexType idx = 0;
     if (getElementCount() != 1) {
         Error(ERROR_SCALAR_EXPECTED);
     }
-    promoteType(NLS_DOUBLE);
-    double* qp = (double*)dp->getData();
-    if ((floor(*qp) == *qp) && IsFinite((*qp))) {
+    double valueAsDouble;
+    ArrayOf P;
+    if (getDataClass() != NLS_DOUBLE) {
+        P = *this;
+        P.promoteType(NLS_DOUBLE);
+        double* qp = (double*)P.getDataPointer();
+        valueAsDouble = qp[0];
+    } else {
+        double* qp = (double*)dp->getData();
+        valueAsDouble = qp[0];
+    }
+    if ((floor(valueAsDouble) == valueAsDouble) && IsFinite((valueAsDouble))) {
         double maxIndexType = (double)std::numeric_limits<indexType>::max();
-        if ((*qp) > maxIndexType) {
+        if ((valueAsDouble) > maxIndexType) {
             idx = static_cast<indexType>(maxIndexType);
             Error(_W("Invalid index value > limit max."));
-        } else if (*qp < 0) {
+        } else if (valueAsDouble < 0) {
             Error(_W("Expected a positive integer scalar."));
         } else {
-            double dVal = (*qp);
-            idx = static_cast<indexType>(dVal);
+            idx = static_cast<indexType>(valueAsDouble);
         }
     } else {
-        if (IsFinite(*qp)) {
+        if (IsFinite(valueAsDouble)) {
             Error(_W("Expected a integer."));
         } else {
             Error(_W("NaN and Inf not allowed."));
