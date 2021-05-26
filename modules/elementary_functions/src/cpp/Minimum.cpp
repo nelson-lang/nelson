@@ -308,9 +308,9 @@ void
 TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
 {
     if (omitnan) {
-        T minval;
-        T minval_r;
-        T minval_i;
+        T minval = (T)0;
+        T minval_r = (T)0;
+        T minval_i = (T)0;
         T tstval;
         bool init = false;
         for (indexType k = 0; k < elementCount; ++k) {
@@ -347,9 +347,9 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
         }
 
     } else {
-        T minval;
-        T minval_r;
-        T minval_i;
+        T minval = (T)0;
+        T minval_r = (T)0;
+        T minval_i = (T)0;
         T tstval;
         tstval = complex_abs(sp[0], sp[1]);
         for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {

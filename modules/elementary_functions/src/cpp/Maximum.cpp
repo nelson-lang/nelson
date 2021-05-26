@@ -308,9 +308,9 @@ void
 TMaxAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
 {
     if (omitnan) {
-        T maxval;
-        T maxval_r;
-        T maxval_i;
+        T maxval = (T) 0;
+        T maxval_r = (T)0;
+        T maxval_i = (T)0;
         T tstval;
         bool init = false;
         for (indexType k = 0; k < elementCount; ++k) {
@@ -347,9 +347,9 @@ TMaxAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
         }
 
     } else {
-        T maxval;
-        T maxval_r;
-        T maxval_i;
+        T maxval = (T)0;
+        T maxval_r = (T)0;
+        T maxval_i = (T)0;
         T tstval;
         tstval = complex_abs(sp[0], sp[1]);
         for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {
@@ -373,9 +373,9 @@ TMaxComplex(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, in
     indexType linesize)
 {
     if (omitnan) {
-        T maxval;
-        T maxval_r;
-        T maxval_i;
+        T maxval = (T)0;
+        T maxval_r = (T)0;
+        T maxval_i = (T)0;
         T tstval;
         double maxdex;
         bool init = false;
@@ -428,9 +428,9 @@ TMaxComplex(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, in
         }
 
     } else {
-        T maxval;
-        T maxval_r;
-        T maxval_i;
+        T maxval = (T)0;
+        T maxval_r = (T)0;
+        T maxval_i = (T)0;
         T tstval;
         double maxdex;
         for (indexType i = 0; i < planes; i++) {
