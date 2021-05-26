@@ -58,7 +58,7 @@
 #define ERROR_MUST_HAVE_LVALUE _W("Must have lvalue in argument passed by reference")
 #define ERROR_INVALID_FILEID _W("Invalid file id.")
 #define ERROR_MEMORY_ALLOCATION _W("Memory allocation error... You may have run out of memory!")
-#define ERROR_WRONG_NUMBERS_OUTPUT_ARGS _W("Wrong numbers of output arguments.")
+#define ERROR_WRONG_NUMBERS_OUTPUT_ARGS _W("Wrong number of output arguments.")
 #define ERROR_WRONG_NUMBERS_INPUT_ARGS _W("Wrong number of input arguments.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED                                                \
