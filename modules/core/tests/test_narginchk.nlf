@@ -23,21 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function narginchk(minargs, maxargs)
-  if (nargin ~= 2)
-    error(_('Wrong number of input arguments.'));
-  elseif (~isnumeric (minargs) || ~isscalar (minargs))
-    error(_('minargs must be a numeric scalar'));
-  elseif (~isnumeric (maxargs) || ~isscalar (maxargs))
-    error(_('maxargs must be a numeric scalar'));
-  elseif (minargs > maxargs)
-    error(_('minargs cannot be larger than maxargs'));
-  end
-  args = evalin('caller', 'nargin;');
-  if (args < minargs)
-    error(_('not enough input arguments'));
-  elseif (args > maxargs)
-    error(_('too many input arguments'));
-  end
+function test_narginchk(varargin)
+    narginchk(1, 2)
 endfunction
 %=============================================================================

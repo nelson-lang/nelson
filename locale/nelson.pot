@@ -4297,7 +4297,7 @@ msgstr ""
 msgid "Invalid file id."
 msgstr ""
 
-msgid "Wrong numbers of output arguments."
+msgid "Wrong number of output arguments."
 msgstr ""
 
 msgid "Wrong number of input arguments."

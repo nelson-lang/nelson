@@ -25,8 +25,8 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 nolhs_function()
-assert_checkerror('a = nolhs_function();', _('Wrong numbers of output arguments.'));
-assert_checkerror('disp(nolhs_function())', _('Wrong numbers of output arguments.'));
+assert_checkerror('a = nolhs_function();', _('Wrong number of output arguments.'));
+assert_checkerror('disp(nolhs_function())', _('Wrong number of output arguments.'));
 onelhs_function()
 assert_istrue(onelhs_function());
 twolhs_function()

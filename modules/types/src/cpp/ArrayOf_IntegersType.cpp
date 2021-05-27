@@ -214,108 +214,73 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
 #endif
 }
 //=============================================================================
-uint8
-ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar)
+template <class T>
+T
+getContentAsScalar(const ArrayOf& M, Class destinationClass, bool arrayAsScalar)
 {
-    uint8* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
+    T value;
+    if (M.getDataClass() != destinationClass && !M.isSparse()) {
+        if (M.isEmpty() || M.isComplex() || M.isReferenceType() || M.isCharacterArray()
+            || (!arrayAsScalar && !M.isScalar())) {
+            Error(ERROR_SCALAR_EXPECTED);
+        }
+        ArrayOf P(M);
+        P.promoteType(destinationClass);
+        T* ptr = (T*)P.getDataPointer();
+        value = ptr[0];
+    } else {
+        T*ptr = (T*)M.getDataPointer();
+        value = ptr[0];
     }
-    promoteType(NLS_UINT8);
-    qp = (uint8*)dp->getData();
-    return (*qp);
+    return value;
+}
+//=============================================================================
+uint8
+ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar) const
+{
+    return getContentAsScalar<uint8>(*this, NLS_UINT8, arrayAsScalar);
 }
 //=============================================================================
 int8
-ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar) const
 {
-    int8* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_INT8);
-    qp = (int8*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<int8>(*this, NLS_INT8, arrayAsScalar);
 }
 //=============================================================================
 int16
-ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar) const
 {
-    int16* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_INT16);
-    qp = (int16*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<int16>(*this, NLS_INT16, arrayAsScalar);
 }
 //=============================================================================
 uint16
-ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar) const
 {
-    uint16* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_UINT16);
-    qp = (uint16*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<uint16>(*this, NLS_UINT16, arrayAsScalar);
 }
 //=============================================================================
 int32
-ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar) const
 {
-    int32* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_INT32);
-    qp = (int32*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<int32>(*this, NLS_INT32, arrayAsScalar);
 }
 //=============================================================================
 uint32
-ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar) const
 {
-    uint32* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_UINT32);
-    qp = (uint32*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<uint32>(*this, NLS_UINT32, arrayAsScalar);
 }
 //=============================================================================
 int64
-ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar) const
 {
-    int64* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_INT64);
-    qp = (int64*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<int64>(*this, NLS_INT64, arrayAsScalar);
 }
 //=============================================================================
 uint64
-ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar)
+ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar) const
 {
-    uint64* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
-        || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SCALAR_EXPECTED);
-    }
-    promoteType(NLS_UINT64);
-    qp = (uint64*)dp->getData();
-    return (*qp);
+    return getContentAsScalar<uint64>(*this, NLS_UINT64, arrayAsScalar);
 }
 //=============================================================================
 bool

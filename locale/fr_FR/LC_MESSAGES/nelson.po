@@ -1489,7 +1489,7 @@ msgstr "Doit avoir lvalue dans l'argument passé par référence"
 msgid "Invalid file id."
 msgstr "Identificateur de fichier non valide."
 
-msgid "Wrong numbers of output arguments."
+msgid "Wrong number of output arguments."
 msgstr "Nombre incorrect d'arguments de sortie."
 
 msgid "Wrong number of input arguments."

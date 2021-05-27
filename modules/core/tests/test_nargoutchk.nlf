@@ -23,21 +23,10 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('intmin'), -1);
-assert_isequal(nargout('intmin'), -1);
-%=============================================================================
-assert_isequal(intmin(), intmin('int32'));
-assert_isequal(intmin('int32'), int32(-2147483648));
-assert_isequal(intmin('int8'), int8(-128));
-assert_isequal(intmin('uint8'), uint8(0));
-assert_isequal(intmin('int16'), int16(-32768));
-assert_isequal(intmin('uint16'), uint16(0));
-assert_isequal(intmin('uint32'), uint32(-2147483648));
-assert_isequal(intmin('int64'), int64(-9223372036854775808));
-assert_isequal(intmin('uint64'), uint64(0));
-%=============================================================================
-assert_checkerror('intmin(''uint64'', 3)', _('Wrong number of input arguments.'));
-assert_checkerror('intmin(3)', _('Wrong type for argument #1: string expected.'));
-assert_checkerror('intmin(''t'')', _('The name of an integer class expected.'));
-assert_checkerror('[a, b] = intmin()', _('Wrong number of output arguments.'));
+function varargout = test_nargoutchk(varargin)
+    nargoutchk(2, 3)
+    for n = 1:nargout
+        varargout{n} = n;
+    end
+endfunction
 %=============================================================================

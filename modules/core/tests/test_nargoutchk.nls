@@ -25,12 +25,37 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/core/tests/']);
 %=============================================================================
-R = nargin('test_nargin_1');
-assert_isequal(R, -3);
+assert_checkerror('test_nargoutchk()', _('Wrong number of output arguments.'), 'Nelson:nargoutchk:notEnoughOutputs');
 %=============================================================================
-R = nargin('test_nargin_2');
-assert_isequal(R, 3);
+assert_checkerror('[a, b, c, d] = test_nargoutchk()', _('Wrong number of output arguments.'), 'Nelson:nargoutchk:tooManyOutputs');
 %=============================================================================
-R = nargin('test_nargin_3');
-assert_isequal(R, -1);
+R = nargoutchk(1, 2 , 3);
+REF = _('Too many output arguments.');
+assert_isequal(R, REF);
+%=============================================================================
+R = nargoutchk(1, 2 , 0);
+REF = _('Not enough output arguments.');
+assert_isequal(R, REF);
+%=============================================================================
+R = nargoutchk(1, 2 , 1);
+REF = '';
+assert_isequal(R, REF);
+%=============================================================================
+S = nargoutchk(1, 2 , 3, 'struct');
+MSG = _('Too many output arguments.');
+ID = 'Nelson:nargoutchk:tooManyOutputs';
+assert_isequal(S.message, MSG);
+assert_isequal(S.identifier, ID);
+%=============================================================================
+S = nargoutchk(1, 2 , 0, 'struct');
+MSG = _('Not enough output arguments.');
+ID = 'Nelson:nargoutchk:notEnoughOutputs';
+assert_isequal(S.message, MSG);
+assert_isequal(S.identifier, ID);
+%=============================================================================
+S = nargoutchk(1, 2 , 1, 'struct');
+MSG = '';
+ID = '';
+assert_isequal(S.message, MSG);
+assert_isequal(S.identifier, ID);
 %=============================================================================

@@ -34,7 +34,7 @@ function [status, message] = dlgeneratemake(varargin)
     error(_('At least 4 input arguments expected.'));
   end
   if nargin > 10
-    error(_('Wrong numbers of output arguments.'));
+    error(_('Wrong number of output arguments.'));
   end
 
   maketype = 'dynamic_library';

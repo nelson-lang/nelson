@@ -108,6 +108,6 @@ A = str2func('cos');
 res = class(A);
 assert_isequal(res, 'function_handle');
 %=============================================================================
-assert_checkerror('[a, b] = class(''a'')', _('Wrong numbers of output arguments.'));
+assert_checkerror('[a, b] = class(''a'')', _('Wrong number of output arguments.'));
 assert_checkerror('r = class(''a'', 3, 4)', _('Wrong number of input arguments.'));
 %=============================================================================

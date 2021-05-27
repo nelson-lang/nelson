@@ -102,26 +102,37 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
 }
 //=============================================================================
 double
-ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
+ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar) const
 {
     if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real value scalar."));
     }
-    promoteType(NLS_DOUBLE);
+    if (getDataClass() != NLS_DOUBLE) {
+        ArrayOf P(*this);
+        P.promoteType(NLS_DOUBLE);
+        auto* qp = (double*)P.getDataPointer();
+        return (*qp);
+    }
     auto* qp = (double*)dp->getData();
     return (*qp);
 }
 //=============================================================================
 doublecomplex
-ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar)
+ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
 {
     if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real valued scalar"));
     }
-    promoteType(NLS_DCOMPLEX);
-    auto* qp = (double*)dp->getData();
+    if (getDataClass() != NLS_DCOMPLEX) {
+        ArrayOf P(*this);
+        P.promoteType(NLS_DCOMPLEX);
+        double*qp = (double*)P.getDataPointer();
+        doublecomplex cx(qp[0], qp[1]);
+        return cx;
+    }
+    double* qp = (double*)dp->getData();
     doublecomplex cx(qp[0], qp[1]);
     return cx;
 }
