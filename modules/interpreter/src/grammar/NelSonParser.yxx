@@ -60,7 +60,6 @@ namespace Nelson {
   static ASTPtr mainAST;
   static MacroFunctionDef *mainMDef;
 
-
   void chainFunction(MacroFunctionDef *r) {
      r->nextFunction = nullptr;
      r->prevFunction = nullptr;
@@ -79,6 +78,24 @@ namespace Nelson {
     mainMDef->nextFunction = r;
     r->prevFunction = mainMDef;
      }
+  }
+
+  void functionBody(const ParseRHS &lhsRhs, const ParseRHS &nameRhs, const ParseRHS &rhsRhs, const ParseRHS &codeRhs){
+      MacroFunctionDef *r = new MacroFunctionDef();
+      if (lhsRhs.v.p) {
+        r->returnVals = lhsRhs.v.p->toStringList();
+      }
+      if (nameRhs.v.p) {
+        r->name = nameRhs.v.p->text;
+      }
+      if (rhsRhs.v.p) {
+       r->arguments = rhsRhs.v.p->toStringList();
+      }
+      if (codeRhs.v.p) {
+       r->code = codeRhs.v.p;
+      }
+      r->fileName = getParserFilenameW();
+      chainFunction(r);
   }
 
   void yyerror(const char *s) {
@@ -160,60 +177,53 @@ program:
 
 functionDef:
    FUNCTION  returnDeclaration IDENT '(' argumentList ')' newLine statementList {
-     MacroFunctionDef *r = new MacroFunctionDef();
-   if ($2.v.p)
-   {
-    r->returnVals = $2.v.p->toStringList();
-   }
-     r->name = $3.v.p->text;
-     r->arguments = $5.v.p->toStringList();
-     r->code = $8.v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
+   ParseRHS lhsRhs = $2;
+   ParseRHS nameRhs = $3;
+   ParseRHS rhsRhs = $5;
+   ParseRHS codeRhs = $8;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
   } |
    FUNCTION  IDENT '(' argumentList ')' newLine statementList {
-     MacroFunctionDef *r = new MacroFunctionDef();
-     r->name = $2.v.p->text;
-     r->arguments = $4.v.p->toStringList();
-     r->code = $7.v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
+   ParseRHS lhsRhs;
+   lhsRhs.v.p = nullptr;
+   ParseRHS nameRhs = $2;
+   ParseRHS rhsRhs = $4;
+   ParseRHS codeRhs = $7;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
    } |
    FUNCTION  returnDeclaration IDENT newLine statementList {
-     MacroFunctionDef *r = new MacroFunctionDef();
-   if ($2.v.p)
-   {
-    r->returnVals = $2.v.p->toStringList();
-   }
-     r->name = $3.v.p->text;
-     r->code = $5.v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
+    ParseRHS lhsRhs = $2;
+    ParseRHS nameRhs = $3;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $5;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
    } |
    FUNCTION  IDENT newLine statementList {
-     MacroFunctionDef *r = new MacroFunctionDef();
-     r->name = $2.v.p->text;
-     r->code = $4.v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
+    ParseRHS lhsRhs;
+    lhsRhs.v.p = nullptr;
+    ParseRHS nameRhs = $2;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $4;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
    } |
    FUNCTION  returnDeclaration IDENT '(' ')' newLine statementList {
-     MacroFunctionDef *r = new MacroFunctionDef();
-   if ($2.v.p)
-   {
-    r->returnVals = $2.v.p->toStringList();
-   }
-     r->name = $3.v.p->text;
-     r->code = $7.v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
+    ParseRHS lhsRhs = $2;
+    ParseRHS nameRhs = $3;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $7;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
    } |
    FUNCTION  IDENT '(' ')' newLine statementList {
-     MacroFunctionDef *r = new MacroFunctionDef();
-     r->name = $2.v.p->text;
-     r->code = $6.v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
+    ParseRHS lhsRhs;
+    lhsRhs.v.p = nullptr;
+    ParseRHS nameRhs = $2;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $6;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
    } |
    FUNCTION  error {yyxpt(_("legal function name or return declaration after 'function'"), $1);} |
    FUNCTION  IDENT error {yyxpt(_("argument list or statement list after identifier '") + 
