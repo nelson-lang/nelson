@@ -123,9 +123,7 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             retval << ArrayOf::characterArrayConstructor(msg);
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
 
     return retval;
 }

@@ -27,116 +27,26 @@
 //=============================================================================
 // clang-format off
 //bison -L C -k -o NelSonParser.cpp NelSonParser.yxx
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "AST.hpp"
+//=============================================================================
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "NelsonParserHelpers.hpp"
 #include "AstManager.hpp"
-#include "Evaluator.hpp"
-#include "FunctionDef.hpp"
-#include "ParserInterface.hpp"
-#include "Error.hpp"
-#include "FileParser.hpp"
-#include "i18n.hpp"
-
+//=============================================================================
 #define YYSTYPE ParseRHS
-
-#define MSGBUFLEN 2048
-static char msgBuffer[MSGBUFLEN];
-
-#include "LexerInterface.hpp"
-
+//=============================================================================
 extern int yylex(void);
-
 extern int yydebug;
-
-bool interactiveMode;
-
-#ifdef WIN32
-#define snprintf _snprintf
-#endif
-
+//=============================================================================
 namespace Nelson {
-  static ASTPtr mainAST;
-  static MacroFunctionDef *mainMDef;
-
-  void chainFunction(MacroFunctionDef *r) {
-     r->nextFunction = nullptr;
-     r->prevFunction = nullptr;
-     if (mainMDef == nullptr)
-   {
-    mainMDef = r;
-   }
-     else 
-   {
-    r->localFunction = true;
-        r->nextFunction = mainMDef->nextFunction;
-    if (r->nextFunction)
-    {
-      r->nextFunction->prevFunction = r;
-    }
-    mainMDef->nextFunction = r;
-    r->prevFunction = mainMDef;
-     }
-  }
-
-  void functionBody(const ParseRHS &lhsRhs, const ParseRHS &nameRhs, const ParseRHS &rhsRhs, const ParseRHS &codeRhs){
-      MacroFunctionDef *r = new MacroFunctionDef();
-      if (lhsRhs.v.p) {
-        r->returnVals = lhsRhs.v.p->toStringList();
-      }
-      if (nameRhs.v.p) {
-        r->name = nameRhs.v.p->text;
-      }
-      if (rhsRhs.v.p) {
-       r->arguments = rhsRhs.v.p->toStringList();
-      }
-      if (codeRhs.v.p) {
-       r->code = codeRhs.v.p;
-      }
-      r->fileName = getParserFilenameW();
-      chainFunction(r);
-  }
-
   void yyerror(const char *s) {
      return;
   }
-
-  std::string decodeline(ParseRHS val) {
-    int tokenID;
-    int linenumber;
-    if (val.isToken) 
-      tokenID = val.v.i;
-    else
-      tokenID = val.v.p->context();
-    linenumber = tokenID & 0xFFFF;
-    char buffer[IDENTIFIER_LENGTH_MAX + 1];
-    sprintf(buffer,"%d",linenumber);
-    return(std::string(buffer));
-  }
-  
-  int yyxpt(const std::string &xStr, ParseRHS val) {
-    int tokenID;
-    int linenumber, colnumber;
-    if (val.isToken) 
-      tokenID = val.v.i;
-    else
-      tokenID = val.v.p->context();
-    linenumber = tokenID & 0xFFFF;
-    colnumber = tokenID >> 16;
-    if (!interactiveMode)
-      snprintf(msgBuffer,MSGBUFLEN,
-      _("Expecting %s\n\tat line %d, column %d of file %s").c_str(),
-       xStr.c_str(),linenumber,colnumber,getParserFilenameU().c_str());
-    else
-      snprintf(msgBuffer,MSGBUFLEN,_("Expecting %s").c_str(),xStr.c_str());
-    Error(msgBuffer);
-    return 0;
-  }
 }
-
+//=============================================================================
 using namespace Nelson;
-
+//=============================================================================
 %}
 
 %token IDENT
@@ -170,7 +80,7 @@ using namespace Nelson;
 %%
 
 program:
-  statementList {mainAST = $1.v.p;}
+  statementList { setParsedScriptBlock($1.v.p);}
   | functionDefList |
   | error {yyxpt(_("statement list or function definition"),$1);}
 ;
@@ -226,12 +136,12 @@ functionDef:
    functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
    } |
    FUNCTION  error {yyxpt(_("legal function name or return declaration after 'function'"), $1);} |
-   FUNCTION  IDENT error {yyxpt(_("argument list or statement list after identifier '") + 
+   FUNCTION  IDENT error {yyxpt(_("argument list or statement list after identifier '") +
   $2.v.p->text.c_str() + "'",$2);} |
    FUNCTION  IDENT '('  error {yyxpt(_("(possibly empty) argument list after '('"),$3);}  |
    FUNCTION  IDENT '(' argumentList ')' error {yyxpt(_("statement list after ')'"),$5);} |
    FUNCTION  returnDeclaration  error {yyxpt(_("function name for function declared"),$1);} |
-   FUNCTION  returnDeclaration IDENT error {yyxpt(_("argument list or statement list following function name :") + 
+   FUNCTION  returnDeclaration IDENT error {yyxpt(_("argument list or statement list following function name :") +
   $3.v.p->text.c_str(), $3);} |
    FUNCTION  returnDeclaration IDENT '('  error {yyxpt(_("(possibly empty) argument list after '('"),$4);} |
    FUNCTION  returnDeclaration IDENT '(' argumentList ')' error {yyxpt(_("statement list after ')'"),$6);}
@@ -243,14 +153,14 @@ functionDefList:
   ;
 
 returnDeclaration:
-  VARARGOUT '=' {$$.v.p = $1.v.p;} |
-  IDENT '=' {$$.v.p = $1.v.p;} | 
-  '[' argumentList ']' '=' {$$.v.p = $2.v.p;} |
-  '[' ']' '=' {$$.v.p = nullptr;} |
-  IDENT error {yyxpt(_("an '=' symbol after identifier in return declaration"),$1);} |
-  '[' error {yyxpt(_("a valid list of return arguments in return declaration"),$1);} | 
-  '[' argumentList error {yyxpt(_("matching ']' in return declaration for '['"),$1);} |
-  '[' argumentList ']' error {yyxpt(_("an '=' symbol after return declaration"),$3);}
+  VARARGOUT '=' {$$.v.p = $1.v.p;}
+  | IDENT '=' {$$.v.p = $1.v.p;}
+  | '[' argumentList ']' '=' {$$.v.p = $2.v.p;}
+  | '[' ']' '=' {$$.v.p = nullptr;}
+  | IDENT error {yyxpt(_("an '=' symbol after identifier in return declaration"),$1);}
+  | '[' error {yyxpt(_("a valid list of return arguments in return declaration"),$1);}
+  | '[' argumentList error {yyxpt(_("matching ']' in return declaration for '['"),$1);}
+  | '[' argumentList ']' error {yyxpt(_("an '=' symbol after return declaration"),$3);}
   ;
 
 argumentList:
@@ -268,10 +178,10 @@ argument:
   free(b);
   }
   ;
-  
+
 
 statementList:
-   statement {$$.v.p = allocateAbstractSyntaxTree(OP_BLOCK,$1.v.p,$1.v.p->context());} | 
+   statement {$$.v.p = allocateAbstractSyntaxTree(OP_BLOCK,$1.v.p,$1.v.p->context());} |
    statementList statement {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
    ;
 
@@ -287,13 +197,13 @@ statement:
    | statementType ',' {
       $$.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,$2.v.i);
       $$.v.p->down = $1.v.p;
-   } 
+   }
    ;
 
 statementType:
    assignmentStatement
    | expr
-   | {$$.v.p = allocateAbstractSyntaxTree(null_node,"",-1);} 
+   | {$$.v.p = allocateAbstractSyntaxTree(null_node,"",-1);}
    | multiFunctionCall
    | forStatement
    | breakStatement
@@ -305,8 +215,8 @@ statementType:
    | pauseStatement
    | returnStatement
    | specialSyntaxStatement
-   | QUIT 
-   | ABORT 
+   | QUIT
+   | ABORT
    | endfunctionStatement
 ;
 
@@ -341,13 +251,13 @@ breakStatement:
    ;
 
 tryStatement:
-  TRY statementList optionalCatch END 
-  { 
+  TRY statementList optionalCatch END
+  {
     $$.v.p = $1.v.p;
     $$.v.p->addChild($2.v.p);
     if ($3.v.p != nullptr) $$.v.p->addChild($3.v.p);
-  } 
-  | TRY statementList optionalCatch error 
+  }
+  | TRY statementList optionalCatch error
   {yyxpt(_("matching 'end' to 'try' clause from line ") + decodeline($1),$4);}
         ;
 
@@ -363,17 +273,17 @@ optionalCatch:
 switchStatement:
   SWITCH  expr optionalEndStatement caseBlock otherwiseClause END {
     $$.v.p = $1.v.p;
-    $$.v.p->addChild($2.v.p); 
-    if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p); 
+    $$.v.p->addChild($2.v.p);
+    if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p);
     if ($5.v.p != nullptr) $$.v.p->addChild($5.v.p);
   } |
   SWITCH  expr optionalEndStatement caseBlock otherwiseClause error {
           yyxpt(_("matching 'end' to 'switch' clause from line ") + decodeline($1),$6);
-        } 
+        }
         ;
 
 optionalEndStatement:
-  ',' | ENDSTMNT | ENDQSTMNT | ';' 
+  ',' | ENDSTMNT | ENDQSTMNT | ';'
   ;
 
 newLine:
@@ -418,21 +328,21 @@ forStatement:
     $$.v.p->addChild($2.v.p);
     $$.v.p->addChild($4.v.p);
   } |
-  FOR forIndexExpression optionalEndStatement statementList error 
+  FOR forIndexExpression optionalEndStatement statementList error
            {yyxpt(_("'end' to match 'for' statement from line ") + decodeline($1),$5);}
 ;
 
 forIndexExpression:
   '(' IDENT '=' expr ')' {$$.v.p = $2.v.p; $$.v.p->addChild($4.v.p);} |
   IDENT '=' expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);} |
-  IDENT {$$.v.p = $1.v.p; 
+  IDENT {$$.v.p = $1.v.p;
         $$.v.p->addChild(allocateAbstractSyntaxTree(OP_RHS, allocateAbstractSyntaxTree(id_node,$1.v.p->text.c_str(), $1.v.p->context()),$1.v.p->context())); } |
   '(' IDENT '=' expr error {yyxpt(_("matching right parenthesis"),$1);} |
   '(' IDENT '=' error {yyxpt(_("indexing expression"),$3);} |
   '(' IDENT error {yyxpt(_("equals operator after loop index"),$2);} |
   '(' error {yyxpt(_("identifier that is the loop variable"),$1);} |
   IDENT '=' error {yyxpt(_("indexing expression"),$2);} |
-  error {yyxpt(_("identifier or assignment (id = expr) after 'for' "),$1);} 
+  error {yyxpt(_("identifier or assignment (id = expr) after 'for' "),$1);}
 ;
 
 whileStatement:
@@ -445,7 +355,7 @@ whileStatement:
     $$.v.p->addChild($4.v.p);
   }  |
   WHILE error {yyxpt(_("test expression after 'while'"),$1);} |
-  WHILE expr optionalEndStatement statementList error 
+  WHILE expr optionalEndStatement statementList error
   {yyxpt(_("'end' to match 'while' statement from line ") + decodeline($1),$5);}
 ;
 
@@ -453,7 +363,7 @@ ifStatement:
   IF conditionedStatement elseIfBlock elseStatement END {
     $$.v.p = $1.v.p;
     $$.v.p->addChild($2.v.p);
-    if ($3.v.p != nullptr) $$.v.p->addChild($3.v.p); 
+    if ($3.v.p != nullptr) $$.v.p->addChild($3.v.p);
     if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p);
   } |
   IF error {yyxpt(_("condition expression for 'if'"),$1);} |
@@ -496,36 +406,36 @@ elseStatement:
 ;
 
 assignmentStatement:
-  symbRefList '=' expr {$$.v.p = allocateAbstractSyntaxTree(OP_ASSIGN,$1.v.p,$3.v.p,$2.v.i);} |
-  symbRefList '=' error {yyxpt(_("expression in assignment"),$2);}
-        ;
+  symbRefList '=' expr {$$.v.p = allocateAbstractSyntaxTree(OP_ASSIGN,$1.v.p,$3.v.p,$2.v.i);}
+  | symbRefList '=' error {yyxpt(_("expression in assignment"),$2);}
+  ;
 
 multiFunctionCall:
   '[' matrixDef ']' '='  IDENT '('  ')' {
   $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
-  } |
-  '[' matrixDef ']' '='  IDENT '('  indexList ')' {
+  }
+  | '[' matrixDef ']' '='  IDENT '('  indexList ')' {
     $5.v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,$7.v.p,$6.v.i));
     $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
-  } |
-  '[' matrixDef ']' '='  IDENT '{'  indexList '}' {
+  }
+  | '[' matrixDef ']' '='  IDENT '{'  indexList '}' {
     $5.v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,$7.v.p,$6.v.i));
     $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
-  } |
-  '[' matrixDef ']' '=' IDENT  {
+  }
+  | '[' matrixDef ']' '=' IDENT  {
     $5.v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,NULL,-1));
     $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
-  } |
-  '[' matrixDef ']' '='  IDENT '{'  indexList error {yyxpt(_("matching right bracket"), $6);} |
-  '[' matrixDef ']' '='  IDENT '('  indexList error {yyxpt(_("matching right parenthesis"), $6);} |
-  '[' matrixDef ']' '='  IDENT '('  error {yyxpt(_("indexing list"), $6);} |
-  '[' matrixDef ']' '='  IDENT '{'  error {yyxpt(_("indexing list"), $6);} |
-  '[' matrixDef ']' '='  IDENT error {yyxpt(_("left parenthesis"),$5);} | 
-  '[' matrixDef ']' '=' error {yyxpt("identifier",$4);}
-        ; 
+  }
+  | '[' matrixDef ']' '='  IDENT '{'  indexList error {yyxpt(_("matching right bracket"), $6);}
+  | '[' matrixDef ']' '='  IDENT '('  indexList error {yyxpt(_("matching right parenthesis"), $6);}
+  | '[' matrixDef ']' '='  IDENT '('  error {yyxpt(_("indexing list"), $6);}
+  | '[' matrixDef ']' '='  IDENT '{'  error {yyxpt(_("indexing list"), $6);}
+  | '[' matrixDef ']' '='  IDENT error {yyxpt(_("left parenthesis"),$5);}
+  | '[' matrixDef ']' '=' error {yyxpt("identifier",$4);}
+  ;
 
 expr:
-  expr ':' expr {$$.v.p = allocateAbstractSyntaxTree(OP_COLON,$1.v.p,$3.v.p,$2.v.i);} 
+  expr ':' expr {$$.v.p = allocateAbstractSyntaxTree(OP_COLON,$1.v.p,$3.v.p,$2.v.i);}
   | expr ':' error {yyxpt(_("an expression after ':'"), $2);}
   | terminal
   | expr '+' expr {$$.v.p = allocateAbstractSyntaxTree(OP_PLUS,$1.v.p,$3.v.p,$2.v.i);}
@@ -585,29 +495,30 @@ terminal:
   | STRING
   | MAGICEND
   | symbRefList {$$.v.p = allocateAbstractSyntaxTree(OP_RHS,$1.v.p,$1.v.p->context());}
-    | '[' matrixDef ']' {$$.v.p = $2.v.p;}
-    | '[' error {yyxpt(_("a matrix definition followed by a right bracket"),$1);}
-    | '[' rowSeperator matrixDef ']' {$$.v.p = $3.v.p;}
-    | '[' matrixDef rowSeperator ']' {$$.v.p = $2.v.p;}
-    | '[' rowSeperator matrixDef rowSeperator ']' {$$.v.p = $3.v.p;}
+  | '[' matrixDef ']' {$$.v.p = $2.v.p;}
+  | '[' error {yyxpt(_("a matrix definition followed by a right bracket"),$1);}
+  | '[' rowSeperator matrixDef ']' {$$.v.p = $3.v.p;}
+  | '[' matrixDef rowSeperator ']' {$$.v.p = $2.v.p;}
+  | '[' rowSeperator matrixDef rowSeperator ']' {$$.v.p = $3.v.p;}
 	| '[' ']' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,$1.v.i);}
-    | '{' cellDef '}' {$$.v.p = $2.v.p;}
-    | '{' rowSeperator cellDef '}' {$$.v.p = $3.v.p;}
-    | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
-    | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
+  | '{' cellDef '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeperator cellDef '}' {$$.v.p = $3.v.p;}
+  | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
 	| '{' '}' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,$1.v.i);}
 	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);};
+
 symbRefList:
-  IDENT 
+  IDENT
     | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);};
-  
+
 symbRef:
   '(' indexList ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,$2.v.p,$1.v.i); }
-    | '(' ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,$1.v.i); }
+  | '(' ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,$1.v.i); }
 	| '(' indexList error {yyxpt(_("matching right parenthesis"),$1);}
-    | '{' indexList '}' {$$.v.p = allocateAbstractSyntaxTree(OP_BRACES,$2.v.p,$1.v.i); }
+  | '{' indexList '}' {$$.v.p = allocateAbstractSyntaxTree(OP_BRACES,$2.v.p,$1.v.i); }
 	| '{' indexList error {yyxpt(_("matching right brace"),$1);}
-    | '.' IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_DOT,$2.v.p,$1.v.i); }
+  | '.' IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_DOT,$2.v.p,$1.v.i); }
 	| '.' '(' expr ')' {$$.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,$3.v.p,$1.v.i);};
 
 indexElement:
@@ -620,7 +531,7 @@ indexElement:
         ;
 
 indexList:
-  indexElement | 
+  indexElement |
         indexList ',' indexElement {$$.v.p = $1.v.p; $$.v.p->addPeer($3.v.p);}
         ;
 
@@ -631,7 +542,7 @@ cellDef:
 
 matrixDef:
        rowDef {$$.v.p = allocateAbstractSyntaxTree(OP_BRACKETS,$1.v.p,$1.v.p->context());}|
-       matrixDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);} 
+       matrixDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
        ;
 
 rowSeperator:
@@ -639,7 +550,7 @@ rowSeperator:
        ;
 
 columnSep:
-       ',' 
+       ','
        ;
 
 rowDef:
@@ -647,52 +558,13 @@ rowDef:
        rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
 
 %%
-
+//=============================================================================
 namespace Nelson {
-  
-  void resetParser() {
-    if (mainAST)
-  {
-    mainAST = nullptr;
-  }
-  if (mainMDef)
-  {
-      mainMDef = nullptr;
-  }
-  }
-  
-  ASTPtr getParsedScriptBlock() {
-    return mainAST;
-  }
-  
-  MacroFunctionDef* getParsedFunctionDef() {
-    return mainMDef;
-  }
-  
-  ParserState parseState() {
-    if (mainAST != nullptr) 
-      return ScriptBlock;
-    else
-      return FuncDef;
-  }
-  
-  ParserState parseString(const std::string &txt) {
-    resetParser();
-    interactiveMode = true;
-    setLexBuffer(txt);
+//=============================================================================
+  void callyyparse() {
     yyparse();
-    return parseState();
   }
-  
-  ParserState parseFile(FILE *fp, const std::string &fname) {
-    resetParser();
-    interactiveMode = false;
-    setParserFilename(fname);
-    setLexFile(fp);
-    yyparse();
-    ParserState pstate = parseState();
-    setParserFilename("");
-    return pstate;
-  }
+//=============================================================================
 }
+//=============================================================================
 // clang-format on

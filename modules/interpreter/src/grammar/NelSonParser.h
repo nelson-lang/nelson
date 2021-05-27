@@ -103,7 +103,7 @@ enum yytokentype
 #define FUNCTION 275
 #define FOR 276
 #define BREAK 277
-#define MAGICEND  278
+#define MAGICEND 278
 #define WHILE 279
 #define ELSE 280
 #define ELSEIF 281

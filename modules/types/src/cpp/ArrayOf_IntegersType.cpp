@@ -229,7 +229,7 @@ getContentAsScalar(const ArrayOf& M, Class destinationClass, bool arrayAsScalar)
         T* ptr = (T*)P.getDataPointer();
         value = ptr[0];
     } else {
-        T*ptr = (T*)M.getDataPointer();
+        T* ptr = (T*)M.getDataPointer();
         value = ptr[0];
     }
     return value;

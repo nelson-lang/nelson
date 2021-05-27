@@ -45,8 +45,8 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-extern bool interactiveMode;
 extern int charcontext;
+//=============================================================================
 static char* textbuffer = nullptr;
 static char* datap = nullptr;
 static char* linestart = nullptr;
@@ -108,7 +108,7 @@ static void
 LexerException(const std::string& msg)
 {
     char buffer[4906];
-    if (!interactiveMode && (!getParserFilenameU().empty()) && !msg.empty()) {
+    if ((!getParserFilenameU().empty()) && !msg.empty()) {
         sprintf(buffer, _("Lexical error '%s'\n\tat line %d of file %s").c_str(), msg.c_str(),
             lineNumber + 1, getParserFilenameU().c_str());
     } else {

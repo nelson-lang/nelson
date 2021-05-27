@@ -128,7 +128,7 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
     if (getDataClass() != NLS_DCOMPLEX) {
         ArrayOf P(*this);
         P.promoteType(NLS_DCOMPLEX);
-        double*qp = (double*)P.getDataPointer();
+        double* qp = (double*)P.getDataPointer();
         doublecomplex cx(qp[0], qp[1]);
         return cx;
     }
