@@ -262,11 +262,11 @@ tryStatement:
         ;
 
 optionalCatch:
-  CATCH statementList {$$.v.p = $2.v.p;}
-  | CATCH IDENT newLine statementList {
+  CATCH IDENT newLine statementList {
     $$.v.p = $2.v.p;
     $$.v.p->addChild($4.v.p);
   }
+  | CATCH statementList {$$.v.p = $2.v.p;}
   | {$$.v.p = nullptr;}
   ;
 

@@ -3,7 +3,10 @@
 ## Features:
 
 - `narginchk` builtin: checks number of input arguments.
+
 - `nargoutchk` builtin: checks number of outnput arguments.
+
+- parser generated with Bison 3.7.4
 
 ## Bug Fixes:
 
