@@ -169,14 +169,7 @@ argumentList:
   ;
 
 argument:
-  IDENT | '&' IDENT {
-  $$.v.p = $2.v.p;
-  char *b = (char*) malloc($2.v.p->text.size() + 2);
-  b[0] = '&';
-  strcpy(b+1, $2.v.p->text.c_str());
-  $$.v.p->text = b;
-  free(b);
-  }
+  IDENT
   ;
 
 
