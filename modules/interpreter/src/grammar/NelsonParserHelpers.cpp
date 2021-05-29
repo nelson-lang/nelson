@@ -46,7 +46,7 @@ chainFunction(MacroFunctionDef* r)
     } else {
         r->localFunction = true;
         r->nextFunction = mainMDef->nextFunction;
-        if (r->nextFunction) {
+        if (r->nextFunction != nullptr) {
             r->nextFunction->prevFunction = r;
         }
         mainMDef->nextFunction = r;
@@ -88,17 +88,17 @@ void
 functionBody(const ParseRHS& lhsRhs, const ParseRHS& nameRhs, const ParseRHS& rhsRhs,
     const ParseRHS& codeRhs)
 {
-    MacroFunctionDef* r = new MacroFunctionDef();
-    if (lhsRhs.v.p) {
+    auto* r = new MacroFunctionDef();
+    if (lhsRhs.v.p != nullptr) {
         r->returnVals = lhsRhs.v.p->toStringList();
     }
-    if (nameRhs.v.p) {
+    if (nameRhs.v.p != nullptr) {
         r->name = nameRhs.v.p->text;
     }
-    if (rhsRhs.v.p) {
+    if (rhsRhs.v.p != nullptr) {
         r->arguments = rhsRhs.v.p->toStringList();
     }
-    if (codeRhs.v.p) {
+    if (codeRhs.v.p != nullptr) {
         r->code = codeRhs.v.p;
     }
     r->fileName = getParserFilenameW();
@@ -117,10 +117,10 @@ decodeline(const ParseRHS &val)
 void
 resetParser()
 {
-    if (mainAST) {
+    if (mainAST != nullptr) {
         mainAST = nullptr;
     }
-    if (mainMDef) {
+    if (mainMDef != nullptr) {
         mainMDef = nullptr;
     }
 }
