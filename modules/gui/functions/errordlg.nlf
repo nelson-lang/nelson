@@ -57,4 +57,4 @@ function h = errordlg(errorstring, dlgname, mode)
     error(_('Wrong number of input arguments.'));
   end
   h = msgbox(errorstring, dlgname, 'error', mode);
-endfunction
+end

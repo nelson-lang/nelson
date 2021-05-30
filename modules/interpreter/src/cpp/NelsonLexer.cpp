@@ -50,9 +50,11 @@ extern int charcontext;
 static char* textbuffer = nullptr;
 static char* datap = nullptr;
 static char* linestart = nullptr;
-static int lineNumber;
-static int continuationCount;
-static int inBlock;
+static int lineNumber = 0;
+static int continuationCount = 0;
+static int inBlock = 0;
+static int inStatement = 0;
+static bool inFunction = false;
 //=============================================================================
 typedef enum
 {
@@ -424,32 +426,91 @@ lexIdentifier()
     tSearch.word = ident;
     pSearch = static_cast<keywordStruct*>(
         bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
-    if (pSearch != nullptr) {
+    if (pSearch == nullptr) {
+        setTokenType(IDENT);
+        tokenValue.isToken = false;
+        tokenValue.v.p = allocateAbstractSyntaxTree(id_node, ident, static_cast<int>(ContextInt()));
+        return;
+    }
+    switch (pSearch->token) {
+    case FUNCTION: {
+        inFunction = true;
         setTokenType(pSearch->token);
-        if (strcmp(ident, "end") == 0) {
-            if (bracketStackSize == 0) {
+    } break;
+    case ENDFUNCTION: {
+        inFunction = false;
+        setTokenType(pSearch->token);
+    } break;
+    case END: {
+        if (bracketStackSize == 0) {
+            bool asEndfunction = false;
+            if (inFunction && inStatement == 0) {
+                asEndfunction = true;
+            }
+            if (asEndfunction) {
+                strcpy(ident, "endfunction");
+                tSearch.word = ident;
+                pSearch = static_cast<keywordStruct*>(bsearch(
+                    &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
+                setTokenType(ENDFUNCTION);
+            } else {
                 setTokenType(END);
                 inBlock--;
-            } else {
-                setTokenType(MAGICEND);
+                inStatement--;
             }
+        } else {
+            setTokenType(MAGICEND);
         }
+    } break;
+    case TRY: {
+        setTokenType(pSearch->token);
+        inStatement++;
+    } break;
+    case SWITCH: {
+        setTokenType(pSearch->token);
+        inStatement++;
+    } break;
+    case OTHERWISE: {
+        setTokenType(pSearch->token);
+    } break;
+    default: {
+        setTokenType(pSearch->token);
+    } break;
         // The lexer no longer _has_ to keep track of the "end" keywords
         // to match them up.  But we need this information to determine
         // if more text is needed...
-        tokenValue.isToken = false;
-        tokenValue.v.p = allocateAbstractSyntaxTree(
-            reserved_node, pSearch->ordinal, static_cast<int>(ContextInt()));
-        if ((pSearch->token == FOR) || (pSearch->token == WHILE) || (pSearch->token == IF)
-            || (pSearch->token == ELSEIF) || (pSearch->token == CASE)) {
-            vcFlag = 1;
-            inBlock++;
-        }
-        return;
+    case FOR: {
+        vcFlag = 1;
+        inBlock++;
+        inStatement++;
+        setTokenType(pSearch->token);
+    } break;
+    case WHILE: {
+        vcFlag = 1;
+        inBlock++;
+        inStatement++;
+        setTokenType(pSearch->token);
+    } break;
+    case IF: {
+        vcFlag = 1;
+        inBlock++;
+        inStatement++;
+        setTokenType(pSearch->token);
+    } break;
+    case ELSEIF: {
+        vcFlag = 1;
+        inBlock++;
+        setTokenType(pSearch->token);
+    } break;
+    case CASE: {
+        vcFlag = 1;
+        inBlock++;
+        setTokenType(pSearch->token);
+    } break;
     }
-    setTokenType(IDENT);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(id_node, ident, static_cast<int>(ContextInt()));
+    tokenValue.v.p = allocateAbstractSyntaxTree(
+        reserved_node, pSearch->ordinal, static_cast<int>(ContextInt()));
 }
 //=============================================================================
 int
@@ -916,6 +977,8 @@ setLexBuffer(const std::string& buffer)
     continuationCount = 0;
     bracketStackSize = 0;
     inBlock = 0;
+    inStatement = 0;
+    inFunction = false;
     lexState = Initial;
     vcStackSize = 0;
     clearTextBufferLexer();
@@ -938,6 +1001,8 @@ void
 setLexFile(FILE* fp)
 {
     inBlock = 0;
+    inStatement = 0;
+    inFunction = false;
     struct stat st;
     clearerr(fp);
 #ifdef _MSC_VER
@@ -971,8 +1036,8 @@ lexCheckForMoreInput(int ccount)
         }
         return ((continuationCount > ccount)
             || ((bracketStackSize > 0)
-                   && ((bracketStack[bracketStackSize - 1] == '[')
-                          || (bracketStack[bracketStackSize - 1] == '{')))
+                && ((bracketStack[bracketStackSize - 1] == '[')
+                    || (bracketStack[bracketStackSize - 1] == '{')))
             || (inBlock != 0));
     } catch (Exception& e) {
         e.what();

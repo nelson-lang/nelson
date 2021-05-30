@@ -26,4 +26,4 @@
 function callback_close_clock()
   q = QObject_findchildren(QObject_root(), 'clock', true);
   delete(q)
-endfunction
+end

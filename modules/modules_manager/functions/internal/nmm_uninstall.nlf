@@ -53,5 +53,5 @@ function nmm_uninstall(varargin)
       [r, msg] = rmdir(module_data.path, 's');
     end
   end
-endfunction
+end
 %=============================================================================

@@ -55,4 +55,4 @@ function h = helpdlg(helpstring, dlgname, mode)
     error(_('Wrong number of input arguments.'));
   end
   h = msgbox(helpstring, dlgname, 'help', mode);
-endfunction
+end

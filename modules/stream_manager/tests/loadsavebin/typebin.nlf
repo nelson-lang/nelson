@@ -96,5 +96,5 @@ function res = typebin(strtype)
 	otherwise
 		res = -1;
 	end
-endfunction
+end
 

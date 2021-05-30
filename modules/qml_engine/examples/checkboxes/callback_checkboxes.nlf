@@ -28,4 +28,4 @@ function callback_checkboxes(c1, c2, c3, c4)
   disp(['Checkbox 2 :', int2str(c2)]);
   disp(['Checkbox 3 :', int2str(c3)]);
   disp(['Checkbox 4 :', int2str(c4)]);
-endfunction
+end

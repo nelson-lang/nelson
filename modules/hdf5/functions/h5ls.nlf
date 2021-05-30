@@ -68,7 +68,7 @@ function varargout = h5ls(varargin)
       varargout{1} = splitAsCell(msg);
     end
   end
-endfunction
+end
 %=============================================================================
 function ce = charToCell(str)
   tokens = strfind(str, newline());
@@ -89,7 +89,7 @@ function ce = charToCell(str)
     ce = [ce; str(s:e)];
     f = q + 1;
   end
-endfunction
+end
 %=============================================================================
 function res = filterOutput(ce)
   res = {};
@@ -108,7 +108,7 @@ function res = filterOutput(ce)
       res = [res; line];
     end
   end
-endfunction
+end
 %=============================================================================
 function res = splitAsCell(ce)
   res = {};
@@ -134,5 +134,5 @@ function res = splitAsCell(ce)
       res = [res; element];
     end
   end
-endfunction
+end
 %=============================================================================

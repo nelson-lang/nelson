@@ -49,5 +49,5 @@ function r = sparsedouble_prod(varargin)
     otherwise
       error(_('Wrong number of input arguments.'));
   end
-endfunction
+end
 %=============================================================================

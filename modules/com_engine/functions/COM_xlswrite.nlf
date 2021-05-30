@@ -202,7 +202,7 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
    varargout{1} = status;
    varargout{2} = message;
   end
-endfunction
+end
 %=============================================================================
 
 

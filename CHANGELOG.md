@@ -8,6 +8,8 @@
 
 - parser generated with Bison 3.7.4
 
+- `function ... endfunction` and `function ... end` are equivalent (increase compatibility ;).
+
 ## Bug Fixes:
 
 - `nmm('install', existing_module_directory)` did not work as expected.

@@ -25,4 +25,4 @@
 %=============================================================================
 function r = sparsedouble_int2str(a)
 	r = int2str(full(a));
-endfunction
+end

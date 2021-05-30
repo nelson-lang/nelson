@@ -42,7 +42,7 @@ function dlgenerateunloader(destinationdir, libraryname, ismexfunction)
   names = fieldnames(mexFunctionsList);
   txt = template(libraryname, ismexfunction, names);
   filewrite([destinationdir, '/unloader.nls'], txt);
-endfunction
+end
 %=============================================================================
 function txt = template(libraryname, ismexfunction, names)
   txt = {'%============================================================================='};
@@ -100,5 +100,5 @@ function txt = template(libraryname, ismexfunction, names)
     txt = [txt; 'clear(''lib'');'];
     txt = [txt; '%============================================================================='];
   end
-endfunction
+end
 %=============================================================================

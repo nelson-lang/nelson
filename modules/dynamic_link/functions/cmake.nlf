@@ -40,10 +40,10 @@ function [status, message] = cmake(varargin)
   [status, message] = unix(cmd);
   status = (status == 0);
   message = cleanup(message);
-endfunction
+end
 %=============================================================================
 function msgout = cleanup(msgin)
   msgout = replace(msgin, ['Failed to create ConsoleBuf!', char(10)], '');
   msgout = replace(msgout, ['setActiveInputCodepage failed!', char(10)], '');
-endfunction
+end
 %=============================================================================

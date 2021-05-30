@@ -34,5 +34,5 @@ function header = poheader(DOMAIN, LANGUAGE)
   header{6, 1} = '"Content-Type: text/plain; charset=UTF-8\n"';
   header{7, 1} = '"Content-Transfer-Encoding: 8bit\n"';
   header{8, 1} = '';
-endfunction
+end
 

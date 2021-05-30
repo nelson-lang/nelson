@@ -69,7 +69,7 @@ function savebin(varargin)
   end
 
   fclose(fw);
-endfunction
+end
 %=============================================================================
 function save_data(fd, data)
   if isclass(data)
@@ -78,7 +78,7 @@ function save_data(fd, data)
     function_save = [class(data), '_save_data'];
   end
   feval(function_save, fd, data)
-endfunction
+end
 %=============================================================================
 function sparse_save_data(fd, data)
   [I, J, V, m, n, nzmax] = IJV(data);
@@ -88,17 +88,17 @@ function sparse_save_data(fd, data)
   save_data(fd, m);
   save_data(fd, n);
   save_data(fd, nzmax);
-endfunction
+end
 %=============================================================================
 function sparsedouble_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
   sparse_save_data(fd, data);
-endfunction
+end
 %=============================================================================
 function sparselogical_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
   sparse_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarraygeneric_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
@@ -111,55 +111,55 @@ function ndarraygeneric_save_data(fd, data)
     d = reshape(data, 1, []);
     save_data(fd, d);
   end
-endfunction
+end
 %=============================================================================
 function ndarraylogical_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayuint8_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayint8_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayuint16_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayint16_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayuint32_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayint32_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayuint64_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarrayint64_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarraysingle_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarraydouble_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function ndarraychar_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function generic_cell_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
@@ -177,15 +177,15 @@ function generic_cell_save_data(fd, data)
       save_data(fd, data{k});
     end
   end
-endfunction
+end
 %=============================================================================
 function ndarraycell_save_data(fd, data)
   generic_cell_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function cell_save_data(fd, data)
   generic_cell_save_data(fd, data)
-endfunction
+end
 %=============================================================================
 function string_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
@@ -203,7 +203,7 @@ function string_save_data(fd, data)
       save_data(fd, data{k});
     end
   end
-endfunction
+end
 %=============================================================================
 function struct_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
@@ -215,7 +215,7 @@ function struct_save_data(fd, data)
   save_data(fd, names);
   c = struct2cell(data);
   save_data(fd, c);
-endfunction
+end
 %=============================================================================
 function generic_notcomplex_save_data(fd, data, typestr)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
@@ -227,39 +227,39 @@ function generic_notcomplex_save_data(fd, data, typestr)
   if ~isempty(data)
     fwrite(fd, data, typestr, 'l');
   end
-endfunction
+end
 %=============================================================================
 function uint8_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'uint8');
-endfunction
+end
 %=============================================================================
 function int8_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'int8')
-endfunction
+end
 %=============================================================================
 function uint16_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'uint16')
-endfunction
+end
 %=============================================================================
 function int16_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'int16')
-endfunction
+end
 %=============================================================================
 function uint32_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'uint32')
-endfunction
+end
 %=============================================================================
 function int32_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'int32')
-endfunction
+end
 %=============================================================================
 function uint64_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'uint64')
-endfunction
+end
 %=============================================================================
 function int64_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'int64')
-endfunction
+end
 %=============================================================================
 function generic_complex_save_data(fd, data, typestr)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
@@ -277,30 +277,30 @@ function generic_complex_save_data(fd, data, typestr)
       fwrite(fd, imag(data), typestr, 'l');
     end
   end
-endfunction
+end
 %=============================================================================
 function single_save_data(fd, data)
   generic_complex_save_data(fd, data, 'single')
-endfunction
+end
 %=============================================================================
 function logical_save_data(fd, data)
   generic_notcomplex_save_data(fd, data, 'logical')
-endfunction
+end
 %=============================================================================
 function double_save_data(fd, data)
   generic_complex_save_data(fd, data, 'double')
-endfunction
+end
 %=============================================================================
 function char_save_data(fd, data)
   % unicode saved as uint32
   generic_notcomplex_save_data(fd, data, 'uint32')
-endfunction
+end
 %=============================================================================
 function function_handle_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
   f = func2str(data);
   char_save_data(fd, f);
-endfunction
+end
 %=============================================================================
 function handle_save_data(fd, data)
   error(_('not yet implemented.'))
@@ -310,7 +310,7 @@ function handle_save_data(fd, data)
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
 
-endfunction
+end
 %=============================================================================
 function generic_save_data(fd, data)
   error(_('not yet implemented.'))
@@ -320,7 +320,7 @@ function generic_save_data(fd, data)
   fwrite(fd, len, 'double', 'l');
   fwrite(fd, dim, 'double', 'l');
 
-endfunction
+end
 %=============================================================================
 function class_save_data(fd, data)
   classname = class(data);
@@ -331,5 +331,5 @@ function class_save_data(fd, data)
   fwrite(fd, dim, 'double', 'l');
   function_to_call = [classname,'_save_data'];
   feval(function_save, fd, data);
-endfunction
+end
 %=============================================================================

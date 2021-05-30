@@ -51,5 +51,5 @@ function edit(varargin)
       editor(finalfilename)
     end
   end
-endfunction
+end
 %=============================================================================

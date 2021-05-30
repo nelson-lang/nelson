@@ -27,4 +27,4 @@ function [st, idx] = test_dbstack()
   A = 3;
   B = 4;
   [st, idx] = dbstack();
-endfunction
+end

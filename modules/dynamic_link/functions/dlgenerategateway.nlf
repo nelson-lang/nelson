@@ -36,7 +36,7 @@ function dlgenerategateway(destinationdir, module_name, builtin_table)
   end
   txt = template(module_name, builtin_table);
   filewrite([destinationdir, '/Gateway.cpp'], txt);
-endfunction
+end
 %=============================================================================
 function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_table)
   builtin_table_modified = {};
@@ -59,7 +59,7 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
   else
     status = false;
   end
-endfunction
+end
 %=============================================================================
 function txt = template(module_name, builtin_table)
   txt = {'//============================================================================='};
@@ -127,5 +127,5 @@ function txt = template(module_name, builtin_table)
   txt = [txt; 'NLSGATEWAYNAME()'];
   txt = [txt; '//============================================================================='];
 
-endfunction
+end
 %=============================================================================

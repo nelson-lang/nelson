@@ -26,5 +26,5 @@
 function tf = iscom(h)
   typename = class(h);
   tf = strncmp(typename, 'COM.', 4);
-endfunction
+end
 %=============================================================================

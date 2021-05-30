@@ -28,4 +28,4 @@ function r = sparselogical_plus_sparselogical(a, b)
 	A = double(a);
 	B = double(b);
 	r = A + B;
-endfunction
+end

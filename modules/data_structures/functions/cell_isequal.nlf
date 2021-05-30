@@ -44,4 +44,4 @@ function r = cell_isequal(a, b)
   else
     r = false;
   end
-endfunction
+end

@@ -28,5 +28,5 @@ function varargout = test_nargoutchk(varargin)
     for n = 1:nargout
         varargout{n} = n;
     end
-endfunction
+end
 %=============================================================================

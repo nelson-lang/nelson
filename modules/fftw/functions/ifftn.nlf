@@ -47,5 +47,5 @@ function Y = ifftn(varargin)
        Y = ifft(Y, dims(n), n);
      end
     end
-endfunction
+end
 %=============================================================================

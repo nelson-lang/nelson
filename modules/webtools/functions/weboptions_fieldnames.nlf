@@ -38,4 +38,4 @@ function names = weboptions_fieldnames(options)
     'RequestMethod';
     'Arrayformat';
     'CertificateFilename'};
-endfunction
+end

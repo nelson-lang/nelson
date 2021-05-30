@@ -26,4 +26,4 @@
 function test_assignin()
 test_assignin1()
 disp(b)
-endfunction
+end

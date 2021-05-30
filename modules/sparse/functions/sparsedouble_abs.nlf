@@ -26,5 +26,5 @@
 function r = sparsedouble_abs(a)
   [I, J, V] = IJV(a);
   r = sparse(I, J, abs(V));
-endfunction
+end
 %=============================================================================

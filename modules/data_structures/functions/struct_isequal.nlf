@@ -44,4 +44,4 @@ function r = struct_isequal(a, b)
 			end
 		end
 	end
-endfunction
+end

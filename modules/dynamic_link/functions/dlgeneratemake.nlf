@@ -168,7 +168,7 @@ function [status, message] = dlgeneratemake(varargin)
   template_cmake = replace(template_cmake, [newline, newline], newline);
   filewrite([destinationdir, '/CMakeLists.txt'], template_cmake);
   status = true;
-endfunction
+end
 %=============================================================================
 function r = checkDestinationDir(destinationdir)
   if ischar(destinationdir)
@@ -176,7 +176,7 @@ function r = checkDestinationDir(destinationdir)
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function r = checkLibraryName(libname)
   if ischar(libname)
@@ -184,7 +184,7 @@ function r = checkLibraryName(libname)
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
   c_cpp_files_modified = '';
@@ -212,7 +212,7 @@ function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
   includes_modified = '';
@@ -240,7 +240,7 @@ function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function [r, defines_modified] = checkAndPrepareDefines(defines)
   defines_modified = '';
@@ -268,7 +268,7 @@ function [r, defines_modified] = checkAndPrepareDefines(defines)
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function modifiedName = addLibrarySuffix(libraryName)
   modifiedName = libraryName;
@@ -279,7 +279,7 @@ function modifiedName = addLibrarySuffix(libraryName)
   else
     modifiedName = [libraryName, getdynlibext()];
   end
-endfunction
+end
 %=============================================================================
 function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(external_libraries)
   external_libraries_modified = '';
@@ -307,7 +307,7 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function [r, build_configuration_modified] = checkAndPrepareBuildConfiguration(build_configuration)
   build_configuration_modified = '';
@@ -329,7 +329,7 @@ function [r, build_configuration_modified] = checkAndPrepareBuildConfiguration(b
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function [r, c_flags_modified] = checkAndPrepareCflags(c_flags)
   if isempty(c_flags)
@@ -344,7 +344,7 @@ function [r, c_flags_modified] = checkAndPrepareCflags(c_flags)
       c_flags_modified = '';
     end
   end
-endfunction
+end
 %=============================================================================
 function [r, cxx_flags_modified] = checkAndPrepareCppflags(cxx_flags)
   if isempty(cxx_flags)
@@ -359,5 +359,5 @@ function [r, cxx_flags_modified] = checkAndPrepareCppflags(cxx_flags)
       cxx_flags_modified = '';
     end
   end
-endfunction
+end
 %=============================================================================

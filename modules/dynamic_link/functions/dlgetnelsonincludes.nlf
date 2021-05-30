@@ -30,5 +30,5 @@ function c = dlgetnelsonincludes()
        [modulepath('i18n'), '/src/include']; ...
        [modulepath('stream_manager'), '/src/include']; ...
        [modulepath('validators'), '/src/include']};
-endfunction
+end
 %=============================================================================

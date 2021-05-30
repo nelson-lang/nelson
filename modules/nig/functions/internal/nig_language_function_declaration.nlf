@@ -38,5 +38,5 @@ function txt = nig_language_function_declaration(NIG_FUNCTION)
     txt = txt(1:end - 1);
   end
   txt = [txt, ')'];
-endfunction
+end
 %=============================================================================

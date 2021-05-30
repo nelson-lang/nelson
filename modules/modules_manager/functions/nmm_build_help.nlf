@@ -38,5 +38,5 @@ function nmm_build_help(_MODULE_NAME, _MODULE_PATH)
         buildhelp(_MODULE_NAME);
         removemodule(_MODULE_NAME);
     end
-endfunction
+end
 %=============================================================================

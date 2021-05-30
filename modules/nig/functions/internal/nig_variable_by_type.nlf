@@ -46,5 +46,5 @@ function txt = nig_variable_by_type(VARIABLE, withLocal)
     txt = nig_variable_integer(VARIABLE, withLocal);
   end
 
-endfunction
+end
 %=============================================================================

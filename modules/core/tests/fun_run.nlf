@@ -5,4 +5,4 @@ function fun_run()
 %
 %
 error('qqq')
-endfunction
+end

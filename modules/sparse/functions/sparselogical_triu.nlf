@@ -35,5 +35,5 @@ function R = sparselogical_triu(varargin)
     L = find(IJ(:, 1) <= (IJ(:, 2) - k));
     S = IJ(L, :);
     R = sparse(S(:,1), S(:,2), V(L), m, n);
-endfunction
+end
 %=============================================================================

@@ -31,5 +31,5 @@ function result = errorfun(S, varargin)
 	disp(varargin{1})
 	disp(varargin{2})
 	result = false;
-endfunction
+end
 

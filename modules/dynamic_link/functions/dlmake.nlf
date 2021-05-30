@@ -67,10 +67,10 @@ function [status, message] = dlmake(destinationdir)
   status = (status == 0);
   message = [message, cleanup(msg)];
   cd(currentdir);
-endfunction
+end
 %=============================================================================
 function msgout = cleanup(msgin)
   msgout = replace(msgin, ['Failed to create ConsoleBuf!', char(10)], '');
   msgout = replace(msgout, ['setActiveInputCodepage failed!', char(10)], '');
-endfunction
+end
 %=============================================================================

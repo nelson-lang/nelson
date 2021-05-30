@@ -37,5 +37,5 @@ function txt = nig_assign_output_variables(NIG_FUNCTION)
     end
   end
 
-endfunction
+end
 %=============================================================================

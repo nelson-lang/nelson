@@ -27,5 +27,5 @@ function [r, t] = twolhs_function()
   disp(nargout);
   r = 1;
   t = 10;
-endfunction
+end
 %=============================================================================

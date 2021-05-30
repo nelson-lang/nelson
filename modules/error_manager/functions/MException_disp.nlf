@@ -27,5 +27,5 @@ function MException_disp(e)
     r = struct(e);
     d = evalc('disp(r);');
     disp(replace(d, '<struct>', '<MException>'))
-  endfunction
+  end
   %=============================================================================

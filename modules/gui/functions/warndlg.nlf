@@ -55,4 +55,4 @@ function h = warndlg(warnstring, dlgname, mode)
     error(_('Wrong number of input arguments.'));
   end
   h = msgbox(warnstring, dlgname, 'warn', mode);
-endfunction
+end

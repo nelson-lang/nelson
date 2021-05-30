@@ -50,5 +50,5 @@ function [status, compiler] = havecompiler()
     status = havecompilerStatus;
     compiler = havecompilerCompiler;
   end
-endfunction
+end
 %=============================================================================

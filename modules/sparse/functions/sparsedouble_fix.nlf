@@ -26,4 +26,4 @@
 function r = sparsedouble_fix(a)
  [I, J, V] = IJV(a);
  r = sparse(I, J, fix(V));
-endfunction
+end

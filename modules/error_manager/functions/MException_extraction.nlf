@@ -44,5 +44,5 @@ function r = MException_extraction(exception, varargin)
     otherwise
         error('not managed.');
     end
-endfunction
+end
 %=============================================================================

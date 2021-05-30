@@ -42,5 +42,5 @@ function f = setfield(s, varargin)
         fieldvalue = varargin{i + 1};
         f.(fieldname) = fieldvalue;
     end
-endfunction
+end
 %=============================================================================

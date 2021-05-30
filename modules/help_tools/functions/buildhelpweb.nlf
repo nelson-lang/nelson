@@ -53,5 +53,5 @@ function buildhelpweb(varargin)
   title = ['Nelson', ' ', int2str(vervec(1)), '.', int2str(vervec(2)), '.', int2str(vervec(3)), '.', int2str(vervec(4))];
   xmldoctohtml(srclist, dirdest, title);
 
-endfunction
+end
 %=============================================================================

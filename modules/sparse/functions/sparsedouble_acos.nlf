@@ -25,4 +25,4 @@
 %=============================================================================
 function r = sparsedouble_acos(a)
  r = sparse(acos(full(a)));
-endfunction
+end

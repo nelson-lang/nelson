@@ -32,7 +32,7 @@ function nmm_install(varargin)
     otherwise
       error(_('Wrong number of input arguments.'));
     end
-endfunction
+end
 %=============================================================================
 % nmm('install', module_name)
 % nmm('install', local_module_directory)
@@ -52,12 +52,12 @@ function nmm_install_one_rhs(param1)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 % nmm('install', module_name, module_version)
 function nmm_install_two_rhs(module_name, module_version)
   error('Currently not managed.')
-endfunction
+end
 %=============================================================================
 function nmm_install_file(filename)
   if ~endsWith(filename, '.nmz')
@@ -90,12 +90,12 @@ function nmm_install_file(filename)
   saveInstalledModule(info.module, destination_dir, info.version);
   nmm_load(info.module);
   [r, msg] = rmdir(destinationTempPath, 's');
-endfunction
+end
 %=============================================================================
 function info = readModuleLockJson(lockfile)
   txt = fileread(lockfile);
   info = jsondecode(txt);
-endfunction
+end
 %=============================================================================
 function nmm_install_directory(directory)
   if ~endsWith(directory, '/')
@@ -135,7 +135,7 @@ function nmm_install_directory(directory)
     e = lasterror();
     error(e);
   end
-endfunction
+end
 %=============================================================================
 function nmm_install_repository(url, tag_branch)
   destinationTempPath = [tempdir(), createGUID(), '/'];
@@ -175,7 +175,7 @@ function nmm_install_repository(url, tag_branch)
     [r, msg] = rmdir(destinationTempPath, 's');
     error(e);
   end
-endfunction
+end
 %=============================================================================
 function r = is_local_module(param)
   r  = false;
@@ -186,7 +186,7 @@ function r = is_local_module(param)
     end
     r = isfile([path, 'module.json']) && isfile([path, 'builder.nls']);
   end
-endfunction
+end
 %=============================================================================
 function destination_dir = copyModule(source, module_name, module_version)
   p = usermodulesdir();
@@ -195,7 +195,7 @@ function destination_dir = copyModule(source, module_name, module_version)
     mkdir(destination_dir);
   end
   copyfile(source, destination_dir, 'f');
-endfunction
+end
 %=============================================================================
 function saveInstalledModule(module_name, module_path, version)
   element.path = module_path;
@@ -207,7 +207,7 @@ function saveInstalledModule(module_name, module_path, version)
   modules_json_path = [p, 'modules.json'];
   txt = jsonprettyprint(jsonencode(modules));
   filewrite(modules_json_path, txt);
-endfunction
+end
 %=============================================================================
 function createModuleLockJson(module_path)
   info = nmm_read_module_json(module_path);
@@ -230,7 +230,7 @@ function createModuleLockJson(module_path)
   st.dependencies = dependencies;
   content = jsonprettyprint(jsonencode(st));
   filewrite(moduleLockJson, content);
-endfunction
+end
 %=============================================================================
 function data = readModulesJson()
   p = usermodulesdir();
@@ -240,5 +240,5 @@ function data = readModulesJson()
   else
     data = struct();
   end
-endfunction
+end
 %=============================================================================

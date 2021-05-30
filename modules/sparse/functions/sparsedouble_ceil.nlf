@@ -26,4 +26,4 @@
 function r = sparsedouble_ceil(a)
  [I, J, V] = IJV(a);
  r = sparse(I, J, ceil(V));
-endfunction
+end

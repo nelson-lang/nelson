@@ -26,4 +26,4 @@
 function r = sparsedouble_floor(a)
  [I, J, V] = IJV(a);
  r = sparse(I, J, floor(V));
-endfunction
+end

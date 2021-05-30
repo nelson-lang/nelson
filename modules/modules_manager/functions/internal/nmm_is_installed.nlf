@@ -32,5 +32,5 @@ function r = nmm_is_installed(module_name)
         end
     end
     r = false;
-endfunction
+end
 %=============================================================================

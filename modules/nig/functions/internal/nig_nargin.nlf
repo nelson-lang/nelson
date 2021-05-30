@@ -30,5 +30,5 @@ function n = nig_nargin(NIG_FUNCTION)
       n = n + 1;
     end
   end
-endfunction
+end
 %=============================================================================

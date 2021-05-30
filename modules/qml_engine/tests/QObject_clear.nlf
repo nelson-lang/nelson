@@ -26,4 +26,4 @@
 function QObject_clear(obj)
   disp('QObject_clear called.');
   delete(obj);
-endfunction
+end

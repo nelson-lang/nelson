@@ -26,4 +26,4 @@
 function test_acquirevar()
   r = acquirevar('caller', 'A', 3);
   disp(r)
-endfunction
+end

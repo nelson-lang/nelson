@@ -66,4 +66,4 @@ function r = sparsedouble_mat2str(varargin)
     error(_('Wrong number of input arguments.'));
   end
 
-endfunction
+end

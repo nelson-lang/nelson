@@ -112,7 +112,7 @@ function mex(varargin)
   if ~status
     error(message);
   end
-endfunction
+end
 %=============================================================================
 function [status, apiVersion] = containsApiVersion(params)
   status = false;
@@ -127,7 +127,7 @@ function [status, apiVersion] = containsApiVersion(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function [status, outputName] = containsOutput(params)
   status = false;
@@ -145,7 +145,7 @@ function [status, outputName] = containsOutput(params)
     end
     p = p + 1;
   end
-endfunction
+end
 %=============================================================================
 function filenames = getFilenames(params)
   filenames = {};
@@ -160,7 +160,7 @@ function filenames = getFilenames(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function defines = getDefines(params)
   defines = {};
@@ -173,7 +173,7 @@ function defines = getDefines(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function includes = getIncludes(params)
   includes = {};
@@ -187,7 +187,7 @@ function includes = getIncludes(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function libraries = getLibraries(params)
   libraries = {};
@@ -207,7 +207,7 @@ function libraries = getLibraries(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function undefines = getUndefines(params)
   undefines = {};
@@ -226,7 +226,7 @@ function undefines = getUndefines(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function buildConfig = getBuildConfig(params)
   buildConfig = 'Release';
@@ -239,7 +239,7 @@ function buildConfig = getBuildConfig(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function cflags = getCFlags(params)
   cflags = {};
@@ -254,7 +254,7 @@ function cflags = getCFlags(params)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function str = concateToChar(ce, delimiter)
   if ~isvar('delimiter')
@@ -275,7 +275,7 @@ function str = concateToChar(ce, delimiter)
     end
   end
   str = strtrim(str);
-endfunction
+end
 %=============================================================================
 function s = removeDoubleQuote(str)
   s = strtrim(str);
@@ -285,7 +285,7 @@ function s = removeDoubleQuote(str)
   if endsWith(s, '"') || endsWith(s, '"')
     s = s(1:length(s) - 1);
   end
-endfunction
+end
 %=============================================================================
 function ext = getSupportedLibraryExtension()
   if ispc()
@@ -297,14 +297,14 @@ function ext = getSupportedLibraryExtension()
       ext = '.so';
     end
   end
-endfunction
+end
 %=============================================================================
 function includes = getMexIncludes()
   includes = {[modulepath('mex'), '/src/include']};
 
-endfunction
+end
 %=============================================================================
 function libraries = getMexLibraries()
   libraries = {[modulepath(nelsonroot(),'mex','bin'), '/libnlsMex']};
-endfunction
+end
 %=============================================================================

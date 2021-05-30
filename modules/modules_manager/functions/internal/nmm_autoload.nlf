@@ -63,5 +63,5 @@ function res = nmm_autoload(varargin)
         txt = jsonprettyprint(jsonencode(st));
         filewrite(modules_json_path, txt);
     end
- endfunction
+ end
 %=============================================================================

@@ -28,5 +28,5 @@ function r = sind (x)
   r = sin (I .* pi);
   IDX = I == fix(I) & isfinite (I);
   r(IDX) = 0;
-endfunction
+end
 %=============================================================================

@@ -107,7 +107,7 @@ function [status, message] = configuremsvc()
   loadcompilerconf();
   status = true;
   msg = '';
-endfunction
+end
 %=============================================================================
 function [status, message] = checkExistFile(filename, errormsg)
   message = '';
@@ -115,5 +115,5 @@ function [status, message] = checkExistFile(filename, errormsg)
   if ~status
     message = [filename, ' ', _('does not exist.')];
   end
-endfunction
+end
 %=============================================================================

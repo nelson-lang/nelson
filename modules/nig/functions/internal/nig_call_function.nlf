@@ -65,5 +65,5 @@ function txt = nig_call_function(NIG_FUNCTION)
   txt{end + 1} = ['        Error(', '"', NIG_FUNCTION.SYMBOL, ' function fails.");'];
   txt{end + 1} = '    }';
 
-endfunction
+end
 %=============================================================================

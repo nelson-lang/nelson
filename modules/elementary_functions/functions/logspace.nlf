@@ -38,5 +38,5 @@ function l = logspace(varargin)
     e = log10(e);
   end
   l = 10 .^ linspace(s, e, n);
-endfunction
+end
 %=============================================================================

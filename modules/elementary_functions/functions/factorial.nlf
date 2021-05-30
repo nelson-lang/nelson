@@ -35,5 +35,5 @@ function Y = factorial(X)
     if ~issingle(X) && ~isdouble(X)
         Y = cast(Y, 'like', X);
     end
-endfunction
+end
 %=============================================================================

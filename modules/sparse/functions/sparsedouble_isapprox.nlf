@@ -36,4 +36,4 @@ function r = sparsedouble_isapprox(a, b, precision)
 		[IB, JB, VB] = IJV(b);
 		r = isequal(IA, IB) && isequal(JA, JB) && isapprox(VA, VB, precision);
 	end
-endfunction
+end

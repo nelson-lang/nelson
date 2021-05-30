@@ -77,4 +77,4 @@ function qhelpgenerator(varargin)
   if res
     error(msg)
   end
-endfunction
+end

@@ -42,7 +42,7 @@ function r = test_makeref(filename)
   rm = rmfile(dia_ref);
   r = test_makerefile(filename, options, dia_ref);
   r = (r == 1);
-endfunction
+end
 %=============================================================================
 function r = test_makerefile(filename, options, ref_dest)
   cmd = '';
@@ -69,5 +69,5 @@ function r = test_makerefile(filename, options, ref_dest)
   end
   cmd = [nelson_exe_path, ' ' , cmd];
   [r, msg] = unix(cmd);
-endfunction
+end
 %=============================================================================

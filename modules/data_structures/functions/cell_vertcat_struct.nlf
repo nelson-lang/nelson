@@ -33,5 +33,5 @@ function r = cell_vertcat_struct(varargin)
 	else
 			error(_('Wrong number of input arguments.'));
 	end
-endfunction
+end
 %=============================================================================

@@ -37,5 +37,5 @@ function B = flip(A, dim)
     idx(1:max(ndims(A), dim)) = {':'};
     idx{dim} = size(A, dim):-1:1;
     B = A(idx{:});
-  endfunction
+  end
 %=============================================================================

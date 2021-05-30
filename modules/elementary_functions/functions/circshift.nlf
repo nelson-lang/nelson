@@ -66,5 +66,5 @@ function Y = circshift(varargin)
   else
    Y = X;
   end
-endfunction
+end
 %=============================================================================

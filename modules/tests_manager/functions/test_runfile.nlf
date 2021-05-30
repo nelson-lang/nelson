@@ -86,4 +86,4 @@ function struct_res = test_runfile(varargin)
   struct_res.r = r;
   struct_res.msg = msg;
   struct_res.timing = timing;
-endfunction
+end

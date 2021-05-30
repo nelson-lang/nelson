@@ -81,7 +81,7 @@ function status = test_run(varargin)
   if ~res
     error(_('Impossible to save results file.'));
   end
-endfunction
+end
 %=============================================================================
 function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalTests, initialIndex)
   accumulator = [];
@@ -122,7 +122,7 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
     test_cases_updated = rmfield(test_cases_updated, 'res_cmd');
     test_cases_updated = rmfield(test_cases_updated, 'skip');
   end
-endfunction
+end
 %=============================================================================
 function displayTestCaseFail(test_case)
   if strcmp(test_case.status, 'Fail') == true
@@ -143,7 +143,7 @@ function displayTestCaseFail(test_case)
     end
     disp(' ');
   end
-endfunction
+end
 %=============================================================================
 function test_suite = process_files_to_test(test_files_list, option, classname, module_name, nbWorkers)
   test_suite = create_test_suite();
@@ -192,7 +192,7 @@ function test_suite = process_files_to_test(test_files_list, option, classname, 
   end
   test_suite.test_cases_list = test_cases;
   test_suite.time = test_suite.time + time_test;
-endfunction
+end
 %=============================================================================
 function test_suite = process_test_cases_directory(tests_dir, option, classname, module_name, nbWorkers)
   if isdir(tests_dir)
@@ -202,7 +202,7 @@ function test_suite = process_test_cases_directory(tests_dir, option, classname,
     fprintf(stdout, ['  ', _('No directory tests available.'), newline]);
     test_suite = create_test_suite();
   end
-endfunction
+end
 %=============================================================================
 function test_case_cleaned = post_run_test_case(test_case_res)
   if isfile(test_case_res.command_filename)
@@ -284,7 +284,7 @@ function test_case_cleaned = post_run_test_case(test_case_res)
     end
   end
   test_case_cleaned = test_case_res;
-endfunction
+end
 %=============================================================================
 function r = isSupportedPlatform(test_case)
   is_all_platforms =  ~test_case.options.windows_only && ~test_case.options.mac_only && ~test_case.options.unix_only;
@@ -293,7 +293,7 @@ function r = isSupportedPlatform(test_case)
   else
     r = (ispc() && test_case.options.windows_only) || (ismac() && test_case.options.mac_only) || (isunix() && ~ismac() && test_case.options.unix_only);
   end
-endfunction
+end
 %=============================================================================
 function test_case = create_test_case(filename)
   test_case.filename = filename;
@@ -410,7 +410,7 @@ function test_case = create_test_case(filename)
       test_case.skip = true;
     end
   end
-endfunction
+end
 %=============================================================================
 function test_suite = create_test_suite()
   test_suite.name = '';
@@ -427,7 +427,7 @@ function test_suite = create_test_suite()
   test_suite.timestamp = timestamp(); % 2017-01-21T16:17:18
   test_suite.environment = get_environment_test();
   test_suite.test_cases_list = struct([]);
-endfunction
+end
 %=============================================================================
 function test_suites = create_test_suites()
   test_suites.disabled = 0;
@@ -438,13 +438,13 @@ function test_suites = create_test_suites()
   test_suites.bench = 0;
   test_suites.time = 0;
   test_suites.tests_list = struct([]);
-endfunction
+end
 %=============================================================================
 function t = timestamp()
   n = now();
   v = datevec(n);
   t = sprintf('%d-%02d-%02dT%02d:%02d:%02d', v(1), v(2), v(3), v(4), v(5), v(6));
-endfunction
+end
 %=============================================================================
 function info = get_environment_test()
   platform = '';
@@ -467,7 +467,7 @@ function info = get_environment_test()
     compiler_str = [compiler_str, ' ', c{1}];
   end
   info = ['Nelson', ' ', version(), ' ', platform, ' ', compiler_str];
-endfunction
+end
 %=============================================================================
 function tests_list = getFilesListByOption(tests_dir, option)
   tests_list = [];
@@ -558,7 +558,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
     otherwise
       error(_('Argument not managed.'));
     end
-  endfunction
+  end
   %=============================================================================
 function test_suites = create_test_suites()
   test_suites.disabled = 0;
@@ -569,7 +569,7 @@ function test_suites = create_test_suites()
   test_suites.bench = 0;
   test_suites.time = 0;
   test_suites.tests_list = struct([]);
-endfunction
+end
 %=============================================================================
 function [modules_list, files_to_test, result_outputfile, option, stoponfail] = parseInputArguments(nargin, args)
   stoponfail = false;
@@ -731,7 +731,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
     otherwise
       error(_('Wrong number of input arguments.'));
     end
-  endfunction
+  end
   %=============================================================================
 function modules = getModulesToTest(param)
   modules = [];
@@ -753,7 +753,7 @@ function modules = getModulesToTest(param)
       modules = minimal_tests;
     end
   end
-endfunction
+end
 %=============================================================================
 function modules_list = getAllModulesList()
   run([nelsonroot(), '/modules/modules.nls']);
@@ -768,7 +768,7 @@ function modules_list = getAllModulesList()
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function files = getFilesToTest(param)
   files = [];
@@ -787,12 +787,12 @@ function files = getFilesToTest(param)
       files = {param};
     end
   end
-endfunction
+end
 %=============================================================================
 function r = isbench(filename)
   [p, fwext] = fileparts(filename);
   r = startsWith(fwext, 'bench_');
-endfunction
+end
 %=============================================================================
 function r = have_mpi()
   persistent mpi_required
@@ -804,7 +804,7 @@ function r = have_mpi()
     end
   end
   r = mpi_required;
-endfunction
+end
 %=============================================================================
 function r = have_audio_input()
   persistent audio_input_required
@@ -820,7 +820,7 @@ function r = have_audio_input()
     end
   end
   r = audio_input_required;
-endfunction
+end
 %=============================================================================
 function r = have_audio_output()
   persistent audio_output_required;
@@ -836,7 +836,7 @@ function r = have_audio_output()
     end
   end
   r = audio_output_required;
-endfunction
+end
 %=============================================================================
 function r = have_excel()
   persistent excel_detected;
@@ -856,7 +856,7 @@ function r = have_excel()
     end
   end
   r = excel_detected;
-endfunction
+end
 %=============================================================================
 function r = have_c_cpp_compiler()
   persistent compiler_detected;
@@ -864,7 +864,7 @@ function r = have_c_cpp_compiler()
     compiler_detected = havecompiler();
   end
   r = compiler_detected;
-endfunction
+end
 %=============================================================================
 function r = have_64_bit_index_supported()
   persistent have_64_bit_index;
@@ -873,7 +873,7 @@ function r = have_64_bit_index_supported()
     have_64_bit_index = strcmp(compiler_info{3}, '64');
   end
   r = have_64_bit_index;
-endfunction
+end
 %=============================================================================
 function r = is_release()
   persistent is_release_version;
@@ -882,7 +882,7 @@ function r = is_release()
     is_release_version = startsWith(ver_comp{2}, 'release');
   end
   r = is_release_version;
-endfunction
+end
 %=============================================================================
 function r = is_native_platform()
   persistent is_native;
@@ -905,7 +905,7 @@ function r = is_native_platform()
     end
   end
   r = is_native;
-endfunction
+end
 %=============================================================================
 function res = haveDisplay()
   persistent withDisplay;
@@ -919,19 +919,19 @@ function res = haveDisplay()
     end
   end
   res = withDisplay;
-endfunction
+end
 %=============================================================================
 function cmd = build_command_nelson_cli(command, withMPI)
   cmd = build_command_nelson_mode('nelson-cli', command, withMPI);
-endfunction
+end
 %=============================================================================
 function cmd = build_command_nelson_adv_cli(command, withMPI)
   cmd = build_command_nelson_mode('nelson-adv-cli', command, withMPI);
-endfunction
+end
 %=============================================================================
 function cmd = build_command_nelson_gui(command, withMPI)
   cmd = build_command_nelson_mode('nelson-gui', command, withMPI);
-endfunction
+end
 %=============================================================================
 function cmd = build_command_nelson_mode(exe, command, withMPI)
   persistent nelson_bin_path
@@ -940,14 +940,14 @@ function cmd = build_command_nelson_mode(exe, command, withMPI)
   end
   nelson_exe_path = ['"', nelson_bin_path, '/', exe, '"'];
   cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
-endfunction
+end
 %=============================================================================
 function pc = prefixCommand(withMPI)
   pc = '';
   if withMPI
     pc = ['mpiexec -n 2 '];
   end
-endfunction
+end
 %=============================================================================
 function disp_summary(test_suites)
   fprintf(stdout, ['  ===============================================================================', newline]);
@@ -968,7 +968,7 @@ function disp_summary(test_suites)
     fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time, 2), ' s ', newline]);
   end
   fprintf(stdout, ['  ================================================================================', newline]);
-endfunction
+end
 %=============================================================================
 function res = save_results(test_suites, result_outputfile)
   res = true;
@@ -985,12 +985,12 @@ function res = save_results(test_suites, result_outputfile)
       res = save_as_xml(test_suites, result_outputfile);
     end
   end
-endfunction
+end
 %=============================================================================
 function res = save_as_json(test_suites, jsonFileDestination)
   filewrite(jsonFileDestination, jsonprettyprint(jsonencode(test_suites)))
   res = isfile(jsonFileDestination);
-endfunction
+end
 %=============================================================================
 function res = save_as_xml(test_suites, xmlFileDestination)
   res = false;
@@ -1050,14 +1050,14 @@ function res = save_as_xml(test_suites, xmlFileDestination)
     fclose(fp);
     res = true;
   end
-endfunction
+end
 %=============================================================================
 function res = haveStopOnFailOption(param)
   res = false;
   if ischar(param)
     res = strcmp(param, '-stoponfail');
   end
-endfunction
+end
 %=============================================================================
 function option = getOption(param)
   supported_options = {'all', 'all_tests', 'unitary_tests', 'nonreg_tests', 'benchs'};
@@ -1072,5 +1072,5 @@ function option = getOption(param)
       end
     end
   end
-endfunction
+end
 %=============================================================================

@@ -40,7 +40,7 @@ function dlgenerateloader(destinationdir, libraryname, ismexfunction)
   end
   txt = template(libraryname, ismexfunction, mexFunctionsList);
   filewrite([destinationdir, '/loader.nls'], txt);
-endfunction
+end
 %=============================================================================
 function txt = template(libraryname, ismexfunction, mexFunctionsList)
   txt = {'%============================================================================='};
@@ -87,7 +87,7 @@ function txt = template(libraryname, ismexfunction, mexFunctionsList)
     end
   end
   txt = [txt; '%============================================================================='];
-endfunction
+end
 %=============================================================================
 function names = mexFunctionsJson(libraryname, destinationdir)
   mexFunctionsListFilename = [destinationdir, '/mexFunctionsList.json'];
@@ -98,5 +98,5 @@ function names = mexFunctionsJson(libraryname, destinationdir)
   mexFunctionsList.(libraryname) = '';
   filewrite(mexFunctionsListFilename, jsonprettyprint(jsonencode(mexFunctionsList)));
   names = fieldnames(mexFunctionsList);
-endfunction
+end
 %=============================================================================
