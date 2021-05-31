@@ -63,9 +63,6 @@
 /* Pull parsers.  */
 #define YYPULL 1
 
-
-
-
 /* First part of user prologue.  */
 #line 1 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
 

@@ -24,7 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <wctype.h>
+#include <cwctype>
 #include <cctype>
 #include <cstdio>
 #include <sys/stat.h>
@@ -55,6 +55,7 @@ static int continuationCount = 0;
 static int inBlock = 0;
 static int inStatement = 0;
 static bool inFunction = false;
+static int countEndFunction = 0;
 //=============================================================================
 typedef enum
 {
@@ -434,12 +435,18 @@ lexIdentifier()
     }
     switch (pSearch->token) {
     case FUNCTION: {
+        countEndFunction = 0;
         inFunction = true;
         setTokenType(pSearch->token);
     } break;
     case ENDFUNCTION: {
-        inFunction = false;
-        setTokenType(pSearch->token);
+        if (countEndFunction == 0) {
+            inFunction = false;
+            setTokenType(pSearch->token);
+            countEndFunction++;
+        } else {
+            LexerException(_("This statement is not inside any function."));
+        }
     } break;
     case END: {
         if (bracketStackSize == 0) {
@@ -448,11 +455,16 @@ lexIdentifier()
                 asEndfunction = true;
             }
             if (asEndfunction) {
-                strcpy(ident, "endfunction");
-                tSearch.word = ident;
-                pSearch = static_cast<keywordStruct*>(bsearch(
-                    &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
-                setTokenType(ENDFUNCTION);
+                if (countEndFunction == 0) {
+                    strcpy(ident, "endfunction");
+                    tSearch.word = ident;
+                    pSearch = static_cast<keywordStruct*>(bsearch(
+                        &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
+                    setTokenType(ENDFUNCTION);
+                    countEndFunction++;
+                } else {
+                    LexerException(_("This statement is not inside any function."));
+                }
             } else {
                 setTokenType(END);
                 inBlock--;
@@ -469,9 +481,6 @@ lexIdentifier()
     case SWITCH: {
         setTokenType(pSearch->token);
         inStatement++;
-    } break;
-    case OTHERWISE: {
-        setTokenType(pSearch->token);
     } break;
     default: {
         setTokenType(pSearch->token);
@@ -497,11 +506,7 @@ lexIdentifier()
         inStatement++;
         setTokenType(pSearch->token);
     } break;
-    case ELSEIF: {
-        vcFlag = 1;
-        inBlock++;
-        setTokenType(pSearch->token);
-    } break;
+    case ELSEIF:
     case CASE: {
         vcFlag = 1;
         inBlock++;
@@ -1036,8 +1041,8 @@ lexCheckForMoreInput(int ccount)
         }
         return ((continuationCount > ccount)
             || ((bracketStackSize > 0)
-                && ((bracketStack[bracketStackSize - 1] == '[')
-                    || (bracketStack[bracketStackSize - 1] == '{')))
+                   && ((bracketStack[bracketStackSize - 1] == '[')
+                          || (bracketStack[bracketStackSize - 1] == '{')))
             || (inBlock != 0));
     } catch (Exception& e) {
         e.what();

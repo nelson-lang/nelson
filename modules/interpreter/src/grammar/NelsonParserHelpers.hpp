@@ -36,10 +36,10 @@ functionBody(const ParseRHS& lhsRhs, const ParseRHS& nameRhs, const ParseRHS& rh
     const ParseRHS& codeRhs);
 //=============================================================================
 std::string
-decodeline(const ParseRHS &val);
+decodeline(const ParseRHS& val);
 //=============================================================================
 int
-yyxpt(const std::string& xStr, const ParseRHS &val);
+yyxpt(const std::string& xStr, const ParseRHS& val);
 //=============================================================================
 void
 callyyparse();

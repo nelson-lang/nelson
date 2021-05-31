@@ -68,7 +68,7 @@ getLinePosition(const ParseRHS& val, int& lineNumber, int& columnNumber)
 }
 //=============================================================================
 int
-yyxpt(const std::string& xStr, const ParseRHS &val)
+yyxpt(const std::string& xStr, const ParseRHS& val)
 {
     int linenumber = 0;
     int colnumber = 0;
@@ -106,7 +106,7 @@ functionBody(const ParseRHS& lhsRhs, const ParseRHS& nameRhs, const ParseRHS& rh
 }
 //=============================================================================
 std::string
-decodeline(const ParseRHS &val)
+decodeline(const ParseRHS& val)
 {
     int linenumber = 0;
     int colnumber = 0;
