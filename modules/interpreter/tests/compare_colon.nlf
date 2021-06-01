@@ -44,4 +44,4 @@ function R = compare_colon(nb_test, varargin)
     otherwise
       R = false;
   end
-endfunction
+end

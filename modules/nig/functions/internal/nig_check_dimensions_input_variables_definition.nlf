@@ -65,5 +65,5 @@ function txt = nig_check_dimensions_input_variables_definition(NIG_FUNCTION)
       n = n + 1;
     end
   end
-endfunction
+end
 %=============================================================================

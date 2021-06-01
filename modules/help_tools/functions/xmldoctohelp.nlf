@@ -55,5 +55,5 @@ function file_generated = xmldoctohelp(varargin)
   if ~isfile(file_generated)
     file_generated = '';
   end
-endfunction
+end
 %=============================================================================

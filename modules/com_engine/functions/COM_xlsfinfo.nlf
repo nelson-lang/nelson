@@ -64,5 +64,5 @@ function varargout = COM_xlsfinfo(filename)
   varargout{2} = sheets;
   varargout{3} = format;
 
-endfunction
+end
 %=============================================================================

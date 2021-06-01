@@ -26,5 +26,5 @@
 function qml_demos()
   filename_demo = [modulepath('qml_engine'), '/examples/qml_demos/qml_demos.nls'];
   run(filename_demo);
-endfunction
+end
 %=============================================================================

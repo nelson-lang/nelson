@@ -49,5 +49,5 @@ function r = sparselogical_prod(varargin)
     otherwise
       error(_('Wrong number of input arguments.'));
   end
-endfunction
+end
 %=============================================================================

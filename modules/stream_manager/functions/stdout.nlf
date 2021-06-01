@@ -27,4 +27,4 @@ function fd = stdout()
 % return the numeric value corresponding to the standard output stream.
 % see also stdin, stderr
 	fd = 1;
-endfunction
+end

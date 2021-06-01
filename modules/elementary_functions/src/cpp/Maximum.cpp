@@ -308,7 +308,7 @@ void
 TMaxAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
 {
     if (omitnan) {
-        T maxval = (T) 0;
+        T maxval = (T)0;
         T maxval_r = (T)0;
         T maxval_i = (T)0;
         T tstval;

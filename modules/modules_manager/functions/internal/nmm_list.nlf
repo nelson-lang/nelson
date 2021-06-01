@@ -35,5 +35,5 @@ function st = nmm_list()
     else
         st = struct([]);
     end
- endfunction
+ end
 %=============================================================================

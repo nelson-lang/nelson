@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.0.  */
+/* A Bison parser, made by GNU Bison 3.7.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,10 @@
 /* C LALR(1) parser skeleton written by Richard Stallman, by
    simplifying the original so-called "semantic" parser.  */
 
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
+
 /* All symbols defined below should begin with yy or YY, to avoid
    infringing on user name space.  This should be done even for local
    variables, as they might otherwise be expanded by user macros.
@@ -41,14 +45,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
+/* Identify Bison output, and Bison version.  */
+#define YYBISON 30704
 
-/* Identify Bison output.  */
-#define YYBISON 1
-
-/* Bison version.  */
-#define YYBISON_VERSION "3.5.0"
+/* Bison version string.  */
+#define YYBISON_VERSION "3.7.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -93,101 +94,28 @@
 //=============================================================================
 // clang-format off
 //bison -L C -k -o NelSonParser.cpp NelSonParser.yxx
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "AST.hpp"
+//=============================================================================
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "NelsonParserHelpers.hpp"
 #include "AstManager.hpp"
-#include "Evaluator.hpp"
-#include "FunctionDef.hpp"
-#include "ParserInterface.hpp"
-#include "Error.hpp"
-#include "FileParser.hpp"
-#include "i18n.hpp"
-
+//=============================================================================
 #define YYSTYPE ParseRHS
-
-#define MSGBUFLEN 2048
-static char msgBuffer[MSGBUFLEN];
-
-#include "LexerInterface.hpp"
-
+//=============================================================================
 extern int yylex(void);
-
 extern int yydebug;
-
-bool interactiveMode;
-
-#ifdef WIN32
-#define snprintf _snprintf
-#endif
-
+//=============================================================================
 namespace Nelson {
-  static ASTPtr mainAST;
-  static MacroFunctionDef *mainMDef;
-
-
-  void chainFunction(MacroFunctionDef *r) {
-     r->nextFunction = nullptr;
-     r->prevFunction = nullptr;
-     if (mainMDef == nullptr)
-   {
-    mainMDef = r;
-   }
-     else 
-   {
-    r->localFunction = true;
-        r->nextFunction = mainMDef->nextFunction;
-    if (r->nextFunction)
-    {
-      r->nextFunction->prevFunction = r;
-    }
-    mainMDef->nextFunction = r;
-    r->prevFunction = mainMDef;
-     }
-  }
-
   void yyerror(const char *s) {
      return;
   }
-
-  std::string decodeline(ParseRHS val) {
-    int tokenID;
-    int linenumber;
-    if (val.isToken) 
-      tokenID = val.v.i;
-    else
-      tokenID = val.v.p->context();
-    linenumber = tokenID & 0xFFFF;
-    char buffer[IDENTIFIER_LENGTH_MAX + 1];
-    sprintf(buffer,"%d",linenumber);
-    return(std::string(buffer));
-  }
-  
-  int yyxpt(const std::string &xStr, ParseRHS val) {
-    int tokenID;
-    int linenumber, colnumber;
-    if (val.isToken) 
-      tokenID = val.v.i;
-    else
-      tokenID = val.v.p->context();
-    linenumber = tokenID & 0xFFFF;
-    colnumber = tokenID >> 16;
-    if (!interactiveMode)
-      snprintf(msgBuffer,MSGBUFLEN,
-      _("Expecting %s\n\tat line %d, column %d of file %s").c_str(),
-       xStr.c_str(),linenumber,colnumber,getParserFilenameU().c_str());
-    else
-      snprintf(msgBuffer,MSGBUFLEN,_("Expecting %s").c_str(),xStr.c_str());
-    Error(msgBuffer);
-    return 0;
-  }
 }
-
+//=============================================================================
 using namespace Nelson;
+//=============================================================================
 
-
-#line 194 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 122 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -210,14 +138,6 @@ using namespace Nelson;
 #  endif
 # endif
 
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 0
-#endif
-
 
 /* Debug traces.  */
 #ifndef YYDEBUG
@@ -227,58 +147,63 @@ using namespace Nelson;
 extern int yydebug;
 #endif
 
-/* Token type.  */
+/* Token kinds.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    IDENT = 258,
-    NUMERIC = 259,
-    ENDQSTMNT = 260,
-    ENDSTMNT = 261,
-    LE = 262,
-    GE = 263,
-    EQ = 264,
-    DOTTIMES = 265,
-    DOTRDIV = 266,
-    DOTLDIV = 267,
-    DOTPOWER = 268,
-    DOTTRANSPOSE = 269,
-    CHARACTER = 270,
-    STRING = 271,
-    SPECIALCALL = 272,
-    END = 273,
-    IF = 274,
-    FUNCTION = 275,
-    FOR = 276,
-    BREAK = 277,
-    MAGICEND = 278,
-    WHILE = 279,
-    ELSE = 280,
-    ELSEIF = 281,
-    SWITCH = 282,
-    CASE = 283,
-    OTHERWISE = 284,
-    CONTINUE = 285,
-    TRY = 286,
-    CATCH = 287,
-    FIELD = 288,
-    REFLPAREN = 289,
-    REFRPAREN = 290,
-    KEYBOARD = 291,
-    RETURN = 292,
-    VARARGIN = 293,
-    VARARGOUT = 294,
-    QUIT = 295,
-    ABORT = 296,
-    ENDFUNCTION = 297,
-    SOR = 298,
-    SAND = 299,
-    NE = 300,
-    POS = 301,
-    NEG = 302,
-    NOT = 303
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    IDENT = 258,                   /* IDENT  */
+    NUMERIC = 259,                 /* NUMERIC  */
+    ENDQSTMNT = 260,               /* ENDQSTMNT  */
+    ENDSTMNT = 261,                /* ENDSTMNT  */
+    LE = 262,                      /* LE  */
+    GE = 263,                      /* GE  */
+    EQ = 264,                      /* EQ  */
+    DOTTIMES = 265,                /* DOTTIMES  */
+    DOTRDIV = 266,                 /* DOTRDIV  */
+    DOTLDIV = 267,                 /* DOTLDIV  */
+    DOTPOWER = 268,                /* DOTPOWER  */
+    DOTTRANSPOSE = 269,            /* DOTTRANSPOSE  */
+    CHARACTER = 270,               /* CHARACTER  */
+    STRING = 271,                  /* STRING  */
+    SPECIALCALL = 272,             /* SPECIALCALL  */
+    END = 273,                     /* END  */
+    IF = 274,                      /* IF  */
+    FUNCTION = 275,                /* FUNCTION  */
+    FOR = 276,                     /* FOR  */
+    BREAK = 277,                   /* BREAK  */
+    MAGICEND = 278,                /* MAGICEND  */
+    WHILE = 279,                   /* WHILE  */
+    ELSE = 280,                    /* ELSE  */
+    ELSEIF = 281,                  /* ELSEIF  */
+    SWITCH = 282,                  /* SWITCH  */
+    CASE = 283,                    /* CASE  */
+    OTHERWISE = 284,               /* OTHERWISE  */
+    CONTINUE = 285,                /* CONTINUE  */
+    TRY = 286,                     /* TRY  */
+    CATCH = 287,                   /* CATCH  */
+    FIELD = 288,                   /* FIELD  */
+    REFLPAREN = 289,               /* REFLPAREN  */
+    REFRPAREN = 290,               /* REFRPAREN  */
+    KEYBOARD = 291,                /* KEYBOARD  */
+    RETURN = 292,                  /* RETURN  */
+    VARARGIN = 293,                /* VARARGIN  */
+    VARARGOUT = 294,               /* VARARGOUT  */
+    QUIT = 295,                    /* QUIT  */
+    ABORT = 296,                   /* ABORT  */
+    ENDFUNCTION = 297,             /* ENDFUNCTION  */
+    SOR = 298,                     /* SOR  */
+    SAND = 299,                    /* SAND  */
+    NE = 300,                      /* NE  */
+    POS = 301,                     /* POS  */
+    NEG = 302,                     /* NEG  */
+    NOT = 303                      /* NOT  */
   };
+  typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
@@ -293,6 +218,132 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
+
+/* Symbol kind.  */
+enum yysymbol_kind_t
+{
+  YYSYMBOL_YYEMPTY = -2,
+  YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
+  YYSYMBOL_YYerror = 1,                    /* error  */
+  YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
+  YYSYMBOL_IDENT = 3,                      /* IDENT  */
+  YYSYMBOL_NUMERIC = 4,                    /* NUMERIC  */
+  YYSYMBOL_ENDQSTMNT = 5,                  /* ENDQSTMNT  */
+  YYSYMBOL_ENDSTMNT = 6,                   /* ENDSTMNT  */
+  YYSYMBOL_LE = 7,                         /* LE  */
+  YYSYMBOL_GE = 8,                         /* GE  */
+  YYSYMBOL_EQ = 9,                         /* EQ  */
+  YYSYMBOL_DOTTIMES = 10,                  /* DOTTIMES  */
+  YYSYMBOL_DOTRDIV = 11,                   /* DOTRDIV  */
+  YYSYMBOL_DOTLDIV = 12,                   /* DOTLDIV  */
+  YYSYMBOL_DOTPOWER = 13,                  /* DOTPOWER  */
+  YYSYMBOL_DOTTRANSPOSE = 14,              /* DOTTRANSPOSE  */
+  YYSYMBOL_CHARACTER = 15,                 /* CHARACTER  */
+  YYSYMBOL_STRING = 16,                    /* STRING  */
+  YYSYMBOL_SPECIALCALL = 17,               /* SPECIALCALL  */
+  YYSYMBOL_END = 18,                       /* END  */
+  YYSYMBOL_IF = 19,                        /* IF  */
+  YYSYMBOL_FUNCTION = 20,                  /* FUNCTION  */
+  YYSYMBOL_FOR = 21,                       /* FOR  */
+  YYSYMBOL_BREAK = 22,                     /* BREAK  */
+  YYSYMBOL_MAGICEND = 23,                  /* MAGICEND  */
+  YYSYMBOL_WHILE = 24,                     /* WHILE  */
+  YYSYMBOL_ELSE = 25,                      /* ELSE  */
+  YYSYMBOL_ELSEIF = 26,                    /* ELSEIF  */
+  YYSYMBOL_SWITCH = 27,                    /* SWITCH  */
+  YYSYMBOL_CASE = 28,                      /* CASE  */
+  YYSYMBOL_OTHERWISE = 29,                 /* OTHERWISE  */
+  YYSYMBOL_CONTINUE = 30,                  /* CONTINUE  */
+  YYSYMBOL_TRY = 31,                       /* TRY  */
+  YYSYMBOL_CATCH = 32,                     /* CATCH  */
+  YYSYMBOL_FIELD = 33,                     /* FIELD  */
+  YYSYMBOL_REFLPAREN = 34,                 /* REFLPAREN  */
+  YYSYMBOL_REFRPAREN = 35,                 /* REFRPAREN  */
+  YYSYMBOL_KEYBOARD = 36,                  /* KEYBOARD  */
+  YYSYMBOL_RETURN = 37,                    /* RETURN  */
+  YYSYMBOL_VARARGIN = 38,                  /* VARARGIN  */
+  YYSYMBOL_VARARGOUT = 39,                 /* VARARGOUT  */
+  YYSYMBOL_QUIT = 40,                      /* QUIT  */
+  YYSYMBOL_ABORT = 41,                     /* ABORT  */
+  YYSYMBOL_ENDFUNCTION = 42,               /* ENDFUNCTION  */
+  YYSYMBOL_SOR = 43,                       /* SOR  */
+  YYSYMBOL_SAND = 44,                      /* SAND  */
+  YYSYMBOL_45_ = 45,                       /* '|'  */
+  YYSYMBOL_46_ = 46,                       /* '&'  */
+  YYSYMBOL_47_ = 47,                       /* '<'  */
+  YYSYMBOL_48_ = 48,                       /* '>'  */
+  YYSYMBOL_NE = 49,                        /* NE  */
+  YYSYMBOL_50_ = 50,                       /* ':'  */
+  YYSYMBOL_51_ = 51,                       /* '+'  */
+  YYSYMBOL_52_ = 52,                       /* '-'  */
+  YYSYMBOL_53_ = 53,                       /* '*'  */
+  YYSYMBOL_54_ = 54,                       /* '/'  */
+  YYSYMBOL_55_ = 55,                       /* '\\'  */
+  YYSYMBOL_POS = 56,                       /* POS  */
+  YYSYMBOL_NEG = 57,                       /* NEG  */
+  YYSYMBOL_NOT = 58,                       /* NOT  */
+  YYSYMBOL_59_ = 59,                       /* '^'  */
+  YYSYMBOL_60_ = 60,                       /* '\''  */
+  YYSYMBOL_61_ = 61,                       /* '('  */
+  YYSYMBOL_62_ = 62,                       /* ')'  */
+  YYSYMBOL_63_ = 63,                       /* '='  */
+  YYSYMBOL_64_ = 64,                       /* '['  */
+  YYSYMBOL_65_ = 65,                       /* ']'  */
+  YYSYMBOL_66_ = 66,                       /* ','  */
+  YYSYMBOL_67_ = 67,                       /* ';'  */
+  YYSYMBOL_68_ = 68,                       /* '{'  */
+  YYSYMBOL_69_ = 69,                       /* '}'  */
+  YYSYMBOL_70_ = 70,                       /* '~'  */
+  YYSYMBOL_71_ = 71,                       /* '.'  */
+  YYSYMBOL_YYACCEPT = 72,                  /* $accept  */
+  YYSYMBOL_program = 73,                   /* program  */
+  YYSYMBOL_functionDef = 74,               /* functionDef  */
+  YYSYMBOL_functionDefList = 75,           /* functionDefList  */
+  YYSYMBOL_returnDeclaration = 76,         /* returnDeclaration  */
+  YYSYMBOL_argumentList = 77,              /* argumentList  */
+  YYSYMBOL_argument = 78,                  /* argument  */
+  YYSYMBOL_statementList = 79,             /* statementList  */
+  YYSYMBOL_statement = 80,                 /* statement  */
+  YYSYMBOL_statementType = 81,             /* statementType  */
+  YYSYMBOL_endfunctionStatement = 82,      /* endfunctionStatement  */
+  YYSYMBOL_specialSyntaxStatement = 83,    /* specialSyntaxStatement  */
+  YYSYMBOL_returnStatement = 84,           /* returnStatement  */
+  YYSYMBOL_pauseStatement = 85,            /* pauseStatement  */
+  YYSYMBOL_continueStatement = 86,         /* continueStatement  */
+  YYSYMBOL_breakStatement = 87,            /* breakStatement  */
+  YYSYMBOL_tryStatement = 88,              /* tryStatement  */
+  YYSYMBOL_optionalCatch = 89,             /* optionalCatch  */
+  YYSYMBOL_switchStatement = 90,           /* switchStatement  */
+  YYSYMBOL_optionalEndStatement = 91,      /* optionalEndStatement  */
+  YYSYMBOL_newLine = 92,                   /* newLine  */
+  YYSYMBOL_caseBlock = 93,                 /* caseBlock  */
+  YYSYMBOL_caseList = 94,                  /* caseList  */
+  YYSYMBOL_caseStatement = 95,             /* caseStatement  */
+  YYSYMBOL_otherwiseClause = 96,           /* otherwiseClause  */
+  YYSYMBOL_forStatement = 97,              /* forStatement  */
+  YYSYMBOL_forIndexExpression = 98,        /* forIndexExpression  */
+  YYSYMBOL_whileStatement = 99,            /* whileStatement  */
+  YYSYMBOL_ifStatement = 100,              /* ifStatement  */
+  YYSYMBOL_conditionedStatement = 101,     /* conditionedStatement  */
+  YYSYMBOL_elseIfBlock = 102,              /* elseIfBlock  */
+  YYSYMBOL_elseIfStatementList = 103,      /* elseIfStatementList  */
+  YYSYMBOL_elseIfStatement = 104,          /* elseIfStatement  */
+  YYSYMBOL_elseStatement = 105,            /* elseStatement  */
+  YYSYMBOL_assignmentStatement = 106,      /* assignmentStatement  */
+  YYSYMBOL_multiFunctionCall = 107,        /* multiFunctionCall  */
+  YYSYMBOL_expr = 108,                     /* expr  */
+  YYSYMBOL_terminal = 109,                 /* terminal  */
+  YYSYMBOL_symbRefList = 110,              /* symbRefList  */
+  YYSYMBOL_symbRef = 111,                  /* symbRef  */
+  YYSYMBOL_indexElement = 112,             /* indexElement  */
+  YYSYMBOL_indexList = 113,                /* indexList  */
+  YYSYMBOL_cellDef = 114,                  /* cellDef  */
+  YYSYMBOL_matrixDef = 115,                /* matrixDef  */
+  YYSYMBOL_rowSeperator = 116,             /* rowSeperator  */
+  YYSYMBOL_columnSep = 117,                /* columnSep  */
+  YYSYMBOL_rowDef = 118                    /* rowDef  */
+};
+typedef enum yysymbol_kind_t yysymbol_kind_t;
 
 
 
@@ -393,6 +444,7 @@ typedef int yytype_uint16;
 
 #define YYSIZEOF(X) YY_CAST (YYPTRDIFF_T, sizeof (X))
 
+
 /* Stored state numbers (used for stacks). */
 typedef yytype_int16 yy_state_t;
 
@@ -410,6 +462,7 @@ typedef int yy_state_fast_t;
 #  define YY_(Msgid) Msgid
 # endif
 #endif
+
 
 #ifndef YY_ATTRIBUTE_PURE
 # if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
@@ -468,7 +521,7 @@ typedef int yy_state_fast_t;
 
 #define YY_ASSERT(E) ((void) (0 && (E)))
 
-#if ! defined yyoverflow || YYERROR_VERBOSE
+#if !defined yyoverflow
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
@@ -533,8 +586,7 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 # endif
-#endif /* ! defined yyoverflow || YYERROR_VERBOSE */
-
+#endif /* !defined yyoverflow */
 
 #if (! defined yyoverflow \
      && (! defined __cplusplus \
@@ -599,25 +651,27 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  94
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   3053
+#define YYLAST   3033
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  72
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  47
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  227
+#define YYNRULES  226
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  345
+#define YYNSTATES  343
 
-#define YYUNDEFTOK  2
+/* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   303
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, with out-of-bounds checking.  */
-#define YYTRANSLATE(YYX)                                                \
-  (0 <= (YYX) && (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+#define YYTRANSLATE(YYX)                                \
+  (0 <= (YYX) && (YYX) <= YYMAXUTOK                     \
+   ? YY_CAST (yysymbol_kind_t, yytranslate[YYX])        \
+   : YYSYMBOL_YYUNDEF)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
@@ -660,63 +714,76 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   156,   156,   157,   157,   158,   162,   174,   182,   193,
-     200,   211,   218,   219,   221,   222,   223,   224,   226,   227,
-     231,   232,   236,   237,   238,   239,   240,   241,   242,   243,
-     247,   248,   252,   252,   264,   265,   269,   273,   277,   284,
-     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295,   296,   297,   298,   299,   300,   304,   307,   308,   309,
-     310,   311,   312,   313,   314,   315,   316,   319,   323,   327,
-     330,   334,   340,   345,   346,   350,   354,   360,   366,   366,
-     366,   366,   370,   370,   375,   375,   379,   382,   388,   394,
-     397,   403,   406,   411,   416,   417,   418,   420,   421,   422,
-     423,   424,   425,   429,   432,   437,   438,   443,   449,   450,
-     454,   457,   461,   462,   466,   469,   475,   478,   481,   484,
-     485,   489,   490,   494,   497,   501,   505,   509,   510,   511,
-     512,   513,   514,   518,   519,   520,   521,   522,   523,   524,
-     525,   526,   527,   528,   529,   530,   531,   532,   533,   534,
-     535,   536,   537,   538,   539,   540,   541,   542,   543,   544,
-     545,   546,   547,   548,   549,   550,   551,   552,   553,   554,
-     555,   556,   557,   558,   559,   560,   561,   562,   563,   564,
-     565,   566,   567,   568,   569,   573,   574,   575,   576,   577,
-     578,   579,   580,   581,   582,   583,   584,   585,   586,   587,
-     588,   589,   591,   592,   595,   596,   597,   598,   599,   600,
-     601,   604,   605,   606,   607,   608,   609,   613,   614,   618,
-     619,   623,   624,   628,   628,   632,   636,   637
+       0,    83,    83,    84,    84,    85,    89,    96,   104,   112,
+     121,   129,   138,   139,   141,   142,   143,   144,   146,   147,
+     151,   152,   156,   157,   158,   159,   160,   161,   162,   163,
+     167,   168,   172,   177,   178,   182,   186,   190,   197,   198,
+     199,   200,   201,   202,   203,   204,   205,   206,   207,   208,
+     209,   210,   211,   212,   213,   217,   220,   221,   222,   223,
+     224,   225,   226,   227,   228,   229,   232,   236,   240,   243,
+     247,   253,   258,   262,   263,   267,   273,   279,   279,   279,
+     279,   283,   283,   288,   288,   292,   295,   301,   307,   310,
+     316,   319,   324,   329,   330,   331,   333,   334,   335,   336,
+     337,   338,   342,   345,   350,   351,   356,   362,   363,   367,
+     370,   374,   375,   379,   382,   388,   391,   394,   397,   398,
+     402,   403,   407,   410,   414,   418,   422,   423,   424,   425,
+     426,   427,   431,   432,   433,   434,   435,   436,   437,   438,
+     439,   440,   441,   442,   443,   444,   445,   446,   447,   448,
+     449,   450,   451,   452,   453,   454,   455,   456,   457,   458,
+     459,   460,   461,   462,   463,   464,   465,   466,   467,   468,
+     469,   470,   471,   472,   473,   474,   475,   476,   477,   478,
+     479,   480,   481,   482,   486,   487,   488,   489,   490,   491,
+     492,   493,   494,   495,   496,   497,   498,   499,   500,   501,
+     502,   505,   506,   509,   510,   511,   512,   513,   514,   515,
+     518,   519,   520,   521,   522,   523,   527,   528,   532,   533,
+     537,   538,   542,   542,   546,   550,   551
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || 1
+/** Accessing symbol of state STATE.  */
+#define YY_ACCESSING_SYMBOL(State) YY_CAST (yysymbol_kind_t, yystos[State])
+
+#if YYDEBUG || 1
+/* The user-facing name of the symbol whose (internal) number is
+   YYSYMBOL.  No bounds checking.  */
+static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
+
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "IDENT", "NUMERIC", "ENDQSTMNT",
-  "ENDSTMNT", "LE", "GE", "EQ", "DOTTIMES", "DOTRDIV", "DOTLDIV",
-  "DOTPOWER", "DOTTRANSPOSE", "CHARACTER", "STRING", "SPECIALCALL", "END",
-  "IF", "FUNCTION", "FOR", "BREAK", "MAGICEND", "WHILE", "ELSE", "ELSEIF",
-  "SWITCH", "CASE", "OTHERWISE", "CONTINUE", "TRY", "CATCH", "FIELD",
-  "REFLPAREN", "REFRPAREN", "KEYBOARD", "RETURN", "VARARGIN", "VARARGOUT",
-  "QUIT", "ABORT", "ENDFUNCTION", "SOR", "SAND", "'|'", "'&'", "'<'",
-  "'>'", "NE", "':'", "'+'", "'-'", "'*'", "'/'", "'\\\\'", "POS", "NEG",
-  "NOT", "'^'", "'\\''", "'('", "')'", "'='", "'['", "']'", "','", "';'",
-  "'{'", "'}'", "'~'", "'.'", "$accept", "program", "functionDef",
-  "functionDefList", "returnDeclaration", "argumentList", "argument",
-  "statementList", "statement", "statementType", "endfunctionStatement",
-  "specialSyntaxStatement", "returnStatement", "pauseStatement",
-  "continueStatement", "breakStatement", "tryStatement", "optionalCatch",
-  "switchStatement", "optionalEndStatement", "newLine", "caseBlock",
-  "caseList", "caseStatement", "otherwiseClause", "forStatement",
-  "forIndexExpression", "whileStatement", "ifStatement",
-  "conditionedStatement", "elseIfBlock", "elseIfStatementList",
-  "elseIfStatement", "elseStatement", "assignmentStatement",
-  "multiFunctionCall", "expr", "terminal", "symbRefList", "symbRef",
-  "indexElement", "indexList", "cellDef", "matrixDef", "rowSeperator",
-  "columnSep", "rowDef", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "IDENT", "NUMERIC",
+  "ENDQSTMNT", "ENDSTMNT", "LE", "GE", "EQ", "DOTTIMES", "DOTRDIV",
+  "DOTLDIV", "DOTPOWER", "DOTTRANSPOSE", "CHARACTER", "STRING",
+  "SPECIALCALL", "END", "IF", "FUNCTION", "FOR", "BREAK", "MAGICEND",
+  "WHILE", "ELSE", "ELSEIF", "SWITCH", "CASE", "OTHERWISE", "CONTINUE",
+  "TRY", "CATCH", "FIELD", "REFLPAREN", "REFRPAREN", "KEYBOARD", "RETURN",
+  "VARARGIN", "VARARGOUT", "QUIT", "ABORT", "ENDFUNCTION", "SOR", "SAND",
+  "'|'", "'&'", "'<'", "'>'", "NE", "':'", "'+'", "'-'", "'*'", "'/'",
+  "'\\\\'", "POS", "NEG", "NOT", "'^'", "'\\''", "'('", "')'", "'='",
+  "'['", "']'", "','", "';'", "'{'", "'}'", "'~'", "'.'", "$accept",
+  "program", "functionDef", "functionDefList", "returnDeclaration",
+  "argumentList", "argument", "statementList", "statement",
+  "statementType", "endfunctionStatement", "specialSyntaxStatement",
+  "returnStatement", "pauseStatement", "continueStatement",
+  "breakStatement", "tryStatement", "optionalCatch", "switchStatement",
+  "optionalEndStatement", "newLine", "caseBlock", "caseList",
+  "caseStatement", "otherwiseClause", "forStatement", "forIndexExpression",
+  "whileStatement", "ifStatement", "conditionedStatement", "elseIfBlock",
+  "elseIfStatementList", "elseIfStatement", "elseStatement",
+  "assignmentStatement", "multiFunctionCall", "expr", "terminal",
+  "symbRefList", "symbRef", "indexElement", "indexList", "cellDef",
+  "matrixDef", "rowSeperator", "columnSep", "rowDef", YY_NULLPTR
 };
+
+static const char *
+yysymbol_name (yysymbol_kind_t yysymbol)
+{
+  return yytname[yysymbol];
+}
 #endif
 
-# ifdef YYPRINT
+#ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
@@ -730,14 +797,14 @@ static const yytype_int16 yytoknum[] =
       39,    40,    41,    61,    91,    93,    44,    59,   123,   125,
      126,    46
 };
-# endif
+#endif
 
-#define YYPACT_NINF (-149)
+#define YYPACT_NINF (-128)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-127)
+#define YYTABLE_NINF (-126)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -746,41 +813,41 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     361,  -149,    45,  -149,     2,    49,  1385,    63,    82,  -149,
-    -149,  1411,  2607,  -149,  2407,  -149,  -149,  -149,  -149,  -149,
-    2607,  2607,  1441,  1273,  1299,  1467,    47,  -149,    48,   747,
-    -149,   144,  -149,   177,  -149,  -149,  -149,  -149,  -149,  -149,
-    -149,  -149,  -149,  -149,  -149,  2855,  -149,   148,  -149,  -149,
-    -149,  -149,  -149,  -149,  -149,  -149,  -149,  -149,  1273,    25,
-    2673,   -15,  -149,    38,    27,    17,   157,  -149,    84,   188,
-      90,  -149,  2698,  2698,  1007,   158,   158,  -149,  2759,  -149,
-    -149,  -149,  -149,  2855,    67,  2607,    99,  -149,  -149,    29,
-    2607,    99,  -149,   158,  -149,  -149,  -149,  -149,  -149,  -149,
-    -149,  -149,  -149,  -149,  1497,  1523,  1553,  1579,  1609,  1635,
-    1665,  -149,  1691,  1721,  1747,  1777,  1803,  1833,  1859,  1889,
-    1915,  1945,  1971,  2001,  2027,  2057,  -149,  2487,  2083,  2508,
-     134,  -149,   147,  2113,   141,    25,  -149,  -149,  -149,  -149,
-    -149,  -149,  2407,   197,  -149,  -149,   132,  -149,  2407,  -149,
-    -149,  -149,   173,   114,     5,  -149,  -149,   162,  2139,  -149,
-      41,  2301,  2357,   193,  2457,    32,  -149,  -149,   127,  2164,
-     149,  -149,  2607,  -149,  2513,    31,  -149,   742,  -149,   742,
-    -149,   742,  -149,   158,  -149,   158,  -149,   158,  -149,   158,
-    -149,  2909,  -149,  2925,  -149,  2979,  -149,  2993,  -149,   742,
-    -149,   742,  -149,   742,  -149,  2724,  -149,   396,  -149,   396,
-    -149,   158,  -149,   158,  -149,   158,  -149,   158,  -149,   212,
-    -149,  2855,  -149,    15,  -149,  2855,     9,  -149,  2607,  -149,
-    -149,  -149,   951,    37,  -149,  2245,  -149,    35,    79,   417,
-    -149,  -149,  -149,    68,    12,  -149,   137,  2407,  -149,  2855,
-    -149,  2169,  -149,   815,  -149,   883,  2607,   198,   193,  -149,
-     181,  1063,  -149,  -149,   227,  -149,    99,  -149,  2564,  2855,
-    -149,    99,  -149,  2585,  -149,   168,  -149,  -149,  2508,  -149,
-    -149,  2835,  -149,  1119,  -149,  -149,  2407,   202,  -149,  -149,
-    -149,  -149,    35,   160,   473,  -149,  2779,  -149,  -149,  -149,
-    -149,  2698,  2407,    44,  -149,  2407,  -149,    26,  -149,  -149,
-    2195,  -149,  -149,   529,  -149,  2407,  2407,   219,  -149,  -149,
-    2407,  1175,  -149,  -149,  1231,  -149,  1329,  1355,  -149,  2855,
-     585,   641,  -149,  2407,  2245,  -149,  -149,    18,  -149,    10,
-     697,  -149,  -149,  -149,  -149
+     397,  -128,   220,  -128,    27,    12,   188,   137,   156,  -128,
+    -128,  1391,  2587,  -128,  2387,  -128,  -128,  -128,  -128,  -128,
+    2587,  2587,  1421,  1309,  1335,  1447,    46,  -128,    34,   783,
+    -128,   159,  -128,   267,  -128,  -128,  -128,  -128,  -128,  -128,
+    -128,  -128,  -128,  -128,  -128,  2835,  -128,   -13,  -128,  -128,
+    -128,  -128,  -128,  -128,  -128,  -128,  -128,  -128,  1309,    42,
+    2653,    75,  -128,   146,   -10,    62,   215,  -128,    -3,   218,
+      89,  -128,  2678,  2678,  1043,   201,   201,  -128,  2739,  -128,
+    -128,  -128,  -128,  2835,   165,  2587,    21,  -128,  -128,    13,
+    2587,    21,  -128,   201,  -128,  -128,  -128,  -128,  -128,  -128,
+    -128,  -128,  -128,  -128,  1477,  1503,  1533,  1559,  1589,  1615,
+    1645,  -128,  1671,  1701,  1727,  1757,  1783,  1813,  1839,  1869,
+    1895,  1925,  1951,  1981,  2007,  2037,  -128,  2467,  2063,  2488,
+      28,  -128,   177,  2093,    79,    42,  -128,  -128,  -128,  -128,
+    -128,  -128,  2387,   226,  -128,  -128,     8,  -128,  2387,  -128,
+    -128,  -128,    74,    19,  -128,  -128,   161,  2119,  -128,    14,
+    2281,  2337,   116,  2437,    16,  -128,  -128,   105,  2144,   181,
+    -128,  2587,  -128,  2493,    66,  -128,   778,  -128,   778,  -128,
+     778,  -128,   201,  -128,   201,  -128,   201,  -128,   201,  -128,
+    2889,  -128,  2905,  -128,  2959,  -128,  2973,  -128,   778,  -128,
+     778,  -128,   778,  -128,  2704,  -128,   432,  -128,   432,  -128,
+     201,  -128,   201,  -128,   201,  -128,   201,  -128,   262,  -128,
+    2835,  -128,    26,  -128,  2835,     7,  -128,  2587,  -128,  -128,
+    -128,   987,    38,  -128,  2225,  -128,   173,   122,   453,  -128,
+    -128,    37,   170,  -128,   138,  2387,  -128,  2835,  -128,  2149,
+    -128,   851,  -128,   919,  2587,   176,   116,  -128,   270,  1099,
+    -128,  -128,   265,  -128,    21,  -128,  2544,  2835,  -128,    21,
+    -128,  2565,  -128,   127,  -128,  -128,  2488,  -128,  -128,  2815,
+    -128,  1155,  -128,  -128,  2387,    56,  -128,  -128,  -128,  -128,
+     173,   133,   509,  -128,  2759,  -128,  -128,  -128,  -128,  2678,
+    2387,    48,  -128,  2387,  -128,    35,  -128,  -128,  2175,  -128,
+    -128,   565,  -128,  2387,  2387,   207,  -128,  -128,  2387,  1211,
+    -128,  -128,  1267,  -128,  1365,    29,  -128,  2835,   621,   677,
+    -128,  2387,  2225,  -128,  -128,    36,  -128,     9,   733,  -128,
+    -128,  -128,  -128
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -788,61 +855,61 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     5,   202,   185,   186,   187,     0,     0,     0,    70,
-     188,     0,     0,    69,    41,    68,    67,    53,    54,    56,
-       0,     0,     0,     0,     0,     0,     0,    20,     3,    41,
-      34,     0,    55,    52,    51,    50,    45,    44,    49,    48,
-      43,    46,    47,    39,    42,    40,   135,   189,    62,    57,
-      61,    60,    59,    58,   108,   202,   186,   187,     0,   112,
-       0,   189,    12,     0,     0,     0,     0,   102,    96,     0,
-       0,   105,     0,     0,    41,   173,   172,   184,     0,   191,
-     224,   223,   195,   226,     0,     0,   221,   201,   200,     0,
-       0,   219,   175,   174,     1,    21,    35,    36,    37,    38,
-      65,    66,    64,    63,     0,     0,     0,     0,     0,     0,
-       0,   181,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,   180,     0,     0,     0,
-       0,   203,     0,     0,   119,   113,   114,   111,    80,    79,
-      78,    81,    41,    13,    83,    82,     0,    23,    41,    22,
-      27,    32,     0,     0,     0,    30,    16,     0,     0,   100,
-       0,    41,    41,    84,    41,     0,   183,   182,   190,     0,
-       0,   225,     0,   196,     0,     0,   157,   156,   161,   160,
-     163,   162,   167,   166,   169,   168,   171,   170,   179,   178,
-     151,   150,   153,   152,   147,   146,   149,   148,   155,   154,
-     159,   158,   165,   164,   134,   133,   137,   136,   139,   138,
-     141,   140,   143,   142,   145,   144,   177,   176,   212,     0,
-     205,   211,   217,     0,   122,   121,     0,   209,     0,   190,
-     117,   116,     0,     0,   115,   110,    14,     0,     0,    41,
-      33,    25,    28,     0,     0,    17,     0,    41,   101,    95,
-      99,     0,    91,     0,   103,     0,     0,    90,    85,    86,
-     202,    41,    72,    71,     0,   193,   222,   192,     0,   227,
-     198,   220,   197,     0,   216,   215,   206,   204,     0,   208,
-     207,     0,   120,    41,   109,   107,    41,     0,    29,    24,
-      31,    18,     0,     0,    41,    98,     0,    93,    92,   106,
-     104,     0,    41,     0,    87,    41,   132,     0,   194,   199,
-       0,   218,   210,    41,    15,    41,    41,     0,    97,    94,
-      41,    41,    77,    76,    41,   131,     0,     0,   214,   213,
-      41,    41,    19,    41,    88,   129,   123,     0,   130,     0,
-      41,   128,   124,   127,   125
+       0,     5,   201,   184,   185,   186,     0,     0,     0,    69,
+     187,     0,     0,    68,    40,    67,    66,    52,    53,    55,
+       0,     0,     0,     0,     0,     0,     0,    20,     3,    40,
+      33,     0,    54,    51,    50,    49,    44,    43,    48,    47,
+      42,    45,    46,    38,    41,    39,   134,   188,    61,    56,
+      60,    59,    58,    57,   107,   201,   185,   186,     0,   111,
+       0,   188,    12,     0,     0,     0,     0,   101,    95,     0,
+       0,   104,     0,     0,    40,   172,   171,   183,     0,   190,
+     223,   222,   194,   225,     0,     0,   220,   200,   199,     0,
+       0,   218,   174,   173,     1,    21,    34,    35,    36,    37,
+      64,    65,    63,    62,     0,     0,     0,     0,     0,     0,
+       0,   180,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,   179,     0,     0,     0,
+       0,   202,     0,     0,   118,   112,   113,   110,    79,    78,
+      77,    80,    40,    13,    82,    81,     0,    23,    40,    22,
+      27,    32,     0,     0,    30,    16,     0,     0,    99,     0,
+      40,    40,    83,    40,     0,   182,   181,   189,     0,     0,
+     224,     0,   195,     0,     0,   156,   155,   160,   159,   162,
+     161,   166,   165,   168,   167,   170,   169,   178,   177,   150,
+     149,   152,   151,   146,   145,   148,   147,   154,   153,   158,
+     157,   164,   163,   133,   132,   136,   135,   138,   137,   140,
+     139,   142,   141,   144,   143,   176,   175,   211,     0,   204,
+     210,   216,     0,   121,   120,     0,   208,     0,   189,   116,
+     115,     0,     0,   114,   109,    14,     0,     0,    40,    25,
+      28,     0,     0,    17,     0,    40,   100,    94,    98,     0,
+      90,     0,   102,     0,     0,    89,    84,    85,   201,    40,
+      71,    70,     0,   192,   221,   191,     0,   226,   197,   219,
+     196,     0,   215,   214,   205,   203,     0,   207,   206,     0,
+     119,    40,   108,   106,    40,     0,    29,    24,    31,    18,
+       0,     0,    40,    97,     0,    92,    91,   105,   103,     0,
+      40,     0,    86,    40,   131,     0,   193,   198,     0,   217,
+     209,    40,    15,    40,    40,     0,    96,    93,    40,    40,
+      76,    75,    40,   130,     0,     0,   213,   212,    40,    40,
+      19,    40,    87,   128,   122,     0,   129,     0,    40,   127,
+     123,   126,   124
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -149,  -149,   206,  -149,  -149,  -143,    -8,    40,    23,  -149,
-    -149,  -149,  -149,  -149,  -149,  -149,  -149,  -149,  -149,   -68,
-    -148,  -149,  -149,   -21,  -149,  -149,  -149,  -149,  -149,   105,
-    -149,  -149,   106,  -149,  -149,  -149,     1,  -149,     0,  -149,
-     -38,  -121,   152,   -28,     4,  -149,   -23
+    -128,  -128,   174,  -128,  -128,  -111,   -36,    33,   103,  -128,
+    -128,  -128,  -128,  -128,  -128,  -128,  -128,  -128,  -128,   -67,
+    -105,  -128,  -128,   -30,  -128,  -128,  -128,  -128,  -128,    87,
+    -128,  -128,    98,  -128,  -128,  -128,     1,  -128,     0,  -128,
+     -39,  -127,   151,   -42,   -20,  -128,   -23
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,    26,    27,    28,    66,   154,   155,    29,    30,    31,
-      32,    33,    34,    35,    36,    37,    38,   165,    39,   142,
-     148,   257,   258,   259,   303,    40,    70,    41,    42,    59,
-     134,   135,   136,   233,    43,    44,    45,    46,    61,   131,
-     222,   223,    89,    84,    85,   172,    86
+      -1,    26,    27,    28,    66,   153,   154,    29,    30,    31,
+      32,    33,    34,    35,    36,    37,    38,   164,    39,   142,
+     148,   255,   256,   257,   301,    40,    70,    41,    42,    59,
+     134,   135,   136,   232,    43,    44,    45,    46,    61,   131,
+     221,   222,    89,    84,    85,   171,    86
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -850,244 +917,242 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      47,    91,   161,   238,   162,   163,   242,    60,   226,   247,
-     279,   343,    72,    73,    47,   151,   276,    52,   150,   341,
-     151,    75,    76,    78,    83,    83,    93,   325,    90,    47,
-     132,  -126,  -126,   262,    80,    81,    80,    81,   284,   143,
-     144,   145,   250,   144,   145,   322,   127,    94,    48,    49,
-     263,   133,    96,   129,    74,   285,   130,   170,   152,    83,
-      50,    51,   323,   152,    62,    53,    63,    91,     7,   288,
-     243,   244,    80,    81,    47,   278,   278,   277,   280,   344,
-     342,   278,   153,    67,   278,    68,    83,   326,   169,   286,
-     149,    83,  -126,   174,   327,   138,   139,    96,   173,   146,
-     272,   147,    64,   293,   251,   177,   179,   181,   183,   185,
-     187,   189,   305,   191,   193,   195,   197,   199,   201,   203,
-     205,   207,   209,   211,   213,   215,   217,    65,   221,   225,
-     221,   289,   168,   236,    60,   151,   169,   227,   291,   315,
-     151,   287,    47,    69,   316,   244,   266,   158,    47,    97,
-      98,   271,    80,    81,    80,    81,   140,   141,   156,   249,
-     157,    47,    47,   245,    47,   171,   232,   144,   145,   333,
-      83,   110,   111,   269,   268,    83,   240,   241,   152,   273,
-     100,   101,   235,   152,    48,    49,   144,   145,   239,   159,
-     264,   160,   102,   103,   237,   228,    50,    51,   -26,   292,
-     -26,   253,   255,   314,   261,   337,   339,   144,   145,   127,
-      99,   128,   229,   274,   267,   275,   129,   125,   126,   130,
-     332,   256,   317,   246,   144,   145,   244,   302,   306,   281,
-     307,   310,    47,   320,    95,    47,   290,   304,   231,    47,
-     311,   234,   175,     0,     0,   266,     0,    47,     0,     0,
-     271,     0,   296,    47,     0,    47,     0,   301,    96,     0,
-       0,    47,    96,     0,     0,     0,     0,     0,     0,    83,
-       0,     0,   283,     0,    83,     0,    96,     0,    96,   221,
-       0,     0,     0,    47,    96,     0,    47,   294,     0,     0,
-       0,     0,     0,     0,    47,     0,     0,     0,     0,     0,
-       0,     0,    47,     0,     0,    47,    96,     0,     0,     0,
-       0,   329,     0,    47,     0,    47,    47,    96,     0,     0,
-      47,    47,     0,     0,    47,     0,   313,   221,   221,     0,
-      47,    47,     0,    47,    47,     0,    96,     0,     0,     0,
-      47,     0,   321,     0,    96,   324,     0,    96,     0,     0,
-       0,     0,     0,    96,    96,   330,   331,    96,     0,     0,
-     334,    -4,     1,    96,     2,     3,   -41,   -41,     0,     0,
-       0,     0,     0,   340,     0,     0,     4,     5,     0,     0,
-       6,     7,     8,     9,    10,    11,     0,     0,    12,     0,
-       0,    13,    14,     0,     0,     0,     0,    15,    16,     0,
-       0,    17,    18,    19,     0,     0,   107,   108,   109,   110,
-     111,     0,    20,    21,     0,     0,     0,    -9,     0,     0,
-       2,     3,    22,     0,     0,    23,     0,   -41,     0,    24,
-       0,    25,     4,     5,     0,     0,     6,    -9,     8,     9,
-      10,    11,     0,     0,    12,     0,     0,    13,    14,   122,
-     123,   124,     0,    15,    16,   125,   126,    17,    18,    19,
-       0,     0,     0,     0,     0,     0,     0,     0,    20,    21,
-       0,     0,     0,    -8,     0,     0,     2,     3,    22,     0,
-       0,    23,     0,     0,     0,    24,     0,    25,     4,     5,
-       0,     0,     6,    -8,     8,     9,    10,    11,     0,     0,
-      12,     0,     0,    13,    14,     0,     0,     0,     0,    15,
-      16,     0,     0,    17,    18,    19,     0,     0,     0,     0,
-       0,     0,     0,     0,    20,    21,     0,     0,     0,   -11,
+      47,    91,   225,   160,    90,   161,   162,    60,   277,   235,
+     341,   151,    72,    73,    47,   248,   132,   260,    80,    81,
+     240,    75,    76,    78,    83,    83,    93,   274,    53,    47,
+     336,   226,    55,     3,   261,   237,   323,   339,   286,   282,
+    -125,  -125,    52,   169,    56,    57,    94,    74,   127,   320,
+     128,   245,    10,   149,     7,   129,   283,   312,   130,    83,
+     157,   144,   145,   150,   168,   151,   321,    91,   133,   173,
+     236,    80,    81,   276,    47,   276,   278,   249,   342,   217,
+      20,    21,   172,   218,   241,   242,    83,   170,   275,   227,
+      22,    83,   276,    58,   138,   139,   324,    24,   340,    25,
+     287,  -125,   276,   325,   231,   176,   178,   180,   182,   184,
+     186,   188,   168,   190,   192,   194,   196,   198,   200,   202,
+     204,   206,   208,   210,   212,   214,   216,   152,   220,   224,
+     220,   284,    96,   291,    60,   270,   127,   239,    62,   289,
+      63,   151,    47,   129,   254,   264,   130,   143,    47,   266,
+     269,   144,   145,   303,   271,   140,   141,    67,   247,    68,
+      47,    47,   243,    47,    97,    98,   144,   145,   262,    83,
+      80,    81,   267,   151,    83,   234,    64,    96,   144,   145,
+     313,   238,    80,    81,   285,   314,    80,    81,   242,    54,
+     308,    55,     3,   251,   253,   315,   259,   335,   337,   242,
+     290,    65,    95,    56,    57,   300,   288,   146,   330,   147,
+     331,    10,   144,   145,   110,   111,   155,    69,   156,   158,
+     230,   159,   244,    48,    49,    99,   302,   -26,   279,   -26,
+     167,    47,   318,   233,    47,    50,    51,   309,    47,    20,
+      21,   174,   228,   264,     0,    47,   265,     0,   269,    22,
+     294,    47,    58,    47,     0,   299,    24,     0,    25,    47,
+     125,   126,     0,   272,   281,   273,   304,    83,   305,     0,
+     100,   101,    83,    48,    49,   144,   145,   220,   292,     0,
+       0,    47,   102,   103,    47,    50,    51,     0,     0,     0,
+       0,     0,    47,     0,     0,     0,     0,     0,     0,     0,
+      47,     0,     0,    47,     0,     0,     0,     0,     0,   327,
+       0,    47,     0,    47,    47,     0,     0,   311,    47,    47,
+       0,     0,    47,     0,     0,   220,   220,     0,    47,    47,
+       0,    47,    47,   319,     0,     0,   322,    96,    47,     0,
+       0,    96,     0,     0,     0,     0,   328,   329,     0,     0,
+       0,   332,     0,     0,    96,     0,    96,     0,     0,     0,
+       0,     0,    96,     0,   338,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,    96,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    96,     0,    -4,     1,     0,
+       2,     3,   -40,   -40,     0,     0,     0,     0,     0,     0,
+       0,     0,     4,     5,    96,     0,     6,     7,     8,     9,
+      10,    11,    96,     0,    12,    96,     0,    13,    14,     0,
+       0,    96,    96,    15,    16,    96,     0,    17,    18,    19,
+       0,    96,   107,   108,   109,   110,   111,     0,    20,    21,
+       0,     0,     0,    -9,     0,     0,     2,     3,    22,     0,
+       0,    23,     0,   -40,     0,    24,     0,    25,     4,     5,
+       0,     0,     6,    -9,     8,     9,    10,    11,     0,     0,
+      12,     0,     0,    13,    14,   122,   123,   124,     0,    15,
+      16,   125,   126,    17,    18,    19,     0,     0,     0,     0,
+       0,     0,     0,     0,    20,    21,     0,     0,     0,    -8,
        0,     0,     2,     3,    22,     0,     0,    23,     0,     0,
-       0,    24,     0,    25,     4,     5,     0,     0,     6,   -11,
+       0,    24,     0,    25,     4,     5,     0,     0,     6,    -8,
        8,     9,    10,    11,     0,     0,    12,     0,     0,    13,
       14,     0,     0,     0,     0,    15,    16,     0,     0,    17,
       18,    19,     0,     0,     0,     0,     0,     0,     0,     0,
-      20,    21,     0,     0,     0,    -7,     0,     0,     2,     3,
+      20,    21,     0,     0,     0,   -11,     0,     0,     2,     3,
       22,     0,     0,    23,     0,     0,     0,    24,     0,    25,
-       4,     5,     0,     0,     6,    -7,     8,     9,    10,    11,
+       4,     5,     0,     0,     6,   -11,     8,     9,    10,    11,
        0,     0,    12,     0,     0,    13,    14,     0,     0,     0,
        0,    15,    16,     0,     0,    17,    18,    19,     0,     0,
        0,     0,     0,     0,     0,     0,    20,    21,     0,     0,
-       0,   -10,     0,     0,     2,     3,    22,     0,     0,    23,
+       0,    -7,     0,     0,     2,     3,    22,     0,     0,    23,
        0,     0,     0,    24,     0,    25,     4,     5,     0,     0,
-       6,   -10,     8,     9,    10,    11,     0,     0,    12,     0,
+       6,    -7,     8,     9,    10,    11,     0,     0,    12,     0,
        0,    13,    14,     0,     0,     0,     0,    15,    16,     0,
        0,    17,    18,    19,     0,     0,     0,     0,     0,     0,
-       0,     0,    20,    21,     0,     0,     0,    -6,     0,     0,
+       0,     0,    20,    21,     0,     0,     0,   -10,     0,     0,
        2,     3,    22,     0,     0,    23,     0,     0,     0,    24,
-       0,    25,     4,     5,     0,     0,     6,    -6,     8,     9,
+       0,    25,     4,     5,     0,     0,     6,   -10,     8,     9,
       10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
-       0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
-       0,     0,     0,     0,     0,     0,     0,    -2,    20,    21,
-       2,     3,   107,   108,   109,   110,   111,     0,    22,     0,
-       0,    23,     4,     5,     0,    24,     6,    25,     8,     9,
-      10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
-       0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
-       0,     0,   119,   120,   121,   122,   123,   124,    20,    21,
-       0,   125,   126,     0,     0,     0,     0,     0,    22,     0,
-       0,    23,     0,     0,     0,    24,   297,    25,     2,     3,
-     -41,   -41,     0,     0,     0,     0,     0,     0,     0,     0,
-       4,     5,     0,   298,     6,     0,     8,     9,    10,    11,
-       0,     0,    12,     0,     0,    13,    14,     0,     0,     0,
-       0,    15,    16,     0,     0,    17,    18,    19,     0,     0,
-       0,     0,     0,     0,     0,     0,    20,    21,     0,     0,
-       0,     0,     0,     0,     0,     0,    22,     0,     0,    23,
-       0,   -41,     0,    24,   299,    25,     2,     3,   -41,   -41,
-       0,     0,     0,     0,     0,     0,     0,     0,     4,     5,
-       0,   300,     6,     0,     8,     9,    10,    11,     0,     0,
-      12,     0,     0,    13,    14,     0,     0,     0,     0,    15,
-      16,     0,     0,    17,    18,    19,     0,     0,     0,     0,
-       0,     0,     0,     0,    20,    21,     0,     0,     0,     0,
-       0,     0,     0,     0,    22,     0,     0,    23,     0,   -41,
-       0,    24,   282,    25,     2,     3,   -41,   -41,     0,     0,
-       0,     0,     0,     0,     0,     0,     4,     5,     0,     0,
-       6,     0,     8,     9,    10,    11,     0,     0,    12,     0,
-       0,    13,    14,     0,     0,     0,     0,    15,    16,     0,
-       0,    17,    18,    19,     0,     0,     0,     0,     0,     0,
-       0,     0,    20,    21,     0,     0,     0,     0,   -75,     0,
-       2,     3,    22,     0,     0,    23,     0,   -41,     0,    24,
-       0,    25,     4,     5,     0,   -75,     6,     0,     8,     9,
-      10,    11,     0,     0,    12,     0,     0,    13,    14,   164,
        0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
        0,     0,     0,     0,     0,     0,     0,     0,    20,    21,
-       0,     0,     0,     0,   -73,     0,     2,     3,    22,     0,
+       0,     0,     0,    -6,     0,     0,     2,     3,    22,     0,
        0,    23,     0,     0,     0,    24,     0,    25,     4,     5,
-       0,   -73,     6,     0,     8,     9,    10,    11,     0,     0,
+       0,     0,     6,    -6,     8,     9,    10,    11,     0,     0,
       12,     0,     0,    13,    14,     0,     0,     0,     0,    15,
       16,     0,     0,    17,    18,    19,     0,     0,     0,     0,
-       0,     0,     0,     0,    20,    21,     0,     0,     0,     0,
-    -118,     0,     2,     3,    22,     0,     0,    23,     0,     0,
-       0,    24,     0,    25,     4,     5,     0,  -118,     6,     0,
+       0,     0,     0,    -2,    20,    21,     2,     3,   107,   108,
+     109,   110,   111,     0,    22,     0,     0,    23,     4,     5,
+       0,    24,     6,    25,     8,     9,    10,    11,     0,     0,
+      12,     0,     0,    13,    14,     0,     0,     0,     0,    15,
+      16,     0,     0,    17,    18,    19,     0,     0,   119,   120,
+     121,   122,   123,   124,    20,    21,     0,   125,   126,     0,
+       0,     0,     0,     0,    22,     0,     0,    23,     0,     0,
+       0,    24,   295,    25,     2,     3,   -40,   -40,     0,     0,
+       0,     0,     0,     0,     0,     0,     4,     5,     0,   296,
+       6,     0,     8,     9,    10,    11,     0,     0,    12,     0,
+       0,    13,    14,     0,     0,     0,     0,    15,    16,     0,
+       0,    17,    18,    19,     0,     0,     0,     0,     0,     0,
+       0,     0,    20,    21,     0,     0,     0,     0,     0,     0,
+       0,     0,    22,     0,     0,    23,     0,   -40,     0,    24,
+     297,    25,     2,     3,   -40,   -40,     0,     0,     0,     0,
+       0,     0,     0,     0,     4,     5,     0,   298,     6,     0,
        8,     9,    10,    11,     0,     0,    12,     0,     0,    13,
       14,     0,     0,     0,     0,    15,    16,     0,     0,    17,
       18,    19,     0,     0,     0,     0,     0,     0,     0,     0,
-      20,    21,     0,     0,     0,     0,   -89,     0,     2,     3,
+      20,    21,     0,     0,     0,     0,     0,     0,     0,     0,
+      22,     0,     0,    23,     0,   -40,     0,    24,   280,    25,
+       2,     3,   -40,   -40,     0,     0,     0,     0,     0,     0,
+       0,     0,     4,     5,     0,     0,     6,     0,     8,     9,
+      10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
+       0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
+       0,     0,     0,     0,     0,     0,     0,     0,    20,    21,
+       0,     0,     0,     0,   -74,     0,     2,     3,    22,     0,
+       0,    23,     0,   -40,     0,    24,     0,    25,     4,     5,
+       0,   -74,     6,     0,     8,     9,    10,    11,     0,     0,
+      12,     0,     0,    13,    14,   163,     0,     0,     0,    15,
+      16,     0,     0,    17,    18,    19,     0,     0,     0,     0,
+       0,     0,     0,     0,    20,    21,     0,     0,     0,     0,
+     -73,     0,     2,     3,    22,     0,     0,    23,     0,     0,
+       0,    24,     0,    25,     4,     5,     0,   -73,     6,     0,
+       8,     9,    10,    11,     0,     0,    12,     0,     0,    13,
+      14,     0,     0,     0,     0,    15,    16,     0,     0,    17,
+      18,    19,     0,     0,     0,     0,     0,     0,     0,     0,
+      20,    21,     0,     0,     0,     0,  -117,     0,     2,     3,
       22,     0,     0,    23,     0,     0,     0,    24,     0,    25,
-       4,     5,     0,   -89,     6,     0,     8,     9,    10,    11,
+       4,     5,     0,  -117,     6,     0,     8,     9,    10,    11,
        0,     0,    12,     0,     0,    13,    14,     0,     0,     0,
        0,    15,    16,     0,     0,    17,    18,    19,     0,     0,
        0,     0,     0,     0,     0,     0,    20,    21,     0,     0,
-       0,     0,   -74,     0,     2,     3,    22,     0,     0,    23,
-       0,     0,     0,    24,     0,    25,     4,     5,     0,   -74,
+       0,     0,   -88,     0,     2,     3,    22,     0,     0,    23,
+       0,     0,     0,    24,     0,    25,     4,     5,     0,   -88,
        6,     0,     8,     9,    10,    11,     0,     0,    12,     0,
        0,    13,    14,     0,     0,     0,     0,    15,    16,     0,
-       0,    17,    18,    19,    79,     0,    55,     3,    80,    81,
-       0,     0,    20,    21,     0,     0,     0,     0,    56,    57,
-       0,     0,    22,     0,     0,    23,    10,     0,     0,    24,
-      87,    25,    55,     3,    80,    81,     0,     0,     0,     0,
-       0,     0,     0,     0,    56,    57,     0,     0,     0,     0,
-       0,     0,    10,     0,    20,    21,     0,     0,     0,     0,
-     335,     0,    55,     3,    22,     0,     0,    58,    82,     0,
-       0,    24,     0,    25,    56,    57,     0,     0,     0,     0,
-      20,    21,    10,     0,     0,     0,   338,     0,    55,     3,
-      22,     0,     0,    58,     0,     0,     0,    24,    88,    25,
-      56,    57,     0,     0,     0,     0,     0,     0,    10,   218,
-      20,    21,     0,   219,     0,     0,    54,     0,    55,     3,
-      22,   336,     0,    58,     0,     0,     0,    24,     0,    25,
-      56,    57,     0,     0,     0,   218,    20,    21,    10,   219,
+       0,    17,    18,    19,     0,     0,     0,     0,     0,     0,
+       0,     0,    20,    21,     0,     0,     0,     0,   -72,     0,
+       2,     3,    22,     0,     0,    23,     0,     0,     0,    24,
+       0,    25,     4,     5,     0,   -72,     6,     0,     8,     9,
+      10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
+       0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
+      79,     0,    55,     3,    80,    81,     0,     0,    20,    21,
+       0,     0,     0,     0,    56,    57,     0,     0,    22,     0,
+       0,    23,    10,     0,     0,    24,    87,    25,    55,     3,
+      80,    81,     0,     0,     0,     0,     0,     0,     0,     0,
+      56,    57,     0,     0,     0,     0,     0,     0,    10,     0,
+      20,    21,     0,     0,     0,     0,   333,     0,    55,     3,
+      22,     0,     0,    58,    82,     0,     0,    24,     0,    25,
+      56,    57,     0,     0,     0,     0,    20,    21,    10,     0,
        0,     0,    71,     0,    55,     3,    22,     0,     0,    58,
-       0,     0,     0,    24,     0,    25,    56,    57,     0,     0,
-       0,     0,     0,     0,    10,     0,    20,    21,     0,     0,
-       0,     0,    77,     0,    55,     3,    22,     0,     0,    58,
+       0,     0,     0,    24,    88,    25,    56,    57,     0,     0,
+       0,     0,     0,     0,    10,   217,    20,    21,     0,   218,
+       0,     0,    77,     0,    55,     3,    22,   334,     0,    58,
        0,     0,     0,    24,     0,    25,    56,    57,     0,     0,
        0,     0,    20,    21,    10,     0,     0,     0,    92,     0,
       55,     3,    22,     0,     0,    58,     0,     0,     0,    24,
        0,    25,    56,    57,     0,     0,     0,     0,     0,     0,
-      10,     0,    20,    21,     0,     0,     0,     0,   176,     0,
+      10,     0,    20,    21,     0,     0,     0,     0,   175,     0,
       55,     3,    22,     0,     0,    58,     0,     0,     0,    24,
        0,    25,    56,    57,     0,     0,     0,     0,    20,    21,
-      10,     0,     0,     0,   178,     0,    55,     3,    22,     0,
+      10,     0,     0,     0,   177,     0,    55,     3,    22,     0,
        0,    58,     0,     0,     0,    24,     0,    25,    56,    57,
        0,     0,     0,     0,     0,     0,    10,     0,    20,    21,
-       0,     0,     0,     0,   180,     0,    55,     3,    22,     0,
+       0,     0,     0,     0,   179,     0,    55,     3,    22,     0,
        0,    58,     0,     0,     0,    24,     0,    25,    56,    57,
        0,     0,     0,     0,    20,    21,    10,     0,     0,     0,
-     182,     0,    55,     3,    22,     0,     0,    58,     0,     0,
+     181,     0,    55,     3,    22,     0,     0,    58,     0,     0,
        0,    24,     0,    25,    56,    57,     0,     0,     0,     0,
        0,     0,    10,     0,    20,    21,     0,     0,     0,     0,
-     184,     0,    55,     3,    22,     0,     0,    58,     0,     0,
+     183,     0,    55,     3,    22,     0,     0,    58,     0,     0,
        0,    24,     0,    25,    56,    57,     0,     0,     0,     0,
-      20,    21,    10,     0,     0,     0,   186,     0,    55,     3,
+      20,    21,    10,     0,     0,     0,   185,     0,    55,     3,
       22,     0,     0,    58,     0,     0,     0,    24,     0,    25,
       56,    57,     0,     0,     0,     0,     0,     0,    10,     0,
-      20,    21,     0,     0,     0,     0,   188,     0,    55,     3,
+      20,    21,     0,     0,     0,     0,   187,     0,    55,     3,
       22,     0,     0,    58,     0,     0,     0,    24,     0,    25,
       56,    57,     0,     0,     0,     0,    20,    21,    10,     0,
-       0,     0,   190,     0,    55,     3,    22,     0,     0,    58,
+       0,     0,   189,     0,    55,     3,    22,     0,     0,    58,
        0,     0,     0,    24,     0,    25,    56,    57,     0,     0,
        0,     0,     0,     0,    10,     0,    20,    21,     0,     0,
-       0,     0,   192,     0,    55,     3,    22,     0,     0,    58,
+       0,     0,   191,     0,    55,     3,    22,     0,     0,    58,
        0,     0,     0,    24,     0,    25,    56,    57,     0,     0,
-       0,     0,    20,    21,    10,     0,     0,     0,   194,     0,
+       0,     0,    20,    21,    10,     0,     0,     0,   193,     0,
       55,     3,    22,     0,     0,    58,     0,     0,     0,    24,
        0,    25,    56,    57,     0,     0,     0,     0,     0,     0,
-      10,     0,    20,    21,     0,     0,     0,     0,   196,     0,
+      10,     0,    20,    21,     0,     0,     0,     0,   195,     0,
       55,     3,    22,     0,     0,    58,     0,     0,     0,    24,
        0,    25,    56,    57,     0,     0,     0,     0,    20,    21,
-      10,     0,     0,     0,   198,     0,    55,     3,    22,     0,
+      10,     0,     0,     0,   197,     0,    55,     3,    22,     0,
        0,    58,     0,     0,     0,    24,     0,    25,    56,    57,
        0,     0,     0,     0,     0,     0,    10,     0,    20,    21,
-       0,     0,     0,     0,   200,     0,    55,     3,    22,     0,
+       0,     0,     0,     0,   199,     0,    55,     3,    22,     0,
        0,    58,     0,     0,     0,    24,     0,    25,    56,    57,
        0,     0,     0,     0,    20,    21,    10,     0,     0,     0,
-     202,     0,    55,     3,    22,     0,     0,    58,     0,     0,
+     201,     0,    55,     3,    22,     0,     0,    58,     0,     0,
        0,    24,     0,    25,    56,    57,     0,     0,     0,     0,
        0,     0,    10,     0,    20,    21,     0,     0,     0,     0,
-     204,     0,    55,     3,    22,     0,     0,    58,     0,     0,
+     203,     0,    55,     3,    22,     0,     0,    58,     0,     0,
        0,    24,     0,    25,    56,    57,     0,     0,     0,     0,
-      20,    21,    10,     0,     0,     0,   206,     0,    55,     3,
+      20,    21,    10,     0,     0,     0,   205,     0,    55,     3,
       22,     0,     0,    58,     0,     0,     0,    24,     0,    25,
       56,    57,     0,     0,     0,     0,     0,     0,    10,     0,
-      20,    21,     0,     0,     0,     0,   208,     0,    55,     3,
+      20,    21,     0,     0,     0,     0,   207,     0,    55,     3,
       22,     0,     0,    58,     0,     0,     0,    24,     0,    25,
       56,    57,     0,     0,     0,     0,    20,    21,    10,     0,
-       0,     0,   210,     0,    55,     3,    22,     0,     0,    58,
+       0,     0,   209,     0,    55,     3,    22,     0,     0,    58,
        0,     0,     0,    24,     0,    25,    56,    57,     0,     0,
        0,     0,     0,     0,    10,     0,    20,    21,     0,     0,
-       0,     0,   212,     0,    55,     3,    22,     0,     0,    58,
+       0,     0,   211,     0,    55,     3,    22,     0,     0,    58,
        0,     0,     0,    24,     0,    25,    56,    57,     0,     0,
-       0,     0,    20,    21,    10,     0,     0,     0,   214,     0,
+       0,     0,    20,    21,    10,     0,     0,     0,   213,     0,
       55,     3,    22,     0,     0,    58,     0,     0,     0,    24,
        0,    25,    56,    57,     0,     0,     0,     0,     0,     0,
-      10,     0,    20,    21,     0,     0,     0,     0,   216,     0,
+      10,     0,    20,    21,     0,     0,     0,     0,   215,     0,
       55,     3,    22,     0,     0,    58,     0,     0,     0,    24,
        0,    25,    56,    57,     0,     0,     0,     0,    20,    21,
-      10,     0,     0,     0,   224,     0,    55,     3,    22,     0,
+      10,     0,     0,     0,   223,     0,    55,     3,    22,     0,
        0,    58,     0,     0,     0,    24,     0,    25,    56,    57,
        0,     0,     0,     0,     0,     0,    10,     0,    20,    21,
-       0,     0,     0,     0,   230,     0,    55,     3,    22,     0,
+       0,     0,     0,     0,   229,     0,    55,     3,    22,     0,
        0,    58,     0,     0,     0,    24,     0,    25,    56,    57,
        0,     0,     0,     0,    20,    21,    10,     0,     0,     0,
-     248,     0,    55,     3,    22,     0,     0,    58,     0,     0,
+     246,     0,    55,     3,    22,     0,     0,    58,     0,     0,
        0,    24,     0,    25,    56,    57,     0,     0,     0,     0,
        0,     0,    10,     0,    20,    21,     0,    55,     3,     0,
-     295,     0,    55,     3,    22,     0,     0,    58,     0,    56,
+     293,     0,    55,     3,    22,     0,     0,    58,     0,    56,
       57,    24,     0,    25,    56,    57,     0,    10,     0,     0,
-      20,    21,    10,     0,     0,     0,   328,     0,    55,     3,
+      20,    21,    10,     0,     0,     0,   326,     0,    55,     3,
       22,     0,     0,    58,     0,     0,     0,    24,     0,    25,
       56,    57,     0,     0,     0,    20,    21,     0,    10,     0,
-      20,    21,     0,     0,     0,    22,     0,     0,    58,   265,
+      20,    21,     0,     0,     0,    22,     0,     0,    58,   263,
       22,     0,    24,    58,    25,     0,     0,    24,     0,    25,
        0,     0,     0,     0,     0,     0,    20,    21,     2,     3,
-     -41,   -41,     0,     0,     0,     0,    22,     0,     0,    58,
+     -40,   -40,     0,     0,     0,     0,    22,     0,     0,    58,
        4,     5,     0,    24,     6,    25,     8,     9,    10,    11,
        0,     0,    12,     0,     0,    13,    14,     0,     0,     0,
        0,    15,    16,     0,     0,    17,    18,    19,     0,     0,
        0,     0,     0,     0,     0,     0,    20,    21,     0,     0,
        0,     0,     0,     0,     2,     3,    22,     0,     0,    23,
-       0,   -41,     0,    24,     0,    25,     4,     5,     0,   252,
+       0,   -40,     0,    24,     0,    25,     4,     5,     0,   250,
        6,     0,     8,     9,    10,    11,     0,     0,    12,     0,
        0,    13,    14,     0,     0,     0,     0,    15,    16,     0,
        0,    17,    18,    19,     0,     0,     0,     0,     0,     0,
        0,     0,    20,    21,     0,     0,     0,     0,     0,     0,
        2,     3,    22,     0,     0,    23,     0,     0,     0,    24,
-       0,    25,     4,     5,     0,   254,     6,     0,     8,     9,
+       0,    25,     4,     5,     0,   252,     6,     0,     8,     9,
       10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
        0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
        0,     0,     0,     0,     0,     0,     0,     0,    20,    21,
@@ -1096,26 +1161,26 @@ static const yytype_int16 yytable[] =
       10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
        0,     0,     0,    15,    16,     0,     0,    17,    18,    19,
        0,     0,     0,     0,     0,     0,     0,     0,    20,    21,
-     260,     3,     0,     0,     0,     0,     0,     0,    22,     0,
+     258,     3,     0,     0,     0,     0,     0,     0,    22,     0,
        0,    23,     4,     5,     0,    24,     6,    25,     8,     9,
       10,    11,     0,     0,    12,     0,     0,    13,    14,     0,
       55,     3,     0,    15,    16,     0,     0,    17,    18,    19,
        0,     0,    56,    57,     0,     0,     0,     0,    20,    21,
       10,    55,     3,     0,     0,     0,    55,     3,    22,     0,
        0,    23,     0,    56,    57,    24,     0,    25,    56,    57,
-       0,    10,     0,     0,     0,     0,    10,   218,    20,    21,
-       0,   219,     0,     0,     0,     0,     0,     0,    22,   220,
-       0,    58,     0,     0,     0,    24,     0,    25,   218,    20,
-      21,     0,   219,     0,    20,    21,     0,    55,     3,    22,
+       0,    10,     0,     0,     0,     0,    10,   217,    20,    21,
+       0,   218,     0,     0,     0,     0,     0,     0,    22,   219,
+       0,    58,     0,     0,     0,    24,     0,    25,   217,    20,
+      21,     0,   218,     0,    20,    21,     0,    55,     3,    22,
        0,     0,    58,     0,    22,     0,    24,    58,    25,    56,
-      57,    24,   270,    25,     0,     0,     0,    10,    55,     3,
+      57,    24,   268,    25,     0,     0,     0,    10,    55,     3,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
       56,    57,     0,     0,     0,     0,     0,     0,    10,     0,
       55,     3,     0,     0,     0,    20,    21,     0,     0,     0,
-       0,     0,    56,    57,     0,    22,     0,     0,    58,   308,
+       0,     0,    56,    57,     0,    22,     0,     0,    58,   306,
       10,     0,    24,     0,    25,     0,    20,    21,     0,     0,
        0,     0,     0,     0,     0,     0,    22,     0,     0,    58,
-       0,     0,     0,    24,   309,    25,     0,     0,    20,    21,
+       0,     0,     0,    24,   307,    25,     0,     0,    20,    21,
        0,     0,     0,     0,     0,     0,     0,     0,    22,     0,
        0,    58,     0,     0,   137,    24,     0,    25,   138,   139,
      104,   105,   106,   107,   108,   109,   110,   111,     0,     0,
@@ -1126,20 +1191,20 @@ static const yytype_int16 yytable[] =
        0,     0,   125,   126,   107,   108,   109,   110,   111,   140,
      141,   112,   113,   114,   115,   116,   117,   118,   119,   120,
      121,   122,   123,   124,     0,     0,     0,   125,   126,     0,
-     166,     0,     0,     0,   140,   141,   104,   105,   106,   107,
+     165,     0,     0,     0,   140,   141,   104,   105,   106,   107,
      108,   109,   110,   111,     0,   120,   121,   122,   123,   124,
-     318,     0,     0,   125,   126,     0,   104,   105,   106,   107,
+     316,     0,     0,   125,   126,     0,   104,   105,   106,   107,
      108,   109,   110,   111,     0,     0,     0,     0,     0,     0,
        0,     0,   112,   113,   114,   115,   116,   117,   118,   119,
      120,   121,   122,   123,   124,     0,     0,     0,   125,   126,
-       0,   167,   112,   113,   114,   115,   116,   117,   118,   119,
+       0,   166,   112,   113,   114,   115,   116,   117,   118,   119,
      120,   121,   122,   123,   124,     0,     0,     0,   125,   126,
-       0,   319,   104,   105,   106,   107,   108,   109,   110,   111,
+       0,   317,   104,   105,   106,   107,   108,   109,   110,   111,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,   104,   105,   106,   107,   108,   109,   110,   111,
        0,     0,     0,     0,     0,     0,     0,     0,   112,   113,
      114,   115,   116,   117,   118,   119,   120,   121,   122,   123,
-     124,     0,     0,     0,   125,   126,     0,   312,   112,   113,
+     124,     0,     0,     0,   125,   126,     0,   310,   112,   113,
      114,   115,   116,   117,   118,   119,   120,   121,   122,   123,
      124,     0,     0,     0,   125,   126,   104,   105,   106,   107,
      108,   109,   110,   111,     0,     0,     0,     0,     0,     0,
@@ -1160,58 +1225,56 @@ static const yytype_int16 yytable[] =
 
 static const yytype_int16 yycheck[] =
 {
-       0,    24,    70,   146,    72,    73,     1,     6,   129,   157,
-       1,     1,    11,    12,    14,     3,     1,    15,     1,     1,
-       3,    20,    21,    22,    23,    24,    25,     1,    24,    29,
-      58,     5,     6,     1,     5,     6,     5,     6,     1,     1,
-       5,     6,     1,     5,     6,     1,    61,     0,     3,     4,
-      18,    26,    29,    68,    14,    18,    71,    85,    46,    58,
-      15,    16,    18,    46,     1,    16,     3,    90,    20,     1,
-      65,    66,     5,     6,    74,    66,    66,    62,    69,    69,
-      62,    66,    65,     1,    66,     3,    85,    61,    84,   237,
-      63,    90,    66,    89,    68,     5,     6,    74,    69,    61,
-      69,    63,    39,   246,    63,   104,   105,   106,   107,   108,
-     109,   110,   260,   112,   113,   114,   115,   116,   117,   118,
-     119,   120,   121,   122,   123,   124,   125,    64,   127,   128,
-     129,    63,    65,     1,   133,     3,   132,     3,     1,   287,
-       3,    62,   142,    61,   292,    66,   169,    63,   148,     5,
-       6,   174,     5,     6,     5,     6,    66,    67,     1,   158,
-       3,   161,   162,     1,   164,    66,    25,     5,     6,   317,
-     169,    13,    14,   172,   170,   174,     3,    63,    46,   175,
-       3,     4,   142,    46,     3,     4,     5,     6,   148,     1,
-      63,     3,    15,    16,    62,    61,    15,    16,     1,    62,
-       3,   161,   162,     1,   164,   326,   327,     5,     6,    61,
-      66,    63,    65,     1,    65,     3,    68,    59,    60,    71,
-       1,    28,    62,    61,     5,     6,    66,    29,     1,   228,
-       3,    63,   232,   301,    28,   235,   244,   258,   133,   239,
-     278,   135,    90,    -1,    -1,   268,    -1,   247,    -1,    -1,
-     273,    -1,   251,   253,    -1,   255,    -1,   256,   235,    -1,
-      -1,   261,   239,    -1,    -1,    -1,    -1,    -1,    -1,   268,
-      -1,    -1,   232,    -1,   273,    -1,   253,    -1,   255,   278,
-      -1,    -1,    -1,   283,   261,    -1,   286,   247,    -1,    -1,
-      -1,    -1,    -1,    -1,   294,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,   302,    -1,    -1,   305,   283,    -1,    -1,    -1,
-      -1,   310,    -1,   313,    -1,   315,   316,   294,    -1,    -1,
-     320,   321,    -1,    -1,   324,    -1,   286,   326,   327,    -1,
-     330,   331,    -1,   333,   334,    -1,   313,    -1,    -1,    -1,
-     340,    -1,   302,    -1,   321,   305,    -1,   324,    -1,    -1,
-      -1,    -1,    -1,   330,   331,   315,   316,   334,    -1,    -1,
-     320,     0,     1,   340,     3,     4,     5,     6,    -1,    -1,
-      -1,    -1,    -1,   333,    -1,    -1,    15,    16,    -1,    -1,
-      19,    20,    21,    22,    23,    24,    -1,    -1,    27,    -1,
-      -1,    30,    31,    -1,    -1,    -1,    -1,    36,    37,    -1,
-      -1,    40,    41,    42,    -1,    -1,    10,    11,    12,    13,
-      14,    -1,    51,    52,    -1,    -1,    -1,     0,    -1,    -1,
-       3,     4,    61,    -1,    -1,    64,    -1,    66,    -1,    68,
-      -1,    70,    15,    16,    -1,    -1,    19,    20,    21,    22,
-      23,    24,    -1,    -1,    27,    -1,    -1,    30,    31,    53,
-      54,    55,    -1,    36,    37,    59,    60,    40,    41,    42,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    51,    52,
+       0,    24,   129,    70,    24,    72,    73,     6,     1,     1,
+       1,     3,    11,    12,    14,     1,    58,     1,     5,     6,
+       1,    20,    21,    22,    23,    24,    25,     1,    16,    29,
+       1,     3,     3,     4,    18,   146,     1,     1,     1,     1,
+       5,     6,    15,    85,    15,    16,     0,    14,    61,     1,
+      63,   156,    23,    63,    20,    68,    18,     1,    71,    58,
+      63,     5,     6,     1,    84,     3,    18,    90,    26,    89,
+      62,     5,     6,    66,    74,    66,    69,    63,    69,    50,
+      51,    52,    69,    54,    65,    66,    85,    66,    62,    61,
+      61,    90,    66,    64,     5,     6,    61,    68,    62,    70,
+      63,    66,    66,    68,    25,   104,   105,   106,   107,   108,
+     109,   110,   132,   112,   113,   114,   115,   116,   117,   118,
+     119,   120,   121,   122,   123,   124,   125,    65,   127,   128,
+     129,   236,    29,   244,   133,    69,    61,    63,     1,     1,
+       3,     3,   142,    68,    28,   168,    71,     1,   148,   169,
+     173,     5,     6,   258,   174,    66,    67,     1,   157,     3,
+     160,   161,     1,   163,     5,     6,     5,     6,    63,   168,
+       5,     6,   171,     3,   173,   142,    39,    74,     5,     6,
+     285,   148,     5,     6,    62,   290,     5,     6,    66,     1,
+      63,     3,     4,   160,   161,    62,   163,   324,   325,    66,
+      62,    64,    28,    15,    16,    29,   242,    61,     1,    63,
+     315,    23,     5,     6,    13,    14,     1,    61,     3,     1,
+     133,     3,    61,     3,     4,    66,   256,     1,   227,     3,
+      65,   231,   299,   135,   234,    15,    16,   276,   238,    51,
+      52,    90,    65,   266,    -1,   245,    65,    -1,   271,    61,
+     249,   251,    64,   253,    -1,   254,    68,    -1,    70,   259,
+      59,    60,    -1,     1,   231,     3,     1,   266,     3,    -1,
+       3,     4,   271,     3,     4,     5,     6,   276,   245,    -1,
+      -1,   281,    15,    16,   284,    15,    16,    -1,    -1,    -1,
+      -1,    -1,   292,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+     300,    -1,    -1,   303,    -1,    -1,    -1,    -1,    -1,   308,
+      -1,   311,    -1,   313,   314,    -1,    -1,   284,   318,   319,
+      -1,    -1,   322,    -1,    -1,   324,   325,    -1,   328,   329,
+      -1,   331,   332,   300,    -1,    -1,   303,   234,   338,    -1,
+      -1,   238,    -1,    -1,    -1,    -1,   313,   314,    -1,    -1,
+      -1,   318,    -1,    -1,   251,    -1,   253,    -1,    -1,    -1,
+      -1,    -1,   259,    -1,   331,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,   281,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,   292,    -1,     0,     1,    -1,
+       3,     4,     5,     6,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    15,    16,   311,    -1,    19,    20,    21,    22,
+      23,    24,   319,    -1,    27,   322,    -1,    30,    31,    -1,
+      -1,   328,   329,    36,    37,   332,    -1,    40,    41,    42,
+      -1,   338,    10,    11,    12,    13,    14,    -1,    51,    52,
       -1,    -1,    -1,     0,    -1,    -1,     3,     4,    61,    -1,
-      -1,    64,    -1,    -1,    -1,    68,    -1,    70,    15,    16,
+      -1,    64,    -1,    66,    -1,    68,    -1,    70,    15,    16,
       -1,    -1,    19,    20,    21,    22,    23,    24,    -1,    -1,
-      27,    -1,    -1,    30,    31,    -1,    -1,    -1,    -1,    36,
-      37,    -1,    -1,    40,    41,    42,    -1,    -1,    -1,    -1,
+      27,    -1,    -1,    30,    31,    53,    54,    55,    -1,    36,
+      37,    59,    60,    40,    41,    42,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    51,    52,    -1,    -1,    -1,     0,
       -1,    -1,     3,     4,    61,    -1,    -1,    64,    -1,    -1,
       -1,    68,    -1,    70,    15,    16,    -1,    -1,    19,    20,
@@ -1234,42 +1297,42 @@ static const yytype_int16 yycheck[] =
       -1,    70,    15,    16,    -1,    -1,    19,    20,    21,    22,
       23,    24,    -1,    -1,    27,    -1,    -1,    30,    31,    -1,
       -1,    -1,    -1,    36,    37,    -1,    -1,    40,    41,    42,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,     0,    51,    52,
-       3,     4,    10,    11,    12,    13,    14,    -1,    61,    -1,
-      -1,    64,    15,    16,    -1,    68,    19,    70,    21,    22,
-      23,    24,    -1,    -1,    27,    -1,    -1,    30,    31,    -1,
-      -1,    -1,    -1,    36,    37,    -1,    -1,    40,    41,    42,
-      -1,    -1,    50,    51,    52,    53,    54,    55,    51,    52,
-      -1,    59,    60,    -1,    -1,    -1,    -1,    -1,    61,    -1,
-      -1,    64,    -1,    -1,    -1,    68,     1,    70,     3,     4,
-       5,     6,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      15,    16,    -1,    18,    19,    -1,    21,    22,    23,    24,
-      -1,    -1,    27,    -1,    -1,    30,    31,    -1,    -1,    -1,
-      -1,    36,    37,    -1,    -1,    40,    41,    42,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    51,    52,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    61,    -1,    -1,    64,
-      -1,    66,    -1,    68,     1,    70,     3,     4,     5,     6,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    15,    16,
-      -1,    18,    19,    -1,    21,    22,    23,    24,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    51,    52,
+      -1,    -1,    -1,     0,    -1,    -1,     3,     4,    61,    -1,
+      -1,    64,    -1,    -1,    -1,    68,    -1,    70,    15,    16,
+      -1,    -1,    19,    20,    21,    22,    23,    24,    -1,    -1,
       27,    -1,    -1,    30,    31,    -1,    -1,    -1,    -1,    36,
       37,    -1,    -1,    40,    41,    42,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    51,    52,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    61,    -1,    -1,    64,    -1,    66,
+      -1,    -1,    -1,     0,    51,    52,     3,     4,    10,    11,
+      12,    13,    14,    -1,    61,    -1,    -1,    64,    15,    16,
+      -1,    68,    19,    70,    21,    22,    23,    24,    -1,    -1,
+      27,    -1,    -1,    30,    31,    -1,    -1,    -1,    -1,    36,
+      37,    -1,    -1,    40,    41,    42,    -1,    -1,    50,    51,
+      52,    53,    54,    55,    51,    52,    -1,    59,    60,    -1,
+      -1,    -1,    -1,    -1,    61,    -1,    -1,    64,    -1,    -1,
       -1,    68,     1,    70,     3,     4,     5,     6,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    15,    16,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    15,    16,    -1,    18,
       19,    -1,    21,    22,    23,    24,    -1,    -1,    27,    -1,
       -1,    30,    31,    -1,    -1,    -1,    -1,    36,    37,    -1,
       -1,    40,    41,    42,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    51,    52,    -1,    -1,    -1,    -1,     1,    -1,
-       3,     4,    61,    -1,    -1,    64,    -1,    66,    -1,    68,
-      -1,    70,    15,    16,    -1,    18,    19,    -1,    21,    22,
-      23,    24,    -1,    -1,    27,    -1,    -1,    30,    31,    32,
+      -1,    -1,    51,    52,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    61,    -1,    -1,    64,    -1,    66,    -1,    68,
+       1,    70,     3,     4,     5,     6,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    15,    16,    -1,    18,    19,    -1,
+      21,    22,    23,    24,    -1,    -1,    27,    -1,    -1,    30,
+      31,    -1,    -1,    -1,    -1,    36,    37,    -1,    -1,    40,
+      41,    42,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      51,    52,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      61,    -1,    -1,    64,    -1,    66,    -1,    68,     1,    70,
+       3,     4,     5,     6,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    15,    16,    -1,    -1,    19,    -1,    21,    22,
+      23,    24,    -1,    -1,    27,    -1,    -1,    30,    31,    -1,
       -1,    -1,    -1,    36,    37,    -1,    -1,    40,    41,    42,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    51,    52,
       -1,    -1,    -1,    -1,     1,    -1,     3,     4,    61,    -1,
-      -1,    64,    -1,    -1,    -1,    68,    -1,    70,    15,    16,
+      -1,    64,    -1,    66,    -1,    68,    -1,    70,    15,    16,
       -1,    18,    19,    -1,    21,    22,    23,    24,    -1,    -1,
-      27,    -1,    -1,    30,    31,    -1,    -1,    -1,    -1,    36,
+      27,    -1,    -1,    30,    31,    32,    -1,    -1,    -1,    36,
       37,    -1,    -1,    40,    41,    42,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    51,    52,    -1,    -1,    -1,    -1,
        1,    -1,     3,     4,    61,    -1,    -1,    64,    -1,    -1,
@@ -1287,24 +1350,24 @@ static const yytype_int16 yycheck[] =
       -1,    -1,    -1,    68,    -1,    70,    15,    16,    -1,    18,
       19,    -1,    21,    22,    23,    24,    -1,    -1,    27,    -1,
       -1,    30,    31,    -1,    -1,    -1,    -1,    36,    37,    -1,
-      -1,    40,    41,    42,     1,    -1,     3,     4,     5,     6,
-      -1,    -1,    51,    52,    -1,    -1,    -1,    -1,    15,    16,
-      -1,    -1,    61,    -1,    -1,    64,    23,    -1,    -1,    68,
-       1,    70,     3,     4,     5,     6,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    15,    16,    -1,    -1,    -1,    -1,
-      -1,    -1,    23,    -1,    51,    52,    -1,    -1,    -1,    -1,
-       1,    -1,     3,     4,    61,    -1,    -1,    64,    65,    -1,
-      -1,    68,    -1,    70,    15,    16,    -1,    -1,    -1,    -1,
-      51,    52,    23,    -1,    -1,    -1,     1,    -1,     3,     4,
-      61,    -1,    -1,    64,    -1,    -1,    -1,    68,    69,    70,
-      15,    16,    -1,    -1,    -1,    -1,    -1,    -1,    23,    50,
-      51,    52,    -1,    54,    -1,    -1,     1,    -1,     3,     4,
-      61,    62,    -1,    64,    -1,    -1,    -1,    68,    -1,    70,
-      15,    16,    -1,    -1,    -1,    50,    51,    52,    23,    54,
+      -1,    40,    41,    42,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    51,    52,    -1,    -1,    -1,    -1,     1,    -1,
+       3,     4,    61,    -1,    -1,    64,    -1,    -1,    -1,    68,
+      -1,    70,    15,    16,    -1,    18,    19,    -1,    21,    22,
+      23,    24,    -1,    -1,    27,    -1,    -1,    30,    31,    -1,
+      -1,    -1,    -1,    36,    37,    -1,    -1,    40,    41,    42,
+       1,    -1,     3,     4,     5,     6,    -1,    -1,    51,    52,
+      -1,    -1,    -1,    -1,    15,    16,    -1,    -1,    61,    -1,
+      -1,    64,    23,    -1,    -1,    68,     1,    70,     3,     4,
+       5,     6,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      15,    16,    -1,    -1,    -1,    -1,    -1,    -1,    23,    -1,
+      51,    52,    -1,    -1,    -1,    -1,     1,    -1,     3,     4,
+      61,    -1,    -1,    64,    65,    -1,    -1,    68,    -1,    70,
+      15,    16,    -1,    -1,    -1,    -1,    51,    52,    23,    -1,
       -1,    -1,     1,    -1,     3,     4,    61,    -1,    -1,    64,
-      -1,    -1,    -1,    68,    -1,    70,    15,    16,    -1,    -1,
-      -1,    -1,    -1,    -1,    23,    -1,    51,    52,    -1,    -1,
-      -1,    -1,     1,    -1,     3,     4,    61,    -1,    -1,    64,
+      -1,    -1,    -1,    68,    69,    70,    15,    16,    -1,    -1,
+      -1,    -1,    -1,    -1,    23,    50,    51,    52,    -1,    54,
+      -1,    -1,     1,    -1,     3,     4,    61,    62,    -1,    64,
       -1,    -1,    -1,    68,    -1,    70,    15,    16,    -1,    -1,
       -1,    -1,    51,    52,    23,    -1,    -1,    -1,     1,    -1,
        3,     4,    61,    -1,    -1,    64,    -1,    -1,    -1,    68,
@@ -1487,26 +1550,26 @@ static const yytype_int8 yystos[] =
       51,    52,    53,    54,    55,    59,    60,    61,    63,    68,
       71,   111,   115,    26,   102,   103,   104,     1,     5,     6,
       66,    67,    91,     1,     5,     6,    61,    63,    92,    63,
-       1,     3,    46,    65,    77,    78,     1,     3,    63,     1,
-       3,    91,    91,    91,    32,    89,     1,    62,    65,   116,
-     115,    66,   117,    69,   116,   114,     1,   108,     1,   108,
-       1,   108,     1,   108,     1,   108,     1,   108,     1,   108,
-       1,   108,     1,   108,     1,   108,     1,   108,     1,   108,
-       1,   108,     1,   108,     1,   108,     1,   108,     1,   108,
-       1,   108,     1,   108,     1,   108,     1,   108,    50,    54,
-      62,   108,   112,   113,     1,   108,   113,     3,    61,    65,
-       1,   101,    25,   105,   104,    79,     1,    62,    77,    79,
-       3,    63,     1,    65,    66,     1,    61,    92,     1,   108,
-       1,    63,    18,    79,    18,    79,    28,    93,    94,    95,
-       3,    79,     1,    18,    63,    65,   118,    65,   116,   108,
-      69,   118,    69,   116,     1,     3,     1,    62,    66,     1,
-      69,   108,     1,    79,     1,    18,    92,    62,     1,    63,
-      78,     1,    62,    77,    79,     1,   108,     1,    18,     1,
-      18,   108,    29,    96,    95,    92,     1,     3,    65,    69,
-      63,   112,    62,    79,     1,    92,    92,    62,     1,    62,
-      91,    79,     1,    18,    79,     1,    61,    68,     1,   108,
-      79,    79,     1,    92,    79,     1,    62,   113,     1,   113,
-      79,     1,    62,     1,    69
+       1,     3,    65,    77,    78,     1,     3,    63,     1,     3,
+      91,    91,    91,    32,    89,     1,    62,    65,   116,   115,
+      66,   117,    69,   116,   114,     1,   108,     1,   108,     1,
+     108,     1,   108,     1,   108,     1,   108,     1,   108,     1,
+     108,     1,   108,     1,   108,     1,   108,     1,   108,     1,
+     108,     1,   108,     1,   108,     1,   108,     1,   108,     1,
+     108,     1,   108,     1,   108,     1,   108,    50,    54,    62,
+     108,   112,   113,     1,   108,   113,     3,    61,    65,     1,
+     101,    25,   105,   104,    79,     1,    62,    77,    79,    63,
+       1,    65,    66,     1,    61,    92,     1,   108,     1,    63,
+      18,    79,    18,    79,    28,    93,    94,    95,     3,    79,
+       1,    18,    63,    65,   118,    65,   116,   108,    69,   118,
+      69,   116,     1,     3,     1,    62,    66,     1,    69,   108,
+       1,    79,     1,    18,    92,    62,     1,    63,    78,     1,
+      62,    77,    79,     1,   108,     1,    18,     1,    18,   108,
+      29,    96,    95,    92,     1,     3,    65,    69,    63,   112,
+      62,    79,     1,    92,    92,    62,     1,    62,    91,    79,
+       1,    18,    79,     1,    61,    68,     1,   108,    79,    79,
+       1,    92,    79,     1,    62,   113,     1,   113,    79,     1,
+      62,     1,    69
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -1515,26 +1578,26 @@ static const yytype_int8 yyr1[] =
        0,    72,    73,    73,    73,    73,    74,    74,    74,    74,
       74,    74,    74,    74,    74,    74,    74,    74,    74,    74,
       75,    75,    76,    76,    76,    76,    76,    76,    76,    76,
-      77,    77,    78,    78,    79,    79,    80,    80,    80,    81,
+      77,    77,    78,    79,    79,    80,    80,    80,    81,    81,
       81,    81,    81,    81,    81,    81,    81,    81,    81,    81,
-      81,    81,    81,    81,    81,    81,    82,    83,    83,    83,
-      83,    83,    83,    83,    83,    83,    83,    84,    85,    86,
-      87,    88,    88,    89,    89,    89,    90,    90,    91,    91,
-      91,    91,    92,    92,    93,    93,    94,    94,    95,    96,
-      96,    97,    97,    97,    98,    98,    98,    98,    98,    98,
-      98,    98,    98,    99,    99,    99,    99,   100,   100,   100,
-     101,   101,   102,   102,   103,   103,   104,   104,   105,   105,
-     105,   106,   106,   107,   107,   107,   107,   107,   107,   107,
-     107,   107,   107,   108,   108,   108,   108,   108,   108,   108,
+      81,    81,    81,    81,    81,    82,    83,    83,    83,    83,
+      83,    83,    83,    83,    83,    83,    84,    85,    86,    87,
+      88,    88,    89,    89,    89,    90,    90,    91,    91,    91,
+      91,    92,    92,    93,    93,    94,    94,    95,    96,    96,
+      97,    97,    97,    98,    98,    98,    98,    98,    98,    98,
+      98,    98,    99,    99,    99,    99,   100,   100,   100,   101,
+     101,   102,   102,   103,   103,   104,   104,   105,   105,   105,
+     106,   106,   107,   107,   107,   107,   107,   107,   107,   107,
+     107,   107,   108,   108,   108,   108,   108,   108,   108,   108,
      108,   108,   108,   108,   108,   108,   108,   108,   108,   108,
      108,   108,   108,   108,   108,   108,   108,   108,   108,   108,
      108,   108,   108,   108,   108,   108,   108,   108,   108,   108,
      108,   108,   108,   108,   108,   108,   108,   108,   108,   108,
-     108,   108,   108,   108,   108,   109,   109,   109,   109,   109,
+     108,   108,   108,   108,   109,   109,   109,   109,   109,   109,
      109,   109,   109,   109,   109,   109,   109,   109,   109,   109,
-     109,   109,   110,   110,   111,   111,   111,   111,   111,   111,
-     111,   112,   112,   112,   112,   112,   112,   113,   113,   114,
-     114,   115,   115,   116,   116,   117,   118,   118
+     109,   110,   110,   111,   111,   111,   111,   111,   111,   111,
+     112,   112,   112,   112,   112,   112,   113,   113,   114,   114,
+     115,   115,   116,   116,   117,   118,   118
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -1543,33 +1606,33 @@ static const yytype_int8 yyr2[] =
        0,     2,     1,     1,     0,     1,     8,     7,     5,     4,
        7,     6,     2,     3,     4,     6,     3,     4,     5,     7,
        1,     2,     2,     2,     4,     3,     2,     2,     3,     4,
-       1,     3,     1,     2,     1,     2,     2,     2,     2,     1,
-       1,     0,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     1,     1,     1,
-       1,     4,     4,     2,     4,     0,     6,     6,     1,     1,
-       1,     1,     1,     1,     0,     1,     1,     2,     4,     2,
-       0,     4,     5,     5,     5,     3,     1,     5,     4,     3,
-       2,     3,     1,     4,     5,     2,     5,     5,     2,     5,
-       3,     2,     0,     1,     1,     2,     2,     2,     2,     0,
-       2,     3,     3,     7,     8,     8,     5,     8,     8,     7,
-       7,     6,     5,     3,     3,     1,     3,     3,     3,     3,
+       1,     3,     1,     1,     2,     2,     2,     2,     1,     1,
+       0,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     1,     1,     1,
+       4,     4,     4,     2,     0,     6,     6,     1,     1,     1,
+       1,     1,     1,     0,     1,     1,     2,     4,     2,     0,
+       4,     5,     5,     5,     3,     1,     5,     4,     3,     2,
+       3,     1,     4,     5,     2,     5,     5,     2,     5,     3,
+       2,     0,     1,     1,     2,     2,     2,     2,     0,     2,
+       3,     3,     7,     8,     8,     5,     8,     8,     7,     7,
+       6,     5,     3,     3,     1,     3,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     2,     2,     2,     2,     3,     3,     3,     3,
-       2,     2,     3,     3,     2,     1,     1,     1,     1,     1,
-       3,     2,     4,     4,     5,     2,     3,     4,     4,     5,
-       2,     2,     1,     2,     3,     2,     3,     3,     3,     2,
-       4,     1,     1,     4,     4,     2,     2,     1,     3,     1,
-       3,     1,     3,     1,     1,     1,     1,     3
+       3,     2,     2,     2,     2,     3,     3,     3,     3,     2,
+       2,     3,     3,     2,     1,     1,     1,     1,     1,     3,
+       2,     4,     4,     5,     2,     3,     4,     4,     5,     2,
+       2,     1,     2,     3,     2,     3,     3,     3,     2,     4,
+       1,     1,     4,     4,     2,     2,     1,     3,     1,     3,
+       1,     3,     1,     1,     1,     1,     3
 };
 
 
+enum { YYENOMEM = -2 };
+
 #define yyerrok         (yyerrstatus = 0)
 #define yyclearin       (yychar = YYEMPTY)
-#define YYEMPTY         (-2)
-#define YYEOF           0
 
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
@@ -1595,10 +1658,9 @@ static const yytype_int8 yyr2[] =
       }                                                           \
   while (0)
 
-/* Error token number */
-#define YYTERROR        1
-#define YYERRCODE       256
-
+/* Backward compatibility with an undocumented macro.
+   Use YYerror or YYUNDEF. */
+#define YYERRCODE YYUNDEF
 
 
 /* Enable debugging if requested.  */
@@ -1616,18 +1678,18 @@ do {                                            \
 } while (0)
 
 /* This macro is provided for backward compatibility. */
-#ifndef YY_LOCATION_PRINT
-# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-#endif
+# ifndef YY_LOCATION_PRINT
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif
 
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)                    \
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                    \
 do {                                                                      \
   if (yydebug)                                                            \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Type, Value); \
+                  Kind, Value); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -1638,18 +1700,19 @@ do {                                                                      \
 `-----------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyo,
+                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep)
 {
   FILE *yyoutput = yyo;
   YYUSE (yyoutput);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
-  if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
+  if (yykind < YYNTOKENS)
+    YYPRINT (yyo, yytoknum[yykind], *yyvaluep);
 # endif
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
+  YYUSE (yykind);
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
@@ -1659,12 +1722,13 @@ yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 `---------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyo,
+                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep)
 {
   YYFPRINTF (yyo, "%s %s (",
-             yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
+             yykind < YYNTOKENS ? "token" : "nterm", yysymbol_name (yykind));
 
-  yy_symbol_value_print (yyo, yytype, yyvaluep);
+  yy_symbol_value_print (yyo, yykind, yyvaluep);
   YYFPRINTF (yyo, ")");
 }
 
@@ -1697,7 +1761,8 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
+                 int yyrule)
 {
   int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -1709,9 +1774,8 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule)
     {
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
-                       yystos[yyssp[yyi + 1 - yynrhs]],
-                       &yyvsp[(yyi + 1) - (yynrhs)]
-                                              );
+                       YY_ACCESSING_SYMBOL (+yyssp[yyi + 1 - yynrhs]),
+                       &yyvsp[(yyi + 1) - (yynrhs)]);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -1726,8 +1790,8 @@ do {                                    \
    multiple parsers can coexist.  */
 int yydebug;
 #else /* !YYDEBUG */
-# define YYDPRINTF(Args)
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
+# define YYDPRINTF(Args) ((void) 0)
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)
 # define YY_STACK_PRINT(Bottom, Top)
 # define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
@@ -1750,265 +1814,38 @@ int yydebug;
 #endif
 
 
-#if YYERROR_VERBOSE
 
-# ifndef yystrlen
-#  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
-#  else
-/* Return the length of YYSTR.  */
-static YYPTRDIFF_T
-yystrlen (const char *yystr)
-{
-  YYPTRDIFF_T yylen;
-  for (yylen = 0; yystr[yylen]; yylen++)
-    continue;
-  return yylen;
-}
-#  endif
-# endif
 
-# ifndef yystpcpy
-#  if defined __GLIBC__ && defined _STRING_H && defined _GNU_SOURCE
-#   define yystpcpy stpcpy
-#  else
-/* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
-   YYDEST.  */
-static char *
-yystpcpy (char *yydest, const char *yysrc)
-{
-  char *yyd = yydest;
-  const char *yys = yysrc;
 
-  while ((*yyd++ = *yys++) != '\0')
-    continue;
-
-  return yyd - 1;
-}
-#  endif
-# endif
-
-# ifndef yytnamerr
-/* Copy to YYRES the contents of YYSTR after stripping away unnecessary
-   quotes and backslashes, so that it's suitable for yyerror.  The
-   heuristic is that double-quoting is unnecessary unless the string
-   contains an apostrophe, a comma, or backslash (other than
-   backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
-   null, do not copy; instead, return the length of what the result
-   would have been.  */
-static YYPTRDIFF_T
-yytnamerr (char *yyres, const char *yystr)
-{
-  if (*yystr == '"')
-    {
-      YYPTRDIFF_T yyn = 0;
-      char const *yyp = yystr;
-
-      for (;;)
-        switch (*++yyp)
-          {
-          case '\'':
-          case ',':
-            goto do_not_strip_quotes;
-
-          case '\\':
-            if (*++yyp != '\\')
-              goto do_not_strip_quotes;
-            else
-              goto append;
-
-          append:
-          default:
-            if (yyres)
-              yyres[yyn] = *yyp;
-            yyn++;
-            break;
-
-          case '"':
-            if (yyres)
-              yyres[yyn] = '\0';
-            return yyn;
-          }
-    do_not_strip_quotes: ;
-    }
-
-  if (yyres)
-    return yystpcpy (yyres, yystr) - yyres;
-  else
-    return yystrlen (yystr);
-}
-# endif
-
-/* Copy into *YYMSG, which is of size *YYMSG_ALLOC, an error message
-   about the unexpected token YYTOKEN for the state stack whose top is
-   YYSSP.
-
-   Return 0 if *YYMSG was successfully written.  Return 1 if *YYMSG is
-   not large enough to hold the message.  In that case, also set
-   *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
-   required number of bytes is too large to store.  */
-static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
-{
-  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-  /* Internationalized format string. */
-  const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
-  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Actual size of YYARG. */
-  int yycount = 0;
-  /* Cumulated lengths of YYARG.  */
-  YYPTRDIFF_T yysize = 0;
-
-  /* There are many possibilities here to consider:
-     - If this state is a consistent state with a default action, then
-       the only way this function was invoked is if the default action
-       is an error action.  In that case, don't check for expected
-       tokens because there are none.
-     - The only way there can be no lookahead present (in yychar) is if
-       this state is a consistent state with a default action.  Thus,
-       detecting the absence of a lookahead is sufficient to determine
-       that there is no unexpected or expected token to report.  In that
-       case, just report a simple "syntax error".
-     - Don't assume there isn't a lookahead just because this state is a
-       consistent state with a default action.  There might have been a
-       previous inconsistent state, consistent state with a non-default
-       action, or user semantic action that manipulated yychar.
-     - Of course, the expected token list depends on states to have
-       correct lookahead information, and it depends on the parser not
-       to perform extra reductions after fetching a lookahead from the
-       scanner and before detecting a syntax error.  Thus, state merging
-       (from LALR or IELR) and default reductions corrupt the expected
-       token list.  However, the list is correct for canonical LR with
-       one exception: it will still contain any token that will not be
-       accepted due to an error action in a later state.
-  */
-  if (yytoken != YYEMPTY)
-    {
-      int yyn = yypact[*yyssp];
-      YYPTRDIFF_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
-      yysize = yysize0;
-      yyarg[yycount++] = yytname[yytoken];
-      if (!yypact_value_is_default (yyn))
-        {
-          /* Start YYX at -YYN if negative to avoid negative indexes in
-             YYCHECK.  In other words, skip the first -YYN actions for
-             this state because they are default actions.  */
-          int yyxbegin = yyn < 0 ? -yyn : 0;
-          /* Stay within bounds of both yycheck and yytname.  */
-          int yychecklim = YYLAST - yyn + 1;
-          int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-          int yyx;
-
-          for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR
-                && !yytable_value_is_error (yytable[yyx + yyn]))
-              {
-                if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-                  {
-                    yycount = 1;
-                    yysize = yysize0;
-                    break;
-                  }
-                yyarg[yycount++] = yytname[yyx];
-                {
-                  YYPTRDIFF_T yysize1
-                    = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-                    yysize = yysize1;
-                  else
-                    return 2;
-                }
-              }
-        }
-    }
-
-  switch (yycount)
-    {
-# define YYCASE_(N, S)                      \
-      case N:                               \
-        yyformat = S;                       \
-      break
-    default: /* Avoid compiler warnings. */
-      YYCASE_(0, YY_("syntax error"));
-      YYCASE_(1, YY_("syntax error, unexpected %s"));
-      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
-# undef YYCASE_
-    }
-
-  {
-    /* Don't count the "%s"s in the final size, but reserve room for
-       the terminator.  */
-    YYPTRDIFF_T yysize1 = yysize + (yystrlen (yyformat) - 2 * yycount) + 1;
-    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-      yysize = yysize1;
-    else
-      return 2;
-  }
-
-  if (*yymsg_alloc < yysize)
-    {
-      *yymsg_alloc = 2 * yysize;
-      if (! (yysize <= *yymsg_alloc
-             && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
-        *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
-      return 1;
-    }
-
-  /* Avoid sprintf, as that infringes on the user's name space.
-     Don't have undefined behavior even if the translation
-     produced a string with the wrong number of "%s"s.  */
-  {
-    char *yyp = *yymsg;
-    int yyi = 0;
-    while ((*yyp = *yyformat) != '\0')
-      if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount)
-        {
-          yyp += yytnamerr (yyp, yyarg[yyi++]);
-          yyformat += 2;
-        }
-      else
-        {
-          ++yyp;
-          ++yyformat;
-        }
-  }
-  return 0;
-}
-#endif /* YYERROR_VERBOSE */
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg,
+            yysymbol_kind_t yykind, YYSTYPE *yyvaluep)
 {
   YYUSE (yyvaluep);
   if (!yymsg)
     yymsg = "Deleting";
-  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+  YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
+  YYUSE (yykind);
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
 
-
-
-/* The lookahead symbol.  */
+/* Lookahead token kind.  */
 int yychar;
 
 /* The semantic value of the lookahead symbol.  */
 YYSTYPE yylval;
 /* Number of syntax errors so far.  */
 int yynerrs;
+
+
 
 
 /*----------.
@@ -2018,43 +1855,36 @@ int yynerrs;
 int
 yyparse (void)
 {
-    yy_state_fast_t yystate;
+    yy_state_fast_t yystate = 0;
     /* Number of tokens to shift before error messages enabled.  */
-    int yyerrstatus;
+    int yyerrstatus = 0;
 
-    /* The stacks and their tools:
-       'yyss': related to states.
-       'yyvs': related to semantic values.
-
-       Refer to the stacks through separate pointers, to allow yyoverflow
+    /* Refer to the stacks through separate pointers, to allow yyoverflow
        to reallocate them elsewhere.  */
 
-    /* The state stack.  */
+    /* Their size.  */
+    YYPTRDIFF_T yystacksize = YYINITDEPTH;
+
+    /* The state stack: array, bottom, top.  */
     yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+    yy_state_t *yyss = yyssa;
+    yy_state_t *yyssp = yyss;
 
-    /* The semantic value stack.  */
+    /* The semantic value stack: array, bottom, top.  */
     YYSTYPE yyvsa[YYINITDEPTH];
-    YYSTYPE *yyvs;
-    YYSTYPE *yyvsp;
-
-    YYPTRDIFF_T yystacksize;
+    YYSTYPE *yyvs = yyvsa;
+    YYSTYPE *yyvsp = yyvs;
 
   int yyn;
+  /* The return value of yyparse.  */
   int yyresult;
-  /* Lookahead token as an internal (translated) token number.  */
-  int yytoken = 0;
+  /* Lookahead symbol kind.  */
+  yysymbol_kind_t yytoken = YYSYMBOL_YYEMPTY;
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;
 
-#if YYERROR_VERBOSE
-  /* Buffer for error messages, and its allocated size.  */
-  char yymsgbuf[128];
-  char *yymsg = yymsgbuf;
-  YYPTRDIFF_T yymsg_alloc = sizeof yymsgbuf;
-#endif
+
 
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
 
@@ -2062,15 +1892,8 @@ yyparse (void)
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
 
-  yyssp = yyss = yyssa;
-  yyvsp = yyvs = yyvsa;
-  yystacksize = YYINITDEPTH;
-
   YYDPRINTF ((stderr, "Starting parse\n"));
 
-  yystate = 0;
-  yyerrstatus = 0;
-  yynerrs = 0;
   yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
@@ -2093,6 +1916,7 @@ yysetstate:
   YY_IGNORE_USELESS_CAST_BEGIN
   *yyssp = YY_CAST (yy_state_t, yystate);
   YY_IGNORE_USELESS_CAST_END
+  YY_STACK_PRINT (yyss, yyssp);
 
   if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
@@ -2138,7 +1962,7 @@ yysetstate:
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-# undef YYSTACK_RELOCATE
+#  undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
@@ -2177,17 +2001,28 @@ yybackup:
 
   /* Not known => get a lookahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either empty, or end-of-input, or a valid lookahead.  */
   if (yychar == YYEMPTY)
     {
-      YYDPRINTF ((stderr, "Reading a token: "));
+      YYDPRINTF ((stderr, "Reading a token\n"));
       yychar = yylex ();
     }
 
   if (yychar <= YYEOF)
     {
-      yychar = yytoken = YYEOF;
+      yychar = YYEOF;
+      yytoken = YYSYMBOL_YYEOF;
       YYDPRINTF ((stderr, "Now at end of input.\n"));
+    }
+  else if (yychar == YYerror)
+    {
+      /* The scanner already issued an error message, process directly
+         to error recovery.  But do not keep the error token as
+         lookahead, it is too special and may lead us to an endless
+         loop in error recovery. */
+      yychar = YYUNDEF;
+      yytoken = YYSYMBOL_YYerror;
+      goto yyerrlab1;
     }
   else
     {
@@ -2257,1225 +2092,1205 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
+  case 2: /* program: statementList  */
+#line 83 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                { setParsedScriptBlock(yyvsp[0].v.p);}
+#line 2102 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 5: /* program: error  */
+#line 85 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+          {yyxpt(_("statement list or function definition"),yyvsp[0]);}
+#line 2108 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 6: /* functionDef: FUNCTION returnDeclaration IDENT '(' argumentList ')' newLine statementList  */
+#line 89 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                                                {
+   ParseRHS lhsRhs = yyvsp[-6];
+   ParseRHS nameRhs = yyvsp[-5];
+   ParseRHS rhsRhs = yyvsp[-3];
+   ParseRHS codeRhs = yyvsp[0];
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+  }
+#line 2120 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 7: /* functionDef: FUNCTION IDENT '(' argumentList ')' newLine statementList  */
+#line 96 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                              {
+   ParseRHS lhsRhs;
+   lhsRhs.v.p = nullptr;
+   ParseRHS nameRhs = yyvsp[-5];
+   ParseRHS rhsRhs = yyvsp[-3];
+   ParseRHS codeRhs = yyvsp[0];
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+#line 2133 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 8: /* functionDef: FUNCTION returnDeclaration IDENT newLine statementList  */
+#line 104 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                           {
+    ParseRHS lhsRhs = yyvsp[-3];
+    ParseRHS nameRhs = yyvsp[-2];
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = yyvsp[0];
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+#line 2146 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 9: /* functionDef: FUNCTION IDENT newLine statementList  */
+#line 112 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                         {
+    ParseRHS lhsRhs;
+    lhsRhs.v.p = nullptr;
+    ParseRHS nameRhs = yyvsp[-2];
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = yyvsp[0];
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+#line 2160 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 10: /* functionDef: FUNCTION returnDeclaration IDENT '(' ')' newLine statementList  */
+#line 121 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                                   {
+    ParseRHS lhsRhs = yyvsp[-5];
+    ParseRHS nameRhs = yyvsp[-4];
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = yyvsp[0];
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+#line 2173 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 11: /* functionDef: FUNCTION IDENT '(' ')' newLine statementList  */
+#line 129 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                 {
+    ParseRHS lhsRhs;
+    lhsRhs.v.p = nullptr;
+    ParseRHS nameRhs = yyvsp[-4];
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = yyvsp[0];
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+#line 2187 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 12: /* functionDef: FUNCTION error  */
+#line 138 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                   {yyxpt(_("legal function name or return declaration after 'function'"), yyvsp[-1]);}
+#line 2193 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 13: /* functionDef: FUNCTION IDENT error  */
+#line 139 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                         {yyxpt(_("argument list or statement list after identifier '") +
+  yyvsp[-1].v.p->text.c_str() + "'",yyvsp[-1]);}
+#line 2200 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 14: /* functionDef: FUNCTION IDENT '(' error  */
+#line 141 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                              {yyxpt(_("(possibly empty) argument list after '('"),yyvsp[-1]);}
+#line 2206 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 15: /* functionDef: FUNCTION IDENT '(' argumentList ')' error  */
+#line 142 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                              {yyxpt(_("statement list after ')'"),yyvsp[-1]);}
+#line 2212 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 16: /* functionDef: FUNCTION returnDeclaration error  */
+#line 143 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                      {yyxpt(_("function name for function declared"),yyvsp[-2]);}
+#line 2218 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 17: /* functionDef: FUNCTION returnDeclaration IDENT error  */
+#line 144 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                           {yyxpt(_("argument list or statement list following function name :") +
+  yyvsp[-1].v.p->text.c_str(), yyvsp[-1]);}
+#line 2225 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 18: /* functionDef: FUNCTION returnDeclaration IDENT '(' error  */
+#line 146 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                {yyxpt(_("(possibly empty) argument list after '('"),yyvsp[-1]);}
+#line 2231 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 19: /* functionDef: FUNCTION returnDeclaration IDENT '(' argumentList ')' error  */
+#line 147 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                                {yyxpt(_("statement list after ')'"),yyvsp[-1]);}
+#line 2237 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 22: /* returnDeclaration: VARARGOUT '='  */
 #line 156 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {mainAST = yyvsp[0].v.p;}
+                {yyval.v.p = yyvsp[-1].v.p;}
+#line 2243 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 23: /* returnDeclaration: IDENT '='  */
+#line 157 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+              {yyval.v.p = yyvsp[-1].v.p;}
+#line 2249 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 24: /* returnDeclaration: '[' argumentList ']' '='  */
+#line 158 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                             {yyval.v.p = yyvsp[-2].v.p;}
+#line 2255 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 25: /* returnDeclaration: '[' ']' '='  */
+#line 159 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                {yyval.v.p = nullptr;}
+#line 2261 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 26: /* returnDeclaration: IDENT error  */
+#line 160 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                {yyxpt(_("an '=' symbol after identifier in return declaration"),yyvsp[-1]);}
 #line 2267 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 5:
-#line 158 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-          {yyxpt(_("statement list or function definition"),yyvsp[0]);}
+  case 27: /* returnDeclaration: '[' error  */
+#line 161 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+              {yyxpt(_("a valid list of return arguments in return declaration"),yyvsp[-1]);}
 #line 2273 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 6:
+  case 28: /* returnDeclaration: '[' argumentList error  */
 #line 162 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                                                {
-     MacroFunctionDef *r = new MacroFunctionDef();
-   if (yyvsp[-6].v.p)
-   {
-    r->returnVals = yyvsp[-6].v.p->toStringList();
-   }
-     r->name = yyvsp[-5].v.p->text;
-     r->arguments = yyvsp[-3].v.p->toStringList();
-     r->code = yyvsp[0].v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
-  }
-#line 2290 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+                           {yyxpt(_("matching ']' in return declaration for '['"),yyvsp[-2]);}
+#line 2279 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 7:
-#line 174 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                              {
-     MacroFunctionDef *r = new MacroFunctionDef();
-     r->name = yyvsp[-5].v.p->text;
-     r->arguments = yyvsp[-3].v.p->toStringList();
-     r->code = yyvsp[0].v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
-   }
+  case 29: /* returnDeclaration: '[' argumentList ']' error  */
+#line 163 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                               {yyxpt(_("an '=' symbol after return declaration"),yyvsp[-1]);}
+#line 2285 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 30: /* argumentList: argument  */
+#line 167 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+           {yyval.v.p = yyvsp[0].v.p;}
+#line 2291 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 31: /* argumentList: argumentList ',' argument  */
+#line 168 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                              {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
+#line 2297 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 33: /* statementList: statement  */
+#line 177 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+             {yyval.v.p = allocateAbstractSyntaxTree(OP_BLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());}
 #line 2303 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 8:
-#line 182 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                           {
-     MacroFunctionDef *r = new MacroFunctionDef();
-   if (yyvsp[-3].v.p)
-   {
-    r->returnVals = yyvsp[-3].v.p->toStringList();
-   }
-     r->name = yyvsp[-2].v.p->text;
-     r->code = yyvsp[0].v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
-   }
-#line 2319 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 9:
-#line 193 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                         {
-     MacroFunctionDef *r = new MacroFunctionDef();
-     r->name = yyvsp[-2].v.p->text;
-     r->code = yyvsp[0].v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
-   }
-#line 2331 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 10:
-#line 200 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                                   {
-     MacroFunctionDef *r = new MacroFunctionDef();
-   if (yyvsp[-5].v.p)
-   {
-    r->returnVals = yyvsp[-5].v.p->toStringList();
-   }
-     r->name = yyvsp[-4].v.p->text;
-     r->code = yyvsp[0].v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
-   }
-#line 2347 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 11:
-#line 211 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                 {
-     MacroFunctionDef *r = new MacroFunctionDef();
-     r->name = yyvsp[-4].v.p->text;
-     r->code = yyvsp[0].v.p;
-     r->fileName = getParserFilenameW();
-     chainFunction(r);
-   }
-#line 2359 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 12:
-#line 218 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                   {yyxpt(_("legal function name or return declaration after 'function'"), yyvsp[-1]);}
-#line 2365 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 13:
-#line 219 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                         {yyxpt(_("argument list or statement list after identifier '") + 
-  yyvsp[-1].v.p->text.c_str() + "'",yyvsp[-1]);}
-#line 2372 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 14:
-#line 221 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                              {yyxpt(_("(possibly empty) argument list after '('"),yyvsp[-1]);}
-#line 2378 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 15:
-#line 222 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                              {yyxpt(_("statement list after ')'"),yyvsp[-1]);}
-#line 2384 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 16:
-#line 223 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                      {yyxpt(_("function name for function declared"),yyvsp[-2]);}
-#line 2390 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 17:
-#line 224 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                           {yyxpt(_("argument list or statement list following function name :") + 
-  yyvsp[-1].v.p->text.c_str(), yyvsp[-1]);}
-#line 2397 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 18:
-#line 226 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                {yyxpt(_("(possibly empty) argument list after '('"),yyvsp[-1]);}
-#line 2403 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 19:
-#line 227 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                                {yyxpt(_("statement list after ')'"),yyvsp[-1]);}
-#line 2409 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 22:
-#line 236 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyval.v.p = yyvsp[-1].v.p;}
-#line 2415 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 23:
-#line 237 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-            {yyval.v.p = yyvsp[-1].v.p;}
-#line 2421 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 24:
-#line 238 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                           {yyval.v.p = yyvsp[-2].v.p;}
-#line 2427 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 25:
-#line 239 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = nullptr;}
-#line 2433 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 26:
-#line 240 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyxpt(_("an '=' symbol after identifier in return declaration"),yyvsp[-1]);}
-#line 2439 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 27:
-#line 241 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-            {yyxpt(_("a valid list of return arguments in return declaration"),yyvsp[-1]);}
-#line 2445 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 28:
-#line 242 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                         {yyxpt(_("matching ']' in return declaration for '['"),yyvsp[-2]);}
-#line 2451 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 29:
-#line 243 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                             {yyxpt(_("an '=' symbol after return declaration"),yyvsp[-1]);}
-#line 2457 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 30:
-#line 247 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-           {yyval.v.p = yyvsp[0].v.p;}
-#line 2463 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 31:
-#line 248 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                              {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 2469 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 33:
-#line 252 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                    {
-  yyval.v.p = yyvsp[0].v.p;
-  char *b = (char*) malloc(yyvsp[0].v.p->text.size() + 2);
-  b[0] = '&';
-  strcpy(b+1, yyvsp[0].v.p->text.c_str());
-  yyval.v.p->text = b;
-  free(b);
-  }
-#line 2482 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 34:
-#line 264 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-             {yyval.v.p = allocateAbstractSyntaxTree(OP_BLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());}
-#line 2488 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 35:
-#line 265 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 34: /* statementList: statementList statement  */
+#line 178 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {yyval.v.p = yyvsp[-1].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 2494 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2309 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 36:
-#line 269 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 35: /* statement: statementType ENDQSTMNT  */
+#line 182 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {
         yyval.v.p = allocateAbstractSyntaxTree(OP_QSTATEMENT,NULL,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
-#line 2503 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2318 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 37:
-#line 273 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 36: /* statement: statementType ENDSTMNT  */
+#line 186 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                             {
       yyval.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
             yyval.v.p->down = yyvsp[-1].v.p;
    }
-#line 2512 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2327 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 38:
-#line 277 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 37: /* statement: statementType ','  */
+#line 190 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {
       yyval.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
-#line 2521 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2336 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 41:
-#line 286 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 40: /* statementType: %empty  */
+#line 199 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
      {yyval.v.p = allocateAbstractSyntaxTree(null_node,"",-1);}
-#line 2527 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2342 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 57:
-#line 307 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 56: /* specialSyntaxStatement: IDENT NUMERIC  */
+#line 220 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                 {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
-#line 2533 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2348 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 58:
-#line 308 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 57: /* specialSyntaxStatement: STRING STRING  */
+#line 221 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                 {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
-#line 2539 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2354 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 59:
-#line 309 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 58: /* specialSyntaxStatement: CHARACTER CHARACTER  */
+#line 222 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                       {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
-#line 2545 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2360 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 60:
-#line 310 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 59: /* specialSyntaxStatement: IDENT STRING  */
+#line 223 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
-#line 2551 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2366 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 61:
-#line 311 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 60: /* specialSyntaxStatement: IDENT CHARACTER  */
+#line 224 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
-#line 2557 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2372 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 62:
-#line 312 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 61: /* specialSyntaxStatement: IDENT IDENT  */
+#line 225 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context()); }
-#line 2563 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2378 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 63:
-#line 313 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 62: /* specialSyntaxStatement: specialSyntaxStatement STRING  */
+#line 226 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                 {yyvsp[-1].v.p->addChild(yyvsp[0].v.p);}
-#line 2569 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2384 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 64:
-#line 314 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 63: /* specialSyntaxStatement: specialSyntaxStatement CHARACTER  */
+#line 227 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                    {yyvsp[-1].v.p->addChild(yyvsp[0].v.p);}
-#line 2575 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2390 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 65:
-#line 315 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 64: /* specialSyntaxStatement: specialSyntaxStatement IDENT  */
+#line 228 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                {yyvsp[-1].v.p->addChild(yyvsp[0].v.p);}
-#line 2581 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2396 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 66:
-#line 316 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 65: /* specialSyntaxStatement: specialSyntaxStatement NUMERIC  */
+#line 229 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                  {yyvsp[-1].v.p->addChild(yyvsp[0].v.p);}
-#line 2587 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2402 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 71:
-#line 335 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-  { 
+  case 70: /* tryStatement: TRY statementList optionalCatch END  */
+#line 248 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  {
     yyval.v.p = yyvsp[-3].v.p;
     yyval.v.p->addChild(yyvsp[-2].v.p);
     if (yyvsp[-1].v.p != nullptr) yyval.v.p->addChild(yyvsp[-1].v.p);
   }
-#line 2597 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2412 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 72:
-#line 341 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 71: /* tryStatement: TRY statementList optionalCatch error  */
+#line 254 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
   {yyxpt(_("matching 'end' to 'try' clause from line ") + decodeline(yyvsp[-3]),yyvsp[0]);}
-#line 2603 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2418 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 73:
-#line 345 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                      {yyval.v.p = yyvsp[0].v.p;}
-#line 2609 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 74:
-#line 346 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                      {
+  case 72: /* optionalCatch: CATCH IDENT newLine statementList  */
+#line 258 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                    {
     yyval.v.p = yyvsp[-2].v.p;
     yyval.v.p->addChild(yyvsp[0].v.p);
   }
-#line 2618 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2427 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 75:
-#line 350 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 73: /* optionalCatch: CATCH statementList  */
+#line 262 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                        {yyval.v.p = yyvsp[0].v.p;}
+#line 2433 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 74: /* optionalCatch: %empty  */
+#line 263 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
     {yyval.v.p = nullptr;}
-#line 2624 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2439 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 76:
-#line 354 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 75: /* switchStatement: SWITCH expr optionalEndStatement caseBlock otherwiseClause END  */
+#line 267 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                                   {
     yyval.v.p = yyvsp[-5].v.p;
-    yyval.v.p->addChild(yyvsp[-4].v.p); 
-    if (yyvsp[-2].v.p != nullptr) yyval.v.p->addChild(yyvsp[-2].v.p); 
+    yyval.v.p->addChild(yyvsp[-4].v.p);
+    if (yyvsp[-2].v.p != nullptr) yyval.v.p->addChild(yyvsp[-2].v.p);
     if (yyvsp[-1].v.p != nullptr) yyval.v.p->addChild(yyvsp[-1].v.p);
   }
-#line 2635 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2450 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 77:
-#line 360 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 76: /* switchStatement: SWITCH expr optionalEndStatement caseBlock otherwiseClause error  */
+#line 273 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                                     {
           yyxpt(_("matching 'end' to 'switch' clause from line ") + decodeline(yyvsp[-5]),yyvsp[0]);
         }
-#line 2643 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2458 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 84:
-#line 375 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 83: /* caseBlock: %empty  */
+#line 288 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
   {yyval.v.p = nullptr;}
-#line 2649 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2464 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 86:
-#line 379 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 85: /* caseList: caseStatement  */
+#line 292 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                 {
     yyval.v.p = allocateAbstractSyntaxTree(OP_CASEBLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());
   }
-#line 2657 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2472 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 87:
-#line 382 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 86: /* caseList: caseList caseStatement  */
+#line 295 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                          {
     yyval.v.p = yyvsp[-1].v.p; yyval.v.p->addChild(yyvsp[0].v.p);
   }
-#line 2665 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2480 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 88:
-#line 388 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 87: /* caseStatement: CASE expr optionalEndStatement statementList  */
+#line 301 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                {
     yyval.v.p = yyvsp[-3].v.p; yyval.v.p->addChild(yyvsp[-2].v.p); yyval.v.p->addChild(yyvsp[0].v.p);
   }
-#line 2673 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2488 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 89:
-#line 394 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 88: /* otherwiseClause: OTHERWISE statementList  */
+#line 307 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                           {
     yyval.v.p = yyvsp[0].v.p;
   }
-#line 2681 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2496 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 90:
-#line 397 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 89: /* otherwiseClause: %empty  */
+#line 310 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
   {
     yyval.v.p = nullptr;
   }
-#line 2689 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2504 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 91:
-#line 403 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 90: /* forStatement: FOR forIndexExpression optionalEndStatement END  */
+#line 316 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                   {
    yyval.v.p = nullptr;
   }
-#line 2697 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2512 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 92:
-#line 406 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 91: /* forStatement: FOR forIndexExpression optionalEndStatement statementList END  */
+#line 319 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                                 {
     yyval.v.p = yyvsp[-4].v.p;
     yyval.v.p->addChild(yyvsp[-3].v.p);
     yyval.v.p->addChild(yyvsp[-1].v.p);
   }
-#line 2707 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2522 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 93:
-#line 412 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 92: /* forStatement: FOR forIndexExpression optionalEndStatement statementList error  */
+#line 325 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
            {yyxpt(_("'end' to match 'for' statement from line ") + decodeline(yyvsp[-4]),yyvsp[0]);}
-#line 2713 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2528 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 94:
-#line 416 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 93: /* forIndexExpression: '(' IDENT '=' expr ')'  */
+#line 329 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                          {yyval.v.p = yyvsp[-3].v.p; yyval.v.p->addChild(yyvsp[-1].v.p);}
-#line 2719 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2534 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 95:
-#line 417 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 94: /* forIndexExpression: IDENT '=' expr  */
+#line 330 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                  {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 2725 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2540 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 96:
-#line 418 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-        {yyval.v.p = yyvsp[0].v.p; 
+  case 95: /* forIndexExpression: IDENT  */
+#line 331 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+        {yyval.v.p = yyvsp[0].v.p;
         yyval.v.p->addChild(allocateAbstractSyntaxTree(OP_RHS, allocateAbstractSyntaxTree(id_node,yyvsp[0].v.p->text.c_str(), yyvsp[0].v.p->context()),yyvsp[0].v.p->context())); }
-#line 2732 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2547 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 97:
-#line 420 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 96: /* forIndexExpression: '(' IDENT '=' expr error  */
+#line 333 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {yyxpt(_("matching right parenthesis"),yyvsp[-4]);}
-#line 2738 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2553 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 98:
-#line 421 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 97: /* forIndexExpression: '(' IDENT '=' error  */
+#line 334 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                       {yyxpt(_("indexing expression"),yyvsp[-1]);}
-#line 2744 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2559 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 99:
-#line 422 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 98: /* forIndexExpression: '(' IDENT error  */
+#line 335 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyxpt(_("equals operator after loop index"),yyvsp[-1]);}
-#line 2750 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2565 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 100:
-#line 423 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 99: /* forIndexExpression: '(' error  */
+#line 336 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
             {yyxpt(_("identifier that is the loop variable"),yyvsp[-1]);}
-#line 2756 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2571 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 101:
-#line 424 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 100: /* forIndexExpression: IDENT '=' error  */
+#line 337 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyxpt(_("indexing expression"),yyvsp[-1]);}
-#line 2762 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2577 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 102:
-#line 425 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 101: /* forIndexExpression: error  */
+#line 338 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
         {yyxpt(_("identifier or assignment (id = expr) after 'for' "),yyvsp[0]);}
-#line 2768 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2583 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 103:
-#line 429 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 102: /* whileStatement: WHILE expr optionalEndStatement END  */
+#line 342 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                       {
     yyval.v.p = nullptr;
   }
-#line 2776 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2591 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 104:
-#line 432 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 103: /* whileStatement: WHILE expr optionalEndStatement statementList END  */
+#line 345 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                     {
     yyval.v.p = yyvsp[-4].v.p;
     yyval.v.p->addChild(yyvsp[-3].v.p);
     yyval.v.p->addChild(yyvsp[-1].v.p);
   }
-#line 2786 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2601 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 105:
-#line 437 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 104: /* whileStatement: WHILE error  */
+#line 350 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyxpt(_("test expression after 'while'"),yyvsp[-1]);}
-#line 2792 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2607 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 106:
-#line 439 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 105: /* whileStatement: WHILE expr optionalEndStatement statementList error  */
+#line 352 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
   {yyxpt(_("'end' to match 'while' statement from line ") + decodeline(yyvsp[-4]),yyvsp[0]);}
-#line 2798 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2613 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 107:
-#line 443 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 106: /* ifStatement: IF conditionedStatement elseIfBlock elseStatement END  */
+#line 356 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                         {
     yyval.v.p = yyvsp[-4].v.p;
     yyval.v.p->addChild(yyvsp[-3].v.p);
-    if (yyvsp[-2].v.p != nullptr) yyval.v.p->addChild(yyvsp[-2].v.p); 
+    if (yyvsp[-2].v.p != nullptr) yyval.v.p->addChild(yyvsp[-2].v.p);
     if (yyvsp[-1].v.p != nullptr) yyval.v.p->addChild(yyvsp[-1].v.p);
   }
-#line 2809 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2624 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 108:
-#line 449 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 107: /* ifStatement: IF error  */
+#line 362 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
            {yyxpt(_("condition expression for 'if'"),yyvsp[-1]);}
-#line 2815 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2630 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 109:
-#line 450 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 108: /* ifStatement: IF conditionedStatement elseIfBlock elseStatement error  */
+#line 363 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                           {yyxpt(_("'end' to match 'if' statement from line ") + decodeline(yyvsp[-4]),yyvsp[0]);}
-#line 2821 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2636 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 110:
-#line 454 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 109: /* conditionedStatement: expr optionalEndStatement statementList  */
+#line 367 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                           {
     yyval.v.p = allocateAbstractSyntaxTree(OP_CSTAT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-2].v.p->context());
   }
-#line 2829 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2644 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 111:
-#line 457 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 110: /* conditionedStatement: expr error  */
+#line 370 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
              {yyxpt("valid list of statements after condition",yyvsp[0]);}
-#line 2835 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2650 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 112:
-#line 461 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 111: /* elseIfBlock: %empty  */
+#line 374 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyval.v.p = nullptr;}
-#line 2841 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2656 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 114:
-#line 466 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 113: /* elseIfStatementList: elseIfStatement  */
+#line 379 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {
     yyval.v.p = allocateAbstractSyntaxTree(OP_ELSEIFBLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());
   }
-#line 2849 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2664 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 115:
-#line 469 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 114: /* elseIfStatementList: elseIfStatementList elseIfStatement  */
+#line 382 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                       {
     yyval.v.p = yyvsp[-1].v.p; yyval.v.p->addChild(yyvsp[0].v.p);
   }
-#line 2857 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2672 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 116:
-#line 475 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 115: /* elseIfStatement: ELSEIF conditionedStatement  */
+#line 388 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                               {
     yyval.v.p = yyvsp[0].v.p;
   }
-#line 2865 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2680 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 117:
-#line 478 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 116: /* elseIfStatement: ELSEIF error  */
+#line 391 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                {yyxpt(_("test condition for 'elseif' clause"),yyvsp[-1]);}
-#line 2871 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2686 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 118:
-#line 481 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 117: /* elseStatement: ELSE statementList  */
+#line 394 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                      {
     yyval.v.p = yyvsp[0].v.p;
   }
-#line 2879 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2694 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 119:
-#line 484 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 118: /* elseStatement: %empty  */
+#line 397 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyval.v.p = nullptr;}
-#line 2885 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2700 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 120:
-#line 485 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 119: /* elseStatement: ELSE error  */
+#line 398 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
              {yyxpt(_("statement list for 'else' clause"),yyvsp[-1]);}
-#line 2891 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2706 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 121:
-#line 489 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 120: /* assignmentStatement: symbRefList '=' expr  */
+#line 402 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_ASSIGN,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 2897 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2712 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 122:
-#line 490 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                        {yyxpt(_("expression in assignment"),yyvsp[-1]);}
-#line 2903 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 121: /* assignmentStatement: symbRefList '=' error  */
+#line 403 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                          {yyxpt(_("expression in assignment"),yyvsp[-1]);}
+#line 2718 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 123:
-#line 494 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 122: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '(' ')'  */
+#line 407 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                         {
   yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-5].v.p,yyvsp[-2].v.p,yyvsp[-6].v.i);
   }
-#line 2911 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2726 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 124:
-#line 497 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                  {
+  case 123: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '(' indexList ')'  */
+#line 410 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                    {
     yyvsp[-3].v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i));
     yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-6].v.p,yyvsp[-3].v.p,yyvsp[-7].v.i);
   }
-#line 2920 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2735 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 125:
-#line 501 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                  {
+  case 124: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '{' indexList '}'  */
+#line 414 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                    {
     yyvsp[-3].v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i));
     yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-6].v.p,yyvsp[-3].v.p,yyvsp[-7].v.i);
   }
-#line 2929 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2744 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 126:
-#line 505 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                               {
+  case 125: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT  */
+#line 418 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                 {
     yyvsp[0].v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,NULL,-1));
     yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-3].v.p,yyvsp[0].v.p,yyvsp[-4].v.i);
   }
-#line 2938 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2753 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 127:
-#line 509 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                    {yyxpt(_("matching right bracket"), yyvsp[-2]);}
-#line 2944 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 126: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '{' indexList error  */
+#line 422 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                      {yyxpt(_("matching right bracket"), yyvsp[-2]);}
+#line 2759 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 128:
-#line 510 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                    {yyxpt(_("matching right parenthesis"), yyvsp[-2]);}
-#line 2950 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 127: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '(' indexList error  */
+#line 423 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                                      {yyxpt(_("matching right parenthesis"), yyvsp[-2]);}
+#line 2765 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 129:
-#line 511 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                          {yyxpt(_("indexing list"), yyvsp[-1]);}
-#line 2956 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 128: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '(' error  */
+#line 424 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                            {yyxpt(_("indexing list"), yyvsp[-1]);}
+#line 2771 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 130:
-#line 512 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                          {yyxpt(_("indexing list"), yyvsp[-1]);}
-#line 2962 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 129: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '{' error  */
+#line 425 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                            {yyxpt(_("indexing list"), yyvsp[-1]);}
+#line 2777 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 131:
-#line 513 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                     {yyxpt(_("left parenthesis"),yyvsp[-1]);}
-#line 2968 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 130: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT error  */
+#line 426 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                       {yyxpt(_("left parenthesis"),yyvsp[-1]);}
+#line 2783 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 132:
-#line 514 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                              {yyxpt("identifier",yyvsp[-1]);}
-#line 2974 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 131: /* multiFunctionCall: '[' matrixDef ']' '=' error  */
+#line 427 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                {yyxpt("identifier",yyvsp[-1]);}
+#line 2789 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 133:
-#line 518 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 132: /* expr: expr ':' expr  */
+#line 431 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                 {yyval.v.p = allocateAbstractSyntaxTree(OP_COLON,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 2980 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2795 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 134:
-#line 519 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 133: /* expr: expr ':' error  */
+#line 432 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after ':'"), yyvsp[-1]);}
-#line 2986 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2801 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 136:
-#line 521 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 135: /* expr: expr '+' expr  */
+#line 434 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_PLUS,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 2992 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2807 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 137:
-#line 522 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 136: /* expr: expr '+' error  */
+#line 435 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '+'"), yyvsp[-1]);}
-#line 2998 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2813 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 138:
-#line 523 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 137: /* expr: expr '-' expr  */
+#line 436 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_SUBTRACT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3004 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2819 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 139:
-#line 524 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 138: /* expr: expr '-' error  */
+#line 437 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '-'"), yyvsp[-1]);}
-#line 3010 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2825 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 140:
-#line 525 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 139: /* expr: expr '*' expr  */
+#line 438 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_TIMES,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3016 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2831 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 141:
-#line 526 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 140: /* expr: expr '*' error  */
+#line 439 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '*'"),yyvsp[-1]);}
-#line 3022 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2837 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 142:
-#line 527 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 141: /* expr: expr '/' expr  */
+#line 440 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_RDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3028 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2843 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 143:
-#line 528 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 142: /* expr: expr '/' error  */
+#line 441 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '/'"),yyvsp[-1]);}
-#line 3034 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2849 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 144:
-#line 529 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 143: /* expr: expr '\\' expr  */
+#line 442 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyval.v.p = allocateAbstractSyntaxTree(OP_LDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3040 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2855 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 145:
-#line 530 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 144: /* expr: expr '\\' error  */
+#line 443 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                     {yyxpt(_("an expression after '\\'"),yyvsp[-1]);}
-#line 3046 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2861 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 146:
-#line 531 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 145: /* expr: expr '|' expr  */
+#line 444 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_OR,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3052 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2867 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 147:
-#line 532 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 146: /* expr: expr '|' error  */
+#line 445 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '|'"),yyvsp[-1]);}
-#line 3058 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2873 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 148:
-#line 533 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 147: /* expr: expr '&' expr  */
+#line 446 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_AND,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3064 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2879 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 149:
-#line 534 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 148: /* expr: expr '&' error  */
+#line 447 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '&'"),yyvsp[-1]);}
-#line 3070 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2885 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 150:
-#line 535 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 149: /* expr: expr SOR expr  */
+#line 448 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_SOR,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3076 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2891 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 151:
-#line 536 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 150: /* expr: expr SOR error  */
+#line 449 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '||'"),yyvsp[-1]);}
-#line 3082 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2897 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 152:
-#line 537 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 151: /* expr: expr SAND expr  */
+#line 450 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyval.v.p = allocateAbstractSyntaxTree(OP_SAND,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3088 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2903 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 153:
-#line 538 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 152: /* expr: expr SAND error  */
+#line 451 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                     {yyxpt(_("an expression after '&&'"),yyvsp[-1]);}
-#line 3094 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2909 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 154:
-#line 539 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 153: /* expr: expr '<' expr  */
+#line 452 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_LT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3100 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2915 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 155:
-#line 540 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 154: /* expr: expr '<' error  */
+#line 453 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '<'"),yyvsp[-1]);}
-#line 3106 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2921 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 156:
-#line 541 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 155: /* expr: expr LE expr  */
+#line 454 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_LEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3112 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2927 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 157:
-#line 542 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 156: /* expr: expr LE error  */
+#line 455 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '<='"),yyvsp[-1]);}
-#line 3118 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2933 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 158:
-#line 543 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 157: /* expr: expr '>' expr  */
+#line 456 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_GT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3124 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2939 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 159:
-#line 544 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 158: /* expr: expr '>' error  */
+#line 457 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '>'"),yyvsp[-1]);}
-#line 3130 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2945 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 160:
-#line 545 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 159: /* expr: expr GE expr  */
+#line 458 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_GEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3136 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2951 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 161:
-#line 546 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 160: /* expr: expr GE error  */
+#line 459 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '>='"),yyvsp[-1]);}
-#line 3142 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2957 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 162:
-#line 547 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 161: /* expr: expr EQ expr  */
+#line 460 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_EQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3148 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2963 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 163:
-#line 548 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 162: /* expr: expr EQ error  */
+#line 461 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '=='"),yyvsp[-1]);}
-#line 3154 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2969 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 164:
-#line 549 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 163: /* expr: expr NE expr  */
+#line 462 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_NEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3160 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2975 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 165:
-#line 550 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 164: /* expr: expr NE error  */
+#line 463 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyxpt(_("an expression after '~='"),yyvsp[-1]);}
-#line 3166 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2981 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 166:
-#line 551 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 165: /* expr: expr DOTTIMES expr  */
+#line 464 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_TIMES,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3172 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2987 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 167:
-#line 552 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 166: /* expr: expr DOTTIMES error  */
+#line 465 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                         {yyxpt(_("an expression after '.*'"), yyvsp[-1]);}
-#line 3178 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2993 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 168:
-#line 553 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 167: /* expr: expr DOTRDIV expr  */
+#line 466 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_RDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3184 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 2999 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 169:
-#line 554 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 168: /* expr: expr DOTRDIV error  */
+#line 467 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                         {yyxpt(_("an expression after './'"),yyvsp[-1]);}
-#line 3190 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3005 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 170:
-#line 555 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 169: /* expr: expr DOTLDIV expr  */
+#line 468 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                       {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_LDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3196 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3011 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 171:
-#line 556 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 170: /* expr: expr DOTLDIV error  */
+#line 469 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyxpt(_("an expression after '.\\'"),yyvsp[-1]);}
-#line 3202 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3017 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 172:
-#line 557 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 171: /* expr: '-' expr  */
+#line 470 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_NEG,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3208 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3023 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 173:
-#line 558 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 172: /* expr: '+' expr  */
+#line 471 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_POS, yyvsp[0].v.p, yyvsp[-1].v.i);}
-#line 3214 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3029 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 174:
-#line 559 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 173: /* expr: '~' expr  */
+#line 472 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_NOT,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3220 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3035 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 175:
-#line 560 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 174: /* expr: '~' error  */
+#line 473 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                         {yyxpt(_("an expression after logical not"),yyvsp[0]);}
-#line 3226 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3041 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 176:
-#line 561 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 175: /* expr: expr '^' expr  */
+#line 474 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                    {yyval.v.p = allocateAbstractSyntaxTree(OP_POWER,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3232 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3047 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 177:
-#line 562 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 176: /* expr: expr '^' error  */
+#line 475 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                     {yyxpt(_("an expression after '^'"),yyvsp[-1]);}
-#line 3238 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3053 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 178:
-#line 563 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 177: /* expr: expr DOTPOWER expr  */
+#line 476 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_POWER,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3244 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3059 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 179:
-#line 564 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 178: /* expr: expr DOTPOWER error  */
+#line 477 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                         {yyxpt(_("an expression after '.^'"),yyvsp[-1]);}
-#line 3250 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3065 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 180:
-#line 565 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 179: /* expr: expr '\''  */
+#line 478 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_TRANSPOSE,yyvsp[-1].v.p,yyvsp[0].v.i);}
-#line 3256 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3071 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 181:
-#line 566 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 180: /* expr: expr DOTTRANSPOSE  */
+#line 479 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_TRANSPOSE,yyvsp[-1].v.p,yyvsp[0].v.i);}
-#line 3262 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3077 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 182:
-#line 567 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 181: /* expr: '(' expr ')'  */
+#line 480 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = yyvsp[-1].v.p;}
-#line 3268 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3083 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 183:
-#line 568 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 182: /* expr: '(' expr error  */
+#line 481 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                     {yyxpt(_("a right parenthesis after expression to match this one"),yyvsp[-2]);}
-#line 3274 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3089 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 184:
-#line 569 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 183: /* expr: '(' error  */
+#line 482 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                {yyxpt(_("an expression after left parenthesis"),yyvsp[-1]);}
-#line 3280 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3095 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 189:
-#line 577 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 188: /* terminal: symbRefList  */
+#line 490 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                 {yyval.v.p = allocateAbstractSyntaxTree(OP_RHS,yyvsp[0].v.p,yyvsp[0].v.p->context());}
-#line 3286 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3101 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 190:
-#line 578 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                        {yyval.v.p = yyvsp[-1].v.p;}
-#line 3292 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 191:
-#line 579 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyxpt(_("a matrix definition followed by a right bracket"),yyvsp[-1]);}
-#line 3298 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 192:
-#line 580 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                     {yyval.v.p = yyvsp[-1].v.p;}
-#line 3304 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 193:
-#line 581 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                     {yyval.v.p = yyvsp[-2].v.p;}
-#line 3310 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 194:
-#line 582 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                                                  {yyval.v.p = yyvsp[-2].v.p;}
-#line 3316 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 195:
-#line 583 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,yyvsp[-1].v.i);}
-#line 3322 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
-    break;
-
-  case 196:
-#line 584 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 189: /* terminal: '[' matrixDef ']'  */
+#line 491 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                       {yyval.v.p = yyvsp[-1].v.p;}
-#line 3328 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3107 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 197:
-#line 585 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 190: /* terminal: '[' error  */
+#line 492 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+              {yyxpt(_("a matrix definition followed by a right bracket"),yyvsp[-1]);}
+#line 3113 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 191: /* terminal: '[' rowSeperator matrixDef ']'  */
+#line 493 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                    {yyval.v.p = yyvsp[-1].v.p;}
-#line 3334 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3119 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 198:
-#line 586 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 192: /* terminal: '[' matrixDef rowSeperator ']'  */
+#line 494 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                    {yyval.v.p = yyvsp[-2].v.p;}
-#line 3340 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3125 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 199:
-#line 587 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 193: /* terminal: '[' rowSeperator matrixDef rowSeperator ']'  */
+#line 495 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                 {yyval.v.p = yyvsp[-2].v.p;}
-#line 3346 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3131 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 200:
-#line 588 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 194: /* terminal: '[' ']'  */
+#line 496 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                  {yyval.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,yyvsp[-1].v.i);}
+#line 3137 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 195: /* terminal: '{' cellDef '}'  */
+#line 497 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                    {yyval.v.p = yyvsp[-1].v.p;}
+#line 3143 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 196: /* terminal: '{' rowSeperator cellDef '}'  */
+#line 498 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                 {yyval.v.p = yyvsp[-1].v.p;}
+#line 3149 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 197: /* terminal: '{' cellDef rowSeperator '}'  */
+#line 499 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                 {yyval.v.p = yyvsp[-2].v.p;}
+#line 3155 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 198: /* terminal: '{' rowSeperator cellDef rowSeperator '}'  */
+#line 500 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                                              {yyval.v.p = yyvsp[-2].v.p;}
+#line 3161 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+    break;
+
+  case 199: /* terminal: '{' '}'  */
+#line 501 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {yyval.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,yyvsp[-1].v.i);}
-#line 3352 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3167 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 201:
-#line 589 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 200: /* terminal: '{' error  */
+#line 502 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                     {yyxpt(_("a cell-array definition followed by a right brace"),yyvsp[-1]);}
-#line 3358 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3173 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 203:
-#line 592 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 202: /* symbRefList: symbRefList symbRef  */
+#line 506 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                           {yyval.v.p = yyvsp[-1].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 3364 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3179 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 204:
-#line 595 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 203: /* symbRef: '(' indexList ')'  */
+#line 509 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                     {yyval.v.p = allocateAbstractSyntaxTree(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i); }
-#line 3370 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3185 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 205:
-#line 596 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,yyvsp[-1].v.i); }
-#line 3376 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 204: /* symbRef: '(' ')'  */
+#line 510 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+            {yyval.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,yyvsp[-1].v.i); }
+#line 3191 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 206:
-#line 597 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 205: /* symbRef: '(' indexList error  */
+#line 511 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                               {yyxpt(_("matching right parenthesis"),yyvsp[-2]);}
-#line 3382 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3197 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 207:
-#line 598 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                        {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACES,yyvsp[-1].v.p,yyvsp[-2].v.i); }
-#line 3388 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 206: /* symbRef: '{' indexList '}'  */
+#line 512 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+                      {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACES,yyvsp[-1].v.p,yyvsp[-2].v.i); }
+#line 3203 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 208:
-#line 599 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 207: /* symbRef: '{' indexList error  */
+#line 513 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                               {yyxpt(_("matching right brace"),yyvsp[-2]);}
-#line 3394 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3209 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 209:
-#line 600 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT,yyvsp[0].v.p,yyvsp[-1].v.i); }
-#line 3400 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+  case 208: /* symbRef: '.' IDENT  */
+#line 514 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+              {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT,yyvsp[0].v.p,yyvsp[-1].v.i); }
+#line 3215 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 210:
-#line 601 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 209: /* symbRef: '.' '(' expr ')'  */
+#line 515 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {yyval.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,yyvsp[-1].v.p,yyvsp[-3].v.i);}
-#line 3406 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3221 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 212:
-#line 605 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 211: /* indexElement: ':'  */
+#line 519 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
         {yyval.v.p = allocateAbstractSyntaxTree(OP_ALL,NULL,yyvsp[0].v.i);}
-#line 3412 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3227 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 213:
-#line 606 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 212: /* indexElement: '/' IDENT '=' expr  */
+#line 520 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {yyval.v.p = allocateAbstractSyntaxTree(OP_KEYWORD,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-3].v.i);}
-#line 3418 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3233 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 214:
-#line 607 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 213: /* indexElement: '/' IDENT '=' error  */
+#line 521 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                         {yyxpt(_("expecting expression after '=' in keyword assignment"),yyvsp[-1]);}
-#line 3424 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3239 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 215:
-#line 608 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 214: /* indexElement: '/' IDENT  */
+#line 522 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyval.v.p = allocateAbstractSyntaxTree(OP_KEYWORD,yyvsp[0].v.p,yyvsp[-1].v.i);}
-#line 3430 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3245 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 216:
-#line 609 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 215: /* indexElement: '/' error  */
+#line 523 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyxpt(_("expecting keyword identifier after '/' in keyword assignment"),yyvsp[-1]);}
-#line 3436 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3251 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 218:
-#line 614 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 217: /* indexList: indexList ',' indexElement  */
+#line 528 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                    {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addPeer(yyvsp[0].v.p);}
-#line 3442 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3257 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 219:
-#line 618 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 218: /* cellDef: rowDef  */
+#line 532 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACES,yyvsp[0].v.p,yyvsp[0].v.p->context());}
-#line 3448 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3263 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 220:
-#line 619 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 219: /* cellDef: cellDef rowSeperator rowDef  */
+#line 533 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                    {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 3454 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3269 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 221:
-#line 623 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 220: /* matrixDef: rowDef  */
+#line 537 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
               {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACKETS,yyvsp[0].v.p,yyvsp[0].v.p->context());}
-#line 3460 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3275 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 222:
-#line 624 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 221: /* matrixDef: matrixDef rowSeperator rowDef  */
+#line 538 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                      {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 3466 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3281 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 226:
-#line 636 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 225: /* rowDef: expr  */
+#line 550 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
             {yyval.v.p = allocateAbstractSyntaxTree(OP_SEMICOLON,yyvsp[0].v.p,yyvsp[0].v.p->context());}
-#line 3472 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3287 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
-  case 227:
-#line 637 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
+  case 226: /* rowDef: rowDef columnSep expr  */
+#line 551 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                              {yyval.v.p = yyvsp[-2].v.p; yyval.v.p->addChild(yyvsp[0].v.p);}
-#line 3478 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3293 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
 
-#line 3482 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
+#line 3297 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
 
       default: break;
     }
@@ -3490,11 +3305,10 @@ yyreduce:
      case of YYERROR or YYBACKUP, subsequent parser actions might lead
      to an incorrect destructor call or verbose syntax error message
      before the lookahead is translated.  */
-  YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
+  YY_SYMBOL_PRINT ("-> $$ =", YY_CAST (yysymbol_kind_t, yyr1[yyn]), &yyval, &yyloc);
 
   YYPOPSTACK (yylen);
   yylen = 0;
-  YY_STACK_PRINT (yyss, yyssp);
 
   *++yyvsp = yyval;
 
@@ -3518,49 +3332,13 @@ yyreduce:
 yyerrlab:
   /* Make sure we have latest lookahead translation.  See comments at
      user semantic actions for why this is necessary.  */
-  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
-
+  yytoken = yychar == YYEMPTY ? YYSYMBOL_YYEMPTY : YYTRANSLATE (yychar);
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
       ++yynerrs;
-#if ! YYERROR_VERBOSE
       yyerror (YY_("syntax error"));
-#else
-# define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
-                                        yyssp, yytoken)
-      {
-        char const *yymsgp = YY_("syntax error");
-        int yysyntax_error_status;
-        yysyntax_error_status = YYSYNTAX_ERROR;
-        if (yysyntax_error_status == 0)
-          yymsgp = yymsg;
-        else if (yysyntax_error_status == 1)
-          {
-            if (yymsg != yymsgbuf)
-              YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
-            if (!yymsg)
-              {
-                yymsg = yymsgbuf;
-                yymsg_alloc = sizeof yymsgbuf;
-                yysyntax_error_status = 2;
-              }
-            else
-              {
-                yysyntax_error_status = YYSYNTAX_ERROR;
-                yymsgp = yymsg;
-              }
-          }
-        yyerror (yymsgp);
-        if (yysyntax_error_status == 2)
-          goto yyexhaustedlab;
-      }
-# undef YYSYNTAX_ERROR
-#endif
     }
-
-
 
   if (yyerrstatus == 3)
     {
@@ -3610,13 +3388,14 @@ yyerrorlab:
 yyerrlab1:
   yyerrstatus = 3;      /* Each real token shifted decrements this.  */
 
+  /* Pop stack until we find a state that shifts the error token.  */
   for (;;)
     {
       yyn = yypact[yystate];
       if (!yypact_value_is_default (yyn))
         {
-          yyn += YYTERROR;
-          if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
+          yyn += YYSYMBOL_YYerror;
+          if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYSYMBOL_YYerror)
             {
               yyn = yytable[yyn];
               if (0 < yyn)
@@ -3630,7 +3409,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp);
+                  YY_ACCESSING_SYMBOL (yystate), yyvsp);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -3642,7 +3421,7 @@ yyerrlab1:
 
 
   /* Shift the error token.  */
-  YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
+  YY_SYMBOL_PRINT ("Shifting", YY_ACCESSING_SYMBOL (yyn), yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
@@ -3664,20 +3443,20 @@ yyabortlab:
   goto yyreturn;
 
 
-#if !defined yyoverflow || YYERROR_VERBOSE
+#if !defined yyoverflow
 /*-------------------------------------------------.
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
   yyerror (YY_("memory exhausted"));
   yyresult = 2;
-  /* Fall through.  */
+  goto yyreturn;
 #endif
 
 
-/*-----------------------------------------------------.
-| yyreturn -- parsing is finished, return the result.  |
-`-----------------------------------------------------*/
+/*-------------------------------------------------------.
+| yyreturn -- parsing is finished, clean up and return.  |
+`-------------------------------------------------------*/
 yyreturn:
   if (yychar != YYEMPTY)
     {
@@ -3694,67 +3473,26 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[*yyssp], yyvsp);
+                  YY_ACCESSING_SYMBOL (+*yyssp), yyvsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
   if (yyss != yyssa)
     YYSTACK_FREE (yyss);
 #endif
-#if YYERROR_VERBOSE
-  if (yymsg != yymsgbuf)
-    YYSTACK_FREE (yymsg);
-#endif
+
   return yyresult;
 }
-#line 639 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
 
+#line 553 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
 
+//=============================================================================
 namespace Nelson {
-  
-  void resetParser() {
-    if (mainAST)
-  {
-    mainAST = nullptr;
-  }
-  if (mainMDef)
-  {
-      mainMDef = nullptr;
-  }
-  }
-  
-  ASTPtr getParsedScriptBlock() {
-    return mainAST;
-  }
-  
-  MacroFunctionDef* getParsedFunctionDef() {
-    return mainMDef;
-  }
-  
-  ParserState parseState() {
-    if (mainAST != nullptr) 
-      return ScriptBlock;
-    else
-      return FuncDef;
-  }
-  
-  ParserState parseString(const std::string &txt) {
-    resetParser();
-    interactiveMode = true;
-    setLexBuffer(txt);
+//=============================================================================
+  void callyyparse() {
     yyparse();
-    return parseState();
   }
-  
-  ParserState parseFile(FILE *fp, const std::string &fname) {
-    resetParser();
-    interactiveMode = false;
-    setParserFilename(fname);
-    setLexFile(fp);
-    yyparse();
-    ParserState pstate = parseState();
-    setParserFilename("");
-    return pstate;
-  }
+//=============================================================================
 }
+//=============================================================================
 // clang-format on

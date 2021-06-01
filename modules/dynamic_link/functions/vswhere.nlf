@@ -45,5 +45,5 @@ function r = vswhere()
     error(_('Cannot read vswhere result.'));
   end
   r = jsondecode(message);
- endfunction
+ end
  %=============================================================================

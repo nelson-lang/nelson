@@ -30,5 +30,5 @@ function r = sparsedouble_isinf(a)
   J2 = J(R);
   V2 = true(size(I2, 1), size(I2, 2));
   r = sparse(I2, J2, V2);
-endfunction
+end
 %=============================================================================

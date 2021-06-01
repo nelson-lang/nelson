@@ -57,7 +57,7 @@ function dlgeneratecleaner(varargin)
   filewrite(cleanerfilename, txt);
   status = true;
   message = '';
-endfunction
+end
 %=============================================================================
 function txt = templatecleanerpart1(destinationdir)
   txt = {'%============================================================================='};
@@ -75,7 +75,7 @@ function txt = templatecleanerpart1(destinationdir)
   txt = [txt; '  rmfile(''unloader.nls'');'];
   txt = [txt; 'end'];
   txt = [txt; '%============================================================================='];
- endfunction
+ end
 %=============================================================================
 function txt = templatecleanerpart2(files)
   txt = {};
@@ -85,7 +85,7 @@ function txt = templatecleanerpart2(files)
     txt = [txt; 'end'];
     txt = [txt; {'%============================================================================='}];
   end
- endfunction
+ end
 %=============================================================================
 function txt = templatecleanerpart3(files)
   txt = {};
@@ -105,7 +105,7 @@ function txt = templatecleanerpart3(files)
     txt = [txt; ['clear(''status'');']];
     txt = [txt; {'%============================================================================='}];
   end
-endfunction
+end
 %=============================================================================
 function txt = templatecleanerpart4()
   txt = {};
@@ -134,7 +134,7 @@ function txt = templatecleanerpart4()
     txt = [txt; '  rmfile(k.name);'];
     txt = [txt; 'end'];
   end
-endfunction
+end
 %=============================================================================
 function txt = templatecleanerpart5()
   txt = {'%============================================================================='};
@@ -145,5 +145,5 @@ function txt = templatecleanerpart5()
   txt = [txt; {'cd(current_directory);'}];
   txt = [txt; {'clear(''current_directory'');'}];
   txt = [txt; {'%============================================================================='}];
- endfunction
+ end
 %=============================================================================

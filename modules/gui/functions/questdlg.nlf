@@ -211,7 +211,7 @@ function buttonname = questdlg(varargin)
 
   delete(box);
   buttonname = res;
-endfunction
+end
 %=============================================================================
 function msgwait(h)
   while(true)
@@ -220,7 +220,7 @@ function msgwait(h)
     end
     sleep(0.1);
   end
-endfunction
+end
 %=============================================================================
 function txt = cellstr_to_txt(cstr)
   array_text = char(cstr);
@@ -232,5 +232,5 @@ function txt = cellstr_to_txt(cstr)
       txt = [txt, char(10), array_text(k, :)];
     end
   end
-endfunction
+end
 %=============================================================================

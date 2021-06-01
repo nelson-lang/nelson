@@ -26,4 +26,4 @@
 function r = onelhs_function()
   disp(nargout);
   r = true;
-endfunction
+end

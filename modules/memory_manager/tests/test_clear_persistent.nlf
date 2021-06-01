@@ -32,5 +32,5 @@ function r = test_clear_persistent()
         val = val + 1;
         r = val;
     end
-endfunction
+end
 %=============================================================================

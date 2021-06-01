@@ -25,7 +25,7 @@
 %=============================================================================
 function nmm_build_loader(MODULE_NAME, MODULE_PATH)
     filewrite([MODULE_PATH, '/loader.nls'], content(MODULE_NAME));
-endfunction
+end
 %=============================================================================
 function txt = content(MODULE_NAME)
     txt = ["%=============================================================================";
@@ -37,4 +37,4 @@ function txt = content(MODULE_NAME)
     "%=============================================================================";
     "addmodule(fileparts(nfilename('fullpath')), '" + MODULE_NAME + "');";
     "%============================================================================="];
-endfunction
+end

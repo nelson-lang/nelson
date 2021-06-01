@@ -25,4 +25,4 @@
 %=============================================================================
 function r = sparsedouble_cos(a)
  r = sparse(cos(full(a)));
-endfunction
+end

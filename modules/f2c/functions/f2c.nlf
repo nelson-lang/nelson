@@ -83,6 +83,6 @@ function varargout = f2c(varargin)
       error(msg);
     end
   end
-endfunction
+end
 %=============================================================================
 

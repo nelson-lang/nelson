@@ -42,7 +42,7 @@ function package_file = nmm_package(varargin)
     info = nmm_read_module_json(module_path);
     package_file = buildDestinationFilename(destination_dir, module_name, info);
     zip(package_file, module_path);
-endfunction
+end
 %=============================================================================
 function package_file = buildDestinationFilename(destination_dir, module_name, info)
     package_file_extension = 'nmz';
@@ -67,5 +67,5 @@ function package_file = buildDestinationFilename(destination_dir, module_name, i
       buffer_format = '%s/%s-%s-%s.%s';
     end
     package_file = sprintf(buffer_format, fullpath(destination_dir), module_name, arch, version, package_file_extension);
-endfunction
+end
 %=============================================================================

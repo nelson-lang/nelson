@@ -280,6 +280,7 @@
     <ClCompile Include="..\cpp\VertCatOperator.cpp" />
     <ClCompile Include="..\cpp\WarningEmitter.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />
+    <ClCompile Include="..\grammar\NelsonParserHelpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +326,7 @@
     <ClInclude Include="..\cpp\AsciiToDouble.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
+    <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
     <ClInclude Include="..\include\AST.hpp" />
     <ClInclude Include="..\include\AstManager.hpp" />

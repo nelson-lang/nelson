@@ -26,4 +26,4 @@
 function r = sparselogical_isfinite(a)
   [r, c] = size(a);
   r = true(r, c);
-endfunction
+end

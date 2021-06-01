@@ -62,5 +62,5 @@ function nig(varargin)
     error(error_struct);
   end
   rmpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
-endfunction
+end
 %=============================================================================

@@ -28,5 +28,5 @@ function r = complexObj_plus_complexObj(a, b)
   R1 = a.r + b.r;
   R2 = a.i + b.i;
   r = complexObj(R1, R2);
-endfunction
+end
 %=============================================================================

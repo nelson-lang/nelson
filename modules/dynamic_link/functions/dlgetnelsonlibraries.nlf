@@ -29,5 +29,5 @@ function c = dlgetnelsonlibraries()
        [modulepath(nelsonroot(),'error_manager','bin'), '/libnlsError_manager']; ...
        [modulepath(nelsonroot(),'types','bin'), '/libnlsTypes']; ...
        [modulepath(nelsonroot(),'validators','bin'), '/libnlsValidators']};
-endfunction
+end
 %=============================================================================

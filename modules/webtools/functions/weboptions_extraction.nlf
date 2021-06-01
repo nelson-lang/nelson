@@ -26,5 +26,5 @@
 function r = weboptions_extraction(obj, fieldname)
   s = struct(obj);
   r = getfield(s, fieldname);
-endfunction
+end
 %=============================================================================

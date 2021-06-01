@@ -39,5 +39,5 @@ function tempdest = tempname(varargin)
     if isdir(tempdest) || isfile(tempdest)
         tempdest = tempname(tempdirdest);
     end
-endfunction
+end
 %=============================================================================

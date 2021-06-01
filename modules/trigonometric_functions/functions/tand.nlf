@@ -29,6 +29,6 @@ function r = tand(x)
   r = tan(I0 .* pi);
   r(I0 == fix (I0) & isfinite (I0)) = 0;
   r(I90 == fix (I90) & isfinite (I90)) = Inf;
-endfunction
+end
 %=============================================================================
 

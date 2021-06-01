@@ -71,5 +71,5 @@ function ce = cellstr(obj)
   else
     error(_(['Type not supported:' ,' ', class(obj)]));
   end
-endfunction
+end
 %=============================================================================

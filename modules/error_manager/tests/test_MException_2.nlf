@@ -29,18 +29,18 @@ function EE = test_MException_2()
     catch ME
         EE = ME;
     end
-endfunction
+end
 %=============================================================================
 function ME = test1();
     ME = test2();
-endfunction
+end
 %=============================================================================
 function ME = test2()
     ME = test3();
-endfunction
+end
 %=============================================================================
 function ME = test3()
     ME = MException('sayHello:inputError','Input must be char.');
     throw(ME)
-endfunction
+end
 %=============================================================================

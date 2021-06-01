@@ -27,4 +27,4 @@ function test_assignin1()
     assignin('caller','b',3);
     assignin('base','c',33);
 
-endfunction
+end

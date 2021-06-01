@@ -26,4 +26,4 @@
 function R = logical_plus_logical(A, B)
 	% internal function (overload)
 	R = double(A) + double(B);
-endfunction
+end

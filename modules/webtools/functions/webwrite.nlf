@@ -102,7 +102,7 @@ function varargout = webwrite(varargin)
     otherwise
         error(_W('unmanaged case.'));
     end
-endfunction
+end
 %=============================================================================
 function res = convertContentType(filename, contentType, characterEncoding)
     res = {};
@@ -135,7 +135,7 @@ function res = convertContentType(filename, contentType, characterEncoding)
             res = {data};
             fclose(fid);
         end
-endfunction
+end
 %=============================================================================
 function res = autoConvert(filename, characterEncoding)
     res = {};
@@ -174,7 +174,7 @@ function res = autoConvert(filename, characterEncoding)
             res = {};
         end
     end
-endfunction
+end
 %=============================================================================
 function str = getArgumentAsCharactersVector(arg)
     str = arg;
@@ -183,7 +183,7 @@ function str = getArgumentAsCharactersVector(arg)
         error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
     end
     str = convertStringsToChars(str);
-endfunction
+end
 %=============================================================================
 function tempfilename = buildTempFilename(url)
     [p, f, e] = fileparts(url);
@@ -192,9 +192,9 @@ function tempfilename = buildTempFilename(url)
     else
         tempfilename = [tempname(), e];
     end
-endfunction
+end
 %=============================================================================
 function r = isWebOptions(arg)
     r = strcmp(class(arg), 'weboptions');
-endfunction
+end
 %=============================================================================

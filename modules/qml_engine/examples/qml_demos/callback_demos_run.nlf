@@ -26,4 +26,4 @@
 function callback_demos_run(name)
   filename_demo = [modulepath('qml_engine'), '/examples/', name, '/', name, '.nls'];
   run(filename_demo);
-endfunction
+end

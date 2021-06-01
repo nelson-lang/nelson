@@ -35,4 +35,4 @@ function r = sparsedouble_isequalto(a, b)
 	else
 		r = false;
 	end
-endfunction
+end

@@ -62,7 +62,7 @@ function varargout = nmm(varargin)
         rmpath([modulepath(nelsonroot(), 'modules_manager', 'root'), '/functions/internal']);
         error(e);
     end
-endfunction
+end
 %=============================================================================
 function r = isSupportedFirstParameter(param)
     if ischar(param)
@@ -71,5 +71,5 @@ function r = isSupportedFirstParameter(param)
     else
         r = false;
     end
-endfunction
+end
 %=============================================================================

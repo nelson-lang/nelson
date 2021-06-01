@@ -61,5 +61,5 @@ function varargout = h5dump(varargin)
       varargout{1} = msg;
     end
   end
-endfunction
+end
 %=============================================================================

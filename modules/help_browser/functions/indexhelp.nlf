@@ -64,17 +64,17 @@ function r = indexhelp(varargin)
   else
     r = false;
   end
-endfunction
+end
 %=============================================================================
 function modules_help_list = getModulesHelpList()
     run([nelsonroot() '/modules/' 'modules.nls']);
     modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
-endfunction
+end
 %=============================================================================
 function external_modules = getExternalModules()
   [m, p, v, pm] = getmodules();
   external_modules = m(pm == false);
-endfunction
+end
 %=============================================================================
 function r = compareVersion(previous, current)
   if (previous(1) == current(1))
@@ -102,7 +102,7 @@ function r = compareVersion(previous, current)
       r = 1;
     end
   end
-endfunction
+end
 %=============================================================================
 function r = reindexhelp(pref_help)
     helpbrowser('-clearcache');
@@ -135,7 +135,7 @@ function r = reindexhelp(pref_help)
     version_help = version('-number');
     save(pref_help, 'modules_help_available', 'version_help');
     r = true;
-endfunction
+end
 %=============================================================================
 function newPrevious = dispPercentLevel(percent, previous)
   if ~isempty(previous)
@@ -146,7 +146,7 @@ function newPrevious = dispPercentLevel(percent, previous)
     newPrevious = sprintf('%d %', percent);
     fprintf(stdout, '\n%s %s', _('Indexing help files:'), newPrevious);
   end
-endfunction
+end
 %=============================================================================
 function help_file = getHelpFile(module_name)
   help_file = '';
@@ -158,7 +158,7 @@ function help_file = getHelpFile(module_name)
   if ~isfile(help_file)
     help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
   end
-endfunction
+end
 %=============================================================================
 function forceaddmodule(module_name, help_file)
   for i = 1:5
@@ -169,5 +169,5 @@ function forceaddmodule(module_name, help_file)
       break;
     end
   end
-endfunction
+end
 %=============================================================================

@@ -41,5 +41,5 @@ function Y = fftshift(varargin)
     end
     Y = circshift(X, floor(size(X, DIM) * inv(2)), DIM);
   end
-endfunction
+end
 %=============================================================================

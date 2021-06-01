@@ -96,5 +96,5 @@ function res = typeofbin(code_type)
 		case 2000
 			res = 'class';
 	end
-endfunction
+end
 

@@ -26,5 +26,5 @@
 function r = sparsedouble_exp(a)
   M = full(a);
   r = sparse(exp(M));
-endfunction
+end
 %=============================================================================

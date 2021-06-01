@@ -27,5 +27,5 @@ function weboptions_disp(options)
   r = struct(options);
   d = evalc('disp(r);');
   disp(replace(d, '<struct>', '<weboptions>'))
-endfunction
+end
 %=============================================================================

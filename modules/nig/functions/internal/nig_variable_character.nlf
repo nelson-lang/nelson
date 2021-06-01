@@ -39,5 +39,5 @@ function txt = nig_variable_character(VARIABLE, withLocal)
       txt = [txt, ' char * ', toupper(VARIABLE.NAME)];
     end
   end
-endfunction
+end
 %=============================================================================

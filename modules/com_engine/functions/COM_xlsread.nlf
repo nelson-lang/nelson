@@ -168,5 +168,5 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
     numeric_data = [];
   end
   raw_data = data;
-  endfunction
+  end
 %=============================================================================

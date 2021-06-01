@@ -39,5 +39,5 @@ function txt = nig_variable_integer_array(VARIABLE, withLocal)
       txt = [txt, ' int *', toupper(VARIABLE.NAME)];
     end
   end
-endfunction
+end
 %=============================================================================

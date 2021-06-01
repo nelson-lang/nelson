@@ -44,7 +44,7 @@ function M = magic(N)
   elseif mod (N, 4) == 2
     M = caseModOther(N);
   end
-endfunction
+end
 %=============================================================================
 function M = caseModN2(N)
   s = floor ((0:N*N-1)/N);
@@ -52,7 +52,7 @@ function M = caseModN2(N)
   r = mod ([N*N:-1:1] + 2*s, N);
   M(c*N+r+1) = 1:N*N;
   M = reshape (M, N, N);
-endfunction
+end
 %=============================================================================
 function M = caseModN4(N)
   M = reshape (1:N * N, N, N)';
@@ -62,7 +62,7 @@ function M = caseModN4(N)
   I = [2:4:N, 3:4:N];
   J = fliplr(I);
   M(I, I) = M(J, J);
-endfunction
+end
 %=============================================================================
 function M = caseModOther(N)
   M = zeros(N, N);
@@ -130,5 +130,5 @@ function M = caseModOther(N)
     M(1:m, j) = M(m+1:m+m,j);
     M(m+1:m+m, j) = t;
   end
-endfunction
+end
 %=============================================================================

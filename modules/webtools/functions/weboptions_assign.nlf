@@ -34,7 +34,7 @@ function r = weboptions_assign(cl, key, value)
     s = struct(cl);
     s.(fieldname) = fieldvalue;
     r = class(s, 'weboptions');
-endfunction
+end
 %=============================================================================
 function res = isSupportedFieldNames(argName)
   supportedOptions = {'CharacterEncoding';
@@ -52,7 +52,7 @@ function res = isSupportedFieldNames(argName)
     'Arrayformat';
     'CertificateFilename'};
   res = any(contains(upper(supportedOptions), upper(argName)));
-endfunction
+end
 %=============================================================================
 function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
   if ~ischar(convertStringsToChars(argName))
@@ -92,7 +92,7 @@ function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
          fieldname = argName;
          fieldvalue = argValue;
       end
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkCharacterencoding(argValue)
   supportedCharacterEncoding = {'auto';
@@ -110,37 +110,37 @@ function [res, nameNormalized, valueNormalized] = checkCharacterencoding(argValu
   else
    valueNormalized = [];
   end
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkUserAgent(argValue)
   nameNormalized = 'UserAgent';
   valueNormalized = convertStringsToChars(argValue);
   res = ischar(valueNormalized);
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkTimeOut(argValue)
   res = isnumeric(argValue) && isscalar(argValue) && (argValue > 0);
   valueNormalized = double(argValue);
   nameNormalized = 'Timeout';
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkUserName(argValue)
   nameNormalized = 'Username';
   valueNormalized = convertStringsToChars(argValue);
   res = ischar(valueNormalized);
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkPassword(argValue)
   nameNormalized = 'Password';
   valueNormalized = convertStringsToChars(argValue);
   res = ischar(valueNormalized);
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkKeyName(argValue)
   nameNormalized = 'KeyName';
   valueNormalized = convertStringsToChars(argValue);
   res = ischar(valueNormalized);
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkKeyValue(argValue)
   res =  isstring(argValue) || ischar(argValue) || isnumeric(argValue) || islogical(argValue);
@@ -150,7 +150,7 @@ function [res, nameNormalized, valueNormalized] = checkKeyValue(argValue)
   else
     valueNormalized = [];
   end
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkContentType(argValue)
   nameNormalized = 'ContentType';
@@ -169,19 +169,19 @@ function [res, nameNormalized, valueNormalized] = checkContentType(argValue)
   else
    valueNormalized = [];
   end
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkContentReader(argValue)
   res =  isfunction_handle(argValue) && isscalar(argValue);
   nameNormalized = 'ContentReader';
   valueNormalized = argValue;
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkMediaType(argValue)
   nameNormalized = 'MediaType';
   valueNormalized = convertStringsToChars(argValue);
   res = ischar(valueNormalized);
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkRequestMethod(argValue)
   value = convertStringsToChars(argValue);
@@ -199,7 +199,7 @@ function [res, nameNormalized, valueNormalized] = checkRequestMethod(argValue)
    valueNormalized = [];
   end
   nameNormalized = 'RequestMethod';
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkArrayFormat(argValue)
   value = convertStringsToChars(argValue);
@@ -215,13 +215,13 @@ function [res, nameNormalized, valueNormalized] = checkArrayFormat(argValue)
    valueNormalized = [];
   end
    nameNormalized = 'ArrayFormat';
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkHeaderFields(argValue)
   res =  iscellstr(argValue) || ischar(argValue) || isstring(argValue);
   nameNormalized = 'HeaderFields';
   valueNormalized = argValue;
-endfunction
+end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkCertificateFilename(argValue)
   nameNormalized = 'CertificateFilename';
@@ -239,5 +239,5 @@ function [res, nameNormalized, valueNormalized] = checkCertificateFilename(argVa
       res = isempty(valueNormalized) || isfile(valueNormalized);
     end
   end
- endfunction
+ end
 %=============================================================================

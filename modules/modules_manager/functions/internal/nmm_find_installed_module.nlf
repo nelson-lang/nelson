@@ -49,4 +49,4 @@ function [module_name, module_data] = nmm_find_installed_module(module_or_path)
          end
       end
    end
-endfunction
+end

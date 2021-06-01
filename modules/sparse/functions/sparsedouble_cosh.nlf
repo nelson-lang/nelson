@@ -25,4 +25,4 @@
 %=============================================================================
 function r = sparsedouble_cosh(a)
  r = sparse(cosh(full(a)));
-endfunction
+end

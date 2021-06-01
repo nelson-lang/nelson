@@ -71,5 +71,5 @@ function txt = nig_nelson_function_prototype(NIG_FUNCTION)
   end
 
   txt = ['[', output, '] = ', NIG_FUNCTION.NELSON_NAME, '(', input, ')'];
-endfunction
+end
 %=============================================================================

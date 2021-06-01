@@ -98,5 +98,5 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
     end
   end
 
-endfunction
+end
 %=============================================================================

@@ -39,5 +39,5 @@ function txt = nig_variable_double_array(VARIABLE, withLocal)
       txt = [txt, ' double *', toupper(VARIABLE.NAME)];
     end
   end
-endfunction
+end
 %=============================================================================

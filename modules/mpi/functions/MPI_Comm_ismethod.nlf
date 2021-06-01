@@ -34,5 +34,5 @@ function r = MPI_Comm_ismethod(H, methodName)
     error(_('Wrong type for argument #2: string expected.'));
   end
   r = false;
-endfunction
+end
 %=============================================================================

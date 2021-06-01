@@ -29,5 +29,5 @@ function txt = nig_get_dimension_n_as_string(VARIABLE)
   else
     txt = VARIABLE.DIMENSION_N;
   end
-endfunction
+end
 %=============================================================================

@@ -47,5 +47,5 @@ function doc(varargin)
   else
    sioemit('help', url_help);
   end
-endfunction
+end
 %=============================================================================

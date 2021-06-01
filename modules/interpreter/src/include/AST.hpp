@@ -42,15 +42,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
 #include <string>
 #include "nlsInterpreter_exports.h"
 #include "Types.hpp"
 #include "Keywords.hpp"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 typedef enum
 {
     non_terminal,
@@ -66,7 +66,7 @@ typedef enum
     const_complex_node,
     const_uint64_node
 } NODE_TYPE;
-
+//=============================================================================
 typedef enum
 {
     OP_BLOCK, // block
@@ -122,7 +122,7 @@ typedef enum
     OP_KEYWORD,
     OP_DOTDYN
 } OP_TYPE;
-
+//=============================================================================
 /** The abstract syntax tree class
  * This class represents an abstract syntax tree class (AST).  The AST node has
  * both a "down" and "right" child.
@@ -232,7 +232,7 @@ public:
     bool
     isEmpty();
 };
-
+//=============================================================================
 using ASTPtr = AST*;
 using ASTPtrVector = std::vector<ASTPtr>;
 /** Print out the tree
@@ -246,7 +246,7 @@ printAST(ASTPtr t);
  * be portable across reasonable systems (i.e., little-vs-big endian can be handled
  * but that's about it).
  */
-
+//=============================================================================
 /**
  * The Parser value stack contains either a raw token's context or an AST pointer
  */
@@ -255,10 +255,12 @@ typedef union
     int i;
     ASTPtr p; //-V117
 } contextOrPointer;
-
+//=============================================================================
 typedef struct
 {
     bool isToken;
     contextOrPointer v;
 } ParseRHS;
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

@@ -98,5 +98,5 @@ function [name, description, value] = COM_xlsformat(formatAsInt)
   name = found{1};
   value = found{2};
   description = found{3};
-endfunction
+end
 %=============================================================================

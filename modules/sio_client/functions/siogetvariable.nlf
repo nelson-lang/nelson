@@ -52,5 +52,5 @@ function siogetvariable(variable_name)
         res.value = [];
     end
     sioemit('send_variable', jsonencode(res));
-endfunction
+end
 %=============================================================================

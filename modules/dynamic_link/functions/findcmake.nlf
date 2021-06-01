@@ -44,5 +44,5 @@ function [status, pathcmake] = findcmake()
     status = true;
     pathcmake = r{1};
   end
-endfunction
+end
 %=============================================================================

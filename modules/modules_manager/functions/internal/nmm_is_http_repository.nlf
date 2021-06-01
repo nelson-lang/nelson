@@ -43,5 +43,5 @@ function [r, url, tag_branch] = nmm_is_http_repository(param)
             end
         end
     end
-endfunction
+end
 %=============================================================================

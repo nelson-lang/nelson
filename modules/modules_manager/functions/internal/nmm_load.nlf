@@ -43,5 +43,5 @@ function nmm_load(varargin)
    else
       warning(sprintf(_('%s already loaded.'), module_name));
    end
-endfunction
+end
 %=============================================================================

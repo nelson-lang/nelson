@@ -29,7 +29,7 @@ function EE = test_MException_3(n)
     catch ME
         EE = ME;
     end
-endfunction
+end
 %=============================================================================
 function ME = test1(n);
     ME = MException('sayHello:inputError','Input must be char.');
@@ -38,5 +38,5 @@ function ME = test1(n);
     else
         throw(ME)
     end
-endfunction
+end
 %=============================================================================

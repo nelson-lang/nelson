@@ -51,7 +51,7 @@ function buildhelp(varargin)
     module_path = modulepath(module);
     buildhelp_from_path(module, module_path);
   end
-endfunction
+end
 %=============================================================================
 function buildhelp_from_path(module, module_path)
   for k = getavailablelanguages()(:)'
@@ -86,7 +86,7 @@ function buildhelp_from_path(module, module_path)
       end
     end
   end
-endfunction
+end
 %=============================================================================
 function helpForNelsonOnly()
   changes_md = {[nelsonroot(), '/CHANGELOG.md'];
@@ -147,7 +147,7 @@ function helpForNelsonOnly()
       disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
     end
   end
-endfunction
+end
 %=============================================================================
 function tf = needTobeGenerated(md_filename, html_filename)
   if isfile(html_filename)
@@ -157,5 +157,5 @@ function tf = needTobeGenerated(md_filename, html_filename)
   else
     tf = true;
   end
-endfunction
+end
 %=============================================================================

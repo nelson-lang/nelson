@@ -39,5 +39,5 @@ function txt = nig_variable_integer(VARIABLE, withLocal)
       txt = [txt, ' int *', toupper(VARIABLE.NAME)];
     end
   end
-endfunction
+end
 %=============================================================================

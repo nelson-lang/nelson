@@ -90,5 +90,5 @@ function C = cov(varargin)
     mB = mean(B);
     C = r * [norm(A) ^ 2 - nobs * mA ^ 2, A' * B - nobs * mA * mB; 0, norm(B)^2 - nobs * mB ^ 2];
     C(2, 1) = C(1, 2);
-endfunction
+end
 %=============================================================================

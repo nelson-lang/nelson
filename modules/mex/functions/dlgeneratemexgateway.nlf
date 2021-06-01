@@ -32,7 +32,7 @@ function dlgeneratemexgateway(destinationdir, functionname, interleavedcomplex)
     end
     txt = template(functionname, interleavedcomplex);
     filewrite([destinationdir, '/mexGateway.c'], txt);
-  endfunction
+  end
   %=============================================================================
   function txt = template(functionname, interleavedcomplex)
     txt = {'//============================================================================='};
@@ -85,5 +85,5 @@ function dlgeneratemexgateway(destinationdir, functionname, interleavedcomplex)
     end
     txt = [txt; '}'];
     txt = [txt; '//============================================================================='];
-    endfunction
+    end
   %=============================================================================

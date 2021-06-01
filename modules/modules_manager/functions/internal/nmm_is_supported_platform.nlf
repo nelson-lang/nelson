@@ -63,5 +63,5 @@ function [r, msg] = nmm_is_supported_platform(plaforms)
             msg = _('Invalid type in platforms');
         end
     end
-endfunction
+end
 %=============================================================================

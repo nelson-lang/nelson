@@ -57,5 +57,5 @@ function [status, compiler] = loadcompilerconf()
        end
      end
    end
-endfunction
+end
 %=============================================================================

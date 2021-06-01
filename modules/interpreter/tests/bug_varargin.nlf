@@ -25,4 +25,4 @@
 %=============================================================================
 function bug_varargin(varargin)
   disp('ok');
-endfunction
+end

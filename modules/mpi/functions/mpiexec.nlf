@@ -67,5 +67,5 @@ function varargout = mpiexec(varargin)
     varargout{2} = msg;
   end
 
-endfunction
+end
 %=============================================================================

@@ -62,7 +62,7 @@ function out = websave(varargin)
         options.MediaType = 'application/x-www-form-urlencoded';
     end
     out = webREST(url, [], filename, st, options);
-endfunction
+end
 %=============================================================================
 function str = getArgumentAsCharactersVector(arg)
     str = arg;
@@ -71,9 +71,9 @@ function str = getArgumentAsCharactersVector(arg)
         error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
     end
     str = convertStringsToChars(str);
-endfunction
+end
 %=============================================================================
 function r = isWebOptions(arg)
     r = strcmp(class(arg), 'weboptions');
-endfunction
+end
 %=============================================================================

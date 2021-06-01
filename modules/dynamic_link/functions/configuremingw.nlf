@@ -53,5 +53,5 @@ function [status, message] = configuremingw(mingw_bin_path)
    else
      message = [mingw_bin_path, ' ', _('not found.')];
    end
-endfunction
+end
 %=============================================================================

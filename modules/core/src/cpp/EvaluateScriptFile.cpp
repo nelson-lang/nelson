@@ -26,6 +26,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include <cstdio>
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -45,7 +46,9 @@ changeDir(const wchar_t* path, bool doException)
     } catch (const boost::filesystem::filesystem_error& e) {
         e.what();
         if (doException) {
-            Error(_("Cannot change directory '") + wstring_to_utf8(path) + "'.");
+            std::string msg
+                = str(boost::format(_("Cannot change directory '%s'.")) % wstring_to_utf8(path));
+            Error(msg);
         }
     }
 }

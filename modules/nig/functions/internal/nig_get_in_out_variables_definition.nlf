@@ -64,5 +64,5 @@ function txt = nig_get_in_out_variables_definition(NIG_FUNCTION)
       n = n + 1;
     end
   end
-endfunction
+end
 %=============================================================================

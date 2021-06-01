@@ -50,7 +50,7 @@ function buildhelpmd(varargin)
   end
   generatesLANGSmd(destinationdir, locales);
   buildSummary(destinationdir, locales, modules);
-endfunction
+end
 %=============================================================================
 function locales = buildHelpFromPath(destinationdir, module, module_path)
   locales = {};
@@ -72,7 +72,7 @@ function locales = buildHelpFromPath(destinationdir, module, module_path)
       locales{end + 1} = locale;
     end
   end
-endfunction
+end
 %=============================================================================
 function generatesLANGSmd(destinationdir, locales)
   content = {'# Languages'; ''};
@@ -86,7 +86,7 @@ function generatesLANGSmd(destinationdir, locales)
   end
   content{end + 1} = '';
   filewrite([destinationdir, '/LANGS.md'], content);
-endfunction
+end
 %=============================================================================
 function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help)
   for l = locales(:)'
@@ -100,7 +100,7 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
     end
     filewrite(global_summary_path, global_summary);
   end
-endfunction
+end
 %=============================================================================
 function helpForNelsonOnly(destinationdir)
   src_files = {'homepage.md', 'banner_homepage.png'};
@@ -135,5 +135,5 @@ function helpForNelsonOnly(destinationdir)
     content = strrep(content, '(license.md)', '(./license/license.md)');
     filewrite([dir_dst, '/', 'README.md'], content);
   end
-endfunction
+end
 %=============================================================================

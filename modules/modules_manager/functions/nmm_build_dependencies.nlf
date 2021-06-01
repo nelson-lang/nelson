@@ -42,5 +42,5 @@ function nmm_build_dependencies(MODULE_PATH)
             end
         end
     end
-endfunction
+end
 %=============================================================================
