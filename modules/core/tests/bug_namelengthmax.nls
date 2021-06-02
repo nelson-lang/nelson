@@ -33,3 +33,4 @@ assert_isequal(length(ID), namelengthmax + 1);
 STR = [ID, ' = 3'];
 assert_checkerror(STR, _('Maximum name length exceeded.'));
 %=============================================================================
+

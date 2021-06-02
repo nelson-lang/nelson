@@ -36,7 +36,7 @@ Nelson::StatisticsGateway::varBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     bool bSuccess = false;
-    nargincheck(argIn, 0, 4);
+    nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
     if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "var", bSuccess);

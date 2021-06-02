@@ -34,7 +34,7 @@ Nelson::CoreGateway::prefdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
-    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     retval << ArrayOf::characterArrayConstructor(GetPreferencesPath());
     return retval;
 }

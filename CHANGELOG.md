@@ -14,6 +14,8 @@
 
 - `nmm('install', existing_module_directory)` did not work as expected.
 
+- [#451](http://github.com/Nelson-numerical-software/nelson/issues/451): var() returns an unexpected error.
+
 # 0.5.5 (2021-05-24)
 
 ## Features:

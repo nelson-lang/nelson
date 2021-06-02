@@ -34,7 +34,7 @@ Nelson::CoreGateway::namelengthmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
-    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     retval << ArrayOf::doubleConstructor(IDENTIFIER_LENGTH_MAX);
     return retval;
 }

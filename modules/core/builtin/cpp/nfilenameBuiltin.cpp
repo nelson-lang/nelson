@@ -36,7 +36,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOfVector retval;
     int iExt = 0;
     nargincheck(argIn, 0, 1);
-    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring argstr = argIn[0].getContentAsWideString();

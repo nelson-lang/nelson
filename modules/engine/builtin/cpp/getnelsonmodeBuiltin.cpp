@@ -34,7 +34,7 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
-    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
     switch (_mode) {
     case BASIC_ENGINE: {
