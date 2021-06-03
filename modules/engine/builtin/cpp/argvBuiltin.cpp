@@ -34,7 +34,7 @@ Nelson::EngineGateway::argvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
-    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
     retval << ToCellStringAsColumn(eval->getCommandLineArguments());
     return retval;
 }

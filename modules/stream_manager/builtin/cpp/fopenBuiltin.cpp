@@ -108,7 +108,7 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     std::wstring machineFormat = isLittleEndianFormat() ? L"ieee-le" : L"ieee-be";
     std::wstring encoding = L"UTF-8";
 
-    nargincheck(argIn, 0, 4);
+    nargincheck(argIn, 1, 4);
     ArrayOf param1 = argIn[0];
     if (argIn.size() == 1) {
         if (param1.isDoubleType()) {

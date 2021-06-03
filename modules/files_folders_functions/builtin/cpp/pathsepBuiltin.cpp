@@ -32,7 +32,7 @@ ArrayOfVector
 Nelson::FilesFoldersGateway::pathsepBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 0, 1);
+    nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
 #ifdef _MSC_VER
     retval << ArrayOf::characterArrayConstructor(L";");
