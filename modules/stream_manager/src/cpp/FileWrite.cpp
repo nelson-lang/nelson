@@ -25,6 +25,7 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
+#include <cstring>
 #include "FileWrite.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
@@ -32,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 FWRITE_ERROR_TYPE
-FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
+FileWrite(File* fp, ArrayOf src, Class destClass, size_t skip,
     bool bIsLittleEndian, int& sizeWritten)
 {
     FWRITE_ERROR_TYPE fwrite_error = FWRITE_NO_ERROR;

@@ -123,6 +123,10 @@ typedef enum
     OP_DOTDYN
 } OP_TYPE;
 //=============================================================================
+class AST;
+using ASTPtr = AST*;
+using ASTPtrVector = std::vector<ASTPtr>;
+//=============================================================================
 /** The abstract syntax tree class
  * This class represents an abstract syntax tree class (AST).  The AST node has
  * both a "down" and "right" child.
@@ -134,8 +138,8 @@ public:
     std::string text;
     int tokenNumber;
     int m_context;
-    AST* down;
-    AST* right;
+    ASTPtr down;
+    ASTPtr right;
     OP_TYPE opNum;
     /** Default constructor
      * Creates an empty AST node.  All pointers are initialized to NULL,
@@ -159,21 +163,21 @@ public:
      * looks like:
      *\dotfile ASTdot1.dot
      */
-    AST(OP_TYPE op, AST* lt, AST* rt, int context);
+    AST(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context);
     /** Nonterminal constructor with three arguments
      * Creates a non-terminal node with the text set to a copy of the name argument
      * with the given three AST nodes.  The resulting tree fragment
      * looks like:
      *\dotfile ASTdot2.dot
      */
-    AST(OP_TYPE op, AST* lt, AST* md, AST* rt, int context);
+    AST(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context);
     /** Nonterminal constructor with a single argument
      * Creates a non-terminal node with the text set to a copy of the name argument
      * with the given AST node.  The resulting tree fragment
      * looks like:
      *\dotfile ASTdot3.dot
      */
-    AST(OP_TYPE op, AST* arg, int context);
+    AST(OP_TYPE op, ASTPtr arg, int context);
     /** Destructor
      */
     ~AST();
@@ -196,7 +200,7 @@ public:
      *\dotfile ASTdot4.dot
      */
     void
-    addChild(AST* arg);
+    addChild(ASTPtr arg);
     /** Add the given tree as a peer to the current node
      * Adds the argument tree as a peer to the current node.  If the current node
      * has no "peers" (i.e., right = nullptr) then the supplied tree is placed as a
@@ -205,7 +209,7 @@ public:
      *\dotfile ASTdot5.dot
      */
     void
-    addPeer(AST* arg);
+    addPeer(ASTPtr arg);
     /** Count children
      * Returns the number of children to the current tree.  This is only the number of
      * children that are immediately below the current node (i.e., children of children
@@ -233,8 +237,6 @@ public:
     isEmpty();
 };
 //=============================================================================
-using ASTPtr = AST*;
-using ASTPtrVector = std::vector<ASTPtr>;
 /** Print out the tree
  * Print out the tree using a tab-level scheme.  Peers are printed at the same
  * tab level, children are printed at a higher tab level.

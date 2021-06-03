@@ -32,7 +32,6 @@
 #include <set>
 #include "nlsProfiler_exports.h"
 #include "Types.hpp"
-#include "Evaluator.hpp"
 #include "ProfilerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
