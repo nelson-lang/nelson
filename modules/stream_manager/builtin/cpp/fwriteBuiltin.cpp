@@ -82,7 +82,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             File* f = fm->getFile(iValue);
             int written = -1;
             FWRITE_ERROR_TYPE fwriteError
-                = FileWrite(eval, f, param2, classDest, skipSize, bIsLittleEndian, written);
+                = FileWrite(f, param2, classDest, skipSize, bIsLittleEndian, written);
             switch (fwriteError) {
             case FWRITE_NO_ERROR: {
                 if (nLhs > 0) {

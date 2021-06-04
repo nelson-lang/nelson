@@ -27,7 +27,6 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Endian.hpp"
-#include "Evaluator.hpp"
 #include "File.hpp"
 #include "nlsStream_manager_exports.h"
 #include <string>

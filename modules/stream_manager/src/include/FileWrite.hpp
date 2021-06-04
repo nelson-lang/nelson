@@ -27,7 +27,6 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Endian.hpp"
-#include "Evaluator.hpp"
 #include "File.hpp"
 #include "nlsStream_manager_exports.h"
 #include <string>
@@ -45,7 +44,7 @@ typedef enum
 } FWRITE_ERROR_TYPE;
 
 NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
-FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
+FileWrite(File* fp, ArrayOf src, Class destClass, size_t skip,
     bool bIsLittleEndian, int& sizeWritten);
 }; // namespace Nelson
 //=============================================================================

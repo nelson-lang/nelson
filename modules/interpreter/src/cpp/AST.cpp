@@ -86,7 +86,7 @@ AST::AST(NODE_TYPE ntype, int token, int context)
     m_context = context;
 }
 //=============================================================================
-AST::AST(OP_TYPE op, AST* arg, int context)
+AST::AST(OP_TYPE op, ASTPtr arg, int context)
 {
     type = non_terminal;
     text.clear();
@@ -97,7 +97,7 @@ AST::AST(OP_TYPE op, AST* arg, int context)
     m_context = context;
 }
 //=============================================================================
-AST::AST(OP_TYPE op, AST* lt, AST* rt, int context)
+AST::AST(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context)
 {
     type = non_terminal;
     text.clear();
@@ -109,7 +109,7 @@ AST::AST(OP_TYPE op, AST* lt, AST* rt, int context)
     m_context = context;
 }
 //=============================================================================
-AST::AST(OP_TYPE op, AST* lt, AST* md, AST* rt, int context)
+AST::AST(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context)
 {
     type = non_terminal;
     text.clear();
@@ -144,7 +144,7 @@ AST::toStringList()
         res.push_back(text);
     }
     if (down != nullptr) {
-        AST* cp = down;
+        ASTPtr cp = down;
         while (cp != nullptr) {
             if (!cp->text.empty()) {
                 res.push_back(cp->text);
@@ -156,13 +156,13 @@ AST::toStringList()
 }
 //=============================================================================
 void
-AST::addChild(AST* arg)
+AST::addChild(ASTPtr arg)
 {
     if (down == nullptr) {
         down = arg;
         arg->right = nullptr;
     } else {
-        AST* cp;
+        ASTPtr cp;
         cp = down;
         while (cp->right != nullptr) {
             cp = cp->right;
@@ -173,13 +173,13 @@ AST::addChild(AST* arg)
 }
 //=============================================================================
 void
-AST::addPeer(AST* arg)
+AST::addPeer(ASTPtr arg)
 {
     if (right == nullptr) {
         right = arg;
         arg->right = nullptr;
     } else {
-        AST* cp;
+        ASTPtr cp;
         cp = right;
         while (cp->right != nullptr) {
             cp = cp->right;
@@ -192,7 +192,7 @@ AST::addPeer(AST* arg)
 int
 AST::peerCount()
 {
-    AST* t;
+    ASTPtr t;
     int count;
     count = 0;
     t = down;
@@ -206,7 +206,7 @@ AST::peerCount()
 int
 AST::childCount()
 {
-    AST* t;
+    ASTPtr t;
     int count;
     count = 0;
     t = down;
