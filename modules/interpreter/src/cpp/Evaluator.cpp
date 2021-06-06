@@ -81,7 +81,6 @@
 #include "Error.hpp"
 #include "VertCatOperator.hpp"
 #include "HorzCatOperator.hpp"
-#include "AstManager.hpp"
 #include "PathFuncManager.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -96,7 +95,6 @@
 #include "Error.hpp"
 #include "VertCat.hpp"
 #include "HorzCat.hpp"
-#include "AstManager.hpp"
 #include "PathFuncManager.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -180,9 +178,9 @@ Evaluator::setExitCode(int _exitCode)
 }
 //=============================================================================
 ArrayOfVector
-Evaluator::rowDefinition(ASTPtr t)
+Evaluator::rowDefinition(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     if (t->opNum != OP_SEMICOLON) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
@@ -252,14 +250,14 @@ Evaluator::rowDefinition(ASTPtr t)
 //@>
 //!
 ArrayOf
-Evaluator::matrixDefinition(ASTPtr t)
+Evaluator::matrixDefinition(AbstractSyntaxTreePtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACKETS) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
-    ASTPtr s = t->down;
-    callstack.pushID(s->context());
+    AbstractSyntaxTreePtr s = t->down;
+    callstack.pushID(s->getContext());
     while (s != nullptr) {
         m.push_back(rowDefinition(s));
         s = s->right;
@@ -315,14 +313,14 @@ Evaluator::matrixDefinition(ASTPtr t)
 //@>
 //!
 ArrayOf
-Evaluator::cellDefinition(ASTPtr t)
+Evaluator::cellDefinition(AbstractSyntaxTreePtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACES) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
-    ASTPtr s = t->down;
-    callstack.pushID(s->context());
+    AbstractSyntaxTreePtr s = t->down;
+    callstack.pushID(s->getContext());
     while (s != nullptr) {
         m.push_back(rowDefinition(s));
         s = s->right;
@@ -359,11 +357,11 @@ approximatelyEqual(double a, double b, double epsilon)
 }
 //=============================================================================
 ArrayOf
-Evaluator::expression(ASTPtr t)
+Evaluator::expression(AbstractSyntaxTreePtr t)
 {
     ArrayOf retval;
     // by default as the target we create double
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     switch (t->type) {
     case const_int_node: {
         retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
@@ -695,18 +693,17 @@ Evaluator::expression(ASTPtr t)
  * a vector of variables.
  */
 ArrayOfVector
-Evaluator::expressionList(ASTPtr t)
+Evaluator::expressionList(AbstractSyntaxTreePtr t)
 {
     ArrayOfVector m;
     ArrayOfVector n;
-    ASTPtr root;
     indexType tmp = 0;
     indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
-    callstack.pushID(t->context());
-    root = t;
+    callstack.pushID(t->getContext());
+    AbstractSyntaxTreePtr root = t;
     while (t != nullptr) {
         if (t->opNum == OP_KEYWORD) {
             t = t->right;
@@ -738,18 +735,18 @@ Evaluator::expressionList(ASTPtr t)
 }
 //=============================================================================
 ArrayOfVector
-Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
+Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
 {
     ArrayOfVector m;
     ArrayOfVector n;
-    ASTPtr root;
+    AbstractSyntaxTreePtr root;
     indexType index = 0;
     indexType tmp = 0;
     indexType endVal = 0;
     if (t == nullptr) {
         return m;
     }
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     size_t count = countSubExpressions(t);
     root = t;
     index = 0;
@@ -822,18 +819,18 @@ Evaluator::subsindex(const ArrayOfVector& m)
 }
 //=============================================================================
 bool
-Evaluator::conditionedStatement(ASTPtr t)
+Evaluator::conditionedStatement(AbstractSyntaxTreePtr t)
 {
     bool conditionState;
     if (t->opNum != OP_CSTAT) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
-    ASTPtr s = t->down;
-    callstack.pushID(s->context());
+    AbstractSyntaxTreePtr s = t->down;
+    callstack.pushID(s->getContext());
     ArrayOf condVar;
     condVar = expression(s);
     conditionState = checkIfWhileCondition(condVar);
-    ASTPtr codeBlock = s->right;
+    AbstractSyntaxTreePtr codeBlock = s->right;
     if (conditionState) {
         block(codeBlock);
     }
@@ -851,11 +848,11 @@ Evaluator::conditionedStatement(ASTPtr t)
  * this is applied on an element-by-element basis also.
  */
 bool
-Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
+Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, ArrayOf s)
 {
     bool caseMatched;
     ArrayOf r;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
@@ -912,7 +909,7 @@ Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
 //@>
 //!
 void
-Evaluator::tryStatement(ASTPtr t)
+Evaluator::tryStatement(AbstractSyntaxTreePtr t)
 {
     // Turn off autostop for this statement block
     bool autostop_save = autostop;
@@ -1004,10 +1001,10 @@ Evaluator::AutoStop(bool a)
 //@>
 //!
 void
-Evaluator::switchStatement(ASTPtr t)
+Evaluator::switchStatement(AbstractSyntaxTreePtr t)
 {
     ArrayOf switchVal;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     // First, extract the value to perform the switch on.
     switchVal = expression(t);
     // Assess its type to determine if this is a scalar switch
@@ -1021,7 +1018,7 @@ Evaluator::switchStatement(ASTPtr t)
     if (t != nullptr) {
         bool caseMatched = false;
         if (t->opNum == (OP_CASEBLOCK)) {
-            ASTPtr s = t->down;
+            AbstractSyntaxTreePtr s = t->down;
             while (!caseMatched && s != nullptr) {
                 caseMatched = testCaseStatement(s, switchVal);
                 s = s->right;
@@ -1084,9 +1081,9 @@ Evaluator::switchStatement(ASTPtr t)
 //@>
 //!
 void
-Evaluator::ifStatement(ASTPtr t)
+Evaluator::ifStatement(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     bool condStat = conditionedStatement(t);
     if (!condStat) {
         t = t->right;
@@ -1094,7 +1091,7 @@ Evaluator::ifStatement(ASTPtr t)
         if (t != nullptr) {
             bool elseifMatched = false;
             if (t->opNum == (OP_ELSEIFBLOCK)) {
-                ASTPtr s = t->down;
+                AbstractSyntaxTreePtr s = t->down;
                 while (!elseifMatched && s != nullptr) {
                     elseifMatched = conditionedStatement(s);
                     s = s->right;
@@ -1136,14 +1133,14 @@ Evaluator::ifStatement(ASTPtr t)
 //@>
 //!
 void
-Evaluator::whileStatement(ASTPtr t)
+Evaluator::whileStatement(AbstractSyntaxTreePtr t)
 {
-    ASTPtr testCondition;
+    AbstractSyntaxTreePtr testCondition;
     ArrayOf condVar;
-    ASTPtr codeBlock;
+    AbstractSyntaxTreePtr codeBlock;
     bool conditionTrue;
     bool breakEncountered;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     testCondition = t;
     codeBlock = t->right;
     breakEncountered = false;
@@ -1221,8 +1218,8 @@ Evaluator::whileStatement(ASTPtr t)
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorComplexHelper(ASTPtr codeBlock, Class indexClass, ArrayOf& indexSet,
-    indexType elementCount, const std::string& indexVarName, Evaluator* eval)
+ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, Class indexClass,
+    ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf* ptrVariable = nullptr;
     T* ptrValue = nullptr;
@@ -1272,7 +1269,7 @@ ForStatementRowVectorComplexHelper(ASTPtr codeBlock, Class indexClass, ArrayOf& 
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorHelper(ASTPtr codeBlock, Class indexClass, ArrayOf& indexSet,
+ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, Class indexClass, ArrayOf& indexSet,
     indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf* ptrVariable = nullptr;
@@ -1320,8 +1317,8 @@ ForStatementRowVectorHelper(ASTPtr codeBlock, Class indexClass, ArrayOf& indexSe
 }
 //=============================================================================
 static void
-ForStatemenRowVectorGenericHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexType elementCount,
-    const std::string& indexVarName, Evaluator* eval)
+ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSet,
+    indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf indexVar;
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
@@ -1348,8 +1345,8 @@ ForStatemenRowVectorGenericHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexType
 }
 //=============================================================================
 static void
-ForStatemenMatrixGenericHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexType elementCount,
-    const std::string& indexVarName, Evaluator* eval)
+ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSet,
+    indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf indexVar;
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
@@ -1381,7 +1378,7 @@ ForStatemenMatrixGenericHelper(ASTPtr codeBlock, ArrayOf& indexSet, indexType el
 }
 //=============================================================================
 void
-Evaluator::forStatement(ASTPtr t)
+Evaluator::forStatement(AbstractSyntaxTreePtr t)
 {
     indexType elementCount = 0;
     if (t == nullptr) {
@@ -1389,7 +1386,7 @@ Evaluator::forStatement(ASTPtr t)
         context->exitLoop();
         return;
     }
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
 
     /* Get the name of the indexing variable */
     std::string indexVarName = t->text;
@@ -1399,7 +1396,7 @@ Evaluator::forStatement(ASTPtr t)
         return;
     }
     /* Get the code block */
-    ASTPtr codeBlock = t->right;
+    AbstractSyntaxTreePtr codeBlock = t->right;
     bool isRowVector = indexSet.isRowVector();
     if (isRowVector) {
         elementCount = indexSet.getElementCount();
@@ -1799,7 +1796,7 @@ Evaluator::handleDebug(int fullcontext)
 }
 //=============================================================================
 void
-Evaluator::assignStatement(ASTPtr t, bool printIt)
+Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
 {
     uint64 ticProfiling = Profiler::getInstance()->tic();
     bool isHandle = false;
@@ -1839,7 +1836,7 @@ Evaluator::assignStatement(ASTPtr t, bool printIt)
 }
 //=============================================================================
 void
-Evaluator::statementType(ASTPtr t, bool printIt)
+Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
     ArrayOfVector m;
     FunctionDef* fdef;
@@ -1854,9 +1851,9 @@ Evaluator::statementType(ASTPtr t, bool printIt)
     if (t == nullptr) {
         return;
     }
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     // check the debug flag
-    int fullcontext = t->context();
+    int fullcontext = t->getContext();
     handleDebug(fullcontext);
     if (t->isEmpty()) {
         /* Empty statement */
@@ -1999,10 +1996,10 @@ Evaluator::statementType(ASTPtr t, bool printIt)
 // this is represented in the parse tree as a single construct...
 //
 void
-Evaluator::statement(ASTPtr t)
+Evaluator::statement(AbstractSyntaxTreePtr t)
 {
     try {
-        callstack.pushID(t->context());
+        callstack.pushID(t->getContext());
         if (t->opNum == (OP_QSTATEMENT)) {
             statementType(t->down, false);
         } else if (t->opNum == (OP_RSTATEMENT)) {
@@ -2016,10 +2013,10 @@ Evaluator::statement(ASTPtr t)
 }
 //=============================================================================
 void
-Evaluator::block(ASTPtr t)
+Evaluator::block(AbstractSyntaxTreePtr t)
 {
     try {
-        ASTPtr s = t->down;
+        AbstractSyntaxTreePtr s = t->down;
         if (state < NLS_STATE_QUIT) {
             resetState();
         }
@@ -2052,7 +2049,7 @@ Evaluator::getContext()
 }
 //=============================================================================
 ArrayOf
-Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
+Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 {
     Dimensions rhsDimensions;
     ArrayOfVector m;
@@ -2123,7 +2120,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
 }
 //=============================================================================
 void
-Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOf& value)
+Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOf& value)
 {
     ArrayOfVector vec;
     vec.push_back(value);
@@ -2131,11 +2128,11 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOf& value)
 }
 //=============================================================================
 void
-Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
+Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& value)
 {
     Dimensions rhsDimensions;
     ArrayOfVector m;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     if (!r.isEmpty()) {
         rhsDimensions = r.getDimensions();
     } else if (t->opNum != OP_BRACES) {
@@ -2224,7 +2221,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
 }
 //=============================================================================
 indexType
-Evaluator::countLeftHandSides(ASTPtr t)
+Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
 {
     ArrayOf lhs;
     if (t == nullptr) {
@@ -2233,11 +2230,11 @@ Evaluator::countLeftHandSides(ASTPtr t)
     if (!context->lookupVariable(t->text, lhs)) {
         lhs = ArrayOf::emptyConstructor();
     }
-    ASTPtr s = t->down;
+    AbstractSyntaxTreePtr s = t->down;
     if (s == nullptr) {
         return 1;
     }
-    callstack.pushID(s->context());
+    callstack.pushID(s->getContext());
     while (s->right != nullptr) {
         if (!lhs.isEmpty()) {
             lhs = simpleSubindexExpression(lhs, s);
@@ -2307,7 +2304,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::assignExpression(ASTPtr t, ArrayOf& val)
+Evaluator::assignExpression(AbstractSyntaxTreePtr t, ArrayOf& val)
 {
     ArrayOfVector vec;
     vec.push_back(val);
@@ -2316,9 +2313,9 @@ Evaluator::assignExpression(ASTPtr t, ArrayOf& val)
 //=============================================================================
 // If we got this far, we must have at least one subindex
 ArrayOf
-Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
+Evaluator::assignExpression(AbstractSyntaxTreePtr t, ArrayOfVector& value)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     if (t->down == nullptr) {
         ArrayOf retval(value[0]);
         value.pop_front();
@@ -2338,8 +2335,8 @@ Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
     }
     // Set up a stack
     ArrayOfVector stack;
-    ASTPtrVector ref;
-    ASTPtr s = t->down;
+    AbstractSyntaxTreePtrVector ref;
+    AbstractSyntaxTreePtr s = t->down;
     // Subindex
     while (s->right != nullptr) {
         if (!data.isEmpty()) {
@@ -2378,12 +2375,12 @@ Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
 }
 //=============================================================================
 ArrayOfVector
-Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
+Evaluator::specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
 {
     ArrayOfVector m;
     stringVector args;
     args.push_back(t->text);
-    ASTPtr s = t->right;
+    AbstractSyntaxTreePtr s = t->right;
     while (s != nullptr) {
         args.push_back(s->text);
         s = s->right;
@@ -2397,7 +2394,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
         n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
     FuncPtr val;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     if (!lookupFunction(args[0], val)) {
         Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
     }
@@ -2424,20 +2421,20 @@ Evaluator::addBreakpoint(StackEntry& bp)
 }
 //=============================================================================
 void
-Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
+Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
 {
     ArrayOfVector m;
-    ASTPtr s;
-    ASTPtr fAST;
-    ASTPtr saveLHS;
-    ASTPtr cAST;
+    AbstractSyntaxTreePtr s;
+    AbstractSyntaxTreePtr fAST;
+    AbstractSyntaxTreePtr saveLHS;
+    AbstractSyntaxTreePtr cAST;
     ArrayOf c;
     // int lhsSize;
     FunctionDef* fptr;
     cAST = t;
     fAST = t->right;
     bool bDeal = false;
-    callstack.pushID(fAST->context());
+    callstack.pushID(fAST->getContext());
     ArrayOf r;
     if (!lookupFunction(fAST->text, fptr)) {
         bool isVar = context->lookupVariable(fAST->text, r);
@@ -2482,7 +2479,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
     saveLHS = s;
     // Get the lhs objects into rset
     indexType lhsCount = 0;
-    ASTPtr mptr = s;
+    AbstractSyntaxTreePtr mptr = s;
     while (mptr != nullptr) {
         indexType dmp = countLeftHandSides(mptr->down);
         lhsCount += dmp;
@@ -2984,18 +2981,19 @@ getArgumentIndex(const stringVector& list, const std::string& t)
 //@>
 //!
 ArrayOfVector
-Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool outputOptional)
+Evaluator::functionExpression(
+    FunctionDef* funcDef, AbstractSyntaxTreePtr t, int narg_out, bool outputOptional)
 {
     ArrayOfVector m, n;
-    ASTPtr s = nullptr;
-    ASTPtr q = nullptr;
-    ASTPtr p = nullptr;
+    AbstractSyntaxTreePtr s = nullptr;
+    AbstractSyntaxTreePtr q = nullptr;
+    AbstractSyntaxTreePtr p = nullptr;
     stringVector keywords;
     ArrayOfVector keyvals;
-    ASTPtrVector keyexpr;
+    AbstractSyntaxTreePtrVector keyexpr;
     int* keywordNdx = nullptr;
     int* argTypeMap = nullptr;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     bool CLIFlagsave = InCLI;
     try {
         {
@@ -3023,32 +3021,6 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                     }
                     // If any keywords were found, make another pass through the
                     // arguments and remove them.
-#if 0
-                        if (keywords.size() > 0)
-                        {
-                            // 	    if (funcDef->type() != NLS_MACRO_FUNCTION)
-                            // 	      Error(L"out of order argument passing only supported for M files");
-                            while (s != nullptr && s->opNum == OP_KEYWORD)
-                            {
-                                s = s->right;
-                            }
-                            if (s != nullptr)
-                            {
-                                q = s;
-                                while (q->right != nullptr)
-                                {
-                                    if (q->right->opNum == OP_KEYWORD)
-                                    {
-                                        q->right = q->right->right;
-                                    }
-                                    else
-                                    {
-                                        q = q->right;
-                                    }
-                                }
-                            }
-                        }
-#endif
                     m = expressionList(s);
                     // Check for keywords
                     if (keywords.size() > 0) {
@@ -3327,14 +3299,14 @@ COST(int a, int b)
 }
 //=============================================================================
 int
-GetClosestLineNumber(ASTPtr t, int lineno)
+GetClosestLineNumber(AbstractSyntaxTreePtr t, int lineno)
 {
     if (t == nullptr) {
         return 10000;
     }
     int linedwn = GetClosestLineNumber(t->down, lineno);
     int linerght = GetClosestLineNumber(t->right, lineno);
-    int retval = (t->context() & 0xffff);
+    int retval = (t->getContext() & 0xffff);
     ;
     int costthis = COST(retval, lineno);
     return (std::min(linedwn, std::min(linerght, costthis)));
@@ -3378,7 +3350,7 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
         mptr = (MacroFunctionDef*)val;
         int clinenum = 10000;
         while (mptr != nullptr) {
-            ASTPtr code = mptr->code;
+            AbstractSyntaxTreePtr code = mptr->code;
             int nxt = GetClosestLineNumber(code, bp.tokid & 0xffff);
             clinenum = std::min(clinenum, nxt);
             mptr = mptr->nextFunction;
@@ -3492,14 +3464,14 @@ Evaluator::lookupFunction(const std::string& funcName, FuncPtr& val)
 }
 //=============================================================================
 ArrayOf
-Evaluator::rhsExpressionSimple(ASTPtr t)
+Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
 {
     ArrayOf r;
     ArrayOfVector m;
     bool isVar = false;
     bool isFun = false;
     FunctionDef* funcDef;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     isVar = context->lookupVariable(t->text, r);
@@ -3710,14 +3682,14 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
 // a value of pi.
 //!
 ArrayOfVector
-Evaluator::rhsExpression(ASTPtr t)
+Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
 {
     ArrayOf r;
     ArrayOfVector m;
     ArrayOfVector rv;
     Dimensions rhsDimensions;
     FunctionDef* funcDef = nullptr;
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     if (context->lookupVariable(t->text, r)) {
@@ -3725,7 +3697,7 @@ Evaluator::rhsExpression(ASTPtr t)
             callstack.popID();
             return ArrayOfVector(r);
         } else {
-            ASTPtr tt;
+            AbstractSyntaxTreePtr tt;
             tt = t->down;
             if (tt->opNum == OP_PARENS) {
                 if (tt->down == nullptr) {
@@ -3983,7 +3955,7 @@ Evaluator::evaluateString(const std::wstring& line, bool propogateException)
 bool
 Evaluator::evaluateString(const std::string& line, bool propogateException)
 {
-    ASTPtr tree = nullptr;
+    AbstractSyntaxTreePtr tree = nullptr;
     ParserState parserState = ParseError;
     NelsonConfiguration::getInstance()->setInterruptPending(false);
     if (line.size() == 0) {
@@ -4001,15 +3973,15 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     } else {
         command = line;
     }
-    resetAstBackupPosition();
-    std::vector<ASTPtr> pt;
+    AbstractSyntaxTree::resetAstBackupPosition();
+    AbstractSyntaxTreePtrVector pt;
     try {
         parserState = parseString(command);
-        pt = getAstUsed();
+        pt = AbstractSyntaxTree::getAstUsed();
     } catch (Exception& e) {
-        std::vector<ASTPtr> used = getAstUsed();
-        deleteAstVector(used);
-        resetAstBackupPosition();
+        AbstractSyntaxTreePtrVector used = AbstractSyntaxTree::getAstUsed();
+        AbstractSyntaxTree::deleteAstVector(used);
+        AbstractSyntaxTree::resetAstBackupPosition();
         resetParser();
         setLastErrorException(e);
         if (propogateException) {
@@ -4019,8 +3991,8 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         return false;
     }
     if (parserState != ScriptBlock) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteAstVector(pt);
+        AbstractSyntaxTree::resetAstBackupPosition();
         resetParser();
         Exception e(_W("a valid script expected."));
         setLastErrorException(e);
@@ -4032,8 +4004,8 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     tree = getParsedScriptBlock();
     callstack.pushDebug("evaluator", command);
     if (tree == nullptr) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteAstVector(pt);
+        AbstractSyntaxTree::resetAstBackupPosition();
         callstack.popDebug();
         return false;
     }
@@ -4041,8 +4013,8 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     try {
         block(tree);
     } catch (Exception& e) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteAstVector(pt);
+        AbstractSyntaxTree::resetAstBackupPosition();
         tree = nullptr;
         setLastErrorException(e);
         if (propogateException) {
@@ -4053,8 +4025,8 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         return false;
     }
 
-    deleteAstVector(pt);
-    resetAstBackupPosition();
+    AbstractSyntaxTree::deleteAstVector(pt);
+    AbstractSyntaxTree::resetAstBackupPosition();
     tree = nullptr;
     if (state == NLS_STATE_RETURN) {
         if (depth > 0) {
@@ -4288,14 +4260,14 @@ Evaluator::evalCLI()
             }
         }
         // scan the line and tokenize it
-        resetAstBackupPosition();
+        AbstractSyntaxTree::resetAstBackupPosition();
         setLexBuffer(commandLine);
         try {
             int lastCount = 0;
             bool bContinueLine = lexCheckForMoreInput(0);
-            std::vector<ASTPtr> used = getAstUsed();
-            deleteAstVector(used);
-            resetAstBackupPosition();
+            AbstractSyntaxTreePtrVector used = AbstractSyntaxTree::getAstUsed();
+            AbstractSyntaxTree::deleteAstVector(used);
+            AbstractSyntaxTree::resetAstBackupPosition();
             if (bContinueLine) {
                 lastCount = getContinuationCount();
                 std::wstring lines = commandLine;
@@ -4310,12 +4282,12 @@ Evaluator::evalCLI()
                         enoughInput = true;
                     } else {
                         lines.append(commandLine);
-                        resetAstBackupPosition();
+                        AbstractSyntaxTree::resetAstBackupPosition();
                         setLexBuffer(lines);
                         enoughInput = !lexCheckForMoreInput(lastCount);
-                        std::vector<ASTPtr> used = getAstUsed();
-                        deleteAstVector(used);
-                        resetAstBackupPosition();
+                        AbstractSyntaxTreePtrVector used = AbstractSyntaxTree::getAstUsed();
+                        AbstractSyntaxTree::deleteAstVector(used);
+                        AbstractSyntaxTree::resetAstBackupPosition();
                         lastCount = getContinuationCount();
                         if (enoughInput) {
                             lines.append(L"\n");
@@ -4535,7 +4507,7 @@ Evaluator::addCommandToQueue(const std::wstring& command, bool bIsPriority)
 }
 //=============================================================================
 size_t
-Evaluator::countSubExpressions(ASTPtr t)
+Evaluator::countSubExpressions(AbstractSyntaxTreePtr t)
 {
     size_t count = 0;
     while (t != nullptr) {
@@ -4547,7 +4519,7 @@ Evaluator::countSubExpressions(ASTPtr t)
 //=============================================================================
 ArrayOf
 Evaluator::doBinaryOperatorOverload(
-    ASTPtr t, BinaryFunction functionOperator, const std::string& functionName)
+    AbstractSyntaxTreePtr t, BinaryFunction functionOperator, const std::string& functionName)
 {
     ArrayOf A(expression(t->down));
     ArrayOf B(expression(t->down->right));

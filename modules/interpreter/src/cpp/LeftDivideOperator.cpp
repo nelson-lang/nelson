@@ -31,9 +31,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::leftDivideOperator(ASTPtr t)
+Evaluator::leftDivideOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf retval = this->leftDivideOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

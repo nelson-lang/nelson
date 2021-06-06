@@ -33,7 +33,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static ASTPtr mainAST = nullptr;
+static AbstractSyntaxTreePtr mainAST = nullptr;
 static MacroFunctionDef* mainMDef = nullptr;
 //=============================================================================
 static void
@@ -61,7 +61,7 @@ getLinePosition(const ParseRHS& val, int& lineNumber, int& columnNumber)
     if (val.isToken) {
         tokenID = val.v.i;
     } else {
-        tokenID = val.v.p->context();
+        tokenID = val.v.p->getContext();
     }
     lineNumber = tokenID & 0xFFFF;
     columnNumber = tokenID >> 16;
@@ -126,7 +126,7 @@ resetParser()
 }
 //=============================================================================
 void
-setParsedScriptBlock(ASTPtr ast)
+setParsedScriptBlock(AbstractSyntaxTreePtr ast)
 {
     mainAST = ast;
 }
@@ -137,7 +137,7 @@ setParsedFunctionDef(MacroFunctionDef* r)
     mainMDef = r;
 }
 //=============================================================================
-ASTPtr
+AbstractSyntaxTreePtr
 getParsedScriptBlock()
 {
     return mainAST;

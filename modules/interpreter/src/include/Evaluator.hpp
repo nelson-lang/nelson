@@ -46,7 +46,7 @@
 #pragma once
 #include <stack>
 #include <vector>
-#include "AST.hpp"
+#include "AbstractSyntaxTree.hpp"
 #include "ArrayOf.hpp"
 #include "CommandQueue.hpp"
 #include "Context.hpp"
@@ -276,7 +276,7 @@ public:
      * Convert an expression list into a vector of ArrayOf variables.
      */
     ArrayOfVector
-    rowDefinition(ASTPtr t);
+    rowDefinition(AbstractSyntaxTreePtr t);
     /**
      * Convert a matrix definition of the form: [expr1,expr2;expr3;expr4] into
      * a vector of row definitions.  The first row is the vector [expr1,expr2],
@@ -290,7 +290,7 @@ public:
      *   rowDef
      */
     ArrayOf
-    matrixDefinition(ASTPtr t);
+    matrixDefinition(AbstractSyntaxTreePtr t);
     /**
      * Convert a cell defintion of the form: {expr1,expr2;expr3;expr4} into
      * a vector of row definitions.  The first row is the vector {expr1,expr2},
@@ -304,12 +304,12 @@ public:
      *   rowDef
      */
     ArrayOf
-    cellDefinition(ASTPtr t);
+    cellDefinition(AbstractSyntaxTreePtr t);
     /**
      * Evaluate the expression pointed to by the AST t into a variable.
      */
     ArrayOf
-    expression(ASTPtr t);
+    expression(AbstractSyntaxTreePtr t);
     /**
      * Process a sequence of expressions into a vector of ArrayOfs.
      * The input AST must be:
@@ -325,9 +325,9 @@ public:
      * VAR(exprssionlist)), in which case dim != nullptr.
      */
     ArrayOfVector
-    expressionList(ASTPtr t);
+    expressionList(AbstractSyntaxTreePtr t);
     ArrayOfVector
-    expressionList(ASTPtr t, ArrayOf subRoot);
+    expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot);
     /**
      * The RHS expression is used to represent an rvalue in an
      * assignment statement (or an implicit assignment such as
@@ -355,7 +355,7 @@ public:
      *    -
      */
     ArrayOfVector
-    rhsExpression(ASTPtr t);
+    rhsExpression(AbstractSyntaxTreePtr t);
     /**
      * Look up an identifier as a potential function name
      */
@@ -365,7 +365,7 @@ public:
      * Special case the single assignment statement 'A = B' for speed.
      */
     inline ArrayOf
-    rhsExpressionSimple(ASTPtr t);
+    rhsExpressionSimple(AbstractSyntaxTreePtr t);
 
     void
     setInterface(Interface* _io);
@@ -387,24 +387,24 @@ public:
      * are empty.
      */
     ArrayOf
-    simpleSubindexExpression(ArrayOf& r, ASTPtr t);
+    simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t);
     ArrayOfVector
     subsindex(const ArrayOfVector& m);
 
     indexType
-    countLeftHandSides(ASTPtr t);
+    countLeftHandSides(AbstractSyntaxTreePtr t);
 
     void
-    simpleAssign(ArrayOf& r, ASTPtr t, ArrayOf& value);
+    simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOf& value);
 
     void
-    simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value);
+    simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& value);
 
     ArrayOf
-    assignExpression(ASTPtr t, ArrayOf& value);
+    assignExpression(AbstractSyntaxTreePtr t, ArrayOf& value);
 
     ArrayOf
-    assignExpression(ASTPtr t, ArrayOfVector& value);
+    assignExpression(AbstractSyntaxTreePtr t, ArrayOfVector& value);
 
     /**
      * Evaluate a function and return the results of the function as
@@ -426,7 +426,8 @@ public:
      *    - too many outputs are requested from the function.
      */
     ArrayOfVector
-    functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool outputOptional);
+    functionExpression(
+        FunctionDef* funcDef, AbstractSyntaxTreePtr t, int narg_out, bool outputOptional);
     /**
      * A multifunction call is an expression of the sort
      * [expr1,expr2,...,exprn] = func(args).  The AST is
@@ -448,7 +449,7 @@ public:
      * missing, or there are multiple rows in the left hand side.).
      */
     void
-    multiFunctionCall(ASTPtr t, bool printIt);
+    multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt);
     /**
      * A special function call is an expression of the form
      * >> func arg1 arg2 arg3
@@ -458,7 +459,7 @@ public:
      *       fname->arg
      */
     ArrayOfVector
-    specialFunctionCall(ASTPtr t, bool printIt);
+    specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt);
     /**
      * Test a conditional expression, and if its true, evaluate
      * the associated block of code.  Used by a number of control
@@ -471,7 +472,7 @@ public:
      * AST is not a cstat.
      */
     bool
-    conditionedStatement(ASTPtr t);
+    conditionedStatement(AbstractSyntaxTreePtr t);
     /**
      * Handles an if statement, corresponding to an if, a number
      * of elseif blocks and an optional else statement.  The AST looks
@@ -484,7 +485,7 @@ public:
      * one of them succeeds.
      */
     void
-    ifStatement(ASTPtr t);
+    ifStatement(AbstractSyntaxTreePtr t);
     /**
      * Handle a switch statement.  The switch statement tests
      * an expression against a number of case blocks.  If a
@@ -505,7 +506,7 @@ public:
      * either a scalar or a string.
      */
     void
-    switchStatement(ASTPtr t);
+    switchStatement(AbstractSyntaxTreePtr t);
     /**
      * Implements the for control statement.  The AST looks like
      *     ident->codeBlock
@@ -517,7 +518,7 @@ public:
      * assignment, the code in the codeBlock is executed.
      */
     void
-    forStatement(ASTPtr t);
+    forStatement(AbstractSyntaxTreePtr t);
     /**
      * Implements the while control statement.  The AST looks like
      *     expr->codeBlock
@@ -525,7 +526,7 @@ public:
      * successful expression, the codeBlock is executed.
      */
     void
-    whileStatement(ASTPtr t);
+    whileStatement(AbstractSyntaxTreePtr t);
     /**
      * Implements the try statement.  The AST looks like
      *     block->catchBlock
@@ -533,7 +534,7 @@ public:
      * the code in catchBlock is executed.
      */
     void
-    tryStatement(ASTPtr t);
+    tryStatement(AbstractSyntaxTreePtr t);
     /**
      * This somewhat strange test is used by the switch statement.
      * If x is a scalar, and we are a scalar, this is an equality
@@ -552,7 +553,7 @@ public:
      * malformed.
      */
     bool
-    testCaseStatement(ASTPtr t, ArrayOf s);
+    testCaseStatement(AbstractSyntaxTreePtr t, ArrayOf s);
     /**
      * Execute the statement described by the AST - the printIt flag
      * determines if the result of the statement should be printed to
@@ -608,7 +609,7 @@ public:
      * Throws an Exception if the statement type is not recognized.
      */
     void
-    statementType(ASTPtr t, bool printIt);
+    statementType(AbstractSyntaxTreePtr t, bool printIt);
     /**
      * assign statement
      * a = 1
@@ -616,7 +617,7 @@ public:
      * a(1, 1) = 1
      */
     void
-    assignStatement(ASTPtr t, bool printIt);
+    assignStatement(AbstractSyntaxTreePtr t, bool printIt);
     /**
      * The statement method simply screens out the need for the
      * printIt flag.  It also retrieves the statement context
@@ -636,7 +637,7 @@ public:
      * line number and filename if necessary).
      */
     void
-    statement(ASTPtr t);
+    statement(AbstractSyntaxTreePtr t);
     /**
      * Executes a sequence of statements, trapping exceptions
      * as necessary.  The AST looks like
@@ -648,7 +649,7 @@ public:
      *
      */
     void
-    block(ASTPtr t);
+    block(AbstractSyntaxTreePtr t);
     /**
      * Start a command line interface.  Statements are retrieved
      * from the console, and executed sequentially until a "return"
@@ -819,29 +820,29 @@ private:
     ArrayOf
     EndReference(ArrayOf v, indexType index, size_t count);
     size_t
-    countSubExpressions(ASTPtr t);
+    countSubExpressions(AbstractSyntaxTreePtr t);
 
     ArrayOf
     doUnaryOperatorOverload(
-        ASTPtr t, UnaryFunction functionOperator, const std::string& functionName);
+        AbstractSyntaxTreePtr t, UnaryFunction functionOperator, const std::string& functionName);
     ArrayOf
     doBinaryOperatorOverload(
-        ASTPtr t, BinaryFunction functionOperator, const std::string& functionName);
+        AbstractSyntaxTreePtr t, BinaryFunction functionOperator, const std::string& functionName);
     ArrayOf
     doTernaryOperatorOverload(
-        ASTPtr t, TernaryFunction functionOperator, const std::string& functionName);
+        AbstractSyntaxTreePtr t, TernaryFunction functionOperator, const std::string& functionName);
 
     /**
      * Handles the logistics of shortcut evaluation
      */
     ArrayOf
-    shortCutOrOperator(ASTPtr t);
+    shortCutOrOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    shortCutAndOperator(ASTPtr t);
+    shortCutAndOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    orOperator(ASTPtr t);
+    orOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    andOperator(ASTPtr t);
+    andOperator(AbstractSyntaxTreePtr t);
 
     /**
      * Evaluate a unit colon expression.  The AST input should look like:
@@ -854,7 +855,7 @@ private:
      * integer such that expr1+n <= expr2.
      */
     ArrayOf
-    colonUnitOperator(ASTPtr t);
+    colonUnitOperator(AbstractSyntaxTreePtr t);
 
     /**
      * Evaluate a double colon expression.  The AST input should look like:
@@ -868,43 +869,43 @@ private:
      * n is the largest integer such that expr1+n*expr2 <= expr3.
      */
     ArrayOf
-    colonOperator(ASTPtr t);
+    colonOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    additionOperator(ASTPtr t);
+    additionOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    subtractionOperator(ASTPtr t);
+    subtractionOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    timesOperator(ASTPtr t);
+    timesOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    mtimesOperator(ASTPtr t);
+    mtimesOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    leftDivideOperator(ASTPtr t);
+    leftDivideOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    rightDivideOperator(ASTPtr t);
+    rightDivideOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    dotLeftDivideOperator(ASTPtr t);
+    dotLeftDivideOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    dotRightDivideOperator(ASTPtr t);
+    dotRightDivideOperator(AbstractSyntaxTreePtr t);
 
     ArrayOf
-    eqOperator(ASTPtr t);
+    eqOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    gtOperator(ASTPtr t);
+    gtOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    geOperator(ASTPtr t);
+    geOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    leOperator(ASTPtr t);
+    leOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    ltOperator(ASTPtr t);
+    ltOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    neOperator(ASTPtr t);
+    neOperator(AbstractSyntaxTreePtr t);
     ArrayOf
-    notOperator(ASTPtr t);
+    notOperator(AbstractSyntaxTreePtr t);
 
     bool
     needToOverloadOperator(const ArrayOf& a);

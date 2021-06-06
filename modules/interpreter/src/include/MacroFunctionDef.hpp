@@ -25,7 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "AST.hpp"
+#include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 #include <sys/stat.h>
@@ -56,7 +56,7 @@ public:
      * The AST for the code that defines the function (only the body of the
      * function is contained in this AST, not the function declaration itself).
      */
-    ASTPtr code;
+    AbstractSyntaxTreePtr code;
     /**
      * Location of the function's defining file in the current filesystem.
      */
@@ -93,10 +93,6 @@ public:
     {
         return NLS_MACRO_FUNCTION;
     }
-    /** Print a description of the function
-     */
-    void
-    printMe(Interface* io) override;
     /**
      * The number of inputs required by this function, which is the number of
      * elements in arguments unless the last element is the keyword "varargin"
@@ -124,7 +120,7 @@ public:
     evaluateFunction(
         Evaluator* /*eval*/, const ArrayOfVector& /*inputs*/, int /*nargout*/) override;
 
-    std::vector<ASTPtr> ptAst;
+    AbstractSyntaxTreePtrVector ptAst;
 
     int
     nargin();

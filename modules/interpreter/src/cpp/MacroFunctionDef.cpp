@@ -24,7 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MacroFunctionDef.hpp"
-#include "AstManager.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
 #include "ParserInterface.hpp"
@@ -60,7 +59,7 @@ MacroFunctionDef::~MacroFunctionDef()
     }
     for (auto p : ptAst) {
         if (p != nullptr) {
-            deleteAst(p, ptAst);
+            AbstractSyntaxTree::deleteAst(p, ptAst);
             p = nullptr;
         }
     }
@@ -115,31 +114,6 @@ MacroFunctionDef::outputArgCount()
         return -1;
     }
     return static_cast<int>(returnVals.size());
-}
-//=============================================================================
-void
-MacroFunctionDef::printMe(Interface* io)
-{
-    stringVector tmp;
-    snprintf(msgBuffer, MSGBUFLEN, _("Function name:%s\n").c_str(), name.c_str());
-    io->outputMessage(msgBuffer);
-    io->outputMessage(_W("Function class: Compiled M function\n"));
-    io->outputMessage(_W("returnVals: "));
-    tmp = returnVals;
-    size_t i;
-    for (i = 0; i < tmp.size(); i++) {
-        snprintf(msgBuffer, MSGBUFLEN, "%s ", tmp[i].c_str());
-        io->outputMessage(msgBuffer);
-    }
-    io->outputMessage("\n");
-    io->outputMessage(_W("arguments: "));
-    tmp = arguments;
-    for (i = 0; i < tmp.size(); i++) {
-        snprintf(msgBuffer, MSGBUFLEN, "%s ", tmp[i].c_str());
-        io->outputMessage(msgBuffer);
-    }
-    io->outputMessage("\ncode: \n");
-    printAST(code);
 }
 //=============================================================================
 ArrayOfVector

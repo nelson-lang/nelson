@@ -23,28 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// Copyright (c) 2002, 2003 Samit Basu
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-// DEALINGS IN THE SOFTWARE.
-//=============================================================================
 #pragma once
+//=============================================================================
 #include <string>
+#include <vector>
 #include "nlsInterpreter_exports.h"
 #include "Types.hpp"
 #include "Keywords.hpp"
@@ -123,69 +105,59 @@ typedef enum
     OP_DOTDYN
 } OP_TYPE;
 //=============================================================================
-class AST;
-using ASTPtr = AST*;
-using ASTPtrVector = std::vector<ASTPtr>;
+class AbstractSyntaxTree;
+using AbstractSyntaxTreePtr = AbstractSyntaxTree*;
+using AbstractSyntaxTreePtrVector = std::vector<AbstractSyntaxTreePtr>;
 //=============================================================================
 /** The abstract syntax tree class
  * This class represents an abstract syntax tree class (AST).  The AST node has
  * both a "down" and "right" child.
  */
-class NLSINTERPRETER_IMPEXP AST
+class NLSINTERPRETER_IMPEXP AbstractSyntaxTree
 {
 public:
+    //=============================================================================
     NODE_TYPE type;
     std::string text;
     int tokenNumber;
     int m_context;
-    ASTPtr down;
-    ASTPtr right;
+    AbstractSyntaxTreePtr down;
+    AbstractSyntaxTreePtr right;
     OP_TYPE opNum;
-    /** Default constructor
-     * Creates an empty AST node.  All pointers are initialized to NULL,
-     * the type is set to non_terminal.
-     */
-    AST();
-    /** Text constructor
-     * Creates a node of the specified type with the text field set to a copy
-     * of the name argument.
-     */
-    AST(NODE_TYPE ntype, const char* name, int context);
-    /** Token constructor
-     * Creates a node of the specified type with the tokenNumber field set to
-     * the token argument.  This constructor is useful for nodes that are represented
-     * by a single, numeric token (as opposed to a string).
-     */
-    AST(NODE_TYPE ntype, int token, int context);
-    /** Nonterminal constructor with two arguments
-     * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given left and right AST nodes.  The resulting tree fragment
-     * looks like:
-     *\dotfile ASTdot1.dot
-     */
-    AST(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context);
-    /** Nonterminal constructor with three arguments
-     * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given three AST nodes.  The resulting tree fragment
-     * looks like:
-     *\dotfile ASTdot2.dot
-     */
-    AST(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context);
-    /** Nonterminal constructor with a single argument
-     * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given AST node.  The resulting tree fragment
-     * looks like:
-     *\dotfile ASTdot3.dot
-     */
-    AST(OP_TYPE op, ASTPtr arg, int context);
-    /** Destructor
-     */
-    ~AST();
+    //=============================================================================
+    static AbstractSyntaxTreePtr
+    createNode(NODE_TYPE ntype, const char* name, int context);
+    //=============================================================================
+    static AbstractSyntaxTreePtr
+    createNode(NODE_TYPE ntype, int token, int context);
+    //=============================================================================
+    static AbstractSyntaxTreePtr
+    createNode(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr rt, int context);
+    //=============================================================================
+    static AbstractSyntaxTreePtr
+    createNode(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr md,
+        AbstractSyntaxTreePtr rt, int context);
+    //=============================================================================
+    static AbstractSyntaxTreePtr
+    createNode(OP_TYPE op, AbstractSyntaxTreePtr arg, int context);
+    //=============================================================================
+    static AbstractSyntaxTreePtrVector
+    getAstUsed();
+    //=============================================================================
+    static void
+    resetAstBackupPosition();
+    //=============================================================================
+    static bool
+    deleteAst(AbstractSyntaxTreePtr pt, AbstractSyntaxTreePtrVector v);
+    //=============================================================================
+    static void
+    deleteAstVector(AbstractSyntaxTreePtrVector& v);
+    //=============================================================================
     /** Context string
      * Returns the context string for this node.
      */
     int
-    context();
+    getContext();
     /** Test for a match
      * Returns true if textual content of this node matches the supplied argument
      * (and is not NULL).
@@ -200,7 +172,7 @@ public:
      *\dotfile ASTdot4.dot
      */
     void
-    addChild(ASTPtr arg);
+    addChild(AbstractSyntaxTreePtr arg);
     /** Add the given tree as a peer to the current node
      * Adds the argument tree as a peer to the current node.  If the current node
      * has no "peers" (i.e., right = nullptr) then the supplied tree is placed as a
@@ -209,7 +181,7 @@ public:
      *\dotfile ASTdot5.dot
      */
     void
-    addPeer(ASTPtr arg);
+    addPeer(AbstractSyntaxTreePtr arg);
     /** Count children
      * Returns the number of children to the current tree.  This is only the number of
      * children that are immediately below the current node (i.e., children of children
@@ -235,19 +207,52 @@ public:
      */
     bool
     isEmpty();
+
+    /** Destructor
+     */
+    ~AbstractSyntaxTree();
+
+private:
+    /** Default constructor
+     * Creates an empty AST node.  All pointers are initialized to NULL,
+     * the type is set to non_terminal.
+     */
+    AbstractSyntaxTree();
+    /** Text constructor
+     * Creates a node of the specified type with the text field set to a copy
+     * of the name argument.
+     */
+    AbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
+    /** Token constructor
+     * Creates a node of the specified type with the tokenNumber field set to
+     * the token argument.  This constructor is useful for nodes that are represented
+     * by a single, numeric token (as opposed to a string).
+     */
+    AbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
+    /** Nonterminal constructor with two arguments
+     * Creates a non-terminal node with the text set to a copy of the name argument
+     * with the given left and right AST nodes.  The resulting tree fragment
+     * looks like:
+     *\dotfile ASTdot1.dot
+     */
+    AbstractSyntaxTree(
+        OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr rt, int context);
+    /** Nonterminal constructor with three arguments
+     * Creates a non-terminal node with the text set to a copy of the name argument
+     * with the given three AST nodes.  The resulting tree fragment
+     * looks like:
+     *\dotfile ASTdot2.dot
+     */
+    AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr md,
+        AbstractSyntaxTreePtr rt, int context);
+    /** Nonterminal constructor with a single argument
+     * Creates a non-terminal node with the text set to a copy of the name argument
+     * with the given AST node.  The resulting tree fragment
+     * looks like:
+     *\dotfile ASTdot3.dot
+     */
+    AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr arg, int context);
 };
-//=============================================================================
-/** Print out the tree
- * Print out the tree using a tab-level scheme.  Peers are printed at the same
- * tab level, children are printed at a higher tab level.
- */
-NLSINTERPRETER_IMPEXP void
-printAST(ASTPtr t);
-/** Freeze the tree
- * Serializes an AST tree to a serialization object.  The resulting stream should
- * be portable across reasonable systems (i.e., little-vs-big endian can be handled
- * but that's about it).
- */
 //=============================================================================
 /**
  * The Parser value stack contains either a raw token's context or an AST pointer
@@ -255,7 +260,7 @@ printAST(ASTPtr t);
 typedef union
 {
     int i;
-    ASTPtr p; //-V117
+    AbstractSyntaxTreePtr p; //-V117
 } contextOrPointer;
 //=============================================================================
 typedef struct

@@ -58,9 +58,9 @@ Evaluator::shortCutAndOperator(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-Evaluator::shortCutAndOperator(ASTPtr t)
+Evaluator::shortCutAndOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf A = expression(t->down);
     ArrayOf B = expression(t->down->right);
     ArrayOf retval = shortCutAndOperator(A, B);

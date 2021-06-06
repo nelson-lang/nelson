@@ -25,7 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "AST.hpp"
+#include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserState.hpp"
@@ -41,7 +41,7 @@ resetParser();
 /**
  * Get the AST from a parse of a script or statement sequence.
  */
-NLSINTERPRETER_IMPEXP ASTPtr
+NLSINTERPRETER_IMPEXP AbstractSyntaxTreePtr
 getParsedScriptBlock();
 /**
  * Get the function definition from a parse of a function-definition.

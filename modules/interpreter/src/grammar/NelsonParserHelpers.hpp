@@ -27,7 +27,7 @@
 //=============================================================================
 #include <string>
 #include "MacroFunctionDef.hpp"
-#include "AST.hpp"
+#include "AbstractSyntaxTree.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,7 +45,7 @@ void
 callyyparse();
 //=============================================================================
 void
-setParsedScriptBlock(ASTPtr ast);
+setParsedScriptBlock(AbstractSyntaxTreePtr ast);
 //=============================================================================
 void
 setParsedFunctionDef(MacroFunctionDef* r);

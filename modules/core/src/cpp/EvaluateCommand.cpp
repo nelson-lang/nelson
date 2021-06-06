@@ -23,13 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <string>
 #include "EvaluateCommand.hpp"
-#include "AstManager.hpp"
 #include "Error.hpp"
 #include "EvaluateInterface.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
-#include <string>
 #include "NelsonPrint.hpp"
 //=============================================================================
 namespace Nelson {

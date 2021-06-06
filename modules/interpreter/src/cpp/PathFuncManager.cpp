@@ -36,7 +36,6 @@
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
-#include "AstManager.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "OverloadCache.hpp"
 #include "Error.hpp"
@@ -485,14 +484,14 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
             + utf8_to_wstring(msg2));
     }
     ParserState pstate = ParseError;
-    resetAstBackupPosition();
-    std::vector<ASTPtr> ptAst;
+    AbstractSyntaxTree::resetAstBackupPosition();
+    AbstractSyntaxTreePtrVector ptAst;
     try {
         pstate = parseFile(fr, wstring_to_utf8(nlf_filename));
-        ptAst = getAstUsed();
+        ptAst = AbstractSyntaxTree::getAstUsed();
     } catch (const Exception&) {
-        deleteAstVector(ptAst);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteAstVector(ptAst);
+        AbstractSyntaxTree::resetAstBackupPosition();
         if (fr != nullptr) {
             fclose(fr);
         }
@@ -502,8 +501,8 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
         fclose(fr);
     }
     if (pstate != FuncDef) {
-        deleteAstVector(ptAst);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteAstVector(ptAst);
+        AbstractSyntaxTree::resetAstBackupPosition();
         Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     try {
@@ -515,7 +514,7 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
         Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     } else {
         fptr->ptAst = std::move(ptAst);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::resetAstBackupPosition();
         boost::filesystem::path pathFunction(nlf_filename);
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
         if (!boost::iequals(functionNameFromFile, fptr->name)) {

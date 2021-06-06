@@ -99,7 +99,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "NelsonParserHelpers.hpp"
-#include "AstManager.hpp"
+#include "AbstractSyntaxTree.hpp"
 //=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================
@@ -2295,7 +2295,7 @@ yyreduce:
 
   case 33: /* statementList: statement  */
 #line 177 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-             {yyval.v.p = allocateAbstractSyntaxTree(OP_BLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());}
+             {yyval.v.p = AbstractSyntaxTree::createNode(OP_BLOCK,yyvsp[0].v.p,yyvsp[0].v.p->getContext());}
 #line 2303 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2308,7 +2308,7 @@ yyreduce:
   case 35: /* statement: statementType ENDQSTMNT  */
 #line 182 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {
-        yyval.v.p = allocateAbstractSyntaxTree(OP_QSTATEMENT,NULL,yyvsp[0].v.i);
+        yyval.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2318 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2317,7 +2317,7 @@ yyreduce:
   case 36: /* statement: statementType ENDSTMNT  */
 #line 186 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                             {
-      yyval.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
+      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
             yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2327 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2326,7 +2326,7 @@ yyreduce:
   case 37: /* statement: statementType ','  */
 #line 190 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {
-      yyval.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
+      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2336 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2334,43 +2334,43 @@ yyreduce:
 
   case 40: /* statementType: %empty  */
 #line 199 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-     {yyval.v.p = allocateAbstractSyntaxTree(null_node,"",-1);}
+     {yyval.v.p = AbstractSyntaxTree::createNode(null_node,"",-1);}
 #line 2342 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 56: /* specialSyntaxStatement: IDENT NUMERIC  */
 #line 220 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
+                {yyval.v.p = AbstractSyntaxTree::createNode(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->getContext());}
 #line 2348 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 57: /* specialSyntaxStatement: STRING STRING  */
 #line 221 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
+                {yyval.v.p = AbstractSyntaxTree::createNode(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->getContext());}
 #line 2354 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 58: /* specialSyntaxStatement: CHARACTER CHARACTER  */
 #line 222 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                      {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
+                      {yyval.v.p = AbstractSyntaxTree::createNode(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->getContext());}
 #line 2360 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 59: /* specialSyntaxStatement: IDENT STRING  */
 #line 223 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-               {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
+               {yyval.v.p = AbstractSyntaxTree::createNode(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->getContext());}
 #line 2366 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 60: /* specialSyntaxStatement: IDENT CHARACTER  */
 #line 224 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context());}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->getContext());}
 #line 2372 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 61: /* specialSyntaxStatement: IDENT IDENT  */
 #line 225 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = allocateAbstractSyntaxTree(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->context()); }
+              {yyval.v.p = AbstractSyntaxTree::createNode(OP_SCALL,yyvsp[-1].v.p,yyvsp[0].v.p,yyvsp[-1].v.p->getContext()); }
 #line 2378 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2463,7 +2463,7 @@ yyreduce:
   case 85: /* caseList: caseStatement  */
 #line 292 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                 {
-    yyval.v.p = allocateAbstractSyntaxTree(OP_CASEBLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());
+    yyval.v.p = AbstractSyntaxTree::createNode(OP_CASEBLOCK,yyvsp[0].v.p,yyvsp[0].v.p->getContext());
   }
 #line 2472 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2539,7 +2539,7 @@ yyreduce:
   case 95: /* forIndexExpression: IDENT  */
 #line 331 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
         {yyval.v.p = yyvsp[0].v.p;
-        yyval.v.p->addChild(allocateAbstractSyntaxTree(OP_RHS, allocateAbstractSyntaxTree(id_node,yyvsp[0].v.p->text.c_str(), yyvsp[0].v.p->context()),yyvsp[0].v.p->context())); }
+        yyval.v.p->addChild(AbstractSyntaxTree::createNode(OP_RHS, AbstractSyntaxTree::createNode(id_node,yyvsp[0].v.p->text.c_str(), yyvsp[0].v.p->getContext()),yyvsp[0].v.p->getContext())); }
 #line 2547 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2635,7 +2635,7 @@ yyreduce:
   case 109: /* conditionedStatement: expr optionalEndStatement statementList  */
 #line 367 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                           {
-    yyval.v.p = allocateAbstractSyntaxTree(OP_CSTAT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-2].v.p->context());
+    yyval.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-2].v.p->getContext());
   }
 #line 2644 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2655,7 +2655,7 @@ yyreduce:
   case 113: /* elseIfStatementList: elseIfStatement  */
 #line 379 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                   {
-    yyval.v.p = allocateAbstractSyntaxTree(OP_ELSEIFBLOCK,yyvsp[0].v.p,yyvsp[0].v.p->context());
+    yyval.v.p = AbstractSyntaxTree::createNode(OP_ELSEIFBLOCK,yyvsp[0].v.p,yyvsp[0].v.p->getContext());
   }
 #line 2664 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2704,7 +2704,7 @@ yyreduce:
 
   case 120: /* assignmentStatement: symbRefList '=' expr  */
 #line 402 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_ASSIGN,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_ASSIGN,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2712 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2717,7 +2717,7 @@ yyreduce:
   case 122: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '(' ')'  */
 #line 407 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                         {
-  yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-5].v.p,yyvsp[-2].v.p,yyvsp[-6].v.i);
+  yyval.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,yyvsp[-5].v.p,yyvsp[-2].v.p,yyvsp[-6].v.i);
   }
 #line 2726 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2725,8 +2725,8 @@ yyreduce:
   case 123: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '(' indexList ')'  */
 #line 410 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                     {
-    yyvsp[-3].v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i));
-    yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-6].v.p,yyvsp[-3].v.p,yyvsp[-7].v.i);
+    yyvsp[-3].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i));
+    yyval.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,yyvsp[-6].v.p,yyvsp[-3].v.p,yyvsp[-7].v.i);
   }
 #line 2735 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2734,8 +2734,8 @@ yyreduce:
   case 124: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT '{' indexList '}'  */
 #line 414 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                                     {
-    yyvsp[-3].v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i));
-    yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-6].v.p,yyvsp[-3].v.p,yyvsp[-7].v.i);
+    yyvsp[-3].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i));
+    yyval.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,yyvsp[-6].v.p,yyvsp[-3].v.p,yyvsp[-7].v.i);
   }
 #line 2744 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2743,8 +2743,8 @@ yyreduce:
   case 125: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT  */
 #line 418 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                  {
-    yyvsp[0].v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,NULL,-1));
-    yyval.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,yyvsp[-3].v.p,yyvsp[0].v.p,yyvsp[-4].v.i);
+    yyvsp[0].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,NULL,-1));
+    yyval.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,yyvsp[-3].v.p,yyvsp[0].v.p,yyvsp[-4].v.i);
   }
 #line 2753 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2787,7 +2787,7 @@ yyreduce:
 
   case 132: /* expr: expr ':' expr  */
 #line 431 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyval.v.p = allocateAbstractSyntaxTree(OP_COLON,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                {yyval.v.p = AbstractSyntaxTree::createNode(OP_COLON,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2795 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2799,7 +2799,7 @@ yyreduce:
 
   case 135: /* expr: expr '+' expr  */
 #line 434 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_PLUS,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_PLUS,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2807 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2811,7 +2811,7 @@ yyreduce:
 
   case 137: /* expr: expr '-' expr  */
 #line 436 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_SUBTRACT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_SUBTRACT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2819 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2823,7 +2823,7 @@ yyreduce:
 
   case 139: /* expr: expr '*' expr  */
 #line 438 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_TIMES,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_TIMES,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2831 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2835,7 +2835,7 @@ yyreduce:
 
   case 141: /* expr: expr '/' expr  */
 #line 440 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_RDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_RDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2843 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2847,7 +2847,7 @@ yyreduce:
 
   case 143: /* expr: expr '\\' expr  */
 #line 442 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                   {yyval.v.p = allocateAbstractSyntaxTree(OP_LDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                   {yyval.v.p = AbstractSyntaxTree::createNode(OP_LDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2855 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2859,7 +2859,7 @@ yyreduce:
 
   case 145: /* expr: expr '|' expr  */
 #line 444 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_OR,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_OR,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2867 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2871,7 +2871,7 @@ yyreduce:
 
   case 147: /* expr: expr '&' expr  */
 #line 446 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_AND,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_AND,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2879 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2883,7 +2883,7 @@ yyreduce:
 
   case 149: /* expr: expr SOR expr  */
 #line 448 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_SOR,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_SOR,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2891 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2895,7 +2895,7 @@ yyreduce:
 
   case 151: /* expr: expr SAND expr  */
 #line 450 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                   {yyval.v.p = allocateAbstractSyntaxTree(OP_SAND,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                   {yyval.v.p = AbstractSyntaxTree::createNode(OP_SAND,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2903 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2907,7 +2907,7 @@ yyreduce:
 
   case 153: /* expr: expr '<' expr  */
 #line 452 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_LT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_LT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2915 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2919,7 +2919,7 @@ yyreduce:
 
   case 155: /* expr: expr LE expr  */
 #line 454 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_LEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_LEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2927 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2931,7 +2931,7 @@ yyreduce:
 
   case 157: /* expr: expr '>' expr  */
 #line 456 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_GT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_GT,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2939 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2943,7 +2943,7 @@ yyreduce:
 
   case 159: /* expr: expr GE expr  */
 #line 458 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_GEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_GEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2951 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2955,7 +2955,7 @@ yyreduce:
 
   case 161: /* expr: expr EQ expr  */
 #line 460 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_EQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2963 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2967,7 +2967,7 @@ yyreduce:
 
   case 163: /* expr: expr NE expr  */
 #line 462 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_NEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_NEQ,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2975 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2979,7 +2979,7 @@ yyreduce:
 
   case 165: /* expr: expr DOTTIMES expr  */
 #line 464 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_TIMES,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOT_TIMES,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2987 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -2991,7 +2991,7 @@ yyreduce:
 
   case 167: /* expr: expr DOTRDIV expr  */
 #line 466 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_RDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOT_RDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 2999 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3003,7 +3003,7 @@ yyreduce:
 
   case 169: /* expr: expr DOTLDIV expr  */
 #line 468 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                      {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_LDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                      {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOT_LDIV,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 3011 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3015,19 +3015,19 @@ yyreduce:
 
   case 171: /* expr: '-' expr  */
 #line 470 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_NEG,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_NEG,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 3023 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 172: /* expr: '+' expr  */
 #line 471 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_POS, yyvsp[0].v.p, yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_POS, yyvsp[0].v.p, yyvsp[-1].v.i);}
 #line 3029 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 173: /* expr: '~' expr  */
 #line 472 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_NOT,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_NOT,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 3035 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3039,7 +3039,7 @@ yyreduce:
 
   case 175: /* expr: expr '^' expr  */
 #line 474 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                   {yyval.v.p = allocateAbstractSyntaxTree(OP_POWER,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                   {yyval.v.p = AbstractSyntaxTree::createNode(OP_POWER,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 3047 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3051,7 +3051,7 @@ yyreduce:
 
   case 177: /* expr: expr DOTPOWER expr  */
 #line 476 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_POWER,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOT_POWER,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 3059 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3063,13 +3063,13 @@ yyreduce:
 
   case 179: /* expr: expr '\''  */
 #line 478 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_TRANSPOSE,yyvsp[-1].v.p,yyvsp[0].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_TRANSPOSE,yyvsp[-1].v.p,yyvsp[0].v.i);}
 #line 3071 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 180: /* expr: expr DOTTRANSPOSE  */
 #line 479 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT_TRANSPOSE,yyvsp[-1].v.p,yyvsp[0].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOT_TRANSPOSE,yyvsp[-1].v.p,yyvsp[0].v.i);}
 #line 3077 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3093,7 +3093,7 @@ yyreduce:
 
   case 188: /* terminal: symbRefList  */
 #line 490 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                {yyval.v.p = allocateAbstractSyntaxTree(OP_RHS,yyvsp[0].v.p,yyvsp[0].v.p->context());}
+                {yyval.v.p = AbstractSyntaxTree::createNode(OP_RHS,yyvsp[0].v.p,yyvsp[0].v.p->getContext());}
 #line 3101 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3129,7 +3129,7 @@ yyreduce:
 
   case 194: /* terminal: '[' ']'  */
 #line 496 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,yyvsp[-1].v.i);}
 #line 3137 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3159,7 +3159,7 @@ yyreduce:
 
   case 199: /* terminal: '{' '}'  */
 #line 501 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,yyvsp[-1].v.i);}
 #line 3167 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3177,13 +3177,13 @@ yyreduce:
 
   case 203: /* symbRef: '(' indexList ')'  */
 #line 509 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                    {yyval.v.p = allocateAbstractSyntaxTree(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i); }
+                    {yyval.v.p = AbstractSyntaxTree::createNode(OP_PARENS,yyvsp[-1].v.p,yyvsp[-2].v.i); }
 #line 3185 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 204: /* symbRef: '(' ')'  */
 #line 510 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-            {yyval.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,yyvsp[-1].v.i); }
+            {yyval.v.p = AbstractSyntaxTree::createNode(OP_PARENS,NULL,yyvsp[-1].v.i); }
 #line 3191 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3195,7 +3195,7 @@ yyreduce:
 
   case 206: /* symbRef: '{' indexList '}'  */
 #line 512 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                      {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACES,yyvsp[-1].v.p,yyvsp[-2].v.i); }
+                      {yyval.v.p = AbstractSyntaxTree::createNode(OP_BRACES,yyvsp[-1].v.p,yyvsp[-2].v.i); }
 #line 3203 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3207,25 +3207,25 @@ yyreduce:
 
   case 208: /* symbRef: '.' IDENT  */
 #line 514 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = allocateAbstractSyntaxTree(OP_DOT,yyvsp[0].v.p,yyvsp[-1].v.i); }
+              {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOT,yyvsp[0].v.p,yyvsp[-1].v.i); }
 #line 3215 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 209: /* symbRef: '.' '(' expr ')'  */
 #line 515 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                           {yyval.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,yyvsp[-1].v.p,yyvsp[-3].v.i);}
+                           {yyval.v.p = AbstractSyntaxTree::createNode(OP_DOTDYN,yyvsp[-1].v.p,yyvsp[-3].v.i);}
 #line 3221 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 211: /* indexElement: ':'  */
 #line 519 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-        {yyval.v.p = allocateAbstractSyntaxTree(OP_ALL,NULL,yyvsp[0].v.i);}
+        {yyval.v.p = AbstractSyntaxTree::createNode(OP_ALL,NULL,yyvsp[0].v.i);}
 #line 3227 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
   case 212: /* indexElement: '/' IDENT '=' expr  */
 #line 520 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                       {yyval.v.p = allocateAbstractSyntaxTree(OP_KEYWORD,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-3].v.i);}
+                       {yyval.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,yyvsp[-2].v.p,yyvsp[0].v.p,yyvsp[-3].v.i);}
 #line 3233 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3237,7 +3237,7 @@ yyreduce:
 
   case 214: /* indexElement: '/' IDENT  */
 #line 522 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = allocateAbstractSyntaxTree(OP_KEYWORD,yyvsp[0].v.p,yyvsp[-1].v.i);}
+              {yyval.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,yyvsp[0].v.p,yyvsp[-1].v.i);}
 #line 3245 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3255,7 +3255,7 @@ yyreduce:
 
   case 218: /* cellDef: rowDef  */
 #line 532 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACES,yyvsp[0].v.p,yyvsp[0].v.p->context());}
+              {yyval.v.p = AbstractSyntaxTree::createNode(OP_BRACES,yyvsp[0].v.p,yyvsp[0].v.p->getContext());}
 #line 3263 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3267,7 +3267,7 @@ yyreduce:
 
   case 220: /* matrixDef: rowDef  */
 #line 537 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-              {yyval.v.p = allocateAbstractSyntaxTree(OP_BRACKETS,yyvsp[0].v.p,yyvsp[0].v.p->context());}
+              {yyval.v.p = AbstractSyntaxTree::createNode(OP_BRACKETS,yyvsp[0].v.p,yyvsp[0].v.p->getContext());}
 #line 3275 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3279,7 +3279,7 @@ yyreduce:
 
   case 225: /* rowDef: expr  */
 #line 550 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-            {yyval.v.p = allocateAbstractSyntaxTree(OP_SEMICOLON,yyvsp[0].v.p,yyvsp[0].v.p->context());}
+            {yyval.v.p = AbstractSyntaxTree::createNode(OP_SEMICOLON,yyvsp[0].v.p,yyvsp[0].v.p->getContext());}
 #line 3287 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 

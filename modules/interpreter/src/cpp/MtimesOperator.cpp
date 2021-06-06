@@ -30,9 +30,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::mtimesOperator(ASTPtr t)
+Evaluator::mtimesOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf retval = this->mtimesOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

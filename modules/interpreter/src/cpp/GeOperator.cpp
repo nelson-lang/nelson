@@ -30,9 +30,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::geOperator(ASTPtr t)
+Evaluator::geOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf retval = this->geOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

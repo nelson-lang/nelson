@@ -43,9 +43,9 @@ Evaluator::orOperator(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-Evaluator::orOperator(ASTPtr t)
+Evaluator::orOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     const ArrayOf A = expression(t->down);
     const ArrayOf B = expression(t->down->right);
     ArrayOf retval = orOperator(A, B);

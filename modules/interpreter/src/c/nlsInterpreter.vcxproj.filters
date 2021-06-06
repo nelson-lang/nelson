@@ -10,10 +10,7 @@
     <ClCompile Include="..\cpp\AndOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\AST.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\AstManager.cpp">
+    <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp">
@@ -229,10 +226,7 @@
     <ClInclude Include="..\include\ActionMenu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\AST.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\AstManager.hpp">
+    <ClInclude Include="..\include\AbstractSyntaxTree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp">
