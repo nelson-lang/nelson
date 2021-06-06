@@ -12,15 +12,21 @@ branches:
     - master
 
 platform:
-- x86
+- Win32
 - x64
+
+configuration: Release
+
+build:
+  parallel: true
+  project: nelson.sln 
+  verbosity: normal
 
 install:
 - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\build_chain\MSMpiSetup.exe")
 - C:/build_chain/MSMpiSetup.exe -unattend -minimal
-- set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
-- SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
+- set PATH=C:\Program Files\Microsoft MPI\Bin;C:\Program Files (x86)\Inno Setup 6;%PATH%
+
 
 before_build:
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
@@ -30,9 +36,6 @@ before_build:
 - cd "c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%"
 - install.bat
 
-build_script:
-- cd "c:\build_chain\nelson"
-- msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64
 
 after_build:
 - if %platform%==x64 (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe) else (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.exe)
