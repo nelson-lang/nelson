@@ -133,7 +133,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
     ArrayOfVector outputs;
     switch (builtinPrototype) {
     case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
-        BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+        auto builtinPtr = (BuiltInFuncPtr)fptr;
         _set_se_translator(translator_SE);
         try {
             outputs = builtinPtr(nargout, inputs);
@@ -145,7 +145,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
 
     } break;
     case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
-        BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+        auto builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
         _set_se_translator(translator_SE);
         try {
             outputs = builtinPtr(eval, nargout, inputs);

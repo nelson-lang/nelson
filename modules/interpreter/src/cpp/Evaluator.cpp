@@ -2984,7 +2984,8 @@ ArrayOfVector
 Evaluator::functionExpression(
     FunctionDef* funcDef, AbstractSyntaxTreePtr t, int narg_out, bool outputOptional)
 {
-    ArrayOfVector m, n;
+    ArrayOfVector m;
+    ArrayOfVector n;
     AbstractSyntaxTreePtr s = nullptr;
     AbstractSyntaxTreePtr q = nullptr;
     AbstractSyntaxTreePtr p = nullptr;
@@ -3973,15 +3974,11 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     } else {
         command = line;
     }
-    AbstractSyntaxTree::resetAstBackupPosition();
-    AbstractSyntaxTreePtrVector pt;
+    AbstractSyntaxTree::clearReferences();
     try {
         parserState = parseString(command);
-        pt = AbstractSyntaxTree::getAstUsed();
     } catch (Exception& e) {
-        AbstractSyntaxTreePtrVector used = AbstractSyntaxTree::getAstUsed();
-        AbstractSyntaxTree::deleteAstVector(used);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences();
         resetParser();
         setLastErrorException(e);
         if (propogateException) {
@@ -3991,8 +3988,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         return false;
     }
     if (parserState != ScriptBlock) {
-        AbstractSyntaxTree::deleteAstVector(pt);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences();
         resetParser();
         Exception e(_W("a valid script expected."));
         setLastErrorException(e);
@@ -4004,17 +4000,16 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     tree = getParsedScriptBlock();
     callstack.pushDebug("evaluator", command);
     if (tree == nullptr) {
-        AbstractSyntaxTree::deleteAstVector(pt);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences();
         callstack.popDebug();
         return false;
     }
-
+    AbstractSyntaxTreePtrVector astAsVector = AbstractSyntaxTree::getReferences();
+    AbstractSyntaxTree::clearReferences();
     try {
         block(tree);
     } catch (Exception& e) {
-        AbstractSyntaxTree::deleteAstVector(pt);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences(astAsVector);
         tree = nullptr;
         setLastErrorException(e);
         if (propogateException) {
@@ -4024,9 +4019,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         callstack.popDebug();
         return false;
     }
-
-    AbstractSyntaxTree::deleteAstVector(pt);
-    AbstractSyntaxTree::resetAstBackupPosition();
+    AbstractSyntaxTree::deleteReferences(astAsVector);
     tree = nullptr;
     if (state == NLS_STATE_RETURN) {
         if (depth > 0) {
@@ -4260,14 +4253,12 @@ Evaluator::evalCLI()
             }
         }
         // scan the line and tokenize it
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::clearReferences();
         setLexBuffer(commandLine);
         try {
             int lastCount = 0;
             bool bContinueLine = lexCheckForMoreInput(0);
-            AbstractSyntaxTreePtrVector used = AbstractSyntaxTree::getAstUsed();
-            AbstractSyntaxTree::deleteAstVector(used);
-            AbstractSyntaxTree::resetAstBackupPosition();
+            AbstractSyntaxTree::deleteReferences();
             if (bContinueLine) {
                 lastCount = getContinuationCount();
                 std::wstring lines = commandLine;
@@ -4282,12 +4273,10 @@ Evaluator::evalCLI()
                         enoughInput = true;
                     } else {
                         lines.append(commandLine);
-                        AbstractSyntaxTree::resetAstBackupPosition();
+                        AbstractSyntaxTree::clearReferences();
                         setLexBuffer(lines);
                         enoughInput = !lexCheckForMoreInput(lastCount);
-                        AbstractSyntaxTreePtrVector used = AbstractSyntaxTree::getAstUsed();
-                        AbstractSyntaxTree::deleteAstVector(used);
-                        AbstractSyntaxTree::resetAstBackupPosition();
+                        AbstractSyntaxTree::deleteReferences();
                         lastCount = getContinuationCount();
                         if (enoughInput) {
                             lines.append(L"\n");

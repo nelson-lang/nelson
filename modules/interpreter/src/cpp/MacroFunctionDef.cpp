@@ -48,7 +48,7 @@ MacroFunctionDef::MacroFunctionDef()
     nextFunction = nullptr;
     prevFunction = nullptr;
     code = nullptr;
-    ptAst.clear();
+    ptrAstCodeAsVector.clear();
 }
 //=============================================================================
 MacroFunctionDef::~MacroFunctionDef()
@@ -57,13 +57,7 @@ MacroFunctionDef::~MacroFunctionDef()
         delete nextFunction;
         nextFunction = nullptr;
     }
-    for (auto p : ptAst) {
-        if (p != nullptr) {
-            AbstractSyntaxTree::deleteAst(p, ptAst);
-            p = nullptr;
-        }
-    }
-    ptAst.clear();
+    AbstractSyntaxTree::deleteReferences(ptrAstCodeAsVector);
     code = nullptr;
     localFunction = false;
 }

@@ -125,14 +125,14 @@ ArrayOfToException(const ArrayOf& arg)
     e.setMessage(message);
 
     std::vector<Exception> cause;
-    ArrayOf* cell = (ArrayOf*)causeArrayOf.getDataPointer();
+    auto* cell = (ArrayOf*)causeArrayOf.getDataPointer();
     for (indexType k = 0; k < causeArrayOf.getElementCount(); ++k) {
         cause.push_back(ArrayOfToException(cell[k]));
     }
     e.setCause(cause);
 
     Dimensions dimsStack = stackArrayOf.getDimensions();
-    ArrayOf* stackElement = (ArrayOf*)stackArrayOf.getDataPointer();
+    auto* stackElement = (ArrayOf*)stackArrayOf.getDataPointer();
     std::vector<PositionScript> trace;
     for (indexType k = 0; k < stackArrayOf.getElementCount(); k++) {
         ArrayOf fileAsArrayOf = stackElement[k].getField("file");

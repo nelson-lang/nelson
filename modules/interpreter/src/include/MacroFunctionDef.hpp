@@ -57,6 +57,8 @@ public:
      * function is contained in this AST, not the function declaration itself).
      */
     AbstractSyntaxTreePtr code;
+    AbstractSyntaxTreePtrVector ptrAstCodeAsVector;
+
     /**
      * Location of the function's defining file in the current filesystem.
      */
@@ -119,8 +121,6 @@ public:
     ArrayOfVector
     evaluateFunction(
         Evaluator* /*eval*/, const ArrayOfVector& /*inputs*/, int /*nargout*/) override;
-
-    AbstractSyntaxTreePtrVector ptAst;
 
     int
     nargin();

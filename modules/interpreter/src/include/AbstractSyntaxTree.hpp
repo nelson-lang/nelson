@@ -125,6 +125,8 @@ public:
     AbstractSyntaxTreePtr right;
     OP_TYPE opNum;
     //=============================================================================
+    static AbstractSyntaxTreePtrVector astUsedAsVector;
+    //=============================================================================
     static AbstractSyntaxTreePtr
     createNode(NODE_TYPE ntype, const char* name, int context);
     //=============================================================================
@@ -141,17 +143,17 @@ public:
     static AbstractSyntaxTreePtr
     createNode(OP_TYPE op, AbstractSyntaxTreePtr arg, int context);
     //=============================================================================
+    static void
+    clearReferences();
+    //=============================================================================
+    static void
+    deleteReferences();
+    //=============================================================================
+    static void
+    deleteReferences(AbstractSyntaxTreePtrVector& astAsVector);
+    //=============================================================================
     static AbstractSyntaxTreePtrVector
-    getAstUsed();
-    //=============================================================================
-    static void
-    resetAstBackupPosition();
-    //=============================================================================
-    static bool
-    deleteAst(AbstractSyntaxTreePtr pt, AbstractSyntaxTreePtrVector v);
-    //=============================================================================
-    static void
-    deleteAstVector(AbstractSyntaxTreePtrVector& v);
+    getReferences();
     //=============================================================================
     /** Context string
      * Returns the context string for this node.
@@ -169,16 +171,14 @@ public:
      * has no "children" (i.e., down = nullptr) then the supplied tree is placed as
      * a child.  If there are children, then the node is added as a peer to the last
      * such child.
-     *\dotfile ASTdot4.dot
      */
     void
     addChild(AbstractSyntaxTreePtr arg);
     /** Add the given tree as a peer to the current node
      * Adds the argument tree as a peer to the current node.  If the current node
      * has no "peers" (i.e., right = nullptr) then the supplied tree is placed as a
-     * peer.  If there are peers, then the node is added as a peer to the last such
+     * peer. If there are peers, then the node is added as a peer to the last such
      * peer.
-     *\dotfile ASTdot5.dot
      */
     void
     addPeer(AbstractSyntaxTreePtr arg);
@@ -231,27 +231,22 @@ private:
     AbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
     /** Nonterminal constructor with two arguments
      * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given left and right AST nodes.  The resulting tree fragment
-     * looks like:
-     *\dotfile ASTdot1.dot
+     * with the given left and right AST nodes.
      */
-    AbstractSyntaxTree(
-        OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr rt, int context);
+    AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr rt, int context);
     /** Nonterminal constructor with three arguments
      * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given three AST nodes.  The resulting tree fragment
-     * looks like:
-     *\dotfile ASTdot2.dot
+     * with the given three AST nodes.
      */
     AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr md,
         AbstractSyntaxTreePtr rt, int context);
     /** Nonterminal constructor with a single argument
      * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given AST node.  The resulting tree fragment
-     * looks like:
-     *\dotfile ASTdot3.dot
+     * with the given AST node.
      */
     AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr arg, int context);
+
+    static AbstractSyntaxTreePtrVector pAstVector;
 };
 //=============================================================================
 /**

@@ -31,16 +31,46 @@
 #include "AbstractSyntaxTree.hpp"
 //=============================================================================
 namespace Nelson {
+AbstractSyntaxTreePtrVector AbstractSyntaxTree::astUsedAsVector;
 //=============================================================================
-static AbstractSyntaxTreePtrVector AstUsedVector;
+void
+AbstractSyntaxTree::clearReferences()
+{
+    astUsedAsVector.clear();
+}
 //=============================================================================
+void
+AbstractSyntaxTree::deleteReferences()
+{
+    deleteReferences(astUsedAsVector);
+}
+//=============================================================================
+void
+AbstractSyntaxTree::deleteReferences(AbstractSyntaxTreePtrVector& astAsVector)
+{
+    for (auto& a : astAsVector) {
+        if (a != nullptr) {
+            delete a;
+            a = nullptr;
+        }
+    }
+    astAsVector.clear();
+}
+//=============================================================================
+AbstractSyntaxTreePtrVector
+AbstractSyntaxTree::getReferences()
+{
+    return astUsedAsVector;
+}
+//=============================================================================
+
 AbstractSyntaxTreePtr
 AbstractSyntaxTree::createNode(NODE_TYPE ntype, const char* name, int context)
 {
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(ntype, name, context);
-        AstUsedVector.push_back(p);
+        astUsedAsVector.push_back(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -53,7 +83,7 @@ AbstractSyntaxTree::createNode(NODE_TYPE ntype, int token, int context)
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(ntype, token, context);
-        AstUsedVector.push_back(p);
+        astUsedAsVector.push_back(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -67,7 +97,7 @@ AbstractSyntaxTree::createNode(
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(op, lt, rt, context);
-        AstUsedVector.push_back(p);
+        astUsedAsVector.push_back(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -81,7 +111,7 @@ AbstractSyntaxTree::createNode(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyn
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(op, lt, md, rt, context);
-        AstUsedVector.push_back(p);
+        astUsedAsVector.push_back(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
@@ -94,51 +124,13 @@ AbstractSyntaxTree::createNode(OP_TYPE op, AbstractSyntaxTreePtr arg, int contex
     AbstractSyntaxTreePtr p;
     try {
         p = new AbstractSyntaxTree(op, arg, context);
-        AstUsedVector.push_back(p);
+        astUsedAsVector.push_back(p);
     } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;
 }
 //=============================================================================
-AbstractSyntaxTreePtrVector
-AbstractSyntaxTree::getAstUsed()
-{
-    return AstUsedVector;
-}
-//=============================================================================
-void
-AbstractSyntaxTree::resetAstBackupPosition()
-{
-    AstUsedVector.clear();
-}
-//=============================================================================
-bool
-AbstractSyntaxTree::deleteAst(AbstractSyntaxTreePtr pt, AbstractSyntaxTreePtrVector v)
-{
-    bool bFind = false;
-    auto it = std::find(v.begin(), v.end(), pt);
-    if (it != v.end()) {
-        delete pt;
-        v.erase(it);
-        bFind = true;
-    }
-    return bFind;
-}
-//=============================================================================
-void
-AbstractSyntaxTree::deleteAstVector(AbstractSyntaxTreePtrVector& v)
-{
-    for (auto& k : v) {
-        if (k != nullptr) {
-            delete k;
-            k = nullptr;
-        }
-    }
-    v.clear();
-}
-//=============================================================================
-
 AbstractSyntaxTree::AbstractSyntaxTree()
 {
     m_context = 0;
@@ -208,7 +200,16 @@ AbstractSyntaxTree::AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr lt,
     m_context = context;
 }
 //=============================================================================
-AbstractSyntaxTree::~AbstractSyntaxTree() { text.clear(); }
+AbstractSyntaxTree::~AbstractSyntaxTree()
+{
+    m_context = 0;
+    type = non_terminal;
+    text.clear();
+    tokenNumber = 0;
+    down = nullptr;
+    right = nullptr;
+    opNum = OP_NULL;
+}
 //=============================================================================
 int
 AbstractSyntaxTree::getContext()

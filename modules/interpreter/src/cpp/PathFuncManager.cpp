@@ -484,14 +484,13 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
             + utf8_to_wstring(msg2));
     }
     ParserState pstate = ParseError;
-    AbstractSyntaxTree::resetAstBackupPosition();
-    AbstractSyntaxTreePtrVector ptAst;
+    AbstractSyntaxTree::clearReferences();
+    AbstractSyntaxTreePtrVector ptAstCode;
     try {
         pstate = parseFile(fr, wstring_to_utf8(nlf_filename));
-        ptAst = AbstractSyntaxTree::getAstUsed();
+        ptAstCode = AbstractSyntaxTree::getReferences();
     } catch (const Exception&) {
-        AbstractSyntaxTree::deleteAstVector(ptAst);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences();
         if (fr != nullptr) {
             fclose(fr);
         }
@@ -501,8 +500,8 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
         fclose(fr);
     }
     if (pstate != FuncDef) {
-        AbstractSyntaxTree::deleteAstVector(ptAst);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences(ptAstCode);
+        AbstractSyntaxTree::clearReferences();
         Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     try {
@@ -513,8 +512,8 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
     if (fptr == nullptr) {
         Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     } else {
-        fptr->ptAst = std::move(ptAst);
-        AbstractSyntaxTree::resetAstBackupPosition();
+        fptr->ptrAstCodeAsVector = std::move(ptAstCode);
+        AbstractSyntaxTree::clearReferences();
         boost::filesystem::path pathFunction(nlf_filename);
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
         if (!boost::iequals(functionNameFromFile, fptr->name)) {
