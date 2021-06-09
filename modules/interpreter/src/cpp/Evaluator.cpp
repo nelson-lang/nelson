@@ -1225,44 +1225,32 @@ ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, Class indexC
     T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
-    if (!IsValidVariableName(indexVarName, true)) {
-        Error(_W("Valid variable name expected."));
+    if (scope->isLockedVariable(indexVarName)) {
+        Error(_W("Redefining permanent variable."));
     }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        if (scope->isLockedVariable(indexVarName)) {
-            Error(_W("Redefining permanent variable."));
-        }
-
+        ArrayOf* ptrVariable = scope->lookupVariable(indexVarName);
         if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
             || (!ptrVariable->isScalar())) {
             scope->insertVariable(indexVarName,
                 ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
             ptrVariable = scope->lookupVariable(indexVarName);
         }
-        ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
-        if (!ptrValue) {
-            scope->insertVariable(indexVarName,
-                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
-            ptrVariable = scope->lookupVariable(indexVarName);
-            ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
-        }
-        if (ptrValue) {
-            ptrValue[0] = data[2 * elementNumber];
-            ptrValue[1] = data[2 * elementNumber + 1];
-        } else {
-            Error(_W("Cannot assign value."));
-        }
+        ((T*)ptrVariable->getReadWriteDataPointer())[0] = data[2 * elementNumber];
+        ((T*)ptrVariable->getReadWriteDataPointer())[1] = data[2 * elementNumber + 1];
+
         eval->block(codeBlock);
+
+        if (eval->getState() == NLS_STATE_BREAK) {
+            eval->resetState();
+            break;
+        }
         if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
             || eval->getState() == NLS_STATE_QUIT) {
             break;
         }
         if (eval->getState() == NLS_STATE_CONTINUE) {
             eval->resetState();
-        }
-        if (eval->getState() == NLS_STATE_BREAK) {
-            eval->resetState();
-            break;
         }
     }
 }
@@ -1276,42 +1264,29 @@ ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, Class indexClass, A
     T* ptrValue = nullptr;
     const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
-    if (!IsValidVariableName(indexVarName, true)) {
-        Error(_W("Valid variable name expected."));
+    if (scope->isLockedVariable(indexVarName)) {
+        Error(_W("Redefining permanent variable."));
     }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        if (scope->isLockedVariable(indexVarName)) {
-            Error(_W("Redefining permanent variable."));
-        }
+        ArrayOf *ptrVariable = scope->lookupVariable(indexVarName);
         if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
-            || (!ptrVariable->isScalar())) {
+            || (!ptrVariable->isScalar())) { 
             scope->insertVariable(indexVarName,
                 ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
             ptrVariable = scope->lookupVariable(indexVarName);
         }
-        ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
-        if (!ptrValue) {
-            scope->insertVariable(indexVarName,
-                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
-            ptrVariable = scope->lookupVariable(indexVarName);
-            ptrValue = (T*)ptrVariable->getReadWriteDataPointer();
-        }
-        if (ptrValue) {
-            ptrValue[0] = data[elementNumber];
-        } else {
-            Error(_W("Cannot assign value."));
-        }
+        ((T*)ptrVariable->getReadWriteDataPointer())[0] = data[elementNumber];
         eval->block(codeBlock);
+        if (eval->getState() == NLS_STATE_BREAK) {
+            eval->resetState();
+            break;
+        }
         if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
             || eval->getState() == NLS_STATE_QUIT) {
             break;
         }
         if (eval->getState() == NLS_STATE_CONTINUE) {
             eval->resetState();
-        }
-        if (eval->getState() == NLS_STATE_BREAK) {
-            eval->resetState();
-            break;
         }
     }
 }
@@ -1324,9 +1299,6 @@ ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& inde
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
         indexVar = indexSet.getValueAtIndex(elementNumber);
         if (!eval->getContext()->insertVariable(indexVarName, indexVar)) {
-            if (IsValidVariableName(indexVarName, true)) {
-                Error(_W("Redefining permanent variable."));
-            }
             Error(_W("Valid variable name expected."));
         }
         eval->block(codeBlock);
@@ -1357,9 +1329,6 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
         m.push_back(ArrayOf::doubleConstructor((double)(elementNumber + 1)));
         indexVar = indexSet.getNDimSubset(m);
         if (!eval->getContext()->insertVariable(indexVarName, indexVar)) {
-            if (IsValidVariableName(indexVarName, true)) {
-                Error(_W("Redefining permanent variable."));
-            }
             Error(_W("Valid variable name expected."));
         }
         eval->block(codeBlock);
@@ -1394,6 +1363,9 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     ArrayOf indexSet = expression(t->down);
     if (indexSet.isEmpty()) {
         return;
+    }
+    if (!IsValidVariableName(indexVarName, true)) {
+        Error(_W("Valid variable name expected."));
     }
     /* Get the code block */
     AbstractSyntaxTreePtr codeBlock = t->right;
@@ -1476,7 +1448,6 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     callstack.popID();
 }
 //=============================================================================
-
 //!
 //@Module CONTINUE Continue Execution In Loop
 //@@Section FLOW

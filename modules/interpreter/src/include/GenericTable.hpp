@@ -83,8 +83,7 @@ public:
     findSymbol(const key_type& key)
     {
         size_t i = hashKey(key) % SYMTAB; // Hash
-        Entry* ptr;
-        ptr = hashTable[i];
+        Entry* ptr = hashTable[i];
         while (ptr) {
             if (ptr->key == key) {
                 return (&ptr->val);
@@ -98,8 +97,7 @@ public:
     deleteSymbol(const key_type& key)
     {
         size_t i = hashKey(key) % SYMTAB; // Hash
-        Entry* ptr;
-        ptr = hashTable[i];
+        Entry* ptr = hashTable[i];
         if (!ptr) {
             return;
         }
@@ -108,15 +106,16 @@ public:
         if (ptr->key == key) {
             hashTable[i] = ptr->next;
             delete ptr;
+            ptr = nullptr;
             return;
         }
         // No - its not, set a next pointer
-        Entry* nxt;
-        nxt = ptr->next;
+        Entry* nxt = ptr->next;
         while (nxt != nullptr) {
             if (nxt->key == key) {
                 ptr->next = nxt->next;
                 delete nxt;
+                nxt = nullptr;
                 return;
             }
             nxt = nxt->next;
@@ -128,8 +127,7 @@ public:
     insertSymbol(const key_type& key, const value_type& val)
     {
         size_t i = hashKey(key) % SYMTAB;
-        Entry* ptr;
-        ptr = hashTable[i];
+        Entry* ptr = hashTable[i];
         if (!ptr) {
             hashTable[i] = new Entry(key, val, nullptr);
             return;
@@ -160,6 +158,7 @@ public:
         }
         return retlist;
     }
+    //=============================================================================
 };
 //=============================================================================
 }
