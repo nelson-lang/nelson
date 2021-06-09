@@ -33,8 +33,7 @@
 #define WS 999
 #define YYSTYPE Nelson::ParseRHS
 //=============================================================================
-#include "AST.hpp"
-#include "AstManager.hpp"
+#include "AbstractSyntaxTree.hpp"
 #include "i18n.hpp"
 #include "nlsInterpreter_exports.h"
 #include "characters_encoding.hpp"
@@ -44,8 +43,6 @@
 #include "NelSonParser.h"
 //=============================================================================
 using namespace Nelson;
-//=============================================================================
-extern int charcontext;
 //=============================================================================
 static char* textbuffer = nullptr;
 static char* datap = nullptr;
@@ -332,7 +329,7 @@ lexUntermCharacterArray()
     *strptr++ = '\0';
     setTokenType(CHARACTER);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(
+    tokenValue.v.p = AbstractSyntaxTree::createNode(
         const_character_array_node, stringval, static_cast<int>(ContextInt()));
 #ifdef LEXDEBUG
     printf("Untermed string %s\r\n", stringval);
@@ -371,8 +368,8 @@ lexString()
     *strptr++ = '\0';
     setTokenType(STRING);
     tokenValue.isToken = false;
-    tokenValue.v.p
-        = allocateAbstractSyntaxTree(const_string_node, stringval, static_cast<int>(ContextInt()));
+    tokenValue.v.p = AbstractSyntaxTree::createNode(
+        const_string_node, stringval, static_cast<int>(ContextInt()));
 }
 //=============================================================================
 void
@@ -404,7 +401,7 @@ lexCharacterArray()
     *strptr++ = '\0';
     setTokenType(CHARACTER);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(
+    tokenValue.v.p = AbstractSyntaxTree::createNode(
         const_character_array_node, stringval, static_cast<int>(ContextInt()));
 }
 //=============================================================================
@@ -430,7 +427,8 @@ lexIdentifier()
     if (pSearch == nullptr) {
         setTokenType(IDENT);
         tokenValue.isToken = false;
-        tokenValue.v.p = allocateAbstractSyntaxTree(id_node, ident, static_cast<int>(ContextInt()));
+        tokenValue.v.p
+            = AbstractSyntaxTree::createNode(id_node, ident, static_cast<int>(ContextInt()));
         return;
     }
     switch (pSearch->token) {
@@ -514,7 +512,7 @@ lexIdentifier()
     } break;
     }
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(
+    tokenValue.v.p = AbstractSyntaxTree::createNode(
         reserved_node, pSearch->ordinal, static_cast<int>(ContextInt()));
 }
 //=============================================================================
@@ -643,44 +641,44 @@ lexNumber()
     case 1:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_complex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_float_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     case 2:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_double_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     case 3:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_int_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     case 4:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p = allocateAbstractSyntaxTree(
+            tokenValue.v.p = AbstractSyntaxTree::createNode(
                 const_uint64_node, buffer, static_cast<int>(ContextInt()));
         }
         break;

@@ -216,8 +216,7 @@
     <ClCompile Include="..\cpp\AdditionOperator.cpp" />
     <ClCompile Include="..\cpp\AndOperator.cpp" />
     <ClCompile Include="..\cpp\AsciiToDouble.cpp" />
-    <ClCompile Include="..\cpp\AST.cpp" />
-    <ClCompile Include="..\cpp\AstManager.cpp" />
+    <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
     <ClCompile Include="..\cpp\CallMexBuiltin.cpp" />
@@ -328,8 +327,7 @@
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
-    <ClInclude Include="..\include\AST.hpp" />
-    <ClInclude Include="..\include\AstManager.hpp" />
+    <ClInclude Include="..\include\AbstractSyntaxTree.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />

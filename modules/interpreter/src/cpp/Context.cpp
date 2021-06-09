@@ -154,7 +154,7 @@ bool
 Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {
     ArrayOf* res = lookupVariable(varName);
-    if (res) {
+    if (res != nullptr) {
         var = res[0];
         return true;
     }

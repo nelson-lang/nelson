@@ -30,9 +30,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::leOperator(ASTPtr t)
+Evaluator::leOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf retval = this->leOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

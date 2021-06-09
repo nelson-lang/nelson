@@ -30,9 +30,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::additionOperator(ASTPtr t)
+Evaluator::additionOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf retval = this->additionOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

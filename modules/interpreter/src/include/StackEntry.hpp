@@ -35,7 +35,7 @@ class NLSINTERPRETER_IMPEXP StackEntry
 public:
     std::string cname;
     std::string detail;
-    int tokid;
+    int tokid{0};
 
     StackEntry();
     StackEntry(const std::string& cntxt, const std::string& detail, int id);

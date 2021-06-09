@@ -33,8 +33,8 @@
 namespace Nelson {
 //=============================================================================
 FWRITE_ERROR_TYPE
-FileWrite(File* fp, ArrayOf src, Class destClass, size_t skip,
-    bool bIsLittleEndian, int& sizeWritten)
+FileWrite(
+    File* fp, ArrayOf src, Class destClass, size_t skip, bool bIsLittleEndian, int& sizeWritten)
 {
     FWRITE_ERROR_TYPE fwrite_error = FWRITE_NO_ERROR;
     sizeWritten = -1;

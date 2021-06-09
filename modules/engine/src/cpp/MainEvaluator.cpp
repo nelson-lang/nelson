@@ -32,7 +32,6 @@
 #include "BsdTerminal.hpp"
 #endif
 #include "SioClientInterface.hpp"
-#include "AstManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Clear.hpp"
 #include "ClearGlobal.hpp"

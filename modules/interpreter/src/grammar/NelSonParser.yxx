@@ -32,7 +32,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "NelsonParserHelpers.hpp"
-#include "AstManager.hpp"
+#include "AbstractSyntaxTree.hpp"
 //=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================
@@ -174,21 +174,21 @@ argument:
 
 
 statementList:
-   statement {$$.v.p = allocateAbstractSyntaxTree(OP_BLOCK,$1.v.p,$1.v.p->context());} |
+   statement {$$.v.p = AbstractSyntaxTree::createNode(OP_BLOCK,$1.v.p,$1.v.p->getContext());} |
    statementList statement {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
    ;
 
 statement:
    statementType ENDQSTMNT {
-        $$.v.p = allocateAbstractSyntaxTree(OP_QSTATEMENT,NULL,$2.v.i);
+        $$.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,$2.v.i);
       $$.v.p->down = $1.v.p;
    }
    | statementType ENDSTMNT {
-      $$.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,$2.v.i);
+      $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
             $$.v.p->down = $1.v.p;
    }
    | statementType ',' {
-      $$.v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,$2.v.i);
+      $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
       $$.v.p->down = $1.v.p;
    }
    ;
@@ -196,7 +196,7 @@ statement:
 statementType:
    assignmentStatement
    | expr
-   | {$$.v.p = allocateAbstractSyntaxTree(null_node,"",-1);}
+   | {$$.v.p = AbstractSyntaxTree::createNode(null_node,"",-1);}
    | multiFunctionCall
    | forStatement
    | breakStatement
@@ -217,12 +217,12 @@ endfunctionStatement:
   ENDFUNCTION;
 
 specialSyntaxStatement:
-  IDENT NUMERIC {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
-  STRING STRING {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
-  CHARACTER CHARACTER {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
-  IDENT STRING {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
-  IDENT CHARACTER {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
-  IDENT IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context()); } |
+  IDENT NUMERIC {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
+  STRING STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
+  CHARACTER CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
+  IDENT STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
+  IDENT CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} |
+  IDENT IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext()); } |
   specialSyntaxStatement STRING {$1.v.p->addChild($2.v.p);} |
   specialSyntaxStatement CHARACTER {$1.v.p->addChild($2.v.p);} |
   specialSyntaxStatement IDENT {$1.v.p->addChild($2.v.p);} |
@@ -290,7 +290,7 @@ caseBlock:
 
 caseList:
   caseStatement {
-    $$.v.p = allocateAbstractSyntaxTree(OP_CASEBLOCK,$1.v.p,$1.v.p->context());
+    $$.v.p = AbstractSyntaxTree::createNode(OP_CASEBLOCK,$1.v.p,$1.v.p->getContext());
   } |
   caseList caseStatement {
     $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
@@ -329,7 +329,7 @@ forIndexExpression:
   '(' IDENT '=' expr ')' {$$.v.p = $2.v.p; $$.v.p->addChild($4.v.p);} |
   IDENT '=' expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);} |
   IDENT {$$.v.p = $1.v.p;
-        $$.v.p->addChild(allocateAbstractSyntaxTree(OP_RHS, allocateAbstractSyntaxTree(id_node,$1.v.p->text.c_str(), $1.v.p->context()),$1.v.p->context())); } |
+        $$.v.p->addChild(AbstractSyntaxTree::createNode(OP_RHS, AbstractSyntaxTree::createNode(id_node,$1.v.p->text.c_str(), $1.v.p->getContext()),$1.v.p->getContext())); } |
   '(' IDENT '=' expr error {yyxpt(_("matching right parenthesis"),$1);} |
   '(' IDENT '=' error {yyxpt(_("indexing expression"),$3);} |
   '(' IDENT error {yyxpt(_("equals operator after loop index"),$2);} |
@@ -365,7 +365,7 @@ ifStatement:
 
 conditionedStatement:
   expr optionalEndStatement statementList {
-    $$.v.p = allocateAbstractSyntaxTree(OP_CSTAT,$1.v.p,$3.v.p,$1.v.p->context());
+    $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$3.v.p,$1.v.p->getContext());
   } |
   expr error {yyxpt("valid list of statements after condition",$2);}
 ;
@@ -377,7 +377,7 @@ elseIfBlock:
 
 elseIfStatementList:
   elseIfStatement {
-    $$.v.p = allocateAbstractSyntaxTree(OP_ELSEIFBLOCK,$1.v.p,$1.v.p->context());
+    $$.v.p = AbstractSyntaxTree::createNode(OP_ELSEIFBLOCK,$1.v.p,$1.v.p->getContext());
   } |
   elseIfStatementList elseIfStatement {
     $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
@@ -399,25 +399,25 @@ elseStatement:
 ;
 
 assignmentStatement:
-  symbRefList '=' expr {$$.v.p = allocateAbstractSyntaxTree(OP_ASSIGN,$1.v.p,$3.v.p,$2.v.i);}
+  symbRefList '=' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_ASSIGN,$1.v.p,$3.v.p,$2.v.i);}
   | symbRefList '=' error {yyxpt(_("expression in assignment"),$2);}
   ;
 
 multiFunctionCall:
   '[' matrixDef ']' '='  IDENT '('  ')' {
-  $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
+  $$.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
   }
   | '[' matrixDef ']' '='  IDENT '('  indexList ')' {
-    $5.v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,$7.v.p,$6.v.i));
-    $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
+    $5.v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,$7.v.p,$6.v.i));
+    $$.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
   }
   | '[' matrixDef ']' '='  IDENT '{'  indexList '}' {
-    $5.v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,$7.v.p,$6.v.i));
-    $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
+    $5.v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,$7.v.p,$6.v.i));
+    $$.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
   }
   | '[' matrixDef ']' '=' IDENT  {
-    $5.v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,NULL,-1));
-    $$.v.p = allocateAbstractSyntaxTree(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
+    $5.v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,NULL,-1));
+    $$.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,$2.v.p,$5.v.p,$1.v.i);
   }
   | '[' matrixDef ']' '='  IDENT '{'  indexList error {yyxpt(_("matching right bracket"), $6);}
   | '[' matrixDef ']' '='  IDENT '('  indexList error {yyxpt(_("matching right parenthesis"), $6);}
@@ -428,55 +428,55 @@ multiFunctionCall:
   ;
 
 expr:
-  expr ':' expr {$$.v.p = allocateAbstractSyntaxTree(OP_COLON,$1.v.p,$3.v.p,$2.v.i);}
+  expr ':' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_COLON,$1.v.p,$3.v.p,$2.v.i);}
   | expr ':' error {yyxpt(_("an expression after ':'"), $2);}
   | terminal
-  | expr '+' expr {$$.v.p = allocateAbstractSyntaxTree(OP_PLUS,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '+' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_PLUS,$1.v.p,$3.v.p,$2.v.i);}
   | expr '+' error {yyxpt(_("an expression after '+'"), $2);}
-  | expr '-' expr {$$.v.p = allocateAbstractSyntaxTree(OP_SUBTRACT,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '-' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SUBTRACT,$1.v.p,$3.v.p,$2.v.i);}
   | expr '-' error {yyxpt(_("an expression after '-'"), $2);}
-  | expr '*' expr {$$.v.p = allocateAbstractSyntaxTree(OP_TIMES,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '*' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_TIMES,$1.v.p,$3.v.p,$2.v.i);}
   | expr '*' error {yyxpt(_("an expression after '*'"),$2);}
-  | expr '/' expr {$$.v.p = allocateAbstractSyntaxTree(OP_RDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '/' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_RDIV,$1.v.p,$3.v.p,$2.v.i);}
   | expr '/' error {yyxpt(_("an expression after '/'"),$2);}
-  | expr '\\' expr {$$.v.p = allocateAbstractSyntaxTree(OP_LDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '\\' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_LDIV,$1.v.p,$3.v.p,$2.v.i);}
   | expr '\\' error {yyxpt(_("an expression after '\\'"),$2);}
-  | expr '|' expr {$$.v.p = allocateAbstractSyntaxTree(OP_OR,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '|' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_OR,$1.v.p,$3.v.p,$2.v.i);}
   | expr '|' error {yyxpt(_("an expression after '|'"),$2);}
-  | expr '&' expr {$$.v.p = allocateAbstractSyntaxTree(OP_AND,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '&' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_AND,$1.v.p,$3.v.p,$2.v.i);}
   | expr '&' error {yyxpt(_("an expression after '&'"),$2);}
-  | expr SOR expr {$$.v.p = allocateAbstractSyntaxTree(OP_SOR,$1.v.p,$3.v.p,$2.v.i);}
+  | expr SOR expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SOR,$1.v.p,$3.v.p,$2.v.i);}
   | expr SOR error {yyxpt(_("an expression after '||'"),$2);}
-  | expr SAND expr {$$.v.p = allocateAbstractSyntaxTree(OP_SAND,$1.v.p,$3.v.p,$2.v.i);}
+  | expr SAND expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SAND,$1.v.p,$3.v.p,$2.v.i);}
   | expr SAND error {yyxpt(_("an expression after '&&'"),$2);}
-  | expr '<' expr {$$.v.p = allocateAbstractSyntaxTree(OP_LT,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '<' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_LT,$1.v.p,$3.v.p,$2.v.i);}
   | expr '<' error {yyxpt(_("an expression after '<'"),$2);}
-  | expr LE  expr {$$.v.p = allocateAbstractSyntaxTree(OP_LEQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr LE  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_LEQ,$1.v.p,$3.v.p,$2.v.i);}
   | expr LE  error {yyxpt(_("an expression after '<='"),$2);}
-  | expr '>' expr {$$.v.p = allocateAbstractSyntaxTree(OP_GT,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '>' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_GT,$1.v.p,$3.v.p,$2.v.i);}
   | expr '>' error {yyxpt(_("an expression after '>'"),$2);}
-  | expr GE  expr {$$.v.p = allocateAbstractSyntaxTree(OP_GEQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr GE  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_GEQ,$1.v.p,$3.v.p,$2.v.i);}
   | expr GE  error {yyxpt(_("an expression after '>='"),$2);}
-  | expr EQ  expr {$$.v.p = allocateAbstractSyntaxTree(OP_EQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr EQ  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_EQ,$1.v.p,$3.v.p,$2.v.i);}
   | expr EQ  error {yyxpt(_("an expression after '=='"),$2);}
-  | expr NE  expr {$$.v.p = allocateAbstractSyntaxTree(OP_NEQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr NE  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_NEQ,$1.v.p,$3.v.p,$2.v.i);}
   | expr NE  error {yyxpt(_("an expression after '~='"),$2);}
-  | expr DOTTIMES expr {$$.v.p = allocateAbstractSyntaxTree(OP_DOT_TIMES,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTTIMES expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TIMES,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTTIMES error {yyxpt(_("an expression after '.*'"), $2);}
-  | expr DOTRDIV  expr {$$.v.p = allocateAbstractSyntaxTree(OP_DOT_RDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTRDIV  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_RDIV,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTRDIV  error {yyxpt(_("an expression after './'"),$2);}
-  | expr DOTLDIV expr {$$.v.p = allocateAbstractSyntaxTree(OP_DOT_LDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTLDIV expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_LDIV,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTLDIV error {yyxpt(_("an expression after '.\\'"),$2);}
-  | '-' expr %prec NEG {$$.v.p = allocateAbstractSyntaxTree(OP_NEG,$2.v.p,$1.v.i);}
-  | '+' expr %prec POS {$$.v.p = allocateAbstractSyntaxTree(OP_POS, $2.v.p, $1.v.i);}
-  | '~' expr %prec NOT {$$.v.p = allocateAbstractSyntaxTree(OP_NOT,$2.v.p,$1.v.i);}
+  | '-' expr %prec NEG {$$.v.p = AbstractSyntaxTree::createNode(OP_NEG,$2.v.p,$1.v.i);}
+  | '+' expr %prec POS {$$.v.p = AbstractSyntaxTree::createNode(OP_POS, $2.v.p, $1.v.i);}
+  | '~' expr %prec NOT {$$.v.p = AbstractSyntaxTree::createNode(OP_NOT,$2.v.p,$1.v.i);}
   | '~' error %prec NOT {yyxpt(_("an expression after logical not"),$2);}
-  | expr '^' expr  {$$.v.p = allocateAbstractSyntaxTree(OP_POWER,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '^' expr  {$$.v.p = AbstractSyntaxTree::createNode(OP_POWER,$1.v.p,$3.v.p,$2.v.i);}
   | expr '^' error  {yyxpt(_("an expression after '^'"),$2);}
-  | expr DOTPOWER expr {$$.v.p = allocateAbstractSyntaxTree(OP_DOT_POWER,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTPOWER expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_POWER,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTPOWER error {yyxpt(_("an expression after '.^'"),$2);}
-  | expr '\''          {$$.v.p = allocateAbstractSyntaxTree(OP_TRANSPOSE,$1.v.p,$2.v.i);}
-  | expr DOTTRANSPOSE  {$$.v.p = allocateAbstractSyntaxTree(OP_DOT_TRANSPOSE,$1.v.p,$2.v.i);}
+  | expr '\''          {$$.v.p = AbstractSyntaxTree::createNode(OP_TRANSPOSE,$1.v.p,$2.v.i);}
+  | expr DOTTRANSPOSE  {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TRANSPOSE,$1.v.p,$2.v.i);}
   | '(' expr ')'  {$$.v.p = $2.v.p;}
   | '(' expr error  {yyxpt(_("a right parenthesis after expression to match this one"),$1);}
   | '(' error  {yyxpt(_("an expression after left parenthesis"),$1);}
@@ -487,18 +487,18 @@ terminal:
   | CHARACTER
   | STRING
   | MAGICEND
-  | symbRefList {$$.v.p = allocateAbstractSyntaxTree(OP_RHS,$1.v.p,$1.v.p->context());}
+  | symbRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_RHS,$1.v.p,$1.v.p->getContext());}
   | '[' matrixDef ']' {$$.v.p = $2.v.p;}
   | '[' error {yyxpt(_("a matrix definition followed by a right bracket"),$1);}
   | '[' rowSeperator matrixDef ']' {$$.v.p = $3.v.p;}
   | '[' matrixDef rowSeperator ']' {$$.v.p = $2.v.p;}
   | '[' rowSeperator matrixDef rowSeperator ']' {$$.v.p = $3.v.p;}
-	| '[' ']' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,$1.v.i);}
+	| '[' ']' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,$1.v.i);}
   | '{' cellDef '}' {$$.v.p = $2.v.p;}
   | '{' rowSeperator cellDef '}' {$$.v.p = $3.v.p;}
   | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
   | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
-	| '{' '}' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,$1.v.i);}
+	| '{' '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,$1.v.i);}
 	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);};
 
 symbRefList:
@@ -506,20 +506,20 @@ symbRefList:
     | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);};
 
 symbRef:
-  '(' indexList ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,$2.v.p,$1.v.i); }
-  | '(' ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,$1.v.i); }
+  '(' indexList ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_PARENS,$2.v.p,$1.v.i); }
+  | '(' ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_PARENS,NULL,$1.v.i); }
 	| '(' indexList error {yyxpt(_("matching right parenthesis"),$1);}
-  | '{' indexList '}' {$$.v.p = allocateAbstractSyntaxTree(OP_BRACES,$2.v.p,$1.v.i); }
+  | '{' indexList '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$2.v.p,$1.v.i); }
 	| '{' indexList error {yyxpt(_("matching right brace"),$1);}
-  | '.' IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_DOT,$2.v.p,$1.v.i); }
-	| '.' '(' expr ')' {$$.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,$3.v.p,$1.v.i);};
+  | '.' IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT,$2.v.p,$1.v.i); }
+	| '.' '(' expr ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_DOTDYN,$3.v.p,$1.v.i);};
 
 indexElement:
   expr
-  | ':' {$$.v.p = allocateAbstractSyntaxTree(OP_ALL,NULL,$1.v.i);}
-  | '/' IDENT '=' expr {$$.v.p = allocateAbstractSyntaxTree(OP_KEYWORD,$2.v.p,$4.v.p,$1.v.i);}
+  | ':' {$$.v.p = AbstractSyntaxTree::createNode(OP_ALL,NULL,$1.v.i);}
+  | '/' IDENT '=' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,$2.v.p,$4.v.p,$1.v.i);}
   | '/' IDENT '=' error {yyxpt(_("expecting expression after '=' in keyword assignment"),$3);}
-  | '/' IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_KEYWORD,$2.v.p,$1.v.i);}
+  | '/' IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,$2.v.p,$1.v.i);}
   | '/' error {yyxpt(_("expecting keyword identifier after '/' in keyword assignment"),$1);}
         ;
 
@@ -529,12 +529,12 @@ indexList:
         ;
 
 cellDef:
-       rowDef {$$.v.p = allocateAbstractSyntaxTree(OP_BRACES,$1.v.p,$1.v.p->context());}|
+       rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$1.v.p,$1.v.p->getContext());}|
        cellDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
        ;
 
 matrixDef:
-       rowDef {$$.v.p = allocateAbstractSyntaxTree(OP_BRACKETS,$1.v.p,$1.v.p->context());}|
+       rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACKETS,$1.v.p,$1.v.p->getContext());}|
        matrixDef rowSeperator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
        ;
 
@@ -547,7 +547,7 @@ columnSep:
        ;
 
 rowDef:
-       expr {$$.v.p = allocateAbstractSyntaxTree(OP_SEMICOLON,$1.v.p,$1.v.p->context());} |
+       expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SEMICOLON,$1.v.p,$1.v.p->getContext());} |
        rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
 
 %%

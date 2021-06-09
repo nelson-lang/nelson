@@ -33,7 +33,6 @@
 #include "characters_encoding.hpp"
 #include "ParserInterface.hpp"
 #include "IsEmptyScriptFile.hpp"
-#include "AstManager.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
@@ -125,15 +124,13 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     }
     eval->pushEvaluateFilenameList(absolutePath.generic_wstring());
     ParserState pstate = ParseError;
-    resetAstBackupPosition();
-    std::vector<ASTPtr> pt;
+    AbstractSyntaxTree::clearReferences();
+    AbstractSyntaxTreePtrVector pt;
     try {
         pstate = parseFile(fr, absolutePath.generic_string());
-        pt = getAstUsed();
+        pt = AbstractSyntaxTree::getReferences();
     } catch (const Exception&) {
-        std::vector<ASTPtr> used = getAstUsed();
-        deleteAstVector(used);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences();
         fclose(fr);
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);
@@ -147,8 +144,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         }
     }
     if (pstate != ScriptBlock) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences(pt);
+        AbstractSyntaxTree::clearReferences();
         fclose(fr);
         Exception e(_W("An valid script expected."));
         eval->popEvaluateFilenameList();
@@ -174,16 +171,16 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);
         }
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences(pt);
+        AbstractSyntaxTree::clearReferences();
         return true;
     }
     try {
         buffer = new char[size_t(cpos) + size_t(2)];
         memset(buffer, 0, size_t(cpos) + size_t(2));
     } catch (const std::bad_alloc&) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences(pt);
+        AbstractSyntaxTree::clearReferences();
         fclose(fr);
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);
@@ -204,10 +201,10 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     eval->setCLI(true);
     try {
         NelsonConfiguration::getInstance()->setInterruptPending(false);
-        ASTPtr tree = getParsedScriptBlock();
+        AbstractSyntaxTreePtr tree = getParsedScriptBlock();
         if (tree == nullptr) {
-            deleteAstVector(pt);
-            resetAstBackupPosition();
+            AbstractSyntaxTree::deleteReferences(pt);
+            AbstractSyntaxTree::clearReferences();
             eval->popEvaluateFilenameList();
             if (buffer != nullptr) {
                 delete[] buffer;
@@ -223,8 +220,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         try {
             eval->block(tree);
         } catch (const Exception&) {
-            deleteAstVector(pt);
-            resetAstBackupPosition();
+            AbstractSyntaxTree::deleteReferences(pt);
+            AbstractSyntaxTree::clearReferences();
             tree = nullptr;
             eval->callstack.popDebug();
             eval->popEvaluateFilenameList();
@@ -237,8 +234,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             }
             throw;
         }
-        deleteAstVector(pt);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences(pt);
+        AbstractSyntaxTree::clearReferences();
         if (eval->getState() == NLS_STATE_RETURN) {
             if (eval->getDebugDepth() > 0) {
                 eval->callstack.popDebug();
@@ -277,9 +274,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         }
         return true;
     } catch (const Exception&) {
-        std::vector<ASTPtr> used = getAstUsed();
-        deleteAstVector(used);
-        resetAstBackupPosition();
+        AbstractSyntaxTree::deleteReferences();
         // removes stack
         while (eval->callstack.size() > stackdepth) {
             eval->callstack.popID();
@@ -289,7 +284,6 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         }
         throw;
     }
-
     return false;
 }
 //=============================================================================

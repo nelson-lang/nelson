@@ -44,10 +44,10 @@ Evaluator::shortCutAndOperator(const ArrayOf& A, const ArrayOf& B)
                 if (B.isScalar()) {
                     bool b = B.getContentAsLogicalScalar() != 0U;
                     return ArrayOf::logicalConstructor(a && b);
-                } else {
+                } 
                     Error(_W("Operand to && operator must be convertible to "
                              "logical scalar values."));
-                }
+                
             }
         } else {
             Error(_W("Operand to && operator must be convertible to "
@@ -58,9 +58,9 @@ Evaluator::shortCutAndOperator(const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 ArrayOf
-Evaluator::shortCutAndOperator(ASTPtr t)
+Evaluator::shortCutAndOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->context());
+    callstack.pushID(t->getContext());
     ArrayOf A = expression(t->down);
     ArrayOf B = expression(t->down->right);
     ArrayOf retval = shortCutAndOperator(A, B);

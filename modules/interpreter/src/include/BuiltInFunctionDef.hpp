@@ -78,10 +78,6 @@ public:
     {
         return NLS_BUILT_IN_FUNCTION;
     }
-    /** Print a description of the function
-     */
-    void
-    printMe(Interface* /*io*/) override;
     /**
      * The number of inputs required by this function.
      */

@@ -103,12 +103,6 @@ public:
     type() // lgtm [cpp/member-const-no-effect]
         = 0;
     /**
-     * Print a description of the function
-     */
-    virtual void
-    printMe(Interface* io)
-        = 0;
-    /**
      * The number of inputs required by this function (-1 if variable).
      */
     virtual int

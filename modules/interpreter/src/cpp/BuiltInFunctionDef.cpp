@@ -76,9 +76,5 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& input
     }
 }
 //=============================================================================
-void
-BuiltInFunctionDef::printMe(Interface* io)
-{}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================
