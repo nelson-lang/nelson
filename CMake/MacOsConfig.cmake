@@ -39,5 +39,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if(EXISTS "/usr/local/opt/openblas/lib/")
     link_directories(/usr/local/opt/openblas/lib/)
   endif()
+  if(EXISTS "/opt/homebrew/opt/openblas/lib/")
+    link_directories(/opt/homebrew/opt/openblas/lib/)
+  endif()
 endif()
 # ==============================================================================
