@@ -269,7 +269,7 @@
 - Licensing change: Nelson is now released under the terms of the GNU Lesser General Public License (LGPL) v2.1.
   It is still also available under the terms of the GNU General Public License (GPL) v2.0.
 
-  You can build Nelson under LGPL v2.1 license on Unix/MacosX with
+  You can build Nelson under LGPL v2.1 license on Unix/MacOS with
 
   ```bash
   cd nelson

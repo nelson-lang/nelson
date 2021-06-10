@@ -59,11 +59,7 @@ GetNelsonBinariesPath()
 #endif
 #else
 #if defined(__APPLE__) || defined(__MACH__)
-#ifdef __x86_64__
-    binpath += L"/bin/macosx64";
-#else
-    binpath += L"/bin/macosx32";
-#endif
+    binpath += L"/bin/macOS";
 #else
 #if defined(__x86_64__) || defined(__aarch64__)
     binpath += L"/bin/linux64";

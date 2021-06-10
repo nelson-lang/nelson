@@ -134,8 +134,8 @@ bin/linux32/*.so.*
 bin/linux32/*-exec
 bin/linux64/*.so.*
 bin/linux64/*-exec
-bin/macosx64/*.dylib.*
-bin/macosx64/*-exec
+bin/macos/*.dylib.*
+bin/macos/*-exec
 /modules/help_tools/thirdparty/highlight.js
 /tools/gettext/bin
 .DS_Store

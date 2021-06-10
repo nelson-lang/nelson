@@ -168,7 +168,7 @@ script:
   - make -j4
   - if [ $TRAVIS_OS_NAME == osx ];
     then cd ~/slicot_f2c;
-    ${TRAVIS_BUILD_DIR}/bin/macosx64/nelson-cli --quiet -f build_slicot.nls;
+    ${TRAVIS_BUILD_DIR}/bin/macOS/nelson-cli --quiet -f build_slicot.nls;
     fi
   - cd ${TRAVIS_BUILD_DIR}
   - make get_module_skeleton
