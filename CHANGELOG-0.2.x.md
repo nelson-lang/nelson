@@ -219,7 +219,7 @@ HDF5 high-level functions:
     - cmake function: call CMake tool.
     - dlmake: call make or nmake tool.
 
-  - detect and configure C/C++ compilers on Windows, Linux, MacosX:
+  - detect and configure C/C++ compilers on Windows, Linux, MacOS:
 
     - On Windows:
 

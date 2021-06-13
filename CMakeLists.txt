@@ -152,7 +152,7 @@ set(INSTALL_DIRECTORY
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(LIBRARY_OUTPUT
-      "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/macosx64/"
+      "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/macOS/"
   )
 else()
   set(LIBRARY_OUTPUT

@@ -23,8 +23,10 @@
 # LICENCE_BLOCK_END
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/macosx64)
-  set(CMAKE_OSX_ARCHITECTURES "x86_64")
+  EXECUTE_PROCESS(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCH)
+  message("macOS architecture: ${ARCH}")
+  set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/macOS)
+  set(CMAKE_OSX_ARCHITECTURES "${ARCH}")
   set(Boost_NO_SYSTEM_PATHS "TRUE")
   set(MAC_FRAMEWORK_FOUNDATION_LIBRARY "-framework Foundation")
   set(MAC_FRAMEWORK_APPKIT_LIBRARY "-framework AppKit")
@@ -38,6 +40,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
   if(EXISTS "/usr/local/opt/openblas/lib/")
     link_directories(/usr/local/opt/openblas/lib/)
+  endif()
+  if(EXISTS "/opt/homebrew/opt/openblas/lib/")
+    link_directories(/opt/homebrew/opt/openblas/lib/)
   endif()
 endif()
 # ==============================================================================
