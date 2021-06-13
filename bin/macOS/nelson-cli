@@ -29,6 +29,6 @@
 #==============================================================================
 SCRIPT_DIRECTORY=$(cd "$(dirname "$0")"; pwd)
 export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY":$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH="$SCRIPT_DIRECTORY":$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH="$SCRIPT_DIRECTORY":/opt/homebrew/lib/:$DYLD_LIBRARY_PATH
 $SCRIPT_DIRECTORY/nelson-cli-exec "$@" 
 #==============================================================================
