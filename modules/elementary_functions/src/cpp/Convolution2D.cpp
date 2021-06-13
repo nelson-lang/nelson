@@ -1,0 +1,329 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of the Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// Alternatively, you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation; either version 2 of
+// the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this program. If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+#include <complex>
+#include "Convolution2D.hpp"
+#include "Error.hpp"
+#include "Decomplexify.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+static bool
+isSupportedShape(const std::wstring& shape)
+{
+    if (shape == L"full") {
+        return true;
+    }
+    if (shape == L"same") {
+        return true;
+    }
+    if (shape == L"valid") {
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+static bool
+isSupportedInputTypes(const ArrayOf& A)
+{
+    switch (A.getDataClass()) {
+    case NLS_LOGICAL:
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64:
+    case NLS_SINGLE:
+    case NLS_DOUBLE:
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX: {
+        return true;
+    } break;
+    default: {
+        return false;
+    } break;
+    }
+    return false;
+}
+//=============================================================================
+static void
+computeCommonType(const ArrayOf& A, const ArrayOf& B, Class& intermediateClass, Class& outClass)
+{
+    intermediateClass = NLS_DOUBLE;
+    outClass = NLS_DOUBLE;
+    Class Ain(A.getDataClass());
+    Class Bin(B.getDataClass());
+    if (Ain == NLS_SINGLE && Bin == NLS_SINGLE) {
+        intermediateClass = NLS_SINGLE;
+        outClass = NLS_SINGLE;
+    } else if (Ain == NLS_SINGLE || Bin == NLS_SINGLE) {
+        outClass = NLS_SINGLE;
+    }
+    if (A.isComplex() || B.isComplex()) {
+        if (outClass == NLS_SINGLE) {
+            outClass = NLS_SCOMPLEX;
+        } else {
+            outClass = NLS_DCOMPLEX;
+        }
+        if (intermediateClass == NLS_SINGLE) {
+            intermediateClass = NLS_SCOMPLEX;
+        } else {
+            intermediateClass = NLS_DCOMPLEX;
+        }
+    }
+}
+//=============================================================================
+template <class T>
+static void
+Conv2Real(T* C, const T* A, const T* B, indexType Am, indexType An, indexType Bm, indexType Bn,
+    indexType Cm, indexType Cn, indexType Cm_offset, indexType Cn_offset)
+{
+    ompIndexType n = 0;
+    ompIndexType m = 0;
+    ompIndexType i = 0;
+    ompIndexType j = 0;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(n, m, i, j)
+#endif
+    for (n = 0; n < (ompIndexType)Cn; n++) {
+        for (m = 0; m < (ompIndexType)Cm; m++) {
+            T accum = 0;
+            int64 iMin = std::max(int64(0), int64(m + Cm_offset - Bm + 1));
+            int64 iMax = std::min(int64(Am - 1), int64(m + Cm_offset));
+            int64 jMin = std::max(int64(0), int64(n + Cn_offset - Bn + 1));
+            int64 jMax = std::min(int64(An - 1), int64(n + Cn_offset));
+            for ( j = jMin; j <= jMax; j++) {
+                for (i = iMin; i <= iMax; i++) {
+                    accum += (A[i + j * Am] == 0)
+                        ? 0
+                        : A[i + j * Am] * B[(m + Cm_offset - i) + (n + Cn_offset - j) * Bm];
+                }
+            }
+            C[m + n * Cm] = accum;
+        }
+    }
+}
+//=============================================================================
+template <class T>
+static void
+Conv2Complex(T* C, const T* A, const T* B, indexType Am, indexType An, indexType Bm, indexType Bn,
+    indexType Cm, indexType Cn, indexType Cm_offset, indexType Cn_offset)
+{
+    ompIndexType n = 0;
+    ompIndexType m = 0;
+    ompIndexType i = 0;
+    ompIndexType j = 0;
+#if defined(_NLS_WITH_OPENMP)
+#pragma omp parallel for private(n, m, i, j)
+#endif
+    for (n = 0; n < (ompIndexType)Cn; n++) {
+        for (m = 0; m < (ompIndexType)Cm; m++) {
+            std::complex<double> accum = 0;
+            int64 iMin = std::max(int64(0), int64(m + Cm_offset - Bm + 1));
+            int64 iMax = std::min(int64(Am - 1), int64(m + Cm_offset));
+            int64 jMin = std::max(int64(0), int64(n + Cn_offset - Bn + 1));
+            int64 jMax = std::min(int64(An - 1), int64(n + Cn_offset));
+            for (j = jMin; j <= jMax; j++) {
+                for (i = iMin; i <= iMax; i++) {
+                    T p = A[i + j * Am] * B[i + j * Am];
+                    accum += p;
+                }
+            }
+            C[m + n * Cm] = accum;
+        }
+    }
+}
+//=============================================================================
+ArrayOf
+Conv2dDispatch(
+    ArrayOf X, ArrayOf Y, indexType Cm, indexType Cn, indexType Cm_offset, indexType Cn_offset)
+{
+    ArrayOf res;
+    Dimensions dimsRes(Cm, Cn);
+
+    switch (X.getDataClass()) {
+    case NLS_DOUBLE: {
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+        res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
+        Conv2Real<double>(ptr, (const double*)X.getDataPointer(), (const double*)Y.getDataPointer(),
+            X.getRows(), X.getColumns(), Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+    } break;
+    case NLS_SINGLE: {
+        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsRes.getElementCount());
+        res = ArrayOf(NLS_SINGLE, dimsRes, ptr);
+        Conv2Real<single>(ptr, (const single*)X.getDataPointer(), (const single*)Y.getDataPointer(),
+            X.getRows(), X.getColumns(), Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+
+    } break;
+    case NLS_DCOMPLEX: {
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsRes.getElementCount());
+        res = ArrayOf(NLS_DCOMPLEX, dimsRes, ptr);
+
+        auto* ptrz = reinterpret_cast<std::complex<double>*>((double*)ptr);
+        auto* ptrX = reinterpret_cast<std::complex<double>*>((double*)X.getDataPointer());
+        auto* ptrY = reinterpret_cast<std::complex<double>*>((double*)Y.getDataPointer());
+        Conv2Complex<std::complex<double>>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(),
+            Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+    } break;
+    case NLS_SCOMPLEX: {
+        void* ptr = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsRes.getElementCount());
+        res = ArrayOf(NLS_SCOMPLEX, dimsRes, ptr);
+
+        auto* ptrz = reinterpret_cast<std::complex<single>*>((single*)ptr);
+        auto* ptrX = reinterpret_cast<std::complex<single>*>((single*)X.getDataPointer());
+        auto* ptrY = reinterpret_cast<std::complex<single>*>((single*)Y.getDataPointer());
+        Conv2Complex<std::complex<single>>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(),
+            Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+    } break;
+    default: {
+    } break;
+    }
+    return res;
+}
+//=============================================================================
+static ArrayOf
+Conv2dXYFull(const ArrayOf& A, const ArrayOf& B)
+{
+    indexType Cm = A.getRows() + B.getRows() - 1;
+    indexType Cn = A.getColumns() + B.getColumns() - 1;
+    indexType Cm_offset = 0;
+    indexType Cn_offset = 0;
+    return Conv2dDispatch(A, B, Cm, Cn, Cm_offset, Cn_offset);
+}
+//=============================================================================
+static ArrayOf
+Conv2dXYValid(const ArrayOf& A, const ArrayOf& B)
+{
+    ArrayOf res;
+    return res;
+}
+//=============================================================================
+static ArrayOf
+Conv2dXYSame(const ArrayOf& A, const ArrayOf& B)
+{
+    ArrayOf res;
+    return res;
+}
+//=============================================================================
+
+ArrayOf
+Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, bool& needToOverload)
+{
+    ArrayOf res;
+    needToOverload = true;
+    if (!isSupportedShape(shape)) {
+        Error(_W("shape parameter must be 'full', 'same', or 'valid'."),
+            L"Nelson:conv2:unknownShapeParameter");
+    }
+    if (!isSupportedInputTypes(A)) {
+        Error(_W("Invalid data type: First argument must be numeric or logical."),
+            L"Nelson:conv2:inputType");
+    }
+    if (!isSupportedInputTypes(B)) {
+        Error(_W("Invalid data type: First argument must be numeric or logical."),
+            L"Nelson:conv2:inputType");
+    }
+    if (!A.is2D() || !B.is2D()) {
+        Error(_W("N-D arrays are not supported."), L"Nelson:conv2:ndArrayInput");
+    }
+    if (A.isSparse() || B.isSparse()) {
+        Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
+    }
+
+    Class intermediateClass;
+    Class outputClass;
+    computeCommonType(A, B, intermediateClass, outputClass);
+
+    if (A.isEmpty() || B.isEmpty()) {
+        needToOverload = false;
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        indexType rows = std::max(A.getRows(), B.getRows());
+        indexType cols = std::max(A.getColumns(), B.getColumns());
+        Dimensions dimsC(rows, cols);
+        void* ptr = ArrayOf::allocateArrayOf(outputClass, dimsC.getElementCount());
+        res = ArrayOf(outputClass, dimsC, ptr);
+        return res;
+    }
+    ArrayOf Aintermediate(A);
+    ArrayOf Bintermediate(B);
+    Aintermediate.promoteType(intermediateClass);
+    Bintermediate.promoteType(intermediateClass);
+    needToOverload = false;
+    if (shape == L"full") {
+        res = Conv2dXYFull(Aintermediate, Bintermediate);
+    }
+    if (shape == L"same") {
+        res = Conv2dXYSame(Aintermediate, Bintermediate);
+    }
+    if (shape == L"valid") {
+        res = Conv2dXYValid(Aintermediate, Bintermediate);
+    }
+    res.promoteType(outputClass);
+    return decomplexify(res);
+}
+//=============================================================================
+ArrayOf
+Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::wstring& shape,
+    bool& needToOverload)
+{
+    ArrayOf res;
+    needToOverload = true;
+    if (!isSupportedShape(shape)) {
+        Error(_W("shape parameter must be 'full', 'same', or 'valid'."),
+            L"Nelson:conv2:unknownShapeParameter");
+    }
+    if (!isSupportedInputTypes(u)) {
+        Error(_W("Invalid data type: First argument must be numeric or logical."),
+            L"Nelson:conv2:inputType");
+    }
+    if (!isSupportedInputTypes(v)) {
+        Error(_W("Invalid data type: Second argument must be numeric or logical."),
+            L"Nelson:conv2:inputType");
+    }
+    if (!isSupportedInputTypes(A)) {
+        Error(_W("Invalid data type: Third argument must be numeric or logical."),
+            L"Nelson:conv2:inputType");
+    }
+    if (!u.is2D() || !v.is2D() || !A.is2D()) {
+        Error(_W("N-D arrays are not supported."), L"Nelson:conv2:ndArrayInput");
+    }
+    if (u.isSparse() || v.isSparse() || A.isSparse()) {
+        Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
+    }
+
+    Class intermediateClass;
+    Class outputClass;
+    computeCommonType(u, v, intermediateClass, outputClass);
+
+    res.promoteType(outputClass);
+    return res;
+}
+//=============================================================================
+}
+//=============================================================================

@@ -186,6 +186,7 @@
     <ClCompile Include="..\cpp\Cast.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
+    <ClCompile Include="..\cpp\Convolution2D.cpp" />
     <ClCompile Include="..\cpp\DecimalToBase.cpp" />
     <ClCompile Include="..\cpp\Find.cpp" />
     <ClCompile Include="..\cpp\Flip.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\include\Cast.hpp" />
     <ClInclude Include="..\include\ComplexConjugate.hpp" />
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
+    <ClInclude Include="..\include\Convolution2D.hpp" />
     <ClInclude Include="..\include\DecimalToBase.hpp" />
     <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\Find.hpp" />

@@ -71,6 +71,7 @@
 #include "triuBuiltin.hpp"
 #include "trilBuiltin.hpp"
 #include "signBuiltin.hpp"
+#include "conv2Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -179,6 +180,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sign", (void*)Nelson::ElementaryFunctionsGateway::signBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "conv2", (void*)Nelson::ElementaryFunctionsGateway::conv2Builtin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
