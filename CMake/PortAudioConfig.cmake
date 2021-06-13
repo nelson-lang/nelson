@@ -29,9 +29,9 @@ if(PORTAUDIO_FOUND)
   elseif(EXISTS "/usr/local/Cellar/portaudio/19.6.0/include")
     set(PORTAUDIO_INCLUDE_DIRS /usr/local/Cellar/portaudio/19.6.0/include)
   endif()
-  if(EXISTS "/usr/local/Cellar/portaudio/19.7.0/include")
+  if(EXISTS "/opt/homebrew/include")
     set(PORTAUDIO_LIBRARIES
-        /usr/local/Cellar/portaudio/19.7.0/lib/libportaudio.dylib)
+        /opt/homebrew/lib/libportaudio.dylib)
   elseif(EXISTS "/usr/local/Cellar/portaudio/19.6.0/include")
     set(PORTAUDIO_LIBRARIES
         /usr/local/Cellar/portaudio/19.6.0/lib/libportaudio.dylib)
