@@ -3460,14 +3460,14 @@ msgstr ""
 msgid "Save File"
 msgstr ""
 
-msgid "Nelson (*.nls *.nlf)"
+msgid "Nelson (*.nls *.nlf *.m)"
 msgstr ""
 
 msgid "Open file ..."
 msgstr ""
 
 msgid ""
-"Nelson (*.nls *.nlf);;Text files (*.txt);;Markdown files (*.md);;All files "
+"Nelson (*.nls *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
 "(*.*)"
 msgstr ""
 

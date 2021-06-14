@@ -44,10 +44,9 @@ Evaluator::shortCutOrOperator(const ArrayOf& A, const ArrayOf& B)
                 if (B.isScalar()) {
                     bool b = B.getContentAsLogicalScalar() != 0U;
                     return ArrayOf::logicalConstructor(a || b);
-                } 
-                    Error(_W("Operand to || operator must be convertible to "
-                             "logical scalar values."));
-                
+                }
+                Error(_W("Operand to || operator must be convertible to "
+                         "logical scalar values."));
             }
         } else {
             Error(_W("Operand to || operator must be convertible to "

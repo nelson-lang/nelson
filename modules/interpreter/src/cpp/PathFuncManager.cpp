@@ -462,14 +462,14 @@ PathFuncManager::getPathNameAsString()
 }
 //=============================================================================
 MacroFunctionDef*
-PathFuncManager::processFile(const std::wstring& nlf_filename)
+PathFuncManager::processFile(const std::wstring& script_filename)
 {
     MacroFunctionDef* fptr = nullptr;
     FILE* fr;
 #ifdef _MSC_VER
-    fr = _wfopen(nlf_filename.c_str(), L"rt");
+    fr = _wfopen(script_filename.c_str(), L"rt");
 #else
-    fr = fopen(wstring_to_utf8(nlf_filename).c_str(), "r");
+    fr = fopen(wstring_to_utf8(script_filename).c_str(), "r");
 #endif
     if (fr == nullptr) {
         std::string msg1;
@@ -480,14 +480,14 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
         std::string msg2;
         snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
         msg2 = buff;
-        Error(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
+        Error(_W("Cannot open:") + L" " + script_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
             + utf8_to_wstring(msg2));
     }
-    ParserState pstate = ParseError;
+    ParserState pstate = ParserState::ParseError;
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector ptAstCode;
     try {
-        pstate = parseFile(fr, wstring_to_utf8(nlf_filename));
+        pstate = parseFile(fr, wstring_to_utf8(script_filename));
         ptAstCode = AbstractSyntaxTree::getReferences();
     } catch (const Exception&) {
         AbstractSyntaxTree::deleteReferences();
@@ -499,22 +499,32 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
     if (fr != nullptr) {
         fclose(fr);
     }
-    if (pstate != FuncDef) {
+    if (pstate == ParserState::ParseError) {
         AbstractSyntaxTree::deleteReferences(ptAstCode);
         AbstractSyntaxTree::clearReferences();
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
     }
     try {
-        fptr = getParsedFunctionDef();
+        if (pstate == ParserState::FuncDef) {
+            fptr = getParsedFunctionDef();
+            fptr->isScript = false;
+        } else {
+            fptr = new MacroFunctionDef();
+            fptr->code = getParsedScriptBlock();
+            boost::filesystem::path pathFunction(script_filename);
+            fptr->name = pathFunction.stem().generic_string();
+            fptr->isScript = true;
+        }
+
     } catch (const Exception&) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
     }
     if (fptr == nullptr) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
     } else {
         fptr->ptrAstCodeAsVector = std::move(ptAstCode);
         AbstractSyntaxTree::clearReferences();
-        boost::filesystem::path pathFunction(nlf_filename);
+        boost::filesystem::path pathFunction(script_filename);
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
         if (!boost::iequals(functionNameFromFile, fptr->name)) {
             std::string name = fptr->name;

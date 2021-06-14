@@ -104,7 +104,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.nlf")
+  PATTERN "*.m")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

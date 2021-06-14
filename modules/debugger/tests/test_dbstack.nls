@@ -55,7 +55,7 @@ ref_st_2.name = 'test_dbstack';
 ref_st_2.line = 46;
 assert_isequal(st(2), ref_st_2);
 %=============================================================================
-ref_st_1.file = 'test_dbstack.nlf';
+ref_st_1.file = 'test_dbstack.m';
 ref_st_1.name = 'test_dbstack';
 ref_st_1.line = 29;
 assert_isequal(st(1), ref_st_1);

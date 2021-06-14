@@ -43,7 +43,7 @@ XGETTEXT_OPTION_NO_HEADER = '--omit-header';
 XGETTEXT_OPTIONS = [XGETTEXT_OPTION_NO_HEADER, ' ', XGETTEXT_KEYWORDS, ' ', '-force-po', ' ', '--from-code=UTF-8'];
 
 EXTENSIONS_SRC_NELSON = {'*.c' '*.h' '*.cpp' '*.cxx' '*.hxx' '*.hpp'};
-EXTENSIONS_MACROS_NELSON = {'*.nls', '*.nlf'};
+EXTENSIONS_MACROS_NELSON = {'*.nls', '*.nlf', '*.m'};
 EXTENSIONS = [EXTENSIONS_SRC_NELSON, EXTENSIONS_MACROS_NELSON];
 DOMAIN ='nelson';
 TARGETDIR = [tempdir(), '', DOMAIN, '_pot'];

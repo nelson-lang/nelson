@@ -45,7 +45,7 @@ private:
     static PathFuncManager* m_pInstance;
     PathFunc* _userPath;
     MacroFunctionDef*
-    processFile(const std::wstring& nlf_filename);
+    processFile(const std::wstring& script_filename);
 
     void
     userpathCompute();

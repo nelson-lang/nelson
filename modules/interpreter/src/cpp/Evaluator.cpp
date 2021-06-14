@@ -1268,9 +1268,9 @@ ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, Class indexClass, A
         Error(_W("Redefining permanent variable."));
     }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        ArrayOf *ptrVariable = scope->lookupVariable(indexVarName);
+        ArrayOf* ptrVariable = scope->lookupVariable(indexVarName);
         if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
-            || (!ptrVariable->isScalar())) { 
+            || (!ptrVariable->isScalar())) {
             scope->insertVariable(indexVarName,
                 ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
             ptrVariable = scope->lookupVariable(indexVarName);
@@ -3389,7 +3389,8 @@ Evaluator::getCallers(bool includeCurrent)
                 boost::algorithm::replace_all(functionname, "built-in ", "");
             } else if (boost::algorithm::starts_with(functionname, "filename ")) {
                 boost::algorithm::replace_all(functionname, "filename ", "");
-                if (boost::algorithm::ends_with(functionname, ".nlf")) {
+                if (boost::algorithm::ends_with(functionname, ".nlf")
+                    || boost::algorithm::ends_with(functionname, ".m")) {
                     boost::filesystem::path p(functionname);
                     functionname = p.stem().generic_string();
                 }
@@ -4078,7 +4079,8 @@ Evaluator::getCurrentFunctionName()
     int ipos = (int)callstack.size() - 1;
     if (ipos >= 0) {
         std::string fullname = callstack.getLastContext();
-        if (boost::algorithm::ends_with(fullname, ".nlf")) {
+        if (boost::algorithm::ends_with(fullname, ".nlf")
+            || boost::algorithm::ends_with(fullname, ".m")) {
             boost::filesystem::path pathForStem(fullname);
             return pathForStem.stem().string();
         }

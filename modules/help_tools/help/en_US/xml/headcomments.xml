@@ -26,7 +26,7 @@
 	</param_output>
 
 	<description><p><b>head_comments</b> displays the function header comments.</p>
-<p>Comments are read from the associated .nlf file.</p>
+<p>Comments are read from the associated .nlf (or .m) file.</p>
 <p>Nelson predefined functions have no header comments.</p>
 
 </description>
