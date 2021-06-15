@@ -45,7 +45,7 @@ Source: {#RootPath}\{#MODULE_NAME}\module.json; DestDir: {app}\{#MODULE_NAME}\; 
 Source: {#RootPath}\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\functions\*.m; DestDir: {app}\{#MODULE_NAME}\functions\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\{#MODULE_NAME}\functions\; Flags: skipifsourcedoesntexist
 ;==============================================================================
 Source: {#RootPath}\{#MODULE_NAME}\help\en_US\images\*.png; DestDir: {app}\{#MODULE_NAME}\help\en_US\images\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\help\en_US\xml\; Flags: skipifsourcedoesntexist
