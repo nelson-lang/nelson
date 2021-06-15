@@ -513,6 +513,7 @@ PathFuncManager::processFile(const std::wstring& script_filename)
             fptr->code = getParsedScriptBlock();
             boost::filesystem::path pathFunction(script_filename);
             fptr->name = pathFunction.stem().generic_string();
+            fptr->fileName = script_filename;
             fptr->isScript = true;
         }
 

@@ -55,6 +55,7 @@ static const nlsGateway gateway[] = {
     { "exit", (void*)Nelson::CoreGateway::exitBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "run", (void*)Nelson::CoreGateway::runBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "nfilename", (void*)Nelson::CoreGateway::nfilenameBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "mfilename", (void*)Nelson::CoreGateway::nfilenameBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "execstr", (void*)Nelson::CoreGateway::execstrBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "eval", (void*)Nelson::CoreGateway::evalBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "evalc", (void*)Nelson::CoreGateway::evalcBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
