@@ -48,8 +48,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,5,5,0
- PRODUCTVERSION 0,5,5,0
+ FILEVERSION 0,5,6,0
+ PRODUCTVERSION 0,5,6,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,8 +68,8 @@ BEGIN
             VALUE "InternalName", "characters_encoding_builtin"
             VALUE "OriginalFilename", "libnlscharacters_encoding_builtin.dll"
             VALUE "ProductName", "Nelson (characters_encoding_builtin)"
-            VALUE "ProductVersion", "0,5,5,0"
-            VALUE "FileVersion", "0,5,5,0"
+            VALUE "ProductVersion", "0,5,6,0"
+            VALUE "FileVersion", "0,5,6,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"

@@ -93,7 +93,7 @@ public:
     const FunctionType
     type() override // lgtm [cpp/member-const-no-effect]
     {
-        return NLS_MACRO_FUNCTION;
+        return Nelson::FunctionType::NLS_MACRO_FUNCTION;
     }
     /**
      * The number of inputs required by this function, which is the number of
@@ -127,11 +127,18 @@ public:
     int
     nargout();
 
-    bool isScript = false;
+    bool isScript;
 
 private:
     std::string
     getCompleteName();
+
+    ArrayOfVector
+    evaluateMFunction(
+        Evaluator* eval, const ArrayOfVector& inputs, int nargout);
+
+    ArrayOfVector
+    evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
 };
 //=============================================================================
 } // namespace Nelson

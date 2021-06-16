@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/format.hpp>
 #include "MacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
@@ -33,14 +34,7 @@
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
 //=============================================================================
-#ifdef WIN32
-#define snprintf _snprintf
-#endif
-//=============================================================================
 namespace Nelson {
-//=============================================================================
-#define MSGBUFLEN 2048
-static char msgBuffer[MSGBUFLEN];
 //=============================================================================
 MacroFunctionDef::MacroFunctionDef()
 {
@@ -49,6 +43,7 @@ MacroFunctionDef::MacroFunctionDef()
     prevFunction = nullptr;
     code = nullptr;
     ptrAstCodeAsVector.clear();
+    isScript = false;
 }
 //=============================================================================
 MacroFunctionDef::~MacroFunctionDef()
@@ -60,6 +55,7 @@ MacroFunctionDef::~MacroFunctionDef()
     AbstractSyntaxTree::deleteReferences(ptrAstCodeAsVector);
     code = nullptr;
     localFunction = false;
+    isScript = false;
 }
 //=============================================================================
 int
@@ -111,14 +107,13 @@ MacroFunctionDef::outputArgCount()
 }
 //=============================================================================
 ArrayOfVector
-MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
+MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();
-    if (!isScript) {
-        context->pushScope(name);
-    }
+    context->pushScope(name);
+
     std::string filenameUtf8 = wstring_to_utf8(fileName);
     eval->callstack.pushDebug(filenameUtf8, name);
     // Push our local functions onto the function scope
@@ -207,8 +202,9 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name)
-                            + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
+                        std::wstring message
+                            = str(boost::wformat(_W("Function : '%s'.")) % utf8_to_wstring(name));
+                        message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                         Warning(message);
                         warningIssued = true;
                     }
@@ -275,23 +271,68 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
                 }
             }
         }
-        if (!isScript) {
-            context->popScope();
-        }
+        context->popScope();
         eval->callstack.popDebug();
-        return outputs;
     } catch (const Exception&) {
         if (tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->fileName, false);
             Profiler::getInstance()->toc(tic, stack);
         }
-        if (!isScript) {
-            context->popScope();
+        context->popScope();
+        eval->callstack.popDebug();
+        throw;
+    }
+    return outputs;
+}
+//=============================================================================
+ArrayOfVector
+MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
+{
+    ArrayOfVector outputs;
+    Context* context = eval->getContext();
+    std::string filenameUtf8 = wstring_to_utf8(fileName);
+    eval->callstack.pushDebug(filenameUtf8, name);
+
+    context->getCurrentScope()->setNargIn(0);
+    context->getCurrentScope()->setNargOut(0);
+
+    uint64 tic = 0;
+    try {
+        uint64 tic = Profiler::getInstance()->tic();
+        eval->block(code);
+        if (tic != 0) {
+            internalProfileFunction stack
+                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+            Profiler::getInstance()->toc(tic, stack);
+        }
+        State state(eval->getState());
+        if (state < NLS_STATE_QUIT) {
+            eval->resetState();
+        }
+        if (state == NLS_STATE_ABORT) {
+            return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
+        }
+        eval->callstack.popDebug();
+    } catch (const Exception&) {
+        if (tic != 0) {
+            internalProfileFunction stack
+                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+            Profiler::getInstance()->toc(tic, stack);
         }
         eval->callstack.popDebug();
         throw;
     }
+    return outputs;
+}
+//=============================================================================
+ArrayOfVector
+MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
+{
+    if (isScript) {
+        return evaluateMScript(eval, inputs, nargout);
+    }
+    return evaluateMFunction(eval, inputs, nargout);
 }
 //=============================================================================
 std::string
