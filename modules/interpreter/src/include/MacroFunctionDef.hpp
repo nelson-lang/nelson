@@ -127,6 +127,8 @@ public:
     int
     nargout();
 
+    bool isScript = false;
+
 private:
     std::string
     getCompleteName();

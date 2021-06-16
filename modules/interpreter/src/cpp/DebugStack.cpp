@@ -37,6 +37,12 @@ isNlf(PositionScript& pos)
 }
 //=============================================================================
 static bool
+isM(PositionScript& pos)
+{
+    return boost::algorithm::ends_with(pos.getFilename(), L".m");
+}
+//=============================================================================
+static bool
 isNls(PositionScript& pos)
 {
     return boost::algorithm::ends_with(pos.getFilename(), L".nls");
@@ -63,6 +69,9 @@ cleanupDebugStack(stackTrace stackPositions)
         if (isEvaluateString(stackPositions[k])) {
             k++;
         } else if (isNlf(stackPositions[k])) {
+            cleanedPositions.push_back(stackPositions[k]);
+            k++;
+        } else if (isM(stackPositions[k])) {
             cleanedPositions.push_back(stackPositions[k]);
             k++;
         } else if (isNls(stackPositions[k])) {

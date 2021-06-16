@@ -54,7 +54,7 @@ install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 # ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/loader.nls DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name_lower}) install(DIRECTORY
 # ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/functions DESTINATION
-# ${ROOT_OUTPUT}/modules/${module_name_lower} FILES_MATCHING PATTERN "*.nlf")
+# ${ROOT_OUTPUT}/modules/${module_name_lower} FILES_MATCHING PATTERN "*.m")
 # install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/help
 # DESTINATION ${ROOT_OUTPUT}/modules/${module_name_lower} FILES_MATCHING PATTERN
 # "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)

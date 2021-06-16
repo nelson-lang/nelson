@@ -114,16 +114,15 @@ ArrayOfVector
 MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     ArrayOfVector outputs;
-    ArrayOf a;
     size_t minCount = 0;
     Context* context = eval->getContext();
+    if (!isScript) {
+        context->pushScope(name);
+    }
     std::string filenameUtf8 = wstring_to_utf8(fileName);
-    context->pushScope(name);
     eval->callstack.pushDebug(filenameUtf8, name);
     // Push our local functions onto the function scope
-    MacroFunctionDef* cp;
-    // Walk up until we get to the head of the list
-    cp = this;
+    MacroFunctionDef* cp = this;
     while (cp->prevFunction != nullptr) {
         cp = cp->prevFunction;
     }
@@ -204,6 +203,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
         bool warningIssued = false;
         if (outputArgCount() != -1) {
             outputs.resize(returnVals.size());
+            ArrayOf a;
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
@@ -249,6 +249,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
                 outputs.resize(nargout);
                 // For each explicit argument (that we have), insert it
                 // into the scope.
+                ArrayOf a;
                 for (int i = 0; i < explicitCount; i++) {
                     if (!context->lookupVariableLocally(returnVals[i], a)) {
                         if (!warningIssued) {
@@ -274,7 +275,9 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
                 }
             }
         }
-        context->popScope();
+        if (!isScript) {
+            context->popScope();
+        }
         eval->callstack.popDebug();
         return outputs;
     } catch (const Exception&) {
@@ -283,7 +286,9 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
                 = computeProfileStack(eval, getCompleteName(), this->fileName, false);
             Profiler::getInstance()->toc(tic, stack);
         }
-        context->popScope();
+        if (!isScript) {
+            context->popScope();
+        }
         eval->callstack.popDebug();
         throw;
     }

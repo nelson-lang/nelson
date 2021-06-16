@@ -64,7 +64,7 @@ void
 QtEditPane::setFileName(const QString& filename)
 {
     currentFilename = filename;
-    if (filename.endsWith(".nls") || filename.endsWith(".nlf")) {
+    if (filename.endsWith(".nls") || filename.endsWith(".nlf") || filename.endsWith(".m")) {
         highlight->setEnable(true);
     } else {
         highlight->setEnable(false);

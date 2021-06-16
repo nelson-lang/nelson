@@ -665,7 +665,7 @@ QtTextEditor::saveAs()
 {
     bool res = false;
     QString fileName = QFileDialog::getSaveFileName(
-        this, TR("Save File"), shownName(), TR("Nelson (*.nls *.nlf)"));
+        this, TR("Save File"), shownName(), TR("Nelson (*.nls *.nlf *.m)"));
     if (!fileName.isEmpty()) {
         for (int i = 0; i < tab->count(); i++) {
             QWidget* w = tab->widget(i);
@@ -692,9 +692,10 @@ void
 QtTextEditor::open()
 {
     if (maybeSave()) {
-        QStringList fileNames = QFileDialog::getOpenFileNames(this, TR("Open file ..."),
-            QDir::currentPath(),
-            TR("Nelson (*.nls *.nlf);;Text files (*.txt);;Markdown files (*.md);;All files (*.*)"));
+        QStringList fileNames
+            = QFileDialog::getOpenFileNames(this, TR("Open file ..."), QDir::currentPath(),
+                TR("Nelson (*.nls *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
+                   "(*.*)"));
         for (int k = 0; k < fileNames.size(); k++) {
             loadFile(fileNames[k]);
         }

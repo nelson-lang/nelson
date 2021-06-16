@@ -10,6 +10,10 @@
 
 - `function ... endfunction` and `function ... end` are equivalent (increase compatibility ;).
 
+- file extension `.m` is managed by Nelson.
+
+  - About compatibility: scripts and functions developed with Nelson will work with other tools managing .m files. The reciprocal is not necessarily true.
+
 - [#455](http://github.com/Nelson-numerical-software/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
 
 ## Bug Fixes:

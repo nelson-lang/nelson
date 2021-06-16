@@ -46,7 +46,7 @@ function edit(varargin)
         error(msg)
       end
       if strcmp(fileparts(finalfilename, 'extension'), '') == true
-        finalfilename = [finalfilename, '.nlf'];
+        finalfilename = [finalfilename, '.m'];
       end
       editor(finalfilename)
     end

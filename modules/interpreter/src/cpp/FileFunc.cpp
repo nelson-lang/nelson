@@ -29,15 +29,24 @@
 #include <iosfwd>
 //=============================================================================
 namespace Nelson {
-FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name)
+FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name, FileFunctionType ftype)
 {
-    _nlf_fullfilename = directory + L"/" + name + L".nlf";
+    _ftype = ftype;
+    switch (ftype) {
+    case FileFunctionType::M: {
+        _fullfilename = directory + L"/" + name + L".m";
+    } break;
+    default:
+    case FileFunctionType::NLF: {
+        _fullfilename = directory + L"/" + name + L".nlf";
+    } break;
+    }
     _name = name;
     std::ifstream inFile;
 #ifdef _MSC_VER
-    inFile.open(_nlf_fullfilename);
+    inFile.open(_fullfilename);
 #else
-    inFile.open(wstring_to_utf8(_nlf_fullfilename));
+    inFile.open(wstring_to_utf8(_fullfilename));
 #endif
     if (inFile.is_open()) {
         std::string content = std::string(
@@ -51,7 +60,7 @@ FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name)
 //=============================================================================
 FileFunc::~FileFunc()
 {
-    _nlf_fullfilename.clear();
+    _fullfilename.clear();
     _name.clear();
     _hashid = 0;
 }
@@ -59,7 +68,7 @@ FileFunc::~FileFunc()
 std::wstring
 FileFunc::getFilename()
 {
-    return _nlf_fullfilename;
+    return _fullfilename;
 }
 //=============================================================================
 std::wstring
@@ -72,6 +81,12 @@ size_t
 FileFunc::getHashID()
 {
     return _hashid;
+}
+//=============================================================================
+FileFunctionType
+FileFunc::getFileFunctionType()
+{
+    return _ftype;
 }
 //=============================================================================
 } // namespace Nelson

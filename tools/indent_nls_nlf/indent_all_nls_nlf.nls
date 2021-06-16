@@ -24,7 +24,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 nls_files = dir([nelsonroot(), '/', '*.nls'], '-s');
-nlf_files = dir([nelsonroot(), '/', '*.nlf'], '-s');
 for f = nls_files(:)'
   smartindent(f.name)
 end
+%=============================================================================
+nlf_files = dir([nelsonroot(), '/', '*.nlf'], '-s');
+for f = nlf_files(:)'
+  smartindent(f.name)
+end
+%=============================================================================
+m_files = dir([nelsonroot(), '/', '*.m'], '-s');
+for f = m_files(:)'
+  smartindent(f.name)
+end
+%=============================================================================

@@ -37,7 +37,7 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/module_skeleton")
     DIRECTORY ${CMAKE_SOURCE_DIR}/module_skeleton/functions
     DESTINATION ${ROOT_OUTPUT}/module_skeleton
     FILES_MATCHING
-    PATTERN "*.nlf")
+    PATTERN "*.m")
   install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/module_skeleton/help
     DESTINATION ${ROOT_OUTPUT}/module_skeleton

@@ -32,7 +32,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#M
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-;Source: {#RootPath}modules\functions_manager\functions\*.nlf; DestDir: {app}\modules\functions_manager\functions\;
+;Source: {#RootPath}modules\functions_manager\functions\*.m; DestDir: {app}\modules\functions_manager\functions\;
 ;==============================================================================
 Source: {#RootPath}modules\functions_manager\help\*.qch; DestDir: {app}\modules\functions_manager\help\; Flags: recursesubdirs
 ;==============================================================================

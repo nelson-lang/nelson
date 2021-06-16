@@ -63,6 +63,10 @@ for m = getmodules()(:)'
     for f = functions_info(:)'
       all_help_keys {end + 1} = f.name(1:end-4);
     end
+    functions_info = dir([path_functions,'/*.m']);
+    for f = functions_info(:)'
+      all_help_keys {end + 1} = f.name(1:end-4);
+    end    
   end
 end
 

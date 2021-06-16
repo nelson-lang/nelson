@@ -36,7 +36,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#M
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-;Source: {#RootPath}modules\validators\functions\*.nlf; DestDir: {app}\modules\validators\functions\;
+;Source: {#RootPath}modules\validators\functions\*.m; DestDir: {app}\modules\validators\functions\;
 ;==============================================================================
 Source: {#RootPath}modules\validators\help\*.qch; DestDir: {app}\modules\validators\help\; Flags: recursesubdirs
 ;==============================================================================
