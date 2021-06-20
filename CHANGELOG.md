@@ -2,17 +2,21 @@
 
 ## Features:
 
-- `narginchk` builtin: checks number of input arguments.
-
-- `nargoutchk` builtin: checks number of outnput arguments.
-
-- parser generated with Bison 3.7.4
+- parser cleaned and generated with Bison 3.7.4
 
 - `function ... endfunction` and `function ... end` are equivalent (increase compatibility ;).
 
 - file extension `.m` is managed by Nelson.
 
-  - About compatibility: scripts and functions developed with Nelson will work with other tools managing .m files. The reciprocal is not necessarily true.
+  - About compatibility: scripts and functions developed with Nelson should work with other tools managing .m files. The reciprocal is not necessarily true.
+
+- `run` builtin can also evaluate a macro function.
+
+- macro functions also searched in current directory.
+
+- `narginchk` builtin: checks number of input arguments.
+
+- `nargoutchk` builtin: checks number of outnput arguments.
 
 - [#455](http://github.com/Nelson-numerical-software/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
 

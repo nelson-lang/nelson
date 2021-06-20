@@ -235,7 +235,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
             EvaluateCommand(eval, commandToExecute, false);
         }
         if (!fileToExecute.empty()) {
-            EvaluateScriptFile(eval, fileToExecute.c_str());
+            EvaluateScriptFile(eval, fileToExecute);
         }
     } catch (Exception& e) {
         Interface* io = eval->getInterface();

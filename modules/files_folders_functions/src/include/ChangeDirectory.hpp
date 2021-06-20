@@ -34,10 +34,11 @@ NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
 Cd(const std::wstring& newpath);
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
 Cd(const std::string& newpath);
+//=============================================================================
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-ChangeDirectory(const std::wstring& newpath);
+ChangeDirectory(const std::wstring& newpath, bool doException = false, bool trimPath = false);
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-ChangeDirectory(const std::string& newpath);
+ChangeDirectory(const std::string& newpath, bool doException = false, bool trimPath = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

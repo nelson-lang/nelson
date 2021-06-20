@@ -44,7 +44,7 @@ StartNelsonMainScript(Evaluator* eval)
             NelsonConfiguration::getInstance()->disableModulesProtection();
             std::wstring wstr = path.generic_wstring();
             try {
-                EvaluateScriptFile(eval, wstr.c_str());
+                EvaluateScriptFile(eval, wstr);
             } catch (Exception& e) {
                 // close all files in case of error at start-up
                 CloseAllFiles();

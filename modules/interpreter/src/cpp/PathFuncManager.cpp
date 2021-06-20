@@ -63,6 +63,7 @@ safegetline(std::ifstream& os, std::string& line)
 PathFuncManager::PathFuncManager()
 {
     _userPath = nullptr;
+    _currentPath = nullptr;
     userpathCompute();
 }
 //=============================================================================
@@ -71,6 +72,10 @@ PathFuncManager::~PathFuncManager()
     if (_userPath != nullptr) {
         delete _userPath;
         _userPath = nullptr;
+    }
+    if (_currentPath != nullptr) {
+        delete _currentPath;
+        _currentPath = nullptr;
     }
 }
 //=============================================================================
@@ -166,18 +171,25 @@ bool
 PathFuncManager::find(const std::wstring& functionName, FileFunc** ff)
 {
     bool res = false;
+    if (_currentPath != nullptr) {
+        res = _currentPath->findFuncName(functionName, ff);
+        if (res) {
+            return res;
+        }
+    }
     if (_userPath != nullptr) {
         res = _userPath->findFuncName(functionName, ff);
+        if (res) {
+            return res;
+        }
     }
-    if (!res) {
-        for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-             it != _pathFuncVector.end(); ++it) {
-            PathFunc* pf = *it;
-            if (pf) {
-                res = pf->findFuncName(functionName, ff);
-                if (res) {
-                    return res;
-                }
+    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
+         it != _pathFuncVector.end(); ++it) {
+        PathFunc* pf = *it;
+        if (pf) {
+            res = pf->findFuncName(functionName, ff);
+            if (res) {
+                return res;
             }
         }
     }
@@ -188,18 +200,25 @@ bool
 PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
     bool res = false;
+    if (_currentPath != nullptr) {
+        res = _currentPath->findFuncName(functionName, filename);
+        if (res) {
+            return res;
+        }
+    }
     if (_userPath != nullptr) {
         res = _userPath->findFuncName(functionName, filename);
+        if (res) {
+            return res;
+        }
     }
-    if (!res) {
-        for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
-             it != _pathFuncVector.rend(); ++it) {
-            PathFunc* pf = *it;
-            if (pf) {
-                res = pf->findFuncName(functionName, filename);
-                if (res) {
-                    return res;
-                }
+    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
+         it != _pathFuncVector.rend(); ++it) {
+        PathFunc* pf = *it;
+        if (pf) {
+            res = pf->findFuncName(functionName, filename);
+            if (res) {
+                return res;
             }
         }
     }
@@ -212,6 +231,12 @@ PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname
     bool res = false;
     filesname.clear();
     std::wstring filename;
+    if (_currentPath != nullptr) {
+        res = _currentPath->findFuncName(functionName, filename);
+        if (res) {
+            filesname.push_back(filename);
+        }
+    }
     if (_userPath != nullptr) {
         res = _userPath->findFuncName(functionName, filename);
         if (res) {
@@ -235,6 +260,12 @@ bool
 PathFuncManager::find(size_t hashid, std::wstring& functionname)
 {
     bool res = false;
+    if (_currentPath != nullptr) {
+        res = _currentPath->findFuncByHash(hashid, functionname);
+        if (res) {
+            return res;
+        }
+    }
     if (_userPath != nullptr) {
         res = _userPath->findFuncByHash(hashid, functionname);
         if (res) {
@@ -345,6 +376,19 @@ PathFuncManager::getUserPath()
 }
 //=============================================================================
 bool
+PathFuncManager::setCurrentUserPath(const std::wstring& path)
+{
+    if (_currentPath != nullptr) {
+        delete _currentPath;
+    }
+    _currentPath = new PathFunc(path);
+    if (_currentPath) {
+        _currentPath->rehash();
+    }
+    return false;
+}
+//=============================================================================
+bool
 PathFuncManager::setUserPath(const std::wstring& path, bool saveToFile)
 {
     clearUserPath();
@@ -385,6 +429,9 @@ PathFuncManager::resetUserPath()
 void
 PathFuncManager::rehash()
 {
+    if (_currentPath != nullptr) {
+        _currentPath->rehash();
+    }
     if (_userPath != nullptr) {
         _userPath->rehash();
     }

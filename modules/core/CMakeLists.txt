@@ -37,7 +37,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include/picoSHA2)
 # ==============================================================================
@@ -54,6 +55,7 @@ target_link_libraries(
   nlsError_manager
   nlsStream_manager
   nlsCharacters_encoding
+  nlsFiles_folders_functions
   nlsI18n
   nlsString
   ${MAC_FRAMEWORK_FOUNDATION_LIBRARY})

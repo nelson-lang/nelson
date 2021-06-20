@@ -26,6 +26,7 @@
 assert_isequal(nargin('profsave'), 2);
 assert_isequal(nargout('profsave'), 0);
 %=============================================================================
+currentpath = fileparts(nfilename('fullpathext'), 'path');
 profile('on')
 run('script_to_profile.nls');
 profile('off')
@@ -33,62 +34,62 @@ p = profile('info');
 %=============================================================================
 assert_isequal(fieldnames(p), {'FunctionName'; 'Filename'; 'LinePosition'; 'NumCalls';'TotalTime'; 'PerCall'});
 R1.FunctionName = 'colon';
-R1.Filename ='script_to_profile.nls';
+R1.Filename = [currentpath, '/script_to_profile.nls'];
 R1.LinePosition = 26;
 R1.NumCalls = 1;
 %=============================================================================
 R2.FunctionName = 'mod';
-R2.Filename = 'script_to_profile.nls';
+R2.Filename = [currentpath, '/script_to_profile.nls'];
 R2.LinePosition = 27;
 R2.NumCalls = 10;
 %=============================================================================
 R3.FunctionName = 'assign';
-R3.Filename = 'script_to_profile.nls';
+R3.Filename = [currentpath, '/script_to_profile.nls'];
 R3.LinePosition = 28;
 R3.NumCalls = 5;
 %=============================================================================
 R4.FunctionName = 'plus'
-R4.Filename = 'script_to_profile.nls';
+R4.Filename = [currentpath, '/script_to_profile.nls'];
 R4.LinePosition = 28;
 R4.NumCalls = 5;
 %=============================================================================
 R5.FunctionName = 'assign'
-R5.Filename = 'script_to_profile.nls'
+R5.Filename = [currentpath, '/script_to_profile.nls']
 R5.LinePosition = 30;
 R5.NumCalls = 5;
 %=============================================================================
 R6.FunctionName = 'minus';
-R6.Filename = 'script_to_profile.nls';
+R6.Filename = [currentpath, '/script_to_profile.nls']
 R6.LinePosition = 30;
 R6.NumCalls = 5;
 %=============================================================================
-assert_isequal(p(2).FunctionName, R1.FunctionName);
-assert_isequal(p(3).FunctionName, R2.FunctionName);
-assert_isequal(p(4).FunctionName, R3.FunctionName);
-assert_isequal(p(5).FunctionName, R4.FunctionName);
-assert_isequal(p(6).FunctionName, R5.FunctionName);
-assert_isequal(p(7).FunctionName, R6.FunctionName);
+assert_isequal(p(1).FunctionName, R1.FunctionName);
+assert_isequal(p(2).FunctionName, R2.FunctionName);
+assert_isequal(p(3).FunctionName, R3.FunctionName);
+assert_isequal(p(4).FunctionName, R4.FunctionName);
+assert_isequal(p(5).FunctionName, R5.FunctionName);
+assert_isequal(p(6).FunctionName, R6.FunctionName);
 %=============================================================================
-assert_isequal(p(2).Filename, R1.Filename);
-assert_isequal(p(3).Filename, R2.Filename);
-assert_isequal(p(4).Filename, R3.Filename);
-assert_isequal(p(5).Filename, R4.Filename);
-assert_isequal(p(6).Filename, R5.Filename);
-assert_isequal(p(7).Filename, R6.Filename);
+assert_isequal(p(1).LinePosition, R1.LinePosition);
+assert_isequal(p(2).LinePosition, R2.LinePosition);
+assert_isequal(p(3).LinePosition, R3.LinePosition);
+assert_isequal(p(4).LinePosition, R4.LinePosition);
+assert_isequal(p(5).LinePosition, R5.LinePosition);
+assert_isequal(p(6).LinePosition, R6.LinePosition);
 %=============================================================================
-assert_isequal(p(2).LinePosition, R1.LinePosition);
-assert_isequal(p(3).LinePosition, R2.LinePosition);
-assert_isequal(p(4).LinePosition, R3.LinePosition);
-assert_isequal(p(5).LinePosition, R4.LinePosition);
-assert_isequal(p(6).LinePosition, R5.LinePosition);
-assert_isequal(p(7).LinePosition, R6.LinePosition);
+assert_isequal(p(1).NumCalls, R1.NumCalls);
+assert_isequal(p(2).NumCalls, R2.NumCalls);
+assert_isequal(p(3).NumCalls, R3.NumCalls);
+assert_isequal(p(4).NumCalls, R4.NumCalls);
+assert_isequal(p(5).NumCalls, R5.NumCalls);
+assert_isequal(p(6).NumCalls, R6.NumCalls);
 %=============================================================================
-assert_isequal(p(2).NumCalls, R1.NumCalls);
-assert_isequal(p(3).NumCalls, R2.NumCalls);
-assert_isequal(p(4).NumCalls, R3.NumCalls);
-assert_isequal(p(5).NumCalls, R4.NumCalls);
-assert_isequal(p(6).NumCalls, R5.NumCalls);
-assert_isequal(p(7).NumCalls, R6.NumCalls);
+assert_isequal(p(1).Filename, R1.Filename);
+assert_isequal(p(2).Filename, R2.Filename);
+assert_isequal(p(3).Filename, R3.Filename);
+assert_isequal(p(4).Filename, R4.Filename);
+assert_isequal(p(5).Filename, R5.Filename);
+assert_isequal(p(6).Filename, R6.Filename);
 %=============================================================================
 profile('show');
 %=============================================================================

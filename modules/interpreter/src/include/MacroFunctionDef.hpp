@@ -134,8 +134,7 @@ private:
     getCompleteName();
 
     ArrayOfVector
-    evaluateMFunction(
-        Evaluator* eval, const ArrayOfVector& inputs, int nargout);
+    evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
 
     ArrayOfVector
     evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout);

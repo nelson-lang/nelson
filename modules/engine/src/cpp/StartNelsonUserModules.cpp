@@ -65,7 +65,7 @@ StartNelsonUserModules(Evaluator* eval)
                     if (load) {
                         std::wstring loader = path + std::wstring(L"/loader.nls");
                         try {
-                            EvaluateScriptFile(eval, loader.c_str(), true);
+                            EvaluateScriptFile(eval, loader, true);
                         } catch (const Exception& e) {
                             if (IsExistingModuleName(name)) {
                                 UnregisterModule(name);

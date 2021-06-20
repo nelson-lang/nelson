@@ -25,11 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Evaluator.hpp"
 #include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSCORE_IMPEXP bool
-EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirectory = false);
+EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDirectory = false);
+//=============================================================================
 }
 //=============================================================================
