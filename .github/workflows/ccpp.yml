@@ -227,7 +227,7 @@ jobs:
       run: |
         python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
 
-    - name: Install Qt 5
+    - name: Install Qt 5.12.2
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.15.2'
@@ -238,6 +238,7 @@ jobs:
         install-deps: 'true'
         modules: 'qtcharts, qtwebengine'
         cached: 'false'
+        setup-python: 'false'
 
     - name: Install dependencies
       run: |
@@ -343,7 +344,7 @@ jobs:
       run: |  
         python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
 
-    - name: Install Qt 5
+    - name: Install Qt 5.12.2
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.15.2'
@@ -353,7 +354,8 @@ jobs:
         dir: 'C:/install/QT5/'
         install-deps: 'true'
         modules: 'qtcharts, qtwebengine'
-        cached: 'false'        
+        cached: 'false'
+        setup-python: 'false'         
 
     - name: Install dependencies
       run: |
