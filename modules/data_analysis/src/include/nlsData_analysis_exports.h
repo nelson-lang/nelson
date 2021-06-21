@@ -25,28 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
-//=============================================================================
-namespace Nelson {
-/**
- * max operation.
- */
-//=============================================================================
-// C = max(A, B);
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Maximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
-//=============================================================================
-// [M, i] = max(A)
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Maximum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload);
-//=============================================================================
-// [M, i] = max(A, [], dim)
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-MaximumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-} // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSDATA_ANALYSIS_EXPORTS
+#define NLSDATA_ANALYSIS_IMPEXP __declspec(dllexport)
+#else
+#define NLSDATA_ANALYSIS_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSDATA_ANALYSIS_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

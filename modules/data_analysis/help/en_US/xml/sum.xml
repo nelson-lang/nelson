@@ -69,10 +69,10 @@ R = sum(M, 'native')]]>
 
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}ndims">ndims</link>
+      <link linkend="${data_analysis}ndims">ndims</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}prod">prod</link>
+      <link linkend="${data_analysis}prod">prod</link>
     </see_also_item>
   </see_also>
 

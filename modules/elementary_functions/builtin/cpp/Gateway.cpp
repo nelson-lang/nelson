@@ -44,8 +44,6 @@
 #include "modBuiltin.hpp"
 #include "ndimsBuiltin.hpp"
 #include "numelBuiltin.hpp"
-#include "prodBuiltin.hpp"
-#include "sumBuiltin.hpp"
 #include "realBuiltin.hpp"
 #include "remBuiltin.hpp"
 #include "repmatBuiltin.hpp"
@@ -58,17 +56,13 @@
 #include "log10Builtin.hpp"
 #include "log1pBuiltin.hpp"
 #include "sqrtBuiltin.hpp"
-#include "ismissingBuiltin.hpp"
 #include "num2binBuiltin.hpp"
 #include "bin2numBuiltin.hpp"
 #include "swapbytesBuiltin.hpp"
 #include "base2decBuiltin.hpp"
 #include "dec2baseBuiltin.hpp"
-#include "sortBuiltin.hpp"
 #include "linspaceBuiltin.hpp"
 #include "log2Builtin.hpp"
-#include "maxBuiltin.hpp"
-#include "minBuiltin.hpp"
 #include "fliplrBuiltin.hpp"
 #include "flipudBuiltin.hpp"
 #include "findBuiltin.hpp"
@@ -125,10 +119,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "conj", (void*)Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "prod", (void*)Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sum", (void*)Nelson::ElementaryFunctionsGateway::sumBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
     { "mod", (void*)Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "abs", (void*)Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1,
@@ -151,8 +141,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sqrt", (void*)Nelson::ElementaryFunctionsGateway::sqrtBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "ismissing", (void*)Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
     { "num2bin", (void*)Nelson::ElementaryFunctionsGateway::num2binBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "bin2num", (void*)Nelson::ElementaryFunctionsGateway::bin2numBuiltin, 1, 1,
@@ -171,15 +159,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dec2hex", (void*)Nelson::ElementaryFunctionsGateway::dec2hexBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "sort", (void*)Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
     { "linspace", (void*)Nelson::ElementaryFunctionsGateway::linspaceBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "log2", (void*)Nelson::ElementaryFunctionsGateway::log2Builtin, 2, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "max", (void*)Nelson::ElementaryFunctionsGateway::maxBuiltin, 2, 4,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "min", (void*)Nelson::ElementaryFunctionsGateway::minBuiltin, 2, 4,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "fliplr", (void*)Nelson::ElementaryFunctionsGateway::fliplrBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

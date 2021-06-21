@@ -24,20 +24,30 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "gammaBuiltin.hpp"
-#include "betaincBuiltin.hpp"
-#include "gcdBuiltin.hpp"
+#include "prodBuiltin.hpp"
+#include "sumBuiltin.hpp"
+#include "ismissingBuiltin.hpp"
+#include "sortBuiltin.hpp"
+#include "maxBuiltin.hpp"
+#include "minBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"special_functions";
+const std::wstring gatewayName = L"data_analysis";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
+    { "prod", (void*)Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "betainc", (void*)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
+    { "sum", (void*)Nelson::ElementaryFunctionsGateway::sumBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "gcd", (void*)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "ismissing", (void*)Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "sort", (void*)Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "max", (void*)Nelson::ElementaryFunctionsGateway::maxBuiltin, 2, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "min", (void*)Nelson::ElementaryFunctionsGateway::minBuiltin, 2, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

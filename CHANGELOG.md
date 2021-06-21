@@ -20,6 +20,8 @@
 
 - [#455](http://github.com/Nelson-numerical-software/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
 
+- [#455](http://github.com/Nelson-numerical-software/nelson/issues/448): data analysis module (Code refactoring).
+
 ## Bug Fixes:
 
 - `nmm('install', existing_module_directory)` did not work as expected.

@@ -23,28 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "gammaBuiltin.hpp"
-#include "betaincBuiltin.hpp"
-#include "gcdBuiltin.hpp"
+#include "nlsConfig.h"
+#include <Windows.h>
 //=============================================================================
-using namespace Nelson;
+#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 //=============================================================================
-const std::wstring gatewayName = L"special_functions";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "betainc", (void*)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "gcd", (void*)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
+}
 //=============================================================================

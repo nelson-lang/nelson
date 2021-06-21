@@ -85,7 +85,7 @@ M = max(A, [], 'all')]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${elementary_functions}min">min</link>
+			<link linkend="${data_analysis}min">min</link>
 		</see_also_item>
 	</see_also>
 

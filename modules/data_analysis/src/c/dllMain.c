@@ -23,17 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#pragma comment(lib, "libnlsblaslapack.lib")
+#if defined(_NLS_WITH_VML)
+#pragma comment(lib, "libnlsvml_mkl.lib")
+#endif
 //=============================================================================
-namespace Nelson {
-/* sum */
-/* if d == 0 --> Sum(X) */
-/* if d != 0 --> Sum(X, n) */
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan);
-//=============================================================================
-} // namespace Nelson
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
+}
 //=============================================================================

@@ -22,54 +22,40 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 # ==============================================================================
-set(module_name validators)
-set(module_library_name nlsValidators)
+set(module_name data_analysis)
+set(module_library_name nlsData_analysis)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 include_directories(
-  ${Boost_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/../types/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../data_analysis/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../string/builtin/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${Boost_INCLUDE_DIRS})
 # ==============================================================================
-file(GLOB VALIDATORS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB DATA_ANALYSIS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
-add_library(${module_library_name} SHARED ${VALIDATORS_SRC})
+add_library(${module_library_name} SHARED ${DATA_ANALYSIS_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsCharacters_encoding
-  nlsData_structures
   nlsError_manager
-  nlsInterpreter
-  nlsTypes
-  nlsTypes_builtin
-  nlsElementary_functions_builtin
-  nlsData_analysis_builtin
-  nlsOperators_builtin
-  nlsModules_manager
-  nlsDynamic_link
+  nlsOperators
   nlsI18n
-  nlsFiles_folders_functions_builtin
-  nlsString_builtin
-  nlsString)
+  nlsTypes
+  ${BLAS_LIBRARIES}
+  ${LAPACK_LIBRARIES}
+  ${LAPACKE_LIBRARIES}
+  ${MAC_LAPACKE_LIBRARY}
+  ${OpenMP_CXX_LIBRARIES})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -78,29 +64,30 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
-file(GLOB VALIDATORS_BUILTIN
+file(GLOB DATA_ANALYSIS_BUILTIN
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 # ==============================================================================
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+  ${EIGEN3_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
+  ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include)
 # ==============================================================================
-add_library(${module_library_builtin_name} SHARED ${VALIDATORS_BUILTIN})
+add_library(${module_library_builtin_name} SHARED
+            ${DATA_ANALYSIS_BUILTIN})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
   nlsInterpreter
-  nlsTypes
-  nlsApi_nelson
+  nlsOverload
   nlsI18n
-  nlsFiles_folders_functions)
+  nlsLinear_algebra
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}
@@ -110,12 +97,6 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/include
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/include
-  FILES_MATCHING
-  PATTERN "*.h"
-  PATTERN "*.hpp")
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls

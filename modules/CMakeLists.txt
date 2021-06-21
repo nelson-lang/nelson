@@ -37,6 +37,7 @@ list(
   stream_manager
   operators
   elementary_functions
+  data_analysis
   special_functions
   interpreter
   debugger

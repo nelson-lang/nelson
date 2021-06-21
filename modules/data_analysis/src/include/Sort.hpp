@@ -23,28 +23,29 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "gammaBuiltin.hpp"
-#include "betaincBuiltin.hpp"
-#include "gcdBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsData_analysis_exports.h"
 //=============================================================================
-const std::wstring gatewayName = L"special_functions";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "betainc", (void*)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "gcd", (void*)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
-};
+typedef enum
+{
+    AUTO_PLACEMENT,
+    FIRST_PLACEMENT,
+    LAST_PLACEMENT
+} MISSING_PLACEMENT;
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+typedef enum
+{
+    AUTO_METHOD,
+    REAL_METHOD,
+    ABS_METHOD
+} COMPARISON_METHOD;
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
+Sort(ArrayOf arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,
+    MISSING_PLACEMENT placement, COMPARISON_METHOD comparisonMethod, bool& needToOverload);
+}
 //=============================================================================
