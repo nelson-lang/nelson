@@ -23,12 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
 #include "RemoveModule.hpp"
 #include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
-#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,7 +51,7 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
             pathfinish += L"/etc/finish.nls";
             if (boost::filesystem::exists(pathfinish)
                 && !boost::filesystem::is_directory(pathfinish)) {
-                EvaluateScriptFile(eval, pathfinish.generic_wstring().c_str());
+                EvaluateScriptFile(eval, pathfinish.generic_wstring());
             } else {
                 Error(_W("finish.nls does not exist."));
             }

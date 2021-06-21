@@ -53,7 +53,7 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
                 RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());
-                EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
+                EvaluateScriptFile(eval, pathmainloader.generic_wstring());
             } else {
                 if ((IsExistingModuleName(moduleshortname)
                         && IsExistingModulePath(_modulerootpath))) {

@@ -206,7 +206,9 @@ end
 %=============================================================================
 function test_case_cleaned = post_run_test_case(test_case_res)
   if isfile(test_case_res.command_filename)
-    rmfile(test_case_res.command_filename);
+    try
+      rmfile(test_case_res.command_filename);
+    end
   end
   if test_case_res.skip
     test_case_cleaned.filename = test_case_res.filename;

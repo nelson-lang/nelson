@@ -25,9 +25,11 @@
 //=============================================================================
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "PathFuncManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,9 +50,7 @@ ArrayOf
 Cd(const std::wstring& newpath)
 {
     boost::filesystem::path previous_pwd = boost::filesystem::current_path();
-    if (!ChangeDirectory(newpath)) {
-        Error(_W("Cannot change directory: '") + removeSimpleQuotesAndTrim(newpath) + L"'.");
-    }
+    ChangeDirectory(newpath, true, true);
     return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
 //=============================================================================
@@ -61,14 +61,31 @@ Cd(const std::string& newpath)
 }
 //=============================================================================
 bool
-ChangeDirectory(const std::wstring& newpath)
+ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
 {
-    try {
-        boost::filesystem::current_path(removeSimpleQuotesAndTrim(newpath));
-    } catch (const boost::filesystem::filesystem_error&) {
-        return false;
+    std::wstring pathApplied = newpath;
+    if (trimPath) {
+        pathApplied = removeSimpleQuotesAndTrim(newpath);
     }
-    return true;
+    try {
+        boost::filesystem::current_path(pathApplied);
+        PathFuncManager::getInstance()->setCurrentUserPath(pathApplied);
+        return true;
+    } catch (const boost::filesystem::filesystem_error&) {
+        if (doException) {
+            std::wstring msg
+                = str(boost::wformat(_W("Cannot change directory '%s'.")) % pathApplied);
+            Error(msg);
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
+ChangeDirectory(const std::string& newpath, bool doException, bool trimPath)
+{
+    std::wstring wpath = utf8_to_wstring(newpath);
+    return ChangeDirectory(wpath, doException, trimPath);
 }
 //=============================================================================
 } // namespace Nelson

@@ -44,6 +44,8 @@ private:
     ~PathFuncManager();
     static PathFuncManager* m_pInstance;
     PathFunc* _userPath;
+    PathFunc* _currentPath;
+
     MacroFunctionDef*
     processFile(const std::wstring& script_filename);
 
@@ -89,6 +91,9 @@ public:
     getPathNameAsString();
     wstringVector
     getMacrosList(const std::wstring& prefix = L"");
+
+    bool
+    setCurrentUserPath(const std::wstring& path);
 
     std::wstring
     getUserPath();

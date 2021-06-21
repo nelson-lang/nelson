@@ -41,7 +41,7 @@ runBuiltinCommon(
     ArrayOfVector retval;
     bool bSuccess = false;
     try {
-        bSuccess = EvaluateScriptFile(eval, filename.c_str(), changeDirectory);
+        bSuccess = EvaluateScriptFile(eval, filename, changeDirectory);
     } catch (Exception& e) {
         if (errorCatch) {
             eval->setLastErrorException(e);
