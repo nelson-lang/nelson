@@ -236,7 +236,7 @@ jobs:
         arch: 'win32_msvc2019'
         dir: 'C:/install/QT5/'
         install-deps: 'true'
-        modules: 'qtcharts, qtdatavis3d, qtpurchasing, qtvirtualkeyboard, qtwebengine, qtnetworkauth, qtwebglplugin, qtscript, debug_info'
+        modules: 'qtcharts, qtwebengine'
         cached: 'false'
 
     - name: Install dependencies
@@ -352,7 +352,7 @@ jobs:
         arch: 'win64_msvc2019_64'
         dir: 'C:/install/QT5/'
         install-deps: 'true'
-        modules: 'qtcharts, qtdatavis3d, qtpurchasing, qtvirtualkeyboard, qtwebengine, qtnetworkauth, qtwebglplugin, qtscript, debug_info'
+        modules: 'qtcharts, qtwebengine'
         cached: 'false'        
 
     - name: Install dependencies
