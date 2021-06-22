@@ -40,7 +40,7 @@ DEST_1 = [TMPDIR, 'zip_test_1.zip'];
 cd([nelsonroot(), '/module_skeleton'])
 R = zip(DEST_1, '*.nls');
 REF1 = {'builder.nls'};
-REF2 = {'builder.nls', 'loader.nls'};
+REF2 = {'builder.nls', 'loader.m'};
 if length(R) == 2
   assert_isequal(R, REF2);
 else
@@ -52,7 +52,7 @@ DEST_2 = [TMPDIR, 'zip_test_2.zip'];
 cd([nelsonroot(), '/module_skeleton'])
 R = zip(DEST_2, [nelsonroot(), '/module_skeleton/*.nls']);
 REF1 = {'builder.nls'};
-REF2 = {'builder.nls', 'loader.nls'};
+REF2 = {'builder.nls', 'loader.m'};
 if length(R) == 2
   assert_isequal(R, REF2);
 else
@@ -65,7 +65,7 @@ mkdir(temp_dest);
 cd(temp_dest);
 R1 = unzip(DEST_1);
 REF1 = {[temp_dest, '/builder.nls']};
-REF2 = {[temp_dest, '/builder.nls'] , [temp_dest, '/loader.nls']};
+REF2 = {[temp_dest, '/builder.nls'] , [temp_dest, '/loader.m']};
 if length(R1) == 2
   assert_isequal(R1, REF2);
 else
@@ -79,7 +79,7 @@ mkdir(temp_dest);
 cd(temp_dest);
 R2 = unzip(DEST_2);
 REF1 = {[temp_dest, '/builder.nls']};
-REF2 = {[temp_dest, '/builder.nls'] , [temp_dest, '/loader.nls']};
+REF2 = {[temp_dest, '/builder.nls'] , [temp_dest, '/loader.m']};
 if length(R2) == 2
   assert_isequal(R2, REF2);
 else

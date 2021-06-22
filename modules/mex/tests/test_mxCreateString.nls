@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateString')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateString.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 R = mxCreateString();

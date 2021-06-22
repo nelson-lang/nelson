@@ -35,7 +35,7 @@ if ~isbuiltin('mxAssert')
    assert_istrue(status);
    cd(test_dir);
    mex('mxAssert.c');
-   run('loader.nls');
+   run('loader.m');
 end
 %=============================================================================
 R = mxAssert(1);

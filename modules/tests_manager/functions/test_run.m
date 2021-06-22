@@ -475,21 +475,21 @@ function tests_list = getFilesListByOption(tests_dir, option)
   tests_list = [];
   switch option
     case 'all'
-      unitary_tests = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = [dir([tests_dir, 'test_*.m']);  dir([tests_dir, 'test_*.nls'])];
       if ~isempty(unitary_tests)
         unitary_tests = sort(string(strcat(tests_dir, {unitary_tests.name})));
       else
         unitary_tests = string({});
       end
 
-      nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      nonreg_tests = dir([tests_dir, 'bug_*.m']);
       if ~isempty(nonreg_tests)
         nonreg_tests = sort(string(strcat(tests_dir, {nonreg_tests.name})));
       else
         nonreg_tests = string({});
       end
 
-      bench_tests = dir([tests_dir, 'bench_*.nls']);
+      bench_tests = dir([tests_dir, 'bench_*.m']);
       if ~isempty(bench_tests)
         bench_tests = sort(string(strcat(tests_dir, {bench_tests.name})));
       else
@@ -505,14 +505,14 @@ function tests_list = getFilesListByOption(tests_dir, option)
       end
 
     case 'all_tests'
-      unitary_tests = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = dir([tests_dir, 'test_*.m']);
       if ~isempty(unitary_tests)
         unitary_tests = sort(string(strcat(tests_dir, {unitary_tests.name})));
       else
         unitary_tests = string({});
       end
 
-      nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      nonreg_tests = dir([tests_dir, 'bug_*m']);
       if ~isempty(nonreg_tests)
         nonreg_tests = sort(string(strcat(tests_dir, {nonreg_tests.name})));
       else

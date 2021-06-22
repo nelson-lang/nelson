@@ -51,7 +51,7 @@ for f = files(:)'
   end
 end
 run([destinationdir, '/builder.nls']);
-run([destinationdir, '/loader.nls']);
+run([destinationdir, '/loader.m']);
 %=============================================================================
 assert_isequal(cpp_sum(3, 4), 7);
 %=============================================================================

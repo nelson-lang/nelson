@@ -33,7 +33,7 @@ end
 %=============================================================================
 cd([nelsonroot(), '/module_skeleton/']);
 run('builder.nls');
-run('loader.nls');
+run('loader.m');
 [modules_loaded, modules_path, modules_version, modules_protected] = getmodules();
 assert_isequal(strcmp(modules_loaded(end), 'module_skeleton'), true);
 assert_isequal(modules_protected(end), false);

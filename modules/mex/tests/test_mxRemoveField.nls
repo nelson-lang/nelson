@@ -33,7 +33,7 @@ if ~isbuiltin('mxRemoveField')
     assert_istrue(status);
     cd(test_dir);
     mex('mxRemoveField.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 S.f1 = 1;

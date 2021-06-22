@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateStructArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateStructArray.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 R = mxCreateStructArray();

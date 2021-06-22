@@ -33,7 +33,7 @@ if ~isbuiltin('mexPrintf')
      assert_istrue(status);
      cd(test_dir);
      mex('mexPrintf.c');
-     run('loader.nls');
+     run('loader.m');
  end
 %=============================================================================
 R = evalc('mexPrintf()');

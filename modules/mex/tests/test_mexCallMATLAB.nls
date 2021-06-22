@@ -33,7 +33,7 @@ if ~isbuiltin('mexCallMATLAB')
     assert_istrue(status);
     cd(test_dir);
     mex('mexCallMATLAB.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 R = mexCallMATLAB(pi);

@@ -973,8 +973,8 @@ msgstr "Un module existant portant le même nom déjà utilisé."
 msgid "An existing module with the same path already defined."
 msgstr "Un module existant avec le même chemin déjà défini."
 
-msgid "loader.nls does not exist."
-msgstr "Loader.nls n'existe pas."
+msgid "loader.m does not exist."
+msgstr "loader.m n'existe pas."
 
 msgid "Path does not exist:"
 msgstr "Chemin d'accès n'existe pas :"

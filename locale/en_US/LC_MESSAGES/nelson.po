@@ -5111,7 +5111,7 @@ msgstr ""
 msgid "Invalid type in platforms"
 msgstr ""
 
-msgid "loader.nls is missing."
+msgid "loader.m is missing."
 msgstr ""
 
 msgid "module.json is missing."

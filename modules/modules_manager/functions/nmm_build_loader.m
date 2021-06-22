@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function nmm_build_loader(MODULE_NAME, MODULE_PATH)
-    filewrite([MODULE_PATH, '/loader.nls'], content(MODULE_NAME));
+    filewrite([MODULE_PATH, '/loader.m'], content(MODULE_NAME));
 end
 %=============================================================================
 function txt = content(MODULE_NAME)

@@ -35,7 +35,7 @@ if ~isbuiltin('mxDuplicateArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxDuplicateArray.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 F = figure(33);

@@ -28,7 +28,7 @@ if ~isbuiltin('mexAtExit')
     assert_istrue(status);
     cd(tempdir());
     mex('mexAtExit.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 mexAtExit();

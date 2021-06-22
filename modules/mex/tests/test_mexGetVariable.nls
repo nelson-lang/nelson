@@ -35,7 +35,7 @@ if ~isbuiltin('mexGetVariable')
     assert_istrue(status);
     cd(test_dir);
     mex('mexGetVariable.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 assignin('global', 'BB', 44);

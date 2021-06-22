@@ -63,7 +63,7 @@ StartNelsonUserModules(Evaluator* eval)
                     std::wstring path = std::get<1>(element);
                     bool load = std::get<2>(element);
                     if (load) {
-                        std::wstring loader = path + std::wstring(L"/loader.nls");
+                        std::wstring loader = path + std::wstring(L"/loader.m");
                         try {
                             EvaluateScriptFile(eval, loader, true);
                         } catch (const Exception& e) {

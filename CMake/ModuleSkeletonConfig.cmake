@@ -27,7 +27,7 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/module_skeleton")
           DESTINATION ${ROOT_OUTPUT}/module_skeleton/etc)
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/etc/finish.nls
           DESTINATION ${ROOT_OUTPUT}/module_skeleton/etc)
-  install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/loader.nls
+  install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/loader.m
           DESTINATION ${ROOT_OUTPUT}/module_skeleton)
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/builder.nls
           DESTINATION ${ROOT_OUTPUT}/module_skeleton)

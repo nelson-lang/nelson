@@ -35,7 +35,7 @@ if ~isbuiltin('mxGetClassName')
     assert_istrue(status);
     cd(test_dir);
     mex('mxGetClassName.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 R = mxGetClassName(pi);

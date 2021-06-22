@@ -33,7 +33,7 @@ if ~isbuiltin('mxGetFieldByNumber')
     assert_istrue(status);
     cd(test_dir);
     mex('mxGetFieldByNumber.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 C(1).A = 1;

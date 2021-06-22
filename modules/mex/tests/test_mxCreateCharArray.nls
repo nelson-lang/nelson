@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateCharArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateCharArray.c');
-    run('loader.nls');
+    run('loader.m');
  end
 %=============================================================================
 R = mxCreateCharArray();

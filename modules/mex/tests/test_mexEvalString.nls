@@ -33,7 +33,7 @@ if ~isbuiltin('mexEvalString')
     assert_istrue(status);
     cd(test_dir);
     mex('mexEvalString.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 mexEvalString();

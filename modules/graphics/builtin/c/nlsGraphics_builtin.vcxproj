@@ -231,7 +231,7 @@
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />
     <None Include="..\..\etc\startup.m" />
-    <None Include="..\..\loader.nls" />
+    <None Include="..\..\loader.m" />
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>

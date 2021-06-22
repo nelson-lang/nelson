@@ -33,7 +33,7 @@ if ~isbuiltin('mxSetComplexDoubles')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetComplexDoubles.c', '-R2018a');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 R = mxSetComplexDoubles();

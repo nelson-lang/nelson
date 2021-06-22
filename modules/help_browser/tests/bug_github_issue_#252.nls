@@ -40,7 +40,7 @@ end
 if ~ismodule('module_skeleton')
   cd([nelsonroot(), '/module_skeleton']);
   run('builder.nls');
-  run('loader.nls');
+  run('loader.m');
 end
 assert_istrue(ismodule('module_skeleton'));
 doc();

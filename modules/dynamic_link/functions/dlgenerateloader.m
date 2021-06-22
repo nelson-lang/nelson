@@ -39,7 +39,7 @@ function dlgenerateloader(destinationdir, libraryname, ismexfunction)
     mexFunctionsList = {};
   end
   txt = template(libraryname, ismexfunction, mexFunctionsList);
-  filewrite([destinationdir, '/loader.nls'], txt);
+  filewrite([destinationdir, '/loader.m'], txt);
 end
 %=============================================================================
 function txt = template(libraryname, ismexfunction, mexFunctionsList)

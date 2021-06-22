@@ -33,7 +33,7 @@ if ~isbuiltin('mexLock')
     assert_istrue(status);
     cd(test_dir);
     mex('mexLock.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 mexLock();

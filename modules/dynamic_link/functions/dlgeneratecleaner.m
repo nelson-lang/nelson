@@ -67,12 +67,12 @@ function txt = templatecleanerpart1(destinationdir)
   txt = [txt; 'current_directory = pwd();'];
   txt = [txt; ['cd(fileparts(nfilename(''fullpathext'')));']];
   txt = [txt; '%============================================================================='];
-  txt = [txt; 'if isfile(''loader.nls'')'];
-  txt = [txt; '  rmfile(''loader.nls'');'];
+  txt = [txt; 'if isfile(''loader.m'')'];
+  txt = [txt; '  rmfile(''loader.m'');'];
   txt = [txt; 'end'];
   txt = [txt; '%============================================================================='];
-  txt = [txt; 'if isfile(''unloader.nls'')'];
-  txt = [txt; '  rmfile(''unloader.nls'');'];
+  txt = [txt; 'if isfile(''unloader.m'')'];
+  txt = [txt; '  rmfile(''unloader.m'');'];
   txt = [txt; 'end'];
   txt = [txt; '%============================================================================='];
  end

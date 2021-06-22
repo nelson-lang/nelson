@@ -38,7 +38,7 @@ Source: {#RootPath}CLA.md; DestDir: {app}\
 ;==============================================================================
 #define MODULE_NAME "module_skeleton"
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\loader.nls; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\loader.m; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}\{#MODULE_NAME}\builder.nls; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}\{#MODULE_NAME}\module.json; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
 ;==============================================================================

@@ -35,9 +35,9 @@ if ~isfile(builderFile)
   return
 end
 %=============================================================================
-if ~isfile([nelsonroot(), '/module_skeleton/loader.nls'])
+if ~isfile([nelsonroot(), '/module_skeleton/loader.m'])
   return
 end
 %=============================================================================
-run([nelsonroot(), '/module_skeleton/loader.nls'])
+run([nelsonroot(), '/module_skeleton/loader.m'])
 %=============================================================================

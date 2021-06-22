@@ -35,7 +35,7 @@ if ~isbuiltin('mexCallMATLABWithTrap')
     assert_istrue(status);
     cd(test_dir);
     mex('mexCallMATLABWithTrap.c');
-    run('loader.nls');
+    run('loader.m');
 end
 %=============================================================================
 R = mexCallMATLABWithTrap(pi);

@@ -25,7 +25,7 @@
 %=============================================================================
 run([nelsonroot() '/modules/' 'modules.m']);
 for k = modules_list'
-  run([nelsonroot() '/modules/' k{1} '/loader.nls']);
+  run([nelsonroot() '/modules/' k{1} '/loader.m']);
 end
 %==============================================================================
 if (isquietmode() == false)

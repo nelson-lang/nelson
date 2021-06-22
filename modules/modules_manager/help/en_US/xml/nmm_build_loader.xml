@@ -4,7 +4,7 @@
 
   <language>en_US</language>
   <keyword>nmm_build_loader</keyword>
-  <short_description>helper's function to build main loader.nls of an external module</short_description>
+  <short_description>helper's function to build main loader.m of an external module</short_description>
 
   <syntax>
     <syntax_item>nmm_build_loader(module_short_name, module_root_path)</syntax_item>
@@ -24,7 +24,7 @@
   </param_input>
 
   <description>
-  <p><b>nmm_build_loader</b> generates main loader.nls of an external module.</p>
+  <p><b>nmm_build_loader</b> generates main loader.m of an external module.</p>
   </description>
 
   <used_function></used_function>
