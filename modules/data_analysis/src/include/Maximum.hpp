@@ -26,27 +26,27 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
 /**
- * min operation.
+ * max operation.
  */
 //=============================================================================
-// C = min(A, B);
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
+// C = max(A, B);
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+Maximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
-// [M, i] = min(A)
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Minimum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload);
+// [M, i] = max(A)
+NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
+Maximum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload);
 //=============================================================================
-// [M, i] = min(A, [], dim)
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
+// [M, i] = max(A, [], dim)
+NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
+Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-MinimumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload);
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+MaximumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

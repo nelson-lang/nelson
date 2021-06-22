@@ -26,12 +26,14 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
+/* sum */
+/* if d == 0 --> Sum(X) */
+/* if d != 0 --> Sum(X, n) */
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-isMissing(const ArrayOf& A, bool& needToOverload);
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

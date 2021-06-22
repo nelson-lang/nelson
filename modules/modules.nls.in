@@ -44,6 +44,7 @@ modules_list = [
 "integer";
 "operators";
 "elementary_functions";
+"data_analysis";
 "special_functions";
 "trigonometric_functions";
 "sparse";
@@ -104,6 +105,7 @@ modules_help_list = [
 "modules_manager";
 "operators";
 "elementary_functions";
+"data_analysis";
 "special_functions";
 "constructors_functions";
 "types";

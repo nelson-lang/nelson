@@ -23,28 +23,30 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "gammaBuiltin.hpp"
-#include "betaincBuiltin.hpp"
-#include "gcdBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsData_analysis_exports.h"
 //=============================================================================
-const std::wstring gatewayName = L"special_functions";
+namespace Nelson {
+/**
+ * min operation.
+ */
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "betainc", (void*)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "gcd", (void*)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
-};
+// C = min(A, B);
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+// [M, i] = min(A)
+NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
+Minimum(bool omitNaN, const ArrayOf& A, int nLhs, bool& needToOverload);
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+// [M, i] = min(A, [], dim)
+NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
+Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOverload);
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+MinimumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload);
 //=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================

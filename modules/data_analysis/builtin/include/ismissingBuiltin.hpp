@@ -27,13 +27,13 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
-#include "nlsElementary_functions_builtin_exports.h"
+#include "nlsData_analysis_builtin_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 namespace ElementaryFunctionsGateway {
     //=============================================================================
-    NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP
+    NLSDATA_ANALYSIS_BUILTIN_IMPEXP
     ArrayOfVector
     ismissingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================

@@ -61,7 +61,7 @@ ismissing(D)
 
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}isfinite">isfinite</link>
+      <link linkend="${data_analysis}isfinite">isfinite</link>
     </see_also_item>
   </see_also>
 

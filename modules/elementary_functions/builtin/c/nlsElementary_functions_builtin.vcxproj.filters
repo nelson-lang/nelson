@@ -72,9 +72,6 @@
     <ClCompile Include="..\cpp\numelBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\prodBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\realBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
     <ClCompile Include="..\cpp\isequaltoBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ismissingBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\num2binBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -132,9 +126,6 @@
     <ClCompile Include="..\cpp\dec2baseBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\sortBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\linspaceBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,16 +135,7 @@
     <ClCompile Include="..\cpp\log1pBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\sumBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\log2Builtin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\maxBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\minBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\fliplrBuiltin.cpp">
@@ -253,9 +235,6 @@
     <ClInclude Include="..\include\numelBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\prodBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\realBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -292,9 +271,6 @@
     <ClInclude Include="..\include\isequaltoBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ismissingBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\num2binBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -310,9 +286,6 @@
     <ClInclude Include="..\include\dec2baseBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sortBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\linspaceBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -322,16 +295,7 @@
     <ClInclude Include="..\include\log1pBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sumBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\log2Builtin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\maxBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\minBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\fliplrBuiltin.hpp">

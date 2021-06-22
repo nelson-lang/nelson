@@ -195,7 +195,6 @@
     <ClCompile Include="..\cpp\isequaltoBuiltin.cpp" />
     <ClCompile Include="..\cpp\isfiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\isinfBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ismissingBuiltin.cpp" />
     <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
     <ClCompile Include="..\cpp\isscalarBuiltin.cpp" />
     <ClCompile Include="..\cpp\isvectorBuiltin.cpp" />
@@ -205,14 +204,11 @@
     <ClCompile Include="..\cpp\log1pBuiltin.cpp" />
     <ClCompile Include="..\cpp\log2Builtin.cpp" />
     <ClCompile Include="..\cpp\logBuiltin.cpp" />
-    <ClCompile Include="..\cpp\maxBuiltin.cpp" />
-    <ClCompile Include="..\cpp\minBuiltin.cpp" />
     <ClCompile Include="..\cpp\modBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndimsBuiltin.cpp" />
     <ClCompile Include="..\cpp\normBuiltin.cpp" />
     <ClCompile Include="..\cpp\num2binBuiltin.cpp" />
     <ClCompile Include="..\cpp\numelBuiltin.cpp" />
-    <ClCompile Include="..\cpp\prodBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
     <ClCompile Include="..\cpp\remBuiltin.cpp" />
     <ClCompile Include="..\cpp\repmatBuiltin.cpp" />
@@ -220,9 +216,7 @@
     <ClCompile Include="..\cpp\roundBuiltin.cpp" />
     <ClCompile Include="..\cpp\signBuiltin.cpp" />
     <ClCompile Include="..\cpp\sizeBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sortBuiltin.cpp" />
     <ClCompile Include="..\cpp\sqrtBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sumBuiltin.cpp" />
     <ClCompile Include="..\cpp\swapbytesBuiltin.cpp" />
     <ClCompile Include="..\cpp\trilBuiltin.cpp" />
     <ClCompile Include="..\cpp\triuBuiltin.cpp" />
@@ -277,7 +271,6 @@
     <ClInclude Include="..\include\isequaltoBuiltin.hpp" />
     <ClInclude Include="..\include\isfiniteBuiltin.hpp" />
     <ClInclude Include="..\include\isinfBuiltin.hpp" />
-    <ClInclude Include="..\include\ismissingBuiltin.hpp" />
     <ClInclude Include="..\include\isnanBuiltin.hpp" />
     <ClInclude Include="..\include\isscalarBuiltin.hpp" />
     <ClInclude Include="..\include\isvectorBuiltin.hpp" />
@@ -287,15 +280,12 @@
     <ClInclude Include="..\include\log1pBuiltin.hpp" />
     <ClInclude Include="..\include\log2Builtin.hpp" />
     <ClInclude Include="..\include\logBuiltin.hpp" />
-    <ClInclude Include="..\include\maxBuiltin.hpp" />
-    <ClInclude Include="..\include\minBuiltin.hpp" />
     <ClInclude Include="..\include\modBuiltin.hpp" />
     <ClInclude Include="..\include\ndimsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />
     <ClInclude Include="..\include\normBuiltin.hpp" />
     <ClInclude Include="..\include\num2binBuiltin.hpp" />
     <ClInclude Include="..\include\numelBuiltin.hpp" />
-    <ClInclude Include="..\include\prodBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
     <ClInclude Include="..\include\remBuiltin.hpp" />
     <ClInclude Include="..\include\repmatBuiltin.hpp" />
@@ -303,9 +293,7 @@
     <ClInclude Include="..\include\roundBuiltin.hpp" />
     <ClInclude Include="..\include\signBuiltin.hpp" />
     <ClInclude Include="..\include\sizeBuiltin.hpp" />
-    <ClInclude Include="..\include\sortBuiltin.hpp" />
     <ClInclude Include="..\include\sqrtBuiltin.hpp" />
-    <ClInclude Include="..\include\sumBuiltin.hpp" />
     <ClInclude Include="..\include\swapbytesBuiltin.hpp" />
     <ClInclude Include="..\include\trilBuiltin.hpp" />
     <ClInclude Include="..\include\triuBuiltin.hpp" />

@@ -26,26 +26,13 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-typedef enum
-{
-    AUTO_PLACEMENT,
-    FIRST_PLACEMENT,
-    LAST_PLACEMENT
-} MISSING_PLACEMENT;
-//=============================================================================
-typedef enum
-{
-    AUTO_METHOD,
-    REAL_METHOD,
-    ABS_METHOD
-} COMPARISON_METHOD;
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
-Sort(ArrayOf arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,
-    MISSING_PLACEMENT placement, COMPARISON_METHOD comparisonMethod, bool& needToOverload);
-}
+/* prod */
+/* if d == 0 --> Prod(X) */
+/* if d != 0 --> Prod(X, n) */
+NLSDATA_ANALYSIS_IMPEXP ArrayOf
+Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan);
+} // namespace Nelson
 //=============================================================================
