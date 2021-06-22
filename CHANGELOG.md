@@ -22,15 +22,19 @@
 
 - `nargoutchk` builtin: checks number of outnput arguments.
 
-- [#455](http://github.com/Nelson-numerical-software/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
-
-- [#455](http://github.com/Nelson-numerical-software/nelson/issues/448): data analysis module (Code refactoring).
+- [#448](http://github.com/Nelson-numerical-software/nelson/issues/448): data analysis module (Code refactoring).
 
 ## Bug Fixes:
 
 - `nmm('install', existing_module_directory)` did not work as expected.
 
 - [#451](http://github.com/Nelson-numerical-software/nelson/issues/451): var() returns an unexpected error.
+
+## Compilation:
+
+- [#455](http://github.com/Nelson-numerical-software/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
+
+- Update fmt library to 8.0.
 
 # 0.5.5 (2021-05-24)
 

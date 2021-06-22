@@ -29,7 +29,6 @@
 #include <cstdio>
 #include <math.h>
 //=============================================================================
-#include <fmt/locale.h>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <boost/format.hpp>
