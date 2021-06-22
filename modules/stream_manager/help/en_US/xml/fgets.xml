@@ -47,7 +47,7 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[  fid = fopen([nelsonroot(), '/etc/startup.nls']);
+		<example_item_data><![CDATA[  fid = fopen([nelsonroot(), '/etc/startup.m']);
   tline = fgets(fid);
   while ischar(tline)
   disp(tline)
@@ -62,7 +62,7 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.nls']);
+		<example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m']);
 
   tline = fgets(fid, 5);
   while ischar(tline)

@@ -23,7 +23,7 @@
 # LICENCE_BLOCK_END
 # ==============================================================================
 if(EXISTS "${CMAKE_SOURCE_DIR}/module_skeleton")
-  install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/etc/startup.nls
+  install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/etc/startup.m
           DESTINATION ${ROOT_OUTPUT}/module_skeleton/etc)
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/etc/finish.nls
           DESTINATION ${ROOT_OUTPUT}/module_skeleton/etc)

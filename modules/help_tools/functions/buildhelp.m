@@ -40,7 +40,7 @@ function buildhelp(varargin)
   end
   if nargin() == 0
     helpForNelsonOnly()
-    run([nelsonroot() '/modules/' 'modules.nls']);
+    run([nelsonroot() '/modules/' 'modules.m']);
 
     for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];

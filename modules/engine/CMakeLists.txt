@@ -123,7 +123,7 @@ set_target_properties(
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)

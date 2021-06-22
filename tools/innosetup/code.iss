@@ -96,7 +96,7 @@ procedure updateModulesList();
 	begin;
     if not WizardIsComponentSelected('slicot') then
       begin;
-        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.nls', 
+        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
         'modules_list = [modules_list, "slicot"];', 
         '// modules_list = [modules_list, "slicot"];');
       end;

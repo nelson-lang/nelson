@@ -42,7 +42,7 @@ Source: {#RootPath}\{#MODULE_NAME}\loader.nls; DestDir: {app}\{#MODULE_NAME}\; F
 Source: {#RootPath}\{#MODULE_NAME}\builder.nls; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}\{#MODULE_NAME}\module.json; DestDir: {app}\{#MODULE_NAME}\; Flags: skipifsourcedoesntexist
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\{#MODULE_NAME}\etc\; Flags: skipifsourcedoesntexist
 ;==============================================================================
 Source: {#RootPath}\{#MODULE_NAME}\functions\*.m; DestDir: {app}\{#MODULE_NAME}\functions\; Flags: skipifsourcedoesntexist

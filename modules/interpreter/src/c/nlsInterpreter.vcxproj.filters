@@ -201,7 +201,7 @@
     </None>
     <None Include="..\..\loader.nls" />
     <None Include="..\..\etc\finish.nls" />
-    <None Include="..\..\etc\startup.nls" />
+    <None Include="..\..\etc\startup.m" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

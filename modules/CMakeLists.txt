@@ -110,6 +110,6 @@ foreach(mod ${moduleslist})
   add_subdirectory(${mod})
 endforeach(mod)
 # ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/modules/modules.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/modules.m
         DESTINATION ${ROOT_OUTPUT}/modules)
 # ==============================================================================

@@ -26,7 +26,7 @@
 assert_isequal(nargin('fgets'), 2);
 assert_isequal(nargout('fgets'), 1);
 %=============================================================================
-f = [nelsonroot(), '/etc/startup.nls'];
+f = [nelsonroot(), '/etc/startup.m'];
 %=============================================================================
 fid = fopen(f, 'rt');
 i = 0;

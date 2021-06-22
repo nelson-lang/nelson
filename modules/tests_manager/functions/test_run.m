@@ -758,7 +758,7 @@ function modules = getModulesToTest(param)
 end
 %=============================================================================
 function modules_list = getAllModulesList()
-  run([nelsonroot(), '/modules/modules.nls']);
+  run([nelsonroot(), '/modules/modules.m']);
   if isempty(modules_list)
     modules_list = getmodules();
   else

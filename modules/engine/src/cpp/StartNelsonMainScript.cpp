@@ -38,7 +38,7 @@ StartNelsonMainScript(Evaluator* eval)
     if (ctx != nullptr) {
         std::wstring rootPath = Nelson::GetRootPath();
         boost::filesystem::path path(rootPath);
-        path += L"/etc/startup.nls";
+        path += L"/etc/startup.m";
         bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
         if (bIsFile) {
             NelsonConfiguration::getInstance()->disableModulesProtection();
@@ -50,7 +50,7 @@ StartNelsonMainScript(Evaluator* eval)
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = _W("Main startup.nls failed to run.");
+                std::wstring errmsg = _W("Main startup.m failed to run.");
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                     io->errorMessage(e.getFormattedErrorMessage() + L"\n");

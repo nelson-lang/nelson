@@ -47,6 +47,7 @@ tests_*.json
 /modules/main/help/*/html/LGPL21.html
 /modules/*/nls*_autogen
 /modules/modules.nls
+/modules/modules.m
 /module_skeleton/
 *.settings
 *.qmlc

@@ -892,7 +892,7 @@ msgstr ""
 msgid "Nelson cannot load base modules.\n"
 msgstr ""
 
-msgid "Main startup.nls failed to run."
+msgid "Main startup.m failed to run."
 msgstr ""
 
 msgid "Module already loaded: "
@@ -904,7 +904,7 @@ msgstr ""
 msgid "Impossible to read modules.json"
 msgstr ""
 
-msgid "User startup.nls failed to run."
+msgid "User startup.m failed to run."
 msgstr ""
 
 msgid "First input argument must be a valid message identifier."
@@ -2509,7 +2509,7 @@ msgstr ""
 msgid "An existing module with the same path already defined: \n"
 msgstr ""
 
-msgid "startup.nls does not exist"
+msgid "startup.m does not exist"
 msgstr ""
 
 msgid "An existing module root path expected"

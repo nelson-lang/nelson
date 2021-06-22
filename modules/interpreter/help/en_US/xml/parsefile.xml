@@ -39,7 +39,7 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[parsefile([nelsonroot(), '/etc/startup.nls'])
+    <example_item_data><![CDATA[parsefile([nelsonroot(), '/etc/startup.m'])
 parsefile([nelsonroot(), '/modules/data_structures/functions/cellstr.m'])]]>
     </example_item_data>
   </example_item>

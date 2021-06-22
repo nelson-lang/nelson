@@ -205,7 +205,7 @@ add_executable(nelson_f2c ${F2C_SRC})
 target_link_libraries(nelson_f2c)
 # ==============================================================================
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)

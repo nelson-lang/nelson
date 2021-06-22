@@ -74,7 +74,7 @@ install(
   FILES_MATCHING
   PATTERN "*.h"
   PATTERN "*.hpp")
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)

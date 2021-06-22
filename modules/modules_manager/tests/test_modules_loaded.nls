@@ -27,7 +27,7 @@
 % <--NO USER MODULES-->
 %=============================================================================
 modules_loaded = getmodules();
-run([nelsonroot(), '/modules/modules.nls']);
+run([nelsonroot(), '/modules/modules.m']);
 if ~ispc()
   modules_list(strcmp(modules_list,'com_engine')) = [];
 end

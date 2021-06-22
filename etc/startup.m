@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-run([nelsonroot() '/modules/' 'modules.nls']);
+run([nelsonroot() '/modules/' 'modules.m']);
 for k = modules_list'
   run([nelsonroot() '/modules/' k{1} '/loader.nls']);
 end

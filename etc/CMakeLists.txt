@@ -25,6 +25,6 @@
 install(FILES ${CMAKE_SOURCE_DIR}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/languages.conf
         DESTINATION ${ROOT_OUTPUT}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/etc/startup.nls
+install(FILES ${CMAKE_SOURCE_DIR}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/etc)
 # ==============================================================================

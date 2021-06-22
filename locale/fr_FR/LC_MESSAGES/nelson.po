@@ -329,11 +329,11 @@ msgstr "Interpréteur Nelson non initialisé.\n"
 msgid "Current C stack is: "
 msgstr "La pile C actuelle est :"
 
-msgid "Main startup.nls failed to run."
-msgstr "Le fichier startup.nls principal a échoué."
+msgid "Main startup.m failed to run."
+msgstr "Le fichier startup.m principal a échoué."
 
-msgid "User startup.nls failed to run."
-msgstr "Le fichier startup.nls utilisateur a échoué."
+msgid "User startup.m failed to run."
+msgstr "Le fichier startup.m utilisateur a échoué."
 
 msgid "Wrong value for #2 input argument."
 msgstr "Mauvaise valeur pour l'argument #2."

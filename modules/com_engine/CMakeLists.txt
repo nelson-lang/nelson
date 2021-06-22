@@ -26,7 +26,7 @@ set(module_name com_engine)
 set(module_library_name nlsCom_engine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
