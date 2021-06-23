@@ -261,19 +261,19 @@ jobs:
 
     - name: Download module skeleton
       run: |
-        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/clone_module_skeleton/clone.nls
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/clone_module_skeleton/clone.m
 
     - name: Build help
       run: |
-        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/buildhelp/buildhelp.nls
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/buildhelp/buildhelp.m
 
     - name: Minimal tests
       run: |
-        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.nls
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.m
 
     - name: Inno setup
       run: |
-        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.nls');exit"
+        %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.m');exit"
         iscc "%GITHUB_WORKSPACE%/tools/innosetup/Nelson.iss"
 
     - name: Install Nelson with installer
@@ -297,13 +297,13 @@ jobs:
       run: |
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.nls"
+        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.m"
 
     - name: Tests
       run: |
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.nls"
+        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
 
     - name: Copy installer in artifacts directory
       run: |
@@ -378,19 +378,19 @@ jobs:
 
     - name: Download module skeleton
       run: |
-        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/clone_module_skeleton/clone.nls
+        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/clone_module_skeleton/clone.m
 
     - name: Build help
       run: |
-        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/buildhelp/buildhelp.nls
+        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/buildhelp/buildhelp.m
 
     - name: Minimal tests
       run: |
-        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.nls
+        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.m
 
     - name: Inno setup
       run: |    
-        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.nls');exit"
+        %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -e run('%GITHUB_WORKSPACE%/tools/innosetup/innosetup.m');exit"
         iscc "%GITHUB_WORKSPACE%/tools/innosetup/Nelson.iss"
 
     - name: Install Nelson with installer
@@ -414,13 +414,13 @@ jobs:
       run: |
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.nls"
+        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.m"
 
     - name: Tests
       run: |
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
-        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.nls"
+        "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
 
     - name: Copy installer in artifacts directory
       run: |        

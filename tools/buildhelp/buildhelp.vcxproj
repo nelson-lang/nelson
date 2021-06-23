@@ -24,7 +24,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="buildhelp.nls" />
+    <None Include="buildhelp.m" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7d0bfa72-f05d-4b1d-83fd-0a3256b2a8c8}</ProjectGuid>
@@ -71,32 +71,32 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeOutput>builphelp.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeOutput>builphelp.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeOutput>builphelp.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeOutput>builphelp.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli.exe" --quiet --noipc --file "$(SolutionDir)tools/buildhelp/buildhelp.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>

@@ -196,12 +196,12 @@ enc_temp_folder
 ################################################################################
 # module_skeleton
 module_skeleton/builtin/CMakeLists.txt
-module_skeleton/builtin/cleaner.nls
+module_skeleton/builtin/cleaner.m
 module_skeleton/builtin/loader.m
 module_skeleton/builtin/unloader.m
 module_skeleton/builtin/cpp/Gateway.cpp
 module_skeleton/src/CMakeLists.txt
-module_skeleton/src/cleaner.nls
+module_skeleton/src/cleaner.m
 module_skeleton/src/loader.m
 module_skeleton/src/unloader.m
 module_skeleton/*/*.manifest

@@ -44,8 +44,8 @@ function varargout = mpiexec(varargin)
     error(_('A existing filename expected.'));
   end
   ext = fileparts(filename, 'extension');
-  if (strcmp(ext, '.nls') == false)
-    error(_('An .nls filename extension expected.'));
+  if (strcmp(ext, '.m') == false)
+    error(_('An .m filename extension expected.'));
   end
   run_cmd = ['run(''', filename, ''');exit()'];
   if strcmp(getenv('OMPI_ALLOW_RUN_AS_ROOT'), '1') && strcmp(getenv('OMPI_ALLOW_RUN_AS_ROOT_CONFIRM'), '1')

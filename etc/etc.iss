@@ -24,6 +24,6 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 Source: {#RootPath}etc\startup.m; DestDir: {app}\etc\;
-Source: {#RootPath}etc\finish.nls; DestDir: {app}\etc\;
+Source: {#RootPath}etc\finish.m; DestDir: {app}\etc\;
 Source: {#RootPath}etc\languages.conf; DestDir: {app}\etc\;
 ;==============================================================================

@@ -54,7 +54,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Comm_split.nls'], 10)</example_item_description>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Comm_split.m'], 10)</example_item_description>
     <example_item_data><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end

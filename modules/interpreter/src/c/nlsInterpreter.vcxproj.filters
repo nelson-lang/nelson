@@ -200,7 +200,7 @@
       <Filter>Grammar</Filter>
     </None>
     <None Include="..\..\loader.m" />
-    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\finish.m" />
     <None Include="..\..\etc\startup.m" />
   </ItemGroup>
   <ItemGroup>

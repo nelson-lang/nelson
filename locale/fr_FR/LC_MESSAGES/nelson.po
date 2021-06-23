@@ -261,11 +261,11 @@ msgstr "Fonction non définie '"
 msgid "unknown mode."
 msgstr "mode inconnu"
 
-msgid "Main finish.nls failed to run."
-msgstr "Le fichier finish.nls principal a échoué."
+msgid "Main finish.m failed to run."
+msgstr "Le fichier finish.m principal a échoué."
 
-msgid "User finish.nls failed to run."
-msgstr "Le fichier finish.nls utilisateur a échoué."
+msgid "User finish.m failed to run."
+msgstr "Le fichier finish.m utilisateur a échoué."
 
 #, c-format
 msgid "This mode is not yet implemented.\n"
@@ -982,8 +982,8 @@ msgstr "Chemin d'accès n'existe pas :"
 msgid "Wrong option."
 msgstr "Mauvaise option."
 
-msgid "finish.nls does not exist."
-msgstr "finish.nls n'existe pas."
+msgid "finish.m does not exist."
+msgstr "finish.m n'existe pas."
 
 msgid "Unknown command option."
 msgstr "Option de commande inconnue."
@@ -1896,3 +1896,4 @@ msgstr "Résumé:"
 
 msgid "Time:"
 msgstr "Temps écoulé:"
+

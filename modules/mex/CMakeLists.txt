@@ -76,7 +76,7 @@ install(
   PATTERN "*.hpp")
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
@@ -96,12 +96,12 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.nls")
+  PATTERN "*.m")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.nls")
+  PATTERN "*.m")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

@@ -30,11 +30,11 @@ Source: {#RootPath}bin\{#BinPath}\libnlsFunctions_manager_builtin.dll; DestDir: 
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
-Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
 ;Source: {#RootPath}modules\functions_manager\functions\*.m; DestDir: {app}\modules\functions_manager\functions\;
 ;==============================================================================
 Source: {#RootPath}modules\functions_manager\help\*.qch; DestDir: {app}\modules\functions_manager\help\; Flags: recursesubdirs
 ;==============================================================================
-Source: {#RootPath}modules\functions_manager\tests\*.nls; DestDir: {app}\modules\functions_manager\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\functions_manager\tests\*.m; DestDir: {app}\modules\functions_manager\tests\; Flags: recursesubdirs
 ;==============================================================================

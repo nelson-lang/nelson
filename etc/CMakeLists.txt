@@ -22,7 +22,7 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 # ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/etc)
+install(FILES ${CMAKE_SOURCE_DIR}/etc/finish.m DESTINATION ${ROOT_OUTPUT}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/languages.conf
         DESTINATION ${ROOT_OUTPUT}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/etc/startup.m

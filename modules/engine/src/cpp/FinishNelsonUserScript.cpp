@@ -39,7 +39,7 @@ FinishNelsonUserScript(Evaluator* eval)
     if (ctx != nullptr) {
         std::wstring prefPath = GetPreferencesPath();
         boost::filesystem::path path(prefPath);
-        path += L"/finish.nls";
+        path += L"/finish.m";
         bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
         if (bIsFile) {
             std::wstring wstr = path.generic_wstring();
@@ -49,7 +49,7 @@ FinishNelsonUserScript(Evaluator* eval)
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = _W("User finish.nls failed to run.");
+                std::wstring errmsg = _W("User finish.m failed to run.");
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                 } else {

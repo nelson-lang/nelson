@@ -52,7 +52,7 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[edit([modulepath('mex'), '/tests/test_mexCallMATLABWithTrap.nls'])]]>
+		<example_item_data><![CDATA[edit([modulepath('mex'), '/tests/test_mexCallMATLABWithTrap.m'])]]>
 		</example_item_data>
 	</example_item>
 

@@ -23,6 +23,5 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function bug_varargin(varargin)
-  disp('ok');
-end
+addpath([nelsonroot(), '/modules/interpreter/tests/']);
+fun_varargin

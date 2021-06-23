@@ -59,7 +59,7 @@ install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 # ${LIBRARY_OUTPUT}) install(FILES
 # ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name}/etc) install(FILES
-# ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION
+# ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name}/etc) install(FILES
 # ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name}) install(DIRECTORY

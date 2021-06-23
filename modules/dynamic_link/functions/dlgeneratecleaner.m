@@ -48,7 +48,7 @@ function dlgeneratecleaner(varargin)
       error(_('Valid files list expected.'));
     end
   end
-  cleanerfilename = [destinationdir, '/cleaner.nls'];
+  cleanerfilename = [destinationdir, '/cleaner.m'];
   txt = templatecleanerpart1(destinationdir);
   txt = [txt; templatecleanerpart2(files)];
   txt = [txt; templatecleanerpart3()];
@@ -138,8 +138,8 @@ end
 %=============================================================================
 function txt = templatecleanerpart5()
   txt = {'%============================================================================='};
-  txt = [txt; 'if isfile(''cleaner.nls'');'];
-  txt = [txt; '  rmfile(''cleaner.nls'');'];
+  txt = [txt; 'if isfile(''cleaner.m'');'];
+  txt = [txt; '  rmfile(''cleaner.m'');'];
   txt = [txt; 'end'];
   txt = [txt; {'%============================================================================='}];
   txt = [txt; {'cd(current_directory);'}];

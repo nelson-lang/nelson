@@ -228,7 +228,7 @@
     <ClInclude Include="..\include\winqueryregBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\finish.m" />
     <None Include="..\..\etc\startup.m" />
     <None Include="..\..\loader.m" />
     <None Include="..\..\module.iss" />

@@ -127,7 +127,7 @@ function nmm_install_directory(directory)
   destination_dir = copyModule(directory, module_description.module, module_description.version);
 
   try
-    run([destination_dir, 'builder.nls']);
+    run([destination_dir, 'builder.m']);
     createModuleLockJson(destination_dir);
     saveInstalledModule(module_description.module, destination_dir, module_description.version);
     nmm_load(module_description.module);
@@ -166,7 +166,7 @@ function nmm_install_repository(url, tag_branch)
   destination_dir = copyModule(destinationTempPath, module_description.module, module_description.version);
   [r, msg] = rmdir(destinationTempPath, 's');
   try
-    run([destination_dir, 'builder.nls']);
+    run([destination_dir, 'builder.m']);
     createModuleLockJson(destination_dir);
     saveInstalledModule(module_description.module, destination_dir, module_description.version);
     nmm_load(module_description.module);
@@ -184,7 +184,7 @@ function r = is_local_module(param)
     if ~endsWith(path, '/')
       path = [path, '/'];
     end
-    r = isfile([path, 'module.json']) && isfile([path, 'builder.nls']);
+    r = isfile([path, 'module.json']) && isfile([path, 'builder.m']);
   end
 end
 %=============================================================================

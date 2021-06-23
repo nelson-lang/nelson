@@ -8,7 +8,7 @@
   <ItemGroup>
     <None Include="..\..\module.iss" />
     <None Include="..\..\loader.m" />
-    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\finish.m" />
     <None Include="..\..\etc\startup.m" />
   </ItemGroup>
   <ItemGroup>

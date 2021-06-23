@@ -16,22 +16,22 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.nls'], 4)</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('mpi'), '/examples/MPI_helloworld.nls'])]]>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+    <example_item_data><![CDATA[edit([modulepath('mpi'), '/examples/MPI_helloworld.m'])]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_simpledemo.nls'], 4)</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('mpi'), '/examples/MPI_simpledemo.nls'])]]>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_simpledemo.m'], 4)</example_item_description>
+    <example_item_data><![CDATA[edit([modulepath('mpi'), '/examples/MPI_simpledemo.m'])]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_parallel_sum.nls'], 40)</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('mpi'), '/examples/MPI_parallel_sum.nls'])]]>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/MPI_parallel_sum.m'], 40)</example_item_description>
+    <example_item_data><![CDATA[edit([modulepath('mpi'), '/examples/MPI_parallel_sum.m'])]]>
     </example_item_data>
   </example_item>
 

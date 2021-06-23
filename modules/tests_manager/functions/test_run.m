@@ -375,7 +375,7 @@ function test_case = create_test_case(filename)
       end
       cmd = '';
 
-      command_filename = [tempdir(), 'test_', createGUID(), '.nls'];
+      command_filename = [tempdir(), 'test_', createGUID(), '.m'];
       content = {['res_struct = test_runfile(''', testfile, ''',', int2str(test_case.options.mpi_mode),');'];
       ['filewrite(''', outputfile, ''', jsonencode(res_struct));']};
       if test_case.options.mpi_mode
@@ -475,7 +475,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
   tests_list = [];
   switch option
     case 'all'
-      unitary_tests = [dir([tests_dir, 'test_*.m']);  dir([tests_dir, 'test_*.nls'])];
+      unitary_tests = dir([tests_dir, 'test_*.m']);
       if ~isempty(unitary_tests)
         unitary_tests = sort(string(strcat(tests_dir, {unitary_tests.name})));
       else
@@ -512,7 +512,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
         unitary_tests = string({});
       end
 
-      nonreg_tests = dir([tests_dir, 'bug_*m']);
+      nonreg_tests = dir([tests_dir, 'bug_*.m']);
       if ~isempty(nonreg_tests)
         nonreg_tests = sort(string(strcat(tests_dir, {nonreg_tests.name})));
       else
@@ -528,7 +528,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       end
 
     case 'unitary_tests'
-      unitary_tests = dir([tests_dir, 'test_*.nls']);
+      unitary_tests = dir([tests_dir, 'test_*.m']);
       if ~isempty(unitary_tests)
         unitary_tests = sort(string(strcat(tests_dir, {unitary_tests.name})));
         unitary_tests(unitary_tests == "") = [];
@@ -538,7 +538,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       end
 
     case 'nonreg_tests'
-      nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+      nonreg_tests = dir([tests_dir, 'bug_*.m']);
       if ~isempty(nonreg_tests)
         nonreg_tests = sort(string(strcat(tests_dir, {nonreg_tests.name})));
         nonreg_tests(nonreg_tests == "") = [];
@@ -548,7 +548,7 @@ function tests_list = getFilesListByOption(tests_dir, option)
       end
 
     case 'benchs'
-      bench_tests = dir([tests_dir, 'bench_*.nls']);
+      bench_tests = dir([tests_dir, 'bench_*.m']);
       if ~isempty(bench_tests)
         bench_tests = sort(string(strcat(tests_dir, {bench_tests.name})));
         bench_tests(bench_tests == "") = [];
@@ -751,7 +751,7 @@ function modules = getModulesToTest(param)
     if ismodule(param)
       modules = {param};
     elseif strcmp(param, 'minimal_tests')
-      run([nelsonroot(), '/modules/tests_manager/minimal_tests.nls']);
+      run([nelsonroot(), '/modules/tests_manager/minimal_tests.m']);
       modules = minimal_tests;
     end
   end
