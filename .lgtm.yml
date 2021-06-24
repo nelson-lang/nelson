@@ -24,3 +24,4 @@ path_classifiers:
     - modules/slicot
     - modules/f2c
     - modules/sio_client/src/socket_io
+    - modules/string/src/fmt

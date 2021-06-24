@@ -87,10 +87,10 @@
     <ClCompile Include="..\cpp\NumberToString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\fmt\src\format.cc">
+    <ClCompile Include="..\fmt\src\os.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\fmt\src\os.cc">
+    <ClCompile Include="..\fmt\src\format.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
