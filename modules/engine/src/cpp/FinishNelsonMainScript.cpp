@@ -39,7 +39,7 @@ FinishNelsonMainScript(Evaluator* eval)
     if (ctx != nullptr) {
         std::wstring rootPath = Nelson::GetRootPath();
         boost::filesystem::path path(rootPath);
-        path += L"/etc/finish.nls";
+        path += L"/etc/finish.m";
         bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
         if (bIsFile) {
             NelsonConfiguration::getInstance()->disableModulesProtection();
@@ -50,7 +50,7 @@ FinishNelsonMainScript(Evaluator* eval)
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = _W("Main finish.nls failed to run.");
+                std::wstring errmsg = _W("Main finish.m failed to run.");
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                 } else {

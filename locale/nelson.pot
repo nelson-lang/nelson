@@ -302,6 +302,24 @@ msgstr ""
 msgid "not allowed in base scope."
 msgstr ""
 
+msgid "You can only call 'narginchk' from within a Nelson function."
+msgstr ""
+
+msgid "No output arguments are allowed if only two input arguments."
+msgstr ""
+
+msgid "You can only call 'nargoutchk' from within a Nelson function."
+msgstr ""
+
+msgid "#4 input must be either 'struct' or 'string'."
+msgstr ""
+
+msgid "Not enough output arguments."
+msgstr ""
+
+msgid "Too many output arguments."
+msgstr ""
+
 msgid "Wrong value for #1 argument, 'fullpathext' or  'fullpath' expected."
 msgstr ""
 
@@ -320,16 +338,10 @@ msgstr ""
 msgid "input function not allowed from evalc."
 msgstr ""
 
-msgid "Cannot change directory '"
-msgstr ""
-
 msgid "File does not exist."
 msgstr ""
 
 msgid "An valid script expected."
-msgstr ""
-
-msgid "Memory allocation."
 msgstr ""
 
 msgid "Error: we cannot find Nelson binaries path."
@@ -345,6 +357,45 @@ msgid "Error: we cannot find Nelson preferences path."
 msgstr ""
 
 msgid "function not found."
+msgstr ""
+
+msgid "Invalid third argument."
+msgstr ""
+
+msgid "Invalid second argument."
+msgstr ""
+
+msgid "Invalid 4th argument."
+msgstr ""
+
+msgid "'auto', 'first', or 'last' for 'MissingPlacement' parameter."
+msgstr ""
+
+msgid "'auto', 'real', or 'abs' for 'ComparisonMethod' parameter."
+msgstr ""
+
+msgid "Dimension argument to sort should be positive"
+msgstr ""
+
+msgid "Sort direction must be either the string 'ascend' or 'descend'"
+msgstr ""
+
+msgid "'ComparisonMethod' or 'MissingPlacement' expected."
+msgstr ""
+
+msgid "Input Arguments must have same size."
+msgstr ""
+
+msgid "Dimension argument must be a positive integer scalar."
+msgstr ""
+
+msgid "function"
+msgstr ""
+
+msgid "undefined."
+msgstr ""
+
+msgid "Only one input parameter is supported for cell arrays."
 msgstr ""
 
 msgid "Not yet implemented with dim > 2"
@@ -539,15 +590,6 @@ msgstr ""
 msgid "Third argument should be an integer value."
 msgstr ""
 
-msgid "Invalid third argument."
-msgstr ""
-
-msgid "Invalid second argument."
-msgstr ""
-
-msgid "Invalid 4th argument."
-msgstr ""
-
 msgid "Undefined function 'ndims' for input arguments of type"
 msgstr ""
 
@@ -591,25 +633,7 @@ msgstr ""
 msgid "Undefined function 'size' for input arguments of type"
 msgstr ""
 
-msgid "'auto', 'first', or 'last' for 'MissingPlacement' parameter."
-msgstr ""
-
-msgid "'auto', 'real', or 'abs' for 'ComparisonMethod' parameter."
-msgstr ""
-
-msgid "Dimension argument to sort should be positive"
-msgstr ""
-
-msgid "Sort direction must be either the string 'ascend' or 'descend'"
-msgstr ""
-
-msgid "'ComparisonMethod' or 'MissingPlacement' expected."
-msgstr ""
-
 msgid "K-th diagonal input must be an integer scalar."
-msgstr ""
-
-msgid "Type not managed."
 msgstr ""
 
 msgid "Cannot convert: "
@@ -630,12 +654,6 @@ msgstr ""
 msgid "Invalid conversion from complex."
 msgstr ""
 
-msgid "Colon input arguments must have same type."
-msgstr ""
-
-msgid "Array used as scalar."
-msgstr ""
-
 msgid "Undefined function 'conj' for input arguments of type"
 msgstr ""
 
@@ -654,49 +672,13 @@ msgstr ""
 msgid "Undefined function '"
 msgstr ""
 
-msgid "ctranspose on N-D array is undefined."
-msgstr ""
-
 msgid "An array of integers values, 0 <= D <= flintmax expected."
 msgstr ""
 
 msgid "#3 parameter: positive integer value expected."
 msgstr ""
 
-msgid "Size mismatch on arguments to power (^) operator."
-msgstr ""
-
-msgid "Only positive integers expected."
-msgstr ""
-
-msgid "Unhandled type for second argument to A^B"
-msgstr ""
-
-msgid "Unhandled type combination for A^B"
-msgstr ""
-
-msgid "Positive integral powers expected."
-msgstr ""
-
-msgid "integers of the same class, or scalar doubles expected."
-msgstr ""
-
-msgid "Integer type not managed."
-msgstr ""
-
-msgid "Integers of the same class expected."
-msgstr ""
-
 msgid "Invalid third input argument. 'first' or 'last' expected."
-msgstr ""
-
-msgid "function"
-msgstr ""
-
-msgid "undefined."
-msgstr ""
-
-msgid "Cannot promote to string array."
 msgstr ""
 
 msgid "Undefined function 'isfinite' for input arguments of type"
@@ -708,34 +690,7 @@ msgstr ""
 msgid "Undefined function 'isnan' for input arguments of type"
 msgstr ""
 
-msgid "Matrix is rank deficient to machine precision:"
-msgstr ""
-
-msgid ""
-"Requested divide operation requires arguments to have correct dimensions."
-msgstr ""
-
-msgid "Matrix is singular to working precision:"
-msgstr ""
-
 msgid "Imaginary part ignored."
-msgstr ""
-
-msgid "At least one input argument must be scalar."
-msgstr ""
-
-msgid ""
-"using operator '*' \n"
-" Matrix dimensions must agree."
-msgstr ""
-
-msgid "Complex integer not allowed for arithmetic operator "
-msgstr ""
-
-msgid "Input Arguments must have same size."
-msgstr ""
-
-msgid "Dimension argument must be a positive integer scalar."
 msgstr ""
 
 msgid "Undefined function 'mod' for complex input argument."
@@ -750,9 +705,6 @@ msgstr ""
 msgid "Integers must be combined with integers of the same class."
 msgstr ""
 
-msgid "Input argument must be real."
-msgstr ""
-
 msgid "First argument must be real."
 msgstr ""
 
@@ -762,19 +714,13 @@ msgstr ""
 msgid "Undefined function 'rem' for sparse input argument."
 msgstr ""
 
-msgid "Only one input parameter is supported for cell arrays."
-msgstr ""
-
-msgid "transpose on N-D array is undefined."
-msgstr ""
-
 msgid "unknown mode."
 msgstr ""
 
-msgid "Main finish.nls failed to run."
+msgid "Main finish.m failed to run."
 msgstr ""
 
-msgid "User finish.nls failed to run."
+msgid "User finish.m failed to run."
 msgstr ""
 
 msgid "This mode is not yet implemented.\n"
@@ -887,7 +833,7 @@ msgstr ""
 msgid "Nelson cannot load base modules.\n"
 msgstr ""
 
-msgid "Main startup.nls failed to run."
+msgid "Main startup.m failed to run."
 msgstr ""
 
 msgid "Module already loaded: "
@@ -899,7 +845,7 @@ msgstr ""
 msgid "Impossible to read modules.json"
 msgstr ""
 
-msgid "User startup.nls failed to run."
+msgid "User startup.m failed to run."
 msgstr ""
 
 msgid "First input argument must be a valid message identifier."
@@ -979,7 +925,8 @@ msgstr ""
 msgid "Cell of strings expected."
 msgstr ""
 
-msgid "Cannot change directory: '"
+#, c-format
+msgid "Cannot change directory '%s'."
 msgstr ""
 
 msgid "File source does not exist."
@@ -1348,6 +1295,9 @@ msgid "handle expected."
 msgstr ""
 
 msgid "Handles being catenated have incompatible classes."
+msgstr ""
+
+msgid "Type not managed."
 msgstr ""
 
 msgid "Unsupported value type."
@@ -1750,13 +1700,10 @@ msgstr ""
 msgid "Illegal use of the ':' operator"
 msgstr ""
 
-msgid "Valid variable name expected."
-msgstr ""
-
 msgid "Redefining permanent variable."
 msgstr ""
 
-msgid "Cannot assign value."
+msgid "Valid variable name expected."
 msgstr ""
 
 #, c-format
@@ -1795,6 +1742,9 @@ msgid "Case not managed."
 msgstr ""
 
 msgid "Function"
+msgstr ""
+
+msgid "Memory allocation."
 msgstr ""
 
 msgid "out-of-order argument /"
@@ -1849,16 +1799,7 @@ msgid "Function not found."
 msgstr ""
 
 #, c-format
-msgid "Function name:%s\n"
-msgstr ""
-
-msgid "Function class: Compiled M function\n"
-msgstr ""
-
-msgid "returnVals: "
-msgstr ""
-
-msgid "arguments: "
+msgid "Function : '%s'."
 msgstr ""
 
 msgid "The special variable 'varargout' was not defined as a cell-array."
@@ -1902,6 +1843,9 @@ msgstr ""
 msgid "exceeds the Nelson maximum name length of %d characters."
 msgstr ""
 
+msgid "This statement is not inside any function."
+msgstr ""
+
 msgid "malformed floating point constant"
 msgstr ""
 
@@ -1932,16 +1876,6 @@ msgid "Operand to && operator must be convertible to logical scalar values."
 msgstr ""
 
 msgid "Operand to || operator must be convertible to logical scalar values."
-msgstr ""
-
-#, c-format
-msgid ""
-"Expecting %s\n"
-"\tat line %d, column %d of file %s"
-msgstr ""
-
-#, c-format, python-format
-msgid "Expecting %s"
 msgstr ""
 
 msgid "bison-runtime"
@@ -2119,6 +2053,16 @@ msgid "expecting expression after '=' in keyword assignment"
 msgstr ""
 
 msgid "expecting keyword identifier after '/' in keyword assignment"
+msgstr ""
+
+#, c-format, python-format
+msgid "Expecting %s"
+msgstr ""
+
+#, c-format
+msgid ""
+"Expecting %s\n"
+"\tat line %d, column %d of file %s"
 msgstr ""
 
 msgid "Wrong value for #1 argument: 'available' expected."
@@ -2504,7 +2448,7 @@ msgstr ""
 msgid "An existing module with the same path already defined: \n"
 msgstr ""
 
-msgid "startup.nls does not exist"
+msgid "startup.m does not exist"
 msgstr ""
 
 msgid "An existing module root path expected"
@@ -2531,7 +2475,7 @@ msgstr ""
 msgid ": This module is registered but it has no path."
 msgstr ""
 
-msgid "finish.nls does not exist."
+msgid "finish.m does not exist."
 msgstr ""
 
 msgid "An existing module root path expected."
@@ -2577,6 +2521,69 @@ msgid "String expected."
 msgstr ""
 
 msgid "Invalid communicator"
+msgstr ""
+
+msgid "Colon input arguments must have same type."
+msgstr ""
+
+msgid "Array used as scalar."
+msgstr ""
+
+msgid "ctranspose on N-D array is undefined."
+msgstr ""
+
+msgid "Size mismatch on arguments to power (^) operator."
+msgstr ""
+
+msgid "Only positive integers expected."
+msgstr ""
+
+msgid "Unhandled type for second argument to A^B"
+msgstr ""
+
+msgid "Unhandled type combination for A^B"
+msgstr ""
+
+msgid "Positive integral powers expected."
+msgstr ""
+
+msgid "integers of the same class, or scalar doubles expected."
+msgstr ""
+
+msgid "Integer type not managed."
+msgstr ""
+
+msgid "Integers of the same class expected."
+msgstr ""
+
+msgid "Cannot promote to string array."
+msgstr ""
+
+msgid "Matrix is rank deficient to machine precision:"
+msgstr ""
+
+msgid ""
+"Requested divide operation requires arguments to have correct dimensions."
+msgstr ""
+
+msgid "Matrix is singular to working precision:"
+msgstr ""
+
+msgid "At least one input argument must be scalar."
+msgstr ""
+
+msgid ""
+"using operator '*' \n"
+" Matrix dimensions must agree."
+msgstr ""
+
+msgid "Complex integer not allowed for arithmetic operator "
+msgstr ""
+
+msgid "Input argument must be real."
+msgstr ""
+
+msgid "transpose on N-D array is undefined."
 msgstr ""
 
 msgid "Unknown command option."
@@ -3338,7 +3345,7 @@ msgid ""
 "of character vectors expected."
 msgstr ""
 
-msgid "wrong file extension .nls expected."
+msgid "wrong file extension .m or .m expected."
 msgstr ""
 
 msgid "wrong file prefix 'test_' or 'bug_' expected."
@@ -3460,14 +3467,14 @@ msgstr ""
 msgid "Save File"
 msgstr ""
 
-msgid "Nelson (*.nls *.nlf *.m)"
+msgid "Nelson (*.m *.nlf *.m)"
 msgstr ""
 
 msgid "Open file ..."
 msgstr ""
 
 msgid ""
-"Nelson (*.nls *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
+"Nelson (*.m *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
 "(*.*)"
 msgstr ""
 
@@ -3989,9 +3996,6 @@ msgstr ""
 msgid "Invalid input argument position."
 msgstr ""
 
-msgid "Nelson:validators:invalidInputPosition"
-msgstr ""
-
 #, c-format, python-format
 msgid "Invalid input argument at position %d."
 msgstr ""
@@ -3999,61 +4003,170 @@ msgstr ""
 msgid "Value must be logical."
 msgstr ""
 
-msgid "Nelson:validators:mustBeLogical"
-msgstr ""
-
 msgid "Value must be finite."
 msgstr ""
 
-msgid "Nelson:validators:mustBeFinite"
+msgid "Value must not be empty."
 msgstr ""
 
 msgid "Value must be logical scalar."
 msgstr ""
 
-msgid "Nelson:validators:mustBeLogicalScalar"
-msgstr ""
-
 msgid "Value must be scalar or empty."
-msgstr ""
-
-msgid "Nelson:validators:mustBeScalarOrEmpty"
 msgstr ""
 
 msgid "Value must be valid variable name."
 msgstr ""
 
-msgid "Nelson:validators:mustBeValidVariableName"
+msgid ""
+"Value must be a character vector, string array or cell array of character "
+"vectors."
 msgstr ""
 
 msgid "Value must be a character vector or string scalar."
 msgstr ""
 
-msgid "Nelson:validators:mustBeTextScalar"
-msgstr ""
-
 msgid "Value must be folder."
 msgstr ""
 
-msgid "Nelson:validators:mustBeFolder"
+msgid "Value must be file."
 msgstr ""
 
 msgid "Value must be a vector."
 msgstr ""
 
-msgid "Nelson:validators:mustBeVector"
-msgstr ""
-
 msgid "Value must be a float."
-msgstr ""
-
-msgid "Nelson:validators:mustBeFloat"
 msgstr ""
 
 msgid "Value must be numeric."
 msgstr ""
 
-msgid "Nelson:validators:mustBeNumeric"
+msgid "Value must be one of the following types:"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "Value must be real."
+msgstr ""
+
+msgid "Value must be positive."
+msgstr ""
+
+msgid "Value must be non positive."
+msgstr ""
+
+msgid "Value must be nonnegative."
+msgstr ""
+
+msgid "Value must be negative."
+msgstr ""
+
+msgid "Value must not be NaN."
+msgstr ""
+
+msgid "Value must not be zero."
+msgstr ""
+
+msgid "Value must not be sparse."
+msgstr ""
+
+msgid "Value must be integer."
+msgstr ""
+
+msgid "Value must be non missing."
+msgstr ""
+
+msgid "Second input to function 'mustBeGreaterThan' must be a scalar."
+msgstr ""
+
+msgid "Inputs to function 'mustBeGreaterThan' must be numeric or logical."
+msgstr ""
+
+msgid "Value must be numeric or logical."
+msgstr ""
+
+msgid "Inputs to function 'mustBeGreaterThan' must be real."
+msgstr ""
+
+#, c-format
+msgid "Value must be greater than %s."
+msgstr ""
+
+msgid "Value must be greater than compared value."
+msgstr ""
+
+msgid "Second input to function 'mustBeLessThan' must be a scalar."
+msgstr ""
+
+msgid "Inputs to function 'mustBeLessThan' must be numeric or logical."
+msgstr ""
+
+msgid "Inputs to function 'mustBeLessThan' must be real."
+msgstr ""
+
+#, c-format
+msgid "Value must be less than %s."
+msgstr ""
+
+msgid "Value must be less than compared value."
+msgstr ""
+
+msgid "Second input to function 'mustBeGreaterThanOrEqual' must be a scalar."
+msgstr ""
+
+msgid ""
+"Inputs to function 'mustBeGreaterThanOrEqual' must be numeric or logical."
+msgstr ""
+
+msgid "Inputs to function 'mustBeGreaterThanOrEqual' must be real."
+msgstr ""
+
+#, c-format
+msgid "Value must be greater than or equal to %s."
+msgstr ""
+
+msgid "Value must be greater than or equal to compared value."
+msgstr ""
+
+msgid "Second input to function 'mustBeLessThanOrEqual' must be a scalar."
+msgstr ""
+
+msgid "Inputs to function 'mustBeLessThanOrEqual' must be numeric or logical."
+msgstr ""
+
+msgid "Inputs to function 'mustBeLessThanOrEqual' must be real."
+msgstr ""
+
+#, c-format
+msgid "Value must be less than or equal to %s."
+msgstr ""
+
+msgid "Value must be less than or equal to compared value."
+msgstr ""
+
+msgid "Value must be non zero length text."
+msgstr ""
+
+msgid "Value must be member of the compared value."
+msgstr ""
+
+#, c-format
+msgid "A combinaison of '%s' and '%s' options is not supported."
+msgstr ""
+
+msgid ""
+"Value must 'inclusive', 'exclusive', 'exclude-lower' or 'exclude-upper'."
+msgstr ""
+
+msgid ""
+"Second input to function 'mustBeInRange' must be a real or scalar value."
+msgstr ""
+
+msgid "Third input to function 'mustBeInRange' must be a real or scalar value."
+msgstr ""
+
+msgid "Value must be in range."
 msgstr ""
 
 msgid "Wrong type for argument #4. struct expected."
@@ -4677,190 +4790,6 @@ msgstr ""
 msgid "Welcome to COM Interface for Nelson !"
 msgstr ""
 
-msgid "an expression after +"
-msgstr ""
-
-msgid "Cell must be string scalars or character arrays."
-msgstr ""
-
-msgid "Input should be a string or character array."
-msgstr ""
-
-msgid "Size mismatch on arguments to arithmetic operator "
-msgstr ""
-
-msgid "Invalid type for #2 input argument: doublePtr expected."
-msgstr ""
-
-msgid "Incompatible types double --> int32"
-msgstr ""
-
-msgid "Incompatible types doublePtr --> int32Ptr"
-msgstr ""
-
-msgid "vswhere not found."
-msgstr ""
-
-msgid "All values of N must be integer values."
-msgstr ""
-
-msgid "#1 input argument: must be real positive integer values."
-msgstr ""
-
-msgid "Size mismatch on arguments to arithmetic operator >="
-msgstr ""
-
-msgid "Size mismatch on arguments to arithmetic operator <="
-msgstr ""
-
-#, python-format
-msgid "function %s_log10 undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s_log1p undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s_num2bin undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s_swapbytes undefined."
-msgstr ""
-
-msgid "warning(query) does not require an second argument."
-msgstr ""
-
-msgid "Wrong value for #3 argument. A valid icon or mode expected."
-msgstr ""
-
-msgid "Wrong value for #4 argument. A valid mode expected."
-msgstr ""
-
-msgid "function single_minus_int16 undefined."
-msgstr ""
-
-msgid "function int16_minus_single undefined."
-msgstr ""
-
-#, python-format
-msgid "function %s undefined."
-msgstr ""
-
-msgid "function single_plus_int16 undefined."
-msgstr ""
-
-msgid "function int16_plus_single undefined."
-msgstr ""
-
-msgid "Expecting statement list or function definition"
-msgstr ""
-
-#, python-format
-msgid "function %s_det undefined."
-msgstr ""
-
-msgid "MPI dependency not loaded."
-msgstr ""
-
-msgid "Undefined function char for input arguments of type"
-msgstr ""
-
-msgid "Wrong value for #3: IgnoreCase expected."
-msgstr ""
-
-msgid "Undefined function acos for input arguments of type "
-msgstr ""
-
-msgid "Undefined function asin for input arguments of type "
-msgstr ""
-
-msgid "Undefined function atan for input arguments of type "
-msgstr ""
-
-msgid "Undefined function atanh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function cos for input arguments of type "
-msgstr ""
-
-msgid "Undefined function cosh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function cosm for input arguments of type "
-msgstr ""
-
-msgid "Undefined function sin for input arguments of type "
-msgstr ""
-
-msgid "Undefined function sinh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function sinm for input arguments of type "
-msgstr ""
-
-msgid "Undefined function tan for input arguments of type "
-msgstr ""
-
-msgid "Undefined function tanh for input arguments of type "
-msgstr ""
-
-msgid "Undefined function tanm for input arguments of type "
-msgstr ""
-
-#, python-format
-msgid "%s is not a recognized parameter."
-msgstr ""
-
-msgid "help build failed."
-msgstr ""
-
-msgid "Update translations:"
-msgstr ""
-
-msgid "Translations up-to-date:"
-msgstr ""
-
-msgid "update .po for:"
-msgstr ""
-
-msgid "Number of undocumented functions"
-msgstr ""
-
-msgid " : "
-msgstr ""
-
-msgid "Number of existing help files"
-msgstr ""
-
-msgid "Congratulations all functions are documented."
-msgstr ""
-
-msgid "Summary:"
-msgstr ""
-
-msgid "Tests:"
-msgstr ""
-
-msgid "Passed:"
-msgstr ""
-
-msgid "Failed:"
-msgstr ""
-
-msgid "Skipped:"
-msgstr ""
-
-msgid "Benchs:"
-msgstr ""
-
-msgid "Tests time:"
-msgstr ""
-
-msgid "Total time:"
-msgstr ""
-
 msgid "Excel application expected."
 msgstr ""
 
@@ -4879,9 +4808,6 @@ msgstr ""
 msgid "sheet name not found."
 msgstr ""
 
-msgid "Wrong number of output arguments."
-msgstr ""
-
 msgid "No empty matrix expected."
 msgstr ""
 
@@ -4892,22 +4818,13 @@ msgid ""
 "Argument #2 must contain a valid string var, builtin, dir or file expected."
 msgstr ""
 
-msgid "minargs must be a numeric scalar"
-msgstr ""
-
-msgid "maxargs must be a numeric scalar"
-msgstr ""
-
-msgid "minargs cannot be larger than maxargs"
-msgstr ""
-
-msgid "not enough input arguments"
-msgstr ""
-
-msgid "too many input arguments"
+msgid "an expression after +"
 msgstr ""
 
 msgid "Cannot convert missing element."
+msgstr ""
+
+msgid "Cell must be string scalars or character arrays."
 msgstr ""
 
 msgid "Matrix 2D expected."
@@ -4920,6 +4837,12 @@ msgid "Invalid Input struct expected."
 msgstr ""
 
 msgid "Wrong numbers of input arguments."
+msgstr ""
+
+msgid "Input should be a string or character array."
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator "
 msgstr ""
 
 msgid "cmake not found."
@@ -4985,13 +4908,50 @@ msgstr ""
 msgid "No compiler configured."
 msgstr ""
 
+msgid "vswhere not found."
+msgstr ""
+
 msgid "Cannot read vswhere result."
+msgstr ""
+
+msgid "Invalid type for #2 input argument: doublePtr expected."
+msgstr ""
+
+msgid "Incompatible types double --> int32"
+msgstr ""
+
+msgid "Incompatible types doublePtr --> int32Ptr"
 msgstr ""
 
 msgid "N must be a scalar if DIM is specified."
 msgstr ""
 
+msgid "All values of N must be integer values."
+msgstr ""
+
 msgid "N must be a vector."
+msgstr ""
+
+msgid "#1 input argument: must be real positive integer values."
+msgstr ""
+
+#, python-format
+msgid "function %s_log10 undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s_log1p undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s_num2bin undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s_swapbytes undefined."
+msgstr ""
+
+msgid "warning(query) does not require an second argument."
 msgstr ""
 
 msgid "nelson_f2c not found."
@@ -5024,7 +4984,13 @@ msgstr ""
 msgid "Help Dialog"
 msgstr ""
 
+msgid "Wrong value for #3 argument. A valid icon or mode expected."
+msgstr ""
+
 msgid "Wrong value for #3 argument. A valid icon expected."
+msgstr ""
+
+msgid "Wrong value for #4 argument. A valid mode expected."
 msgstr ""
 
 msgid "Wrong type for text argument. A string name expected."
@@ -5061,6 +5027,29 @@ msgid "Indexing help files:"
 msgstr ""
 
 msgid "helpproject.qhp is missing."
+msgstr ""
+
+msgid "function single_minus_int16 undefined."
+msgstr ""
+
+msgid "function int16_minus_single undefined."
+msgstr ""
+
+#, python-format
+msgid "function %s undefined."
+msgstr ""
+
+msgid "function single_plus_int16 undefined."
+msgstr ""
+
+msgid "function int16_plus_single undefined."
+msgstr ""
+
+msgid "Expecting statement list or function definition"
+msgstr ""
+
+#, python-format
+msgid "function %s_det undefined."
 msgstr ""
 
 msgid "#2 argument: characters expected."
@@ -5109,7 +5098,7 @@ msgstr ""
 msgid "Invalid type in platforms"
 msgstr ""
 
-msgid "loader.nls is missing."
+msgid "loader.m is missing."
 msgstr ""
 
 msgid "module.json is missing."
@@ -5122,19 +5111,34 @@ msgstr ""
 msgid "an valid module name expected."
 msgstr ""
 
+msgid "MPI dependency not loaded."
+msgstr ""
+
 msgid "#2 argument: integer value expected."
 msgstr ""
 
 msgid "A existing filename expected."
 msgstr ""
 
-msgid "An .nls filename extension expected."
+msgid "An .m filename extension expected."
 msgstr ""
 
 msgid "Wrong type for argument #1: MPI_Comm expected."
 msgstr ""
 
-msgid "Undefined function gamma for input arguments of type int32."
+msgid "Size mismatch on arguments to arithmetic operator >="
+msgstr ""
+
+msgid "function double_ismember undefined."
+msgstr ""
+
+msgid "function cell_ismember undefined."
+msgstr ""
+
+msgid "Size mismatch on arguments to arithmetic operator <="
+msgstr ""
+
+msgid "function int32_gamma undefined."
 msgstr ""
 
 msgid "Wrong value for #3 argument: 0 or 1 expected."
@@ -5161,6 +5165,12 @@ msgstr ""
 msgid "Impossible to open: "
 msgstr ""
 
+msgid "Undefined function char for input arguments of type"
+msgstr ""
+
+msgid "Wrong value for #3: IgnoreCase expected."
+msgstr ""
+
 msgid "<--CHECK REF--> tag expected."
 msgstr ""
 
@@ -5183,6 +5193,65 @@ msgstr ""
 msgid "Cannot edit the directory: "
 msgstr ""
 
+msgid "Undefined function acos for input arguments of type "
+msgstr ""
+
+msgid "Undefined function asin for input arguments of type "
+msgstr ""
+
+msgid "Undefined function atan for input arguments of type "
+msgstr ""
+
+msgid "Undefined function atanh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function cos for input arguments of type "
+msgstr ""
+
+msgid "Undefined function cosh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function cosm for input arguments of type "
+msgstr ""
+
+msgid "Undefined function sin for input arguments of type "
+msgstr ""
+
+msgid "Undefined function sinh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function sinm for input arguments of type "
+msgstr ""
+
+msgid "Undefined function tan for input arguments of type "
+msgstr ""
+
+msgid "Undefined function tanh for input arguments of type "
+msgstr ""
+
+msgid "Undefined function tanm for input arguments of type "
+msgstr ""
+
+#, python-format
+msgid "Value must be greater than %.6f."
+msgstr ""
+
+#, python-format
+msgid "Value must be greater than or equal to %.6f."
+msgstr ""
+
+#, python-format
+msgid "Value must be less than %.6f."
+msgstr ""
+
+#, python-format
+msgid "Value must be less than or equal to %.6f."
+msgstr ""
+
+#, python-format
+msgid "%s is not a recognized parameter."
+msgstr ""
+
 #, python-format
 msgid "invalid value for %s field."
 msgstr ""
@@ -5200,4 +5269,77 @@ msgid "Invalid #3 Argument: weboptions expected."
 msgstr ""
 
 msgid "unmanaged case."
+msgstr ""
+
+msgid "Timeout was reached"
+msgstr ""
+
+msgid "Module already loaded."
+msgstr ""
+
+msgid "Please install and configure a C/C++ compiler"
+msgstr ""
+
+#, python-format
+msgid "Building %s dependencies.\n"
+msgstr ""
+
+#, python-format
+msgid "Building %s sources.\n"
+msgstr ""
+
+#, python-format
+msgid "Building %s builtin.\n"
+msgstr ""
+
+#, python-format
+msgid "Building %s loader.\n"
+msgstr ""
+
+msgid "help build failed."
+msgstr ""
+
+msgid "Update translations:"
+msgstr ""
+
+msgid "Translations up-to-date:"
+msgstr ""
+
+msgid "update .po for:"
+msgstr ""
+
+msgid "Number of undocumented functions"
+msgstr ""
+
+msgid " : "
+msgstr ""
+
+msgid "Number of existing help files"
+msgstr ""
+
+msgid "Congratulations all functions are documented."
+msgstr ""
+
+msgid "Summary:"
+msgstr ""
+
+msgid "Tests:"
+msgstr ""
+
+msgid "Passed:"
+msgstr ""
+
+msgid "Failed:"
+msgstr ""
+
+msgid "Skipped:"
+msgstr ""
+
+msgid "Benchs:"
+msgstr ""
+
+msgid "Tests time:"
+msgstr ""
+
+msgid "Total time:"
 msgstr ""

@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\runtests.nls">
+    <None Include="..\runtests.m">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

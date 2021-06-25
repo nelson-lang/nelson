@@ -24,6 +24,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function callback_demos_run(name)
-  filename_demo = [modulepath('qml_engine'), '/examples/', name, '/', name, '.nls'];
+  filename_demo = [modulepath('qml_engine'), '/examples/', name, '/', name, '.m'];
   run(filename_demo);
 end

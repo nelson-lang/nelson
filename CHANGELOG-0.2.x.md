@@ -212,8 +212,8 @@ HDF5 high-level functions:
 
     - dlgeneratemake: generates a makefile for building a dynamic library.
     - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
-    - dlgenerateloader: generates loader.nls file for C++ gateway.
-    - dlgenerateunloader: generates unloader.nls file for C++ gateway.
+    - dlgenerateloader: generates loader.m file for C++ gateway.
+    - dlgenerateunloader: generates unloader.m file for C++ gateway.
     - dlgenerategateway: generates C++ gateway.
     - findcmake: find CMake path.
     - cmake function: call CMake tool.

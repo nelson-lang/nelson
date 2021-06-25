@@ -23,7 +23,7 @@
 ; License along with this program. If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: AfterNelsonInstall();
+Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: AfterNelsonInstall();
 ;==============================================================================
 #include "main/module.iss"
 #include "characters_encoding/module.iss"

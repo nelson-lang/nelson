@@ -261,11 +261,11 @@ msgstr "Fonction non définie '"
 msgid "unknown mode."
 msgstr "mode inconnu"
 
-msgid "Main finish.nls failed to run."
-msgstr "Le fichier finish.nls principal a échoué."
+msgid "Main finish.m failed to run."
+msgstr "Le fichier finish.m principal a échoué."
 
-msgid "User finish.nls failed to run."
-msgstr "Le fichier finish.nls utilisateur a échoué."
+msgid "User finish.m failed to run."
+msgstr "Le fichier finish.m utilisateur a échoué."
 
 #, c-format
 msgid "This mode is not yet implemented.\n"
@@ -329,11 +329,11 @@ msgstr "Interpréteur Nelson non initialisé.\n"
 msgid "Current C stack is: "
 msgstr "La pile C actuelle est :"
 
-msgid "Main startup.nls failed to run."
-msgstr "Le fichier startup.nls principal a échoué."
+msgid "Main startup.m failed to run."
+msgstr "Le fichier startup.m principal a échoué."
 
-msgid "User startup.nls failed to run."
-msgstr "Le fichier startup.nls utilisateur a échoué."
+msgid "User startup.m failed to run."
+msgstr "Le fichier startup.m utilisateur a échoué."
 
 msgid "Wrong value for #2 input argument."
 msgstr "Mauvaise valeur pour l'argument #2."
@@ -973,8 +973,8 @@ msgstr "Un module existant portant le même nom déjà utilisé."
 msgid "An existing module with the same path already defined."
 msgstr "Un module existant avec le même chemin déjà défini."
 
-msgid "loader.nls does not exist."
-msgstr "Loader.nls n'existe pas."
+msgid "loader.m does not exist."
+msgstr "loader.m n'existe pas."
 
 msgid "Path does not exist:"
 msgstr "Chemin d'accès n'existe pas :"
@@ -982,8 +982,8 @@ msgstr "Chemin d'accès n'existe pas :"
 msgid "Wrong option."
 msgstr "Mauvaise option."
 
-msgid "finish.nls does not exist."
-msgstr "finish.nls n'existe pas."
+msgid "finish.m does not exist."
+msgstr "finish.m n'existe pas."
 
 msgid "Unknown command option."
 msgstr "Option de commande inconnue."
@@ -1896,3 +1896,4 @@ msgstr "Résumé:"
 
 msgid "Time:"
 msgstr "Temps écoulé:"
+

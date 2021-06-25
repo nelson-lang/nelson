@@ -69,7 +69,8 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
     }
     try {
         boost::filesystem::current_path(pathApplied);
-        PathFuncManager::getInstance()->setCurrentUserPath(pathApplied);
+        PathFuncManager::getInstance()->setCurrentUserPath(
+            boost::filesystem::current_path().generic_wstring());
         return true;
     } catch (const boost::filesystem::filesystem_error&) {
         if (doException) {

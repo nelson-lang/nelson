@@ -55,8 +55,8 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[res = diff_file([nelsonroot(), '/etc/startup.nls'], [nelsonroot(), '/etc/startup.nls'])
-res = diff_file([nelsonroot(), '/etc/startup.nls'], [nelsonroot(), '/etc/finish.nls'])]]>
+		<example_item_data><![CDATA[res = diff_file([nelsonroot(), '/etc/startup.m'], [nelsonroot(), '/etc/startup.m'])
+res = diff_file([nelsonroot(), '/etc/startup.m'], [nelsonroot(), '/etc/finish.m'])]]>
 		</example_item_data>
 	
 	</example_item>

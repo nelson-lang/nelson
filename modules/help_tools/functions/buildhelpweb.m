@@ -42,7 +42,7 @@ function buildhelpweb(varargin)
   end
 
   srclist = {};
-  run([nelsonroot() '/modules/' 'modules.nls']);
+  run([nelsonroot() '/modules/' 'modules.m']);
   for module = modules_help_list(:)'
     src = [nelsonroot(), '/modules/', module{1}, '/help/', lang, '/xml'];
     if isdir(src)

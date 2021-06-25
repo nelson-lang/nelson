@@ -24,8 +24,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\modules\tests_manager\minimal_tests.nls" />
-    <None Include="runtests_minimal.nls" />
+    <None Include="..\..\modules\tests_manager\minimal_tests.m" />
+    <None Include="runtests_minimal.m" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FCADF332-CE82-457E-82F2-722A8EAFFA35}</ProjectGuid>
@@ -73,32 +73,32 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeOutput>runtests.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeOutput>runtests.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeOutput>runtests.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeOutput>runtests.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.nls"</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>"$(SolutionDir)bin/$(PlatformName)/nelson-cli" --quiet --file "$(SolutionDir)tools/tests_minimal/runtests_minimal.m"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
   </PropertyGroup>

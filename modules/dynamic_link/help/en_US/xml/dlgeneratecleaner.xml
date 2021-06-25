@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>dlgeneratecleaner</keyword>
-	<short_description>Generates cleaner.nls file for C++ gateway.</short_description>
+	<short_description>Generates cleaner.m file for C++ gateway.</short_description>
 
 	<syntax>
       <syntax_item>dlgeneratecleaner(destinationdir)</syntax_item>
@@ -14,7 +14,7 @@
 	<param_input>
 		<param_input_item>
 			<param_name>destinationdir</param_name>
-			<param_description>a string: destination directory where is generated the cleaner.nls file.</param_description>
+			<param_description>a string: destination directory where is generated the cleaner.m file.</param_description>
         </param_input_item>            
 		<param_input_item>
 			<param_name>files</param_name>
@@ -24,7 +24,7 @@
 	</param_input>
 
 	<description>
-		<p><b>dlgeneratecleaner</b> generates a 'cleaner.nls' to remove files.</p>
+		<p><b>dlgeneratecleaner</b> generates a 'cleaner.m' to remove files.</p>
 	</description>
 
 
@@ -38,7 +38,7 @@
 		<example_item_description>See module skeleton for example</example_item_description>
 		<example_item_data><![CDATA[
 dlgeneratecleaner(tempdir());
-text = fileread([tempdir(), 'cleaner.nls'])]]>
+text = fileread([tempdir(), 'cleaner.m'])]]>
 	</example_item_data>
 	
 	</example_item>

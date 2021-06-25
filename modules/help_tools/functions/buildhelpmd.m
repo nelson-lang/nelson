@@ -34,7 +34,7 @@ function buildhelpmd(varargin)
   destinationdir = varargin{1};
   if nargin() == 1
     helpForNelsonOnly(destinationdir);
-    run([nelsonroot() '/modules/' 'modules.nls']);
+    run([nelsonroot() '/modules/' 'modules.m']);
     locales = {};
     for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];

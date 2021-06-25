@@ -40,12 +40,12 @@ before_build:
 after_build:
 - if %platform%==x64 (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe) else (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.exe)
 
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.nls"
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.m"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.m"
 
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.m"
 
-- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.nls');exit"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.m');exit"
 - iscc "c:/build_chain/nelson/tools/innosetup/Nelson.iss"
 
 - 'c:/build_chain/nelson/%GENERATED_EXE% /SP- /SILENT /DIR="c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%"'

@@ -26,11 +26,11 @@ set(module_name com_engine)
 set(module_library_name nlsCom_engine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls
+install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
@@ -43,7 +43,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.nls")
+  PATTERN "*.m")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

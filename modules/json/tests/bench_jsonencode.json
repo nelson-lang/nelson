@@ -43,7 +43,7 @@
 				"test_cases_list":
 				[
 					{
-						"filename":"c:/build_chain/nelson/modules/modules_manager/tests/test_modules_loaded.nls",
+						"filename":"c:/build_chain/nelson/modules/modules_manager/tests/test_modules_loaded.m",
 						"options":
 						{
 							"not_fixed":false,
@@ -71,7 +71,7 @@
 						"isbench":false
 					},
 					{
-						"filename":"c:/build_chain/nelson/modules/modules_manager/tests/bug_github_issue_#10.nls",
+						"filename":"c:/build_chain/nelson/modules/modules_manager/tests/bug_github_issue_#10.m",
 						"options":
 						{
 							"not_fixed":false,
@@ -99,7 +99,7 @@
 						"isbench":false
 					},
 					{
-						"filename":"c:/build_chain/nelson/modules/modules_manager/tests/bug_github_issue_#34.nls",
+						"filename":"c:/build_chain/nelson/modules/modules_manager/tests/bug_github_issue_#34.m",
 						"options":
 						{
 							"not_fixed":false,
@@ -163,7 +163,7 @@
 					"test_cases_list":
 					[
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_addpath_1.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_addpath_1.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -191,7 +191,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_addpath_2.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_addpath_2.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -219,7 +219,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_isbuiltin.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_isbuiltin.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -247,7 +247,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_ismacro.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_ismacro.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -275,7 +275,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_path.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_path.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -303,7 +303,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_restoredefaultpath.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_restoredefaultpath.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -331,7 +331,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_userpath.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/test_userpath.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -359,7 +359,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/bug_which_module.nls",
+							"filename":"c:/build_chain/nelson/modules/functions_manager/tests/bug_which_module.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -405,7 +405,7 @@
 					"test_cases_list":
 					[
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/test_exist.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/test_exist.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -433,7 +433,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/test_maxNumCompThreads.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/test_maxNumCompThreads.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -461,7 +461,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/test_nargin.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/test_nargin.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -489,7 +489,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/test_nargout.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/test_nargout.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -517,7 +517,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/test_nfilename.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/test_nfilename.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -545,7 +545,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/test_pause.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/test_pause.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -573,7 +573,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/bug_github_issue_#8.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/bug_github_issue_#8.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -601,7 +601,7 @@
 							"isbench":false
 						},
 						{
-							"filename":"c:/build_chain/nelson/modules/core/tests/bug_namelengthmax.nls",
+							"filename":"c:/build_chain/nelson/modules/core/tests/bug_namelengthmax.m",
 							"options":
 							{
 								"not_fixed":false,
@@ -646,7 +646,7 @@
 					"environment":"Nelson 0.2.1.859 (Freedom) windows  msvc release 32",
 					"test_cases_list":
 					{
-						"filename":"c:/build_chain/nelson/modules/localization/tests/bug_github_issue_#17.nls",
+						"filename":"c:/build_chain/nelson/modules/localization/tests/bug_github_issue_#17.m",
 						"options":
 						{
 							"not_fixed":false,
@@ -709,7 +709,7 @@
 						"test_cases_list":
 						[
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_char.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_char.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -737,7 +737,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_horzcat_empty.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_horzcat_empty.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -765,7 +765,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_int2str.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_int2str.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -793,7 +793,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_mat2str.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_mat2str.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -821,7 +821,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_ndarraychar_disp.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_ndarraychar_disp.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -849,7 +849,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_newline.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_newline.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -877,7 +877,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_str2double.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_str2double.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -905,7 +905,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_strcmp.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_strcmp.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -933,7 +933,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_strfind.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_strfind.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -961,7 +961,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/test_vertcat_empty.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/test_vertcat_empty.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -989,7 +989,7 @@
 								"isbench":false
 							},
 							{
-								"filename":"c:/build_chain/nelson/modules/string/tests/bench_concatenation_string.nls",
+								"filename":"c:/build_chain/nelson/modules/string/tests/bench_concatenation_string.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -1036,7 +1036,7 @@
 							"environment":"Nelson 0.2.1.859 (Freedom) windows  msvc release 32",
 							"test_cases_list":
 							{
-								"filename":"c:/build_chain/nelson/modules/error_manager/tests/bug_github_issue_#14.nls",
+								"filename":"c:/build_chain/nelson/modules/error_manager/tests/bug_github_issue_#14.m",
 								"options":
 								{
 									"not_fixed":false,
@@ -1099,7 +1099,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/constructors_functions/tests/bench_eye.nls",
+										"filename":"c:/build_chain/nelson/modules/constructors_functions/tests/bench_eye.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1127,7 +1127,7 @@
 										"isbench":true
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/constructors_functions/tests/bench_ones.nls",
+										"filename":"c:/build_chain/nelson/modules/constructors_functions/tests/bench_ones.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1155,7 +1155,7 @@
 										"isbench":true
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/constructors_functions/tests/bench_zeros.nls",
+										"filename":"c:/build_chain/nelson/modules/constructors_functions/tests/bench_zeros.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1201,7 +1201,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_class.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_class.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1229,7 +1229,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isa.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isa.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1257,7 +1257,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_iscell.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_iscell.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1285,7 +1285,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_ischar.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_ischar.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1313,7 +1313,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isclass.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isclass.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1341,7 +1341,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isdouble.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isdouble.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1369,7 +1369,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isempty.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isempty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1397,7 +1397,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isfloat.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isfloat.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1425,7 +1425,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_ishandle.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_ishandle.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1453,7 +1453,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint16.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint16.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1481,7 +1481,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint32.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint32.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1509,7 +1509,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint64.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint64.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1537,7 +1537,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint8.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isint8.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1565,7 +1565,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isinteger.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isinteger.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1593,7 +1593,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_islogical.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_islogical.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1621,7 +1621,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isnumeric.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isnumeric.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1649,7 +1649,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isreal.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isreal.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1677,7 +1677,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_issingle.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_issingle.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1705,7 +1705,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_issparse.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_issparse.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1733,7 +1733,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isstruct.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isstruct.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1761,7 +1761,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint16.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint16.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1789,7 +1789,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint32.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint32.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1817,7 +1817,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint64.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint64.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1845,7 +1845,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint8.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/test_isuint8.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1873,7 +1873,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/types/tests/bench_isreal.nls",
+										"filename":"c:/build_chain/nelson/modules/types/tests/bench_isreal.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1919,7 +1919,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/single/tests/test_horzcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/single/tests/test_horzcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1947,7 +1947,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/single/tests/test_vertcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/single/tests/test_vertcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -1993,7 +1993,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/double/tests/test_double_disp.nls",
+										"filename":"c:/build_chain/nelson/modules/double/tests/test_double_disp.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2021,7 +2021,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/double/tests/test_double_ge_double.nls",
+										"filename":"c:/build_chain/nelson/modules/double/tests/test_double_ge_double.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2049,7 +2049,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/double/tests/test_empty_display.nls",
+										"filename":"c:/build_chain/nelson/modules/double/tests/test_empty_display.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2077,7 +2077,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/double/tests/bug_github_issue_#60.nls",
+										"filename":"c:/build_chain/nelson/modules/double/tests/bug_github_issue_#60.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2105,7 +2105,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/double/tests/bug_imaginary_multiplication.nls",
+										"filename":"c:/build_chain/nelson/modules/double/tests/bug_imaginary_multiplication.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2133,7 +2133,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/double/tests/bench_mtimes.nls",
+										"filename":"c:/build_chain/nelson/modules/double/tests/bench_mtimes.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2179,7 +2179,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cell.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cell.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2207,7 +2207,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cell2struct.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cell2struct.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2235,7 +2235,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cell_bug_1.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cell_bug_1.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2263,7 +2263,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cellfun.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_cellfun.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2291,7 +2291,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_isfield.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_isfield.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2319,7 +2319,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_struct.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/test_struct.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2347,7 +2347,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/bug_github_issue_#87.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/bug_github_issue_#87.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2375,7 +2375,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/data_structures/tests/bug_iscellstr_1.nls",
+										"filename":"c:/build_chain/nelson/modules/data_structures/tests/bug_iscellstr_1.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2421,7 +2421,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/test_horzcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/test_horzcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2449,7 +2449,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/test_integer.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/test_integer.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2477,7 +2477,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/test_intmax.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/test_intmax.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2505,7 +2505,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/test_intmin.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/test_intmin.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2533,7 +2533,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/test_uint64.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/test_uint64.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2561,7 +2561,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/test_vertcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/test_vertcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2589,7 +2589,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/integer/tests/bug_github_issue_#68.nls",
+										"filename":"c:/build_chain/nelson/modules/integer/tests/bug_github_issue_#68.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2635,7 +2635,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_abs.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_abs.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2663,7 +2663,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_ceil.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_ceil.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2691,7 +2691,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_circshift.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_circshift.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2719,7 +2719,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_concatenate.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_concatenate.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2747,7 +2747,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_conj.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_conj.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2775,7 +2775,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_ctranspose.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_ctranspose.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2803,7 +2803,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_empty_matrix.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_empty_matrix.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2831,7 +2831,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_fix.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_fix.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2859,7 +2859,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_floor.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_floor.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2887,7 +2887,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isapprox.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isapprox.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2915,7 +2915,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isequal.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isequal.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2943,7 +2943,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isequaln.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isequaln.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2971,7 +2971,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isfinite.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isfinite.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -2999,7 +2999,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isinf.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isinf.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3027,7 +3027,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isnan.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_isnan.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3055,7 +3055,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_mod.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_mod.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3083,7 +3083,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_mtimes.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_mtimes.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3111,7 +3111,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_multiplication.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_multiplication.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3139,7 +3139,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_ndims.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_ndims.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3167,7 +3167,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_prod.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_prod.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3195,7 +3195,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_rem.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_rem.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3223,7 +3223,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_repmat.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_repmat.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3251,7 +3251,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_round.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_round.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3279,7 +3279,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_times.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_times.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3307,7 +3307,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_transpose.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/test_transpose.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3335,7 +3335,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/bug_github_issue_#11.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/bug_github_issue_#11.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3363,7 +3363,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/bug_size_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/elementary_functions/tests/bug_size_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3409,7 +3409,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_acos.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_acos.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3437,7 +3437,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_asin.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_asin.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3465,7 +3465,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_atan.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_atan.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3493,7 +3493,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cos.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cos.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3521,7 +3521,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cosd.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cosd.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3549,7 +3549,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cosh.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cosh.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3577,7 +3577,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cosm.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_cosm.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3605,7 +3605,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_sin.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_sin.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3633,7 +3633,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_sind.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_sind.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3661,7 +3661,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_sinh.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_sinh.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3689,7 +3689,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_tan.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_tan.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3717,7 +3717,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_tand.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_tand.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3745,7 +3745,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_tanh.nls",
+										"filename":"c:/build_chain/nelson/modules/trigonometric_functions/tests/test_tanh.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3791,7 +3791,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_IJV.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_IJV.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3819,7 +3819,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_horzcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_horzcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3847,7 +3847,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_nnz.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_nnz.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3875,7 +3875,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_nzmax.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_nzmax.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3903,7 +3903,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3931,7 +3931,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_abs.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_abs.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3959,7 +3959,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_ctranspose.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_ctranspose.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -3987,7 +3987,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_insertion.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_insertion.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4015,7 +4015,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_prod.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_prod.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4043,7 +4043,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_transpose.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_transpose.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4071,7 +4071,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_trigonometric.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparse_trigonometric.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4099,7 +4099,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparsedouble_conj.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_sparsedouble_conj.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4127,7 +4127,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_vertcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/test_vertcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4155,7 +4155,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/sparse/tests/bug_github_issue_#22.nls",
+										"filename":"c:/build_chain/nelson/modules/sparse/tests/bug_github_issue_#22.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4201,7 +4201,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/logical/tests/test_all.nls",
+										"filename":"c:/build_chain/nelson/modules/logical/tests/test_all.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4229,7 +4229,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/logical/tests/test_any.nls",
+										"filename":"c:/build_chain/nelson/modules/logical/tests/test_any.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4257,7 +4257,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/logical/tests/test_horzcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/logical/tests/test_horzcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4285,7 +4285,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/logical/tests/test_vertcat_empty.nls",
+										"filename":"c:/build_chain/nelson/modules/logical/tests/test_vertcat_empty.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4331,7 +4331,7 @@
 								"test_cases_list":
 								[
 									{
-										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_fileparts.nls",
+										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_fileparts.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4359,7 +4359,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_filesep.nls",
+										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_filesep.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4387,7 +4387,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_pathsep.nls",
+										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_pathsep.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4415,7 +4415,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_relativepath.nls",
+										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/test_relativepath.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4443,7 +4443,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/bug_dir.nls",
+										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/bug_dir.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4471,7 +4471,7 @@
 										"isbench":false
 									},
 									{
-										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/bug_github_issue_#78.nls",
+										"filename":"c:/build_chain/nelson/modules/files_folders_functions/tests/bug_github_issue_#78.m",
 										"options":
 										{
 											"not_fixed":false,
@@ -4535,7 +4535,7 @@
 									"test_cases_list":
 									[
 										{
-											"filename":"c:/build_chain/nelson/modules/memory_manager/tests/test_isvar.nls",
+											"filename":"c:/build_chain/nelson/modules/memory_manager/tests/test_isvar.m",
 											"options":
 											{
 												"not_fixed":false,
@@ -4563,7 +4563,7 @@
 											"isbench":false
 										},
 										{
-											"filename":"c:/build_chain/nelson/modules/memory_manager/tests/test_persistent_example.nls",
+											"filename":"c:/build_chain/nelson/modules/memory_manager/tests/test_persistent_example.m",
 											"options":
 											{
 												"not_fixed":false,
@@ -4627,7 +4627,7 @@
 										"test_cases_list":
 										[
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_dlmwrite.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_dlmwrite.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4655,7 +4655,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_fileread.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_fileread.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4683,7 +4683,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_filewrite.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_filewrite.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4711,7 +4711,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_load.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_load.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4739,7 +4739,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_saveload.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/test_saveload.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4767,7 +4767,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bug_fwrite_1.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bug_fwrite_1.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4795,7 +4795,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_dlmwrite.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_dlmwrite.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4823,7 +4823,7 @@
 												"isbench":true
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_fileread_1.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_fileread_1.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4851,7 +4851,7 @@
 												"isbench":true
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_fileread_2.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_fileread_2.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4879,7 +4879,7 @@
 												"isbench":true
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_fileread_big_file.nls",
+												"filename":"c:/build_chain/nelson/modules/stream_manager/tests/bench_fileread_big_file.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4925,7 +4925,7 @@
 										"test_cases_list":
 										[
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_colon_as_string.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_colon_as_string.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4953,7 +4953,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_empty_matrix_comparaison.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_empty_matrix_comparaison.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -4981,7 +4981,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_keyboard.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_keyboard.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5009,7 +5009,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_varargout.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/test_varargout.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5037,7 +5037,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_deletation_empty.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_deletation_empty.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5065,7 +5065,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_deletation_variable_not_defined.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_deletation_variable_not_defined.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5093,7 +5093,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_extraction_empty_1.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_extraction_empty_1.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5121,7 +5121,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_github_issue_#26.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_github_issue_#26.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5149,7 +5149,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_github_issue_#30.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_github_issue_#30.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5177,7 +5177,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_github_issue_#74.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_github_issue_#74.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5205,7 +5205,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_interpreter_leak_1.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_interpreter_leak_1.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5233,7 +5233,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_interpreter_leak_2.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_interpreter_leak_2.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5261,7 +5261,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_varargin.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bug_varargin.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5289,7 +5289,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bench_loop_1.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bench_loop_1.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5317,7 +5317,7 @@
 												"isbench":true
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bench_loop_2.nls",
+												"filename":"c:/build_chain/nelson/modules/interpreter/tests/bench_loop_2.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5363,7 +5363,7 @@
 										"test_cases_list":
 										[
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/test_calendar.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/test_calendar.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5391,7 +5391,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/test_clock.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/test_clock.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5419,7 +5419,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/test_cputime.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/test_cputime.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5447,7 +5447,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/test_datenum.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/test_datenum.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5475,7 +5475,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/test_datevec.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/test_datevec.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5503,7 +5503,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/test_tictoc.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/test_tictoc.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5531,7 +5531,7 @@
 												"isbench":false
 											},
 											{
-												"filename":"c:/build_chain/nelson/modules/time/tests/bug_now.nls",
+												"filename":"c:/build_chain/nelson/modules/time/tests/bug_now.m",
 												"options":
 												{
 													"not_fixed":false,
@@ -5576,7 +5576,7 @@
 										"environment":"Nelson 0.2.1.859 (Freedom) windows  msvc release 32",
 										"test_cases_list":
 										{
-											"filename":"c:/build_chain/nelson/modules/random/tests/test_rand.nls",
+											"filename":"c:/build_chain/nelson/modules/random/tests/test_rand.m",
 											"options":
 											{
 												"not_fixed":false,
@@ -5657,7 +5657,7 @@
 												"test_cases_list":
 												[
 													{
-														"filename":"c:/build_chain/nelson/modules/gui/tests/test_errordlg.nls",
+														"filename":"c:/build_chain/nelson/modules/gui/tests/test_errordlg.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5685,7 +5685,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/gui/tests/test_msgbox.nls",
+														"filename":"c:/build_chain/nelson/modules/gui/tests/test_msgbox.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5713,7 +5713,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/gui/tests/test_questdlg.nls",
+														"filename":"c:/build_chain/nelson/modules/gui/tests/test_questdlg.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5759,7 +5759,7 @@
 												"test_cases_list":
 												[
 													{
-														"filename":"c:/build_chain/nelson/modules/help_browser/tests/test_helpbrowser.nls",
+														"filename":"c:/build_chain/nelson/modules/help_browser/tests/test_helpbrowser.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5787,7 +5787,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/help_browser/tests/bug_github_issue_#5.nls",
+														"filename":"c:/build_chain/nelson/modules/help_browser/tests/bug_github_issue_#5.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5833,7 +5833,7 @@
 												"test_cases_list":
 												[
 													{
-														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_checkerror.nls",
+														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_checkerror.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5861,7 +5861,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_isapprox.nls",
+														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_isapprox.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5889,7 +5889,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_isequal.nls",
+														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_isequal.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5917,7 +5917,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_isfalse.nls",
+														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_isfalse.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5945,7 +5945,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_istrue.nls",
+														"filename":"c:/build_chain/nelson/modules/assert_functions/tests/test_assert_istrue.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -5991,7 +5991,7 @@
 												"test_cases_list":
 												[
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_adv_cli_mode.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_adv_cli_mode.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6019,7 +6019,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_cli_mode.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_cli_mode.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6047,7 +6047,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_gui_mode.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_gui_mode.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6075,7 +6075,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_interactive_mode.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_interactive_mode.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6103,7 +6103,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_mac_only.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_mac_only.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6131,7 +6131,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_not_fixed.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_not_fixed.m",
 														"options":
 														{
 															"not_fixed":true,
@@ -6159,7 +6159,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_test_run.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_test_run.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6187,7 +6187,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_unix_only.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_unix_only.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6215,7 +6215,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_windows_only.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_windows_only.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6243,7 +6243,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_with_display.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/test_with_display.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6271,7 +6271,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/bug_clearall.nls",
+														"filename":"c:/build_chain/nelson/modules/tests_manager/tests/bug_clearall.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6317,7 +6317,7 @@
 												"test_cases_list":
 												[
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_expm.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_expm.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6345,7 +6345,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_inv.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_inv.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6373,7 +6373,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_issymmetric.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_issymmetric.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6401,7 +6401,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_rcond.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_rcond.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6429,7 +6429,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_schur.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_schur.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6457,7 +6457,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_svd.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_svd.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6485,7 +6485,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_trace.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/test_trace.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6513,7 +6513,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bug_github_issue_#39.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bug_github_issue_#39.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6541,7 +6541,7 @@
 														"isbench":false
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_inv.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_inv.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6569,7 +6569,7 @@
 														"isbench":true
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_issymmetric.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_issymmetric.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6597,7 +6597,7 @@
 														"isbench":true
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_svd_1.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_svd_1.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6625,7 +6625,7 @@
 														"isbench":true
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_svd_2.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_svd_2.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6653,7 +6653,7 @@
 														"isbench":true
 													},
 													{
-														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_svd_3.nls",
+														"filename":"c:/build_chain/nelson/modules/linear_algebra/tests/bench_svd_3.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -6717,7 +6717,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_class.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_class.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6745,7 +6745,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_classname.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_classname.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6773,7 +6773,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_clear.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_clear.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6801,7 +6801,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_delete.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_delete.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6829,7 +6829,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_eq.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_eq.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6857,7 +6857,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_fieldnames.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_fieldnames.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6885,7 +6885,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_findchildren.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_findchildren.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6913,7 +6913,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_horzcat_vertcat.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_horzcat_vertcat.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6941,7 +6941,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_invoke.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_invoke.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6969,7 +6969,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_isequal.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_isequal.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -6997,7 +6997,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_ismethod.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_ismethod.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7025,7 +7025,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_isprop.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_isprop.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7053,7 +7053,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_isvalid.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_isvalid.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7081,7 +7081,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_iswidgettype.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_iswidgettype.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7109,7 +7109,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_iswindowtype.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_iswindowtype.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7137,7 +7137,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_methods.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_methods.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7165,7 +7165,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_ne.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_ne.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7193,7 +7193,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_undefine.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_QObject_undefine.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7221,7 +7221,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_addimportpath.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_addimportpath.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7249,7 +7249,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_addpluginpath.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_addpluginpath.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7277,7 +7277,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_clearcomponentcache.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_clearcomponentcache.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7305,7 +7305,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_collectgarbage.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_collectgarbage.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7333,7 +7333,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_demos.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_demos.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7361,7 +7361,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_evaluatefile.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_evaluatefile.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7389,7 +7389,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_evaluatestring.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_evaluatestring.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7417,7 +7417,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_importpathlist.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_importpathlist.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7445,7 +7445,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_loadfile.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_loadfile.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7473,7 +7473,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_loadstring.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_loadstring.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7501,7 +7501,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_offlinestoragepath.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_offlinestoragepath.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7529,7 +7529,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_pluginpathlist.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_pluginpathlist.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7557,7 +7557,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_setofflinestoragepath.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qml_setofflinestoragepath.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7585,7 +7585,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qvariant.nls",
+															"filename":"c:/build_chain/nelson/modules/qml_engine/tests/test_qvariant.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7631,7 +7631,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7659,7 +7659,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_class.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_class.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7687,7 +7687,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_delete.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_delete.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7715,7 +7715,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_fieldnames.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_fieldnames.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7743,7 +7743,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_methods.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_methods.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7771,7 +7771,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_range.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_range.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7799,7 +7799,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_used.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_used.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7827,7 +7827,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_xlsfinfo.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_xlsfinfo.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7855,7 +7855,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_xlsread.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_xlsread.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7883,7 +7883,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_xlswrite.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_COM_xlswrite.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7911,7 +7911,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxcontrollist.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxcontrollist.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7939,7 +7939,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxsGetRunningServer.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxsGetRunningServer.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7967,7 +7967,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxserver.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxserver.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -7995,7 +7995,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxserverlist.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_actxserverlist.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8023,7 +8023,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_iscom.nls",
+															"filename":"c:/build_chain/nelson/modules/com_engine/tests/test_iscom.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8069,7 +8069,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fft.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fft.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8097,7 +8097,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fftn.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fftn.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8125,7 +8125,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fftshift.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fftshift.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8153,7 +8153,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fftw.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_fftw.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8181,7 +8181,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_ifft.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_ifft.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8209,7 +8209,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_ifftn.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_ifftn.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8237,7 +8237,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_ifftshift.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/test_ifftshift.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8265,7 +8265,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/fftw/tests/bench_fft.nls",
+															"filename":"c:/build_chain/nelson/modules/fftw/tests/bench_fft.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8310,7 +8310,7 @@
 													"environment":"Nelson 0.2.1.859 (Freedom) windows  msvc release 32",
 													"test_cases_list":
 													{
-														"filename":"c:/build_chain/nelson/modules/f2c/tests/test_f2c.nls",
+														"filename":"c:/build_chain/nelson/modules/f2c/tests/test_f2c.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -8354,7 +8354,7 @@
 													"environment":"Nelson 0.2.1.859 (Freedom) windows  msvc release 32",
 													"test_cases_list":
 													{
-														"filename":"c:/build_chain/nelson/modules/nig/tests/test_nig.nls",
+														"filename":"c:/build_chain/nelson/modules/nig/tests/test_nig.m",
 														"options":
 														{
 															"not_fixed":false,
@@ -8399,7 +8399,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab01od.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab01od.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8427,7 +8427,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab04md.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab04md.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8455,7 +8455,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab07nd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab07nd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8483,7 +8483,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab08nd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ab08nd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8511,7 +8511,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ag08bd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_ag08bd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8539,7 +8539,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb02md.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb02md.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8567,7 +8567,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb03od.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb03od.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8595,7 +8595,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb03pd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb03pd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8623,7 +8623,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb03rd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb03rd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8651,7 +8651,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb04gd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb04gd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8679,7 +8679,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb04md.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb04md.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8707,7 +8707,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb05od.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mb05od.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8735,7 +8735,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mc01td.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_mc01td.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8763,7 +8763,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb01bd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb01bd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8791,7 +8791,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb02od.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb02od.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8819,7 +8819,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb03md.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb03md.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8847,7 +8847,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb03od.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb03od.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8875,7 +8875,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb04md.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb04md.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8903,7 +8903,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb04qd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb04qd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8931,7 +8931,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb10jd.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sb10jd.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8959,7 +8959,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sg02ad.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_sg02ad.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -8987,7 +8987,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_tb01id.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_tb01id.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9015,7 +9015,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_tg01ad.nls",
+															"filename":"c:/build_chain/nelson/modules/slicot/tests/test_slicot_tg01ad.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9061,7 +9061,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/test_edit.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/test_edit.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9089,7 +9089,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/test_smartindent.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/test_smartindent.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9117,7 +9117,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#80.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#80.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9145,7 +9145,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#82.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#82.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9173,7 +9173,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#83.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#83.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9201,7 +9201,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#84.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#84.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9229,7 +9229,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#85.nls",
+															"filename":"c:/build_chain/nelson/modules/text_editor/tests/bug_github_issue_#85.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9275,7 +9275,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Allreduce_double_prod.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Allreduce_double_prod.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9303,7 +9303,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Barrier.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Barrier.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9331,7 +9331,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Bcast.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Bcast.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9359,7 +9359,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Comm_delete.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Comm_delete.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9387,7 +9387,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Comm_get_name.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Comm_get_name.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9415,7 +9415,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Comm_split.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Comm_split.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9443,7 +9443,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Finalize.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Finalize.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9471,7 +9471,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Get_library_version.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Get_library_version.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9499,7 +9499,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Get_processor_name.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Get_processor_name.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9527,7 +9527,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Get_version.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Get_version.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9555,7 +9555,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Init.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Init.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9583,7 +9583,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Initialized.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Initialized.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9611,7 +9611,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Iprobe.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Iprobe.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9639,7 +9639,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Reduce_double_prod.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Reduce_double_prod.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9667,7 +9667,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Reduce_double_sum.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Reduce_double_sum.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9695,7 +9695,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_cell.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_cell.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9723,7 +9723,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_char.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_char.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9751,7 +9751,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_class.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_class.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9779,7 +9779,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_double.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_double.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9807,7 +9807,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_doublecomplex.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_doublecomplex.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9835,7 +9835,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_function_handle.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_function_handle.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9863,7 +9863,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int16.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int16.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9891,7 +9891,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int32.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int32.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9919,7 +9919,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int64.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int64.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9947,7 +9947,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int8.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_int8.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -9975,7 +9975,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_logical.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_logical.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10003,7 +10003,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_ndarraydouble.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_ndarraydouble.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10031,7 +10031,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_single.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_single.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10059,7 +10059,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_singlecomplex.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_singlecomplex.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10087,7 +10087,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_sparsedouble.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_sparsedouble.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10115,7 +10115,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_sparsedoublecomplex.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_sparsedoublecomplex.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10143,7 +10143,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_sparselogical.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_sparselogical.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10171,7 +10171,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_struct.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_struct.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10199,7 +10199,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint16.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint16.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10227,7 +10227,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint32.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint32.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10255,7 +10255,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint64.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint64.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10283,7 +10283,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint8.nls",
+															"filename":"c:/build_chain/nelson/modules/mpi/tests/test_MPI_Send_Recv_uint8.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10329,7 +10329,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/json/tests/test_json.nls",
+															"filename":"c:/build_chain/nelson/modules/json/tests/test_json.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10357,7 +10357,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/json/tests/test_jsondecode.nls",
+															"filename":"c:/build_chain/nelson/modules/json/tests/test_jsondecode.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10385,7 +10385,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/json/tests/test_jsonencode.nls",
+															"filename":"c:/build_chain/nelson/modules/json/tests/test_jsonencode.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10413,7 +10413,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/json/tests/test_jsonprettyprint.nls",
+															"filename":"c:/build_chain/nelson/modules/json/tests/test_jsonprettyprint.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10459,7 +10459,7 @@
 													"test_cases_list":
 													[
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiodevinfo.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiodevinfo.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10487,7 +10487,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioinfo.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioinfo.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10515,7 +10515,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiometadata.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiometadata.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10543,7 +10543,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10571,7 +10571,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer_delete.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer_delete.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10599,7 +10599,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer_isprop.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer_isprop.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10627,7 +10627,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer_used.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioplayer_used.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10655,7 +10655,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioread.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audioread.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10683,7 +10683,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiosupportedformats.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiosupportedformats.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10711,7 +10711,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiowrite.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_audiowrite.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10739,7 +10739,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/test_beep.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/test_beep.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10767,7 +10767,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/bug_github_issue_#92.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/bug_github_issue_#92.m",
 															"options":
 															{
 																"not_fixed":false,
@@ -10795,7 +10795,7 @@
 															"isbench":false
 														},
 														{
-															"filename":"c:/build_chain/nelson/modules/audio/tests/bug_github_issue_#93.nls",
+															"filename":"c:/build_chain/nelson/modules/audio/tests/bug_github_issue_#93.m",
 															"options":
 															{
 																"not_fixed":false,

@@ -23,7 +23,13 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function test_narginchk(varargin)
-    narginchk(1, 2)
-end
+addpath([nelsonroot(), '/modules/core/tests/']);
+%=============================================================================
+assert_checkerror('fun_narginchk()', _('Wrong number of input arguments.'), 'Nelson:narginchk:notEnoughInputs');
+%=============================================================================
+fun_narginchk(1)
+%=============================================================================
+fun_narginchk(1,2)
+%=============================================================================
+assert_checkerror('fun_narginchk(1, 2, 3)', _('Wrong number of input arguments.'), 'Nelson:narginchk:tooManyInputs');
 %=============================================================================

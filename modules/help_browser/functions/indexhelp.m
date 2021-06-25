@@ -67,7 +67,7 @@ function r = indexhelp(varargin)
 end
 %=============================================================================
 function modules_help_list = getModulesHelpList()
-    run([nelsonroot() '/modules/' 'modules.nls']);
+    run([nelsonroot() '/modules/' 'modules.m']);
     modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
 end
 %=============================================================================

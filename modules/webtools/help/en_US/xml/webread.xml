@@ -58,7 +58,7 @@ res = webread(url,weboptions('ContentType','json'));
  <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>More demos</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_1.nls'])
+    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_1.m'])
 ]]>
     </example_item_data>
   </example_item>
@@ -66,7 +66,7 @@ res = webread(url,weboptions('ContentType','json'));
 <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>Use function_handle with weboptions and webread</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_2.nls'])
+    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_2.m'])
 ]]>
     </example_item_data>
   </example_item>
@@ -74,7 +74,7 @@ res = webread(url,weboptions('ContentType','json'));
 <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description>Read data from National Agricultural Statistics Service</example_item_description>
-    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_3.nls'])
+    <example_item_data><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_3.m'])
 ]]>
     </example_item_data>
   </example_item>

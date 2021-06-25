@@ -47,7 +47,7 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
     }
     if (boost::filesystem::is_directory(_modulerootpath)) {
         boost::filesystem::path pathmainloader(_modulerootpath);
-        pathmainloader += L"/etc/startup.nls";
+        pathmainloader += L"/etc/startup.m";
         if (boost::filesystem::exists(pathmainloader)
             && !boost::filesystem::is_directory(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
@@ -71,7 +71,7 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
                 }
             }
         } else {
-            Error(_W("startup.nls does not exist") + L" (" + moduleshortname + L").");
+            Error(_W("startup.m does not exist") + L" (" + moduleshortname + L").");
         }
     } else {
         Error(_W("An existing module root path expected") + L" (" + moduleshortname + L")");

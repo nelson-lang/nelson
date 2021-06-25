@@ -210,9 +210,9 @@
     <ClInclude Include="..\include\singleBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\etc\finish.nls" />
-    <None Include="..\..\etc\startup.nls" />
-    <None Include="..\..\loader.nls" />
+    <None Include="..\..\etc\finish.m" />
+    <None Include="..\..\etc\startup.m" />
+    <None Include="..\..\loader.m" />
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>

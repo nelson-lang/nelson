@@ -53,7 +53,7 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[res = dir(nelsonroot())
 res = dir(nelsonroot(), '-s')]]>
-res = dir([nelsonroot(),'/*.nls'], '-s')
+res = dir([nelsonroot(),'/*.m'], '-s')
 		</example_item_data>
 	
 	</example_item>

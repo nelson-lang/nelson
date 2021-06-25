@@ -10,6 +10,10 @@
 
   - About compatibility: scripts and functions developed with Nelson should work with other tools managing .m files. The reciprocal is not necessarily true.
 
+  - `.m` is default file extension. `.nlf` and `.nls` always managed
+
+- module skeleton updated to use to `.m` extension (Please update your code)
+
 - `run` builtin can also evaluate a macro function.
 
 - macro functions also searched in current directory.

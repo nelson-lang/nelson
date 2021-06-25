@@ -66,12 +66,12 @@
   </param_output>
 
   <description>
-  <p><b>test_run</b> function searchs 'test_*.nls', 'bug_*.nls', and 'bench_*.nls' files, executes them, and displays a report about success or failures.</p>
+  <p><b>test_run</b> function searchs 'test_*.m', 'bug_*.m', and 'bench_*.m' files, executes them, and displays a report about success or failures.</p>
   
   <p>Each test or bench is executed in a separated process using the 'unix' command.</p>
   <p>That enables the current command to continue, even if the test as created an unstable environment.</p>
   <p>It also enables the tests to be independent from one another.</p>
-  <p>Some special tags can be inserted in the .nls files to help the processing of the corresponding test.</p>
+  <p>Some special tags can be inserted in the .m files to help the processing of the corresponding test.</p>
   <p>These tags are expected to be found in Nelson comments:</p>
   
   <p><b>&lt;--NOT FIXED--&gt;</b> This test is skipped because it is a reported bug, but it is not yet fixed. </p>

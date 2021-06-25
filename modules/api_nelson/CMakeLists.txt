@@ -47,11 +47,11 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-# install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/etc/startup.nls
+# install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/etc/startup.m
 # DESTINATION ${ROOT_OUTPUT}/modules/${module_name_lower}/etc) install(FILES
-# ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/etc/finish.nls DESTINATION
+# ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/etc/finish.m DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name_lower}/etc) install(FILES
-# ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/loader.nls DESTINATION
+# ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/loader.m DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name_lower}) install(DIRECTORY
 # ${CMAKE_SOURCE_DIR}/modules/${module_name_lower}/functions DESTINATION
 # ${ROOT_OUTPUT}/modules/${module_name_lower} FILES_MATCHING PATTERN "*.m")

@@ -22,7 +22,7 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 # ==============================================================================
-if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.nls)
+if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.m)
 
 else()
   if(WITHOUT_FFTW OR LGPL21_ONLY)
@@ -35,7 +35,7 @@ else()
   else()
     set(WITH_SLICOT_MODULE "modules_list = [modules_list; \"slicot\"];")
   endif()
-  configure_file("${CMAKE_SOURCE_DIR}/modules/modules.nls.in"
-                 "${CMAKE_SOURCE_DIR}/modules/modules.nls")
+  configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
+                 "${CMAKE_SOURCE_DIR}/modules/modules.m")
 endif()
 # ==============================================================================

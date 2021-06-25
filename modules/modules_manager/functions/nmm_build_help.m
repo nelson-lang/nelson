@@ -26,7 +26,7 @@
 function nmm_build_help(_MODULE_NAME, _MODULE_PATH)
     if ~ismodule(_MODULE_NAME)
         try
-            run([_MODULE_PATH '/loader.nls']);
+            run([_MODULE_PATH '/loader.m']);
             loaded = true;
         catch
             loaded = false;

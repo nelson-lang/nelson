@@ -90,6 +90,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\..\modules.nls.vc" />
+    <CustomBuild Include="..\..\..\modules.m.vc" />
   </ItemGroup>
 </Project>

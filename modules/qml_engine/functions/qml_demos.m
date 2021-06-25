@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function qml_demos()
-  filename_demo = [modulepath('qml_engine'), '/examples/qml_demos/qml_demos.nls'];
+  filename_demo = [modulepath('qml_engine'), '/examples/qml_demos/qml_demos.m'];
   run(filename_demo);
 end
 %=============================================================================

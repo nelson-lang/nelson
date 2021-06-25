@@ -68,7 +68,7 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-#define DEFAULT_FILENAME "untitled.nls"
+#define DEFAULT_FILENAME "untitled.m"
 #define DEFAULT_DELAY_MSG 1500
 //=============================================================================
 QtTextEditor::QtTextEditor(Evaluator* eval)
@@ -480,7 +480,7 @@ QtTextEditor::loadFile(const QString& filename)
     setCurrentEncoding(encoding);
     updateTitles();
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
-    if (filename.endsWith(".nls")) {
+    if (filename.endsWith(".m")) {
         runFileAction->setEnabled(true);
     } else {
         runFileAction->setEnabled(false);
@@ -665,7 +665,7 @@ QtTextEditor::saveAs()
 {
     bool res = false;
     QString fileName = QFileDialog::getSaveFileName(
-        this, TR("Save File"), shownName(), TR("Nelson (*.nls *.nlf *.m)"));
+        this, TR("Save File"), shownName(), TR("Nelson (*.m *.nlf *.m)"));
     if (!fileName.isEmpty()) {
         for (int i = 0; i < tab->count(); i++) {
             QWidget* w = tab->widget(i);
@@ -694,7 +694,7 @@ QtTextEditor::open()
     if (maybeSave()) {
         QStringList fileNames
             = QFileDialog::getOpenFileNames(this, TR("Open file ..."), QDir::currentPath(),
-                TR("Nelson (*.nls *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
+                TR("Nelson (*.m *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
                    "(*.*)"));
         for (int k = 0; k < fileNames.size(); k++) {
             loadFile(fileNames[k]);
@@ -801,7 +801,7 @@ QtTextEditor::tabChanged(int indexTab)
     updateTitles();
     prevEdit = currentEditor();
     QString filename = currentFilename();
-    if (filename.endsWith(".nls") || filename.isEmpty()) {
+    if (filename.endsWith(".m") || filename.isEmpty()) {
         runFileAction->setEnabled(true);
     } else {
         runFileAction->setEnabled(false);

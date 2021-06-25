@@ -63,7 +63,7 @@ add_custom_target(
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
     --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
@@ -71,7 +71,7 @@ add_custom_target(
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
     --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
@@ -79,7 +79,7 @@ add_custom_target(
   COMMAND
     ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
@@ -87,7 +87,7 @@ add_custom_target(
   COMMAND
     ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
@@ -96,35 +96,35 @@ add_custom_target(
     ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --nousermodules --noipc
     --quiet --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
   tests_all
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --quiet --noipc --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
   benchs_all
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --quiet --noipc --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
   tests_all_no_display
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --noipc --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
   benchs_all_no_display
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --noipc --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/benchs_all/runbenchs_all.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
@@ -132,7 +132,7 @@ add_custom_target(
   COMMAND
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
     --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.nls"
+    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 install(FILES ${BIN_DIRECTORY}/nelson-adv-cli DESTINATION ${LIBRARY_OUTPUT})

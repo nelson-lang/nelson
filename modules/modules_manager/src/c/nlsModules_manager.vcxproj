@@ -224,24 +224,24 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\..\modules.nls.vc">
+    <CustomBuild Include="..\..\..\modules.m.vc">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</DeploymentContent>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\modules.nls</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\modules.nls</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\modules.nls</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\modules.nls</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\modules.nls.vc" "$(SolutionDir)modules\modules.nls"</Command>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</DeploymentContent>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)modules\modules.m</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)modules\modules.m</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)modules\modules.m</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)modules\modules.m</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy "$(SolutionDir)modules\modules.m.vc" "$(SolutionDir)modules\modules.m"</Command>
     </CustomBuild>
     <None Include="..\..\module.iss" />
   </ItemGroup>

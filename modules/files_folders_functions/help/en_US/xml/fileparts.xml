@@ -53,10 +53,10 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[[p, f, e] = fileparts([nelsonroot(), '/etc/finish.nls'])
-p = fileparts([nelsonroot(), '/etc/finish.nls'], 'path')
-f = fileparts([nelsonroot(), '/etc/finish.nls'], 'filename')
-e = fileparts([nelsonroot(), '/etc/finish.nls'], 'extension')]]>
+		<example_item_data><![CDATA[[p, f, e] = fileparts([nelsonroot(), '/etc/finish.m'])
+p = fileparts([nelsonroot(), '/etc/finish.m'], 'path')
+f = fileparts([nelsonroot(), '/etc/finish.m'], 'filename')
+e = fileparts([nelsonroot(), '/etc/finish.m'], 'extension')]]>
 		</example_item_data>
 	
 	</example_item>

@@ -48,7 +48,7 @@ function dlgeneratecleaner(varargin)
       error(_('Valid files list expected.'));
     end
   end
-  cleanerfilename = [destinationdir, '/cleaner.nls'];
+  cleanerfilename = [destinationdir, '/cleaner.m'];
   txt = templatecleanerpart1(destinationdir);
   txt = [txt; templatecleanerpart2(files)];
   txt = [txt; templatecleanerpart3()];
@@ -67,12 +67,12 @@ function txt = templatecleanerpart1(destinationdir)
   txt = [txt; 'current_directory = pwd();'];
   txt = [txt; ['cd(fileparts(nfilename(''fullpathext'')));']];
   txt = [txt; '%============================================================================='];
-  txt = [txt; 'if isfile(''loader.nls'')'];
-  txt = [txt; '  rmfile(''loader.nls'');'];
+  txt = [txt; 'if isfile(''loader.m'')'];
+  txt = [txt; '  rmfile(''loader.m'');'];
   txt = [txt; 'end'];
   txt = [txt; '%============================================================================='];
-  txt = [txt; 'if isfile(''unloader.nls'')'];
-  txt = [txt; '  rmfile(''unloader.nls'');'];
+  txt = [txt; 'if isfile(''unloader.m'')'];
+  txt = [txt; '  rmfile(''unloader.m'');'];
   txt = [txt; 'end'];
   txt = [txt; '%============================================================================='];
  end
@@ -138,8 +138,8 @@ end
 %=============================================================================
 function txt = templatecleanerpart5()
   txt = {'%============================================================================='};
-  txt = [txt; 'if isfile(''cleaner.nls'');'];
-  txt = [txt; '  rmfile(''cleaner.nls'');'];
+  txt = [txt; 'if isfile(''cleaner.m'');'];
+  txt = [txt; '  rmfile(''cleaner.m'');'];
   txt = [txt; 'end'];
   txt = [txt; {'%============================================================================='}];
   txt = [txt; {'cd(current_directory);'}];

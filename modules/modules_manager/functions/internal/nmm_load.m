@@ -32,14 +32,14 @@ function nmm_load(varargin)
    if isempty(module_data)
       error(_('module name or existing directory installed is expected.'))
    end
-   if ~isfile([module_data.path, 'loader.nls'])
-      error(_('loader.nls is missing.'));
+   if ~isfile([module_data.path, 'loader.m'])
+      error(_('loader.m is missing.'));
    end
    if ~isfile([module_data.path, 'module.json'])
       error(_('module.json is missing.'));
    end
    if ~ismodule(module_name)
-      run([module_data.path, 'loader.nls']);
+      run([module_data.path, 'loader.m']);
    else
       warning(sprintf(_('%s already loaded.'), module_name));
    end

@@ -40,7 +40,7 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.nls']);
+		<example_item_data><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m']);
 
 tline = fgetl(fid);
 while ischar(tline)

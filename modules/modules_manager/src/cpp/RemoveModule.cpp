@@ -48,12 +48,12 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
         }
         if (boost::filesystem::is_directory(rootpathmodule)) {
             boost::filesystem::path pathfinish(rootpathmodule);
-            pathfinish += L"/etc/finish.nls";
+            pathfinish += L"/etc/finish.m";
             if (boost::filesystem::exists(pathfinish)
                 && !boost::filesystem::is_directory(pathfinish)) {
                 EvaluateScriptFile(eval, pathfinish.generic_wstring());
             } else {
-                Error(_W("finish.nls does not exist."));
+                Error(_W("finish.m does not exist."));
             }
             return UnregisterModule(moduleshortname);
         }
