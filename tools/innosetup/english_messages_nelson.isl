@@ -30,8 +30,7 @@ english.SLICOT_MODULE = SLICOT Library v5.0.0 (GPL v2 license)
 ;==============================================================================
 english.CPU_OPTIMIZATION_FOR_NELSON = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================
-english.ASSOCIATE_NLS_FILE = Associate .nls files with Nelson
-english.ASSOCIATE_NLF_FILE = Associate .nlf files with Nelson
+english.ASSOCIATE_M_FILE = Associate .m files with Nelson
 english.ASSOCIATE_NH5_FILE = Associate .nh5 files with Nelson
 english.ASSOCIATE_MAT_FILE = Associate .mat files with Nelson
 ;==============================================================================

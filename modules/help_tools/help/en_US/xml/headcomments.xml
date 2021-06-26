@@ -14,7 +14,7 @@
 	<param_input>
 		<param_input_item>
 			<param_name>function_name</param_name>
-			<param_description>a string: function name or a .nlf filename.</param_description>
+			<param_description>a string: function name or a .m filename.</param_description>
 		</param_input_item>
 	</param_input>
 
@@ -26,7 +26,7 @@
 	</param_output>
 
 	<description><p><b>head_comments</b> displays the function header comments.</p>
-<p>Comments are read from the associated .nlf (or .m) file.</p>
+<p>Comments are read from the associated .m file.</p>
 <p>Nelson predefined functions have no header comments.</p>
 
 </description>

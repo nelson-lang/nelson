@@ -28,10 +28,9 @@
 // Used by Resource.rc
 //
 #define IDI_ICON_LOGO                   101
-#define IDI_ICON_NLS                   102
-#define IDI_ICON_NLF                   103
-#define IDI_ICON_NH5                   104
-#define IDI_ICON_MAT                   105
+#define IDI_ICON_M                      102
+#define IDI_ICON_NH5                    103
+#define IDI_ICON_MAT                    104
 
 
 // Next default values for new objects

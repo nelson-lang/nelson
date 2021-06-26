@@ -31,10 +31,7 @@
     <Image Include="..\..\..\resources\fibonacci.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\resources\nlf.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\resources\nls.ico">
+    <Image Include="..\..\..\resources\m.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

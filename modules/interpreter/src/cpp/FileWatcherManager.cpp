@@ -43,7 +43,7 @@ public:
         case FW::Action::Add: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
             std::string file_extension = boost::filesystem::extension(pf);
-            if (file_extension == ".nlf" || file_extension == ".m") {
+            if (file_extension == ".m") {
                 boost::filesystem::path parent_dir = boost::filesystem::path(dir);
                 PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
                 /*
@@ -58,7 +58,7 @@ public:
         case FW::Action::Delete: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
             std::string file_extension = boost::filesystem::extension(pf);
-            if (file_extension == ".nlf" || file_extension == ".m") {
+            if (file_extension == ".m") {
                 boost::filesystem::path parent_dir = boost::filesystem::path(dir);
                 PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
                 /*
@@ -73,7 +73,7 @@ public:
         case FW::Action::Modified:
             boost::filesystem::path pf = boost::filesystem::path(filename);
             std::string file_extension = boost::filesystem::extension(pf);
-            if (file_extension == ".nlf" || file_extension == ".m") {
+            if (file_extension == ".m") {
                 /*
                 #ifdef _MSC_VER
                 printf("Modified: %ls\n", filename.c_str());

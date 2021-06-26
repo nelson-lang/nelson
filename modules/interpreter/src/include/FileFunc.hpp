@@ -29,24 +29,15 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-enum class FileFunctionType
-{
-    M = 0,
-    NLF = 1,
-    NLS = 2,
-    UNKNOWN = 3
-};
-//=============================================================================
 class FileFunc
 {
 private:
     std::wstring _fullfilename;
     std::wstring _name;
     size_t _hashid;
-    FileFunctionType _ftype;
 
 public:
-    FileFunc(const std::wstring& directory, const std::wstring& name, FileFunctionType ftype);
+    FileFunc(const std::wstring& directory, const std::wstring& name);
     ~FileFunc();
     std::wstring
     getFilename();
@@ -54,8 +45,6 @@ public:
     getName();
     size_t
     getHashID();
-    FileFunctionType
-    getFileFunctionType();
 };
 //=============================================================================
 } // namespace Nelson

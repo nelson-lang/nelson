@@ -187,19 +187,12 @@ PathFunc::rehash()
             for (boost::filesystem::directory_iterator dir_iter(_path); dir_iter != end_iter;
                  ++dir_iter) {
                 boost::filesystem::path current = dir_iter->path();
-                FileFunctionType ftype = FileFunctionType::UNKNOWN;
-                if (boost::iequals(current.extension().generic_wstring(), ".nlf")) {
-                    ftype = FileFunctionType::NLF;
-                }
                 if (boost::iequals(current.extension().generic_wstring(), ".m")) {
-                    ftype = FileFunctionType::M;
-                }
-                if (ftype != FileFunctionType::UNKNOWN) {
                     std::wstring name = current.stem().generic_wstring();
                     if (isSupportedFuncFilename(name)) {
                         FileFunc* ff = nullptr;
                         try {
-                            ff = new FileFunc(_path, name, ftype);
+                            ff = new FileFunc(_path, name);
                         } catch (const std::bad_alloc&) {
                             ff = nullptr;
                         }

@@ -3389,8 +3389,7 @@ Evaluator::getCallers(bool includeCurrent)
                 boost::algorithm::replace_all(functionname, "built-in ", "");
             } else if (boost::algorithm::starts_with(functionname, "filename ")) {
                 boost::algorithm::replace_all(functionname, "filename ", "");
-                if (boost::algorithm::ends_with(functionname, ".nlf")
-                    || boost::algorithm::ends_with(functionname, ".m")) {
+                if (boost::algorithm::ends_with(functionname, ".m")) {
                     boost::filesystem::path p(functionname);
                     functionname = p.stem().generic_string();
                 }
@@ -4079,8 +4078,7 @@ Evaluator::getCurrentFunctionName()
     int ipos = (int)callstack.size() - 1;
     if (ipos >= 0) {
         std::string fullname = callstack.getLastContext();
-        if (boost::algorithm::ends_with(fullname, ".nlf")
-            || boost::algorithm::ends_with(fullname, ".m")) {
+        if (boost::algorithm::ends_with(fullname, ".m")) {
             boost::filesystem::path pathForStem(fullname);
             return pathForStem.stem().string();
         }

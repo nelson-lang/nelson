@@ -30,7 +30,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>in a file: demo_function.nlf</example_item_description>
+    <example_item_description>in a file: demo_function.m</example_item_description>
     <example_item_data><![CDATA[
 function r = demo_function(a, b)
   r = a + b;

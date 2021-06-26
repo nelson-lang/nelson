@@ -1,8 +1,8 @@
 # 0.5.6 (UNRELEASED)
 
-## Features:
+BREAKING CHANGE:
 
-- parser cleaned and generated with Bison 3.7.4
+## Features:
 
 - `function ... endfunction` and `function ... end` are equivalent (increase compatibility ;).
 
@@ -10,13 +10,15 @@
 
   - About compatibility: scripts and functions developed with Nelson should work with other tools managing .m files. The reciprocal is not necessarily true.
 
-  - `.m` is default file extension. `.nlf` and `.nls` always managed
+  - `.m` is default and alone file extension.
 
 - module skeleton updated to use to `.m` extension (Please update your code)
 
 - `run` builtin can also evaluate a macro function.
 
 - macro functions also searched in current directory.
+
+- parser cleaned and generated with Bison 3.7.4
 
 - `narginchk` builtin: checks number of input arguments.
 

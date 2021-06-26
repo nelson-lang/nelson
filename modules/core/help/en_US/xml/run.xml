@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>run</keyword>
-	<short_description>Executes a script file (.m or .nls).</short_description>
+	<short_description>Executes a script file (.m).</short_description>
 
 	<syntax>
 		<syntax_item>run(script_file)</syntax_item>
@@ -39,7 +39,7 @@
 	</param_output>
 
 	<description>
-		<p><b>run(script_file)</b> executes a Nelson's script file (.m or .nls file extension).</p>
+		<p><b>run(script_file)</b> executes a Nelson's script file (.m file extension).</p>
 	</description>
 
 
