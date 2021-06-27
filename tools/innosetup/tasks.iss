@@ -25,8 +25,7 @@
 ;==============================================================================
 Name: "desktopicon"; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked;
 ;==============================================================================
-Name: AssociateNlsFiles; Description:{cm:ASSOCIATE_NLS_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
-Name: AssociateNlfFiles; Description:{cm:ASSOCIATE_NLF_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
+Name: AssociateMFiles; Description:{cm:ASSOCIATE_M_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 Name: AssociateNh5Files; Description:{cm:ASSOCIATE_NH5_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 Name: AssociateMatFiles; Description:{cm:ASSOCIATE_MAT_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 ;==============================================================================

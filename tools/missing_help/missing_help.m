@@ -59,13 +59,9 @@ all_help_keys = [all_help_keys; what()];
 for m = getmodules()(:)'
   path_functions = [modulepath(m{1}), '/functions'];
   if isdir(path_functions)
-    functions_info = dir([path_functions,'/*.nlf']);
-    for f = functions_info(:)'
-      all_help_keys {end + 1} = f.name(1:end-4);
-    end
     functions_info = dir([path_functions,'/*.m']);
     for f = functions_info(:)'
-      all_help_keys {end + 1} = f.name(1:end-4);
+      all_help_keys {end + 1} = f.name(1:end-2);
     end    
   end
 end

@@ -186,7 +186,7 @@ QtMainWindow::runFile()
                 this, _("Execute...").c_str(), _("Interpreter currently runs.").c_str());
         } else {
             QString qfileName = QFileDialog::getOpenFileName(
-                this, TR("Execute..."), QDir::currentPath(), TR("Nelson (*.nls)"));
+                this, TR("Execute..."), QDir::currentPath(), TR("Nelson (*.m)"));
             if (!qfileName.isEmpty()) {
                 std::wstring filename = Nelson::QStringTowstring(qfileName);
                 qtTerminal->outputMessage(L"\n");
@@ -355,7 +355,7 @@ QtMainWindow::createMenus()
     fileNameIcon = nelsonPath + QString("/resources/file-run.svg");
     runAction = new QAction(QIcon(fileNameIcon), TR("&Execute..."), this);
     runAction->setShortcut(QKeySequence("Ctrl+E"));
-    runAction->setStatusTip(TR("Execute a .nls file"));
+    runAction->setStatusTip(TR("Execute a .m file"));
     connect(runAction, SIGNAL(triggered()), this, SLOT(runFile()));
     fileMenu->addAction(runAction);
     // separator

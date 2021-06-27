@@ -31,21 +31,9 @@
 namespace Nelson {
 //=============================================================================
 static bool
-isNlf(PositionScript& pos)
-{
-    return boost::algorithm::ends_with(pos.getFilename(), L".nlf");
-}
-//=============================================================================
-static bool
 isM(PositionScript& pos)
 {
     return boost::algorithm::ends_with(pos.getFilename(), L".m");
-}
-//=============================================================================
-static bool
-isNls(PositionScript& pos)
-{
-    return boost::algorithm::ends_with(pos.getFilename(), L".nls");
 }
 //=============================================================================
 static bool
@@ -68,17 +56,8 @@ cleanupDebugStack(stackTrace stackPositions)
     while (k < stackPositions.size()) {
         if (isEvaluateString(stackPositions[k])) {
             k++;
-        } else if (isNlf(stackPositions[k])) {
-            cleanedPositions.push_back(stackPositions[k]);
-            k++;
         } else if (isM(stackPositions[k])) {
             cleanedPositions.push_back(stackPositions[k]);
-            k++;
-        } else if (isNls(stackPositions[k])) {
-            boost::filesystem::path p(stackPositions[k].getFilename());
-            PositionScript pos(p.stem().generic_wstring(), stackPositions[k].getFilename(),
-                stackPositions[k].getLine());
-            cleanedPositions.push_back(pos);
             k++;
         } else if (isBuiltin(stackPositions[k])) {
             PositionScript pos(stackPositions[k].getFilename(), L"", stackPositions[k].getLine());

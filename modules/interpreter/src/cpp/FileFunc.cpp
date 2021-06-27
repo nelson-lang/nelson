@@ -29,18 +29,9 @@
 #include <iosfwd>
 //=============================================================================
 namespace Nelson {
-FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name, FileFunctionType ftype)
+FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name)
 {
-    _ftype = ftype;
-    switch (ftype) {
-    case FileFunctionType::M: {
-        _fullfilename = directory + L"/" + name + L".m";
-    } break;
-    default:
-    case FileFunctionType::NLF: {
-        _fullfilename = directory + L"/" + name + L".nlf";
-    } break;
-    }
+    _fullfilename = directory + L"/" + name + L".m";
     _name = name;
     std::ifstream inFile;
 #ifdef _MSC_VER
@@ -81,12 +72,6 @@ size_t
 FileFunc::getHashID()
 {
     return _hashid;
-}
-//=============================================================================
-FileFunctionType
-FileFunc::getFileFunctionType()
-{
-    return _ftype;
 }
 //=============================================================================
 } // namespace Nelson
