@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace ElementaryFunctionsGateway {
+namespace DataAnalysisGateway {
     //=============================================================================
     ArrayOfVector
     conv2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);

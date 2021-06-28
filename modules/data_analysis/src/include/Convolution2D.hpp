@@ -26,16 +26,16 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "nlsElementary_functions_exports.h"
+#include "nlsData_analysis_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP
+NLSDATA_ANALYSIS_IMPEXP
 ArrayOf
 Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, bool& needToOverload);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP
+NLSDATA_ANALYSIS_IMPEXP
 ArrayOf
 Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::wstring& shape,
     bool& needToOverload);

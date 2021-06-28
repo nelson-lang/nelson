@@ -30,24 +30,28 @@
 #include "sortBuiltin.hpp"
 #include "maxBuiltin.hpp"
 #include "minBuiltin.hpp"
+#include "conv2Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"data_analysis";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "prod", (void*)Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3,
+    { "prod", (void*)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "sum", (void*)Nelson::ElementaryFunctionsGateway::sumBuiltin, 1, 3,
+    { "sum", (void*)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "ismissing", (void*)Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1,
+    { "ismissing", (void*)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "sort", (void*)Nelson::ElementaryFunctionsGateway::sortBuiltin, 2, -1,
+    { "sort", (void*)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "max", (void*)Nelson::ElementaryFunctionsGateway::maxBuiltin, 2, 4,
+    { "max", (void*)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "min", (void*)Nelson::ElementaryFunctionsGateway::minBuiltin, 2, 4,
+    { "min", (void*)Nelson::DataAnalysisGateway::minBuiltin, 2, 4,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "conv2", (void*)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

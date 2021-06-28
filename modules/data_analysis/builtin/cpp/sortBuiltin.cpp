@@ -89,7 +89,7 @@ isValidComparisonMethod(
 }
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::sortBuiltin(
+Nelson::DataAnalysisGateway::sortBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
