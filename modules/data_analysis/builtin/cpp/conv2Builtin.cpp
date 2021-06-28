@@ -31,8 +31,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataAnalysisGateway::conv2Builtin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataAnalysisGateway::conv2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 4);
@@ -50,8 +49,7 @@ Nelson::DataAnalysisGateway::conv2Builtin(
         } break;
         case 3: {
             if ((argIn[2].isRowVectorCharacterArray()
-              || (argIn[2].isStringArray() && argIn[2].isScalar())))
-            {
+                    || (argIn[2].isStringArray() && argIn[2].isScalar()))) {
                 std::wstring shape = argIn[2].getContentAsWideString();
                 res = Convolution2D(argIn[0], argIn[1], shape, needToOverload);
             } else {

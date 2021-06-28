@@ -117,7 +117,7 @@ Conv2Real(T* C, const T* A, const T* B, indexType Am, indexType An, indexType Bm
             int64 iMax = std::min(int64(Am - 1), int64(m + Cm_offset));
             int64 jMin = std::max(int64(0), int64(n + Cn_offset - Bn + 1));
             int64 jMax = std::min(int64(An - 1), int64(n + Cn_offset));
-            for ( j = jMin; j <= jMax; j++) {
+            for (j = jMin; j <= jMax; j++) {
                 for (i = iMin; i <= iMax; i++) {
                     accum += (A[i + j * Am] == 0)
                         ? 0
@@ -178,7 +178,6 @@ Conv2dDispatch(
         res = ArrayOf(NLS_SINGLE, dimsRes, ptr);
         Conv2Real<single>(ptr, (const single*)X.getDataPointer(), (const single*)Y.getDataPointer(),
             X.getRows(), X.getColumns(), Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
-
     } break;
     case NLS_DCOMPLEX: {
         void* ptr = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsRes.getElementCount());
@@ -200,9 +199,7 @@ Conv2dDispatch(
         Conv2Complex<std::complex<single>>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(),
             Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return res;
 }
 //=============================================================================
@@ -219,18 +216,34 @@ Conv2dXYFull(const ArrayOf& A, const ArrayOf& B)
 static ArrayOf
 Conv2dXYValid(const ArrayOf& A, const ArrayOf& B)
 {
-    ArrayOf res;
-    return res;
+    indexType Cm = indexType(A.getRows() - B.getRows() + 1);
+    indexType Cn = indexType(A.getColumns() - B.getColumns() + 1);
+    if ((Cm < 0) || (Cn < 0)) {
+        ArrayOf res = ArrayOf::emptyConstructor();
+        res.promoteType(A.getDataClass());
+        return res;
+    }
+    if ((Cm == 0) || (Cn == 0)) {
+        Dimensions dims(Cm, Cn);
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(A.getDataClass());
+        return res;
+    }
+    indexType Cm_offset = indexType(B.getRows() - 1);
+    indexType Cn_offset = indexType(B.getColumns() - 1);
+    return Conv2dDispatch(A, B, Cm, Cn, Cm_offset, Cn_offset);
 }
 //=============================================================================
 static ArrayOf
 Conv2dXYSame(const ArrayOf& A, const ArrayOf& B)
 {
-    ArrayOf res;
-    return res;
+    indexType Cm = A.getRows();
+    indexType Cn = A.getColumns();
+    indexType Cm_offset = (indexType)round(((double)(B.getRows() - 1) / 2));
+    indexType Cn_offset = (indexType)round(((double)(B.getColumns() - 1) / 2));
+    return Conv2dDispatch(A, B, Cm, Cn, Cm_offset, Cn_offset);
 }
 //=============================================================================
-
 ArrayOf
 Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, bool& needToOverload)
 {
