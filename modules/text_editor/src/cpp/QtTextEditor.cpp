@@ -664,8 +664,8 @@ bool
 QtTextEditor::saveAs()
 {
     bool res = false;
-    QString fileName = QFileDialog::getSaveFileName(
-        this, TR("Save File"), shownName(), TR("Nelson (*.m)"));
+    QString fileName
+        = QFileDialog::getSaveFileName(this, TR("Save File"), shownName(), TR("Nelson (*.m)"));
     if (!fileName.isEmpty()) {
         for (int i = 0; i < tab->count(); i++) {
             QWidget* w = tab->widget(i);
