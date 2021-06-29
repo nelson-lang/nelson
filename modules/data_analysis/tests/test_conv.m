@@ -23,6 +23,24 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'data_analysis', 'functions'));
-removegateway(modulepath(nelsonroot(), 'data_analysis', 'builtin'))
+assert_isequal(nargin('conv'), 3);
+assert_isequal(nargout('conv'), 1);
+%=============================================================================
+U = [1 0 1];
+V = [2 7];
+R = conv(U, V);
+REF = [ 2     7     2     7];
+assert_isequal(R, REF);
+%=============================================================================
+U = [1 1 1];
+V = [1 1 0 0 0 1 1];
+R = conv(U, V);
+REF = [1     2     2     1     0     1     2     2     1];
+assert_isequal(R, REF);
+%=============================================================================
+U = [-1 2 3 -2 0 1 2];
+V = [2 4 -1 1];
+R = conv(U, V, 'same');
+REF = [15     5    -9     7     6     7    -1];
+assert_isequal(R, REF);
 %=============================================================================

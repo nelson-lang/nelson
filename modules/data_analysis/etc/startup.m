@@ -23,5 +23,6 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
+addpath(modulepath(nelsonroot(), 'data_analysis', 'functions'), '-frozen');
 addgateway(modulepath(nelsonroot(), 'data_analysis', 'builtin'));
 %===========================================================================

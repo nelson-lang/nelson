@@ -1,3 +1,9 @@
+# UNRELEASED
+
+## Features:
+
+- [#449](http://github.com/Nelson-numerical-software/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
+
 # 0.5.6 (2021-06-27)
 
 BREAKING CHANGE:

@@ -27,6 +27,7 @@
 #include "Convolution2D.hpp"
 #include "Error.hpp"
 #include "Decomplexify.hpp"
+#include "complex_multiply.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -131,9 +132,11 @@ Conv2Real(T* C, const T* A, const T* B, indexType Am, indexType An, indexType Bm
 //=============================================================================
 template <class T>
 static void
-Conv2Complex(T* C, const T* A, const T* B, indexType Am, indexType An, indexType Bm, indexType Bn,
-    indexType Cm, indexType Cn, indexType Cm_offset, indexType Cn_offset)
+Conv2Complex(std::complex<T>* C, const std::complex<T>* A, const std::complex<T>* B, indexType Am,
+    indexType An, indexType Bm, indexType Bn, indexType Cm, indexType Cn, indexType Cm_offset,
+    indexType Cn_offset)
 {
+
     ompIndexType n = 0;
     ompIndexType m = 0;
     ompIndexType i = 0;
@@ -150,8 +153,8 @@ Conv2Complex(T* C, const T* A, const T* B, indexType Am, indexType An, indexType
             int64 jMax = std::min(int64(An - 1), int64(n + Cn_offset));
             for (j = jMin; j <= jMax; j++) {
                 for (i = iMin; i <= iMax; i++) {
-                    T p = A[i + j * Am] * B[i + j * Am];
-                    accum += p;
+                    accum += complex_multiply<T>(
+                        A[i + j * Am], B[(m + Cm_offset - i) + (n + Cn_offset - j) * Bm]);
                 }
             }
             C[m + n * Cm] = accum;
@@ -186,8 +189,8 @@ Conv2dDispatch(
         auto* ptrz = reinterpret_cast<std::complex<double>*>((double*)ptr);
         auto* ptrX = reinterpret_cast<std::complex<double>*>((double*)X.getDataPointer());
         auto* ptrY = reinterpret_cast<std::complex<double>*>((double*)Y.getDataPointer());
-        Conv2Complex<std::complex<double>>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(),
-            Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+        Conv2Complex<double>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(), Y.getRows(),
+            Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
     } break;
     case NLS_SCOMPLEX: {
         void* ptr = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsRes.getElementCount());
@@ -196,8 +199,8 @@ Conv2dDispatch(
         auto* ptrz = reinterpret_cast<std::complex<single>*>((single*)ptr);
         auto* ptrX = reinterpret_cast<std::complex<single>*>((single*)X.getDataPointer());
         auto* ptrY = reinterpret_cast<std::complex<single>*>((single*)Y.getDataPointer());
-        Conv2Complex<std::complex<single>>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(),
-            Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+        Conv2Complex<single>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(), Y.getRows(),
+            Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
     } break;
     default: { } break; }
     return res;
@@ -279,9 +282,10 @@ Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, boo
         indexType rows = std::max(A.getRows(), B.getRows());
         indexType cols = std::max(A.getColumns(), B.getColumns());
         Dimensions dimsC(rows, cols);
-        void* ptr = ArrayOf::allocateArrayOf(outputClass, dimsC.getElementCount());
+        void* ptr
+            = ArrayOf::allocateArrayOf(outputClass, dimsC.getElementCount(), stringVector(), true);
         res = ArrayOf(outputClass, dimsC, ptr);
-        return res;
+        return decomplexify(res);
     }
     ArrayOf Aintermediate(A);
     ArrayOf Bintermediate(B);
@@ -330,11 +334,18 @@ Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::w
         Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
     }
 
-    Class intermediateClass;
-    Class outputClass;
-    computeCommonType(u, v, intermediateClass, outputClass);
+    Dimensions newDimsU(u.getElementCount(), 1);
+    ArrayOf U(u);
+    U.reshape(newDimsU);
 
-    res.promoteType(outputClass);
+    Dimensions newDimsV(1, v.getElementCount());
+    ArrayOf V(v);
+    V.reshape(newDimsV);
+
+    res = Convolution2D(A, U, shape, needToOverload);
+    if (!needToOverload) {
+        res = Convolution2D(res, V, shape, needToOverload);
+    }
     return res;
 }
 //=============================================================================
