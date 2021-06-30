@@ -25,17 +25,26 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include <complex>
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace DataAnalysisGateway {
-    //=============================================================================
-    ArrayOfVector
-    minBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+template <class T>
+std::complex<T>
+complex_multiply(std::complex<T> A, std::complex<T> B)
+{
+    std::complex<T> C;
+    if ((A.imag() == 0) && (B.imag() == 0)) {
+        C.real(A.real() * B.real());
+        C.imag(0);
+    } else if (A.imag() == 0) {
+        C.real(A.real() * B.real());
+        C.imag(A.real() * B.imag());
+    } else if (B.imag() == 0) {
+        C.real(B.real() * A.real());
+        C.imag(B.real() * A.imag());
+    } else {
+        C.real(A.real() * B.real() - A.imag() * B.imag());
+        C.imag(A.real() * B.imag() + A.imag() * B.real());
+    }
+    return C;
 }
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

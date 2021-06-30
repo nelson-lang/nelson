@@ -511,7 +511,7 @@ mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
     Dimensions dimsV(1, dimsA.getElementCount());
     ArrayOf asVector = arg;
     asVector.reshape(dimsV);
-    ArrayOfVector argOut = ElementaryFunctionsGateway::ismissingBuiltin(_eval, 1, asVector);
+    ArrayOfVector argOut = DataAnalysisGateway::ismissingBuiltin(_eval, 1, asVector);
     argOut = OperatorsGateway::anyBuiltin(_eval, 1, argOut[0]);
     if (argOut[0].getContentAsLogicalScalar()) {
         std::wstring msg = invalidPositionMessage(argPosition) + _W("Value must be non missing.");

@@ -207,6 +207,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\conv2Builtin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\ismissingBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxBuiltin.cpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\conv2Builtin.hpp" />
     <ClInclude Include="..\include\ismissingBuiltin.hpp" />
     <ClInclude Include="..\include\maxBuiltin.hpp" />
     <ClInclude Include="..\include\minBuiltin.hpp" />

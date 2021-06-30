@@ -33,7 +33,7 @@ namespace Nelson {
 namespace DataAnalysisGateway {
     //=============================================================================
     ArrayOfVector
-    minBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    conv2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

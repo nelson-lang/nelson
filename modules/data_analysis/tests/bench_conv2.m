@@ -23,6 +23,8 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'data_analysis', 'functions'));
-removegateway(modulepath(nelsonroot(), 'data_analysis', 'builtin'))
+A = eye(300,300); 
+B = ones(400, 400); 
+tic();C = conv2(A,B);toc()
+C(1:5, 1:5)
 %=============================================================================

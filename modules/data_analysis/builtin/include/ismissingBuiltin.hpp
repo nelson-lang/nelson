@@ -31,7 +31,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace ElementaryFunctionsGateway {
+namespace DataAnalysisGateway {
     //=============================================================================
     NLSDATA_ANALYSIS_BUILTIN_IMPEXP
     ArrayOfVector
