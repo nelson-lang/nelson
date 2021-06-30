@@ -186,7 +186,7 @@ QtMainWindow::runFile()
                 this, _("Execute...").c_str(), _("Interpreter currently runs.").c_str());
         } else {
             QString qfileName = QFileDialog::getOpenFileName(
-                this, TR("Execute..."), QDir::currentPath(), TR("Nelson (*.m)"));
+                this, TR("Execute..."), QDir::currentPath(), QString("Nelson (*.m)"));
             if (!qfileName.isEmpty()) {
                 std::wstring filename = Nelson::QStringTowstring(qfileName);
                 qtTerminal->outputMessage(L"\n");

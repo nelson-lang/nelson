@@ -2,6 +2,8 @@
 
 ## Features:
 
+- main function in .m no more require to be the first in file.
+
 - [#449](http://github.com/Nelson-numerical-software/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
 
 # 0.5.6 (2021-06-27)

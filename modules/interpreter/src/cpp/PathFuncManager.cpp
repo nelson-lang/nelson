@@ -31,6 +31,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
+#include <boost/format.hpp>
 #include <algorithm>
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
@@ -293,7 +294,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pfl = *it;
         if (pfl) {
-            boost::filesystem::path p1{ pfl->getPath() }, p2{ path };
+            boost::filesystem::path p1 { pfl->getPath() }, p2 { path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 return false;
             }
@@ -332,7 +333,7 @@ PathFuncManager::removePath(const std::wstring& path)
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pf = *it;
         if (pf != nullptr) {
-            boost::filesystem::path p1{ pf->getPath() }, p2{ path };
+            boost::filesystem::path p1 { pf->getPath() }, p2 { path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 PathFunc* pf = *it;
                 delete pf;
@@ -421,8 +422,7 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error&) {
-    }
+    } catch (const boost::filesystem::filesystem_error&) { }
     userpathCompute();
 }
 //=============================================================================
@@ -449,26 +449,24 @@ PathFuncManager::rehash(const std::wstring& path)
 {
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };
+            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } catch (const boost::filesystem::filesystem_error&) { }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1{ pf->getPath() }, p2{ path };
+                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
                 if (boost::filesystem::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
                 }
-            } catch (const boost::filesystem::filesystem_error&) {
-            }
+            } catch (const boost::filesystem::filesystem_error&) { }
         }
     }
 }
@@ -519,14 +517,9 @@ PathFuncManager::processFile(const std::wstring& script_filename)
     fr = fopen(wstring_to_utf8(script_filename).c_str(), "r");
 #endif
     if (fr == nullptr) {
-        std::string msg1;
         int errnum = errno;
-        char buff[4096];
-        snprintf(buff, sizeof(buff), _("Value of errno: %d").c_str(), errno);
-        msg1 = buff;
-        std::string msg2;
-        snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
-        msg2 = buff;
+        std::string msg1 = str(boost::format(_("Value of errno: %d")) % errno);
+        std::string msg2 = str(boost::format(_("Value of errno: %s")) % strerror(errnum));
         Error(_W("Cannot open:") + L" " + script_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
             + utf8_to_wstring(msg2));
     }
@@ -572,14 +565,33 @@ PathFuncManager::processFile(const std::wstring& script_filename)
     } else {
         fptr->ptrAstCodeAsVector = std::move(ptAstCode);
         AbstractSyntaxTree::clearReferences();
-        boost::filesystem::path pathFunction(script_filename);
-        const std::string functionNameFromFile = pathFunction.stem().generic_string();
-        if (!boost::iequals(functionNameFromFile, fptr->name)) {
-            std::string name = fptr->name;
-            delete fptr;
-            fptr = nullptr;
-            Error(_("filename and function name are not same (") + name + _(" vs ")
-                + functionNameFromFile + "). " + _("function not loaded."));
+        if (!fptr->isScript) {
+            boost::filesystem::path pathFunction(script_filename);
+            const std::string functionNameFromFile = pathFunction.stem().generic_string();
+            if (fptr->name != functionNameFromFile) {
+                stringVector functionNamesInFile;
+                MacroFunctionDef* cp = fptr->nextFunction;
+                functionNamesInFile.push_back(fptr->name);
+                while (cp != nullptr) {
+                    functionNamesInFile.push_back(cp->name);
+                    cp = cp->nextFunction;
+                }
+                if (std::find(functionNamesInFile.begin(), functionNamesInFile.end(),
+                        functionNameFromFile)
+                    != functionNamesInFile.end()) {
+                    fptr->name = functionNameFromFile;
+                }
+            }
+            if (fptr->name !=  functionNameFromFile) {
+                std::string name = fptr->name;
+                delete fptr;
+                fptr = nullptr;
+                std::string msg
+                    = str(boost::format(_("filename and function name are not same (%s vs %s)."))
+                        % name % functionNameFromFile);
+                msg = msg + " " + _("Function not loaded.");
+                Error(msg);
+            }
         }
     }
     return fptr;
@@ -690,8 +702,7 @@ PathFuncManager::userpathCompute()
                     bSet = true;
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } catch (const boost::filesystem::filesystem_error&) { }
     }
     if (!bSet) {
 #ifdef _MSC_VER
@@ -701,8 +712,7 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) {
-                }
+                } catch (const boost::filesystem::filesystem_error&) { }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);
@@ -715,8 +725,7 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) {
-                }
+                } catch (const boost::filesystem::filesystem_error&) { }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);

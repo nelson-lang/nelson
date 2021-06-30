@@ -383,6 +383,24 @@ msgstr ""
 msgid "'ComparisonMethod' or 'MissingPlacement' expected."
 msgstr ""
 
+msgid "shape parameter must be 'full', 'same', or 'valid'."
+msgstr ""
+
+msgid "Invalid data type: First argument must be numeric or logical."
+msgstr ""
+
+msgid "N-D arrays are not supported."
+msgstr ""
+
+msgid "Sparse matrices are not supported."
+msgstr ""
+
+msgid "Invalid data type: Second argument must be numeric or logical."
+msgstr ""
+
+msgid "Invalid data type: Third argument must be numeric or logical."
+msgstr ""
+
 msgid "Input Arguments must have same size."
 msgstr ""
 
@@ -1129,9 +1147,6 @@ msgstr ""
 msgid "Interpreter currently runs."
 msgstr ""
 
-msgid "Nelson (*.nls)"
-msgstr ""
-
 msgid "Load workspace..."
 msgstr ""
 
@@ -1156,7 +1171,7 @@ msgstr ""
 msgid "&Execute..."
 msgstr ""
 
-msgid "Execute a .nls file"
+msgid "Execute a .m file"
 msgstr ""
 
 msgid "&Load Workspace..."
@@ -1854,7 +1869,7 @@ msgid "Value of errno: %d"
 msgstr ""
 
 #, c-format
-msgid "Error opening file: %s"
+msgid "Value of errno: %s"
 msgstr ""
 
 msgid "Cannot open:"
@@ -1863,13 +1878,11 @@ msgstr ""
 msgid "a valid function definition expected."
 msgstr ""
 
-msgid "filename and function name are not same ("
+#, c-format
+msgid "filename and function name are not same (%s vs %s)."
 msgstr ""
 
-msgid " vs "
-msgstr ""
-
-msgid "function not loaded."
+msgid "Function not loaded."
 msgstr ""
 
 msgid "Operand to && operator must be convertible to logical scalar values."
@@ -3467,15 +3480,16 @@ msgstr ""
 msgid "Save File"
 msgstr ""
 
-msgid "Nelson (*.m *.nlf *.m)"
+msgid "Text files"
+msgstr ""
+
+msgid "Markdown files"
+msgstr ""
+
+msgid "All files"
 msgstr ""
 
 msgid "Open file ..."
-msgstr ""
-
-msgid ""
-"Nelson (*.m *.nlf *.m);;Text files (*.txt);;Markdown files (*.md);;All files "
-"(*.*)"
 msgstr ""
 
 msgid "Go To Line ..."
