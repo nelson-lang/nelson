@@ -519,7 +519,7 @@ PathFuncManager::processFile(const std::wstring& script_filename)
     if (fr == nullptr) {
         int errnum = errno;
         std::string msg1 = str(boost::format(_("Value of errno: %d")) % errno);
-        std::string msg2 = str(boost::format(_("Value of errno: %s")) % strerror(errnum));
+        std::string msg2 = str(boost::format(_("Error opening file: %s")) % strerror(errnum));
         Error(_W("Cannot open:") + L" " + script_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
             + utf8_to_wstring(msg2));
     }
@@ -562,36 +562,47 @@ PathFuncManager::processFile(const std::wstring& script_filename)
     }
     if (fptr == nullptr) {
         Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    } else {
-        fptr->ptrAstCodeAsVector = std::move(ptAstCode);
-        AbstractSyntaxTree::clearReferences();
-        if (!fptr->isScript) {
-            boost::filesystem::path pathFunction(script_filename);
-            const std::string functionNameFromFile = pathFunction.stem().generic_string();
-            if (fptr->name != functionNameFromFile) {
-                stringVector functionNamesInFile;
-                MacroFunctionDef* cp = fptr->nextFunction;
-                functionNamesInFile.push_back(fptr->name);
-                while (cp != nullptr) {
-                    functionNamesInFile.push_back(cp->name);
-                    cp = cp->nextFunction;
-                }
-                if (std::find(functionNamesInFile.begin(), functionNamesInFile.end(),
-                        functionNameFromFile)
-                    != functionNamesInFile.end()) {
-                    fptr->name = functionNameFromFile;
-                }
+    }
+    fptr->ptrAstCodeAsVector = std::move(ptAstCode);
+    AbstractSyntaxTree::clearReferences();
+    if (!fptr->isScript) {
+        stringVector functionNamesInFile;
+        MacroFunctionDef* cp = fptr->nextFunction;
+        functionNamesInFile.push_back(fptr->name);
+        while (cp != nullptr) {
+            functionNamesInFile.push_back(cp->name);
+            cp = cp->nextFunction;
+        }
+
+        auto it = std::unique(functionNamesInFile.begin(), functionNamesInFile.end());
+        bool isUnique = (it == functionNamesInFile.end());
+        if (!isUnique) {
+            delete fptr;
+            fptr = nullptr;
+            std::string msg
+                = str(boost::format(_("Function '%s' has already been declared within this scope."))
+                    % it->c_str());
+            Error(msg);
+        }
+
+        boost::filesystem::path pathFunction(script_filename);
+        const std::string functionNameFromFile = pathFunction.stem().generic_string();
+
+        if (fptr != nullptr && fptr->name != functionNameFromFile) {
+            if (std::find(
+                    functionNamesInFile.begin(), functionNamesInFile.end(), functionNameFromFile)
+                != functionNamesInFile.end()) {
+                fptr->name = functionNameFromFile;
             }
-            if (fptr->name !=  functionNameFromFile) {
-                std::string name = fptr->name;
-                delete fptr;
-                fptr = nullptr;
-                std::string msg
-                    = str(boost::format(_("filename and function name are not same (%s vs %s)."))
-                        % name % functionNameFromFile);
-                msg = msg + " " + _("Function not loaded.");
-                Error(msg);
-            }
+        }
+        if (fptr != nullptr && fptr->name != functionNameFromFile) {
+            std::string name = fptr->name;
+            delete fptr;
+            fptr = nullptr;
+            std::string msg
+                = str(boost::format(_("Filename and function name are not same (%s vs %s).")) % name
+                    % functionNameFromFile);
+            Error(msg);
         }
     }
     return fptr;
