@@ -4,6 +4,8 @@
 
 - main function in .m no more require to be the first in file.
 
+- checks in the .m function that other local function names are not duplicated.
+
 - [#449](http://github.com/Nelson-numerical-software/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
 
 # 0.5.6 (2021-06-27)

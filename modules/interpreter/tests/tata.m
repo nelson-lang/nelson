@@ -23,14 +23,11 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-addpath([nelsonroot(), '/modules/interpreter/tests/']);
+function R = tata()
+    R = tata();
+end
 %=============================================================================
-msg = sprintf(_('Filename and function name are not same (%s vs %s).'), 'toto', 'tutu');
-assert_checkerror('tutu()', msg);
-%=============================================================================
-R = toto();
-assert_isequal(R, 'hello');
-%=============================================================================
-msg = sprintf(_('Function ''%s'' has already been declared within this scope.'), 'tata');
-assert_checkerror('tata()', msg);
+function R = tata()
+    R = 'hello';
+end
 %=============================================================================
