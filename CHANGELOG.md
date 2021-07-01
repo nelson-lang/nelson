@@ -8,6 +8,10 @@
 
 - [#449](http://github.com/Nelson-numerical-software/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
 
+## Bug Fixes:
+
+- [#468](http://github.com/Nelson-numerical-software/nelson/issues/468): A(':') = [] was not managed.
+
 # 0.5.6 (2021-06-27)
 
 BREAKING CHANGE:

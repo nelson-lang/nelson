@@ -768,7 +768,8 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
             }
-        } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
+        } else if ((t->type == non_terminal && t->opNum == OP_ALL)
+            || (t->type == const_character_array_node && t->text == ":")) {
             Dimensions dim = subRoot.getDimensions();
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
