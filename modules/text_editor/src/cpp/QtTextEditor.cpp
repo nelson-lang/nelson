@@ -695,13 +695,12 @@ QtTextEditor::open()
         QString textFilesText = TR("Text files");
         QString markdowFilesText = TR("Markdown files");
         QString allFilesText = TR("All files");
-        
-        QString filesSupported = QString("Nelson (*.m);;") + textFilesText + QString("  (*.txt);;") +
-            markdowFilesText + QString(" (*.md);;") + allFilesText + QString(" (*.*)");
 
-        QStringList fileNames
-            = QFileDialog::getOpenFileNames(this, TR("Open file ..."), QDir::currentPath(),
-                filesSupported);
+        QString filesSupported = QString("Nelson (*.m);;") + textFilesText + QString("  (*.txt);;")
+            + markdowFilesText + QString(" (*.md);;") + allFilesText + QString(" (*.*)");
+
+        QStringList fileNames = QFileDialog::getOpenFileNames(
+            this, TR("Open file ..."), QDir::currentPath(), filesSupported);
         for (int k = 0; k < fileNames.size(); k++) {
             loadFile(fileNames[k]);
         }

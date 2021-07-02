@@ -82,9 +82,13 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
         deletionMap = nullptr;
         Dimensions newDim;
         if (dp->isScalar()) {
-            newDim.reset();
-            newDim[0] = 1;
-            newDim[1] = newSize;
+            if (arg.getElementCount() == 1) {
+                newDim[0] = 0;
+                newDim[1] = 0;
+            } else {
+                newDim[0] = 1;
+                newDim[1] = newSize;
+            }
         } else if (dp->isVector()) {
             newDim = dp->dimensions;
             if (dp->dimensions[0] != 1) {
@@ -93,7 +97,6 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
                 newDim[1] = newSize;
             }
         } else {
-            newDim.reset();
             if (newSize == 0) {
                 newDim[0] = 0;
                 newDim[1] = 0;
