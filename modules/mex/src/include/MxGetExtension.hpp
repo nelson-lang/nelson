@@ -23,56 +23,48 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileFunc.hpp"
-#include "characters_encoding.hpp"
-#include <fstream>
-#include <iosfwd>
+#pragma once
+//=============================================================================
+#include <string>
 //=============================================================================
 namespace Nelson {
-FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name)
+//=============================================================================
+/**
+ * Get current platform MEX file extension
+ */
+static std::wstring
+getMexExtension()
 {
-    _fullfilename = directory + L"/" + name + L".m";
-    _name = name;
-    std::ifstream inFile;
+    std::wstring mexext;
 #ifdef _MSC_VER
-    inFile.open(_fullfilename);
+#ifdef _WIN64
+    mexext = L"nexw64";
 #else
-    inFile.open(wstring_to_utf8(_fullfilename));
+#ifdef _WIN32
+    mexext = L"nexw32";
 #endif
-    if (inFile.is_open()) {
-        std::string content = std::string(
-            (std::istreambuf_iterator<char>(inFile)), (std::istreambuf_iterator<char>()));
-        _hashid = std::hash<std::string>()(content);
-        inFile.close();
-    } else {
-        _hashid = 0;
-    }
+#endif
+#else
+#if defined(__APPLE__) || defined(__MACH__)
+#ifdef __x86_64__
+    mexext = L"nexmaci64";
+#else
+#if defined(__arm64__) || defined(__aarch64__)
+    mexext = L"nexmacm1";
+#else
+    mexext = L"nexmaci";
+#endif
+#endif
+#else
+#ifdef __x86_64__
+    mexext = L"nexa64";
+#else
+    mexext = L"nexglx";
+#endif
+#endif
+#endif
+    return mexext;
 }
 //=============================================================================
-FileFunc::~FileFunc()
-{
-    _fullfilename.clear();
-    _name.clear();
-    _hashid = 0;
 }
-//=============================================================================
-std::wstring
-FileFunc::getFilename()
-{
-    return _fullfilename;
-}
-//=============================================================================
-std::wstring
-FileFunc::getName()
-{
-    return _name;
-}
-//=============================================================================
-size_t
-FileFunc::getHashID()
-{
-    return _hashid;
-}
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

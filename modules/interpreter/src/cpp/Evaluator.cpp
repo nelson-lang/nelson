@@ -3688,7 +3688,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
     } else {
         if (lookupFunction(t->text, funcDef)) {
             if (funcDef->outputArgCount() == 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->name));
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->getName()));
             }
             m = functionExpression(funcDef, t, 1, false);
             callstack.popID();
@@ -4199,10 +4199,6 @@ Evaluator::evalCLI()
 {
     while (1) {
         if (!bpActive) {
-            // clear macros cache at the prompt
-            stringVector exceptedFunctionsName = this->getCallers(true);
-            PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-            getContext()->getCurrentScope()->clearCache();
             FileWatcherManager::getInstance()->update();
             clearStacks();
         }

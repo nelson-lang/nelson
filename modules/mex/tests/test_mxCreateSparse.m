@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateSparse')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateSparse.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 REF = sparse(eye(10, 10));

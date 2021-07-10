@@ -32,8 +32,8 @@ if ~isbuiltin('mxSetSingles')
     status = copyfile('mxSetSingles.c', test_dir);
     assert_istrue(status);
     cd(test_dir);
-    mex('mxSetSingles.c', '-R2018a');
-    run('loader.m');
+    mex('mxSetSingles.c', '-R2018a')
+    addpath(pwd())
 end
 %=============================================================================
 R = mxSetSingles();

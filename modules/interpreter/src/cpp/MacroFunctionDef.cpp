@@ -112,10 +112,10 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();
-    context->pushScope(name);
+    context->pushScope(this->getName());
 
-    std::string filenameUtf8 = wstring_to_utf8(fileName);
-    eval->callstack.pushDebug(filenameUtf8, name);
+    std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
+    eval->callstack.pushDebug(filenameUtf8, this->getName());
     // Push our local functions onto the function scope
     MacroFunctionDef* cp = this;
     while (cp->prevFunction != nullptr) {
@@ -185,7 +185,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         eval->block(code);
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         State state(eval->getState());
@@ -202,8 +202,8 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        std::wstring message
-                            = str(boost::wformat(_W("Function : '%s'.")) % utf8_to_wstring(name));
+                        std::wstring message = str(boost::wformat(_W("Function : '%s'."))
+                            % utf8_to_wstring(this->getName()));
                         message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                         Warning(message);
                         warningIssued = true;
@@ -276,7 +276,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     } catch (const Exception&) {
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         context->popScope();
@@ -291,8 +291,8 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 {
     ArrayOfVector outputs;
     Context* context = eval->getContext();
-    std::string filenameUtf8 = wstring_to_utf8(fileName);
-    eval->callstack.pushDebug(filenameUtf8, name);
+    std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
+    eval->callstack.pushDebug(filenameUtf8, this->getName());
 
     context->getCurrentScope()->setNargIn(0);
     context->getCurrentScope()->setNargOut(0);
@@ -303,7 +303,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
         eval->block(code);
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         State state(eval->getState());
@@ -317,7 +317,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
     } catch (const Exception&) {
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         eval->callstack.popDebug();
@@ -342,12 +342,12 @@ MacroFunctionDef::getCompleteName()
         MacroFunctionDef* pF = this->prevFunction;
         while (pF != nullptr) {
             if (!pF->localFunction) {
-                return pF->name + ">" + this->name;
+                return pF->getName() + ">" + this->getName();
             }
             pF = pF->prevFunction;
         }
     }
-    return this->name;
+    return this->getName();
 }
 //=============================================================================
 } // namespace Nelson

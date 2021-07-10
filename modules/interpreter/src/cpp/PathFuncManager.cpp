@@ -38,10 +38,10 @@
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
 #include "GetVariableEnvironment.hpp"
-#include "OverloadCache.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -94,7 +94,7 @@ PathFuncManager::destroy()
 {
     clearUserPath();
     clear();
-    cachedPathFunc.clear();
+    FunctionsInMemory::getInstance()->clear();
     if (m_pInstance != nullptr) {
         delete m_pInstance;
         m_pInstance = nullptr;
@@ -119,7 +119,7 @@ bool
 PathFuncManager::isPointerOnPathFunctionDef(FuncPtr ptr)
 {
     std::wstring functionName;
-    return find(ptr->hashid, functionName);
+    return find(ptr->getHashId(), functionName);
 }
 //=============================================================================
 wstringVector
@@ -147,19 +147,22 @@ bool
 PathFuncManager::find(const std::string& name, FuncPtr& ptr)
 {
     bool res = false;
-    boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedPathFunc.find(name);
-    if (found != cachedPathFunc.end()) {
-        ptr = found->second;
+    bool found = FunctionsInMemory::getInstance()->find(name, ptr);
+    if (found) {
         res = true;
     } else {
-        FileFunc* ff = nullptr;
+        FileFunction* ff = nullptr;
         std::wstring wstr = utf8_to_wstring(name);
         if (find(wstr, &ff)) {
             if (ff != nullptr) {
-                ptr = processFile(ff->getFilename());
+                if (ff->isMex()) {
+                    ptr = processMexFile(ff->getFilename(), ff->getName());
+                } else {
+                    ptr = processFile(ff->getFilename());
+                }
                 if (ptr != nullptr) {
-                    ptr->hashid = ff->getHashID();
-                    cachedPathFunc.emplace(name, ptr);
+                    ptr->setHashId(ff->getHashID());
+                    FunctionsInMemory::getInstance()->add(name, ptr);
                     res = true;
                 }
             }
@@ -169,7 +172,7 @@ PathFuncManager::find(const std::string& name, FuncPtr& ptr)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring& functionName, FileFunc** ff)
+PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 {
     bool res = false;
     if (_currentPath != nullptr) {
@@ -294,7 +297,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pfl = *it;
         if (pfl) {
-            boost::filesystem::path p1 { pfl->getPath() }, p2 { path };
+            boost::filesystem::path p1{ pfl->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 return false;
             }
@@ -333,7 +336,7 @@ PathFuncManager::removePath(const std::wstring& path)
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pf = *it;
         if (pf != nullptr) {
-            boost::filesystem::path p1 { pf->getPath() }, p2 { path };
+            boost::filesystem::path p1{ pf->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 PathFunc* pf = *it;
                 delete pf;
@@ -383,7 +386,7 @@ PathFuncManager::setCurrentUserPath(const std::wstring& path)
         delete _currentPath;
     }
     _currentPath = new PathFunc(path);
-    if (_currentPath) {
+    if (_currentPath != nullptr) {
         _currentPath->rehash();
     }
     return false;
@@ -422,7 +425,8 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error&) { }
+    } catch (const boost::filesystem::filesystem_error&) {
+    }
     userpathCompute();
 }
 //=============================================================================
@@ -449,24 +453,26 @@ PathFuncManager::rehash(const std::wstring& path)
 {
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
+            boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) { }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
+                boost::filesystem::path p1{ pf->getPath() }, p2{ path };
                 if (boost::filesystem::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
                 }
-            } catch (const boost::filesystem::filesystem_error&) { }
+            } catch (const boost::filesystem::filesystem_error&) {
+            }
         }
     }
 }
@@ -504,6 +510,22 @@ PathFuncManager::getPathNameAsString()
         p.pop_back();
     }
     return p;
+}
+//=============================================================================
+MexFunctionDef*
+PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring& functionName)
+{
+    MexFunctionDef* fptr = nullptr;
+    try {
+        fptr = new MexFunctionDef(filename, functionName);
+        if (!fptr->isLoaded()) {
+            delete fptr;
+            fptr = nullptr;
+        }
+    } catch (const std::bad_alloc&) {
+        fptr = nullptr;
+    }
+    return fptr;
 }
 //=============================================================================
 MacroFunctionDef*
@@ -552,8 +574,8 @@ PathFuncManager::processFile(const std::wstring& script_filename)
             fptr = new MacroFunctionDef();
             fptr->code = getParsedScriptBlock();
             boost::filesystem::path pathFunction(script_filename);
-            fptr->name = pathFunction.stem().generic_string();
-            fptr->fileName = script_filename;
+            fptr->setName(pathFunction.stem().generic_string());
+            fptr->setFilename(script_filename);
             fptr->isScript = true;
         }
 
@@ -568,9 +590,9 @@ PathFuncManager::processFile(const std::wstring& script_filename)
     if (!fptr->isScript) {
         stringVector functionNamesInFile;
         MacroFunctionDef* cp = fptr->nextFunction;
-        functionNamesInFile.push_back(fptr->name);
+        functionNamesInFile.push_back(fptr->getName());
         while (cp != nullptr) {
-            functionNamesInFile.push_back(cp->name);
+            functionNamesInFile.push_back(cp->getName());
             cp = cp->nextFunction;
         }
 
@@ -588,15 +610,15 @@ PathFuncManager::processFile(const std::wstring& script_filename)
         boost::filesystem::path pathFunction(script_filename);
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
 
-        if (fptr != nullptr && fptr->name != functionNameFromFile) {
+        if (fptr != nullptr && fptr->getName() != functionNameFromFile) {
             if (std::find(
                     functionNamesInFile.begin(), functionNamesInFile.end(), functionNameFromFile)
                 != functionNamesInFile.end()) {
-                fptr->name = functionNameFromFile;
+                fptr->setName(functionNameFromFile);
             }
         }
-        if (fptr != nullptr && fptr->name != functionNameFromFile) {
-            std::string name = fptr->name;
+        if (fptr != nullptr && fptr->getName() != functionNameFromFile) {
+            std::string name = fptr->getName();
             delete fptr;
             fptr = nullptr;
             std::string msg
@@ -611,39 +633,13 @@ PathFuncManager::processFile(const std::wstring& script_filename)
 void
 PathFuncManager::clearCache()
 {
-    for (boost::unordered_map<std::string, FuncPtr>::iterator iter = cachedPathFunc.begin();
-         iter != cachedPathFunc.end(); ++iter) {
-        MacroFunctionDef* f = (MacroFunctionDef*)iter->second;
-        if (f != nullptr) {
-            delete f;
-            f = nullptr;
-        }
-    }
-    cachedPathFunc.clear();
-    Overload::clearPreviousCachedFunctionDefinition();
+    FunctionsInMemory::getInstance()->clear();
 }
 //=============================================================================
 void
 PathFuncManager::clearCache(stringVector exceptedFunctions)
 {
-    boost::unordered_map<std::string, FuncPtr> backup;
-    for (boost::unordered_map<std::string, FuncPtr>::iterator iter = cachedPathFunc.begin();
-         iter != cachedPathFunc.end(); ++iter) {
-        MacroFunctionDef* f = (MacroFunctionDef*)iter->second;
-        if (f != nullptr) {
-            stringVector::iterator it
-                = std::find(exceptedFunctions.begin(), exceptedFunctions.end(), f->name);
-            if (it == exceptedFunctions.end()) {
-                delete f;
-                f = nullptr;
-            } else {
-                backup.emplace(f->name, f);
-            }
-        }
-    }
-    cachedPathFunc.clear();
-    Overload::clearPreviousCachedFunctionDefinition();
-    cachedPathFunc = backup;
+    FunctionsInMemory::getInstance()->clear(exceptedFunctions);
 }
 //=============================================================================
 bool
@@ -713,7 +709,8 @@ PathFuncManager::userpathCompute()
                     bSet = true;
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) { }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
     }
     if (!bSet) {
 #ifdef _MSC_VER
@@ -723,7 +720,8 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) { }
+                } catch (const boost::filesystem::filesystem_error&) {
+                }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);
@@ -736,7 +734,8 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) { }
+                } catch (const boost::filesystem::filesystem_error&) {
+                }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);

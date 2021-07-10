@@ -33,7 +33,7 @@ if ~isbuiltin('mxIsInteger')
     assert_istrue(status);
     cd(test_dir);
     mex('mxIsInteger.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 assert_isequal(mxIsInteger(int8(3)), 'int8');

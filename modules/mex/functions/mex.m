@@ -85,7 +85,6 @@ function mex(varargin)
   build_configuration = buildConfigParam;
 
   if ~isengine
-    dlgeneratecleaner(destinationPath);
     dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
     filenames = [filenames, 'mexGateway.c'];
     maketype = 'dynamic_library';
@@ -104,13 +103,19 @@ function mex(varargin)
   if ~status
     error(message);
   end
-  if ~isengine
-    dlgenerateloader(destinationPath, functionName, true);
-    dlgenerateunloader(destinationPath, functionName, true);
-  end
   [status, message] = dlmake(destinationPath);
   if ~status
     error(message);
+  end
+  if ~isengine
+    clear(functionName)
+    if ~endsWith(destinationPath,'/') && ~endsWith(destinationPath,'\')
+      destinationPath = [destinationPath, '/'];
+    end
+    fullDestinationDynamicLibraryName =  [destinationPath, functionName, getdynlibext()];
+    fullDestinationMexName = [destinationPath, functionName, '.', mexext()];
+    copyfile(fullDestinationDynamicLibraryName, fullDestinationMexName)
+    rmfile(fullDestinationDynamicLibraryName)
   end
 end
 %=============================================================================

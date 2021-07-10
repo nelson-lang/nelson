@@ -23,29 +23,21 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "NelsonGateway.hpp"
+#include "mexextBuiltin.hpp"
 //=============================================================================
-#include <string>
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
+const std::wstring gatewayName = L"mex";
 //=============================================================================
-class FileFunc
-{
-private:
-    std::wstring _fullfilename;
-    std::wstring _name;
-    size_t _hashid;
-
-public:
-    FileFunc(const std::wstring& directory, const std::wstring& name);
-    ~FileFunc();
-    std::wstring
-    getFilename();
-    std::wstring
-    getName();
-    size_t
-    getHashID();
-};
+static const nlsGateway gateway[]
+    = { { "mexext", (void*)Nelson::MexGateway::mexextBuiltin, 1, 1, CPP_BUILTIN } };
 //=============================================================================
-} // namespace Nelson
+NLSGATEWAYFUNC(gateway)
+//=============================================================================
+NLSGATEWAYINFO(gateway)
+//=============================================================================
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

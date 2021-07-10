@@ -55,9 +55,6 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         if (bRes) {
             if (!PathFuncManager::getInstance()->removePath(pathToRemove)) {
                 Warning(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
-            } else {
-                stringVector exceptedFunctionsName = eval->getCallers(true);
-                PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + pathToRemove + L"\n");

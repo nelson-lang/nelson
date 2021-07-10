@@ -24,19 +24,30 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ~isbuiltin('mexAtExit')
-    status = copyfile([modulepath('mex'), '/tests/', 'mexAtExit.c'], tempdir());
+    test_dir = [tempdir(), 'mexAtExit'];
+    if isdir(test_dir)
+        rmdir(test_dir,'s');
+    end
+    mkdir(test_dir);
+    status = copyfile('mexAtExit.c', test_dir);
     assert_istrue(status);
-    cd(tempdir());
+    cd(test_dir);
     mex('mexAtExit.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 mexAtExit();
 R = evalc('clear mex');
 assert_isequal(R, 'Call at Exit');
+%=============================================================================
+R = evalc('clear mexAtExit');
+assert_isequal(R, '');
+%=============================================================================
+mexAtExit();
 R = evalc('clear mexAtExit');
 assert_isequal(R, 'Call at Exit');
+%=============================================================================
+mexAtExit();
 R = evalc('clear all');
 assert_isequal(R, 'Call at Exit');
-
 %=============================================================================

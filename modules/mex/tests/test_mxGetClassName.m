@@ -35,7 +35,7 @@ if ~isbuiltin('mxGetClassName')
     assert_istrue(status);
     cd(test_dir);
     mex('mxGetClassName.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxGetClassName(pi);

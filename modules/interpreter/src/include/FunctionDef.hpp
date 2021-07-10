@@ -42,23 +42,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
-
+//=============================================================================
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "nlsInterpreter_exports.h"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 typedef enum
 {
     NLS_MACRO_FUNCTION,
     NLS_BUILT_IN_FUNCTION,
+    NLS_MEX_FUNCTION,
 } FunctionType;
-
+//=============================================================================
 class Evaluator;
-
+//=============================================================================
 /** Base class for the function types
  * A FunctionDef class is a base class for the different types
  * of function pointers used.  There are three types of functions
@@ -68,6 +69,7 @@ class Evaluator;
  *    - Built-in functions - these are functions coded in C++ that
  *      implement functionality too difficult/impossible to do in
  *      the language itself.
+ *    - MEX functions - compatible MEX functions
  * All of these functions have in common a name, a script classification
  * (is it a script or not), a well defined number of input arguments,
  * a well defined number of output arguments, and some means of
@@ -75,52 +77,106 @@ class Evaluator;
  */
 class NLSINTERPRETER_IMPEXP FunctionDef
 {
-public:
-    size_t hashid;
-
+private:
+    //=============================================================================
     /**
      * The name of the function - must follow identifier rules.
      */
     std::string name;
+    //=============================================================================
+    /**
+     * The filename of the function.
+     */
+    std::wstring filename;
+    //=============================================================================
+    size_t hashid;
+    //=============================================================================
+public:
+    //=============================================================================
+    void
+    setFilename(const std::wstring& filename)
+    {
+        this->filename = filename;
+    }
+    //=============================================================================
+    std::wstring
+    getFilename()
+    {
+        return this->filename;
+    }
+    //=============================================================================
+    void
+    setName(const std::string& name)
+    {
+        this->name = name;
+    }
+    //=============================================================================
+    std::string
+    getName()
+    {
+        return this->name;
+    }
+    //=============================================================================
+    void
+    setHashId(size_t hashid)
+    {
+        this->hashid = hashid;
+    }
+    //=============================================================================
+    size_t
+    getHashId()
+    {
+        return this->hashid;
+    }
+    //=============================================================================
     /**
      * The names of the arguments to the fuction (analogous to returnVals).
      * Should have "varargin" as the last entry for variable argument
      * functions.
      */
     stringVector arguments;
+    //=============================================================================
     /**
      * The constructor.
      */
     FunctionDef();
+    //=============================================================================
     /**
      * The virtual destructor
      */
     virtual ~FunctionDef();
+    //=============================================================================
     /**
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
     const virtual FunctionType
     type() // lgtm [cpp/member-const-no-effect]
         = 0;
+    //=============================================================================
     /**
      * The number of inputs required by this function (-1 if variable).
      */
     virtual int
     inputArgCount()
         = 0;
+    //=============================================================================
     /**
      * The number of outputs returned by this function (-1 if variable).
      */
     virtual int
     outputArgCount()
         = 0;
+    //=============================================================================
     /**
      * Evaluate the function and return its output.
      */
     virtual ArrayOfVector
     evaluateFunction(Evaluator*, const ArrayOfVector&, int)
         = 0;
+    //=============================================================================
 };
-
+//=============================================================================
 using FuncPtr = FunctionDef*;
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

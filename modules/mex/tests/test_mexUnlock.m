@@ -33,14 +33,14 @@ if ~isbuiltin('mexUnlock')
     assert_istrue(status);
     cd(test_dir);
     mex('mexUnlock.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 mexUnlock();
 R = evalc('clear mex');
 assert_isequal(R, 'Call at Exit');
 R = evalc('clear mexUnlock');
-assert_isequal(R, 'Call at Exit');
+assert_isequal(R, '');
 R = evalc('clear all');
-assert_isequal(R, 'Call at Exit');
+assert_isequal(R, '');
 %=============================================================================

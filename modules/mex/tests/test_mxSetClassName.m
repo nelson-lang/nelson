@@ -35,7 +35,7 @@ if ~isbuiltin('mxSetClassName')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetClassName.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 addpath([nelsonroot(), '/modules/overload/examples/complex']);

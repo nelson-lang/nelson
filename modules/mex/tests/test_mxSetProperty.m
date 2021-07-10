@@ -35,7 +35,7 @@ if ~isbuiltin('mxSetProperty')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetProperty.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 F = figure(44);

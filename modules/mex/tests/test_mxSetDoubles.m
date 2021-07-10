@@ -33,7 +33,7 @@ if ~isbuiltin('mxSetDoubles')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetDoubles.c', '-R2018a');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxSetDoubles();

@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/format.hpp>
 #include "NargIn.hpp"
 #include "Error.hpp"
 #include "MacroFunctionDef.hpp"
@@ -38,6 +39,11 @@ NargIn(Evaluator* eval, const std::wstring& functionName)
     if (bIsFun) {
         if (fptr->type() == NLS_MACRO_FUNCTION) {
             return ((MacroFunctionDef*)(fptr))->nargin();
+        }
+        if (fptr->type() == NLS_MEX_FUNCTION) {
+            std::string msg = str(boost::format(_("'%s' does not know how to answer nargin/nargout."))
+                    % fptr->getName());
+            Error(msg);
         }
         return fptr->inputArgCount();
     }

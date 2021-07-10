@@ -53,7 +53,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                 if (context->lookupFunction(wstring_to_utf8(functionName), funcDef)) {
                     if (funcDef->type() == NLS_MACRO_FUNCTION) {
                         auto* fm = (MacroFunctionDef*)funcDef;
-                        filename = fm->fileName;
+                        filename = fm->getFilename();
                     } else {
                         Error(_W("built-in have no comments."));
                     }
@@ -67,7 +67,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             if (eval->getContext()->getGlobalScope()->isPointerOnFunction(fun)) {
                 if (fun->type() == NLS_MACRO_FUNCTION) {
                     auto* fm = (MacroFunctionDef*)fun;
-                    filename = fm->fileName;
+                    filename = fm->getFilename();
                 } else {
                     Error(_W("built-in have no comments."));
                 }

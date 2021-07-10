@@ -53,77 +53,53 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::unordered_map<std::string, FuncPtr> cachedFunc;
-//=============================================================================
-void
-Scope::clearCache()
-{
-    cachedFunc.clear();
-}
-//=============================================================================
 Scope::Scope(const std::string& scopeName)
 {
     name = std::move(scopeName);
     loopLevel = 0;
-    clearCache();
 }
 //=============================================================================
 Scope::~Scope()
 {
     name.clear();
     loopLevel = 0;
-    clearCache();
 }
 //=============================================================================
 void
 Scope::insertMacroFunctionLocally(FuncPtr a)
 {
-    currentLocalFunctions.add(a->name, a);
+    currentLocalFunctions.add(a->getName(), a);
 }
 //=============================================================================
 bool
 Scope::deleteBuiltin(void* fptr)
 {
-    clearCache();
     return BuiltInFunctionDefManager::getInstance()->remove(fptr);
 }
 //=============================================================================
 void
 Scope::deleteFunction(const std::string& funcName)
 {
-    clearCache();
     BuiltInFunctionDefManager::getInstance()->remove(funcName);
 }
 //=============================================================================
 bool
 Scope::lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly)
 {
-    boost::unordered_map<std::string, FuncPtr>::const_iterator foundit = cachedFunc.find(funcName);
-    if (foundit != cachedFunc.end()) {
-        val = foundit->second;
-        return true;
-    }
     bool found = false;
     if (builtinOnly) {
-        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-        if (found) {
-            cachedFunc.emplace(funcName, val);
-        }
-        return found;
+        return BuiltInFunctionDefManager::getInstance()->find(funcName, val);
     }
     found = currentLocalFunctions.find(funcName, val);
     if (found) {
-        cachedFunc.emplace(funcName, val);
         return true;
     }
     found = PathFuncManager::getInstance()->find(funcName, val);
     if (found) {
-        cachedFunc.emplace(funcName, val);
         return true;
     }
     found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
     if (found) {
-        cachedFunc.emplace(funcName, val);
         return true;
     }
 

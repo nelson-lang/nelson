@@ -33,7 +33,7 @@ if ~isbuiltin('mxAddField')
     assert_istrue(status);
     cd(test_dir);
     mex('mxAddField.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 S.f1 = 'A';

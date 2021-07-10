@@ -35,7 +35,7 @@ if ~isbuiltin('mexEvalStringWithTrap')
     assert_istrue(status);
     cd(test_dir);
     mex('mexEvalStringWithTrap.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mexEvalStringWithTrap('A');

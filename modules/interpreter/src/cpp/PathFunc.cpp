@@ -23,13 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "PathFunc.hpp"
-#include "FileWatcherManager.hpp"
-#include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
+#include "PathFunc.hpp"
+#include "FileWatcherManager.hpp"
+#include "characters_encoding.hpp"
+#include "MxGetExtension.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -113,7 +114,7 @@ PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 PathFunc::~PathFunc()
 {
     FileWatcherManager::getInstance()->removeWatch(_path);
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
             delete it->second;
@@ -129,7 +130,7 @@ wstringVector
 PathFunc::getFunctionsName(const std::wstring& prefix)
 {
     wstringVector functionsName;
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
             if (prefix.empty()) {
@@ -149,7 +150,7 @@ wstringVector
 PathFunc::getFunctionsFilename()
 {
     wstringVector functionsFilename;
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
             functionsFilename.push_back(it->second->getFilename());
@@ -190,9 +191,23 @@ PathFunc::rehash()
                 if (boost::iequals(current.extension().generic_wstring(), ".m")) {
                     std::wstring name = current.stem().generic_wstring();
                     if (isSupportedFuncFilename(name)) {
-                        FileFunc* ff = nullptr;
+                        FileFunction* ff = nullptr;
                         try {
-                            ff = new FileFunc(_path, name);
+                            ff = new FileFunction(_path, name, false);
+                        } catch (const std::bad_alloc&) {
+                            ff = nullptr;
+                        }
+                        if (ff) {
+                            mapAllFiles.emplace(name, ff);
+                        }
+                    }
+                }
+                if (boost::iequals(current.extension().generic_wstring(), L"." + getMexExtension())) {
+                    std::wstring name = current.stem().generic_wstring();
+                    if (isSupportedFuncFilename(name)) {
+                        FileFunction* ff = nullptr;
+                        try {
+                            ff = new FileFunction(_path, name, true);
                         } catch (const std::bad_alloc&) {
                             ff = nullptr;
                         }
@@ -210,7 +225,8 @@ PathFunc::rehash()
 bool
 PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
 {
-    boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapAllFiles.find(functionName);
+    boost::unordered_map<std::wstring, FileFunction*>::iterator found
+        = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
         return true;
@@ -219,15 +235,16 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
 }
 //=============================================================================
 bool
-PathFunc::findFuncName(const std::wstring& functionName, FileFunc** ff)
+PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
 {
-    boost::unordered_map<std::wstring, FileFunc*>::const_iterator foundit
+    boost::unordered_map<std::wstring, FileFunction*>::const_iterator foundit
         = mapRecentFiles.find(functionName);
     if (foundit != mapRecentFiles.end()) {
         *ff = foundit->second;
         return true;
     }
-    boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapAllFiles.find(functionName);
+    boost::unordered_map<std::wstring, FileFunction*>::iterator found
+        = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         *ff = found->second;
         mapRecentFiles.emplace(functionName, *ff);
@@ -241,7 +258,7 @@ bool
 PathFunc::findFuncByHash(size_t hashid, std::wstring& functionName)
 {
     bool res = false;
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second->getHashID() == hashid) {
             functionName = it->first;

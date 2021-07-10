@@ -28,12 +28,16 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "Error.hpp"
+#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static bool
 OverloadFindFunction(Evaluator* eval, const std::string& forcedFunctionName, FunctionDef** funcDef)
 {
+  if (FunctionsInMemory::getInstance()->find(forcedFunctionName, *funcDef)) {
+        return true;
+    }
     Context* context = eval->getContext();
     return context->lookupFunction(forcedFunctionName, *funcDef);
 }
@@ -54,7 +58,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOfVector argsIn,
         ArrayOfVector val = funcDef->evaluateFunction(eval, argsIn, nargout);
         if (val.size() != 1) {
             if (bRaiseError) {
-                Error(std::string("function ") + funcDef->name
+                Error(std::string("function ") + funcDef->getName()
                     + " only one output argument expected.");
             }
             return ArrayOf::emptyConstructor();

@@ -35,7 +35,7 @@ if ~isbuiltin('mexPutVariable')
     assert_istrue(status);
     cd(test_dir);
     mex('mexPutVariable.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 mexPutVariable('base', 'AA', 33);

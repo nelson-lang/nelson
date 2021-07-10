@@ -35,7 +35,7 @@ if ~isbuiltin('mxDuplicateArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxDuplicateArray.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 i = [800 1100 20];

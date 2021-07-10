@@ -60,11 +60,6 @@ public:
     AbstractSyntaxTreePtrVector ptrAstCodeAsVector;
 
     /**
-     * Location of the function's defining file in the current filesystem.
-     */
-    std::wstring fileName;
-
-    /**
      * For some function files, there are multiple functions defined in
      * a single file.  The subsequent functions are local to the function
      * scope of the main function, and override global functions inside

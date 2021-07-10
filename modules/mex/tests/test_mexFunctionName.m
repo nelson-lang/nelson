@@ -33,7 +33,7 @@ if ~isbuiltin('mexFunctionName')
     assert_istrue(status);
     cd(test_dir);
     mex('mexFunctionName.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mexFunctionName();

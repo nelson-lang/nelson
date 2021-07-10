@@ -153,8 +153,8 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
                 fptr = new MacroFunctionDef();
                 fptr->code = getParsedScriptBlock();
                 boost::filesystem::path pathFunction(absolutePath.generic_wstring());
-                fptr->name = pathFunction.stem().generic_string();
-                fptr->fileName = absolutePath.generic_wstring();
+                fptr->setName(pathFunction.stem().generic_string());
+                fptr->setFilename(absolutePath.generic_wstring());
                 fptr->isScript = true;
             }
         } break;

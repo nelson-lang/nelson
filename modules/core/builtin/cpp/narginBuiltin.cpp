@@ -54,7 +54,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             function_handle fh = param1.getContentAsFunctionHandle();
             auto* funcDef = (FunctionDef*)fh;
             if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef)) {
-                name = utf8_to_wstring(funcDef->name);
+                name = utf8_to_wstring(funcDef->getName());
             } else {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
             }

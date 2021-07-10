@@ -93,7 +93,7 @@ functionBody(const ParseRHS& lhsRhs, const ParseRHS& nameRhs, const ParseRHS& rh
         r->returnVals = lhsRhs.v.p->toStringList();
     }
     if (nameRhs.v.p != nullptr) {
-        r->name = nameRhs.v.p->text;
+        r->setName(nameRhs.v.p->text);
     }
     if (rhsRhs.v.p != nullptr) {
         r->arguments = rhsRhs.v.p->toStringList();
@@ -101,7 +101,7 @@ functionBody(const ParseRHS& lhsRhs, const ParseRHS& nameRhs, const ParseRHS& rh
     if (codeRhs.v.p != nullptr) {
         r->code = codeRhs.v.p;
     }
-    r->fileName = getParserFilenameW();
+    r->setFilename(getParserFilenameW());
     chainFunction(r);
 }
 //=============================================================================

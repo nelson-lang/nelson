@@ -79,11 +79,11 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
     }
     if (f2def != nullptr) {
         stringVector args;
-        f2def->hashid = std::hash<std::wstring>()(utf8_to_wstring(name) + L"_" + modulename);
-        f2def->fileName = std::move(dynlibname);
+        f2def->setHashId(std::hash<std::wstring>()(utf8_to_wstring(name) + L"_" + modulename));
+        f2def->setFilename(dynlibname);
         f2def->retCount = argc_out;
         f2def->argCount = argc_in;
-        f2def->name = name;
+        f2def->setName(name);
         f2def->fptr = fptr;
         f2def->interleavedComplex = interleavedComplex;
         f2def->arguments = std::move(args);
@@ -97,7 +97,7 @@ bool
 BuiltInFunctionDefManager::remove(const std::string& name)
 {
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
-        if ((*it)->name == name) {
+        if ((*it)->getName() == name) {
             auto* p = (BuiltInFunctionDef*)*it;
             delete p;
             builtinVector.erase(it);
@@ -184,7 +184,7 @@ BuiltInFunctionDefManager::getNameList()
     stringVector nameList;
     nameList.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
-        nameList.push_back(it->name);
+        nameList.push_back(it->getName());
     }
     return nameList;
 }
@@ -208,8 +208,8 @@ BuiltInFunctionDefManager::find(const std::string& name, std::wstring& path)
     bool res = false;
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->name == name) {
-                path = ((BuiltInFunctionDef*)(*it))->fileName;
+            if ((*it)->getName() == name) {
+                path = ((BuiltInFunctionDef*)(*it))->getFilename();
                 return true;
             }
         }
@@ -223,8 +223,8 @@ BuiltInFunctionDefManager::find(size_t hashid, std::wstring& functionname)
     bool res = false;
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->hashid == hashid) {
-                functionname = utf8_to_wstring((*it)->name);
+            if ((*it)->getHashId() == hashid) {
+                functionname = utf8_to_wstring((*it)->getName());
                 return true;
             }
         }
@@ -238,8 +238,8 @@ BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
     bool res = false;
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->name == name) {
-                paths.push_back(((BuiltInFunctionDef*)(*it))->fileName);
+            if ((*it)->getName() == name) {
+                paths.push_back(((BuiltInFunctionDef*)(*it))->getFilename());
                 res = true;
             }
         }
@@ -257,7 +257,7 @@ BuiltInFunctionDefManager::find(const std::string& name, FuncPtr& ptr)
             return true;
         }
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
-            if ((*it)->name == name) {
+            if ((*it)->getName() == name) {
                 ptr = static_cast<FuncPtr>(*it);
                 cachedBuiltin.emplace(name, ptr);
                 return true;

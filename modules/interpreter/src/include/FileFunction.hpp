@@ -25,21 +25,30 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
-#include "FunctionDef.hpp"
-#include "Overload.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
-namespace Overload {
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP std::string
-    getPreviousCachedFunctionName(OverloadClass oclass);
-    NLSINTERPRETER_IMPEXP void
-    setCachedFunction(OverloadClass oclass, const std::string& functionName, FunctionDef* funcptr);
-    NLSINTERPRETER_IMPEXP FunctionDef*
-    getPreviousCachedFunctionDefinition(OverloadClass oclass);
-    NLSINTERPRETER_IMPEXP void
-    clearPreviousCachedFunctionDefinition();
-} // namespace Overload
+//=============================================================================
+class FileFunction
+{
+private:
+    std::wstring _fullfilename;
+    std::wstring _name;
+    size_t _hashid;
+    bool _ismex;
+
+public:
+    FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex);
+    ~FileFunction();
+    std::wstring
+    getFilename();
+    std::wstring
+    getName();
+    size_t
+    getHashID();
+    bool
+    isMex();
+};
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

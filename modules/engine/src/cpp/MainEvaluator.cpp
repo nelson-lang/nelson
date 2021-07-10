@@ -156,6 +156,7 @@ destroyMainEvaluator()
             delete ctxt;
             ctxt = nullptr;
         }
+        PathFuncManager::getInstance()->destroy();
         Interface* io = mainEvaluator->getInterface();
         if (io != nullptr) {
             int engineMode = mainEvaluator->getNelsonEngineMode();
@@ -187,7 +188,6 @@ destroyMainEvaluator()
             } break;
             default: { } break; }
         }
-        PathFuncManager::getInstance()->destroy();
         BuiltInFunctionDefManager::getInstance()->destroy();
         Localization::Instance()->destroy();
         delete mainEvaluator;

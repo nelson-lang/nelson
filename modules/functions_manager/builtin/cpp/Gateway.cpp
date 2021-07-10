@@ -38,6 +38,7 @@
 #include "userpathBuiltin.hpp"
 #include "whatBuiltin.hpp"
 #include "whichBuiltin.hpp"
+#include "inmemBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -63,6 +64,8 @@ static const nlsGateway gateway[] = {
     { "restoredefaultpath", (void*)Nelson::FunctionsGateway::restoredefaultpathBuiltin, 0, 0 },
     { "rehash", (void*)Nelson::FunctionsGateway::rehashBuiltin, 0, 0 },
     { "userpath", (void*)Nelson::FunctionsGateway::userpathBuiltin, 1, 1 },
+    { "inmem", (void*)Nelson::FunctionsGateway::inmemBuiltin, 2, 0 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

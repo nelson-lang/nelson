@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateCharMatrixFromStrings')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateCharMatrixFromStrings.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxCreateCharMatrixFromStrings();

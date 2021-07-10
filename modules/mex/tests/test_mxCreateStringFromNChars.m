@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateStringFromNChars')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateStringFromNChars.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxCreateStringFromNChars();

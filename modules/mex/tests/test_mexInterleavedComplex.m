@@ -31,7 +31,7 @@ cd(tmpPath);
 %=============================================================================
 mex('-output', 'mexInterleavedComplexOn', '-R2018a', 'mexInterleavedComplex.c' );
 mex('-output', 'mexInterleavedComplexOff', '-R2017b', 'mexInterleavedComplex.c' );
-run('loader.m');
+addpath(pwd())
 %=============================================================================
 CplxOn = mexInterleavedComplexOn();
 assert_isequal(CplxOn, complex(1.53, 1.63));

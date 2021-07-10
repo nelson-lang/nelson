@@ -23,5 +23,6 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
+addgateway(modulepath(nelsonroot(), 'mex', 'builtin'));
 addpath(modulepath(nelsonroot(), 'mex', 'functions'), '-frozen');
 %=============================================================================

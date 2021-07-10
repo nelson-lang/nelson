@@ -33,7 +33,7 @@ if ~isbuiltin('mxDuplicateArrayInterleavedComplex')
     assert_istrue(status);
     cd(test_dir);
     mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c' );
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 % interleaved complex representation

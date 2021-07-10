@@ -33,8 +33,8 @@ if ~isbuiltin('mxCreateCharArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateCharArray.c');
-    run('loader.m');
- end
+    addpath(pwd())
+end
 %=============================================================================
 R = mxCreateCharArray();
 REF = ['ac'; 'bd'];

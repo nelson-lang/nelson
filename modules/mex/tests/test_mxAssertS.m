@@ -35,7 +35,7 @@ if ~isbuiltin('mxAssertS')
    assert_istrue(status);
    cd(test_dir);
    mex('mxAssertS.c');
-   run('loader.m');
+   addpath(pwd())
 end
 %=============================================================================
 R = mxAssertS(1);

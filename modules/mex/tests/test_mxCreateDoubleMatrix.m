@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateDoubleMatrix')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateDoubleMatrix.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxCreateDoubleMatrix(0);

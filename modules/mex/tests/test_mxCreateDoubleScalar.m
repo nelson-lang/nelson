@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateDoubleScalar')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateDoubleScalar.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxCreateDoubleScalar();

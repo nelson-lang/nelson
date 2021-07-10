@@ -273,9 +273,6 @@ public:
 
     bool
     isVariable(const std::string& varname);
-
-    void
-    clearCache();
 };
 //=============================================================================
 } // namespace Nelson

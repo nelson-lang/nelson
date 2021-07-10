@@ -37,7 +37,7 @@ StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
     bool isFun = ctx->lookupFunction(fun, funcDef);
     function_handle functionID = 0;
     if (isFun) {
-        functionID = funcDef->hashid;
+        functionID = funcDef->getHashId();
     }
     return functionID;
 }
