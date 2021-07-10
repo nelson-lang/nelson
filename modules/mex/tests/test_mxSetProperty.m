@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxSetProperty')
+if exist('mxSetProperty') == 0
     test_dir = [tempdir(), 'mxSetProperty'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

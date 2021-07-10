@@ -18,6 +18,8 @@
 
 - `nargin`, `nargout` behavior with mex updated.
 
+- [#474](http://github.com/Nelson-numerical-software/nelson/issues/474): `exist`: extended to manage mex function.
+
 - [#449](http://github.com/Nelson-numerical-software/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
 
 ## Bug Fixes:

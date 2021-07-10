@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-if ~isbuiltin('mexEvalStringWithTrap')
+if exist('mexEvalStringWithTrap') == 0
     test_dir = [tempdir(), 'mexEvalStringWithTrap'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

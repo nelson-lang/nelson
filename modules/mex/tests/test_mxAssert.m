@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-if ~isbuiltin('mxAssert')
+if exist('mxAssert') == 0
    test_dir = [tempdir(), 'mxAssert'];
    if isdir(test_dir)
       rmdir(test_dir,'s');

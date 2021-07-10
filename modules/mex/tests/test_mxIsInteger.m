@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxIsInteger')
+if exist('mxIsInteger') == 0
     test_dir = [tempdir(), 'mxIsInteger'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

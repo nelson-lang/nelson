@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxSetClassName')
+if exist('mxSetClassName') == 0
     test_dir = [tempdir(), 'mxSetClassName'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

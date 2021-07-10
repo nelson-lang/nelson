@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxSetComplexDoubles')
+if exist('mxSetComplexDoubles') == 0
     test_dir = [tempdir(), 'mxSetComplexDoubles'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

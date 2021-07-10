@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-if ~isbuiltin('mexCallMATLABWithTrap')
+if exist('mexCallMATLABWithTrap') == 0
     test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mexPutVariable')
+if exist('mexPutVariable') == 0
     test_dir = [tempdir(), 'mexPutVariable'];
     if isdir(test_dir)
         rmdir(test_dir,'s');

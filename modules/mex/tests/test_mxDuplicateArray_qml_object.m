@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxDuplicateArray')
+if exist('mxDuplicateArray') == 0
     test_dir = [tempdir(), 'mxDuplicateArray_qml'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
