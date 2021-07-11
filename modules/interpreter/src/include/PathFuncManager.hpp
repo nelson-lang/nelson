@@ -49,7 +49,13 @@ private:
     processMexFile(const std::wstring& filename, const std::wstring& functionName);
 
     MacroFunctionDef*
-    processFile(const std::wstring& script_filename);
+    processMacroFile(const std::wstring& script_filename);
+
+    FunctionDef*
+    processFile(FileFunction* ff, const std::string& functionName);
+
+    FunctionDef*
+    findAndProcessFile(const std::string& name);
 
     void
     userpathCompute();
@@ -63,6 +69,9 @@ private:
     isFile(const std::wstring& filename);
     bool
     isDir(const std::wstring& pathname);
+
+    bool
+    isAvailablePath(const std::wstring& path);
 
 public:
     static PathFuncManager*

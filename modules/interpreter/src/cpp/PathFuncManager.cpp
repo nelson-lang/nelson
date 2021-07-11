@@ -143,29 +143,47 @@ PathFuncManager::getMacrosList(const std::wstring& prefix)
     return macros;
 }
 //=============================================================================
+FunctionDef*
+PathFuncManager::findAndProcessFile(const std::string& name)
+{
+    FunctionDef* ptr = nullptr;
+    FileFunction* ff = nullptr;
+    std::wstring functionName = utf8_to_wstring(name);
+    if (find(functionName, &ff)) {
+        ptr = processFile(ff, name);
+    }
+    return ptr;
+}
+//=============================================================================
 bool
 PathFuncManager::find(const std::string& name, FuncPtr& ptr)
 {
     bool res = false;
     bool found = FunctionsInMemory::getInstance()->find(name, ptr);
     if (found) {
-        res = true;
-    } else {
-        FileFunction* ff = nullptr;
-        std::wstring wstr = utf8_to_wstring(name);
-        if (find(wstr, &ff)) {
-            if (ff != nullptr) {
-                if (ff->isMex()) {
-                    ptr = processMexFile(ff->getFilename(), ff->getName());
-                } else {
-                    ptr = processFile(ff->getFilename());
-                }
-                if (ptr != nullptr) {
-                    ptr->setHashId(ff->getHashID());
-                    FunctionsInMemory::getInstance()->add(name, ptr);
-                    res = true;
-                }
+        std::wstring pathname = ptr->getPath();
+        if (!isAvailablePath(pathname)) {
+            ptr = findAndProcessFile(name);
+            if (ptr != nullptr) {
+                FunctionsInMemory::getInstance()->add(name, ptr);
+                res = true;
+            } else {
+                std::wstring filename;
+                std::string utf8msg
+                    = str(boost::format(_("'%s' is not found in the current folder or on "
+                                          "the Nelson path, but exists in:"))
+                        % name);
+                std::wstring msg = utf8_to_wstring(utf8msg) + L"\n" + pathname;
+                Error(msg);
             }
+        } else {
+            res = true;
+        }
+    } else {
+        ptr = findAndProcessFile(name);
+        if (ptr != nullptr) {
+            FunctionsInMemory::getInstance()->add(name, ptr);
+            res = true;
         }
     }
     return res;
@@ -522,6 +540,54 @@ PathFuncManager::getPathNameAsString()
     return p;
 }
 //=============================================================================
+bool
+PathFuncManager::isAvailablePath(const std::wstring& path)
+{
+    boost::filesystem::path p1;
+    boost::filesystem::path p2 = path;
+
+    if (_currentPath != nullptr) {
+        p1 = _currentPath->getPath();
+        if (boost::filesystem::equivalent(p1, p2)) {
+            return true;
+        }
+    }
+
+    if (_userPath) {
+        p1 = _userPath->getPath();
+        if (boost::filesystem::equivalent(p1, p2)) {
+            return true;
+        }
+    }
+    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
+         it != _pathFuncVector.end(); ++it) {
+        PathFunc* pf = *it;
+        p1 = pf->getPath();
+
+        if (boost::filesystem::equivalent(p1, p2)) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+FunctionDef*
+PathFuncManager::processFile(FileFunction* ff, const std::string& functionName)
+{
+    FunctionDef* ptr = nullptr;
+    if (ff != nullptr) {
+        if (ff->isMex()) {
+            ptr = processMexFile(ff->getFilename(), ff->getName());
+        } else {
+            ptr = processMacroFile(ff->getFilename());
+        }
+        if (ptr != nullptr) {
+            ptr->setHashId(ff->getHashID());
+        }
+    }
+    return ptr;
+}
+//=============================================================================
 MexFunctionDef*
 PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring& functionName)
 {
@@ -539,7 +605,7 @@ PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring
 }
 //=============================================================================
 MacroFunctionDef*
-PathFuncManager::processFile(const std::wstring& script_filename)
+PathFuncManager::processMacroFile(const std::wstring& script_filename)
 {
     MacroFunctionDef* fptr = nullptr;
     FILE* fr;

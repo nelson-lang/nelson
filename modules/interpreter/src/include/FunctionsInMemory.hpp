@@ -74,11 +74,11 @@ public:
     void
     clear(stringVector exceptedFunctions = stringVector());
     //=============================================================================
-    boost::unordered_map<std::string, FuncPtr>
-    getMacroInMemory();
+    wstringVector
+    getMacroInMemory(bool withCompleteNames);
     //=============================================================================
-    boost::unordered_map<std::string, FuncPtr>
-    getMexInMemory();
+    wstringVector
+    getMexInMemory(bool withCompleteNames);
     //=============================================================================
 };
 //=============================================================================

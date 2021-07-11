@@ -122,7 +122,9 @@ function mex(varargin)
     if ispc()
       fullDestinationLibraryName =  [destinationPath, functionName, '.lib'];
       rmfile(fullDestinationLibraryName)
-    end    
+    end
+    cd(destinationPath)
+    cd(pwd())    
   end
 end
 %=============================================================================

@@ -27,14 +27,15 @@
 #include "FunctionsInMemory.hpp"
 #include "MexFunctionDef.hpp"
 #include "MacroFunctionDef.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 FunctionsInMemory* FunctionsInMemory::m_pInstance = nullptr;
 //=============================================================================
-FunctionsInMemory::FunctionsInMemory() {}
+FunctionsInMemory::FunctionsInMemory() { }
 //=============================================================================
-FunctionsInMemory::~FunctionsInMemory() {}
+FunctionsInMemory::~FunctionsInMemory() { }
 //=============================================================================
 FunctionsInMemory*
 FunctionsInMemory::getInstance()
@@ -210,16 +211,34 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
     }
 }
 //=============================================================================
-boost::unordered_map<std::string, FuncPtr>
-FunctionsInMemory::getMacroInMemory()
+wstringVector
+FunctionsInMemory::getMacroInMemory(bool withCompleteNames)
 {
-    return _MacroFunctionsInMemory;
+    wstringVector names;
+    for (auto it = _MacroFunctionsInMemory.begin(); it != _MacroFunctionsInMemory.end(); ++it) {
+        MacroFunctionDef* fptr = (MacroFunctionDef*)it->second;
+        if (withCompleteNames) {
+            names.push_back(fptr->getFilename());
+        } else {
+            names.push_back(utf8_to_wstring(fptr->getName()));
+        }
+    }
+    return names;
 }
 //=============================================================================
-boost::unordered_map<std::string, FuncPtr>
-FunctionsInMemory::getMexInMemory()
+wstringVector
+FunctionsInMemory::getMexInMemory(bool withCompleteNames)
 {
-    return _MexfunctionsInMemory;
+    wstringVector names;
+    for (auto it = _MexfunctionsInMemory.begin(); it != _MexfunctionsInMemory.end(); ++it) {
+        MexFunctionDef* fptr = (MexFunctionDef*)it->second;
+        if (withCompleteNames) {
+            names.push_back(fptr->getFilename());
+        } else {
+            names.push_back(utf8_to_wstring(fptr->getName()));
+        }
+    }
+    return names;
 }
 //=============================================================================
 }

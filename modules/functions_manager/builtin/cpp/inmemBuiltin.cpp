@@ -49,30 +49,12 @@ Nelson::FunctionsGateway::inmemBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
 
-    wstringVector mFunctions;
-    boost::unordered_map<std::string, FuncPtr> macroInMemory
-        = FunctionsInMemory::getInstance()->getMacroInMemory();
-    for (auto it = macroInMemory.begin(); it != macroInMemory.end(); ++it) {
-        MacroFunctionDef* fptr = (MacroFunctionDef*)it->second;
-        if (withCompleteNames) {
-            mFunctions.push_back(fptr->getFilename());
-        } else {
-            mFunctions.push_back(utf8_to_wstring(fptr->getName()));
-        }
-    }
+    wstringVector mFunctions
+        = FunctionsInMemory::getInstance()->getMacroInMemory(withCompleteNames);
     retval << ToCellStringAsColumn(mFunctions);
     if (nLhs > 1) {
-        wstringVector mexFunctions;
-        boost::unordered_map<std::string, FuncPtr> mexInMemory
-            = FunctionsInMemory::getInstance()->getMexInMemory();
-        for (auto it = mexInMemory.begin(); it != mexInMemory.end(); ++it) {
-            MexFunctionDef* fptr = (MexFunctionDef*)it->second;
-            if (withCompleteNames) {
-                mexFunctions.push_back(fptr->getFilename());
-            } else {
-                mexFunctions.push_back(utf8_to_wstring(fptr->getName()));
-            }
-        }
+        wstringVector mexFunctions
+            = FunctionsInMemory::getInstance()->getMexInMemory(withCompleteNames);
         retval << ToCellStringAsColumn(mexFunctions);
     }
     if (nLhs > 2) {

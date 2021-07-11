@@ -45,6 +45,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <boost/filesystem/path.hpp>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "nlsInterpreter_exports.h"
@@ -89,6 +90,8 @@ private:
      */
     std::wstring filename;
     //=============================================================================
+    std::wstring pathname;
+    //=============================================================================
     size_t hashid;
     //=============================================================================
 public:
@@ -97,12 +100,20 @@ public:
     setFilename(const std::wstring& filename)
     {
         this->filename = filename;
+        boost::filesystem::path path(filename);
+        this->pathname = path.parent_path().generic_wstring();
     }
     //=============================================================================
     std::wstring
     getFilename()
     {
         return this->filename;
+    }
+    //=============================================================================
+    std::wstring
+    getPath()
+    {
+        return this->pathname;
     }
     //=============================================================================
     void
