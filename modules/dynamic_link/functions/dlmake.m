@@ -63,14 +63,53 @@ function [status, message] = dlmake(destinationdir)
     cd(currentdir);
     return
   end
+  existingFiles = getExistingIntermediateFiles(destinationdir);
   [status, msg] = unix(make_name);
   status = (status == 0);
   message = [message, cleanup(msg)];
+  if (status == true)
+    removeIntermediateFiles(destinationdir, existingFiles);
+  end
   cd(currentdir);
 end
 %=============================================================================
 function msgout = cleanup(msgin)
   msgout = replace(msgin, ['Failed to create ConsoleBuf!', char(10)], '');
   msgout = replace(msgout, ['setActiveInputCodepage failed!', char(10)], '');
+end
+%=============================================================================
+function r = getExistingIntermediateFiles(destinationdir)
+  r = {};
+  if ispc()
+    extensions = {'*.ilk', '*.pdb', '*.exp', '*.manifest'};
+    for ext = extensions(:)'
+      files = dir([destinationdir, '/', ext{1}]);
+      for f = files'
+        r = [r; [destinationdir, '/', f(1).name]];
+      end    
+  end
+end
+%=============================================================================
+function removeIntermediateFiles(destinationdir, existingFiles)
+  directory = 'CMakeFiles';
+  files = {'cmake_install.cmake';
+    'CMakeCache.txt';
+    'Makefile'};
+  try
+    [res, msg] = rmdir([destinationdir, '/', directory], 's');
+    for f = files'
+      [res, msg] = rmfile([destinationdir, '/', f{1}]);
+    end
+    if ispc()
+      files = getExistingIntermediateFiles(destinationdir);
+      if ~isempty(existingFiles)
+        c = contains(files, existingFiles);
+        files(c) = [];
+      end
+      for f = files'
+        [res, msg] = rmfile(f{1});
+      end
+    end
+  end
 end
 %=============================================================================
