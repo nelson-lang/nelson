@@ -451,6 +451,16 @@ PathFuncManager::rehash()
 void
 PathFuncManager::rehash(const std::wstring& path)
 {
+    if (_currentPath != nullptr) {
+        try {
+            boost::filesystem::path p1{ _currentPath->getPath() }, p2{ path };
+            if (boost::filesystem::equivalent(p1, p2)) {
+                _currentPath->rehash();
+                return;
+            }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
+    }
     if (_userPath != nullptr) {
         try {
             boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };

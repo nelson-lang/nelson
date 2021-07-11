@@ -23,11 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <FileWatcher.h>
+#include <boost/filesystem.hpp>
 #include "FileWatcherManager.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
-#include <FileWatcher.h>
-#include <boost/filesystem.hpp>
+#include "MxGetExtension.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,8 +43,8 @@ public:
         switch (action) {
         case FW::Action::Add: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
-            std::string file_extension = boost::filesystem::extension(pf);
-            if (file_extension == ".m") {
+            std::wstring file_extension = pf.extension().generic_wstring();
+            if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
                 boost::filesystem::path parent_dir = boost::filesystem::path(dir);
                 PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
                 /*
@@ -57,8 +58,8 @@ public:
         } break;
         case FW::Action::Delete: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
-            std::string file_extension = boost::filesystem::extension(pf);
-            if (file_extension == ".m") {
+            std::wstring file_extension = pf.extension().generic_wstring();
+            if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
                 boost::filesystem::path parent_dir = boost::filesystem::path(dir);
                 PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
                 /*
@@ -72,8 +73,8 @@ public:
         } break;
         case FW::Action::Modified:
             boost::filesystem::path pf = boost::filesystem::path(filename);
-            std::string file_extension = boost::filesystem::extension(pf);
-            if (file_extension == ".m") {
+            std::wstring file_extension = pf.extension().generic_wstring();
+            if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
                 /*
                 #ifdef _MSC_VER
                 printf("Modified: %ls\n", filename.c_str());

@@ -202,7 +202,8 @@ PathFunc::rehash()
                         }
                     }
                 }
-                if (boost::iequals(current.extension().generic_wstring(), L"." + getMexExtension())) {
+                if (boost::iequals(
+                        current.extension().generic_wstring(), L"." + getMexExtension())) {
                     std::wstring name = current.stem().generic_wstring();
                     if (isSupportedFuncFilename(name)) {
                         FileFunction* ff = nullptr;
