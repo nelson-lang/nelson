@@ -32,9 +32,9 @@ namespace Nelson {
 //=============================================================================
 FunctionsInMemory* FunctionsInMemory::m_pInstance = nullptr;
 //=============================================================================
-FunctionsInMemory::FunctionsInMemory() { }
+FunctionsInMemory::FunctionsInMemory() {}
 //=============================================================================
-FunctionsInMemory::~FunctionsInMemory() { }
+FunctionsInMemory::~FunctionsInMemory() {}
 //=============================================================================
 FunctionsInMemory*
 FunctionsInMemory::getInstance()

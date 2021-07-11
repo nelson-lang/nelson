@@ -41,7 +41,8 @@ NargIn(Evaluator* eval, const std::wstring& functionName)
             return ((MacroFunctionDef*)(fptr))->nargin();
         }
         if (fptr->type() == NLS_MEX_FUNCTION) {
-            std::string msg = str(boost::format(_("'%s' does not know how to answer nargin/nargout."))
+            std::string msg
+                = str(boost::format(_("'%s' does not know how to answer nargin/nargout."))
                     % fptr->getName());
             Error(msg);
         }

@@ -60,8 +60,7 @@ MexFunctionDef::MexFunctionDef(const std::wstring& filename, const std::wstring&
 #ifdef _MSC_VER
     library_handle nlsMexHandleDynamicLibrary = Nelson::load_dynamic_libraryW(p.generic_wstring());
 #else
-    library_handle nlsMexHandleDynamicLibrary
-        = Nelson::load_dynamic_library(p.generic_string());
+    library_handle nlsMexHandleDynamicLibrary = Nelson::load_dynamic_library(p.generic_string());
 #endif
     if (nlsMexHandleDynamicLibrary != nullptr) {
 

@@ -134,16 +134,16 @@ ClearPersistentVariable(Evaluator* eval, const std::string& variable)
     FuncPtr func = nullptr;
     std::string path;
 
-    if (FunctionsInMemory::getInstance()->find(variable, func)) { 
-      if (func->type() == NLS_MACRO_FUNCTION) { 
-        stringVector allVariableNames;
-          eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
-          for (std::string name : allVariableNames) {
-              if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
-                  res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
-              }
-          }
-      }
+    if (FunctionsInMemory::getInstance()->find(variable, func)) {
+        if (func->type() == NLS_MACRO_FUNCTION) {
+            stringVector allVariableNames;
+            eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
+            for (std::string name : allVariableNames) {
+                if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
+                    res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
+                }
+            }
+        }
     }
     return res;
 }
