@@ -26,6 +26,7 @@
 #pragma once
 //=============================================================================
 #include <boost/unordered_map.hpp>
+#include <vector>
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
@@ -36,8 +37,8 @@ class NLSINTERPRETER_IMPEXP FunctionsInMemory
     //=============================================================================
 private:
     //=============================================================================
-    boost::unordered_map<std::string, FuncPtr> _MacroFunctionsInMemory;
-    boost::unordered_map<std::string, FuncPtr> _MexfunctionsInMemory;
+    std::vector<std::pair<std::string, FuncPtr>> _macroFunctionsInMemory;
+    std::vector<std::pair<std::string, FuncPtr>> _mexfunctionsInMemory;
     //=============================================================================
     FunctionsInMemory();
     //=============================================================================
