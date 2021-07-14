@@ -36,8 +36,7 @@ wstringVector
 WhatListOfBuiltin(Evaluator* eval, bool bWithPrivateFunction, bool bSorted)
 {
     wstringVector functionsList;
-    stringVector funcs = eval->getContext()->getGlobalScope()->getBuiltinsList();
-    BuiltInFunctionDefManager::getInstance()->getNameList();
+    stringVector funcs = BuiltInFunctionDefManager::getInstance()->getNameList();
     for (auto& func : funcs) {
         if (bWithPrivateFunction) {
             functionsList.push_back(utf8_to_wstring(func));

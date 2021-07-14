@@ -30,12 +30,11 @@ namespace Nelson {
 //=============================================================================
 BuiltInFunctionDefManager* BuiltInFunctionDefManager::m_pInstance = nullptr;
 //=============================================================================
-BuiltInFunctionDefManager::BuiltInFunctionDefManager() { clearCache(); }
+BuiltInFunctionDefManager::BuiltInFunctionDefManager() { }
 //=============================================================================
 void
 BuiltInFunctionDefManager::destroy()
 {
-    clearCache();
     removeAll();
     if (m_pInstance != nullptr) {
         delete m_pInstance;
@@ -101,7 +100,6 @@ BuiltInFunctionDefManager::remove(const std::string& name)
             auto* p = (BuiltInFunctionDef*)*it;
             delete p;
             builtinVector.erase(it);
-            clearCache();
             return true;
         }
     }
@@ -115,7 +113,6 @@ BuiltInFunctionDefManager::remove(FunctionDefPtr ptr)
         if (*it == ptr) {
             auto* p = (BuiltInFunctionDef*)(*it);
             delete p;
-            clearCache();
             builtinVector.erase(it);
         }
     }
@@ -129,7 +126,6 @@ BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
         if (*it == ptr) {
             auto* p = (BuiltInFunctionDef*)(*it);
             delete p;
-            clearCache();
             builtinVector.erase(it);
         }
     }
@@ -150,9 +146,6 @@ BuiltInFunctionDefManager::remove(void* fptr)
             }
         }
     }
-    if (res) {
-        clearCache();
-    }
     return res;
 }
 //=============================================================================
@@ -163,7 +156,6 @@ BuiltInFunctionDefManager::removeAll()
         delete it;
     }
     builtinVector.clear();
-    clearCache();
     return false;
 }
 //=============================================================================
@@ -251,26 +243,14 @@ bool
 BuiltInFunctionDefManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
     if (!builtinVector.empty()) {
-        std::unordered_map<std::string, FunctionDefPtr>::const_iterator found = cachedBuiltin.find(name);
-        if (found != cachedBuiltin.end()) {
-            ptr = found->second;
-            return true;
-        }
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->getName() == name) {
                 ptr = static_cast<FunctionDefPtr>(*it);
-                cachedBuiltin.emplace(name, ptr);
                 return true;
             }
         }
     }
     return false;
-}
-//=============================================================================
-void
-BuiltInFunctionDefManager::clearCache()
-{
-    cachedBuiltin.clear();
 }
 //=============================================================================
 } // namespace Nelson

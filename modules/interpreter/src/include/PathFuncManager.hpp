@@ -70,8 +70,6 @@ private:
     bool
     isDir(const std::wstring& pathname);
 
-    bool
-    isAvailablePath(const std::wstring& path);
 
 public:
     static PathFuncManager*
@@ -126,6 +124,9 @@ public:
 
     bool
     isPointerOnPathFunctionDef(FunctionDefPtr ptr);
+
+    bool
+    isAvailablePath(const std::wstring& path);
 };
 //=============================================================================
 } // namespace Nelson

@@ -47,6 +47,17 @@ namespace Nelson {
 //=============================================================================
 PathFuncManager* PathFuncManager::m_pInstance = nullptr;
 //=============================================================================
+static bool
+isSamePath(const std::wstring& p1, const std::wstring& p2)
+{
+    boost::filesystem::path _path1 = p1;
+    boost::filesystem::path _path2 = p2;
+    if (boost::filesystem::equivalent(p1, p2)) {
+        return true;
+    }
+    return false;
+}
+//=============================================================================
 static std::ifstream&
 safegetline(std::ifstream& os, std::string& line)
 {
@@ -158,35 +169,11 @@ PathFuncManager::findAndProcessFile(const std::string& name)
 bool
 PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
-    bool res = false;
-    bool found = FunctionsInMemory::getInstance()->find(name, ptr);
-    if (found) {
-        std::wstring pathname = ptr->getPath();
-        if (!isAvailablePath(pathname)) {
-            ptr = findAndProcessFile(name);
-            if (ptr != nullptr) {
-                FunctionsInMemory::getInstance()->add(name, ptr);
-                res = true;
-            } else {
-                std::wstring filename;
-                std::string utf8msg
-                    = str(boost::format(_("'%s' is not found in the current folder or on "
-                                          "the Nelson path, but exists in:"))
-                        % name);
-                std::wstring msg = utf8_to_wstring(utf8msg) + L"\n" + pathname;
-                Error(msg);
-            }
-        } else {
-            res = true;
-        }
-    } else {
-        ptr = findAndProcessFile(name);
-        if (ptr != nullptr) {
-            FunctionsInMemory::getInstance()->add(name, ptr);
-            res = true;
-        }
+    ptr = findAndProcessFile(name);
+    if (ptr != nullptr) {
+        return true;
     }
-    return res;
+    return false;
 }
 //=============================================================================
 bool
@@ -221,58 +208,46 @@ PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 bool
 PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
-    bool res = false;
     if (_currentPath != nullptr) {
-        res = _currentPath->findFuncName(functionName, filename);
-        if (res) {
-            return res;
+        if (_currentPath->findFuncName(functionName, filename)) {
+            return true;
         }
     }
     if (_userPath != nullptr) {
-        res = _userPath->findFuncName(functionName, filename);
-        if (res) {
-            return res;
+        if (_userPath->findFuncName(functionName, filename)) {
+            return true;
         }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
-        if (pf) {
-            res = pf->findFuncName(functionName, filename);
-            if (res) {
-                return res;
-            }
+        if (pf->findFuncName(functionName, filename)) {
+            return true;
         }
     }
-    return res;
+    return false;
 }
 //=============================================================================
 bool
 PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname)
 {
-    bool res = false;
     filesname.clear();
     std::wstring filename;
     if (_currentPath != nullptr) {
-        res = _currentPath->findFuncName(functionName, filename);
-        if (res) {
+        if (_currentPath->findFuncName(functionName, filename)) {
             filesname.push_back(filename);
         }
     }
     if (_userPath != nullptr) {
-        res = _userPath->findFuncName(functionName, filename);
-        if (res) {
+        if (_userPath->findFuncName(functionName, filename)) {
             filesname.push_back(filename);
         }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
-        if (pf) {
-            res = pf->findFuncName(functionName, filename);
-            if (res) {
-                filesname.push_back(filename);
-            }
+        if (pf->findFuncName(functionName, filename)) {
+            filesname.push_back(filename);
         }
     }
     return (filesname.size() > 0);
@@ -285,13 +260,13 @@ PathFuncManager::find(size_t hashid, std::wstring& functionname)
     if (_currentPath != nullptr) {
         res = _currentPath->findFuncByHash(hashid, functionname);
         if (res) {
-            return res;
+            return true;
         }
     }
     if (_userPath != nullptr) {
         res = _userPath->findFuncByHash(hashid, functionname);
         if (res) {
-            return res;
+            return true;
         }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
@@ -300,26 +275,22 @@ PathFuncManager::find(size_t hashid, std::wstring& functionname)
         if (pf) {
             res = pf->findFuncByHash(hashid, functionname);
             if (res) {
-                return res;
+                return true;
             }
         }
     }
-    return res;
+    return false;
 }
 //=============================================================================
 bool
 PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
-        PathFunc* pfl = *it;
-        if (pfl) {
-            boost::filesystem::path p1{ pfl->getPath() }, p2{ path };
-            if (boost::filesystem::equivalent(p1, p2)) {
-                return false;
-            }
-        }
+
+    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+    if (it != _pathFuncVector.end()) {
+        return false;
     }
     bool withWatch;
     if (frozen) {
@@ -350,11 +321,13 @@ bool
 PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
+    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+
+    if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
         if (pf != nullptr) {
-            boost::filesystem::path p1{ pf->getPath() }, p2{ path };
+            boost::filesystem::path p1 { pf->getPath() }, p2 { path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 PathFunc* pf = *it;
                 delete pf;
@@ -443,8 +416,7 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error&) {
-    }
+    } catch (const boost::filesystem::filesystem_error&) { }
     userpathCompute();
 }
 //=============================================================================
@@ -471,36 +443,33 @@ PathFuncManager::rehash(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
         try {
-            boost::filesystem::path p1{ _currentPath->getPath() }, p2{ path };
+            boost::filesystem::path p1 { _currentPath->getPath() }, p2 { path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _currentPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } catch (const boost::filesystem::filesystem_error&) { }
     }
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };
+            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } catch (const boost::filesystem::filesystem_error&) { }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1{ pf->getPath() }, p2{ path };
+                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
                 if (boost::filesystem::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
                 }
-            } catch (const boost::filesystem::filesystem_error&) {
-            }
+            } catch (const boost::filesystem::filesystem_error&) { }
         }
     }
 }
@@ -543,32 +512,20 @@ PathFuncManager::getPathNameAsString()
 bool
 PathFuncManager::isAvailablePath(const std::wstring& path)
 {
-    boost::filesystem::path p1;
-    boost::filesystem::path p2 = path;
-
     if (_currentPath != nullptr) {
-        p1 = _currentPath->getPath();
-        if (boost::filesystem::equivalent(p1, p2)) {
+        if (isSamePath(_currentPath->getPath(), path)) {
             return true;
         }
     }
 
-    if (_userPath) {
-        p1 = _userPath->getPath();
-        if (boost::filesystem::equivalent(p1, p2)) {
+    if (_userPath != nullptr) {
+        if (isSamePath(_userPath->getPath(), path)) {
             return true;
         }
     }
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
-        PathFunc* pf = *it;
-        p1 = pf->getPath();
-
-        if (boost::filesystem::equivalent(p1, p2)) {
-            return true;
-        }
-    }
-    return false;
+    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+    return (it != _pathFuncVector.end());
 }
 //=============================================================================
 FunctionDef*
@@ -785,8 +742,7 @@ PathFuncManager::userpathCompute()
                     bSet = true;
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } catch (const boost::filesystem::filesystem_error&) { }
     }
     if (!bSet) {
 #ifdef _MSC_VER
@@ -796,8 +752,7 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) {
-                }
+                } catch (const boost::filesystem::filesystem_error&) { }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);
@@ -810,8 +765,7 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) {
-                }
+                } catch (const boost::filesystem::filesystem_error&) { }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);

@@ -43,10 +43,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include <boost/format.hpp>
 #include "Context.hpp"
 #include "ArrayOf.hpp"
 #include "RecursionStack.hpp"
 #include "characters_encoding.hpp"
+#include "FunctionsInMemory.hpp"
+#include "BuiltInFunctionDefManager.hpp"
+#include "PathFuncManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -217,27 +221,67 @@ Context::lookupFunction(const std::wstring& wfuncName, FunctionDefPtr& val, bool
 bool
 Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly)
 {
-    if (scopestack.back()->lookupFunction(funcName, val, builtinOnly)) {
+    bool found = false;
+    if (builtinOnly) {
+        if (FunctionsInMemory::getInstance()->find(
+                funcName, val, FunctionsInMemory::FIND_FUNCTION_TYPE::BUILTIN)) {
+            return true;
+        }
+        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
+        if (found) {
+            FunctionsInMemory::getInstance()->add(funcName, val);
+        }
+        return found;
+    }
+
+    FunctionDefPtr functionDefInMem = nullptr;
+
+    if (FunctionsInMemory::getInstance()->find(funcName, val)) {
+        /*
+        if (val->type() == NLS_MACRO_FUNCTION || val->type() == NLS_MEX_FUNCTION) {
+            std::wstring pathname = val->getPath();
+            if (PathFuncManager::getInstance()->isAvailablePath(pathname)) {
+                return true;
+            } else {
+                functionDefInMem = val;
+                val = nullptr;
+            }
+        } else {
+            return true;
+        }
+        */
         return true;
     }
-    return lookupFunctionGlobally(funcName, val, false);
-}
-//=============================================================================
-bool
-Context::lookupFunctionGlobally(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly)
-{
-    return scopestack.front()->lookupFunction(funcName, val, builtinOnly);
-}
-//=============================================================================
-void
-Context::deleteFunctionGlobally(const std::string& funcName)
-{
-    scopestack.front()->deleteFunction(funcName);
+
+    if (scopestack.back()->lookupFunction(funcName, val)) {
+        return true;
+    }
+
+    found = PathFuncManager::getInstance()->find(funcName, val);
+    if (found) {
+        FunctionsInMemory::getInstance()->add(funcName, val);
+        return true;
+    }
+    found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
+    if (found) {
+        FunctionsInMemory::getInstance()->add(funcName, val);
+        return true;
+    }
+    bool res = scopestack.front()->lookupFunction(funcName, val);
+    if (!res && functionDefInMem != nullptr) {
+        std::wstring filename;
+        std::string utf8msg = str(boost::format(_("'%s' is not found in the current folder or on "
+                                                  "the Nelson path, but exists in:"))
+            % funcName);
+        std::wstring msg = utf8_to_wstring(utf8msg) + L"\n" + functionDefInMem->getPath();
+        Error(msg);
+    }
+    return res;
 }
 //=============================================================================
 void
 Context::printMe()
-{}
+{ }
 //=============================================================================
 void
 Context::enterLoop()

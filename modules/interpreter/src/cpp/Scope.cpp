@@ -72,38 +72,9 @@ Scope::insertMacroFunctionLocally(FunctionDefPtr a)
 }
 //=============================================================================
 bool
-Scope::deleteBuiltin(void* fptr)
+Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
-    return BuiltInFunctionDefManager::getInstance()->remove(fptr);
-}
-//=============================================================================
-void
-Scope::deleteFunction(const std::string& funcName)
-{
-    BuiltInFunctionDefManager::getInstance()->remove(funcName);
-}
-//=============================================================================
-bool
-Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly)
-{
-    bool found = false;
-    if (builtinOnly) {
-        return BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-    }
-    found = currentLocalFunctions.find(funcName, val);
-    if (found) {
-        return true;
-    }
-    found = PathFuncManager::getInstance()->find(funcName, val);
-    if (found) {
-        return true;
-    }
-    found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-    if (found) {
-        return true;
-    }
-
-    return false;
+    return currentLocalFunctions.find(funcName, val);
 }
 //=============================================================================
 bool
@@ -287,12 +258,6 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
     for (const auto& k : ulist) {
         list.push_back(utf8_to_wstring(k));
     }
-}
-//=============================================================================
-stringVector
-Scope::getBuiltinsList()
-{
-    return BuiltInFunctionDefManager::getInstance()->getNameList();
 }
 //=============================================================================
 void

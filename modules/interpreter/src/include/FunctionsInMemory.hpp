@@ -25,7 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <vector>
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
@@ -35,15 +35,16 @@ namespace Nelson {
 //=============================================================================
 class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {
-    //=============================================================================
 private:
     //=============================================================================
     std::vector<std::pair<std::string, FunctionDefPtr>> _macroFunctionsInMemory;
-    std::vector<std::pair<std::string, FunctionDefPtr>> _mexfunctionsInMemory;
+    std::vector<std::pair<std::string, FunctionDefPtr>> _mexFunctionsInMemory;
     //=============================================================================
     std::pair<std::string, FunctionDefPtr> _lastUnaryFunctionInMemory;
     std::pair<std::string, FunctionDefPtr> _lastBinaryFunctionInMemory;
     std::pair<std::string, FunctionDefPtr> _lastTernaryFunctionInMemory;
+    //=============================================================================
+    std::unordered_map<std::string, FunctionDefPtr> _builtinFunctionInMemory;
     //=============================================================================
     FunctionsInMemory();
     //=============================================================================
@@ -57,7 +58,24 @@ private:
     void
     clearOverloadFunctionsInMemory();
     //=============================================================================
+    bool
+    findMex(const std::string& functionName, FunctionDefPtr& function);
+    //=============================================================================
+    bool
+    findMacro(const std::string& functionName, FunctionDefPtr& function);
+    //=============================================================================
+    bool
+    findBuiltin(const std::string& functionName, FunctionDefPtr& function);
+    //=============================================================================
 public:
+    //=============================================================================
+    typedef enum
+    {
+        ALL,
+        BUILTIN,
+        MEX,
+        MACRO
+    } FIND_FUNCTION_TYPE;
     //=============================================================================
     static FunctionsInMemory*
     getInstance();
@@ -85,7 +103,8 @@ public:
     deleteAllMexFunctions();
     //=============================================================================
     bool
-    find(const std::string& functionName, FunctionDefPtr& function);
+    find(const std::string& functionName, FunctionDefPtr& function,
+        FIND_FUNCTION_TYPE functionType = FIND_FUNCTION_TYPE::ALL);
     //=============================================================================
     bool
     find(Overload::OverloadClass overloadClass, const std::string& functionName,

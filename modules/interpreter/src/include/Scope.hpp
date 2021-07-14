@@ -68,6 +68,9 @@ namespace Nelson {
 class NLSINTERPRETER_IMPEXP Scope
 {
 private:
+    int nargin = 0;
+    int nargout = 0;
+
     /**
      * This is the hash-table of ArrayOf pointers that forms the
      * symbol table.  Each variable has a name associated with
@@ -115,9 +118,6 @@ private:
      */
     std::vector<int> IDstack;
 
-    int nargin = 0;
-    int nargout = 0;
-
 public:
     /**
      * Construct a scope with the given name.
@@ -142,19 +142,11 @@ public:
     insertMacroFunctionLocally(FunctionDefPtr a);
 
     /**
-     * Delete a function from the current scope.
-     */
-    void
-    deleteFunction(const std::string& funcName);
-    bool
-    deleteBuiltin(void* fptr);
-
-    /**
      * Lookup a function.  Return true if the function is defined, and
      * assigns the value of the function pointer to the second argument.
      */
     bool
-    lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::string& funcName, FunctionDefPtr& val);
     /**
      * Lookup a variable.  Return true if the variable is defined, and
      * assigns the value of the variable to the second argument.
@@ -237,9 +229,6 @@ public:
 
     void
     getVariablesList(bool withPersistent, wstringVector& list);
-
-    stringVector
-    getBuiltinsList();
 
     /**
      * Delete a variable in this scope.  It does not simply

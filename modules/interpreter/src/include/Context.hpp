@@ -153,11 +153,6 @@ public:
     bool
     lookupFunction(const std::wstring& wfuncName, FunctionDefPtr& val, bool builtinOnly = false);
 
-    bool
-    lookupFunctionGlobally(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly = false);
-
-    void
-    deleteFunctionGlobally(const std::string& funcName);
     /**
      * Add a persistent variable to the local stack.  This involves
      * two steps:

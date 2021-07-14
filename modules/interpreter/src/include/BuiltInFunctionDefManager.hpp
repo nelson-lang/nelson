@@ -73,9 +73,6 @@ public:
     bool
     isPointerOnBuiltInFunctionDef(FunctionDefPtr ptr);
 
-    void
-    clearCache();
-
 private:
     bool
     add(FunctionDefPtr ptr);
@@ -83,9 +80,7 @@ private:
     BuiltInFunctionDefManager();
     static BuiltInFunctionDefManager* m_pInstance;
     std::vector<FunctionDefPtr> builtinVector;
-
-    // cache to speed up search
-    std::unordered_map<std::string, FunctionDefPtr> cachedBuiltin;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
