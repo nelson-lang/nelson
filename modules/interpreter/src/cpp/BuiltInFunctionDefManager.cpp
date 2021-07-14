@@ -57,7 +57,7 @@ BuiltInFunctionDefManager::getInstance()
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::add(FuncPtr ptr)
+BuiltInFunctionDefManager::add(FunctionDefPtr ptr)
 {
     if (ptr != nullptr) {
         builtinVector.push_back(ptr);
@@ -109,7 +109,7 @@ BuiltInFunctionDefManager::remove(const std::string& name)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::remove(FuncPtr ptr)
+BuiltInFunctionDefManager::remove(FunctionDefPtr ptr)
 {
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if (*it == ptr) {
@@ -167,10 +167,10 @@ BuiltInFunctionDefManager::removeAll()
     return false;
 }
 //=============================================================================
-std::vector<FuncPtr>
+std::vector<FunctionDefPtr>
 BuiltInFunctionDefManager::getTable()
 {
-    std::vector<FuncPtr> builtinTable;
+    std::vector<FunctionDefPtr> builtinTable;
     builtinTable.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
         builtinTable.push_back(it);
@@ -190,7 +190,7 @@ BuiltInFunctionDefManager::getNameList()
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::isPointerOnBuiltInFunctionDef(FuncPtr ptr)
+BuiltInFunctionDefManager::isPointerOnBuiltInFunctionDef(FunctionDefPtr ptr)
 {
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
@@ -248,17 +248,17 @@ BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::find(const std::string& name, FuncPtr& ptr)
+BuiltInFunctionDefManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
     if (!builtinVector.empty()) {
-        std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);
+        std::unordered_map<std::string, FunctionDefPtr>::const_iterator found = cachedBuiltin.find(name);
         if (found != cachedBuiltin.end()) {
             ptr = found->second;
             return true;
         }
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->getName() == name) {
-                ptr = static_cast<FuncPtr>(*it);
+                ptr = static_cast<FunctionDefPtr>(*it);
                 cachedBuiltin.emplace(name, ptr);
                 return true;
             }

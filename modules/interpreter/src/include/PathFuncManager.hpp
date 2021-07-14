@@ -82,7 +82,7 @@ public:
     clear();
 
     bool
-    find(const std::string& name, FuncPtr& ptr);
+    find(const std::string& name, FunctionDefPtr& ptr);
     bool
     find(const std::wstring& functionName, std::wstring& filename);
     bool
@@ -125,7 +125,7 @@ public:
     clearCache(stringVector exceptedFunctions);
 
     bool
-    isPointerOnPathFunctionDef(FuncPtr ptr);
+    isPointerOnPathFunctionDef(FunctionDefPtr ptr);
 };
 //=============================================================================
 } // namespace Nelson

@@ -360,7 +360,7 @@ public:
      * Look up an identifier as a potential function name
      */
     bool
-    lookupFunction(const std::string& funcName, FuncPtr& val);
+    lookupFunction(const std::string& funcName, FunctionDefPtr& val);
     /**
      * Special case the single assignment statement 'A = B' for speed.
      */

@@ -144,17 +144,17 @@ public:
      * Insert a function definition into the local scope (bottom of
      * the scope stack).
      */
-    void insertMacroFunctionLocally(FuncPtr /*f*/);
+    void insertMacroFunctionLocally(FunctionDefPtr /*f*/);
     /**
      * Add a built in function to the global scope with the given name.
      */
     bool
-    lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly = false);
     bool
-    lookupFunction(const std::wstring& wfuncName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::wstring& wfuncName, FunctionDefPtr& val, bool builtinOnly = false);
 
     bool
-    lookupFunctionGlobally(const std::string& funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunctionGlobally(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly = false);
 
     void
     deleteFunctionGlobally(const std::string& funcName);

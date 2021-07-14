@@ -41,9 +41,9 @@ public:
     LocalFunctionsTable();
     ~LocalFunctionsTable();
     bool
-    find(const std::string& key, FuncPtr& dest);
+    find(const std::string& key, FunctionDefPtr& dest);
     bool
-    add(const std::string& key, FuncPtr val);
+    add(const std::string& key, FunctionDefPtr val);
 };
 } // namespace Nelson
 //=============================================================================

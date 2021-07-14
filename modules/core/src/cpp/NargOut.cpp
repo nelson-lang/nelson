@@ -34,7 +34,7 @@ namespace Nelson {
 int
 NargOut(Evaluator* eval, const std::wstring& functionName)
 {
-    FuncPtr fptr = nullptr;
+    FunctionDefPtr fptr = nullptr;
     bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
     if (bIsFun) {
         if (fptr->type() == NLS_MACRO_FUNCTION) {

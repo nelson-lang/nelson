@@ -116,7 +116,7 @@ PathFuncManager::clear()
 }
 //=============================================================================
 bool
-PathFuncManager::isPointerOnPathFunctionDef(FuncPtr ptr)
+PathFuncManager::isPointerOnPathFunctionDef(FunctionDefPtr ptr)
 {
     std::wstring functionName;
     return find(ptr->getHashId(), functionName);
@@ -156,7 +156,7 @@ PathFuncManager::findAndProcessFile(const std::string& name)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::string& name, FuncPtr& ptr)
+PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
     bool res = false;
     bool found = FunctionsInMemory::getInstance()->find(name, ptr);

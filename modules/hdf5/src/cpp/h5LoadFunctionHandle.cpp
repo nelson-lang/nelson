@@ -40,7 +40,7 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     if (h5LoadStruct(fid, location, variableName, isEmpty, dims, false, "", value)) {
         ArrayOf funcStr = value.getField("function");
         std::string function_name = funcStr.getContentAsCString();
-        FuncPtr fptr = nullptr;
+        FunctionDefPtr fptr = nullptr;
         bool found = PathFuncManager::getInstance()->find(function_name, fptr);
         if (!found) {
             found = BuiltInFunctionDefManager::getInstance()->find(function_name, fptr);

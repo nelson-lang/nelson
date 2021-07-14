@@ -188,27 +188,15 @@ PathFunc::rehash()
             for (boost::filesystem::directory_iterator dir_iter(_path); dir_iter != end_iter;
                  ++dir_iter) {
                 boost::filesystem::path current = dir_iter->path();
-                if (boost::iequals(current.extension().generic_wstring(), ".m")) {
+                std::wstring ext = current.extension().generic_wstring();
+                bool isMacro = ext == L".m";
+                bool isMex = ext == L"." + getMexExtension();
+                if (isMacro || isMex) {
                     std::wstring name = current.stem().generic_wstring();
                     if (isSupportedFuncFilename(name)) {
                         FileFunction* ff = nullptr;
                         try {
-                            ff = new FileFunction(_path, name, false);
-                        } catch (const std::bad_alloc&) {
-                            ff = nullptr;
-                        }
-                        if (ff) {
-                            mapAllFiles.emplace(name, ff);
-                        }
-                    }
-                }
-                if (boost::iequals(
-                        current.extension().generic_wstring(), L"." + getMexExtension())) {
-                    std::wstring name = current.stem().generic_wstring();
-                    if (isSupportedFuncFilename(name)) {
-                        FileFunction* ff = nullptr;
-                        try {
-                            ff = new FileFunction(_path, name, true);
+                            ff = new FileFunction(_path, name, isMex);
                         } catch (const std::bad_alloc&) {
                             ff = nullptr;
                         }

@@ -29,6 +29,7 @@
 #include <vector>
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
+#include "Overload.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,14 +38,24 @@ class NLSINTERPRETER_IMPEXP FunctionsInMemory
     //=============================================================================
 private:
     //=============================================================================
-    std::vector<std::pair<std::string, FuncPtr>> _macroFunctionsInMemory;
-    std::vector<std::pair<std::string, FuncPtr>> _mexfunctionsInMemory;
+    std::vector<std::pair<std::string, FunctionDefPtr>> _macroFunctionsInMemory;
+    std::vector<std::pair<std::string, FunctionDefPtr>> _mexfunctionsInMemory;
+    //=============================================================================
+    std::pair<std::string, FunctionDefPtr> _lastUnaryFunctionInMemory;
+    std::pair<std::string, FunctionDefPtr> _lastBinaryFunctionInMemory;
+    std::pair<std::string, FunctionDefPtr> _lastTernaryFunctionInMemory;
     //=============================================================================
     FunctionsInMemory();
     //=============================================================================
     ~FunctionsInMemory();
     //=============================================================================
     static FunctionsInMemory* m_pInstance;
+    //=============================================================================
+    void
+    clearOverloadFunctionInMemory(const std::string& functionName);
+    //=============================================================================
+    void
+    clearOverloadFunctionsInMemory();
     //=============================================================================
 public:
     //=============================================================================
@@ -55,7 +66,11 @@ public:
     destroy();
     //=============================================================================
     void
-    add(const std::string& functionName, FuncPtr function);
+    add(const std::string& functionName, FunctionDefPtr function);
+    //=============================================================================
+    void
+    add(Overload::OverloadClass overloadClass, const std::string& functionName,
+        FunctionDefPtr function);
     //=============================================================================
     bool
     deleteMFunction(const std::string& functionName);
@@ -70,7 +85,11 @@ public:
     deleteAllMexFunctions();
     //=============================================================================
     bool
-    find(const std::string& functionName, FuncPtr& function);
+    find(const std::string& functionName, FunctionDefPtr& function);
+    //=============================================================================
+    bool
+    find(Overload::OverloadClass overloadClass, const std::string& functionName,
+        FunctionDefPtr& function);
     //=============================================================================
     void
     clear(stringVector exceptedFunctions = stringVector());

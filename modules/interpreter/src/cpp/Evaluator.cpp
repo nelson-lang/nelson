@@ -2365,7 +2365,7 @@ Evaluator::specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     for (size_t i = 1; i < args.size(); i++) {
         n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
-    FuncPtr val;
+    FunctionDefPtr val;
     callstack.pushID(t->getContext());
     if (!lookupFunction(args[0], val)) {
         Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
@@ -3312,7 +3312,7 @@ bool
 Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
 {
     bool isFun;
-    FuncPtr val;
+    FunctionDefPtr val;
     std::string cname = bp.detail;
     isFun = context->lookupFunction(cname, val);
     if (!isFun) {
@@ -3431,7 +3431,7 @@ Evaluator::getInterface()
 }
 //=============================================================================
 bool
-Evaluator::lookupFunction(const std::string& funcName, FuncPtr& val)
+Evaluator::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
     return context->lookupFunction(funcName, val);
 }

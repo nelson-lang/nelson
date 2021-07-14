@@ -36,6 +36,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include

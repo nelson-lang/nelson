@@ -180,7 +180,7 @@ SioClientCommand::sioregister(const std::string& name, const std::string& functi
                 argIn.push_back(dataAsArrayOf);
                 Context* context = eval->getContext();
                 if (context != nullptr) {
-                    FuncPtr funcDef;
+                    FunctionDefPtr funcDef;
                     if (context->lookupFunction(function_name, funcDef, true)) {
                         ArrayOfVector retval = funcDef->evaluateFunction(eval, argIn, 0);
                     }

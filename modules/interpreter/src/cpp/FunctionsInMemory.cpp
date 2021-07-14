@@ -33,9 +33,9 @@ namespace Nelson {
 //=============================================================================
 FunctionsInMemory* FunctionsInMemory::m_pInstance = nullptr;
 //=============================================================================
-FunctionsInMemory::FunctionsInMemory() {}
+FunctionsInMemory::FunctionsInMemory() { }
 //=============================================================================
-FunctionsInMemory::~FunctionsInMemory() {}
+FunctionsInMemory::~FunctionsInMemory() { }
 //=============================================================================
 FunctionsInMemory*
 FunctionsInMemory::getInstance()
@@ -56,7 +56,28 @@ FunctionsInMemory::destroy()
 }
 //=============================================================================
 void
-FunctionsInMemory::add(const std::string& functionName, FuncPtr function)
+FunctionsInMemory::add(
+    Overload::OverloadClass overloadClass, const std::string& functionName, FunctionDefPtr function)
+{
+    if (function != nullptr) {
+        switch (overloadClass) {
+        case Overload::UNARY: {
+            _lastUnaryFunctionInMemory = std::make_pair(functionName, function);
+        } break;
+        case Overload::BINARY: {
+            _lastBinaryFunctionInMemory = std::make_pair(functionName, function);
+        } break;
+        case Overload::TERNARY: {
+            _lastTernaryFunctionInMemory = std::make_pair(functionName, function);
+        } break;
+        default: {
+        } break;
+        }
+    }
+}
+//=============================================================================
+void
+FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
 {
     if (function != nullptr) {
         if (function->type() == NLS_MACRO_FUNCTION) {
@@ -67,10 +88,38 @@ FunctionsInMemory::add(const std::string& functionName, FuncPtr function)
     }
 }
 //=============================================================================
+void
+FunctionsInMemory::clearOverloadFunctionsInMemory()
+{ 
+  _lastUnaryFunctionInMemory.first.clear();
+  _lastUnaryFunctionInMemory.second = nullptr;
+  _lastBinaryFunctionInMemory.first.clear();
+  _lastBinaryFunctionInMemory.second = nullptr;
+  _lastTernaryFunctionInMemory.first.clear();
+  _lastTernaryFunctionInMemory.second = nullptr;
+}
+//=============================================================================
+void
+FunctionsInMemory::clearOverloadFunctionInMemory(const std::string& functionName)
+{ 
+    if (_lastUnaryFunctionInMemory.first == functionName) {
+        _lastUnaryFunctionInMemory.first.clear();
+        _lastUnaryFunctionInMemory.second = nullptr;
+    }
+    if (_lastBinaryFunctionInMemory.first == functionName) {
+        _lastBinaryFunctionInMemory.first.clear();
+        _lastBinaryFunctionInMemory.second = nullptr;
+    }
+    if (_lastTernaryFunctionInMemory.first == functionName) {
+        _lastTernaryFunctionInMemory.first.clear();
+        _lastTernaryFunctionInMemory.second = nullptr;
+    }
+}
+//=============================================================================
 bool
 FunctionsInMemory::deleteMFunction(const std::string& functionName)
 {
-    for (std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator it
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator it
          = _macroFunctionsInMemory.rbegin();
          it != _macroFunctionsInMemory.rend(); ++it) {
         if (it->first == functionName) {
@@ -83,13 +132,14 @@ FunctionsInMemory::deleteMFunction(const std::string& functionName)
             }
         }
     }
+    clearOverloadFunctionInMemory(functionName);
     return false;
 }
 //=============================================================================
 bool
 FunctionsInMemory::deleteMexFunction(const std::string& functionName)
 {
-    for (std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator it
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator it
          = _mexfunctionsInMemory.rbegin();
          it != _mexfunctionsInMemory.rend(); ++it) {
         if (it->first == functionName) {
@@ -104,13 +154,14 @@ FunctionsInMemory::deleteMexFunction(const std::string& functionName)
             }
         }
     }
+    clearOverloadFunctionInMemory(functionName);
     return false;
 }
 //=============================================================================
 bool
-FunctionsInMemory::find(const std::string& functionName, FuncPtr& function)
+FunctionsInMemory::find(const std::string& functionName, FunctionDefPtr& function)
 {
-    for (std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator it
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator it
          = _mexfunctionsInMemory.rbegin();
          it != _mexfunctionsInMemory.rend(); ++it) {
         if (it->first == functionName) {
@@ -119,7 +170,7 @@ FunctionsInMemory::find(const std::string& functionName, FuncPtr& function)
         }
     }
 
-    for (std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator it
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator it
          = _macroFunctionsInMemory.rbegin();
          it != _macroFunctionsInMemory.rend(); ++it) {
         if (it->first == functionName) {
@@ -130,13 +181,43 @@ FunctionsInMemory::find(const std::string& functionName, FuncPtr& function)
     return false;
 }
 //=============================================================================
+bool
+FunctionsInMemory::find(Overload::OverloadClass overloadClass, const std::string& functionName,
+    FunctionDefPtr& function)
+{
+    switch (overloadClass) {
+    case Overload::UNARY: {
+        if (functionName == _lastUnaryFunctionInMemory.first) {
+            function = _lastUnaryFunctionInMemory.second;
+            return true;
+        }
+    } break;
+    case Overload::BINARY: {
+        if (functionName == _lastBinaryFunctionInMemory.first) {
+            function = _lastBinaryFunctionInMemory.second;
+            return true;
+        }
+    } break;
+    case Overload::TERNARY: {
+        if (functionName == _lastTernaryFunctionInMemory.first) {
+            function = _lastTernaryFunctionInMemory.second;
+            return true;
+        }
+    } break;
+    default: {
+    } break;
+    }
+    function = nullptr;
+    return false;
+}
+//=============================================================================
 void
 FunctionsInMemory::deleteAllMFunctions()
 {
-    for (std::vector<std::pair<std::string, FuncPtr>>::iterator iter
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator iter
          = _macroFunctionsInMemory.begin();
          iter != _macroFunctionsInMemory.end(); ++iter) {
-        FuncPtr funPtr = iter->second;
+        FunctionDefPtr funPtr = iter->second;
         MacroFunctionDef* f = (MacroFunctionDef*)funPtr;
         if (f != nullptr) {
             delete f;
@@ -144,17 +225,18 @@ FunctionsInMemory::deleteAllMFunctions()
         }
     }
     _macroFunctionsInMemory.clear();
+    clearOverloadFunctionsInMemory();
 }
 //=============================================================================
 bool
 FunctionsInMemory::deleteAllMexFunctions()
 {
     bool noLocked = true;
-    std::vector<std::pair<std::string, FuncPtr>> lockedMex;
-    for (std::vector<std::pair<std::string, FuncPtr>>::iterator iter
+    std::vector<std::pair<std::string, FunctionDefPtr>> lockedMex;
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator iter
          = _mexfunctionsInMemory.begin();
          iter != _mexfunctionsInMemory.end(); ++iter) {
-        FuncPtr funPtr = iter->second;
+        FunctionDefPtr funPtr = iter->second;
         MexFunctionDef* f = (MexFunctionDef*)funPtr;
         if (f != nullptr) {
             if (!f->isLocked()) {
@@ -168,6 +250,7 @@ FunctionsInMemory::deleteAllMexFunctions()
     }
     _mexfunctionsInMemory.clear();
     _mexfunctionsInMemory = lockedMex;
+    clearOverloadFunctionsInMemory();
     return noLocked;
 }
 //=============================================================================
@@ -182,7 +265,7 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
             } else {
                 delete funcPtr;
                 funcPtr = nullptr;
-                it = std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator(
+                it = std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator(
                     _mexfunctionsInMemory.erase((++it).base()));
             }
         }
@@ -191,10 +274,11 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
             MacroFunctionDef* funcPtr = (MacroFunctionDef*)it->second;
             delete funcPtr;
             funcPtr = nullptr;
-            it = std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator(
+            it = std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator(
                 _macroFunctionsInMemory.erase((it + 1).base()));
         }
     } else {
+
         for (auto it = _mexfunctionsInMemory.rbegin(); it != _mexfunctionsInMemory.rend();) {
             MexFunctionDef* funcPtr = (MexFunctionDef*)it->second;
             stringVector::iterator iter
@@ -205,7 +289,7 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
                 } else {
                     delete funcPtr;
                     funcPtr = nullptr;
-                    it = std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator(
+                    it = std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator(
                         _mexfunctionsInMemory.erase((++it).base()));
                 }
             } else {
@@ -220,20 +304,21 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
             if (iter == exceptedFunctions.end()) {
                 delete funcPtr;
                 funcPtr = nullptr;
-                it = std::vector<std::pair<std::string, FuncPtr>>::reverse_iterator(
+                it = std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator(
                     _macroFunctionsInMemory.erase((++it).base()));
             } else {
                 it++;
             }
         }
     }
+    clearOverloadFunctionsInMemory();
 }
 //=============================================================================
 wstringVector
 FunctionsInMemory::getMacroInMemory(bool withCompleteNames)
 {
     wstringVector names;
-    for (std::vector<std::pair<std::string, FuncPtr>>::iterator it
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator it
          = _macroFunctionsInMemory.begin();
          it != _macroFunctionsInMemory.end(); ++it) {
         MacroFunctionDef* fptr = (MacroFunctionDef*)it->second;
@@ -250,7 +335,8 @@ wstringVector
 FunctionsInMemory::getMexInMemory(bool withCompleteNames)
 {
     wstringVector names;
-    for (std::vector<std::pair<std::string, FuncPtr>>::iterator it = _mexfunctionsInMemory.begin();
+    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator it
+         = _mexfunctionsInMemory.begin();
          it != _mexfunctionsInMemory.end(); ++it) {
         MexFunctionDef* fptr = (MexFunctionDef*)it->second;
         if (withCompleteNames) {

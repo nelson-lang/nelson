@@ -66,7 +66,7 @@ Scope::~Scope()
 }
 //=============================================================================
 void
-Scope::insertMacroFunctionLocally(FuncPtr a)
+Scope::insertMacroFunctionLocally(FunctionDefPtr a)
 {
     currentLocalFunctions.add(a->getName(), a);
 }
@@ -84,7 +84,7 @@ Scope::deleteFunction(const std::string& funcName)
 }
 //=============================================================================
 bool
-Scope::lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly)
+Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly)
 {
     bool found = false;
     if (builtinOnly) {
@@ -107,7 +107,7 @@ Scope::lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnl
 }
 //=============================================================================
 bool
-Scope::isPointerOnFunction(FuncPtr val)
+Scope::isPointerOnFunction(FunctionDefPtr val)
 {
     if (PathFuncManager::getInstance()->isPointerOnPathFunctionDef(val)) {
         return true;

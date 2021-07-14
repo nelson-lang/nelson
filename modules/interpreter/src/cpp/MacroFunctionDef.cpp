@@ -123,7 +123,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     }
     cp = cp->nextFunction;
     while (cp != nullptr) {
-        context->insertMacroFunctionLocally((FuncPtr)cp);
+        context->insertMacroFunctionLocally((FunctionDefPtr)cp);
         cp = cp->nextFunction;
     }
     // When the function is called, the number of inputs is

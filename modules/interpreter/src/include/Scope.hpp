@@ -139,7 +139,7 @@ public:
      * of the function is encoded in the FuncPtr.
      */
     void
-    insertMacroFunctionLocally(FuncPtr a);
+    insertMacroFunctionLocally(FunctionDefPtr a);
 
     /**
      * Delete a function from the current scope.
@@ -154,7 +154,7 @@ public:
      * assigns the value of the function pointer to the second argument.
      */
     bool
-    lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly = false);
     /**
      * Lookup a variable.  Return true if the variable is defined, and
      * assigns the value of the variable to the second argument.
@@ -250,7 +250,7 @@ public:
     deleteVariable(const std::string& var);
 
     bool
-    isPointerOnFunction(FuncPtr val);
+    isPointerOnFunction(FunctionDefPtr val);
 
     void
     setNargIn(int _nargin);

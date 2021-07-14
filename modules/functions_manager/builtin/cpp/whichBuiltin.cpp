@@ -43,7 +43,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
             if (nLhs == 0) {
-                FuncPtr fptr = nullptr;
+                FunctionDefPtr fptr = nullptr;
                 bool found = BuiltInFunctionDefManager::getInstance()->find(
                     wstring_to_utf8(wfunctionname), fptr);
                 std::wstring path = Which(wfunctionname);

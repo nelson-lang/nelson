@@ -131,7 +131,7 @@ bool
 ClearPersistentVariable(Evaluator* eval, const std::string& variable)
 {
     bool res = false;
-    FuncPtr func = nullptr;
+    FunctionDefPtr func = nullptr;
     std::string path;
 
     if (FunctionsInMemory::getInstance()->find(variable, func)) {

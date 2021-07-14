@@ -40,7 +40,7 @@ using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
 cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
-    const Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+    const Dimensions& argdims, indexType argcount, FunctionDefPtr fptr, FunctionDefPtr fptrHandleError)
 {
     ArrayOfVector outputs;
     for (int j = 0; j < nargout; j++) {
@@ -93,7 +93,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
 //=============================================================================
 static ArrayOfVector
 cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
-    Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+    Dimensions& argdims, indexType argcount, FunctionDefPtr fptr, FunctionDefPtr fptrHandleError)
 {
     ArrayOfVector outputs;
     indexType elementCount = argdims.getElementCount();
@@ -497,7 +497,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     if (bHaveUniformOutputArgs) {
         nargin -= 2;
     }
-    FuncPtr fptrHandleError = nullptr;
+    FunctionDefPtr fptrHandleError = nullptr;
     if (errorFunc != 0) {
         std::wstring functionName;
         bool found = PathFuncManager::getInstance()->find(errorFunc, functionName);
