@@ -322,18 +322,15 @@ PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
     boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+        _pathFuncVector.end(), [path](PathFunc* x) { return x->getPath() == path; });
 
     if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
         if (pf != nullptr) {
-            boost::filesystem::path p1 { pf->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
-                PathFunc* pf = *it;
-                delete pf;
-                _pathFuncVector.erase(it);
-                return true;
-            }
+            PathFunc* pf = *it;
+            delete pf;
+            _pathFuncVector.erase(it);
+            return true;
         }
     }
     return res;
@@ -513,18 +510,18 @@ bool
 PathFuncManager::isAvailablePath(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
-        if (isSamePath(_currentPath->getPath(), path)) {
+        if (_currentPath->getPath() == path) {
             return true;
         }
     }
 
     if (_userPath != nullptr) {
-        if (isSamePath(_userPath->getPath(), path)) {
+        if (_userPath->getPath() == path) {
             return true;
         }
     }
     boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+        _pathFuncVector.end(), [path](PathFunc* x) { return x->getPath() == path; });
     return (it != _pathFuncVector.end());
 }
 //=============================================================================

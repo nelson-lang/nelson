@@ -1811,7 +1811,7 @@ void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
     ArrayOfVector m;
-    FunctionDef* fdef;
+    FunctionDef* fdef = nullptr;
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
@@ -3443,7 +3443,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
     ArrayOfVector m;
     bool isVar = false;
     bool isFun = false;
-    FunctionDef* funcDef;
+    FunctionDef* funcDef = nullptr;
     callstack.pushID(t->getContext());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
@@ -3455,7 +3455,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
     if (!isVar) {
         isFun = lookupFunction(t->text, funcDef);
     }
-    if (!isVar && isFun) {
+    if (!isVar && isFun && funcDef != nullptr) {
         m = functionExpression(funcDef, t, 1, false);
         if (m.empty()) {
             callstack.popID();

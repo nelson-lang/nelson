@@ -80,6 +80,7 @@ void
 FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
 {
     if (function != nullptr) {
+        _lastFunctionInMemory = std::make_pair(functionName, function);
         if (function->type() == NLS_MACRO_FUNCTION) {
             _macroFunctionsInMemory.push_back(std::make_pair(functionName, function));
         } else if (function->type() == NLS_MEX_FUNCTION) {
@@ -205,14 +206,27 @@ FunctionsInMemory::find(
 {
     switch (functionType) {
     case FIND_FUNCTION_TYPE::ALL: {
+        if (_lastFunctionInMemory.first == functionName) {
+            function = _lastFunctionInMemory.second;
+            return true;
+        }
         if (findMex(functionName, function)) {
+            _lastFunctionInMemory.first = functionName;
+            _lastFunctionInMemory.second = function;
             return true;
         }
-
         if (findMacro(functionName, function)) {
+            _lastFunctionInMemory.first = functionName;
+            _lastFunctionInMemory.second = function;
             return true;
         }
-        return findBuiltin(functionName, function);
+        bool res = findBuiltin(functionName, function);
+        if (res) {
+            _lastFunctionInMemory.first = functionName;
+            _lastFunctionInMemory.second = function;
+            return true;
+        }
+        return false;
     } break;
     case FIND_FUNCTION_TYPE::MACRO: {
         return findMacro(functionName, function);
@@ -274,6 +288,8 @@ FunctionsInMemory::deleteAllMFunctions()
     }
     _macroFunctionsInMemory.clear();
     clearOverloadFunctionsInMemory();
+    _lastFunctionInMemory.first.clear();
+    _lastFunctionInMemory.second = nullptr;
 }
 //=============================================================================
 bool
@@ -300,6 +316,8 @@ FunctionsInMemory::deleteAllMexFunctions()
     _mexFunctionsInMemory = lockedMex;
     clearOverloadFunctionsInMemory();
     _builtinFunctionInMemory.clear();
+    _lastFunctionInMemory.first.clear();
+    _lastFunctionInMemory.second = nullptr;
     return noLocked;
 }
 //=============================================================================
@@ -362,6 +380,8 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
     }
     clearOverloadFunctionsInMemory();
     _builtinFunctionInMemory.clear();
+    _lastFunctionInMemory.first.clear();
+    _lastFunctionInMemory.second = nullptr;
 }
 //=============================================================================
 wstringVector

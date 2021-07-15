@@ -44,6 +44,8 @@ private:
     std::pair<std::string, FunctionDefPtr> _lastBinaryFunctionInMemory;
     std::pair<std::string, FunctionDefPtr> _lastTernaryFunctionInMemory;
     //=============================================================================
+    std::pair<std::string, FunctionDefPtr> _lastFunctionInMemory;
+    //=============================================================================
     std::unordered_map<std::string, FunctionDefPtr> _builtinFunctionInMemory;
     //=============================================================================
     FunctionsInMemory();
