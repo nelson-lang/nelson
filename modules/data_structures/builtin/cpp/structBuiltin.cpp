@@ -39,11 +39,15 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
     }
     if (argIn.size() == 1) {
         if (argIn[0].isClassStruct()) {
-            ArrayOf asStruct = argIn[0];
-            asStruct.ensureSingleOwner();
-            asStruct.setStructType(NLS_STRUCT_ARRAY_STR);
-            retval << asStruct;
-            return retval;
+            if (argIn[0].isFunctionHandle()) {
+                Error(_("Conversion to 'struct' to 'function_handle' is not possible."), "Nelson:invalidConversion");
+            } else {
+                ArrayOf asStruct = argIn[0];
+                asStruct.ensureSingleOwner();
+                asStruct.setStructType(NLS_STRUCT_ARRAY_STR);
+                retval << asStruct;
+                return retval;
+            }
         } else if (!argIn[0].isEmpty()) {
             Error(_W("struct([]) expected."));
         }

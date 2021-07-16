@@ -1173,7 +1173,7 @@ public:
     function_handle
     getContentAsFunctionHandle();
     bool
-    isFunctionHandle();
+    isFunctionHandle() const;
 
     bool
     isLogical() const;

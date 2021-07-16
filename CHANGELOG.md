@@ -14,6 +14,8 @@
 
 - checks in the .m function that other local function names are not duplicated.
 
+- `struct` behavior with `function_handle`.
+
 - `clear` reworked to support mex in memory.
 
 - `nargin`, `nargout` behavior with mex updated.

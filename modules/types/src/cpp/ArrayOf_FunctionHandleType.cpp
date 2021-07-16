@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-ArrayOf::isFunctionHandle()
+ArrayOf::isFunctionHandle() const
 {
     if (this->isClassStruct()) {
         std::string classString = this->getStructType();
