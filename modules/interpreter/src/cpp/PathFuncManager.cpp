@@ -295,21 +295,15 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
     if (it != _pathFuncVector.end()) {
         return false;
     }
-    bool withWatch;
-    if (frozen) {
-        withWatch = false;
-    } else {
-        boost::filesystem::path pathToAdd = path;
-        withWatch = !boost::algorithm::starts_with(pathToAdd.generic_path().generic_wstring(),
-            NelsonConfiguration::getInstance()->getNelsonRootDirectory());
-    }
-    PathFunc* pf;
+    bool withWatch = frozen ? false : true;
+    PathFunc* pf = nullptr;
     try {
         pf = new PathFunc(path, withWatch);
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
     if (pf != nullptr) {
+        FunctionsInMemory::getInstance()->clearMapCache();
         if (begin) {
             _pathFuncVector.insert(_pathFuncVector.begin(), pf);
         } else {
@@ -330,6 +324,7 @@ PathFuncManager::removePath(const std::wstring& path)
     if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
         if (pf != nullptr) {
+            FunctionsInMemory::getInstance()->clearMapCache();
             PathFunc* pf = *it;
             delete pf;
             _pathFuncVector.erase(it);

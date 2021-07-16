@@ -35,7 +35,12 @@ FunctionsInMemory* FunctionsInMemory::m_pInstance = nullptr;
 //=============================================================================
 FunctionsInMemory::FunctionsInMemory() { }
 //=============================================================================
-FunctionsInMemory::~FunctionsInMemory() { }
+FunctionsInMemory::~FunctionsInMemory() { 
+    clearMapCache();
+    _macroFunctionsInMemory.clear();
+    _mexFunctionsInMemory.clear();
+    _builtinFunctionInMemory.clear();
+}
 //=============================================================================
 FunctionsInMemory*
 FunctionsInMemory::getInstance()
@@ -56,31 +61,15 @@ FunctionsInMemory::destroy()
 }
 //=============================================================================
 void
-FunctionsInMemory::add(
-    Overload::OverloadClass overloadClass, const std::string& functionName, FunctionDefPtr function)
+FunctionsInMemory::clearMapCache()
 {
-    if (function != nullptr) {
-        switch (overloadClass) {
-        case Overload::UNARY: {
-            _lastUnaryFunctionInMemory = std::make_pair(functionName, function);
-        } break;
-        case Overload::BINARY: {
-            _lastBinaryFunctionInMemory = std::make_pair(functionName, function);
-        } break;
-        case Overload::TERNARY: {
-            _lastTernaryFunctionInMemory = std::make_pair(functionName, function);
-        } break;
-        default: {
-        } break;
-        }
-    }
+    _lastFunctionsInMemory.clear();
 }
 //=============================================================================
 void
 FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
 {
     if (function != nullptr) {
-        _lastFunctionInMemory = std::make_pair(functionName, function);
         if (function->type() == NLS_MACRO_FUNCTION) {
             _macroFunctionsInMemory.push_back(std::make_pair(functionName, function));
         } else if (function->type() == NLS_MEX_FUNCTION) {
@@ -88,34 +77,6 @@ FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
         } else if (function->type() == NLS_BUILT_IN_FUNCTION) {
             _builtinFunctionInMemory.emplace(functionName, function);
         }
-    }
-}
-//=============================================================================
-void
-FunctionsInMemory::clearOverloadFunctionsInMemory()
-{
-    _lastUnaryFunctionInMemory.first.clear();
-    _lastUnaryFunctionInMemory.second = nullptr;
-    _lastBinaryFunctionInMemory.first.clear();
-    _lastBinaryFunctionInMemory.second = nullptr;
-    _lastTernaryFunctionInMemory.first.clear();
-    _lastTernaryFunctionInMemory.second = nullptr;
-}
-//=============================================================================
-void
-FunctionsInMemory::clearOverloadFunctionInMemory(const std::string& functionName)
-{
-    if (_lastUnaryFunctionInMemory.first == functionName) {
-        _lastUnaryFunctionInMemory.first.clear();
-        _lastUnaryFunctionInMemory.second = nullptr;
-    }
-    if (_lastBinaryFunctionInMemory.first == functionName) {
-        _lastBinaryFunctionInMemory.first.clear();
-        _lastBinaryFunctionInMemory.second = nullptr;
-    }
-    if (_lastTernaryFunctionInMemory.first == functionName) {
-        _lastTernaryFunctionInMemory.first.clear();
-        _lastTernaryFunctionInMemory.second = nullptr;
     }
 }
 //=============================================================================
@@ -135,7 +96,7 @@ FunctionsInMemory::deleteMFunction(const std::string& functionName)
             }
         }
     }
-    clearOverloadFunctionInMemory(functionName);
+    clearMapCache();
     return false;
 }
 //=============================================================================
@@ -157,7 +118,7 @@ FunctionsInMemory::deleteMexFunction(const std::string& functionName)
             }
         }
     }
-    clearOverloadFunctionInMemory(functionName);
+    clearMapCache();
     return false;
 }
 //=============================================================================
@@ -206,24 +167,23 @@ FunctionsInMemory::find(
 {
     switch (functionType) {
     case FIND_FUNCTION_TYPE::ALL: {
-        if (_lastFunctionInMemory.first == functionName) {
-            function = _lastFunctionInMemory.second;
+
+        auto it = _lastFunctionsInMemory.find(functionName);
+        if (it != _lastFunctionsInMemory.end()) {
+            function = it->second;
             return true;
         }
+
         if (findMex(functionName, function)) {
-            _lastFunctionInMemory.first = functionName;
-            _lastFunctionInMemory.second = function;
+            _lastFunctionsInMemory.emplace(functionName, function);
             return true;
         }
         if (findMacro(functionName, function)) {
-            _lastFunctionInMemory.first = functionName;
-            _lastFunctionInMemory.second = function;
+            _lastFunctionsInMemory.emplace(functionName, function);
             return true;
         }
-        bool res = findBuiltin(functionName, function);
-        if (res) {
-            _lastFunctionInMemory.first = functionName;
-            _lastFunctionInMemory.second = function;
+        if (findBuiltin(functionName, function)) {
+            _lastFunctionsInMemory.emplace(functionName, function);
             return true;
         }
         return false;
@@ -243,36 +203,6 @@ FunctionsInMemory::find(
     return false;
 }
 //=============================================================================
-bool
-FunctionsInMemory::find(Overload::OverloadClass overloadClass, const std::string& functionName,
-    FunctionDefPtr& function)
-{
-    switch (overloadClass) {
-    case Overload::UNARY: {
-        if (functionName == _lastUnaryFunctionInMemory.first) {
-            function = _lastUnaryFunctionInMemory.second;
-            return true;
-        }
-    } break;
-    case Overload::BINARY: {
-        if (functionName == _lastBinaryFunctionInMemory.first) {
-            function = _lastBinaryFunctionInMemory.second;
-            return true;
-        }
-    } break;
-    case Overload::TERNARY: {
-        if (functionName == _lastTernaryFunctionInMemory.first) {
-            function = _lastTernaryFunctionInMemory.second;
-            return true;
-        }
-    } break;
-    default: {
-    } break;
-    }
-    function = nullptr;
-    return false;
-}
-//=============================================================================
 void
 FunctionsInMemory::deleteAllMFunctions()
 {
@@ -287,9 +217,7 @@ FunctionsInMemory::deleteAllMFunctions()
         }
     }
     _macroFunctionsInMemory.clear();
-    clearOverloadFunctionsInMemory();
-    _lastFunctionInMemory.first.clear();
-    _lastFunctionInMemory.second = nullptr;
+    clearMapCache();
 }
 //=============================================================================
 bool
@@ -314,10 +242,8 @@ FunctionsInMemory::deleteAllMexFunctions()
     }
     _mexFunctionsInMemory.clear();
     _mexFunctionsInMemory = lockedMex;
-    clearOverloadFunctionsInMemory();
     _builtinFunctionInMemory.clear();
-    _lastFunctionInMemory.first.clear();
-    _lastFunctionInMemory.second = nullptr;
+    clearMapCache();
     return noLocked;
 }
 //=============================================================================
@@ -345,7 +271,6 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
                 _macroFunctionsInMemory.erase((it + 1).base()));
         }
     } else {
-
         for (auto it = _mexFunctionsInMemory.rbegin(); it != _mexFunctionsInMemory.rend();) {
             MexFunctionDef* funcPtr = (MexFunctionDef*)it->second;
             stringVector::iterator iter
@@ -378,10 +303,8 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
             }
         }
     }
-    clearOverloadFunctionsInMemory();
     _builtinFunctionInMemory.clear();
-    _lastFunctionInMemory.first.clear();
-    _lastFunctionInMemory.second = nullptr;
+    clearMapCache();
 }
 //=============================================================================
 wstringVector

@@ -29,7 +29,6 @@
 #include "ArrayOf.hpp"
 #include "ClassName.hpp"
 #include "OverloadHelpers.hpp"
-#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -50,30 +49,21 @@ OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionNam
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);
     std::string OverloadName = classNameA + "_" + functionName;
-    if (FunctionsInMemory::getInstance()->find(Overload::UNARY, OverloadName, funcDef)) {
-        bSuccess = true;
-        return callOverloadedFunction(eval, a, OverloadName, bSuccess, funcDef, bRaiseError);
-    }
     std::string OverloadNameDesired = OverloadName;
     bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
     if (bSuccess) {
-        FunctionsInMemory::getInstance()->add(Overload::UNARY, OverloadName, funcDef);
         return callOverloadedFunction(eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
     }
     if (a.isIntegerType()) {
         OverloadName = NLS_INTEGER_STR + std::string("_") + functionName;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            FunctionsInMemory::getInstance()->add(Overload::UNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
     }
     OverloadName = NLS_GENERIC_STR + std::string("_") + functionName;
     bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-    if (bSuccess) {
-        FunctionsInMemory::getInstance()->add(Overload::UNARY, OverloadName, funcDef);
-    }
     return callOverloadedFunction(eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
 }
 //=============================================================================

@@ -29,7 +29,6 @@
 #include "ArrayOf.hpp"
 #include "ClassName.hpp"
 #include "OverloadHelpers.hpp"
-#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,14 +52,9 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
     std::string classNameB = ClassName(b);
     // WARNING: order is important.
     std::string OverloadName = classNameA + "_" + functionName + "_" + classNameB;
-    if (FunctionsInMemory::getInstance()->find(Overload::BINARY, OverloadName, funcDef)) {
-        bSuccess = true;
-        return callOverloadedFunction(eval, a, b, OverloadName, bSuccess, funcDef, bRaiseError);
-    }
     std::string OverloadNameDesired = OverloadName;
     bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
     if (bSuccess) {
-        FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
         return callOverloadedFunction(
             eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
     }
@@ -68,7 +62,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
         OverloadName = std::string(NLS_INTEGER_STR) + "_" + functionName + "_" + classNameB;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -77,7 +70,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
         OverloadName = classNameA + "_" + functionName + "_" + std::string(NLS_INTEGER_STR);
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -87,7 +79,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
             + std::string(NLS_INTEGER_STR);
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -95,7 +86,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
     OverloadName = classNameA + "_" + functionName + "_" + std::string(NLS_GENERIC_STR);
     bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
     if (bSuccess) {
-        FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
         return callOverloadedFunction(
             eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
     }
@@ -104,7 +94,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
             + std::string(NLS_GENERIC_STR);
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -112,7 +101,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
     OverloadName = std::string(NLS_GENERIC_STR) + "_" + functionName + "_" + classNameB;
     bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
     if (bSuccess) {
-        FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
         return callOverloadedFunction(
             eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
     }
@@ -121,7 +109,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
             + std::string(NLS_INTEGER_STR);
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -129,9 +116,6 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string&
     OverloadName
         = std::string(NLS_GENERIC_STR) + "_" + functionName + "_" + std::string(NLS_GENERIC_STR);
     bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-    if (bSuccess) {
-        FunctionsInMemory::getInstance()->add(Overload::BINARY, OverloadName, funcDef);
-    }
     return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
 }
 //=============================================================================
