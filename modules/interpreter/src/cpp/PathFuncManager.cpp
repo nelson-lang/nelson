@@ -50,6 +50,9 @@ PathFuncManager* PathFuncManager::m_pInstance = nullptr;
 static bool
 isSamePath(const std::wstring& p1, const std::wstring& p2)
 {
+    if (p1.compare(p2) == 0) {
+        return true;
+    }
     boost::filesystem::path _path1 = p1;
     boost::filesystem::path _path2 = p2;
     if (boost::filesystem::equivalent(p1, p2)) {
@@ -322,7 +325,7 @@ PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
     boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
-        _pathFuncVector.end(), [path](PathFunc* x) { return x->getPath() == path; });
+        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
 
     if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
