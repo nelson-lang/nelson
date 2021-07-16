@@ -63,16 +63,16 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             }
         } else if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
-            auto* fun = (FunctionDef*)fh;
-            if (eval->getContext()->getGlobalScope()->isPointerOnFunction(fun)) {
-                if (fun->type() == NLS_MACRO_FUNCTION) {
-                    auto* fm = (MacroFunctionDef*)fun;
-                    filename = fm->getFilename();
-                } else {
-                    Error(_W("built-in have no comments."));
-                }
-            } else {
+            std::string name = fh.name;
+            FunctionDefPtr fun = nullptr;
+            if (!eval->getContext()->lookupFunction(name, fun)) {
                 Error(_W("function does not exist."));
+            }
+            if (fun->type() == NLS_MACRO_FUNCTION) {
+                auto* fm = (MacroFunctionDef*)fun;
+                filename = fm->getFilename();
+            } else {
+                Error(_W("built-in have no comments."));
             }
         }
         HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;

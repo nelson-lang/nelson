@@ -38,6 +38,10 @@ R = h5readatt(test_h5save_file, '/fn', 'NELSON_object');
 assert_isequal(R, uint8(1));
 R = h5read(test_h5save_file, '/fn/0');
 assert_isequal(R, uint16('cos'));
+R= h5read(test_h5save_file, '/fn/1');
+assert_isequal(R, uint16(0));
 R = h5read(test_h5save_file, '/fn/fieldnames/0');
-assert_isequal(R, uint16('function'));
+assert_isequal(R, uint16('name'));
+R = h5read(test_h5save_file, '/fn/fieldnames/1');
+assert_isequal(R, uint16('anonymous'));
 %=============================================================================

@@ -129,13 +129,6 @@ PathFuncManager::clear()
     _pathFuncVector.clear();
 }
 //=============================================================================
-bool
-PathFuncManager::isPointerOnPathFunctionDef(FunctionDefPtr ptr)
-{
-    std::wstring functionName;
-    return find(ptr->getHashId(), functionName);
-}
-//=============================================================================
 wstringVector
 PathFuncManager::getMacrosList(const std::wstring& prefix)
 {
@@ -254,35 +247,6 @@ PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname
         }
     }
     return (filesname.size() > 0);
-}
-//=============================================================================
-bool
-PathFuncManager::find(size_t hashid, std::wstring& functionname)
-{
-    bool res = false;
-    if (_currentPath != nullptr) {
-        res = _currentPath->findFuncByHash(hashid, functionname);
-        if (res) {
-            return true;
-        }
-    }
-    if (_userPath != nullptr) {
-        res = _userPath->findFuncByHash(hashid, functionname);
-        if (res) {
-            return true;
-        }
-    }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
-         it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
-        if (pf) {
-            res = pf->findFuncByHash(hashid, functionname);
-            if (res) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 //=============================================================================
 bool
@@ -532,9 +496,6 @@ PathFuncManager::processFile(FileFunction* ff, const std::string& functionName)
             ptr = processMexFile(ff->getFilename(), ff->getName());
         } else {
             ptr = processMacroFile(ff->getFilename());
-        }
-        if (ptr != nullptr) {
-            ptr->setHashId(ff->getHashID());
         }
     }
     return ptr;

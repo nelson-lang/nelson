@@ -27,6 +27,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "ClearFunction.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,7 +43,7 @@ Nelson::FunctionsGateway::clearfunBuiltin(int nLhs, const ArrayOfVector& argIn)
         functionname = argIn[0].getContentAsWideString();
     } else if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
-        BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+        functionname = utf8_to_wstring(fh.name);
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

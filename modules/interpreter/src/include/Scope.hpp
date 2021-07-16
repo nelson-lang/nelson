@@ -238,9 +238,6 @@ public:
     bool
     deleteVariable(const std::string& var);
 
-    bool
-    isPointerOnFunction(FunctionDefPtr val);
-
     void
     setNargIn(int _nargin);
     int

@@ -33,7 +33,9 @@ for v = matver
   clear f;
   loadmat(test_file_mat);
   assert_istrue(isstruct(f));
-  assert_isequal(fieldnames(f), {'function_handle'});
+  assert_isequal(fieldnames(f), {'name'; 'anonymous'});
   assert_isequal(size(f), [1 1]);
+  assert_isequal(f.name, 'cos');
+  assert_isequal(f.anonymous, '');
 end
 %=============================================================================

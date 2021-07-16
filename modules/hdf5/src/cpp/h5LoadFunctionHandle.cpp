@@ -38,18 +38,13 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     bool bSuccess = false;
     ArrayOf value;
     if (h5LoadStruct(fid, location, variableName, isEmpty, dims, false, "", value)) {
-        ArrayOf funcStr = value.getField("function");
-        std::string function_name = funcStr.getContentAsCString();
-        FunctionDefPtr fptr = nullptr;
-        bool found = PathFuncManager::getInstance()->find(function_name, fptr);
-        if (!found) {
-            found = BuiltInFunctionDefManager::getInstance()->find(function_name, fptr);
-        }
-        if (found && (fptr != nullptr)) {
-            VariableValue = ArrayOf::functionHandleConstructor(
-                utf8_to_wstring(function_name), fptr->getHashId());
-            bSuccess = true;
-        }
+        ArrayOf nameStr = value.getField("name");
+        ArrayOf anonymousStr = value.getField("anonymous");
+        function_handle fh;
+        fh.name = nameStr.getContentAsCString();
+        fh.anonymous = anonymousStr.getContentAsCString();
+        VariableValue = ArrayOf::functionHandleConstructor(fh);
+        bSuccess = true;
     }
     return bSuccess;
 }

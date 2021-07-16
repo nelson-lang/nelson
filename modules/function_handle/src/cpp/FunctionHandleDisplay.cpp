@@ -40,19 +40,15 @@ FunctionHandleDisplay(Evaluator* eval, ArrayOf Var)
     Interface* io = eval->getInterface();
     if (io != nullptr) {
         function_handle fh = Var.getContentAsFunctionHandle();
-        std::wstring functionname;
-        bool found = PathFuncManager::getInstance()->find(fh, functionname);
-        if (!found) {
-            found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-        }
-        if (found) {
-            io->outputMessage(L"@" + functionname);
+        if (fh.anonymous.empty()) {
+            io->outputMessage("@" + fh.name);
             io->outputMessage("\n");
         } else {
-            io->outputMessage(_W("function_handle not valid."));
+            io->outputMessage("@" + fh.anonymous);
             io->outputMessage("\n");
         }
     }
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

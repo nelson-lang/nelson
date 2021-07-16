@@ -77,18 +77,6 @@ Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
     return currentLocalFunctions.find(funcName, val);
 }
 //=============================================================================
-bool
-Scope::isPointerOnFunction(FunctionDefPtr val)
-{
-    if (PathFuncManager::getInstance()->isPointerOnPathFunctionDef(val)) {
-        return true;
-    }
-    if (BuiltInFunctionDefManager::getInstance()->isPointerOnBuiltInFunctionDef(val)) {
-        return true;
-    }
-    return false;
-}
-//=============================================================================
 ArrayOf*
 Scope::lookupVariable(const std::string& varName)
 {

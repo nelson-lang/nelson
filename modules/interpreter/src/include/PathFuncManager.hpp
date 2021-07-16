@@ -87,8 +87,6 @@ public:
     find(const std::wstring& functionName, wstringVector& filesname);
     bool
     find(const std::wstring& functionName, FileFunction** ff);
-    bool
-    find(size_t hashid, std::wstring& functionname);
 
     bool
     addPath(const std::wstring& path, bool begin, bool frozen);
@@ -121,9 +119,6 @@ public:
     clearCache();
     void
     clearCache(stringVector exceptedFunctions);
-
-    bool
-    isPointerOnPathFunctionDef(FunctionDefPtr ptr);
 
     bool
     isAvailablePath(const std::wstring& path);

@@ -31,13 +31,11 @@ namespace Nelson {
 bool
 FunctionHandleIsEqual(ArrayOf A, ArrayOf B)
 {
-    bool bRes;
+    bool bRes = false;
     if (A.isFunctionHandle() && B.isFunctionHandle()) {
         function_handle fhA = A.getContentAsFunctionHandle();
         function_handle fhB = B.getContentAsFunctionHandle();
-        bRes = (fhA == fhB);
-    } else {
-        bRes = false;
+        bRes = (fhA.name == fhB.name) && (fhA.anonymous == fhA.anonymous);
     }
     return bRes;
 }

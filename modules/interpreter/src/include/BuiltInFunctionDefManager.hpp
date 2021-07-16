@@ -67,11 +67,6 @@ public:
     find(const std::string& name, wstringVector& paths);
     bool
     find(const std::string& name, std::wstring& path);
-    bool
-    find(size_t hashid, std::wstring& functionname);
-
-    bool
-    isPointerOnBuiltInFunctionDef(FunctionDefPtr ptr);
 
 private:
     bool

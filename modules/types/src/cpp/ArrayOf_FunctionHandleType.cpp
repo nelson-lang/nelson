@@ -41,11 +41,13 @@ ArrayOf::isFunctionHandle() const
 function_handle
 ArrayOf::getContentAsFunctionHandle()
 {
-    function_handle fh = 0;
+    function_handle fh;
     std::string classString = this->getStructType();
     if (classString == NLS_FUNCTION_HANDLE_STR) {
-        ArrayOf value1 = this->getField(NLS_FUNCTION_HANDLE_STR);
-        fh = (function_handle)value1.getContentAsUnsignedInt64Scalar();
+        ArrayOf nameField = this->getField("name");
+        ArrayOf anonymousField = this->getField("anonymous");
+        fh.name = nameField.getContentAsCString();
+        fh.anonymous = anonymousField.getContentAsCString();
     } else {
         Error(_W("Expected a function_handle."));
     }
@@ -53,12 +55,32 @@ ArrayOf::getContentAsFunctionHandle()
 }
 //=============================================================================
 ArrayOf
-ArrayOf::functionHandleConstructor(const std::wstring& functionName, function_handle fptr)
+ArrayOf::functionHandleConstructor(const std::wstring& functionName, const std::wstring &anonymous)
 {
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
-    fieldnames.push_back(NLS_FUNCTION_HANDLE_STR);
-    fieldvalues.push_back(ArrayOf::uint64Constructor(fptr));
+    fieldnames.push_back("name");
+    fieldnames.push_back("anonymous");
+
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(functionName));
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(anonymous));
+
+    ArrayOf res = structConstructor(fieldnames, fieldvalues);
+    res.setStructType(NLS_FUNCTION_HANDLE_STR);
+    return res;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::functionHandleConstructor(function_handle fptr)
+{
+    stringVector fieldnames;
+    ArrayOfVector fieldvalues;
+    fieldnames.push_back("name");
+    fieldnames.push_back("anonymous");
+
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(fptr.name));
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(fptr.anonymous));
+
     ArrayOf res = structConstructor(fieldnames, fieldvalues);
     res.setStructType(NLS_FUNCTION_HANDLE_STR);
     return res;

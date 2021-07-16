@@ -80,7 +80,7 @@ using uint64 = uint64_t;
 using charType = wchar_t;
 using single = float;
 using constIndexPtr = const indexType*;
-using function_handle = size_t;
+using function_handle = struct { std::string name; std::string anonymous;};
 using nelson_handle = uint64_t;
 
 #define doublecomplex std::complex<double>

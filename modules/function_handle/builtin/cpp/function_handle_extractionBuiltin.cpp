@@ -37,21 +37,14 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 0) {
+    if (!argIn.empty()) {
         ArrayOf Arg1 = argIn[0];
         if (Arg1.isFunctionHandle()) {
             function_handle fh = Arg1.getContentAsFunctionHandle();
             FunctionDef* funcDef = nullptr;
             std::wstring functionName;
-            bool found = PathFuncManager::getInstance()->find(fh, functionName);
-            if (found) {
-                PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef);
-            } else {
-                found = BuiltInFunctionDefManager::getInstance()->find(fh, functionName);
-                if (found) {
-                    BuiltInFunctionDefManager::getInstance()->find(
-                        wstring_to_utf8(functionName), funcDef);
-                }
+            if (fh.anonymous.empty()) {
+                eval->getContext()->lookupFunction(fh.name, funcDef);
             }
             if (funcDef != nullptr) {
                 ArrayOfVector m;
