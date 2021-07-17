@@ -70,7 +70,6 @@ private:
     bool
     isDir(const std::wstring& pathname);
 
-
 public:
     static PathFuncManager*
     getInstance();

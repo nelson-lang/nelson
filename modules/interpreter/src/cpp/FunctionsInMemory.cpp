@@ -33,9 +33,10 @@ namespace Nelson {
 //=============================================================================
 FunctionsInMemory* FunctionsInMemory::m_pInstance = nullptr;
 //=============================================================================
-FunctionsInMemory::FunctionsInMemory() { }
+FunctionsInMemory::FunctionsInMemory() {}
 //=============================================================================
-FunctionsInMemory::~FunctionsInMemory() { 
+FunctionsInMemory::~FunctionsInMemory()
+{
     clearMapCache();
     _macroFunctionsInMemory.clear();
     _mexFunctionsInMemory.clear();
@@ -197,9 +198,7 @@ FunctionsInMemory::find(
     case FIND_FUNCTION_TYPE::BUILTIN: {
         return findBuiltin(functionName, function);
     }
-    default: {
-    } break;
-    }
+    default: { } break; }
     return false;
 }
 //=============================================================================

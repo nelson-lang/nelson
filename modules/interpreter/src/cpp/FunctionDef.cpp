@@ -46,7 +46,7 @@
 #include "FunctionDef.hpp"
 
 namespace Nelson {
-FunctionDef::FunctionDef() { }
+FunctionDef::FunctionDef() {}
 
 FunctionDef::~FunctionDef() = default;
 }

@@ -30,8 +30,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionHandleGateway::str2funcBuiltin(
-    int nLhs, const ArrayOfVector& argIn)
+Nelson::FunctionHandleGateway::str2funcBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);

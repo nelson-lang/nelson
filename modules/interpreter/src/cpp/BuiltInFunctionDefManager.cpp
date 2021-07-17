@@ -30,7 +30,7 @@ namespace Nelson {
 //=============================================================================
 BuiltInFunctionDefManager* BuiltInFunctionDefManager::m_pInstance = nullptr;
 //=============================================================================
-BuiltInFunctionDefManager::BuiltInFunctionDefManager() { }
+BuiltInFunctionDefManager::BuiltInFunctionDefManager() {}
 //=============================================================================
 void
 BuiltInFunctionDefManager::destroy()

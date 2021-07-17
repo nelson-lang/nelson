@@ -297,7 +297,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf nameArray = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf anonymousArray = unpackMPI(buffer, bufsize, packpos, comm);
             if (nameArray.isRowVectorCharacterArray()
-              && anonymousArray.isRowVectorCharacterArray()) {
+                && anonymousArray.isRowVectorCharacterArray()) {
                 function_handle fptr;
                 fptr.name = nameArray.getContentAsCString();
                 fptr.anonymous = anonymousArray.getContentAsCString();
@@ -547,9 +547,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
         }
     case NLS_CHAR:
         return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_WCHAR, comm));
-    default: {
-    } break;
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================

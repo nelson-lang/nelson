@@ -1171,7 +1171,7 @@ public:
     static ArrayOf
     functionHandleConstructor(function_handle fptr);
     static ArrayOf
-    functionHandleConstructor(const std::wstring& functionName, const std::wstring &anonymous);
+    functionHandleConstructor(const std::wstring& functionName, const std::wstring& anonymous);
 
     function_handle
     getContentAsFunctionHandle();

@@ -40,7 +40,8 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
     if (argIn.size() == 1) {
         if (argIn[0].isClassStruct()) {
             if (argIn[0].isFunctionHandle()) {
-                Error(_("Conversion to 'struct' to 'function_handle' is not possible."), "Nelson:invalidConversion");
+                Error(_("Conversion to 'struct' to 'function_handle' is not possible."),
+                    "Nelson:invalidConversion");
             } else {
                 ArrayOf asStruct = argIn[0];
                 asStruct.ensureSingleOwner();
