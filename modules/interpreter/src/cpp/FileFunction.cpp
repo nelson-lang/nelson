@@ -31,8 +31,11 @@
 #include "MxGetExtension.hpp"
 //=============================================================================
 namespace Nelson {
-FileFunction::FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex)
+//=============================================================================
+FileFunction::FileFunction(
+    const std::wstring& directory, const std::wstring& name, bool ismex, bool withWatcher)
 {
+    this->_withWatcher = withWatcher;
     bool withFinalDirectorySeparator = boost::algorithm::ends_with(directory, L"/")
         || boost::algorithm::ends_with(directory, L"\\");
     _ismex = ismex;
@@ -53,12 +56,7 @@ FileFunction::FileFunction(const std::wstring& directory, const std::wstring& na
     inFile.open(wstring_to_utf8(_fullfilename));
 #endif
     if (inFile.is_open()) {
-        std::string content = std::string(
-            (std::istreambuf_iterator<char>(inFile)), (std::istreambuf_iterator<char>()));
-        _hashid = std::hash<std::string>()(content);
         inFile.close();
-    } else {
-        _hashid = 0;
     }
 }
 //=============================================================================
@@ -66,7 +64,6 @@ FileFunction::~FileFunction()
 {
     _fullfilename.clear();
     _name.clear();
-    _hashid = 0;
     _ismex = false;
 }
 //=============================================================================
@@ -82,16 +79,16 @@ FileFunction::getName()
     return _name;
 }
 //=============================================================================
-size_t
-FileFunction::getHashID()
-{
-    return _hashid;
-}
-//=============================================================================
 bool
 FileFunction::isMex()
 {
     return _ismex;
+}
+//=============================================================================
+bool
+FileFunction::getWithWatcher()
+{
+    return _withWatcher;
 }
 //=============================================================================
 } // namespace Nelson

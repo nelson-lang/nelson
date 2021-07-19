@@ -35,49 +35,57 @@ namespace Nelson {
 class NLSINTERPRETER_IMPEXP BuiltInFunctionDef : public FunctionDef
 {
 public:
+    //=============================================================================
     /**
      * Location of the function's defining dynamic library.
      */
     std::wstring fileName;
+    //=============================================================================
     /**
      * The number of return args for this function (-1 for variable).
      */
     int retCount;
+    //=============================================================================
     /** The number of input args for this function (-1 for variable).
      */
     int argCount;
+    //=============================================================================
     /**
      * The pointer to (address of) the function.
      */
     void* fptr;
+    //=============================================================================
     /**
      * Type of builtin;
      */
     size_t builtinPrototype;
-
-    bool interleavedComplex;
+    //=============================================================================
     /**
      * separated or interleaved complex
      * Nelson uses natively interleaved complex representation
      * MEX before 2018 version uses separated complex representation
      */
-
+    bool interleavedComplex;
+    //=============================================================================
     /**
      * Default constructor.
      */
     BuiltInFunctionDef();
+    //=============================================================================
     /**
      * Default destructor.
      */
     ~BuiltInFunctionDef() override;
+    //=============================================================================
     /**
      * The type of the function is NLS_BUILT_IN_FUNCTION
      */
-    const FunctionType
-    type() override // lgtm [cpp/member-const-no-effect]
+    FunctionType
+    type() const override
     {
         return NLS_BUILT_IN_FUNCTION;
     }
+    //=============================================================================
     /**
      * The number of inputs required by this function.
      */
@@ -86,6 +94,7 @@ public:
     {
         return argCount;
     }
+    //=============================================================================
     /**
      * The number of outputs returned by this function.
      */
@@ -94,13 +103,20 @@ public:
     {
         return retCount;
     }
+    //=============================================================================
     /**
      * Evaluate the function and return the values.
      */
-
     ArrayOfVector
     evaluateFunction(
         Evaluator* /*unused*/, const ArrayOfVector& /*unused*/, int /*unused*/) override;
+    //=============================================================================
+    bool
+    updateCode() override
+    {
+        return false;
+    }
+    //=============================================================================
 };
 //=============================================================================
 } // namespace Nelson

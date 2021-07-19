@@ -499,7 +499,7 @@ PathFuncManager::processFile(FileFunction* ff, const std::string& functionName)
         if (ff->isMex()) {
             ptr = processMexFile(ff->getFilename(), ff->getName());
         } else {
-            ptr = processMacroFile(ff->getFilename());
+            ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher());
         }
     }
     return ptr;
@@ -522,103 +522,13 @@ PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring
 }
 //=============================================================================
 MacroFunctionDef*
-PathFuncManager::processMacroFile(const std::wstring& script_filename)
+PathFuncManager::processMacroFile(const std::wstring& script_filename, bool withWatcher)
 {
     MacroFunctionDef* fptr = nullptr;
-    FILE* fr;
-#ifdef _MSC_VER
-    fr = _wfopen(script_filename.c_str(), L"rt");
-#else
-    fr = fopen(wstring_to_utf8(script_filename).c_str(), "r");
-#endif
-    if (fr == nullptr) {
-        int errnum = errno;
-        std::string msg1 = str(boost::format(_("Value of errno: %d")) % errno);
-        std::string msg2 = str(boost::format(_("Error opening file: %s")) % strerror(errnum));
-        Error(_W("Cannot open:") + L" " + script_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
-            + utf8_to_wstring(msg2));
-    }
-    ParserState pstate = ParserState::ParseError;
-    AbstractSyntaxTree::clearReferences();
-    AbstractSyntaxTreePtrVector ptAstCode;
     try {
-        pstate = parseFile(fr, wstring_to_utf8(script_filename));
-        ptAstCode = AbstractSyntaxTree::getReferences();
-    } catch (const Exception&) {
-        AbstractSyntaxTree::deleteReferences();
-        if (fr != nullptr) {
-            fclose(fr);
-        }
-        throw;
-    }
-    if (fr != nullptr) {
-        fclose(fr);
-    }
-    if (pstate == ParserState::ParseError) {
-        AbstractSyntaxTree::deleteReferences(ptAstCode);
-        AbstractSyntaxTree::clearReferences();
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    }
-    try {
-        if (pstate == ParserState::FuncDef) {
-            fptr = getParsedFunctionDef();
-            fptr->isScript = false;
-        } else {
-            fptr = new MacroFunctionDef();
-            fptr->code = getParsedScriptBlock();
-            boost::filesystem::path pathFunction(script_filename);
-            fptr->setName(pathFunction.stem().generic_string());
-            fptr->setFilename(script_filename);
-            fptr->isScript = true;
-        }
-
-    } catch (const Exception&) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    }
-    if (fptr == nullptr) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    }
-    fptr->ptrAstCodeAsVector = std::move(ptAstCode);
-    AbstractSyntaxTree::clearReferences();
-    if (!fptr->isScript) {
-        stringVector functionNamesInFile;
-        MacroFunctionDef* cp = fptr->nextFunction;
-        functionNamesInFile.push_back(fptr->getName());
-        while (cp != nullptr) {
-            functionNamesInFile.push_back(cp->getName());
-            cp = cp->nextFunction;
-        }
-
-        auto it = std::unique(functionNamesInFile.begin(), functionNamesInFile.end());
-        bool isUnique = (it == functionNamesInFile.end());
-        if (!isUnique) {
-            delete fptr;
-            fptr = nullptr;
-            std::string msg
-                = str(boost::format(_("Function '%s' has already been declared within this scope."))
-                    % it->c_str());
-            Error(msg);
-        }
-
-        boost::filesystem::path pathFunction(script_filename);
-        const std::string functionNameFromFile = pathFunction.stem().generic_string();
-
-        if (fptr != nullptr && fptr->getName() != functionNameFromFile) {
-            if (std::find(
-                    functionNamesInFile.begin(), functionNamesInFile.end(), functionNameFromFile)
-                != functionNamesInFile.end()) {
-                fptr->setName(functionNameFromFile);
-            }
-        }
-        if (fptr != nullptr && fptr->getName() != functionNameFromFile) {
-            std::string name = fptr->getName();
-            delete fptr;
-            fptr = nullptr;
-            std::string msg
-                = str(boost::format(_("Filename and function name are not same (%s vs %s).")) % name
-                    % functionNameFromFile);
-            Error(msg);
-        }
+        fptr = new MacroFunctionDef(script_filename, withWatcher);
+    } catch (const std::bad_alloc&) {
+        fptr = nullptr;
     }
     return fptr;
 }

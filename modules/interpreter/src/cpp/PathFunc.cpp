@@ -52,6 +52,7 @@ PathFunc::isdir(const std::wstring& path)
 //=============================================================================
 PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
+    this->withWatcher = withWatcher;
     if (isdir(path)) {
         _path = uniformizePathName(path);
         if (withWatcher) {
@@ -196,7 +197,7 @@ PathFunc::rehash()
                     if (isSupportedFuncFilename(name)) {
                         FileFunction* ff = nullptr;
                         try {
-                            ff = new FileFunction(_path, name, isMex);
+                            ff = new FileFunction(_path, name, isMex, withWatcher);
                         } catch (const std::bad_alloc&) {
                             ff = nullptr;
                         }
@@ -241,20 +242,6 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
     }
 
     return false;
-}
-//=============================================================================
-bool
-PathFunc::findFuncByHash(size_t hashid, std::wstring& functionName)
-{
-    bool res = false;
-    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
-         it != mapAllFiles.end(); ++it) {
-        if (it->second->getHashID() == hashid) {
-            functionName = it->first;
-            res = true;
-        }
-    }
-    return res;
 }
 //=============================================================================
 } // namespace Nelson

@@ -49,7 +49,7 @@ private:
     processMexFile(const std::wstring& filename, const std::wstring& functionName);
 
     MacroFunctionDef*
-    processMacroFile(const std::wstring& script_filename);
+    processMacroFile(const std::wstring& script_filename, bool withWatcher);
 
     FunctionDef*
     processFile(FileFunction* ff, const std::string& functionName);

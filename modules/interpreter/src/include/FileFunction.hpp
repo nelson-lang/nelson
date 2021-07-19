@@ -34,20 +34,21 @@ class FileFunction
 private:
     std::wstring _fullfilename;
     std::wstring _name;
-    size_t _hashid;
     bool _ismex;
+    bool _withWatcher;
 
 public:
-    FileFunction(const std::wstring& directory, const std::wstring& name, bool ismex);
+    FileFunction(
+        const std::wstring& directory, const std::wstring& name, bool ismex, bool withWatcher);
     ~FileFunction();
     std::wstring
     getFilename();
     std::wstring
     getName();
-    size_t
-    getHashID();
     bool
     isMex();
+    bool
+    getWithWatcher();
 };
 //=============================================================================
 } // namespace Nelson

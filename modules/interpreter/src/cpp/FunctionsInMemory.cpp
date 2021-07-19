@@ -93,11 +93,11 @@ FunctionsInMemory::deleteMFunction(const std::string& functionName)
                 delete f;
                 f = nullptr;
                 _macroFunctionsInMemory.erase((it + 1).base());
+                clearMapCache();
                 return true;
             }
         }
     }
-    clearMapCache();
     return false;
 }
 //=============================================================================
@@ -113,13 +113,13 @@ FunctionsInMemory::deleteMexFunction(const std::string& functionName)
                 if (!f->isLocked()) {
                     delete f;
                     f = nullptr;
+                    clearMapCache();
                     _mexFunctionsInMemory.erase((it + 1).base());
                     return true;
                 }
             }
         }
     }
-    clearMapCache();
     return false;
 }
 //=============================================================================

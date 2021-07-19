@@ -68,8 +68,8 @@ public:
     /**
      * The type of the function is NLS_BUILT_IN_FUNCTION
      */
-    const FunctionType
-    type() override // lgtm [cpp/member-const-no-effect]
+    FunctionType
+    type() const override
     {
         return NLS_MEX_FUNCTION;
     }
@@ -118,6 +118,9 @@ public:
      */
     bool
     isLocked();
+    //=============================================================================
+    bool
+    updateCode() override;
     //=============================================================================
 };
 //=============================================================================

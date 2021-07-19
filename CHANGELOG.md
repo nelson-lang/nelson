@@ -14,6 +14,10 @@
 
 - checks in the .m function that other local function names are not duplicated.
 
+- .m timestamp checked if `addpath(...,'-frozen')` is not enabled.
+
+- function_handle reworked to have an compatible behavior.
+
 - `struct` behavior with `function_handle`.
 
 - `clear` reworked to support mex in memory.

@@ -76,17 +76,19 @@ public:
      */
     bool localFunction;
     /**
-     * The constructor.
+     * constructors.
      */
     MacroFunctionDef();
+    MacroFunctionDef(const std::wstring& filename, bool withWatcher);
+
     /**
      * The destructor
      */
     ~MacroFunctionDef() override;
     /** The type of the function
      */
-    const FunctionType
-    type() override // lgtm [cpp/member-const-no-effect]
+    FunctionType
+    type() const override
     {
         return Nelson::FunctionType::NLS_MACRO_FUNCTION;
     }
@@ -116,14 +118,40 @@ public:
     ArrayOfVector
     evaluateFunction(
         Evaluator* /*eval*/, const ArrayOfVector& /*inputs*/, int /*nargout*/) override;
-
+    //=============================================================================
     int
     nargin();
+    //=============================================================================
     int
     nargout();
-
-    bool isScript;
-
+    //=============================================================================
+    bool
+    updateCode() override;
+    //=============================================================================
+    void
+    setIsScript(bool _isScript)
+    {
+        isScript = _isScript;
+    }
+    //=============================================================================
+    bool
+    getIsScript()
+    {
+        return isScript;
+    }
+    //=============================================================================
+    void
+    setWithWatcher(bool withWatcher)
+    {
+        this->withWatcher = withWatcher;
+    }
+    //=============================================================================
+    bool
+    getWithWatcher()
+    {
+        return this->withWatcher;
+    }
+    //=============================================================================
 private:
     std::string
     getCompleteName();
@@ -133,6 +161,9 @@ private:
 
     ArrayOfVector
     evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
+
+    bool isScript;
+    bool withWatcher;
 };
 //=============================================================================
 } // namespace Nelson

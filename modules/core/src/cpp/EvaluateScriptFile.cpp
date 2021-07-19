@@ -140,37 +140,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     bool needThrowException = false;
     MacroFunctionDef* fptr = nullptr;
     try {
-        switch (pstate) {
-        case ParserState::FuncDef: {
-            fptr = getParsedFunctionDef();
-            if (fptr != nullptr) {
-                fptr->isScript = false;
-            }
-        } break;
-        case ParserState::ScriptBlock: {
-            AbstractSyntaxTreePtr scriptCode = getParsedScriptBlock();
-            if (scriptCode != nullptr) {
-                fptr = new MacroFunctionDef();
-                fptr->code = getParsedScriptBlock();
-                boost::filesystem::path pathFunction(absolutePath.generic_wstring());
-                fptr->setName(pathFunction.stem().generic_string());
-                fptr->setFilename(absolutePath.generic_wstring());
-                fptr->isScript = true;
-            }
-        } break;
-        default:
-        case ParserState::ParseError: {
-            AbstractSyntaxTree::deleteReferences(pt);
-            AbstractSyntaxTree::clearReferences();
-            Exception e(_W("An valid script expected."));
-            eval->popEvaluateFilenameList();
-            e.printMe(eval->getInterface());
-            if (bNeedToRestoreDirectory) {
-                ChangeDirectory(initialDir.generic_wstring(), false);
-            }
-            return false;
-        } break;
-        }
+        fptr = new MacroFunctionDef(absolutePath.generic_wstring(), true);
         if (fptr != nullptr) {
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);

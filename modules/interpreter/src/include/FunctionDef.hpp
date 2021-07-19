@@ -45,7 +45,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <time.h>
 #include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "nlsInterpreter_exports.h"
@@ -92,6 +94,8 @@ private:
     //=============================================================================
     std::wstring pathname;
     //=============================================================================
+    time_t timestamp;
+    //=============================================================================
 public:
     //=============================================================================
     void
@@ -100,6 +104,7 @@ public:
         this->filename = filename;
         boost::filesystem::path path(filename);
         this->pathname = path.parent_path().generic_wstring();
+        this->timestamp = boost::filesystem::last_write_time(filename);
     }
     //=============================================================================
     std::wstring
@@ -146,9 +151,8 @@ public:
     /**
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
-    const virtual FunctionType
-    type() // lgtm [cpp/member-const-no-effect]
-        = 0;
+    virtual FunctionType
+    type() const = 0;
     //=============================================================================
     /**
      * The number of inputs required by this function (-1 if variable).
@@ -170,6 +174,22 @@ public:
     virtual ArrayOfVector
     evaluateFunction(Evaluator*, const ArrayOfVector&, int)
         = 0;
+    //=============================================================================
+    virtual bool
+    updateCode()
+        = 0;
+    //=============================================================================
+    void
+    setTimestamp(time_t timestamp)
+    {
+        this->timestamp = timestamp;
+    }
+    //=============================================================================
+    time_t
+    getTimestamp()
+    {
+        return this->timestamp;
+    }
     //=============================================================================
 };
 //=============================================================================

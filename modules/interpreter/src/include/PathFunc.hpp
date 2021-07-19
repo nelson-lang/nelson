@@ -49,8 +49,6 @@ public:
     findFuncName(const std::wstring& functionName, std::wstring& filename);
     bool
     findFuncName(const std::wstring& functionName, FileFunction** ff);
-    bool
-    findFuncByHash(size_t hashid, std::wstring& functionName);
 
 private:
     boost::unordered_map<std::wstring, FileFunction*> mapAllFiles;
@@ -64,6 +62,8 @@ private:
     comparePathname(const std::wstring& path1, const std::wstring& path2);
     bool
     isdir(const std::wstring& path);
+    bool withWatcher;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
