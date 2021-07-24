@@ -1,10 +1,6 @@
-         __     _  __
-      /\ \ \___| |/ _\ ___  _ __
-     /  \/ / _ | |\ \ / _ \| '_ \
-    / /\  |  __| |_\ | (_) | | | |
-    \_\ \/ \___|_|\__/\___/|_| |_|
+![Nelson logo](https://github.com/Nelson-numerical-software/nelson/blob/master/resources/banner_nelson_small.png?raw=true)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d5f82474da134d979b472fa5fbe7b5b9)](https://www.codacy.com/gh/Nelson-numerical-software/nelson/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=Badge_Grade)
 [![Total alerts](https://img.shields.io/lgtm/grade/cpp/g/Nelson-numerical-software/nelson.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Nelson-numerical-software/nelson/alerts/)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602)
 
@@ -30,6 +26,8 @@ an interpreter and a high level programming language.
 
 Nelson has been developed to be an open/modular system where an user can define
 these own data types and operations on these data types by using overload.
+
+![Nelson environment](https://github.com/Nelson-numerical-software/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
 [Web site](https://nelson-numerical-software.github.io/nelson-website/)
 
