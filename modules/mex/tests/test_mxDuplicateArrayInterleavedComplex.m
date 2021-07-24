@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxDuplicateArrayInterleavedComplex')
+if exist('mxDuplicateArrayInterleavedComplex') == 0
     test_dir = [tempdir(), 'mxDuplicateArray_interleaved'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,7 +33,7 @@ if ~isbuiltin('mxDuplicateArrayInterleavedComplex')
     assert_istrue(status);
     cd(test_dir);
     mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c' );
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 % interleaved complex representation

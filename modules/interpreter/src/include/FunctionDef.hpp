@@ -42,23 +42,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
-
+//=============================================================================
+#include <time.h>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "nlsInterpreter_exports.h"
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 typedef enum
 {
     NLS_MACRO_FUNCTION,
     NLS_BUILT_IN_FUNCTION,
+    NLS_MEX_FUNCTION,
 } FunctionType;
-
+//=============================================================================
 class Evaluator;
-
+//=============================================================================
 /** Base class for the function types
  * A FunctionDef class is a base class for the different types
  * of function pointers used.  There are three types of functions
@@ -68,6 +72,7 @@ class Evaluator;
  *    - Built-in functions - these are functions coded in C++ that
  *      implement functionality too difficult/impossible to do in
  *      the language itself.
+ *    - MEX functions - compatible MEX functions
  * All of these functions have in common a name, a script classification
  * (is it a script or not), a well defined number of input arguments,
  * a well defined number of output arguments, and some means of
@@ -75,52 +80,120 @@ class Evaluator;
  */
 class NLSINTERPRETER_IMPEXP FunctionDef
 {
-public:
-    size_t hashid;
-
+private:
+    //=============================================================================
     /**
      * The name of the function - must follow identifier rules.
      */
     std::string name;
+    //=============================================================================
+    /**
+     * The filename of the function.
+     */
+    std::wstring filename;
+    //=============================================================================
+    std::wstring pathname;
+    //=============================================================================
+    time_t timestamp;
+    //=============================================================================
+public:
+    //=============================================================================
+    void
+    setFilename(const std::wstring& filename)
+    {
+        this->filename = filename;
+        boost::filesystem::path path(filename);
+        this->pathname = path.parent_path().generic_wstring();
+        this->timestamp = boost::filesystem::last_write_time(filename);
+    }
+    //=============================================================================
+    std::wstring
+    getFilename()
+    {
+        return this->filename;
+    }
+    //=============================================================================
+    std::wstring
+    getPath()
+    {
+        return this->pathname;
+    }
+    //=============================================================================
+    void
+    setName(const std::string& name)
+    {
+        this->name = name;
+    }
+    //=============================================================================
+    std::string
+    getName()
+    {
+        return this->name;
+    }
+    //=============================================================================
     /**
      * The names of the arguments to the fuction (analogous to returnVals).
      * Should have "varargin" as the last entry for variable argument
      * functions.
      */
     stringVector arguments;
+    //=============================================================================
     /**
      * The constructor.
      */
     FunctionDef();
+    //=============================================================================
     /**
      * The virtual destructor
      */
     virtual ~FunctionDef();
+    //=============================================================================
     /**
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
-    const virtual FunctionType
-    type() // lgtm [cpp/member-const-no-effect]
-        = 0;
+    virtual FunctionType
+    type() const = 0;
+    //=============================================================================
     /**
      * The number of inputs required by this function (-1 if variable).
      */
     virtual int
     inputArgCount()
         = 0;
+    //=============================================================================
     /**
      * The number of outputs returned by this function (-1 if variable).
      */
     virtual int
     outputArgCount()
         = 0;
+    //=============================================================================
     /**
      * Evaluate the function and return its output.
      */
     virtual ArrayOfVector
     evaluateFunction(Evaluator*, const ArrayOfVector&, int)
         = 0;
+    //=============================================================================
+    virtual bool
+    updateCode()
+        = 0;
+    //=============================================================================
+    void
+    setTimestamp(time_t timestamp)
+    {
+        this->timestamp = timestamp;
+    }
+    //=============================================================================
+    time_t
+    getTimestamp()
+    {
+        return this->timestamp;
+    }
+    //=============================================================================
 };
-
-using FuncPtr = FunctionDef*;
+//=============================================================================
+using FunctionDefPtr = FunctionDef*;
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

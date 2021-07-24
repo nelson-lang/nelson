@@ -27,7 +27,7 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsMex.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsMex.lib; DestDir: {app}\bin\{#BinPath}\;
-;Source: {#RootPath}bin\{#BinPath}\libnlsMex_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libnlsMex_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;

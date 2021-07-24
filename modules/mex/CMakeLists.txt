@@ -42,9 +42,9 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include)
 # ==============================================================================
-file(GLOB FILE_ARCHIVER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB MEX_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
-add_library(${module_library_name} SHARED ${FILE_ARCHIVER_SRC})
+add_library(${module_library_name} SHARED ${MEX_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
@@ -62,6 +62,35 @@ target_link_libraries(
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
+  PROPERTIES
+    VERSION
+    ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
+    SOVERSION ${Nelson_VERSION_MAJOR})
+# ==============================================================================
+file(GLOB MEX_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+# ==============================================================================
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../validators/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include)
+# ==============================================================================
+add_library(${module_library_builtin_name} SHARED ${MEX_BUILTIN})
+# ==============================================================================
+target_link_libraries(
+  ${module_library_builtin_name}
+  nlsError_manager
+  nlsInterpreter
+  nlsTypes
+  nlsApi_nelson
+  nlsValidators
+  nlsI18n)
+# ==============================================================================
+set_target_properties(
+  ${module_library_builtin_name}
   PROPERTIES
     VERSION
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}

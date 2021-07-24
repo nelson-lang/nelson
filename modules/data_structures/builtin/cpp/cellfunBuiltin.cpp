@@ -40,7 +40,8 @@ using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
 cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
-    const Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+    const Dimensions& argdims, indexType argcount, FunctionDefPtr fptr,
+    FunctionDefPtr fptrHandleError)
 {
     ArrayOfVector outputs;
     for (int j = 0; j < nargout; j++) {
@@ -93,7 +94,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
 //=============================================================================
 static ArrayOfVector
 cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
-    Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+    Dimensions& argdims, indexType argcount, FunctionDefPtr fptr, FunctionDefPtr fptrHandleError)
 {
     ArrayOfVector outputs;
     indexType elementCount = argdims.getElementCount();
@@ -346,7 +347,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     bool bHaveErrorHandlerArgs = false;
     bool bHaveUniformOutputArgs = false;
     bool isUniformOutput = true;
-    function_handle errorFunc = 0;
+    function_handle errorFunc;
     if (nbElementsInput - 2 > 0) {
         if (argIn[(indexType)nbElementsInput - (indexType)2].isRowVectorCharacterArray()) {
             std::wstring argName
@@ -448,22 +449,13 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             if (functionName == L"isclass") {
                 return isclass_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (!PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef)) {
-                if (!BuiltInFunctionDefManager::getInstance()->find(
-                        wstring_to_utf8(functionName), funcDef)) {
-                    Error(_W("A valid function name expected."));
-                }
+            if (!eval->getContext()->lookupFunction(functionName, funcDef)) {
+                Error(_W("A valid function name expected."));
             }
         } else {
             function_handle fh = param1.getContentAsFunctionHandle();
-            std::wstring functionName;
-            if (PathFuncManager::getInstance()->find(fh, functionName)) {
-                PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef);
-            } else {
-                if (BuiltInFunctionDefManager::getInstance()->find(fh, functionName)) {
-                    BuiltInFunctionDefManager::getInstance()->find(
-                        wstring_to_utf8(functionName), funcDef);
-                }
+            if (fh.anonymous.empty()) {
+                eval->getContext()->lookupFunction(fh.name, funcDef);
             }
             if (funcDef == nullptr) {
                 Error(_W("A valid function name expected."));
@@ -497,19 +489,9 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     if (bHaveUniformOutputArgs) {
         nargin -= 2;
     }
-    FuncPtr fptrHandleError = nullptr;
-    if (errorFunc != 0) {
-        std::wstring functionName;
-        bool found = PathFuncManager::getInstance()->find(errorFunc, functionName);
-        if (found) {
-            PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), fptrHandleError);
-        } else {
-            found = BuiltInFunctionDefManager::getInstance()->find(errorFunc, functionName);
-            if (found) {
-                BuiltInFunctionDefManager::getInstance()->find(
-                    wstring_to_utf8(functionName), fptrHandleError);
-            }
-        }
+    FunctionDefPtr fptrHandleError = nullptr;
+    if (!errorFunc.name.empty()) {
+        eval->getContext()->lookupFunction(errorFunc.name, fptrHandleError);
     }
     if (isUniformOutput) {
         retval = cellfun_uniformBuiltin(

@@ -25,21 +25,22 @@
 //=============================================================================
 #include "StringToFunctionHandle.hpp"
 #include "characters_encoding.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 function_handle
-StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
+StringToFunctionHandle(const std::wstring& functionName)
 {
-    std::string fun = wstring_to_utf8(functionName);
-    Context* ctx = eval->getContext();
-    FunctionDef* funcDef = nullptr;
-    bool isFun = ctx->lookupFunction(fun, funcDef);
-    function_handle functionID = 0;
-    if (isFun) {
-        functionID = funcDef->hashid;
+    function_handle functionHandle;
+    if (IsValidVariableName(functionName)) {
+        functionHandle.name = wstring_to_utf8(functionName);
+        functionHandle.anonymous.clear();
+    } else {
+        functionHandle.name.clear();
+        functionHandle.anonymous.clear();
     }
-    return functionID;
+    return functionHandle;
 }
 //=============================================================================
 } // namespace Nelson

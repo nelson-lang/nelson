@@ -25,13 +25,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
+#include <string>
 #include "Types.hpp"
 #include "nlsFunction_handle_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
 NLSFUNCTION_HANDLE_IMPEXP function_handle
-StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName);
+StringToFunctionHandle(const std::wstring& functionName);
 }
 //=============================================================================

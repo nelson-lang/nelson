@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxSetProperty')
+if exist('mxSetProperty') == 0
     test_dir = [tempdir(), 'mxSetProperty'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mxSetProperty')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetProperty.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 F = figure(44);

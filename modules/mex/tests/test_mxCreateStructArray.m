@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxCreateStructArray')
+if exist('mxCreateStructArray') == 0
     test_dir = [tempdir(), 'mxCreateStructArray'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,7 +33,7 @@ if ~isbuiltin('mxCreateStructArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateStructArray.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxCreateStructArray();

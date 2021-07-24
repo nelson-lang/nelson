@@ -1169,11 +1169,14 @@ public:
     isClassStruct() const;
 
     static ArrayOf
-    functionHandleConstructor(const std::wstring& functionName, function_handle fptr);
+    functionHandleConstructor(function_handle fptr);
+    static ArrayOf
+    functionHandleConstructor(const std::wstring& functionName, const std::wstring& anonymous);
+
     function_handle
     getContentAsFunctionHandle();
     bool
-    isFunctionHandle();
+    isFunctionHandle() const;
 
     bool
     isLogical() const;

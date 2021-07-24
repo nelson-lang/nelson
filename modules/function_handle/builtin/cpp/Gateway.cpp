@@ -36,9 +36,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"function_handle";
 //=============================================================================
-static const nlsGateway gateway[] = { { "str2func",
-                                          (void*)Nelson::FunctionHandleGateway::str2funcBuiltin, 1,
-                                          1, CPP_BUILTIN_WITH_EVALUATOR },
+static const nlsGateway gateway[] = {
     { "func2str", (void*)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "function_handle_extraction",
@@ -54,7 +52,9 @@ static const nlsGateway gateway[] = { { "str2func",
     { "function_handle_isequaln",
         (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
     { "function_handle_isequalto",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 } };
+        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
+    { "str2func", (void*)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1 },
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

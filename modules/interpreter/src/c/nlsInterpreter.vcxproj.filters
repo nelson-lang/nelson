@@ -43,7 +43,7 @@
     <ClCompile Include="..\cpp\Evaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FileFunc.cpp">
+    <ClCompile Include="..\cpp\FileFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FileParser.cpp">
@@ -92,9 +92,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\OrOperator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\OverloadCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\OverloadDisplay.cpp">
@@ -193,6 +190,12 @@
     <ClCompile Include="..\grammar\NelsonParserHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\MexFunctionDef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\FunctionsInMemory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
@@ -256,7 +259,7 @@
     <ClInclude Include="..\include\Evaluator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FileFunc.hpp">
+    <ClInclude Include="..\include\FileFunction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FileParser.hpp">
@@ -293,9 +296,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Operators.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\OverloadCache.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\OverloadDisplay.hpp">
@@ -368,6 +368,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MexFunctionDef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\FunctionsInMemory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

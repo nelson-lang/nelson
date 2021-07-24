@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxSetDoubles')
+if exist('mxSetDoubles') == 0
     test_dir = [tempdir(), 'mxSetDoubles'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,7 +33,7 @@ if ~isbuiltin('mxSetDoubles')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetDoubles.c', '-R2018a');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxSetDoubles();

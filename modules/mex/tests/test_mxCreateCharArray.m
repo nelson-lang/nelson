@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxCreateCharArray')
+if exist('mxCreateCharArray') == 0
     test_dir = [tempdir(), 'mxCreateCharArray'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,8 +33,8 @@ if ~isbuiltin('mxCreateCharArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxCreateCharArray.c');
-    run('loader.m');
- end
+    addpath(pwd())
+end
 %=============================================================================
 R = mxCreateCharArray();
 REF = ['ac'; 'bd'];

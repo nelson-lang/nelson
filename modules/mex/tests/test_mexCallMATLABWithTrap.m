@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-if ~isbuiltin('mexCallMATLABWithTrap')
+if exist('mexCallMATLABWithTrap') == 0
     test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mexCallMATLABWithTrap')
     assert_istrue(status);
     cd(test_dir);
     mex('mexCallMATLABWithTrap.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mexCallMATLABWithTrap(pi);

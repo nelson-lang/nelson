@@ -23,23 +23,43 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "inmemBuiltin.hpp"
+#include "Error.hpp"
+#include "ToCellString.hpp"
+#include "PathFuncManager.hpp"
+#include "MacroFunctionDef.hpp"
+#include "MexFunctionDef.hpp"
+#include "characters_encoding.hpp"
+#include "FunctionsInMemory.hpp"
 //=============================================================================
-#include "nlsInterpreter_exports.h"
-#include "FunctionDef.hpp"
-#include "Overload.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-namespace Overload {
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP std::string
-    getPreviousCachedFunctionName(OverloadClass oclass);
-    NLSINTERPRETER_IMPEXP void
-    setCachedFunction(OverloadClass oclass, const std::string& functionName, FunctionDef* funcptr);
-    NLSINTERPRETER_IMPEXP FunctionDef*
-    getPreviousCachedFunctionDefinition(OverloadClass oclass);
-    NLSINTERPRETER_IMPEXP void
-    clearPreviousCachedFunctionDefinition();
-} // namespace Overload
-} // namespace Nelson
+ArrayOfVector
+Nelson::FunctionsGateway::inmemBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 2);
+    nargincheck(argIn, 0, 1);
+
+    bool withCompleteNames = false;
+    if (argIn.size() == 1) {
+        std::wstring param1 = argIn[0].getContentAsWideString();
+        if (param1 == L"-completenames") {
+            withCompleteNames = true;
+        }
+    }
+
+    wstringVector mFunctions
+        = FunctionsInMemory::getInstance()->getMacroInMemory(withCompleteNames);
+    retval << ToCellStringAsColumn(mFunctions);
+    if (nLhs > 1) {
+        wstringVector mexFunctions
+            = FunctionsInMemory::getInstance()->getMexInMemory(withCompleteNames);
+        retval << ToCellStringAsColumn(mexFunctions);
+    }
+    if (nLhs > 2) {
+        retval << ToCellStringAsColumn(stringVector());
+    }
+    return retval;
+}
 //=============================================================================

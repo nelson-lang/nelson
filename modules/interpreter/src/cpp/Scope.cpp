@@ -53,93 +53,28 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::unordered_map<std::string, FuncPtr> cachedFunc;
-//=============================================================================
-void
-Scope::clearCache()
-{
-    cachedFunc.clear();
-}
-//=============================================================================
 Scope::Scope(const std::string& scopeName)
 {
     name = std::move(scopeName);
     loopLevel = 0;
-    clearCache();
 }
 //=============================================================================
 Scope::~Scope()
 {
     name.clear();
     loopLevel = 0;
-    clearCache();
 }
 //=============================================================================
 void
-Scope::insertMacroFunctionLocally(FuncPtr a)
+Scope::insertMacroFunctionLocally(FunctionDefPtr a)
 {
-    currentLocalFunctions.add(a->name, a);
+    currentLocalFunctions.add(a->getName(), a);
 }
 //=============================================================================
 bool
-Scope::deleteBuiltin(void* fptr)
+Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
-    clearCache();
-    return BuiltInFunctionDefManager::getInstance()->remove(fptr);
-}
-//=============================================================================
-void
-Scope::deleteFunction(const std::string& funcName)
-{
-    clearCache();
-    BuiltInFunctionDefManager::getInstance()->remove(funcName);
-}
-//=============================================================================
-bool
-Scope::lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly)
-{
-    boost::unordered_map<std::string, FuncPtr>::const_iterator foundit = cachedFunc.find(funcName);
-    if (foundit != cachedFunc.end()) {
-        val = foundit->second;
-        return true;
-    }
-    bool found = false;
-    if (builtinOnly) {
-        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-        if (found) {
-            cachedFunc.emplace(funcName, val);
-        }
-        return found;
-    }
-    found = currentLocalFunctions.find(funcName, val);
-    if (found) {
-        cachedFunc.emplace(funcName, val);
-        return true;
-    }
-    found = PathFuncManager::getInstance()->find(funcName, val);
-    if (found) {
-        cachedFunc.emplace(funcName, val);
-        return true;
-    }
-    found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-    if (found) {
-        cachedFunc.emplace(funcName, val);
-        return true;
-    }
-
-    return false;
-}
-//=============================================================================
-bool
-Scope::isPointerOnFunction(FuncPtr val)
-{
-    if (PathFuncManager::getInstance()->isPointerOnPathFunctionDef(val)) {
-        return true;
-    }
-    if (BuiltInFunctionDefManager::getInstance()->isPointerOnBuiltInFunctionDef(val)) {
-        return true;
-    }
-    return false;
+    return currentLocalFunctions.find(funcName, val);
 }
 //=============================================================================
 ArrayOf*
@@ -311,12 +246,6 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
     for (const auto& k : ulist) {
         list.push_back(utf8_to_wstring(k));
     }
-}
-//=============================================================================
-stringVector
-Scope::getBuiltinsList()
-{
-    return BuiltInFunctionDefManager::getInstance()->getNameList();
 }
 //=============================================================================
 void

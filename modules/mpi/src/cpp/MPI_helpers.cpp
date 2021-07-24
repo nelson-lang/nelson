@@ -26,7 +26,6 @@
 #include "MPI_helpers.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "PathFuncManager.hpp"
@@ -122,15 +121,10 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             }
             if (A.isFunctionHandle()) {
                 function_handle fh = A.getContentAsFunctionHandle();
-                std::wstring functionname;
-                bool found = PathFuncManager::getInstance()->find(fh, functionname);
-                if (!found) {
-                    found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-                }
-                if (found) {
-                    ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(functionname);
-                    packMPI(nameAsArray, buffer, bufsize, packpos, comm);
-                }
+                ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
+                packMPI(nameAsArray, buffer, bufsize, packpos, comm);
+                ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(fh.anonymous);
+                packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
             } else {
                 auto* dp = (ArrayOf*)A.getDataPointer();
                 for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
@@ -300,19 +294,17 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             classname = classNameAsArray.getContentAsCString();
         }
         if (classname == NLS_FUNCTION_HANDLE_STR) {
-            ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
-            if (functionNameAsArray.isRowVectorCharacterArray()) {
-                Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-                if (eval) {
-                    std::wstring functionName = functionNameAsArray.getContentAsWideString();
-                    function_handle fptr = StringToFunctionHandle(eval, functionName);
-                    if (fptr == 0) {
-                        Error(_W("A valid function name expected."));
-                    }
-                    return ArrayOf::functionHandleConstructor(functionName, fptr);
+            ArrayOf nameArray = unpackMPI(buffer, bufsize, packpos, comm);
+            ArrayOf anonymousArray = unpackMPI(buffer, bufsize, packpos, comm);
+            if (nameArray.isRowVectorCharacterArray()
+                && anonymousArray.isRowVectorCharacterArray()) {
+                function_handle fptr;
+                fptr.name = nameArray.getContentAsCString();
+                fptr.anonymous = anonymousArray.getContentAsCString();
+                if (fptr.anonymous.empty() && fptr.name.empty()) {
+                    Error(_W("A valid function name expected."));
                 }
-                Error(_W("Invalid evaluator."));
-
+                return ArrayOf::functionHandleConstructor(fptr);
             } else {
                 Error(_W("String expected."));
             }

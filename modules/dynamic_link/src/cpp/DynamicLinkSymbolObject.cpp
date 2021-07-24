@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include <boost/unordered_map.hpp>
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
@@ -30,8 +32,6 @@
 #include "LibPointerObject.hpp"
 #include "StringFormat.hpp"
 #include "ToCellString.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/unordered_map.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

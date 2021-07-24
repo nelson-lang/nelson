@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxSetSingles')
+if exist('mxSetSingles') == 0
     test_dir = [tempdir(), 'mxSetSingles'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -32,8 +32,8 @@ if ~isbuiltin('mxSetSingles')
     status = copyfile('mxSetSingles.c', test_dir);
     assert_istrue(status);
     cd(test_dir);
-    mex('mxSetSingles.c', '-R2018a');
-    run('loader.m');
+    mex('mxSetSingles.c', '-R2018a')
+    addpath(pwd())
 end
 %=============================================================================
 R = mxSetSingles();

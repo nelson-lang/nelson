@@ -38,14 +38,28 @@
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
 #include "GetVariableEnvironment.hpp"
-#include "OverloadCache.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "NelsonConfiguration.hpp"
+#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 PathFuncManager* PathFuncManager::m_pInstance = nullptr;
+//=============================================================================
+static bool
+isSamePath(const std::wstring& p1, const std::wstring& p2)
+{
+    if (p1.compare(p2) == 0) {
+        return true;
+    }
+    boost::filesystem::path _path1 = p1;
+    boost::filesystem::path _path2 = p2;
+    if (boost::filesystem::equivalent(p1, p2)) {
+        return true;
+    }
+    return false;
+}
 //=============================================================================
 static std::ifstream&
 safegetline(std::ifstream& os, std::string& line)
@@ -94,7 +108,7 @@ PathFuncManager::destroy()
 {
     clearUserPath();
     clear();
-    cachedPathFunc.clear();
+    FunctionsInMemory::getInstance()->clear();
     if (m_pInstance != nullptr) {
         delete m_pInstance;
         m_pInstance = nullptr;
@@ -113,13 +127,6 @@ PathFuncManager::clear()
         }
     }
     _pathFuncVector.clear();
-}
-//=============================================================================
-bool
-PathFuncManager::isPointerOnPathFunctionDef(FuncPtr ptr)
-{
-    std::wstring functionName;
-    return find(ptr->hashid, functionName);
 }
 //=============================================================================
 wstringVector
@@ -143,33 +150,30 @@ PathFuncManager::getMacrosList(const std::wstring& prefix)
     return macros;
 }
 //=============================================================================
-bool
-PathFuncManager::find(const std::string& name, FuncPtr& ptr)
+FunctionDef*
+PathFuncManager::findAndProcessFile(const std::string& name)
 {
-    bool res = false;
-    boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedPathFunc.find(name);
-    if (found != cachedPathFunc.end()) {
-        ptr = found->second;
-        res = true;
-    } else {
-        FileFunc* ff = nullptr;
-        std::wstring wstr = utf8_to_wstring(name);
-        if (find(wstr, &ff)) {
-            if (ff != nullptr) {
-                ptr = processFile(ff->getFilename());
-                if (ptr != nullptr) {
-                    ptr->hashid = ff->getHashID();
-                    cachedPathFunc.emplace(name, ptr);
-                    res = true;
-                }
-            }
-        }
+    FunctionDef* ptr = nullptr;
+    FileFunction* ff = nullptr;
+    std::wstring functionName = utf8_to_wstring(name);
+    if (find(functionName, &ff)) {
+        ptr = processFile(ff, name);
     }
-    return res;
+    return ptr;
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring& functionName, FileFunc** ff)
+PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
+{
+    ptr = findAndProcessFile(name);
+    if (ptr != nullptr) {
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+bool
+PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 {
     bool res = false;
     if (_currentPath != nullptr) {
@@ -200,121 +204,70 @@ PathFuncManager::find(const std::wstring& functionName, FileFunc** ff)
 bool
 PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
-    bool res = false;
     if (_currentPath != nullptr) {
-        res = _currentPath->findFuncName(functionName, filename);
-        if (res) {
-            return res;
+        if (_currentPath->findFuncName(functionName, filename)) {
+            return true;
         }
     }
     if (_userPath != nullptr) {
-        res = _userPath->findFuncName(functionName, filename);
-        if (res) {
-            return res;
+        if (_userPath->findFuncName(functionName, filename)) {
+            return true;
         }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
-        if (pf) {
-            res = pf->findFuncName(functionName, filename);
-            if (res) {
-                return res;
-            }
+        if (pf->findFuncName(functionName, filename)) {
+            return true;
         }
     }
-    return res;
+    return false;
 }
 //=============================================================================
 bool
 PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname)
 {
-    bool res = false;
     filesname.clear();
     std::wstring filename;
     if (_currentPath != nullptr) {
-        res = _currentPath->findFuncName(functionName, filename);
-        if (res) {
+        if (_currentPath->findFuncName(functionName, filename)) {
             filesname.push_back(filename);
         }
     }
     if (_userPath != nullptr) {
-        res = _userPath->findFuncName(functionName, filename);
-        if (res) {
+        if (_userPath->findFuncName(functionName, filename)) {
             filesname.push_back(filename);
         }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
-        if (pf) {
-            res = pf->findFuncName(functionName, filename);
-            if (res) {
-                filesname.push_back(filename);
-            }
+        if (pf->findFuncName(functionName, filename)) {
+            filesname.push_back(filename);
         }
     }
     return (filesname.size() > 0);
 }
 //=============================================================================
 bool
-PathFuncManager::find(size_t hashid, std::wstring& functionname)
-{
-    bool res = false;
-    if (_currentPath != nullptr) {
-        res = _currentPath->findFuncByHash(hashid, functionname);
-        if (res) {
-            return res;
-        }
-    }
-    if (_userPath != nullptr) {
-        res = _userPath->findFuncByHash(hashid, functionname);
-        if (res) {
-            return res;
-        }
-    }
-    for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
-         it != _pathFuncVector.rend(); ++it) {
-        PathFunc* pf = *it;
-        if (pf) {
-            res = pf->findFuncByHash(hashid, functionname);
-            if (res) {
-                return res;
-            }
-        }
-    }
-    return res;
-}
-//=============================================================================
-bool
 PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     bool res = false;
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
-        PathFunc* pfl = *it;
-        if (pfl) {
-            boost::filesystem::path p1 { pfl->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
-                return false;
-            }
-        }
+
+    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+    if (it != _pathFuncVector.end()) {
+        return false;
     }
-    bool withWatch;
-    if (frozen) {
-        withWatch = false;
-    } else {
-        boost::filesystem::path pathToAdd = path;
-        withWatch = !boost::algorithm::starts_with(pathToAdd.generic_path().generic_wstring(),
-            NelsonConfiguration::getInstance()->getNelsonRootDirectory());
-    }
-    PathFunc* pf;
+    bool withWatch = frozen ? false : true;
+    PathFunc* pf = nullptr;
     try {
         pf = new PathFunc(path, withWatch);
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
     if (pf != nullptr) {
+        FunctionsInMemory::getInstance()->clearMapCache();
         if (begin) {
             _pathFuncVector.insert(_pathFuncVector.begin(), pf);
         } else {
@@ -329,17 +282,17 @@ bool
 PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
+    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunc* x) { return isSamePath(x->getPath(), path); });
+
+    if (it != _pathFuncVector.end()) {
         PathFunc* pf = *it;
         if (pf != nullptr) {
-            boost::filesystem::path p1 { pf->getPath() }, p2 { path };
-            if (boost::filesystem::equivalent(p1, p2)) {
-                PathFunc* pf = *it;
-                delete pf;
-                _pathFuncVector.erase(it);
-                return true;
-            }
+            FunctionsInMemory::getInstance()->clearMapCache();
+            PathFunc* pf = *it;
+            delete pf;
+            _pathFuncVector.erase(it);
+            return true;
         }
     }
     return res;
@@ -383,7 +336,7 @@ PathFuncManager::setCurrentUserPath(const std::wstring& path)
         delete _currentPath;
     }
     _currentPath = new PathFunc(path);
-    if (_currentPath) {
+    if (_currentPath != nullptr) {
         _currentPath->rehash();
     }
     return false;
@@ -422,7 +375,8 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error&) { }
+    } catch (const boost::filesystem::filesystem_error&) {
+    }
     userpathCompute();
 }
 //=============================================================================
@@ -447,26 +401,38 @@ PathFuncManager::rehash()
 void
 PathFuncManager::rehash(const std::wstring& path)
 {
+    if (_currentPath != nullptr) {
+        try {
+            boost::filesystem::path p1{ _currentPath->getPath() }, p2{ path };
+            if (boost::filesystem::equivalent(p1, p2)) {
+                _currentPath->rehash();
+                return;
+            }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
+    }
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
+            boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) { }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
+                boost::filesystem::path p1{ pf->getPath() }, p2{ path };
                 if (boost::filesystem::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
                 }
-            } catch (const boost::filesystem::filesystem_error&) { }
+            } catch (const boost::filesystem::filesystem_error&) {
+            }
         }
     }
 }
@@ -506,104 +472,63 @@ PathFuncManager::getPathNameAsString()
     return p;
 }
 //=============================================================================
+bool
+PathFuncManager::isAvailablePath(const std::wstring& path)
+{
+    if (_currentPath != nullptr) {
+        if (_currentPath->getPath() == path) {
+            return true;
+        }
+    }
+
+    if (_userPath != nullptr) {
+        if (_userPath->getPath() == path) {
+            return true;
+        }
+    }
+    boost::container::vector<PathFunc*>::iterator it = std::find_if(_pathFuncVector.begin(),
+        _pathFuncVector.end(), [path](PathFunc* x) { return x->getPath() == path; });
+    return (it != _pathFuncVector.end());
+}
+//=============================================================================
+FunctionDef*
+PathFuncManager::processFile(FileFunction* ff, const std::string& functionName)
+{
+    FunctionDef* ptr = nullptr;
+    if (ff != nullptr) {
+        if (ff->isMex()) {
+            ptr = processMexFile(ff->getFilename(), ff->getName());
+        } else {
+            ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher());
+        }
+    }
+    return ptr;
+}
+//=============================================================================
+MexFunctionDef*
+PathFuncManager::processMexFile(const std::wstring& filename, const std::wstring& functionName)
+{
+    MexFunctionDef* fptr = nullptr;
+    try {
+        fptr = new MexFunctionDef(filename, functionName);
+        if (!fptr->isLoaded()) {
+            delete fptr;
+            fptr = nullptr;
+        }
+    } catch (const std::bad_alloc&) {
+        fptr = nullptr;
+    }
+    return fptr;
+}
+//=============================================================================
 MacroFunctionDef*
-PathFuncManager::processFile(const std::wstring& script_filename)
+PathFuncManager::processMacroFile(const std::wstring& script_filename, bool withWatcher)
 {
     MacroFunctionDef* fptr = nullptr;
-    FILE* fr;
-#ifdef _MSC_VER
-    fr = _wfopen(script_filename.c_str(), L"rt");
-#else
-    fr = fopen(wstring_to_utf8(script_filename).c_str(), "r");
-#endif
-    if (fr == nullptr) {
-        int errnum = errno;
-        std::string msg1 = str(boost::format(_("Value of errno: %d")) % errno);
-        std::string msg2 = str(boost::format(_("Error opening file: %s")) % strerror(errnum));
-        Error(_W("Cannot open:") + L" " + script_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
-            + utf8_to_wstring(msg2));
-    }
-    ParserState pstate = ParserState::ParseError;
-    AbstractSyntaxTree::clearReferences();
-    AbstractSyntaxTreePtrVector ptAstCode;
     try {
-        pstate = parseFile(fr, wstring_to_utf8(script_filename));
-        ptAstCode = AbstractSyntaxTree::getReferences();
-    } catch (const Exception&) {
-        AbstractSyntaxTree::deleteReferences();
-        if (fr != nullptr) {
-            fclose(fr);
-        }
-        throw;
-    }
-    if (fr != nullptr) {
-        fclose(fr);
-    }
-    if (pstate == ParserState::ParseError) {
-        AbstractSyntaxTree::deleteReferences(ptAstCode);
-        AbstractSyntaxTree::clearReferences();
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    }
-    try {
-        if (pstate == ParserState::FuncDef) {
-            fptr = getParsedFunctionDef();
-            fptr->isScript = false;
-        } else {
-            fptr = new MacroFunctionDef();
-            fptr->code = getParsedScriptBlock();
-            boost::filesystem::path pathFunction(script_filename);
-            fptr->name = pathFunction.stem().generic_string();
-            fptr->fileName = script_filename;
-            fptr->isScript = true;
-        }
-
-    } catch (const Exception&) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    }
-    if (fptr == nullptr) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + script_filename);
-    }
-    fptr->ptrAstCodeAsVector = std::move(ptAstCode);
-    AbstractSyntaxTree::clearReferences();
-    if (!fptr->isScript) {
-        stringVector functionNamesInFile;
-        MacroFunctionDef* cp = fptr->nextFunction;
-        functionNamesInFile.push_back(fptr->name);
-        while (cp != nullptr) {
-            functionNamesInFile.push_back(cp->name);
-            cp = cp->nextFunction;
-        }
-
-        auto it = std::unique(functionNamesInFile.begin(), functionNamesInFile.end());
-        bool isUnique = (it == functionNamesInFile.end());
-        if (!isUnique) {
-            delete fptr;
-            fptr = nullptr;
-            std::string msg
-                = str(boost::format(_("Function '%s' has already been declared within this scope."))
-                    % it->c_str());
-            Error(msg);
-        }
-
-        boost::filesystem::path pathFunction(script_filename);
-        const std::string functionNameFromFile = pathFunction.stem().generic_string();
-
-        if (fptr != nullptr && fptr->name != functionNameFromFile) {
-            if (std::find(
-                    functionNamesInFile.begin(), functionNamesInFile.end(), functionNameFromFile)
-                != functionNamesInFile.end()) {
-                fptr->name = functionNameFromFile;
-            }
-        }
-        if (fptr != nullptr && fptr->name != functionNameFromFile) {
-            std::string name = fptr->name;
-            delete fptr;
-            fptr = nullptr;
-            std::string msg
-                = str(boost::format(_("Filename and function name are not same (%s vs %s).")) % name
-                    % functionNameFromFile);
-            Error(msg);
-        }
+        fptr = new MacroFunctionDef(script_filename, withWatcher);
+    } catch (const std::bad_alloc&) {
+        fptr = nullptr;
     }
     return fptr;
 }
@@ -611,39 +536,13 @@ PathFuncManager::processFile(const std::wstring& script_filename)
 void
 PathFuncManager::clearCache()
 {
-    for (boost::unordered_map<std::string, FuncPtr>::iterator iter = cachedPathFunc.begin();
-         iter != cachedPathFunc.end(); ++iter) {
-        MacroFunctionDef* f = (MacroFunctionDef*)iter->second;
-        if (f != nullptr) {
-            delete f;
-            f = nullptr;
-        }
-    }
-    cachedPathFunc.clear();
-    Overload::clearPreviousCachedFunctionDefinition();
+    FunctionsInMemory::getInstance()->clear();
 }
 //=============================================================================
 void
 PathFuncManager::clearCache(stringVector exceptedFunctions)
 {
-    boost::unordered_map<std::string, FuncPtr> backup;
-    for (boost::unordered_map<std::string, FuncPtr>::iterator iter = cachedPathFunc.begin();
-         iter != cachedPathFunc.end(); ++iter) {
-        MacroFunctionDef* f = (MacroFunctionDef*)iter->second;
-        if (f != nullptr) {
-            stringVector::iterator it
-                = std::find(exceptedFunctions.begin(), exceptedFunctions.end(), f->name);
-            if (it == exceptedFunctions.end()) {
-                delete f;
-                f = nullptr;
-            } else {
-                backup.emplace(f->name, f);
-            }
-        }
-    }
-    cachedPathFunc.clear();
-    Overload::clearPreviousCachedFunctionDefinition();
-    cachedPathFunc = backup;
+    FunctionsInMemory::getInstance()->clear(exceptedFunctions);
 }
 //=============================================================================
 bool
@@ -713,7 +612,8 @@ PathFuncManager::userpathCompute()
                     bSet = true;
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) { }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
     }
     if (!bSet) {
 #ifdef _MSC_VER
@@ -723,7 +623,8 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) { }
+                } catch (const boost::filesystem::filesystem_error&) {
+                }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);
@@ -736,7 +637,8 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) { }
+                } catch (const boost::filesystem::filesystem_error&) {
+                }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);

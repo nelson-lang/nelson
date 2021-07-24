@@ -96,7 +96,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
                 for (std::string c : common) {
                     values.push_back(param1.getField(c));
                 }
-                retval << ArrayOf::structConstructor(common, values);
+                retval << ArrayOf::structScalarConstructor(common, values);
             } else {
                 Dimensions dims = param1.getDimensions();
                 auto* qp = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(

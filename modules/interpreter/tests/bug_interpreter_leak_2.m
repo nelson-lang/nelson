@@ -56,7 +56,7 @@ end
 clear('functions');
 [u3, s3] = memory();
 disp(u3.MemUsedNelson - u2.MemUsedNelson)
-assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 300000)
+assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 340000)
 disp(u2.MemUsedNelson - u1.MemUsedNelson)
 assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 15000000)
 disp(u3.MemUsedNelson - u1.MemUsedNelson)

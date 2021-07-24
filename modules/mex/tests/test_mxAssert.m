@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-if ~isbuiltin('mxAssert')
+if exist('mxAssert') == 0
    test_dir = [tempdir(), 'mxAssert'];
    if isdir(test_dir)
       rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mxAssert')
    assert_istrue(status);
    cd(test_dir);
    mex('mxAssert.c');
-   run('loader.m');
+   addpath(pwd())
 end
 %=============================================================================
 R = mxAssert(1);

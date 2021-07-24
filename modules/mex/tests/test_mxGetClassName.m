@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxGetClassName')
+if exist('mxGetClassName') == 0
     test_dir = [tempdir(), 'mxGetClassName'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mxGetClassName')
     assert_istrue(status);
     cd(test_dir);
     mex('mxGetClassName.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxGetClassName(pi);

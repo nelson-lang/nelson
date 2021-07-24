@@ -46,7 +46,7 @@ public:
     bool
     remove(const std::string& name);
     bool
-    remove(FuncPtr ptr);
+    remove(FunctionDefPtr ptr);
     bool
     remove(BuiltInFunctionDef* ptr);
     bool
@@ -57,35 +57,25 @@ public:
     void
     destroy();
 
-    std::vector<FuncPtr>
+    std::vector<FunctionDefPtr>
     getTable();
     stringVector
     getNameList();
     bool
-    find(const std::string& name, FuncPtr& ptr);
+    find(const std::string& name, FunctionDefPtr& ptr);
     bool
     find(const std::string& name, wstringVector& paths);
     bool
     find(const std::string& name, std::wstring& path);
-    bool
-    find(size_t hashid, std::wstring& functionname);
-
-    bool
-    isPointerOnBuiltInFunctionDef(FuncPtr ptr);
-
-    void
-    clearCache();
 
 private:
     bool
-    add(FuncPtr ptr);
+    add(FunctionDefPtr ptr);
 
     BuiltInFunctionDefManager();
     static BuiltInFunctionDefManager* m_pInstance;
-    std::vector<FuncPtr> builtinVector;
-
-    // cache to speed up search
-    std::unordered_map<std::string, FuncPtr> cachedBuiltin;
+    std::vector<FunctionDefPtr> builtinVector;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

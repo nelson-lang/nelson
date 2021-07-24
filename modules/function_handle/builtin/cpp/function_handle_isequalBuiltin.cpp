@@ -34,10 +34,8 @@ Nelson::FunctionHandleGateway::function_handle_isequalBuiltin(int nLhs, const Ar
 {
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 2);
-    ArrayOf arg1 = argIn[0];
-    ArrayOf arg2 = argIn[1];
     ArrayOfVector retval(1);
-    retval << ArrayOf::logicalConstructor(FunctionHandleIsEqual(arg1, arg2));
+    retval << ArrayOf::logicalConstructor(FunctionHandleIsEqual(argIn[0], argIn[1]));
     return retval;
 }
 //=============================================================================

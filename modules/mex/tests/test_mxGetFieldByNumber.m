@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxGetFieldByNumber')
+if exist('mxGetFieldByNumber') == 0
     test_dir = [tempdir(), 'mxGetFieldByNumber'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,7 +33,7 @@ if ~isbuiltin('mxGetFieldByNumber')
     assert_istrue(status);
     cd(test_dir);
     mex('mxGetFieldByNumber.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 C(1).A = 1;

@@ -25,7 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "FileFunc.hpp"
+#include "FileFunction.hpp"
 #include "FileWatcherManager.hpp"
 #include "Types.hpp"
 #include <boost/unordered_map.hpp>
@@ -48,13 +48,11 @@ public:
     bool
     findFuncName(const std::wstring& functionName, std::wstring& filename);
     bool
-    findFuncName(const std::wstring& functionName, FileFunc** ff);
-    bool
-    findFuncByHash(size_t hashid, std::wstring& functionName);
+    findFuncName(const std::wstring& functionName, FileFunction** ff);
 
 private:
-    boost::unordered_map<std::wstring, FileFunc*> mapAllFiles;
-    boost::unordered_map<std::wstring, FileFunc*> mapRecentFiles;
+    boost::unordered_map<std::wstring, FileFunction*> mapAllFiles;
+    boost::unordered_map<std::wstring, FileFunction*> mapRecentFiles;
     std::wstring _path;
     bool
     isSupportedFuncFilename(const std::wstring& name);
@@ -64,6 +62,8 @@ private:
     comparePathname(const std::wstring& path1, const std::wstring& path2);
     bool
     isdir(const std::wstring& path);
+    bool withWatcher;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

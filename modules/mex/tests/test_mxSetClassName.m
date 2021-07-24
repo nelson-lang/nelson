@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxSetClassName')
+if exist('mxSetClassName') == 0
     test_dir = [tempdir(), 'mxSetClassName'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mxSetClassName')
     assert_istrue(status);
     cd(test_dir);
     mex('mxSetClassName.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 addpath([nelsonroot(), '/modules/overload/examples/complex']);

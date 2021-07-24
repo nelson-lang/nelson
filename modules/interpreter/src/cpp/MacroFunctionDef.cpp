@@ -38,12 +38,26 @@ namespace Nelson {
 //=============================================================================
 MacroFunctionDef::MacroFunctionDef()
 {
-    localFunction = false;
-    nextFunction = nullptr;
-    prevFunction = nullptr;
-    code = nullptr;
-    ptrAstCodeAsVector.clear();
-    isScript = false;
+    this->setTimestamp(0);
+    this->localFunction = false;
+    this->nextFunction = nullptr;
+    this->prevFunction = nullptr;
+    this->code = nullptr;
+    this->ptrAstCodeAsVector.clear();
+    this->isScript = false;
+    this->withWatcher = false;
+}
+//=============================================================================
+MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatcher)
+{
+    this->localFunction = false;
+    this->nextFunction = nullptr;
+    this->prevFunction = nullptr;
+    this->code = nullptr;
+    this->setFilename(filename);
+    this->setTimestamp(0);
+    updateCode();
+    this->withWatcher = withWatcher;
 }
 //=============================================================================
 MacroFunctionDef::~MacroFunctionDef()
@@ -56,6 +70,7 @@ MacroFunctionDef::~MacroFunctionDef()
     code = nullptr;
     localFunction = false;
     isScript = false;
+    withWatcher = false;
 }
 //=============================================================================
 int
@@ -112,10 +127,10 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();
-    context->pushScope(name);
+    context->pushScope(this->getName());
 
-    std::string filenameUtf8 = wstring_to_utf8(fileName);
-    eval->callstack.pushDebug(filenameUtf8, name);
+    std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
+    eval->callstack.pushDebug(filenameUtf8, this->getName());
     // Push our local functions onto the function scope
     MacroFunctionDef* cp = this;
     while (cp->prevFunction != nullptr) {
@@ -123,7 +138,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     }
     cp = cp->nextFunction;
     while (cp != nullptr) {
-        context->insertMacroFunctionLocally((FuncPtr)cp);
+        context->insertMacroFunctionLocally((FunctionDefPtr)cp);
         cp = cp->nextFunction;
     }
     // When the function is called, the number of inputs is
@@ -185,7 +200,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         eval->block(code);
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         State state(eval->getState());
@@ -202,8 +217,8 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        std::wstring message
-                            = str(boost::wformat(_W("Function : '%s'.")) % utf8_to_wstring(name));
+                        std::wstring message = str(boost::wformat(_W("Function : '%s'."))
+                            % utf8_to_wstring(this->getName()));
                         message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                         Warning(message);
                         warningIssued = true;
@@ -276,7 +291,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     } catch (const Exception&) {
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         context->popScope();
@@ -291,8 +306,8 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 {
     ArrayOfVector outputs;
     Context* context = eval->getContext();
-    std::string filenameUtf8 = wstring_to_utf8(fileName);
-    eval->callstack.pushDebug(filenameUtf8, name);
+    std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
+    eval->callstack.pushDebug(filenameUtf8, this->getName());
 
     context->getCurrentScope()->setNargIn(0);
     context->getCurrentScope()->setNargOut(0);
@@ -303,7 +318,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
         eval->block(code);
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         State state(eval->getState());
@@ -317,7 +332,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
     } catch (const Exception&) {
         if (tic != 0) {
             internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
         }
         eval->callstack.popDebug();
@@ -329,6 +344,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 ArrayOfVector
 MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    updateCode();
     if (isScript) {
         return evaluateMScript(eval, inputs, nargout);
     }
@@ -342,12 +358,133 @@ MacroFunctionDef::getCompleteName()
         MacroFunctionDef* pF = this->prevFunction;
         while (pF != nullptr) {
             if (!pF->localFunction) {
-                return pF->name + ">" + this->name;
+                return pF->getName() + ">" + this->getName();
             }
             pF = pF->prevFunction;
         }
     }
-    return this->name;
+    return this->getName();
+}
+//=============================================================================
+bool
+MacroFunctionDef::updateCode()
+{
+    bool forceUpdate = this->code == nullptr;
+    bool doUpdate = (forceUpdate || withWatcher) && (!this->localFunction);
+
+    if (!doUpdate) {
+        return false;
+    }
+    time_t currentFileTimestamp = boost::filesystem::last_write_time(this->getFilename());
+    if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
+        return false;
+    }
+    this->setTimestamp(currentFileTimestamp);
+    
+    FILE* fr;
+#ifdef _MSC_VER
+    fr = _wfopen(this->getFilename().c_str(), L"rt");
+#else
+    fr = fopen(wstring_to_utf8(this->getFilename()).c_str(), "r");
+#endif
+    if (fr == nullptr) {
+        int errnum = errno;
+        std::string msg1 = str(boost::format(_("Value of errno: %d")) % errno);
+        std::string msg2 = str(boost::format(_("Error opening file: %s")) % strerror(errnum));
+        Error(_W("Cannot open:") + L" " + this->getFilename() + L"\n" + utf8_to_wstring(msg1)
+            + L"\n" + utf8_to_wstring(msg2));
+    }
+
+    ParserState pstate = ParserState::ParseError;
+    AbstractSyntaxTree::clearReferences();
+    AbstractSyntaxTreePtrVector ptAstCode;
+    try {
+        pstate = parseFile(fr, wstring_to_utf8(this->getFilename()));
+        ptAstCode = AbstractSyntaxTree::getReferences();
+    } catch (const Exception&) {
+        AbstractSyntaxTree::deleteReferences();
+        if (fr != nullptr) {
+            fclose(fr);
+        }
+        throw;
+    }
+    if (fr != nullptr) {
+        fclose(fr);
+    }
+    if (pstate == ParserState::ParseError) {
+        AbstractSyntaxTree::deleteReferences(ptAstCode);
+        AbstractSyntaxTree::clearReferences();
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n")
+            + this->getFilename());
+    }
+    try {
+        if (pstate == ParserState::FuncDef) {
+            MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
+            this->code = macroFunctionDef->code;
+            this->arguments = macroFunctionDef->arguments;
+            this->localFunction = macroFunctionDef->localFunction;
+            this->nextFunction = macroFunctionDef->nextFunction;
+            this->prevFunction = macroFunctionDef->prevFunction;
+            this->returnVals = macroFunctionDef->returnVals;
+            this->ptrAstCodeAsVector = macroFunctionDef->ptrAstCodeAsVector;
+            this->setIsScript(false);
+            this->setName(macroFunctionDef->getName());
+        } else {
+            this->code = getParsedScriptBlock();
+            this->arguments.clear();
+            this->localFunction = false;
+            this->nextFunction = nullptr;
+            this->prevFunction = nullptr;
+            this->returnVals.clear();
+            this->setIsScript(true);
+            boost::filesystem::path pathFunction(this->getFilename());
+            this->setName(pathFunction.stem().generic_string());
+        }
+        this->setWithWatcher(withWatcher);
+    } catch (const Exception&) {
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n")
+            + this->getFilename());
+    }
+    this->ptrAstCodeAsVector = std::move(ptAstCode);
+    AbstractSyntaxTree::clearReferences();
+
+    if (!this->getIsScript()) {
+        stringVector functionNamesInFile;
+        MacroFunctionDef* cp = this->nextFunction;
+        functionNamesInFile.push_back(this->getName());
+        while (cp != nullptr) {
+            functionNamesInFile.push_back(cp->getName());
+            cp = cp->nextFunction;
+        }
+
+        auto it = std::unique(functionNamesInFile.begin(), functionNamesInFile.end());
+        bool isUnique = (it == functionNamesInFile.end());
+        if (!isUnique) {
+            std::string msg
+                = str(boost::format(_("Function '%s' has already been declared within this scope."))
+                    % it->c_str());
+            Error(msg);
+        }
+
+        boost::filesystem::path pathFunction(this->getFilename());
+        const std::string functionNameFromFile = pathFunction.stem().generic_string();
+
+        if (this->getName() != functionNameFromFile) {
+            if (std::find(
+                    functionNamesInFile.begin(), functionNamesInFile.end(), functionNameFromFile)
+                != functionNamesInFile.end()) {
+                this->setName(functionNameFromFile);
+            }
+        }
+        if (this->getName() != functionNameFromFile) {
+            std::string name = this->getName();
+            std::string msg
+                = str(boost::format(_("Filename and function name are not same (%s vs %s).")) % name
+                    % functionNameFromFile);
+            Error(msg);
+        }
+    }
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

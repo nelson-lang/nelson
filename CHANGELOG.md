@@ -2,9 +2,29 @@
 
 ## Features:
 
+- macros in memory reworked to support also MEX.
+
+- C MEX compatibility, load and build fully compatible with other softwares.
+
+- `inmem` builtin returns names of functions, MEX-files in memory.
+
+- `mexext` builtin returns binary MEX file-name extension.
+
 - main function in .m no more require to be the first in file.
 
 - checks in the .m function that other local function names are not duplicated.
+
+- .m timestamp checked if `addpath(...,'-frozen')` is not enabled.
+
+- function_handle reworked to have an compatible behavior.
+
+- `struct` behavior with `function_handle`.
+
+- `clear` reworked to support mex in memory.
+
+- `nargin`, `nargout` behavior with mex updated.
+
+- [#474](http://github.com/Nelson-numerical-software/nelson/issues/474): `exist`: extended to manage mex function.
 
 - [#449](http://github.com/Nelson-numerical-software/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
 

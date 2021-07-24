@@ -52,12 +52,7 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             name = param1.getContentAsWideString();
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
-            auto* funcDef = (FunctionDef*)fh;
-            if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef)) {
-                name = utf8_to_wstring(funcDef->name);
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
-            }
+            name = utf8_to_wstring(fh.name);
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
         }

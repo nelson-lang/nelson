@@ -23,16 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
 #pragma once
-
+//=============================================================================
 #include <complex>
 #include <string>
 #include <vector>
 #include <cstddef>
 #include <cstdint>
 #include "nlsConfig.h"
-
+//=============================================================================
 namespace Nelson {
 
 #define PTR_TO_NELSON_HANDLE(x) (uint64_t)(uintptr_t)(x)
@@ -80,8 +79,14 @@ using uint64 = uint64_t;
 using charType = wchar_t;
 using single = float;
 using constIndexPtr = const indexType*;
-using function_handle = size_t;
+
 using nelson_handle = uint64_t;
+
+typedef struct
+{
+    std::string name;
+    std::string anonymous;
+} function_handle;
 
 #define doublecomplex std::complex<double>
 #define singlecomplex std::complex<single>
@@ -142,5 +147,6 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
-
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

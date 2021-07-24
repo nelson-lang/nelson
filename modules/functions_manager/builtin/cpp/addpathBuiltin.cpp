@@ -116,11 +116,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
         if (bRes) {
             std::wstring normalizedPath = NormalizePath(param);
-            if (PathFuncManager::getInstance()->addPath(
-                    normalizedPath, beginOption, frozenOption)) {
-                stringVector exceptedFunctionsName = eval->getCallers(true);
-                PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-            }
+            PathFuncManager::getInstance()->addPath(normalizedPath, beginOption, frozenOption);
         } else {
             Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");
         }

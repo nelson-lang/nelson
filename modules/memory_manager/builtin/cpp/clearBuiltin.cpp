@@ -34,15 +34,15 @@
 #include "characters_encoding.hpp"
 #include "GatewaysManager.hpp"
 #include "NelsonGateway.hpp"
-#include "BuiltInFunctionDef.hpp"
 #include "mex.h"
+#include "MexFunctionDef.hpp"
+#include "PathFuncManager.hpp"
+#include "FunctionsInMemory.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static void
-ClearAllMex(Evaluator* eval);
-static bool
-ClearMex(Evaluator* eval, const std::wstring& functionName);
+clearByName(Evaluator* eval, const std::string& name);
 //=============================================================================
 // clear keyword
 // clear varname
@@ -70,27 +70,21 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 ClearAllVariables(eval);
                 ClearAllGlobalVariables(eval);
                 ClearMacroCache(eval);
-                ClearAllMex(eval);
+                if (FunctionsInMemory::getInstance()->deleteAllMexFunctions()) {
+                    mexFreeAllRegisteredPointer();
+                }
             } else if (arg1 == L"variables") {
                 ClearAllVariables(eval);
             } else if (arg1 == L"functions") {
                 ClearMacroCache(eval);
                 ClearAllPersistentVariables(eval);
             } else if (arg1 == L"mex") {
-                ClearAllMex(eval);
+                if (FunctionsInMemory::getInstance()->deleteAllMexFunctions()) {
+                    mexFreeAllRegisteredPointer();
+                }
             } else {
-                if (!IsValidVariableName(arg1)) {
-                    Error(_W("A valid variable name expected."));
-                }
-                if (!ClearMex(eval, arg1)) {
-                    Context* ctxt = eval->getContext();
-                    if (ctxt->isLockedVariable(wstring_to_utf8(arg1))) {
-                        Error(_W("variable is locked:") + arg1);
-                    }
-                    if (!ClearVariable(eval, arg1)) {
-                        ClearPersistentVariable(eval, arg1);
-                    }
-                }
+                std::string name = wstring_to_utf8(arg1);
+                clearByName(eval, name);
             }
         } else if (argIn.size() == 2) {
             // clear global varname
@@ -100,42 +94,21 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             if (arg1 == L"global") {
                 std::wstring arg2 = argIn[1].getContentAsWideString();
                 if (ctxt->getGlobalScope()->isLockedVariable(wstring_to_utf8(arg2))) {
-                    Error(_W("variable is locked:") + arg2);
+                    Warning(_W("variable is locked:") + arg2);
                 }
                 ClearGlobalVariable(eval, arg2);
             } else {
                 for (size_t k = 0; k < argIn.size(); k++) {
-                    std::wstring arg = argIn[k].getContentAsWideString();
-                    if (!IsValidVariableName(arg)) {
-                        Error(_W("A valid variable name expected."));
-                    }
-                    FuncPtr funPtr = nullptr;
-                    if (!ClearMex(eval, arg)) {
-                        if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-                            Error(_W("variable is locked:") + arg);
-                        }
-                        if (!ClearVariable(eval, arg)) {
-                            ClearPersistentVariable(eval, arg);
-                        }
-                    }
+                    std::string name = argIn[k].getContentAsCString();
+                    clearByName(eval, name);
                 }
             }
         } else {
             // clear varname1 varname2 ... varnameN
             Context* ctxt = eval->getContext();
             for (size_t k = 0; k < argIn.size(); k++) {
-                std::wstring arg = argIn[k].getContentAsWideString();
-                if (!IsValidVariableName(arg)) {
-                    Error(_W("A valid variable name expected."));
-                }
-                if (!ClearMex(eval, arg)) {
-                    if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-                        Error(_W("variable is locked:") + arg);
-                    }
-                    if (!ClearVariable(eval, arg)) {
-                        ClearPersistentVariable(eval, arg);
-                    }
-                }
+                std::string name = argIn[k].getContentAsCString();
+                clearByName(eval, name);
             }
         }
     }
@@ -143,26 +116,24 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 }
 //=============================================================================
 void
-ClearAllMex(Evaluator* eval)
+clearByName(Evaluator* eval, const std::string& name)
 {
-    wstringVector libnames = GatewaysManager::getInstance()->getLibraryNames();
-    for (auto name : libnames) {
-        GatewaysManager::getInstance()->clearMexGateway(name);
+    if (!IsValidVariableName(name)) {
+        Error(_W("A valid variable name expected."));
     }
-    mexFreeAllRegisteredPointer();
-}
-//=============================================================================
-bool
-ClearMex(Evaluator* eval, const std::wstring& functionName)
-{
     Context* ctxt = eval->getContext();
-    FuncPtr funPtr = nullptr;
-    if (ctxt->lookupFunction(functionName, funPtr, true)) {
-        if (funPtr->type() == NLS_BUILT_IN_FUNCTION) {
-            BuiltInFunctionDef* builtinFun = (BuiltInFunctionDef*)funPtr;
-            return GatewaysManager::getInstance()->clearMexGateway(builtinFun->fileName);
+    if (ctxt->isVariable(name)) {
+        if (ctxt->isLockedVariable(name)) {
+            Warning(_("variable is locked:") + name);
+        }
+        if (!ClearVariable(eval, name)) {
+            ClearPersistentVariable(eval, name);
+        }
+    } else {
+        if (!FunctionsInMemory::getInstance()->deleteMexFunction(name)) {
+            ClearPersistentVariable(eval, name);
+            FunctionsInMemory::getInstance()->deleteMFunction(name);
         }
     }
-    return false;
 }
 //=============================================================================

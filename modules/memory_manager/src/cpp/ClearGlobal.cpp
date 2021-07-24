@@ -23,11 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include "ClearGlobal.hpp"
 #include "HandleManager.hpp"
 #include "MacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string.hpp>
+#include "FunctionsInMemory.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -130,14 +131,17 @@ bool
 ClearPersistentVariable(Evaluator* eval, const std::string& variable)
 {
     bool res = false;
-    FuncPtr func;
-    bool isFun = eval->lookupFunction(variable, func);
-    if (isFun && func->type() == NLS_MACRO_FUNCTION) {
-        stringVector allVariableNames;
-        eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
-        for (std::string name : allVariableNames) {
-            if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
-                res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
+    FunctionDefPtr func = nullptr;
+    std::string path;
+
+    if (FunctionsInMemory::getInstance()->find(variable, func)) {
+        if (func->type() == NLS_MACRO_FUNCTION) {
+            stringVector allVariableNames;
+            eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
+            for (std::string name : allVariableNames) {
+                if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
+                    res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
+                }
             }
         }
     }

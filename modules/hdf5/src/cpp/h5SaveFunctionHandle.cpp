@@ -39,14 +39,6 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
 {
     bool bSuccess = false;
     function_handle fh = VariableValue.getContentAsFunctionHandle();
-    std::wstring functionname;
-    bool found = PathFuncManager::getInstance()->find(fh, functionname);
-    if (!found) {
-        found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-    }
-    if (!found) {
-        return false;
-    }
     std::string h5path;
     if (location == "/") {
         h5path = location + variableName;
@@ -62,7 +54,8 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         return false;
     }
     stringVector fNames;
-    fNames.push_back("function");
+    fNames.push_back("name");
+    fNames.push_back("anonymous");
     Dimensions dimsNames(1, fNames.size());
     ArrayOf fieldnames = ArrayOf::stringArrayConstructor(fNames, dimsNames);
     bSuccess = h5SaveStringArray(
@@ -70,10 +63,17 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     if (!bSuccess) {
         return false;
     }
-    ArrayOf element = ArrayOf::characterArrayConstructor(functionname);
+    ArrayOf nameElement = ArrayOf::characterArrayConstructor(fh.name);
     Dimensions dims(1, 1);
     std::string name = std::to_string(0);
-    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);
+    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, nameElement, useCompression);
+    if (!bSuccess) {
+        return false;
+    }
+    name = std::to_string(1);
+    ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(fh.anonymous);
+    bSuccess
+        = h5SaveVariable(fid, h5path + std::string("/"), name, anonymousElement, useCompression);
     if (!bSuccess) {
         return false;
     }

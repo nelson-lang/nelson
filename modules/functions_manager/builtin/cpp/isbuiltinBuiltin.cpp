@@ -26,6 +26,7 @@
 #include "isbuiltinBuiltin.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,11 +39,9 @@ Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const Arra
     ArrayOf param1 = argIn[0];
     std::wstring name = param1.getContentAsWideString();
     std::string uname = wstring_to_utf8(name);
-    FuncPtr pfun;
     bool res = false;
-    if (static_cast<int>(eval->lookupFunction(uname, pfun)) == true) {
-        res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
-    }
+    std::wstring filename;
+    res = BuiltInFunctionDefManager::getInstance()->find(uname, filename);
     retval << ArrayOf::logicalConstructor(res);
     return retval;
 }

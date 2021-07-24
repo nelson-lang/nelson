@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mexPutVariable')
+if exist('mexPutVariable') == 0
     test_dir = [tempdir(), 'mexPutVariable'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mexPutVariable')
     assert_istrue(status);
     cd(test_dir);
     mex('mexPutVariable.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 mexPutVariable('base', 'AA', 33);

@@ -1811,7 +1811,7 @@ void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
     ArrayOfVector m;
-    FunctionDef* fdef;
+    FunctionDef* fdef = nullptr;
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
@@ -2365,7 +2365,7 @@ Evaluator::specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     for (size_t i = 1; i < args.size(); i++) {
         n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
-    FuncPtr val;
+    FunctionDefPtr val;
     callstack.pushID(t->getContext());
     if (!lookupFunction(args[0], val)) {
         Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
@@ -3312,7 +3312,7 @@ bool
 Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
 {
     bool isFun;
-    FuncPtr val;
+    FunctionDefPtr val;
     std::string cname = bp.detail;
     isFun = context->lookupFunction(cname, val);
     if (!isFun) {
@@ -3431,7 +3431,7 @@ Evaluator::getInterface()
 }
 //=============================================================================
 bool
-Evaluator::lookupFunction(const std::string& funcName, FuncPtr& val)
+Evaluator::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
     return context->lookupFunction(funcName, val);
 }
@@ -3443,7 +3443,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
     ArrayOfVector m;
     bool isVar = false;
     bool isFun = false;
-    FunctionDef* funcDef;
+    FunctionDef* funcDef = nullptr;
     callstack.pushID(t->getContext());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
@@ -3455,7 +3455,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
     if (!isVar) {
         isFun = lookupFunction(t->text, funcDef);
     }
-    if (!isVar && isFun) {
+    if (!isVar && isFun && funcDef != nullptr) {
         m = functionExpression(funcDef, t, 1, false);
         if (m.empty()) {
             callstack.popID();
@@ -3688,7 +3688,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
     } else {
         if (lookupFunction(t->text, funcDef)) {
             if (funcDef->outputArgCount() == 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->name));
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->getName()));
             }
             m = functionExpression(funcDef, t, 1, false);
             callstack.popID();
@@ -4199,10 +4199,6 @@ Evaluator::evalCLI()
 {
     while (1) {
         if (!bpActive) {
-            // clear macros cache at the prompt
-            stringVector exceptedFunctionsName = this->getCallers(true);
-            PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-            getContext()->getCurrentScope()->clearCache();
             FileWatcherManager::getInstance()->update();
             clearStacks();
         }

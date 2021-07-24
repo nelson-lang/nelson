@@ -29,8 +29,9 @@
 #include <boost/unordered_map.hpp>
 #include "FunctionDef.hpp"
 #include "PathFunc.hpp"
-#include "FileFunc.hpp"
+#include "FileFunction.hpp"
 #include "MacroFunctionDef.hpp"
+#include "MexFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -38,16 +39,23 @@ class NLSINTERPRETER_IMPEXP PathFuncManager
 {
 private:
     boost::container::vector<PathFunc*> _pathFuncVector;
-    // cache to speed up search
-    boost::unordered_map<std::string, FuncPtr> cachedPathFunc;
     PathFuncManager();
     ~PathFuncManager();
     static PathFuncManager* m_pInstance;
     PathFunc* _userPath;
     PathFunc* _currentPath;
 
+    MexFunctionDef*
+    processMexFile(const std::wstring& filename, const std::wstring& functionName);
+
     MacroFunctionDef*
-    processFile(const std::wstring& script_filename);
+    processMacroFile(const std::wstring& script_filename, bool withWatcher);
+
+    FunctionDef*
+    processFile(FileFunction* ff, const std::string& functionName);
+
+    FunctionDef*
+    findAndProcessFile(const std::string& name);
 
     void
     userpathCompute();
@@ -71,15 +79,13 @@ public:
     clear();
 
     bool
-    find(const std::string& name, FuncPtr& ptr);
+    find(const std::string& name, FunctionDefPtr& ptr);
     bool
     find(const std::wstring& functionName, std::wstring& filename);
     bool
     find(const std::wstring& functionName, wstringVector& filesname);
     bool
-    find(const std::wstring& functionName, FileFunc** ff);
-    bool
-    find(size_t hashid, std::wstring& functionname);
+    find(const std::wstring& functionName, FileFunction** ff);
 
     bool
     addPath(const std::wstring& path, bool begin, bool frozen);
@@ -114,7 +120,8 @@ public:
     clearCache(stringVector exceptedFunctions);
 
     bool
-    isPointerOnPathFunctionDef(FuncPtr ptr);
+    isAvailablePath(const std::wstring& path);
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

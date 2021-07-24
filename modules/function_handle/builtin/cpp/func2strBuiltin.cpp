@@ -46,15 +46,10 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
     if (!bSuccess) {
         if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
-            std::wstring functionname;
-            bool found = PathFuncManager::getInstance()->find(fh, functionname);
-            if (!found) {
-                found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-            }
-            if (found) {
-                retval << ArrayOf::characterArrayConstructor(functionname);
+            if (fh.anonymous.empty()) {
+                retval << ArrayOf::characterArrayConstructor(fh.name);
             } else {
-                Error(_W("#1 Argument must contain a valid function_handle."));
+                retval << ArrayOf::characterArrayConstructor(fh.anonymous);
             }
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);

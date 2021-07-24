@@ -23,11 +23,12 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function [status, message] = dlgeneratemake(varargin)
+function [status, message, generatedfilename] = dlgeneratemake(varargin)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'}, {'msvcrt.lib'},'Debug')
   % dlgeneratemake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'})
 
+  generatedfilename = [];
   status = false;
   message = '';
   if nargin < 4
@@ -166,7 +167,8 @@ function [status, message] = dlgeneratemake(varargin)
     template_cmake = replace(template_cmake, '__LIBRARY_NAME__', libname);
   end
   template_cmake = replace(template_cmake, [newline, newline], newline);
-  filewrite([destinationdir, '/CMakeLists.txt'], template_cmake);
+  generatedfilename = [destinationdir, '/CMakeLists.txt'];
+  filewrite(generatedfilename, template_cmake);
   status = true;
 end
 %=============================================================================

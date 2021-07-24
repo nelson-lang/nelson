@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mexUnlock')
+if exist('mexUnlock') == 0
     test_dir = [tempdir(), 'mexUnlock'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,14 +33,14 @@ if ~isbuiltin('mexUnlock')
     assert_istrue(status);
     cd(test_dir);
     mex('mexUnlock.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 mexUnlock();
 R = evalc('clear mex');
 assert_isequal(R, 'Call at Exit');
 R = evalc('clear mexUnlock');
-assert_isequal(R, 'Call at Exit');
+assert_isequal(R, '');
 R = evalc('clear all');
-assert_isequal(R, 'Call at Exit');
+assert_isequal(R, '');
 %=============================================================================

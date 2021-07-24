@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxIsInteger')
+if exist('mxIsInteger') == 0
     test_dir = [tempdir(), 'mxIsInteger'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,7 +33,7 @@ if ~isbuiltin('mxIsInteger')
     assert_istrue(status);
     cd(test_dir);
     mex('mxIsInteger.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 assert_isequal(mxIsInteger(int8(3)), 'int8');

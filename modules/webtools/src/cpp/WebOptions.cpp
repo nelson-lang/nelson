@@ -71,8 +71,6 @@ WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
     res = webOptionsArrayOf.getField("ContentReader");
     if (!res.isEmpty()) {
         _contentReader = res.getContentAsFunctionHandle();
-    } else {
-        _contentReader = 0;
     }
 
     res = webOptionsArrayOf.getField("MediaType");
@@ -103,7 +101,8 @@ WebOptions::~WebOptions()
     _keyValue = ArrayOf::emptyConstructor();
     _headerFields.clear();
     _contentType.clear();
-    _contentReader = 0;
+    _contentReader.name.clear();
+    _contentReader.anonymous.clear();
     _mediaType.clear();
     _requestMethod.clear();
     _arrayformat.clear();

@@ -24,9 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "fevalBuiltin.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
-#include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -40,17 +38,11 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     std::string fname;
     ArrayOf param1 = argIn[0];
     if (param1.isFunctionHandle()) {
-        std::wstring functionname;
         function_handle fh = param1.getContentAsFunctionHandle();
-        bool found = PathFuncManager::getInstance()->find(fh, functionname);
-        if (!found) {
-            found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-        }
-        if (found) {
-            fname = wstring_to_utf8(functionname);
-        } else {
+        if (fh.anonymous.empty() && fh.name.empty()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
+        fname = fh.name;
     } else {
         fname = param1.getContentAsCString();
     }

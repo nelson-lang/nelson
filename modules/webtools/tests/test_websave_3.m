@@ -29,7 +29,11 @@ haveFails = false;
 try
     destination_filename = websave(filename, url, 'Time', '2019-06-01', 'Service', 'WMS', 'Layers', 'BlueMarbleNG-TB', 'CRS', 'CRS:84', 'Format', 'image/jpeg', 'Height',768, 'Width', 1024,'BBOX','-180.0,-90.0,180.0,90.0','Version','1.3.0','Request','GetMap');
 catch ex
-    haveFails = true;
+    if strcmp(ex.message, "Bad Request (400)") == 0
+        haveFails = false;
+    else
+        haveFails = true;
+    end
 end
 assert_istrue(haveFails);
 %=============================================================================

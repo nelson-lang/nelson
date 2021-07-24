@@ -24,9 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "builtinBuiltin.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
-#include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -41,15 +39,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
     std::string fname;
     if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
-        std::wstring functionname;
-        bool found = PathFuncManager::getInstance()->find(fh, functionname);
-        if (!found) {
-            found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-            if (!found) {
-                Error(_W("function handle not defined."));
-            }
-        }
-        fname = wstring_to_utf8(functionname);
+        fname = fh.name;
     } else {
         fname = argIn[0].getContentAsCString();
     }

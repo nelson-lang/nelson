@@ -25,9 +25,7 @@
 %=============================================================================
 function res = exist(varargin)
   res = 0;
-  if (nargin == 0 || nargin > 2)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 2)
   varname = varargin{1};
   if nargin == 2
     category = varargin{2};
@@ -52,8 +50,12 @@ function res = exist(varargin)
         if isfile(varname)
           res = 2;
         else
-          if ismacro(varname)
-            res = 2;
+          if ismex(varname)
+            res = 3;
+          else 
+            if ismacro(varname)
+              res = 2;
+            end
           end
         end
       otherwise

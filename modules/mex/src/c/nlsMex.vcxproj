@@ -242,6 +242,7 @@
     <ClInclude Include="..\include\MxCharacter.h" />
     <ClInclude Include="..\include\MxComplexFloat.h" />
     <ClInclude Include="..\include\MxConstants.h" />
+    <ClInclude Include="..\include\MxGetExtension.hpp" />
     <ClInclude Include="..\include\MxInteger.h" />
     <ClInclude Include="..\include\MxInterleavedComplex.h" />
     <ClInclude Include="..\include\MxLogical.h" />

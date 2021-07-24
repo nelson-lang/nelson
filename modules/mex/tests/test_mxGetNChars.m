@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~isbuiltin('mxGetNChars')
+if exist('mxGetNChars') == 0
     test_dir = [tempdir(), 'mxGetNChars'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -33,7 +33,7 @@ if ~isbuiltin('mxGetNChars')
     assert_istrue(status);
     cd(test_dir);
     mex('mxGetNChars.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 R = mxGetNChars();

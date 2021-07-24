@@ -65,7 +65,7 @@ ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException)
         MacroFunctionDef* cp = getParsedFunctionDef();
         if (cp != nullptr) {
             std::string functionNameFromFile = pathFunction.stem().generic_string();
-            if (boost::iequals(functionNameFromFile, cp->name)) {
+            if (boost::iequals(functionNameFromFile, cp->getName())) {
                 ps = ParserState::FuncDef;
             } else {
                 ps = ParserState::ParseError;

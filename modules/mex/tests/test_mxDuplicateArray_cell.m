@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mxDuplicateArray')
+if exist('mxDuplicateArray') == 0
     test_dir = [tempdir(), 'mxDuplicateArray_cell'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mxDuplicateArray')
     assert_istrue(status);
     cd(test_dir);
     mex('mxDuplicateArray.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 REF = {1, single(2); 'Nelson Text in a cell', false};

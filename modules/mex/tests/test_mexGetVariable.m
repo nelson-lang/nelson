@@ -25,7 +25,7 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if ~isbuiltin('mexGetVariable')
+if exist('mexGetVariable') == 0
     test_dir = [tempdir(), 'mexGetVariable'];
     if isdir(test_dir)
         rmdir(test_dir,'s');
@@ -35,7 +35,7 @@ if ~isbuiltin('mexGetVariable')
     assert_istrue(status);
     cd(test_dir);
     mex('mexGetVariable.c');
-    run('loader.m');
+    addpath(pwd())
 end
 %=============================================================================
 assignin('global', 'BB', 44);
