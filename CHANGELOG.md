@@ -1,3 +1,9 @@
+# 0.5.8 (UNRELEASED)
+
+## Features:
+
+- CTRL-C throws an error.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:

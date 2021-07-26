@@ -1994,10 +1994,8 @@ Evaluator::block(AbstractSyntaxTreePtr t)
         }
         while ((state < NLS_STATE_QUIT) && s != nullptr) {
             if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                io->outputMessage(L"\n" + MSG_CTRL_C_DETECTED);
-                state = NLS_STATE_ABORT;
                 NelsonConfiguration::getInstance()->setInterruptPending(false);
-                return;
+                Error(MSG_CTRL_C_DETECTED);
             }
             statement(s);
             if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE || state == NLS_STATE_RETURN
