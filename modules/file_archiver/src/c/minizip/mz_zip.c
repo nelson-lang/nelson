@@ -142,9 +142,12 @@ mz_zip_search_eocd(void* stream, int64_t* central_pos)
 
     file_size = mz_stream_tell(stream);
 
-    if (max_back <= 0 || max_back > file_size) // lgtm [cpp/useless-expression cpp/constant-comparison]
+    if (max_back <= 0) {
         max_back = file_size;
-
+    }
+    if (max_back > file_size) {
+        max_back = file_size;
+    }
     return mz_stream_find_reverse(stream, (const void*)find, sizeof(find), max_back, central_pos);
 }
 
