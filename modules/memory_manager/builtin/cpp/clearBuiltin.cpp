@@ -105,7 +105,6 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             }
         } else {
             // clear varname1 varname2 ... varnameN
-            Context* ctxt = eval->getContext();
             for (size_t k = 0; k < argIn.size(); k++) {
                 std::string name = argIn[k].getContentAsCString();
                 clearByName(eval, name);

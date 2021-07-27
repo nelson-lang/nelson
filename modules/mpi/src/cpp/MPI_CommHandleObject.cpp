@@ -30,7 +30,7 @@ namespace Nelson {
 //=============================================================================
 MPI_CommHandleObject::MPI_CommHandleObject(void* _ptr)
     : HandleGenericObject(std::wstring(MPI_COMM_CATEGORY_STR), _ptr, false)
-{}
+{ }
 //=============================================================================
 MPI_CommHandleObject::~MPI_CommHandleObject() = default;
 //=============================================================================
@@ -78,14 +78,8 @@ MPICommHandleDelete(ArrayOf A)
                         Error(_W("MPI_Comm handle expected."));
                     }
                     auto* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
-                    if (mpicommhandleobj != nullptr) {
-                        auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
-
-                        delete obj;
-
-                    } else {
-                        Error(_W("MPI_Comm valid handle expected."));
-                    }
+                    auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
+                    delete obj;
                     delete mpicommhandleobj;
                     HandleManager::getInstance()->removeHandle(hl);
                     res = true;

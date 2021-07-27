@@ -73,7 +73,7 @@ ArrayOf::getContentAsHandleScalar() const
         Error(_W("Expected a valid handle."));
     }
     nelson_handle hl = 0L;
-    if (*qp) {
+    if (qp != nullptr) {
         hl = (*qp);
     }
     return HandleManager::getInstance()->getPointer(hl);

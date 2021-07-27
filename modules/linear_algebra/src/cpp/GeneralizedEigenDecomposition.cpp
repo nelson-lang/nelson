@@ -178,8 +178,6 @@ GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B
     } break;
     case NLS_DCOMPLEX: {
         double* eigenvals = (double*)new_with_exception<double>(N, true);
-        std::complex<double>* Vp
-            = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N);
         auto* ptrA = (double*)_A.getReadWriteDataPointer();
         auto* ptrB = (double*)_B.getReadWriteDataPointer();
         auto* cplxA = reinterpret_cast<std::complex<double>*>(ptrA);
@@ -189,7 +187,6 @@ GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B
             delete[] eigenvals;
             return false;
         }
-        double* Dp = (double*)new_with_exception<double>(N * N, true);
         D = ArrayOf(NLS_DOUBLE, Ddims, eigenvals);
         return true;
     } break;
