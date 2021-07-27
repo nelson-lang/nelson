@@ -1,3 +1,7 @@
+#ifdef _MSC_VER
+#pragma warning(disable : 4273)
+#endif
+
 #include "nelson_f2c.h"
 #include "fio.h"
 #include "lio.h"

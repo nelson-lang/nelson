@@ -25,6 +25,10 @@ use or performance of this software.
    of the translator) and some state information about the contents of that
    file, and generates C program text. */
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4477)
+#endif
+
 #include "defs.h"
 #include "p1defs.h"
 #include "format.h"

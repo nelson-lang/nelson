@@ -1,3 +1,8 @@
+#ifdef _MSC_VER
+#pragma warning(disable : 4267 4834)
+#endif
+//=============================================================================
+
 #include "sio_socket.h"
 #include "internal/sio_packet.h"
 #include "internal/sio_client_impl.h"

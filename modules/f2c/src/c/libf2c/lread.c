@@ -1,6 +1,11 @@
 #include "nelson_f2c.h"
 #include "fio.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4273)
+#endif
+
+
 /* Compile with -DF8X_NML_ELIDE_QUOTES to permit eliding quotation */
 /* marks in namelist input a la the Fortran 8X Draft published in  */
 /* the May 1989 issue of Fortran Forum. */

@@ -23,6 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4018)
+#endif
+//=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <cstring>
 #include <cstdio>
