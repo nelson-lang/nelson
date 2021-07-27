@@ -123,7 +123,7 @@ nogood:
             case 'N':
                 signspace = 0;	/* no sign for NaNs */
         }
-        delta = w - strlen(buf) - signspace;
+        delta = (int)(w - strlen(buf) - signspace);
         if (delta < 0)
         {
             goto nogood;

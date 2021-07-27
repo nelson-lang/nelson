@@ -23,12 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Sleep.hpp"
-#include "NelsonConfiguration.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
 #include <cmath>
+#include "Sleep.hpp"
+#include "NelsonConfiguration.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

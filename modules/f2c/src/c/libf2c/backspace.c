@@ -69,7 +69,7 @@ integer f_back(alist *a)
             x -= sizeof(buf);
         }
         (void) fseek(b->ufd,x,SEEK_SET);
-        n=fread(buf,1,(int)(y-x), b->ufd);
+        n=(int)fread(buf,1,(int)(y-x), b->ufd);
         for(i = n - ndec; --i >= 0; )
         {
             if(buf[i]!='\n')

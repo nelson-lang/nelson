@@ -23,6 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#if _MSC_VER
+#pragma warning(disable : 4146)
+#endif
+//=============================================================================
 #include <limits>
 #include <complex>
 #include "nlsConfig.h"

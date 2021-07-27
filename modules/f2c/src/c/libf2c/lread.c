@@ -222,7 +222,7 @@ retry:
             GETC(ch);
         }
     }
-    havenum += sp - sp1;
+    havenum += (int)(sp - sp1);
     se = 0;
     if (issign(ch))
     {
@@ -981,15 +981,15 @@ loopend:
                 break;
 #endif
             case TYREAL:
-                Ptr->flreal=f__lx;
+                Ptr->flreal=(real)f__lx;
                 break;
             case TYDREAL:
                 Ptr->fldouble=f__lx;
                 break;
             case TYCOMPLEX:
                 xx=(real *)ptr;
-                *xx++ = f__lx;
-                *xx = f__ly;
+                *xx++ = (real)f__lx;
+                *xx = (real)f__ly;
                 break;
             case TYDCOMPLEX:
                 yy=(doublereal *)ptr;

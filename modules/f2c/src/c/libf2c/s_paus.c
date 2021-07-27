@@ -1,3 +1,7 @@
+#if _MSC_VER
+#pragma warning(disable : 4996)
+#endif
+
 #include "stdio.h"
 #include "nelson_f2c.h"
 #define PAUSESIG 15

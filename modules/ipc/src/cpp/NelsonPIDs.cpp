@@ -53,7 +53,7 @@ isPIDRunning(int pID)
         boost::process::pid_t _pid = (boost::process::pid_t)pID;
         boost::process::child child(_pid);
         return child.valid();
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error&) {
         return false;
     }
 }
