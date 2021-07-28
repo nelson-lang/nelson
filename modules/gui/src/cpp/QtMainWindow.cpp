@@ -129,8 +129,8 @@ QtMainWindow::~QtMainWindow()
 }
 //=============================================================================
 QtMainWindow::QtMainWindow(bool minimized)
+    : nelsonPath(Nelson::wstringToQString(Nelson::GetRootPath()))
 {
-    nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
     QWidget* widget = new QWidget;
     setCentralWidget(widget);
     QWidget* topFiller = new QWidget;

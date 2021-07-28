@@ -46,11 +46,7 @@ public:
 //=============================================================================
 CType::CType() = default;
 //=============================================================================
-CType::CType(ffi_type* baseType, Class baseClass)
-{
-    FFIType = baseType;
-    NelsonClass = baseClass;
-}
+CType::CType(ffi_type* baseType, Class baseClass) : NelsonClass(baseClass) { FFIType = baseType; }
 //=============================================================================
 static bool ffiTypesMapInitialized = false;
 static boost::unordered::unordered_map<std::wstring, CType> ffiTypesMap;

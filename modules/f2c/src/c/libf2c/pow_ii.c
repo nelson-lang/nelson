@@ -1,3 +1,7 @@
+#ifdef _MSC_VER
+#pragma warning(disable : 4723)
+#endif
+
 #include "nelson_f2c.h"
 #ifdef __cplusplus
 extern "C" {

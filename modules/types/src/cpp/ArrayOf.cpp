@@ -43,6 +43,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4724)
+#endif
+//=============================================================================
 #include <cstring>
 #include "lapack_eigen.hpp"
 #include <Eigen/src/misc/lapacke.h>

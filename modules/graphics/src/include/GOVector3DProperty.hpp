@@ -66,7 +66,7 @@ public:
     }
     //=============================================================================
     std::string
-    print(std::string propertyName)
+    print(const std::string& propertyName)
     {
         return "\t" + propertyName + ":\t [" + std::to_string(m_data[0]) + " "
             + std::to_string(m_data[1]) + " " + std::to_string(m_data[2]) + " ]";

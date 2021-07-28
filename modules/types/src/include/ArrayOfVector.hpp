@@ -46,7 +46,7 @@ public:
     //=============================================================================
     inline ListVector(const T& val) { vector.push_back(val); }
     //=============================================================================
-    inline ListVector(const ListVector& copy) { vector = copy.vector; }
+    inline ListVector(const ListVector& copy) : vector(copy.vector) {}
     //=============================================================================
     inline ~ListVector() = default;
     //=============================================================================

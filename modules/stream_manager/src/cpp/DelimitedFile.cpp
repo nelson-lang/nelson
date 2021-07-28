@@ -32,8 +32,9 @@
 namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
-delimitedWrite(ArrayOf mat, const std::wstring &filenameDestination, bool bAppend, const std::wstring &delimiter,
-    int64 rowsOffset, int64 colsOffset, const std::wstring &formatPrecision, bool isNewLinePc)
+delimitedWrite(ArrayOf mat, const std::wstring& filenameDestination, bool bAppend,
+    const std::wstring& delimiter, int64 rowsOffset, int64 colsOffset,
+    const std::wstring& formatPrecision, bool isNewLinePc)
 {
     bool bTypeSupported = mat.isNumeric() || mat.isLogical();
     if (!bTypeSupported) {
