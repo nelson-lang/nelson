@@ -41,9 +41,8 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 2);
-    ArrayOf param1 = argIn[0];
     std::wstring errorMessage;
-    std::wstring command = param1.getContentAsWideString();
+    std::wstring command = argIn[0].getContentAsWideString();
     if (command == L"clone") {
         nargoutcheck(nLhs, 0, 0);
         std::wstring url;
@@ -54,25 +53,21 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         switch (argIn.size()) {
         case 3: {
             // repo('clone', url, destination)
-            url = argIn[1].getContentAsWideString();
             localPath = argIn[2].getContentAsWideString();
         } break;
         case 4: {
             // repo('clone', url, branch, destination)
-            url = argIn[1].getContentAsWideString();
             branchOrTag = argIn[2].getContentAsWideString();
             localPath = argIn[3].getContentAsWideString();
         } break;
         case 5: {
             // repo('clone', url, destination, username, password)
-            url = argIn[1].getContentAsWideString();
             localPath = argIn[2].getContentAsWideString();
             username = argIn[3].getContentAsWideString();
             password = argIn[4].getContentAsWideString();
         } break;
         case 6: {
             // repo('clone', url, branch, destination, username, password)
-            url = argIn[1].getContentAsWideString();
             branchOrTag = argIn[2].getContentAsWideString();
             localPath = argIn[3].getContentAsWideString();
             username = argIn[4].getContentAsWideString();
@@ -82,7 +77,6 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
         }
-
         url = argIn[1].getContentAsWideString();
         if (argIn.size() == 4) {
             branchOrTag = argIn[2].getContentAsWideString();

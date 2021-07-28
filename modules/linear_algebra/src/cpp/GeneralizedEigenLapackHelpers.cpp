@@ -300,7 +300,6 @@ doubleComplexGeneralizedEigenDecompositionSymmetric(int n, std::complex<double>*
     int LDA = n;
     std::complex<double>* B = b;
     int LDB = n;
-    double* W = d;
     double* RWORK = (double*)new_with_exception<double>(std::max(1, 3 * N - 2), true);
     int INFO;
     int LWORK;

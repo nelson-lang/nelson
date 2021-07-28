@@ -315,9 +315,6 @@ MxArraySparseToSparseDoubleArrayOf(const mxArray* pm)
 {
     mwSize nIr = pm->nIr;
     mwSize nJc = pm->nJc;
-    mwSize nzmax = pm->nzmax;
-    mwIndex* Ir = pm->Ir;
-    mwIndex* Jc = pm->Jc;
     Eigen::Index nnz = nIr == 0 ? nJc : nIr;
     Eigen::Index rows = (Eigen::Index)pm->dims[0];
     Eigen::Index cols = (Eigen::Index)pm->dims[1];

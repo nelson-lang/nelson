@@ -191,6 +191,7 @@ sortStringWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType pla
             buf.clear();
             for (indexType k = 0; k < linesize; k++) {
                 StringEntry ce;
+                ce.n = 0;
                 ArrayOf param = arg[i * planesize * linesize + j + k * planesize];
                 if (param.isNumeric()) {
                     ce.isMissing = true;

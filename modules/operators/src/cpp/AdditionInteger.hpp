@@ -101,7 +101,6 @@ row_matrix_integer_addition(Class classDestination, const ArrayOf& A, const Arra
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -130,7 +129,6 @@ column_matrix_integer_addition(Class classDestination, const ArrayOf& A, const A
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();

@@ -166,7 +166,9 @@ processMessageData(const dataInterProcessToExchange& messageData)
         if (scope != nullptr) {
             ArrayOf result;
             bool isVar = scope->lookupVariable(messageData.variableName, result);
-            res = sendGetVarAnswerToNelsonInterprocessReceiver(messageData.pid, result);
+            if (isVar) {
+                res = sendGetVarAnswerToNelsonInterprocessReceiver(messageData.pid, result);
+            }
         }
     } break;
     case GET_ANSWER: {
@@ -208,7 +210,9 @@ processMessageData(const dataInterProcessToExchange& messageData)
         isMinimizedAnswerAvailable = true;
         res = true;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return res;
 }
 //=============================================================================
@@ -269,8 +273,7 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
                         boost::archive::binary_iarchive ia(iss);
                         ia >> msg;
                         processMessageData(msg);
-                    } catch (boost::archive::archive_exception&) {
-                    }
+                    } catch (boost::archive::archive_exception&) { }
                 }
             }
         }
@@ -339,8 +342,7 @@ removeNelsonInterprocessReceiver(int pid, bool withEventsLoop)
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
             l++;
         }
     }
@@ -501,8 +503,7 @@ evalCommandToNelsonInterprocessReceiver(int pidDestination, const std::wstring& 
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
     }
     if (!isPIDRunning(pidDestination)) {
@@ -620,8 +621,7 @@ isMinimizedFromNelsonInterprocessReceiver(
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
     }
     if (!isPIDRunning(pidDestination)) {
@@ -682,8 +682,7 @@ isVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring&
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
     }
     if (!isPIDRunning(pidDestination)) {
@@ -746,8 +745,7 @@ getVariableFromNelsonInterprocessReceiver(int pidDestination, const std::wstring
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
             l++;
         }
     }
@@ -781,8 +779,7 @@ waitMessageQueueUntilReady(bool withEventsLoop)
             }
             try {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(500));
-            } catch (boost::thread_interrupted&) {
-            }
+            } catch (boost::thread_interrupted&) { }
         }
     }
 }
