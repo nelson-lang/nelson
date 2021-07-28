@@ -37,7 +37,7 @@ using namespace Nelson;
 // profsave(profinfo, dirname)
 //=============================================================================
 static std::wstring
-filePartPath(std::wstring dirname)
+filePartPath(const std::wstring &dirname)
 {
     boost::filesystem::path pathToSplit = dirname;
     std::wstring path;
