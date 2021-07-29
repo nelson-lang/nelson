@@ -25,16 +25,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4251)
+#endif
+//=============================================================================
 #include "nlsFiles_folders_functions_exports.h"
 #include <string>
-//=============================================================================
 namespace Nelson {
 class NLSFILES_FOLDERS_FUNCTIONS_IMPEXP FileInfo
 {
 private:
-#ifdef _MSC_VER
-#pragma warning(disable : 4251)
-#endif
     std::wstring filename;
     std::wstring name;
     std::wstring date;

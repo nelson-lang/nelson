@@ -25,7 +25,7 @@
 //=============================================================================
 #include <portaudio.h>
 #include <cstdarg>
-#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+#if !defined(__APPLE__) && !defined(__MACH__) && !defined(_MSC_VER)
 #include <alsa/error.h>
 #include <jack/jack.h>
 #endif
@@ -36,7 +36,7 @@ namespace Nelson {
 //=============================================================================
 static bool audioInitialized = false;
 //=============================================================================
-#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+#if !defined(__APPLE__) && !defined(__MACH__) && !defined(_MSC_VER)
 void
 alsa_error_handler(const char* file, int line, const char* function, int err, const char* fmt, ...)
 {}
@@ -62,7 +62,7 @@ disableJackError()
 bool
 initializeAudio()
 {
-#if not defined(__APPLE__) && not defined(__MACH__) && not defined(_MSC_VER)
+#if !defined(__APPLE__) && !defined(__MACH__) && !defined(_MSC_VER)
     disableAlsaError();
     disableJackError();
 #endif

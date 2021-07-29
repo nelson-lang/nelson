@@ -4,6 +4,8 @@
 
 - CTRL-C throws an error.
 
+- some warnings detected by LGTM or VS fixed.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:

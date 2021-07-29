@@ -75,8 +75,8 @@ public:
         NELSON_INTERPROCESS_COMMAND _commandType, const std::vector<std::string>& _filenames)
         : commandType(_commandType), filenames(_filenames){};
     //=============================================================================
-    dataInterProcessToExchange(std::string _variableName, std::string _scope,
-        std::string compressedData, bool _fullySerialized)
+    dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
+        const std::string& compressedData, bool _fullySerialized)
         : commandType(NELSON_INTERPROCESS_COMMAND::PUT)
         , serializedCompressedVariable(std::move(compressedData))
         , fullySerialized(_fullySerialized)
@@ -84,7 +84,7 @@ public:
         , scope(std::move(_scope)){};
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
-        std::string _variableName, std::string _scope)
+        const std::string& _variableName, const std::string& _scope)
         : pid(_pid), commandType(_commandType), scope(std::move(_scope))
     {
         if (_commandType == NELSON_INTERPROCESS_COMMAND::POST_COMMAND) {

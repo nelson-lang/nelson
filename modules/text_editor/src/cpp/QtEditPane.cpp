@@ -29,9 +29,8 @@
 #include "QtTextIndent.h"
 #include <QtWidgets/QHBoxLayout>
 //=============================================================================
-QtEditPane::QtEditPane()
+QtEditPane::QtEditPane() : currentEncoding("UTF-8")
 {
-    currentEncoding = "UTF-8";
     textEditor = new QtTextEdit();
     completer = new QCompleter(this);
     textEditor->setCompleter(completer);

@@ -26,9 +26,10 @@ if( (mag = f__cabs(zr, zi)) == 0.)
 }
 else if(zr > 0)
 {
-    r->r = t = sqrt(0.5 * (mag + zr) );
+    t = sqrt(0.5 * (mag + zr));
+    r->r = (real)t;
     t = zi / t;
-    r->i = 0.5 * t;
+    r->i = (real)(0.5 * t);
 }
 else
 {
@@ -37,9 +38,9 @@ else
     {
         t = -t;
     }
-    r->i = t;
+    r->i = (real)t;
     t = zi / t;
-    r->r = 0.5 * t;
+    r->r = (real)(0.5 * t);
 }
 }
 #ifdef __cplusplus

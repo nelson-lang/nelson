@@ -166,7 +166,9 @@ processMessageData(const dataInterProcessToExchange& messageData)
         if (scope != nullptr) {
             ArrayOf result;
             bool isVar = scope->lookupVariable(messageData.variableName, result);
-            res = sendGetVarAnswerToNelsonInterprocessReceiver(messageData.pid, result);
+            if (isVar) {
+                res = sendGetVarAnswerToNelsonInterprocessReceiver(messageData.pid, result);
+            }
         }
     } break;
     case GET_ANSWER: {

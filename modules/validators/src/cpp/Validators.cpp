@@ -239,14 +239,14 @@ void
 mustBeNumericOrLogical(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeNumericOrLogical(args[argPosition], c, argPosition + 1);
+    mustBeNumericOrLogical(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void
 mustBeNonzeroLengthText(const ArrayOfVector& args, const ArrayOf& c, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
-    mustBeNonzeroLengthText(args[argPosition], c, argPosition + 1);
+    mustBeNonzeroLengthText(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void

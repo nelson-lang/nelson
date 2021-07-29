@@ -59,7 +59,7 @@ public:
     }
     //=============================================================================
     std::string
-    print(std::string propertyName)
+    print(const std::string& propertyName)
     {
         std::string v = (m_data == 0) ? "off" : "on";
         return "\t" + propertyName + ":\t" + v;

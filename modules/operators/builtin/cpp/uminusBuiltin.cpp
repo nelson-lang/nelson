@@ -35,7 +35,6 @@ Nelson::OperatorsGateway::uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
-    ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
     ArrayOf a = argIn[0];
     ArrayOf res;

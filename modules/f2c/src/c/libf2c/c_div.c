@@ -42,16 +42,16 @@ void c_div(complex *c, complex *a, complex *b)
         ratio = (double)b->r / b->i ;
         den = b->i * (1 + ratio*ratio);
         cr = (a->r*ratio + a->i) / den;
-        c->i = (a->i*ratio - a->r) / den;
+        c->i = (real)((a->i*ratio - a->r) / den);
     }
     else
     {
         ratio = (double)b->i / b->r ;
         den = b->r * (1 + ratio*ratio);
         cr = (a->r + a->i*ratio) / den;
-        c->i = (a->i - a->r*ratio) / den;
+        c->i = (real)((a->i - a->r*ratio) / den);
     }
-    c->r = cr;
+    c->r = (real)cr;
 }
 #ifdef __cplusplus
 }

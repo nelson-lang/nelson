@@ -86,7 +86,8 @@ mxIsUint64(const mxArray* pm)
 //=============================================================================
 template <class T>
 T*
-mxGetComplexIntegerInterleavedComplex(const mxArray* pa, std::string typemsg, bool isExpectedType)
+mxGetComplexIntegerInterleavedComplex(
+    const mxArray* pa, const std::string& typemsg, bool isExpectedType)
 {
     if (isExpectedType) {
         return (T*)pa->realdata;
@@ -99,7 +100,7 @@ mxGetComplexIntegerInterleavedComplex(const mxArray* pa, std::string typemsg, bo
 //=============================================================================
 template <class T>
 int
-mxSetIntegerInterleavedComplex(mxArray* pa, T* dt, std::string typemsg, bool isExpectedType)
+mxSetIntegerInterleavedComplex(mxArray* pa, T* dt, const std::string& typemsg, bool isExpectedType)
 {
     if (pa != nullptr) {
         if (!isExpectedType) {
@@ -118,7 +119,8 @@ mxSetIntegerInterleavedComplex(mxArray* pa, T* dt, std::string typemsg, bool isE
 //=============================================================================
 template <class T>
 int
-mxSetComplexIntegerInterleavedComplex(mxArray* pa, T* dt, std::string typemsg, bool isExpectedType)
+mxSetComplexIntegerInterleavedComplex(
+    mxArray* pa, T* dt, const std::string& typemsg, bool isExpectedType)
 {
     if (pa != nullptr) {
         if (!pa->iscomplex || !isExpectedType) {

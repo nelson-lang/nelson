@@ -32,7 +32,7 @@
 using namespace Nelson;
 //=============================================================================
 static bool
-isValidDirection(std::wstring direction, bool& isAscend)
+isValidDirection(const std::wstring& direction, bool& isAscend)
 {
     if (direction == L"a" || direction == L"ascend") {
         isAscend = true;

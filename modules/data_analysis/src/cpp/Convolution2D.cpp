@@ -221,11 +221,6 @@ Conv2dXYValid(const ArrayOf& A, const ArrayOf& B)
 {
     indexType Cm = indexType(A.getRows() - B.getRows() + 1);
     indexType Cn = indexType(A.getColumns() - B.getColumns() + 1);
-    if ((Cm < 0) || (Cn < 0)) {
-        ArrayOf res = ArrayOf::emptyConstructor();
-        res.promoteType(A.getDataClass());
-        return res;
-    }
     if ((Cm == 0) || (Cn == 0)) {
         Dimensions dims(Cm, Cn);
         ArrayOf res = ArrayOf::emptyConstructor(dims);

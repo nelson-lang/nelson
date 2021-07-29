@@ -78,14 +78,8 @@ MPICommHandleDelete(ArrayOf A)
                         Error(_W("MPI_Comm handle expected."));
                     }
                     auto* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
-                    if (mpicommhandleobj != nullptr) {
-                        auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
-
-                        delete obj;
-
-                    } else {
-                        Error(_W("MPI_Comm valid handle expected."));
-                    }
+                    auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
+                    delete obj;
                     delete mpicommhandleobj;
                     HandleManager::getInstance()->removeHandle(hl);
                     res = true;

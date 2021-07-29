@@ -1,6 +1,11 @@
 #include "nelson_f2c.h"
 #include "fio.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4273)
+#endif
+
+
 /* Compile with -DF8X_NML_ELIDE_QUOTES to permit eliding quotation */
 /* marks in namelist input a la the Fortran 8X Draft published in  */
 /* the May 1989 issue of Fortran Forum. */
@@ -222,7 +227,7 @@ retry:
             GETC(ch);
         }
     }
-    havenum += sp - sp1;
+    havenum += (int)(sp - sp1);
     se = 0;
     if (issign(ch))
     {
@@ -981,15 +986,15 @@ loopend:
                 break;
 #endif
             case TYREAL:
-                Ptr->flreal=f__lx;
+                Ptr->flreal=(real)f__lx;
                 break;
             case TYDREAL:
                 Ptr->fldouble=f__lx;
                 break;
             case TYCOMPLEX:
                 xx=(real *)ptr;
-                *xx++ = f__lx;
-                *xx = f__ly;
+                *xx++ = (real)f__lx;
+                *xx = (real)f__ly;
                 break;
             case TYDCOMPLEX:
                 yy=(doublereal *)ptr;

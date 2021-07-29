@@ -23,6 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4244)
+#endif
+//=============================================================================
 #include <cstdio>
 #include <vector>
 #include "PrintfFunction.hpp"

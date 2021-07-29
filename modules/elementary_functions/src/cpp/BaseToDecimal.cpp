@@ -39,8 +39,8 @@ namespace Nelson {
 static boost::unordered_map<std::wstring, double> baseConverted;
 static size_t lastBase = 10;
 //=============================================================================
-uint64
-base2dec(const std::wstring wstr, int base)
+static uint64
+base2dec(const std::wstring& wstr, int base)
 {
     uint64 res = 0;
     if (wstr.empty()) {

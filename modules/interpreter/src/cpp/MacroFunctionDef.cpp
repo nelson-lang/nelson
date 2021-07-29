@@ -380,7 +380,7 @@ MacroFunctionDef::updateCode()
         return false;
     }
     this->setTimestamp(currentFileTimestamp);
-    
+
     FILE* fr;
 #ifdef _MSC_VER
     fr = _wfopen(this->getFilename().c_str(), L"rt");

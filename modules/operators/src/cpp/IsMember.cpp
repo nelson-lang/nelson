@@ -77,6 +77,7 @@ isMemberStringArray(const ArrayOf& A, const ArrayOf& B)
             }
         }
     }
+    return res;
 }
 //=============================================================================
 static ArrayOf

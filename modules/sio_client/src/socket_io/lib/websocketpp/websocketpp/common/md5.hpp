@@ -54,6 +54,13 @@
   1999-05-03 lpd Original version.
  */
 
+//=============================================================================
+#if _MSC_VER
+#pragma warning(disable : 4267)
+#endif
+//=============================================================================
+
+
 #ifndef WEBSOCKETPP_COMMON_MD5_HPP
 #define WEBSOCKETPP_COMMON_MD5_HPP
 

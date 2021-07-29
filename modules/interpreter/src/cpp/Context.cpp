@@ -355,7 +355,7 @@ void
 Context::bypassScope(int count)
 {
     if (count < 0) {
-        count = (scopestack.size() - 2);
+        count = (int)(scopestack.size() - 2);
     }
     if (count > scopestack.size()) {
         return;

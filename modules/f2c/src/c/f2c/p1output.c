@@ -21,6 +21,10 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4477)
+#endif
+
 #include "defs.h"
 #include "p1defs.h"
 #include "output.h"
