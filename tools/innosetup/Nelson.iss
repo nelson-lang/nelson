@@ -35,7 +35,7 @@
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"
 #define APPLICATION_EXE_CLI_NAME "Nelson-cli.exe"
 #define APPLICATION_EXE_ADV_CLI_NAME "Nelson-adv-cli.exe"
-#define APPLICATION_PUBLISHER "Allan CORNET"
+#define APPLICATION_PUBLISHER "Nelson numerical software (Allan CORNET)"
 #ifdef NELSON_X64
 #define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (64 bits)"
 #else
