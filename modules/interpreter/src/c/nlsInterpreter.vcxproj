@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -122,7 +122,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -152,7 +152,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -186,7 +186,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/mex/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/profiler/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -228,6 +228,27 @@
     <ClCompile Include="..\cpp\DebugStack.cpp" />
     <ClCompile Include="..\cpp\DotLeftDivideOperator.cpp" />
     <ClCompile Include="..\cpp\DotRightDivideOperator.cpp" />
+    <ClCompile Include="..\cpp\efsw\DirectorySnapshot.cpp" />
+    <ClCompile Include="..\cpp\efsw\DirectorySnapshotDiff.cpp" />
+    <ClCompile Include="..\cpp\efsw\DirWatcherGeneric.cpp" />
+    <ClCompile Include="..\cpp\efsw\FileInfo.cpp" />
+    <ClCompile Include="..\cpp\efsw\FileSystem.cpp" />
+    <ClCompile Include="..\cpp\efsw\FileWatcher.cpp" />
+    <ClCompile Include="..\cpp\efsw\FileWatcherGeneric.cpp" />
+    <ClCompile Include="..\cpp\efsw\FileWatcherImpl.cpp" />
+    <ClCompile Include="..\cpp\efsw\FileWatcherWin32.cpp" />
+    <ClCompile Include="..\cpp\efsw\Log.cpp" />
+    <ClCompile Include="..\cpp\efsw\Mutex.cpp" />
+    <ClCompile Include="..\cpp\efsw\platform\win\FileSystemImpl.cpp" />
+    <ClCompile Include="..\cpp\efsw\platform\win\MutexImpl.cpp" />
+    <ClCompile Include="..\cpp\efsw\platform\win\SystemImpl.cpp" />
+    <ClCompile Include="..\cpp\efsw\platform\win\ThreadImpl.cpp" />
+    <ClCompile Include="..\cpp\efsw\String.cpp" />
+    <ClCompile Include="..\cpp\efsw\System.cpp" />
+    <ClCompile Include="..\cpp\efsw\Thread.cpp" />
+    <ClCompile Include="..\cpp\efsw\Watcher.cpp" />
+    <ClCompile Include="..\cpp\efsw\WatcherGeneric.cpp" />
+    <ClCompile Include="..\cpp\efsw\WatcherWin32.cpp" />
     <ClCompile Include="..\cpp\EqOperator.cpp" />
     <ClCompile Include="..\cpp\ErrorEmitter.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
@@ -240,8 +261,6 @@
     <ClCompile Include="..\cpp\FileFunction.cpp" />
     <ClCompile Include="..\cpp\FileParser.cpp" />
     <ClCompile Include="..\cpp\FileWatcherManager.cpp" />
-    <ClCompile Include="..\cpp\FileWatcher\FileWatcher.cpp" />
-    <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
     <ClCompile Include="..\cpp\FunctionsInMemory.cpp" />
     <ClCompile Include="..\cpp\GatewayHelpers.cpp" />

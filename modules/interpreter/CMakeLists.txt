@@ -31,7 +31,7 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/grammar
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/FileWatcher
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -46,7 +46,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../profiler/src/include)
 # ==============================================================================
 file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/FileWatcher/*.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/efsw/*.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/efsw/platform/posix/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${INTERPRETER_SRC})
@@ -62,7 +63,9 @@ target_link_libraries(
   nlsI18n
   nlsOs_functions
   nlsProfiler
-  ${BOOST_LIBRARIES})
+  ${BOOST_LIBRARIES}
+  ${MAC_FRAMEWORK_FOUNDATION_LIBRARY}
+  ${MAC_FRAMEWORK_CORESERVICES_LIBRARY})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

@@ -96,13 +96,13 @@ Microsoft MPI (MS-MPI) is a Microsoft implementation of the Message Passing Inte
 
 > https://www.open-mpi.org/community/license.php
 
-- SimpleFileWatcher
+- Entropia File System Watcher
 
 a C++ wrapper for OS file monitoring systems
 
-> https://github.com/apetrone/simplefilewatcher
+> https://github.com/SpartanJ/efsw
 
-> https://github.com/apetrone/simplefilewatcher/blob/master/License.txt
+> https://github.com/SpartanJ/efsw/blob/master/LICENSE
 
 - Libxml2
 

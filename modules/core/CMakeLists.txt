@@ -38,7 +38,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include/picoSHA2)
 # ==============================================================================

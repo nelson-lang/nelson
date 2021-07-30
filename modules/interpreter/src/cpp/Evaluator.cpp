@@ -4197,7 +4197,6 @@ Evaluator::evalCLI()
 {
     while (1) {
         if (!bpActive) {
-            FileWatcherManager::getInstance()->update();
             clearStacks();
         }
         std::wstring commandLine;

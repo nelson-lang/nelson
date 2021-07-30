@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <FileWatcher.h>
+#include <efsw/efsw.hpp>
 #include <boost/filesystem.hpp>
 #include "FileWatcherManager.hpp"
 #include "PathFuncManager.hpp"
@@ -32,16 +32,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class UpdatePathListener : public FW::FileWatchListener
+class UpdatePathListener : public efsw::FileWatchListener
 {
 public:
     UpdatePathListener() = default;
     void
-    handleFileAction(WatchID watchid, const FW::String& dir, const FW::String& filename,
-        FW::Action action) override
+    handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename,
+        efsw::Action action, std::string oldFilename = "") override
     {
         switch (action) {
-        case FW::Action::Add: {
+        case efsw::Action::Add: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
             std::wstring file_extension = pf.extension().generic_wstring();
             if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
@@ -56,7 +56,7 @@ public:
                 */
             }
         } break;
-        case FW::Action::Delete: {
+        case efsw::Action::Delete: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
             std::wstring file_extension = pf.extension().generic_wstring();
             if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
@@ -71,7 +71,7 @@ public:
                 */
             }
         } break;
-        case FW::Action::Modified:
+        case efsw::Action::Modified: {
             boost::filesystem::path pf = boost::filesystem::path(filename);
             std::wstring file_extension = pf.extension().generic_wstring();
             if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
@@ -83,7 +83,7 @@ public:
                 #endif
                 */
             }
-            break;
+        } break;
         }
     }
 };
@@ -92,14 +92,14 @@ FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 //=============================================================================
 FileWatcherManager::FileWatcherManager()
 {
-    auto* tmp = new FW::FileWatcher();
+    auto* tmp = new efsw::FileWatcher();
     fileWatcher = (void*)tmp;
 }
 //=============================================================================
 void
 FileWatcherManager::release()
 {
-    auto* ptr = static_cast<FW::FileWatcher*>(fileWatcher);
+    auto* ptr = static_cast<efsw::FileWatcher*>(fileWatcher);
     if (ptr != nullptr) {
         delete ptr;
         fileWatcher = nullptr;
@@ -119,37 +119,14 @@ void
 FileWatcherManager::addWatch(const std::wstring& directory)
 {
     auto* watcher = new UpdatePathListener();
-    WatchID id = -1;
-    try {
-#ifdef _MSC_VER
-        id = (static_cast<FW::FileWatcher*>(fileWatcher))->addWatch(directory, watcher);
-#else
-        id = ((FW::FileWatcher*)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
-#endif
-    } catch (const FW::FWException&) {
-    }
+    efsw::WatchID id = -1;
+    id = ((efsw::FileWatcher*)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
 }
 //=============================================================================
 void
 FileWatcherManager::removeWatch(const std::wstring& directory)
 {
-    try {
-#ifdef _MSC_VER
-        (static_cast<FW::FileWatcher*>(fileWatcher))->removeWatch(directory);
-#else
-        ((FW::FileWatcher*)fileWatcher)->removeWatch(wstring_to_utf8(directory));
-#endif
-    } catch (const FW::FWException&) {
-    }
-}
-//=============================================================================
-void
-FileWatcherManager::update()
-{
-    try {
-        (static_cast<FW::FileWatcher*>(fileWatcher))->update();
-    } catch (const FW::FWException&) {
-    }
+    ((efsw::FileWatcher*)fileWatcher)->removeWatch(wstring_to_utf8(directory));
 }
 //=============================================================================
 } // namespace Nelson
