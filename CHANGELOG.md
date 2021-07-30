@@ -6,6 +6,11 @@
 
 - some warnings detected by LGTM or VS fixed.
 
+## Bug Fixes:
+
+- [#480](http://github.com/Nelson-numerical-software/nelson/issues/468): A(':') = [] was not managed.
+
+
 # 0.5.7 (2021-07-24)
 
 ## Features:
