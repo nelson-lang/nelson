@@ -124,6 +124,24 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
   end
 end
 %=============================================================================
+function displayFilenameAndLine(msg)
+  pos = -1;
+  if (length(msg.stack) > 0)
+    pos = 1;
+    if (msg.stack(1).line == 0)
+      pos = -1;
+    elseif (length(msg.stack) > 2) && (msg.stack(2).line ~= 0)
+      pos = 2;
+    else 
+      pos = -1;
+    end
+  end
+  if pos > 0
+    disp(['      ', _('File:'), ' ', msg.stack(pos).file]);
+    disp(['      ', _('Line:'), ' ', num2str(msg.stack(pos).line)]);
+  end
+end
+%=============================================================================
 function displayTestCaseFail(test_case)
   if strcmp(test_case.status, 'Fail') == true
     disp(['    run(''', test_case.filename, ''')']);
@@ -136,6 +154,7 @@ function displayTestCaseFail(test_case)
       else
         if strcmp(class(test_case.msg), 'struct') == true
           disp(['      ', test_case.msg.message]);
+          displayFilenameAndLine(test_case.msg);
         else
           disp(['      ', test_case.msg]);
         end
