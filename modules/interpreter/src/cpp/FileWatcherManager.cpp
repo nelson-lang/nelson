@@ -93,6 +93,7 @@ FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 FileWatcherManager::FileWatcherManager()
 {
     auto* tmp = new efsw::FileWatcher();
+    tmp->watch();
     fileWatcher = (void*)tmp;
 }
 //=============================================================================
