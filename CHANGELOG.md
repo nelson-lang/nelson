@@ -8,6 +8,8 @@
 
 - [#477](http://github.com/Nelson-numerical-software/nelson/issues/477): update files watcher using `efsw`.
 
+- filename and line of last error available in test_run report.
+
 ## Bug Fixes:
 
 - [#480](http://github.com/Nelson-numerical-software/nelson/issues/468): A(':') = [] was not managed.

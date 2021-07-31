@@ -125,14 +125,11 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
 end
 %=============================================================================
 function displayFilenameAndLine(msg)
-  pos = -1;
   if (length(msg.stack) > 0)
     pos = 1;
     if (msg.stack(1).line == 0)
-      pos = -1;
-    elseif (length(msg.stack) > 2) && (msg.stack(2).line ~= 0)
       pos = 2;
-    else 
+    if ~((length(msg.stack) > 1) && (msg.stack(pos).line ~= 0))
       pos = -1;
     end
   end
