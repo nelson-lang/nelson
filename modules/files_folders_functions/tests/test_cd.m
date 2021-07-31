@@ -69,3 +69,9 @@ cd('.')
 newDirectory = pwd();
 assert_isequal(currentDirectory, newDirectory);
 %=============================================================================
+temp_dest = [TMPDIR, createGUID()];
+mkdir(temp_dest);
+cd(temp_dest);
+currentDirectory = pwd();
+assert_isequal(currentDirectory, temp_dest);
+%=============================================================================
