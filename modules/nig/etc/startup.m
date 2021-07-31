@@ -24,4 +24,4 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 %addgateway(modulepath(nelsonroot(), 'nig', 'builtin'));
-addpath(modulepath(nelsonroot(), 'nig', 'functions'));
+addpath(modulepath(nelsonroot(), 'nig', 'functions'), '-frozen');
