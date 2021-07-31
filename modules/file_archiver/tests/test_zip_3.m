@@ -23,9 +23,6 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('zip'), -3);
-assert_isequal(nargout('zip'), -1);
-%=============================================================================
 builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
 if ~isfile(builderFile)
   return
@@ -35,58 +32,6 @@ TMPDIR = tempdir();
 if ismac()
   TMPDIR = ['/private', TMPDIR];
 end
-%=============================================================================
-DEST_1 = [TMPDIR, 'zip_test_1.zip'];
-cd([nelsonroot(), '/module_skeleton'])
-R = zip(DEST_1, '*.m');
-REF1 = {'builder.m'};
-REF2 = {'builder.m', 'loader.m'};
-if length(R) == 2
-  assert_isequal(R, REF2);
-else
-  assert_isequal(R, REF1);
-end
-assert_istrue(isfile(DEST_1));
-%=============================================================================
-DEST_2 = [TMPDIR, 'zip_test_2.zip'];
-cd([nelsonroot(), '/module_skeleton'])
-R = zip(DEST_2, [nelsonroot(), '/module_skeleton/*.m']);
-REF1 = {'builder.m'};
-REF2 = {'builder.m', 'loader.m'};
-if length(R) == 2
-  assert_isequal(R, REF2);
-else
-  assert_isequal(R, REF1);
-end
-assert_istrue(isfile(DEST_2));
-%=============================================================================
-temp_dest = [TMPDIR, createGUID()];
-mkdir(temp_dest);
-cd(temp_dest);
-R1 = unzip(DEST_1);
-REF1 = {[temp_dest, '/builder.m']};
-REF2 = {[temp_dest, '/builder.m'] , [temp_dest, '/loader.m']};
-if length(R1) == 2
-  assert_isequal(R1, REF2);
-else
-  assert_isequal(R1, REF1);
-end
-cd(tempdir());
-rmdir(temp_dest, 's');
-%=============================================================================
-temp_dest = [TMPDIR, createGUID()];
-mkdir(temp_dest);
-cd(temp_dest);
-R2 = unzip(DEST_2);
-REF1 = {[temp_dest, '/builder.m']};
-REF2 = {[temp_dest, '/builder.m'] , [temp_dest, '/loader.m']};
-if length(R2) == 2
-  assert_isequal(R2, REF2);
-else
-  assert_isequal(R2, REF1);
-end
-cd(tempdir());
-rmdir(temp_dest, 's');
 %=============================================================================
 DEST_3 = [TMPDIR, 'zip_test_3.zip'];
 R3 = zip(DEST_3, [nelsonroot(), '/module_skeleton']);
@@ -204,7 +149,4 @@ end
 assert_istrue(isfile(DEST_5));
 info = dir(DEST_5);
 assert_istrue(info.bytes > 0);
-%=============================================================================
-cmd = 'R = zip(DEST_1, ''*.m'', [nelsonroot(), ''/modules_skeleton''])';
-assert_checkerror(cmd, _('Invalid root path.'));
 %=============================================================================
