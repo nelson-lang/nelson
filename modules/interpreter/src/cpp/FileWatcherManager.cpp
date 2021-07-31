@@ -116,18 +116,36 @@ FileWatcherManager::getInstance()
     return m_pInstance;
 }
 //=============================================================================
+static std::string
+utf8UniformizePath(const std::wstring& directory)
+{
+    std::wstring uniformPath = directory;
+    if ((directory.back() == L'/') || (directory.back() == L'\\')) {
+        uniformPath.pop_back();
+    }
+    boost::filesystem::path path(uniformPath);
+    path = boost::filesystem::absolute(path);
+    std::string utf8UniformPath = wstring_to_utf8(path.generic_wstring());
+#ifdef _MSC_VER
+    utf8UniformPath = utf8UniformPath + "\\";
+#else
+    utf8UniformPath = utf8UniformPath + "/";
+#endif
+    return utf8UniformPath;
+}
+//=============================================================================
 void
 FileWatcherManager::addWatch(const std::wstring& directory)
 {
     auto* watcher = new UpdatePathListener();
     efsw::WatchID id = -1;
-    id = ((efsw::FileWatcher*)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
+    id = ((efsw::FileWatcher*)fileWatcher)->addWatch(utf8UniformizePath(directory), watcher);
 }
 //=============================================================================
 void
 FileWatcherManager::removeWatch(const std::wstring& directory)
 {
-    ((efsw::FileWatcher*)fileWatcher)->removeWatch(wstring_to_utf8(directory));
+    ((efsw::FileWatcher*)fileWatcher)->removeWatch(utf8UniformizePath(directory));
 }
 //=============================================================================
 } // namespace Nelson
