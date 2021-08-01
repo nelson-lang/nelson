@@ -41,7 +41,7 @@ copyHtmlDependencies(
 //=============================================================================
 void
 generateProfileFileHtml(const std::wstring& srcFilename, const stringVector& functionContent,
-    const std::vector<std::tuple<int, std::string, int, double>> &fiveSlowerLines,
+    const std::vector<std::tuple<int, std::string, int, double>>& fiveSlowerLines,
     std::tuple<int, int, int, int, int, double> coverage,
     std::vector<std::tuple<int, double>> lineInfo, int nbCalls, double totalTime,
     const std::wstring& htmlFilename);

@@ -40,7 +40,8 @@ public:
     removeWatch(const std::wstring& directory);
     void
     release();
-    void rehashDirectories();
+    void
+    rehashDirectories();
 
 private:
     FileWatcherManager();

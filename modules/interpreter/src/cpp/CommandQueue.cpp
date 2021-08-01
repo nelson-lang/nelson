@@ -27,10 +27,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-CommandQueue::CommandQueue()
-{
-    std::lock_guard<std::mutex> lock(m_mutex);
-}
+CommandQueue::CommandQueue() { std::lock_guard<std::mutex> lock(m_mutex); }
 //=============================================================================
 CommandQueue::~CommandQueue()
 {
