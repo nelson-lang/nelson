@@ -26,6 +26,8 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <map>
+#include <vector>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,11 +44,16 @@ public:
     release();
     void
     rehashDirectories();
+    void
+    addPathToRefresh(const std::wstring& directory);
 
 private:
     FileWatcherManager();
     static FileWatcherManager* m_pInstance;
     void* fileWatcher;
+    std::map<std::string, std::pair<long, int>> watchIDsMap;
+    std::vector<std::wstring> pathsToRefresh;
+    void* watcher;
 };
 //=============================================================================
 } // namespace Nelson

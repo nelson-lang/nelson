@@ -92,7 +92,6 @@ PathFunc::uniformizePathName(const std::wstring& pathname)
         } catch (const boost::filesystem::filesystem_error&) {
         }
     }
-    boost::replace_all(pathModified, L"\\", L"/");
     return pathModified;
 }
 //=============================================================================

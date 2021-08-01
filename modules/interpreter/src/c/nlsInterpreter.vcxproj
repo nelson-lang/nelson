@@ -344,6 +344,7 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\AsciiToDouble.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
+    <ClInclude Include="..\cpp\UpdatePathListener.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />

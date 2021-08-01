@@ -27,77 +27,44 @@
 #include <string>
 #include <efsw/efsw.hpp>
 #include <boost/filesystem.hpp>
-#include <vector>
 #include "FileWatcherManager.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
+#include "UpdatePathListener.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::vector<std::wstring> pathsToHash;
 static std::mutex m_mutex;
-//=============================================================================
-class UpdatePathListener : public efsw::FileWatchListener
-{
-private:
-    //=============================================================================
-    void
-    appendIfNelsonFile(const std::string& dir, const std::string& filename)
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        boost::filesystem::path pf = boost::filesystem::path(filename);
-        std::wstring file_extension = pf.extension().generic_wstring();
-        if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
-            boost::filesystem::path parent_dir = boost::filesystem::path(dir);
-            pathsToHash.push_back(parent_dir.generic_wstring());
-        }
-    }
-    //=============================================================================
-public:
-    //=============================================================================
-    UpdatePathListener() = default;
-    //=============================================================================
-    void
-    handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename,
-        efsw::Action action, std::string oldFilename = "") override
-    {
-        switch (action) {
-        case efsw::Action::Add: {
-            appendIfNelsonFile(dir, filename);
-        } break;
-        case efsw::Action::Delete: {
-            appendIfNelsonFile(dir, filename);
-        } break;
-        case efsw::Action::Moved: {
-            appendIfNelsonFile(dir, filename);
-        } break;
-        default:
-        case efsw::Action::Modified: {
-            // nothing to do
-            // modified managed by timestamp
-        } break;
-        }
-    }
-    //=============================================================================
-};
 //=============================================================================
 FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 //=============================================================================
 FileWatcherManager::FileWatcherManager()
 {
+    UpdatePathListener *_watcher = new UpdatePathListener();
+    watcher = (void*)_watcher; 
     auto* tmp = new efsw::FileWatcher();
     tmp->watch();
     fileWatcher = (void*)tmp;
+    watchIDsMap.clear();
+    pathsToRefresh.clear();
 }
 //=============================================================================
 void
 FileWatcherManager::release()
 {
     auto* ptr = static_cast<efsw::FileWatcher*>(fileWatcher);
+    watchIDsMap.clear();
+    pathsToRefresh.clear();
     if (ptr != nullptr) {
         delete ptr;
         fileWatcher = nullptr;
+    }
+    if (watcher) {
+        UpdatePathListener* _watcher = (UpdatePathListener*)watcher; 
+        delete _watcher;
+        _watcher = nullptr;
+        watcher = nullptr;
     }
 }
 //=============================================================================
@@ -131,32 +98,54 @@ utf8UniformizePath(const std::wstring& directory)
 void
 FileWatcherManager::addWatch(const std::wstring& directory)
 {
-    auto* watcher = new UpdatePathListener();
-    efsw::WatchID id = -1;
+    std::lock_guard<std::mutex> lock(m_mutex);
     std::string uniformizedPath = utf8UniformizePath(directory);
-    std::list<std::string> directories = ((efsw::FileWatcher*)fileWatcher)->directories();
-    for (auto dir : directories) {
-        if (uniformizedPath == dir) {
-            return;
+    std::map<std::string, std::pair<long, int>>::iterator it = watchIDsMap.find(uniformizedPath);
+    if (it == watchIDsMap.end()) {
+        UpdatePathListener* _watcher = (UpdatePathListener*)watcher; 
+        if (_watcher == nullptr) {
+            _watcher = new UpdatePathListener();
+            watcher = (void*)_watcher;
         }
+        std::string uniformizedPath = utf8UniformizePath(directory);
+        efsw::WatchID id = ((efsw::FileWatcher*)fileWatcher)->addWatch(uniformizedPath, _watcher, false);
+        watchIDsMap.emplace(uniformizedPath, std::make_pair(id, 1));
+    } else {
+        it->second.second++;
     }
-    id = ((efsw::FileWatcher*)fileWatcher)->addWatch(uniformizedPath, watcher);
 }
 //=============================================================================
 void
 FileWatcherManager::removeWatch(const std::wstring& directory)
 {
-    ((efsw::FileWatcher*)fileWatcher)->removeWatch(utf8UniformizePath(directory));
+    std::lock_guard<std::mutex> lock(m_mutex);
+    std::string uniformizedPath = utf8UniformizePath(directory);
+    std::map<std::string, std::pair<long, int>>::iterator it = watchIDsMap.find(uniformizedPath);
+    if (it != watchIDsMap.end()) {
+        if (it->second.second == 1) {
+            ((efsw::FileWatcher*)fileWatcher)->removeWatch(it->second.first);
+            watchIDsMap.erase(it);
+        } else {
+            it->second.second--;
+        }
+    }
 }
 //=============================================================================
 void
 FileWatcherManager::rehashDirectories()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    for (auto p : pathsToHash) {
+    for (auto p : pathsToRefresh) {
         PathFuncManager::getInstance()->rehash(p);
     }
-    pathsToHash.clear();
+    pathsToRefresh.clear();
+}
+//=============================================================================
+void
+FileWatcherManager::addPathToRefresh(const std::wstring& directory)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    pathsToRefresh.push_back(directory);
 }
 //=============================================================================
 } // namespace Nelson
