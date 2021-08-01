@@ -133,7 +133,14 @@ FileWatcherManager::addWatch(const std::wstring& directory)
 {
     auto* watcher = new UpdatePathListener();
     efsw::WatchID id = -1;
-    id = ((efsw::FileWatcher*)fileWatcher)->addWatch(utf8UniformizePath(directory), watcher);
+    std::string uniformizedPath = utf8UniformizePath(directory);
+    std::list<std::string> directories = ((efsw::FileWatcher*)fileWatcher)->directories();
+    for (auto dir : directories) {
+        if (uniformizedPath == dir) {
+            return;
+        }
+    }
+    id = ((efsw::FileWatcher*)fileWatcher)->addWatch(uniformizedPath, watcher);
 }
 //=============================================================================
 void
