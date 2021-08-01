@@ -420,15 +420,20 @@ MacroFunctionDef::updateCode()
     try {
         if (pstate == ParserState::FuncDef) {
             MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
-            this->code = macroFunctionDef->code;
-            this->arguments = macroFunctionDef->arguments;
-            this->localFunction = macroFunctionDef->localFunction;
-            this->nextFunction = macroFunctionDef->nextFunction;
-            this->prevFunction = macroFunctionDef->prevFunction;
-            this->returnVals = macroFunctionDef->returnVals;
-            this->ptrAstCodeAsVector = macroFunctionDef->ptrAstCodeAsVector;
+            if (macroFunctionDef) {
+                this->code = macroFunctionDef->code;
+                this->arguments = macroFunctionDef->arguments;
+                this->localFunction = macroFunctionDef->localFunction;
+                this->nextFunction = macroFunctionDef->nextFunction;
+                this->prevFunction = macroFunctionDef->prevFunction;
+                this->returnVals = macroFunctionDef->returnVals;
+                this->ptrAstCodeAsVector = macroFunctionDef->ptrAstCodeAsVector;
+                this->setName(macroFunctionDef->getName());
+            } else {
+                boost::filesystem::path pathFunction(this->getFilename());
+                this->setName(pathFunction.stem().generic_string());
+            }
             this->setIsScript(false);
-            this->setName(macroFunctionDef->getName());
         } else {
             this->code = getParsedScriptBlock();
             this->arguments.clear();
