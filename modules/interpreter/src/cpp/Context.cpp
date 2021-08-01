@@ -237,19 +237,6 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
     FunctionDefPtr functionDefInMem = nullptr;
 
     if (FunctionsInMemory::getInstance()->find(funcName, val)) {
-        /*
-        if (val->type() == NLS_MACRO_FUNCTION || val->type() == NLS_MEX_FUNCTION) {
-            std::wstring pathname = val->getPath();
-            if (PathFuncManager::getInstance()->isAvailablePath(pathname)) {
-                return true;
-            } else {
-                functionDefInMem = val;
-                val = nullptr;
-            }
-        } else {
-            return true;
-        }
-        */
         return true;
     }
 

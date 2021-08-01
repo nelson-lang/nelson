@@ -23,8 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <mutex>
+#include <string>
 #include <efsw/efsw.hpp>
 #include <boost/filesystem.hpp>
+#include <vector>
 #include "FileWatcherManager.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
@@ -32,60 +35,51 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::vector<std::wstring> pathsToHash;
+static std::mutex m_mutex;
+//=============================================================================
 class UpdatePathListener : public efsw::FileWatchListener
 {
+private:
+    //=============================================================================
+    void
+    appendIfNelsonFile(const std::string& dir, const std::string& filename)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        boost::filesystem::path pf = boost::filesystem::path(filename);
+        std::wstring file_extension = pf.extension().generic_wstring();
+        if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
+            boost::filesystem::path parent_dir = boost::filesystem::path(dir);
+            pathsToHash.push_back(parent_dir.generic_wstring());
+        }
+    }
+    //=============================================================================
 public:
+    //=============================================================================
     UpdatePathListener() = default;
+    //=============================================================================
     void
     handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename,
         efsw::Action action, std::string oldFilename = "") override
     {
         switch (action) {
         case efsw::Action::Add: {
-            boost::filesystem::path pf = boost::filesystem::path(filename);
-            std::wstring file_extension = pf.extension().generic_wstring();
-            if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
-                boost::filesystem::path parent_dir = boost::filesystem::path(dir);
-                PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
-                /*
-                #ifdef _MSC_VER
-                printf("Added: %ls\n", filename.c_str());
-                #else
-                printf("Added: %s\n", filename.c_str());
-                #endif
-                */
-            }
+            appendIfNelsonFile(dir, filename);
         } break;
         case efsw::Action::Delete: {
-            boost::filesystem::path pf = boost::filesystem::path(filename);
-            std::wstring file_extension = pf.extension().generic_wstring();
-            if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
-                boost::filesystem::path parent_dir = boost::filesystem::path(dir);
-                PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
-                /*
-                #ifdef _MSC_VER
-                printf("Delete: %ls\n", filename.c_str());
-                #else
-                printf("Delete: %s\n", filename.c_str());
-                #endif
-                */
-            }
+            appendIfNelsonFile(dir, filename);
         } break;
+        case efsw::Action::Moved: {
+            appendIfNelsonFile(dir, filename);
+        } break;
+        default:
         case efsw::Action::Modified: {
-            boost::filesystem::path pf = boost::filesystem::path(filename);
-            std::wstring file_extension = pf.extension().generic_wstring();
-            if (file_extension == L".m" || file_extension == L"." + getMexExtension()) {
-                /*
-                #ifdef _MSC_VER
-                printf("Modified: %ls\n", filename.c_str());
-                #else
-                printf("Modified: %s\n", filename.c_str());
-                #endif
-                */
-            }
+            // nothing to do
+            // modified managed by timestamp
         } break;
         }
     }
+    //=============================================================================
 };
 //=============================================================================
 FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
@@ -146,6 +140,16 @@ void
 FileWatcherManager::removeWatch(const std::wstring& directory)
 {
     ((efsw::FileWatcher*)fileWatcher)->removeWatch(utf8UniformizePath(directory));
+}
+//=============================================================================
+void
+FileWatcherManager::rehashDirectories()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    for (auto p : pathsToHash) {
+        PathFuncManager::getInstance()->rehash(p);
+    }
+    pathsToHash.clear();
 }
 //=============================================================================
 } // namespace Nelson

@@ -176,6 +176,7 @@ bool
 PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 {
     bool res = false;
+    FileWatcherManager::getInstance()->rehashDirectories();
     if (_currentPath != nullptr) {
         res = _currentPath->findFuncName(functionName, ff);
         if (res) {
@@ -204,6 +205,7 @@ PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 bool
 PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
+    FileWatcherManager::getInstance()->rehashDirectories();
     if (_currentPath != nullptr) {
         if (_currentPath->findFuncName(functionName, filename)) {
             return true;
@@ -227,6 +229,7 @@ PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 bool
 PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname)
 {
+    FileWatcherManager::getInstance()->rehashDirectories();
     filesname.clear();
     std::wstring filename;
     if (_currentPath != nullptr) {

@@ -30,7 +30,6 @@ namespace Nelson {
 CommandQueue::CommandQueue()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    //        commands.reserve(4096);
 }
 //=============================================================================
 CommandQueue::~CommandQueue()
