@@ -127,7 +127,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
     ~endData() = default;
     ;
 };
@@ -1987,6 +1987,9 @@ Evaluator::statement(AbstractSyntaxTreePtr t)
 void
 Evaluator::block(AbstractSyntaxTreePtr t)
 {
+    if (t == nullptr) {
+        return;
+    }
     try {
         AbstractSyntaxTreePtr s = t->down;
         if (state < NLS_STATE_QUIT) {
