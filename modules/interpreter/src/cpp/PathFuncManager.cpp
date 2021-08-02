@@ -172,10 +172,21 @@ PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
     return false;
 }
 //=============================================================================
+void
+PathFuncManager::fileWatcherUpdate()
+{
+    FileWatcherManager::getInstance()->update();
+    wstringVector paths = FileWatcherManager::getInstance()->getPathToRefresh(true);
+    for (auto p : paths) {
+        rehash(p);
+    }
+}
+//=============================================================================
 bool
 PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 {
     bool res = false;
+    fileWatcherUpdate();
     if (_currentPath != nullptr) {
         res = _currentPath->findFuncName(functionName, ff);
         if (res) {
@@ -204,6 +215,7 @@ PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 bool
 PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
+    fileWatcherUpdate();
     if (_currentPath != nullptr) {
         if (_currentPath->findFuncName(functionName, filename)) {
             return true;
@@ -228,6 +240,7 @@ bool
 PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname)
 {
     filesname.clear();
+    fileWatcherUpdate();
     std::wstring filename;
     if (_currentPath != nullptr) {
         if (_currentPath->findFuncName(functionName, filename)) {
@@ -333,6 +346,9 @@ bool
 PathFuncManager::setCurrentUserPath(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
+        if (isSamePath(path, _currentPath->getPath())) {
+            return true;
+        }
         delete _currentPath;
     }
     _currentPath = new PathFunc(path);

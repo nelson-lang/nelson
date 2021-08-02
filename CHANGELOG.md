@@ -10,6 +10,8 @@
 
 - allows .m file empty to be called.
 
+- [#477](http://github.com/Nelson-numerical-software/nelson/issues/477): update files watcher.
+
 ## Bug Fixes:
 
 - [#480](http://github.com/Nelson-numerical-software/nelson/issues/480): publisher name updated for windows installer.
