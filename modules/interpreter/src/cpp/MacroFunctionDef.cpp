@@ -380,7 +380,13 @@ MacroFunctionDef::updateCode()
         return false;
     }
     this->setTimestamp(currentFileTimestamp);
-
+    if (code) {
+        for (auto ptr : this->ptrAstCodeAsVector) {
+            delete ptr;
+        }
+        ptrAstCodeAsVector.clear();
+        code = nullptr;
+    }
     FILE* fr;
 #ifdef _MSC_VER
     fr = _wfopen(this->getFilename().c_str(), L"rt");
@@ -420,15 +426,20 @@ MacroFunctionDef::updateCode()
     try {
         if (pstate == ParserState::FuncDef) {
             MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
-            this->code = macroFunctionDef->code;
-            this->arguments = macroFunctionDef->arguments;
-            this->localFunction = macroFunctionDef->localFunction;
-            this->nextFunction = macroFunctionDef->nextFunction;
-            this->prevFunction = macroFunctionDef->prevFunction;
-            this->returnVals = macroFunctionDef->returnVals;
-            this->ptrAstCodeAsVector = macroFunctionDef->ptrAstCodeAsVector;
             this->setIsScript(false);
-            this->setName(macroFunctionDef->getName());
+            if (macroFunctionDef == nullptr) {
+                boost::filesystem::path pathFunction(this->getFilename());
+                this->setName(pathFunction.stem().generic_string());
+            } else {
+                this->code = macroFunctionDef->code;
+                this->arguments = macroFunctionDef->arguments;
+                this->localFunction = macroFunctionDef->localFunction;
+                this->nextFunction = macroFunctionDef->nextFunction;
+                this->prevFunction = macroFunctionDef->prevFunction;
+                this->returnVals = macroFunctionDef->returnVals;
+                this->ptrAstCodeAsVector = macroFunctionDef->ptrAstCodeAsVector;
+                this->setName(macroFunctionDef->getName());
+             }
         } else {
             this->code = getParsedScriptBlock();
             this->arguments.clear();
