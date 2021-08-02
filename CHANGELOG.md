@@ -2,6 +2,8 @@
 
 ## Features:
 
+- `test_run` displays errors with file and line number.
+
 - CTRL-C throws an error.
 
 - some warnings detected by LGTM or VS fixed.
