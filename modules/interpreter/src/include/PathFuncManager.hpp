@@ -58,6 +58,9 @@ private:
     findAndProcessFile(const std::string& name);
 
     void
+    fileWatcherUpdate();
+
+    void
     userpathCompute();
     std::wstring
     getPreferencesPath();

@@ -26,40 +26,43 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <map>
-#include <vector>
-#include "Types.hpp"
+#include <boost/filesystem.hpp>
+#include <FileWatcher.h>
+#include "FileWatcherManager.hpp"
+#include "MxGetExtension.hpp"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-class FileWatcherManager
+class UpdatePathListener : public FW::FileWatchListener
 {
+private:
+    //=============================================================================
+    void
+    appendIfNelsonFile(const FW::String& dir, const FW::String& filename)
+    {
+        boost::filesystem::path pf = boost::filesystem::path(filename);
+        std::wstring file_extension = pf.extension().generic_wstring();
+        if (file_extension == L".m" || file_extension == L"." + Nelson::getMexExtension()) {
+            boost::filesystem::path parent_dir = boost::filesystem::path(dir);
+            Nelson::FileWatcherManager::getInstance()->addPathToRefreshList(
+                parent_dir.generic_wstring());
+        }
+    }
     //=============================================================================
 public:
-    static FileWatcherManager*
-    getInstance();
+    UpdatePathListener() = default;
     void
-    addWatch(const std::wstring& directory);
-    void
-    removeWatch(const std::wstring& directory);
-    void
-    update();
-    void
-    release();
-    void
-    addPathToRefreshList(const std::wstring& directory);
-    wstringVector
-    getPathToRefresh(bool withClear = true);
-    //=============================================================================
-private:
-    FileWatcherManager();
-    static FileWatcherManager* m_pInstance;
-    void* fileWatcher;
-    void* fileListener;
-    std::map<std::wstring, std::pair<long, int>> watchIDsMap;
-    wstringVector pathsToRefresh;
-    //=============================================================================
+    handleFileAction(WatchID watchid, const FW::String& dir, const FW::String& filename,
+        FW::Action action) override
+    {
+        switch (action) {
+        case FW::Action::Add: {
+            appendIfNelsonFile(dir, filename);
+        } break;
+        case FW::Action::Delete: {
+            appendIfNelsonFile(dir, filename);
+        } break;
+        case FW::Action::Modified: {
+        } break;
+        }
+    }
 };
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

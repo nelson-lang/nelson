@@ -439,7 +439,7 @@ MacroFunctionDef::updateCode()
                 this->returnVals = macroFunctionDef->returnVals;
                 this->ptrAstCodeAsVector = macroFunctionDef->ptrAstCodeAsVector;
                 this->setName(macroFunctionDef->getName());
-             }
+            }
         } else {
             this->code = getParsedScriptBlock();
             this->arguments.clear();

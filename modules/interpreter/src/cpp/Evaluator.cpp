@@ -127,7 +127,7 @@ public:
     ArrayOf endArray;
     int index = 0;
     size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) { }
+    endData(ArrayOf p, int ndx, size_t cnt) : endArray(p), index(ndx), count(cnt) {}
     ~endData() = default;
     ;
 };
@@ -4200,7 +4200,6 @@ Evaluator::evalCLI()
 {
     while (1) {
         if (!bpActive) {
-            FileWatcherManager::getInstance()->update();
             clearStacks();
         }
         std::wstring commandLine;

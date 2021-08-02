@@ -123,8 +123,6 @@ function mex(varargin)
       fullDestinationLibraryName =  [destinationPath, functionName, '.lib'];
       rmfile(fullDestinationLibraryName)
     end
-    cd(destinationPath)
-    cd(pwd())    
   end
 end
 %=============================================================================
