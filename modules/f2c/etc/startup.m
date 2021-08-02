@@ -24,5 +24,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 %addgateway(modulepath(nelsonroot(), 'f2c', 'builtin'));
-addpath(modulepath(nelsonroot(), 'f2c', 'functions'))
+addpath(modulepath(nelsonroot(), 'f2c', 'functions'), '-frozen')
 %=============================================================================
