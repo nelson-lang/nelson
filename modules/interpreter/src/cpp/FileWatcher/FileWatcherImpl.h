@@ -43,35 +43,35 @@
 #endif
 
 namespace FW {
-    struct WatchStruct;
+	struct WatchStruct;
 
-    class FileWatcherImpl {
-    public:
-        ///
-        ///
-        FileWatcherImpl() = default;
+	class FileWatcherImpl {
+	public:
+		///
+		///
+		 FileWatcherImpl() = default;
 
-        ///
-        ///
-        virtual ~FileWatcherImpl() = default;
+		///
+		///
+		virtual ~FileWatcherImpl() = default;
 
-        /// Add a directory watch
-        /// @exception FileNotFoundException Thrown when the requested directory does not exist
-        virtual WatchID addWatch(const String& directory, FileWatchListener* watcher, bool recursive) = 0;
+		/// Add a directory watch
+		/// @exception FileNotFoundException Thrown when the requested directory does not exist
+		virtual WatchID addWatch(const String& directory, FileWatchListener* watcher, bool recursive) = 0;
 
-        /// Remove a directory watch. This is a brute force lazy search O(nlogn).
-        virtual void removeWatch(const String& directory) = 0;
+		/// Remove a directory watch. This is a brute force lazy search O(nlogn).
+		virtual void removeWatch(const String& directory) = 0;
 
-        /// Remove a directory watch. This is a map lookup O(logn).
-        virtual void removeWatch(WatchID watchid) = 0;
+		/// Remove a directory watch. This is a map lookup O(logn).
+		virtual void removeWatch(WatchID watchid) = 0;
 
-        /// Updates the watcher. Must be called often.
-        virtual void update() = 0;
+		/// Updates the watcher. Must be called often.
+		virtual void update() = 0;
 
-        /// Handles the action
-        virtual void handleAction(WatchStruct* watch, const String& filename, unsigned long action) = 0;
+		/// Handles the action
+		virtual void handleAction(WatchStruct* watch, const String& filename, unsigned long action) = 0;
 
-    };//end FileWatcherImpl
+	};//end FileWatcherImpl
 };//namespace FW
 
 #endif//_FW_FILEWATCHERIMPL_H_

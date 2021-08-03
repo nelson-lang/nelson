@@ -107,7 +107,7 @@ MexFunctionDef::clear()
 {
     if (loaded) {
         if (mexClearAtExitFunctionPtr != nullptr) {
-            PROC_MexClearAtExit exitFun = (PROC_MexClearAtExit)mexClearAtExitFunctionPtr;
+            auto exitFun = (PROC_MexClearAtExit)mexClearAtExitFunctionPtr;
             exitFun();
             return true;
         }
@@ -167,7 +167,7 @@ MexFunctionDef::isLocked()
 {
     if (loaded) {
         if (mexIsLockedPtr != nullptr) {
-            PROC_MexIsLocked mexIsLocked = (PROC_MexIsLocked)mexIsLockedPtr;
+            auto mexIsLocked = (PROC_MexIsLocked)mexIsLockedPtr;
             return mexIsLocked();
         }
     }

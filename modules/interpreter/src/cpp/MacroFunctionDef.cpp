@@ -380,7 +380,7 @@ MacroFunctionDef::updateCode()
         return false;
     }
     this->setTimestamp(currentFileTimestamp);
-    if (code) {
+    if (code != nullptr) {
         for (auto ptr : this->ptrAstCodeAsVector) {
             delete ptr;
         }

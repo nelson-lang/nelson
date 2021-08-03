@@ -36,45 +36,45 @@
 #include <map>
 
 namespace FW {
-    /// Implementation for Win32 based on ReadDirectoryChangesW.
-    /// @class FileWatcherWin32
-    class FileWatcherWin32 : public FileWatcherImpl {
-    public:
-        /// type for a map from WatchID to WatchStruct pointer
-        typedef std::map<WatchID, WatchStruct*> WatchMap;
+	/// Implementation for Win32 based on ReadDirectoryChangesW.
+	/// @class FileWatcherWin32
+	class FileWatcherWin32 : public FileWatcherImpl {
+	public:
+		/// type for a map from WatchID to WatchStruct pointer
+		typedef std::map<WatchID, WatchStruct*> WatchMap;
 
-    public:
-        ///
-        ///
-        FileWatcherWin32();
+	public:
+		///
+		///
+		FileWatcherWin32();
 
-        ///
-        ///
-        ~FileWatcherWin32() override;
+		///
+		///
+		~FileWatcherWin32() override;
 
-        /// Add a directory watch
-        /// @exception FileNotFoundException Thrown when the requested directory does not exist
-        WatchID addWatch(const String& directory, FileWatchListener* watcher, bool recursive) override;
+		/// Add a directory watch
+		/// @exception FileNotFoundException Thrown when the requested directory does not exist
+		WatchID addWatch(const String& directory, FileWatchListener* watcher, bool recursive) override;
 
-        /// Remove a directory watch. This is a brute force lazy search O(nlogn).
-        void removeWatch(const String& directory) override;
+		/// Remove a directory watch. This is a brute force lazy search O(nlogn).
+		void removeWatch(const String& directory) override;
 
-        /// Remove a directory watch. This is a map lookup O(logn).
-        void removeWatch(WatchID watchid) override;
+		/// Remove a directory watch. This is a map lookup O(logn).
+		void removeWatch(WatchID watchid) override;
 
-        /// Updates the watcher. Must be called often.
-        void update() override;
+		/// Updates the watcher. Must be called often.
+		void update() override;
 
-        /// Handles the action
-        void handleAction(WatchStruct* watch, const String& filename, unsigned long action) override;
+		/// Handles the action
+		void handleAction(WatchStruct* watch, const String& filename, unsigned long action) override;
 
-    private:
-        /// Map of WatchID to WatchStruct pointers
-        WatchMap mWatches;
-        /// The last watchid
-        WatchID mLastWatchID;
+	private:
+		/// Map of WatchID to WatchStruct pointers
+		WatchMap mWatches;
+		/// The last watchid
+		WatchID mLastWatchID{0};
 
-    };//end FileWatcherWin32
+	};//end FileWatcherWin32
 
 };//namespace FW
 
