@@ -33,7 +33,7 @@ namespace Nelson {
 //=============================================================================
 FunctionsInMemory* FunctionsInMemory::m_pInstance = nullptr;
 //=============================================================================
-FunctionsInMemory::FunctionsInMemory() {}
+FunctionsInMemory::FunctionsInMemory() = default;
 //=============================================================================
 FunctionsInMemory::~FunctionsInMemory()
 {

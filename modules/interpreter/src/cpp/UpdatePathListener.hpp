@@ -50,7 +50,7 @@ private:
 public:
     UpdatePathListener() = default;
     void
-    handleFileAction(WatchID watchid, const FW::String& dir, const FW::String& filename,
+    handleFileAction(FW::WatchID watchid, const FW::String& dir, const FW::String& filename,
         FW::Action action) override
     {
         switch (action) {

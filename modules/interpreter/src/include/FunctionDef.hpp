@@ -45,7 +45,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <time.h>
+#include <ctime>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
 #include "ArrayOf.hpp"

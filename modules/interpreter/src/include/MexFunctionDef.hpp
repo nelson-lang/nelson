@@ -111,7 +111,7 @@ public:
      * Evaluate the function and return the values.
      */
     ArrayOfVector
-    evaluateFunction(Evaluator* eval, const ArrayOfVector& argIn, int nLhs) override;
+    evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout) override;
     //=============================================================================
     /**
      * Check if mex is locked

@@ -54,9 +54,9 @@ uniformizePath(const std::wstring& directory)
 //=============================================================================
 FileWatcherManager::FileWatcherManager()
 {
-    UpdatePathListener* _fileListener = new UpdatePathListener();
+    auto* _fileListener = new UpdatePathListener();
     fileListener = static_cast<void*>(_fileListener);
-    FW::FileWatcher* _fileWatcher = new FW::FileWatcher();
+    auto* _fileWatcher = new FW::FileWatcher();
     fileWatcher = static_cast<void*>(_fileWatcher);
 }
 //=============================================================================
@@ -75,8 +75,8 @@ FileWatcherManager::addWatch(const std::wstring& directory)
     std::wstring uniformizedPath = uniformizePath(directory);
     std::map<std::wstring, std::pair<long, int>>::iterator it = watchIDsMap.find(uniformizedPath);
     if (it == watchIDsMap.end()) {
-        UpdatePathListener* _fileListener = static_cast<UpdatePathListener*>(fileListener);
-        WatchID id;
+        auto* _fileListener = static_cast<UpdatePathListener*>(fileListener);
+        FW::WatchID id;
         try {
 #ifdef _MSC_VER
             id = (static_cast<FW::FileWatcher*>(fileWatcher))->addWatch(directory, _fileListener);
@@ -122,13 +122,13 @@ FileWatcherManager::update()
 void
 FileWatcherManager::release()
 {
-    UpdatePathListener* _fileListener = static_cast<UpdatePathListener*>(fileListener);
-    if (_fileListener) {
+    auto* _fileListener = static_cast<UpdatePathListener*>(fileListener);
+    if (_fileListener != nullptr) {
         delete _fileListener;
         _fileListener = nullptr;
         fileListener = nullptr;
     }
-    FW::FileWatcher* _fileWatcher = static_cast<FW::FileWatcher*>(fileWatcher);
+    auto* _fileWatcher = static_cast<FW::FileWatcher*>(fileWatcher);
     if (_fileWatcher != nullptr) {
         delete _fileWatcher;
         _fileWatcher = nullptr;
