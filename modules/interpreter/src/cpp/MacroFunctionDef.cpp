@@ -375,11 +375,17 @@ MacroFunctionDef::updateCode()
     if (!doUpdate) {
         return false;
     }
-    time_t currentFileTimestamp = boost::filesystem::last_write_time(this->getFilename());
-    if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
+    try {
+        time_t currentFileTimestamp = boost::filesystem::last_write_time(this->getFilename());
+        if (currentFileTimestamp == this->getTimestamp() && !forceUpdate) {
+            return false;
+        }
+        this->setTimestamp(currentFileTimestamp);
+    }
+    catch (const boost::filesystem::filesystem_error&) {
         return false;
     }
-    this->setTimestamp(currentFileTimestamp);
+    
     if (code != nullptr) {
         for (auto ptr : this->ptrAstCodeAsVector) {
             delete ptr;
