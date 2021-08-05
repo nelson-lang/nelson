@@ -119,6 +119,8 @@ void
 FileWatcherManager::removeWatch(const std::wstring& directory)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
+    if (directory.empty())
+        return;
     std::string uniformizedPath = utf8UniformizePath(directory);
     std::map<std::string, std::pair<long, int>>::iterator it = watchIDsMap.find(uniformizedPath);
     if (it != watchIDsMap.end()) {
