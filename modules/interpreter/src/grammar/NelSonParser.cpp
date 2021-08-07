@@ -103,13 +103,12 @@
 //=============================================================================
 #define YYSTYPE ParseRHS
 //=============================================================================
-extern int yylex(void);
+extern int yylex();
 extern int yydebug;
 //=============================================================================
 namespace Nelson {
   void yyerror(const char *s) {
-     return;
-  }
+      }
 }
 //=============================================================================
 using namespace Nelson;
@@ -203,7 +202,7 @@ extern int yydebug;
     NEG = 302,                     /* NEG  */
     NOT = 303                      /* NOT  */
   };
-  typedef enum yytokentype yytoken_kind_t;
+  using yytoken_kind_t = enum yytokentype;
 #endif
 
 /* Value type.  */
@@ -216,7 +215,7 @@ typedef int YYSTYPE;
 
 extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse ();
 
 
 /* Symbol kind.  */
@@ -343,7 +342,7 @@ enum yysymbol_kind_t
   YYSYMBOL_columnSep = 117,                /* columnSep  */
   YYSYMBOL_rowDef = 118                    /* rowDef  */
 };
-typedef enum yysymbol_kind_t yysymbol_kind_t;
+using yysymbol_kind_t = enum yysymbol_kind_t;
 
 
 
@@ -370,7 +369,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
    helps avoid bugs in integer arithmetic.  */
 
 #ifdef __INT_LEAST8_MAX__
-typedef __INT_LEAST8_TYPE__ yytype_int8;
+using yytype_int8 = signed char;
 #elif defined YY_STDINT_H
 typedef int_least8_t yytype_int8;
 #else
@@ -378,7 +377,7 @@ typedef signed char yytype_int8;
 #endif
 
 #ifdef __INT_LEAST16_MAX__
-typedef __INT_LEAST16_TYPE__ yytype_int16;
+using yytype_int16 = short;
 #elif defined YY_STDINT_H
 typedef int_least16_t yytype_int16;
 #else
@@ -386,7 +385,7 @@ typedef short yytype_int16;
 #endif
 
 #if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;
+using yytype_uint8 = unsigned char;
 #elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
        && UINT_LEAST8_MAX <= INT_MAX)
 typedef uint_least8_t yytype_uint8;
@@ -397,7 +396,7 @@ typedef short yytype_uint8;
 #endif
 
 #if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;
+using yytype_uint16 = unsigned short;
 #elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
        && UINT_LEAST16_MAX <= INT_MAX)
 typedef uint_least16_t yytype_uint16;
@@ -446,10 +445,10 @@ typedef int yytype_uint16;
 
 
 /* Stored state numbers (used for stacks). */
-typedef yytype_int16 yy_state_t;
+using yy_state_t = yytype_int16;
 
 /* State numbers in computations.  */
-typedef int yy_state_fast_t;
+using yy_state_fast_t = int;
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
@@ -1827,8 +1826,9 @@ yydestruct (const char *yymsg,
             yysymbol_kind_t yykind, YYSTYPE *yyvaluep)
 {
   YYUSE (yyvaluep);
-  if (!yymsg)
+  if (yymsg == nullptr) {
     yymsg = "Deleting";
+}
   YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
@@ -1853,7 +1853,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse ()
 {
     yy_state_fast_t yystate = 0;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1918,9 +1918,10 @@ yysetstate:
   YY_IGNORE_USELESS_CAST_END
   YY_STACK_PRINT (yyss, yyssp);
 
-  if (yyss + yystacksize - 1 <= yyssp)
+  if (yyss + yystacksize - 1 <= yyssp) {
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
     goto yyexhaustedlab;
+}
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
@@ -1981,8 +1982,9 @@ yysetstate:
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
 
-  if (yystate == YYFINAL)
+  if (yystate == YYFINAL) {
     YYACCEPT;
+}
 
   goto yybackup;
 
@@ -1996,8 +1998,9 @@ yybackup:
 
   /* First try to decide what to do without reference to lookahead token.  */
   yyn = yypact[yystate];
-  if (yypact_value_is_default (yyn))
+  if (yypact_value_is_default (yyn)) {
     goto yydefault;
+}
 
   /* Not known => get a lookahead token if don't already have one.  */
 
@@ -2033,21 +2036,24 @@ yybackup:
   /* If the proper action on seeing token YYTOKEN is to reduce or to
      detect an error, take that action.  */
   yyn += yytoken;
-  if (yyn < 0 || YYLAST < yyn || yycheck[yyn] != yytoken)
+  if (yyn < 0 || YYLAST < yyn || yycheck[yyn] != yytoken) {
     goto yydefault;
+}
   yyn = yytable[yyn];
   if (yyn <= 0)
     {
-      if (yytable_value_is_error (yyn))
+      if (yytable_value_is_error (yyn)) {
         goto yyerrlab;
+}
       yyn = -yyn;
       goto yyreduce;
     }
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
-  if (yyerrstatus)
+  if (yyerrstatus != 0) {
     yyerrstatus--;
+}
 
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
@@ -2066,8 +2072,9 @@ yybackup:
 `-----------------------------------------------------------*/
 yydefault:
   yyn = yydefact[yystate];
-  if (yyn == 0)
+  if (yyn == 0) {
     goto yyerrlab;
+}
   goto yyreduce;
 
 
@@ -2308,7 +2315,7 @@ yyreduce:
   case 35: /* statement: statementType ENDQSTMNT  */
 #line 182 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                            {
-        yyval.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,yyvsp[0].v.i);
+        yyval.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,nullptr,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2318 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2317,7 +2324,7 @@ yyreduce:
   case 36: /* statement: statementType ENDSTMNT  */
 #line 186 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                             {
-      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
+      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,nullptr,yyvsp[0].v.i);
             yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2327 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2326,7 +2333,7 @@ yyreduce:
   case 37: /* statement: statementType ','  */
 #line 190 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                        {
-      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,yyvsp[0].v.i);
+      yyval.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,nullptr,yyvsp[0].v.i);
       yyval.v.p->down = yyvsp[-1].v.p;
    }
 #line 2336 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -2403,7 +2410,8 @@ yyreduce:
   {
     yyval.v.p = yyvsp[-3].v.p;
     yyval.v.p->addChild(yyvsp[-2].v.p);
-    if (yyvsp[-1].v.p != nullptr) yyval.v.p->addChild(yyvsp[-1].v.p);
+    if (yyvsp[-1].v.p != nullptr) { yyval.v.p->addChild(yyvsp[-1].v.p);
+}
   }
 #line 2412 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2440,8 +2448,10 @@ yyreduce:
                                                                   {
     yyval.v.p = yyvsp[-5].v.p;
     yyval.v.p->addChild(yyvsp[-4].v.p);
-    if (yyvsp[-2].v.p != nullptr) yyval.v.p->addChild(yyvsp[-2].v.p);
-    if (yyvsp[-1].v.p != nullptr) yyval.v.p->addChild(yyvsp[-1].v.p);
+    if (yyvsp[-2].v.p != nullptr) { yyval.v.p->addChild(yyvsp[-2].v.p);
+}
+    if (yyvsp[-1].v.p != nullptr) { yyval.v.p->addChild(yyvsp[-1].v.p);
+}
   }
 #line 2450 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2614,8 +2624,10 @@ yyreduce:
                                                         {
     yyval.v.p = yyvsp[-4].v.p;
     yyval.v.p->addChild(yyvsp[-3].v.p);
-    if (yyvsp[-2].v.p != nullptr) yyval.v.p->addChild(yyvsp[-2].v.p);
-    if (yyvsp[-1].v.p != nullptr) yyval.v.p->addChild(yyvsp[-1].v.p);
+    if (yyvsp[-2].v.p != nullptr) { yyval.v.p->addChild(yyvsp[-2].v.p);
+}
+    if (yyvsp[-1].v.p != nullptr) { yyval.v.p->addChild(yyvsp[-1].v.p);
+}
   }
 #line 2624 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
@@ -2743,7 +2755,7 @@ yyreduce:
   case 125: /* multiFunctionCall: '[' matrixDef ']' '=' IDENT  */
 #line 418 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
                                  {
-    yyvsp[0].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,NULL,-1));
+    yyvsp[0].v.p->addChild(AbstractSyntaxTree::createNode(OP_PARENS,nullptr,-1));
     yyval.v.p = AbstractSyntaxTree::createNode(OP_MULTICALL,yyvsp[-3].v.p,yyvsp[0].v.p,yyvsp[-4].v.i);
   }
 #line 2753 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
@@ -3129,7 +3141,7 @@ yyreduce:
 
   case 194: /* terminal: '[' ']'  */
 #line 496 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,nullptr,yyvsp[-1].v.i);}
 #line 3137 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3159,7 +3171,7 @@ yyreduce:
 
   case 199: /* terminal: '{' '}'  */
 #line 501 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,yyvsp[-1].v.i);}
+                  {yyval.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,nullptr,yyvsp[-1].v.i);}
 #line 3167 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3183,7 +3195,7 @@ yyreduce:
 
   case 204: /* symbRef: '(' ')'  */
 #line 510 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-            {yyval.v.p = AbstractSyntaxTree::createNode(OP_PARENS,NULL,yyvsp[-1].v.i); }
+            {yyval.v.p = AbstractSyntaxTree::createNode(OP_PARENS,nullptr,yyvsp[-1].v.i); }
 #line 3191 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3219,7 +3231,7 @@ yyreduce:
 
   case 211: /* indexElement: ':'  */
 #line 519 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx"
-        {yyval.v.p = AbstractSyntaxTree::createNode(OP_ALL,NULL,yyvsp[0].v.i);}
+        {yyval.v.p = AbstractSyntaxTree::createNode(OP_ALL,nullptr,yyvsp[0].v.i);}
 #line 3227 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp"
     break;
 
@@ -3334,7 +3346,7 @@ yyerrlab:
      user semantic actions for why this is necessary.  */
   yytoken = yychar == YYEMPTY ? YYSYMBOL_YYEMPTY : YYTRANSLATE (yychar);
   /* If not already recovering from an error, report this error.  */
-  if (!yyerrstatus)
+  if (yyerrstatus == 0)
     {
       ++yynerrs;
       yyerror (YY_("syntax error"));
@@ -3348,8 +3360,9 @@ yyerrlab:
       if (yychar <= YYEOF)
         {
           /* Return failure if at end of input.  */
-          if (yychar == YYEOF)
+          if (yychar == YYEOF) {
             YYABORT;
+}
         }
       else
         {
@@ -3370,8 +3383,9 @@ yyerrlab:
 yyerrorlab:
   /* Pacify compilers when the user code never invokes YYERROR and the
      label yyerrorlab therefore never appears in user code.  */
-  if (0)
+  if (0) {
     YYERROR;
+}
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -3398,14 +3412,16 @@ yyerrlab1:
           if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYSYMBOL_YYerror)
             {
               yyn = yytable[yyn];
-              if (0 < yyn)
+              if (0 < yyn) {
                 break;
+}
             }
         }
 
       /* Pop the current state because it cannot handle the error token.  */
-      if (yyssp == yyss)
+      if (yyssp == yyss) {
         YYABORT;
+}
 
 
       yydestruct ("Error: popping",
@@ -3477,8 +3493,9 @@ yyreturn:
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
-  if (yyss != yyssa)
+  if (yyss != yyssa) {
     YYSTACK_FREE (yyss);
+}
 #endif
 
   return yyresult;

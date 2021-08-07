@@ -25,7 +25,6 @@
 //=============================================================================
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
-#include "NormalizePath.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
@@ -57,7 +56,7 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bRes = false;
                 }
                 if (bRes) {
-                    PathFuncManager::getInstance()->setUserPath(NormalizePath(paramstr), true);
+                    PathFuncManager::getInstance()->setUserPath(paramstr, true);
                 } else {
                     Error(_W("Not an existing directory:") + L" " + paramstr);
                 }
