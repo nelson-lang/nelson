@@ -239,7 +239,6 @@
     <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\FileFunction.cpp" />
     <ClCompile Include="..\cpp\FileParser.cpp" />
-    <ClCompile Include="..\cpp\DirectoryWatcherManager.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
     <ClCompile Include="..\cpp\FunctionsInMemory.cpp" />
     <ClCompile Include="..\cpp\GatewayHelpers.cpp" />
@@ -340,7 +339,6 @@
     <ClInclude Include="..\include\Evaluator.hpp" />
     <ClInclude Include="..\include\FileFunction.hpp" />
     <ClInclude Include="..\include\FileParser.hpp" />
-    <ClInclude Include="..\include\DirectoryWatcherManager.hpp" />
     <ClInclude Include="..\include\FunctionDef.hpp" />
     <ClInclude Include="..\include\FunctionsInMemory.hpp" />
     <ClInclude Include="..\include\GatewayHelpers.hpp" />

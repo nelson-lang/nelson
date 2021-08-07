@@ -28,7 +28,6 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include "PathFunc.hpp"
-#include "DirectoryWatcherManager.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 //=============================================================================
@@ -55,9 +54,6 @@ PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
     this->withWatcher = withWatcher;
     if (isdir(path)) {
         _path = uniformizePathName(path);
-        if (withWatcher) {
-            DirectoryWatcherManager::getInstance()->addWatch(_path);
-        }
     } else {
         _path.clear();
     }
@@ -67,33 +63,22 @@ PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 std::wstring
 PathFunc::uniformizePathName(const std::wstring& pathname)
 {
-    std::wstring pathModified = std::move(pathname);
-#ifdef _MSC_VER
-    if (boost::algorithm::ends_with(pathModified, L":")) {
-        pathModified.push_back(L'/');
+    std::wstring uniformPath = pathname;
+
+    if (pathname.empty()) {
+        return uniformPath;
     }
-#endif
-    if (boost::algorithm::ends_with(pathModified, L"\\")
-        || boost::algorithm::ends_with(pathModified, L"/")) {
-        pathModified.pop_back();
-#ifdef _MSC_VER
-        if (boost::algorithm::ends_with(pathModified, L":")) {
-            pathModified.push_back(L'/');
-        }
-#else
-        if (pathModified.empty()) {
-            pathModified.push_back(L'/');
-        }
-#endif
-        try {
-            boost::filesystem::path p(pathModified);
-            p = boost::filesystem::absolute(p);
-            pathModified = p.generic_wstring();
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+    if ((uniformPath.back() == L'/') || (uniformPath.back() == L'\\')) {
+        uniformPath.pop_back();
     }
-    boost::replace_all(pathModified, L"\\", L"/");
-    return pathModified;
+    try {
+        boost::filesystem::path path(uniformPath);
+        path = boost::filesystem::absolute(path);
+        uniformPath = path.generic_wstring();
+    } catch (const boost::filesystem::filesystem_error&) { 
+      boost::replace_all(uniformPath, L"\\", L"/");
+    }
+    return uniformPath + L"/";
 }
 //=============================================================================
 bool
@@ -114,7 +99,6 @@ PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 //=============================================================================
 PathFunc::~PathFunc()
 {
-    DirectoryWatcherManager::getInstance()->removeWatch(_path);
     for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
@@ -207,9 +191,18 @@ PathFunc::rehash()
                     }
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } catch (const boost::filesystem::filesystem_error&) { }
     }
+}
+//=============================================================================
+static bool
+isfile(const std::wstring& filename)
+{
+    try {
+        return boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
+
+    } catch (const boost::filesystem::filesystem_error&) { }
+    return false;
 }
 //=============================================================================
 bool
@@ -220,6 +213,18 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
         return true;
+    }
+    if (withWatcher) {
+        const std::wstring mexFullFilename = _path + functionName + L"." + getMexExtension();
+        if (isfile(mexFullFilename)) {
+            filename = mexFullFilename;
+            return true;
+        }
+        const std::wstring macroFullFilename = _path + functionName + L".m";
+        if (isfile(macroFullFilename)) {
+            filename = macroFullFilename;
+            return true;
+        }
     }
     return false;
 }
@@ -240,7 +245,27 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         mapRecentFiles.emplace(functionName, *ff);
         return true;
     }
-
+    if (withWatcher) {
+        const std::wstring mexFullFilename = _path + functionName + L"." + getMexExtension();
+        bool foundAsMacro = false;
+        bool foundAsMex = false;
+        foundAsMex = isfile(mexFullFilename);
+        if (!foundAsMex) {
+            const std::wstring macroFullFilename = _path + functionName + L".m";
+            foundAsMacro = isfile(macroFullFilename);
+        }
+        if (foundAsMex || foundAsMacro) {
+            try {
+                *ff = new FileFunction(_path, functionName, foundAsMex, withWatcher);
+            } catch (const std::bad_alloc&) {
+                *ff = nullptr;
+            }
+            if (ff) {
+                mapAllFiles.emplace(functionName, *ff);
+            }
+            return true;
+        }
+    }
     return false;
 }
 //=============================================================================

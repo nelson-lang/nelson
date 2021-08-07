@@ -36,13 +36,9 @@ FileFunction::FileFunction(
     const std::wstring& directory, const std::wstring& name, bool ismex, bool withWatcher)
 {
     this->_withWatcher = withWatcher;
-    bool withFinalDirectorySeparator = boost::algorithm::ends_with(directory, L"/")
-        || boost::algorithm::ends_with(directory, L"\\");
+
     _ismex = ismex;
     _fullfilename = directory;
-    if (!withFinalDirectorySeparator) {
-        _fullfilename = _fullfilename + L"/";
-    }
     if (ismex) {
         _fullfilename = _fullfilename + name + L"." + getMexExtension();
     } else {

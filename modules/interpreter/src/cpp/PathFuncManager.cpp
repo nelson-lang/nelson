@@ -172,21 +172,10 @@ PathFuncManager::find(const std::string& name, FunctionDefPtr& ptr)
     return false;
 }
 //=============================================================================
-void
-PathFuncManager::directoryWatcherUpdate(const std::wstring& functionName)
-{
-    DirectoryWatcherManager::getInstance()->update(functionName);
-    wstringVector paths = DirectoryWatcherManager::getInstance()->getPathToRefresh(true);
-    for (auto p : paths) {
-        rehash(p);
-    }
-}
-//=============================================================================
 bool
 PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
 {
     bool res = false;
-    directoryWatcherUpdate(functionName);
     if (_currentPath != nullptr) {
         res = _currentPath->findFuncName(functionName, ff);
         if (res) {

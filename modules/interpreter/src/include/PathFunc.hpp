@@ -28,7 +28,6 @@
 #include <boost/unordered_map.hpp>
 #include <string>
 #include "FileFunction.hpp"
-#include "DirectoryWatcherManager.hpp"
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
