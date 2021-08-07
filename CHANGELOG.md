@@ -10,7 +10,7 @@
 
 - allows .m file empty to be called.
 
-- [#477](http://github.com/Nelson-numerical-software/nelson/issues/477): update files watcher.
+- [#477](http://github.com/Nelson-numerical-software/nelson/issues/477): update files watcher algo.
 
 ## Bug Fixes:
 

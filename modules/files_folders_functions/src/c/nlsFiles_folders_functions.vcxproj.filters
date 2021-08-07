@@ -119,9 +119,6 @@
     <ClCompile Include="..\cpp\RemoveFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\NormalizePath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\FullFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

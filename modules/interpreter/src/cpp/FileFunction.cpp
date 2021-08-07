@@ -40,9 +40,9 @@ FileFunction::FileFunction(
     _ismex = ismex;
     _fullfilename = directory;
     if (ismex) {
-        _fullfilename = _fullfilename + name + L"." + getMexExtension();
+        _fullfilename = _fullfilename + L"/" + name + L"." + getMexExtension();
     } else {
-        _fullfilename = _fullfilename + name + L".m";
+        _fullfilename = _fullfilename + L"/" + name + L".m";
     }
     _name = name;
     std::ifstream inFile;

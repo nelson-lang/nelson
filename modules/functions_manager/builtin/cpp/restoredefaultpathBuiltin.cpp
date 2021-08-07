@@ -43,7 +43,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(int nLhs, const ArrayOfVecto
     PathFuncManager::getInstance()->clear();
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
     for (const auto& path : paths) {
-        std::wstring _path = path + L"/functions/";
+        std::wstring _path = path + L"/functions";
         boost::filesystem::path data_dir(_path);
         bool bRes = false;
         try {

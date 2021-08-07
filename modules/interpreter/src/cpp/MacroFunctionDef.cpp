@@ -381,11 +381,10 @@ MacroFunctionDef::updateCode()
             return false;
         }
         this->setTimestamp(currentFileTimestamp);
-    }
-    catch (const boost::filesystem::filesystem_error&) {
+    } catch (const boost::filesystem::filesystem_error&) {
         return false;
     }
-    
+
     if (code != nullptr) {
         for (auto ptr : this->ptrAstCodeAsVector) {
             delete ptr;

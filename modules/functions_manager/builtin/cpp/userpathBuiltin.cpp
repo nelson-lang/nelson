@@ -23,11 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include "NormalizePath.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -56,7 +57,7 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bRes = false;
                 }
                 if (bRes) {
-                    PathFuncManager::getInstance()->setUserPath(paramstr, true);
+                    PathFuncManager::getInstance()->setUserPath(NormalizePath(paramstr), true);
                 } else {
                     Error(_W("Not an existing directory:") + L" " + paramstr);
                 }

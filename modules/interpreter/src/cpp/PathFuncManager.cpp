@@ -320,11 +320,7 @@ PathFuncManager::getUserPath()
 {
     std::wstring _path = L"";
     if (_userPath != nullptr) {
-#ifdef _MSC_VER
-        _path = _userPath->getPath() + L";";
-#else
-        _path = _userPath->getPath() + L":";
-#endif
+        _path = _userPath->getPath();
     }
     return _path;
 }
