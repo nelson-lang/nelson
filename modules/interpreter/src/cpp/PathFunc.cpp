@@ -23,13 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/algorithm/string.hpp>
 #include "PathFunc.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,41 +55,18 @@ PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
     if (isdir(path)) {
-        _path = uniformizePathName(path);
+        _path = path;
     } else {
         _path.clear();
     }
     rehash();
 }
 //=============================================================================
-std::wstring
-PathFunc::uniformizePathName(const std::wstring& pathname)
-{
-    std::wstring uniformPath = pathname;
-
-    if (pathname.empty()) {
-        return uniformPath;
-    }
-    if ((uniformPath.back() == L'/') || (uniformPath.back() == L'\\')) {
-        uniformPath.pop_back();
-    }
-    try {
-        boost::filesystem::path path(uniformPath);
-        path = boost::filesystem::absolute(path);
-        uniformPath = path.generic_wstring();
-    } catch (const boost::filesystem::filesystem_error&) { 
-      boost::replace_all(uniformPath, L"\\", L"/");
-    }
-    return uniformPath + L"/";
-}
-//=============================================================================
 bool
 PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 {
-    std::wstring pstr1 = uniformizePathName(path1);
-    std::wstring pstr2 = uniformizePathName(path2);
-    boost::filesystem::path p1(pstr1);
-    boost::filesystem::path p2(pstr2);
+    boost::filesystem::path p1(path1);
+    boost::filesystem::path p2(path2);
     bool res = false;
     try {
         boost::filesystem::equivalent(p1, p2);
@@ -191,7 +170,8 @@ PathFunc::rehash()
                     }
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) { }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
     }
 }
 //=============================================================================
@@ -201,7 +181,8 @@ isfile(const std::wstring& filename)
     try {
         return boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
 
-    } catch (const boost::filesystem::filesystem_error&) { }
+    } catch (const boost::filesystem::filesystem_error&) {
+    }
     return false;
 }
 //=============================================================================
@@ -212,15 +193,17 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
-        return true;
+        if (isfile(filename)) {
+            return true;
+        }
     }
     if (withWatcher) {
-        const std::wstring mexFullFilename = _path + functionName + L"." + getMexExtension();
+        const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
         if (isfile(mexFullFilename)) {
             filename = mexFullFilename;
             return true;
         }
-        const std::wstring macroFullFilename = _path + functionName + L".m";
+        const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
         if (isfile(macroFullFilename)) {
             filename = macroFullFilename;
             return true;
@@ -236,22 +219,40 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         = mapRecentFiles.find(functionName);
     if (foundit != mapRecentFiles.end()) {
         *ff = foundit->second;
-        return true;
+        if (isfile(foundit->second->getFilename())) {
+            return true;
+        } else {
+            if (!withWatcher) {
+                std::wstring msg
+                    = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
+                        % foundit->second->getFilename());
+                Error(msg);
+            }
+        }
     }
     boost::unordered_map<std::wstring, FileFunction*>::iterator found
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         *ff = found->second;
-        mapRecentFiles.emplace(functionName, *ff);
-        return true;
+        if (isfile(found->second->getFilename())) {
+            mapRecentFiles.emplace(functionName, *ff);
+            return true;
+        } else {
+            if (!withWatcher) {
+                std::wstring msg
+                    = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
+                        % found->second->getFilename());
+                Error(msg);
+            }
+        }
     }
     if (withWatcher) {
-        const std::wstring mexFullFilename = _path + functionName + L"." + getMexExtension();
+        const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();
         bool foundAsMacro = false;
         bool foundAsMex = false;
         foundAsMex = isfile(mexFullFilename);
         if (!foundAsMex) {
-            const std::wstring macroFullFilename = _path + functionName + L".m";
+            const std::wstring macroFullFilename = _path + L"/" + functionName + L".m";
             foundAsMacro = isfile(macroFullFilename);
         }
         if (foundAsMex || foundAsMacro) {
