@@ -49,7 +49,7 @@
     <ClCompile Include="..\cpp\FileParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FileWatcherManager.cpp">
+    <ClCompile Include="..\cpp\DirectoryWatcherManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FunctionDef.cpp">
@@ -131,12 +131,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\WarningEmitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\FileWatcher\FileWatcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllMain.c">
@@ -265,7 +259,7 @@
     <ClInclude Include="..\include\FileParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FileWatcherManager.hpp">
+    <ClInclude Include="..\include\DirectoryWatcherManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FunctionDef.hpp">
@@ -374,9 +368,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FunctionsInMemory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cpp\UpdatePathListener.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

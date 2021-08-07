@@ -239,9 +239,7 @@
     <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\FileFunction.cpp" />
     <ClCompile Include="..\cpp\FileParser.cpp" />
-    <ClCompile Include="..\cpp\FileWatcherManager.cpp" />
-    <ClCompile Include="..\cpp\FileWatcher\FileWatcher.cpp" />
-    <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp" />
+    <ClCompile Include="..\cpp\DirectoryWatcherManager.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
     <ClCompile Include="..\cpp\FunctionsInMemory.cpp" />
     <ClCompile Include="..\cpp\GatewayHelpers.cpp" />
@@ -325,7 +323,6 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\AsciiToDouble.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
-    <ClInclude Include="..\cpp\UpdatePathListener.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
@@ -343,7 +340,7 @@
     <ClInclude Include="..\include\Evaluator.hpp" />
     <ClInclude Include="..\include\FileFunction.hpp" />
     <ClInclude Include="..\include\FileParser.hpp" />
-    <ClInclude Include="..\include\FileWatcherManager.hpp" />
+    <ClInclude Include="..\include\DirectoryWatcherManager.hpp" />
     <ClInclude Include="..\include\FunctionDef.hpp" />
     <ClInclude Include="..\include\FunctionsInMemory.hpp" />
     <ClInclude Include="..\include\GatewayHelpers.hpp" />

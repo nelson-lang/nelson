@@ -28,7 +28,7 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include "PathFunc.hpp"
-#include "FileWatcherManager.hpp"
+#include "DirectoryWatcherManager.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 //=============================================================================
@@ -56,7 +56,7 @@ PathFunc::PathFunc(const std::wstring& path, bool withWatcher)
     if (isdir(path)) {
         _path = uniformizePathName(path);
         if (withWatcher) {
-            FileWatcherManager::getInstance()->addWatch(_path);
+            DirectoryWatcherManager::getInstance()->addWatch(_path);
         }
     } else {
         _path.clear();
@@ -114,7 +114,7 @@ PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 //=============================================================================
 PathFunc::~PathFunc()
 {
-    FileWatcherManager::getInstance()->removeWatch(_path);
+    DirectoryWatcherManager::getInstance()->removeWatch(_path);
     for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {

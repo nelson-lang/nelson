@@ -25,11 +25,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "FileFunction.hpp"
-#include "FileWatcherManager.hpp"
-#include "Types.hpp"
 #include <boost/unordered_map.hpp>
 #include <string>
+#include "FileFunction.hpp"
+#include "DirectoryWatcherManager.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 class PathFunc
