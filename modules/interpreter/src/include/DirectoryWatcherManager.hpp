@@ -26,43 +26,37 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/filesystem.hpp>
-#include <FileWatcher.h>
-#include "FileWatcherManager.hpp"
-#include "MxGetExtension.hpp"
+#include <vector>
+#include "Types.hpp"
 //=============================================================================
-class UpdatePathListener : public FW::FileWatchListener
+namespace Nelson {
+//=============================================================================
+class DirectoryWatcherManager
 {
-private:
-    //=============================================================================
-    void
-    appendIfNelsonFile(const FW::String& dir, const FW::String& filename)
-    {
-        boost::filesystem::path pf = boost::filesystem::path(filename);
-        std::wstring file_extension = pf.extension().generic_wstring();
-        if (file_extension == L".m" || file_extension == L"." + Nelson::getMexExtension()) {
-            boost::filesystem::path parent_dir = boost::filesystem::path(dir);
-            Nelson::FileWatcherManager::getInstance()->addPathToRefreshList(
-                parent_dir.generic_wstring());
-        }
-    }
     //=============================================================================
 public:
-    UpdatePathListener() = default;
+    static DirectoryWatcherManager*
+    getInstance();
     void
-    handleFileAction(FW::WatchID watchid, const FW::String& dir, const FW::String& filename,
-        FW::Action action) override
-    {
-        switch (action) {
-        case FW::Action::Add: {
-            appendIfNelsonFile(dir, filename);
-        } break;
-        case FW::Action::Delete: {
-            appendIfNelsonFile(dir, filename);
-        } break;
-        case FW::Action::Modified: {
-        } break;
-        }
-    }
+    addWatch(const std::wstring& directory);
+    void
+    removeWatch(const std::wstring& directory);
+    void
+    update(const std::wstring& functionName);
+    void
+    release();
+    void
+    addPathToRefreshList(const std::wstring& directory);
+    wstringVector
+    getPathToRefresh(bool withClear = true);
+    //=============================================================================
+private:
+    DirectoryWatcherManager();
+    static DirectoryWatcherManager* m_pInstance;
+    std::vector<std::pair<std::wstring, int>> directoriesWatched;
+    wstringVector pathsToRefresh;
+    //=============================================================================
 };
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

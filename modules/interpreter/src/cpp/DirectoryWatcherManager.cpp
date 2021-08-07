@@ -23,129 +23,125 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <FileWatcher.h>
 #include <boost/filesystem.hpp>
-#include "FileWatcherManager.hpp"
+#include "DirectoryWatcherManager.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
-#include "UpdatePathListener.hpp"
+#include "MxGetExtension.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
+static const std::wstring mexExtension = getMexExtension();
+static const std::wstring macroExtension = L".m";
+//=============================================================================
+DirectoryWatcherManager* DirectoryWatcherManager::m_pInstance = nullptr;
 //=============================================================================
 static std::wstring
 uniformizePath(const std::wstring& directory)
 {
     std::wstring uniformPath = directory;
+    if (directory.empty()) {
+        return uniformPath;
+    }
     if ((directory.back() == L'/') || (directory.back() == L'\\')) {
         uniformPath.pop_back();
     }
     boost::filesystem::path path(uniformPath);
     path = boost::filesystem::absolute(path);
     uniformPath = path.generic_wstring();
-#ifdef _MSC_VER
-    uniformPath = uniformPath + L"\\";
-#else
     uniformPath = uniformPath + L"/";
-#endif
     return uniformPath;
 }
 //=============================================================================
-FileWatcherManager::FileWatcherManager()
+DirectoryWatcherManager::DirectoryWatcherManager()
 {
-    auto* _fileListener = new UpdatePathListener();
-    fileListener = static_cast<void*>(_fileListener);
-    auto* _fileWatcher = new FW::FileWatcher();
-    fileWatcher = static_cast<void*>(_fileWatcher);
+    directoriesWatched.clear();
+    pathsToRefresh.clear();
 }
 //=============================================================================
-FileWatcherManager*
-FileWatcherManager::getInstance()
+DirectoryWatcherManager*
+DirectoryWatcherManager::getInstance()
 {
     if (m_pInstance == nullptr) {
-        m_pInstance = new FileWatcherManager();
+        m_pInstance = new DirectoryWatcherManager();
     }
     return m_pInstance;
 }
 //=============================================================================
 void
-FileWatcherManager::addWatch(const std::wstring& directory)
+DirectoryWatcherManager::addWatch(const std::wstring& directory)
 {
     std::wstring uniformizedPath = uniformizePath(directory);
-    std::map<std::wstring, std::pair<long, int>>::iterator it = watchIDsMap.find(uniformizedPath);
-    if (it == watchIDsMap.end()) {
-        auto* _fileListener = static_cast<UpdatePathListener*>(fileListener);
-        FW::WatchID id;
-        try {
-#ifdef _MSC_VER
-            id = (static_cast<FW::FileWatcher*>(fileWatcher))->addWatch(directory, _fileListener);
-#else
-            id = ((FW::FileWatcher*)fileWatcher)
-                     ->addWatch(wstring_to_utf8(directory), _fileListener);
-#endif
-        } catch (const FW::FWException&) {
-            id = -1;
+    std::vector<std::pair<std::wstring, int>>::iterator it;
+    for (it = directoriesWatched.begin(); it != directoriesWatched.end(); ++it) {
+        if (it->first == uniformizedPath) {
+            it->second++;
+            return;
         }
-        if (id != -1) {
-            watchIDsMap.emplace(uniformizedPath, std::make_pair(id, 1));
-        }
-    } else {
-        it->second.second++;
+    }
+    if (it == directoriesWatched.end()) {
+        directoriesWatched.push_back(std::make_pair(uniformizedPath, 1));
     }
 }
 //=============================================================================
 void
-FileWatcherManager::removeWatch(const std::wstring& directory)
+DirectoryWatcherManager::removeWatch(const std::wstring& directory)
 {
     std::wstring uniformizedPath = uniformizePath(directory);
-    std::map<std::wstring, std::pair<long, int>>::iterator it = watchIDsMap.find(uniformizedPath);
-    if (it != watchIDsMap.end()) {
-        if (it->second.second == 1) {
-            ((FW::FileWatcher*)fileWatcher)->removeWatch(it->second.first);
-            watchIDsMap.erase(it);
-        } else {
-            it->second.second--;
+    std::vector<std::pair<std::wstring, int>>::reverse_iterator it;
+    for (it = directoriesWatched.rbegin(); it != directoriesWatched.rend(); ++it) {
+        if (it->first == uniformizedPath) {
+            if (it->second == 1) {
+                directoriesWatched.erase(std::next(it).base());
+            } else {
+                it->second--;
+            }
+            return;
         }
     }
 }
 //=============================================================================
-void
-FileWatcherManager::update()
+static bool
+isfile(const std::wstring &filename)
 {
     try {
-        (static_cast<FW::FileWatcher*>(fileWatcher))->update();
-    } catch (const FW::FWException&) {
-    }
+        return boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
+    } catch (const boost::filesystem::filesystem_error&) { }
+    return false;
 }
 //=============================================================================
 void
-FileWatcherManager::release()
+DirectoryWatcherManager::update(const std::wstring& functionName)
 {
-    auto* _fileListener = static_cast<UpdatePathListener*>(fileListener);
-    if (_fileListener != nullptr) {
-        delete _fileListener;
-        _fileListener = nullptr;
-        fileListener = nullptr;
+    const std::wstring macroFilename = functionName + macroExtension;
+    const std::wstring mexFilename =  functionName + mexExtension;
+ 
+    std::vector<std::pair<std::wstring, int>>::reverse_iterator it;
+    for (it = directoriesWatched.rbegin(); it != directoriesWatched.rend(); ++it) {
+        const std::wstring macroFullFilename = it->first + macroFilename;
+        const std::wstring mexFullFilename = it->first + mexFilename;
+        if (isfile(mexFullFilename) || isfile(macroFullFilename)) {
+            pathsToRefresh.push_back(it->first);
+            return;
+        }
     }
-    auto* _fileWatcher = static_cast<FW::FileWatcher*>(fileWatcher);
-    if (_fileWatcher != nullptr) {
-        delete _fileWatcher;
-        _fileWatcher = nullptr;
-        fileWatcher = nullptr;
-    }
-    pathsToRefresh.clear();
-    watchIDsMap.clear();
 }
 //=============================================================================
 void
-FileWatcherManager::addPathToRefreshList(const std::wstring& directory)
+DirectoryWatcherManager::release()
+{
+    directoriesWatched.clear();
+    pathsToRefresh.clear();
+}
+//=============================================================================
+void
+DirectoryWatcherManager::addPathToRefreshList(const std::wstring& directory)
 {
     pathsToRefresh.push_back(directory);
 }
 //=============================================================================
 wstringVector
-FileWatcherManager::getPathToRefresh(bool withClear)
+DirectoryWatcherManager::getPathToRefresh(bool withClear)
 {
     wstringVector paths = pathsToRefresh;
     if (withClear) {

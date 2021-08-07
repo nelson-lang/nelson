@@ -96,14 +96,6 @@ Microsoft MPI (MS-MPI) is a Microsoft implementation of the Message Passing Inte
 
 > https://www.open-mpi.org/community/license.php
 
-- SimpleFileWatcher
-
-a C++ wrapper for OS file monitoring systems
-
-> https://github.com/apetrone/simplefilewatcher
-
-> https://github.com/apetrone/simplefilewatcher/blob/master/License.txt
-
 - Libxml2
 
 the XML C parser and toolkit developed for the Gnome project

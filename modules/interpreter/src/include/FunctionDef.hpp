@@ -104,7 +104,11 @@ public:
         this->filename = filename;
         boost::filesystem::path path(filename);
         this->pathname = path.parent_path().generic_wstring();
-        this->timestamp = boost::filesystem::last_write_time(filename);
+        try {
+            this->timestamp = boost::filesystem::last_write_time(filename);
+        } catch (const boost::filesystem::filesystem_error&) {
+            this->timestamp = 0;
+        }
     }
     //=============================================================================
     std::wstring
