@@ -16,6 +16,8 @@
 
 - [#480](http://github.com/Nelson-numerical-software/nelson/issues/480): publisher name updated for windows installer.
 
+- [#483](http://github.com/Nelson-numerical-software/nelson/issues/483): extern modules no more build if boost not available.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:

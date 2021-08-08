@@ -24,6 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/format.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 #include "MacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
