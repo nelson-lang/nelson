@@ -260,7 +260,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin, bool frozen)
     if (it != _pathFuncVector.end()) {
         return false;
     }
-    bool withWatch = frozen ? false : true != 0 != 0;
+    bool withWatch = frozen ? false : true;
     PathFunc* pf = nullptr;
     try {
         pf = new PathFunc(path, withWatch);
