@@ -20,6 +20,8 @@
 
 - [#486](http://github.com/Nelson-numerical-software/nelson/issues/486): `inmem` help was missing.
 
+- [#464](http://github.com/Nelson-numerical-software/nelson/issues/464): simplify macos build (catalina & BigSur support only).
+
 # 0.5.7 (2021-07-24)
 
 ## Features:
