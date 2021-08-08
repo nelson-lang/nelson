@@ -42,11 +42,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 #include "FunctionDef.hpp"
-
+//=============================================================================
 namespace Nelson {
+//=============================================================================
 FunctionDef::FunctionDef() = default;
-
+//=============================================================================
 FunctionDef::~FunctionDef() = default;
+//=============================================================================
+void
+FunctionDef::setFilename(const std::wstring& filename)
+{
+    this->filename = filename;
+    boost::filesystem::path path(filename);
+    this->pathname = path.parent_path().generic_wstring();
+    try {
+        this->timestamp = boost::filesystem::last_write_time(filename);
+    } catch (const boost::filesystem::filesystem_error&) {
+        this->timestamp = 0;
+    }
 }
+//=============================================================================
+}
+//=============================================================================

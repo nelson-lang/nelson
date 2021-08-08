@@ -46,8 +46,6 @@
 #pragma once
 //=============================================================================
 #include <ctime>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem.hpp>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "nlsInterpreter_exports.h"
@@ -99,17 +97,7 @@ private:
 public:
     //=============================================================================
     void
-    setFilename(const std::wstring& filename)
-    {
-        this->filename = filename;
-        boost::filesystem::path path(filename);
-        this->pathname = path.parent_path().generic_wstring();
-        try {
-            this->timestamp = boost::filesystem::last_write_time(filename);
-        } catch (const boost::filesystem::filesystem_error&) {
-            this->timestamp = 0;
-        }
-    }
+    setFilename(const std::wstring& filename);
     //=============================================================================
     std::wstring
     getFilename()
