@@ -18,6 +18,8 @@
 
 - [#483](http://github.com/Nelson-numerical-software/nelson/issues/483): extern modules no more build if boost not available.
 
+- [#486](http://github.com/Nelson-numerical-software/nelson/issues/486): `inmem` help was missing.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:
