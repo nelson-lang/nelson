@@ -175,7 +175,8 @@ testSpecialFuncs()
         return false;
     }
     bool isHardcodedShorcut = isPathCommandShortCut(L"ls", wline)
-        || isPathCommandShortCut(L"cd", wline) || isPathCommandShortCut(L"dir", wline);
+        || isPathCommandShortCut(L"display", wline) || isPathCommandShortCut(L"cd", wline)
+        || isPathCommandShortCut(L"dir", wline);
 
     if (isHardcodedShorcut) {
         return true;

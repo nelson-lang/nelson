@@ -23,22 +23,50 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dispBuiltin.hpp"
+#include "displayBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadDisplay.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::dispBuiltin(
+Nelson::ElementaryFunctionsGateway::displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
+
     ArrayOf variable = argIn[0];
-    variable.name("");
+    std::string variableName = variable.name();
+    if (argIn.size() == 2) {
+        variableName = argIn[1].getContentAsCString();
+        variable.name(variableName);
+    }
     OverloadDisplay(eval, variable, true);
+
+    /*
+    std::wstring variableName;
+    ArrayOf variableValue;
+    Interface* io = eval->getInterface();
+    switch (argIn.size()) {
+    case 1: {
+        variableName = argIn[0].name();
+        io->outputMessage(variableName + " = \n\n");
+        OverloadDisplay(eval, argIn[0], true);
+    } break;
+    case 2: {
+        std::wstring variableName = argIn[1].getContentAsWideString();
+        io->outputMessage(variableName + L" =\n\n");
+        OverloadDisplay(eval, argIn[0], true);
+        }
+
+    } break;
+    }
+    if (!variableName.empty()) { 
+        io->outputMessage(variableName + L" =\n\n");
+    }
+    */
     return retval;
 }
 //=============================================================================

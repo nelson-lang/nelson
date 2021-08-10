@@ -1773,11 +1773,12 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
     uint64 ticProfiling = Profiler::getInstance()->tic();
     bool isHandle = false;
     ArrayOf b = expression(t->right);
+    std::string variableName = t->text;
+    b.name(variableName);
     if (t->down != nullptr) {
         b = assignExpression(t, b);
         isHandle = b.isHandle();
     }
-    std::string variableName = t->text;
     if (!isHandle) {
         ArrayOf* var = context->lookupVariable(variableName);
         if (var == nullptr) {
@@ -1797,7 +1798,6 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
         }
     }
     if (printIt) {
-        io->outputMessage(variableName + " =\n\n");
         OverloadDisplay(this, b);
     }
     if (ticProfiling != 0) {
@@ -1836,9 +1836,9 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
     } else if (t->opNum == (OP_SCALL)) {
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
         if (m.size() > 0) {
-            io->outputMessage(L"\nans =\n\n");
-            OverloadDisplay(this, m[0]);
+            m[0].name("ans");
             context->insertVariable("ans", m[0]);
+            OverloadDisplay(this, m[0]);
         }
     } else if (t->type == reserved_node) {
         switch (t->tokenNumber) {
@@ -1912,7 +1912,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 bUpdateAns = false;
             }
             if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
-                io->outputMessage(L"\nans =\n\n");
+                b.name("ans");
                 OverloadDisplay(this, b);
             }
         } else if (t->opNum == OP_RHS) {
@@ -1922,7 +1922,6 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             } else {
                 b = m[0];
                 if (printIt && (state < NLS_STATE_QUIT)) {
-                    // io->outputMessage(L"ans =\n\n");
                     io->outputMessage("\n");
                     for (size_t j = 0; j < m.size(); j++) {
                         if (m.size() > 1) {
@@ -1938,7 +1937,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         } else {
             b = expression(t);
             if (printIt && (state < NLS_STATE_QUIT)) {
-                io->outputMessage(L"\nans =\n\n");
+                b.name("ans");
                 OverloadDisplay(this, b);
             }
         }
@@ -2484,6 +2483,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
         ArrayOf c(assignExpression(s->down, m));
+        c.name(s->down->text);
         if (!context->insertVariable(s->down->text, c)) {
             if (IsValidVariableName(s->down->text, true)) {
                 Error(_W("Redefining permanent variable."));
@@ -2491,9 +2491,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
             Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            io->outputMessage(s->down->text);
-            io->outputMessage(L" =\n\n");
-            OverloadDisplay(this, c);
+            OverloadDisplay(this, c, false);
         }
         s = s->right;
     }
@@ -3097,16 +3095,6 @@ Evaluator::functionExpression(
             } else {
                 m = ArrayOfVector();
             }
-            // int nRhs = (int)m.size();
-            // int nLhs = funcDef->outputArgCount();
-            /*
-            if ((funcDef->inputArgCount() >= 0) &&
-            ((int)(m.size()) > funcDef->inputArgCount()))
-            Error(std::string("Too many inputs to function ")+t->text);
-            if ((funcDef->outputArgCount() >= 0) &&
-            (narg_out > funcDef->outputArgCount() && !outputOptional))
-            Error(std::string("Too many outputs to function ")+t->text);
-            */
             CLIFlagsave = InCLI;
             InCLI = false;
             ArrayOf r;
@@ -3138,15 +3126,7 @@ Evaluator::functionExpression(
                                 delete[] argTypeMap;
                                 argTypeMap = nullptr;
                             }
-                            // C
                             return scalarArrayOfToArrayOfVector(r);
-                            /*
-                                                            if (r.isFunctionHandle())
-                                                            {
-                                                                return
-                               scalarArrayOfToArrayOfVector(r);
-                                                            }
-                            */
                         }
                     }
                 }
@@ -3225,6 +3205,7 @@ Evaluator::functionExpression(
                         if (ptrVar != nullptr) {
                             ptrVar->setValue(c);
                         } else {
+                            c.name(variableName);
                             if (!context->insertVariable(variableName, c)) {
                                 if (argTypeMap != nullptr) {
                                     delete[] argTypeMap;

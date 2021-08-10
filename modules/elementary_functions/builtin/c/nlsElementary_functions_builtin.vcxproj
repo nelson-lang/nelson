@@ -181,6 +181,7 @@
     <ClCompile Include="..\cpp\conjBuiltin.cpp" />
     <ClCompile Include="..\cpp\dec2baseBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\expBuiltin.cpp" />
     <ClCompile Include="..\cpp\findBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
