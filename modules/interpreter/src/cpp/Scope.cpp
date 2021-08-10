@@ -80,13 +80,21 @@ Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 ArrayOf*
 Scope::lookupVariable(const std::string& varName)
 {
-    return variablesTab.findVariable(varName);
+    ArrayOf* var = variablesTab.findVariable(varName);
+    if (var) {
+        var->name(varName);
+    }
+    return var;
 }
 //=============================================================================
 bool
 Scope::lookupVariable(const std::string& varName, ArrayOf& val)
 {
-    return variablesTab.findVariable(varName, val);
+    bool found = variablesTab.findVariable(varName, val);
+    if (found) {
+        val.name(varName);
+    }
+    return found;
 }
 //=============================================================================
 std::string

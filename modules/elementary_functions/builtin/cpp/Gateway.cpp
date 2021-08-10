@@ -30,6 +30,7 @@
 #include "complexBuiltin.hpp"
 #include "conjBuiltin.hpp"
 #include "dispBuiltin.hpp"
+#include "displayBuiltin.hpp"
 #include "fixBuiltin.hpp"
 #include "floorBuiltin.hpp"
 #include "imagBuiltin.hpp"
@@ -78,6 +79,8 @@ const std::wstring gatewayName = L"elementary_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "disp", (void*)Nelson::ElementaryFunctionsGateway::dispBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "display", (void*)Nelson::ElementaryFunctionsGateway::displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "size", (void*)Nelson::ElementaryFunctionsGateway::sizeBuiltin, -1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },

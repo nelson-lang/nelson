@@ -46,6 +46,12 @@ DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& nee
         needToOverload = true;
         return;
     }
+    std::string variableName = A.name();
+    if (!variableName.empty()) {
+        if (variableName == "ans")
+            io->outputMessage("\n");
+       io->outputMessage(variableName + " =\n\n");
+    }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY: {
         DisplayCell(io, A, fromDispBuiltin, needToOverload);

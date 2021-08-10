@@ -93,6 +93,7 @@ class Data;
 class NLSTYPES_IMPEXP ArrayOf
 {
 private:
+    std::string _name;
     /**
      * This is a pointer to our data object - which is shared between
      * different ArrayOf objects.  It is essentially the memory block
@@ -138,6 +139,11 @@ private:
     haveUniqueFieldNames(const stringVector& fieldnames);
 
 public:
+    std::string
+    name() const;
+
+    void name(const std::string &name);
+
     /**
      * Allocate an array.
      */

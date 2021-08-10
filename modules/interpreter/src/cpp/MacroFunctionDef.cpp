@@ -193,6 +193,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         for (i = 0; i < inputCount; i++) {
             dp[i] = inputs[i + minCount];
         }
+        varg.name("varargin");
         context->insertVariableLocally("varargin", varg);
     }
     context->getCurrentScope()->setNargOut(nargout);

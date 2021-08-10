@@ -84,9 +84,22 @@ scalarArrayOfToArrayOfVector(ArrayOf a)
     return retval;
 }
 //=============================================================================
+std::string
+ArrayOf::name() const 
+{
+    return _name;
+}
+//=============================================================================
+void
+ArrayOf::name(const std::string& name)
+{
+    _name = name;
+}
+//=============================================================================
 void
 ArrayOf::copyObject(const ArrayOf& copy)
 {
+    this->_name = copy._name;
     if (copy.dp) {
         dp = copy.dp->getCopy();
     } else {
@@ -482,6 +495,7 @@ ArrayOf::operator=(const ArrayOf& copy)
     if (this == &copy) {
         return;
     }
+    this->_name = copy._name;
     deleteContents();
     if (copy.dp) {
         dp = copy.dp->getCopy();
