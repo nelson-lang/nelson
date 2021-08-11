@@ -35,7 +35,7 @@ Nelson::SparseGateway::sparsedouble_dispBuiltin(
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     if (!argIn[0].isSparse()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     } else {

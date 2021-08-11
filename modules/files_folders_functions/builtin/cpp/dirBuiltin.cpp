@@ -77,6 +77,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
                 + _W("Not a file or a directory.");
             NelsonPrint(msg);
         } else {
+            NelsonPrint("\n");
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
                 if (NelsonConfiguration::getInstance()->getInterruptPending()) {
@@ -92,6 +93,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
                     NelsonPrint(it->getName() + L"\n");
                 }
             }
+            NelsonPrint("\n");
         }
     } else {
         stringVector fieldnames;

@@ -19,6 +19,7 @@ Columns 1 to 9
     1     0     1     1     0     1     1     0     1  
     0     1     0     0     1     0     0     1     0  
 
+
 ans =
 
   <int16> - size: 4x9x2
@@ -38,6 +39,7 @@ Columns 1 to 9
       0       1       0       0       1       0       0       1       0  
       1       0       1       1       0       1       1       0       1  
       0       1       0       0       1       0       0       1       0  
+
 
 ans =
 
@@ -71,6 +73,7 @@ Columns 6 to 9
              1              1              0              1  
              0              0              1              0  
 
+
 ans =
 
   <int64>  - size: 4x9x2
@@ -103,6 +106,7 @@ Columns 6 to 9
  1  1  0  1  
  0  0  1  0  
 
+
 ans =
 
   <uint8>  - size: 4x9x2
@@ -123,6 +127,7 @@ Columns 1 to 9
    1    0    1    1    0    1    1    0    1  
    0    1    0    0    1    0    0    1    0  
 
+
 ans =
 
   <uint16>  - size: 4x9x2
@@ -142,6 +147,7 @@ Columns 1 to 9
      0      1      0      0      1      0      0      1      0  
      1      0      1      1      0      1      1      0      1  
      0      1      0      0      1      0      0      1      0  
+
 
 ans =
 
@@ -175,6 +181,7 @@ Columns 6 to 9
             1             1             0             1  
             0             0             1             0  
 
+
 ans =
 
   <uint64>  - size: 4x9x2
@@ -207,6 +214,7 @@ Columns 6 to 9
  1  1  0  1  
  0  0  1  0  
 
+
 ans =
 
   <int8> - size: 3x3
@@ -215,6 +223,7 @@ Columns 1 to 3
     1      0      0  
     0      1      0  
     0      0      1  
+
 
 ans =
 
@@ -225,6 +234,7 @@ Columns 1 to 3
       0        1        0  
       0        0        1  
 
+
 ans =
 
   <int32>  - size: 3x3
@@ -233,6 +243,7 @@ Columns 1 to 3
              1               0               0  
              0               1               0  
              0               0               1  
+
 
 ans =
 
@@ -243,6 +254,7 @@ Columns 1 to 3
  0   1   0  
  0   0   1  
 
+
 ans =
 
   <uint8>  - size: 3x3
@@ -251,6 +263,7 @@ Columns 1 to 3
    1     0     0  
    0     1     0  
    0     0     1  
+
 
 ans =
 
@@ -261,6 +274,7 @@ Columns 1 to 3
      0       1       0  
      0       0       1  
 
+
 ans =
 
   <uint32>  - size: 3x3
@@ -270,6 +284,7 @@ Columns 1 to 3
             0              1              0  
             0              0              1  
 
+
 ans =
 
   <uint64>  - size: 3x3
@@ -278,3 +293,4 @@ Columns 1 to 3
  1   0   0  
  0   1   0  
  0   0   1  
+

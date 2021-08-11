@@ -25,12 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 NLSINTERPRETER_IMPEXP void
-OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin = false);
+OverloadDisplay(Evaluator* eval, const ArrayOf &a, const std::string &name, bool fromBuiltin = false);
 }
 //=============================================================================

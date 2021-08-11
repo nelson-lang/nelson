@@ -23,9 +23,9 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function weboptions_disp(options)
-  r = struct(options);
-  d = evalc('disp(r);');
-  disp(replace(d, '<struct>', '<weboptions>'))
-end
-%=============================================================================
+function MException_display(e, name)
+    r = struct(e);
+    d = evalc('disp(r);');
+    disp(replace(d, '<struct>', '<MException>'))
+  end
+  %=============================================================================

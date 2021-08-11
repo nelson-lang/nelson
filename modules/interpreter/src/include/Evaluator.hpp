@@ -332,7 +332,7 @@ public:
     /**
      * The RHS expression is used to represent an rvalue in an
      * assignment statement (or an implicit assignment such as
-     * -->2+3).  The form of the AST depends on the head.  If the
+     * >>2+3).  The form of the AST depends on the head.  If the
      * head identifier is a function name, then the form of the
      * AST is:
      *    ident

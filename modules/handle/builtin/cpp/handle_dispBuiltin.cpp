@@ -32,7 +32,7 @@ ArrayOfVector
 Nelson::HandleGateway::handle_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {

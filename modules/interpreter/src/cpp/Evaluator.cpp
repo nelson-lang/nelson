@@ -1774,7 +1774,6 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
     bool isHandle = false;
     ArrayOf b = expression(t->right);
     std::string variableName = t->text;
-    b.name(variableName);
     if (t->down != nullptr) {
         b = assignExpression(t, b);
         isHandle = b.isHandle();
@@ -1798,7 +1797,7 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
         }
     }
     if (printIt) {
-        OverloadDisplay(this, b);
+        OverloadDisplay(this, b, variableName);
     }
     if (ticProfiling != 0) {
         internalProfileFunction stack
@@ -1836,9 +1835,8 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
     } else if (t->opNum == (OP_SCALL)) {
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
         if (m.size() > 0) {
-            m[0].name("ans");
             context->insertVariable("ans", m[0]);
-            OverloadDisplay(this, m[0]);
+            OverloadDisplay(this, m[0], "ans");
         }
     } else if (t->type == reserved_node) {
         switch (t->tokenNumber) {
@@ -1912,8 +1910,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 bUpdateAns = false;
             }
             if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
-                b.name("ans");
-                OverloadDisplay(this, b);
+                OverloadDisplay(this, b, "ans");
             }
         } else if (t->opNum == OP_RHS) {
             m = rhsExpression(t->down);
@@ -1922,7 +1919,6 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             } else {
                 b = m[0];
                 if (printIt && (state < NLS_STATE_QUIT)) {
-                    io->outputMessage("\n");
                     for (size_t j = 0; j < m.size(); j++) {
                         if (m.size() > 1) {
                             char buffer[1000];
@@ -1930,15 +1926,14 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                                 buffer, _("\n%d of %d:\n").c_str(), (int)j + (int)1, (int)m.size());
                             io->outputMessage(buffer);
                         }
-                        OverloadDisplay(this, m[j]);
+                        OverloadDisplay(this, m[j], m[j].name().empty() ? "ans" : m[j].name());
                     }
                 }
             }
         } else {
             b = expression(t);
             if (printIt && (state < NLS_STATE_QUIT)) {
-                b.name("ans");
-                OverloadDisplay(this, b);
+                OverloadDisplay(this, b, "ans");
             }
         }
         if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
@@ -2483,7 +2478,6 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
         ArrayOf c(assignExpression(s->down, m));
-        c.name(s->down->text);
         if (!context->insertVariable(s->down->text, c)) {
             if (IsValidVariableName(s->down->text, true)) {
                 Error(_W("Redefining permanent variable."));
@@ -2491,7 +2485,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
             Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            OverloadDisplay(this, c, false);
+            OverloadDisplay(this, c, s->down->text, false);
         }
         s = s->right;
     }
@@ -4154,15 +4148,15 @@ Evaluator::buildPrompt()
     std::wstring prompt;
     if (depth > 0) {
         if (bpActive) {
-            prompt = L"-" + std::to_wstring(depth) + L"D-> ";
+            prompt = std::to_wstring(depth) + L"D>> ";
         } else {
-            prompt = L"-" + std::to_wstring(depth) + L"-> ";
+            prompt = std::to_wstring(depth) + L">> ";
         }
     } else {
         if (bpActive) {
-            prompt = L"D-> ";
+            prompt = L"D>> ";
         } else {
-            prompt = L"--> ";
+            prompt = L">> ";
         }
     }
     return prompt;

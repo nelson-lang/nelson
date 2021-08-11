@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 		printf("\nEnter a Nelson command to evaluate.\n");
 		printf("For example: X = 1:5\n");
 		printf("To finish: exit\n");
-		printf("--> ");
+		printf(">> ");
 		fgets(cmd, 255, stdin);
 	
 		engEvalString(ep, cmd);
