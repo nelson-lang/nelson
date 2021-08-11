@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function complexObj_disp(obj)
+function complexObj_display(obj, name)
 disp('complexObj_disp:')
 disp('real part');
 disp(obj.r);

@@ -35,7 +35,7 @@ Nelson::GraphicsGateway::graphic_object_dispBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf paramGo = argIn[0];
     if (paramGo.getDataClass() != NLS_GO_HANDLE) {

@@ -36,7 +36,8 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool fromDispBuiltin,
+    bool& needToOverload)
 {
     needToOverload = false;
     if (io == nullptr) {
@@ -46,11 +47,9 @@ DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& nee
         needToOverload = true;
         return;
     }
-    std::string variableName = A.name();
-    if (!variableName.empty()) {
-        if (variableName == "ans")
-            io->outputMessage("\n");
-       io->outputMessage(variableName + " =\n\n");
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY: {
@@ -89,6 +88,9 @@ DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& nee
     default: {
         needToOverload = true;
     } break;
+    }
+    if (!needToOverload && !name.empty()) {
+        io->outputMessage("\n");
     }
 }
 //=============================================================================

@@ -37,8 +37,7 @@ Nelson::ElementaryFunctionsGateway::dispBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf variable = argIn[0];
-    variable.name("");
-    OverloadDisplay(eval, variable, true);
+    OverloadDisplay(eval, variable, "", true);
     return retval;
 }
 //=============================================================================

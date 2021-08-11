@@ -52,9 +52,9 @@ const std::wstring gatewayName = L"sparse";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "sparse", (void*)Nelson::SparseGateway::sparseBuiltin, 1, 6, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparsedouble_disp", (void*)Nelson::SparseGateway::sparsedouble_dispBuiltin, 0, 1,
+    { "sparsedouble_display", (void*)Nelson::SparseGateway::sparsedouble_dispBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparselogical_disp", (void*)Nelson::SparseGateway::sparselogical_dispBuiltin, 0, 1,
+    { "sparselogical_display", (void*)Nelson::SparseGateway::sparselogical_dispBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "full", (void*)Nelson::SparseGateway::fullBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "sparsedouble_uminus", (void*)Nelson::SparseGateway::sparsedouble_uminusBuiltin, 1, 1,

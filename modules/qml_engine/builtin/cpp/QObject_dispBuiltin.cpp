@@ -32,7 +32,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::QmlEngineGateway::QObject_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     DispQmlHandleObject(eval, param1);

@@ -38,7 +38,7 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {

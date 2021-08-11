@@ -83,7 +83,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "handle_invoke", (void*)Nelson::HandleGateway::handle_invokeBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "handle_disp", (void*)Nelson::HandleGateway::handle_dispBuiltin, 0, 1,
+    { "handle_display", (void*)Nelson::HandleGateway::handle_dispBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "handle_delete", (void*)Nelson::HandleGateway::handle_deleteBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

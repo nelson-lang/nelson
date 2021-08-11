@@ -41,32 +41,8 @@ Nelson::ElementaryFunctionsGateway::displayBuiltin(
     std::string variableName = variable.name();
     if (argIn.size() == 2) {
         variableName = argIn[1].getContentAsCString();
-        variable.name(variableName);
     }
-    OverloadDisplay(eval, variable, true);
-
-    /*
-    std::wstring variableName;
-    ArrayOf variableValue;
-    Interface* io = eval->getInterface();
-    switch (argIn.size()) {
-    case 1: {
-        variableName = argIn[0].name();
-        io->outputMessage(variableName + " = \n\n");
-        OverloadDisplay(eval, argIn[0], true);
-    } break;
-    case 2: {
-        std::wstring variableName = argIn[1].getContentAsWideString();
-        io->outputMessage(variableName + L" =\n\n");
-        OverloadDisplay(eval, argIn[0], true);
-        }
-
-    } break;
-    }
-    if (!variableName.empty()) { 
-        io->outputMessage(variableName + L" =\n\n");
-    }
-    */
+    OverloadDisplay(eval, variable, variableName,  true);
     return retval;
 }
 //=============================================================================

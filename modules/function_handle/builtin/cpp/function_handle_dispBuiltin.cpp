@@ -36,7 +36,7 @@ Nelson::FunctionHandleGateway::function_handle_dispBuiltin(
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     ArrayOf Arg = argIn[0];
     if (!Arg.isFunctionHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);

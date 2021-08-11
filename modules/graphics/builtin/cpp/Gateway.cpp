@@ -43,7 +43,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"graphics";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "graphic_object_disp", (void*)Nelson::GraphicsGateway::graphic_object_dispBuiltin, 0, 1,
+    { "graphic_object_display", (void*)Nelson::GraphicsGateway::graphic_object_dispBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "figure", (void*)Nelson::GraphicsGateway::figureBuiltin, 1, 2 },
     { "groot", (void*)Nelson::GraphicsGateway::grootBuiltin, 1, 0 },

@@ -36,18 +36,19 @@
 namespace Nelson {
 //=============================================================================
 void
-OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
+OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::string& name, bool fromBuiltin)
 {
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         Context* context = eval->getContext();
         if (context != nullptr) {
             FunctionDef* funcDef = nullptr;
-            std::string OverloadName = ClassName(a) + "_disp";
+            std::string OverloadName = ClassName(a) + "_display";
             if (context->lookupFunction(OverloadName, funcDef)) {
                 bSuccess = true;
                 ArrayOfVector argsIn;
                 argsIn.push_back(a);
+                argsIn.push_back(ArrayOf::characterArrayConstructor(name));
                 int nargout = 0;
                 funcDef->evaluateFunction(eval, argsIn, nargout);
             }
@@ -56,20 +57,21 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
     if (!bSuccess) {
         bool needToOverload;
         uint64 ticProfile = Profiler::getInstance()->tic();
-        DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
+        DisplayVariable(eval->getInterface(), a, name, fromBuiltin, needToOverload);
         if (ticProfile != 0U) {
-            internalProfileFunction stack = computeProfileStack(eval, "disp", L"evaluator");
+            internalProfileFunction stack = computeProfileStack(eval, "display", L"evaluator");
             Profiler::getInstance()->toc(ticProfile, stack);
         }
         if (needToOverload) {
             Context* context = eval->getContext();
             if (context != nullptr) {
                 FunctionDef* funcDef = nullptr;
-                std::string OverloadName = ClassName(a) + "_disp";
+                std::string OverloadName = ClassName(a) + "_display";
                 if (context->lookupFunction(OverloadName, funcDef)) {
                     bSuccess = true;
                     ArrayOfVector argsIn;
                     argsIn.push_back(a);
+                    argsIn.push_back(ArrayOf::characterArrayConstructor(name));
                     int nargout = 0;
                     funcDef->evaluateFunction(eval, argsIn, nargout);
                 } else {

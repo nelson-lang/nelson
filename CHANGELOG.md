@@ -12,6 +12,10 @@
 
 - [#477](http://github.com/Nelson-numerical-software/nelson/issues/477): update files watcher algo.
 
+- [#489](http://github.com/Nelson-numerical-software/nelson/issues/489): display builtin and associated overload.
+
+- [#490](http://github.com/Nelson-numerical-software/nelson/issues/490): update default prompt.
+
 ## Bug Fixes:
 
 - [#480](http://github.com/Nelson-numerical-software/nelson/issues/480): publisher name updated for windows installer.
