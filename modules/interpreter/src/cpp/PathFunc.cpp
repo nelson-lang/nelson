@@ -221,14 +221,13 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         *ff = foundit->second;
         if (isfile(foundit->second->getFilename())) {
             return true;
-        } 
-            if (!withWatcher) {
-                std::wstring msg
-                    = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
-                        % foundit->second->getFilename());
-                Error(msg);
-            }
-        
+        }
+        if (!withWatcher) {
+            std::wstring msg
+                = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
+                    % foundit->second->getFilename());
+            Error(msg);
+        }
     }
     boost::unordered_map<std::wstring, FileFunction*>::iterator found
         = mapAllFiles.find(functionName);
@@ -237,14 +236,13 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
         if (isfile(found->second->getFilename())) {
             mapRecentFiles.emplace(functionName, *ff);
             return true;
-        } 
-            if (!withWatcher) {
-                std::wstring msg
-                    = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
-                        % found->second->getFilename());
-                Error(msg);
-            }
-        
+        }
+        if (!withWatcher) {
+            std::wstring msg
+                = str(boost::wformat(_W("Previously accessible file '%s' is now inaccessible."))
+                    % found->second->getFilename());
+            Error(msg);
+        }
     }
     if (withWatcher) {
         const std::wstring mexFullFilename = _path + L"/" + functionName + L"." + getMexExtension();

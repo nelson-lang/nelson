@@ -34,7 +34,7 @@
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP void
-DispQmlHandleObject(Interface* io, const ArrayOf &A, const std::string &name);
+DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

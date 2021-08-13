@@ -27,4 +27,14 @@ assert_isequal(nargin('display'), 2)
 assert_isequal(nargout('display'), 0)
 %=============================================================================
 X = 'Alice will be 12 this year.';
-R = evalc('display(X, ''YYY'')')
+R = evalc('display(X, ''YYY'')');
+REF = '
+YYY =
+
+''Alice will be 12 this year.''
+
+';
+assert_isequal(R, REF);
+%=============================================================================
+% others case are tested for each type
+%=============================================================================
