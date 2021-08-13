@@ -23,14 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "dispBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadDisplay.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-namespace ElementaryFunctionsGateway {
-    ArrayOfVector
-    dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+Nelson::StreamGateway::dispBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 1);
+    nargoutcheck(nLhs, 0, 0);
+    OverloadDisplay(eval, argIn[0], "");
+    return retval;
 }
-} // namespace Nelson
+//=============================================================================
