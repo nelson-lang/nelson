@@ -46,6 +46,8 @@
 #include "feofBuiltin.hpp"
 #include "ferrorBuiltin.hpp"
 #include "fscanfBuiltin.hpp"
+#include "dispBuiltin.hpp"
+#include "displayBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -73,7 +75,12 @@ static const nlsGateway gateway[] = { { "diary", (void*)Nelson::StreamGateway::d
     { "save", (void*)Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "feof", (void*)Nelson::StreamGateway::feofBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "ferror", (void*)Nelson::StreamGateway::ferrorBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "fscanf", (void*)Nelson::StreamGateway::fscanfBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR } };
+    { "fscanf", (void*)Nelson::StreamGateway::fscanfBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "disp", (void*)Nelson::StreamGateway::dispBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "display", (void*)Nelson::StreamGateway::displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+};
 //=============================================================================
 static bool
 initializeModule(Nelson::Evaluator* eval)

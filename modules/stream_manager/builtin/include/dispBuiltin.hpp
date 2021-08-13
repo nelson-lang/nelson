@@ -29,10 +29,11 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-namespace ElementaryFunctionsGateway {
+//=============================================================================
+namespace StreamGateway {
     //=============================================================================
     ArrayOfVector
-    displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

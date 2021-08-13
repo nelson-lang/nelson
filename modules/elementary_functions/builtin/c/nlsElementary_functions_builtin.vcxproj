@@ -180,8 +180,6 @@
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
     <ClCompile Include="..\cpp\conjBuiltin.cpp" />
     <ClCompile Include="..\cpp\dec2baseBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\expBuiltin.cpp" />
     <ClCompile Include="..\cpp\findBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
@@ -258,7 +256,6 @@
     <ClInclude Include="..\include\complexBuiltin.hpp" />
     <ClInclude Include="..\include\conjBuiltin.hpp" />
     <ClInclude Include="..\include\dec2baseBuiltin.hpp" />
-    <ClInclude Include="..\include\dispBuiltin.hpp" />
     <ClInclude Include="..\include\expBuiltin.hpp" />
     <ClInclude Include="..\include\findBuiltin.hpp" />
     <ClInclude Include="..\include\fixBuiltin.hpp" />
