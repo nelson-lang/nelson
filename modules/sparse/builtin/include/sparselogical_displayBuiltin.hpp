@@ -23,20 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QObject_dispBuiltin.hpp"
-#include "DispQmlHandleObject.hpp"
-#include "Error.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::QmlEngineGateway::QObject_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 1, 2);
-    nargoutcheck(nLhs, 0, 0);
-    ArrayOf param1 = argIn[0];
-    DispQmlHandleObject(eval, param1);
-    ArrayOfVector retval;
-    return retval;
+namespace Nelson {
+//=============================================================================
+namespace SparseGateway {
+    //=============================================================================
+    ArrayOfVector
+    sparselogical_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

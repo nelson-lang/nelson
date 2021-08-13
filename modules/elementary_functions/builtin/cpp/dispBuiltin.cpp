@@ -36,8 +36,7 @@ Nelson::ElementaryFunctionsGateway::dispBuiltin(
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    ArrayOf variable = argIn[0];
-    OverloadDisplay(eval, variable, "", true);
+    OverloadDisplay(eval, argIn[0], "");
     return retval;
 }
 //=============================================================================

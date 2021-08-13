@@ -23,27 +23,54 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "sparselogical_dispBuiltin.hpp"
+#include "dlsym_displayBuiltin.hpp"
+#include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
-#include "SparseDisplay.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::sparselogical_dispBuiltin(
+Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval(nLhs);
-    nargoutcheck(nLhs, 0, 0);
+    ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
-    if (!argIn[0].isSparse()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-    } else {
-        if (argIn[0].getDataClass() == NLS_LOGICAL) {
-            SparseDisplay(eval, argIn[0]);
-        } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    nargoutcheck(nLhs, 0, 0);
+    if (eval == nullptr) {
+        return retval;
+    }
+    Interface* io = eval->getInterface();
+    if (io == nullptr) {
+        return retval;
+    }
+    std::string name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsCString();
+    }
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle()) {
+        if (!name.empty()) {
+            io->outputMessage("\n");
+            io->outputMessage(name + " =\n\n");
         }
+        Dimensions dimsParam1 = param1.getDimensions();
+        io->outputMessage(L"[dlsym] - size: ");
+        dimsParam1.printMe(io);
+        io->outputMessage("\n");
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
+                Error(_W("dlsym handle expected."));
+            }
+            auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+            dlsymObj->disp(eval);
+        }
+        if (!name.empty()) {
+            io->outputMessage("\n");
+        }
+    } else {
+        Error(_W("dlsym handle expected."));
     }
     return retval;
 }

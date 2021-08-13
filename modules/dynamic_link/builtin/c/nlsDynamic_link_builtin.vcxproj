@@ -178,7 +178,7 @@
     <ClCompile Include="..\cpp\dllibinfoBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllibisloadedBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dllib_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_ismethodBuiltin.cpp" />
@@ -188,7 +188,7 @@
     <ClCompile Include="..\cpp\dlopenBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlsymBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlsym_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dlsym_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dlsym_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlsym_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlsym_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlsym_ismethodBuiltin.cpp" />
@@ -201,7 +201,7 @@
     <ClCompile Include="..\cpp\isNullBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointerBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\libpointer_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_ismethodBuiltin.cpp" />
@@ -251,7 +251,7 @@
     <ClInclude Include="..\include\dllibinfoBuiltin.hpp" />
     <ClInclude Include="..\include\dllibisloadedBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\dllib_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_displayBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_getBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_ismethodBuiltin.hpp" />
@@ -261,7 +261,7 @@
     <ClInclude Include="..\include\dlopenBuiltin.hpp" />
     <ClInclude Include="..\include\dlsymBuiltin.hpp" />
     <ClInclude Include="..\include\dlsym_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\dlsym_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\dlsym_displayBuiltin.hpp" />
     <ClInclude Include="..\include\dlsym_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\dlsym_getBuiltin.hpp" />
     <ClInclude Include="..\include\dlsym_ismethodBuiltin.hpp" />
@@ -273,7 +273,7 @@
     <ClInclude Include="..\include\isNullBuiltin.hpp" />
     <ClInclude Include="..\include\libpointerBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\libpointer_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_displayBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_getBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_ismethodBuiltin.hpp" />

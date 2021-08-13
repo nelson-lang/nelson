@@ -29,9 +29,11 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-namespace ComEngineGateway {
+//=============================================================================
+namespace GraphicsGateway {
     ArrayOfVector
-    COM_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-} // namespace Nelson
+    graphic_object_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+};
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================

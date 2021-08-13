@@ -24,6 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dlopenBuiltin.hpp"
+#include "Exception.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"

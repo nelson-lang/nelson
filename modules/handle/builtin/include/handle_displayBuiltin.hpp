@@ -29,9 +29,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-namespace MpiGateway {
+namespace HandleGateway {
     ArrayOfVector
-    MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    handle_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

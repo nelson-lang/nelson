@@ -259,33 +259,35 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
 }
 //=============================================================================
 void
-DispQmlHandleObject(Evaluator* eval, ArrayOf A)
+DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            if (A.isHandle()) {
-                if (A.isScalar()) {
-                    if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
-                        Error(_W("QObject handle expected."));
-                    }
-                    Dimensions dimsA = A.getDimensions();
-                    io->outputMessage(L"[QObject] - size: ");
-                    dimsA.printMe(io);
-                    io->outputMessage("\n");
-                    io->outputMessage("\n");
-                    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)A.getContentAsHandleScalar();
-                    DispQmlHandleObject(io, qmlhandleobj);
-                } else {
-                    Dimensions dimsA = A.getDimensions();
-                    io->outputMessage(L"[QObject] - size: ");
-                    dimsA.printMe(io);
-                    io->outputMessage("\n");
-                }
-            } else {
+    if (A.isHandle()) {
+        if (!name.empty()) {
+            io->outputMessage("\n");
+            io->outputMessage(name + " =\n\n");
+        }
+        if (A.isScalar()) {
+            if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
             }
+            Dimensions dimsA = A.getDimensions();
+            io->outputMessage(L"[QObject] - size: ");
+            dimsA.printMe(io);
+            io->outputMessage("\n");
+            io->outputMessage("\n");
+            QmlHandleObject* qmlhandleobj = (QmlHandleObject*)A.getContentAsHandleScalar();
+            DispQmlHandleObject(io, qmlhandleobj);
+        } else {
+            Dimensions dimsA = A.getDimensions();
+            io->outputMessage(L"[QObject] - size: ");
+            dimsA.printMe(io);
+            io->outputMessage("\n");
         }
+        if (!name.empty()) {
+            io->outputMessage("\n");
+        }
+    } else {
+        Error(_W("QObject handle expected."));
     }
 }
 //=============================================================================

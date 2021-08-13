@@ -181,7 +181,7 @@
     <ClCompile Include="..\cpp\gcfBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_classBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphic_object_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\graphic_object_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\graphic_object_horzcat_graphic_objectBuiltin.cpp" />
@@ -219,7 +219,7 @@
     <ClInclude Include="..\include\gcfBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_classBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\graphic_object_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\graphic_object_displayBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_getBuiltin.hpp" />
     <ClInclude Include="..\include\graphic_object_horzcat_graphic_objectBuiltin.hpp" />

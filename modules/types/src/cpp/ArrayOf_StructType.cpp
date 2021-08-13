@@ -214,7 +214,7 @@ ArrayOf::structConstructor(const wstringVector& fNames, const ArrayOfVector& val
 }
 //=============================================================================
 ArrayOf
-ArrayOf::getField(const std::string& fieldName)
+ArrayOf::getField(const std::string& fieldName) const
 {
     // First make sure that we are a scalar value.
     if (!isScalar()) {
@@ -372,7 +372,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
  * structure when the list of field names is given.
  */
 int64
-ArrayOf::getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames)
+ArrayOf::getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const
 {
     bool foundName = false;
     uint64 i = 0;
@@ -398,7 +398,7 @@ ArrayOf::getFieldIndexFromList(const std::string& fName, const stringVector& fie
  * structure using the current set of field names.
  */
 int64
-ArrayOf::getFieldIndex(const std::string& fName)
+ArrayOf::getFieldIndex(const std::string& fName) const
 {
     return getFieldIndexFromList(fName, dp->fieldNames);
 }

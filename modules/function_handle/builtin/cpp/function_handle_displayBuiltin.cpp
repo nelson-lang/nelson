@@ -23,28 +23,33 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "sparsedouble_dispBuiltin.hpp"
+#include "function_handle_displayBuiltin.hpp"
+#include "ArrayOf.hpp"
 #include "Error.hpp"
-#include "SparseDisplay.hpp"
+#include "FunctionHandleDisplay.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SparseGateway::sparsedouble_dispBuiltin(
+Nelson::FunctionHandleGateway::function_handle_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1, 2);
-    if (!argIn[0].isSparse()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-    } else {
-        if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
-            SparseDisplay(eval, argIn[0]);
-        } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-        }
+    ArrayOf Arg = argIn[0];
+    if (!Arg.isFunctionHandle()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
+    if (eval == nullptr) {
+        return retval;
+    }
+    std::string name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsCString();
+    }
+    Interface* io = eval->getInterface();
+    FunctionHandleDisplay(io, Arg, name);
     return retval;
 }
 //=============================================================================

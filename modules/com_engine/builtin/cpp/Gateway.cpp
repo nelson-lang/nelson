@@ -25,7 +25,7 @@
 //=============================================================================
 #include "COM_classBuiltin.hpp"
 #include "COM_deleteBuiltin.hpp"
-#include "COM_dispBuiltin.hpp"
+#include "COM_displayBuiltin.hpp"
 #include "COM_fieldnamesBuiltin.hpp"
 #include "COM_getBuiltin.hpp"
 #include "COM_invokeBuiltin.hpp"
@@ -54,7 +54,7 @@ static const nlsGateway gateway[] = {
     { "actxGetRunningServer", (void*)Nelson::ComEngineGateway::actxGetRunningServerBuiltin, 1, 1 },
     { "actxcontrollist", (void*)Nelson::ComEngineGateway::actxcontrollistBuiltin, 1, 0 },
     { "actxserverlist", (void*)Nelson::ComEngineGateway::actxserverlistBuiltin, 1, 0 },
-    { "COM_display", (void*)Nelson::ComEngineGateway::COM_dispBuiltin, 0, 2,
+    { "COM_display", (void*)Nelson::ComEngineGateway::COM_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "COM_fieldnames", (void*)Nelson::ComEngineGateway::COM_fieldnamesBuiltin, 1, 1 },
     { "COM_methods", (void*)Nelson::ComEngineGateway::COM_methodsBuiltin, 1, 1 },

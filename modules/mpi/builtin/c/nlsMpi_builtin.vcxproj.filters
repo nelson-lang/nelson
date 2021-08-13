@@ -53,7 +53,7 @@
     <ClInclude Include="..\include\MPI_Comm_objectBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\MPI_Comm_dispBuiltin.hpp">
+    <ClInclude Include="..\include\MPI_Comm_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\MPI_SendBuiltin.hpp">
@@ -130,7 +130,7 @@
     <ClCompile Include="..\cpp\MPI_Comm_objectBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\MPI_Comm_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\MPI_Comm_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\MPI_SendBuiltin.cpp">

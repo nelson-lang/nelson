@@ -25,11 +25,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <boost/dll/shared_library.hpp>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "Interface.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
-#include <boost/dll/shared_library.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,7 +42,7 @@ public:
     ~DynamicLinkLibraryObject() override;
 
     bool
-    disp(Evaluator* eval);
+    disp(Interface* io);
     stringVector
     getAvailableSymbols(std::string& errorMessage);
     void*

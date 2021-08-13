@@ -24,10 +24,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function complexObj_display(obj, name)
-disp('complexObj_disp:')
-disp('real part');
-disp(obj.r);
-disp('imag part');
-disp(obj.i);
+  if ~isempty(name) 
+    disp([char(10), name, ' = ', char(10)])
+  end
+  disp('complexObj_disp:')
+  disp('real part');
+  disp(obj.r);
+  disp('imag part');
+  disp(obj.i);
 end
-
+%=============================================================================

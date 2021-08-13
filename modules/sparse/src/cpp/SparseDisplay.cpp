@@ -142,157 +142,150 @@ printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat)
 }
 //=============================================================================
 void
-SparseDoubleDisplay(Evaluator* eval, ArrayOf a)
+SparseDoubleDisplay(Interface* io, const ArrayOf& a)
 {
-    Interface* io = eval->getInterface();
-    if (io) {
-        size_t rows = a.getDimensionLength(0);
-        size_t cols = a.getDimensionLength(1);
-        if ((rows == 0) || (cols == 0)) {
-            std::string msg
-                = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
+    size_t rows = a.getDimensionLength(0);
+    size_t cols = a.getDimensionLength(1);
+    if ((rows == 0) || (cols == 0)) {
+        std::string msg
+            = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
+        io->outputMessage(msg);
+    } else {
+        if (a.getNonzeros() == 0) {
+            std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
+                % (long long)rows % (long long)cols);
             io->outputMessage(msg);
         } else {
-            if (a.getNonzeros() == 0) {
-                std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
-                    % (long long)rows % (long long)cols);
-                io->outputMessage(msg);
-            } else {
-                Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.getSparseDataPointer();
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+            Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
+                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.getSparseDataPointer();
+            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                    break;
+                }
+                for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
+                     it; ++it) {
                     if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
-                    for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                         it; ++it) {
-                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                            break;
-                        }
-                        std::string strNumber = printNumber(it.value(),
-                            NelsonConfiguration::getInstance()->getOutputFormatDisplay());
-                        std::string msg
-                            = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
-                                % (long long)(it.col() + 1) % strNumber.c_str());
-                        io->outputMessage(msg);
-                    }
+                    std::string strNumber = printNumber(
+                        it.value(), NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                    std::string msg
+                        = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
+                            % (long long)(it.col() + 1) % strNumber.c_str());
+                    io->outputMessage(msg);
                 }
             }
         }
-        io->outputMessage("\n");
     }
+    io->outputMessage("\n");
 }
 //=============================================================================
 void
-SparseDoubleComplexDisplay(Evaluator* eval, ArrayOf a)
+SparseDoubleComplexDisplay(Interface* io, const ArrayOf& a)
 {
-    Interface* io = eval->getInterface();
-    if (io) {
-        const double** src = (const double**)a.getSparseDataPointer();
-        size_t rows = a.getDimensionLength(0);
-        size_t cols = a.getDimensionLength(1);
-        if (rows == 0 || cols == 0) {
-            std::string msg
-                = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
+    const double** src = (const double**)a.getSparseDataPointer();
+    size_t rows = a.getDimensionLength(0);
+    size_t cols = a.getDimensionLength(1);
+    if (rows == 0 || cols == 0) {
+        std::string msg
+            = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
+        io->outputMessage(msg);
+    } else {
+        if (a.getNonzeros() == 0) {
+            std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
+                % (long long)rows % (long long)cols);
             io->outputMessage(msg);
         } else {
-            if (a.getNonzeros() == 0) {
-                std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
-                    % (long long)rows % (long long)cols);
-                io->outputMessage(msg);
-            } else {
-                Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
-                          a.getSparseDataPointer();
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
+                = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)a.getSparseDataPointer();
+            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                    break;
+                }
+                for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
+                         *spMat, k);
+                     it; ++it) {
                     if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
-                    for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                         it; ++it) {
-                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                            break;
-                        }
-                        std::string strNumber = printNumber(it.value().real(), it.value().imag(),
-                            NelsonConfiguration::getInstance()->getOutputFormatDisplay());
-                        std::string msg
-                            = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
-                                % (long long)(it.col() + 1) % strNumber.c_str());
-                        io->outputMessage(msg);
-                    }
+                    std::string strNumber = printNumber(it.value().real(), it.value().imag(),
+                        NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                    std::string msg
+                        = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
+                            % (long long)(it.col() + 1) % strNumber.c_str());
+                    io->outputMessage(msg);
                 }
             }
         }
-        io->outputMessage("\n");
     }
+    io->outputMessage("\n");
 }
 //=============================================================================
 void
-SparseLogicalDisplay(Evaluator* eval, ArrayOf a)
+SparseLogicalDisplay(Interface* io, const ArrayOf& a)
 {
-    Interface* io = eval->getInterface();
-    if (io) {
-        const logical** src = (const logical**)a.getSparseDataPointer();
-        size_t rows = a.getDimensionLength(0);
-        size_t cols = a.getDimensionLength(1);
-        if (rows == 0 || cols == 0) {
-            std::string msg
-                = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
+    const logical** src = (const logical**)a.getSparseDataPointer();
+    size_t rows = a.getDimensionLength(0);
+    size_t cols = a.getDimensionLength(1);
+    if (rows == 0 || cols == 0) {
+        std::string msg
+            = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
+        io->outputMessage(msg);
+    } else {
+        if (a.getNonzeros() == 0) {
+            std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
+                % (long long)rows % (long long)cols);
             io->outputMessage(msg);
         } else {
-            if (a.getNonzeros() == 0) {
-                std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
-                    % (long long)rows % (long long)cols);
-                io->outputMessage(msg);
-            } else {
-                Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+            Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
+                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
+            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                    break;
+                }
+                for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(*spMat, k);
+                     it; ++it) {
                     if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
-                    for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                         it; ++it) {
-                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                            break;
-                        }
-                        std::string msg = "";
-                        if (it.value()) {
-                            msg = str(boost::format("\t(%lu,%lu) true\n")
-                                % (long long)(it.row() + 1) % (long long)(it.col() + 1));
-                        } else {
-                            msg = str(boost::format("\t(%lu,%lu) false\n")
-                                % (long long)(it.row() + 1) % (long long)(it.col() + 1));
-                        }
-                        io->outputMessage(msg);
+                    std::string msg = "";
+                    if (it.value()) {
+                        msg = str(boost::format("\t(%lu,%lu) true\n") % (long long)(it.row() + 1)
+                            % (long long)(it.col() + 1));
+                    } else {
+                        msg = str(boost::format("\t(%lu,%lu) false\n") % (long long)(it.row() + 1)
+                            % (long long)(it.col() + 1));
                     }
+                    io->outputMessage(msg);
                 }
             }
         }
-        io->outputMessage("\n");
     }
+    io->outputMessage("\n");
 }
 //=============================================================================
 void
-SparseDisplay(Evaluator* eval, ArrayOf a)
+SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
 {
-    if (a.isSparse()) {
-        switch (a.getDataClass()) {
-        case NLS_DOUBLE:
-            SparseDoubleDisplay(eval, a);
-            break;
-        case NLS_DCOMPLEX:
-            SparseDoubleComplexDisplay(eval, a);
-            break;
-        case NLS_LOGICAL:
-            SparseLogicalDisplay(eval, a);
-            break;
-        default:
-            break;
-        }
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+    }
+    switch (a.getDataClass()) {
+    case NLS_DOUBLE:
+        SparseDoubleDisplay(io, a);
+        break;
+    case NLS_DCOMPLEX:
+        SparseDoubleComplexDisplay(io, a);
+        break;
+    case NLS_LOGICAL:
+        SparseLogicalDisplay(io, a);
+        break;
+    default:
+        break;
+    }
+    if (!name.empty()) {
+        io->outputMessage("\n");
     }
 }
 //=============================================================================

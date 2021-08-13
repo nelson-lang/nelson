@@ -25,15 +25,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "Interface.hpp"
 #include "QmlHandleObject.hpp"
 #include "nlsQml_engine_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP void
-DispQmlHandleObject(Evaluator* eval, ArrayOf A);
+DispQmlHandleObject(Interface* io, const ArrayOf &A, const std::string &name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -36,44 +36,40 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool fromDispBuiltin,
+DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name,
     bool& needToOverload)
 {
     needToOverload = false;
     if (io == nullptr) {
         return;
     }
-    if (A.isSparse()) {
+    if (A.isSparse() || A.isClassStruct()) {
         needToOverload = true;
         return;
     }
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY: {
-        DisplayCell(io, A, fromDispBuiltin, needToOverload);
+        DisplayCell(io, A, name);
     } break;
     case NLS_STRING_ARRAY: {
-        DisplayStringArray(io, A, fromDispBuiltin, needToOverload);
+        DisplayStringArray(io, A, name);
     } break;
     case NLS_STRUCT_ARRAY: {
-        DisplayStruct(io, A, fromDispBuiltin, needToOverload);
+        DisplayStruct(io, A, name);
     } break;
     case NLS_CHAR: {
-        DisplayCharacters(io, A, fromDispBuiltin, needToOverload);
+        DisplayCharacters(io, A, name);
     } break;
     case NLS_DCOMPLEX:
     case NLS_DOUBLE: {
-        DisplayFloatingNumber(io, A, fromDispBuiltin, needToOverload);
+        DisplayFloatingNumber(io, A, name);
     } break;
     case NLS_SCOMPLEX:
     case NLS_SINGLE: {
-        DisplayFloatingNumber(io, A, fromDispBuiltin, needToOverload);
+        DisplayFloatingNumber(io, A, name);
     } break;
     case NLS_LOGICAL: {
-        DisplayLogical(io, A, fromDispBuiltin, needToOverload);
+        DisplayLogical(io, A, name);
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -83,14 +79,11 @@ DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool f
     case NLS_INT32:
     case NLS_UINT64:
     case NLS_INT64: {
-        DisplayInteger(io, A, fromDispBuiltin, needToOverload);
+        DisplayInteger(io, A, name);
     } break;
     default: {
         needToOverload = true;
     } break;
-    }
-    if (!needToOverload && !name.empty()) {
-        io->outputMessage("\n");
     }
 }
 //=============================================================================

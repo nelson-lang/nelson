@@ -42,7 +42,7 @@
 //=============================================================================
 #include "QObject_classnameBuiltin.hpp"
 #include "QObject_deleteBuiltin.hpp"
-#include "QObject_dispBuiltin.hpp"
+#include "QObject_displayBuiltin.hpp"
 #include "QObject_fieldnamesBuiltin.hpp"
 #include "QObject_findchildrenBuiltin.hpp"
 #include "QObject_getBuiltin.hpp"
@@ -89,7 +89,7 @@ static const nlsGateway gateway[] = {
     { "qml_createqquickview", (void*)Nelson::QmlEngineGateway::qml_createqquickviewBuiltin, 1, 1 },
     { "QObject_undefine", (void*)Nelson::QmlEngineGateway::QObject_undefineBuiltin, 0, 2 },
     { "QObject_delete", (void*)Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
-    { "QObject_display", (void*)Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 2,
+    { "QObject_display", (void*)Nelson::QmlEngineGateway::QObject_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "QObject_get", (void*)Nelson::QmlEngineGateway::QObject_getBuiltin, 1, 2 },
     { "QObject_set", (void*)Nelson::QmlEngineGateway::QObject_setBuiltin, 1, 3 },

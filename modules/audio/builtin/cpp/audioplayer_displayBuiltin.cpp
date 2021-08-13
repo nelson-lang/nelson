@@ -23,17 +23,51 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "audioplayer_displayBuiltin.hpp"
+#include "AudioplayerObject.hpp"
+#include "Error.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace GraphicsGateway {
-    ArrayOfVector
-    graphic_object_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-};
-//=============================================================================
-}; // namespace Nelson
+ArrayOfVector
+Nelson::AudioGateway::audioplayer_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle()) {
+        Interface* io = eval->getInterface();
+        if (io == nullptr) {
+            return retval;
+        }
+        std::string name;
+        if (argIn.size() == 2) {
+            name = argIn[1].getContentAsCString();
+        }
+        if (!name.empty()) {
+            io->outputMessage("\n");
+            io->outputMessage(name + " =\n\n");
+        }
+        Dimensions dimsParam1 = param1.getDimensions();
+        io->outputMessage(L"[audioplayer] - size: ");
+        dimsParam1.printMe(io);
+        io->outputMessage("\n");
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
+                Error(_W("audioplayer handle expected."));
+            }
+            auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+            objPlayer->disp(eval);
+        }
+        if (!name.empty()) {
+            io->outputMessage("\n");
+        }
+    } else {
+        Error(_W("audioplayer handle expected."));
+    }
+    return retval;
+}
 //=============================================================================

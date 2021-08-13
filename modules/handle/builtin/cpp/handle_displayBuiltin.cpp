@@ -23,15 +23,28 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "handle_displayBuiltin.hpp"
+#include "Error.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-namespace FunctionHandleGateway {
-    ArrayOfVector
-    function_handle_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+Nelson::HandleGateway::handle_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 0);
+    ArrayOf param1 = argIn[0];
+    if (!param1.isHandle()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+    }
+    Interface* io = eval->getInterface();
+    if (io) {
+        Dimensions dimsParam1 = param1.getDimensions();
+        io->outputMessage(L"[handle] - size: ");
+        dimsParam1.printMe(io);
+        io->outputMessage("\n");
+    }
+    return retval;
 }
-} // namespace Nelson
 //=============================================================================

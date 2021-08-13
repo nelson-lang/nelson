@@ -137,14 +137,9 @@ LibPointerObject::~LibPointerObject()
 }
 //=============================================================================
 void
-LibPointerObject::disp(Evaluator* eval)
+LibPointerObject::disp(Interface *io)
 {
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            io->outputMessage(L"\n");
-        }
-    }
+    io->outputMessage(L"\n");
 }
 //=============================================================================
 void*

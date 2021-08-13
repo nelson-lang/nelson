@@ -178,7 +178,7 @@
     <ClCompile Include="..\cpp\actxserverlistBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_classBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\COM_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_invokeBuiltin.cpp" />
@@ -222,7 +222,7 @@
     <ClInclude Include="..\include\actxserverlistBuiltin.hpp" />
     <ClInclude Include="..\include\COM_classBuiltin.hpp" />
     <ClInclude Include="..\include\COM_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\COM_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_displayBuiltin.hpp" />
     <ClInclude Include="..\include\COM_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\COM_getBuiltin.hpp" />
     <ClInclude Include="..\include\COM_invokeBuiltin.hpp" />

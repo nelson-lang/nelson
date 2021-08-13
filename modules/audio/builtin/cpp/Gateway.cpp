@@ -30,7 +30,7 @@
 #include "audiometadataBuiltin.hpp"
 #include "audioplayerBuiltin.hpp"
 #include "audioplayer_deleteBuiltin.hpp"
-#include "audioplayer_dispBuiltin.hpp"
+#include "audioplayer_displayBuiltin.hpp"
 #include "audioplayer_fieldnamesBuiltin.hpp"
 #include "audioplayer_getBuiltin.hpp"
 #include "audioplayer_ismethodBuiltin.hpp"
@@ -59,7 +59,7 @@ const std::wstring gatewayName = L"audio";
 static const nlsGateway gateway[] = {
     { "audiodevinfo", (void*)Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
     { "audioplayer", (void*)Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
-    { "audioplayer_display", (void*)Nelson::AudioGateway::audioplayer_dispBuiltin, 0, 2,
+    { "audioplayer_display", (void*)Nelson::AudioGateway::audioplayer_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "audioplayer_delete", (void*)Nelson::AudioGateway::audioplayer_deleteBuiltin, 0, 1 },
     { "audioplayer_isvalid", (void*)Nelson::AudioGateway::audioplayer_isvalidBuiltin, 1, 1,

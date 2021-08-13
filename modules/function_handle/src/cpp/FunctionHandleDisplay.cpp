@@ -32,21 +32,28 @@
 namespace Nelson {
 //=============================================================================
 void
-FunctionHandleDisplay(Evaluator* eval, ArrayOf Var)
+FunctionHandleDisplay(Interface* io, const ArrayOf& Var, const std::string& name)
 {
     if (!Var.isFunctionHandle()) {
         Error(_W("FunctionHandleDisplay method: function_handle expected."));
     }
-    Interface* io = eval->getInterface();
-    if (io != nullptr) {
-        function_handle fh = Var.getContentAsFunctionHandle();
-        if (fh.anonymous.empty()) {
-            io->outputMessage("@" + fh.name);
-            io->outputMessage("\n");
-        } else {
-            io->outputMessage("@" + fh.anonymous);
-            io->outputMessage("\n");
-        }
+    if (io == nullptr) {
+        return;
+    }
+    function_handle fh = Var.getContentAsFunctionHandle();
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+        io->outputMessage("  function_handle with value:\n\n");
+    }
+    if (fh.anonymous.empty()) {
+        io->outputMessage("    @" + fh.name);
+    } else {
+        io->outputMessage("    @" + fh.anonymous);
+    }
+    io->outputMessage("\n");
+    if (!name.empty()) {
+        io->outputMessage("\n");
     }
 }
 //=============================================================================

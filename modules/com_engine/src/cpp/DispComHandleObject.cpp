@@ -46,36 +46,38 @@ DispComHandleObject(Interface* io, ComHandleObject* comHandle)
 }
 //=============================================================================
 void
-DispComHandleObject(Evaluator* eval, ArrayOf A)
+DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            if (A.isHandle()) {
-                if (A.isScalar()) {
-                    auto* qp = (nelson_handle*)A.getDataPointer();
-                    nelson_handle hl = qp[0];
-                    HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj->getCategory() != COM_CATEGORY_STR) {
-                        Error(_W("COM handle expected."));
-                    }
-                    Dimensions dimsA = A.getDimensions();
-                    io->outputMessage(L"[COM] - size: ");
-                    dimsA.printMe(io);
-                    io->outputMessage("\n");
-                    io->outputMessage("\n");
-                    auto* comhandleobj = (ComHandleObject*)hlObj;
-                    DispComHandleObject(io, comhandleobj);
-                } else {
-                    Dimensions dimsA = A.getDimensions();
-                    io->outputMessage(L"[COM] - size: ");
-                    dimsA.printMe(io);
-                    io->outputMessage("\n");
-                }
-            } else {
+    if (A.isHandle()) {
+        if (!name.empty()) {
+            io->outputMessage("\n");
+            io->outputMessage(name + " =\n\n");
+        }
+        if (A.isScalar()) {
+            auto* qp = (nelson_handle*)A.getDataPointer();
+            nelson_handle hl = qp[0];
+            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+            if (hlObj->getCategory() != COM_CATEGORY_STR) {
                 Error(_W("COM handle expected."));
             }
+            Dimensions dimsA = A.getDimensions();
+            io->outputMessage(L"[COM] - size: ");
+            dimsA.printMe(io);
+            io->outputMessage("\n");
+            io->outputMessage("\n");
+            auto* comhandleobj = (ComHandleObject*)hlObj;
+            DispComHandleObject(io, comhandleobj);
+        } else {
+            Dimensions dimsA = A.getDimensions();
+            io->outputMessage(L"[COM] - size: ");
+            dimsA.printMe(io);
+            io->outputMessage("\n");
         }
+        if (!name.empty()) {
+            io->outputMessage("\n");
+        }
+    } else {
+        Error(_W("COM handle expected."));
     }
 }
 //=============================================================================

@@ -31,7 +31,9 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSINTERPRETER_IMPEXP void
-OverloadDisplay(Evaluator* eval, const ArrayOf &a, const std::string &name, bool fromBuiltin = false);
+OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::string& name);
+//=============================================================================
 }
 //=============================================================================

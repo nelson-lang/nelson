@@ -18,7 +18,7 @@
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\function_handle_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\function_handle_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\function_handle_extractionBuiltin.cpp">
@@ -47,7 +47,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\function_handle_dispBuiltin.hpp">
+    <ClInclude Include="..\include\function_handle_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\function_handle_extractionBuiltin.hpp">
