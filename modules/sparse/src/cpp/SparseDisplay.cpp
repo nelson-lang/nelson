@@ -177,7 +177,6 @@ SparseDoubleDisplay(Interface* io, const ArrayOf& a)
             }
         }
     }
-    io->outputMessage("\n");
 }
 //=============================================================================
 void
@@ -218,7 +217,6 @@ SparseDoubleComplexDisplay(Interface* io, const ArrayOf& a)
             }
         }
     }
-    io->outputMessage("\n");
 }
 //=============================================================================
 void
@@ -261,7 +259,6 @@ SparseLogicalDisplay(Interface* io, const ArrayOf& a)
             }
         }
     }
-    io->outputMessage("\n");
 }
 //=============================================================================
 void
