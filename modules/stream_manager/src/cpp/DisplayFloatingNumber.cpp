@@ -198,7 +198,7 @@ printNumber(
 //=============================================================================
 template <class T>
 void
-DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string &name)
+DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string& name)
 {
     Dimensions dimsA = A.getDimensions();
     indexType termWidth = io->getTerminalWidth();
@@ -426,7 +426,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
 }
 //=============================================================================
 void
-DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string &name)
+DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (!name.empty()) {
         io->outputMessage("\n");

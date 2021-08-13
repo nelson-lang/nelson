@@ -53,8 +53,8 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"stream_manager";
 //=============================================================================
-static const nlsGateway gateway[] = { { "diary", (void*)Nelson::StreamGateway::diaryBuiltin, 1, 1,
-                                          CPP_BUILTIN_WITH_EVALUATOR },
+static const nlsGateway gateway[] = {
+    { "diary", (void*)Nelson::StreamGateway::diaryBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fopen", (void*)Nelson::StreamGateway::fopenBuiltin, 4, 4, CPP_BUILTIN_WITH_EVALUATOR },
     { "fclose", (void*)Nelson::StreamGateway::fcloseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fwrite", (void*)Nelson::StreamGateway::fwriteBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
@@ -76,10 +76,8 @@ static const nlsGateway gateway[] = { { "diary", (void*)Nelson::StreamGateway::d
     { "feof", (void*)Nelson::StreamGateway::feofBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "ferror", (void*)Nelson::StreamGateway::ferrorBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "fscanf", (void*)Nelson::StreamGateway::fscanfBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "disp", (void*)Nelson::StreamGateway::dispBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "display", (void*)Nelson::StreamGateway::displayBuiltin, 0, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+    { "disp", (void*)Nelson::StreamGateway::dispBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "display", (void*)Nelson::StreamGateway::displayBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 static bool

@@ -142,7 +142,8 @@ public:
     std::string
     name() const;
 
-    void name(const std::string &name);
+    void
+    name(const std::string& name);
 
     /**
      * Allocate an array.

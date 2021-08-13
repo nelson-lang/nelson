@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayInteger(Interface* io, const ArrayOf& A, const std::string &name);
+DisplayInteger(Interface* io, const ArrayOf& A, const std::string& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

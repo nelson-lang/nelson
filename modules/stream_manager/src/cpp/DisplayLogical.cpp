@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayLogical(Interface* io, const ArrayOf& A, const std::string &name)
+DisplayLogical(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (!name.empty()) {
         io->outputMessage("\n");

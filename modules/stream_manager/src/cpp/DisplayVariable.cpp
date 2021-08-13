@@ -36,8 +36,7 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name,
-    bool& needToOverload)
+DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool& needToOverload)
 {
     needToOverload = false;
     if (io == nullptr) {

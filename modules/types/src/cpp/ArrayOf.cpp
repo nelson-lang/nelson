@@ -85,7 +85,7 @@ scalarArrayOfToArrayOfVector(ArrayOf a)
 }
 //=============================================================================
 std::string
-ArrayOf::name() const 
+ArrayOf::name() const
 {
     return _name;
 }

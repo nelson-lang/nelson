@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP void
-DispComHandleObject(Interface *io, const ArrayOf &A, const std::string &name);
+DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

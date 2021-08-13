@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayStringArray(Interface* io, const ArrayOf& A, const std::string &name)
+DisplayStringArray(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (!name.empty()) {
         io->outputMessage("\n");
