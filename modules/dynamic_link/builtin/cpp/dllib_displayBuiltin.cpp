@@ -23,15 +23,55 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "dllib_displayBuiltin.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "Error.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-namespace DynamicLinkGateway {
-    ArrayOfVector
-    libpointer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+Nelson::DynamicLinkGateway::dllib_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 0);
+    ArrayOf param1 = argIn[0];
+    if (eval == nullptr) {
+        return retval;
+    }
+    Interface* io = eval->getInterface();
+    if (io == nullptr) {
+        return retval;
+    }
+    std::string name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsCString();
+    }
+    if (param1.isHandle()) {
+        if (!name.empty()) {
+            io->outputMessage("\n");
+            io->outputMessage(name + " =\n\n");
+        }
+        Dimensions dimsParam1 = param1.getDimensions();
+        io->outputMessage(L"[dllib] - size: ");
+        dimsParam1.printMe(io);
+        io->outputMessage("\n");
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
+                Error(_W("dllib handle expected."));
+            }
+            auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
+            dllibObj->disp(io);
+        }
+        if (!name.empty()) {
+            io->outputMessage("\n");
+        }
+    } else {
+        Error(_W("dllib handle expected."));
+    }
+    return retval;
 }
-} // namespace Nelson
 //=============================================================================

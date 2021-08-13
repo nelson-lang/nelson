@@ -27,13 +27,13 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "ComHandleObject.hpp"
-#include "Evaluator.hpp"
+#include "Interface.hpp"
 #include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP void
-DispComHandleObject(Evaluator* eval, ArrayOf A);
+DispComHandleObject(Interface *io, const ArrayOf &A, const std::string &name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

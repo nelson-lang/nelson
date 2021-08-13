@@ -221,7 +221,7 @@
     <ClInclude Include="..\include\MPI_BarrierBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_BcastBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\MPI_Comm_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Comm_displayBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_get_nameBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_objectBuiltin.hpp" />
@@ -247,7 +247,7 @@
     <ClCompile Include="..\cpp\MPI_BarrierBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_BcastBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\MPI_Comm_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Comm_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_get_nameBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_objectBuiltin.cpp" />

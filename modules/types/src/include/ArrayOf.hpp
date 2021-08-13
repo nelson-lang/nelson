@@ -116,9 +116,9 @@ private:
      * argument is not found, a value of -1 is returned.
      */
     int64
-    getFieldIndex(const std::string& fieldName);
+    getFieldIndex(const std::string& fieldName) const;
     int64
-    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames);
+    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
     /**
      * Copy us from the source object.
      */
@@ -835,7 +835,7 @@ public:
      * exection if we are a vector, or if the supplied field do not exist.
      */
     ArrayOf
-    getField(const std::string& fieldName);
+    getField(const std::string& fieldName) const;
     /**
      * Add another fieldname to our structure array.
      */
@@ -1180,7 +1180,7 @@ public:
     functionHandleConstructor(const std::wstring& functionName, const std::wstring& anonymous);
 
     function_handle
-    getContentAsFunctionHandle();
+    getContentAsFunctionHandle() const;
     bool
     isFunctionHandle() const;
 

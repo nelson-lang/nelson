@@ -23,27 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "graphic_object_dispBuiltin.hpp"
-#include "GraphicObject.hpp"
-#include "GraphicObjectDisplay.hpp"
-#include "GOFigure.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::GraphicsGateway::graphic_object_dispBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargincheck(argIn, 1, 2);
-    nargoutcheck(nLhs, 0, 0);
-    ArrayOf paramGo = argIn[0];
-    if (paramGo.getDataClass() != NLS_GO_HANDLE) {
-        Error(_W("graphic_object expected."));
-    }
-    Dimensions dims = paramGo.getDimensions();
-    auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
-    graphicObjectDisplay(eval->getInterface(), dims, ptrGO);
-    return retval;
+namespace Nelson {
+namespace DynamicLinkGateway {
+    ArrayOfVector
+    dlsym_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

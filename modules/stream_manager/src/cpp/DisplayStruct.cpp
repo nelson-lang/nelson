@@ -28,12 +28,15 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayStruct(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+DisplayStruct(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (A.isClassStruct()) {
-        needToOverload = true;
-    } else {
-        A.printMe(io);
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+    }
+    A.printMe(io);
+    if (!name.empty()) {
+        io->outputMessage("\n");
     }
 }
 //=============================================================================

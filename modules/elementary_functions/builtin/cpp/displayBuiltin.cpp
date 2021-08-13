@@ -42,7 +42,7 @@ Nelson::ElementaryFunctionsGateway::displayBuiltin(
     if (argIn.size() == 2) {
         variableName = argIn[1].getContentAsCString();
     }
-    OverloadDisplay(eval, variable, variableName,  true);
+    OverloadDisplay(eval, variable, variableName);
     return retval;
 }
 //=============================================================================

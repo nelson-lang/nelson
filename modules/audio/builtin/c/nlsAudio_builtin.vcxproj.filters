@@ -44,7 +44,7 @@
     <ClCompile Include="..\cpp\audioplayerBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\audioplayer_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\audioplayer_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\audioplayer_getBuiltin.cpp">
@@ -127,7 +127,7 @@
     <ClInclude Include="..\include\audioplayerBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\audioplayer_dispBuiltin.hpp">
+    <ClInclude Include="..\include\audioplayer_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\audioplayer_getBuiltin.hpp">

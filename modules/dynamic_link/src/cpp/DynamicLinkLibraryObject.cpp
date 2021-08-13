@@ -62,16 +62,13 @@ DynamicLinkLibraryObject::~DynamicLinkLibraryObject()
 }
 //=============================================================================
 bool
-DynamicLinkLibraryObject::disp(Evaluator* eval)
+DynamicLinkLibraryObject::disp(Interface* io)
 {
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            io->outputMessage(L"\n");
-            io->outputMessage(L"\tPath: \t'" + _libraryPath + L"'\n");
-            io->outputMessage(L"\n");
-            return true;
-        }
+    if (io != nullptr) {
+        io->outputMessage(L"\n");
+        io->outputMessage(L"\tPath: \t'" + _libraryPath + L"'\n");
+        io->outputMessage(L"\n");
+        return true;
     }
     return false;
 }

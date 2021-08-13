@@ -23,15 +23,33 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "sparselogical_displayBuiltin.hpp"
+#include "Error.hpp"
+#include "SparseDisplay.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-namespace SparseGateway {
-    ArrayOfVector
-    sparsedouble_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+Nelson::SparseGateway::sparselogical_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval(nLhs);
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 2);
+    std::string name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsCString();
+    }
+    if (!argIn[0].isSparse()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    } else {
+        if (argIn[0].getDataClass() == NLS_LOGICAL) {
+            Interface* io = eval->getInterface();
+            SparseDisplay(io, argIn[0], name);
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+        }
+    }
+    return retval;
 }
-} // namespace Nelson
 //=============================================================================

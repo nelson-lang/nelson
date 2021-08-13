@@ -24,6 +24,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function weboptions_display(options, name)
+  if ~isempty(name)
+    disp([char(10), name, ' = ', char(10)])
+  end
   r = struct(options);
   d = evalc('disp(r);');
   disp(replace(d, '<struct>', '<weboptions>'))

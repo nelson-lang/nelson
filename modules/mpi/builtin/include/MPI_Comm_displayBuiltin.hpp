@@ -23,25 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "function_handle_dispBuiltin.hpp"
+#pragma once
+//=============================================================================
 #include "ArrayOf.hpp"
-#include "Error.hpp"
-#include "FunctionHandleDisplay.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-using namespace Nelson;
-//=============================================================================
-ArrayOfVector
-Nelson::FunctionHandleGateway::function_handle_dispBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 2);
-    ArrayOf Arg = argIn[0];
-    if (!Arg.isFunctionHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
-    }
-    FunctionHandleDisplay(eval, Arg);
-    return retval;
+namespace Nelson {
+namespace MpiGateway {
+    ArrayOfVector
+    MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

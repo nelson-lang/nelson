@@ -29,9 +29,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-namespace SparseGateway {
+namespace FunctionHandleGateway {
     ArrayOfVector
-    sparselogical_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    function_handle_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
 } // namespace Nelson
 //=============================================================================

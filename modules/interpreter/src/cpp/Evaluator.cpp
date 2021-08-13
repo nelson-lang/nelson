@@ -2485,7 +2485,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
             Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            OverloadDisplay(this, c, s->down->text, false);
+            OverloadDisplay(this, c, s->down->text);
         }
         s = s->right;
     }

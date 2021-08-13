@@ -28,9 +28,16 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayCell(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+DisplayCell(Interface* io, const ArrayOf& A, const std::string& name)
 {
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+    }
     A.printMe(io);
+    if (!name.empty()) {
+        io->outputMessage("\n");
+    }
 }
 //=============================================================================
 } // namespace Nelson

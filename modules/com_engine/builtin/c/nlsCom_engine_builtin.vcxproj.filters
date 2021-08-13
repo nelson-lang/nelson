@@ -24,7 +24,7 @@
     <ClCompile Include="..\cpp\actxserverBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\COM_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\COM_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\COM_fieldnamesBuiltin.cpp">
@@ -77,7 +77,7 @@
     <ClInclude Include="..\include\nlsCom_engine_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\COM_dispBuiltin.hpp">
+    <ClInclude Include="..\include\COM_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\COM_fieldnamesBuiltin.hpp">

@@ -27,7 +27,7 @@
     <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\QObject_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp">
@@ -137,7 +137,7 @@
     <ClInclude Include="..\include\QObject_deleteBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\QObject_dispBuiltin.hpp">
+    <ClInclude Include="..\include\QObject_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp">

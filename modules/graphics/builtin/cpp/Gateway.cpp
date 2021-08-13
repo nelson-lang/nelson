@@ -28,7 +28,7 @@
 #include "figureBuiltin.hpp"
 #include "grootBuiltin.hpp"
 #include "gcfBuiltin.hpp"
-#include "graphic_object_dispBuiltin.hpp"
+#include "graphic_object_displayBuiltin.hpp"
 #include "graphic_object_deleteBuiltin.hpp"
 #include "graphic_object_getBuiltin.hpp"
 #include "graphic_object_setBuiltin.hpp"
@@ -43,7 +43,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"graphics";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "graphic_object_display", (void*)Nelson::GraphicsGateway::graphic_object_dispBuiltin, 0, 2,
+    { "graphic_object_display", (void*)Nelson::GraphicsGateway::graphic_object_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "figure", (void*)Nelson::GraphicsGateway::figureBuiltin, 1, 2 },
     { "groot", (void*)Nelson::GraphicsGateway::grootBuiltin, 1, 0 },

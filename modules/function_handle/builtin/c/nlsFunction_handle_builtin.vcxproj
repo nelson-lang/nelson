@@ -173,7 +173,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\func2strBuiltin.cpp" />
-    <ClCompile Include="..\cpp\function_handle_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\function_handle_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\function_handle_extractionBuiltin.cpp" />
     <ClCompile Include="..\cpp\function_handle_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\function_handle_isequalBuiltin.cpp" />
@@ -210,7 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\func2strBuiltin.hpp" />
-    <ClInclude Include="..\include\function_handle_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\function_handle_displayBuiltin.hpp" />
     <ClInclude Include="..\include\function_handle_extractionBuiltin.hpp" />
     <ClInclude Include="..\include\function_handle_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\function_handle_isequalBuiltin.hpp" />

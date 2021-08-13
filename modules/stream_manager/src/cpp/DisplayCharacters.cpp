@@ -28,18 +28,22 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+DisplayCharacters(Interface* io, const ArrayOf& A, const std::string& name)
 {
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+    }
     if (A.isRowVectorCharacterArray()) {
         std::wstring msg = A.getContentAsWideString();
         if (msg.empty()) {
-            if (fromDispBuiltin) {
+            if (name.empty()) {
                 io->outputMessage("");
             } else {
-                io->outputMessage("\'\'\n");
+                io->outputMessage("''\n");
             }
         } else {
-            if (fromDispBuiltin) {
+            if (name.empty()) {
                 io->outputMessage(msg + L"\n");
             } else {
                 io->outputMessage(L"\'" + msg + L"\'\n");
@@ -47,6 +51,9 @@ DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& n
         }
     } else {
         A.printMe(io);
+    }
+    if (!name.empty()) {
+        io->outputMessage("\n");
     }
 }
 //=============================================================================

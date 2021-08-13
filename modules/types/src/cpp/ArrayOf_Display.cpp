@@ -642,9 +642,10 @@ ArrayOf::printMe(Interface* io) const
         nominalWidth = 10;
         break;
     default: { } break; }
+
     io->outputMessage(typeAsText + "- size: ");
     dp->dimensions.printMe(io);
-    io->outputMessage("\n");
+    io->outputMessage("\n\n");
     if (isEmpty()) {
         if (isStruct()) {
             stringVector fieldsName = getFieldNames();

@@ -39,7 +39,7 @@ ArrayOf::isFunctionHandle() const
 }
 //=============================================================================
 function_handle
-ArrayOf::getContentAsFunctionHandle()
+ArrayOf::getContentAsFunctionHandle() const
 {
     function_handle fh;
     std::string classString = this->getStructType();

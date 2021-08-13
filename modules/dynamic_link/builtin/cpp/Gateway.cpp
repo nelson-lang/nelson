@@ -27,7 +27,7 @@
 #include "addgatewayBuiltin.hpp"
 #include "dlcallBuiltin.hpp"
 #include "dlcloseBuiltin.hpp"
-#include "dllib_dispBuiltin.hpp"
+#include "dllib_displayBuiltin.hpp"
 #include "dllib_fieldnamesBuiltin.hpp"
 #include "dllib_getBuiltin.hpp"
 #include "dllib_ismethodBuiltin.hpp"
@@ -38,7 +38,7 @@
 #include "dlopenBuiltin.hpp"
 #include "dlsymBuiltin.hpp"
 #include "dlsym_deleteBuiltin.hpp"
-#include "dlsym_dispBuiltin.hpp"
+#include "dlsym_displayBuiltin.hpp"
 #include "dlsym_fieldnamesBuiltin.hpp"
 #include "dlsym_getBuiltin.hpp"
 #include "dlsym_ismethodBuiltin.hpp"
@@ -50,7 +50,7 @@
 #include "isNullBuiltin.hpp"
 #include "libpointerBuiltin.hpp"
 #include "libpointer_deleteBuiltin.hpp"
-#include "libpointer_dispBuiltin.hpp"
+#include "libpointer_displayBuiltin.hpp"
 #include "libpointer_fieldnamesBuiltin.hpp"
 #include "libpointer_getBuiltin.hpp"
 #include "libpointer_isNullBuiltin.hpp"
@@ -73,17 +73,17 @@ static const nlsGateway gateway[] = { { "addgateway",
                                           1, CPP_BUILTIN_WITH_EVALUATOR },
     { "removegateway", (void*)Nelson::DynamicLinkGateway::removegatewayBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "dlsym_display", (void*)Nelson::DynamicLinkGateway::dlsym_dispBuiltin, 0, 2,
+    { "dlsym_display", (void*)Nelson::DynamicLinkGateway::dlsym_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dlsym_isvalid", (void*)Nelson::DynamicLinkGateway::dlsym_isvalidBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "dllib_display", (void*)Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 2,
+    { "dllib_display", (void*)Nelson::DynamicLinkGateway::dllib_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dllib_isvalid", (void*)Nelson::DynamicLinkGateway::dllib_isvalidBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dlcall", (void*)Nelson::DynamicLinkGateway::dlcallBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "libpointer_display", (void*)Nelson::DynamicLinkGateway::libpointer_dispBuiltin, 0, 2,
+    { "libpointer_display", (void*)Nelson::DynamicLinkGateway::libpointer_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isNull", (void*)Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

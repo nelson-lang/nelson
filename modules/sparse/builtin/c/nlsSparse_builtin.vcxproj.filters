@@ -18,10 +18,10 @@
     <ClCompile Include="..\cpp\sparseBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\sparsedouble_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\sparsedouble_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\sparselogical_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\sparselogical_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllMain.c">
@@ -98,13 +98,13 @@
     <ClInclude Include="..\include\sparseBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sparsedouble_dispBuiltin.hpp">
+    <ClInclude Include="..\include\sparsedouble_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\sparsedouble_uminusBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sparselogical_dispBuiltin.hpp">
+    <ClInclude Include="..\include\sparselogical_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\sparselogical_uminusBuiltin.hpp">

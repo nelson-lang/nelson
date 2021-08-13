@@ -198,8 +198,7 @@ printNumber(
 //=============================================================================
 template <class T>
 void
-DisplayFloatingNumberInternal(
-    Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string &name)
 {
     Dimensions dimsA = A.getDimensions();
     indexType termWidth = io->getTerminalWidth();
@@ -427,16 +426,26 @@ DisplayFloatingNumberInternal(
 }
 //=============================================================================
 void
-DisplayFloatingNumber(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string &name)
 {
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+    }
     if (A.isNdArrayDoubleType() || A.isNdArraySingleType()) {
         A.printMe(io);
+        if (!name.empty()) {
+            io->outputMessage("\n");
+        }
         return;
     }
     if (A.isSingleClass()) {
-        DisplayFloatingNumberInternal<single>(io, A, fromDispBuiltin, needToOverload);
+        DisplayFloatingNumberInternal<single>(io, A, name);
     } else {
-        DisplayFloatingNumberInternal<double>(io, A, fromDispBuiltin, needToOverload);
+        DisplayFloatingNumberInternal<double>(io, A, name);
+    }
+    if (!name.empty()) {
+        io->outputMessage("\n");
     }
 }
 //=============================================================================

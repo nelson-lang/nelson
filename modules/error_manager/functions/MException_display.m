@@ -24,8 +24,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function MException_display(e, name)
-    r = struct(e);
-    d = evalc('disp(r);');
-    disp(replace(d, '<struct>', '<MException>'))
+  if ~isempty(name)
+    disp([char(10), name, ' = ', char(10)])
   end
-  %=============================================================================
+  r = struct(e);
+  d = evalc('disp(r);');
+  disp(replace(d, '<struct>', '<MException>'))
+end
+%=============================================================================

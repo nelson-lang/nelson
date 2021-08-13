@@ -23,24 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "COM_dispBuiltin.hpp"
-#include "DispComHandleObject.hpp"
-#include "Error.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::ComEngineGateway::COM_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-#ifdef _MSC_VER
-    nargoutcheck(nLhs, 0, 0);
-    nargincheck(argIn, 1, 2);
-    ArrayOf param1 = argIn[0];
-    DispComHandleObject(eval, param1);
-#else
-    Error(_W("Not implemented on this platform."));
-#endif
-    return retval;
-}
+namespace Nelson {
+namespace QmlEngineGateway {
+    ArrayOfVector
+    QObject_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+};
+}; // namespace Nelson
 //=============================================================================

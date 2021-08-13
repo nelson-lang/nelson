@@ -176,7 +176,7 @@
     <ClCompile Include="..\cpp\generic_eq_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\getBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\handle_eq_genericBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_eq_handleBuiltin.cpp" />
@@ -250,7 +250,7 @@
     <ClInclude Include="..\include\isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\methodsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHandle_builtin_exports.h" />
-    <ClInclude Include="..\include\handle_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_displayBuiltin.hpp" />
     <ClInclude Include="..\include\handle_vertcat_handleBuiltin.hpp" />
     <ClInclude Include="..\include\handle_horzcat_handleBuiltin.hpp" />
     <ClInclude Include="..\include\propertiesBuiltin.hpp" />

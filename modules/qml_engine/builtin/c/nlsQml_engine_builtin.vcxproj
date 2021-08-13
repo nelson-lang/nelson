@@ -214,7 +214,7 @@
     <ClCompile Include="..\cpp\QObject_undefineBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_classnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_findchildrenBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_getBuiltin.cpp" />
@@ -254,7 +254,7 @@
     <ClInclude Include="..\include\QObject_undefineBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_classnameBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_displayBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_findchildrenBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_getBuiltin.hpp" />

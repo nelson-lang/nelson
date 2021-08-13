@@ -36,7 +36,7 @@
 namespace Nelson {
 //=============================================================================
 void
-OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::string& name, bool fromBuiltin)
+OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::string& name)
 {
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
@@ -57,7 +57,7 @@ OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::string& name, bool
     if (!bSuccess) {
         bool needToOverload;
         uint64 ticProfile = Profiler::getInstance()->tic();
-        DisplayVariable(eval->getInterface(), a, name, fromBuiltin, needToOverload);
+        DisplayVariable(eval->getInterface(), a, name, needToOverload);
         if (ticProfile != 0U) {
             internalProfileFunction stack = computeProfileStack(eval, "display", L"evaluator");
             Profiler::getInstance()->toc(ticProfile, stack);

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\handle_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\handle_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllMain.c">
@@ -107,7 +107,7 @@
     <ClInclude Include="..\include\nlsHandle_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_dispBuiltin.hpp">
+    <ClInclude Include="..\include\handle_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\handle_deleteBuiltin.hpp">

@@ -23,38 +23,54 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dllib_dispBuiltin.hpp"
-#include "DynamicLinkLibraryObject.hpp"
+#include "libpointer_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "LibPointerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
+    if (eval == nullptr) {
+        return retval;
+    }
+    Interface* io = eval->getInterface();
+    if (io == nullptr) {
+        return retval;
+    }
+    std::string name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsCString();
+    }
     if (param1.isHandle()) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            Dimensions dimsParam1 = param1.getDimensions();
-            io->outputMessage(L"[dllib] - size: ");
-            dimsParam1.printMe(io);
+        if (!name.empty()) {
+            io->outputMessage("\n");
+            io->outputMessage(name + " =\n\n");
+        }
+        Dimensions dimsParam1 = param1.getDimensions();
+        io->outputMessage(L"[libpointer] - size: ");
+        dimsParam1.printMe(io);
+        io->outputMessage("\n");
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
+                Error(_W("libpointer handle expected."));
+            }
+            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
+            lipPointerObj->disp(io);
+        }
+        if (!name.empty()) {
             io->outputMessage("\n");
         }
-        if (param1.isScalar()) {
-            if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
-                Error(_W("dllib handle expected."));
-            }
-            auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
-            dllibObj->disp(eval);
-        }
     } else {
-        Error(_W("dllib handle expected."));
+        Error(_W("libpointer handle expected."));
     }
     return retval;
 }

@@ -37,7 +37,7 @@
 //=============================================================================
 #include "generic_eq_handleBuiltin.hpp"
 #include "handle_deleteBuiltin.hpp"
-#include "handle_dispBuiltin.hpp"
+#include "handle_displayBuiltin.hpp"
 #include "handle_eq_genericBuiltin.hpp"
 #include "handle_eq_handleBuiltin.hpp"
 #include "handle_fieldnamesBuiltin.hpp"
@@ -83,7 +83,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "handle_invoke", (void*)Nelson::HandleGateway::handle_invokeBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "handle_display", (void*)Nelson::HandleGateway::handle_dispBuiltin, 0, 2,
+    { "handle_display", (void*)Nelson::HandleGateway::handle_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "handle_delete", (void*)Nelson::HandleGateway::handle_deleteBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

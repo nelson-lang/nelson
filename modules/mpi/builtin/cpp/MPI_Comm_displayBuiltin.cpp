@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "MPI_Comm_dispBuiltin.hpp"
+#include "MPI_Comm_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
@@ -34,7 +34,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
@@ -45,40 +45,49 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Error(_W("MPI must be initialized."));
     }
     ArrayOf param1 = argIn[0];
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            if (param1.isHandle()) {
-                if (param1.isScalar()) {
-                    if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
-                        Error(_W("MPI_Comm handle expected."));
-                    }
-                    Dimensions dimsParam1 = param1.getDimensions();
-                    io->outputMessage(L"[MPI_Comm] - size: ");
-                    dimsParam1.printMe(io);
-                    io->outputMessage("\n");
-                    io->outputMessage("\n");
-                    MPI_CommHandleObject* mpicommhandleobj
-                        = (MPI_CommHandleObject*)param1.getContentAsHandleScalar();
-                    if (mpicommhandleobj != nullptr) {
-                        MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
-                        if (obj != nullptr) {
-                            std::wstring description
-                                = utf8_to_wstring(getMpiCommName(obj->getComm()));
-                            io->outputMessage(L"    " + _W("Description") + L":    " + description);
-                            io->outputMessage("\n");
-                        }
-                    }
-                } else {
-                    Dimensions dimsParam1 = param1.getDimensions();
-                    io->outputMessage(L"[MPI_Comm] - size: ");
-                    dimsParam1.printMe(io);
-                    io->outputMessage("\n");
-                }
-            } else {
+    if (eval == nullptr) {
+        return retval;
+    }
+    Interface* io = eval->getInterface();
+    if (io == nullptr) {
+        return retval;
+    }
+    std::string name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsCString();
+    }
+    if (param1.isHandle()) {
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
                 Error(_W("MPI_Comm handle expected."));
             }
+            if (!name.empty()) {
+                io->outputMessage("\n");
+                io->outputMessage(name + " =\n\n");
+            }
+            Dimensions dimsParam1 = param1.getDimensions();
+            io->outputMessage(L"[MPI_Comm] - size: ");
+            dimsParam1.printMe(io);
+            io->outputMessage("\n\n");
+            MPI_CommHandleObject* mpicommhandleobj
+                = (MPI_CommHandleObject*)param1.getContentAsHandleScalar();
+            if (mpicommhandleobj != nullptr) {
+                MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+                if (obj != nullptr) {
+                    std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
+                    io->outputMessage(L"    " + _W("Description") + L":    " + description);
+                    io->outputMessage("\n");
+                }
+            }
+        } else {
+            Dimensions dimsParam1 = param1.getDimensions();
+            io->outputMessage(L"[MPI_Comm] - size: ");
+            dimsParam1.printMe(io);
+            io->outputMessage("\n");
         }
+        io->outputMessage("\n");
+    } else {
+        Error(_W("MPI_Comm handle expected."));
     }
     return retval;
 }

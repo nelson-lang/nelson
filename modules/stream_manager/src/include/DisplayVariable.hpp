@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool fromDispBuiltin,
+DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name,
     bool& needToOverload);
 //=============================================================================
 } // namespace Nelson

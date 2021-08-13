@@ -46,7 +46,7 @@ public:
     ~LibPointerObject() override;
 
     void
-    disp(Evaluator* eval);
+    disp(Interface *io);
     void*
     getPointer();
     bool

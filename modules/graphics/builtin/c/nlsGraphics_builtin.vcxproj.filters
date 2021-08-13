@@ -10,7 +10,7 @@
     <ClCompile Include="..\cpp\figureBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\graphic_object_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\graphic_object_displayBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\graphic_object_deleteBuiltin.cpp">
@@ -51,7 +51,7 @@
     <ClInclude Include="..\include\nlsGraphics_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\graphic_object_dispBuiltin.hpp">
+    <ClInclude Include="..\include\graphic_object_displayBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\graphic_object_deleteBuiltin.hpp">
