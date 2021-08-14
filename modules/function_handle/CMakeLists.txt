@@ -48,6 +48,7 @@ target_link_libraries(
   nlsError_manager
   nlsInterpreter
   nlsI18n
+  nlsStream_manager
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

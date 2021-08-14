@@ -37,6 +37,7 @@
 #include "IEEEFP.hpp"
 #include "Interface.hpp"
 #include "SparseType.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using boost::io::group;
 using std::hex;
@@ -264,10 +265,7 @@ SparseLogicalDisplay(Interface* io, const ArrayOf& a)
 void
 SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
 {
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
+    DisplayVariableHeader(io, a, name);
     switch (a.getDataClass()) {
     case NLS_DOUBLE:
         SparseDoubleDisplay(io, a);
@@ -281,9 +279,7 @@ SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
     default:
         break;
     }
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, a, name);
 }
 //=============================================================================
 } // namespace Nelson

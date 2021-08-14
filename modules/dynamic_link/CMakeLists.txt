@@ -57,6 +57,7 @@ target_link_libraries(
   nlsHandle
   nlsString
   nlsFiles_folders_functions
+  nlsStream_manager
   nlsOs_functions
   ${LIBFFI_LIBRARY})
 # ==============================================================================
@@ -91,6 +92,7 @@ target_link_libraries(
   nlsApi_nelson
   nlsI18n
   nlsOverload
+  nlsStream_manager
   nlsHandle)
 # ==============================================================================
 set_target_properties(

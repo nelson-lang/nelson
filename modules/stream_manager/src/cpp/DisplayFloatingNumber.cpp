@@ -36,6 +36,7 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayHelpers.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -428,10 +429,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
 void
 DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
+    DisplayVariableHeader(io, A, name);
     if (A.isNdArrayDoubleType() || A.isNdArraySingleType()) {
         A.printMe(io);
         if (!name.empty()) {
@@ -444,9 +442,7 @@ DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string& name)
     } else {
         DisplayFloatingNumberInternal<double>(io, A, name);
     }
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, A, name);
 }
 //=============================================================================
 } // namespace Nelson

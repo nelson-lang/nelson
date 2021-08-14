@@ -24,20 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DisplayStringArray.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 DisplayStringArray(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
+    DisplayVariableHeader(io, A, name);
     A.printMe(io);
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, A, name);
 }
 //=============================================================================
 } // namespace Nelson

@@ -27,6 +27,7 @@
 #include "GraphicObject.hpp"
 #include "GraphicObjectDisplay.hpp"
 #include "GOFigure.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,14 +49,9 @@ Nelson::GraphicsGateway::graphic_object_displayBuiltin(
         name = argIn[1].getContentAsCString();
     }
     Interface* io = eval->getInterface();
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
+    DisplayVariableHeader(io, argIn[0], name);
     graphicObjectDisplay(io, dims, ptrGO);
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, argIn[0], name);
     return retval;
 }
 //=============================================================================

@@ -23,13 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Ole2.h>
+#include <Windows.h>
+#include <ocidl.h>
 #include "DispComHandleObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "classnameComHandleObject.hpp"
-#include <Ole2.h>
-#include <Windows.h>
-#include <ocidl.h>
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,10 +50,7 @@ void
 DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
-        if (!name.empty()) {
-            io->outputMessage("\n");
-            io->outputMessage(name + " =\n\n");
-        }
+        DisplayVariableHeader(io, A, name);
         if (A.isScalar()) {
             auto* qp = (nelson_handle*)A.getDataPointer();
             nelson_handle hl = qp[0];
@@ -73,9 +71,7 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             dimsA.printMe(io);
             io->outputMessage("\n");
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
+        DisplayVariableFooter(io, A, name);
     } else {
         Error(_W("COM handle expected."));
     }

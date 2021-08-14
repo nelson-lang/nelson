@@ -28,6 +28,7 @@
 #include "Error.hpp"
 #include "MacroFunctionDef.hpp"
 #include "PathFuncManager.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -41,9 +42,8 @@ FunctionHandleDisplay(Interface* io, const ArrayOf& Var, const std::string& name
         return;
     }
     function_handle fh = Var.getContentAsFunctionHandle();
+    DisplayVariableHeader(io, Var, name);
     if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
         io->outputMessage("  function_handle with value:\n\n");
     }
     if (fh.anonymous.empty()) {
@@ -52,9 +52,7 @@ FunctionHandleDisplay(Interface* io, const ArrayOf& Var, const std::string& name
         io->outputMessage("    @" + fh.anonymous);
     }
     io->outputMessage("\n");
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, Var, name);
 }
 //=============================================================================
 } // namespace Nelson

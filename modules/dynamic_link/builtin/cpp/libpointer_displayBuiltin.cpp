@@ -28,6 +28,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,10 +52,7 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
         name = argIn[1].getContentAsCString();
     }
     if (param1.isHandle()) {
-        if (!name.empty()) {
-            io->outputMessage("\n");
-            io->outputMessage(name + " =\n\n");
-        }
+        DisplayVariableHeader(io, param1, name);
         Dimensions dimsParam1 = param1.getDimensions();
         io->outputMessage(L"[libpointer] - size: ");
         dimsParam1.printMe(io);
@@ -66,9 +64,7 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(io);
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
+        DisplayVariableFooter(io, param1, name);
     } else {
         Error(_W("libpointer handle expected."));
     }

@@ -92,6 +92,7 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes
   nlsApi_nelson
+  nlsStream_manager
   nlsI18n)
 # ==============================================================================
 set_target_properties(

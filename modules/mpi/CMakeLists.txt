@@ -85,6 +85,7 @@ target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
   nlsError_manager
+  nlsStream_manager
   nlsInterpreter
   nlsI18n
   nlsTypes

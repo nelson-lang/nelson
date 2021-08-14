@@ -28,6 +28,7 @@
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,10 +49,7 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
         if (argIn.size() == 2) {
             name = argIn[1].getContentAsCString();
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-            io->outputMessage(name + " =\n\n");
-        }
+        DisplayVariableHeader(io, param1, name);
         Dimensions dimsParam1 = param1.getDimensions();
         io->outputMessage(L"[audioplayer] - size: ");
         dimsParam1.printMe(io);
@@ -63,9 +61,7 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
             auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(eval);
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
+        DisplayVariableFooter(io, param1, name);
     } else {
         Error(_W("audioplayer handle expected."));
     }

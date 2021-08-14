@@ -28,6 +28,7 @@
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,10 +52,7 @@ Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
     }
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        if (!name.empty()) {
-            io->outputMessage("\n");
-            io->outputMessage(name + " =\n\n");
-        }
+        DisplayVariableHeader(io, param1, name);
         Dimensions dimsParam1 = param1.getDimensions();
         io->outputMessage(L"[dlsym] - size: ");
         dimsParam1.printMe(io);
@@ -66,9 +64,7 @@ Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
             auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
             dlsymObj->disp(eval);
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
+        DisplayVariableFooter(io, param1, name);
     } else {
         Error(_W("dlsym handle expected."));
     }
