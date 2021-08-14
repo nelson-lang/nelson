@@ -35,6 +35,9 @@ NLSSTREAM_MANAGER_IMPEXP void
 DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::string& name);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
+DisplayVariableValue(Interface* io, const ArrayOf& A, const std::string& name);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP void
 DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::string& name);
 //=============================================================================
 } // namespace Nelson

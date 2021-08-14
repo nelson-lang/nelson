@@ -26,10 +26,14 @@ set(module_name stream_manager)
 set(module_library_name nlsStream_manager)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+add_definitions(-DFMT_EXPORT)
+# ==============================================================================
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -37,7 +41,8 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================
-file(GLOB STREAM_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB STREAM_MANAGER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/fmt/src/*.cc")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${STREAM_MANAGER_SRC})
 # ==============================================================================
@@ -47,6 +52,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsError_manager
   nlsNelson_manager
+  nlsElementary_mathematics
   nlsI18n
   ${BOOST_LIBRARIES})
 # ==============================================================================

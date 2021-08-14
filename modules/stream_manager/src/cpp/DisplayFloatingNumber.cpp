@@ -30,13 +30,14 @@
 #include <iostream>
 #include <memory> // For std::unique_ptr
 #include <cstdarg> // For va_start, etc.
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "DisplayFloatingNumber.hpp"
 #include "Error.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayHelpers.hpp"
-#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -113,16 +114,16 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
                 if (fabs(number) < 1e9) {
                     strNumber = std::to_wstring((int64)number);
                 } else {
-                    strNumber = StringFormat(
-                        L"%*.*e", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
+                    std::wstring format = L"%*.*e";
+                    strNumber = fmt::sprintf(format, 9, 4, number);
                 }
             } else {
                 if (fabs(number) > 1e-4 || number == 0. || !asScalar) {
-                    strNumber = StringFormat(
-                        L"%*.*f", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
+                    std::wstring format = L"%*.*f";
+                    strNumber = fmt::sprintf(format, 9, 4, number);
                 } else {
-                    strNumber = StringFormat(
-                        L"%*.*e", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
+                    std::wstring format = L"%*.*e";
+                    strNumber = fmt::sprintf(format, 9, 4, number);
                 }
             }
         } break;
@@ -131,26 +132,26 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
                 if (fabs(number) < 1e9) {
                     strNumber = std::to_wstring((int64)number);
                 } else {
-                    strNumber = StringFormat(
-                        L"%*.*e", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
+                    std::wstring format = L"%*.*e";
+                    strNumber = fmt::sprintf(format, 18, 15, number);
                 }
             } else {
                 if (fabs(number) > 1e-9 || number == 0.) {
-                    strNumber = StringFormat(
-                        L"%*.*f", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
+                    std::wstring format = L"%*.*f";
+                    strNumber = fmt::sprintf(format, 18, 15, number);
                 } else {
-                    strNumber = StringFormat(
-                        L"%*.*e", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
+                    std::wstring format = L"%*.*e";
+                    strNumber = fmt::sprintf(format, 18, 15, number);
                 }
             }
         } break;
         case NLS_FORMAT_SHORTE: {
-            strNumber
-                = StringFormat(L"%*.*e", 10, 4, number); // lgtm [cpp/wrong-type-format-argument]
+            std::wstring format = L"%*.*e";
+            strNumber = fmt::sprintf(format, 10, 4, number);
         } break;
         case NLS_FORMAT_LONGE: {
-            strNumber
-                = StringFormat(L"%*.*e", 23, 15, number); // lgtm [cpp/wrong-type-format-argument]
+            std::wstring format = L"%*.*e";
+            strNumber = fmt::sprintf(format, 23, 15, number);
         } break;
         case NLS_FORMAT_HEX: {
             strNumber = double2hexastr(number);
@@ -374,7 +375,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if ((rows * columns > 1) && (pageCount > 1)) {
-                std::wstring msg = StringFormat(_W("\n  Columns %d to %d\n\n").c_str(),
+                std::wstring msg = fmt::sprintf(_W("\n  Columns %d to %d\n\n"),
                     (k * colsPerPage + 1), (k * colsPerPage + colsInThisPage));
                 buffer.append(msg);
             }
@@ -429,20 +430,11 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
 void
 DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    DisplayVariableHeader(io, A, name);
-    if (A.isNdArrayDoubleType() || A.isNdArraySingleType()) {
-        A.printMe(io);
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
-        return;
-    }
     if (A.isSingleClass()) {
         DisplayFloatingNumberInternal<single>(io, A, name);
     } else {
         DisplayFloatingNumberInternal<double>(io, A, name);
     }
-    DisplayVariableFooter(io, A, name);
 }
 //=============================================================================
 } // namespace Nelson

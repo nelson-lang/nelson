@@ -24,52 +24,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DisplayVariable.hpp"
-#include "DisplayCharacters.hpp"
-#include "DisplayStringArray.hpp"
+#include "DisplayVariableHelpers.hpp"
 #include "DisplayFloatingNumber.hpp"
-#include "DisplayLogical.hpp"
-#include "DisplayIntegers.hpp"
-#include "DisplayCell.hpp"
-#include "DisplayStruct.hpp"
-#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool& needToOverload)
+static bool
+canDisplayWithoutOverload(const ArrayOf& A)
 {
-    needToOverload = false;
-    if (io == nullptr) {
-        return;
-    }
     if (A.isSparse() || A.isClassStruct()) {
-        needToOverload = true;
-        return;
+        return false;
     }
-    switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY: {
-        DisplayCell(io, A, name);
-    } break;
-    case NLS_STRING_ARRAY: {
-        DisplayStringArray(io, A, name);
-    } break;
-    case NLS_STRUCT_ARRAY: {
-        DisplayStruct(io, A, name);
-    } break;
-    case NLS_CHAR: {
-        DisplayCharacters(io, A, name);
-    } break;
+    Class variableClass = A.getDataClass();
+    bool withoutOverload;
+    switch (variableClass) {
     case NLS_DCOMPLEX:
-    case NLS_DOUBLE: {
-        DisplayFloatingNumber(io, A, name);
-    } break;
+    case NLS_DOUBLE:
     case NLS_SCOMPLEX:
-    case NLS_SINGLE: {
-        DisplayFloatingNumber(io, A, name);
-    } break;
-    case NLS_LOGICAL: {
-        DisplayLogical(io, A, name);
-    } break;
+    case NLS_SINGLE:
     case NLS_UINT8:
     case NLS_INT8:
     case NLS_UINT16:
@@ -77,12 +49,34 @@ DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool& 
     case NLS_UINT32:
     case NLS_INT32:
     case NLS_UINT64:
-    case NLS_INT64: {
-        DisplayInteger(io, A, name);
+    case NLS_INT64:
+    case NLS_LOGICAL:
+    case NLS_CHAR:
+    case NLS_STRUCT_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_CELL_ARRAY: {
+        withoutOverload = true;
     } break;
     default: {
-        needToOverload = true;
+        withoutOverload = false;
     } break;
+    }
+    return withoutOverload;
+}
+//=============================================================================
+void
+DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool& needToOverload)
+{
+    if (io == nullptr) {
+        return;
+    }
+    if (canDisplayWithoutOverload(A)) {
+        DisplayVariableHeader(io, A, name);
+        DisplayVariableValue(io, A, name);
+        DisplayVariableFooter(io, A, name);
+        needToOverload = false;
+    } else {
+        needToOverload = true;
     }
 }
 //=============================================================================

@@ -226,7 +226,6 @@
     <ClCompile Include="..\cpp\ArrayOf_CellType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Constructors.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Delete.cpp" />
-    <ClCompile Include="..\cpp\ArrayOf_Display.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_DoubleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Extract.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_FunctionHandleType.cpp" />
