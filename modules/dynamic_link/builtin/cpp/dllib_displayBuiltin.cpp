@@ -28,6 +28,7 @@
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,10 +52,7 @@ Nelson::DynamicLinkGateway::dllib_displayBuiltin(
         name = argIn[1].getContentAsCString();
     }
     if (param1.isHandle()) {
-        if (!name.empty()) {
-            io->outputMessage("\n");
-            io->outputMessage(name + " =\n\n");
-        }
+        DisplayVariableHeader(io, param1, name);
         Dimensions dimsParam1 = param1.getDimensions();
         io->outputMessage(L"[dllib] - size: ");
         dimsParam1.printMe(io);
@@ -66,9 +64,7 @@ Nelson::DynamicLinkGateway::dllib_displayBuiltin(
             auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
             dllibObj->disp(io);
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
+        DisplayVariableFooter(io, param1, name);
     } else {
         Error(_W("dllib handle expected."));
     }

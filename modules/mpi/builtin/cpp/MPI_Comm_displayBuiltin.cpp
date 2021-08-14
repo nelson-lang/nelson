@@ -23,13 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <mpi.h>
 #include "MPI_Comm_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include "characters_encoding.hpp"
-#include <mpi.h>
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -61,10 +62,7 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
             if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
                 Error(_W("MPI_Comm handle expected."));
             }
-            if (!name.empty()) {
-                io->outputMessage("\n");
-                io->outputMessage(name + " =\n\n");
-            }
+            DisplayVariableHeader(io, param1, name);
             Dimensions dimsParam1 = param1.getDimensions();
             io->outputMessage(L"[MPI_Comm] - size: ");
             dimsParam1.printMe(io);

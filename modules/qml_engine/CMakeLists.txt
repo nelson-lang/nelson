@@ -60,6 +60,7 @@ target_link_libraries(
   nlsError_manager
   nlsI18n
   nlsData_structures
+  nlsStream_manager
   ${Qt5Widgets_LIBRARIES}
   ${Qt5Qml_LIBRARIES}
   ${Qt5Quick_LIBRARIES})

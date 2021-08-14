@@ -24,20 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DisplayLogical.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 DisplayLogical(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
+    DisplayVariableHeader(io, A, name);
     A.printMe(io);
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, A, name);
 }
 //=============================================================================
 } // namespace Nelson

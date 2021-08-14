@@ -191,6 +191,7 @@
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
     <ClInclude Include="..\include\DelimitedFile.hpp" />
     <ClInclude Include="..\include\DisplayVariable.hpp" />
+    <ClInclude Include="..\include\DisplayVariableHelpers.hpp" />
     <ClInclude Include="..\include\Endian.hpp" />
     <ClInclude Include="..\include\FileClose.hpp" />
     <ClInclude Include="..\include\FileError.hpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="..\cpp\DisplayStringArray.cpp" />
     <ClCompile Include="..\cpp\DisplayStruct.cpp" />
     <ClCompile Include="..\cpp\DisplayVariable.cpp" />
+    <ClCompile Include="..\cpp\DisplayVariableHelpers.cpp" />
     <ClCompile Include="..\cpp\Endian.cpp" />
     <ClCompile Include="..\cpp\FileClose.cpp" />
     <ClCompile Include="..\cpp\FileError.cpp" />

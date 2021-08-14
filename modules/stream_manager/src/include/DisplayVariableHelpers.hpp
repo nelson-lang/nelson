@@ -23,18 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DisplayIntegers.hpp"
-#include "DisplayVariableHelpers.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-DisplayInteger(Interface* io, const ArrayOf& A, const std::string& name)
-{
-    DisplayVariableHeader(io, A, name);
-    A.printMe(io);
-    DisplayVariableFooter(io, A, name);
-}
+NLSSTREAM_MANAGER_IMPEXP void
+DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::string& name);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP void
+DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::string& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -24,16 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DisplayCharacters.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 DisplayCharacters(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    if (!name.empty()) {
-        io->outputMessage("\n");
-        io->outputMessage(name + " =\n\n");
-    }
+    DisplayVariableHeader(io, A, name);
     if (A.isRowVectorCharacterArray()) {
         std::wstring msg = A.getContentAsWideString();
         if (msg.empty()) {
@@ -52,9 +50,7 @@ DisplayCharacters(Interface* io, const ArrayOf& A, const std::string& name)
     } else {
         A.printMe(io);
     }
-    if (!name.empty()) {
-        io->outputMessage("\n");
-    }
+    DisplayVariableFooter(io, A, name);
 }
 //=============================================================================
 } // namespace Nelson

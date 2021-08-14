@@ -23,17 +23,25 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DisplayIntegers.hpp"
 #include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
-DisplayInteger(Interface* io, const ArrayOf& A, const std::string& name)
+DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::string& name)
 {
-    DisplayVariableHeader(io, A, name);
-    A.printMe(io);
-    DisplayVariableFooter(io, A, name);
+    if (!name.empty()) {
+        io->outputMessage("\n");
+        io->outputMessage(name + " =\n\n");
+    }
+}
+//=============================================================================
+void
+DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::string& name)
+{
+    if (!name.empty()) {
+        io->outputMessage("\n");
+    }
 }
 //=============================================================================
 } // namespace Nelson

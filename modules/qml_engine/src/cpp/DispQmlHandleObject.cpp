@@ -23,13 +23,6 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DispQmlHandleObject.hpp"
-#include "Error.hpp"
-#include "HandleManager.hpp"
-#include "QStringConverter.hpp"
-#include "QmlHandleObject.hpp"
-#include "characters_encoding.hpp"
-#include "fieldnamesQmlHandleObject.hpp"
 #include <QtCore/QBitArray>
 #include <QtCore/QDateTime>
 #include <QtCore/QLine>
@@ -47,6 +40,14 @@
 #include <QtGui/QTransform>
 #include <QtGui/QVector2D>
 #include <QtQml/QQmlComponent>
+#include "DispQmlHandleObject.hpp"
+#include "Error.hpp"
+#include "HandleManager.hpp"
+#include "QStringConverter.hpp"
+#include "QmlHandleObject.hpp"
+#include "characters_encoding.hpp"
+#include "fieldnamesQmlHandleObject.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -262,10 +263,7 @@ void
 DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
-        if (!name.empty()) {
-            io->outputMessage("\n");
-            io->outputMessage(name + " =\n\n");
-        }
+        DisplayVariableHeader(io, A, name);
         if (A.isScalar()) {
             if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
@@ -283,9 +281,7 @@ DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             dimsA.printMe(io);
             io->outputMessage("\n");
         }
-        if (!name.empty()) {
-            io->outputMessage("\n");
-        }
+        DisplayVariableFooter(io, A, name);
     } else {
         Error(_W("QObject handle expected."));
     }
