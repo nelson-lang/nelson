@@ -962,17 +962,6 @@ public:
     void
     deleteNDimSubset(ArrayOfVector& args);
     /**
-     * Summarize this array when it appears in a Cell array.
-     */
-    void
-    summarizeCellEntry(Interface* io) const;
-    /**
-     * Print some reasonable representation of this array to the
-     * the supplied stream.
-     */
-    void
-    printMe(Interface* io) const;
-    /**
      * Get our contents as a C-string (UTF-8). Only works for STRING types.
      * Throws an exception for non-string types.
      */
@@ -1261,12 +1250,6 @@ public:
 
     static ArrayOf
     stringArrayConstructor(const wstringVector& values, Dimensions& dims);
-
-    /**
-     * Summarize String array.
-     */
-    void
-    summarizeStringArray(Interface* io) const;
 
     /**
      * Converts a variable to a string array with the content

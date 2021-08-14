@@ -149,9 +149,6 @@
     <ClCompile Include="..\cpp\ArrayOf_Constructors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ArrayOf_Display.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ClassToString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
