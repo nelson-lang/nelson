@@ -34,7 +34,7 @@ Nelson::OperatorsGateway::mtimesBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
-    retval << OverloadBinaryOperator(eval, argIn[0], argIn[1], "mtimes");
+    retval << eval->mtimesOperator(argIn[0], argIn[1]);
     return retval;
 }
 //=============================================================================

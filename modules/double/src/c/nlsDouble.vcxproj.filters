@@ -26,9 +26,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\MtimesDouble.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\nlsDouble_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>

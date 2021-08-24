@@ -28,6 +28,8 @@
 
 - [#499](http://github.com/Nelson-numerical-software/nelson/issues/499): rename `getContentAsUnsignedInt64Scalar` to `getContentAsUnsignedInteger64Scalar`.
 
+- [#495](http://github.com/Nelson-numerical-software/nelson/issues/495): some mtimes call failed.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:
