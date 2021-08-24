@@ -286,8 +286,8 @@ summarizeCellEntry(Interface* io, const ArrayOf& A)
             break;
         case NLS_LOGICAL:
             if (!A.isSparse() && A.isScalar()) {
-                io->outputMessage(fmt::sprintf("[%d]",
-                    *(static_cast<const logical*>(A.getSparseDataPointer()))));
+                io->outputMessage(
+                    fmt::sprintf("[%d]", *(static_cast<const logical*>(A.getSparseDataPointer()))));
             } else {
                 io->outputMessage("[");
                 A.getDimensions().printMe(io);
@@ -435,9 +435,7 @@ summarizeCellEntry(Interface* io, const ArrayOf& A)
                 io->outputMessage(" complex]");
             }
             break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
 }
 //=============================================================================
@@ -551,9 +549,7 @@ emitElement(Interface* io, const void* dp, indexType num, Class dcls)
             summarizeStringArray(io, ap[num]);
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
 }
 //=============================================================================
 /**
@@ -646,9 +642,7 @@ printMe(Interface* io, const ArrayOf& A)
         typeAsText = "  <string> ";
         nominalWidth = 10;
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
 
     io->outputMessage(typeAsText + "- size: ");
     A.getDimensions().printMe(io);
@@ -725,8 +719,7 @@ printMe(Interface* io, const ArrayOf& A)
                         io->outputMessage(" ");
                     }
                     for (indexType j = 0; j < colsInThisPage; j++) {
-                        emitElement(
-                            io, ap, i + (k * colsPerPage + j) * rows, A.getDataClass());
+                        emitElement(io, ap, i + (k * colsPerPage + j) * rows, A.getDataClass());
                         if ((j < colsInThisPage - 1) && A.getDataClass() != NLS_CHAR) {
                             io->outputMessage(" ");
                         }
@@ -766,16 +759,16 @@ printMe(Interface* io, const ArrayOf& A)
                      k++) {
                     indexType colsInThisPage = columns - colsPerPage * k;
                     colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-                    io->outputMessage(fmt::sprintf(_("\nColumns %d to %d\n"),
-                        k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
+                    io->outputMessage(fmt::sprintf(_("\nColumns %d to %d\n"), k * colsPerPage + 1,
+                        k * colsPerPage + colsInThisPage));
                     for (indexType i = 0; i < rows; i++) {
                         io->outputMessage(" ");
                         if (A.getDataClass() == NLS_CHAR) {
                             io->outputMessage("'");
                         }
                         for (indexType j = 0; j < colsInThisPage; j++) {
-                            emitElement(io, ap,
-                                i + (k * colsPerPage + j) * rows + offset, A.getDataClass());
+                            emitElement(io, ap, i + (k * colsPerPage + j) * rows + offset,
+                                A.getDataClass());
                         }
                         if (A.getDataClass() == NLS_CHAR) {
                             io->outputMessage("'");
