@@ -557,7 +557,7 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
         valueAsString = std::to_wstring(value);
     } break;
     case NLS_UINT64: {
-        uint64 value = ArrayOf(c).getContentAsUnsignedInt64Scalar();
+        uint64 value = ArrayOf(c).getContentAsUnsignedInteger64Scalar();
         valueAsString = std::to_wstring(value);
     } break;
     case NLS_INT64: {

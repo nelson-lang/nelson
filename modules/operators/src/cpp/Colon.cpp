@@ -456,15 +456,15 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                 low = static_cast<uint64>(1);
                 high = static_cast<uint64>(0);
             } else {
-                step = _I.getContentAsUnsignedInt64Scalar(true);
+                step = _I.getContentAsUnsignedInteger64Scalar(true);
                 if (!_I.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                low = _J.getContentAsUnsignedInt64Scalar(true);
+                low = _J.getContentAsUnsignedInteger64Scalar(true);
                 if (!_J.isScalar()) {
                     warningArrayAsScalar = true;
                 }
-                high = _K.getContentAsUnsignedInt64Scalar(true);
+                high = _K.getContentAsUnsignedInteger64Scalar(true);
                 if (!_K.isScalar()) {
                     warningArrayAsScalar = true;
                 }

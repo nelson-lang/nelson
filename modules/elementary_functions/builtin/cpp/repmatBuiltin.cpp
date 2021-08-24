@@ -64,8 +64,8 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         case 2: {
             ArrayOf param2 = argIn[1];
             if (param2.isScalar()) {
-                repcount[0] = (indexType)param2.getContentAsUnsignedInt64Scalar();
-                repcount[1] = (indexType)param2.getContentAsUnsignedInt64Scalar();
+                repcount[0] = (indexType)param2.getContentAsUnsignedInteger64Scalar();
+                repcount[1] = (indexType)param2.getContentAsUnsignedInteger64Scalar();
             } else {
                 if (param2.isRowVector()) {
                     param2.promoteType(NLS_UINT64);
@@ -84,7 +84,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         default: {
             for (size_t k = 1; k < argIn.size(); ++k) {
                 ArrayOf paramK = argIn[k];
-                repcount[k - 1] = (indexType)paramK.getContentAsUnsignedInt64Scalar();
+                repcount[k - 1] = (indexType)paramK.getContentAsUnsignedInteger64Scalar();
             }
         } break;
         }

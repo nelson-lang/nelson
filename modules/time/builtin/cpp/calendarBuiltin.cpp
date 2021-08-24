@@ -49,7 +49,7 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 2: {
         ArrayOf param1 = argIn[0];
-        uint64 cyear = param1.getContentAsUnsignedInt64Scalar();
+        uint64 cyear = param1.getContentAsUnsignedInteger64Scalar();
         if (cyear < 1400 || cyear > 9999) {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }

@@ -26,6 +26,8 @@
 
 - [#464](http://github.com/Nelson-numerical-software/nelson/issues/464): simplify macos build (catalina & BigSur support only).
 
+- [#499](http://github.com/Nelson-numerical-software/nelson/issues/499): rename `getContentAsUnsignedInt64Scalar` to `getContentAsUnsignedInteger64Scalar`.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:

@@ -84,8 +84,8 @@ formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
                         std::to_wstring(expected).c_str(), std::to_wstring(computed).c_str());
                 } break;
                 case NLS_UINT64: {
-                    uint64 computed = ArrayOf(computedArray).getContentAsUnsignedInt64Scalar();
-                    uint64 expected = ArrayOf(expectedArray).getContentAsUnsignedInt64Scalar();
+                    uint64 computed = ArrayOf(computedArray).getContentAsUnsignedInteger64Scalar();
+                    uint64 expected = ArrayOf(expectedArray).getContentAsUnsignedInteger64Scalar();
                     message = StringFormat(_W("Assertion failed: expected (%ls) and computed (%ls) "
                                               "values are different.")
                                                .c_str(),
