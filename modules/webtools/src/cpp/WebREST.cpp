@@ -502,7 +502,7 @@ scalarValueToString(CURL* curlObject, ArrayOf& value)
         s = std::to_string(v);
     } break;
     case NLS_UINT64: {
-        uint64 v = value.getContentAsUnsignedInt64Scalar();
+        uint64 v = value.getContentAsUnsignedInteger64Scalar();
         s = std::to_string(v);
     } break;
     case NLS_INT64: {

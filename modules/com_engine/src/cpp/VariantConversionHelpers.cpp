@@ -494,7 +494,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             return true;
         } break;
         case NLS_UINT64: {
-            uint64 r = A.getContentAsUnsignedInt64Scalar();
+            uint64 r = A.getContentAsUnsignedInteger64Scalar();
             variant->vt = VT_UI8;
             variant->llVal = r;
             return true;

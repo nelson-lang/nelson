@@ -124,7 +124,7 @@ convertToArrayOf(ArrayOfVector& values, Class classDestination, bool haveThirdAr
         switch (classDestination) {
         case NLS_UINT64: {
             for (indexType k = 0; k < nbValues; k++) {
-                ptr[k] = (T)values[k].getContentAsUnsignedInt64Scalar();
+                ptr[k] = (T)values[k].getContentAsUnsignedInteger64Scalar();
             }
         } break;
         case NLS_INT64: {

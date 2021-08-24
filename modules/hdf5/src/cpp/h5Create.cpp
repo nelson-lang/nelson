@@ -93,7 +93,7 @@ setFillValue(ArrayOf fillvalue, Class dataType, hid_t dcpl)
     } break;
     case NLS_UINT64: {
         hid_t fillType = H5T_STD_U64LE;
-        uint64 value = fillvalue.getContentAsUnsignedInt64Scalar();
+        uint64 value = fillvalue.getContentAsUnsignedInteger64Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_UINT32: {

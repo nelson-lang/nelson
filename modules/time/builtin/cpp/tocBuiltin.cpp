@@ -38,7 +38,7 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         ArrayOf paramOne = argIn[0];
-        uint64 t = paramOne.getContentAsUnsignedInt64Scalar();
+        uint64 t = paramOne.getContentAsUnsignedInteger64Scalar();
         double r = 0;
         if (Toc(t, r)) {
             ArrayOfVector retval(1);

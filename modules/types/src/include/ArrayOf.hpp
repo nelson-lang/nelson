@@ -1081,7 +1081,7 @@ public:
      * Throws an exception if we are not a scalar integer type.
      */
     uint64
-    getContentAsUnsignedInt64Scalar(bool arrayAsScalar = false) const;
+    getContentAsUnsignedInteger64Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar 64.

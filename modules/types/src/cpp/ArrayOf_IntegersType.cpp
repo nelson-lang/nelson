@@ -278,7 +278,7 @@ ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar) const
 }
 //=============================================================================
 uint64
-ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar) const
+ArrayOf::getContentAsUnsignedInteger64Scalar(bool arrayAsScalar) const
 {
     return getContentAsScalar<uint64>(*this, NLS_UINT64, arrayAsScalar);
 }

@@ -614,7 +614,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = QVariant((long long)v);
     } break;
     case QMetaType::Type::ULongLong: {
-        uint64 v = A.getContentAsUnsignedInt64Scalar();
+        uint64 v = A.getContentAsUnsignedInteger64Scalar();
         res = QVariant((unsigned long long)v);
     } break;
     case QMetaType::Type::Double: {
