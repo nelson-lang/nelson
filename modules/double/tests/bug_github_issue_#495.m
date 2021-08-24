@@ -26,7 +26,7 @@
 % <-- Issue URL -->
 % https://github.com/Nelson-numerical-software/nelson/issues/495
 % <-- Short Description -->
-% some mtimes fails
+% some mtimes call failed
 %=============================================================================
 R = mtimes(3, 2);
 REF = 6;
