@@ -291,7 +291,8 @@ T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf&
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-    if (dimsA.getLength() > 2 || dimsB.getLength() > 2) {
+    bool withScalar = A.isScalar() || B.isScalar();
+    if ((dimsA.getLength() > 2 || dimsB.getLength() > 2) && !withScalar) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (A.isEmpty() || B.isEmpty()) {
@@ -335,7 +336,7 @@ T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf&
         }
         Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
     }
-    if (!A.is2D() || !B.is2D()) {
+    if ((!A.is2D() || !B.is2D()) && !withScalar) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
@@ -439,7 +440,9 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-    } else if (A.isDoubleClass() && B.isDoubleClass()) {
+        return ArrayOf();
+    }
+    if (A.isDoubleClass() && B.isDoubleClass()) {
         return T_mtimes_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
     } else if (A.isSingleClass() && B.isSingleClass()) {
         return T_mtimes_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);

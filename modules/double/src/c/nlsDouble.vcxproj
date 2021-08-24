@@ -209,7 +209,6 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\MtimesDouble.hpp" />
     <ClInclude Include="..\include\nlsDouble_exports.h" />
     <ClInclude Include="..\include\ToDouble.hpp" />
   </ItemGroup>

@@ -26,6 +26,8 @@
 
 - [#464](http://github.com/Nelson-numerical-software/nelson/issues/464): simplify macos build (catalina & BigSur support only).
 
+- [#495](http://github.com/Nelson-numerical-software/nelson/issues/495): some mtimes call failed.
+
 # 0.5.7 (2021-07-24)
 
 ## Features:
