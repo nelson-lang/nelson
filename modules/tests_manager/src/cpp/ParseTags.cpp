@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
@@ -34,7 +36,6 @@
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "StringFormat.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -133,8 +134,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, WITH_DISPLAY_TAG) && firstWithDisplayTag) {
                 if (options.isWithDisplay() && !firstWithDisplayTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(WITH_DISPLAY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(WITH_DISPLAY_TAG));
                     istream.close();
                     return false;
                 }
@@ -144,8 +145,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, NOT_FIXED_TAG) && firstNotFixedTag) {
                 if (options.isNotFixed() && !firstNotFixedTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(NOT_FIXED_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(NOT_FIXED_TAG));
                     istream.close();
                     return false;
                 }
@@ -155,8 +156,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, INTERACTIVE_TEST_TAG) && firstInteractiveTag) {
                 if (options.isInteractiveTest() && !firstInteractiveTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(INTERACTIVE_TEST_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(INTERACTIVE_TEST_TAG));
                     istream.close();
                     return false;
                 }
@@ -166,8 +167,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, ENGLISH_IMPOSED_TAG) && firstEnglishTag) {
                 if (options.isEnglishImposed() && !firstEnglishTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(ENGLISH_IMPOSED_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(ENGLISH_IMPOSED_TAG));
                     istream.close();
                     return false;
                 }
@@ -183,8 +184,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
                     return false;
                 }
                 if (options.isCliMode() && !firstCliTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(CLI_MODE_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(CLI_MODE_TAG));
                     istream.close();
                     return false;
                 }
@@ -202,8 +203,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
                     return false;
                 }
                 if (options.isAdvCliMode() && firstAdvCliTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(ADV_CLI_MODE_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(ADV_CLI_MODE_TAG));
                     istream.close();
                     return false;
                 }
@@ -216,14 +217,14 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             if (compareTag(line, GUI_MODE_TAG) && firstGuiTag) {
                 if ((options.isCliMode() && !firstCliTag)
                     || (options.isAdvCliMode() && !firstAdvCliTag)) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(GUI_MODE_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(GUI_MODE_TAG));
                     istream.close();
                     return false;
                 }
                 if (options.isGuiMode() && firstGuiTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(GUI_MODE_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(GUI_MODE_TAG));
                     istream.close();
                     return false;
                 }
@@ -235,8 +236,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, CHECK_REF_TAG) && firstCheckRefTag) {
                 if (options.isCheckRef() && !firstAdvCliTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(CHECK_REF_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(CHECK_REF_TAG));
                     istream.close();
                     return false;
                 }
@@ -247,14 +248,14 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             if (compareTag(line, WINDOWS_ONLY_TAG) && firstWindowsTag) {
                 if ((options.isUnixOnly() && !firstLinuxTag)
                     || (options.isMacOnly() && !firstMacTag)) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(WINDOWS_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(WINDOWS_ONLY_TAG));
                     istream.close();
                     return false;
                 }
                 if (options.isWindowsOnly() && !firstWindowsTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(WINDOWS_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(WINDOWS_ONLY_TAG));
                     istream.close();
                     return false;
                 }
@@ -265,14 +266,14 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             if (compareTag(line, MACOS_ONLY_TAG) && firstMacTag) {
                 if ((options.isUnixOnly() && !firstLinuxTag)
                     || (options.isWindowsOnly() && !firstWindowsTag)) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(MACOS_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(MACOS_ONLY_TAG));
                     istream.close();
                     return false;
                 }
                 if (options.isMacOnly() && !firstMacTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(MACOS_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(MACOS_ONLY_TAG));
                     istream.close();
                     return false;
                 }
@@ -283,14 +284,14 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             if (compareTag(line, UNIX_ONLY_TAG) && firstLinuxTag) {
                 if ((options.isMacOnly() && !firstMacTag)
                     || (options.isWindowsOnly() && !firstWindowsTag)) {
-                    msg = StringFormat(_W("Multiple exclusive tags detected: %ls").c_str(),
-                        utf8_to_wstring(UNIX_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Multiple exclusive tags detected: %s"), utf8_to_wstring(UNIX_ONLY_TAG));
                     istream.close();
                     return false;
                 }
                 if (options.isUnixOnly() && !firstLinuxTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(UNIX_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(UNIX_ONLY_TAG));
                     istream.close();
                     return false;
                 }
@@ -300,8 +301,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, RELEASE_ONLY_TAG) && firstReleaseOnlyTag) {
                 if (!firstReleaseOnlyTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(RELEASE_ONLY_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(RELEASE_ONLY_TAG));
                     istream.close();
                     return false;
                 }
@@ -311,8 +312,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, EXCEL_REQUIRED_TAG) && firstExcelRequiredTag) {
                 if (!firstExcelRequiredTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(EXCEL_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(EXCEL_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -322,8 +323,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, IPC_REQUIRED_TAG) && firstIpcRequired) {
                 if (!firstIpcRequired) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(IPC_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(IPC_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -334,8 +335,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
 
             if (compareTag(line, MPI_MODE_TAG) && firstMpiModeTag) {
                 if (!firstMpiModeTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(MPI_MODE_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(MPI_MODE_TAG));
                     istream.close();
                     return false;
                 }
@@ -347,8 +348,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, AUDIO_INPUT_REQUIRED_TAG) && firstAudioInputRequiredTag) {
                 if (!firstAudioInputRequiredTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(AUDIO_INPUT_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
+                        utf8_to_wstring(AUDIO_INPUT_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -358,8 +359,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, AUDIO_OUTPUT_REQUIRED_TAG) && firstAudioOutputRequiredTag) {
                 if (!firstAudioOutputRequiredTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(AUDIO_OUTPUT_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
+                        utf8_to_wstring(AUDIO_OUTPUT_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -369,8 +370,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, C_COMPILER_REQUIRED_TAG) && firstCCompilerRequiredTag) {
                 if (!firstCCompilerRequiredTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(C_COMPILER_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
+                        utf8_to_wstring(C_COMPILER_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -380,8 +381,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, INDEX_64_BIT_REQUIRED_TAG) && firstIndex64BitRequiredTag) {
                 if (!firstIndex64BitRequiredTag) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(INDEX_64_BIT_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
+                        utf8_to_wstring(INDEX_64_BIT_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -391,8 +392,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, NO_USER_MODULES_TAG) && firstNoUserModules) {
                 if (!firstNoUserModules) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(NO_USER_MODULES_TAG).c_str());
+                    msg = fmt::sprintf(
+                        _W("Duplicated tag detected: %s"), utf8_to_wstring(NO_USER_MODULES_TAG));
                     istream.close();
                     return false;
                 }
@@ -402,8 +403,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             }
             if (compareTag(line, SEQUENTIAL_TEST_REQUIRED_TAG) && firstSequentialTestRequired) {
                 if (!firstSequentialTestRequired) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(SEQUENTIAL_TEST_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
+                        utf8_to_wstring(SEQUENTIAL_TEST_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }
@@ -414,8 +415,8 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             if (compareTag(line, NATIVE_ARCHITECTURE_REQUIRED_TAG)
                 && firstNativeArchitectureTestRequired) {
                 if (!firstNativeArchitectureTestRequired) {
-                    msg = StringFormat(_W("Duplicated tag detected: %ls").c_str(),
-                        utf8_to_wstring(NATIVE_ARCHITECTURE_REQUIRED_TAG).c_str());
+                    msg = fmt::sprintf(_W("Duplicated tag detected: %s"),
+                        utf8_to_wstring(NATIVE_ARCHITECTURE_REQUIRED_TAG));
                     istream.close();
                     return false;
                 }

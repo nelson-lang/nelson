@@ -23,12 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
-#include "StringFormat.hpp"
 #include "Warning.hpp"
 #include "NormalizePath.hpp"
 //=============================================================================
@@ -65,8 +66,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 lastpos = argIn.size();
             }
         } else {
-            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),
-                static_cast<int>(lastpos) + 1));
+            Error(fmt::sprintf(
+                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
         }
         if (withOption) {
             lastpos = argIn.size() - 2;
@@ -87,8 +88,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),
-                    static_cast<int>(lastpos) + 1));
+                Error(fmt::sprintf(
+                    ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
             }
         }
     }
@@ -98,8 +99,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            Error(StringFormat(
-                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), static_cast<int>(k) + 1));
+            Error(
+                fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(k) + 1));
         }
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();

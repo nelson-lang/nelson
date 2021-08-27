@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "ComplexConstructor.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -164,7 +166,7 @@ ComplexConstructor(ArrayOf arrayA)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
+        Error(fmt::sprintf(_("Undefined function '%s_complex'"), ClassName(arrayA)));
     } break;
     case NLS_DOUBLE:
     case NLS_UINT8:

@@ -107,9 +107,6 @@
     <ClInclude Include="..\include\StringFind.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\StringFormat.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\StringPrintf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

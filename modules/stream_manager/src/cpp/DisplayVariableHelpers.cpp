@@ -366,7 +366,7 @@ summarizeCellEntry(Interface* io, const ArrayOf& A)
         case NLS_UINT64: {
             if (A.isScalar()) {
                 uint64 val = *(static_cast<const uint64*>(A.getDataPointer()));
-                std::string msg = "[" + std::to_string(val) + "]";
+                std::string msg = "[" + fmt::to_string(val) + "]";
                 io->outputMessage(msg);
             } else {
                 io->outputMessage("[");
@@ -377,7 +377,7 @@ summarizeCellEntry(Interface* io, const ArrayOf& A)
         case NLS_INT64: {
             if (A.isScalar()) {
                 int64 value = *(static_cast<const int64*>(A.getDataPointer()));
-                std::string msg = std::string("[") + std::to_string(value) + std::string("]");
+                std::string msg = std::string("[") + fmt::to_string(value) + std::string("]");
                 io->outputMessage(msg);
             } else {
                 io->outputMessage("[");
@@ -486,13 +486,13 @@ emitElement(Interface* io, const void* dp, indexType num, Class dcls)
     } break;
     case NLS_INT64: {
         const auto* ap = static_cast<const int64*>(dp);
-        std::string msg = std::to_string(ap[num]) + "  ";
+        std::string msg = fmt::to_string(ap[num]) + "  ";
         io->outputMessage(msg);
     } break;
     case NLS_UINT64: {
         const auto* ap = static_cast<const uint64*>(dp);
         std::string msg;
-        msg = std::to_string(ap[num]) + "  ";
+        msg = fmt::to_string(ap[num]) + "  ";
         io->outputMessage(msg);
     } break;
     case NLS_LOGICAL: {

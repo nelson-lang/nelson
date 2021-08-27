@@ -23,11 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <string>
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "tocBuiltin.hpp"
 #include "Error.hpp"
-#include "StringFormat.hpp"
 #include "TicToc.hpp"
-#include <string>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -43,7 +44,7 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         if (Toc(t, r)) {
             ArrayOfVector retval(1);
             if (nLhs == 0) {
-                std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
+                std::wstring msg = fmt::sprintf(_W("Elapsed time is %f seconds."), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
             } else {
                 retval << ArrayOf::doubleConstructor(r);
@@ -62,7 +63,7 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         if (Toc(eval, r)) {
             ArrayOfVector retval;
             if (nLhs == 0) {
-                std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
+                std::wstring msg = fmt::sprintf(_W("Elapsed time is %f seconds."), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
             } else {
                 retval << ArrayOf::doubleConstructor(r);

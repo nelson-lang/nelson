@@ -23,12 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
-#include "StringFormat.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,16 +47,16 @@ createDynamicLinkSymbolObject(ArrayOf dllibObject, const std::wstring& symbol,
         Error(_W("Valid handle expected."));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
-        Error(StringFormat(_W("Invalid argument type: %ls.").c_str(), returnType.c_str()));
+        Error(fmt::sprintf(_W("Invalid argument type: %s."), returnType));
     }
     for (std::wstring arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
-            Error(StringFormat(_W("Invalid argument type: %ls.").c_str(), arg.c_str()));
+            Error(fmt::sprintf(_W("Invalid argument type: %s."), arg));
         }
     }
     void* ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
     if (!ptr) {
-        Error(StringFormat(_W("Invalid symbol name: %ls").c_str(), symbol.c_str()));
+        Error(fmt::sprintf(_W("Invalid symbol name: %s"), symbol));
     }
     DynamicLinkSymbolObject* dlSymbolObject
         = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);

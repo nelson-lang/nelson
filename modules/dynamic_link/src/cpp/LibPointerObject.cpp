@@ -27,7 +27,6 @@
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
 #include "IsValidHandle.hpp"
-#include "StringFormat.hpp"
 #include "ToCellString.hpp"
 #include <boost/algorithm/string.hpp>
 //=============================================================================

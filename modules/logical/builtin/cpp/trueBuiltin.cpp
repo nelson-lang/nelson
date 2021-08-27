@@ -23,10 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "trueBuiltin.hpp"
 #include "Error.hpp"
 #include "LogicalConstructors.hpp"
-#include "StringFormat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -58,7 +59,7 @@ Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dim[1] = 1;
                     }
                 } else {
-                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), pos + 1));
+                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_VALUE, pos + 1));
                 }
             }
         }

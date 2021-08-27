@@ -30,6 +30,8 @@
 #include <csetjmp>
 #include <csignal>
 #endif
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "Error.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "i18n.hpp"
@@ -195,17 +197,16 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
         std::string error_message = "";
         switch (error_code) {
         case SIGSEGV: {
-            error_message = _("System error detected: ") + std::string("SIGSEV");
+            error_message = fmt::sprintf(_("System error detected: %s"), "SIGSEV");
         } break;
         case SIGFPE: {
-            error_message = _("System error detected: ") + std::string("SIGFPE");
+            error_message = fmt::sprintf(_("System error detected: %s"), "SIGFPE");
         } break;
         case SIGILL: {
-            error_message = _("System error detected: ") + std::string("SIGILL");
+            error_message = fmt::sprintf(_("System error detected: %s"), "SIGILL");
         } break;
         default: {
-            error_message
-                = _("System error detected.") + " " + _("Error code:") + std::to_string(error_code);
+            fmt::sprintf(_("System error detected: Error code: %s"), std::to_string(error_code));
         } break;
         }
         signal(SIGSEGV, SIG_DFL);

@@ -28,6 +28,6 @@ assert_isequal(nargout('mustBeGreaterThan'), 0);
 %=============================================================================
 mustBeGreaterThan(2, 1);
 %=============================================================================
-msg = sprintf(_('Value must be greater than %.6f.'), 1);
+msg = sprintf(_('Value must be greater than %d.'), 1);
 assert_checkerror('mustBeGreaterThan(1, 1)', msg, 'Nelson:validators:mustBeGreaterThan');
 %=============================================================================

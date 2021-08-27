@@ -23,11 +23,12 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "endsWithBuiltin.hpp"
 #include "StringEndsWith.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
-#include "StringFormat.hpp"
 #include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -54,7 +55,7 @@ Nelson::StringGateway::endsWithBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 ArrayOf param3 = argIn[2];
                 std::wstring fieldname = param3.getContentAsWideString();
                 if (fieldname != L"IgnoreCase") {
-                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
+                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
                 }
                 ArrayOf param4 = argIn[3];
                 logical fieldvalue = param4.getContentAsLogicalScalar();

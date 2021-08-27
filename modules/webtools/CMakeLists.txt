@@ -42,6 +42,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 # ==============================================================================
 file(GLOB WEBTOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
@@ -52,6 +53,7 @@ add_library(${module_library_name} SHARED ${WEBTOOLS_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsError_manager
+  nlsStream_manager
   nlsInterpreter
   nlsElementary_mathematics
   nlsElementary_functions

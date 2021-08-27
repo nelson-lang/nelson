@@ -29,7 +29,6 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
-#include "StringFormat.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================

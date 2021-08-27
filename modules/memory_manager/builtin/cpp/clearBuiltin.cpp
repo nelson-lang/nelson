@@ -24,13 +24,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/filesystem.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "clearBuiltin.hpp"
 #include "Clear.hpp"
 #include "ClearFunction.hpp"
 #include "ClearGlobal.hpp"
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
-#include "StringFormat.hpp"
 #include "characters_encoding.hpp"
 #include "GatewaysManager.hpp"
 #include "NelsonGateway.hpp"
@@ -59,7 +60,7 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     } else {
         for (size_t k = 0; k < argIn.size(); k++) {
             if (!argIn[k].isRowVectorCharacterArray()) {
-                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
+                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
             }
         }
         if (argIn.size() == 1) {
