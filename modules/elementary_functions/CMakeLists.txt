@@ -33,6 +33,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../integer/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -55,6 +56,7 @@ target_link_libraries(
   nlsOperators
   nlsI18n
   nlsTypes
+  nlsStream_manager
   ${BLAS_LIBRARIES}
   ${LAPACK_LIBRARIES}
   ${LAPACKE_LIBRARIES}

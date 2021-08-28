@@ -32,9 +32,9 @@
 #include <cstdarg> // For va_start, etc.
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "DisplayFloatingNumber.hpp"
 #include "Error.hpp"
-#include "StringFormat.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayHelpers.hpp"
@@ -112,7 +112,7 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
         case NLS_FORMAT_SHORT: {
             if (asInteger) {
                 if (fabs(number) < 1e9) {
-                    strNumber = std::to_wstring((int64)number);
+                    strNumber = fmt::to_wstring((int64)number);
                 } else {
                     std::wstring format = L"%*.*e";
                     strNumber = fmt::sprintf(format, 9, 4, number);
@@ -130,7 +130,7 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
         case NLS_FORMAT_LONG: {
             if (asInteger) {
                 if (fabs(number) < 1e9) {
-                    strNumber = std::to_wstring((int64)number);
+                    strNumber = fmt::to_wstring((int64)number);
                 } else {
                     std::wstring format = L"%*.*e";
                     strNumber = fmt::sprintf(format, 18, 15, number);
@@ -211,7 +211,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
             dimsA.simplify();
             std::wstring msg = _W("   Empty matrix : ");
             for (indexType k = 0; k < dimsA.getLength(); ++k) {
-                msg = msg + std::to_wstring(dimsA.getDimensionLength(k));
+                msg = msg + fmt::to_wstring(dimsA.getDimensionLength(k));
                 if (k < dimsA.getLength() - 1) {
                     msg = msg + _W("-by-");
                 }
@@ -249,7 +249,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    str = std::to_wstring((int64)minFloatingNumber);
+                    str = fmt::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
                     if (std::isnan(maxFloatingNumber)) {
@@ -263,7 +263,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                         }
                         format_width = str.size() + 1;
                     } else {
-                        str = std::to_wstring((int64)maxFloatingNumber);
+                        str = fmt::to_wstring((int64)maxFloatingNumber);
                         format_width = str.size() + 3;
                     }
                 }
@@ -279,10 +279,10 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    str = std::to_wstring((int64)minFloatingNumber);
+                    str = fmt::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
+                    std::wstring str = fmt::to_wstring((int64)maxFloatingNumber);
                     format_width = str.size() + 3;
                 }
             } else {
@@ -297,7 +297,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    str = std::to_wstring((int64)minFloatingNumber);
+                    str = fmt::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
                     if (std::isnan(maxFloatingNumber)) {
@@ -311,7 +311,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                         }
                         format_width = str.size() + 1;
                     } else {
-                        str = std::to_wstring((int64)maxFloatingNumber);
+                        str = fmt::to_wstring((int64)maxFloatingNumber);
                         format_width = str.size() + 3;
                     }
                 }
@@ -327,7 +327,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
-                    str = std::to_wstring((int64)minFloatingNumber);
+                    str = fmt::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
                     if (std::isnan(maxFloatingNumber)) {
@@ -341,7 +341,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                         }
                         format_width = str.size() + 1;
                     } else {
-                        str = std::to_wstring((int64)maxFloatingNumber);
+                        str = fmt::to_wstring((int64)maxFloatingNumber);
                         format_width = str.size() + 3;
                     }
                 }

@@ -28,6 +28,6 @@ assert_isequal(nargout('mustBeLessThanOrEqual'), 0);
 %=============================================================================
 mustBeLessThanOrEqual(3, 3);
 %=============================================================================
-msg = sprintf(_('Value must be less than or equal to %.6f.'), 2);
+msg = sprintf(_('Value must be less than or equal to %s.'), num2str(2));
 assert_checkerror('mustBeLessThanOrEqual(3, 2)', msg, 'Nelson:validators:mustBeLessThanOrEqual');
 %=============================================================================

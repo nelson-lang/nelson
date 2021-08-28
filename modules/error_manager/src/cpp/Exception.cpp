@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem.hpp>
@@ -34,7 +35,6 @@
 #include <cstring>
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
-#include "StringFormat.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -237,10 +237,9 @@ Exception::getFormattedErrorMessage() const
                 } else {
                     filename = pf.wstring();
                 }
-
                 message = message
-                    + StringFormat(_W("at line %5d of \'%ls\'\n").c_str(), traces[pos].getLine(),
-                          filename.c_str());
+                    + str(boost::wformat(_W("at line %5d of \'%s\'\n")) % traces[pos].getLine()
+                          % filename);
             }
         }
     }

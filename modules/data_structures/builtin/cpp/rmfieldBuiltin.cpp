@@ -25,12 +25,13 @@
 //=============================================================================
 #include <set>
 #include <algorithm>
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadRequired.hpp"
-#include "StringFormat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -84,7 +85,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
                     }
                 }
                 if (!have) {
-                    Error(StringFormat(_("A field named '%s' doesn't exist.").c_str(), n.c_str()));
+                    Error(fmt::sprintf(_("A field named '%s' doesn't exist."), n));
                 }
             }
             common = currentNames;

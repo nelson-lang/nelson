@@ -95,7 +95,7 @@ NumberToStringHelperInteger(const ArrayOf& A)
     for (indexType i = 0; i < dimsA.getElementCount(); i++) {
         maxAbsValue = std::max(maxAbsValue, fabsl(static_cast<long double>(dp[i])));
     }
-    std::string maxString = std::to_string(static_cast<T>(maxAbsValue));
+    std::string maxString = fmt::to_string(static_cast<T>(maxAbsValue));
     size_t maxlen = maxString.size();
     stringVector rows;
     indexType m = dimsA.getRows();
@@ -103,7 +103,7 @@ NumberToStringHelperInteger(const ArrayOf& A)
     for (indexType i = 0; i < m; i++) {
         std::string row;
         for (indexType j = 0; j < n; j++) {
-            std::string s = std::to_string(dp[j * m + i]);
+            std::string s = fmt::to_string(dp[j * m + i]);
             int l = (int)(maxlen - s.length() + 2);
             row += std::string(l > 0 ? l : 2, ' ');
             row += s;
@@ -163,13 +163,13 @@ NumberToStringHelperComplex(
                 ndigit = std::max(ndigit + 5, 5);
             }
             ndigit = std::min(ndigit, 16);
-            uformat = "%" + std::to_string(ndigit + 7) + "." + std::to_string(ndigit) + "g";
+            uformat = "%" + fmt::to_string(ndigit + 7) + "." + fmt::to_string(ndigit) + "g";
         } else {
             ndigit += 3;
             if (!std::isfinite(maxAbsValue)) {
                 ndigit = std::max(ndigit, 5);
             }
-            uformat = "%" + std::to_string(ndigit) + ".0f";
+            uformat = "%" + fmt::to_string(ndigit) + ".0f";
         }
         std::string s;
         if (allint) {
@@ -262,7 +262,11 @@ NumberToStringHelperReal(
         }
         int ndigit = 0;
         if (std::isfinite(maxAbsValue)) {
-            ndigit = (int)std::floor(log10(maxAbsValue));
+            if (maxAbsValue == 0.) {
+                ndigit = 0;
+            } else {
+                ndigit = (int)std::floor(log10(maxAbsValue));
+            }
         }
         if (ndigit > 15 || !allint) {
             if (dimsA.isScalar()) {
@@ -271,13 +275,13 @@ NumberToStringHelperReal(
                 ndigit = std::max(ndigit + 5, 5);
             }
             ndigit = std::min(ndigit, 16);
-            uformat = "%" + std::to_string(ndigit + 7) + "." + std::to_string(ndigit) + "g";
+            uformat = "%" + fmt::to_string(ndigit + 7) + "." + fmt::to_string(ndigit) + "g";
         } else {
             ndigit += 3;
             if (!std::isfinite(maxAbsValue)) {
                 ndigit = std::max(ndigit, 5);
             }
-            uformat = "%" + std::to_string(ndigit) + ".0f";
+            uformat = "%" + fmt::to_string(ndigit) + ".0f";
         }
         std::string s;
         if (allint) {

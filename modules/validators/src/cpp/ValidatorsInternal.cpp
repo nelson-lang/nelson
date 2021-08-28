@@ -23,7 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "ValidatorsInternal.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -68,8 +70,7 @@ invalidPositionMessage(int argPosition)
 {
     std::wstring msg;
     if (argPosition > 0) {
-        msg = str(boost::wformat{ _W("Invalid input argument at position %d.") } % argPosition)
-            + L"\n";
+        msg = fmt::sprintf(_W("Invalid input argument at position %d."), argPosition) + L"\n";
     }
     return msg;
 }
@@ -534,50 +535,50 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
     } break;
     case NLS_UINT8: {
         uint8 value = ArrayOf(c).getContentAsUnsignedInteger8Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_INT8: {
         int8 value = ArrayOf(c).getContentAsInteger8Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_UINT16: {
         uint16 value = ArrayOf(c).getContentAsUnsignedInteger16Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_INT16: {
         int16 value = ArrayOf(c).getContentAsInteger16Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_UINT32: {
         uint32 value = ArrayOf(c).getContentAsUnsignedInteger32Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_INT32: {
         int32 value = ArrayOf(c).getContentAsInteger32Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_UINT64: {
         uint64 value = ArrayOf(c).getContentAsUnsignedInteger64Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_INT64: {
         int64 value = ArrayOf(c).getContentAsInteger64Scalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_SINGLE: {
         single value = ArrayOf(c).getContentAsSingleScalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     case NLS_DOUBLE: {
         double value = ArrayOf(c).getContentAsDoubleScalar();
-        valueAsString = std::to_wstring(value);
+        valueAsString = fmt::to_wstring(value);
     } break;
     default: { } break; }
     std::wstring msg;
     if (valueAsString.empty()) {
         msg = defaultMessage;
     } else {
-        msg = str(boost::wformat{ fmt } % valueAsString);
+        msg = fmt::sprintf(fmt, valueAsString);
     }
     return msg;
 }
@@ -924,9 +925,9 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
         includeUpper = false;
     } else {
         if (boundflag1 == boundflag2) {
-            std::wstring msg = str(
-                boost::wformat{ _W("A combinaison of '%s' and '%s' options is not supported.") }
-                % boundflag1 % boundflag2);
+            std::wstring msg
+                = fmt::sprintf(_W("A combinaison of '%s' and '%s' options is not supported."),
+                    boundflag1, boundflag2);
             std::wstring id = L"Nelson:validatorUsage:ConflictingBoundaryOptions";
             Error(msg, id, asCaller);
         } else {

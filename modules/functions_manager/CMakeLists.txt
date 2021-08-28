@@ -77,6 +77,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../mex/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${FUNCTIONS_MANAGER_BUILTIN})
@@ -85,6 +86,7 @@ target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
   nlsError_manager
+  nlsStream_manager
   nlsInterpreter
   nlsTypes
   nlsApi_nelson

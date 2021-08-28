@@ -23,9 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "stringsBuiltin.hpp"
 #include "Error.hpp"
-#include "StringFormat.hpp"
 #include "nlsConfig.h"
 //=============================================================================
 using namespace Nelson;
@@ -103,25 +104,23 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        Error(StringFormat(
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
-                            k + 1));
+                        Error(fmt::sprintf(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1));
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     auto index = static_cast<indexType>(dindex);
                     if (static_cast<double>(index) != dindex) {
-                        Error(StringFormat(
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
-                            k + 1));
+                        Error(fmt::sprintf(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1));
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
+                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1));
                 }
             } else {
-                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED.c_str(), k + 1));
+                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED, k + 1));
             }
         }
         dims.simplify();

@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/unordered_map.hpp>
 #include "DynamicLinkSymbolObject.hpp"
@@ -30,7 +32,6 @@
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
 #include "LibPointerObject.hpp"
-#include "StringFormat.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 namespace Nelson {
@@ -101,8 +102,7 @@ GetFFIType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        Error(StringFormat(
-            _W("import type %s not defined in FFI type table.").c_str(), type.c_str()));
+        Error(fmt::sprintf(_W("import type %s not defined in FFI type table."), type));
     }
     return ret.FFIType;
 }
@@ -114,8 +114,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        Error(StringFormat(
-            _W("import type %ls not defined in FFI type table.").c_str(), type.c_str()));
+        Error(fmt::sprintf(_W("import type %s not defined in FFI type table."), type));
     }
     return ret.NelsonClass;
 }
@@ -315,14 +314,12 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    Error(StringFormat(
-                        _W("Invalid type for #%zu input argument: %ls expected.").c_str(), k + 1,
-                        _paramsTypes[k].c_str()));
+                    Error(fmt::sprintf(_W("Invalid type for #%zu input argument: %s expected."),
+                        k + 1, _paramsTypes[k]));
                 }
             } else {
-                Error(
-                    StringFormat(_W("Invalid type for #%zu input argument: %ls expected.").c_str(),
-                        k + 1, _paramsTypes[k].c_str()));
+                Error(fmt::sprintf(_W("Invalid type for #%zu input argument: %s expected."), k + 1,
+                    _paramsTypes[k]));
             }
         }
     }

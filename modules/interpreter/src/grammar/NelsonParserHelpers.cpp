@@ -23,7 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/format.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "NelsonParserHelpers.hpp"
 #include "LexerInterface.hpp"
 #include "ParserInterface.hpp"
@@ -75,10 +76,10 @@ yyxpt(const std::string& xStr, const ParseRHS& val)
     getLinePosition(val, linenumber, colnumber);
     std::string msg;
     if (getParserFilenameU() == "") {
-        msg = str(boost::format(_("Expecting %s")) % xStr);
+        msg = fmt::sprintf(_("Expecting %s"), xStr);
     } else {
-        msg = str(boost::format(_("Expecting %s\n\tat line %d, column %d of file %s")) % xStr
-            % linenumber % colnumber % getParserFilenameU());
+        msg = fmt::sprintf(_("Expecting %s\n\tat line %d, column %d of file %s"), xStr, linenumber,
+            colnumber, getParserFilenameU());
     }
     Error(msg);
     return 0;
@@ -111,7 +112,7 @@ decodeline(const ParseRHS& val)
     int linenumber = 0;
     int colnumber = 0;
     getLinePosition(val, linenumber, colnumber);
-    return std::to_string(linenumber);
+    return fmt::to_string(linenumber);
 }
 //=============================================================================
 void

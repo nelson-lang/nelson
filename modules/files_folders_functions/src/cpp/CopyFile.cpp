@@ -25,12 +25,13 @@
 //=============================================================================
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "CopyFile.hpp"
 #include "Error.hpp"
 #include "IsDirectory.hpp"
 #include "IsFile.hpp"
 #include "characters_encoding.hpp"
-#include "StringFormat.hpp"
 //=============================================================================
 namespace Nelson {
 bool
@@ -71,17 +72,17 @@ copyDirectoryRecursively(const boost::filesystem::path& sourceDir,
 {
     if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
         if (!bForce) {
-            errorMessage = StringFormat(
-                _W("Source directory %ls does not exist or is not a directory.").c_str(),
-                sourceDir.wstring().c_str());
+            errorMessage
+                = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
+                    sourceDir.wstring());
             return false;
         }
     }
     if (!boost::filesystem::exists(sourceDir) || !boost::filesystem::is_directory(sourceDir)) {
         if (!boost::filesystem::create_directory(destinationDir)) {
             if (!bForce) {
-                errorMessage = StringFormat(_W("Cannot create destination directory %ls").c_str(),
-                    destinationDir.wstring().c_str());
+                errorMessage = fmt::sprintf(
+                    _W("Cannot create destination directory %s"), destinationDir.wstring());
                 return false;
             }
         }

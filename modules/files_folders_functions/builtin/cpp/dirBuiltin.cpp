@@ -23,12 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/container/vector.hpp>
 #include "dirBuiltin.hpp"
 #include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "ListFiles.hpp"
-#include "StringFormat.hpp"
-#include <boost/container/vector.hpp>
 #include "NelsonConfiguration.hpp"
 #include "NelsonPrint.hpp"
 //=============================================================================

@@ -25,12 +25,13 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #include <boost/algorithm/string.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include <iomanip>
 #include <sstream>
 #include <cstring>
 #include "nlsConfig.h"
 #include "JsonEncode.hpp"
-#include "StringFormat.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -115,7 +116,8 @@ encode_character(wchar_t ch)
         break;
     default: {
         if ((ch > 13) && (ch < 32)) {
-            json_append_string(StringFormat(L"\\u%04hx", ch));
+
+            json_append_string(fmt::sprintf(std::wstring(L"\\u%04hx"), ch));
         } else {
             std::wstring wstr;
             wstr.push_back(ch);
@@ -215,7 +217,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         indexType elementCount = ValueToEncode.getElementCount();
         for (indexType i = 0; i < elementCount; i++) {
-            json_append_string(StringFormat(format.c_str(), ptr[i]));
+            json_append_string(fmt::sprintf(format, ptr[i]));
         }
     } else if (ValueToEncode.is2D()) {
         indexType rows = ValueToEncode.getRows();
@@ -223,7 +225,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
         for (int i = 0; i < rows; ++i) {
             json_append_char('[');
             for (int j = 0; j < cols; ++j) {
-                json_append_string(StringFormat(format.c_str(), ptr[j * rows + i]));
+                json_append_string(fmt::sprintf(format, ptr[j * rows + i]));
             }
             if (boost::algorithm::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
@@ -237,7 +239,7 @@ jsonEncodeInteger(const ArrayOf& ValueToEncode, const std::wstring& format)
         for (int i = 0; i < ymax; ++i) {
             json_append_char('[');
             for (int j = 0; j < lastdimlen; ++j) {
-                json_append_string(StringFormat(format.c_str(), ptr[j * ymax + i]));
+                json_append_string(fmt::sprintf(format, ptr[j * ymax + i]));
             }
             if (boost::algorithm::ends_with(jsonString, L",")) {
                 jsonString.pop_back();

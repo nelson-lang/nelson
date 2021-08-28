@@ -27,6 +27,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include <curl/curl.h>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
@@ -430,84 +432,84 @@ scalarValueToString(CURL* curlObject, ArrayOf& value)
     case NLS_DOUBLE: {
         double v = value.getContentAsDoubleScalar();
         if (std::floor(v) == std::ceil(v)) {
-            s = std::to_string(int64(v));
+            s = fmt::to_string(int64(v));
         } else {
-            s = std::to_string(v);
+            s = fmt::to_string(v);
         }
     } break;
     case NLS_DCOMPLEX: {
         std::complex<double> v = value.getContentAsDoubleComplexScalar();
         if (std::floor(v.real()) == std::ceil(v.real())) {
-            s = std::to_string(int64(v.real()));
+            s = fmt::to_string(int64(v.real()));
         } else {
-            s = std::to_string(v.real());
+            s = fmt::to_string(v.real());
         }
         if (v.imag() > 0) {
             s += "+";
         }
         if (std::floor(v.imag()) == std::ceil(v.imag())) {
-            s += std::to_string(int64(v.imag()));
+            s += fmt::to_string(int64(v.imag()));
         } else {
-            s += std::to_string(v.imag());
+            s += fmt::to_string(v.imag());
         }
         s += "i";
     } break;
     case NLS_SINGLE: {
         single v = value.getContentAsSingleScalar();
         if (std::floor(v) == std::ceil(v)) {
-            s = std::to_string(int64(v));
+            s = fmt::to_string(int64(v));
         } else {
-            s = std::to_string(v);
+            s = fmt::to_string(v);
         }
     } break;
     case NLS_SCOMPLEX: {
         std::complex<single> v = value.getContentAsSingleComplexScalar();
         if (std::floor(v.real()) == std::ceil(v.real())) {
-            s = std::to_string(int64(v.real()));
+            s = fmt::to_string(int64(v.real()));
         } else {
-            s = std::to_string(v.real());
+            s = fmt::to_string(v.real());
         }
         if (v.imag() > 0) {
             s += "+";
         }
         if (std::floor(v.imag()) == std::ceil(v.imag())) {
-            s += std::to_string(int64(v.imag()));
+            s += fmt::to_string(int64(v.imag()));
         } else {
-            s += std::to_string(v.imag());
+            s += fmt::to_string(v.imag());
         }
         s += "i";
     } break;
     case NLS_UINT8: {
         uint8 v = value.getContentAsUnsignedInteger8Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_INT8: {
         int8 v = value.getContentAsInteger8Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_UINT16: {
         uint16 v = value.getContentAsUnsignedInteger16Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_INT16: {
         int16 v = value.getContentAsInteger16Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_UINT32: {
         uint32 v = value.getContentAsUnsignedInteger32Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_INT32: {
         int32 v = value.getContentAsInteger32Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_UINT64: {
         uint64 v = value.getContentAsUnsignedInteger64Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     case NLS_INT64: {
         int64 v = value.getContentAsInteger64Scalar();
-        s = std::to_string(v);
+        s = fmt::to_string(v);
     } break;
     default: {
         Error(_W("Type not managed."));
@@ -614,9 +616,9 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
             double v = ptr[k];
             std::string s;
             if (std::floor(v) == std::ceil(v)) {
-                s = std::to_string(int64(v));
+                s = fmt::to_string(int64(v));
             } else {
-                s = std::to_string(v);
+                s = fmt::to_string(v);
             }
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
@@ -628,17 +630,17 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
             std::complex<double> v(ptr[k], ptr[k + 1]);
             std::string s;
             if (std::floor(v.real()) == std::ceil(v.real())) {
-                s = std::to_string(int64(v.real()));
+                s = fmt::to_string(int64(v.real()));
             } else {
-                s = std::to_string(v.real());
+                s = fmt::to_string(v.real());
             }
             if (v.imag() > 0) {
                 s += "+";
             }
             if (std::floor(v.imag()) == std::ceil(v.imag())) {
-                s += std::to_string(int64(v.imag()));
+                s += fmt::to_string(int64(v.imag()));
             } else {
-                s += std::to_string(v.imag());
+                s += fmt::to_string(v.imag());
             }
             s += "i";
             output = output
@@ -651,9 +653,9 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
             single v = ptr[k];
             std::string s;
             if (std::floor(v) == std::ceil(v)) {
-                s = std::to_string(int64(v));
+                s = fmt::to_string(int64(v));
             } else {
-                s = std::to_string(v);
+                s = fmt::to_string(v);
             }
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
@@ -665,17 +667,17 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
             std::complex<single> v(ptr[k], ptr[k + 1]);
             std::string s;
             if (std::floor(v.real()) == std::ceil(v.real())) {
-                s = std::to_string(int64(v.real()));
+                s = fmt::to_string(int64(v.real()));
             } else {
-                s = std::to_string(v.real());
+                s = fmt::to_string(v.real());
             }
             if (v.imag() > 0) {
                 s += "+";
             }
             if (std::floor(v.imag()) == std::ceil(v.imag())) {
-                s += std::to_string(int64(v.imag()));
+                s += fmt::to_string(int64(v.imag()));
             } else {
-                s += std::to_string(v.imag());
+                s += fmt::to_string(v.imag());
             }
             s += "i";
             output = output
@@ -686,7 +688,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (uint8*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint8 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -695,7 +697,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         int8* ptr = (int8*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int8 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -704,7 +706,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (uint16*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint16 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -713,7 +715,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (int16*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int16 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -722,7 +724,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (uint32*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint32 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -731,7 +733,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (int32*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int32 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -740,7 +742,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (uint64*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             uint64 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }
@@ -749,7 +751,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         auto* ptr = (int64*)value.getDataPointer();
         for (indexType k = 0; k < nbElements; k++) {
             int64 v = ptr[k];
-            std::string s = std::to_string(v);
+            std::string s = fmt::to_string(v);
             output = output
                 + convertToOutputFormat(curlObject, name, k, nbElements, arrayOutputFormat, s);
         }

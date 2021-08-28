@@ -34,6 +34,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
@@ -49,6 +50,7 @@ add_library(${module_library_name} SHARED ${JSON_SRC})
 target_link_libraries(
   ${module_library_name}
   nlsError_manager
+  nlsStream_manager
   nlsInterpreter
   nlsElementary_mathematics
   nlsElementary_functions

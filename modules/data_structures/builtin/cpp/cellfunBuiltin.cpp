@@ -25,13 +25,14 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "cellfunBuiltin.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "ErrorToStruct.hpp"
 #include "PathFuncManager.hpp"
-#include "StringFormat.hpp"
 #include "StringToFunctionHandle.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
@@ -370,8 +371,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 } else {
-                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED.c_str(),
-                        nbElementsInput));
+                    Error(fmt::sprintf(
+                        ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED, nbElementsInput));
                 }
             }
         }
@@ -406,8 +407,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveErrorHandlerArgs = true;
                     }
                 } else {
-                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED.c_str(),
-                        nbElementsInput));
+                    Error(fmt::sprintf(
+                        ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED, nbElementsInput));
                 }
             }
         }

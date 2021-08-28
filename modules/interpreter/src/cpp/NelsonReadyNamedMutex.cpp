@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fmt/printf.h>
+#include <fmt/format.h>
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/sync/named_mutex.hpp>
 #include "NelsonReadyNamedMutex.hpp"
@@ -34,7 +36,7 @@ static boost::interprocess::named_mutex* nelson_ready_mutex = nullptr;
 static std::string
 getNamedMutex(int pid)
 {
-    return std::string("NELSON_READY_") + std::to_string(pid);
+    return std::string("NELSON_READY_") + fmt::to_string(pid);
 }
 //=============================================================================
 bool
