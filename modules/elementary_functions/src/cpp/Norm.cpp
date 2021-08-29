@@ -24,9 +24,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lapack_eigen.hpp"
+#include <Eigen/Dense>
 #include "Norm.hpp"
 #include "Error.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -97,10 +97,17 @@ NormP2Matrix(const ArrayOf& arrayIn)
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
         (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
         (Eigen::Index)arrayIn.getColumns());
-    Eigen::JacobiSVD<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> svd(matArrayIn);
-    T res = svd.singularValues()(0, 0);
-    if (std::isnan(res)) {
-        if (!matArrayIn.allFinite() && !matArrayIn.hasNaN()) {
+    bool allFinite = matArrayIn.allFinite();
+    T res = (T)std::nan("NaN");
+    if (!allFinite) {
+        bool hasNaN = matArrayIn.hasNaN();
+        if (!hasNaN) {
+            return std::numeric_limits<T>::infinity();
+        }
+    } else {
+        Eigen::JacobiSVD<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> svd(matArrayIn);
+        res = svd.singularValues()(0, 0);
+        if (std::isnan(res) && !matArrayIn.hasNaN()) {
             res = std::numeric_limits<T>::infinity();
         }
     }
