@@ -29,7 +29,7 @@
 % [p,f,e]=fileparts('c:/') did not return the good result
 %=============================================================================
 [p, f, e] = fileparts('c:/');
-assert_isequal(p, 'c:');
+assert_isequal(p, 'c:/');
 assert_isequal(f, '');
 assert_isequal(e, '');
 %=============================================================================

@@ -23,12 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileCompleter.hpp"
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/convenience.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/regex.hpp>
+#include "FileCompleter.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -165,7 +166,7 @@ FileCompleter(const std::wstring& prefix)
                                     size_t pos1 = prefix.rfind(L'/');
                                     size_t pos2 = prefix.rfind(L'\\');
                                     if (pos1 != std::wstring::npos && pos2 != std::wstring::npos) {
-                                        pos = std::max(pos1, pos2);
+                                        pos = max(pos1, pos2);
                                     } else {
                                         if (pos1 != std::wstring::npos) {
                                             pos = pos1;

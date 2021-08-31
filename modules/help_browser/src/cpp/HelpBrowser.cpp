@@ -236,7 +236,7 @@ HelpBrowser::clearCache()
     closeBrowser();
     std::wstring cachePath = getCachePath();
     std::wstring msgError = L"";
-    Nelson::RemoveDirectory(cachePath, true, msgError);
+    RemoveDirectory(cachePath, true, msgError);
 }
 //=============================================================================
 std::wstring

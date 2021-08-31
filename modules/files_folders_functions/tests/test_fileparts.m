@@ -87,11 +87,7 @@ assert_isequal('', f);
 assert_isequal('', e);
 %=============================================================================
 [p,f,e] = fileparts('c://');
-if ispc()
-  assert_isequal('c:/', p);
-else
-  assert_isequal('c:', p);
-end
+assert_isequal('c:/', p);
 assert_isequal('', f);
 assert_isequal('', e);
 %=============================================================================
@@ -101,7 +97,7 @@ assert_isequal('', f);
 assert_isequal('', e);
 %=============================================================================
 [p,f,e] = fileparts('c:/');
-assert_isequal('c:', p);
+assert_isequal('c:/', p);
 assert_isequal('', f);
 assert_isequal('', e);
 %=============================================================================
