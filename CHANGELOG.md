@@ -4,6 +4,9 @@
 
 - [#496](http://github.com/Nelson-numerical-software/nelson/issues/496): Eigen 3.4 used.
 
+- [#503](http://github.com/Nelson-numerical-software/nelson/issues/503): Boost 1.77 support (default on Windows).
+
+
 # 0.5.8 (2021-08-25)
 
 ## Features:

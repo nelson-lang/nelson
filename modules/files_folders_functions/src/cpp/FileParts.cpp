@@ -36,6 +36,9 @@ FilePartsPath(const std::wstring& fullpath)
     if (pathToSplit.has_parent_path()) {
         res = pathToSplit.parent_path().generic_wstring();
     }
+    if (res.length() > 1 && res.back() == L':') {
+        res = res + L"/";
+    }
     return res;
 }
 //=============================================================================

@@ -30,6 +30,7 @@
 //=============================================================================
 #include <string>
 #include <stdlib.h>
+#include <algorithm>
 #include <boost/process.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/process/async.hpp>
