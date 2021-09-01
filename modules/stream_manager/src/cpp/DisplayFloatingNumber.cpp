@@ -190,7 +190,8 @@ printNumber(
         std::wstring realStr = printNumber(realpart, currentFormat, asInteger, asScalar);
         strNumber.append(realStr);
         strNumber.append(L" - ");
-        std::wstring imagStr = printNumber(abs(imagpart), currentFormat, asInteger, asScalar);
+        T absValue = abs(imagpart);
+        std::wstring imagStr = printNumber(absValue, currentFormat, asInteger, asScalar);
         boost::algorithm::trim_left(imagStr);
         strNumber.append(imagStr);
         strNumber.append(L"i");
