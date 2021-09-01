@@ -1,5 +1,7 @@
 # 0.5.9 (UNRELEASED)
 
+- [#506](http://github.com/Nelson-numerical-software/nelson/issues/506): Modernize windows installer style.
+
 ## Compilation:
 
 - [#496](http://github.com/Nelson-numerical-software/nelson/issues/496): Eigen 3.4 used.

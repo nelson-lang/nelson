@@ -51,4 +51,5 @@ OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-64
 #else
 OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-32
 #endif
+WizardStyle=modern
 ;==============================================================================
