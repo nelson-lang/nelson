@@ -25,7 +25,7 @@
 %=============================================================================
 function r = weboptions_assign(cl, key, value)
     if ~isSupportedFieldNames(key)
-      error(sprintf(_('%s is not a recognized parameter.'), key));
+      error(sprintf(_('''%s'' is not a recognized parameter.'), key));
     end
     [r, fieldname, fieldvalue] = checkArgument(key, value);
     if ~r
@@ -95,7 +95,7 @@ function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
 end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkCharacterencoding(argValue)
-  supportedCharacterEncoding = {'auto';
+  supportedOptions = {'auto';
     'US-ASCII';
     'UTF-8';
     'latin1';
@@ -103,7 +103,7 @@ function [res, nameNormalized, valueNormalized] = checkCharacterencoding(argValu
     'ISO-8859-1'};
   nameNormalized = 'CharacterEncoding';
   valueNormalized = convertStringsToChars(argValue);
-  idx = contains(upper(supportedCharacterEncoding), upper(valueNormalized));
+  idx = contains(upper(supportedOptions), upper(valueNormalized));
   res = any(idx);
   if res
     valueNormalized = supportedOptions(idx){1};
@@ -155,17 +155,17 @@ end
 function [res, nameNormalized, valueNormalized] = checkContentType(argValue)
   nameNormalized = 'ContentType';
   value = convertStringsToChars(argValue);
-  supportedContentType = {'text';
+  supportedOptions = {'text';
     'binary';
     'audio';
     'json';
     'raw';
     'auto'};
   valueNormalized = convertStringsToChars(argValue);
-  idx = contains(upper(supportedContentType), upper(valueNormalized));
+  idx = contains(upper(supportedOptions), upper(valueNormalized));
   res = any(idx);
   if res
-    valueNormalized = supportedContentType(idx){1};
+    valueNormalized = supportedOptions(idx){1};
   else
    valueNormalized = [];
   end
@@ -203,14 +203,14 @@ end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkArrayFormat(argValue)
   value = convertStringsToChars(argValue);
-  supportedArrayFormat = {'csv';
+  supportedOptions = {'csv';
     'json';
     'repeating';
     'php'};
-  idx = contains(upper(supportedArrayFormat), upper(value));
+  idx = contains(upper(supportedOptions), upper(value));
   res = any(idx);
   if res
-    valueNormalized = supportedArrayFormat(idx){1};
+    valueNormalized = supportedOptions(idx){1};
   else
    valueNormalized = [];
   end

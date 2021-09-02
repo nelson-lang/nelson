@@ -36,12 +36,18 @@ namespace Nelson {
 //=============================================================================
 typedef enum
 {
-    NLS_FORMAT_SHORT,
-    NLS_FORMAT_LONG,
-    NLS_FORMAT_SHORTE,
-    NLS_FORMAT_LONGE,
-    NLS_FORMAT_HEX
-} OutputFormatDisplay;
+    NLS_NUMERIC_FORMAT_SHORT,
+    NLS_NUMERIC_FORMAT_LONG,
+    NLS_NUMERIC_FORMAT_SHORTE,
+    NLS_NUMERIC_FORMAT_LONGE,
+    NLS_NUMERIC_FORMAT_HEX
+} NumericFormatDisplay;
+//=============================================================================
+typedef enum
+{
+    NLS_LINE_SPACING_COMPACT,
+    NLS_LINE_SPACING_LOOSE
+} LineSpacingDisplay;
 //=============================================================================
 class NLSNELSON_MANAGER_IMPEXP NelsonConfiguration
 {
@@ -56,10 +62,15 @@ public:
     bool
     setInterruptPending(bool bInterruptPending);
     //=============================================================================
-    OutputFormatDisplay
-    setOutputFormatDisplay(OutputFormatDisplay desiredOutputFormatDisplay);
-    OutputFormatDisplay
-    getOutputFormatDisplay();
+    NumericFormatDisplay
+    setNumericFormatDisplay(NumericFormatDisplay desiredNumericFormatDisplay);
+    NumericFormatDisplay
+    getNumericFormatDisplay();
+    //=============================================================================
+    LineSpacingDisplay
+    setLineSpacingDisplay(LineSpacingDisplay desiredLineSpacingDisplay);
+    LineSpacingDisplay
+    getLineSpacingDisplay();
     //=============================================================================
     void
     destroy();
@@ -90,9 +101,14 @@ private:
     bool InterruptPending;
     //=============================================================================
     /**
-     * Current output format
+     * Current numeric format
      */
-    OutputFormatDisplay currentOutputFormatDisplay;
+    NumericFormatDisplay currentNumericFormatDisplay;
+    //=============================================================================
+    /**
+     * Current line spacing
+     */
+    LineSpacingDisplay currentLineSpacingDisplay;
     //=============================================================================
     bool modulesProtected;
     //=============================================================================
