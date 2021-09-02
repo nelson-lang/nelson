@@ -103,13 +103,13 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
 //=============================================================================
 template <class T>
 static std::wstring
-printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
+printNumber(T number, NumericFormatDisplay currentFormat, bool asInteger, bool asScalar)
 {
     std::wstring strNumber = L"";
     strNumber.reserve(64);
     if (std::isfinite(number)) {
         switch (currentFormat) {
-        case NLS_FORMAT_SHORT: {
+        case NLS_NUMERIC_FORMAT_SHORT: {
             if (asInteger) {
                 if (fabs(number) < 1e9) {
                     strNumber = fmt::to_wstring((int64)number);
@@ -127,7 +127,7 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
                 }
             }
         } break;
-        case NLS_FORMAT_LONG: {
+        case NLS_NUMERIC_FORMAT_LONG: {
             if (asInteger) {
                 if (fabs(number) < 1e9) {
                     strNumber = fmt::to_wstring((int64)number);
@@ -145,15 +145,15 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
                 }
             }
         } break;
-        case NLS_FORMAT_SHORTE: {
+        case NLS_NUMERIC_FORMAT_SHORTE: {
             std::wstring format = L"%*.*e";
             strNumber = fmt::sprintf(format, 10, 4, number);
         } break;
-        case NLS_FORMAT_LONGE: {
+        case NLS_NUMERIC_FORMAT_LONGE: {
             std::wstring format = L"%*.*e";
             strNumber = fmt::sprintf(format, 23, 15, number);
         } break;
-        case NLS_FORMAT_HEX: {
+        case NLS_NUMERIC_FORMAT_HEX: {
             strNumber = double2hexastr(number);
         } break;
         }
@@ -174,7 +174,7 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
 template <class T>
 static std::wstring
 printNumber(
-    T realpart, T imagpart, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
+    T realpart, T imagpart, NumericFormatDisplay currentFormat, bool asInteger, bool asScalar)
 {
     std::wstring strNumber = L"";
     strNumber.reserve(128);
@@ -234,10 +234,10 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
         if (A.isComplex()) {
             std::complex<T>* cplx = reinterpret_cast<std::complex<T>*>(pValueA);
             strNumber = printNumber<T>(cplx->real(), cplx->imag(),
-                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
+                NelsonConfiguration::getInstance()->getNumericFormatDisplay(), false, true);
         } else {
             strNumber = printNumber<T>(pValueA[0],
-                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
+                NelsonConfiguration::getInstance()->getNumericFormatDisplay(), asInteger, true);
         }
         io->outputMessage(strNumber);
         io->outputMessage(L"\n");
@@ -245,8 +245,8 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
         // matrix
         indexType format_width = 8;
         bool bIsComplex = A.isComplex();
-        switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
-        case NLS_FORMAT_SHORT: {
+        switch (NelsonConfiguration::getInstance()->getNumericFormatDisplay()) {
+        case NLS_NUMERIC_FORMAT_SHORT: {
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
@@ -276,7 +276,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                 }
             }
         } break;
-        case NLS_FORMAT_LONG:
+        case NLS_NUMERIC_FORMAT_LONG:
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
@@ -294,7 +294,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                 }
             }
             break;
-        case NLS_FORMAT_SHORTE:
+        case NLS_NUMERIC_FORMAT_SHORTE:
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
@@ -324,7 +324,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                 }
             }
             break;
-        case NLS_FORMAT_LONGE:
+        case NLS_NUMERIC_FORMAT_LONGE:
             if (asInteger && !bIsComplex) {
                 std::wstring str;
                 if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
@@ -354,7 +354,7 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                 }
             }
             break;
-        case NLS_FORMAT_HEX:
+        case NLS_NUMERIC_FORMAT_HEX:
             format_width = 16;
             break;
         }
@@ -391,11 +391,11 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                     std::wstring numberAsStr;
                     if (bIsComplex) {
                         numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
-                            NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false,
+                            NelsonConfiguration::getInstance()->getNumericFormatDisplay(), false,
                             false);
                     } else {
                         numberAsStr = printNumber(pValueA[idx],
-                            NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger,
+                            NelsonConfiguration::getInstance()->getNumericFormatDisplay(), asInteger,
                             false);
                         size_t len = numberAsStr.size();
                         if (len < (size_t)format_width) {

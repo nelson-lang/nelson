@@ -4306,7 +4306,7 @@ Evaluator::simpleAssignClass(
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNamesimpleAssignClass, funcDef)) {
-        Error(_W("Function not found."));
+        Error(_("Function not found:") + " " + functionNamesimpleAssignClass);
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         Error(_W("Type function not valid."));

@@ -26,88 +26,142 @@
 #include "formatBuiltin.hpp"
 #include "Error.hpp"
 #include "NelsonConfiguration.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static ArrayOf
+DisplayFormatOptionsToArray(
+    NumericFormatDisplay currentNumericFormatDisplay, LineSpacingDisplay currentLineSpacingDisplay);
+//=============================================================================
+static bool
+setDisplayOption(std::wstring param);
 //=============================================================================
 ArrayOfVector
 Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.empty()) {
-        nargoutcheck(nLhs, 0, 1);
-        if (nLhs == 1) {
-            switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
-            case NLS_FORMAT_SHORT: {
-                retval << ArrayOf::characterArrayConstructor(L"short");
-            } break;
-            case NLS_FORMAT_LONG: {
-                retval << ArrayOf::characterArrayConstructor(L"long");
-            } break;
-            case NLS_FORMAT_SHORTE: {
-                retval << ArrayOf::characterArrayConstructor(L"shortE");
-            } break;
-            case NLS_FORMAT_LONGE: {
-                retval << ArrayOf::characterArrayConstructor(L"longE");
-            } break;
-            case NLS_FORMAT_HEX: {
-                retval << ArrayOf::characterArrayConstructor(L"hex");
-            } break;
-            default: {
-                Error(L"Unexpected format.");
-            } break;
-            }
-        } else {
-            NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORT);
-        }
-        return retval;
+    nargincheck(argIn, 0, 1);
+    nargoutcheck(nLhs, 0, 1);
+    if (nLhs == 1) {
+        retval << DisplayFormatOptionsToArray(
+            NelsonConfiguration::getInstance()->getNumericFormatDisplay(),
+            NelsonConfiguration::getInstance()->getLineSpacingDisplay());
     }
-    if (argIn.size() == 1) {
-        if (argIn[0].isRowVectorCharacterArray()) {
-            std::wstring str = argIn[0].getContentAsWideString();
-            if (str == L"get") {
-                nargoutcheck(nLhs, 0, 1);
-                switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
-                case NLS_FORMAT_SHORT: {
-                    retval << ArrayOf::characterArrayConstructor(L"short");
-                } break;
-                case NLS_FORMAT_LONG: {
-                    retval << ArrayOf::characterArrayConstructor(L"long");
-                } break;
-                case NLS_FORMAT_SHORTE: {
-                    retval << ArrayOf::characterArrayConstructor(L"shortE");
-                } break;
-                case NLS_FORMAT_LONGE: {
-                    retval << ArrayOf::characterArrayConstructor(L"longE");
-                } break;
-                case NLS_FORMAT_HEX: {
-                    retval << ArrayOf::characterArrayConstructor(L"hex");
-                } break;
-                default: {
-                    Error(L"Unexpected format.");
-                } break;
+    if (argIn.size() > 0) {
+        if ((argIn[0].isScalar() && argIn[0].isStringArray())
+            || argIn[0].isRowVectorCharacterArray()) {
+            std::wstring param = argIn[0].getContentAsWideString();
+            if (!setDisplayOption(param)) {
+                Error(_W("unexpected format."));
+            }
+        } else if (ClassName(argIn[0]) == "DisplayFormatOptions") {
+            if (argIn[0].isScalar()) {
+                ArrayOf numericFormat = argIn[0].getField("NumericFormat");
+                ArrayOf lineSpacing = argIn[0].getField("LineSpacing");
+                if (!setDisplayOption(numericFormat.getContentAsWideString())) {
+                    Error(_W("unexpected Numeric Format."));
+                }
+                if (!setDisplayOption(lineSpacing.getContentAsWideString())) {
+                    Error(_W("unexpected Line Spacing."));
                 }
             } else {
-                nargoutcheck(nLhs, 0);
-                if (str == L"short") {
-                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORT);
-                } else if (str == L"long") {
-                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_LONG);
-                } else if (str == L"shortE") {
-                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORTE);
-                } else if (str == L"longE") {
-                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_LONGE);
-                } else if (str == L"hex") {
-                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_HEX);
-                } else {
-                    Error(_W("unexpected format."));
-                }
+                Error(_W("Wrong size for argument #1. scalar expected"));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(_W("Wrong type for argument #1. 'scalar expected"));
         }
-    } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
+}
+//=============================================================================
+static std::wstring
+NumericFormatDisplayToString(NumericFormatDisplay currentNumericFormatDisplay)
+{
+    std::wstring asString;
+    switch (currentNumericFormatDisplay) {
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        asString = L"short";
+    } break;
+    case NLS_NUMERIC_FORMAT_LONG: {
+        asString = L"long";
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORTE: {
+        asString = L"shortE";
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGE: {
+        asString = L"longE";
+    } break;
+    case NLS_NUMERIC_FORMAT_HEX: {
+        asString = L"hex";
+    } break;
+    default: {
+    } break;
+    }
+    return asString;
+}
+//=============================================================================
+static std::wstring
+LineSpacingDisplayToString(LineSpacingDisplay currentLineSpacingDisplay)
+{
+    std::wstring asString;
+    switch (currentLineSpacingDisplay) {
+    case NLS_LINE_SPACING_COMPACT: {
+        asString = L"compact";
+    } break;
+    case NLS_LINE_SPACING_LOOSE: {
+        asString = L"loose";
+    } break;
+    default: {
+    } break;
+    }
+    return asString;
+}
+//=============================================================================
+ArrayOf
+DisplayFormatOptionsToArray(
+    NumericFormatDisplay currentNumericFormatDisplay, LineSpacingDisplay currentLineSpacingDisplay)
+{
+    Dimensions dimsRes(1, 1);
+    stringVector fieldnames;
+    fieldnames.reserve(2);
+    fieldnames.push_back("NumericFormat");
+    fieldnames.push_back("LineSpacing");
+    ArrayOf* elementRes = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsRes.getElementCount(), fieldnames, false));
+    ArrayOf res = ArrayOf(NLS_STRUCT_ARRAY, dimsRes, elementRes, false, fieldnames);
+
+    ArrayOfVector numericFormatVector(
+        ArrayOf::stringArrayConstructor(NumericFormatDisplayToString(currentNumericFormatDisplay)));
+    res.setFieldAsList(fieldnames[0], numericFormatVector);
+    ArrayOfVector lineSpacingVector(
+        ArrayOf::stringArrayConstructor(LineSpacingDisplayToString(currentLineSpacingDisplay)));
+    res.setFieldAsList(fieldnames[1], lineSpacingVector);
+    res.setStructType("DisplayFormatOptions");
+    return res;
+}
+//=============================================================================
+static bool
+setDisplayOption(std::wstring param)
+{
+    bool res = true;
+    if (param == L"loose") {
+        NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_LOOSE);
+    } else if (param == L"compact") {
+        NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_COMPACT);
+    } else if (param == L"short") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT);
+    } else if (param == L"long") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONG);
+    } else if (param == L"shortE") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTE);
+    } else if (param == L"longE") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGE);
+    } else if (param == L"hex") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_HEX);
+    } else {
+        res = false;
+    }
+    return res;
 }
 //=============================================================================

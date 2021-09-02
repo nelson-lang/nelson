@@ -68,7 +68,7 @@ double2hexastr(double d)
 }
 //=============================================================================
 static std::string
-printNumber(double number, OutputFormatDisplay currentFormat)
+printNumber(double number, NumericFormatDisplay currentFormat)
 {
     std::string strNumber;
     boost::format fmtnbr;
@@ -83,7 +83,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
             strNumber = " NaN";
         } else {
             switch (currentFormat) {
-            case NLS_FORMAT_SHORT:
+            case NLS_NUMERIC_FORMAT_SHORT:
                 fmtnbr = boost::format("%1$10.4f");
                 if (number == 0.0) {
                     strNumber = str(fmtnbr % 0.0);
@@ -91,7 +91,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
                     strNumber = str(fmtnbr % number);
                 }
                 break;
-            case NLS_FORMAT_LONG:
+            case NLS_NUMERIC_FORMAT_LONG:
                 fmtnbr = boost::format("%1$20.16g");
                 if (number == 0.0) {
                     strNumber = str(fmtnbr % 0.0);
@@ -99,7 +99,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
                     strNumber = str(fmtnbr % number);
                 }
                 break;
-            case NLS_FORMAT_SHORTE:
+            case NLS_NUMERIC_FORMAT_SHORTE:
                 fmtnbr = boost::format("%1$10.5e");
                 if (number == 0.0) {
                     strNumber = str(fmtnbr % 0.0);
@@ -107,7 +107,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
                     strNumber = str(fmtnbr % number);
                 }
                 break;
-            case NLS_FORMAT_LONGE:
+            case NLS_NUMERIC_FORMAT_LONGE:
                 fmtnbr = boost::format("%1$10.5le");
                 if (number == 0.0) {
                     strNumber = str(fmtnbr % 0.0);
@@ -115,7 +115,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
                     strNumber = str(fmtnbr % number);
                 }
                 break;
-            case NLS_FORMAT_HEX:
+            case NLS_NUMERIC_FORMAT_HEX:
                 strNumber = double2hexastr(number);
                 break;
             }
@@ -125,7 +125,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
 }
 //=============================================================================
 static std::string
-printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat)
+printNumber(double realpart, double imagpart, NumericFormatDisplay currentFormat)
 {
     std::string strNumber;
     if (imagpart != 0.0) {
@@ -169,7 +169,7 @@ SparseDoubleDisplay(Interface* io, const ArrayOf& a)
                         break;
                     }
                     std::string strNumber = printNumber(
-                        it.value(), NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                        it.value(), NelsonConfiguration::getInstance()->getNumericFormatDisplay());
                     std::string msg
                         = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
                             % (long long)(it.col() + 1) % strNumber.c_str());
@@ -209,7 +209,7 @@ SparseDoubleComplexDisplay(Interface* io, const ArrayOf& a)
                         break;
                     }
                     std::string strNumber = printNumber(it.value().real(), it.value().imag(),
-                        NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                        NelsonConfiguration::getInstance()->getNumericFormatDisplay());
                     std::string msg
                         = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
                             % (long long)(it.col() + 1) % strNumber.c_str());

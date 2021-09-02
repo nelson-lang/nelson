@@ -33,7 +33,8 @@ NelsonConfiguration* NelsonConfiguration::m_pInstance = nullptr;
 NelsonConfiguration::NelsonConfiguration()
 {
     InterruptPending = false;
-    currentOutputFormatDisplay = NLS_FORMAT_SHORT;
+    currentNumericFormatDisplay = NLS_NUMERIC_FORMAT_SHORT;
+    currentLineSpacingDisplay = NLS_LINE_SPACING_LOOSE;
     modulesProtected = false;
     nelsonRootPath = L"";
     ipcEnabled = false;
@@ -75,18 +76,32 @@ NelsonConfiguration::setInterruptPending(bool bInterruptPending)
     return bPrevious;
 }
 //=============================================================================
-OutputFormatDisplay
-NelsonConfiguration::setOutputFormatDisplay(OutputFormatDisplay desiredOutputFormatDisplay)
+NumericFormatDisplay
+NelsonConfiguration::setNumericFormatDisplay(NumericFormatDisplay desiredOutputFormatDisplay)
 {
-    OutputFormatDisplay previousOutputFormatDisplay = currentOutputFormatDisplay;
-    currentOutputFormatDisplay = desiredOutputFormatDisplay;
+    NumericFormatDisplay previousOutputFormatDisplay = currentNumericFormatDisplay;
+    currentNumericFormatDisplay = desiredOutputFormatDisplay;
     return previousOutputFormatDisplay;
 }
 //=============================================================================
-OutputFormatDisplay
-NelsonConfiguration::getOutputFormatDisplay()
+NumericFormatDisplay
+NelsonConfiguration::getNumericFormatDisplay()
 {
-    return currentOutputFormatDisplay;
+    return currentNumericFormatDisplay;
+}
+//=============================================================================
+LineSpacingDisplay
+NelsonConfiguration::setLineSpacingDisplay(LineSpacingDisplay desiredLineSpacingDisplay)
+{ 
+    LineSpacingDisplay previousLineSpacingDisplay = currentLineSpacingDisplay;
+    currentLineSpacingDisplay = desiredLineSpacingDisplay;
+    return previousLineSpacingDisplay;
+}
+//=============================================================================
+LineSpacingDisplay
+NelsonConfiguration::getLineSpacingDisplay()
+{
+    return currentLineSpacingDisplay;
 }
 //=============================================================================
 void
