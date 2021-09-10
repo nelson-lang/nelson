@@ -45,9 +45,9 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
         if (io == nullptr) {
             return retval;
         }
-        std::string name;
+        std::wstring name;
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsCString();
+            name = argIn[1].getContentAsWideString();
         }
         DisplayVariableHeader(io, param1, name);
         Dimensions dimsParam1 = param1.getDimensions();

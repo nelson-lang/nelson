@@ -25,7 +25,7 @@
 %=============================================================================
 function r = DisplayFormatOptions_assign(cl, key, value)
     if ~isSupportedFieldNames(key)
-      error(sprintf(_('%s is not a recognized parameter.'), key));
+      error(sprintf(_('''%s'' is not a recognized parameter.'), key));
     end
     [r, fieldname, fieldvalue] = checkArgument(key, value);
     if ~r
@@ -58,11 +58,18 @@ function [res, fieldname, fieldvalue] = checkArgument(argName, argValue)
 end
 %=============================================================================
 function [res, nameNormalized, valueNormalized] = checkNumericFormat(argValue)
-  supportedOptions = {'short';
+  supportedOptions = {'short';	
     'long';
     'shortE';
     'longE';
-    'hex'};
+    'shortG';
+    'longG';
+    'shortEng';
+    'longEng';
+    '+';
+    'bank';
+    'hex';
+    'rational'}; 
   nameNormalized = 'NumericFormat';
   valueNormalized = convertStringsToChars(argValue);
   idx = contains(upper(supportedOptions), upper(valueNormalized));

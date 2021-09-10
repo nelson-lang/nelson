@@ -122,12 +122,10 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             int8* dataAsInt8 = static_cast<int8*>(
                 ArrayOf::allocateArrayOf(NLS_INT8, dims.getElementCount(), stringVector(), true));
             indexType elementCount = dims.getElementCount();
-            for (indexType k = 0; k < elementCount; k++) {
-                for (indexType i = 0; i < n_out; ++i) {
-                    for (indexType j = 0; j < m_out; ++j) {
-                        dataAsInt8[i * m_out + j]
-                            = static_cast<uint8>(dataAsSingle[j * n_out + i] * 127);
-                    }
+            for (indexType i = 0; i < n_out; ++i) {
+                for (indexType j = 0; j < m_out; ++j) {
+                    dataAsInt8[i * m_out + j]
+                        = static_cast<uint8>(dataAsSingle[j * n_out + i] * 127);
                 }
             }
             delete[] dataAsSingle;
@@ -146,12 +144,10 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             uint8* dataAsUInt8 = static_cast<uint8*>(
                 ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount(), stringVector(), true));
             size_t elementCount = static_cast<size_t>(dims.getElementCount());
-            for (size_t k = 0; k < elementCount; k++) {
-                for (indexType i = 0; i < n_out; ++i) {
-                    for (indexType j = 0; j < m_out; ++j) {
-                        dataAsUInt8[i * m_out + j]
-                            = static_cast<uint8>(dataAsSingle[j * n_out + i] * 127 + 127);
-                    }
+            for (indexType i = 0; i < n_out; ++i) {
+                for (indexType j = 0; j < m_out; ++j) {
+                    dataAsUInt8[i * m_out + j]
+                        = static_cast<uint8>(dataAsSingle[j * n_out + i] * 127 + 127);
                 }
             }
             delete[] dataAsSingle;

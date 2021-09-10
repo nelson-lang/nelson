@@ -26,12 +26,14 @@
 #include "DisplayVariable.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "DisplayFloatingNumber.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static bool
 canDisplayWithoutOverload(const ArrayOf& A)
 {
+
     if (A.isSparse() || A.isClassStruct()) {
         return false;
     }
@@ -71,9 +73,10 @@ DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool& 
         return;
     }
     if (canDisplayWithoutOverload(A)) {
-        DisplayVariableHeader(io, A, name);
-        DisplayVariableValue(io, A, name);
-        DisplayVariableFooter(io, A, name);
+        std::wstring wname = utf8_to_wstring(name);
+        DisplayVariableHeader(io, A, wname);
+        DisplayVariableValue(io, A, wname);
+        DisplayVariableFooter(io, A, wname);
         needToOverload = false;
     } else {
         needToOverload = true;

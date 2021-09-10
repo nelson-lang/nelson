@@ -48,6 +48,7 @@
 #include "characters_encoding.hpp"
 #include "fieldnamesQmlHandleObject.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -263,7 +264,7 @@ void
 DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
-        DisplayVariableHeader(io, A, name);
+        DisplayVariableHeader(io, A, utf8_to_wstring(name));
         if (A.isScalar()) {
             if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
@@ -281,7 +282,7 @@ DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             dimsA.printMe(io);
             io->outputMessage("\n");
         }
-        DisplayVariableFooter(io, A, name);
+        DisplayVariableFooter(io, A, utf8_to_wstring(name));
     } else {
         Error(_W("QObject handle expected."));
     }

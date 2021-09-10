@@ -29,6 +29,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -47,9 +48,9 @@ Nelson::DynamicLinkGateway::dllib_displayBuiltin(
     if (io == nullptr) {
         return retval;
     }
-    std::string name;
+    std::wstring name;
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsCString();
+        name = argIn[1].getContentAsWideString();
     }
     if (param1.isHandle()) {
         DisplayVariableHeader(io, param1, name);

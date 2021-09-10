@@ -25,6 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "nlsStream_manager_exports.h"
@@ -32,13 +33,13 @@
 namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::string& name);
+DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableValue(Interface* io, const ArrayOf& A, const std::string& name);
+DisplayVariableValue(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::string& name);
+DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

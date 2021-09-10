@@ -53,9 +53,9 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
     if (io == nullptr) {
         return retval;
     }
-    std::string name;
+    std::wstring name;
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsCString();
+        name = argIn[1].getContentAsWideString();
     }
     if (param1.isHandle()) {
         if (param1.isScalar()) {

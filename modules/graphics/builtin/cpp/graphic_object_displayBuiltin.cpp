@@ -44,9 +44,9 @@ Nelson::GraphicsGateway::graphic_object_displayBuiltin(
     }
     Dimensions dims = paramGo.getDimensions();
     auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
-    std::string name;
+    std::wstring name;
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsCString();
+        name = argIn[1].getContentAsWideString();
     }
     Interface* io = eval->getInterface();
     DisplayVariableHeader(io, argIn[0], name);

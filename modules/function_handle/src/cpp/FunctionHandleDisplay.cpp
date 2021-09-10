@@ -29,6 +29,7 @@
 #include "MacroFunctionDef.hpp"
 #include "PathFuncManager.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,17 +43,17 @@ FunctionHandleDisplay(Interface* io, const ArrayOf& Var, const std::string& name
         return;
     }
     function_handle fh = Var.getContentAsFunctionHandle();
-    DisplayVariableHeader(io, Var, name);
+    DisplayVariableHeader(io, Var, utf8_to_wstring(name));
     if (!name.empty()) {
-        io->outputMessage("  function_handle with value:\n\n");
+        io->outputMessage(L"  function_handle with value:\n\n");
     }
     if (fh.anonymous.empty()) {
-        io->outputMessage("    @" + fh.name);
+        io->outputMessage(L"    @" + utf8_to_wstring(fh.name));
     } else {
-        io->outputMessage("    @" + fh.anonymous);
+        io->outputMessage(L"    @" + utf8_to_wstring(fh.anonymous));
     }
     io->outputMessage("\n");
-    DisplayVariableFooter(io, Var, name);
+    DisplayVariableFooter(io, Var, utf8_to_wstring(name));
 }
 //=============================================================================
 } // namespace Nelson

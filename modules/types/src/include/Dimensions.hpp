@@ -244,6 +244,9 @@ public:
      */
     std::string
     toString() const;
+ 
+    std::wstring
+    toWideString() const;
     //=============================================================================
     /**
      * Print some representation of this object as a row vector, i.e.,

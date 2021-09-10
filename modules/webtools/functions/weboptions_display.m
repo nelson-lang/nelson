@@ -24,11 +24,23 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function weboptions_display(options, name)
+  fmt = format();
   if ~isempty(name)
-    disp([char(10), name, ' = ', char(10)])
+    if strcmp(fmt.LineSpacing, 'loose') == true
+      fprintf(char(10))  
+    end
+    fprintf([name, ' = ', char(10)])
+    if strcmp(fmt.LineSpacing, 'loose') == true
+      fprintf(char(10))  
+    end
   end
+  fprintf('  %s with properties:', class(options))
+  fprintf(char(10))
   r = struct(options);
   d = evalc('disp(r);');
-  disp(replace(d, '<struct>', '<weboptions>'))
+  fprintf(d);
+  if strcmp(fmt.LineSpacing, 'loose') == true
+    fprintf(char(10))  
+  end
 end
 %=============================================================================

@@ -92,7 +92,7 @@ NelsonConfiguration::getNumericFormatDisplay()
 //=============================================================================
 LineSpacingDisplay
 NelsonConfiguration::setLineSpacingDisplay(LineSpacingDisplay desiredLineSpacingDisplay)
-{ 
+{
     LineSpacingDisplay previousLineSpacingDisplay = currentLineSpacingDisplay;
     currentLineSpacingDisplay = desiredLineSpacingDisplay;
     return previousLineSpacingDisplay;
