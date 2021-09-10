@@ -112,7 +112,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSPARSE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -208,6 +208,9 @@
     <ClInclude Include="..\include\VertCatSparseLogical.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\double\src\c\nlsDouble.vcxproj">
       <Project>{59d86ccc-61d2-4bb7-80c0-e0ccb668aa7f}</Project>
     </ProjectReference>

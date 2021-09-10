@@ -47,9 +47,9 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
     if (io == nullptr) {
         return retval;
     }
-    std::string name;
+    std::wstring name;
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsCString();
+        name = argIn[1].getContentAsWideString();
     }
     if (param1.isHandle()) {
         DisplayVariableHeader(io, param1, name);

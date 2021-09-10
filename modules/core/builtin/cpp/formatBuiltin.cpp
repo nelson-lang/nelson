@@ -92,8 +92,29 @@ NumericFormatDisplayToString(NumericFormatDisplay currentNumericFormatDisplay)
     case NLS_NUMERIC_FORMAT_LONGE: {
         asString = L"longE";
     } break;
+    case NLS_NUMERIC_FORMAT_SHORTG: {
+        asString = L"shortG";
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGG: {
+        asString = L"longG";
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORTENG: {
+        asString = L"shortEng";
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGENG: {
+        asString = L"longEng";
+    } break;
+    case NLS_NUMERIC_FORMAT_PLUS: {
+        asString = L"+";
+    } break;
+    case NLS_NUMERIC_FORMAT_BANK: {
+        asString = L"bank";
+    } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         asString = L"hex";
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        asString = L"rational";
     } break;
     default: {
     } break;
@@ -141,27 +162,70 @@ DisplayFormatOptionsToArray(
     return res;
 }
 //=============================================================================
-static bool
+bool
 setDisplayOption(std::wstring param)
 {
-    bool res = true;
+    if (param == L"default") {
+        NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_LOOSE);
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT);
+        return true;
+    }
     if (param == L"loose") {
         NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_LOOSE);
-    } else if (param == L"compact") {
-        NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_COMPACT);
-    } else if (param == L"short") {
-        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT);
-    } else if (param == L"long") {
-        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONG);
-    } else if (param == L"shortE") {
-        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTE);
-    } else if (param == L"longE") {
-        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGE);
-    } else if (param == L"hex") {
-        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_HEX);
-    } else {
-        res = false;
+        return true;
     }
-    return res;
+    if (param == L"compact") {
+        NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_COMPACT);
+        return true;
+    }
+    if (param == L"short") { 
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT);
+        return true;
+    }
+    if (param == L"long") { 
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONG);
+        return true;
+    }
+    if (param == L"shortE") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTE);
+        return true;
+    }
+    if (param == L"longE") { 
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGE);
+        return true;
+    }
+    if (param == L"shortG") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTG);
+        return true;
+    }
+    if (param == L"longG") { 
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGG);
+        return true;
+    }
+    if (param == L"shortEng") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTENG);
+        return true;
+    }
+    if (param == L"longEng") { 
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGENG);
+        return true;
+    }
+    if (param == L"+") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_PLUS);
+        return true;
+    }
+    if (param == L"bank") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_BANK);
+        return true;
+    }
+    if (param == L"hex") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_HEX);
+        return true;
+    }
+    if (param == L"rational") {
+        NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_RATIONAL);
+        return true;
+    }
+    return false;
 }
 //=============================================================================

@@ -33,6 +33,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../double/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include

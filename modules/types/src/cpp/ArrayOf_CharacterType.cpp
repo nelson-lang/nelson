@@ -208,12 +208,6 @@ ArrayOf::characterArrayConstructor(const std::string& astr)
     return characterArrayConstructor(utf8_to_wstring(astr));
 }
 //=============================================================================
-std::string
-ArrayOf::getContentAsCString() const
-{
-    return wstring_to_utf8(getContentAsWideString());
-}
-//=============================================================================
 std::wstring
 ArrayOf::getContentAsArrayOfCharacters() const
 {
@@ -263,17 +257,29 @@ ArrayOf::getContentAsWideCharactersPointer() const
     return buffer;
 }
 //=============================================================================
+std::string
+ArrayOf::getContentAsCString() const
+{
+    return wstring_to_utf8(getContentAsWideString());
+}
+//=============================================================================
 std::wstring
-ArrayOf::getContentAsWideString() const
+ArrayOf::getContentAsWideString(size_t lengthMax) const
 {
     std::wstring str;
     if (isRowVectorCharacterArray()) {
         indexType M = getElementCount();
-        str.resize(M + 1);
-        auto* buffer = new_with_exception<charType>(M + 1, false);
+        indexType N;
+        if (lengthMax == std::string::npos || M <= lengthMax) { 
+          N = M;
+        } else {
+            N = lengthMax;
+        }
+        str.resize(N + 1);
+        auto* buffer = new_with_exception<charType>(N + 1, false);
         const auto* qp = static_cast<const charType*>(dp->getData());
-        memcpy(buffer, qp, M * sizeof(charType));
-        buffer[M] = 0;
+        memcpy(buffer, qp, N * sizeof(charType));
+        buffer[N] = 0;
         str.assign(buffer);
         delete[] buffer;
     } else {

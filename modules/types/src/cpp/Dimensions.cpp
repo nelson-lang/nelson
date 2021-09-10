@@ -42,13 +42,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-#include "Dimensions.hpp"
-#include "Error.hpp"
+//=============================================================================
 #include <cstring>
+#include <string>
 #include <memory>
 #include <cstdio>
 #include <cstdlib>
-#include <string>
+#include "Dimensions.hpp"
+#include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -121,7 +123,8 @@ Dimensions::getMax()
     return maxL;
 }
 //=============================================================================
-indexType& Dimensions::operator[](indexType i)
+indexType&
+Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
         Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
@@ -315,6 +318,12 @@ Dimensions::equals(const Dimensions& alt)
         retval = retval && (data[i] == alt.data[i]);
     }
     return retval;
+}
+//=============================================================================
+std::wstring
+Dimensions::toWideString() const
+{
+    return utf8_to_wstring(toString());
 }
 //=============================================================================
 std::string

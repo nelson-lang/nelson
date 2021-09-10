@@ -31,6 +31,7 @@
 #include "HandleManager.hpp"
 #include "classnameComHandleObject.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -50,7 +51,7 @@ void
 DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
-        DisplayVariableHeader(io, A, name);
+        DisplayVariableHeader(io, A, utf8_to_wstring(name));
         if (A.isScalar()) {
             auto* qp = (nelson_handle*)A.getDataPointer();
             nelson_handle hl = qp[0];
@@ -71,7 +72,7 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             dimsA.printMe(io);
             io->outputMessage("\n");
         }
-        DisplayVariableFooter(io, A, name);
+        DisplayVariableFooter(io, A, utf8_to_wstring(name));
     } else {
         Error(_W("COM handle expected."));
     }

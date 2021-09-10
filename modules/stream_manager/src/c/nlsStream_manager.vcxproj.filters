@@ -102,6 +102,9 @@
     <ClInclude Include="..\include\DisplayVariableHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\FloatNumberToRational.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Interface.cpp">

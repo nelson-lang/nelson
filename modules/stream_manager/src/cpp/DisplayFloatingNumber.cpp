@@ -45,7 +45,8 @@ template <class T>
 bool
 isInteger(T val)
 {
-    return fmod(val, 1) == (T)0.0;
+    int truncated = (int)val;
+    return (T)truncated == (T)val && val < 1e9;
 }
 //=============================================================================
 template <class T>
@@ -395,8 +396,8 @@ DisplayFloatingNumberInternal(Interface* io, const ArrayOf& A, const std::string
                             false);
                     } else {
                         numberAsStr = printNumber(pValueA[idx],
-                            NelsonConfiguration::getInstance()->getNumericFormatDisplay(), asInteger,
-                            false);
+                            NelsonConfiguration::getInstance()->getNumericFormatDisplay(),
+                            asInteger, false);
                         size_t len = numberAsStr.size();
                         if (len < (size_t)format_width) {
                             size_t nb = format_width - len;

@@ -973,7 +973,7 @@ public:
      * Throws an exception for non-string types.
      */
     std::wstring
-    getContentAsWideString() const;
+    getContentAsWideString(size_t lengthMax = std::string::npos) const;
 
     std::wstring
     getContentAsArrayOfCharacters() const;

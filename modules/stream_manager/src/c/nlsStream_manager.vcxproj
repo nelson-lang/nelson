@@ -181,6 +181,7 @@
     <ClInclude Include="..\..\src\include\nlsStream_manager_exports.h" />
     <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
     <ClInclude Include="..\cpp\DisplayHelpers.hpp" />
+    <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
     <ClInclude Include="..\include\DelimitedFile.hpp" />
