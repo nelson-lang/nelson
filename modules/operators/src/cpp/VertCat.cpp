@@ -191,6 +191,14 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
                 Error(ERROR_FIELDNAMES_MUST_MATCH);
             }
         }
+        bool canConcate = (A.getStructType() == B.getStructType())
+            || (A.getStructType() == NLS_STRUCT_ARRAY_STR
+                && B.getStructType() != NLS_STRUCT_ARRAY_STR)
+            || (B.getStructType() == NLS_STRUCT_ARRAY_STR
+                && A.getStructType() != NLS_STRUCT_ARRAY_STR);
+        if (!canConcate) {
+            Error(_W("Cannot concatenate differents types."));
+        }
         indexType newColumnsSize = dimsA.getColumns();
         indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
         indexType newSize = newColumnsSize * newRowsSize;
@@ -204,6 +212,11 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             ArrayOfVector fieldsC(fieldsA);
             fieldsC += fieldsB;
             res.setFieldAsList(fieldnamesA[k], fieldsC);
+        }
+        if (A.getStructType() == NLS_STRUCT_ARRAY_STR) {
+            res.setStructType(B.getStructType());
+        } else {
+            res.setStructType(A.getStructType());
         }
         bSuccess = true;
         return res;
