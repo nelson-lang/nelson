@@ -32,6 +32,8 @@
 #include <iostream>
 #include <sstream>
 //=============================================================================
+#define MAGIC_SEED 5489
+//=============================================================================
 namespace Nelson {
 //=============================================================================
 RandomMersenneTwister::RandomMersenneTwister()
@@ -74,7 +76,11 @@ void
 RandomMersenneTwister::setSeed(uint32 _seed)
 {
     seed = _seed;
-    mersenneTwister.seed(seed);
+    if (_seed == 0) {
+        mersenneTwister.seed(MAGIC_SEED);
+    } else {
+        mersenneTwister.seed(seed);
+    }
 }
 //=============================================================================
 uint32

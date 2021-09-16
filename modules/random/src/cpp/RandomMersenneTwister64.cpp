@@ -34,6 +34,7 @@
 #include <iostream>
 #include <sstream>
 //=============================================================================
+#define MAGIC_SEED 5489
 namespace Nelson {
 //=============================================================================
 RandomMersenneTwister64::RandomMersenneTwister64()
@@ -77,7 +78,11 @@ void
 RandomMersenneTwister64::setSeed(uint64 _seed)
 {
     seed = _seed;
-    mersenneTwister64.seed(seed);
+    if (_seed == 0) {
+        mersenneTwister64.seed(MAGIC_SEED);
+    } else {
+        mersenneTwister64.seed(seed);
+    }
 }
 //=============================================================================
 uint64

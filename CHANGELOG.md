@@ -2,6 +2,8 @@
 
 - [#509](http://github.com/Nelson-numerical-software/nelson/issues/509): horzcat vertcat generic support for class object.
 
+- [#508](http://github.com/Nelson-numerical-software/nelson/issues/508): Change default seed for 'rand' with Mersenne Twister algo.
+
 - [#506](http://github.com/Nelson-numerical-software/nelson/issues/506): Modernize windows installer style.
 
 ## Compilation:
