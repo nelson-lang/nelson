@@ -193,9 +193,9 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
         bool canConcate = (A.getStructType() == B.getStructType())
             || (A.getStructType() == NLS_STRUCT_ARRAY_STR
-                && B.getStructType() != NLS_STRUCT_ARRAY_STR)
+                   && B.getStructType() != NLS_STRUCT_ARRAY_STR)
             || (B.getStructType() == NLS_STRUCT_ARRAY_STR
-                && A.getStructType() != NLS_STRUCT_ARRAY_STR);
+                   && A.getStructType() != NLS_STRUCT_ARRAY_STR);
         if (!canConcate) {
             Error(_W("Cannot concatenate differents types."));
         }
