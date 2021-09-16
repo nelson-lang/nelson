@@ -1,5 +1,7 @@
 # 0.5.9 (UNRELEASED)
 
+- [#509](http://github.com/Nelson-numerical-software/nelson/issues/509): horzcat vertcat generic support for class object.
+
 - [#506](http://github.com/Nelson-numerical-software/nelson/issues/506): Modernize windows installer style.
 
 ## Compilation:
