@@ -154,7 +154,7 @@ formatShortEng(double x)
             exponent = logabsval - (logabsval % 3);
         }
     }
-    double mantissa =  x / std::pow(static_cast<double>(10), exponent);
+    double mantissa = x / std::pow(static_cast<double>(10), exponent);
     std::wstring expStr;
     expStr.reserve(8);
     if (exponent >= 0) {
@@ -171,7 +171,7 @@ formatShortEng(double x)
     return fmt::sprintf(format, mantissa, expStr, exponentAsString);
 }
 //=============================================================================
-static std::wstring
+std::wstring
 completeWithBlanksAtBeginning(const std::wstring& msg, size_t width)
 {
     size_t len = msg.length();
@@ -180,23 +180,9 @@ completeWithBlanksAtBeginning(const std::wstring& msg, size_t width)
         blanks.append(width - len, L' ');
         return blanks + msg;
     }
-    return msg.substr(0, width);
+    return msg;
+    // return msg.substr(0, width);
 }
-//=============================================================================
-static std::wstring
-lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar);
-//=============================================================================
-static void
-print2dString(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacingDisplay);
-//=============================================================================
-static void
-printNdString(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacingDisplay);
-//=============================================================================
-static void
-print2dCell(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacingDisplay);
-//=============================================================================
-static void
-printNdCell(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacingDisplay);
 //=============================================================================
 static std::wstring
 outputDoublePrecisionFloat(double num, NumericFormatDisplay currentNumericFormat,
@@ -208,12 +194,6 @@ outputDoubleComplexPrecisionFloat(
 //=============================================================================
 static std::wstring
 outputSinglePrecisionFloat(single num, NumericFormatDisplay currentNumericFormat);
-//=============================================================================
-static std::wstring
-summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWidth);
-//=============================================================================
-static std::wstring
-summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth);
 //=============================================================================
 static void
 emitElement(Interface* io, const void* dp, indexType num, Class dcls,
@@ -315,17 +295,50 @@ void
 DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     if (!name.empty()) {
+        bool isNdArray = (A.getDimensions().getLength() > 2);
         if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
             == NLS_LINE_SPACING_COMPACT) {
-            io->outputMessage(name + L" =\n");
+            if (!isNdArray) {
+                io->outputMessage(name + L" =\n");
+            }
         } else {
             io->outputMessage(L"\n");
-            io->outputMessage(name + L" =\n\n");
+            if (!isNdArray) {
+                io->outputMessage(name + L" =\n\n");
+            }
         }
 
         switch (A.getDataClass()) {
+        case NLS_CHAR: {
+            bool withType = A.isEmpty() || !A.isRowVector();
+            if (withType) {
+                std::wstring typeAsText = getClassAsWideString(A);
+                io->outputMessage(L"  <" + typeAsText + L"> - size: ");
+                A.getDimensions().printMe(io);
+                if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
+                    == NLS_LINE_SPACING_COMPACT) {
+                    io->outputMessage(L"\n");
+                } else {
+                    io->outputMessage(L"\n");
+                }
+            }
+        } break;
         case NLS_DCOMPLEX:
         case NLS_DOUBLE: {
+        } break;
+        case NLS_LOGICAL: {
+            std::wstring typeAsText = getClassAsWideString(A);
+            if (A.isSparse()) {
+                typeAsText = L"sparse " + typeAsText; 
+            }
+            io->outputMessage(L"  <" + typeAsText + L"> - size: ");
+            A.getDimensions().printMe(io);
+            if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
+                == NLS_LINE_SPACING_COMPACT) {
+                io->outputMessage(L"\n");
+            } else {
+                io->outputMessage(L"\n");
+            }
         } break;
         default: {
             std::wstring typeAsText = getClassAsWideString(A);
@@ -345,10 +358,8 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
-    if (!name.empty()) {
-        if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
-        }
+    if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================
@@ -642,7 +653,8 @@ summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWid
  * generally a shorthand summary of the description of the object.
  */
 std::wstring
-summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth)
+summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat)
 {
     std::wstring msg;
     if (A.isEmpty()) {
@@ -661,7 +673,10 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     case NLS_CELL_ARRAY: {
         if (A.isScalar()) {
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-            msg = L"{" + summarizeCellEntry(elements[0], beginingLineLength + 1, termWidth) + L"}";
+            msg = L"{"
+                + summarizeCellEntry(
+                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                + L"}";
         } else {
             msg = lightDescription(A, L"{", L"}");
         }
@@ -787,8 +802,8 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         } else {
             if (A.isScalar()) {
-                std::wstring format = L"%lf";
-                msg = fmt::sprintf(format, *(static_cast<const double*>(A.getDataPointer())));
+                double value = *(static_cast<const double*>(A.getDataPointer()));
+                msg = outputDoublePrecisionFloat(value, currentNumericFormat);
             } else {
                 msg = lightDescription(A, L"[", L"]");
             }
@@ -919,7 +934,7 @@ sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay cu
         if (ap == nullptr) {
             msg = L"[]";
         } else {
-            std::wstring msg = summarizeCellEntry(ap[num], 0, width);
+            std::wstring msg = summarizeCellEntry(ap[num], 0, width, currentNumericFormat);
             msg = completeWithBlanksAtBeginning(msg, width);
         }
     } break;
@@ -974,12 +989,6 @@ printEmptyValue(Interface* io, const ArrayOf& A)
 {
     switch (A.getDataClass()) {
     case NLS_STRUCT_ARRAY: {
-        stringVector fieldsName = A.getFieldNames();
-        for (const auto& name : fieldsName) {
-            io->outputMessage(BLANKS_AT_BOL);
-            io->outputMessage(utf8_to_wstring(name));
-            io->outputMessage(L"\n");
-        }
     } break;
     case NLS_SINGLE:
     case NLS_SCOMPLEX:
@@ -1009,46 +1018,6 @@ printEmptyValue(Interface* io, const ArrayOf& A)
 void
 printMatrixValue(Interface* io, const ArrayOf& A)
 {
-    if (A.getDataClass() == NLS_STRING_ARRAY) {
-        print2dString(io, A, NelsonConfiguration::getInstance()->getLineSpacingDisplay());
-        return;
-    } else if (A.getDataClass() == NLS_CELL_ARRAY) {
-        print2dCell(io, A, NelsonConfiguration::getInstance()->getLineSpacingDisplay());
-        return;
-    } else if (A.getDataClass() == NLS_STRUCT_ARRAY) {
-        if (A.isScalar()) {
-            if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-                != NLS_LINE_SPACING_COMPACT) {
-                io->outputMessage(L"\n");
-            }
-            ArrayOf* ap = (ArrayOf*)A.getDataPointer();
-            stringVector fieldnames = A.getFieldNames();
-            size_t maxLen = 0;
-            for (auto name : fieldnames) {
-                maxLen = std::max(utf8_to_wstring(name).length(), maxLen);
-            }
-            for (size_t k = 0; k < fieldnames.size(); ++k) {
-                std::wstring beginning = BLANKS_AT_BOL
-                    + completeWithBlanksAtBeginning(utf8_to_wstring(fieldnames[k]), maxLen) + L": ";
-                io->outputMessage(beginning
-                    + summarizeCellEntry(ap[k], beginning.length() + 1, io->getTerminalWidth())
-                    + L"\n");
-            }
-        } else {
-            if (!A.getFieldNames().empty()) {
-                if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-                    != NLS_LINE_SPACING_COMPACT) {
-                    io->outputMessage("\n");
-                }
-                for (const auto& fieldName : A.getFieldNames()) {
-                    io->outputMessage(BLANKS_AT_BOL);
-                    io->outputMessage(fieldName);
-                    io->outputMessage("\n");
-                }
-            }
-        }
-        return;
-    }
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
@@ -1176,17 +1145,6 @@ printMatrixValue(Interface* io, const ArrayOf& A)
 void
 printNDArrayValue(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
-    if (A.getDataClass() == NLS_STRUCT_ARRAY) {
-        if (!A.getFieldNames().empty()) {
-            io->outputMessage("  Fields\n");
-            for (const auto& fieldName : A.getFieldNames()) {
-                io->outputMessage("    ");
-                io->outputMessage(fieldName);
-                io->outputMessage("\n");
-            }
-        }
-        return;
-    }
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
@@ -1511,195 +1469,6 @@ lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wst
     return fmt::sprintf(
         format, firstChar, A.getDimensions().toWideString(), getClassAsWideString(A), lastChar);
 }
-//=============================================================================
-void
-print2dCell(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacing)
-{
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-    if (A.isColumnVector()) {
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
-        }
-        size_t nbBlanksAtBegin = LENGTH_BLANKS_AT_BOL;
-        for (indexType k = 0;
-             k < A.getElementCount() && !NelsonConfiguration::getInstance()->getInterruptPending();
-             ++k) {
-            std::wstring msg
-                = summarizeCellEntry(elements[k], nbBlanksAtBegin, io->getTerminalWidth());
-            io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
-        }
-    } else {
-        wstringVector cellSummarize;
-        cellSummarize.reserve(A.getElementCount());
-        size_t nominalWidth = 0;
-        for (indexType k = 0; k < A.getElementCount(); ++k) {
-            std::wstring msg = lightDescription(elements[k], L"{", L"}");
-            nominalWidth = std::max(nominalWidth, msg.length());
-            cellSummarize.push_back(msg);
-        }
-        nominalWidth = LENGTH_BLANKS_AT_BOL + nominalWidth;
-        sizeType termWidth = io->getTerminalWidth();
-        indexType rows = A.getRows();
-        indexType columns = A.getColumns();
-        auto colsPerPage
-            = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
-        auto pageCount = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-
-        for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
-
-            indexType colsInThisPage = columns - colsPerPage * k;
-            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                io->outputMessage(L"\n");
-            }
-            if (withColumsHeader) {
-                std::wstring msg = fmt::sprintf(_W("  Columns %d through %d").c_str(),
-                    k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                    msg = msg + L"\n\n";
-                } else {
-                    msg = msg + L"\n";
-                }
-                io->outputMessage(msg);
-            }
-            for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
-                for (indexType j = 0; j < colsInThisPage; j++) {
-                    indexType idx = i + (k * colsPerPage + j) * rows;
-                    std::wstring msg
-                        = completeWithBlanksAtBeginning(cellSummarize[idx], nominalWidth);
-                    io->outputMessage(msg);
-                }
-                io->outputMessage(L"\n");
-            }
-        }
-    }
-}
-//=============================================================================
-void
-printNdCell(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacing)
-{ }
-//=============================================================================
-
-void
-print2dString(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacing)
-{
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-    if (A.isColumnVector()) {
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
-        }
-        for (indexType k = 0;
-             k < A.getElementCount() && !NelsonConfiguration::getInstance()->getInterruptPending();
-             ++k) {
-            std::wstring msg;
-            if (elements[k].isCharacterArray()) {
-                msg = L"\"" + elements[k].getContentAsWideString() + L"\"";
-            } else {
-                msg = L"<missing>";
-            }
-            io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
-        }
-    } else {
-        size_t nbCharMaxToDispForOneString = 27;
-
-        std::vector<size_t> vSize(A.getColumns(), (size_t)0);
-        wstringVector cellSummarize(A.getElementCount(), std::wstring(L""));
-
-        indexType rowCount = A.getDimensions()[0];
-        indexType colCount = A.getDimensions()[1];
-        for (indexType i = 0; i < rowCount; i++) {
-            for (indexType j = 0; j < colCount; j++) {
-                size_t index = i + j * rowCount;
-                std::wstring msg;
-                if (elements[index].isCharacterArray()) {
-                    msg = elements[index].getContentAsWideString(nbCharMaxToDispForOneString);
-                    if (msg.length() == nbCharMaxToDispForOneString) {
-                        msg.pop_back();
-                        msg = L"\"" + msg + L"…";
-                    } else {
-                        msg = L"\"" + msg + L"\"";
-                    }
-                } else {
-                    msg = L"<missing>";
-                }
-                cellSummarize[index] = msg;
-                vSize[j] = std::max(vSize[j], msg.length());
-                vSize[j] = std::min(vSize[j], nbCharMaxToDispForOneString + 1);
-            }
-        }
-
-        for (indexType i = 0; i < rowCount; i++) {
-            for (indexType j = 0; j < colCount; j++) {
-                size_t index = i + j * rowCount;
-                if (cellSummarize[index].length() > vSize[j]) {
-                    cellSummarize[index] = cellSummarize[index].substr(0, vSize[j]);
-                }
-            }
-        }
-        sizeType termWidth = io->getTerminalWidth();
-        indexType l = 0;
-        indexType nominal = 0;
-        for (indexType k = 0; k < vSize.size(); ++k) {
-            l = LENGTH_BLANKS_AT_BOL + vSize[k] + l;
-            if (l > termWidth) {
-                nominal = k;
-                break;
-            }
-        }
-        indexType colsPerPage = nominal;
-        if (nominal == 0) {
-            colsPerPage = vSize.size();
-        }
-
-        indexType rows = A.getRows();
-        indexType columns = A.getColumns();
-        auto pageCount = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-
-        for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
-
-            indexType colsInThisPage = columns - colsPerPage * k;
-            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                io->outputMessage(L"\n");
-            }
-            if (withColumsHeader) {
-                std::wstring msg = fmt::sprintf(_W("  Columns %d through %d").c_str(),
-                    k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                    msg = msg + L"\n\n";
-                } else {
-                    msg = msg + L"\n";
-                }
-                io->outputMessage(msg);
-            }
-            for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
-                for (indexType j = 0; j < colsInThisPage; j++) {
-                    indexType idx = i + (k * colsPerPage + j) * rows;
-                    std::wstring blanks;
-                    std::wstring msg = BLANKS_AT_BOL + cellSummarize[idx];
-                    size_t len = cellSummarize[idx].length();
-                    size_t add = 0;
-                    if (vSize[j] > len) {
-                        add = vSize[j] - len;
-                    }
-                    msg.append(add, L' ');
-                    io->outputMessage(msg);
-                }
-                io->outputMessage(L"\n");
-            }
-        }
-    }
-}
-//=============================================================================
-void
-printNdString(Interface* io, const ArrayOf& A, LineSpacingDisplay currentLineSpacingDisplay)
-{ }
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

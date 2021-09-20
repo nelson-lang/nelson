@@ -28,9 +28,14 @@
 #include <string>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
+#include "NelsonConfiguration.hpp"
 #include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+#define HORIZONTAL_ELLIPSIS L"\U00002026" // L"…"
+#define BLANKS_AT_BOL L"    "
+#define LENGTH_BLANKS_AT_BOL 4
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
 DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name);
@@ -40,6 +45,19 @@ DisplayVariableValue(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
 DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP std::wstring
+completeWithBlanksAtBeginning(const std::wstring& msg, size_t width);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP std::wstring
+summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWidth);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP std::wstring
+summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP std::wstring
+lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

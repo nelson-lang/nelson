@@ -27,59 +27,47 @@
 #include "DisplayVariableHelpers.hpp"
 #include "DisplayFloatingNumber.hpp"
 #include "characters_encoding.hpp"
+#include "DisplayCell.hpp"
+#include "DisplayStruct.hpp"
+#include "DisplayString.hpp"
+#include "DisplayChar.hpp"
+#include "DisplayLogical.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-canDisplayWithoutOverload(const ArrayOf& A)
-{
-
-    if (A.isSparse() || A.isClassStruct()) {
-        return false;
-    }
-    Class variableClass = A.getDataClass();
-    bool withoutOverload;
-    switch (variableClass) {
-    case NLS_DCOMPLEX:
-    case NLS_DOUBLE:
-    case NLS_SCOMPLEX:
-    case NLS_SINGLE:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_LOGICAL:
-    case NLS_CHAR:
-    case NLS_STRUCT_ARRAY:
-    case NLS_STRING_ARRAY:
-    case NLS_CELL_ARRAY: {
-        withoutOverload = true;
-    } break;
-    default: {
-        withoutOverload = false;
-    } break;
-    }
-    return withoutOverload;
-}
-//=============================================================================
 void
-DisplayVariable(Interface* io, const ArrayOf& A, const std::string& name, bool& needToOverload)
+DisplayVariable(Interface* io, const ArrayOf& A, const std::wstring& name, bool& needToOverload)
 {
     if (io == nullptr) {
         return;
     }
-    if (canDisplayWithoutOverload(A)) {
-        std::wstring wname = utf8_to_wstring(name);
-        DisplayVariableHeader(io, A, wname);
-        DisplayVariableValue(io, A, wname);
-        DisplayVariableFooter(io, A, wname);
+    switch (A.getDataClass()) {
+    case NLS_LOGICAL: {
+        DisplayLogical(io, A, name);
         needToOverload = false;
-    } else {
-        needToOverload = true;
+    } break;
+    case NLS_CHAR: {
+        DisplayChar(io, A, name);
+        needToOverload = false;
+    } break;
+    case NLS_STRING_ARRAY: {
+        DisplayString(io, A, name);
+        needToOverload = false;
+    } break;
+    case NLS_STRUCT_ARRAY: {
+        DisplayStruct(io, A, name);
+        needToOverload = false;
+    } break;
+    case NLS_CELL_ARRAY: {
+        DisplayCell(io, A, name);
+        needToOverload = false;
+    } break;
+    default: {
+        DisplayVariableHeader(io, A, name);
+        DisplayVariableValue(io, A, name);
+        DisplayVariableFooter(io, A, name);
+        needToOverload = false;
+    } break;
     }
 }
 //=============================================================================

@@ -35,7 +35,7 @@ Nelson::StreamGateway::dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    OverloadDisplay(eval, argIn[0], "");
+    OverloadDisplay(eval, argIn[0], L"");
     return retval;
 }
 //=============================================================================

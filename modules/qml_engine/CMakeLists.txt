@@ -44,6 +44,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
 file(GLOB QML_ENGINE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")

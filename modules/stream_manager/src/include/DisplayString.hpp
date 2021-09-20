@@ -25,15 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-#include "nlsInterpreter_exports.h"
+#include "Interface.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSINTERPRETER_IMPEXP void
-OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name);
+NLSSTREAM_MANAGER_IMPEXP void
+DisplayString(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

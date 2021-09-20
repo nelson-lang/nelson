@@ -76,6 +76,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${MPI_INCLUDE_PATH})
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${MPI_BUILTIN})

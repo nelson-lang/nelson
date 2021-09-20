@@ -1797,7 +1797,7 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
         }
     }
     if (printIt) {
-        OverloadDisplay(this, b, variableName);
+        OverloadDisplay(this, b, utf8_to_wstring(variableName));
     }
     if (ticProfiling != 0) {
         internalProfileFunction stack
@@ -1836,7 +1836,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
         if (m.size() > 0) {
             context->insertVariable("ans", m[0]);
-            OverloadDisplay(this, m[0], "ans");
+            OverloadDisplay(this, m[0], L"ans");
         }
     } else if (t->type == reserved_node) {
         switch (t->tokenNumber) {
@@ -1910,7 +1910,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 bUpdateAns = false;
             }
             if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
-                OverloadDisplay(this, b, "ans");
+                OverloadDisplay(this, b, L"ans");
             }
         } else if (t->opNum == OP_RHS) {
             m = rhsExpression(t->down);
@@ -1926,14 +1926,14 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                                 buffer, _("\n%d of %d:\n").c_str(), (int)j + (int)1, (int)m.size());
                             io->outputMessage(buffer);
                         }
-                        OverloadDisplay(this, m[j], m[j].name().empty() ? "ans" : m[j].name());
+                        OverloadDisplay(this, m[j], m[j].name().empty() ? L"ans" : utf8_to_wstring(m[j].name()));
                     }
                 }
             }
         } else {
             b = expression(t);
             if (printIt && (state < NLS_STATE_QUIT)) {
-                OverloadDisplay(this, b, "ans");
+                OverloadDisplay(this, b, L"ans");
             }
         }
         if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
@@ -2482,7 +2482,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
             Error(_W("Valid variable name expected."));
         }
         if (printIt) {
-            OverloadDisplay(this, c, s->down->text);
+            OverloadDisplay(this, c, utf8_to_wstring(s->down->text));
         }
         s = s->right;
     }
