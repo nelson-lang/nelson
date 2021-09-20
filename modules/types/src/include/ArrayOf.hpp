@@ -145,6 +145,10 @@ public:
     void
     name(const std::string& name);
 
+    std::wstring
+    wname() const;
+
+
     /**
      * Allocate an array.
      */

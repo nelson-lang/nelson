@@ -36,7 +36,7 @@
 namespace Nelson {
 //=============================================================================
 void
-OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::string& name)
+OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name)
 {
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {

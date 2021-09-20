@@ -185,6 +185,11 @@
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
     <ClInclude Include="..\include\DelimitedFile.hpp" />
+    <ClInclude Include="..\include\DisplayCell.hpp" />
+    <ClInclude Include="..\include\DisplayChar.hpp" />
+    <ClInclude Include="..\include\DisplayLogical.hpp" />
+    <ClInclude Include="..\include\DisplayString.hpp" />
+    <ClInclude Include="..\include\DisplayStruct.hpp" />
     <ClInclude Include="..\include\DisplayVariable.hpp" />
     <ClInclude Include="..\include\DisplayVariableHelpers.hpp" />
     <ClInclude Include="..\include\Endian.hpp" />
@@ -211,8 +216,13 @@
     <ClCompile Include="..\cpp\ArrayOfSerialization.cpp" />
     <ClCompile Include="..\cpp\DelimitedFile.cpp" />
     <ClCompile Include="..\cpp\Diary.cpp" />
+    <ClCompile Include="..\cpp\DisplayCell.cpp" />
+    <ClCompile Include="..\cpp\DisplayChar.cpp" />
     <ClCompile Include="..\cpp\DisplayFloatingNumber.cpp" />
     <ClCompile Include="..\cpp\DisplayHelpers.cpp" />
+    <ClCompile Include="..\cpp\DisplayLogical.cpp" />
+    <ClCompile Include="..\cpp\DisplayString.cpp" />
+    <ClCompile Include="..\cpp\DisplayStruct.cpp" />
     <ClCompile Include="..\cpp\DisplayVariable.cpp" />
     <ClCompile Include="..\cpp\DisplayVariableHelpers.cpp" />
     <ClCompile Include="..\cpp\Endian.cpp" />
