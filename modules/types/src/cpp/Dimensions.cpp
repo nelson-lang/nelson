@@ -329,25 +329,22 @@ Dimensions::toWideString() const
 std::string
 Dimensions::toString() const
 {
-    std::string txt;
-    strcpy(msgBuffer, "");
-    char buf[400];
+#define MIDDLE_MULTIPLY "\U000000D7"
+    std::string text;
     if (length > 0) {
         for (indexType i = 0; i < length - 1; i++) {
+            unsigned long val = static_cast<unsigned long>(data[i]);
+            text.append(std::to_string(val));
             if (length >= 1) {
-                sprintf(buf, "%lux", static_cast<unsigned long>(data[i]));
-            } else {
-                sprintf(buf, "%lu", static_cast<unsigned long>(data[i]));
+                text.append(MIDDLE_MULTIPLY);
             }
-            strcat(msgBuffer, buf);
         }
     }
     if (length >= 1) {
-        sprintf(buf, "%lu", static_cast<unsigned long>(data[length - 1]));
-        strcat(msgBuffer, buf);
+        unsigned long val = static_cast<unsigned long>(data[length - 1]);
+        text.append(std::to_string(val));
     }
-    txt = msgBuffer;
-    return txt;
+    return text;
 }
 //=============================================================================
 void
