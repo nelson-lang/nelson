@@ -128,7 +128,7 @@ Display2dChar(Interface* io, const ArrayOf& A, const std::wstring& name,
 void
 DisplayNdChar(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ 
+{
     Dimensions dims = A.getDimensions();
 
     Dimensions wdims(dims.getLength());
@@ -164,8 +164,8 @@ DisplayNdChar(Interface* io, const ArrayOf& A, const std::wstring& name,
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
-                std::wstring msg = fmt::sprintf(_W("  Columns %d through %d"), k * colsPerPage + 1,
-                    k * colsPerPage + colsInThisPage);
+                std::wstring msg
+                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                     if (k == 0) {
                         msg = msg + L"\n\n";

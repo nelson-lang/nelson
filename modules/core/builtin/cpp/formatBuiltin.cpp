@@ -116,9 +116,7 @@ NumericFormatDisplayToString(NumericFormatDisplay currentNumericFormatDisplay)
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         asString = L"rational";
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return asString;
 }
 //=============================================================================
@@ -133,9 +131,7 @@ LineSpacingDisplayToString(LineSpacingDisplay currentLineSpacingDisplay)
     case NLS_LINE_SPACING_LOOSE: {
         asString = L"loose";
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return asString;
 }
 //=============================================================================
@@ -178,11 +174,11 @@ setDisplayOption(std::wstring param)
         NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_COMPACT);
         return true;
     }
-    if (param == L"short") { 
+    if (param == L"short") {
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT);
         return true;
     }
-    if (param == L"long") { 
+    if (param == L"long") {
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONG);
         return true;
     }
@@ -190,7 +186,7 @@ setDisplayOption(std::wstring param)
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTE);
         return true;
     }
-    if (param == L"longE") { 
+    if (param == L"longE") {
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGE);
         return true;
     }
@@ -198,7 +194,7 @@ setDisplayOption(std::wstring param)
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTG);
         return true;
     }
-    if (param == L"longG") { 
+    if (param == L"longG") {
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGG);
         return true;
     }
@@ -206,7 +202,7 @@ setDisplayOption(std::wstring param)
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORTENG);
         return true;
     }
-    if (param == L"longEng") { 
+    if (param == L"longEng") {
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_LONGENG);
         return true;
     }

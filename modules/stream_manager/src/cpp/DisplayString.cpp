@@ -139,8 +139,8 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
                 }
             }
             if (withColumsHeader) {
-                std::wstring msg = fmt::sprintf(_W("  Columns %d through %d").c_str(),
-                    k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
+                std::wstring msg
+                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                     msg = msg + L"\n\n";
                 } else {
@@ -211,8 +211,8 @@ DisplayNdString(Interface* io, const ArrayOf& A, const std::wstring& name,
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
-                std::wstring msg = fmt::sprintf(_W("  Columns %d through %d"), k * colsPerPage + 1,
-                    k * colsPerPage + colsInThisPage);
+                std::wstring msg
+                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                     if (k == 0) {
                         msg = msg + L"\n\n";

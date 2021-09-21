@@ -40,18 +40,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <typename I>
-std::wstring
-hexify(I w, size_t hex_len = sizeof(I) << 1)
-{
-    static const wchar_t* digits = L"0123456789ABCDEF";
-    std::wstring rc(hex_len, '0');
-    for (size_t i = 0, j = (hex_len - 1) * 4; i < hex_len; ++i, j -= 4) {
-        rc[i] = digits[(w >> j) & 0x0f];
-    }
-    return rc;
-}
-//=============================================================================
 template <class T>
 bool
 isInteger(T val)
@@ -198,10 +186,6 @@ emitElement(Interface* io, const void* dp, indexType num, Class dcls,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing,
     indexType width, int exponential);
 //=============================================================================
-static std::wstring
-sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay currentNumericFormat,
-    LineSpacingDisplay currentLineSpacing, indexType width, int exponential);
-//=============================================================================
 static indexType
 getNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
@@ -283,9 +267,7 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return typeAsText;
 }
 //=============================================================================
@@ -327,7 +309,7 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
         case NLS_LOGICAL: {
             std::wstring typeAsText = getClassAsWideString(A);
             if (A.isSparse()) {
-                typeAsText = L"sparse " + typeAsText; 
+                typeAsText = L"sparse " + typeAsText;
             }
             io->outputMessage(L"  <" + typeAsText + L"> - size: ");
             A.getDimensions().printMe(io);
@@ -424,9 +406,7 @@ outputSingleComplexPrecisionFloat(
     switch (currentNumericFormat) {
     case NumericFormatDisplay::NLS_NUMERIC_FORMAT_SHORT: {
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return str;
 }
 
@@ -457,9 +437,7 @@ outputDoubleComplexPrecisionFloat(
     switch (currentNumericFormat) {
     case NumericFormatDisplay::NLS_NUMERIC_FORMAT_SHORT: {
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return str;
 }
 //=============================================================================
@@ -570,54 +548,6 @@ outputSinglePrecisionFloat(single number, NumericFormatDisplay currentNumericFor
     return completeWithBlanksAtBeginning(str, 24);
 }
 //=============================================================================
-template <typename T>
-std::wstring
-outputSignedIntegerPrecision(T num, NumericFormatDisplay currentNumericFormat)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = hexify<T>(num);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        if (num == 0) {
-            msg = L" ";
-        } else if (num > 0) {
-            msg = L"+";
-        } else {
-            msg = L"-";
-        }
-    } break;
-    default: {
-        msg = fmt::to_wstring(num);
-    } break;
-    }
-    return msg;
-}
-//=============================================================================
-template <typename T>
-std::wstring
-outputUnsignedIntegerPrecision(T num, NumericFormatDisplay currentNumericFormat)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = hexify<T>(num);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        if (num == 0) {
-            msg = L" ";
-        } else {
-            msg = L"+";
-        }
-    } break;
-    default: {
-        msg = fmt::to_wstring(num);
-    } break;
-    }
-    return msg;
-}
-//=============================================================================
 std::wstring
 summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWidth)
 {
@@ -673,7 +603,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
                 + L"}";
         } else {
             msg = lightDescription(A, L"{", L"}");
@@ -837,9 +767,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -854,50 +782,6 @@ sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay cu
     case NLS_GO_HANDLE: {
     } break;
     case NLS_HANDLE: {
-    } break;
-    case NLS_INT8: {
-        const int8* ap = static_cast<const int8*>(dp);
-        msg = outputSignedIntegerPrecision<int8>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_UINT8: {
-        const auto* ap = static_cast<const uint8*>(dp);
-        msg = outputUnsignedIntegerPrecision<uint8>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_INT16: {
-        const auto* ap = static_cast<const int16*>(dp);
-        int16 value = ap[num];
-        msg = outputSignedIntegerPrecision<int16>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_UINT16: {
-        const auto* ap = static_cast<const uint16*>(dp);
-        uint16 value = ap[num];
-        msg = outputUnsignedIntegerPrecision<uint16>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_INT32: {
-        const auto* ap = static_cast<const int32*>(dp);
-        int32 value = ap[num];
-        msg = outputSignedIntegerPrecision<int32>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_UINT32: {
-        const auto* ap = static_cast<const uint32*>(dp);
-        uint32 value = ap[num];
-        msg = outputUnsignedIntegerPrecision<uint32>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_INT64: {
-        const auto* ap = static_cast<const int64*>(dp);
-        msg = outputSignedIntegerPrecision<int64>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
-    } break;
-    case NLS_UINT64: {
-        const uint64* ap = static_cast<const uint64*>(dp);
-        msg = outputUnsignedIntegerPrecision<uint64>(ap[num], currentNumericFormat);
-        msg = completeWithBlanksAtBeginning(msg, width);
     } break;
     case NLS_LOGICAL: {
         const auto* ap = static_cast<const logical*>(dp);
@@ -951,9 +835,7 @@ sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay cu
             msg.append(add, L' ');
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -1008,9 +890,7 @@ printEmptyValue(Interface* io, const ArrayOf& A)
     case NLS_UINT32:
     case NLS_INT64:
     case NLS_UINT64:
-    default: {
-    } break;
-    }
+    default: { } break; }
 }
 //=============================================================================
 void
@@ -1079,12 +959,12 @@ printMatrixValue(Interface* io, const ArrayOf& A)
                 io->outputMessage("\n");
             }*/
             if (withColumsHeader) {
-                std::string msg = fmt::sprintf(_("  Columns %d through %d").c_str(),
-                    k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
+                std::wstring msg
+                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                    msg = msg + "\n\n";
+                    msg = msg + L"\n\n";
                 } else {
-                    msg = msg + "\n";
+                    msg = msg + L"\n";
                 }
                 io->outputMessage(msg);
             }
@@ -1187,8 +1067,8 @@ printNDArrayValue(Interface* io, const ArrayOf& A, const std::wstring& name)
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
-                std::wstring msg = fmt::sprintf(_W("  Columns %d through %d"), k * colsPerPage + 1,
-                    k * colsPerPage + colsInThisPage);
+                std::wstring msg
+                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                     msg = msg + L"\n\n";
                 } else {
@@ -1232,72 +1112,6 @@ printNDArrayValue(Interface* io, const ArrayOf& A, const std::wstring& name)
         offset += rows * columns;
         wdims.incrementModulo(dims, 2);
     }
-}
-//=============================================================================
-template <typename T>
-indexType
-getSignedIntegerNominalWidth(T* dp, indexType nbElements, NumericFormatDisplay currentNumericFormat)
-{
-    indexType nominalWidth = 0;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        nominalWidth = 1;
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        nominalWidth = std::wstring(BLANKS_AT_BOL).length() + (sizeof(T) << 1);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORT:
-    case NLS_NUMERIC_FORMAT_LONG:
-    case NLS_NUMERIC_FORMAT_SHORTE:
-    case NLS_NUMERIC_FORMAT_LONGE:
-    case NLS_NUMERIC_FORMAT_SHORTG:
-    case NLS_NUMERIC_FORMAT_LONGG:
-    case NLS_NUMERIC_FORMAT_SHORTENG:
-    case NLS_NUMERIC_FORMAT_LONGENG:
-    case NLS_NUMERIC_FORMAT_BANK:
-    case NLS_NUMERIC_FORMAT_RATIONAL:
-    default: {
-        T maxValue;
-        T minValue;
-        getMinMax<T>(dp, nbElements, &minValue, &maxValue);
-        std::wstring maxStr = BLANKS_AT_BOL + fmt::to_wstring(maxValue);
-        std::wstring minStr = BLANKS_AT_BOL + fmt::to_wstring(minValue);
-        nominalWidth = std::max(minStr.length(), maxStr.length());
-    } break;
-    }
-    return nominalWidth;
-}
-//=============================================================================
-template <typename T>
-indexType
-getUnsignedIntegerNominalWidth(
-    T* dp, indexType nbElements, NumericFormatDisplay currentNumericFormat)
-{
-    indexType nominalWidth = 0;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        nominalWidth = 1;
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        nominalWidth = std::wstring(BLANKS_AT_BOL).length() + (sizeof(T) << 1);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORT:
-    case NLS_NUMERIC_FORMAT_LONG:
-    case NLS_NUMERIC_FORMAT_SHORTE:
-    case NLS_NUMERIC_FORMAT_LONGE:
-    case NLS_NUMERIC_FORMAT_SHORTG:
-    case NLS_NUMERIC_FORMAT_LONGG:
-    case NLS_NUMERIC_FORMAT_SHORTENG:
-    case NLS_NUMERIC_FORMAT_LONGENG:
-    case NLS_NUMERIC_FORMAT_BANK:
-    case NLS_NUMERIC_FORMAT_RATIONAL:
-    default: {
-        T maxValue = getMax<T>(dp, nbElements);
-        std::wstring maxStr = BLANKS_AT_BOL + fmt::to_wstring(maxValue);
-        nominalWidth = maxStr.length();
-    } break;
-    }
-    return nominalWidth;
 }
 //=============================================================================
 static indexType
@@ -1374,59 +1188,12 @@ getSingleNominalWidth(single* dp, indexType nbElements, NumericFormatDisplay cur
     return nominalWidth;
 }
 //=============================================================================
-static indexType
-getLogicalNominalWidth(logical* dp, indexType nbElements, NumericFormatDisplay currentNumericFormat)
-{
-    std::wstring maxStr = BLANKS_AT_BOL + std::wstring(L"false");
-    return maxStr.length();
-}
-//=============================================================================
 indexType
 getNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
 {
     Class classA = A.getDataClass();
     indexType nominalWidth = 30;
     switch (classA) {
-    case NLS_UINT8: {
-        uint8* val = (uint8*)A.getDataPointer();
-        nominalWidth
-            = getUnsignedIntegerNominalWidth<uint8>(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_INT8: {
-        int8* val = (int8*)A.getDataPointer();
-        nominalWidth
-            = getSignedIntegerNominalWidth<int8>(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_UINT16: {
-        uint16* val = (uint16*)A.getDataPointer();
-        nominalWidth = getUnsignedIntegerNominalWidth<uint16>(
-            val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_INT16: {
-        int16* val = (int16*)A.getDataPointer();
-        nominalWidth
-            = getSignedIntegerNominalWidth<int16>(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_UINT32: {
-        uint32* val = (uint32*)A.getDataPointer();
-        nominalWidth = getUnsignedIntegerNominalWidth<uint32>(
-            val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_INT32: {
-        int32* val = (int32*)A.getDataPointer();
-        nominalWidth
-            = getSignedIntegerNominalWidth<int32>(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_UINT64: {
-        uint64* val = (uint64*)A.getDataPointer();
-        nominalWidth = getUnsignedIntegerNominalWidth<uint64>(
-            val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_INT64: {
-        int64* val = (int64*)A.getDataPointer();
-        nominalWidth
-            = getSignedIntegerNominalWidth<int64>(val, A.getElementCount(), currentNumericFormat);
-    } break;
     case NLS_SINGLE: {
         single* val = (single*)A.getDataPointer();
         nominalWidth = getSingleNominalWidth(val, A.getElementCount(), currentNumericFormat);
@@ -1434,10 +1201,6 @@ getNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
     case NLS_DOUBLE: {
         double* val = (double*)A.getDataPointer();
         nominalWidth = getDoubleNominalWidth(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_LOGICAL: {
-        logical* val = (logical*)A.getDataPointer();
-        nominalWidth = getLogicalNominalWidth(val, A.getElementCount(), currentNumericFormat);
     } break;
     case NLS_CHAR: {
         nominalWidth = 1;
@@ -1468,5 +1231,18 @@ lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wst
         format, firstChar, A.getDimensions().toWideString(), getClassAsWideString(A), lastChar);
 }
 //=============================================================================
+std::wstring
+columnsHeader(indexType startCol, indexType endCol)
+{
+    std::wstring msg;
+    if (startCol == endCol) {
+        msg = fmt::sprintf(_W("  Columns %d"), startCol);
+    } else {
+        msg = fmt::sprintf(_W("  Columns %d through %d"), startCol, endCol);
+    }
+    return msg;
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

@@ -244,7 +244,7 @@ public:
      */
     std::string
     toString() const;
- 
+
     std::wstring
     toWideString() const;
     //=============================================================================

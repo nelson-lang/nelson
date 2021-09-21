@@ -106,8 +106,7 @@ DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
             std::wstring beginning = BLANKS_AT_BOL
                 + completeWithBlanksAtBeginning(utf8_to_wstring(fieldnames[k]), maxLen) + L": ";
             std::wstring valueAsString = summarizeCellEntry(
-                ap[k], 0, SIZE_MAX,
-                    NelsonConfiguration::getInstance()->getNumericFormatDisplay());
+                ap[k], 0, SIZE_MAX, NelsonConfiguration::getInstance()->getNumericFormatDisplay());
             io->outputMessage(beginning + valueAsString + L"\n");
         }
     }

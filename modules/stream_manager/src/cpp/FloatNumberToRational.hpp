@@ -79,7 +79,8 @@ floatNumberToApproxRational(T val, int len = 10)
         numerator = step * numerator + lastNumerator;
         denominator = step * denominator + lastDenominator;
 
-        s = fmt::to_wstring(static_cast<int>(numerator)) + L"/" + fmt::to_wstring(static_cast<int>(denominator));
+        s = fmt::to_wstring(static_cast<int>(numerator)) + L"/"
+            + fmt::to_wstring(static_cast<int>(denominator));
 
         if (numerator >= 0 && denominator >= 0) {
             if (s.length() > static_cast<unsigned int>(len)) {
