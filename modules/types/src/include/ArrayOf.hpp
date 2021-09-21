@@ -148,7 +148,6 @@ public:
     std::wstring
     wname() const;
 
-
     /**
      * Allocate an array.
      */

@@ -270,8 +270,8 @@ ArrayOf::getContentAsWideString(size_t lengthMax) const
     if (isRowVectorCharacterArray()) {
         indexType M = getElementCount();
         indexType N;
-        if (lengthMax == std::string::npos || M <= lengthMax) { 
-          N = M;
+        if (lengthMax == std::string::npos || M <= lengthMax) {
+            N = M;
         } else {
             N = lengthMax;
         }

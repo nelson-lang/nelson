@@ -1926,7 +1926,8 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                                 buffer, _("\n%d of %d:\n").c_str(), (int)j + (int)1, (int)m.size());
                             io->outputMessage(buffer);
                         }
-                        OverloadDisplay(this, m[j], m[j].name().empty() ? L"ans" : utf8_to_wstring(m[j].name()));
+                        OverloadDisplay(this, m[j],
+                            m[j].name().empty() ? L"ans" : utf8_to_wstring(m[j].name()));
                     }
                 }
             }

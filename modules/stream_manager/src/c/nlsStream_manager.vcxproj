@@ -187,6 +187,7 @@
     <ClInclude Include="..\include\DelimitedFile.hpp" />
     <ClInclude Include="..\include\DisplayCell.hpp" />
     <ClInclude Include="..\include\DisplayChar.hpp" />
+    <ClInclude Include="..\include\DisplayInteger.hpp" />
     <ClInclude Include="..\include\DisplayLogical.hpp" />
     <ClInclude Include="..\include\DisplayString.hpp" />
     <ClInclude Include="..\include\DisplayStruct.hpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="..\cpp\DisplayChar.cpp" />
     <ClCompile Include="..\cpp\DisplayFloatingNumber.cpp" />
     <ClCompile Include="..\cpp\DisplayHelpers.cpp" />
+    <ClCompile Include="..\cpp\DisplayInteger.cpp" />
     <ClCompile Include="..\cpp\DisplayLogical.cpp" />
     <ClCompile Include="..\cpp\DisplayString.cpp" />
     <ClCompile Include="..\cpp\DisplayStruct.cpp" />
