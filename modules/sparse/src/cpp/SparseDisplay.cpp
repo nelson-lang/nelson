@@ -222,48 +222,6 @@ SparseDoubleComplexDisplay(Interface* io, const ArrayOf& a)
 }
 //=============================================================================
 void
-SparseLogicalDisplay(Interface* io, const ArrayOf& a)
-{
-    const logical** src = (const logical**)a.getSparseDataPointer();
-    size_t rows = a.getDimensionLength(0);
-    size_t cols = a.getDimensionLength(1);
-    if (rows == 0 || cols == 0) {
-        std::string msg
-            = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
-        io->outputMessage(msg);
-    } else {
-        if (a.getNonzeros() == 0) {
-            std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
-                % (long long)rows % (long long)cols);
-            io->outputMessage(msg);
-        } else {
-            Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
-            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                    break;
-                }
-                for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(*spMat, k);
-                     it; ++it) {
-                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                        break;
-                    }
-                    std::string msg = "";
-                    if (it.value()) {
-                        msg = str(boost::format("\t(%lu,%lu) true\n") % (long long)(it.row() + 1)
-                            % (long long)(it.col() + 1));
-                    } else {
-                        msg = str(boost::format("\t(%lu,%lu) false\n") % (long long)(it.row() + 1)
-                            % (long long)(it.col() + 1));
-                    }
-                    io->outputMessage(msg);
-                }
-            }
-        }
-    }
-}
-//=============================================================================
-void
 SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
 {
     DisplayVariableHeader(io, a, utf8_to_wstring(name));
@@ -273,9 +231,6 @@ SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
         break;
     case NLS_DCOMPLEX:
         SparseDoubleComplexDisplay(io, a);
-        break;
-    case NLS_LOGICAL:
-        SparseLogicalDisplay(io, a);
         break;
     default:
         break;
