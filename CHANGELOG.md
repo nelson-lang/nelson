@@ -1,5 +1,7 @@
 # 0.5.9 (UNRELEASED)
 
+- [#512](http://github.com/Nelson-numerical-software/nelson/issues/512): Assign must not change left assign type when it is possible.
+
 - [#509](http://github.com/Nelson-numerical-software/nelson/issues/509): horzcat vertcat generic support for class object.
 
 - [#508](http://github.com/Nelson-numerical-software/nelson/issues/508): Change default seed for 'rand' with Mersenne Twister algo.
