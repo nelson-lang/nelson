@@ -574,28 +574,38 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         } else {
             advance = 1;
         }
-        if (isStringArray()) {
-            bool needToOverload = false;
-            ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
-            if (needToOverload) {
-                Error(_W("Cannot promote to string array."));
-            }
-            rightData = promute;
 
-        } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
-            && (getDataClass() == NLS_STRUCT_ARRAY)) {
-            if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
-                promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
-            } else {
-                rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
+        if (getDataClass() != rightData.getDataClass()) {
+            if (isStringArray()) {
+                bool needToOverload = false;
+                ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
+                if (needToOverload) {
+                    Error(_W("Cannot promote to string array."));
+                }
+                rightData = promute;
+            } 
+            else {
+                if (!isEmpty()) {
+                    if (rightData.isComplex() && !isComplex()) {
+                        promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
+                    } else {
+                        rightData.promoteType(dp->dataClass, dp->fieldNames);
+                    }
+                } else {
+                    promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
+                }
             }
         } else {
-            if (isEmpty() || rightData.getDataClass() > getDataClass()) {
-                promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
-            } else if (rightData.dp->dataClass <= dp->dataClass) {
-                rightData.promoteType(dp->dataClass, dp->fieldNames);
+            if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
+                && (getDataClass() == NLS_STRUCT_ARRAY)) {
+                if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
+                    promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
+                } else {
+                    rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
+                }
             }
         }
+
         if (isSparse()) {
             if (L > 2) {
                 Error(_W("Multidimensional indexing not legal for sparse "
@@ -723,7 +733,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, dp->fieldNames.size(), advance);
             break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         delete[] indx;
         dp->dimensions.simplify();
     } catch (const Exception& e) {
