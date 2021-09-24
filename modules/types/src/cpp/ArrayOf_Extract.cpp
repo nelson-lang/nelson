@@ -89,7 +89,17 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                     = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
                 return getVectorSubset(newIndex);
             }
-            double idx = index.getContentAsDoubleScalar();
+            if (index.isLogical()) {
+                logical idx = index.getContentAsLogicalScalar();
+                if (idx) {
+                    return getValueAtIndex(0);
+                } else {
+                    Dimensions dims(0, 0);
+                    return ArrayOf(
+                        dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
+                }
+            }
+            double idx = index.getContentAsInteger64Scalar();
             auto iidx = static_cast<int64>(idx);
             if (idx != static_cast<double>(iidx) || idx < 0) {
                 Error(_W("index must either be real positive integers or logicals."));

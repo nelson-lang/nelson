@@ -187,8 +187,13 @@ ArrayOf::toOrdinalType()
             }
         // Reset our data pointer to the new vector.
         Dimensions dimensions;
-        dimensions[1] = 1;
-        dimensions[0] = indexCount;
+        if (isRowVector()) {
+            dimensions[1] = indexCount;
+            dimensions[0] = 1;
+        } else {
+            dimensions[1] = 1;
+            dimensions[0] = indexCount;
+        }
         // Change the class to an NLS_UINT32.
 #ifdef NLS_INDEX_TYPE_64
         dp = dp->putData(NLS_UINT64, dimensions, lp);
