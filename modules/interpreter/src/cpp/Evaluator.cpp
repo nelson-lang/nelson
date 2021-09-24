@@ -2126,9 +2126,6 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         if (m.size() == 0) {
             Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
-            if (r.isEmpty()) {
-                m[0] = ArrayOf::doubleConstructor(1);
-            }
             r.setVectorContentsAsList(m[0], value);
             callstack.popID();
             return;

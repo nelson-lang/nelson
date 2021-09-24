@@ -1,5 +1,7 @@
 # 0.5.9 (UNRELEASED)
 
+- [#514](http://github.com/Nelson-numerical-software/nelson/issues/514): `C{3} = 4` should create a cell with good dimensions.
+
 - [#512](http://github.com/Nelson-numerical-software/nelson/issues/512): Assign must not change left assign type when it is possible.
 
 - [#509](http://github.com/Nelson-numerical-software/nelson/issues/509): horzcat vertcat generic support for class object.
