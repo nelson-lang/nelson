@@ -1,5 +1,7 @@
 # 0.5.9 (UNRELEASED)
 
+- [#518](http://github.com/Nelson-numerical-software/nelson/issues/518): `isStringScalar` checks if input is string array with one element.
+
 - [#516](http://github.com/Nelson-numerical-software/nelson/issues/516): `ind = 2; ind(false)` logical extraction on scalar should return empty matrix.
 
 - [#514](http://github.com/Nelson-numerical-software/nelson/issues/514): `C{3} = 4` should create a cell with good dimensions.
