@@ -1,5 +1,9 @@
 # 0.5.9 (UNRELEASED)
 
+- `sub2ind` function: linear index to matrix subscript values.
+
+- `ind2sub` function: matrix subscript values to linear index.
+
 - [#518](http://github.com/Nelson-numerical-software/nelson/issues/518): `isStringScalar` checks if input is string array with one element.
 
 - [#516](http://github.com/Nelson-numerical-software/nelson/issues/516): `ind = 2; ind(false)` logical extraction on scalar should return empty matrix.
