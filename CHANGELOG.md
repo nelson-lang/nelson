@@ -2,6 +2,8 @@
 
 - `leapyear` function: determine leap year.
 
+- `meshgrid` function: Cartesian rectangular grid in 2-D or 3-D.
+
 - `sub2ind` function: linear index to matrix subscript values.
 
 - `ind2sub` function: matrix subscript values to linear index.
