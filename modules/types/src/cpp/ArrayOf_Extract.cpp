@@ -95,8 +95,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                     return getValueAtIndex(0);
                 } else {
                     Dimensions dims(0, 0);
-                    return ArrayOf(
-                        dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
+                    return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
                 }
             }
             double idx = index.getContentAsInteger64Scalar();
