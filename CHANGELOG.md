@@ -1,4 +1,4 @@
-# 0.5.9 (UNRELEASED)
+# 0.5.9 (2021-09-29)
 
 - `leapyear` function: determine leap year.
 
