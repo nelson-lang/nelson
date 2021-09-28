@@ -36,11 +36,11 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     mxChar data[] = {'a', 'b', 'c', 'd'};
     mwSize dims[2] = {2, 2};
     if (nrhs !=0 ) {
-        mexErrMsgIdAndTxt( "NELSON:minrhs",
+        mexErrMsgIdAndTxt( "Nelson:minrhs",
                 "No input arguments required.");
     } 
     if(nlhs > 1){
-        mexErrMsgIdAndTxt( "NELSON:maxrhs",
+        mexErrMsgIdAndTxt( "Nelson:maxrhs",
                 "Too many output arguments.");
     }
     plhs[0]= mxCreateCharArray(2, (const int *)dims);  
