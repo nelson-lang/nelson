@@ -1,5 +1,7 @@
 # 0.5.9 (UNRELEASED)
 
+- `leapyear` function: determine leap year.
+
 - `sub2ind` function: linear index to matrix subscript values.
 
 - `ind2sub` function: matrix subscript values to linear index.
