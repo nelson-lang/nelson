@@ -318,14 +318,43 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
     }
     Dimensions dimsM = m.getDimensions();
     if (m.isEmpty()) {
-        ArrayOf* elements = nullptr;
-        size_t nbElements = dimsM.getElementCount();
-        try {
-            elements = new ArrayOf[nbElements];
-        } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+        if (m.isCharacterArray()) {
+            if (m.is2D() && m.getRows() == m.getColumns()) {
+                return ArrayOf::stringArrayConstructor("");
+            } else {
+                Dimensions newDims;
+                indexType i = 0;
+                for (indexType k = 0; k < dimsM.getLength(); ++k) {
+                    if (k != 1) {
+                        newDims[i] = dimsM.getAt(k);
+                        i++;
+                    }
+                }
+                if (newDims.getLength() < 2) {
+                    newDims[i] = 1;
+                }
+                ArrayOf* elements = nullptr;
+                size_t nbElements = newDims.getElementCount();
+                try {
+                    elements = new ArrayOf[nbElements];
+                    for (indexType k = 0; k < nbElements; ++k) {
+                        elements[k] = ArrayOf::characterArrayConstructor("");
+                    }
+                } catch (const std::bad_alloc&) {
+                    Error(ERROR_MEMORY_ALLOCATION);
+                }
+                return ArrayOf(NLS_STRING_ARRAY, newDims, elements);
+            }
+        } else {
+            ArrayOf* elements = nullptr;
+            size_t nbElements = dimsM.getElementCount();
+            try {
+                elements = new ArrayOf[nbElements];
+            } catch (const std::bad_alloc&) {
+                Error(ERROR_MEMORY_ALLOCATION);
+            }
+            return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
         }
-        return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
     }
     switch (m.getDataClass()) {
     case NLS_CELL_ARRAY: {
@@ -351,7 +380,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                 if (el.isStringArray()) {
                     ArrayOf* p = (ArrayOf*)el.getDataPointer();
                     ArrayOf p0 = p[0];
-                    if (p0.isEmpty()) {
+                    if (p0.isEmpty() && !p0.isCharacterArray()) {
                         elementsOutput[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
                     } else {
                         elementsOutput[k]
