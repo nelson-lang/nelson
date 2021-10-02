@@ -257,6 +257,18 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
 }
 //=============================================================================
 void
+Scope::setInputArgumentNames(stringVector names)
+{
+    inputNames = names;
+}
+//=============================================================================
+stringVector
+Scope::getInputArgumentNames()
+{
+    return inputNames;
+}
+//=============================================================================
+void
 Scope::setNargIn(int _nargin)
 {
     this->nargin = _nargin;

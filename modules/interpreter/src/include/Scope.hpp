@@ -68,6 +68,7 @@ namespace Nelson {
 class NLSINTERPRETER_IMPEXP Scope
 {
 private:
+    stringVector inputNames;
     int nargin = 0;
     int nargout = 0;
 
@@ -237,6 +238,11 @@ public:
      */
     bool
     deleteVariable(const std::string& var);
+
+    void
+    setInputArgumentNames(stringVector names);
+    stringVector
+    getInputArgumentNames();
 
     void
     setNargIn(int _nargin);
