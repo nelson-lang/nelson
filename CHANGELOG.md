@@ -1,3 +1,7 @@
+# 0.5.10 (UNRELEASED)
+
+- [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
+
 # 0.5.9 (2021-09-29)
 
 - `leapyear` function: determine leap year.
@@ -27,7 +31,6 @@
 - [#496](http://github.com/Nelson-numerical-software/nelson/issues/496): Eigen 3.4 used.
 
 - [#503](http://github.com/Nelson-numerical-software/nelson/issues/503): Boost 1.77 support (default on Windows).
-
 
 # 0.5.8 (2021-08-25)
 

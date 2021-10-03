@@ -143,6 +143,12 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         context->insertMacroFunctionLocally((FunctionDefPtr)cp);
         cp = cp->nextFunction;
     }
+    stringVector inputNames;
+    inputNames.reserve(inputs.size());
+    for (size_t i = 0; i < inputs.size(); i++) {
+        inputNames.push_back(inputs[i].name());
+    }
+    context->getCurrentScope()->setInputArgumentNames(inputNames);
     // When the function is called, the number of inputs is
     // at sometimes less than the number of arguments requested.
     // Check the argument count.  If this is a non-varargin
@@ -312,6 +318,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
     std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
     eval->callstack.pushDebug(filenameUtf8, this->getName());
 
+    context->getCurrentScope()->setInputArgumentNames(stringVector());
     context->getCurrentScope()->setNargIn(0);
     context->getCurrentScope()->setNargOut(0);
 
