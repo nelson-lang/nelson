@@ -409,6 +409,9 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
             qp[ndx] = front;
         }
         data.pop_front();
+        if (data.size() > 0) {
+            front = data.front();
+        }
     }
     dp->dimensions.simplify();
 }

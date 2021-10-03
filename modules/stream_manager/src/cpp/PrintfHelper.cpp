@@ -117,9 +117,11 @@ PrintfHelper::GetNextVariableAsString(std::wstring& str, std::wstring& errorMess
         }
     } else if (value.isStringArray()) {
         auto* ptr = (ArrayOf*)value.getDataPointer();
-        ArrayOf data = ptr[elementIndex];
-        if (!data.isEmpty()) {
-            str = data.getContentAsWideString();
+        if (ptr) {
+            ArrayOf data = ptr[elementIndex];
+            if (!data.isEmpty()) {
+                str = data.getContentAsWideString();
+            }
         }
     }
     IncrementDataPointer();
