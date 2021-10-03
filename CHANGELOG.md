@@ -2,6 +2,8 @@
 
 - [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
 
+- [#528](http://github.com/Nelson-numerical-software/nelson/issues/528): Assignment in cell did not work in this case `[c{:}] = ind2sub (dv, i)`
+
 # 0.5.9 (2021-09-29)
 
 - `leapyear` function: determine leap year.
