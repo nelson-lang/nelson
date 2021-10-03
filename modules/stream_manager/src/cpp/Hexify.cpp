@@ -23,18 +23,36 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DisplayHelpers.hpp"
-#include "characters_encoding.hpp"
+#include "Hexify.hpp"
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
-double2hexastr(double d)
+single2hexastr(float d)
 {
-    char* buffer = new char[32];
-    sprintf(buffer, "%llx", *reinterpret_cast<unsigned long long*>(&d));
-    return utf8_to_wstring(buffer);
+    if (d == 0.) {
+        return L"00000000";
+    }
+    if (std::isnan(d)) {
+        return L"ffc00000";
+    }
+    return fmt::sprintf(L"%x", *reinterpret_cast<int*>(&d));
 }
 //=============================================================================
-} // namespace Nelson
+std::wstring
+double2hexastr(double d)
+{
+    if (d == 0.) {
+        return L"0000000000000000";
+    }
+    if (std::isnan(d)) {
+        return L"fff8000000000000";
+    }
+    return fmt::sprintf(L"%llx", *reinterpret_cast<unsigned long long*>(&d));
+}
+//=============================================================================
+}
 //=============================================================================

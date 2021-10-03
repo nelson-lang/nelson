@@ -27,61 +27,106 @@
 //=============================================================================
 #include <string>
 #include "ArrayOf.hpp"
-#include "Interface.hpp"
+#include "Types.hpp"
 #include "NelsonConfiguration.hpp"
 #include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define HORIZONTAL_ELLIPSIS L"\U00002026" // L"…"
-#define BLANKS_AT_BOL L"    "
-#define LENGTH_BLANKS_AT_BOL 4
-#define DEFAULT_NOMINAL_WIDTH 10
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableValue(Interface* io, const ArrayOf& A, const std::wstring& name);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
-completeWithBlanksAtBeginning(const std::wstring& msg, size_t width);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
-summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWidth);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
-summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
-    NumericFormatDisplay currentNumericFormat);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
-lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
-sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay currentNumericFormat,
-    LineSpacingDisplay currentLineSpacing, indexType width, int exponential);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
-columnsHeader(indexType startCol, indexType endCol);
-//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-outputDoublePrecisionFloat(double num, NumericFormatDisplay currentNumericFormat,
-    int exponantial = 0, bool trim = false);
+formatShort(double number, bool trim = false);
 //=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
-    NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
+formatShort(single number, bool trim = false);
 //=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-outputSinglePrecisionFloat(single num, NumericFormatDisplay currentNumericFormat,
-    int exponantial = 0, bool trim = false);
+formatComplexShort(double realPart, double imagPart, bool trim = false);
 //=============================================================================
-static std::wstring
-outputSingleComplexPrecisionFloat(single realPart, single imagPart,
-    NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexShort(single realPart, single imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatShortEng(double number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatShortEng(single number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexShortEng(double realPart, double imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexShortEng(single realPart, single imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatHex(double number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatHex(single number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexHex(double realPart, double imgPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexHex(single realPart, single imgPart, bool trim = false);
+//=============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatRational(double number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatRational(single number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexRational(double realPart, double imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexRational(single realPart, single imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatPlus(double number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatPlus(single number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexPlus(double realPart, double imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexPlus(single realPart, single imagPart, bool trim = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -25,84 +25,109 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <iomanip>
 #include <string>
 #include <limits>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <typename T>
+template <typename T, typename CAST>
 std::wstring
-floatNumberToApproxRational(T val, int len = 10)
+formatAsRational(T numerator, T denominator)
 {
-    std::wstring s = L"NaN/NaN";
-    if (std::isinf(val)) {
-        if (val > 0) {
-            s = L"1/0";
-        } else {
-            s = L"-1/0";
-        }
-        return s;
+    if (denominator < 0) {
+        numerator = -numerator;
+        denominator = -denominator;
     }
-    if (std::isnan(val)) {
+    return fmt::to_wstring(static_cast<CAST>(numerator)) + L"/"
+        + fmt::to_wstring(static_cast<CAST>(denominator));
+}
+//=============================================================================
+template <typename T, typename CAST>
+std::wstring
+floatNumberToApproxRational(T value, int length = 10)
+{
+    if (std::isinf(value)) {
+        if (value > 0) {
+            return L"1/0";
+        }
+        return L"-1/0";
+    }
+    if (std::isnan(value)) {
         return L"0/0";
     }
-    if (val < std::numeric_limits<int>::min() || val > std::numeric_limits<int>::max()
-        || T(int(val)) == val) {
-        return fmt::to_wstring(static_cast<int>(val));
-    }
-    T numerator = round(val);
-    T denominator = 1;
-    T lastNumerator = 1;
-    T lastDenominator = 0;
-    T frac = val - numerator;
-    s = fmt::to_wstring(static_cast<int>(numerator));
-
-    if (len <= 0) {
-        len = 10;
-    }
-    while (true) {
-        T nextNumerator = numerator;
-        T nextDenominator = denominator;
-        T flip = 1 / frac;
-        T step = round(flip);
-        if (std::abs(flip) > static_cast<T>(std::numeric_limits<int>::max())) {
-            lastNumerator = numerator;
-            lastDenominator = denominator;
-            break;
+    if (value < std::numeric_limits<CAST>::min() || value > std::numeric_limits<CAST>::max()
+        || T(CAST(value)) == value) {
+        return fmt::to_wstring(static_cast<CAST>(value));
+    } else {
+        if (length <= 0) {
+            length = 10;
         }
-        lastNumerator = nextNumerator;
-        lastDenominator = nextDenominator;
-        frac = flip - step;
-        numerator = step * numerator + lastNumerator;
-        denominator = step * denominator + lastDenominator;
 
-        s = fmt::to_wstring(static_cast<int>(numerator)) + L"/"
-            + fmt::to_wstring(static_cast<int>(denominator));
+        T lastNumerator = 1;
+        T lastDenominator = 0;
+        T numerator = round(value);
+        T denominator = 1;
+        T fraction = value - numerator;
 
-        if (numerator >= 0 && denominator >= 0) {
-            if (s.length() > static_cast<unsigned int>(len)) {
+        std::wstring result = fmt::to_wstring(static_cast<CAST>(numerator));
+
+        while (true) {
+            T flip = 1 / fraction;
+            T step = round(flip);
+            T nextNumerator = numerator;
+            T nextDenominator = denominator;
+            if (std::abs(flip) > static_cast<T>(std::numeric_limits<CAST>::max())) {
+                lastNumerator = numerator;
+                lastDenominator = denominator;
                 break;
             }
-        } else {
-            if (s.length() > static_cast<unsigned int>(len + 2)) {
+
+            fraction = flip - step;
+            numerator = step * numerator + lastNumerator;
+            denominator = step * denominator + lastDenominator;
+            lastNumerator = nextNumerator;
+            lastDenominator = nextDenominator;
+
+            std::wstring asRational = formatAsRational<T, CAST>(numerator, denominator);
+            size_t sLen = asRational.length();
+
+            if (numerator >= 0 && denominator >= 0) {
+                if (sLen > static_cast<size_t>(length)) {
+                    if (std::abs(value) < 1e-10) {
+                        return asRational;
+                    }
+                    break;
+                }
+            } else {
+                if (sLen > static_cast<size_t>(length + 2)) {
+                    if (std::abs(value) < 1e-10) {
+                        return asRational;
+                    }
+                    break;
+                }
+            }
+
+            if (std::abs(numerator) > std::numeric_limits<CAST>::max()
+                || std::abs(denominator) > std::numeric_limits<CAST>::max()) {
                 break;
             }
+            result = asRational;
         }
 
-        if (std::abs(numerator) > std::numeric_limits<int>::max()
-            || std::abs(denominator) > std::numeric_limits<int>::max()) {
-            break;
+        if (lastDenominator < 0) {
+            result = formatAsRational<T, CAST>(-lastNumerator, -lastDenominator);
         }
+        if (result == L"0") {
+            return L"NaN/NaN";
+        }
+        return result;
     }
-
-    if (lastDenominator < 0) {
-        s = fmt::to_wstring(static_cast<int>(-lastNumerator)) + L"/"
-            + fmt::to_wstring(static_cast<int>(-lastDenominator));
-    }
-    return s;
+    return L"NaN/NaN";
 }
 //=============================================================================
 }

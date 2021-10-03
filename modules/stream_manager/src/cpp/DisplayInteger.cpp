@@ -29,6 +29,8 @@
 #include "DisplayInteger.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "hexify.hpp"
+#include "DisplayIntegerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -147,58 +149,6 @@ getUnsignedIntegerNominalWidth(
     return nominalWidth;
 }
 //=============================================================================
-template <typename T>
-std::wstring
-outputSignedIntegerPrecision(T num, NumericFormatDisplay currentNumericFormat)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = hexify<T>(num);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        if (num == 0) {
-            msg = L" ";
-        } else if (num > 0) {
-            msg = L"+";
-        } else {
-            msg = L"-";
-        }
-    } break;
-    default: {
-        msg = fmt::to_wstring(num);
-    } break;
-    }
-    return msg;
-}
-//=============================================================================
-template <typename T>
-std::wstring
-outputUnsignedIntegerPrecision(T num, NumericFormatDisplay currentNumericFormat)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = hexify<T>(num);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        if (num == 0) {
-            msg = L" ";
-        } else {
-            msg = L"+";
-        }
-    } break;
-    default: {
-        msg = fmt::to_wstring(num);
-    } break;
-    }
-    return msg;
-}
-//=============================================================================
-static std::wstring
-sprintIntegerElement(const void* dp, indexType num, Class dcls,
-    NumericFormatDisplay currentNumericFormat);
-//=============================================================================
 static indexType
 getIntegerNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
@@ -264,8 +214,7 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
         for (indexType i = 0; i < rows; i++) {
             for (indexType j = 0; j < columns; j++) {
-                std::wstring msg = sprintIntegerElement(ap, i + (rows * j), classA, currentNumericFormat);
-                io->outputMessage(msg);
+                std::wstring msg = formatInteger(ap, classA, i + (rows * j), currentNumericFormat);      io->outputMessage(msg);
             }
             io->outputMessage("\n");
         }
@@ -302,7 +251,7 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
                 for (indexType j = 0; j < colsInThisPage; j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows;
                     std::wstring valueAsString
-                        = sprintIntegerElement(ap, idx, classA, currentNumericFormat);
+                        = formatInteger(ap, classA, idx, currentNumericFormat);
                     io->outputMessage(BLANKS_INTEGER_AT_BOL);
                     io->outputMessage(valueAsString);
                 }
@@ -371,7 +320,7 @@ DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
                      j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     std::wstring valueAsString
-                        = sprintIntegerElement(ap, idx, classA, currentNumericFormat);
+                        = formatInteger(ap, classA, idx, currentNumericFormat);
                     io->outputMessage(BLANKS_INTEGER_AT_BOL);
                     io->outputMessage(valueAsString);
                 }
@@ -433,54 +382,6 @@ getIntegerNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericForm
     } break;
     }
     return nominalWidth;
-}
-//=============================================================================
-std::wstring
-sprintIntegerElement(const void* dp, indexType num, Class dcls,
-    NumericFormatDisplay currentNumericFormat)
-{
-    std::wstring msg;
-    switch (dcls) {
-    case NLS_INT8: {
-        const int8* ap = static_cast<const int8*>(dp);
-        msg = outputSignedIntegerPrecision<int8>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_UINT8: {
-        const auto* ap = static_cast<const uint8*>(dp);
-        msg = outputUnsignedIntegerPrecision<uint8>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_INT16: {
-        const auto* ap = static_cast<const int16*>(dp);
-        int16 value = ap[num];
-        msg = outputSignedIntegerPrecision<int16>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_UINT16: {
-        const auto* ap = static_cast<const uint16*>(dp);
-        uint16 value = ap[num];
-        msg = outputUnsignedIntegerPrecision<uint16>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_INT32: {
-        const auto* ap = static_cast<const int32*>(dp);
-        int32 value = ap[num];
-        msg = outputSignedIntegerPrecision<int32>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_UINT32: {
-        const auto* ap = static_cast<const uint32*>(dp);
-        uint32 value = ap[num];
-        msg = outputUnsignedIntegerPrecision<uint32>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_INT64: {
-        const auto* ap = static_cast<const int64*>(dp);
-        msg = outputSignedIntegerPrecision<int64>(ap[num], currentNumericFormat);
-    } break;
-    case NLS_UINT64: {
-        const uint64* ap = static_cast<const uint64*>(dp);
-        msg = outputUnsignedIntegerPrecision<uint64>(ap[num], currentNumericFormat);
-    } break;
-    default: {
-    } break;
-    }
-    return msg;
 }
 //=============================================================================
 } // namespace Nelson

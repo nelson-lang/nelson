@@ -26,11 +26,15 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include "ArrayOf.hpp"
+#include "Types.hpp"
+#include "NelsonConfiguration.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
-double2hexastr(double d);
+formatInteger(const void* ptrScalar, Class integerType, indexType index, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

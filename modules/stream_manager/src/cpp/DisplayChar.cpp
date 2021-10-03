@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
@@ -90,13 +91,13 @@ Display2dChar(Interface* io, const ArrayOf& A, const std::wstring& name,
             if (name.empty()) {
                 io->outputMessage(L"");
             } else {
-                io->outputMessage(L"''\n");
+                io->outputMessage(std::wstring(BLANKS_AT_BOL) + L"''\n");
             }
         } else {
             if (name.empty()) {
                 io->outputMessage(msg + L"\n");
             } else {
-                io->outputMessage(L"\'" + msg + L"\'\n");
+                io->outputMessage(std::wstring(BLANKS_AT_BOL) + L"\'" + msg + L"\'\n");
             }
         }
     } else {
