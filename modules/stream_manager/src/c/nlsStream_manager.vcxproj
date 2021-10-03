@@ -180,14 +180,15 @@
     <ClInclude Include="..\..\src\include\Interface.hpp" />
     <ClInclude Include="..\..\src\include\nlsStream_manager_exports.h" />
     <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
-    <ClInclude Include="..\cpp\DisplayHelpers.hpp" />
     <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
     <ClInclude Include="..\include\DelimitedFile.hpp" />
     <ClInclude Include="..\include\DisplayCell.hpp" />
     <ClInclude Include="..\include\DisplayChar.hpp" />
+    <ClInclude Include="..\include\DisplayFloatingNumberHelpers.hpp" />
     <ClInclude Include="..\include\DisplayInteger.hpp" />
+    <ClInclude Include="..\include\DisplayIntegerHelpers.hpp" />
     <ClInclude Include="..\include\DisplayLogical.hpp" />
     <ClInclude Include="..\include\DisplayString.hpp" />
     <ClInclude Include="..\include\DisplayStruct.hpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\include\FileTell.hpp" />
     <ClInclude Include="..\include\FileWrite.hpp" />
     <ClInclude Include="..\include\FscanFunction.hpp" />
+    <ClInclude Include="..\include\Hexify.hpp" />
     <ClInclude Include="..\include\MapFileRead.hpp" />
     <ClInclude Include="..\include\NelsonPrint.hpp" />
     <ClInclude Include="..\include\PrintfFunction.hpp" />
@@ -220,8 +222,9 @@
     <ClCompile Include="..\cpp\DisplayCell.cpp" />
     <ClCompile Include="..\cpp\DisplayChar.cpp" />
     <ClCompile Include="..\cpp\DisplayFloatingNumber.cpp" />
-    <ClCompile Include="..\cpp\DisplayHelpers.cpp" />
+    <ClCompile Include="..\cpp\DisplayFloatingNumberHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayInteger.cpp" />
+    <ClCompile Include="..\cpp\DisplayIntegerHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayLogical.cpp" />
     <ClCompile Include="..\cpp\DisplayString.cpp" />
     <ClCompile Include="..\cpp\DisplayStruct.cpp" />
@@ -242,6 +245,7 @@
     <ClCompile Include="..\cpp\FileTell.cpp" />
     <ClCompile Include="..\cpp\FileWrite.cpp" />
     <ClCompile Include="..\cpp\FscanFunction.cpp" />
+    <ClCompile Include="..\cpp\Hexify.cpp" />
     <ClCompile Include="..\cpp\Interface.cpp" />
     <ClCompile Include="..\cpp\MapFileRead.cpp" />
     <ClCompile Include="..\cpp\NelsonPrint.cpp" />

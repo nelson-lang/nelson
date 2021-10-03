@@ -37,7 +37,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
-#include "DisplayHelpers.hpp"
+#include "Hexify.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
