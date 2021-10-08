@@ -288,6 +288,9 @@ getColsPerPage(const std::vector<size_t>& vSize, indexType termWidth)
             break;
         }
     }
+    if (colsPerPage == 0) {
+        colsPerPage = 1;
+    }
     return colsPerPage;
 }
 //=============================================================================

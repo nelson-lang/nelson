@@ -194,6 +194,89 @@ formatComplexShortEng(single realPart, single imagPart, bool trim)
 }
 //=============================================================================
 std::wstring
+formatLongEng(double number, bool trim)
+{
+    std::wstring str;
+    if (IsInfinite(number)) {
+        std::wstring format = L"%*s";
+        if (number < 0) {
+            str = fmt::sprintf(format, 18, L"-Inf");
+        } else {
+            str = fmt::sprintf(format, 18, L"Inf");
+        }
+    } else if (IsNaN(number)) {
+        std::wstring format = L"%*s";
+        str = fmt::sprintf(format, 18, L"NaN");
+    } else {
+        int exponent = 0;
+        if (number != 0) {
+            double absval = (number < 0 ? -number : number);
+            int logabsval = static_cast<int>(std::floor(log10(absval)));
+            if (logabsval < 0) {
+                exponent = logabsval - 2 + ((-logabsval + 2) % 3);
+            } else {
+                exponent = logabsval - (logabsval % 3);
+            }
+        }
+        double mantissa = number / std::pow(static_cast<double>(10), exponent);
+        std::wstring expStr;
+        expStr.reserve(8);
+        if (exponent >= 0) {
+            expStr = L"e+";
+        } else {
+            exponent = -exponent;
+            expStr = L"e-";
+        }
+        std::wstring exponentAsString = fmt::to_wstring(exponent);
+        if (exponentAsString.length() < 3) {
+            expStr.append(3 - exponentAsString.length(), L'0');
+        }
+        std::wstring format = L"%.15f";
+        str = fmt::sprintf(format, mantissa);
+        if (str.find(L'.') != std::string::npos) {
+            str = str.substr(0, 16);
+
+        } else {
+            str = str.substr(0, 15);
+        }
+        format = L"%s%s%s";
+        str = fmt::sprintf(format, str, expStr, exponentAsString);
+        if (mantissa < 10) {
+            str = L" " + str;
+        }
+    }
+    if (trim) {
+        boost::trim_left(str);
+    }
+    return str;
+}
+//=============================================================================
+std::wstring
+formatLongEng(single number, bool trim)
+{
+    return formatLongEng((double)number, trim);
+}
+//=============================================================================
+std::wstring
+formatComplexLongEng(double realPart, double imagPart, bool trim)
+{
+    std::wstring signStr;
+    if (imagPart < 0) {
+        signStr = L" - ";
+    } else {
+        signStr = L" + ";
+    }
+    return formatLongEng(realPart, trim) + signStr + formatLongEng(fabs(imagPart), trim) + L"i";
+}
+//=============================================================================
+std::wstring
+formatComplexLongEng(single realPart, single imagPart, bool trim)
+{
+    return formatComplexLongEng((double)realPart, (double)imagPart, trim);
+}
+//=============================================================================
+
+std::wstring
 formatHex(double number, bool trim)
 {
     std::wstring result;
@@ -224,7 +307,7 @@ formatComplexHex(double realPart, double imgPart, bool trim)
 std::wstring
 formatComplexHex(single realPart, single imgPart, bool trim)
 {
-  return formatHex(realPart, trim) + L"   " + formatHex(imgPart, trim) + L"i";
+    return formatHex(realPart, trim) + L"   " + formatHex(imgPart, trim) + L"i";
 }
 //=============================================================================
 std::wstring
@@ -309,6 +392,49 @@ std::wstring
 formatComplexPlus(single realPart, single imagPart, bool trim)
 {
     return formatPlus(realPart, trim);
+}
+//=============================================================================
+std::wstring
+formatBank(double number, bool trim)
+{
+    std::wstring result;
+
+    if (std::isnan(number)) {
+        std::wstring format = L"%*s";
+        result = fmt::sprintf(format, 10, L"NaN");
+    } else if (std::isinf(number)) {
+        std::wstring format = L"%*s";
+        if (number < 0) {
+            result = fmt::sprintf(format, 10, L"-Inf");
+        } else {
+            result = fmt::sprintf(format, 10, L"Inf");
+        }
+    } else {
+        std::wstring format = L"%10.2f";
+        result = fmt::sprintf(format, number);
+    }
+    if (trim) {
+        boost::trim_left(result);
+    }
+    return result;
+}
+//=============================================================================
+std::wstring
+formatBank(single number, bool trim)
+{
+    return formatBank((double)number, trim);
+}
+//=============================================================================
+std::wstring
+formatComplexBank(double realPart, double imagPart, bool trim)
+{
+    return formatBank(realPart, trim);
+}
+//=============================================================================
+std::wstring
+formatComplexBank(single realPart, single imagPart, bool trim)
+{
+    return formatBank(realPart, trim);
 }
 //=============================================================================
 } // namespace Nelson
