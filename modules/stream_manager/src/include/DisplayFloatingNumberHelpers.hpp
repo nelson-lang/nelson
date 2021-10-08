@@ -67,6 +67,22 @@ formatComplexShortEng(single realPart, single imagPart, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
+formatLongEng(double number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatLongEng(single number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexLongEng(double realPart, double imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexLongEng(single realPart, single imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
 formatHex(double number, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
@@ -95,6 +111,24 @@ formatComplexHex(single realPart, single imgPart, bool trim = false);
 
 
 
+
+
+
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatBank(double number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatBank(single number, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexBank(double realPart, double imagPart, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatComplexBank(single realPart, single imagPart, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring

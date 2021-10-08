@@ -518,6 +518,11 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             if (A.isScalar()) {
                 double value = *(static_cast<const double*>(A.getDataPointer()));
                 msg = outputDoublePrecisionFloat(value, currentNumericFormat, 0, true);
+                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) { 
+                    if (msg.length() > termWidth) {
+                        msg = lightDescription(A, L"", L"");
+                    }
+                }
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     if (msg.length() > 8) {
                         msg = L"*";
@@ -536,6 +541,11 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
                 const auto* ap = static_cast<const double*>(A.getDataPointer());
                 msg = outputDoubleComplexPrecisionFloat(
                     ap[0], ap[1], currentNumericFormat, 0, true);
+                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
+                    if (msg.length() > termWidth) {
+                        msg = lightDescription(A, L"", L"");
+                    }
+                }
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     if (msg.length() > 20) {
                         msg = L"*";
@@ -550,6 +560,11 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         if (A.isScalar()) {
             single value = *(static_cast<const single*>(A.getDataPointer()));
             msg = outputSinglePrecisionFloat(value, currentNumericFormat, 0, true);
+            if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
+                if (msg.length() > termWidth) {
+                    msg = lightDescription(A, L"", L"");
+                }
+            }
             if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                 if (msg.length() > 8) {
                     msg = L"*";
@@ -563,6 +578,11 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         if (A.isScalar()) {
             const auto* ap = static_cast<const single*>(A.getDataPointer());
             msg = outputSingleComplexPrecisionFloat(ap[0], ap[1], currentNumericFormat);
+            if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
+                if (msg.length() > termWidth) {
+                    msg = lightDescription(A, L"", L"");
+                }
+            }
             if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                 if (msg.length() > 20) {
                     msg = L"*";
@@ -1077,11 +1097,13 @@ outputDoublePrecisionFloat(
         msg = formatShortEng(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        msg = formatLongEng(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
         msg = formatPlus(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
+        msg = formatBank(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         msg = formatHex(number, trim);
@@ -1119,11 +1141,13 @@ outputSinglePrecisionFloat(
         msg = formatShortEng(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        msg = formatLongEng(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
         msg = formatPlus(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
+        msg = formatBank(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         msg = formatHex(number, trim);
@@ -1160,11 +1184,13 @@ outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
         msg = formatComplexShortEng(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        msg = formatComplexLongEng(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
         msg = formatComplexPlus(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
+        msg = formatComplexBank(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         msg = formatComplexHex(realPart, imagPart, trim);
@@ -1201,11 +1227,13 @@ outputSingleComplexPrecisionFloat(single realPart, single imagPart,
         msg = formatComplexShortEng(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        msg = formatComplexLongEng(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
         msg = formatComplexPlus(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
+        msg = formatComplexBank(realPart, imagPart, trim);
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         msg = formatComplexHex(realPart, imagPart, trim);
