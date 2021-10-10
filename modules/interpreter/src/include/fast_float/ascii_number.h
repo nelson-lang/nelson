@@ -144,7 +144,8 @@ parsed_number_string parse_number_string(const char *p, const char *pend, parse_
     return answer;
   }
   int64_t exp_number = 0;            // explicit exponential part
-  if ((fmt & chars_format::scientific) && (p != pend) && (('e' == *p) || ('E' == *p))) {
+  if ((fmt & chars_format::scientific) && (p != pend)
+      && (('e' == *p) || ('E' == *p) || ('d' == *p) || ('D' == *p))) {
     const char * location_of_e = p;
     ++p;
     bool neg_exp = false;

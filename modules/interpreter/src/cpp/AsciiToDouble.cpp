@@ -34,11 +34,8 @@ namespace Nelson {
 double
 asciiToDouble(const std::string& str)
 {
-    std::string s(str);
-    std::replace(s.begin(), s.end(), 'D', 'E');
-    std::replace(s.begin(), s.end(), 'd', 'e');
     double value;
-    auto answer = fast_float::from_chars(s.data(), s.data() + s.size(), value);
+    auto answer = fast_float::from_chars(str.data(), str.data() + str.size(), value);
     return value;
 }
 //=============================================================================
