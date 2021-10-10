@@ -1,5 +1,7 @@
 # 0.5.10 (UNRELEASED)
 
+- [#525](http://github.com/Nelson-numerical-software/nelson/issues/525): use [`fast_float`](https://github.com/fastfloat/fast_float) library to parse numbers .
+
 - [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
 
 - [#528](http://github.com/Nelson-numerical-software/nelson/issues/528): Assignment in cell did not work in this case `[c{:}] = ind2sub (dv, i)`

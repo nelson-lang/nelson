@@ -298,3 +298,11 @@ A modern formatting library
 > https://fmt.dev/latest/index.html
 
 > https://github.com/fmtlib/fmt/blob/master/LICENSE.rst MIT license
+
+- fast_float
+
+fast_float number parsing library: 4x faster than strtod
+
+> https://github.com/fastfloat/fast_float
+
+> https://github.com/fastfloat/fast_float/blob/main/LICENSE-MIT MIT license
