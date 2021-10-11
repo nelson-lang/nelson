@@ -26,25 +26,16 @@
 #include <string>
 #include <algorithm>
 #include <cstdlib>
-#include <unordered_map>
+#include "fast_float/fast_float.h"
 #include "AsciiToDouble.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::unordered_map<std::string, double> map;
-//=============================================================================
 double
 asciiToDouble(const std::string& str)
 {
-    std::unordered_map<std::string, double>::const_iterator found = map.find(str);
-    if (found != map.end()) {
-        return found->second;
-    }
-    std::string s(str);
-    std::replace(s.begin(), s.end(), 'D', 'E');
-    std::replace(s.begin(), s.end(), 'd', 'e');
-    double value = atof(s.c_str());
-    map.emplace(str, value);
+    double value;
+    auto answer = fast_float::from_chars(str.data(), str.data() + str.size(), value);
     return value;
 }
 //=============================================================================
