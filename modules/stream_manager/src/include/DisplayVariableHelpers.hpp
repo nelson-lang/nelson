@@ -42,10 +42,10 @@ NLSSTREAM_MANAGER_IMPEXP void
 DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP void
-DisplayVariableValue(Interface* io, const ArrayOf& A, const std::wstring& name);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP void
 DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP std::wstring
+completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP std::wstring
 completeWithBlanksAtBeginning(const std::wstring& msg, size_t width);
@@ -61,15 +61,16 @@ NLSSTREAM_MANAGER_IMPEXP std::wstring
 lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP std::wstring
-sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay currentNumericFormat,
-    LineSpacingDisplay currentLineSpacing, indexType width, int exponential);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP std::wstring
 columnsHeader(indexType startCol, indexType endCol);
 //=============================================================================
 std::wstring
-outputDoublePrecisionFloat(double num, NumericFormatDisplay currentNumericFormat,
-    int exponantial = 0, bool trim = false);
+outputDoublePrecisionAsIntegerForm(
+    double num, NumericFormatDisplay currentNumericFormat, bool trim = false);
+//=============================================================================
+
+std::wstring
+outputDoublePrecisionFloat(double num, NumericFormatDisplay currentNumericFormat, bool forceFormat,
+    bool trim = false);
 //=============================================================================
 std::wstring
 outputDoubleComplexPrecisionFloat(double realPart, double imagPart,

@@ -43,6 +43,14 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
+DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+//=============================================================================
+static void
+Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+//=============================================================================
+static void
 DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
@@ -57,10 +65,18 @@ DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name)
     DisplayVariableHeader(io, A, name);
     bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptyLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+        if (A.isSparse()) {
+            DisplayEmptySparseLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+        } else {
+            DisplayEmptyLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+        }
         withFooter = !name.empty();
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
-        Display2dLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+        if (A.isSparse()) {
+            Display2dSparseLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+        } else {
+            Display2dLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+        }
         if (A.isScalar() || A.isRowVector()) {
             withFooter = !name.empty();
         } else {
@@ -78,124 +94,75 @@ DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{
-    if (A.isSparse()) {
-    } else {
-        // nothing to display
-    }
-}
-//=============================================================================
-static void
-Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{
-    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-        io->outputMessage(L"\n");
-    }
-    if (A.getNonzeros() == 0) {
-        std::wstring format = L"%sAll zero sparse: %s\n";
-        std::wstring msg = fmt::sprintf(format, BLANKS_AT_BOL, A.getDimensions().toWideString());
-        io->outputMessage(msg);
-    } else {
-        Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
-        std::wstring format;
-        if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-            format = L"%s(%lu,%lu)      +\n";
-        } else {
-            format = L"%s(%lu,%lu)      true\n";
-        }
-        for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                break;
-            }
-            for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-                 ++it) {
-                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                    break;
-                }
-                if (it.value()) {
-                    std::wstring msg = fmt::sprintf(format, BLANKS_AT_BOL,
-                        (long long)(it.row() + 1), (long long)(it.col() + 1));
-                    io->outputMessage(msg);
-                }
-            }
-        }
-    }
-}
+{ }
 //=============================================================================
 void
 Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    if (A.isSparse()) {
-        Display2dSparseLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+    indexType rows = A.getRows();
+    indexType columns = A.getColumns();
+    indexType nbElements = A.getElementCount();
+
+    sizeType termWidth = io->getTerminalWidth();
+    size_t lengthLogicalString;
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+        lengthLogicalString = std::wstring(L"+").length();
     } else {
-        indexType rows = A.getRows();
-        indexType columns = A.getColumns();
-        indexType nbElements = A.getElementCount();
+        lengthLogicalString = std::wstring(L"false").length();
+    }
+    indexType colsPerPage = static_cast<indexType>(
+        floor((termWidth - 1) / (static_cast<single>(lengthLogicalString))));
 
-        sizeType termWidth = io->getTerminalWidth();
-        size_t lengthLogicalString;
-        if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-            lengthLogicalString = std::wstring(L"+").length();
-        } else {
-            lengthLogicalString = std::wstring(L"false").length();
-        }
-        indexType colsPerPage = static_cast<indexType>(
-            floor((termWidth - 1) / (static_cast<single>(lengthLogicalString))));
+    indexType pageCount
+        = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
+    bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
 
-        indexType pageCount
-            = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+    logical* data = (logical*)A.getDataPointer();
+    for (indexType k = 0;
+         k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
 
-        logical* data = (logical*)A.getDataPointer();
-        for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
+        indexType colsInThisPage = columns - colsPerPage * k;
+        colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
 
-            indexType colsInThisPage = columns - colsPerPage * k;
-            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-
-            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                if (!name.empty() || k != 0) {
-                    io->outputMessage(L"\n");
-                }
-            }
-            if (withColumsHeader) {
-                std::wstring msg
-                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                    msg = msg + L"\n\n";
-                } else {
-                    msg = msg + L"\n";
-                }
-                io->outputMessage(msg);
-            }
-            for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
-                for (indexType j = 0; j < colsInThisPage; j++) {
-                    indexType idx = i + (k * colsPerPage + j) * rows;
-                    std::wstring valueAsString;
-                    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-                        if (data[idx]) {
-                            valueAsString = L"+";
-                        } else {
-                            valueAsString = L" ";
-                        }
-                        io->outputMessage(valueAsString);
-                    } else {
-                        if (data[idx]) {
-                            valueAsString = L"true";
-                        } else {
-                            valueAsString = L"false";
-                        }
-                        std::wstring msg
-                            = completeWithBlanksAtBeginning(valueAsString, lengthLogicalString);
-                        io->outputMessage(BLANKS_AT_BOL + msg);
-                    }
-                }
+        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+            if (!name.empty() || k != 0) {
                 io->outputMessage(L"\n");
             }
+        }
+        if (withColumsHeader) {
+            std::wstring msg = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
+            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+                msg = msg + L"\n\n";
+            } else {
+                msg = msg + L"\n";
+            }
+            io->outputMessage(msg);
+        }
+        for (indexType i = 0;
+             i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
+            for (indexType j = 0; j < colsInThisPage; j++) {
+                indexType idx = i + (k * colsPerPage + j) * rows;
+                std::wstring valueAsString;
+                if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+                    if (data[idx]) {
+                        valueAsString = L"+";
+                    } else {
+                        valueAsString = L" ";
+                    }
+                    io->outputMessage(valueAsString);
+                } else {
+                    if (data[idx]) {
+                        valueAsString = L"true";
+                    } else {
+                        valueAsString = L"false";
+                    }
+                    std::wstring msg
+                        = completeWithBlanksAtBeginning(valueAsString, lengthLogicalString);
+                    io->outputMessage(BLANKS_AT_BOL + msg);
+                }
+            }
+            io->outputMessage(L"\n");
         }
     }
 }
@@ -289,6 +256,65 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
         offset += rows * columns;
         wdims.incrementModulo(dims, 2);
+    }
+}
+//=============================================================================
+void
+DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+{ }
+//=============================================================================
+void
+Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+{
+    indexType nbRows = A.getRows();
+    indexType nbCols = A.getColumns();
+
+    if (A.getNonzeros() == 0) {
+        std::wstring format = _W("All zero sparse: %lu×%lu");
+        std::wstring msg = fmt::sprintf(format, (long long)nbRows, (long long)nbCols);
+        io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
+        return;
+    }
+    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+
+    std::wstring formatIndex = _W("(%lu,%lu)");
+    std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)nbRows, (long long)nbCols);
+    size_t maxLenIndexString = indexAsString.length();
+
+    for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            break;
+        }
+        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
+             ++it) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                break;
+            }
+            std::wstring asStr;
+            if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+                if (it.value()) {
+                    asStr = L"+";
+                } else {
+                    asStr = L" ";
+                }
+            } else {
+                if (it.value()) {
+                    asStr = L"true";
+                } else {
+                    asStr = L"false";
+                }
+                asStr = BLANKS_AT_BOL + asStr;
+            }
+            std::wstring indexAsString
+                = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
+            std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
+            std::wstring format = L"%s%s%s";
+            std::wstring msg = fmt::sprintf(format, indexAsString, blanks, asStr);
+            io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
+        }
     }
 }
 //=============================================================================

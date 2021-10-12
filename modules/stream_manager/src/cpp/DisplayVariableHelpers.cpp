@@ -38,6 +38,8 @@
 #include "characters_encoding.hpp"
 #include "DisplayFloatingNumberHelpers.hpp"
 #include "DisplayIntegerHelpers.hpp"
+#include "FormatShort.hpp"
+#include "FormatLong.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -129,6 +131,23 @@ getCommonExponential(const ArrayOf& A)
 }
 //=============================================================================
 std::wstring
+completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay currentNumericFormat)
+{
+    size_t width = 10;
+    switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        width = 13;
+    } break;
+    case NLS_NUMERIC_FORMAT_LONG: {
+        width = 0;
+    } break;
+    default: {
+    } break;
+    }
+    return completeWithBlanksAtBeginning(msg, width);
+}
+//=============================================================================
+std::wstring
 completeWithBlanksAtBeginning(const std::wstring& msg, size_t width)
 {
     size_t len = msg.length();
@@ -141,25 +160,8 @@ completeWithBlanksAtBeginning(const std::wstring& msg, size_t width)
     // return msg.substr(0, width);
 }
 //=============================================================================
-static void
-emitElement(Interface* io, const void* dp, indexType num, Class dcls,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing,
-    indexType width, int exponential);
-//=============================================================================
 static indexType
 getNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
-//=============================================================================
-static void
-printValue(Interface* io, const ArrayOf& A, const std::wstring& name);
-//=============================================================================
-static void
-printEmptyValue(Interface* io, const ArrayOf& A);
-//=============================================================================
-static void
-printMatrixValue(Interface* io, const ArrayOf& A);
-//=============================================================================
-static void
-printNDArrayValue(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 static std::wstring
 getClassAsWideString(const ArrayOf& A)
@@ -267,20 +269,28 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
         } break;
         case NLS_DCOMPLEX:
         case NLS_DOUBLE: {
+            if (!name.empty() && (A.isSparse() && A.isEmpty())) {
+                std::wstring format = _W("%lu×%lu empty sparse double matrix");
+                std::wstring msg
+                    = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
+                io->outputMessage(L"  " + msg + L"\n");
+            }
         } break;
         case NLS_LOGICAL: {
-            std::wstring typeAsText = getClassAsWideString(A);
-            if (A.isSparse()) {
-                typeAsText = L"sparse " + typeAsText;
-            }
-            io->outputMessage(L"  <" + typeAsText + L"> - size: ");
-            A.getDimensions().printMe(io);
-            if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-                == NLS_LINE_SPACING_COMPACT) {
-                io->outputMessage(L"\n");
+            if (!name.empty() && A.isSparse()) {
+                std::wstring format = _W("%lu×%lu empty sparse logical matrix");
+                std::wstring msg
+                    = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
+                io->outputMessage(L"  " + msg + L"\n");
             } else {
-                io->outputMessage(L"\n");
+                std::wstring typeAsText = getClassAsWideString(A);
+                if (A.isSparse()) {
+                    typeAsText = L"sparse " + typeAsText;
+                }
+                io->outputMessage(L"  <" + typeAsText + L"> - size: ");
+                A.getDimensions().printMe(io);
             }
+
         } break;
         default: {
             std::wstring typeAsText = getClassAsWideString(A);
@@ -302,42 +312,6 @@ DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
         io->outputMessage(L"\n");
-    }
-}
-//=============================================================================
-void
-DisplayVariableValue(Interface* io, const ArrayOf& A, const std::wstring& name)
-{
-    switch (A.getDataClass()) {
-    case NLS_DCOMPLEX:
-    case NLS_DOUBLE:
-    case NLS_SCOMPLEX:
-    case NLS_SINGLE: {
-        printValue(io, A, name);
-    } break;
-    case NLS_CHAR: {
-        if (A.isRowVectorCharacterArray()) {
-            std::wstring msg = A.getContentAsWideString();
-            if (msg.empty()) {
-                if (name.empty()) {
-                    io->outputMessage(L"");
-                } else {
-                    io->outputMessage(L"''\n");
-                }
-            } else {
-                if (name.empty()) {
-                    io->outputMessage(msg + L"\n");
-                } else {
-                    io->outputMessage(L"\'" + msg + L"\'\n");
-                }
-            }
-        } else {
-            printValue(io, A, name);
-        }
-    } break;
-    default: {
-        printValue(io, A, name);
-    } break;
     }
 }
 //=============================================================================
@@ -470,8 +444,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     } break;
     case NLS_UINT16: {
         if (A.isScalar()) {
-            msg = formatInteger(
-                A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
+            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
         } else {
             msg = lightDescription(A, L"[", L"]");
         }
@@ -517,8 +490,8 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         } else {
             if (A.isScalar()) {
                 double value = *(static_cast<const double*>(A.getDataPointer()));
-                msg = outputDoublePrecisionFloat(value, currentNumericFormat, 0, true);
-                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) { 
+                msg = outputDoublePrecisionFloat(value, currentNumericFormat, false, true);
+                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     if (msg.length() > termWidth) {
                         msg = lightDescription(A, L"", L"");
                     }
@@ -596,353 +569,6 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     } break;
     }
     return msg;
-}
-//=============================================================================
-std::wstring
-sprintElement(const void* dp, indexType num, Class dcls, NumericFormatDisplay currentNumericFormat,
-    LineSpacingDisplay currentLineSpacing, indexType width, int exponential)
-{
-    std::wstring msg;
-    switch (dcls) {
-    case NLS_STRUCT_ARRAY: {
-    } break;
-    case NLS_GO_HANDLE: {
-    } break;
-    case NLS_HANDLE: {
-    } break;
-    case NLS_LOGICAL: {
-        const auto* ap = static_cast<const logical*>(dp);
-        if (ap[num] == 0) {
-            msg = L"false";
-        } else {
-            msg = L"true";
-        }
-    } break;
-    case NLS_CHAR: {
-        const auto* ap = static_cast<const charType*>(dp);
-        msg.push_back(ap[num]);
-    } break;
-    case NLS_SINGLE: {
-        const auto* ap = static_cast<const single*>(dp);
-        msg = outputSinglePrecisionFloat(ap[num], currentNumericFormat);
-    } break;
-    case NLS_DOUBLE: {
-        const auto* ap = static_cast<const double*>(dp);
-        msg = outputDoublePrecisionFloat(ap[num], currentNumericFormat, exponential);
-    } break;
-    case NLS_SCOMPLEX: {
-        const auto* ap = static_cast<const single*>(dp);
-        msg = outputSingleComplexPrecisionFloat(ap[2 * num], ap[2 * num + 1], currentNumericFormat);
-    } break;
-    case NLS_DCOMPLEX: {
-        const auto* ap = static_cast<const double*>(dp);
-        msg = outputDoubleComplexPrecisionFloat(ap[2 * num], ap[2 * num + 1], currentNumericFormat);
-    } break;
-    case NLS_CELL_ARRAY: {
-        auto* ap = (ArrayOf*)dp;
-        if (ap == nullptr) {
-            msg = L"[]";
-        } else {
-            std::wstring msg = summarizeCellEntry(ap[num], 0, width, currentNumericFormat);
-            msg = completeWithBlanksAtBeginning(msg, width);
-        }
-    } break;
-    case NLS_STRING_ARRAY: {
-        auto* ap = (ArrayOf*)dp;
-        if (ap == nullptr) {
-            msg = L"[]";
-        } else {
-            msg = summarizeStringArray(ap[num], 0, width);
-            // msg = completeWithBlanksAtBeginning(msg, width);
-            // msg.append(msg.length() - width, L" ");
-            size_t add = 0;
-            if (width > msg.length()) {
-                add = width - msg.length();
-            }
-            msg.append(add, L' ');
-        }
-    } break;
-    default: {
-    } break;
-    }
-    return msg;
-}
-//=============================================================================
-void
-emitElement(Interface* io, const void* dp, indexType num, Class dcls,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing,
-    indexType width, int exponantial)
-{
-    io->outputMessage(
-        sprintElement(dp, num, dcls, currentNumericFormat, currentLineSpacing, width, exponantial));
-}
-//=============================================================================
-/**
- * Display this variable on the given output stream.
- */
-void
-printValue(Interface* io, const ArrayOf& A, const std::wstring& name)
-{
-    Dimensions dims = A.getDimensions();
-    if (dims.isEmpty(false)) {
-        printEmptyValue(io, A);
-    } else if (dims.isScalar() || dims.is2D()) {
-        printMatrixValue(io, A);
-    } else {
-        printNDArrayValue(io, A, name);
-    }
-}
-//=============================================================================
-void
-printEmptyValue(Interface* io, const ArrayOf& A)
-{
-    switch (A.getDataClass()) {
-    case NLS_STRUCT_ARRAY: {
-    } break;
-    case NLS_SINGLE:
-    case NLS_SCOMPLEX:
-    case NLS_DOUBLE:
-    case NLS_DCOMPLEX: {
-        if (A.isEmpty(true)) {
-            if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-                != NLS_LINE_SPACING_COMPACT) {
-                io->outputMessage(L"\n");
-            }
-            io->outputMessage(L"     []\n");
-        }
-    } break;
-    case NLS_INT8:
-    case NLS_UINT8:
-    case NLS_INT16:
-    case NLS_UINT16:
-    case NLS_INT32:
-    case NLS_UINT32:
-    case NLS_INT64:
-    case NLS_UINT64:
-    default: {
-    } break;
-    }
-}
-//=============================================================================
-void
-printMatrixValue(Interface* io, const ArrayOf& A)
-{
-    NumericFormatDisplay currentNumericFormat
-        = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
-    LineSpacingDisplay currentLineSpacing
-        = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
-
-    Dimensions dims = A.getDimensions();
-    const void* ap = A.getDataPointer();
-    indexType rows = dims.getRows();
-    indexType columns = dims.getColumns();
-    Class classA = A.getDataClass();
-    indexType nominalWidth = getNominalWidth(A, currentNumericFormat);
-
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage("\n");
-        }
-        for (indexType i = 0; i < rows; i++) {
-            for (indexType j = 0; j < columns; j++) {
-                std::wstring msg = sprintElement(ap, i + (rows * j), classA, currentNumericFormat,
-                    currentLineSpacing, nominalWidth, 0);
-                io->outputMessage(msg);
-            }
-            io->outputMessage("\n");
-        }
-    } else {
-        sizeType termWidth = io->getTerminalWidth();
-
-        int exponential = getCommonExponential(A);
-        if (!A.isScalar() && !A.isEmpty() && exponential != 0) {
-            io->outputMessage(L"   ");
-            std::wstring fmt = L"1.0e%s%d *\n";
-            std::wstring sign;
-            if (exponential >= 0) {
-                sign = L"+";
-            }
-            std::wstring str = fmt::sprintf(fmt, sign, exponential);
-            io->outputMessage(str);
-        } else {
-            exponential = 0;
-        }
-
-        indexType colsPerPage;
-        if (exponential != 0) {
-            colsPerPage
-                = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(10))));
-
-        } else {
-            colsPerPage = static_cast<indexType>(
-                floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
-        }
-        indexType pageCount
-            = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-
-        for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
-
-            indexType colsInThisPage = columns - colsPerPage * k;
-            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            /* if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                io->outputMessage("\n");
-            }*/
-            if (withColumsHeader) {
-                std::wstring msg
-                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                    msg = msg + L"\n\n";
-                } else {
-                    msg = msg + L"\n";
-                }
-                io->outputMessage(msg);
-            }
-            indexType q = 0;
-            wstringVector values(rows * colsInThisPage, L"");
-            std::vector<size_t> vSize(colsInThisPage, (size_t)0);
-            indexType nbCharMaxToDispForOneString = 24;
-
-            for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
-                q = 0;
-                for (indexType i = 0; i < rows; i++) {
-                    for (indexType j = 0; j < colsInThisPage; j++) {
-                        values[q] = sprintElement(ap, i + (k * colsPerPage + j) * rows,
-                            A.getDataClass(), currentNumericFormat, currentLineSpacing,
-                            nominalWidth, exponential);
-                        vSize[j] = std::max(vSize[j], values[q].length());
-                        vSize[j] = std::min(vSize[j], nbCharMaxToDispForOneString + 1);
-                        q++;
-                    }
-                }
-            }
-            q = 0;
-
-            for (indexType i = 0; i < rows; i++) {
-                for (indexType j = 0; j < colsInThisPage; j++) {
-                    std::wstring msg = values[q];
-                    size_t add = 0;
-                    if (vSize[j] > msg.length()) {
-                        add = vSize[j] - msg.length();
-                    }
-                    msg.append(add, L' ');
-                    io->outputMessage(BLANKS_AT_BOL);
-                    io->outputMessage(msg);
-                    q++;
-                }
-                io->outputMessage(L"\n");
-            }
-            /*
-            for (indexType j = 0; j < colsInThisPage; j++) {
-                std::wstring msg = values[q];
-                size_t add = 0;
-                if (vSize[j] > msg.length()) {
-                    add = vSize[j] - msg.length();
-                }
-                msg.append(add, L' ');
-                io->outputMessage(BLANKS_AT_BOL);
-                io->outputMessage(msg);
-            }
-            io->outputMessage("\n");
-            */
-        }
-    }
-}
-//=============================================================================
-void
-printNDArrayValue(Interface* io, const ArrayOf& A, const std::wstring& name)
-{
-    NumericFormatDisplay currentNumericFormat
-        = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
-    LineSpacingDisplay currentLineSpacing
-        = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
-
-    sizeType termWidth = io->getTerminalWidth();
-    indexType nominalWidth = getNominalWidth(A.getDataClass(), currentNumericFormat);
-    Dimensions dims = A.getDimensions();
-    const void* ap = A.getDataPointer();
-
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
-    indexType offset = 0;
-
-    while (wdims.inside(dims)) {
-        if (offset != 0) {
-            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                io->outputMessage(L"\n");
-            }
-        }
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
-        }
-
-        io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
-            io->outputMessage(fmt::sprintf(",%d", static_cast<int>(wdims[m]) + 1));
-        }
-        io->outputMessage(L")\n");
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
-        }
-
-        auto colsPerPage
-            = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
-
-        int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-        for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending();
-             k++) {
-            indexType colsInThisPage = columns - colsPerPage * k;
-            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
-                std::wstring msg
-                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                    msg = msg + L"\n\n";
-                } else {
-                    msg = msg + L"\n";
-                }
-                io->outputMessage(msg);
-            }
-            indexType q = 0;
-            wstringVector values(rows * colsInThisPage, L"");
-            std::vector<size_t> vSize(colsInThisPage, (size_t)0);
-            indexType nbCharMaxToDispForOneString = 24;
-
-            for (indexType i = 0; i < rows; i++) {
-                for (indexType j = 0; j < colsInThisPage; j++) {
-                    values[q] = sprintElement(ap, i + (k * colsPerPage + j) * rows + offset,
-                        A.getDataClass(), currentNumericFormat, currentLineSpacing, nominalWidth,
-                        0);
-                    vSize[j] = std::max(vSize[j], values[q].length());
-                    vSize[j] = std::min(vSize[j], nbCharMaxToDispForOneString + 1);
-                    q++;
-                }
-            }
-
-            q = 0;
-            for (indexType i = 0; i < rows; i++) {
-                for (indexType j = 0; j < colsInThisPage; j++) {
-                    std::wstring msg = values[q];
-                    size_t add = 0;
-                    if (vSize[j] > msg.length()) {
-                        add = vSize[j] - msg.length();
-                    }
-                    msg.append(add, L' ');
-                    io->outputMessage(BLANKS_AT_BOL);
-                    io->outputMessage(msg);
-
-                    q++;
-                }
-                io->outputMessage(L"\n");
-            }
-        }
-        offset += rows * columns;
-        wdims.incrementModulo(dims, 2);
-    }
 }
 //=============================================================================
 static indexType
@@ -1075,15 +701,35 @@ columnsHeader(indexType startCol, indexType endCol)
 }
 //=============================================================================
 std::wstring
-outputDoublePrecisionFloat(
-    double number, NumericFormatDisplay currentNumericFormat, int exponantial, bool trim)
+outputDoublePrecisionAsIntegerForm(
+    double number, NumericFormatDisplay currentNumericFormat, bool trim)
 {
     std::wstring msg;
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_SHORT: {
-        msg = formatShort(number, trim);
+        if (abs(number) > 1e8) {
+            std::wstring format = L"%*.*e";
+            msg = fmt::sprintf(format, 16, 4, number);
+        } else {
+            if (number >= 1e3) {
+                msg = fmt::sprintf(L"%*ld", 15, (long int)number);
+            } else {
+                msg = fmt::sprintf(L"%*ld", 9, (long int)number);
+            }
+        }
+        if (trim) {
+            boost::trim_left(msg);
+        }
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
+        if (abs(number) > 10e9) {
+            msg = fmt::sprintf(L"%*lu", 15, (long long)number);
+        } else {
+            msg = fmt::sprintf(L"%*lu", 9, (long long)number);
+        }
+        if (trim) {
+            boost::trim_left(msg);
+        }
     } break;
     case NLS_NUMERIC_FORMAT_SHORTE: {
     } break;
@@ -1107,7 +753,50 @@ outputDoublePrecisionFloat(
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         msg = formatHex(number, trim);
-
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        msg = formatRational(number, trim);
+    } break;
+    default: {
+    } break;
+    }
+    return msg;
+}
+//=============================================================================
+std::wstring
+outputDoublePrecisionFloat(
+    double number, NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim)
+{
+    std::wstring msg;
+    switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        msg = formatShort(number, forceFormat, trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_LONG: {
+        msg = formatLong(number, forceFormat, trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORTE: {
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGE: {
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORTG: {
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGG: {
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORTENG: {
+        msg = formatShortEng(number, trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGENG: {
+        msg = formatLongEng(number, trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_PLUS: {
+        msg = formatPlus(number, trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_BANK: {
+        msg = formatBank(number, trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_HEX: {
+        msg = formatHex(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatRational(number, trim);
