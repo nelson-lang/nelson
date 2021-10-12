@@ -144,15 +144,20 @@ getOptionalCommonLogarithm(
     }
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_LONG: {
-        int commonLogarithm = log10(std::max(abs(minValue), abs(maxValue)));
-        if (abs(commonLogarithm) > 1) {
+        int commonLogarithm = log10(std::max(minValue, maxValue));
+        if (commonLogarithm == 1) {
+            return 0;
+        }
+        if (commonLogarithm < -2 || commonLogarithm >= 2) {
             return commonLogarithm;
         }
-
     } break;
     case NLS_NUMERIC_FORMAT_SHORT: {
-        int commonLogarithm = log10(std::max(abs(minValue), abs(maxValue)));
-        if (abs(commonLogarithm) > 2) {
+        int commonLogarithm = log10(std::max(minValue, maxValue));
+        if (commonLogarithm == 1) {
+            return 0;
+        }
+        if (commonLogarithm < -2 || commonLogarithm >= 2) {
             return commonLogarithm;
         }
     } break;

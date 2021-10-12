@@ -490,7 +490,11 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         } else {
             if (A.isScalar()) {
                 double value = *(static_cast<const double*>(A.getDataPointer()));
-                msg = outputDoublePrecisionFloat(value, currentNumericFormat, false, true);
+                if (IsIntegerForm(value)) {
+                    msg = outputDoublePrecisionAsIntegerForm(value, currentNumericFormat, true);
+                } else {
+                    msg = outputDoublePrecisionFloat(value, currentNumericFormat, false, true);
+                }
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     if (msg.length() > termWidth) {
                         msg = lightDescription(A, L"", L"");
@@ -722,10 +726,22 @@ outputDoublePrecisionAsIntegerForm(
         }
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
-        if (abs(number) > 10e9) {
-            msg = fmt::sprintf(L"%*lu", 15, (long long)number);
+        if (number >= 1e9) {
+            msg = fmt::sprintf(L"%*.*e",29,15, number);
         } else {
-            msg = fmt::sprintf(L"%*lu", 9, (long long)number);
+            if (number > 0) {
+                if (number >= 1e3) {
+                    msg = fmt::sprintf(L"%*lu", 15, (long long)number);
+                } else {
+                    msg = fmt::sprintf(L"%*lu", 9, (long long)number);
+                }
+            } else {
+                if (abs(number) >= 1e3) {
+                    msg = fmt::sprintf(L"%*ld", 15, (long int)number);
+                } else {
+                    msg = fmt::sprintf(L"%*ld", 9, (long long)number);
+                }
+            }
         }
         if (trim) {
             boost::trim_left(msg);
@@ -857,7 +873,7 @@ outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
     std::wstring msg;
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_SHORT: {
-        msg = formatComplexShort(realPart, imagPart, true);
+        msg = formatComplexShort(realPart, imagPart, true, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
     } break;
