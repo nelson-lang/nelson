@@ -48,7 +48,7 @@ formatShort(double number, bool forceFormat, bool trim)
         str = fmt::sprintf(format, 9, L"NaN");
     } else {
         if (forceFormat) {
-            if (fabs(number) >= 1e-3 && number < 1e9) {
+            if ((number == 0.) || fabs(number) >= 1e-3 && number < 1e9) {
                 std::wstring format = L"%*.*f";
                 str = fmt::sprintf(format, 13, 4, number);
             } else {
@@ -88,7 +88,7 @@ formatComplexShort(double realPart, double imagPart, bool forceFormat, bool trim
     } else {
         signStr = L" + ";
     }
-    std::wstring imagPartStr = formatShort(fabs(imagPart), forceFormat, trim);
+    std::wstring imagPartStr = formatShort(fabs(imagPart), true, trim);
     if (imagPartStr == L"NaN") {
         imagPartStr = L" " + imagPartStr;
     }
