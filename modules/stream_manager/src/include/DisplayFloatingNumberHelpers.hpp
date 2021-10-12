@@ -33,22 +33,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatShort(double number, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatShort(single number, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexShort(double realPart, double imagPart, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexShort(single realPart, single imagPart, bool trim = false);
-//=============================================================================
+
+
+
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
 formatShortEng(double number, bool trim = false);

@@ -78,13 +78,13 @@ IsFinite(double t)
 bool
 IsIntegerForm(double t)
 {
-    return (rint(t) == t || !IsFinite(t));
+    return (rint(t) == t && IsFinite(t));
 }
 //=============================================================================
 bool
 IsIntegerForm(float t)
 {
-    return (rint(t) == t || !IsFinite(t));
+    return (rint(t) == t && IsFinite(t));
 }
 //=============================================================================
 bool
