@@ -37,7 +37,7 @@ formatLong(double number, bool forceFormat = false, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-formatLong(single number,bool forceFormat = false , bool trim = false);
+formatLong(single number, bool forceFormat = false, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring

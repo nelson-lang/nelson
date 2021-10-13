@@ -34,7 +34,8 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-formatInteger(const void* ptrScalar, Class integerType, indexType index, NumericFormatDisplay currentNumericFormat);
+formatInteger(const void* ptrScalar, Class integerType, indexType index,
+    NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -34,8 +34,6 @@
 namespace Nelson {
 //=============================================================================
 
-
-
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
 formatShortEng(double number, bool trim = false);
@@ -84,22 +82,6 @@ NLSSTREAM_MANAGER_IMPEXP
 std::wstring
 formatComplexHex(single realPart, single imgPart, bool trim = false);
 //=============================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring

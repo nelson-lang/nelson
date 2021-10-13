@@ -64,7 +64,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
         DisplayEmptySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
     } else {
-        if (A.getNonzeros() == 1) { 
+        if (A.getNonzeros() == 1) {
             DisplaySparseDoubleScalar(io, A, name, currentNumericFormat, currentLineSpacing);
         } else {
             DisplaySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
@@ -83,7 +83,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 template <class T>
 bool
@@ -161,8 +161,7 @@ getOptionalCommonLogarithm(
             return commonLogarithm;
         }
     } break;
-    default: {
-    }
+    default: {}
     }
     return 0;
 }
@@ -198,6 +197,9 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
         asStr = outputDoublePrecisionAsIntegerForm(value, currentNumericFormat, false);
     } else {
         asStr = outputDoublePrecisionFloat(value, currentNumericFormat, false, false);
+    }
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+        asStr = L"   " + asStr;
     }
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
@@ -305,6 +307,9 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
                 asStr = completeWithBlanksAtBeginning(asStr, commonLength);
             } else {
                 asStr = outputDoublePrecisionFloat(value, currentNumericFormat, forceFormat, false);
+            }
+            if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+                asStr = L"   " + asStr;
             }
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));

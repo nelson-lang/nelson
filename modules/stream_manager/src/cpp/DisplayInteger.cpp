@@ -196,7 +196,7 @@ DisplayInteger(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 void
 Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -214,7 +214,8 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
         for (indexType i = 0; i < rows; i++) {
             for (indexType j = 0; j < columns; j++) {
-                std::wstring msg = formatInteger(ap, classA, i + (rows * j), currentNumericFormat);      io->outputMessage(msg);
+                std::wstring msg = formatInteger(ap, classA, i + (rows * j), currentNumericFormat);
+                io->outputMessage(msg);
             }
             io->outputMessage("\n");
         }

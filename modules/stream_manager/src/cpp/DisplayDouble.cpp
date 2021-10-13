@@ -82,17 +82,17 @@ DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 void
 Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 void
 DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
