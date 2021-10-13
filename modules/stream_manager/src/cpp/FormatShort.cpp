@@ -56,7 +56,6 @@ formatShort(double number, bool forceFormat, bool trim)
                 str = fmt::sprintf(format, 16, 4, number);
             }
 
-
         } else {
             if (fabs(number) > 1e-3 && number < 1e9) {
                 std::wstring format = L"%*.*f";

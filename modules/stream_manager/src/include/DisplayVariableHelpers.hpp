@@ -69,16 +69,16 @@ outputDoublePrecisionAsIntegerForm(
 //=============================================================================
 
 std::wstring
-outputDoublePrecisionFloat(double num, NumericFormatDisplay currentNumericFormat, bool forceFormat,
-    bool trim = false);
+outputDoublePrecisionFloat(
+    double num, NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
 //=============================================================================
 std::wstring
 outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
     NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
 //=============================================================================
 std::wstring
-outputSinglePrecisionFloat(single num, NumericFormatDisplay currentNumericFormat,
-    int exponantial = 0, bool trim = false);
+outputSinglePrecisionFloat(
+    single num, NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
 //=============================================================================
 static std::wstring
 outputSingleComplexPrecisionFloat(single realPart, single imagPart,

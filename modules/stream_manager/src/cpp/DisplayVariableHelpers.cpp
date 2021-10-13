@@ -141,9 +141,7 @@ completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         width = 0;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return completeWithBlanksAtBeginning(msg, width);
 }
 //=============================================================================
@@ -229,9 +227,7 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return typeAsText;
 }
 //=============================================================================
@@ -370,7 +366,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
                 + L"}";
         } else {
             msg = lightDescription(A, L"{", L"}");
@@ -569,9 +565,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -727,7 +721,7 @@ outputDoublePrecisionAsIntegerForm(
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
         if (number >= 1e9) {
-            msg = fmt::sprintf(L"%*.*e",29,15, number);
+            msg = fmt::sprintf(L"%*.*e", 29, 15, number);
         } else {
             if (number > 0) {
                 if (number >= 1e3) {
@@ -773,9 +767,7 @@ outputDoublePrecisionAsIntegerForm(
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatRational(number, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -817,9 +809,7 @@ outputDoublePrecisionFloat(
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatRational(number, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -860,9 +850,7 @@ outputSinglePrecisionFloat(
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatRational(number, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -876,6 +864,7 @@ outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
         msg = formatComplexShort(realPart, imagPart, true, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
+        msg = formatComplexLong(realPart, imagPart, true, trim);
     } break;
     case NLS_NUMERIC_FORMAT_SHORTE: {
     } break;
@@ -903,9 +892,7 @@ outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatComplexRational(realPart, imagPart, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -946,9 +933,7 @@ outputSingleComplexPrecisionFloat(single realPart, single imagPart,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatComplexRational(realPart, imagPart, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
