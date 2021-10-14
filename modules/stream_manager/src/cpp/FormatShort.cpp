@@ -38,14 +38,26 @@ formatShort(double number, bool forceFormat, bool trim)
     std::wstring str;
     if (IsInfinite(number)) {
         std::wstring format = L"%*s";
-        if (number < 0) {
-            str = fmt::sprintf(format, 9, L"-Inf");
+        if (forceFormat) {
+            if (number < 0) {
+                str = fmt::sprintf(format, 13, L"-Inf");
+            } else {
+                str = fmt::sprintf(format, 13, L" Inf");
+            }
         } else {
-            str = fmt::sprintf(format, 9, L" Inf");
+            if (number < 0) {
+                str = fmt::sprintf(format, 9, L"-Inf");
+            } else {
+                str = fmt::sprintf(format, 9, L" Inf");
+            }
         }
     } else if (IsNaN(number)) {
         std::wstring format = L"%*s";
-        str = fmt::sprintf(format, 9, L"NaN");
+        if (forceFormat) {
+            str = fmt::sprintf(format, 13, L"NaN");
+        } else {
+            str = fmt::sprintf(format, 9, L"NaN");
+        }
     } else {
         if (forceFormat) {
             if ((number == 0.) || fabs(number) >= 1e-3 && number < 1e9) {
