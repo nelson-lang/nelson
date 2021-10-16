@@ -75,28 +75,146 @@ assert_isequal(R, REF)
 %=============================================================================
 A = ["dddlll" "dd" "1234567890ABCDEFGHIJKLMNOPQRSTVUWXY0123";"dddlll" "dd" "ddddddddddddddd";"d" "dd" ""];
 R = evalc('A');
+REF = '
+A =
+
+  <string> - size: 3×3
+
+    "dddlll"    "dd"    "1234567890ABCDE…"
+    "dddlll"    "dd"     "ddddddddddddddd"
+         "d"    "dd"                    ""
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["Mercury1" "Gemini2" "Apollo3" "Smith4","Chung5","Morales6" "Mercury7" "Gemini8" "Apollo9" "Smith10","Chung11","Morales12" "Mercury13" "Gemini14" "Apollo15" "Smith16","Chung17","Morales18";
-       "Skylab19" "Skylab B20" "ISS21" "Sanchez22","Peterson23","Adams24" "Mercury25" "Gemini26" "Apollo27" "Smith28","Chung29","Morales30" "Mercury31" "Gemini32" "Apollo33" "Smith34","Chung35","Morales36"]
+       "Skylab19" "Skylab B20" "ISS21" "Sanchez22","Peterson23","Adams24" "Mercury25" "Gemini26" "Apollo27" "Smith28","Chung29","Morales30" "Mercury31" "Gemini32" "Apollo33" "Smith34","Chung35","Morales36"];
 R = evalc('A');
+REF = '
+A =
+
+  <string> - size: 2×18
+
+  Columns 1 through 5
+
+    "Mercury1"       "Gemini2"    "Apollo3"       "Smith4"        "Chung5"
+    "Skylab19"    "Skylab B20"      "ISS21"    "Sanchez22"    "Peterson23"
+
+  Columns 6 through 10
+
+    "Morales6"     "Mercury7"     "Gemini8"     "Apollo9"    "Smith10"
+     "Adams24"    "Mercury25"    "Gemini26"    "Apollo27"    "Smith28"
+
+  Columns 11 through 15
+
+    "Chung11"    "Morales12"    "Mercury13"    "Gemini14"    "Apollo15"
+    "Chung29"    "Morales30"    "Mercury31"    "Gemini32"    "Apollo33"
+
+  Columns 16 through 18
+
+    "Smith16"    "Chung17"    "Morales18"
+    "Smith34"    "Chung35"    "Morales36"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["Smith","Chung","Morales"; 
        "Sanchez","Peterson","Adams"];
 R = evalc('A');
+REF = '
+A =
+
+  <string> - size: 2×3
+
+      "Smith"       "Chung"    "Morales"
+    "Sanchez"    "Peterson"      "Adams"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["dd", "dddddddddddddddddddddddddddddddddddddddddddddddddd"];
 R = evalc('A');
+REF = '
+A =
+
+  <string> - size: 1×2
+
+    "dd"    "ddddddddddddddd…"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["ffffffffffffff", "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "dddddddddddddddddddddddddddddd","ddddddddddddddddddddddddddddddddddddddddddddddddddd"];
 R = evalc('A');
+REF = '
+A =
+
+  <string> - size: 1×4
+
+  Columns 1 through 3
+
+    "ffffffffffffff"    "ddddddddddddddd…"    "ddddddddddddddd…"
+
+  Columns 4
+
+    "ddddddddddddddd…"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A=1:10:27*10;
 B = string(reshape(A,3,3,3));
-B(2,1, 2) = "ffffffffffffffffffdddddddddddffffffffffffffffffffff"
+B(2,1, 2) = "ffffffffffffffffffdddddddddddffffffffffffffffffffff";
 B(1,1, 3) = NaN;
 R = evalc('B');
+REF = '
+  <string> - size: 3×3×3
+
+B(:,:,1) =
+
+     "1"    "31"    "61"
+    "11"    "41"    "71"
+    "21"    "51"    "81"
+
+
+B(:,:,2) =
+
+                  "91"    "121"    "151"
+    "fffffffffffffff…"    "131"    "161"
+                 "111"    "141"    "171"
+
+
+B(:,:,3) =
+
+    <missing>    "211"    "241"
+        "191"    "221"    "251"
+        "201"    "231"    "261"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
-
-R = evalc('B');
 R = evalc('disp(B)');
+REF = '
+(:,:,1) =
 
+     "1"    "31"    "61"
+    "11"    "41"    "71"
+    "21"    "51"    "81"
+
+
+(:,:,2) =
+
+                  "91"    "121"    "151"
+    "fffffffffffffff…"    "131"    "161"
+                 "111"    "141"    "171"
+
+
+(:,:,3) =
+
+    <missing>    "211"    "241"
+        "191"    "221"    "251"
+        "201"    "231"    "261"
+
+';
+assert_isequal(R, REF)
+%=============================================================================

@@ -44,14 +44,6 @@
 namespace Nelson {
 //=============================================================================
 template <class T>
-bool
-isInteger(T val)
-{
-    int truncated = (int)val;
-    return (T)truncated == (T)val && val < 1e9;
-}
-//=============================================================================
-template <class T>
 void
 getMinMax(T* val, indexType nbElements, T* min, T* max)
 {
@@ -269,12 +261,16 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
         } break;
         case NLS_DCOMPLEX:
         case NLS_DOUBLE: {
+            if (!name.empty() && A.isSparse() && A.isEmpty()) {
+                std::wstring format = _W("%s empty sparse double matrix");
+                std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
+                io->outputMessage(L"  " + msg + L"\n");
+            }
         } break;
         case NLS_LOGICAL: {
             if (!name.empty() && A.isSparse()) {
-                std::wstring format = _W("%lu×%lu empty sparse logical matrix");
-                std::wstring msg
-                    = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
+                std::wstring format = _W("%s empty sparse logical matrix");
+                std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
                 io->outputMessage(L"  " + msg + L"\n");
             } else {
                 std::wstring typeAsText = getClassAsWideString(A);
@@ -287,7 +283,7 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
 
         } break;
         case NLS_STRING_ARRAY: {
-            if (!name.empty() && !A.isEmpty()) {
+            if (!name.empty() && !(A.isEmpty() || A.isScalar())) {
                 std::wstring typeAsText = getClassAsWideString(A);
                 if (A.isSparse()) {
                     typeAsText = L"string " + typeAsText;
