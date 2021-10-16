@@ -41,6 +41,8 @@ namespace Nelson {
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX 6
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS 3
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL 6
+#define x_wchar std::wstring(1, (wchar_t)215)
+
 //============================================================================
 static void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -88,11 +90,6 @@ void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    if (!name.empty()) {
-        std::wstring format = _W("%lu×%lu empty sparse double matrix");
-        std::wstring msg = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
-        io->outputMessage(L"  " + msg + L"\n");
-    }
 }
 //=============================================================================
 template <class T>

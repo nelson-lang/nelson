@@ -52,14 +52,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-//=============================================================================
 namespace Nelson {
-//=============================================================================
-#define MSGBUFLEN 2048
-static char msgBuffer[MSGBUFLEN];
 //=============================================================================
 Dimensions::Dimensions() : length(0) { memset(data, 0, sizeof(indexType) * MAXDIMS); }
 //=============================================================================
@@ -328,14 +321,14 @@ Dimensions::toWideString() const
 std::string
 Dimensions::toString() const
 {
-#define MIDDLE_MULTIPLY "\U000000D7"
+#define MULTIPLY_SYMBOL (char)215
     std::string text;
     if (length > 0) {
         for (indexType i = 0; i < length - 1; i++) {
             unsigned long val = static_cast<unsigned long>(data[i]);
             text.append(std::to_string(val));
             if (length >= 1) {
-                text.append(MIDDLE_MULTIPLY);
+                text.append(std::string(1, MULTIPLY_SYMBOL));
             }
         }
     }

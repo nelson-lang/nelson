@@ -31,7 +31,7 @@ R = evalc('display(X, ''YYY'')');
 REF = '
 YYY =
 
-''Alice will be 12 this year.''
+    ''Alice will be 12 this year.''
 
 ';
 assert_isequal(R, REF);
