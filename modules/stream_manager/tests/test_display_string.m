@@ -30,32 +30,37 @@ R = evalc('A = string([])');
 A = ["d","d","d";
     "ddd","dddd","dd";
     "cc","cc","cc"];
-R = eval('A');
+R = evalc('A');
 %=============================================================================
 A = ["d","d","d";
     "ds", NaN,"ds";
     "c","c","c"];
-R = eval('A');
+R = evalc('A');
 %=============================================================================
 A = ["dddlll" "dd" "1234567890ABCDEFGHIJKLMNOPQRSTVUWXY0123";"dddlll" "dd" "ddddddddddddddd";"d" "dd" ""];
-R = eval('A');
+R = evalc('A');
 %=============================================================================
 A = ["Mercury1" "Gemini2" "Apollo3" "Smith4","Chung5","Morales6" "Mercury7" "Gemini8" "Apollo9" "Smith10","Chung11","Morales12" "Mercury13" "Gemini14" "Apollo15" "Smith16","Chung17","Morales18";
        "Skylab19" "Skylab B20" "ISS21" "Sanchez22","Peterson23","Adams24" "Mercury25" "Gemini26" "Apollo27" "Smith28","Chung29","Morales30" "Mercury31" "Gemini32" "Apollo33" "Smith34","Chung35","Morales36"]
-R = eval('A');
+R = evalc('A');
 %=============================================================================
 A = ["Smith","Chung","Morales"; 
        "Sanchez","Peterson","Adams"];
-R = eval('A');
+R = evalc('A');
 %=============================================================================
 A = ["dd", "dddddddddddddddddddddddddddddddddddddddddddddddddd"];
+R = evalc('A');
+%=============================================================================
 A = ["ffffffffffffff", "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "dddddddddddddddddddddddddddddd","ddddddddddddddddddddddddddddddddddddddddddddddddddd"];
-
+R = evalc('A');
+%=============================================================================
 A=1:10:27*10;
 B = string(reshape(A,3,3,3));
 B(2,1, 2) = "ffffffffffffffffffdddddddddddffffffffffffffffffffff"
-B(1,1, 3) = NaN
+B(1,1, 3) = NaN;
+R = evalc('B');
+%=============================================================================
 
-R = eval('B');
-R = eval('disp(B)');
+R = evalc('B');
+R = evalc('disp(B)');
 

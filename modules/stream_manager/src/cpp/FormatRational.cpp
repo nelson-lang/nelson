@@ -37,7 +37,10 @@ std::wstring
 formatRational(double number, bool trim)
 {
     std::wstring str;
-    if (std::abs(number) < 1e-10) {
+    if (IsIntegerForm(number)) {
+        str = fmt::sprintf(L"%16.f", number);
+        boost::trim_left(str);
+    } else if (std::abs(number) < 1e-10) {
         str = floatNumberToApproxRational<double, int64>(number, 10);
     } else {
         str = floatNumberToApproxRational<double, int>(number, 9);

@@ -78,7 +78,7 @@ IsFinite(double t)
 bool
 IsIntegerForm(double t)
 {
-    return (rint(t) == t && IsFinite(t));
+    return (rint((long double)(t)) == (long double)(t) && IsFinite(t));
 }
 //=============================================================================
 bool

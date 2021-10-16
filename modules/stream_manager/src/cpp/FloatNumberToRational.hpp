@@ -31,7 +31,6 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
