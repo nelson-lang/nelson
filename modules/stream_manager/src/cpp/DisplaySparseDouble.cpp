@@ -87,7 +87,13 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{
+    if (!name.empty()) {
+        std::wstring format = _W("%lu×%lu empty sparse double matrix");
+        std::wstring msg = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
+        io->outputMessage(L"  " + msg + L"\n");
+    }
+}
 //=============================================================================
 template <class T>
 bool

@@ -33,7 +33,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define HORIZONTAL_ELLIPSIS L"\U00002026" // L"…"
+#define HORIZONTAL_ELLIPSIS L"\u2026" // L"…"
 #define BLANKS_AT_BOL L"    "
 #define LENGTH_BLANKS_AT_BOL 4
 #define DEFAULT_NOMINAL_WIDTH 10

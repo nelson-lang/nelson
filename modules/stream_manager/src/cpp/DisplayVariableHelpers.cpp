@@ -269,12 +269,6 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
         } break;
         case NLS_DCOMPLEX:
         case NLS_DOUBLE: {
-            if (!name.empty() && (A.isSparse() && A.isEmpty())) {
-                std::wstring format = _W("%lu×%lu empty sparse double matrix");
-                std::wstring msg
-                    = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
-                io->outputMessage(L"  " + msg + L"\n");
-            }
         } break;
         case NLS_LOGICAL: {
             if (!name.empty() && A.isSparse()) {
@@ -291,6 +285,16 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
                 A.getDimensions().printMe(io);
             }
 
+        } break;
+        case NLS_STRING_ARRAY: {
+            if (!name.empty() && !A.isEmpty()) {
+                std::wstring typeAsText = getClassAsWideString(A);
+                if (A.isSparse()) {
+                    typeAsText = L"string " + typeAsText;
+                }
+                io->outputMessage(
+                    L"  <" + typeAsText + L"> - size: " + A.getDimensions().toWideString() + L"\n");
+            }
         } break;
         default: {
             std::wstring typeAsText = getClassAsWideString(A);

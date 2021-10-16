@@ -80,7 +80,11 @@ void
 DisplayEmptyString(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    // nothing to display
+    if (!name.empty()) {
+        std::wstring format = _W("%lu×%lu empty string matrix");
+        std::wstring msg = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
+        io->outputMessage(L"  " + msg + L"\n");
+    }
 }
 //=============================================================================
 void
@@ -89,9 +93,6 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
 {
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
     if (A.isColumnVector()) {
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
-        }
         for (indexType k = 0;
              k < A.getElementCount() && !NelsonConfiguration::getInstance()->getInterruptPending();
              ++k) {
@@ -258,7 +259,12 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
             }
             msg = L"\"" + msg + L"\"";
         } else {
-            msg = lightDescription(elements[idx], L"", L"");
+            if (elements[idx].isEmpty()) {
+                msg = L"\"" + msg + L"\"";
+            } else {
+                msg = lightDescription(elements[idx], L"", L"");
+            }
+            
         }
     } break;
     default: {
