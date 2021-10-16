@@ -184,6 +184,7 @@ BasicTerminal::BasicTerminal()
 {
 #ifdef _MSC_VER
     SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(CtrlHandler), TRUE);
+    SetConsoleOutputCP(65001);
 #else
     signal(SIGINT, intHandler);
     signal(SIGTSTP, intHandler);

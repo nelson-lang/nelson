@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Previous changelog
 
-[Changelog v0.4.x](CHANGELOG-0.5.x.md)
+[Changelog v0.5.x](CHANGELOG-0.5.x.md)
 
 [Changelog v0.4.x](CHANGELOG-0.4.x.md)
 
