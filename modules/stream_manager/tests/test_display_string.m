@@ -24,18 +24,54 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = evalc('A = string(NaN)');
+REF =  '
+A =
+
+    <missing>
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 R = evalc('A = string([])');
+REF = '
+A =
+
+  0×0 empty string matrix
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["d","d","d";
     "ddd","dddd","dd";
     "cc","cc","cc"];
 R = evalc('A');
+REF = '
+A =
+
+  <string> - size: 3×3
+
+      "d"       "d"     "d"
+    "ddd"    "dddd"    "dd"
+     "cc"      "cc"    "cc"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["d","d","d";
     "ds", NaN,"ds";
     "c","c","c"];
 R = evalc('A');
+REF =   '
+A =
+
+  <string> - size: 3×3
+
+     "d"          "d"     "d"
+    "ds"    <missing>    "ds"
+     "c"          "c"     "c"
+
+';
+assert_isequal(R, REF)
 %=============================================================================
 A = ["dddlll" "dd" "1234567890ABCDEFGHIJKLMNOPQRSTVUWXY0123";"dddlll" "dd" "ddddddddddddddd";"d" "dd" ""];
 R = evalc('A');
