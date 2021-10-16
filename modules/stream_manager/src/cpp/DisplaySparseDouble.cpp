@@ -40,6 +40,7 @@ namespace Nelson {
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX 6
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS 3
+#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL 6
 //============================================================================
 static void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -202,6 +203,9 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     case NLS_NUMERIC_FORMAT_PLUS: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS;
     } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL;
+    } break;
     default: {
     } break;
     }
@@ -308,6 +312,9 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS;
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL;
     } break;
     default: {
     } break;
