@@ -84,7 +84,7 @@ IsIntegerForm(double t)
 bool
 IsIntegerForm(float t)
 {
-    return (rint(t) == t && IsFinite(t));
+    return (rint((long double)(t)) == (long double)(t) && IsFinite(t));
 }
 //=============================================================================
 bool
@@ -115,3 +115,16 @@ IsIntegerForm(const double* t, size_t nbElements)
     return false;
 }
 //=============================================================================
+bool
+IsIntegerFormOrNotFinite(const double* t, size_t nbElements)
+{
+    if (t != nullptr) {
+        for (size_t k = 0; k < nbElements; k++) {
+            if (!IsIntegerForm(t[k]) && std::isfinite(t[k])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}

@@ -32,7 +32,6 @@
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
-#include "characters_encoding.hpp"
 #include "SparseDisplay.hpp"
 #include "NelsonConfiguration.hpp"
 #include "IEEEFP.hpp"
@@ -224,7 +223,7 @@ SparseDoubleComplexDisplay(Interface* io, const ArrayOf& a)
 void
 SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
 {
-    DisplayVariableHeader(io, a, utf8_to_wstring(name));
+    //DisplayVariableHeader(io, a, utf8_to_wstring(name));
     switch (a.getDataClass()) {
     case NLS_DOUBLE:
         SparseDoubleDisplay(io, a);
@@ -235,7 +234,7 @@ SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name)
     default:
         break;
     }
-    DisplayVariableFooter(io, a, utf8_to_wstring(name));
+    //DisplayVariableFooter(io, a, utf8_to_wstring(name));
 }
 //=============================================================================
 } // namespace Nelson

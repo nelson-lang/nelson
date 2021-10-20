@@ -89,8 +89,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{
-}
+{}
 //=============================================================================
 template <class T>
 bool
@@ -170,8 +169,7 @@ getOptionalCommonLogarithm(
             return commonLogarithm;
         }
     } break;
-    default: {
-    }
+    default: {}
     }
     return 0;
 }
@@ -209,9 +207,7 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
 
     const double* values = spMat->valuePtr();
     double value = values[0];
@@ -319,9 +315,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
 
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {

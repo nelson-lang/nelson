@@ -272,8 +272,8 @@ Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name
     indexType nbCols = A.getColumns();
 
     if (A.getNonzeros() == 0) {
-        std::wstring format = _W("All zero sparse: %lu×%lu");
-        std::wstring msg = fmt::sprintf(format, (long long)nbRows, (long long)nbCols);
+        std::wstring format = _W("All zero sparse: %s");
+        std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
         io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
         return;
     }

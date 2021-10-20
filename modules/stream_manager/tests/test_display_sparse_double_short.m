@@ -56,7 +56,7 @@ R = evalc('A = sparse(eps)');
 REF = '
 A =
 
-    (1,1)      2.2204e-16
+    (1,1)   2.2204e-16
 
 ';
 assert_isequal(R, REF)
@@ -65,7 +65,7 @@ R = evalc('A = sparse(NaN)');
 REF = '
 A =
 
-    (1,1)      NaN
+    (1,1)   NaN
 
 ';
 assert_isequal(R, REF)
@@ -74,7 +74,7 @@ R = evalc('A = sparse(Inf)');
 REF = '
 A =
 
-    (1,1)      Inf
+    (1,1)   Inf
 
 ';
 assert_isequal(R, REF)
@@ -83,7 +83,7 @@ R = evalc('A = sparse(-Inf)');
 REF = '
 A =
 
-    (1,1)     -Inf
+    (1,1)  -Inf
 
 ';
 assert_isequal(R, REF)
@@ -105,9 +105,9 @@ A =
 
     1.0e-03 *
 
-    (1,1)       0.1000
-    (1,2)       0.1100
-    (1,3)       0.1200
+    (1,1)    0.1000
+    (1,2)    0.1100
+    (1,3)    0.1200
 
 ';
 assert_isequal(R, REF)
@@ -116,9 +116,9 @@ R = evalc('A = sparse([1e4 1.1e4 1.2e4])');
 REF =  '
 A =
 
-    (1,1)          10000
-    (1,2)          11000
-    (1,3)          12000
+    (1,1)       10000
+    (1,2)       11000
+    (1,3)       12000
 
 ';
 assert_isequal(R, REF)
@@ -127,9 +127,9 @@ R = evalc('A = sparse([10 10 13])');
 REF = '
 A =
 
-    (1,1)       10
-    (1,2)       10
-    (1,3)       13
+    (1,1)    10
+    (1,2)    10
+    (1,3)    13
 
 ';
 assert_isequal(R, REF)
@@ -138,7 +138,7 @@ R = evalc('A = sparse(1e99)');
 REF = '
 A =
 
-    (1,1)      1.0000e+99
+    (1,1)   1.0000e+99
 
 ';
 assert_isequal(R, REF)
@@ -147,7 +147,7 @@ R = evalc('A = sparse(1e10)');
 REF = '
 A =
 
-    (1,1)      1.0000e+10
+    (1,1)   1.0000e+10
 
 ';
 assert_isequal(R, REF)
@@ -156,7 +156,7 @@ R = evalc('A = sparse(1e9)');
 REF = '
 A =
 
-    (1,1)      1.0000e+09
+    (1,1)   1.0000e+09
 
 ';
 assert_isequal(R, REF)
@@ -165,7 +165,7 @@ R = evalc('A = sparse(1e8)');
 REF = '
 A =
 
-    (1,1)      100000000
+    (1,1)   100000000
 
 ';
 assert_isequal(R, REF)
@@ -174,7 +174,7 @@ R = evalc('A = sparse(1e7)');
 REF = '
 A =
 
-    (1,1)       10000000
+    (1,1)    10000000
 
 ';
 assert_isequal(R, REF)
@@ -183,7 +183,7 @@ R = evalc('A = sparse(1e6)');
 REF = '
 A =
 
-    (1,1)        1000000
+    (1,1)     1000000
 
 ';
 assert_isequal(R, REF)
@@ -192,7 +192,7 @@ R = evalc('A = sparse(1e5)');
 REF =  '
 A =
 
-    (1,1)         100000
+    (1,1)      100000
 
 ';
 assert_isequal(R, REF)
@@ -201,7 +201,7 @@ R = evalc('A = sparse(1e4)');
 REF = '
 A =
 
-    (1,1)          10000
+    (1,1)       10000
 
 ';
 assert_isequal(R, REF)
@@ -210,7 +210,7 @@ R = evalc('A = sparse(1e3)');
 REF = '
 A =
 
-    (1,1)           1000
+    (1,1)        1000
 
 ';
 assert_isequal(R, REF)
@@ -219,7 +219,7 @@ R = evalc('A = sparse(1e2)');
 REF = '
 A =
 
-    (1,1)      100
+    (1,1)   100
 
 ';
 assert_isequal(R, REF)
@@ -228,7 +228,7 @@ R = evalc('A = sparse(1e1)');
 REF =  '
 A =
 
-    (1,1)       10
+    (1,1)    10
 
 ';
 assert_isequal(R, REF)
@@ -237,7 +237,7 @@ R = evalc('A = sparse(1)');
 REF = '
 A =
 
-    (1,1)        1
+    (1,1)     1
 
 ';
 assert_isequal(R, REF)
@@ -246,7 +246,7 @@ R = evalc('A = sparse(1e-1)');
 REF = '
 A =
 
-    (1,1)       0.1000
+    (1,1)    0.1000
 
 ';
 assert_isequal(R, REF)
@@ -255,7 +255,7 @@ R = evalc('A = sparse(1e-2)');
 REF = '
 A =
 
-    (1,1)       0.0100
+    (1,1)    0.0100
 
 ';
 assert_isequal(R, REF)
@@ -264,7 +264,7 @@ R = evalc('A = sparse(1e-3)');
 REF = '
 A =
 
-    (1,1)      1.0000e-03
+    (1,1)    0.0010
 
 ';
 assert_isequal(R, REF)
@@ -273,7 +273,7 @@ R = evalc('A = sparse(1e-4)');
 REF = '
 A =
 
-    (1,1)      1.0000e-04
+    (1,1)   1.0000e-04
 
 ';
 assert_isequal(R, REF)
@@ -282,16 +282,16 @@ R = evalc('A = sparse(1e-5)');
 REF = '
 A =
 
-    (1,1)      1.0000e-05
+    (1,1)   1.0000e-05
 
 ';
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(1e-6)');
-REF = '
+REF =  '
 A =
 
-    (1,1)      1.0000e-06
+    (1,1)   1.0000e-06
 
 ';
 assert_isequal(R, REF)
@@ -300,7 +300,7 @@ R = evalc('A = sparse(1e-7)');
 REF = '
 A =
 
-    (1,1)      1.0000e-07
+    (1,1)   1.0000e-07
 
 ';
 assert_isequal(R, REF)
@@ -309,7 +309,7 @@ R = evalc('A = sparse(1e-8)');
 REF = '
 A =
 
-    (1,1)      1.0000e-08
+    (1,1)   1.0000e-08
 
 ';
 assert_isequal(R, REF)
@@ -318,7 +318,7 @@ R = evalc('A = sparse(1e-9)');
 REF = '
 A =
 
-    (1,1)      1.0000e-09
+    (1,1)   1.0000e-09
 
 ';
 assert_isequal(R, REF)
@@ -327,7 +327,7 @@ R = evalc('A = sparse(1e-120)');
 REF =  '
 A =
 
-    (1,1)     1.0000e-120
+    (1,1)  1.0000e-120
 
 ';
 assert_isequal(R, REF)
@@ -345,16 +345,16 @@ R = evalc('R = sparse(pi*1e-4)');
 REF = '
 R =
 
-    (1,1)      3.1416e-04
+    (1,1)   3.1416e-04
 
 ';
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('R = sparse(pi*1e-3)');
-REF = '
+REF =  '
 R =
 
-    (1,1)       0.0031
+    (1,1)    0.0031
 
 ';
 assert_isequal(R, REF)
@@ -363,7 +363,7 @@ R = evalc('R = sparse(-pi*1e-4)');
 REF = '
 R =
 
-    (1,1)     -3.1416e-04
+    (1,1)  -3.1416e-04
 
 ';
 assert_isequal(R, REF)
@@ -372,7 +372,7 @@ R = evalc('R = sparse(-pi*1e-3)');
 REF = '
 R =
 
-    (1,1)      -0.0031
+    (1,1)   -0.0031
 
 ';
 assert_isequal(R, REF)
@@ -383,7 +383,7 @@ R = evalc('R = sparse(A)');
 REF =  '
 R =
 
-    (3,3)      1.0000e-03
+    (3,3)    0.0010
 
 ';
 assert_isequal(R, REF)
@@ -392,15 +392,15 @@ R = evalc('R = sparse([-1 -20 -4])');
 REF =  '
 R =
 
-    (1,1)       -1
-    (1,2)      -20
-    (1,3)       -4
+    (1,1)    -1
+    (1,2)   -20
+    (1,3)    -4
 
 ';
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('R = sparse([814.1 1 NaN Inf -Inf])');
-REF = '
+REF =  '
 R =
 
     (1,1)     814.1000

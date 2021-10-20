@@ -81,8 +81,8 @@ DisplayEmptyString(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     if (!name.empty()) {
-        std::wstring format = _W("%lu×%lu empty string matrix");
-        std::wstring msg = fmt::sprintf(format, (long long)A.getRows(), (long long)A.getColumns());
+        std::wstring format = _W("%s empty string matrix");
+        std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
         io->outputMessage(L"  " + msg + L"\n");
     }
 }
@@ -264,7 +264,6 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
             } else {
                 msg = lightDescription(elements[idx], L"", L"");
             }
-            
         }
     } break;
     default: {

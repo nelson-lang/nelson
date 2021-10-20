@@ -1,21 +1,23 @@
 
-ans =
+  <char> - size: 1×3×3
 
-  <char>  - size: 1x3x3
+ans(:,:,1) =
 
-(:,:,1) =
-
-
-Columns 1 to 3
- 'RUX'
-(:,:,2) =
+    'RUX'
 
 
-Columns 1 to 3
- 'SVY'
-(:,:,3) =
+ans(:,:,2) =
+
+    'SVY'
 
 
-Columns 1 to 3
- 'TWZ'
+ans(:,:,3) =
+
+    'TWZ'
+
+
+r =
+
+  <logical> - size: 1×1
+     true
 

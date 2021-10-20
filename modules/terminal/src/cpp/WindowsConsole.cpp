@@ -248,14 +248,13 @@ WindowsConsole::outputMessage(const std::string& msg)
 void
 WindowsConsole::outputMessage(const std::wstring& msg)
 {
-    std::wstring _msg = std::move(msg);
     if (atPrompt) {
         lineObj.clearCurrentLine(false);
         atPrompt = false;
         bInterruptGetChar = true;
     }
-    lineObj.printCharacters(_msg, lineObj.STANDARD_OUTPUT);
-    diary.writeMessage(_msg);
+    lineObj.printCharacters(msg, lineObj.STANDARD_OUTPUT);
+    diary.writeMessage(msg);
 }
 //=============================================================================
 void
