@@ -53,4 +53,7 @@ NLSELEMENTARY_MATHEMATICS_IMPEXP bool
 IsIntegerForm(float t);
 NLSELEMENTARY_MATHEMATICS_IMPEXP bool
 IsIntegerForm(double t);
+
+NLSELEMENTARY_MATHEMATICS_IMPEXP bool
+IsIntegerFormOrNotFinite(const double* t, size_t nbElements);
 //=============================================================================

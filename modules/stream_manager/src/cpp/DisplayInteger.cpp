@@ -29,7 +29,7 @@
 #include "DisplayInteger.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
-#include "hexify.hpp"
+#include "Hexify.hpp"
 #include "DisplayIntegerHelpers.hpp"
 //=============================================================================
 namespace Nelson {

@@ -67,22 +67,25 @@ std::wstring
 outputDoublePrecisionAsIntegerForm(
     double num, NumericFormatDisplay currentNumericFormat, bool trim = false);
 //=============================================================================
-
+std::wstring
+outputSinglePrecisionAsIntegerForm(
+    single num, NumericFormatDisplay currentNumericFormat, bool trim = false);
+//=============================================================================
 std::wstring
 outputDoublePrecisionFloat(
     double num, NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
 //=============================================================================
 std::wstring
 outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
-    NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
+    NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
 //=============================================================================
 std::wstring
 outputSinglePrecisionFloat(
-    single num, NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
+    single num, NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
 //=============================================================================
 static std::wstring
 outputSingleComplexPrecisionFloat(single realPart, single imagPart,
-    NumericFormatDisplay currentNumericFormat, int exponantial = 0, bool trim = false);
+    NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

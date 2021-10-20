@@ -33,19 +33,19 @@ namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-formatShortEng(double number, bool trim = false);
+formatShortEng(double number, bool forceFormat, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-formatShortEng(single number, bool trim = false);
+formatShortEng(single number, bool forceFormat, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-formatComplexShortEng(double realPart, double imagPart, bool trim = false);
+formatComplexShortEng(double realPart, double imagPart, bool forceFormat, bool trim = false);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
-formatComplexShortEng(single realPart, single imagPart, bool trim = false);
+formatComplexShortEng(single realPart, single imagPart, bool forceFormat, bool trim = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

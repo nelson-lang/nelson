@@ -27,13 +27,13 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include "FormatLong.hpp"
+#include "FormatShortEng.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
-formatShortEng(double x, bool trim)
+formatShortEng(double x, bool forceFormat, bool trim)
 {
     std::wstring str;
     if (IsInfinite(x)) {
@@ -84,13 +84,13 @@ formatShortEng(double x, bool trim)
 }
 //=============================================================================
 std::wstring
-formatShortEng(single x, bool trim)
+formatShortEng(single x, bool forceFormat, bool trim)
 {
-    return formatShortEng((double)x, trim);
+    return formatShortEng((double)x, forceFormat, trim);
 }
 //=============================================================================
 std::wstring
-formatComplexShortEng(double realPart, double imagPart, bool trim)
+formatComplexShortEng(double realPart, double imagPart, bool forceFormat, bool trim)
 {
     std::wstring signStr;
     if (imagPart < 0) {
@@ -98,13 +98,14 @@ formatComplexShortEng(double realPart, double imagPart, bool trim)
     } else {
         signStr = L" + ";
     }
-    return formatShortEng(realPart, trim) + signStr + formatShortEng(fabs(imagPart), false) + L"i";
+    return formatShortEng(realPart, forceFormat, trim) + signStr
+        + formatShortEng(fabs(imagPart), forceFormat, false) + L"i";
 }
 //=============================================================================
 std::wstring
-formatComplexShortEng(single realPart, single imagPart, bool trim)
+formatComplexShortEng(single realPart, single imagPart, bool forceFormat, bool trim)
 {
-    return formatComplexShortEng((double)realPart, (double)imagPart, trim);
+    return formatComplexShortEng((double)realPart, (double)imagPart, forceFormat, trim);
 }
 //=============================================================================
 }

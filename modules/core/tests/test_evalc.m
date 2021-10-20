@@ -30,7 +30,7 @@ R = evalc('1');
 REF = '
 ans =
 
-  1
+     1
 
 ';
 assert_isequal(R, REF);
@@ -47,7 +47,7 @@ R = evalc('A = 32');
 REF = '
 A =
 
-  32
+    32
 
 ';
 assert_isequal(R, REF);

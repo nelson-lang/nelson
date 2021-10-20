@@ -39,20 +39,20 @@ formatBank(double number, bool trim)
 
     if (std::isnan(number)) {
         std::wstring format = L"%*s";
-        result = fmt::sprintf(format, 17, L"NaN");
+        result = fmt::sprintf(format, 13, L"NaN");
     } else if (std::isinf(number)) {
         std::wstring format = L"%*s";
         if (number < 0) {
-            result = fmt::sprintf(format, 17, L"-Inf");
+            result = fmt::sprintf(format, 13, L"-Inf");
         } else {
-            result = fmt::sprintf(format, 17, L"Inf");
+            result = fmt::sprintf(format, 13, L"Inf");
         }
     } else {
-        std::wstring format = L"%17.2f";
+        std::wstring format = L"%13.2f";
         result = fmt::sprintf(format, number);
     }
-    if (!boost::algorithm::starts_with(result, L"   ")) {
-        result = L"   " + result;
+    if (result != L" ") {
+        result = L" " + result;
     }
     if (trim) {
         boost::trim_left(result);

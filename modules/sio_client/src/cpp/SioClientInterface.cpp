@@ -73,7 +73,7 @@ void
 SioClientInterface::outputMessage(const std::string& msg)
 {
     SioClientCommand::getInstance()->reply(msg);
-    this->diary.writeMessage(msg);
+    this->diary.writeMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void

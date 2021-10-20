@@ -46,9 +46,9 @@ formatShort(double number, bool forceFormat, bool trim)
             }
         } else {
             if (number < 0) {
-                str = fmt::sprintf(format, 9, L"-Inf");
+                str = fmt::sprintf(format, 6, L"-Inf");
             } else {
-                str = fmt::sprintf(format, 9, L" Inf");
+                str = fmt::sprintf(format, 6, L" Inf");
             }
         }
     } else if (IsNaN(number)) {
@@ -56,7 +56,7 @@ formatShort(double number, bool forceFormat, bool trim)
         if (forceFormat) {
             str = fmt::sprintf(format, 13, L"NaN");
         } else {
-            str = fmt::sprintf(format, 9, L"NaN");
+            str = fmt::sprintf(format, 6, L"NaN");
         }
     } else {
         if (forceFormat) {
@@ -69,12 +69,16 @@ formatShort(double number, bool forceFormat, bool trim)
             }
 
         } else {
-            if (fabs(number) > 1e-3 && number < 1e9) {
-                std::wstring format = L"%*.*f";
+            double absoluteValue = fabs(number);
+            if (absoluteValue < 1e-3) {
+                std::wstring format = L"%*.*e";
                 str = fmt::sprintf(format, 13, 4, number);
+            } else if (absoluteValue <= 999) {
+                std::wstring format = L"%*.*f";
+                str = fmt::sprintf(format, 10, 4, number);
             } else {
                 std::wstring format = L"%*.*e";
-                str = fmt::sprintf(format, 16, 4, number);
+                str = fmt::sprintf(format, 13, 4, number);
             }
         }
     }

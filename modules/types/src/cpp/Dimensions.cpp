@@ -315,20 +315,35 @@ Dimensions::equals(const Dimensions& alt)
 std::wstring
 Dimensions::toWideString() const
 {
-    return utf8_to_wstring(toString());
+#define MIDDLE_WMULTIPLY L"\U000000D7"
+    std::wstring text;
+    if (length > 0) {
+        for (indexType i = 0; i < length - 1; i++) {
+            unsigned long val = static_cast<unsigned long>(data[i]);
+            text.append(std::to_wstring(val));
+            if (length >= 1) {
+                text.append(MIDDLE_WMULTIPLY);
+            }
+        }
+    }
+    if (length >= 1) {
+        unsigned long val = static_cast<unsigned long>(data[length - 1]);
+        text.append(std::to_wstring(val));
+    }
+    return text;
 }
 //=============================================================================
 std::string
 Dimensions::toString() const
 {
-#define MULTIPLY_SYMBOL (char)215
+#define MULTIPLY_SYMBOL "\U000000D7"
     std::string text;
     if (length > 0) {
         for (indexType i = 0; i < length - 1; i++) {
             unsigned long val = static_cast<unsigned long>(data[i]);
             text.append(std::to_string(val));
             if (length >= 1) {
-                text.append(std::string(1, MULTIPLY_SYMBOL));
+                text.append(MULTIPLY_SYMBOL);
             }
         }
     }
