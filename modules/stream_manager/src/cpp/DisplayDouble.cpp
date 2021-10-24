@@ -101,12 +101,14 @@ DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 {
     const double* pValue = (const double*)A.getDataPointer();
     std::wstring msg;
-    if (IsIntegerForm(pValue[0])) {
-        msg = outputDoublePrecisionAsIntegerForm(pValue[0], currentNumericFormat, false);
+    if (IsIntegerFormOrNotFinite(pValue, 1)) {
+        msg.append(outputDoublePrecisionAsIntegerForm(pValue[0], currentNumericFormat, false));
+
     } else {
-        msg = outputDoublePrecisionFloat(pValue[0], currentNumericFormat, false, false);
+        msg.append(outputDoublePrecisionFloat(pValue[0], currentNumericFormat, true, false));
     }
-    io->outputMessage(msg + L"\n");
+    msg.append(L"\n");
+    io->outputMessage(msg);
 }
 //=============================================================================
 template <class T>
@@ -156,9 +158,6 @@ static int
 getOptionalCommonLogarithm(
     double minValue, double maxValue, NumericFormatDisplay currentNumericFormat)
 {
-    if (minValue == maxValue) {
-        return 0;
-    }
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_LONG: {
         int commonLogarithm = log10(std::max(minValue, maxValue));
@@ -248,9 +247,12 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
     bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
     std::wstring lineBuffer;
-    for (indexType k = 0;
-         k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
-
+    bool continueDisplay = true;
+    for (indexType k = 0; k < pageCount && continueDisplay; k++) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            continueDisplay = false;
+            break;
+        }
         indexType colsInThisPage = columns - colsPerPage * k;
         colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
 
@@ -269,12 +271,16 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             io->outputMessage(msg);
         }
 
+        std::wstring msg;
+        msg.reserve(nominalWidth);
         for (indexType i = 0;
-             i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
+             i < rows && continueDisplay; i++) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                continueDisplay = false;
+                break;
+            }
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
-                std::wstring msg;
-                msg.reserve(nominalWidth);
                 if (allInteger) {
                     msg = outputDoublePrecisionAsIntegerForm(
                         pValues[idx], currentNumericFormat, false);

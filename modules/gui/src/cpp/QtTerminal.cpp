@@ -454,12 +454,15 @@ QtTerminal::printNewLine()
     setTextCursor(cursor);
 }
 //=============================================================================
+static bool doOnce = false;
 void
 QtTerminal::printMessage(QString msg, DISP_MODE mode)
 {
     mCommandLineReady = false;
+    this->setUpdatesEnabled(false);
     QTextCursor cur(document()->lastBlock());
     QTextCharFormat format = cur.charFormat();
+    
     switch (mode) {
     case WARNING_DISP: {
         format.setForeground(getWarningColor());
@@ -475,6 +478,7 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
     } break;
     }
     cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
+    
     if (msg.contains("\b")) {
         for (auto c : msg) {
             if (c == '\b') {
@@ -487,6 +491,7 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
         cur.insertText(msg, format);
     }
     setTextCursor(cur);
+    this->setUpdatesEnabled(true);
 }
 //=============================================================================
 void
