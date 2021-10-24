@@ -38,6 +38,7 @@ namespace Nelson {
 #define MIDDLE_MULTIPLY "\U000000D7"
 #define BLANKS_INTEGER_AT_BOL L"   "
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
+#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK 3
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX 6
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS 3
 #define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL 6
@@ -89,7 +90,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{ }
 //=============================================================================
 template <class T>
 bool
@@ -147,9 +148,6 @@ static int
 getOptionalCommonLogarithm(
     double minValue, double maxValue, NumericFormatDisplay currentNumericFormat)
 {
-    if (minValue == maxValue) {
-        return 0;
-    }
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_LONG: {
         int commonLogarithm = log10(std::max(minValue, maxValue));
@@ -169,7 +167,8 @@ getOptionalCommonLogarithm(
             return commonLogarithm;
         }
     } break;
-    default: {}
+    default: {
+    }
     }
     return 0;
 }
@@ -198,6 +197,9 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     size_t maxLenIndexString = indexAsString.length();
 
     switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        maxLenIndexString = maxLenIndexString + 3;
+    } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX;
     } break;
@@ -207,22 +209,28 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL;
     } break;
-    default: { } break; }
+    case NLS_NUMERIC_FORMAT_BANK: {
+        maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK;
+    } break;
+
+    default: {
+    } break;
+    }
 
     const double* values = spMat->valuePtr();
     double value = values[0];
 
     std::wstring asStr;
-    if (IsIntegerForm(value)) {
+    if (IsIntegerFormOrNotFinite(values, 1)) {
         asStr = outputDoublePrecisionAsIntegerForm(value, currentNumericFormat, false);
     } else {
-        asStr = outputDoublePrecisionFloat(value, currentNumericFormat, false, false);
+        asStr = outputDoublePrecisionFloat(value, currentNumericFormat, true, false);
     }
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
     std::wstring format = L"%s%s%s";
     std::wstring msg = fmt::sprintf(format, indexAsString, blanks, asStr);
-    io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
+    io->outputMessage(L"   " + msg + L"\n");
 }
 //=============================================================================
 static void
@@ -260,25 +268,16 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     double maxValue;
     bool allInteger = false;
     int commonLogarithm = 0;
-    size_t commonLength = 0;
-    bool forceFormat = false;
     if (findFiniteMinMax(A, minValue, maxValue)) {
         const double* data = spMat->valuePtr();
-        allInteger = IsIntegerForm(data, (indexType)spMat->nonZeros());
+        allInteger = IsIntegerFormOrNotFinite(data, (indexType)spMat->nonZeros());
         if (allInteger) {
             std::wstring minAsStr
                 = outputDoublePrecisionAsIntegerForm(minValue, currentNumericFormat, true);
             std::wstring maxAsStr
                 = outputDoublePrecisionAsIntegerForm(maxValue, currentNumericFormat, true);
-            commonLength = std::max(minAsStr.length(), maxAsStr.length());
-            if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORT) {
-                if (commonLength >= 9) {
-                    commonLength = 15;
-                }
-            }
         } else {
             commonLogarithm = getOptionalCommonLogarithm(minValue, maxValue, currentNumericFormat);
-            forceFormat = commonLogarithm == 0;
         }
     }
 
@@ -299,13 +298,16 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             fmt = L"1.0e%s%d *\n";
             str = fmt::sprintf(fmt, sign, absCommonLogarithm);
         }
-        io->outputMessage(BLANKS_AT_BOL + str);
+        io->outputMessage(L"   " + str);
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
     }
 
     switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        maxLenIndexString = maxLenIndexString + 3;
+    } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX;
     } break;
@@ -315,7 +317,15 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL;
     } break;
-    default: { } break; }
+    case NLS_NUMERIC_FORMAT_BANK: {
+        maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK;
+    } break;
+
+    default: {
+    } break;
+    }
+
+    std::wstring format = L"   %s%s%s\n";
 
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
@@ -331,18 +341,17 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
                 value = value / pow(10, commonLogarithm);
             }
             std::wstring asStr;
+            asStr.reserve(20);
             if (allInteger) {
                 asStr = outputDoublePrecisionAsIntegerForm(value, currentNumericFormat, false);
-                asStr = completeWithBlanksAtBeginning(asStr, commonLength);
             } else {
-                asStr = outputDoublePrecisionFloat(value, currentNumericFormat, forceFormat, false);
+                asStr = outputDoublePrecisionFloat(value, currentNumericFormat, false, false);
             }
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
-            std::wstring format = L"%s%s%s";
             std::wstring msg = fmt::sprintf(format, indexAsString, blanks, asStr);
-            io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
+            io->outputMessage(msg);
         }
     }
 }

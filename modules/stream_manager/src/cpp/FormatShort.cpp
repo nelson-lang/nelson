@@ -36,6 +36,7 @@ std::wstring
 formatShort(double number, bool forceFormat, bool trim)
 {
     std::wstring str;
+    str.reserve(64);
     if (IsInfinite(number)) {
         std::wstring format = L"%*s";
         if (forceFormat) {
@@ -60,17 +61,17 @@ formatShort(double number, bool forceFormat, bool trim)
         }
     } else {
         if (forceFormat) {
-            if ((number == 0.) || fabs(number) >= 1e-3 && number < 1e9) {
-                std::wstring format = L"%*.*f";
+            double absoluteValue = fabs(number);
+            if (absoluteValue <= 1e-3 || absoluteValue > 1e3) {
+                std::wstring format = L"%*.*e";
                 str = fmt::sprintf(format, 13, 4, number);
             } else {
-                std::wstring format = L"%*.*e";
-                str = fmt::sprintf(format, 16, 4, number);
+                std::wstring format = L"%*.*f";
+                str = fmt::sprintf(format, 10, 4, number);
             }
-
         } else {
             double absoluteValue = fabs(number);
-            if (absoluteValue < 1e-3) {
+            if (absoluteValue < 1e-4 && absoluteValue != 0.) {
                 std::wstring format = L"%*.*e";
                 str = fmt::sprintf(format, 13, 4, number);
             } else if (absoluteValue <= 999) {
@@ -103,7 +104,7 @@ formatComplexShort(double realPart, double imagPart, bool forceFormat, bool trim
     } else {
         signStr = L" + ";
     }
-    std::wstring imagPartStr = formatShort(fabs(imagPart), true, trim);
+    std::wstring imagPartStr = formatShort(fabs(imagPart), forceFormat, trim);
     if (imagPartStr == L"NaN") {
         imagPartStr = L" " + imagPartStr;
     }

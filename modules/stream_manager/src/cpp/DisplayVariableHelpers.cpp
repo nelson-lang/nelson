@@ -513,6 +513,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         } else {
             if (A.isScalar()) {
                 const auto* ap = static_cast<const double*>(A.getDataPointer());
+
                 msg = outputDoubleComplexPrecisionFloat(
                     ap[0], ap[1], currentNumericFormat, false, true);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
