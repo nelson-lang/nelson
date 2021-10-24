@@ -248,6 +248,8 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
     std::wstring lineBuffer;
     bool continueDisplay = true;
+    indexType block_page = 0;
+    std::wstring buffer;
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
             continueDisplay = false;
@@ -258,23 +260,19 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             if (k > 0) {
-                io->outputMessage(L"\n");
+                buffer.append(L"\n");
             }
         }
         if (withColumsHeader) {
-            std::wstring msg = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
+            buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                msg = msg + L"\n\n";
+                buffer.append(L"\n\n");
             } else {
-                msg = msg + L"\n";
+                buffer.append(L"\n");
             }
-            io->outputMessage(msg);
         }
 
-        std::wstring msg;
-        msg.reserve(nominalWidth);
-        for (indexType i = 0;
-             i < rows && continueDisplay; i++) {
+        for (indexType i = 0; i < rows && continueDisplay; i++) {
             if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                 continueDisplay = false;
                 break;
@@ -282,8 +280,8 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
                 if (allInteger) {
-                    msg = outputDoublePrecisionAsIntegerForm(
-                        pValues[idx], currentNumericFormat, false);
+                    buffer.append(outputDoublePrecisionAsIntegerForm(
+                        pValues[idx], currentNumericFormat, false));
                 } else {
                     double value;
                     if (commonLogarithm != 0) {
@@ -291,16 +289,26 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
                     } else {
                         value = pValues[idx];
                     }
-                    msg = outputDoublePrecisionFloat(
-                        value, currentNumericFormat, forceFormat, false);
+                    buffer.append(outputDoublePrecisionFloat(
+                        value, currentNumericFormat, forceFormat, false));
                 }
-                lineBuffer.append(msg);
             }
-            lineBuffer.append(L"\n");
-            io->outputMessage(lineBuffer);
-            lineBuffer.clear();
-            lineBuffer.reserve(colsInThisPage * nominalWidth);
+            buffer.append(L"\n");
+            if (block_page > termWidth) {
+                io->outputMessage(buffer);
+                buffer.clear();
+                block_page = 0;
+            } else {
+                block_page++;
+            }
+ 
         }
+        if (!buffer.empty()) {
+            io->outputMessage(buffer);
+            buffer.clear();
+            block_page = 0;
+        }
+
     }
 }
 //=============================================================================
