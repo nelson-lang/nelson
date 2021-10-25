@@ -15,9 +15,3 @@ ans(:,:,3) =
 
     'TWZ'
 
-
-r =
-
-  <logical> - size: 1×1
-     true
-

@@ -25,9 +25,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Interface.hpp"
 #include "nlsGui_exports.h"
-#include <string>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -54,6 +54,8 @@ public:
      */
     size_t
     getTerminalWidth() override;
+    size_t
+    getTerminalHeight() override;
     /**
      *  Output the following text message.
      */

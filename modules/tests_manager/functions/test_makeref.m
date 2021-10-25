@@ -50,7 +50,7 @@ function r = test_makerefile(filename, options, ref_dest)
     cmd = [' --language', ' ', 'en_US'];
   end
 
-  evalc_cmd_part = ['output=evalc(''r=run(''''', filename, ''''',''''errcatch'''')'');'];
+  evalc_cmd_part = ['output=evalc(''r=run(''''', filename, ''''',''''errcatch'''');'');'];
   save_cmd_part = ['filewrite(''', ref_dest, ''', output);exit(double(r));' ];
   cmd_to_execute = ['"', evalc_cmd_part, save_cmd_part, '"'];
 

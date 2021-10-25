@@ -45,6 +45,8 @@ public:
     getInput(const std::wstring& prompt) override;
     size_t
     getTerminalWidth() override;
+    size_t
+    getTerminalHeight() override;
     void
     outputMessage(const std::wstring& msg) override;
     void

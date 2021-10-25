@@ -98,7 +98,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                     return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
                 }
             }
-            double idx = index.getContentAsInteger64Scalar();
+            double idx = (double)index.getContentAsInteger64Scalar();
             auto iidx = static_cast<int64>(idx);
             if (idx != static_cast<double>(iidx) || idx < 0) {
                 Error(_W("index must either be real positive integers or logicals."));

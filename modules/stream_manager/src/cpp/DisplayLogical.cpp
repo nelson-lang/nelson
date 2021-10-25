@@ -119,28 +119,35 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
 
     logical* data = (logical*)A.getDataPointer();
-    for (indexType k = 0;
-         k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
-
+    bool continueDisplay = true;
+    indexType block_page = 0;
+    std::wstring buffer;
+    for (indexType k = 0; k < pageCount && continueDisplay; k++) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            continueDisplay = false;
+            break;
+        }
         indexType colsInThisPage = columns - colsPerPage * k;
         colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
 
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             if (!name.empty() || k != 0) {
-                io->outputMessage(L"\n");
+                buffer.append(L"\n");
             }
         }
         if (withColumsHeader) {
             std::wstring msg = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                msg = msg + L"\n\n";
+                buffer.append(L"\n\n");
             } else {
-                msg = msg + L"\n";
+                buffer.append(L"\n");
             }
-            io->outputMessage(msg);
         }
-        for (indexType i = 0;
-             i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
+        for (indexType i = 0; i < rows && continueDisplay; i++) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                continueDisplay = false;
+                break;
+            }
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
                 std::wstring valueAsString;
@@ -157,12 +164,24 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
                     } else {
                         valueAsString = L"false";
                     }
-                    std::wstring msg
-                        = completeWithBlanksAtBeginning(valueAsString, lengthLogicalString);
-                    io->outputMessage(BLANKS_AT_BOL + msg);
+                    buffer.append(BLANKS_AT_BOL);
+                    buffer.append(
+                        completeWithBlanksAtBeginning(valueAsString, lengthLogicalString));
                 }
             }
-            io->outputMessage(L"\n");
+            buffer.append(L"\n");
+            if (block_page >= io->getTerminalHeight()) {
+                io->outputMessage(buffer);
+                buffer.clear();
+                block_page = 0;
+            } else {
+                block_page++;
+            }
+        }
+        if (!buffer.empty()) {
+            io->outputMessage(buffer);
+            buffer.clear();
+            block_page = 0;
         }
     }
 }

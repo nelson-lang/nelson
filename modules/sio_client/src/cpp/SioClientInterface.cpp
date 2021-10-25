@@ -56,7 +56,13 @@ SioClientInterface::getInput(const std::wstring& prompt)
 size_t
 SioClientInterface::getTerminalWidth()
 {
-    return WIDTH;
+    return DEFAULT_CONSOLE_WIDTH;
+}
+//=============================================================================
+size_t
+SioClientInterface::getTerminalHeight()
+{
+    return DEFAULT_CONSOLE_HEIGHT;
 }
 //=============================================================================
 void

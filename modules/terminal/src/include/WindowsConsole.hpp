@@ -25,11 +25,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <Windows.h>
+#include <string>
 #include "Interface.hpp"
 #include "LineManager.hpp"
 #include "nlsTerminal_exports.h"
-#include <Windows.h>
-#include <string>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -84,7 +84,7 @@ public:
     size_t
     getTerminalWidth() override;
     size_t
-    getTerminalHeight();
+    getTerminalHeight() override;
     /**
      *  Output the following text message.
      */
