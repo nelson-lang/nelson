@@ -302,7 +302,6 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             buffer.clear();
             block_page = 0;
         }
-
     }
 }
 //=============================================================================
