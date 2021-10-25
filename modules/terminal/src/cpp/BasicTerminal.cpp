@@ -27,13 +27,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #endif
-#include "BasicTerminal.hpp"
-#include "Evaluator.hpp"
-#include "characters_encoding.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include <cstring>
 #include <iostream>
 #include <csignal>
+#include "BasicTerminal.hpp"
+#include "Evaluator.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 static bool bCONTROLC = false;
 //=============================================================================
@@ -80,6 +80,7 @@ BasicTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 std::string
 BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
 {
+#define CMD_BUFFER_SIZE (4096 * 2)
     atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
@@ -119,7 +120,13 @@ BasicTerminal::getLine(const std::string& prompt)
 size_t
 BasicTerminal::getTerminalWidth()
 {
-    return WIDTH;
+    return DEFAULT_CONSOLE_WIDTH;
+}
+//=============================================================================
+size_t
+BasicTerminal::getTerminalHeight()
+{
+    return DEFAULT_CONSOLE_HEIGHT;
 }
 //=============================================================================
 void
@@ -184,7 +191,7 @@ BasicTerminal::BasicTerminal()
 {
 #ifdef _MSC_VER
     SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(CtrlHandler), TRUE);
-    //SetConsoleOutputCP(65001);
+    SetConsoleOutputCP(65001);
 #else
     signal(SIGINT, intHandler);
     signal(SIGTSTP, intHandler);

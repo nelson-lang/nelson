@@ -55,9 +55,6 @@ static void
 DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
-static indexType
-getDoubleNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
-//=============================================================================
 void
 DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
@@ -191,7 +188,6 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     const double* pValues = (const double*)A.getDataPointer();
     indexType rows = dims.getRows();
     indexType columns = dims.getColumns();
-    indexType nominalWidth = getDoubleNominalWidth(A, currentNumericFormat);
 
     bool allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount());
     double minValue = 0;
@@ -236,7 +232,7 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
     }
 
-    nominalWidth = std::max(minStr.length(), maxStr.length());
+    indexType nominalWidth = std::max(minStr.length(), maxStr.length());
 
     bool forceFormat = false;
 
@@ -246,7 +242,6 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType pageCount
         = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
     bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-    std::wstring lineBuffer;
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
@@ -294,14 +289,13 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
                 }
             }
             buffer.append(L"\n");
-            if (block_page > termWidth) {
+            if (block_page >= io->getTerminalHeight()) {
                 io->outputMessage(buffer);
                 buffer.clear();
                 block_page = 0;
             } else {
                 block_page++;
             }
- 
         }
         if (!buffer.empty()) {
             io->outputMessage(buffer);
@@ -317,30 +311,5 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 { }
 //=============================================================================
-indexType
-getDoubleNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
-{
-    indexType nominalWidth = 10;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT:
-    case NLS_NUMERIC_FORMAT_LONG:
-    case NLS_NUMERIC_FORMAT_SHORTE:
-    case NLS_NUMERIC_FORMAT_LONGE:
-    case NLS_NUMERIC_FORMAT_SHORTG:
-    case NLS_NUMERIC_FORMAT_LONGG:
-    case NLS_NUMERIC_FORMAT_SHORTENG:
-    case NLS_NUMERIC_FORMAT_LONGENG:
-    case NLS_NUMERIC_FORMAT_PLUS:
-    case NLS_NUMERIC_FORMAT_BANK:
-    case NLS_NUMERIC_FORMAT_HEX:
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-    } break;
-    default: {
-    } break;
-    }
-    return nominalWidth;
-}
-//=============================================================================
-
 } // namespace Nelson
 //=============================================================================

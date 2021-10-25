@@ -44,6 +44,8 @@ public slots:
     getLine(const std::wstring& prompt);
     size_t
     getTerminalWidth();
+    size_t
+    getTerminalHeight();
     void
     outputMessage(const std::wstring& msg);
     void

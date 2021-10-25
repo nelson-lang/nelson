@@ -53,7 +53,13 @@ EvaluateInterface::getInput(const std::wstring& prompt)
 size_t
 EvaluateInterface::getTerminalWidth()
 {
-    return WIDTH;
+    return DEFAULT_CONSOLE_WIDTH;
+}
+//=============================================================================
+size_t
+EvaluateInterface::getTerminalHeight()
+{
+    return DEFAULT_CONSOLE_HEIGHT;
 }
 //=============================================================================
 void

@@ -71,9 +71,12 @@ formatShort(double number, bool forceFormat, bool trim)
             }
         } else {
             double absoluteValue = fabs(number);
-            if (absoluteValue < 1e-4 && absoluteValue != 0.) {
-                std::wstring format = L"%*.*e";
-                str = fmt::sprintf(format, 13, 4, number);
+            if (absoluteValue == 0) {
+                std::wstring format = L"%*.*f";
+                str = fmt::sprintf(format, 10, 4, number);
+            } else if (absoluteValue < 1e-4) {
+                std::wstring format = L"%*.*f";
+                str = fmt::sprintf(format, 10, 4, number);
             } else if (absoluteValue <= 999) {
                 std::wstring format = L"%*.*f";
                 str = fmt::sprintf(format, 10, 4, number);
@@ -104,11 +107,23 @@ formatComplexShort(double realPart, double imagPart, bool forceFormat, bool trim
     } else {
         signStr = L" + ";
     }
-    std::wstring imagPartStr = formatShort(fabs(imagPart), forceFormat, trim);
-    if (imagPartStr == L"NaN") {
-        imagPartStr = L" " + imagPartStr;
+    std::wstring imagPartStr;
+    std::wstring realPartStr;
+
+    if (forceFormat) {
+        imagPartStr = formatShort(fabs(imagPart), forceFormat, trim);
+        realPartStr = formatShort(realPart, forceFormat, trim);
+    } else {
+        if (IsIntegerForm(realPart) && fabs(realPart) < 1e2) {
+            imagPartStr = formatShort(fabs(imagPart), false, trim);
+            realPartStr = formatShort(realPart, false, trim);
+        } else {
+            imagPartStr = formatShort(fabs(imagPart), true, trim);
+            realPartStr = formatShort(realPart, true, trim);
+        }
     }
-    return formatShort(realPart, forceFormat, trim) + signStr + imagPartStr + L"i";
+
+    return realPartStr + signStr + imagPartStr + L"i";
 }
 //=============================================================================
 std::wstring

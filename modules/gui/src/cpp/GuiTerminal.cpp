@@ -23,13 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string/predicate.hpp>
 #include <QtWidgets/QApplication>
 #include "GuiTerminal.hpp"
 #include "NelsonHistory.hpp"
 #include "QtMainWindow.h"
 #include "QtTerminal.h"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string/predicate.hpp>
 //=============================================================================
 static QtTerminal* qtterm = nullptr;
 static QtMainWindow* qtMainWindow = nullptr;
@@ -38,6 +38,7 @@ GuiTerminal::GuiTerminal(void* qtMainW)
 {
     qtMainWindow = reinterpret_cast<QtMainWindow*>(qtMainW);
     qtterm = qtMainWindow->getQtTerminal();
+    qtterm->setMaxBlockCount(DEFAULT_CONSOLE_MAX_LINE_VISIBLE);
 }
 //=============================================================================
 GuiTerminal::~GuiTerminal()
@@ -102,13 +103,24 @@ GuiTerminal::getLine(const std::wstring& prompt)
 size_t
 GuiTerminal::getTerminalWidth()
 {
-    size_t width = 80;
+    size_t width = DEFAULT_CONSOLE_WIDTH;
     if (qtterm) {
         width = qtterm->getTerminalWidth();
     }
     return width;
 }
 //=============================================================================
+size_t
+GuiTerminal::getTerminalHeight()
+{
+    size_t width = DEFAULT_CONSOLE_HEIGHT;
+    if (qtterm) {
+        width = qtterm->getTerminalHeight();
+    }
+    return width;
+}
+//=============================================================================
+
 void
 GuiTerminal::outputMessage(const std::string& msg)
 {

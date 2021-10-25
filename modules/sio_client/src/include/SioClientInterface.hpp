@@ -32,8 +32,6 @@
 namespace Nelson {
 class NLSSIO_CLIENT_IMPEXP SioClientInterface : public Interface
 {
-#define CMD_BUFFER_SIZE (4096 * 2)
-#define WIDTH 80
 public:
     SioClientInterface();
     ~SioClientInterface() override;
@@ -54,6 +52,8 @@ public:
      */
     size_t
     getTerminalWidth() override;
+    size_t
+    getTerminalHeight() override;
     /**
      *  Output the following text message.
      */

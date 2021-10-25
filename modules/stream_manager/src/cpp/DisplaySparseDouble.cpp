@@ -230,7 +230,7 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
     std::wstring format = L"%s%s%s";
     std::wstring msg = fmt::sprintf(format, indexAsString, blanks, asStr);
-    io->outputMessage(L"   " + msg + L"\n");
+    io->outputMessage(L"    " + msg + L"\n");
 }
 //=============================================================================
 static void
@@ -298,7 +298,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             fmt = L"1.0e%s%d *\n";
             str = fmt::sprintf(fmt, sign, absCommonLogarithm);
         }
-        io->outputMessage(L"   " + str);
+        io->outputMessage(L"    " + str);
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
@@ -325,7 +325,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     } break;
     }
 
-    std::wstring format = L"   %s%s%s\n";
+    std::wstring format = L"    %s%s%s\n";
 
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {

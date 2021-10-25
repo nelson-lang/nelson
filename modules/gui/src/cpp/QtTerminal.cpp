@@ -259,6 +259,14 @@ QtTerminal::getTerminalWidth()
     return res;
 }
 //=============================================================================
+size_t
+QtTerminal::getTerminalHeight()
+{
+    size_t chSize = QFontMetrics(font()).height();
+    size_t res = document()->size().height() / chSize;
+    return res;
+}
+//=============================================================================
 void
 QtTerminal::outputMessage(const std::wstring& msg)
 {

@@ -51,6 +51,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#define DEFAULT_CONSOLE_MAX_LINE_VISIBLE 5500
+#define DEFAULT_CONSOLE_WIDTH 80
+#define DEFAULT_CONSOLE_HEIGHT 43
+//=============================================================================
 class NLSSTREAM_MANAGER_IMPEXP Interface
 {
 public:
@@ -72,11 +76,15 @@ public:
         = 0;
 
     /**
-     *  Return the width of the current "terminal" in
+     *  Return the width, height of the current "terminal" in
      *  characters.
      */
     virtual size_t
     getTerminalWidth()
+        = 0;
+
+    virtual size_t
+    getTerminalHeight()
         = 0;
     /**
      *  Output the following text message.

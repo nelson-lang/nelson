@@ -25,16 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Interface.hpp"
 #include "nlsTerminal_exports.h"
-#include <string>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 class NLSTERMINAL_IMPEXP BasicTerminal : public Interface
 {
-#define CMD_BUFFER_SIZE (4096 * 2)
-#define WIDTH 80
 public:
     BasicTerminal();
     ~BasicTerminal() override;
@@ -54,6 +52,8 @@ public:
      */
     size_t
     getTerminalWidth() override;
+    size_t
+    getTerminalHeight() override;
     /**
      *  Output the following text message.
      */

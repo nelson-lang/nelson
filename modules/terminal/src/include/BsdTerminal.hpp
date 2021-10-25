@@ -52,7 +52,9 @@ public:
      *  characters.
      */
     size_t
-    getTerminalWidth();
+    getTerminalWidth() override;
+    size_t
+    getTerminalHeight() override;
     /**
      *  Output the following text message.
      */
