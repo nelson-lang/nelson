@@ -327,13 +327,20 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 
     std::wstring format = L"    %s%s%s\n";
 
-    for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+    bool continueDisplay = true;
+    indexType block_page = 0;
+    std::wstring buffer;
+
+    for (indexType k = 0; k < (indexType)spMat->outerSize() && continueDisplay; ++k) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            continueDisplay = false;
             break;
         }
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
+        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
+             it && continueDisplay;
              ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                continueDisplay = false;
                 break;
             }
             double value = it.value();
@@ -351,7 +358,19 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
             std::wstring msg = fmt::sprintf(format, indexAsString, blanks, asStr);
-            io->outputMessage(msg);
+            buffer.append(msg);
+            if (block_page >= io->getTerminalHeight()) {
+                io->outputMessage(buffer);
+                buffer.clear();
+                block_page = 0;
+            } else {
+                block_page++;
+            }
+        }
+        if (!buffer.empty()) {
+            io->outputMessage(buffer);
+            buffer.clear();
+            block_page = 0;
         }
     }
 }
