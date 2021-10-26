@@ -92,7 +92,8 @@ list(
   mex
   ipc
   statistics
-  validators)
+  validators
+  polynomial_functions)
 list(APPEND moduleslist main)
 # ==============================================================================
 if(NOT WITHOUT_FFTW AND NOT LGPL21_ONLY)

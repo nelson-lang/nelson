@@ -83,7 +83,8 @@ modules_list = [
 "mex";
 "ipc";
 "statistics";
-"validators"
+"validators";
+"polynomial_functions"
 ];
 % ============================================================================
 % optional modules
@@ -156,6 +157,7 @@ modules_help_list = [
 "graphics";
 "ipc";
 "statistics";
-"validators"
+"validators";
+"polynomial_functions"
 ];
 % ============================================================================

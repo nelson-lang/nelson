@@ -1,5 +1,9 @@
 # 0.5.10 (UNRELEASED)
 
+- Polynomial functions:
+
+  - `poly`: Polynomial with specified roots or characteristic polynomial.
+
 - [#525](http://github.com/Nelson-numerical-software/nelson/issues/525): use [`fast_float`](https://github.com/fastfloat/fast_float) library to parse numbers .
 
 - [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
