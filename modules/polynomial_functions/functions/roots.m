@@ -23,27 +23,46 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = poly(r)
+function r = roots(c)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  [m, n] = size(r);
-  if m == n
-     e = eig(r);
-  elseif ((m==1) || (n==1))
-     e = r;
-  else
-     error('Nelson:poly:InputSize', _('Argument must be a vector or a square matrix.'))
+  
+  if isempty(c)
+    r = c;
+    return 
   end
-  e = e( isfinite(e) );
-  n = length(e);
-  p = [1 zeros(1, n, class(r))];
-  for j=1:n
-    p(2:(j+1)) = p(2:(j+1)) - e(j).*p(1:j);
+
+  if ~isvector(c)
+    error('Nelson:roots:NonVectorInput', _('Input must be a vector.'))
   end
-  sortE = sort(e(imag(e) > 0));
-  sortConjE = sort(conj(e(imag(e) < 0)));
-  if isequal(sortE, sortConjE)
-    p = real(p);
+  
+  if ~all(isfinite(c))
+    error('Nelson:roots:NonFiniteInput', _('Input to roots function must not contain NaN or Inf.'));
+  end
+  
+
+  c = c(:).';
+  r = zeros(0, 1, class(c));  
+  
+  inz = find(c);
+  if isempty(inz)
+    return
+  end
+
+  nnz = length(inz);
+  c = c(inz(1):inz(nnz));
+  n = size(c, 2);
+  r = zeros(n-inz(nnz), 1, class(c));  
+  d = c(2:end)./c(1);
+  while any(isinf(d))
+    c = c(2:end);
+    d = c(2:end)./c(1);
+  end
+  n = length(c);
+  if n > 1
+    A = diag(ones(1, n - 2, class(c)), -1);
+    A(1, :) = -d;
+    r = [r; eig(A)];
   end
 end
 %=============================================================================

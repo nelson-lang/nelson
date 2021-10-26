@@ -3,6 +3,7 @@
 - Polynomial functions:
 
   - `poly`: Polynomial with specified roots or characteristic polynomial.
+  - `roots`: Polynomial roots.
 
 - [#525](http://github.com/Nelson-numerical-software/nelson/issues/525): use [`fast_float`](https://github.com/fastfloat/fast_float) library to parse numbers .
 
