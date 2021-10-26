@@ -94,4 +94,5 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "ipc/module.iss"
 #include "statistics/module.iss"
 #include "validators/module.iss"
+#include "polynomial_functions/module.iss"
 ;==============================================================================
