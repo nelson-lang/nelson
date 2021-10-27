@@ -95,7 +95,7 @@ ArrayOf
 ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
 {
     ArrayOf retval;
-    if (!src.isVector()) {
+    if (!src.isVector() && !src.isEmpty()) {
         Error(_W("Argument to diagonal constructor must by a vector!"));
     }
     indexType length = src.getElementCount();
