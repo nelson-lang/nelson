@@ -23,27 +23,29 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = poly(r)
-  narginchk(1, 1);
+function y = polyvalm (c, x)
+  narginchk(2, 2);
   nargoutchk(0, 1);
-  [m, n] = size(r);
-  if m == n
-     e = eig(r);
-  elseif ((m==1) || (n==1))
-     e = r;
+  
+  if ~(isvector (c) || isempty (c))
+    error ('Nelson:polyvalm:InvalidP', _('First argument must be a vector.'));
+  end
+  
+  [m, n] = size(x);
+  if m ~= n
+    error ('Nelson:polyvalm:NonSquareMatrix', _('Second argument must be a square matrix.'));
+  end
+  
+  n = length (c);
+  r = size(x, 1);
+  if (n == 0)
+    y = zeros(r, class (x));
   else
-     error('Nelson:poly:InputSize', _('Argument must be a vector or a square matrix.'))
-  end
-  e = e( isfinite(e) );
-  n = length(e);
-  p = [1 zeros(1, n, class(r))];
-  for j=1:n
-    p(2:(j+1)) = p(2:(j+1)) - e(j).*p(1:j);
-  end
-  sortE = sort(e(imag(e) > 0));
-  sortConjE = sort(conj(e(imag(e) < 0)));
-  if isequal(sortE, sortConjE)
-    p = real(p);
+    id = eye(r, class (x));
+    y = c(1) * id;
+    for i = 2:n
+      y = y * x + c(i) * id;
+    end
   end
 end
 %=============================================================================
