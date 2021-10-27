@@ -4,6 +4,8 @@
 
   - `poly`: Polynomial with specified roots or characteristic polynomial.
   - `roots`: Polynomial roots.
+  - `polyval`: Polynomial evaluation.
+  - `polyvalm`: Matrix polynomial evaluation.
 
 - [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
 

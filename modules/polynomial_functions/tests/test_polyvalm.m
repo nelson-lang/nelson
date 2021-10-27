@@ -23,27 +23,11 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = poly(r)
-  narginchk(1, 1);
-  nargoutchk(0, 1);
-  [m, n] = size(r);
-  if m == n
-     e = eig(r);
-  elseif ((m==1) || (n==1))
-     e = r;
-  else
-     error('Nelson:poly:InputSize', _('Argument must be a vector or a square matrix.'))
-  end
-  e = e( isfinite(e) );
-  n = length(e);
-  p = [1 zeros(1, n, class(r))];
-  for j=1:n
-    p(2:(j+1)) = p(2:(j+1)) - e(j).*p(1:j);
-  end
-  sortE = sort(e(imag(e) > 0));
-  sortConjE = sort(conj(e(imag(e) < 0)));
-  if isequal(sortE, sortConjE)
-    p = real(p);
-  end
-end
+R = polyvalm ([1, 2, 3, 4], [3, -4, 1; -2, 0, 2; -1, 4, -3]);
+REF =  [117, -124, 11; -70, 36, 38; -43, 92, -45];
+assert_isapprox(R, REF,1e-4);
+%=============================================================================
+R = polyvalm ([], [1, 2; 3, 4]);
+REF = zeros(2, 2);
+assert_isequal(R, REF);
 %=============================================================================
