@@ -6,8 +6,9 @@
   - `roots`: Polynomial roots.
   - `polyval`: Polynomial evaluation.
   - `polyvalm`: Matrix polynomial evaluation.
+  - `polyint`: Polynomial integration.
 
-- `pinv`: Moore-Penrose pseudoinverse. 
+- `pinv`: Moore-Penrose pseudoinverse.
 
 - [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
 
