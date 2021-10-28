@@ -39,7 +39,7 @@ assert_isapprox(R, REF, 1e-4);
 P = [1, 0, -5];
 R = roots (P);
 REF = [2.2361; -2.2361];
-assert_isapprox(R, REF, 1e-4);
+assert_isapprox(abs(R), abs(REF), 1e-4);
 %=============================================================================
 P = [1.0000 0.1818 -31.1818 6.4786] 
 R = roots(P);
