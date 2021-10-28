@@ -7,6 +7,8 @@
   - `polyval`: Polynomial evaluation.
   - `polyvalm`: Matrix polynomial evaluation.
 
+- `pinv`: Moore-Penrose pseudoinverse. 
+
 - [#520](http://github.com/Nelson-numerical-software/nelson/issues/520): `inputname` get variable name of function input.
 
 - [#525](http://github.com/Nelson-numerical-software/nelson/issues/525): use [`fast_float`](https://github.com/fastfloat/fast_float) library to parse numbers .
