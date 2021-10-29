@@ -7,6 +7,7 @@
   - `polyval`: Polynomial evaluation.
   - `polyvalm`: Matrix polynomial evaluation.
   - `polyint`: Polynomial integration.
+  - `polyfit`: Polynomial curve fitting.
 
 - `pinv`: Moore-Penrose pseudoinverse.
 
