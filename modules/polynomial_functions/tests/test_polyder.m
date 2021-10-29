@@ -23,18 +23,18 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = polyfit(x, y, n)
-  if (numel(x) ~= numel(y))
-    error('Nelson:polyfit:XYSizeMismatch', _('The first two inputs must have the same number of elements.'));
-  end
-  x = x(:);
-  y = y(:);
-  A = zeros(size(x, 1), n + 1);
-  xp = x*0+1;
-  for i =(n+1):-1:1
-    A(:, i) = xp;
-    xp = xp .* x;
-  end
-  p = (pinv(A) * y)';
-end
+p = [30 0 -20 0 10 50];
+q = polyder(p);
+REF = [ 150     0   -60     0    10];
+assert_isequal(q, REF);
+%=============================================================================
+a = [1 -2 0 0 11];
+b = [1 -10 15];
+q = polyder(a, b);
+REF = [  6   -60   140   -90    22  -110];
+assert_isequal(q, REF);
+%=============================================================================
+q = polyder(33);
+REF = 0;
+assert_isequal(q, REF);
 %=============================================================================

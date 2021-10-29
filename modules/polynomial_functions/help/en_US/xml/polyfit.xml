@@ -42,7 +42,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[
-x = linspace(0, 4 * pi, 10);
+x = linspace(0, 8 * pi, 15);
 y = sin(x);
 p = polyfit(x, y, 7)]]>
     </example_item_data>
