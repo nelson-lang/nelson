@@ -1,4 +1,4 @@
-# 0.5.10 (UNRELEASED)
+# 0.5.10 (2021-10-30)
 
 - Polynomial functions:
 
