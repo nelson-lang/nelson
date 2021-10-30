@@ -1,4 +1,4 @@
-version: 0.5.9.{build}
+version: 0.5.10.{build}
 image: Visual Studio 2019
 
 environment:
