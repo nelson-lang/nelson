@@ -3,14 +3,13 @@ jobs:
   build:
     working_directory: ~/
     docker:
-      - image: archlinux:base-devel-20210131.0.14634
+      - image: archlinux:latest
     environment:
       DISPLAY: ""
       OMP_NUM_THREADS: 4
       OMPI_ALLOW_RUN_AS_ROOT: 1
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
     steps:
-      - run: patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && curl -LO "https://repo.archlinuxcn.org/x86_64/$patched_glibc" && bsdtar -C / -xvf "$patched_glibc"
       - run: pacman -Sy --noconfirm
       - run: pacman -S base-devel --noconfirm
       - run: pacman -S inetutils --noconfirm
@@ -33,7 +32,6 @@ jobs:
       - run: pacman -S fftw --noconfirm
       - run: pacman -S openmpi --noconfirm
       - run: pacman -S hdf5 --noconfirm
-#      - run: pacman -S libmatio --noconfirm
       - run: pacman -S taglib --noconfirm
       - run: pacman -S portaudio --noconfirm
       - run: pacman -S libsndfile --noconfirm
