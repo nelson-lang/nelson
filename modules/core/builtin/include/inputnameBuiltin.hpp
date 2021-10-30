@@ -30,10 +30,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-  namespace CoreGateway {
+namespace CoreGateway {
     ArrayOfVector
     inputnameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
-  } // namespace Nelson
+} // namespace Nelson
 //=============================================================================
