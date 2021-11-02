@@ -1,5 +1,7 @@
 # 0.5.11 (UNRELEASED)
 
+- add `SECURITY.md` file as recommended by Github.
+
 - [#533](http://github.com/Nelson-numerical-software/nelson/issues/533): `find` with one lhs did not return expected result with complex.
 
 # 0.5.10 (2021-10-30)
