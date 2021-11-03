@@ -24,16 +24,21 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 url = 'http://neowms.sci.gsfc.nasa.gov/wms/wms';
-filename = [tempdir(), 'earth.jpg'];
-haveFails = false;
-try
+filename = [tempdir(), 'earth2.jpg'];
+testPass = false;
+i = 0;
+retry = true;
+while (retry)
+  try
     destination_filename = websave(filename, url, 'Time', '2019-06-01', 'Service', 'WMS', 'Layers', 'BlueMarbleNG-TB', 'CRS', 'CRS:84', 'Format', 'image/jpeg', 'Height',768, 'Width', 1024,'BBOX','-180.0,-90.0,180.0,90.0','Version','1.3.0','Request','GetMap');
-catch ex
-    if strcmp(ex.message, "Bad Request (400)") == 0
-        haveFails = false;
-    else
-        haveFails = true;
+  catch ex
+    testPass = (strcmp(ex.message, 'Bad Request (400)') == 1);
+    if ~testPass
+      testPass = (strcmp(ex.message, _('Timeout was reached')) == 1);
     end
+  end
+  i = i + 1;
+  retry = ~testPass && (i < 5);
 end
-assert_istrue(haveFails);
+assert_istrue(testPass)
 %=============================================================================

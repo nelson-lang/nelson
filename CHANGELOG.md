@@ -4,6 +4,8 @@
 
 - [#533](http://github.com/Nelson-numerical-software/nelson/issues/533): `find` with one lhs did not return expected result with complex.
 
+- [#536](http://github.com/Nelson-numerical-software/nelson/issues/536): `test_websave_3` failed randomly due to distant server.
+
 # 0.5.10 (2021-10-30)
 
 - Polynomial functions:
