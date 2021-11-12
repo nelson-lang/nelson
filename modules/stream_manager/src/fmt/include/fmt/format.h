@@ -1582,7 +1582,7 @@ template <typename Char, typename OutputIt>
 auto write_nonfinite(OutputIt out, bool isinf, basic_format_specs<Char> specs,
                      const float_specs& fspecs) -> OutputIt {
   auto str =
-      isinf ? (fspecs.upper ? "INF" : "inf") : (fspecs.upper ? "NAN" : "nan");
+      isinf ? (fspecs.upper ? "INF" : "Inf") : (fspecs.upper ? "NAN" : "NaN");
   constexpr size_t str_size = 3;
   auto sign = fspecs.sign;
   auto size = str_size + (sign ? 1 : 0);

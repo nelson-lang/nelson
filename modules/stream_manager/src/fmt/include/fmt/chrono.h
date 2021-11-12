@@ -1021,9 +1021,9 @@ struct chrono_formatter {
     out = format_decimal<char_type>(out, n, num_digits).end;
   }
 
-  void write_nan() { std::copy_n("nan", 3, out); }
-  void write_pinf() { std::copy_n("inf", 3, out); }
-  void write_ninf() { std::copy_n("-inf", 4, out); }
+  void write_nan() { std::copy_n("NaN", 3, out); }
+  void write_pinf() { std::copy_n("Inf", 3, out); }
+  void write_ninf() { std::copy_n("-Inf", 4, out); }
 
   void format_localized(const tm& time, char format, char modifier = 0) {
     if (isnan(val)) return write_nan();
