@@ -33,6 +33,40 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
+formatAsIntegerLong(double number, bool forceFormat, bool trim)
+{
+    std::wstring msg;
+    if (number >= 1e9) {
+        msg = fmt::sprintf(L"%*.*e", 29, 15, number);
+    } else {
+        if (number > 0) {
+            if (number >= 1e3) {
+                msg = fmt::sprintf(L"%*lu", 15, (long long)number);
+            } else {
+                msg = fmt::sprintf(L"%*lu", 9, (long long)number);
+            }
+        } else {
+            if (abs(number) >= 1e3) {
+                msg = fmt::sprintf(L"%*ld", 15, (long int)number);
+            } else {
+                msg = fmt::sprintf(L"%*ld", 9, (long long)number);
+            }
+        }
+    }
+    if (trim) {
+        boost::trim_left(msg);
+    }
+    return msg;
+}
+//=============================================================================
+std::wstring
+formatAsIntegerLong(single number, bool forceFormat, bool trim)
+{
+    std::wstring msg;
+    return msg;
+}
+//=============================================================================
+std::wstring
 formatLong(double number, bool forceFormat, bool trim)
 {
     std::wstring str;

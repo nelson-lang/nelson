@@ -155,7 +155,7 @@ internalSystemCommand(const std::wstring& command, const boost::filesystem::path
 #ifdef _MSC_VER
                 std::string str = std::string(buffer);
                 boost::replace_all(str, "\r\n", "\n");
-                //OemToCharA(str.c_str(), const_cast<char*>(str.c_str()));
+                // OemToCharA(str.c_str(), const_cast<char*>(str.c_str()));
                 result.append(str);
 #else
                 result.append(buffer);

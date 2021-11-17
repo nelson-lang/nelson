@@ -25,27 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
 #include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatRational(single number, size_t width, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexRational(double realPart, double imagPart, size_t width, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexRational(single realPart, single imagPart, size_t width, bool trim = false);
+NLSSTREAM_MANAGER_IMPEXP void
+DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

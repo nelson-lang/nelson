@@ -23,29 +23,49 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include <string>
-#include "Types.hpp"
-#include "nlsStream_manager_exports.h"
+#include "NelsonConfiguration.hpp"
+//=============================================================================
+#pragma once
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool trim = false);
+class FormatDisplayInformation
+{
+public:
+    //=============================================================================
+    FormatDisplayInformation()
+        : isComplex(false)
+        , floatAsInteger(false)
+        , numericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT)
+        , lineSpacingDisplay(NLS_LINE_SPACING_LOOSE)
+        , formatReal(L"%*.*f")
+        , widthReal(9)
+        , decimalsReal(4)
+        , formatImag(L"%*.*f")
+        , widthImag(9)
+        , decimalsImag(4)
+        , scaleFactor(1.0)
+        , trim(false){};
+    //=============================================================================
+    bool isComplex;
+    bool floatAsInteger;
+
+    double scaleFactor;
+    bool trim;
+
+    NumericFormatDisplay numericFormatDisplay;
+    LineSpacingDisplay lineSpacingDisplay;
+
+    std::wstring formatReal;
+    size_t widthReal;
+    size_t decimalsReal;
+
+    std::wstring formatImag;
+    size_t widthImag;
+    size_t decimalsImag;
+    //=============================================================================
+};
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatRational(single number, size_t width, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexRational(double realPart, double imagPart, size_t width, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexRational(single realPart, single imagPart, size_t width, bool trim = false);
-//=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

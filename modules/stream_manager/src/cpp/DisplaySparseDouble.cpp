@@ -32,6 +32,8 @@
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "IEEEFP.hpp"
+#include "FormatHelpers.hpp"
+#include "ArrayOfFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -90,7 +92,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 template <class T>
 bool
@@ -167,8 +169,7 @@ getOptionalCommonLogarithm(
             return commonLogarithm;
         }
     } break;
-    default: {
-    }
+    default: {}
     }
     return 0;
 }
@@ -213,19 +214,11 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK;
     } break;
 
-    default: {
-    } break;
-    }
+    default: { } break; }
 
     const double* values = spMat->valuePtr();
     double value = values[0];
-
-    std::wstring asStr;
-    if (IsIntegerFormOrNotFinite(values, 1)) {
-        asStr = outputDoublePrecisionAsIntegerForm(value, currentNumericFormat, false);
-    } else {
-        asStr = outputDoublePrecisionFloat(value, currentNumericFormat, true, false);
-    }
+    std::wstring asStr = formatNumber(values[0], currentNumericFormat, false);
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
     std::wstring format = L"%s%s%s";
@@ -264,41 +257,11 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)rMax, (long long)cMax);
     size_t maxLenIndexString = indexAsString.length();
 
-    double minValue;
-    double maxValue;
-    bool allInteger = false;
-    int commonLogarithm = 0;
-    if (findFiniteMinMax(A, minValue, maxValue)) {
-        const double* data = spMat->valuePtr();
-        allInteger = IsIntegerFormOrNotFinite(data, (indexType)spMat->nonZeros());
-        if (allInteger) {
-            std::wstring minAsStr
-                = outputDoublePrecisionAsIntegerForm(minValue, currentNumericFormat, true);
-            std::wstring maxAsStr
-                = outputDoublePrecisionAsIntegerForm(maxValue, currentNumericFormat, true);
-        } else {
-            commonLogarithm = getOptionalCommonLogarithm(minValue, maxValue, currentNumericFormat);
-        }
-    }
+    FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
 
-    if (commonLogarithm != 0) {
-        int absCommonLogarithm = abs(commonLogarithm);
-        std::wstring sign;
-        if (commonLogarithm > 0) {
-            sign = L"+";
-        } else {
-            sign = L"-";
-        }
-        std::wstring fmt;
-        std::wstring str;
-        if (absCommonLogarithm < 10) {
-            fmt = L"1.0e%s0%d *\n";
-            str = fmt::sprintf(fmt, sign, absCommonLogarithm);
-        } else {
-            fmt = L"1.0e%s%d *\n";
-            str = fmt::sprintf(fmt, sign, absCommonLogarithm);
-        }
-        io->outputMessage(L"    " + str);
+    if (formatInfo.scaleFactor != 1) {
+        std::wstring scaleFactorAsString = formatScaleFactor(formatInfo);
+        io->outputMessage(L"   " + scaleFactorAsString + L"\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
@@ -321,9 +284,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         maxLenIndexString = maxLenIndexString + LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK;
     } break;
 
-    default: {
-    } break;
-    }
+    default: { } break; }
 
     std::wstring format = L"    %s%s%s\n";
 
@@ -337,23 +298,14 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             break;
         }
         for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
-             it && continueDisplay;
-             ++it) {
+             it && continueDisplay; ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                 continueDisplay = false;
                 break;
             }
             double value = it.value();
-            if (commonLogarithm != 0) {
-                value = value / pow(10, commonLogarithm);
-            }
-            std::wstring asStr;
-            asStr.reserve(20);
-            if (allInteger) {
-                asStr = outputDoublePrecisionAsIntegerForm(value, currentNumericFormat, false);
-            } else {
-                asStr = outputDoublePrecisionFloat(value, currentNumericFormat, false, false);
-            }
+            std::wstring asStr = formatElement(value, currentNumericFormat, formatInfo);
+
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
