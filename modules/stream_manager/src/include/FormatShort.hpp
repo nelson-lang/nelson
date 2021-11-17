@@ -31,6 +31,23 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatAsIntegerShort(double number, bool forceFormat = false, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatAsIntegerShort(single number, bool forceFormat = false, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatScalarShort(double number, bool forceFormat = false, bool trim = false);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP
+std::wstring
+formatScalarShort(single number, bool forceFormat = false, bool trim = false);
+//=============================================================================
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
 formatShort(double number, bool forceFormat = false, bool trim = false);
@@ -38,14 +55,6 @@ formatShort(double number, bool forceFormat = false, bool trim = false);
 NLSSTREAM_MANAGER_IMPEXP
 std::wstring
 formatShort(single number, bool forceFormat = false, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexShort(double realPart, double imagPart, bool forceFormat = false, bool trim = false);
-//=============================================================================
-NLSSTREAM_MANAGER_IMPEXP
-std::wstring
-formatComplexShort(single realPart, single imagPart, bool forceFormat = false, bool trim = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

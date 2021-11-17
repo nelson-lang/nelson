@@ -41,23 +41,23 @@ namespace Nelson {
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
 //============================================================================
 static void
-DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 void
-DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -67,20 +67,20 @@ DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
     DisplayVariableHeader(io, A, name);
     bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptyDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayEmptyDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
     } else if (A.isScalar()) {
-        DisplayScalarDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayScalarDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
     } else if (A.is2D() || A.isRowVector()) {
-        Display2dDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+        Display2dDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         if (A.isRowVector()) {
             withFooter = !name.empty();
         } else {
             withFooter = true;
         }
     } else {
-        DisplayNdDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayNdDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = true;
     }
     if (withFooter) {
@@ -89,27 +89,100 @@ DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 }
 //=============================================================================
 void
-DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{ }
 //=============================================================================
 void
-DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     std::wstring msg;
     const double* pValue = (const double*)A.getDataPointer();
-    msg.append(formatNumber(pValue[0], currentNumericFormat, false));
+    msg.append(formatNumberComplex(pValue[0], pValue[1], currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
 }
 //=============================================================================
+template <class T>
+bool
+getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max)
+{
+    T minValue = std::nan("NaN");
+    T maxValue = std::nan("NaN");
+    T shared_max = std::nan("NaN");
+    T shared_min = std::nan("NaN");
+
+    for (indexType k = 0; k < nbElements; ++k) {
+        if (std::isfinite(val[k])) {
+            minValue = val[k];
+            maxValue = val[k];
+            shared_max = maxValue;
+            shared_min = minValue;
+            break;
+        }
+    }
+    if (std::isnan(shared_min) && std::isnan(shared_max)) {
+        min = shared_min;
+        max = shared_max;
+        return false;
+    }
+#pragma omp parallel
+    {
+#pragma omp for nowait
+        for (ompIndexType idx = 0; idx < (ompIndexType)nbElements; ++idx) {
+            if (std::isfinite(val[idx])) {
+                maxValue = std::max(val[idx], maxValue);
+                minValue = std::min(val[idx], minValue);
+            }
+        }
+#pragma omp critical
+        {
+            shared_max = std::max(shared_max, maxValue);
+            shared_min = std::min(shared_min, minValue);
+        }
+    }
+    min = shared_min;
+    max = shared_max;
+    return true;
+}
+//=============================================================================
+static int
+getOptionalCommonLogarithm(
+    double minValue, double maxValue, NumericFormatDisplay currentNumericFormat)
+{
+    switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_LONG: {
+        int commonLogarithm = log10(std::max(minValue, maxValue));
+        if (commonLogarithm == 1) {
+            return 0;
+        }
+        if (commonLogarithm < -2 || commonLogarithm >= 2) {
+            return commonLogarithm;
+        }
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        int commonLogarithm = log10(std::max(minValue, maxValue));
+        if (commonLogarithm == 1) {
+            return 0;
+        }
+        if (commonLogarithm < -2 || commonLogarithm >= 2) {
+            return commonLogarithm;
+        }
+    } break;
+    default: {
+    }
+    }
+    return 0;
+}
+//=============================================================================
 void
-Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     Dimensions dims = A.getDimensions();
     const double* pValues = (const double*)A.getDataPointer();
+
     indexType rows = dims.getRows();
     indexType columns = dims.getColumns();
 
@@ -127,6 +200,8 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     sizeType termWidth = io->getTerminalWidth();
     indexType colsPerPage
         = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
+    colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
+
     indexType pageCount
         = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
     bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
@@ -162,7 +237,10 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
-                buffer.append(formatElement(pValues[idx], currentNumericFormat, formatInfo));
+                double rvalue = pValues[2 * idx];
+                double ivalue = pValues[2 * idx + 1];
+                buffer.append(
+                    formatElementComplex(rvalue, ivalue, currentNumericFormat, formatInfo));
             }
             buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
@@ -182,9 +260,9 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{ }
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

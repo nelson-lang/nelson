@@ -27,23 +27,44 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include "FormatLong.hpp"
 #include "IEEEFP.hpp"
+#include "FormatRational.hpp"
 #include "FloatNumberToRational.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
-formatRational(double number, bool trim)
+formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool trim)
 {
     std::wstring str;
     if (IsIntegerForm(number)) {
-        str = fmt::sprintf(L"%16.f", number);
-        boost::trim_left(str);
-    } else if (std::abs(number) < 1e-10) {
-        str = floatNumberToApproxRational<double, int64>(number, 10);
+        str = fmt::sprintf(L"%.f", number);
+        size_t withoutBlanks = (number < 0) ? lengthWithoutBlanks - 2 : lengthWithoutBlanks - 1;
+        if (str.length() >= withoutBlanks) {
+            str = L"*";
+        }
+        str = fmt::sprintf(L"%*s", width, str);
+
+    } else if (fabs(number) < 1e-10) {
+        if (number < 0) {
+            str = floatNumberToApproxRational<double, int64>(fabs(number), lengthWithoutBlanks - 1);
+            str = L"-" + str;
+        } else {
+            str = floatNumberToApproxRational<double, int64>(number, lengthWithoutBlanks);
+        }
+        size_t withoutBlanks = (number < 0) ? lengthWithoutBlanks - 2 : lengthWithoutBlanks - 1;
+        if (str.length() >= withoutBlanks) {
+            str = L"*";
+        }
+        str = fmt::sprintf(L"%*s", width, str);
     } else {
-        str = floatNumberToApproxRational<double, int>(number, 9);
+        if (number < 0) {
+            str = floatNumberToApproxRational<double, int>(fabs(number), lengthWithoutBlanks - 1);
+            str = L"-" + str;
+        } else {
+            str = floatNumberToApproxRational<double, int>(number, lengthWithoutBlanks);
+        }
+        str = fmt::sprintf(L"%*s", width, str);
     }
     if (trim) {
         boost::trim_left(str);
@@ -52,13 +73,13 @@ formatRational(double number, bool trim)
 }
 //=============================================================================
 std::wstring
-formatRational(single number, bool trim)
+formatRational(single number, size_t width, bool trim)
 {
     std::wstring str;
     if (std::abs(number) < 1e-10) {
-        str = floatNumberToApproxRational<double, int64>(number, 10);
+        str = floatNumberToApproxRational<double, int64>(number, width);
     } else {
-        str = floatNumberToApproxRational<double, int>(number, 9);
+        str = floatNumberToApproxRational<double, int>(number, width);
     }
     if (trim) {
         boost::trim_left(str);
@@ -67,7 +88,7 @@ formatRational(single number, bool trim)
 }
 //=============================================================================
 std::wstring
-formatComplexRational(double realPart, double imagPart, bool trim)
+formatComplexRational(double realPart, double imagPart, size_t width, bool trim)
 {
     std::wstring signStr;
     if (imagPart < 0) {
@@ -75,13 +96,15 @@ formatComplexRational(double realPart, double imagPart, bool trim)
     } else {
         signStr = L" + ";
     }
-    return formatRational(realPart, trim) + signStr + formatRational(fabs(imagPart), trim) + L"i";
+    /* return formatRational(realPart, width, trim) + signStr
+        + formatRational(fabs(imagPart), width, trim) + L"i";*/
+    return L"";
 }
 //=============================================================================
 std::wstring
-formatComplexRational(single realPart, single imagPart, bool trim)
+formatComplexRational(single realPart, single imagPart, size_t width, bool trim)
 {
-    return formatComplexRational((double)realPart, (double)imagPart, trim);
+    return formatComplexRational((double)realPart, (double)imagPart, width, trim);
 }
 //=============================================================================
 }

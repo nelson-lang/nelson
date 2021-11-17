@@ -182,11 +182,13 @@
     <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
     <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
+    <ClInclude Include="..\include\ArrayOfFormatInfo.hpp" />
     <ClInclude Include="..\include\ArrayOfSerialization.hpp" />
     <ClInclude Include="..\include\DelimitedFile.hpp" />
     <ClInclude Include="..\include\DisplayCell.hpp" />
     <ClInclude Include="..\include\DisplayChar.hpp" />
     <ClInclude Include="..\include\DisplayDouble.hpp" />
+    <ClInclude Include="..\include\DisplayDoubleComplex.hpp" />
     <ClInclude Include="..\include\DisplayInteger.hpp" />
     <ClInclude Include="..\include\DisplayIntegerHelpers.hpp" />
     <ClInclude Include="..\include\DisplayLogical.hpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="..\include\FileTell.hpp" />
     <ClInclude Include="..\include\FileWrite.hpp" />
     <ClInclude Include="..\include\FormatBank.hpp" />
+    <ClInclude Include="..\include\FormatHelpers.hpp" />
     <ClInclude Include="..\include\FormatHex.hpp" />
     <ClInclude Include="..\include\FormatLong.hpp" />
     <ClInclude Include="..\include\FormatLongE.hpp" />
@@ -235,6 +238,7 @@
     <ClCompile Include="..\cpp\DisplayCell.cpp" />
     <ClCompile Include="..\cpp\DisplayChar.cpp" />
     <ClCompile Include="..\cpp\DisplayDouble.cpp" />
+    <ClCompile Include="..\cpp\DisplayDoubleComplex.cpp" />
     <ClCompile Include="..\cpp\DisplayFloatingNumber.cpp" />
     <ClCompile Include="..\cpp\DisplayInteger.cpp" />
     <ClCompile Include="..\cpp\DisplayIntegerHelpers.cpp" />
@@ -259,6 +263,7 @@
     <ClCompile Include="..\cpp\FileTell.cpp" />
     <ClCompile Include="..\cpp\FileWrite.cpp" />
     <ClCompile Include="..\cpp\FormatBank.cpp" />
+    <ClCompile Include="..\cpp\FormatHelpers.cpp" />
     <ClCompile Include="..\cpp\FormatHex.cpp" />
     <ClCompile Include="..\cpp\FormatLong.cpp" />
     <ClCompile Include="..\cpp\FormatLongE.cpp" />

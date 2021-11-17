@@ -470,7 +470,7 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
     this->setUpdatesEnabled(false);
     QTextCursor cur(document()->lastBlock());
     QTextCharFormat format = cur.charFormat();
-    
+
     switch (mode) {
     case WARNING_DISP: {
         format.setForeground(getWarningColor());
@@ -486,7 +486,7 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
     } break;
     }
     cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
-    
+
     if (msg.contains("\b")) {
         for (auto c : msg) {
             if (c == '\b') {

@@ -33,6 +33,55 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
+formatAsIntegerShort(double number, bool forceFormat, bool trim)
+{
+    std::wstring msg;
+    if (std::isnan(number)) {
+        msg = fmt::sprintf(L"%*s", 6, L"NaN");
+    } else if (!std::isfinite(number)) {
+        if (number < 0) {
+            msg = fmt::sprintf(L"%*s", 6, L"-Inf");
+        } else {
+            msg = fmt::sprintf(L"%*s", 6, L"Inf");
+        }
+    } else {
+        double absoluteValue = abs(number);
+        if (absoluteValue <= 999) {
+            msg = fmt::sprintf(L"%*ld", 6, (long int)number);
+        } else if (absoluteValue <= 999999999) {
+            msg = fmt::sprintf(L"%*ld", 12, (long int)number);
+        } else {
+            std::wstring format = L"%*.*e";
+            msg = fmt::sprintf(format, 13, 4, number);
+        }
+    }
+    if (trim) {
+        boost::trim_left(msg);
+    }
+    return msg;
+}
+//=============================================================================
+std::wstring
+formatAsIntegerShort(single number, bool forceFormat, bool trim)
+{
+    std::wstring msg;
+    return msg;
+}
+//=============================================================================
+std::wstring
+formatScalarShort(double number, bool forceFormat, bool trim)
+{
+    return formatShort(number, forceFormat, trim);
+}
+//=============================================================================
+std::wstring
+formatScalarShort(single number, bool forceFormat, bool trim)
+{
+    std::wstring msg;
+    return msg;
+}
+//=============================================================================
+std::wstring
 formatShort(double number, bool forceFormat, bool trim)
 {
     std::wstring str;
@@ -99,9 +148,24 @@ formatShort(single number, bool forceFormat, bool trim)
 }
 //=============================================================================
 std::wstring
-formatComplexShort(double realPart, double imagPart, bool forceFormat, bool trim)
+formatScalarComplexShort(double realPart, double imagPart, bool forceFormat, bool trim)
 {
     std::wstring signStr;
+
+    if (imagPart < 0) {
+        signStr = L" - ";
+    } else {
+        signStr = L" + ";
+    }
+
+    std::wstring realPartStr = formatScalarShort(realPart, true, false);
+    std::wstring imagPartStr = formatScalarShort(fabs(imagPart), true, true);
+    return realPartStr + signStr + imagPartStr + L"i";
+
+    /*
+
+    std::wstring signStr;
+
     if (imagPart < 0) {
         signStr = L" - ";
     } else {
@@ -110,26 +174,59 @@ formatComplexShort(double realPart, double imagPart, bool forceFormat, bool trim
     std::wstring imagPartStr;
     std::wstring realPartStr;
 
-    if (forceFormat) {
-        imagPartStr = formatShort(fabs(imagPart), forceFormat, trim);
-        realPartStr = formatShort(realPart, forceFormat, trim);
+    if (!std::isfinite(realPart) && !std::isfinite(imagPart)) {
+        if (IsInfinite(realPart)) {
+            std::wstring format = L"%*s";
+            if (realPart < 0) {
+                realPartStr = fmt::sprintf(format, 13, L"-Inf");
+            } else {
+                realPartStr = fmt::sprintf(format, 13, L" Inf");
+            }
+        } else if (IsNaN(realPart)) {
+            std::wstring format = L"%*s";
+            realPartStr = fmt::sprintf(format, 13, L" NaN");
+        }
+        if (IsInfinite(imagPart)) {
+            std::wstring format = L"%*s";
+            imagPartStr = fmt::sprintf(format, 13, L" Inf");
+        } else if (IsNaN(imagPart)) {
+            std::wstring format = L"%*s";
+            imagPartStr = fmt::sprintf(format, 13, L" NaN");
+        }
     } else {
-        if (IsIntegerForm(realPart) && fabs(realPart) < 1e2) {
-            imagPartStr = formatShort(fabs(imagPart), false, trim);
-            realPartStr = formatShort(realPart, false, trim);
+        double absoluteValueRealPart = fabs(realPart);
+        double absoluteValueImagPart = fabs(imagPart);
+        if (!std::isfinite(realPart)) {
+            std::wstring format = L"%*s";
+            if (std::isnan(realPart)) {
+                realPartStr = fmt::sprintf(format, 9, L" NaN");
+            } else {
+
+                realPartStr = fmt::sprintf(format, 9, L" Inf");
+            }
+
         } else {
-            imagPartStr = formatShort(fabs(imagPart), true, trim);
-            realPartStr = formatShort(realPart, true, trim);
+            std::wstring format = L"%*.*f";
+            realPartStr = fmt::sprintf(format,9, 5,realPart);
+        }
+        if (!std::isfinite(imagPart)) {
+            std::wstring format = L"%*s";
+            if (std::isnan(imagPart)) {
+                imagPartStr = fmt::sprintf(format, 6, L" NaN");
+            } else {
+                imagPartStr = fmt::sprintf(format, 6, L" Inf");
+            }
+        } else {
+            std::wstring format = L"%*.*f";
+            imagPartStr = fmt::sprintf(format, 9,5, absoluteValueImagPart);
         }
     }
-
+    if (trim) {
+        boost::trim_left(realPartStr);
+        boost::trim_left(imagPartStr);
+    }
     return realPartStr + signStr + imagPartStr + L"i";
-}
-//=============================================================================
-std::wstring
-formatComplexShort(single realPart, single imagPart, bool forceFormat, bool trim)
-{
-    return formatComplexShort((double)realPart, (double)imagPart, forceFormat, trim);
+    */
 }
 //=============================================================================
 }
