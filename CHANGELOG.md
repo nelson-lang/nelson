@@ -4,6 +4,8 @@
 
 - `squeeze` removes dimensions of length 1.
 
+- `speye` Sparse identity matrix.
+
 - add `SECURITY.md` file as recommended by Github.
 
 - [#533](http://github.com/Nelson-numerical-software/nelson/issues/533): `find` with one lhs did not return expected result with complex.
