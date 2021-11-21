@@ -2,6 +2,8 @@
 
 - `cond`: Condition number for inversion.
 
+- `cond`: Rank of matrix.
+
 - `ismatrix` determines whether input is matrix.
 
 - `squeeze` removes dimensions of length 1.
