@@ -23,4 +23,6 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
+rmpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'));
 removegateway(modulepath(nelsonroot(), 'linear_algebra', 'builtin'));
+%=============================================================================

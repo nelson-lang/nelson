@@ -23,6 +23,40 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'linear_algebra', 'builtin'));
-addpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'), '-frozen');
+function y = cond(A, p)
+  narginchk(1, 2);
+  if (nargin < 2)
+    p = 2;
+  end
+  
+  if ~isequal(p, 2) 
+    sizeMismatch = ismatrix(A) && size(A, 1) ~= size(A, 2);
+    if sizeMismatch
+      error('Nelson:cond:normMismatchSizeA', _('Input must be square.'));
+    end
+  end
+  
+  if (isempty(A)) 
+    y = 0; 
+    return;
+  end;
+  if (p ~= 2)
+    y = norm(A, p) * norm(inv(A), p);
+  else
+    if (isscalar(A) && (A == 0))
+      y = inf;
+    else
+      s = svd(A);
+      if any(s == 0)
+        c = cast(Inf, class(A));
+      else
+        c = max(s) ./ min(s);
+        if isempty(c)
+          c = zeros(class(A));
+        end
+      end            
+      y = s(1) / s(end);
+    end
+  end
+end
 %=============================================================================

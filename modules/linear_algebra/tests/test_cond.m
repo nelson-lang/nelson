@@ -23,6 +23,18 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'linear_algebra', 'builtin'));
-addpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'), '-frozen');
+A = [7, 2, 3; 1, 3, 4; 6, 4, 5];
+R = cond(A);
+assert_isapprox(R, 51.0278, 1e-4);
+%=============================================================================
+A = [7, 2, 3; 1, 3, 4; 6, 4, 5];
+p = 1;
+R = cond(A, p);
+assert_isapprox(R, 57.2727, 1e-4);
+%=============================================================================
+R = cond ([1, 2; 2, 1]);
+assert_isapprox(R, 3, 1e-1);
+%=============================================================================
+R = cond([1, 2, 3; 4, 5, 6; 7, 8, 9]);
+assert_istrue(R > 1e16);
 %=============================================================================

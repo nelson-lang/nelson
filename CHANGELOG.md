@@ -1,5 +1,7 @@
 # 0.5.11 (UNRELEASED)
 
+- `cond`: Condition number for inversion.
+
 - `ismatrix` determines whether input is matrix.
 
 - `squeeze` removes dimensions of length 1.
