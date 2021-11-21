@@ -23,6 +23,15 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'random', 'functions'));
-removegateway(modulepath(nelsonroot(), 'random', 'builtin'));
+R = randperm(6);
+REF = [6     3     5     1     2     4];
+assert_isequal(R, REF);
+%=============================================================================
+R = randperm(-6);
+REF = ones(1, 0);
+assert_isequal(R, REF);
+%=============================================================================
+R = randperm(0);
+REF = ones(1, 0);
+assert_isequal(R, REF);
 %=============================================================================

@@ -23,6 +23,11 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath(nelsonroot(), 'random', 'functions'));
-removegateway(modulepath(nelsonroot(), 'random', 'builtin'));
+function p = randperm(n)
+  if (n <= 0)
+    p = zeros(1, 0);
+  else
+   [dummy, p] = sort(rand(1, n));
+  end
+end
 %=============================================================================

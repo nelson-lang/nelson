@@ -2,13 +2,15 @@
 
 - `cond`: Condition number for inversion.
 
-- `cond`: Rank of matrix.
+- `rank`: Rank of matrix.
 
-- `ismatrix` determines whether input is matrix.
+- `ismatrix`: Determines whether input is matrix.
 
-- `squeeze` removes dimensions of length 1.
+- `squeeze`: Removes dimensions of length 1.
 
-- `speye` Sparse identity matrix.
+- `speye`: Sparse identity matrix.
+
+- `randperm`: Random permutation.
 
 - add `SECURITY.md` file as recommended by Github.
 
