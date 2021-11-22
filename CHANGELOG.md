@@ -1,5 +1,9 @@
 # 0.5.11 (UNRELEASED)
 
+- `hilb`: Hilbert matrix.
+
+- `invhilb`: Inverse of Hilbert matrix.
+
 - `cond`: Condition number for inversion.
 
 - `rank`: Rank of matrix.
