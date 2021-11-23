@@ -89,6 +89,39 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             return ArrayOf();
         }
     }
+
+    if (A.isEmpty(false) && B.isEmpty(false)) {
+        Class classCommon = FindCommonType(A, B, false);
+        if (A.isStringArray() || B.isStringArray()) {
+            classCommon = NLS_STRING_ARRAY;
+        } else if (A.isCell() || B.isCell()) {
+            classCommon = NLS_CELL_ARRAY;
+        } else {
+            if (A.isStruct() && B.isStruct()) {
+                classCommon = A.getDataClass();
+            }
+            if (A.isIntegerType()) {
+                classCommon = A.getDataClass();
+            } else {
+                classCommon = FindCommonType(A, B, false);
+            }
+        }
+        Dimensions dimsC;
+        indexType m = 0;
+        indexType n = 0;
+        if (B.getRows() != A.getRows() || (!A.is2D() || !B.is2D())) {
+            dimsC = Dimensions(m, n);
+        } else {
+            m = 0;
+            n = A.getColumns() + B.getColumns();
+            dimsC = Dimensions(m, n);
+        }
+        void* ptr = ArrayOf::allocateArrayOf(classCommon, dimsC.getElementCount());
+ 
+        bSuccess = true;
+        return ArrayOf(classCommon, dimsC, ptr);
+    }
+
     if (A.isEmpty(false)) {
         bSuccess = true;
         if (A.isCell()) {
@@ -195,9 +228,9 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
         bool canConcate = (A.getStructType() == B.getStructType())
             || (A.getStructType() == NLS_STRUCT_ARRAY_STR
-                   && B.getStructType() != NLS_STRUCT_ARRAY_STR)
+                && B.getStructType() != NLS_STRUCT_ARRAY_STR)
             || (B.getStructType() == NLS_STRUCT_ARRAY_STR
-                   && A.getStructType() != NLS_STRUCT_ARRAY_STR);
+                && A.getStructType() != NLS_STRUCT_ARRAY_STR);
         if (!canConcate) {
             Error(_W("Cannot concatenate differents types."));
         }

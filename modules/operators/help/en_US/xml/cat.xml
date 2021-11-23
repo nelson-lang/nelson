@@ -3,26 +3,31 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>horzcat</keyword>
-	<short_description>Horizontal concatenation.</short_description>
+	<keyword>cat</keyword>
+	<short_description>Concatenate arrays.</short_description>
 
 	<syntax>
-		<syntax_item>R = horzcat(M1, M2, ... , MN)</syntax_item>
-		<syntax_item>R = [M1, M2, ... , MN]</syntax_item>
+		<syntax_item>R = cat(dim, A, B)</syntax_item>
+		<syntax_item>R = cat(dim, A1, A2, ..., An)</syntax_item>
 	</syntax>
 
 	<param_input>
 		<param_input_item>
-			<param_name>M1</param_name>
-			<param_description>a variable</param_description>
+			<param_name>dim</param_name>
+			<param_description>Dimension to operate along: positive integer scalar.</param_description>
 		</param_input_item>
 		<param_input_item>
-			<param_name>M2</param_name>
-			<param_description>a variable</param_description>
+			<param_name>A</param_name>
+			<param_description>a variable: first input.</param_description>
 		</param_input_item>
 		<param_input_item>
-			<param_name>MN</param_name>
-			<param_description>a variable</param_description>
+			<param_name>B</param_name>
+			<param_description>a variable: second input.</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>A1, A2, ..., An</param_name>
+			<param_description>List of inputs to concatenate</param_description>
 		</param_input_item>
 
 	</param_input>
@@ -31,13 +36,13 @@
 
 		<param_output_item>
 			<param_name>R</param_name>
-			<param_description>result of [M1, M2, ... , MN]</param_description>
+			<param_description>concatenated array</param_description>
 		</param_output_item>
 
 	</param_output>
 
 	<description>
-		<p><b>R = horzcat(M1, M2, ... , MN)</b> returns the horizontal concatenation of M1, M2, ... , MN along the dimension 2.</p>
+		<p><b>R = cat(dim, M1, M2, ... , MN)</b> returns the concatenation of M1, M2, ... , MN along the dimension <b>dim</b>.</p>
 	</description>
 
 
@@ -51,18 +56,7 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = eye(2, 2);
 B = ones(2, 2);
-C = horzcat(A, B)
-D = [A, B]]]>
-		</example_item_data>
-	</example_item>
-
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[A = 'nel';
-B = 'son';
-C = horzcat(A, B)]]>
+C = cat(2, A, B)]]>
 		</example_item_data>
 	</example_item>
 
@@ -73,7 +67,7 @@ C = horzcat(A, B)]]>
 			<link linkend="${operators}vertcat">vertcat</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${operators}cat">cat</link>
+			<link linkend="${operators}horzcat">horzcat</link>
 		</see_also_item>
 	</see_also>
 

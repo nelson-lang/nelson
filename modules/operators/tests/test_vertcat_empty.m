@@ -23,6 +23,15 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'operators', 'builtin'));
-addpath(modulepath(nelsonroot(), 'operators', 'functions'), '-frozen');
-%===========================================================================
+R = vertcat(zeros(1, 0), zeros(2, 0));
+REF = zeros(3, 0);
+assert_isequal(R, REF)
+%=============================================================================
+R = vertcat(zeros(1, 0, 1), zeros(2, 0, 1));
+REF = zeros(3, 0);
+assert_isequal(R, REF)
+%=============================================================================
+R = vertcat(zeros(0, 4, 1), zeros(0, 2, 1));
+REF = zeros(0, 0);
+assert_isequal(R, REF)
+%=============================================================================

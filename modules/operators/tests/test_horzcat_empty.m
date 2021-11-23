@@ -23,6 +23,15 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath(nelsonroot(), 'operators', 'builtin'));
-addpath(modulepath(nelsonroot(), 'operators', 'functions'), '-frozen');
-%===========================================================================
+R = horzcat(zeros(0, 1), zeros(0, 2));
+REF = zeros(0, 3);
+assert_isequal(R, REF)
+%=============================================================================
+R = horzcat(zeros(0, 1, 0, 1), zeros(0, 2, 0, 2));
+REF = [];
+assert_isequal(R, REF)
+%=============================================================================
+R = horzcat(zeros(0, 0, 0, 1), zeros(0, 0, 0, 2));
+REF = [];
+assert_isequal(R, REF)
+%=============================================================================

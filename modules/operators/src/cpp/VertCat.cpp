@@ -89,6 +89,39 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             return ArrayOf();
         }
     }
+
+    if (A.isEmpty(false) && B.isEmpty(false)) {
+        Class classCommon = FindCommonType(A, B, false);
+        if (A.isStringArray() || B.isStringArray()) {
+            classCommon = NLS_STRING_ARRAY;
+        } else if (A.isCell() || B.isCell()) {
+            classCommon = NLS_CELL_ARRAY;
+        } else {
+            if (A.isStruct() && B.isStruct()) {
+                classCommon = A.getDataClass();
+            }
+            if (A.isIntegerType()) {
+                classCommon = A.getDataClass();
+            } else {
+                classCommon = FindCommonType(A, B, false);
+            }
+        }
+        void* ptr = nullptr;
+        Dimensions dimsC;
+        if (B.getColumns() != A.getColumns()) {
+            indexType m = 0;
+            indexType n = 0;
+            dimsC = Dimensions(m, n);
+            ptr = ArrayOf::allocateArrayOf(classCommon, dimsC.getElementCount());
+        } else {
+            indexType m = A.getRows() + B.getRows();
+            indexType n = 0;
+            dimsC = Dimensions(m, n);
+            ptr = ArrayOf::allocateArrayOf(classCommon, dimsC.getElementCount());
+        }
+        bSuccess = true;
+        return ArrayOf(classCommon, dimsC, ptr);
+    }
     if (A.isEmpty(false)) {
         bSuccess = true;
         if (A.isCell()) {
@@ -193,9 +226,9 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
         bool canConcate = (A.getStructType() == B.getStructType())
             || (A.getStructType() == NLS_STRUCT_ARRAY_STR
-                   && B.getStructType() != NLS_STRUCT_ARRAY_STR)
+                && B.getStructType() != NLS_STRUCT_ARRAY_STR)
             || (B.getStructType() == NLS_STRUCT_ARRAY_STR
-                   && A.getStructType() != NLS_STRUCT_ARRAY_STR);
+                && A.getStructType() != NLS_STRUCT_ARRAY_STR);
         if (!canConcate) {
             Error(_W("Cannot concatenate differents types."));
         }
