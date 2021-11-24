@@ -72,6 +72,9 @@ C = horzcat(A, B)]]>
 		<see_also_item>
 			<link linkend="${operators}vertcat">vertcat</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${operators}cat">cat</link>
+		</see_also_item>
 	</see_also>
 
 	<history>

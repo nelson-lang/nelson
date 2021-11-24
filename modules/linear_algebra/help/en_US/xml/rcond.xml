@@ -47,6 +47,10 @@ r = rcond(X);]]>
     <see_also_item>
       <link linkend="${linear_algebra}inv">inv</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}cond">cond</link>
+    </see_also_item>
+
   </see_also>
 
   <history>

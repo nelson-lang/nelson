@@ -1,9 +1,22 @@
 # 0.5.11 (UNRELEASED)
 
-- add `SECURITY.md` file as recommended by Github.
+## Added
 
+- `hilb` function: Hilbert matrix.
+- `invhilb` function: Inverse of Hilbert matrix.
+- `cond` function: Condition number for inversion.
+- `rank` function: Rank of matrix.
+- `ismatrix` function: Determines whether input is matrix.
+- `squeeze` function: Removes dimensions of length 1.
+- `speye` function: Sparse identity matrix.
+- `randperm` function: Random permutation.
+- `cat` function: Concatenate arrays.
+- `SECURITY.md` file as recommended by Github.
+
+## Fixed
+
+- `vercat`, `horzcat` returns an empty array whose size is equal to the output size as when the inputs are nonempty.
 - [#533](http://github.com/Nelson-numerical-software/nelson/issues/533): `find` with one lhs did not return expected result with complex.
-
 - [#536](http://github.com/Nelson-numerical-software/nelson/issues/536): `test_websave_3` failed randomly due to distant server.
 
 # 0.5.10 (2021-10-30)

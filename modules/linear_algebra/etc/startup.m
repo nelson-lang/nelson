@@ -24,5 +24,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath(nelsonroot(), 'linear_algebra', 'builtin'));
-% addpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'), '-frozen');
+addpath(modulepath(nelsonroot(), 'linear_algebra', 'functions'), '-frozen');
 %=============================================================================
