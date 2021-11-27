@@ -26,13 +26,11 @@
 #include "GetPreferencesPath.hpp"
 #include "NelsonGateway.hpp"
 #include "bannerBuiltin.hpp"
-#include "echoBuiltin.hpp"
 #include "evalBuiltin.hpp"
 #include "evalcBuiltin.hpp"
 #include "evalinBuiltin.hpp"
 #include "execstrBuiltin.hpp"
 #include "exitBuiltin.hpp"
-#include "formatBuiltin.hpp"
 #include "maxNumCompThreadsBuiltin.hpp"
 #include "namelengthmaxBuiltin.hpp"
 #include "narginBuiltin.hpp"
@@ -61,7 +59,6 @@ static const nlsGateway gateway[] = {
     { "eval", (void*)Nelson::CoreGateway::evalBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "evalc", (void*)Nelson::CoreGateway::evalcBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "evalin", (void*)Nelson::CoreGateway::evalinBuiltin, -1, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "echo", (void*)Nelson::CoreGateway::echoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "nargin", (void*)Nelson::CoreGateway::narginBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "narginchk", (void*)Nelson::CoreGateway::narginchkBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "nargout", (void*)Nelson::CoreGateway::nargoutBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
@@ -69,7 +66,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "pause", (void*)Nelson::CoreGateway::pauseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "namelengthmax", (void*)Nelson::CoreGateway::namelengthmaxBuiltin, 1, 1 },
-    { "format", (void*)Nelson::CoreGateway::formatBuiltin, 1, 1 },
     { "nelsonroot", (void*)Nelson::CoreGateway::nelsonrootBuiltin, 1, 0 },
     { "version", (void*)Nelson::CoreGateway::versionBuiltin, 2, 1 },
     { "prefdir", (void*)Nelson::CoreGateway::prefdirBuiltin, 1, 0 },

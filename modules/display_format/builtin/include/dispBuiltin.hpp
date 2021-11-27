@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace StreamGateway {
+namespace DisplayFormatGateway {
     //=============================================================================
     ArrayOfVector
     dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);

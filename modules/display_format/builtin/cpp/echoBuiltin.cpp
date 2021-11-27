@@ -29,7 +29,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);

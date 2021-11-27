@@ -38,7 +38,7 @@ static bool
 setDisplayOption(std::wstring param);
 //=============================================================================
 ArrayOfVector
-Nelson::CoreGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 0, 1);
