@@ -52,6 +52,7 @@ modules_list = [
 "os_functions";
 "json";
 "stream_manager";
+"display_format";
 "file_archiver";
 "dynamic_link";
 "memory_manager";
@@ -125,6 +126,7 @@ modules_help_list = [
 "os_functions";
 "files_folders_functions";
 "stream_manager";
+"display_format";
 "hdf5";
 "matio";
 "json";

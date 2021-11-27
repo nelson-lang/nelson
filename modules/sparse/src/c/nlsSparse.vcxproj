@@ -174,7 +174,6 @@
     <ClCompile Include="..\cpp\HorzCatSparseDouble.cpp" />
     <ClCompile Include="..\cpp\HorzCatSparseLogical.cpp" />
     <ClCompile Include="..\cpp\SparseConstructors.cpp" />
-    <ClCompile Include="..\cpp\SparseDisplay.cpp" />
     <ClCompile Include="..\cpp\SparseImagPart.cpp" />
     <ClCompile Include="..\cpp\SparseNonZeros.cpp" />
     <ClCompile Include="..\cpp\SparseRealPart.cpp" />
@@ -190,7 +189,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\CheckIJV.hpp" />
     <ClInclude Include="..\..\src\include\nlsSparse_exports.h" />
-    <ClInclude Include="..\..\src\include\SparseDisplay.hpp" />
     <ClInclude Include="..\..\src\include\SparseType.hpp" />
     <ClInclude Include="..\..\src\include\UminusSparse.hpp" />
     <ClInclude Include="..\include\CtransposeSparseDouble.hpp" />

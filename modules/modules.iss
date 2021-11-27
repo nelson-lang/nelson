@@ -60,6 +60,7 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "memory_manager/module.iss"
 #include "console/module.iss"
 #include "stream_manager/module.iss"
+#include "display_format/module.iss"
 #include "interpreter/module.iss"
 #include "debugger/module.iss"
 #include "time/module.iss"
