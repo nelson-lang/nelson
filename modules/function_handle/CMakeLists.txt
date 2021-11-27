@@ -32,6 +32,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -49,7 +50,7 @@ target_link_libraries(
   nlsError_manager
   nlsInterpreter
   nlsI18n
-  nlsStream_manager
+  nlsDisplay_format
   ${BOOST_LIBRARIES})
 # ==============================================================================
 set_target_properties(

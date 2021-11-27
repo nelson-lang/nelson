@@ -87,6 +87,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${AUDIO_BUILTIN})
@@ -104,6 +105,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsNelson_manager
   nlsHandle
+  nlsDisplay_format
   ${PORTAUDIO_LIBRARIES}
   ${SNDFILE_LIBRARIES})
 # ==============================================================================

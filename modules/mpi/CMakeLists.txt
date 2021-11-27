@@ -77,6 +77,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${MPI_INCLUDE_PATH})
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${MPI_BUILTIN})
@@ -86,7 +87,7 @@ target_link_libraries(
   ${module_library_name}
   nlsCharacters_encoding
   nlsError_manager
-  nlsStream_manager
+  nlsDisplay_format
   nlsInterpreter
   nlsI18n
   nlsTypes

@@ -82,6 +82,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${GRAPHICS_BUILTIN})
@@ -93,7 +94,7 @@ target_link_libraries(
   nlsInterpreter
   nlsTypes
   nlsApi_nelson
-  nlsStream_manager
+  nlsDisplay_format
   nlsI18n)
 # ==============================================================================
 set_target_properties(

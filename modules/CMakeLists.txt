@@ -35,6 +35,7 @@ list(
   types
   api_nelson
   stream_manager
+  display_format
   operators
   elementary_functions
   data_analysis

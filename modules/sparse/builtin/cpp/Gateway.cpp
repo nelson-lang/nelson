@@ -30,7 +30,6 @@
 #include "nzmaxBuiltin.hpp"
 #include "sparseBuiltin.hpp"
 #include "sparsedouble_ctransposeBuiltin.hpp"
-#include "sparsedouble_displayBuiltin.hpp"
 #include "sparsedouble_horzcat_sparsedoubleBuiltin.hpp"
 #include "sparsedouble_imagBuiltin.hpp"
 #include "sparsedouble_realBuiltin.hpp"
@@ -38,7 +37,6 @@
 #include "sparsedouble_uminusBuiltin.hpp"
 #include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
 #include "sparselogical_ctransposeBuiltin.hpp"
-#include "sparselogical_displayBuiltin.hpp"
 #include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
 #include "sparselogical_imagBuiltin.hpp"
 #include "sparselogical_realBuiltin.hpp"
@@ -52,10 +50,6 @@ const std::wstring gatewayName = L"sparse";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "sparse", (void*)Nelson::SparseGateway::sparseBuiltin, 1, 6, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparsedouble_display", (void*)Nelson::SparseGateway::sparsedouble_displayBuiltin, 0, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "sparselogical_display", (void*)Nelson::SparseGateway::sparselogical_displayBuiltin, 0, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
     { "full", (void*)Nelson::SparseGateway::fullBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "sparsedouble_uminus", (void*)Nelson::SparseGateway::sparsedouble_uminusBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
