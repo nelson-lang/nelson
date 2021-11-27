@@ -33,7 +33,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
@@ -63,85 +63,99 @@ generic_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::int8_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::int8_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::int16_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::int16_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::int32_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::int32_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::int64_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::int64_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::uint8_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::uint8_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::uint16_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::uint16_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::uint32_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::uint32_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::uint64_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::uint64_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::logical_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::logical_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::char_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::char_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::double_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::double_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::single_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::single_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::struct_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::struct_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::cell_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DisplayFormatGateway::cell_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf variable = argIn[0];
@@ -154,26 +168,28 @@ Nelson::StreamGateway::cell_displayBuiltin(Evaluator* eval, int nLhs, const Arra
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::handle_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::StreamGateway::string_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::StreamGateway::sparsedouble_displayBuiltin(
+Nelson::DisplayFormatGateway::handle_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::sparselogical_displayBuiltin(
+Nelson::DisplayFormatGateway::string_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_displayBuiltin(eval, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::DisplayFormatGateway::sparsedouble_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    return generic_displayBuiltin(eval, nLhs, argIn);
+}
+//=============================================================================
+ArrayOfVector
+Nelson::DisplayFormatGateway::sparselogical_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return generic_displayBuiltin(eval, nLhs, argIn);
