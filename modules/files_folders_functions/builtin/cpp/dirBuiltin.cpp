@@ -82,21 +82,25 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                     break;
                 }
-                if (it->isDir()) {
-                    if (it->getName() == L"." || it->getName() == L"..") {
-                        NelsonPrint(it->getName() + L"\n");
-                    } else {
-                        NelsonPrint(it->getName() + L"/" + L"\n");
-                    }
+                std::wstring filename;
+                if (bSubDirectories) {
+                    filename = it->getFolder() + L"/" + it->getName();
                 } else {
-                    NelsonPrint(it->getName() + L"\n");
+                    filename = it->getName();
                 }
+                if (it->isDir()) {
+                    if (it->getName() != L"." && it->getName() != L"..") {
+                        filename = filename + L"/";
+                    }
+                }
+                NelsonPrint(filename + L"\n");
             }
             NelsonPrint("\n");
         }
     } else {
         stringVector fieldnames;
         fieldnames.push_back("name");
+        fieldnames.push_back("folder");
         fieldnames.push_back("date");
         fieldnames.push_back("bytes");
         fieldnames.push_back("isdir");
@@ -111,11 +115,13 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
                 NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
             ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
             ArrayOfVector names;
+            ArrayOfVector folder;
             ArrayOfVector dates;
             ArrayOfVector bytes;
             ArrayOfVector isdirs;
             ArrayOfVector datenums;
             names.reserve(res.size());
+            folder.reserve(res.size());
             dates.reserve(res.size());
             bytes.reserve(res.size());
             isdirs.reserve(res.size());
@@ -123,6 +129,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
                 names.push_back(ArrayOf::characterArrayConstructor(it->getName()));
+                folder.push_back(ArrayOf::characterArrayConstructor(it->getFolder()));
                 dates.push_back(ArrayOf::characterArrayConstructor(it->getDate()));
                 double bytesval = it->getBytes();
                 if (bytesval == -1) {
@@ -139,6 +146,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
             st.setFieldAsList("name", names);
+            st.setFieldAsList("folder", folder);
             st.setFieldAsList("date", dates);
             st.setFieldAsList("bytes", bytes);
             st.setFieldAsList("isdir", isdirs);
