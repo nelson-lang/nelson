@@ -186,8 +186,7 @@ promoteComplexAsLogical(Class dstClass, const TIN* ptr, indexType count)
 #pragma omp parallel for
 #endif
     for (ompIndexType i = 0; i < count; ++i) {
-        dstPtr[i] = (ptr[(i*2)] || ptr[(i*2) + 1]) ? 1 : 0;
-     
+        dstPtr[i] = (ptr[(i * 2)] || ptr[(i * 2) + 1]) ? 1 : 0;
     }
     return dstPtr;
 }

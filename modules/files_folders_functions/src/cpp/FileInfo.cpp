@@ -44,17 +44,13 @@ local_ptime_from_utc_time_t(std::time_t const t)
     return c_local_adjustor<ptime>::utc_to_local(from_time_t(t));
 }
 //=============================================================================
-FileInfo::FileInfo(const std::wstring& _filename, bool fullpath)
+FileInfo::FileInfo(const std::wstring& filename)
 {
-    boost::filesystem::path _path = _filename;
+    boost::filesystem::path _path = filename;
     // uniformize path separator
     _path = _path.generic_wstring();
-    this->filename = _path.generic_wstring();
-    if (fullpath) {
-        this->name = _path.wstring();
-    } else {
-        this->name = _path.filename().wstring();
-    }
+    this->folder = _path.parent_path().wstring();
+    this->name = _path.filename().wstring();
     try {
         this->isdir = (bool)boost::filesystem::is_directory(_path);
     } catch (const boost::filesystem::filesystem_error&) {
@@ -89,12 +85,18 @@ FileInfo::FileInfo(const std::wstring& _filename, bool fullpath)
 //=============================================================================
 FileInfo::~FileInfo()
 {
-    this->filename = std::wstring();
+    this->folder = std::wstring();
     this->name = std::wstring();
     this->date = std::wstring();
     this->isdir = false;
     this->bytes = -1;
     this->datenum = -1;
+}
+//=============================================================================
+std::wstring
+FileInfo::getFolder()
+{
+    return this->folder;
 }
 //=============================================================================
 std::wstring

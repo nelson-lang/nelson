@@ -66,14 +66,12 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                                     file = std::wstring(file.begin() + 2, file.end());
                                 }
                                 boost::filesystem::path current = file;
-                                res.push_back(FileInfo(current.wstring(), bSubdirectories));
+                                res.push_back(FileInfo(current.wstring()));
                             }
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
-                        if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
                             Error(error_code.message());
-                        }
                     }
                 }
             } else {
@@ -97,7 +95,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                                     file = std::wstring(file.begin() + 2, file.end());
                                 }
                                 boost::filesystem::path current = file;
-                                res.push_back(FileInfo(current.wstring(), bSubdirectories));
+                                res.push_back(FileInfo(current.wstring()));
                             }
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
@@ -161,7 +159,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                         for (boost::filesystem::recursive_directory_iterator dir_iter(branch), end;
                              dir_iter != end; ++dir_iter) {
                             boost::filesystem::path current = dir_iter->path();
-                            res.push_back(FileInfo(current.wstring(), bSubdirectories));
+                            res.push_back(FileInfo(current.wstring()));
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
@@ -175,14 +173,14 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 boost::filesystem::path r = dir.root_path();
                 if (IsDirectory(directory)) {
                     if (dir != r) {
-                        res.push_back(FileInfo(directory + L"/.", bSubdirectories));
-                        res.push_back(FileInfo(directory + L"/..", bSubdirectories));
+                        res.push_back(FileInfo(directory + L"/."));
+                        res.push_back(FileInfo(directory + L"/.."));
                     }
                     try {
                         for (boost::filesystem::directory_iterator dir_iter(directory), end;
                              dir_iter != end; ++dir_iter) {
                             boost::filesystem::path current = dir_iter->path();
-                            res.push_back(FileInfo(current.wstring(), bSubdirectories));
+                            res.push_back(FileInfo(current.wstring()));
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {

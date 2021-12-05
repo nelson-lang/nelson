@@ -29,22 +29,27 @@
 #pragma warning(disable : 4251)
 #endif
 //=============================================================================
-#include "nlsFiles_folders_functions_exports.h"
 #include <string>
+#include "nlsFiles_folders_functions_exports.h"
+//=============================================================================
 namespace Nelson {
+//=============================================================================
 class NLSFILES_FOLDERS_FUNCTIONS_IMPEXP FileInfo
 {
+    //=============================================================================
 private:
-    std::wstring filename;
+    std::wstring folder;
     std::wstring name;
     std::wstring date;
     bool isdir;
     double bytes;
     double datenum;
-
+    //=============================================================================
 public:
-    FileInfo(const std::wstring& _filename, bool fullpath = false);
+    FileInfo(const std::wstring& filename);
     ~FileInfo();
+    std::wstring
+    getFolder();
     std::wstring
     getName();
     std::wstring
@@ -55,6 +60,8 @@ public:
     getBytes();
     double
     getDatenum();
+    //=============================================================================
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
