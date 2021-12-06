@@ -50,6 +50,7 @@ target_link_libraries(
   nlsCharacters_encoding
   nlsError_manager
   nlsNelson_manager
+  nlsStream_manager
   nlsElementary_mathematics
   nlsI18n
   ${BOOST_LIBRARIES})
