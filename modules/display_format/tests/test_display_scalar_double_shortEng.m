@@ -23,137 +23,86 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format('bank')
+format('shortEng')
 %=============================================================================
-R = evalc('A = {1}');
-REF =  '
-A =
-
-  1×1 cell array
-
-    {[1.00]}
-
-';
-assert_isequal(R, REF)
-%=============================================================================
-R = evalc('A = {pi}');
+R = evalc('A = 1');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[3.14]}
+     1.0000e+000
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {-pi}');
-REF =  '
-A =
-
-  1×1 cell array
-
-    {[-3.14]}
-
-';
-assert_isequal(R, REF)
-%=============================================================================
-R = evalc('A = {NaN}');
+R = evalc('A = -1');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[NaN]}
+    -1.0000e+000
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {-Inf}');
-REF =  '
-A =
-
-  1×1 cell array
-
-    {[-Inf]}
-
-';
-assert_isequal(R, REF)
-%=============================================================================
-R = evalc('A = {Inf}');
+R = evalc('A = 99');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[Inf]}
+    99.0000e+000
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {eps}');
+R = evalc('A = -99');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[0.00]}
+   -99.0000e+000
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {-eps}');
+R = evalc('A = 990');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[-0.00]}
+   990.0000e+000
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {complex(pi, pi)}');
-REF =  '
-A =
-
-  1×1 cell array
-
-    {[3.14]}
-
-';
-assert_isequal(R, REF)
-%=============================================================================
-R = evalc('A = {complex(1, 0)}');
+R = evalc('A = -990');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[1.00]}
+  -990.0000e+000
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {complex(NaN, NaN)}');
+R = evalc('A = NaN');
 REF = '
 A =
 
-  1×1 cell array
-
-    {[NaN]}
+             NaN
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
 %=============================================================================
-R = evalc('A = {complex(1.8e99, -eps)}');
-REF =   '
+R = evalc('A = Inf');
+REF = '
 A =
 
-  1×1 cell array
-
-    {[1×1 double]}
+             Inf
 
 ';
-assert_isequal(R, REF)
+assert_isequal(R, REF);
+%=============================================================================
+R = evalc('A = -Inf');
+REF = '
+A =
+
+            -Inf
+
+';
+assert_isequal(R, REF);
 %=============================================================================

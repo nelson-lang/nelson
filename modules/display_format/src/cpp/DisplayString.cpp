@@ -80,11 +80,6 @@ void
 DisplayEmptyString(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    if (!name.empty()) {
-        std::wstring format = _W("%s empty string matrix");
-        std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
-        io->outputMessage(L"  " + msg + L"\n");
-    }
 }
 //=============================================================================
 void

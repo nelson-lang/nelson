@@ -200,21 +200,33 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_SINGLE:
         typeAsText = L"single";
         break;
-    case NLS_DOUBLE:
-        typeAsText = L"double";
-        break;
-    case NLS_LOGICAL:
-        typeAsText = L"logical";
-        break;
+    case NLS_DOUBLE: {
+        if (A.isSparse()) {
+            typeAsText = L"sparse double";
+        } else {
+            typeAsText = L"double";
+        }
+    } break;
+    case NLS_LOGICAL: {
+        if (A.isSparse()) {
+            typeAsText = L"sparse logical";
+        } else {
+            typeAsText = L"logical";
+        }
+    } break;
     case NLS_CHAR:
         typeAsText = L"char";
         break;
     case NLS_SCOMPLEX:
         typeAsText = L"single";
         break;
-    case NLS_DCOMPLEX:
-        typeAsText = L"double";
-        break;
+    case NLS_DCOMPLEX: {
+        if (A.isSparse()) {
+            typeAsText = L"sparse double";
+        } else {
+            typeAsText = L"double";
+        }
+    } break;
     case NLS_CELL_ARRAY:
         typeAsText = L"cell";
         break;
@@ -222,7 +234,7 @@ getClassAsWideString(const ArrayOf& A)
         if (A.isClassStruct()) {
             typeAsText = utf8_to_wstring(A.getStructType());
         } else {
-            typeAsText = L"struct";
+            typeAsText = utf8_to_wstring(NLS_STRUCT_ARRAY_STR);
         }
     } break;
     case NLS_STRING_ARRAY:
@@ -232,6 +244,79 @@ getClassAsWideString(const ArrayOf& A)
     } break;
     }
     return typeAsText;
+}
+//=============================================================================
+static std::wstring
+buildHeader(const ArrayOf& A)
+{
+    std::wstring msg;
+    std::wstring typeAsText = getClassAsWideString(A);
+    if (A.isScalar() && !(A.isCell() || A.isStruct())) {
+        msg = L"  " + typeAsText + L"\n";
+    } else {
+        std::wstring dimensions = A.getDimensions().toWideString();
+        std::wstring dimensionsForHuman = L"";
+        switch (A.getDataClass()) {
+        case NLS_STRUCT_ARRAY: {
+            stringVector fieldnames = A.getFieldNames();
+            bool haveFields = !fieldnames.empty();
+            bool isEmpty = A.isEmpty();
+            bool isScalar = A.isScalar();
+            std::wstring withPart;
+
+            if (A.isClassStruct()) {
+                if (!haveFields) {
+                    withPart = L"with no properties.";
+                } else {
+                    withPart = L"with properties:";
+                }
+            } else {
+                if (!haveFields) {
+                    withPart = L"with no fields.";
+                } else {
+                    withPart = L"with fields:";
+                }
+            }
+            dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
+            if (isEmpty) {
+                msg = fmt::sprintf(L"  %s %s %s %s %s", dimensions, L"empty", typeAsText,
+                    dimensionsForHuman, withPart);
+            } else if (isScalar) {
+                msg = fmt::sprintf(L"  %s %s", typeAsText, withPart);
+            } else {
+                msg = fmt::sprintf(
+                    L"  %s %s %s %s", dimensions, typeAsText, dimensionsForHuman, withPart);
+            }
+            msg.append(L"\n");
+            return msg;
+        } break;
+        case NLS_LOGICAL:
+        case NLS_CELL_ARRAY:
+        case NLS_STRING_ARRAY:
+        case NLS_CHAR: {
+            dimensionsForHuman = _W("array");
+        } break;
+        default: {
+            if (A.getDimensions().getLength() > 2) {
+                dimensionsForHuman = _W("array");
+            } else if (A.isRowVector()) {
+                dimensionsForHuman = _W("row vector");
+            } else if (A.isColumnVector()) {
+                dimensionsForHuman = _W("column vector");
+            } else {
+                dimensionsForHuman = _W("matrix");
+            }
+        } break;
+        }
+        if (!A.isEmpty()) {
+            msg = fmt::sprintf(L"  %s %s %s", dimensions, typeAsText, dimensionsForHuman);
+        } else {
+            std::wstring empty = _W("empty");
+            msg = fmt::sprintf(L"  %s %s %s %s", dimensions, empty, typeAsText, dimensionsForHuman);
+        }
+        msg.append(L"\n");
+    }
+    return msg;
 }
 //=============================================================================
 void
@@ -250,61 +335,46 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
                 io->outputMessage(name + L" =\n\n");
             }
         }
-
         switch (A.getDataClass()) {
         case NLS_CHAR: {
             bool withType = A.isEmpty() || !A.isRowVector();
             if (withType) {
-                std::wstring typeAsText = getClassAsWideString(A);
-                std::wstring format = _W("  <%s> - size: %s\n");
-                std::wstring msg
-                    = fmt::sprintf(format, typeAsText, A.getDimensions().toWideString());
+                std::wstring msg = buildHeader(A);
                 io->outputMessage(msg);
             }
         } break;
-        case NLS_DCOMPLEX:
-        case NLS_DOUBLE: {
-            if (!name.empty() && A.isSparse() && A.isEmpty()) {
-                std::wstring format = _W("%s empty sparse double matrix");
-                std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
-                io->outputMessage(L"  " + msg + L"\n");
+        case NLS_DOUBLE:
+        case NLS_DCOMPLEX: {
+            if (A.isSparse() && A.isEmpty()) {
+                std::wstring msg = buildHeader(A);
+                io->outputMessage(msg);
             }
-        } break;
-        case NLS_LOGICAL: {
-            if (!name.empty() && A.isSparse()) {
-                std::wstring format = _W("%s empty sparse logical matrix");
-                std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
-                io->outputMessage(L"  " + msg + L"\n");
-            } else {
-                std::wstring typeAsText = getClassAsWideString(A);
-                if (A.isSparse()) {
-                    typeAsText = L"sparse " + typeAsText;
-                }
-                io->outputMessage(L"  <" + typeAsText + L"> - size: ");
-                A.getDimensions().printMe(io);
-            }
-
         } break;
         case NLS_STRING_ARRAY: {
-            if (!name.empty() && !(A.isEmpty() || A.isScalar())) {
-                std::wstring typeAsText = getClassAsWideString(A);
-                if (A.isSparse()) {
-                    typeAsText = L"string " + typeAsText;
-                }
-                io->outputMessage(
-                    L"  <" + typeAsText + L"> - size: " + A.getDimensions().toWideString() + L"\n");
+            if (!A.isScalar()) {
+                std::wstring msg = buildHeader(A);
+                io->outputMessage(msg);
             }
         } break;
+
+        case NLS_GO_HANDLE:
+        case NLS_HANDLE:
+        case NLS_CELL_ARRAY:
+        case NLS_STRUCT_ARRAY:
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_SCOMPLEX:
         default: {
-            std::wstring typeAsText = getClassAsWideString(A);
-            io->outputMessage(L"  <" + typeAsText + L"> - size: ");
-            A.getDimensions().printMe(io);
-            if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-                == NLS_LINE_SPACING_COMPACT) {
-                io->outputMessage(L"\n");
-            } else {
-                io->outputMessage(L"\n");
-            }
+            std::wstring msg = buildHeader(A);
+            io->outputMessage(msg);
         } break;
         }
     }
@@ -494,6 +564,18 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             if (A.isScalar()) {
                 double value = *(static_cast<const double*>(A.getDataPointer()));
                 msg = formatNumber(value, currentNumericFormat, true);
+                if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
+                    size_t nbCharsLimit = 6;
+                    if (boost::contains(msg, L"/")) {
+                        nbCharsLimit++;
+                    }
+                    if (boost::contains(msg, L"-")) {
+                        nbCharsLimit++;
+                    }
+                    if (msg.length() > nbCharsLimit) {
+                        msg = L"*";
+                    }
+                }
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     if (msg.length() > termWidth) {
                         msg = lightDescription(A, L"", L"");
@@ -510,7 +592,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         } else {
             if (A.isScalar()) {
                 const auto* ap = static_cast<const double*>(A.getDataPointer());
-                msg = formatNumberComplex(ap[0], ap[1], currentNumericFormat, false);
+                msg = formatNumberComplex(ap[0], ap[1], currentNumericFormat, true);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     if (msg.length() > termWidth) {
                         msg = lightDescription(A, L"", L"");
@@ -743,7 +825,7 @@ outputSinglePrecisionAsIntegerForm(
         msg = formatLongG(number, false, trim);
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
-        msg = formatShortEng(number, false, trim);
+        msg = formatShortEng(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         msg = formatLongEng(number, trim);
@@ -791,7 +873,7 @@ outputSinglePrecisionFloat(
         msg = formatLongG(number, forceFormat, trim);
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
-        msg = formatShortEng(number, forceFormat, trim);
+        msg = formatShortEng(number, trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         msg = formatLongEng(number, trim);

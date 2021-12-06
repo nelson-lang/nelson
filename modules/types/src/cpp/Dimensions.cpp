@@ -401,13 +401,13 @@ Dimensions::isVector() const
 bool
 Dimensions::isRowVector() const
 {
-    return (getElementCount() == data[1]) && (data[1] != 0);
+    return (getLength() == 2 && getRows() == 1 && getColumns() >= 0);
 }
 //=============================================================================
 bool
 Dimensions::isColumnVector() const
 {
-    return (getElementCount() == data[0]) && (data[0] != 0);
+    return (getLength() == 2 && getRows() >= 0 && getColumns() == 1);
 }
 //=============================================================================
 bool

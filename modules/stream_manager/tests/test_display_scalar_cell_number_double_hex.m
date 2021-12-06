@@ -29,7 +29,7 @@ R = evalc('A = {1}');
 REF =   '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[3ff0000000000000]}
 
@@ -40,7 +40,7 @@ R = evalc('A = {pi}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[400921fb54442d18]}
 
@@ -51,7 +51,7 @@ R = evalc('A = {-pi}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[c00921fb54442d18]}
 
@@ -62,7 +62,7 @@ R = evalc('A = {NaN}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[fff8000000000000]}
 
@@ -73,7 +73,7 @@ R = evalc('A = {-Inf}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[fff0000000000000]}
 
@@ -84,7 +84,7 @@ R = evalc('A = {Inf}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[7ff0000000000000]}
 
@@ -95,7 +95,7 @@ R = evalc('A = {eps}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[3cb0000000000000]}
 
@@ -106,7 +106,7 @@ R = evalc('A = {-eps}');
 REF =   '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[bcb0000000000000]}
 
@@ -117,7 +117,7 @@ R = evalc('A = {complex(pi, pi)}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[400921fb54442d18   400921fb54442d18i]}
 
@@ -128,7 +128,7 @@ R = evalc('A = {complex(1, 0)}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[3ff0000000000000   0000000000000000i]}
 
@@ -139,7 +139,7 @@ R = evalc('A = {complex(NaN, NaN)}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[fff8000000000000   fff8000000000000i]}
 
@@ -150,7 +150,7 @@ R = evalc('A = {complex(1.8e99, -eps)}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[548a559d2be075aa   bcb0000000000000i]}
 

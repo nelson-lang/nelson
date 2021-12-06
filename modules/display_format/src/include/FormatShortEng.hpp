@@ -33,11 +33,11 @@ namespace Nelson {
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP
 std::wstring
-formatShortEng(double number, bool forceFormat, bool trim = false);
+formatShortEng(double number, bool trim = false);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP
 std::wstring
-formatShortEng(single number, bool forceFormat, bool trim = false);
+formatShortEng(single number, bool trim = false);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP
 std::wstring

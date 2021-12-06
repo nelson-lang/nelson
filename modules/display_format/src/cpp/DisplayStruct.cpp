@@ -92,15 +92,15 @@ void
 DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    if (!name.empty()) {
-        io->outputMessage(L"\n");
-    }
     stringVector fieldnames = A.getFieldNames();
     size_t maxLen = 0;
     for (auto name : fieldnames) {
         maxLen = std::max(name.length(), maxLen);
     }
     if (!fieldnames.empty()) {
+        if (!name.empty()) {
+            io->outputMessage(L"\n");
+        }
         ArrayOf* ap = (ArrayOf*)A.getDataPointer();
         for (size_t k = 0; k < fieldnames.size(); ++k) {
             std::wstring beginning = BLANKS_AT_BOL

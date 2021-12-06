@@ -29,7 +29,7 @@ R = evalc('A = {1}');
 REF =   '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[1.00000000000000e+000]}
 
@@ -40,7 +40,7 @@ R = evalc('A = {pi}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[3.14159265358979e+000]}
 
@@ -51,7 +51,7 @@ R = evalc('A = {NaN}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[NaN]}
 
@@ -62,7 +62,7 @@ R = evalc('A = {-Inf}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[-Inf]}
 
@@ -70,10 +70,10 @@ A =
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('A = {Inf}');
-REF =  '
+REF =   '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[Inf]}
 
@@ -84,7 +84,7 @@ R = evalc('A = {complex(pi, pi)}');
 REF =  '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[3.14159265358979e+000 + 3.14159265358979e+000i]}
 
@@ -95,7 +95,7 @@ R = evalc('A = {complex(1, 0)}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[1.00000000000000e+000 + 0.00000000000000e+000i]}
 
@@ -106,9 +106,9 @@ R = evalc('A = {complex(NaN, NaN)}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
-    {[NaN + NaNi]}
+    {[NaN +                      NaNi]}
 
 ';
 assert_isequal(R, REF)
@@ -117,7 +117,7 @@ R = evalc('A = {complex(1.8e99, -eps)}');
 REF = '
 A =
 
-  <cell> - size: 1×1
+  1×1 cell array
 
     {[1.80000000000000e+099 - 222.044604925031e-018i]}
 

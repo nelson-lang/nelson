@@ -26,12 +26,16 @@
 #include "NelsonGateway.hpp"
 #include "dispBuiltin.hpp"
 #include "displayBuiltin.hpp"
+#include "formatBuiltin.hpp"
+#include "echoBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"display_format";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "echo", (void*)Nelson::DisplayFormatGateway::echoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "format", (void*)Nelson::DisplayFormatGateway::formatBuiltin, 1, 1 },
     { "disp", (void*)Nelson::DisplayFormatGateway::dispBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "display", (void*)Nelson::DisplayFormatGateway::displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
@@ -68,11 +72,9 @@ static const nlsGateway gateway[] = {
     { "string_display", (void*)Nelson::DisplayFormatGateway::string_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sparsedouble_display", (void*)Nelson::DisplayFormatGateway::sparsedouble_displayBuiltin, 0,
-        2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        2, CPP_BUILTIN_WITH_EVALUATOR },
     { "sparselogical_display", (void*)Nelson::DisplayFormatGateway::sparselogical_displayBuiltin, 0,
-        2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        2, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 static bool
