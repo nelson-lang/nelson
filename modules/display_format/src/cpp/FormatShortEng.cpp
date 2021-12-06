@@ -33,20 +33,20 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-formatShortEng(double x, bool forceFormat, bool trim)
+formatShortEng(double x, bool trim)
 {
     std::wstring str;
     if (IsInfinite(x)) {
         std::wstring format = L"%*s";
         if (x < 0) {
-            str = fmt::sprintf(format, 15, L"-Inf");
+            str = fmt::sprintf(format, 16, L"-Inf");
         } else {
-            str = fmt::sprintf(format, 15, L"Inf");
+            str = fmt::sprintf(format, 16, L"Inf");
         }
 
     } else if (IsNaN(x)) {
         std::wstring format = L"%*s";
-        str = fmt::sprintf(format, 15, L"NaN");
+        str = fmt::sprintf(format, 16, L"NaN");
     } else {
         int exponent = 0;
         if (x != 0) {
@@ -73,9 +73,11 @@ formatShortEng(double x, bool forceFormat, bool trim)
         }
         std::wstring format = L"%.4f%s%s";
         str = fmt::sprintf(format, mantissa, expStr, exponentAsString);
-        if (mantissa < 10) {
-            str = L" " + str;
-        }
+        size_t nbBlanks = 6;
+        std::wstring integerPart = std::to_wstring(int(mantissa));
+        nbBlanks = nbBlanks - integerPart.length();
+        std::wstring blanks(nbBlanks, L' ');
+        str = blanks + str;
     }
     if (trim) {
         boost::trim_left(str);
@@ -84,9 +86,9 @@ formatShortEng(double x, bool forceFormat, bool trim)
 }
 //=============================================================================
 std::wstring
-formatShortEng(single x, bool forceFormat, bool trim)
+formatShortEng(single x, bool trim)
 {
-    return formatShortEng((double)x, forceFormat, trim);
+    return formatShortEng((double)x, trim);
 }
 //=============================================================================
 std::wstring
@@ -98,8 +100,8 @@ formatComplexShortEng(double realPart, double imagPart, bool forceFormat, bool t
     } else {
         signStr = L" + ";
     }
-    return formatShortEng(realPart, forceFormat, trim) + signStr
-        + formatShortEng(fabs(imagPart), forceFormat, false) + L"i";
+    return formatShortEng(realPart, trim) + signStr
+        + formatShortEng(fabs(imagPart), false) + L"i";
 }
 //=============================================================================
 std::wstring

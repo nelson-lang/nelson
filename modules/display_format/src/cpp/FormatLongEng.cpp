@@ -39,13 +39,12 @@ formatLongEng(double number, bool trim)
     if (IsInfinite(number)) {
         std::wstring format = L"%*s";
         if (number < 0) {
-            str = fmt::sprintf(format, 18, L"-Inf");
+            str = L"                     -Inf";
         } else {
-            str = fmt::sprintf(format, 18, L"Inf");
+            str = L"                      Inf";
         }
     } else if (IsNaN(number)) {
-        std::wstring format = L"%*s";
-        str = fmt::sprintf(format, 18, L"NaN");
+        str = L"                      NaN";
     } else {
         int exponent = 0;
         if (number != 0) {
@@ -80,8 +79,11 @@ formatLongEng(double number, bool trim)
         }
         format = L"%s%s%s";
         str = fmt::sprintf(format, str, expStr, exponentAsString);
-        if (mantissa < 10) {
-            str = L" " + str;
+        if (mantissa < 0) {
+            str = L"   " + str;
+
+        } else {
+            str = L"    " + str;
         }
     }
     if (trim) {

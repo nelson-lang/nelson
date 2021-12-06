@@ -38,7 +38,7 @@ template <typename T>
 T
 x_nint(T x)
 {
-    return (isfinite(x) ? std::floor(x + (T)0.5) : x);
+    return (std::isfinite(x) ? std::floor(x + (T)0.5) : x);
 }
 //=============================================================================
 template <typename T, typename CAST>

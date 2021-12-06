@@ -91,7 +91,7 @@ DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 void
 DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -170,8 +170,7 @@ getOptionalCommonLogarithm(
             return commonLogarithm;
         }
     } break;
-    default: {
-    }
+    default: {}
     }
     return 0;
 }
@@ -262,7 +261,7 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
 void
 DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

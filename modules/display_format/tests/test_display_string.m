@@ -36,7 +36,7 @@ R = evalc('A = string([])');
 REF = '
 A =
 
-  0×0 empty string matrix
+  0×0 empty string array
 
 ';
 assert_isequal(R, REF)
@@ -48,7 +48,7 @@ R = evalc('A');
 REF = '
 A =
 
-  <string> - size: 3×3
+  3×3 string array
 
       "d"       "d"     "d"
     "ddd"    "dddd"    "dd"
@@ -61,10 +61,10 @@ A = ["d","d","d";
     "ds", NaN,"ds";
     "c","c","c"];
 R = evalc('A');
-REF =   '
+REF = '
 A =
 
-  <string> - size: 3×3
+  3×3 string array
 
      "d"          "d"     "d"
     "ds"    <missing>    "ds"
@@ -78,7 +78,7 @@ R = evalc('A');
 REF = '
 A =
 
-  <string> - size: 3×3
+  3×3 string array
 
     "dddlll"    "dd"    "1234567890ABCDE…"
     "dddlll"    "dd"     "ddddddddddddddd"
@@ -90,10 +90,10 @@ assert_isequal(R, REF)
 A = ["Mercury1" "Gemini2" "Apollo3" "Smith4","Chung5","Morales6" "Mercury7" "Gemini8" "Apollo9" "Smith10","Chung11","Morales12" "Mercury13" "Gemini14" "Apollo15" "Smith16","Chung17","Morales18";
        "Skylab19" "Skylab B20" "ISS21" "Sanchez22","Peterson23","Adams24" "Mercury25" "Gemini26" "Apollo27" "Smith28","Chung29","Morales30" "Mercury31" "Gemini32" "Apollo33" "Smith34","Chung35","Morales36"];
 R = evalc('A');
-REF = '
+REF =  '
 A =
 
-  <string> - size: 2×18
+  2×18 string array
 
   Columns 1 through 5
 
@@ -124,7 +124,7 @@ R = evalc('A');
 REF = '
 A =
 
-  <string> - size: 2×3
+  2×3 string array
 
       "Smith"       "Chung"    "Morales"
     "Sanchez"    "Peterson"      "Adams"
@@ -137,7 +137,7 @@ R = evalc('A');
 REF = '
 A =
 
-  <string> - size: 1×2
+  1×2 string array
 
     "dd"    "ddddddddddddddd…"
 
@@ -146,10 +146,10 @@ assert_isequal(R, REF)
 %=============================================================================
 A = ["ffffffffffffff", "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "dddddddddddddddddddddddddddddd","ddddddddddddddddddddddddddddddddddddddddddddddddddd"];
 R = evalc('A');
-REF = '
+REF =  '
 A =
 
-  <string> - size: 1×4
+  1×4 string array
 
   Columns 1 through 3
 
@@ -167,8 +167,8 @@ B = string(reshape(A,3,3,3));
 B(2,1, 2) = "ffffffffffffffffffdddddddddddffffffffffffffffffffff";
 B(1,1, 3) = NaN;
 R = evalc('B');
-REF = '
-  <string> - size: 3×3×3
+REF =  '
+  3×3×3 string array
 
 B(:,:,1) =
 
@@ -194,7 +194,7 @@ B(:,:,3) =
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('disp(B)');
-REF = '
+REF =  '
 (:,:,1) =
 
      "1"    "31"    "61"
