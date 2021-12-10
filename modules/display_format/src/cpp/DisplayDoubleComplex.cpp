@@ -147,34 +147,6 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max)
     return true;
 }
 //=============================================================================
-static int
-getOptionalCommonLogarithm(
-    double minValue, double maxValue, NumericFormatDisplay currentNumericFormat)
-{
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_LONG: {
-        int commonLogarithm = log10(std::max(minValue, maxValue));
-        if (commonLogarithm == 1) {
-            return 0;
-        }
-        if (commonLogarithm < -2 || commonLogarithm >= 2) {
-            return commonLogarithm;
-        }
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        int commonLogarithm = log10(std::max(minValue, maxValue));
-        if (commonLogarithm == 1) {
-            return 0;
-        }
-        if (commonLogarithm < -2 || commonLogarithm >= 2) {
-            return commonLogarithm;
-        }
-    } break;
-    default: {}
-    }
-    return 0;
-}
-//=============================================================================
 void
 Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)

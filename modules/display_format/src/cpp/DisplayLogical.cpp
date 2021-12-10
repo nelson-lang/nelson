@@ -31,6 +31,7 @@
 #include "DisplayLogical.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "FormatHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -290,6 +291,10 @@ Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
 
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+        io->outputMessage(L"\n");
+    }
+
     if (A.getNonzeros() == 0) {
         std::wstring format = _W("All zero sparse: %s");
         std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
@@ -325,14 +330,11 @@ Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name
                 } else {
                     asStr = L"false";
                 }
-                asStr = BLANKS_AT_BOL + asStr;
             }
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
-            std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
-            std::wstring format = L"%s%s%s";
-            std::wstring msg = fmt::sprintf(format, indexAsString, blanks, asStr);
-            io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
+            io->outputMessage(BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString)
+                + BLANKS_BETWEEN + asStr + L"\n");
         }
     }
 }

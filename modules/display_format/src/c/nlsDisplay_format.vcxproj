@@ -210,6 +210,7 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
     <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
+    <ClInclude Include="..\cpp\ScaleFactor.hpp" />
     <ClInclude Include="..\include\ArrayOfFormatInfo.hpp" />
     <ClInclude Include="..\include\DisplayCell.hpp" />
     <ClInclude Include="..\include\DisplayChar.hpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="..\include\DisplayIntegerHelpers.hpp" />
     <ClInclude Include="..\include\DisplayLogical.hpp" />
     <ClInclude Include="..\include\DisplaySparseDouble.hpp" />
+    <ClInclude Include="..\include\DisplaySparseDoubleComplex.hpp" />
     <ClInclude Include="..\include\DisplayString.hpp" />
     <ClInclude Include="..\include\DisplayStruct.hpp" />
     <ClInclude Include="..\include\DisplayVariable.hpp" />
@@ -249,6 +251,7 @@
     <ClCompile Include="..\cpp\DisplayIntegerHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayLogical.cpp" />
     <ClCompile Include="..\cpp\DisplaySparseDouble.cpp" />
+    <ClCompile Include="..\cpp\DisplaySparseDoubleComplex.cpp" />
     <ClCompile Include="..\cpp\DisplayString.cpp" />
     <ClCompile Include="..\cpp\DisplayStruct.cpp" />
     <ClCompile Include="..\cpp\DisplayVariable.cpp" />
@@ -268,6 +271,7 @@
     <ClCompile Include="..\cpp\FormatShortEng.cpp" />
     <ClCompile Include="..\cpp\FormatShortG.cpp" />
     <ClCompile Include="..\cpp\Hexify.cpp" />
+    <ClCompile Include="..\cpp\ScaleFactor.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -141,9 +141,7 @@ completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         width = 0;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return completeWithBlanksAtBeginning(msg, width);
 }
 //=============================================================================
@@ -240,9 +238,7 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return typeAsText;
 }
 //=============================================================================
@@ -345,7 +341,7 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
         } break;
         case NLS_DOUBLE:
         case NLS_DCOMPLEX: {
-            if (A.isSparse() && A.isEmpty()) {
+            if (A.isEmpty()) {
                 std::wstring msg = buildHeader(A);
                 io->outputMessage(msg);
             }
@@ -426,14 +422,10 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
 {
     std::wstring msg;
     if (A.isEmpty()) {
-        if (A.getDataPointer() == nullptr) {
-            msg = L"[]";
+        if (A.getDataClass() == NLS_CHAR) {
+            msg = L"''";
         } else {
-            if (A.getDataClass() == NLS_CHAR) {
-                msg = L"''";
-            } else {
-                msg = L"[]";
-            }
+            msg = L"[]";
         }
         return msg;
     }
@@ -443,7 +435,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
                 + L"}";
         } else {
             msg = lightDescription(A, L"{", L"}");
@@ -634,9 +626,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -842,9 +832,7 @@ outputSinglePrecisionAsIntegerForm(
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatRational(number, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -890,9 +878,7 @@ outputSinglePrecisionFloat(
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatRational(number, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -935,9 +921,7 @@ outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatComplexRational(realPart, imagPart, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================
@@ -980,9 +964,7 @@ outputSingleComplexPrecisionFloat(single realPart, single imagPart,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         msg = formatComplexRational(realPart, imagPart, trim);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================

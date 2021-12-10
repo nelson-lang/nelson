@@ -25,36 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDisplay_format_exports.h"
-#include "ArrayOfFormatInfo.hpp"
-#include "NelsonConfiguration.hpp"
 #include "ArrayOf.hpp"
+#include "Interface.hpp"
+#include "nlsDisplay_format_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
-formatNumber(double val, NumericFormatDisplay currentNumericFormat, bool forceLeftTrim);
+NLSDISPLAY_FORMAT_IMPEXP void
+DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
-std::wstring
-formatNumberComplex(double realPart, double ImagPart, NumericFormatDisplay currentNumericFormat,
-    bool forceLeftTrim);
-//=============================================================================
-FormatDisplayInformation
-computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
-//=============================================================================
-std::wstring
-formatElement(double val, NumericFormatDisplay currentNumericFormat,
-    const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatElementComplex(double realPart, double ImagPart, NumericFormatDisplay currentNumericFormat,
-    const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatScaleFactor(const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-centerText(const std::wstring& text, size_t width);
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

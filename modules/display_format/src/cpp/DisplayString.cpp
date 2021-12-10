@@ -79,8 +79,7 @@ DisplayString(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyString(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{
-}
+{}
 //=============================================================================
 void
 Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
