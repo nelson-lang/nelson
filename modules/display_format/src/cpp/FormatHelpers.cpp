@@ -37,6 +37,7 @@
 #include "FormatShortEng.hpp"
 #include "Types.hpp"
 #include "IEEEFP.hpp"
+#include "ScaleFactor.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -52,18 +53,17 @@ formatScaleFactor(const FormatDisplayInformation& formatInfo)
         } else {
             sign = L"-";
         }
+        std::wstring fmt;
         if (absCommonLogarithm < 10) {
-            std::wstring fmt = L"1.0e%s0%d *";
-            scaleFactorAsString = fmt::sprintf(fmt, sign, absCommonLogarithm);
+            fmt = L"1.0e%s0%d *";
         } else {
-            std::wstring fmt = L"1.0e%s%d *";
-            scaleFactorAsString = fmt::sprintf(fmt, sign, absCommonLogarithm);
+            fmt = L"1.0e%s%d *";
         }
+        scaleFactorAsString = fmt::sprintf(fmt, sign, absCommonLogarithm);
     }
     return scaleFactorAsString;
 }
 //=============================================================================
-
 static FormatDisplayInformation
 getArrayOfFormatInfoDouble(NumericFormatDisplay currentNumericFormat)
 {
@@ -351,9 +351,7 @@ computeFormatInfo(double val, NumericFormatDisplay currentNumericFormat)
             formatInfo.trim = true;
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return formatInfo;
 }
 //=============================================================================
@@ -669,34 +667,6 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max, bool& isFini
     return true;
 }
 //=============================================================================
-static double
-computeScaleFactor(double minValue, double maxValue, NumericFormatDisplay currentNumericFormat)
-{
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_LONG: {
-        int commonLogarithm = log10(std::max(minValue, maxValue));
-        if (commonLogarithm == 1) {
-            return 0;
-        }
-        if (commonLogarithm < -2 || commonLogarithm >= 2) {
-            return commonLogarithm;
-        }
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        int commonLogarithm = log10(std::max(minValue, maxValue));
-        if (commonLogarithm == 1) {
-            return 0;
-        }
-        if (commonLogarithm < -2 || commonLogarithm > 2) {
-            return commonLogarithm;
-        }
-    } break;
-    default: {
-    }
-    }
-    return 1;
-}
-//=============================================================================
 FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
 {
@@ -735,8 +705,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
     if (A.isComplex()) {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_SHORT: {
-            double scaleFactor = computeScaleFactor(minValue, maxValue, currentNumericFormat);
-            formatInfo.scaleFactor = scaleFactor;
+            ComputeScaleFactor(A, formatInfo);
             formatInfo.isComplex = true;
             formatInfo.formatReal = L"%*.*f";
             formatInfo.widthReal = 9;
@@ -746,19 +715,15 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     } else {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_HEX: {
         } break;
         case NLS_NUMERIC_FORMAT_SHORT: {
-            double scaleFactor = computeScaleFactor(minValue, maxValue, currentNumericFormat);
-            formatInfo.scaleFactor = scaleFactor;
-
+            ComputeScaleFactor(A, formatInfo);
             if (allInteger) {
-                if (scaleFactor == 1) {
+                if (formatInfo.scaleFactor == 1) {
                     double absoluteValue = std::max(fabs(maxValue), fabs(minValue));
                     if (absoluteValue <= 999) {
                         formatInfo.floatAsInteger = true;
@@ -793,9 +758,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.formatReal = L"%*s";
 
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
 
     return formatInfo;
@@ -813,7 +776,7 @@ formatElement(double val, NumericFormatDisplay currentNumericFormat,
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         size_t width = formatInfo.widthReal;
         size_t lengthWithoutBlanks = formatInfo.decimalsReal - 1;
-        result = formatRational(val, width, lengthWithoutBlanks, false);
+        result = formatRational(val, width, lengthWithoutBlanks, formatInfo.trim);
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
         result = formatPlus(val, false);
@@ -890,10 +853,15 @@ formatElementComplex(double realPart, double ImagPart, NumericFormatDisplay curr
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
 
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return result;
+}
+//=============================================================================
+std::wstring
+centerText(const std::wstring& text, size_t width)
+{
+    size_t padLength = (width - text.length()) / 2;
+    return fmt::sprintf(L"%*s%s%*s", padLength, L"", text, padLength, L"");
 }
 //=============================================================================
 }

@@ -33,9 +33,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define HORIZONTAL_ELLIPSIS L"\u2026" // L"�"
+#define HORIZONTAL_ELLIPSIS L"\u2026" // L"..."
+#define BLANKS_BETWEEN L"   "
 #define BLANKS_AT_BOL L"    "
-#define LENGTH_BLANKS_AT_BOL 4
+#define LENGTH_BLANKS_AT_BOL std::wstring(BLANKS_AT_BOL).length()
 #define DEFAULT_NOMINAL_WIDTH 10
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP void

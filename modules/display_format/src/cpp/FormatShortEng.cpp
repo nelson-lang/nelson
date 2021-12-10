@@ -100,8 +100,7 @@ formatComplexShortEng(double realPart, double imagPart, bool forceFormat, bool t
     } else {
         signStr = L" + ";
     }
-    return formatShortEng(realPart, trim) + signStr
-        + formatShortEng(fabs(imagPart), false) + L"i";
+    return formatShortEng(realPart, trim) + signStr + formatShortEng(fabs(imagPart), false) + L"i";
 }
 //=============================================================================
 std::wstring

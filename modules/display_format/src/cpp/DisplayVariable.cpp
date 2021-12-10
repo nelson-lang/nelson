@@ -36,6 +36,7 @@
 #include "DisplayDouble.hpp"
 #include "DisplayDoubleComplex.hpp"
 #include "DisplaySparseDouble.hpp"
+#include "DisplaySparseDoubleComplex.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -87,7 +88,7 @@ DisplayVariable(Interface* io, const ArrayOf& A, const std::wstring& name, bool&
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
-
+            DisplaySparseDoubleComplex(io, A, name);
         } else {
             DisplayDoubleComplex(io, A, name);
         }

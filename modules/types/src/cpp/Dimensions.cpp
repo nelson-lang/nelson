@@ -317,18 +317,22 @@ Dimensions::toWideString() const
 {
 #define MIDDLE_WMULTIPLY L"\U000000D7"
     std::wstring text;
-    if (length > 0) {
-        for (indexType i = 0; i < length - 1; i++) {
-            unsigned long val = static_cast<unsigned long>(data[i]);
-            text.append(std::to_wstring(val));
-            if (length >= 1) {
-                text.append(MIDDLE_WMULTIPLY);
+    if (length > 4) {
+        text.append(std::to_wstring(length) + L"-D");
+    } else {
+        if (length > 0) {
+            for (indexType i = 0; i < length - 1; i++) {
+                unsigned long long int val = static_cast<unsigned long long int>(data[i]);
+                text.append(std::to_wstring(val));
+                if (length >= 1) {
+                    text.append(MIDDLE_WMULTIPLY);
+                }
             }
         }
-    }
-    if (length >= 1) {
-        unsigned long val = static_cast<unsigned long>(data[length - 1]);
-        text.append(std::to_wstring(val));
+        if (length >= 1) {
+            unsigned long long int val = static_cast<unsigned long long int>(data[length - 1]);
+            text.append(std::to_wstring(val));
+        }
     }
     return text;
 }
@@ -338,18 +342,22 @@ Dimensions::toString() const
 {
 #define MULTIPLY_SYMBOL "\U000000D7"
     std::string text;
-    if (length > 0) {
-        for (indexType i = 0; i < length - 1; i++) {
-            unsigned long val = static_cast<unsigned long>(data[i]);
-            text.append(std::to_string(val));
-            if (length >= 1) {
-                text.append(MULTIPLY_SYMBOL);
+    if (length > 4) {
+        text.append(std::to_string(length) + "-D");
+    } else {
+        if (length > 0) {
+            for (indexType i = 0; i < length - 1; i++) {
+                unsigned long long int val = static_cast<unsigned long long int>(data[i]);
+                text.append(std::to_string(val));
+                if (length >= 1) {
+                    text.append(MULTIPLY_SYMBOL);
+                }
             }
         }
-    }
-    if (length >= 1) {
-        unsigned long val = static_cast<unsigned long>(data[length - 1]);
-        text.append(std::to_string(val));
+        if (length >= 1) {
+            unsigned long long int val = static_cast<unsigned long long int>(data[length - 1]);
+            text.append(std::to_string(val));
+        }
     }
     return text;
 }

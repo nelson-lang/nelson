@@ -37,28 +37,20 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define MIDDLE_MULTIPLY "\U000000D7"
-#define BLANKS_INTEGER_AT_BOL L"   "
-#define LENGTH_BLANKS_INTEGER_AT_BOL 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX 6
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL 6
-//============================================================================
 static void
-DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -68,13 +60,13 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
     DisplayVariableHeader(io, A, name);
     bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayEmptySparseDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
     } else {
         if (A.getNonzeros() == 1) {
-            DisplaySparseDoubleScalar(io, A, name, currentNumericFormat, currentLineSpacing);
+            DisplaySparseDoubleComplexScalar(io, A, name, currentNumericFormat, currentLineSpacing);
         } else {
-            DisplaySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+            DisplaySparseDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         }
         if (A.isScalar() || A.isRowVector()) {
             withFooter = !name.empty();
@@ -88,25 +80,26 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 }
 //=============================================================================
 void
-DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {}
 //=============================================================================
 void
-DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
 
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.getSparseDataPointer();
 
     indexType r = 0;
     indexType c = 0;
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-             ++it) {
+        for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
+                 *spMat, k);
+             it; ++it) {
             r = it.row() + 1;
             c = it.col() + 1;
         }
@@ -115,18 +108,17 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     size_t maxLenIndexString = indexAsString.length();
 
-    const double* values = spMat->valuePtr();
-    double value = values[0];
-    std::wstring asStr = formatNumber(values[0], currentNumericFormat, false);
+    const std::complex<double>* values = spMat->valuePtr();
+    std::wstring asStr
+        = formatNumberComplex(values[0].real(), values[0].imag(), currentNumericFormat, false);
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
-    std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
     io->outputMessage(msg);
 }
 //=============================================================================
 static void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     indexType nbRows = A.getRows();
@@ -139,14 +131,15 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         return;
     }
 
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.getSparseDataPointer();
 
     indexType rMax = 0;
     indexType cMax = 0;
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-             ++it) {
+        for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
+                 *spMat, k);
+             it; ++it) {
             rMax = std::max((long long)rMax, (long long)it.row() + 1);
             cMax = std::max((long long)cMax, (long long)it.col() + 1);
         }
@@ -165,6 +158,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             io->outputMessage(L"\n");
         }
     }
+
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
@@ -174,14 +168,17 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             continueDisplay = false;
             break;
         }
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
+        for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
+                 *spMat, k);
              it && continueDisplay; ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                 continueDisplay = false;
                 break;
             }
-            double value = it.value();
-            std::wstring asStr = formatElement(value, currentNumericFormat, formatInfo);
+            std::complex<double> value = it.value();
+            std::wstring asStr = formatElementComplex(
+                value.real(), value.imag(), currentNumericFormat, formatInfo);
+
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             buffer.append(BLANKS_AT_BOL);
