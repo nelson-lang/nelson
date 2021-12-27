@@ -145,8 +145,9 @@ function displayTestCaseFail(test_case)
     if strcmp(test_case.msg, '') == false
       disp(_('    Error:'));
       if strcmp(class(test_case.msg), 'cell') == 1
-        for k = test_case.msg(:)'
-          disp(['      ', k]);
+        msg = test_case.msg(:)';
+        for k = msg(1:3)
+          disp(['      ', k{1}]);
         end
       else
         if strcmp(class(test_case.msg), 'struct') == true
