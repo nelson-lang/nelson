@@ -76,6 +76,9 @@ getArrayOfFormatInfoDouble(NumericFormatDisplay currentNumericFormat)
         formatInfo.decimalsReal = 4;
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
+        formatInfo.widthReal = 18;
+        formatInfo.floatAsInteger = false;
+        formatInfo.decimalsReal = 18;
     } break;
     case NLS_NUMERIC_FORMAT_SHORTE: {
     } break;
@@ -334,6 +337,41 @@ computeFormatInfo(double val, NumericFormatDisplay currentNumericFormat)
                 formatInfo.formatReal = L"%*.*f";
                 formatInfo.widthReal = 10;
                 formatInfo.decimalsReal = 4;
+            }
+        }
+    } break;
+
+    case NLS_NUMERIC_FORMAT_LONG: {
+        double absoluteValue = fabs(val);
+        if (!std::isfinite(absoluteValue)) {
+            formatInfo.formatReal = L"%*.*f";
+            formatInfo.widthReal = 6;
+            formatInfo.decimalsReal = 4;
+        } else if (IsIntegerForm(val)) {
+            if (absoluteValue <= 999) {
+                formatInfo.formatReal = L"%*ld";
+                formatInfo.widthReal = 6;
+                formatInfo.decimalsReal = 0;
+                formatInfo.floatAsInteger = true;
+            } else if (absoluteValue <= 999999999) {
+                formatInfo.formatReal = L"%*ld";
+                formatInfo.widthReal = 12;
+                formatInfo.decimalsReal = 0;
+                formatInfo.floatAsInteger = true;
+            } else {
+                formatInfo.formatReal = L"%*.*e";
+                formatInfo.widthReal = 26;
+                formatInfo.decimalsReal = 15;
+            }
+        } else {
+            if (absoluteValue <= 1e-3 || absoluteValue > 1e3) {
+                formatInfo.formatReal = L"%*.*e";
+                formatInfo.widthReal = 26;
+                formatInfo.decimalsReal = 15;
+            } else {
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.widthReal = 20;
+                formatInfo.decimalsReal = 15;
             }
         }
     } break;
@@ -705,7 +743,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
     if (A.isComplex()) {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_SHORT: {
-            ComputeScaleFactor(A, formatInfo);
+            ComputeScaleFactor(A, allInteger, formatInfo);
             formatInfo.isComplex = true;
             formatInfo.formatReal = L"%*.*f";
             formatInfo.widthReal = 9;
@@ -720,8 +758,42 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_HEX: {
         } break;
+
+        case NLS_NUMERIC_FORMAT_LONG: {
+            ComputeScaleFactor(A, allInteger, formatInfo);
+            if (allInteger) {
+                if (formatInfo.scaleFactor == 1) {
+                    double absoluteValue = std::max(fabs(maxValue), fabs(minValue));
+                    if (absoluteValue <= 999) {
+                        formatInfo.floatAsInteger = true;
+                        formatInfo.formatReal = L"%*ld";
+                        formatInfo.widthReal = 6;
+                        formatInfo.decimalsReal = 0;
+                    } else if (absoluteValue <= 999999999) {
+                        formatInfo.floatAsInteger = true;
+                        formatInfo.formatReal = L"%*ld";
+                        formatInfo.widthReal = 12;
+                        formatInfo.decimalsReal = 0;
+                    } else {
+                        formatInfo.floatAsInteger = false;
+                        formatInfo.formatReal = L"%*.*e";
+                        formatInfo.widthReal = 13;
+                        formatInfo.decimalsReal = 4;
+                    }
+                } else {
+                    formatInfo.formatReal = L"%*.*f";
+                    formatInfo.widthReal = 20;
+                    formatInfo.decimalsReal = 15;
+                }
+            } else {
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.widthReal = 20;
+                formatInfo.decimalsReal = 15;
+            }
+        } break;
+
         case NLS_NUMERIC_FORMAT_SHORT: {
-            ComputeScaleFactor(A, formatInfo);
+            ComputeScaleFactor(A, allInteger, formatInfo);
             if (allInteger) {
                 if (formatInfo.scaleFactor == 1) {
                     double absoluteValue = std::max(fabs(maxValue), fabs(minValue));
@@ -785,6 +857,7 @@ formatElement(double val, NumericFormatDisplay currentNumericFormat,
         result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(val, false));
     } break;
     case NLS_NUMERIC_FORMAT_BANK:
+    case NLS_NUMERIC_FORMAT_LONG:
     case NLS_NUMERIC_FORMAT_SHORT: {
         bool haveDecimals = formatInfo.decimalsReal != 0;
         if (formatInfo.scaleFactor != 1) {
