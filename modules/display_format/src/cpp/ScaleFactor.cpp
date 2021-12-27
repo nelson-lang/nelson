@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <math.h> 
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "ScaleFactor.hpp"
@@ -45,16 +46,12 @@ getScaleFactorWithAmplitude(double max_amplitude, double maxval)
     if (::pow(double(10.0), std::abs(commonLogarithm)) >= maxval) {
         return commonLogarithm;
     }
-
-    if (std::abs(commonLogarithm) >= 4) {
-        return commonLogarithm;
-    }
     return (double)(1.0);
 }
 //=============================================================================
 template <class T>
 static bool
-ComputeScaleFactorReal(const T* ptrData, indexType count, FormatDisplayInformation& formatInfo)
+ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool allInteger, FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
     if (count == 0) {
@@ -74,14 +71,33 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, FormatDisplayInformati
     if (!finiteElementFound) {
         return false;
     }
-    formatInfo.scaleFactor = getScaleFactorWithAmplitude(max_amplitude, 1000);
+    double maxval = ::pow(double(10.0), 3);
+    if (formatInfo.numericFormatDisplay == NLS_NUMERIC_FORMAT_LONG) {
+        if (isSparse) {
+          if (allInteger) {
+                maxval = ::pow(double(10.0), 9);
+            } else {
+              maxval = ::pow(double(10.0), 3);
+          }
+        } else {
+            double commonLogarithm = log10(max_amplitude);
+            if (commonLogarithm < 0) {
+                maxval = ::pow(double(10.0), 3);
+            } else {
+                maxval = ::pow(double(10.0), 9);
+            }
+            
+            
+        }
+    }
+    formatInfo.scaleFactor = getScaleFactorWithAmplitude(max_amplitude, maxval);
     return true;
 }
 //=============================================================================
 template <class T>
 static bool
-ComputeScaleFactorComplex(
-    const std::complex<T>* ptrData, indexType count, FormatDisplayInformation& formatInfo)
+ComputeScaleFactorComplex(const std::complex<T>* ptrData, indexType count, bool isSparse,
+    FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
     if (count == 0) {
@@ -89,19 +105,19 @@ ComputeScaleFactorComplex(
     }
     bool finiteElementFound = false;
     for (indexType i = 0; i < count; i++) {
-        if (isfinite(static_cast<double>(ptrData[i].real())) && !finiteElementFound) {
+        if (std::isfinite(static_cast<double>(ptrData[i].real())) && !finiteElementFound) {
             max_amplitude = static_cast<double>(ptrData[i].real());
             finiteElementFound = true;
         }
-        if (isfinite(static_cast<double>(ptrData[i].imag())) && !finiteElementFound) {
+        if (std::isfinite(static_cast<double>(ptrData[i].imag())) && !finiteElementFound) {
             max_amplitude = static_cast<double>(ptrData[i].imag());
             finiteElementFound = true;
         }
-        if (isfinite(static_cast<double>(ptrData[i].real()))
+        if (std::isfinite(static_cast<double>(ptrData[i].real()))
             && fabs((double)ptrData[i].real()) > fabs((double)max_amplitude)) {
             max_amplitude = static_cast<double>(ptrData[i].real());
         }
-        if (isfinite(static_cast<double>(ptrData[i].imag()))
+        if (std::isfinite(static_cast<double>(ptrData[i].imag()))
             && fabs((double)ptrData[i].imag()) > fabs((double)max_amplitude)) {
             max_amplitude = static_cast<double>(ptrData[i].imag());
         }
@@ -109,12 +125,13 @@ ComputeScaleFactorComplex(
     if (!finiteElementFound) {
         return false;
     }
-    formatInfo.scaleFactor = getScaleFactorWithAmplitude(max_amplitude, 100);
+    double maxval = ::pow(double(10.0), 2);
+    formatInfo.scaleFactor = getScaleFactorWithAmplitude(max_amplitude, maxval);
     return true;
 }
 //=============================================================================
 bool
-ComputeScaleFactor(const ArrayOf& A, FormatDisplayInformation& formatInfo)
+ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& formatInfo)
 {
     bool computed = false;
     switch (A.getDataClass()) {
@@ -131,7 +148,7 @@ ComputeScaleFactor(const ArrayOf& A, FormatDisplayInformation& formatInfo)
             ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorComplex<double>(ptrZ, nbElements, formatInfo);
+        return ComputeScaleFactorComplex<double>(ptrZ, nbElements, A.isSparse(), formatInfo);
     } break;
     case NLS_SCOMPLEX: {
         std::complex<single>* ptrZ = nullptr;
@@ -146,7 +163,7 @@ ComputeScaleFactor(const ArrayOf& A, FormatDisplayInformation& formatInfo)
             ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorComplex<single>(ptrZ, nbElements, formatInfo);
+        return ComputeScaleFactorComplex<single>(ptrZ, nbElements, A.isSparse(), formatInfo);
     } break;
     case NLS_DOUBLE: {
         indexType nbElements;
@@ -160,7 +177,7 @@ ComputeScaleFactor(const ArrayOf& A, FormatDisplayInformation& formatInfo)
             ptr = reinterpret_cast<double*>((double*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorReal<double>(ptr, nbElements, formatInfo);
+        return ComputeScaleFactorReal<double>(ptr, nbElements, A.isSparse(), allInteger, formatInfo);
     } break;
     case NLS_SINGLE: {
         indexType nbElements;
@@ -174,7 +191,8 @@ ComputeScaleFactor(const ArrayOf& A, FormatDisplayInformation& formatInfo)
             ptr = reinterpret_cast<single*>((single*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorReal<single>(ptr, nbElements, formatInfo);
+        return ComputeScaleFactorReal<single>(
+            ptr, nbElements, A.isSparse(), allInteger, formatInfo);
     } break;
     default: {
         computed = false;
