@@ -26,8 +26,6 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include <Eigen/Dense>
-#include <Eigen/Sparse>
 #include "DisplayDouble.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
@@ -98,8 +96,8 @@ DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     std::wstring msg;
-    const double* pValue = (const double*)A.getDataPointer();
-    msg.append(formatNumber(pValue[0], currentNumericFormat, false));
+    const double* ptrValue = (const double*)A.getDataPointer(); 
+    msg.append(formatScalarNumber(ptrValue[0], false, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
 }

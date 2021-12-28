@@ -26,7 +26,7 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include "DisplayDoubleComplex.hpp"
+#include "DisplaySingleComplex.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -39,23 +39,23 @@ namespace Nelson {
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
 //============================================================================
 static void
-DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 void
-DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -65,20 +65,20 @@ DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
     DisplayVariableHeader(io, A, name);
     bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptyDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayEmptySingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
     } else if (A.isScalar()) {
-        DisplayScalarDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayScalarSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
     } else if (A.is2D() || A.isRowVector()) {
-        Display2dDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
+        Display2dSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         if (A.isRowVector()) {
             withFooter = !name.empty();
         } else {
             withFooter = true;
         }
     } else {
-        DisplayNdDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayNdSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = true;
     }
     if (withFooter) {
@@ -87,17 +87,18 @@ DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
 }
 //=============================================================================
 void
-DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {}
 //=============================================================================
 void
-DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     std::wstring msg;
-    const double* ptrValue = (const double*)A.getDataPointer(); 
-    msg.append(formatScalarComplexNumber(ptrValue[0], ptrValue[1], false, currentNumericFormat, false));
+    const single* ptrValue = (const single*)A.getDataPointer(); 
+    msg.append(formatScalarComplexNumber(
+        (double)(ptrValue[0]), (double)(ptrValue[1]), true, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
 }
@@ -146,11 +147,11 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max)
 }
 //=============================================================================
 void
-Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     Dimensions dims = A.getDimensions();
-    const double* pValues = (const double*)A.getDataPointer();
+    const single* pValues = (const single*)A.getDataPointer();
 
     indexType rows = dims.getRows();
     indexType columns = dims.getColumns();
@@ -206,8 +207,8 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
             }
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
-                double rvalue = pValues[2 * idx];
-                double ivalue = pValues[2 * idx + 1];
+                single rvalue = pValues[2 * idx];
+                single ivalue = pValues[2 * idx + 1];
                 buffer.append(
                     formatElementComplex(rvalue, ivalue, currentNumericFormat, formatInfo));
             }
@@ -229,7 +230,7 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
 }
 //=============================================================================
 void
-DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {}
 //=============================================================================

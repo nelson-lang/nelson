@@ -208,7 +208,6 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
     <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
     <ClInclude Include="..\cpp\ScaleFactor.hpp" />
     <ClInclude Include="..\include\ArrayOfFormatInfo.hpp" />
@@ -219,6 +218,8 @@
     <ClInclude Include="..\include\DisplayInteger.hpp" />
     <ClInclude Include="..\include\DisplayIntegerHelpers.hpp" />
     <ClInclude Include="..\include\DisplayLogical.hpp" />
+    <ClInclude Include="..\include\DisplaySingle.hpp" />
+    <ClInclude Include="..\include\DisplaySingleComplex.hpp" />
     <ClInclude Include="..\include\DisplaySparseDouble.hpp" />
     <ClInclude Include="..\include\DisplaySparseDoubleComplex.hpp" />
     <ClInclude Include="..\include\DisplayString.hpp" />
@@ -228,7 +229,6 @@
     <ClInclude Include="..\include\FormatBank.hpp" />
     <ClInclude Include="..\include\FormatHelpers.hpp" />
     <ClInclude Include="..\include\FormatHex.hpp" />
-    <ClInclude Include="..\include\FormatLong.hpp" />
     <ClInclude Include="..\include\FormatLongE.hpp" />
     <ClInclude Include="..\include\FormatLongEng.hpp" />
     <ClInclude Include="..\include\FormatLongG.hpp" />
@@ -246,10 +246,11 @@
     <ClCompile Include="..\cpp\DisplayChar.cpp" />
     <ClCompile Include="..\cpp\DisplayDouble.cpp" />
     <ClCompile Include="..\cpp\DisplayDoubleComplex.cpp" />
-    <ClCompile Include="..\cpp\DisplayFloatingNumber.cpp" />
     <ClCompile Include="..\cpp\DisplayInteger.cpp" />
     <ClCompile Include="..\cpp\DisplayIntegerHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayLogical.cpp" />
+    <ClCompile Include="..\cpp\DisplaySingle.cpp" />
+    <ClCompile Include="..\cpp\DisplaySingleComplex.cpp" />
     <ClCompile Include="..\cpp\DisplaySparseDouble.cpp" />
     <ClCompile Include="..\cpp\DisplaySparseDoubleComplex.cpp" />
     <ClCompile Include="..\cpp\DisplayString.cpp" />
@@ -260,7 +261,6 @@
     <ClCompile Include="..\cpp\FormatBank.cpp" />
     <ClCompile Include="..\cpp\FormatHelpers.cpp" />
     <ClCompile Include="..\cpp\FormatHex.cpp" />
-    <ClCompile Include="..\cpp\FormatLong.cpp" />
     <ClCompile Include="..\cpp\FormatLongE.cpp" />
     <ClCompile Include="..\cpp\FormatLongEng.cpp" />
     <ClCompile Include="..\cpp\FormatLongG.cpp" />

@@ -25,14 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
+#include "nlsDisplay_format_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-DisplayFloatingNumber(Interface* io, const ArrayOf& A, const std::string& name);
+NLSDISPLAY_FORMAT_IMPEXP void
+DisplaySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
