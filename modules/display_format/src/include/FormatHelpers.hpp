@@ -32,22 +32,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
-formatNumber(double val, NumericFormatDisplay currentNumericFormat, bool forceLeftTrim);
-//=============================================================================
-std::wstring
-formatNumberComplex(double realPart, double ImagPart, NumericFormatDisplay currentNumericFormat,
-    bool forceLeftTrim);
-//=============================================================================
 FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
+//=============================================================================
+std::wstring
+formatScalarNumber(double val, bool asSingle, NumericFormatDisplay currentNumericFormat, bool forceLeftTrim);
+//=============================================================================
+std::wstring
+formatScalarComplexNumber(double realPart, double imagPart, bool asSingle,
+    NumericFormatDisplay currentNumericFormat, bool forceLeftTrim);
 //=============================================================================
 std::wstring
 formatElement(double val, NumericFormatDisplay currentNumericFormat,
     const FormatDisplayInformation& formatInfo);
 //=============================================================================
 std::wstring
-formatElementComplex(double realPart, double ImagPart, NumericFormatDisplay currentNumericFormat,
+formatElementComplex(double realPart, double imagPart, NumericFormatDisplay currentNumericFormat,
+    const FormatDisplayInformation& formatInfo);
+//=============================================================================
+std::wstring
+formatElement(single val, NumericFormatDisplay currentNumericFormat,
+    const FormatDisplayInformation& formatInfo);
+//=============================================================================
+std::wstring
+formatElementComplex(single realPart, single ImagPart, NumericFormatDisplay currentNumericFormat,
     const FormatDisplayInformation& formatInfo);
 //=============================================================================
 std::wstring

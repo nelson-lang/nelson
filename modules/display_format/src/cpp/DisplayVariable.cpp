@@ -25,7 +25,6 @@
 //=============================================================================
 #include "DisplayVariable.hpp"
 #include "DisplayVariableHelpers.hpp"
-#include "DisplayFloatingNumber.hpp"
 #include "characters_encoding.hpp"
 #include "DisplayCell.hpp"
 #include "DisplayStruct.hpp"
@@ -35,6 +34,8 @@
 #include "DisplayInteger.hpp"
 #include "DisplayDouble.hpp"
 #include "DisplayDoubleComplex.hpp"
+#include "DisplaySingle.hpp"
+#include "DisplaySingleComplex.hpp"
 #include "DisplaySparseDouble.hpp"
 #include "DisplaySparseDoubleComplex.hpp"
 //=============================================================================
@@ -94,6 +95,15 @@ DisplayVariable(Interface* io, const ArrayOf& A, const std::wstring& name, bool&
         }
         needToOverload = false;
     } break;
+    case NLS_SINGLE: {
+        DisplaySingle(io, A, name);
+        needToOverload = false;
+    } break;
+    case NLS_SCOMPLEX: {
+        DisplaySingleComplex(io, A, name);
+        needToOverload = false;
+    } break;
+
     default: {
         needToOverload = true;
     } break;

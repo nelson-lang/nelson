@@ -39,7 +39,6 @@
 #include "FormatShortE.hpp"
 #include "FormatShortG.hpp"
 #include "FormatShortEng.hpp"
-#include "FormatLong.hpp"
 #include "FormatLongE.hpp"
 #include "FormatLongG.hpp"
 #include "FormatLongEng.hpp"
@@ -117,19 +116,6 @@ getMin(T* val, indexType nbElements)
     return shared_min;
 }
 //=============================================================================
-static int
-getCommonExponential(const ArrayOf& A)
-{
-    int exponent = 0;
-    switch (A.getDataClass()) {
-    case NLS_DOUBLE: {
-        double dMax = getMax<double>((double*)A.getDataPointer(), A.getElementCount());
-        exponent = log10(dMax);
-    } break;
-    }
-    return exponent;
-}
-//=============================================================================
 std::wstring
 completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay currentNumericFormat)
 {
@@ -141,7 +127,9 @@ completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         width = 0;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return completeWithBlanksAtBeginning(msg, width);
 }
 //=============================================================================
@@ -156,9 +144,6 @@ completeWithBlanksAtBeginning(const std::wstring& msg, size_t width)
     }
     return msg;
 }
-//=============================================================================
-static indexType
-getNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 static std::wstring
 getClassAsWideString(const ArrayOf& A)
@@ -238,7 +223,9 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return typeAsText;
 }
 //=============================================================================
@@ -435,7 +422,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
                 + L"}";
         } else {
             msg = lightDescription(A, L"{", L"}");
@@ -555,7 +542,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         } else {
             if (A.isScalar()) {
                 double value = *(static_cast<const double*>(A.getDataPointer()));
-                msg = formatNumber(value, currentNumericFormat, true);
+                msg = formatScalarNumber(value, false, currentNumericFormat, true);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     size_t nbCharsLimit = 6;
                     if (boost::contains(msg, L"/")) {
@@ -584,7 +571,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         } else {
             if (A.isScalar()) {
                 const auto* ap = static_cast<const double*>(A.getDataPointer());
-                msg = formatNumberComplex(ap[0], ap[1], currentNumericFormat, true);
+                msg = formatScalarComplexNumber(ap[0], ap[1], false, currentNumericFormat, true);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     if (msg.length() > termWidth) {
                         msg = lightDescription(A, L"", L"");
@@ -598,10 +585,18 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     case NLS_SINGLE: {
         if (A.isScalar()) {
             single value = *(static_cast<const single*>(A.getDataPointer()));
-            if (IsIntegerForm(value)) {
-                msg = outputSinglePrecisionAsIntegerForm(value, currentNumericFormat, true);
-            } else {
-                msg = outputSinglePrecisionFloat(value, currentNumericFormat, false, true);
+            msg = formatScalarNumber((double)value, true,currentNumericFormat, true);
+            if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
+                size_t nbCharsLimit = 6;
+                if (boost::contains(msg, L"/")) {
+                    nbCharsLimit++;
+                }
+                if (boost::contains(msg, L"-")) {
+                    nbCharsLimit++;
+                }
+                if (msg.length() > nbCharsLimit) {
+                    msg = L"*";
+                }
             }
             if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                 if (msg.length() > termWidth) {
@@ -614,9 +609,9 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     } break;
     case NLS_SCOMPLEX: {
         if (A.isScalar()) {
-            const auto* ap = static_cast<const single*>(A.getDataPointer());
-            msg = outputSingleComplexPrecisionFloat(
-                ap[0], ap[1], currentNumericFormat, false, true);
+            const single* ap = static_cast<const single*>(A.getDataPointer());
+            msg = formatScalarComplexNumber(
+                (double)ap[0], (double)ap[1], true, currentNumericFormat, true);
             if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                 if (msg.length() > termWidth) {
                     msg = lightDescription(A, L"", L"");
@@ -626,117 +621,10 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return msg;
-}
-//=============================================================================
-static indexType
-getDoubleNominalWidth(double* dp, indexType nbElements, NumericFormatDisplay currentNumericFormat)
-{
-    indexType nominalWidth = 30;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        nominalWidth = 1;
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-    } break;
-    default: {
-        nominalWidth = 30;
-    } break;
-    }
-    return nominalWidth;
-}
-//=============================================================================
-static indexType
-getSingleNominalWidth(single* dp, indexType nbElements, NumericFormatDisplay currentNumericFormat)
-{
-    indexType nominalWidth = 30;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        nominalWidth = 1;
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-    } break;
-    default: {
-        nominalWidth = 30;
-    } break;
-    }
-    return nominalWidth;
-}
-//=============================================================================
-indexType
-getNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
-{
-    Class classA = A.getDataClass();
-    indexType nominalWidth = 30;
-    switch (classA) {
-    case NLS_SINGLE: {
-        single* val = (single*)A.getDataPointer();
-        nominalWidth = getSingleNominalWidth(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_DOUBLE: {
-        double* val = (double*)A.getDataPointer();
-        nominalWidth = getDoubleNominalWidth(val, A.getElementCount(), currentNumericFormat);
-    } break;
-    case NLS_CHAR: {
-        nominalWidth = 1;
-    } break;
-    case NLS_SCOMPLEX: {
-        nominalWidth = 36;
-    } break;
-    case NLS_DCOMPLEX: {
-        nominalWidth = 36;
-    } break;
-    case NLS_GO_HANDLE:
-    case NLS_HANDLE:
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_STRING_ARRAY:
-    default: {
-        nominalWidth = 10;
-    } break;
-    }
-    return nominalWidth;
 }
 //=============================================================================
 std::wstring
@@ -756,215 +644,6 @@ columnsHeader(indexType startCol, indexType endCol)
     } else {
         msg = fmt::sprintf(_W("  Columns %d through %d"), startCol, endCol);
     }
-    return msg;
-}
-//=============================================================================
-std::wstring
-outputSinglePrecisionAsIntegerForm(
-    single number, NumericFormatDisplay currentNumericFormat, bool trim)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        if (abs(number) > 1e8) {
-            std::wstring format = L"%*.*e";
-            msg = fmt::sprintf(format, 16, 4, number);
-        } else {
-            if (number >= 1e3) {
-                msg = fmt::sprintf(L"%*ld", 15, (long int)number);
-            } else {
-                msg = fmt::sprintf(L"%*ld", 9, (long int)number);
-            }
-        }
-        if (trim) {
-            boost::trim_left(msg);
-        }
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-        if (number >= 1e9) {
-            msg = fmt::sprintf(L"%*.*e", 29, 15, number);
-        } else {
-            if (number > 0) {
-                if (number >= 1e3) {
-                    msg = fmt::sprintf(L"%*lu", 15, (long long)number);
-                } else {
-                    msg = fmt::sprintf(L"%*lu", 9, (long long)number);
-                }
-            } else {
-                if (abs(number) >= 1e3) {
-                    msg = fmt::sprintf(L"%*ld", 15, (long int)number);
-                } else {
-                    msg = fmt::sprintf(L"%*ld", 9, (long long)number);
-                }
-            }
-        }
-        if (trim) {
-            boost::trim_left(msg);
-        }
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        msg = formatShortE(number, false, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        msg = formatLongE(number, false, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        msg = formatShortG(number, false, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        msg = formatLongG(number, false, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-        msg = formatShortEng(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-        msg = formatLongEng(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        msg = formatPlus(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-        msg = formatBank(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = formatHex(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-        msg = formatRational(number, trim);
-    } break;
-    default: { } break; }
-    return msg;
-}
-//=============================================================================
-std::wstring
-outputSinglePrecisionFloat(
-    single number, NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        msg = formatShort(number, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-        msg = formatLong(number, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        msg = formatShortE(number, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        msg = formatLongE(number, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        msg = formatShortG(number, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        msg = formatLongG(number, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-        msg = formatShortEng(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-        msg = formatLongEng(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        msg = formatPlus(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-        msg = formatBank(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = formatHex(number, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-        msg = formatRational(number, trim);
-    } break;
-    default: { } break; }
-    return msg;
-}
-//=============================================================================
-std::wstring
-outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
-    NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_LONG: {
-        msg = formatComplexLong(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        msg = formatComplexShortE(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        msg = formatComplexLongE(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        msg = formatComplexShortG(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        msg = formatComplexLongG(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-        msg = formatComplexShortEng(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-        msg = formatComplexLongEng(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        msg = formatComplexPlus(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-        msg = formatComplexBank(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = formatComplexHex(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-        msg = formatComplexRational(realPart, imagPart, trim);
-    } break;
-    default: { } break; }
-    return msg;
-}
-//=============================================================================
-std::wstring
-outputSingleComplexPrecisionFloat(single realPart, single imagPart,
-    NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim)
-{
-    std::wstring msg;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_LONG: {
-        msg = formatComplexLong(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        msg = formatComplexShortE(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        msg = formatComplexLongE(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        msg = formatComplexShortG(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        msg = formatComplexLongG(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-        msg = formatComplexShortEng(realPart, imagPart, forceFormat, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-        msg = formatComplexLongEng(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-        msg = formatComplexPlus(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-        msg = formatComplexBank(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        msg = formatComplexHex(realPart, imagPart, trim);
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-        msg = formatComplexRational(realPart, imagPart, trim);
-    } break;
-    default: { } break; }
     return msg;
 }
 //=============================================================================

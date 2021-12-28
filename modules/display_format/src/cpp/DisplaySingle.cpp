@@ -27,38 +27,36 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <Eigen/Dense>
-#include <Eigen/Sparse>
-#include "DisplayDouble.hpp"
+#include "DisplaySingle.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "characters_encoding.hpp"
 #include "IEEEFP.hpp"
 #include "FormatHelpers.hpp"
-#include "ArrayOfFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define MIDDLE_MULTIPLY "\U000000D7"
 #define BLANKS_INTEGER_AT_BOL L"   "
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX 6
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL 6
 //============================================================================
 static void
-DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptySingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+//=============================================================================
+static void
+DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -68,19 +66,21 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
     DisplayVariableHeader(io, A, name);
     bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayEmptySingle(io, A, name, currentNumericFormat, currentLineSpacing);
         withFooter = !name.empty();
-    } else {
-        if (A.getNonzeros() == 1) {
-            DisplaySparseDoubleScalar(io, A, name, currentNumericFormat, currentLineSpacing);
-        } else {
-            DisplaySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        }
-        if (A.isScalar() || A.isRowVector()) {
+    } else if (A.isScalar()) {
+        DisplayScalarSingle(io, A, name, currentNumericFormat, currentLineSpacing);
+        withFooter = !name.empty();
+    } else if (A.is2D() || A.isRowVector()) {
+        Display2dSingle(io, A, name, currentNumericFormat, currentLineSpacing);
+        if (A.isRowVector()) {
             withFooter = !name.empty();
         } else {
             withFooter = true;
         }
+    } else {
+        DisplayNdSingle(io, A, name, currentNumericFormat, currentLineSpacing);
+        withFooter = true;
     }
     if (withFooter) {
         DisplayVariableFooter(io, A, name);
@@ -88,105 +88,82 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 }
 //=============================================================================
 void
-DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayEmptySingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {}
 //=============================================================================
 void
-DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    indexType nbRows = A.getRows();
-    indexType nbCols = A.getColumns();
-
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
-
-    indexType r = 0;
-    indexType c = 0;
-    for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-             ++it) {
-            r = it.row() + 1;
-            c = it.col() + 1;
-        }
-    }
-    std::wstring formatIndex = _W("(%lu,%lu)");
-    std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
-    size_t maxLenIndexString = indexAsString.length();
-
-    const double* values = spMat->valuePtr();
-    double value = values[0];
-    std::wstring asStr = formatScalarNumber(values[0], false, currentNumericFormat, false);
-    indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
-    std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
-    std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
-        + asStr + L"\n";
+    std::wstring msg;
+    const single* ptrValue = (const single*)A.getDataPointer();
+    msg.append(formatScalarNumber((double)ptrValue[0], true, currentNumericFormat, false));
+    msg.append(L"\n");
     io->outputMessage(msg);
 }
 //=============================================================================
-static void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+void
+Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    indexType nbRows = A.getRows();
-    indexType nbCols = A.getColumns();
-
-    if (A.getNonzeros() == 0) {
-        std::wstring format = _W("All zero sparse: %s");
-        std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
-        io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
-        return;
-    }
-
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
-
-    indexType rMax = 0;
-    indexType cMax = 0;
-    for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-             ++it) {
-            rMax = std::max((long long)rMax, (long long)it.row() + 1);
-            cMax = std::max((long long)cMax, (long long)it.col() + 1);
-        }
-    }
-
-    std::wstring formatIndex = _W("(%lu,%lu)");
-    std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)rMax, (long long)cMax);
-    size_t maxLenIndexString = indexAsString.length();
+    Dimensions dims = A.getDimensions();
+    const single* pValues = (const single*)A.getDataPointer();
+    indexType rows = dims.getRows();
+    indexType columns = dims.getColumns();
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
 
     if (formatInfo.scaleFactor != 1) {
         std::wstring scaleFactorAsString = formatScaleFactor(formatInfo);
-        io->outputMessage(BLANKS_AT_BOL + scaleFactorAsString + L"\n");
+        io->outputMessage(L"   " + scaleFactorAsString + L"\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
     }
+
+    indexType nominalWidth = formatInfo.widthReal;
+    sizeType termWidth = io->getTerminalWidth();
+    indexType colsPerPage
+        = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
+    indexType pageCount
+        = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
+    bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
-
-    for (indexType k = 0; k < (indexType)spMat->outerSize() && continueDisplay; ++k) {
+    for (indexType k = 0; k < pageCount && continueDisplay; k++) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
             continueDisplay = false;
             break;
         }
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
-             it && continueDisplay; ++it) {
+        indexType colsInThisPage = columns - colsPerPage * k;
+        colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
+
+        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+            if (k > 0) {
+                buffer.append(L"\n");
+            }
+        }
+        if (withColumsHeader) {
+            buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
+            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+                buffer.append(L"\n\n");
+            } else {
+                buffer.append(L"\n");
+            }
+        }
+
+        for (indexType i = 0; i < rows && continueDisplay; i++) {
             if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                 continueDisplay = false;
                 break;
             }
-            double value = it.value();
-            std::wstring asStr = formatElement(value, currentNumericFormat, formatInfo);
-            std::wstring indexAsString
-                = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
-            buffer.append(BLANKS_AT_BOL);
-            buffer.append(
-                centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN + asStr + L"\n");
+            for (indexType j = 0; j < colsInThisPage; j++) {
+                indexType idx = i + (k * colsPerPage + j) * rows;
+                buffer.append(formatElement(pValues[idx], currentNumericFormat, formatInfo));
+            }
+            buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
                 io->outputMessage(buffer);
                 buffer.clear();
@@ -202,6 +179,11 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
     }
 }
+//=============================================================================
+void
+DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+{}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

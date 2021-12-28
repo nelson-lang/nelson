@@ -64,21 +64,5 @@ lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wst
 NLSDISPLAY_FORMAT_IMPEXP std::wstring
 columnsHeader(indexType startCol, indexType endCol);
 //=============================================================================
-std::wstring
-outputSinglePrecisionAsIntegerForm(
-    single num, NumericFormatDisplay currentNumericFormat, bool trim = false);
-//=============================================================================
-std::wstring
-outputDoubleComplexPrecisionFloat(double realPart, double imagPart,
-    NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
-//=============================================================================
-std::wstring
-outputSinglePrecisionFloat(
-    single num, NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
-//=============================================================================
-static std::wstring
-outputSingleComplexPrecisionFloat(single realPart, single imagPart,
-    NumericFormatDisplay currentNumericFormat, bool forceFormat, bool trim = false);
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -25,27 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
 #include "nlsDisplay_format_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP
-std::wstring
-formatLong(double number, bool forceFormat = false, bool trim = false);
-//=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP
-std::wstring
-formatLong(single number, bool forceFormat = false, bool trim = false);
-//=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP
-std::wstring
-formatComplexLong(double realPart, double imagPart, bool forceFormat = false, bool trim = false);
-//=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP
-std::wstring
-formatComplexLong(single realPart, single imagPart, bool forceFormat = false, bool trim = false);
+NLSDISPLAY_FORMAT_IMPEXP void
+DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
