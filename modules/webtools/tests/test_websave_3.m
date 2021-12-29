@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'http://neowms.sci.gsfc.nasa.gov/wms/wms';
+url = 'https://neo.gsfc.nasa.gov/wms/wms';
 filename = [tempdir(), 'earth2.jpg'];
 testPass = false;
 i = 0;

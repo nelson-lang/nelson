@@ -198,22 +198,22 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
             bool
             operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
             {
-                return a.getName() < b.getName();
+                return static_cast<int>(a.isDir()) > static_cast<int>(b.isDir());
             }
-        } customFilenameLess;
+        } customIsDirLess;
         if (!res.empty()) {
-            std::sort(res.begin(), res.end(), customFilenameLess);
+            std::sort(res.begin(), res.end(), customIsDirLess);
         }
         struct
         {
             bool
             operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
             {
-                return static_cast<int>(a.isDir()) > static_cast<int>(b.isDir());
+                return a.getName() < b.getName();
             }
-        } customIsDirLess;
+        } customFilenameLess;
         if (!res.empty()) {
-            std::sort(res.begin(), res.end(), customIsDirLess);
+            std::sort(res.begin(), res.end(), customFilenameLess);
         }
     }
     return res;
