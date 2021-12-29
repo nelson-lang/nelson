@@ -70,7 +70,7 @@ date = {'1985-01-01';
 '1985-12-19';
 '1985-12-27'};
 filename = [tempdir(), 'earth.jpg'];
-url = 'http://neowms.sci.gsfc.nasa.gov/wms/wms';
+url = 'https://neo.gsfc.nasa.gov/wms/wms';
 width = 1024;
 height = 768;
 html_line = ['<img src="', filename, '" width="', int2str(width), '" height="', int2str(height), '">'];
