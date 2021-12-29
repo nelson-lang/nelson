@@ -25,6 +25,7 @@
 %=============================================================================
 % <--C/C++ COMPILER REQUIRED-->
 % <--NO USER MODULES-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
 if ~isfile(builderFile)
