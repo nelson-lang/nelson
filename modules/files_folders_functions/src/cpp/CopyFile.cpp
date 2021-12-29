@@ -113,7 +113,7 @@ CopyDirectory(
 {
     message = L"";
     if (!IsDirectory(srcDir)) {
-        Error(_W("Directory source does not exist.\n") + srcDir);
+        Error(_W("Directory source does not exist."));
     }
     if (!IsDirectory(destDir)) {
         Error(_W("Directory destination does not exist."));

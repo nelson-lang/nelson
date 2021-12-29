@@ -41,9 +41,9 @@ if isdir(destinationdir)
 end
 mkdir(destinationdir);
 for f = files(:)'
-  sourcefile = f.name;
-  if ~endsWith(sourcefile, 'CMakeCache.txt')
-    destinationfile = replace(f.name, sourcedir, destinationdir);
+  sourcefile = [f.folder, '/', f.name];
+  if ~strcmp(f.name, 'CMakeCache.txt')
+    destinationfile = replace(sourcefile, sourcedir, destinationdir);
     if isdir(sourcefile)
       mkdir(destinationfile);
     else
