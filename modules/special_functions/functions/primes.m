@@ -38,7 +38,7 @@ function p = primes(n)
   end
   
   if n < 2
-    p = zeros(1, 0, 'like', class(n));
+    p = zeros(1, 0, class(n));
     return
   end
   N = floor(double(n));
