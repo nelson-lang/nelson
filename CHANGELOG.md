@@ -1,10 +1,14 @@
 # 0.5.12 (UNRELEASED)
 
+## Added
+
+- `primes` function: Prime numbers less than or equal to input value.
+
 ## Fixed
 
 - [#544](http://github.com/Nelson-numerical-software/nelson/issues/544): add `folder` fieldname to `dir` output.
 
-## Compilation:
+## Compilation
 
 - Boost 1.78 support (default on Windows).
 
