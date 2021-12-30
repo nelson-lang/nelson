@@ -166,7 +166,7 @@ FileCompleter(const std::wstring& prefix)
                                     size_t pos1 = prefix.rfind(L'/');
                                     size_t pos2 = prefix.rfind(L'\\');
                                     if (pos1 != std::wstring::npos && pos2 != std::wstring::npos) {
-                                        pos = max(pos1, pos2);
+                                        pos = std::max(pos1, pos2);
                                     } else {
                                         if (pos1 != std::wstring::npos) {
                                             pos = pos1;
