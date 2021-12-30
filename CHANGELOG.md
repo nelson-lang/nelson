@@ -2,7 +2,11 @@
 
 ## Fixed
 
-- [#544](http://github.com/Nelson-numerical-software/nelson/issues/544): add `folder` fieldname to `dir` output. 
+- [#544](http://github.com/Nelson-numerical-software/nelson/issues/544): add `folder` fieldname to `dir` output.
+
+## Compilation:
+
+- Boost 1.78 support (default on Windows).
 
 # 0.5.11 (2021-11-26)
 
