@@ -23,35 +23,23 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = primes(n)
-  narginchk(1, 1)
-  nargoutchk(0, 1)
-  
-  if ~isscalar(n)
-    error(_('Wrong size for argument #1: scalar expected.'));
-  end
-  if ~isfinite(n)
-    error(_('Wrong value for argument #1: finite value expected.'));
-  end
-  if ~isreal(n)
-    error(_('Wrong value for argument #1: real value expected.'));
-  end
-  
-  if n < 2
-    p = zeros(1, 0, 'like', class(n));
-    return
-  end
-  N = floor(double(n));
-  p = [1:2:N];
-  q = length(p);
-  p(1) = 2;
-  for k = 3:2:sqrt(N)
-    if p((k+1)/2)
-      p([((k*k+1)/2):k:q]) = 0;
-    end
-  end
-  p = p(find(p >= 0));
-  p = p(find(p ~= 0));
-  p = cast(p, class(n));
-end
+assert_isequal(nargin('isrow'), 1)
+assert_isequal(nargout('isrow'), 1)
 %=============================================================================
+s.c = 1;
+assert_istrue(isrow(s))
+%=============================================================================
+assert_istrue(isrow("n"))
+assert_istrue(isrow('n'))
+assert_istrue(isrow("nelson"))
+assert_istrue(isrow('nelson'))
+assert_isfalse(isrow(["test"; "ing"]))
+assert_istrue(isrow(["test", "ing"]))
+%=============================================================================
+assert_istrue(isrow ([1, 2, 3]))
+assert_isfalse(isrow ([1; 2; 3]))
+assert_istrue(isrow (1))
+assert_isfalse(isrow ([]))
+assert_isfalse(isrow ([1, 2; 3, 4]))
+%=============================================================================
+

@@ -23,35 +23,32 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = primes(n)
-  narginchk(1, 1)
-  nargoutchk(0, 1)
-  
-  if ~isscalar(n)
-    error(_('Wrong size for argument #1: scalar expected.'));
-  end
-  if ~isfinite(n)
-    error(_('Wrong value for argument #1: finite value expected.'));
-  end
-  if ~isreal(n)
-    error(_('Wrong value for argument #1: real value expected.'));
-  end
-  
-  if n < 2
-    p = zeros(1, 0, 'like', class(n));
-    return
-  end
-  N = floor(double(n));
-  p = [1:2:N];
-  q = length(p);
-  p(1) = 2;
-  for k = 3:2:sqrt(N)
-    if p((k+1)/2)
-      p([((k*k+1)/2):k:q]) = 0;
-    end
-  end
-  p = p(find(p >= 0));
-  p = p(find(p ~= 0));
-  p = cast(p, class(n));
-end
+assert_isequal(nargin('hankel'), 2)
+assert_isequal(nargout('hankel'), 1)
+%=============================================================================
+c = [1 2 3 4];
+R = hankel(c);
+REF = [1     2     3     4;
+2     3     4     0;
+3     4     0     0;
+4     0     0     0];
+assert_isequal(R, REF);
+%=============================================================================
+c = [2 4 6];
+r = [6 5 4 3 2 1];
+R = hankel(c, r);
+REF = [ 2     4     6     5     4     3;
+4     6     5     4     3     2;
+6     5     4     3     2     1];
+assert_isequal(R, REF);
+%=============================================================================
+c = [1 2 3];
+r = [4 5 7 9];
+R = hankel(c, r);
+REF = [1     2     3     5;
+2     3     5     7;
+3     5     7     9];
+assert_isequal(R, REF);
+msg = lastwarn();
+assert_isequal(_('Last element of input column does not match first element of input row.'), msg)
 %=============================================================================
