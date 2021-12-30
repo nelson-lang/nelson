@@ -2,6 +2,7 @@
 
 ## Added
 
+- `factor` function: Prime factors.
 - `primes` function: Prime numbers less than or equal to input value.
 
 ## Fixed

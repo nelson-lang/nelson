@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function p = primes(n)
+function f = factor(n)
   narginchk(1, 1)
   nargoutchk(0, 1)
   
@@ -37,21 +37,31 @@ function p = primes(n)
     error(_('Wrong value for argument #1: real value expected.'));
   end
   
-  if n < 2
-    p = zeros(1, 0, class(n));
-    return
+  if (n < 0) || (floor(n) ~= n)
+    error(_('Wrong value for input argument #1: a nonnegative integer expected.'));
   end
-  N = floor(double(n));
-  p = [1:2:N];
-  q = length(p);
-  p(1) = 2;
-  for k = 3:2:sqrt(N)
-    if p((k+1)/2)
-      p([((k*k+1)/2):k:q]) = 0;
+  
+  if (n > 2^32)
+    error(_('Wrong value for input argument #1: maximum value of n allowed is 2^32.'));
+  end
+  
+  if (n < 4)
+    f = n;
+    return;
+  else
+    f = [];
+  end
+  p = primes(cast(sqrt(double(n)), class(n)));
+  while n>1
+    d = find(rem(n, p) == 0);
+    if isempty(d)
+      f = [f, n];
+      break; 
     end
+    p = p(d);
+    f = [f, p];
+    n = n / prod(p);
   end
-  p = p(find(p >= 0));
-  p = p(find(p ~= 0));
-  p = cast(p, class(n));
+  f = sort(f);
 end
 %=============================================================================
