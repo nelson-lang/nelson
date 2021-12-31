@@ -12,6 +12,8 @@
 
 - [#544](http://github.com/Nelson-numerical-software/nelson/issues/544): add `folder` fieldname to `dir` output.
 
+- [#541](http://github.com/Nelson-numerical-software/nelson/issues/541): common class between two elements for operators, horzcat and vertcat.
+
 ## Compilation
 
 - Boost 1.78 support (default on Windows).

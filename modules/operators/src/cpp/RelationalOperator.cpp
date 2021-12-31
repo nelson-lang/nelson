@@ -29,6 +29,7 @@
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
 #include "ClassName.hpp"
+#include "FindCommonClass.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -699,7 +700,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
         needToOverload = true;
         return ArrayOf();
     }
-    Class classCommon = FindCommonType(_A, _B, false);
+    Class classCommon = FindCommonType(_A, _B);
     if (asStringArray) {
         if (!_A.isStringArray()) {
             _A = ArrayOf::toStringArray(_A, needToOverload);

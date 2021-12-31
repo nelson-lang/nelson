@@ -70,8 +70,8 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                             }
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
-                            boost::system::error_code error_code = e.code();
-                            Error(error_code.message());
+                        boost::system::error_code error_code = e.code();
+                        Error(error_code.message());
                     }
                 }
             } else {

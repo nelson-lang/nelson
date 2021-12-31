@@ -193,6 +193,7 @@
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
     <ClCompile Include="..\cpp\EmptyHelpers.cpp" />
     <ClCompile Include="..\cpp\FindCommonClass.cpp" />
+    <ClCompile Include="..\cpp\FindConcatenateClass.cpp" />
     <ClCompile Include="..\cpp\IsMember.cpp" />
     <ClCompile Include="..\cpp\LeastSquareSolver.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -254,6 +255,7 @@
     <ClInclude Include="..\include\DotRightDivide.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\FindCommonClass.hpp" />
+    <ClInclude Include="..\include\FindConcatenateClass.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
     <ClInclude Include="..\include\HorzCat.hpp" />
