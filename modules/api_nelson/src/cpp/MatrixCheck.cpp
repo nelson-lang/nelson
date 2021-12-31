@@ -70,7 +70,7 @@ MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname)
 }
 //=============================================================================
 Class
-FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix)
+FindCommonType(const ArrayOf& A, const ArrayOf& B)
 {
     Class Cclass;
     Class Aclass = A.getDataClass();
@@ -82,14 +82,6 @@ FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix)
                || (Aclass == NLS_SINGLE) || (Aclass == NLS_DOUBLE) || (Aclass == NLS_SCOMPLEX)
                || (Aclass == NLS_DCOMPLEX) || (Aclass == NLS_CHAR))) {
         return Aclass;
-    }
-    // Division or matrix operations do no allow integer
-    // data types.  These must be promoted to doubles.
-    if (isDivOrMatrix && (Aclass < NLS_SINGLE)) {
-        Aclass = NLS_DOUBLE;
-    }
-    if (isDivOrMatrix && (Bclass < NLS_SINGLE)) {
-        Bclass = NLS_DOUBLE;
     }
     // An integer or double mixed with a complex is promoted to a dcomplex type
     if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE))) {

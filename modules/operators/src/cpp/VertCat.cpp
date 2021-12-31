@@ -27,6 +27,7 @@
 #include "VertCat.hpp"
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
+#include "FindConcatenateClass.hpp"
 #include "ConcatenateNdArray.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
@@ -91,7 +92,8 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     }
 
     if (A.isEmpty(false) && B.isEmpty(false)) {
-        Class classCommon = FindCommonType(A, B, false);
+        bool needOverload;
+        Class classCommon = FindConcatenateClass(A, B, needOverload);
         if (A.isStringArray() || B.isStringArray()) {
             classCommon = NLS_STRING_ARRAY;
         } else if (A.isCell() || B.isCell()) {
@@ -103,7 +105,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             if (A.isIntegerType()) {
                 classCommon = A.getDataClass();
             } else {
-                classCommon = FindCommonType(A, B, false);
+                classCommon = FindConcatenateClass(A, B, needOverload);
             }
         }
         void* ptr = nullptr;
@@ -146,7 +148,8 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         ArrayOf C(A);
         return C;
     }
-    Class classCommon = FindCommonType(A, B, false);
+    bool needOverload;
+    Class classCommon = FindConcatenateClass(A, B, needOverload);
     if (A.isStringArray() || B.isStringArray()) {
         classCommon = NLS_STRING_ARRAY;
     } else if (A.isCell() || B.isCell()) {
@@ -158,7 +161,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         if (A.isIntegerType()) {
             classCommon = A.getDataClass();
         } else {
-            classCommon = FindCommonType(A, B, false);
+            classCommon = FindConcatenateClass(A, B, needOverload);
         }
     }
     try {
