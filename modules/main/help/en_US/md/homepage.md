@@ -81,6 +81,7 @@ Try it !
 ---
 
 - [Changelog](CHANGELOG.md)
+- [Changelog v0.5.x](CHANGELOG-0.5.x.md)
 - [Changelog v0.4.x](CHANGELOG-0.4.x.md)
 - [Changelog v0.3.x](CHANGELOG-0.3.x.md)
 - [Changelog v0.2.x](CHANGELOG-0.2.x.md)
