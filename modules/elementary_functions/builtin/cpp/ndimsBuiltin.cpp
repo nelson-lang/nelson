@@ -66,6 +66,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX:
         case NLS_CHAR:
+        case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY:
         case NLS_STRUCT_ARRAY: {
             double ndims = static_cast<double>(param1.nDims());

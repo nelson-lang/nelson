@@ -111,7 +111,7 @@ IsFinite(ArrayOf A)
 #pragma omp parallel for
 #endif
         for (ompIndexType i = 0; i < N; i++) {
-            CpLogical[i] = static_cast<logical>(0);
+            CpLogical[i] = static_cast<logical>(1);
         }
         C.setDataPointer(Cp);
     } break;

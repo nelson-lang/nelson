@@ -1,12 +1,22 @@
 # 0.5.12 (UNRELEASED)
 
+## Added
+
+- `hankel` function: Hankel matrix.
+- `factor` function: Prime factors.
+- `primes` function: Prime numbers less than or equal to input value.
+- `isrow` function: Determine whether input is row vector.
+- `iscolumn` function: Determine whether input is column vector.
+
 ## Fixed
 
 - [#544](http://github.com/Nelson-numerical-software/nelson/issues/544): add `folder` fieldname to `dir` output.
 
-## Compilation:
+## Compilation
 
 - Boost 1.78 support (default on Windows).
+
+- CMake 3.22.1 (on Windows).
 
 # 0.5.11 (2021-11-26)
 
