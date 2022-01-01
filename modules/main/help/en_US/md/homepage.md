@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.5.12.0
+### Nelson 0.6.0.0
 
 This is an pre-release of Nelson.
 
