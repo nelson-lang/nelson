@@ -136,7 +136,7 @@ The systems listed here without CI or binaries are known to build and operate, b
 
 | Operating System |  Architecture   | CI  | Binaries |
 | :--------------: | :-------------: | :-: | :------: |
-|    Windows 7+    | x86-64 (64-bit) |  ✓  |    ✓     |
+| Windows 7 to 11  | x86-64 (64-bit) |  ✓  |    ✓     |
 |                  |  i686 (32-bit)  |  ✓  |    ✓     |
 |   MacOS 10.10+   | x86-64 (64-bit) |  ✓  |          |
 |   Ubuntu 20.04   | x86-64 (64-bit) |     |          |

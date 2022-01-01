@@ -8,6 +8,8 @@ Nelson is an extendable and modern numerical computing environment.
 
 Try it !
 
+[Web site](https://nelson-numerical-software.github.io/nelson-website/)
+
 ## Features
 
 - Types managed by Nelson:
@@ -19,15 +21,16 @@ Try it !
   - string array (UNICODE supported).
   - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   - handle objects.
-  - graphic objects (setting properties).
 
-- Fast Fourrier Transformation functions based on FFTW and MKL wrapper,
+- `OpenMP` and `SIMD` extensions used.
 
-- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional),
+- Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
 
-- Message Passing Interface (MPI): functions for parallel computing,
+- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
 
-- JSON decode/encode data support,
+- Message Passing Interface (MPI): functions for parallel computing.
+
+- JSON decode/encode data support.
 
 - HDF5 high-level functions I/O,
 
@@ -35,46 +38,47 @@ Try it !
 
 - MAT-file compatible load/save workspace,
 
-- C MEX API compatibility creates and shares mexFunction,
+- Foreign Function Interface C/Fortran.
+
+- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
+
+- MEX C API compatibility.
 
 - Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
 
+- RESTful API web service.
+
 - Inter-process communication between Nelson's process.
 
-- Foreign Function Interface C/Fortran,
+- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
-- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly),
+- Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
 
-- RESTful API web service,
+- Write/Read xlsx files on Windows using COM.
 
-- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework,
+- Embedded Nelson code editor.
 
-- Component Object Model (COM) client interface: binary-interface standard for software components on Windows,
-
-- Write/Read xlsx files on Windows using COM,
-
-- Embedded Nelson code editor,
-
-- Help engine
+- Help engine:
 
   Generate help files using Nelson dedicated functions.
   View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
 
-- Tests engine
+- Tests engine:
 
   Validate your algorithm using Nelson dedicated functions.
   Export the test results under the xUnit reports format.
 
-- Profiling and Code coverage tools for Nelson's language
+- Profiling and Code coverage tools for Nelson's language:
+
   Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
 
-- Nelson cloud:
+- [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
   Instant access to Nelson anywhere from an web browser.
 
 - Module skeleton to extend Nelson available here:
 
-  - [template macros and builtin](http://github.com/Nelson-numerical-software/module_skeleton),
-  - [basic template macros only](http://github.com/Nelson-numerical-software/module_skeleton_basic).
+  - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
+  - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
 
 - Nelson Modules Manager (nmm) : package manager for Nelson
 
