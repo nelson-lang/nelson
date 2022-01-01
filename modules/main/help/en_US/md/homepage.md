@@ -1,6 +1,6 @@
 ![banner](banner_homepage.png)
 
-### Nelson 0.5.12.0
+### Nelson 0.6.0.0
 
 This is an pre-release of Nelson.
 
@@ -81,6 +81,7 @@ Try it !
 ---
 
 - [Changelog](CHANGELOG.md)
+- [Changelog v0.5.x](CHANGELOG-0.5.x.md)
 - [Changelog v0.4.x](CHANGELOG-0.4.x.md)
 - [Changelog v0.3.x](CHANGELOG-0.3.x.md)
 - [Changelog v0.2.x](CHANGELOG-0.2.x.md)
