@@ -23,50 +23,32 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "HorzCatOperator.hpp"
-#include "HorzCat.hpp"
+#include "hypotBuiltin.hpp"
+#include "Error.hpp"
+#include "Hypothenus.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
-namespace Nelson {
+using namespace Nelson;
 //=============================================================================
-static bool
-hasCell(const ArrayOfVector& v)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::hypotBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    for (indexType k = 0; k < v.size(); ++k) {
-        if (v[k].isCell()) {
-            return true;
+    ArrayOfVector retval;
+    nargincheck(argIn, 2, 2);
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "hypot", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        ArrayOf res = Hypothenuse(argIn[0], argIn[1], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "hypot");
+        } else {
+            retval << res;
         }
     }
-    return false;
+    return retval;
 }
-//=============================================================================
-ArrayOf
-HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
-{
-    ArrayOf res;
-    switch (v.size()) {
-    case 0: {
-        res = ArrayOf::emptyConstructor();
-    } break;
-    case 1: {
-        res = v[0];
-    } break;
-    default: {
-        bool asCell = hasCell(v);
-        res = v[0];
-        res.ensureSingleOwner();
-        for (size_t k = 1; k < v.size(); k++) {
-            ArrayOf arg2 = v[k];
-            if (asCell && (!arg2.isCell() && !arg2.isEmpty())) {
-                ArrayOf arg = ArrayOf::toCell(arg2);
-                res = eval->doBinaryOperatorOverload(res, arg, HorzCat, "horzcat");
-            } else {
-                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
-            }
-        }
-    } break;
-    }
-    return res;
-}
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

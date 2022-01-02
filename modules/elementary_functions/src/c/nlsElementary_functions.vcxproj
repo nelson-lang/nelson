@@ -189,6 +189,7 @@
     <ClCompile Include="..\cpp\DecimalToBase.cpp" />
     <ClCompile Include="..\cpp\Find.cpp" />
     <ClCompile Include="..\cpp\Flip.cpp" />
+    <ClCompile Include="..\cpp\Hypothenus.cpp" />
     <ClCompile Include="..\cpp\Logarithm10.cpp" />
     <ClCompile Include="..\cpp\Logarithm1p.cpp" />
     <ClCompile Include="..\cpp\Logarithm2.cpp" />
@@ -219,6 +220,8 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\HypothenusComplex.hpp" />
+    <ClInclude Include="..\cpp\HypothenusReal.hpp" />
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
     <ClInclude Include="..\include\BaseToDecimal.hpp" />
     <ClInclude Include="..\include\BinToNum.hpp" />
@@ -229,6 +232,7 @@
     <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\Find.hpp" />
     <ClInclude Include="..\include\Flip.hpp" />
+    <ClInclude Include="..\include\Hypothenus.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
     <ClInclude Include="..\include\IsEqual.hpp" />

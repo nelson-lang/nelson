@@ -58,8 +58,7 @@ VertCatOperator(Evaluator* eval, const ArrayOfVector& v)
             ArrayOf arg2 = v[k];
             if (asCell && (!arg2.isCell() && !arg2.isEmpty())) {
                 ArrayOf arg = ArrayOf::toCell(arg2);
-                res = eval->doBinaryOperatorOverload(
-                    res, arg, VertCat, "vertcat");
+                res = eval->doBinaryOperatorOverload(res, arg, VertCat, "vertcat");
             } else {
                 res = eval->doBinaryOperatorOverload(res, arg2, VertCat, "vertcat");
             }

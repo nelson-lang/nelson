@@ -70,6 +70,7 @@
 #include "triuBuiltin.hpp"
 #include "trilBuiltin.hpp"
 #include "signBuiltin.hpp"
+#include "hypotBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -176,6 +177,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "sign", (void*)Nelson::ElementaryFunctionsGateway::signBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "hypot", (void*)Nelson::ElementaryFunctionsGateway::hypotBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

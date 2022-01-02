@@ -187,6 +187,7 @@
     <ClCompile Include="..\cpp\flipudBuiltin.cpp" />
     <ClCompile Include="..\cpp\floorBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\hypotBuiltin.cpp" />
     <ClCompile Include="..\cpp\imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\isapproxBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalBuiltin.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="..\include\fliplrBuiltin.hpp" />
     <ClInclude Include="..\include\flipudBuiltin.hpp" />
     <ClInclude Include="..\include\floorBuiltin.hpp" />
+    <ClInclude Include="..\include\hypotBuiltin.hpp" />
     <ClInclude Include="..\include\imagBuiltin.hpp" />
     <ClInclude Include="..\include\isapproxBuiltin.hpp" />
     <ClInclude Include="..\include\isequalBuiltin.hpp" />
