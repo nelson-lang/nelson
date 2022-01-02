@@ -286,7 +286,6 @@ scalar_scalar_complex_hypothenuse(Class classDestination, const ArrayOf& A, cons
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    Dimensions dimsA = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);

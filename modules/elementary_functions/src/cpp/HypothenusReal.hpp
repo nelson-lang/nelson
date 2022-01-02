@@ -124,7 +124,6 @@ row_matrix_real_hypothenuse(Class classDestination, const ArrayOf& A, const Arra
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
@@ -153,7 +152,6 @@ column_matrix_real_hypothenuse(Class classDestination, const ArrayOf& A, const A
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
@@ -177,7 +175,6 @@ matrix_row_real_hypothenuse(Class classDestination, const ArrayOf& A, const Arra
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
@@ -204,7 +201,6 @@ matrix_column_real_hypothenuse(Class classDestination, const ArrayOf& A, const A
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
     Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
     T* ptrC = (T*)Cp;
