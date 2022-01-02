@@ -31,6 +31,7 @@ try
     info = dir(destination_filename);
     assert_istrue(info.bytes > 290000);
 catch ex
-    assert_isequal(ex.message, _('Timeout was reached'))
+    R = strcmp(ex.message, _('Forbidden (403)')) || strcmp(ex.message, _('Timeout was reached'));
+    assert_istrue(R);
 end
 %=============================================================================
