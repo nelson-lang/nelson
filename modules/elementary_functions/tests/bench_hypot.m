@@ -23,14 +23,8 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://neo.gsfc.nasa.gov/wms/wms';
-filename = [tempdir(), 'earth3.jpg'];
-options = weboptions('Timeout', Inf);
-try
-    destination_filename = websave(filename, url, 'Time','2004-06-01', 'Service','WMS','Layers','BlueMarbleNG-TB','CRS','CRS:84', 'Format','image/jpeg','Height', 768,'Width',1024,  'BBOX','-180.0,-90.0,180.0,90.0','Version','1.3.0','Request','GetMap', options);
-    info = dir(destination_filename);
-    assert_istrue(info.bytes > 290000);
-catch ex
-    assert_isequal(ex.message, _('Timeout was reached'))
-end
+% <--INDEX 64 BIT REQUIRED-->
+%=============================================================================
+A = [1:1000000];A=reshape(A,1000,[]);
+tic();R = hypot(A, A);toc()
 %=============================================================================

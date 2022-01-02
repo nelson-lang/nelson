@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `CHANGELOG` 0.6.x family.
 
+- [#548](http://github.com/Nelson-numerical-software/nelson/issues/548): hypot builtin: Square root of sum of squares.
+
 ## Previous changelog
 
 [Changelog v0.4.x](CHANGELOG-0.5.x.md)

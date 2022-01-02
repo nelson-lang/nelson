@@ -23,50 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "HorzCatOperator.hpp"
-#include "HorzCat.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-hasCell(const ArrayOfVector& v)
-{
-    for (indexType k = 0; k < v.size(); ++k) {
-        if (v[k].isCell()) {
-            return true;
-        }
-    }
-    return false;
-}
-//=============================================================================
-ArrayOf
-HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
-{
-    ArrayOf res;
-    switch (v.size()) {
-    case 0: {
-        res = ArrayOf::emptyConstructor();
-    } break;
-    case 1: {
-        res = v[0];
-    } break;
-    default: {
-        bool asCell = hasCell(v);
-        res = v[0];
-        res.ensureSingleOwner();
-        for (size_t k = 1; k < v.size(); k++) {
-            ArrayOf arg2 = v[k];
-            if (asCell && (!arg2.isCell() && !arg2.isEmpty())) {
-                ArrayOf arg = ArrayOf::toCell(arg2);
-                res = eval->doBinaryOperatorOverload(res, arg, HorzCat, "horzcat");
-            } else {
-                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
-            }
-        }
-    } break;
-    }
-    return res;
-}
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Hypothenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
