@@ -96,8 +96,9 @@ DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     std::wstring msg;
-    const double* ptrValue = (const double*)A.getDataPointer(); 
-    msg.append(formatScalarComplexNumber(ptrValue[0], ptrValue[1], false, currentNumericFormat, false));
+    const double* ptrValue = (const double*)A.getDataPointer();
+    msg.append(
+        formatScalarComplexNumber(ptrValue[0], ptrValue[1], false, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
 }

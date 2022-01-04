@@ -251,7 +251,7 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
                 for (indexType j = 0; j < colsInThisPage
                      && !NelsonConfiguration::getInstance()->getInterruptPending();
                      j++) {
-                    indexType idx = i + (k * colsPerPage + j) * rows;
+                    indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     std::wstring valueAsString;
                     if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
                         if (data[idx]) {

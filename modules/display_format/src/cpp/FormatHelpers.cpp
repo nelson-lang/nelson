@@ -325,7 +325,7 @@ computeFormatInfo(double realPart, double imagPart, NumericFormatDisplay current
 static FormatDisplayInformation
 computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumericFormat)
 {
-    FormatDisplayInformation formatInfo; 
+    FormatDisplayInformation formatInfo;
     if (asSingle) {
         formatInfo = getArrayOfFormatInfoSingle(currentNumericFormat);
     } else {
@@ -421,9 +421,7 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
             formatInfo.trim = true;
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return formatInfo;
 }
 //=============================================================================
@@ -623,37 +621,87 @@ FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
 {
     FormatDisplayInformation formatInfo;
-    if (A.isComplex()) {
-        formatInfo = getArrayOfFormatInfoDoubleComplex(currentNumericFormat);
-    } else {
-        formatInfo = getArrayOfFormatInfoDouble(currentNumericFormat);
-    }
-    double minValue = 0;
-    double maxValue = 0;
     bool isFinite = false;
     bool allInteger = false;
-    if (A.isSparse()) {
-        if (A.isComplex()) {
+    double absoluteValue;
+    if (A.isSingleClass()) {
+        single minValue = 0;
+        single maxValue = 0;
 
+        if (A.isComplex()) {
+            formatInfo = getArrayOfFormatInfoSingleComplex(currentNumericFormat);
         } else {
-            Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
-            const double* data = spMat->valuePtr();
-            allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros());
-            getFiniteMinMax<double>(data, spMat->nonZeros(), minValue, maxValue, isFinite);
+            formatInfo = getArrayOfFormatInfoSingle(currentNumericFormat);
         }
+        if (A.isSparse()) {
+            if (A.isComplex()) {
+                Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>*)
+                          A.getSparseDataPointer();
+                std::complex<single>* zdata = spMat->valuePtr();
+                const single* data = reinterpret_cast<single*>(zdata);
+                allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros() * 2);
+                getFiniteMinMax<single>(data, spMat->nonZeros() * 2, minValue, maxValue, isFinite);
+            } else {
+                Eigen::SparseMatrix<single, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<single, 0, signedIndexType>*)A.getSparseDataPointer();
+                const single* data = spMat->valuePtr();
+                allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros());
+                getFiniteMinMax<single>(data, spMat->nonZeros(), minValue, maxValue, isFinite);
+            }
+        } else {
+            if (A.isComplex()) {
+                const single* pValues = (const single*)A.getDataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount() * 2);
+                getFiniteMinMax<single>(
+                    pValues, A.getElementCount() * 2, minValue, maxValue, isFinite);
+            } else {
+                const single* pValues = (const single*)A.getDataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount());
+                getFiniteMinMax<single>(pValues, A.getElementCount(), minValue, maxValue, isFinite);
+            }
+        }
+        absoluteValue = std::max(fabs(maxValue), fabs(minValue));
+
     } else {
-        if (A.isComplex()) {
-            const double* pValues = (const double*)A.getDataPointer();
-            allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount() * 2);
-            getFiniteMinMax<double>(pValues, A.getElementCount() * 2, minValue, maxValue, isFinite);
-        } else {
-            const double* pValues = (const double*)A.getDataPointer();
-            allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount());
-            getFiniteMinMax<double>(pValues, A.getElementCount(), minValue, maxValue, isFinite);
-        }
-    }
+        double minValue = 0;
+        double maxValue = 0;
 
+        if (A.isComplex()) {
+            formatInfo = getArrayOfFormatInfoDoubleComplex(currentNumericFormat);
+        } else {
+            formatInfo = getArrayOfFormatInfoDouble(currentNumericFormat);
+        }
+        if (A.isSparse()) {
+            if (A.isComplex()) {
+                Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)
+                          A.getSparseDataPointer();
+                std::complex<double>* zdata = spMat->valuePtr();
+                const double* data = reinterpret_cast<double*>(zdata);
+                allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros() * 2);
+                getFiniteMinMax<double>(data, spMat->nonZeros() * 2, minValue, maxValue, isFinite);
+            } else {
+                Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
+                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+                const double* data = spMat->valuePtr();
+                allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros());
+                getFiniteMinMax<double>(data, spMat->nonZeros(), minValue, maxValue, isFinite);
+            }
+        } else {
+            if (A.isComplex()) {
+                const double* pValues = (const double*)A.getDataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount() * 2);
+                getFiniteMinMax<double>(
+                    pValues, A.getElementCount() * 2, minValue, maxValue, isFinite);
+            } else {
+                const double* pValues = (const double*)A.getDataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount());
+                getFiniteMinMax<double>(pValues, A.getElementCount(), minValue, maxValue, isFinite);
+            }
+        }
+        absoluteValue = (double)std::max(fabs(maxValue), fabs(minValue));
+    }
     if (A.isComplex()) {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_SHORT: {
@@ -667,9 +715,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     } else {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_HEX: {
@@ -679,7 +725,6 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             ComputeScaleFactor(A, allInteger, formatInfo);
             if (allInteger) {
                 if (formatInfo.scaleFactor == 1) {
-                    double absoluteValue = std::max(fabs(maxValue), fabs(minValue));
                     if (absoluteValue <= 999) {
                         formatInfo.floatAsInteger = true;
                         formatInfo.formatReal = L"%*ld";
@@ -712,7 +757,6 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             ComputeScaleFactor(A, allInteger, formatInfo);
             if (allInteger) {
                 if (formatInfo.scaleFactor == 1) {
-                    double absoluteValue = std::max(fabs(maxValue), fabs(minValue));
                     if (absoluteValue <= 999) {
                         formatInfo.floatAsInteger = true;
                         formatInfo.formatReal = L"%*ld";
@@ -746,11 +790,8 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.formatReal = L"%*s";
 
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
-
     return formatInfo;
 }
 //=============================================================================
@@ -844,9 +885,7 @@ formatElementComplex(double realPart, double ImagPart, NumericFormatDisplay curr
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
 
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return result;
 }
 //=============================================================================
@@ -878,7 +917,8 @@ formatScalarNumber(
         result = formatLongEng(val, forceLeftTrim);
     } break;
     case NLS_NUMERIC_FORMAT_RATIONAL: {
-        FormatDisplayInformation formatInfo = computeFormatInfo(val, asSingle,currentNumericFormat);
+        FormatDisplayInformation formatInfo
+            = computeFormatInfo(val, asSingle, currentNumericFormat);
         if (IsIntegerForm(val)) {
             result = L"   " + fmt::sprintf(L"%.f", val);
         } else {
@@ -910,7 +950,8 @@ formatScalarNumber(
         result.append(formatNumber(val, formatInfo));
     } break;
     default: {
-        FormatDisplayInformation formatInfo = computeFormatInfo(val, asSingle, currentNumericFormat);
+        FormatDisplayInformation formatInfo
+            = computeFormatInfo(val, asSingle, currentNumericFormat);
         formatInfo.trim = forceLeftTrim;
         result.append(formatNumber(val, formatInfo));
     } break;
