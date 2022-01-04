@@ -90,3 +90,20 @@ assert_isequal(R, REF);
 R = intmax('int32') * intmax('int32');
 REF = intmax('int32');
 assert_isequal(R, REF);
+%=============================================================================
+R = 1 * single(eps);
+REF = single(eps);
+assert_isequal(R, REF);
+%=============================================================================
+R = single(eps) * 1;
+REF = single(eps);
+assert_isequal(R, REF);
+%=============================================================================
+R = ones(3, 3) * single(eps);
+REF = single(ones(3, 3) * eps);
+assert_isequal(R, REF);
+%=============================================================================
+R = single(eps) * ones(3, 3);
+REF = single(ones(3, 3) * eps);
+assert_isequal(R, REF);
+%=============================================================================

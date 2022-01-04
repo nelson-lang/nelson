@@ -53,7 +53,15 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     Dimensions Cdim;
     if (A.isScalar() && B.isScalar()) {
         T* ptrC = (T*)ArrayOf::allocateArrayOf(currentClass, 1);
-        ptrC[0] = ((T*)A.getDataPointer())[0] * ((T*)B.getDataPointer())[0];
+        if (A.getDataClass() == currentClass && B.getDataClass() == currentClass) {
+            ptrC[0] = ((T*)A.getDataPointer())[0] * ((T*)B.getDataPointer())[0];
+        } else {
+            ArrayOf _A(A);
+            _A.promoteType(currentClass);
+            ArrayOf _B(B);
+            _B.promoteType(currentClass);
+            ptrC[0] = ((T*)_A.getDataPointer())[0] * ((T*)_B.getDataPointer())[0];
+        }
         return ArrayOf(currentClass, Dimensions(1, 1), ptrC, false);
     }
     if (A.isVector() && B.isScalar()) {
@@ -73,6 +81,11 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             Cdim[1] = B.getColumns();
         }
     }
+    ArrayOf _A(A);
+    ArrayOf _B(B);
+    _A.promoteType(currentClass);
+    _B.promoteType(currentClass);
+
     indexType Clen = Cdim.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* ptrC = (T*)Cp;
@@ -86,8 +99,8 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
     size_t mB = dimB.getRows();
     size_t nB = dimB.getColumns();
     if (A.isScalar()) {
-        T* ptrA = (T*)A.getDataPointer();
-        T* ptrB = (T*)B.getDataPointer();
+        T* ptrA = (T*)_A.getDataPointer();
+        T* ptrB = (T*)_B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimB.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -95,12 +108,12 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = ptrA[0] * ptrB[k];
         }
 #else
-        Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
+        Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)_B.getDataPointer(), mB, nB);
         matC = ptrA[0] * matB.array();
 #endif
     } else if (B.isScalar()) {
-        T* ptrA = (T*)A.getDataPointer();
-        T* ptrB = (T*)B.getDataPointer();
+        T* ptrA = (T*)_A.getDataPointer();
+        T* ptrB = (T*)_B.getDataPointer();
         ompIndexType elementCount = (ompIndexType)dimA.getElementCount();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -108,12 +121,12 @@ real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = ptrA[k] * ptrB[0];
         }
 #else
-        Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
+        Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)_A.getDataPointer(), mA, nA);
         matC = matA.array() * ptrB[0];
 #endif
     } else {
-        Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
-        Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), mB, nB);
+        Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)_A.getDataPointer(), mA, nA);
+        Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)_B.getDataPointer(), mB, nB);
         matC = matA * matB;
     }
     return ArrayOf(currentClass, Cdim, Cp, false);
