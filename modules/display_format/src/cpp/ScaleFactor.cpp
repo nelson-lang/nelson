@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <math.h> 
+#include <math.h>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "ScaleFactor.hpp"
@@ -51,7 +51,8 @@ getScaleFactorWithAmplitude(double max_amplitude, double maxval)
 //=============================================================================
 template <class T>
 static bool
-ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool allInteger, FormatDisplayInformation& formatInfo)
+ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool allInteger,
+    FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
     if (count == 0) {
@@ -74,11 +75,11 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool al
     double maxval = ::pow(double(10.0), 3);
     if (formatInfo.numericFormatDisplay == NLS_NUMERIC_FORMAT_LONG) {
         if (isSparse) {
-          if (allInteger) {
+            if (allInteger) {
                 maxval = ::pow(double(10.0), 9);
             } else {
-              maxval = ::pow(double(10.0), 3);
-          }
+                maxval = ::pow(double(10.0), 3);
+            }
         } else {
             double commonLogarithm = log10(max_amplitude);
             if (commonLogarithm < 0) {
@@ -86,8 +87,6 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool al
             } else {
                 maxval = ::pow(double(10.0), 9);
             }
-            
-            
         }
     }
     formatInfo.scaleFactor = getScaleFactorWithAmplitude(max_amplitude, maxval);
@@ -177,7 +176,8 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             ptr = reinterpret_cast<double*>((double*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorReal<double>(ptr, nbElements, A.isSparse(), allInteger, formatInfo);
+        return ComputeScaleFactorReal<double>(
+            ptr, nbElements, A.isSparse(), allInteger, formatInfo);
     } break;
     case NLS_SINGLE: {
         indexType nbElements;

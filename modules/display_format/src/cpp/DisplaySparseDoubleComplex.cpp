@@ -109,8 +109,8 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
     size_t maxLenIndexString = indexAsString.length();
 
     const std::complex<double>* values = spMat->valuePtr();
-    std::wstring asStr
-        = formatScalarComplexNumber(values[0].real(), values[0].imag(), false, currentNumericFormat, false);
+    std::wstring asStr = formatScalarComplexNumber(
+        values[0].real(), values[0].imag(), false, currentNumericFormat, false);
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";

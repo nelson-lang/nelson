@@ -127,9 +127,7 @@ completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         width = 0;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return completeWithBlanksAtBeginning(msg, width);
 }
 //=============================================================================
@@ -223,9 +221,7 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return typeAsText;
 }
 //=============================================================================
@@ -422,7 +418,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
                 + L"}";
         } else {
             msg = lightDescription(A, L"{", L"}");
@@ -585,7 +581,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     case NLS_SINGLE: {
         if (A.isScalar()) {
             single value = *(static_cast<const single*>(A.getDataPointer()));
-            msg = formatScalarNumber((double)value, true,currentNumericFormat, true);
+            msg = formatScalarNumber((double)value, true, currentNumericFormat, true);
             if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                 size_t nbCharsLimit = 6;
                 if (boost::contains(msg, L"/")) {
@@ -621,9 +617,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================

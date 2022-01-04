@@ -96,7 +96,7 @@ DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     std::wstring msg;
-    const double* ptrValue = (const double*)A.getDataPointer(); 
+    const double* ptrValue = (const double*)A.getDataPointer();
     msg.append(formatScalarNumber(ptrValue[0], false, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
@@ -182,7 +182,99 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 void
 DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{
+    sizeType termWidth = io->getTerminalWidth();
+    Dimensions dims = A.getDimensions();
+
+    Dimensions wdims(dims.getLength());
+    indexType rows(A.getRows());
+    indexType columns(A.getColumns());
+    indexType offset = 0;
+
+    FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+
+    if (formatInfo.scaleFactor != 1) {
+        std::wstring scaleFactorAsString = formatScaleFactor(formatInfo);
+        io->outputMessage(L"   " + scaleFactorAsString + L"\n");
+        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+            io->outputMessage(L"\n");
+        }
+    }
+
+    bool continueDisplay = true;
+    indexType block_page = 0;
+    std::wstring buffer;
+
+    indexType nominalWidth = formatInfo.widthReal;
+    const double* pValues = (const double*)A.getDataPointer();
+    while (wdims.inside(dims)) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            break;
+        }
+        if (offset != 0) {
+            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+                buffer.append(L"\n\n");
+            }
+        }
+        buffer.append(name + L"(:,:");
+        for (indexType m = 2; m < dims.getLength(); m++) {
+            buffer.append(fmt::sprintf(L",%d", static_cast<int>(wdims[m]) + 1));
+        }
+        buffer.append(L") =\n");
+        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+            buffer.append(L"\n");
+        }
+        indexType colsPerPage
+            = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
+        int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
+        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        for (int k = 0; k < pageCount && continueDisplay; k++) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                continueDisplay = false;
+                break;
+            }
+            indexType colsInThisPage = columns - colsPerPage * k;
+            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
+            if (withColumsHeader) {
+                std::wstring msg
+                    = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
+                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+                    if (k == 0) {
+                        msg = msg + L"\n\n";
+                    } else {
+                        msg = L"\n" + msg + L"\n\n";
+                    }
+                } else {
+                    msg = msg + L"\n";
+                }
+                buffer.append(msg);
+            }
+            for (indexType i = 0; i < rows; i++) {
+                for (indexType j = 0; j < colsInThisPage && continueDisplay; j++) {
+                    indexType idx = i + (k * colsPerPage + j) * rows + offset;
+                    std::wstring valueAsString
+                        = formatElement(pValues[idx], currentNumericFormat, formatInfo);
+                    buffer.append(valueAsString);
+                }
+                buffer.append(L"\n");
+                if (block_page >= io->getTerminalHeight()) {
+                    io->outputMessage(buffer);
+                    buffer.clear();
+                    block_page = 0;
+                } else {
+                    block_page++;
+                }
+            }
+        }
+        offset += rows * columns;
+        wdims.incrementModulo(dims, 2);
+    }
+    if (!buffer.empty()) {
+        io->outputMessage(buffer);
+        buffer.clear();
+        block_page = 0;
+    }
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

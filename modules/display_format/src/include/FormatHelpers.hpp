@@ -36,7 +36,8 @@ FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 std::wstring
-formatScalarNumber(double val, bool asSingle, NumericFormatDisplay currentNumericFormat, bool forceLeftTrim);
+formatScalarNumber(
+    double val, bool asSingle, NumericFormatDisplay currentNumericFormat, bool forceLeftTrim);
 //=============================================================================
 std::wstring
 formatScalarComplexNumber(double realPart, double imagPart, bool asSingle,
