@@ -421,7 +421,9 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
             formatInfo.trim = true;
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return formatInfo;
 }
 //=============================================================================
@@ -715,7 +717,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } else {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_HEX: {
@@ -790,7 +794,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.formatReal = L"%*s";
 
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return formatInfo;
 }
@@ -821,8 +827,14 @@ formatElement(double val, NumericFormatDisplay currentNumericFormat,
         bool haveDecimals = formatInfo.decimalsReal != 0;
         if (formatInfo.scaleFactor != 1) {
             if (haveDecimals) {
-                result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,
-                    formatInfo.decimalsReal, val / pow(10, formatInfo.scaleFactor));
+                double value = val / pow(10, formatInfo.scaleFactor);
+                if (value == 0.) {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, 0, value);
+
+                } else {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,
+                        formatInfo.decimalsReal, value);
+                }
             } else {
                 if (formatInfo.floatAsInteger) {
                     result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,
@@ -834,8 +846,14 @@ formatElement(double val, NumericFormatDisplay currentNumericFormat,
             }
         } else {
             if (haveDecimals) {
-                result = fmt::sprintf(
-                    formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, val);
+                if (val == 0.) {
+                    result = fmt::sprintf(
+                        formatInfo.formatReal, formatInfo.widthReal, 0, val);
+
+                } else {
+                    result = fmt::sprintf(
+                        formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, val);
+                }
             } else {
                 if (formatInfo.floatAsInteger) {
                     if (!std::isfinite(val)) {
@@ -885,7 +903,9 @@ formatElementComplex(double realPart, double ImagPart, NumericFormatDisplay curr
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
 
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================
