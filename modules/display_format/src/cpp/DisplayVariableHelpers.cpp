@@ -35,6 +35,7 @@
 #include "IEEEFP.hpp"
 #include "characters_encoding.hpp"
 #include "DisplayIntegerHelpers.hpp"
+#include "DisplayCellHelpers.hpp"
 #include "FormatShort.hpp"
 #include "FormatShortE.hpp"
 #include "FormatShortG.hpp"
@@ -302,15 +303,15 @@ void
 DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
 {
     if (!name.empty()) {
-        bool isNdArray = (A.getDimensions().getLength() > 2);
+        bool isNdArrayAndNotEmpty = (A.getDimensions().getLength() > 2) && !A.isEmpty();
         if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
             == NLS_LINE_SPACING_COMPACT) {
-            if (!isNdArray) {
+            if (!isNdArrayAndNotEmpty) {
                 io->outputMessage(name + L" =\n");
             }
         } else {
             io->outputMessage(L"\n");
-            if (!isNdArray) {
+            if (!isNdArrayAndNotEmpty) {
                 io->outputMessage(name + L" =\n\n");
             }
         }
@@ -325,8 +326,11 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
         case NLS_DOUBLE:
         case NLS_DCOMPLEX: {
             if (A.isEmpty()) {
-                std::wstring msg = buildHeader(A);
-                io->outputMessage(msg);
+                bool allEmpty = A.isEmpty(true);
+                if (!allEmpty || A.isSparse()) {
+                    std::wstring msg = buildHeader(A);
+                    io->outputMessage(msg);
+                }
             }
         } break;
         case NLS_STRING_ARRAY: {
@@ -395,22 +399,29 @@ summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWid
     return str;
 }
 //=============================================================================
+
 /**
  * Print this object when it is an element of a cell array.  This is
  * generally a shorthand summary of the description of the object.
  */
 std::wstring
 summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
-    NumericFormatDisplay currentNumericFormat)
+    NumericFormatDisplay currentNumericFormat, bool recursive)
 {
     std::wstring msg;
     if (A.isEmpty()) {
-        if (A.getDataClass() == NLS_CHAR) {
-            msg = L"''";
+        if (A.isEmpty(true)) {
+            if (A.getDataClass() == NLS_CHAR) {
+                msg = L"''";
+            } else if (A.isCell()) {
+                msg = L"{}";
+            } else {
+                msg = L"[]";
+            }
+            return msg;
         } else {
-            msg = L"[]";
+            return lightDescription(A, L"{", L"}");
         }
-        return msg;
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY: {
@@ -418,27 +429,36 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat)
+                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat, true)
                 + L"}";
+        } else if (A.isRowVector()) {
+            ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+            indexType currentLength = beginingLineLength + 2;
+            msg = L"{";
+            for (indexType k = 0; k < A.getElementCount(); ++k) {
+                if (currentLength + 3 > termWidth) {
+                    msg = lightDescription(A, L"{", L"}");
+                    break;
+                }
+                if (elements[k].isCell()) {
+                    msg.append(lightDescription(elements[k], L"{", L"}"));
+                } else {
+                    msg.append(summarizeCellEntry(
+                        elements[k], currentLength, termWidth, currentNumericFormat, true));
+                }
+                if (k < A.getElementCount() - 1) {
+                    msg.append(L"  ");
+                }
+                currentLength = msg.size() + 1;
+            }
+            msg.append(L"}");
         } else {
             msg = lightDescription(A, L"{", L"}");
         }
     } break;
     case NLS_STRING_ARRAY: {
-        if (A.isScalar()) {
-            ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-            if (elements[0].isCharacterArray()) {
-                if (elements[0].getColumns() < termWidth - beginingLineLength - 3) {
-                    msg = L"\"" + elements[0].getContentAsWideString() + L"\"";
-                } else {
-                    msg = lightDescription(A, L"[", L"]");
-                }
-            } else {
-                msg = L"<missing>";
-            }
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellStringEntry(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_STRUCT_ARRAY: {
         msg = lightDescription(A, L"[", L"]");
@@ -461,161 +481,56 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         msg = lightDescription(A, L"[", L"]");
     } break;
     case NLS_LOGICAL: {
-        if (A.isScalar()) {
-            if (A.isSparse()) {
-                msg = lightDescription(A, L"[", L"]");
-            } else {
-                logical val = A.getContentAsLogicalScalar();
-                if (val) {
-                    msg = L"true";
-                } else {
-                    msg = L"false";
-                }
-            }
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
-    } break;
-    case NLS_UINT8: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellLogicalEntry(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT8: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
-    } break;
-    case NLS_UINT16: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellRealEntry<int8>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
+     } break;
+    case NLS_UINT8: {
+         msg = summarizeCellRealEntry<uint8>(
+             A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT16: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellRealEntry<int16>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
-    case NLS_UINT32: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+    case NLS_UINT16: {
+        msg = summarizeCellRealEntry<uint16>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT32: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellRealEntry<int32>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
-    case NLS_UINT64: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+    case NLS_UINT32: {
+        msg = summarizeCellRealEntry<uint32>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT64: {
-        if (A.isScalar()) {
-            msg = formatInteger(A.getDataPointer(), A.getDataClass(), 0, currentNumericFormat);
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellRealEntry<int64>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
+    } break;
+    case NLS_UINT64: {
+        msg = summarizeCellRealEntry<uint64>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_DOUBLE: {
-        if (A.isSparse()) {
-            msg = lightDescription(A, L"[", L"]");
-        } else {
-            if (A.isScalar()) {
-                double value = *(static_cast<const double*>(A.getDataPointer()));
-                msg = formatScalarNumber(value, false, currentNumericFormat, true);
-                if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
-                    size_t nbCharsLimit = 6;
-                    if (boost::contains(msg, L"/")) {
-                        nbCharsLimit++;
-                    }
-                    if (boost::contains(msg, L"-")) {
-                        nbCharsLimit++;
-                    }
-                    if (msg.length() > nbCharsLimit) {
-                        msg = L"*";
-                    }
-                }
-                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
-                    if (msg.length() > termWidth) {
-                        msg = lightDescription(A, L"", L"");
-                    }
-                }
-            } else {
-                msg = lightDescription(A, L"[", L"]");
-            }
-        }
+        msg = summarizeCellRealEntry<double>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_DCOMPLEX: {
-        if (A.isSparse()) {
-            msg = lightDescription(A, L"[", L"]");
-        } else {
-            if (A.isScalar()) {
-                const auto* ap = static_cast<const double*>(A.getDataPointer());
-                msg = formatScalarComplexNumber(ap[0], ap[1], false, currentNumericFormat, true);
-                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
-                    if (msg.length() > termWidth) {
-                        msg = lightDescription(A, L"", L"");
-                    }
-                }
-            } else {
-                msg = lightDescription(A, L"[", L"]");
-            }
-        }
+        msg = summarizeCellComplexEntry<double>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_SINGLE: {
-        if (A.isScalar()) {
-            single value = *(static_cast<const single*>(A.getDataPointer()));
-            msg = formatScalarNumber((double)value, true, currentNumericFormat, true);
-            if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
-                size_t nbCharsLimit = 6;
-                if (boost::contains(msg, L"/")) {
-                    nbCharsLimit++;
-                }
-                if (boost::contains(msg, L"-")) {
-                    nbCharsLimit++;
-                }
-                if (msg.length() > nbCharsLimit) {
-                    msg = L"*";
-                }
-            }
-            if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
-                if (msg.length() > termWidth) {
-                    msg = lightDescription(A, L"", L"");
-                }
-            }
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellRealEntry<single>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_SCOMPLEX: {
-        if (A.isScalar()) {
-            const single* ap = static_cast<const single*>(A.getDataPointer());
-            msg = formatScalarComplexNumber(
-                (double)ap[0], (double)ap[1], true, currentNumericFormat, true);
-            if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
-                if (msg.length() > termWidth) {
-                    msg = lightDescription(A, L"", L"");
-                }
-            }
-        } else {
-            msg = lightDescription(A, L"[", L"]");
-        }
+        msg = summarizeCellComplexEntry<single>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     default: { } break; }
     return msg;

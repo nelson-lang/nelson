@@ -64,7 +64,7 @@ DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name)
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
     DisplayVariableHeader(io, A, name);
-    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && !A.isEmpty()) {
         io->outputMessage(L"\n");
     }
     bool withFooter = false;

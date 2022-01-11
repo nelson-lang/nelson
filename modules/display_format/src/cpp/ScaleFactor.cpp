@@ -51,8 +51,8 @@ getScaleFactorWithAmplitude(double max_amplitude, double maxval)
 //=============================================================================
 template <class T>
 static bool
-ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool allInteger,
-    FormatDisplayInformation& formatInfo)
+ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, Class classReal,
+    bool allInteger, FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
     if (count == 0) {
@@ -85,7 +85,15 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool al
             if (commonLogarithm < 0) {
                 maxval = ::pow(double(10.0), 3);
             } else {
-                maxval = ::pow(double(10.0), 9);
+                if (classReal == NLS_SINGLE) {
+                    if (allInteger) {
+                        maxval = ::pow(double(10.0), 9);
+                    } else {
+                        maxval = ::pow(double(10.0), 3);
+                    }
+                } else {
+                    maxval = ::pow(double(10.0), 9);
+                }
             }
         }
     }
@@ -96,7 +104,7 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, bool al
 template <class T>
 static bool
 ComputeScaleFactorComplex(const std::complex<T>* ptrData, indexType count, bool isSparse,
-    FormatDisplayInformation& formatInfo)
+    Class classReal, FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
     if (count == 0) {
@@ -147,7 +155,8 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorComplex<double>(ptrZ, nbElements, A.isSparse(), formatInfo);
+        return ComputeScaleFactorComplex<double>(
+            ptrZ, nbElements, A.isSparse(), NLS_DOUBLE, formatInfo);
     } break;
     case NLS_SCOMPLEX: {
         std::complex<single>* ptrZ = nullptr;
@@ -162,7 +171,8 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
             nbElements = (indexType)A.getElementCount();
         }
-        return ComputeScaleFactorComplex<single>(ptrZ, nbElements, A.isSparse(), formatInfo);
+        return ComputeScaleFactorComplex<single>(
+            ptrZ, nbElements, A.isSparse(), NLS_SINGLE, formatInfo);
     } break;
     case NLS_DOUBLE: {
         indexType nbElements;
@@ -177,7 +187,7 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             nbElements = (indexType)A.getElementCount();
         }
         return ComputeScaleFactorReal<double>(
-            ptr, nbElements, A.isSparse(), allInteger, formatInfo);
+            ptr, nbElements, A.isSparse(), NLS_DOUBLE, allInteger, formatInfo);
     } break;
     case NLS_SINGLE: {
         indexType nbElements;
@@ -192,7 +202,7 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             nbElements = (indexType)A.getElementCount();
         }
         return ComputeScaleFactorReal<single>(
-            ptr, nbElements, A.isSparse(), allInteger, formatInfo);
+            ptr, nbElements, A.isSparse(), NLS_SINGLE, allInteger, formatInfo);
     } break;
     default: {
         computed = false;

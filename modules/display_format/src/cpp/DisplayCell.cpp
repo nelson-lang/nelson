@@ -26,9 +26,12 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <boost/algorithm/string.hpp>
 #include "DisplayCell.hpp"
+#include "DisplayCellHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "FormatHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -178,6 +181,9 @@ DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType offset = 0;
 
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+        io->outputMessage(L"\n");
+    }
     while (wdims.inside(dims)) {
         if (offset != 0) {
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -260,34 +266,86 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
             }
             msg = L"{'" + msg + L"'}";
         } else {
-            msg = summarizeCellEntry(elements[idx], 0, termWidth, currentNumericFormat);
+            msg = summarizeCellEntry(elements[idx], 0, termWidth, currentNumericFormat, true);
         }
     } break;
     case NLS_STRING_ARRAY: {
-        if (elements[idx].isEmpty()) {
-            msg = L"";
-        } else if (elements[idx].isScalar()) {
-            ArrayOf* element = (ArrayOf*)elements[idx].getDataPointer();
-            if (element[0].isCharacterArray()) {
-                msg = element[0].getContentAsWideString(16 - 2);
-                if (msg.length() > 15 - 2) {
-                    msg.pop_back();
-                    msg = msg.substr(0, 15 - 2);
-                    msg = msg + HORIZONTAL_ELLIPSIS;
-                }
-                msg = L"\"" + msg + L"\"";
-            } else {
-                msg = L"<missing>";
-            }
-        } else {
-            msg = lightDescription(elements[idx], L"", L"");
-        }
-        msg = L"{[" + msg + L"]}";
+        msg = summarizeCellStringEntry(elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
     } break;
+    case NLS_CELL_ARRAY: {
+        msg = lightDescription(elements[idx], L"{", L"}");
+    } break;
+    case NLS_LOGICAL: {
+        msg = summarizeCellLogicalEntry(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_UINT8: {
+        msg = summarizeCellRealEntry<uint8>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_INT8: {
+        msg = summarizeCellRealEntry<int8>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_UINT16: {
+        msg = summarizeCellRealEntry<uint16>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_INT16: {
+        msg = summarizeCellRealEntry<int16>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_UINT32: {
+        msg = summarizeCellRealEntry<uint32>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_INT32: {
+        msg = summarizeCellRealEntry<int32>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_UINT64: {
+        msg = summarizeCellRealEntry<uint64>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_INT64: {
+        msg = summarizeCellRealEntry<int64>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_DOUBLE: {
+        msg = summarizeCellRealEntry<double>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_SINGLE: {
+        msg = summarizeCellRealEntry<double>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_DCOMPLEX: {
+        msg = summarizeCellComplexEntry<double>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+    case NLS_SCOMPLEX: {
+        msg = summarizeCellComplexEntry<single>(
+            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = L"{" + msg + L"}";
+    } break;
+
     default: {
         if (elements[idx].isScalar()) {
-            msg = summarizeCellEntry(elements[idx], 0, termWidth, currentNumericFormat);
-            msg = L"{[" + msg + L"]}";
+            msg = summarizeCellEntry(elements[idx], 0, termWidth, currentNumericFormat, true);
+            msg = L"{" + msg + L"}";
         } else {
             msg = lightDescription(elements[idx], L"{", L"}");
         }

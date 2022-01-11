@@ -89,7 +89,14 @@ DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{
+    if (A.isEmpty()) {
+        bool allEmpty = A.isEmpty(true);
+        if (allEmpty && !name.empty()) {
+            io->outputMessage(L"     []\n");
+        }
+    }
+}
 //=============================================================================
 void
 DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -207,6 +214,9 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 
     indexType nominalWidth = formatInfo.widthReal;
     const double* pValues = (const double*)A.getDataPointer();
+    if (name.empty() && currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+        buffer.append(L"\n");
+    }
     while (wdims.inside(dims)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
             break;

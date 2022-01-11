@@ -58,8 +58,10 @@ DisplayStruct(Interface* io, const ArrayOf& A, const std::wstring& name)
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
     DisplayVariableHeader(io, A, name);
+    bool withFooter = true;
     if (A.isEmpty()) {
         DisplayEmptyStruct(io, A, name, currentNumericFormat, currentLineSpacing);
+        withFooter = !name.empty();
     } else if (A.isScalar()) {
         DisplayScalarStruct(io, A, name, currentNumericFormat, currentLineSpacing);
     } else if (A.is2D()) {
@@ -67,7 +69,9 @@ DisplayStruct(Interface* io, const ArrayOf& A, const std::wstring& name)
     } else {
         DisplayNdStruct(io, A, name, currentNumericFormat, currentLineSpacing);
     }
-    DisplayVariableFooter(io, A, name);
+    if (withFooter) {
+        DisplayVariableFooter(io, A, name);
+    }
 }
 //=============================================================================
 void
@@ -105,8 +109,8 @@ DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
         for (size_t k = 0; k < fieldnames.size(); ++k) {
             std::wstring beginning = BLANKS_AT_BOL
                 + completeWithBlanksAtBeginning(utf8_to_wstring(fieldnames[k]), maxLen) + L": ";
-            std::wstring valueAsString = summarizeCellEntry(
-                ap[k], 0, SIZE_MAX, NelsonConfiguration::getInstance()->getNumericFormatDisplay());
+            std::wstring valueAsString = summarizeCellEntry(ap[k], 0, io->getTerminalWidth(),
+                NelsonConfiguration::getInstance()->getNumericFormatDisplay(), false);
             io->outputMessage(beginning + valueAsString + L"\n");
         }
     }

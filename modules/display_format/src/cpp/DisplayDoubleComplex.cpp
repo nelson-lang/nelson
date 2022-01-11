@@ -89,7 +89,14 @@ DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
 void
 DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{
+    if (A.isEmpty()) {
+        bool allEmpty = A.isEmpty(true);
+        if (allEmpty && !name.empty()) {
+            io->outputMessage(L"     []\n");
+        }
+    }
+}
 //=============================================================================
 void
 DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,

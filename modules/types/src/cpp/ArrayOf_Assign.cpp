@@ -585,10 +585,30 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 rightData = promute;
             } else {
                 if (!isEmpty()) {
-                    if (rightData.isComplex() && !isComplex()) {
-                        promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
+                    bool isRightComplex = rightData.isComplex();
+                    bool isLeftComplex = isComplex();
+                    bool isRightSingle = rightData.isSingleClass();
+                    bool isLeftSingle = isSingleClass();
+                    bool isRightDouble = rightData.isDoubleClass();
+                    bool isLeftDouble = isDoubleClass();
+                    if (isLeftSingle && isRightDouble) {
+                        if (isLeftComplex) {
+                            rightData.promoteType(NLS_SCOMPLEX, dp->fieldNames);
+                        } else {
+                            rightData.promoteType(NLS_SINGLE, dp->fieldNames);
+                        }
+                    } else if (isLeftDouble && isRightSingle) {
+                        if (isLeftComplex) {
+                            rightData.promoteType(NLS_DCOMPLEX, dp->fieldNames);
+                        } else {
+                            rightData.promoteType(NLS_DOUBLE, dp->fieldNames);
+                        }
                     } else {
-                        rightData.promoteType(dp->dataClass, dp->fieldNames);
+                        if (rightData.isComplex() && !isComplex()) {
+                            promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
+                        } else {
+                            rightData.promoteType(dp->dataClass, dp->fieldNames);
+                        }
                     }
                 } else {
                     promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
@@ -831,12 +851,35 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
             rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
         }
     } else {
+
         if (isEmpty() || rightData.getDataClass() > getDataClass()) {
-            promoteType(rightData.getDataClass(), rightData.dp->fieldNames);
+            bool isRightComplex = rightData.isComplex();
+            bool isLeftComplex = isComplex();
+            bool isRightSingle = rightData.isSingleClass();
+            bool isLeftSingle = isSingleClass();
+            bool isRightDouble = rightData.isDoubleClass();
+            bool isLeftDouble = isDoubleClass();
             // If our type is superior to the RHS, we convert
             // the RHS to our type
-        } else if (rightData.getDataClass() <= dp->dataClass) {
-            rightData.promoteType(dp->dataClass, dp->fieldNames);
+            if (isLeftSingle && isRightDouble) {
+                if (isLeftComplex) {
+                    rightData.promoteType(NLS_SCOMPLEX, dp->fieldNames);
+                } else {
+                    rightData.promoteType(NLS_SINGLE, dp->fieldNames);
+                }
+            } else if (isLeftDouble && isRightSingle) {
+                if (isLeftComplex) {
+                    rightData.promoteType(NLS_DCOMPLEX, dp->fieldNames);
+                } else {
+                    rightData.promoteType(NLS_DOUBLE, dp->fieldNames);
+                }
+            } else {
+                promoteType(rightData.getDataClass(), rightData.dp->fieldNames);
+            }
+        } else {
+            if (rightData.getDataClass() <= dp->dataClass) {
+                rightData.promoteType(dp->dataClass, dp->fieldNames);
+            }
         }
     }
     // If the max index is larger than our current length, then
