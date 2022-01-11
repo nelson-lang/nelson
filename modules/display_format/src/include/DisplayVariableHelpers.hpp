@@ -56,7 +56,7 @@ summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWid
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP std::wstring
 summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
-    NumericFormatDisplay currentNumericFormat);
+    NumericFormatDisplay currentNumericFormat, bool recursive);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP std::wstring
 lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar);

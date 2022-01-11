@@ -207,6 +207,9 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     }
 
     logical* data = (logical*)A.getDataPointer();
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+        io->outputMessage(L"\n");
+    }
     while (wdims.inside(dims)) {
         if (offset != 0) {
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {

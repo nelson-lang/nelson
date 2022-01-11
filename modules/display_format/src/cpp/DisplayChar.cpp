@@ -63,11 +63,11 @@ DisplayChar(Interface* io, const ArrayOf& A, const std::wstring& name)
         if (A.isScalar() || A.isRowVector()) {
             withFooter = !name.empty();
         } else {
-            withFooter = true;
+            withFooter = !name.empty();
         }
     } else {
         DisplayNdChar(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        withFooter = !name.empty();
     }
     if (withFooter) {
         DisplayVariableFooter(io, A, name);
@@ -138,14 +138,14 @@ DisplayNdChar(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType offset = 0;
 
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+        io->outputMessage(L"\n");
+    }
     while (wdims.inside(dims)) {
         if (offset != 0) {
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                 io->outputMessage(L"\n");
             }
-        }
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-            io->outputMessage(L"\n");
         }
 
         io->outputMessage(name + L"(:,:");
@@ -190,7 +190,7 @@ DisplayNdChar(Interface* io, const ArrayOf& A, const std::wstring& name,
                     io->outputMessage(buffer + L"\n");
                 } else {
                     buffer = L"'" + buffer + L"'";
-                    io->outputMessage(BLANKS_AT_BOL + buffer + L"\n");
+                    io->outputMessage(L"    " + buffer + L"\n");
                 }
             }
         }

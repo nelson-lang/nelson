@@ -130,7 +130,7 @@ A =
 
   1×1 cell array
 
-    {[1×1 double]}
+    {1×1 double}
 
 ';
 assert_isequal(R, REF)

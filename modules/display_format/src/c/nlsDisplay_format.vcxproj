@@ -208,6 +208,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\DisplayCellHelpers.hpp" />
     <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
     <ClInclude Include="..\cpp\ScaleFactor.hpp" />
     <ClInclude Include="..\include\ArrayOfFormatInfo.hpp" />
@@ -243,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\DisplayCell.cpp" />
+    <ClCompile Include="..\cpp\DisplayCellHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayChar.cpp" />
     <ClCompile Include="..\cpp\DisplayDouble.cpp" />
     <ClCompile Include="..\cpp\DisplayDoubleComplex.cpp" />
