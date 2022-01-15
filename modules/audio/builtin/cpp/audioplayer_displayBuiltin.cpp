@@ -41,27 +41,20 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
     nargincheck(argIn, 1, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        Interface* io = eval->getInterface();
-        if (io == nullptr) {
-            return retval;
-        }
         std::wstring name;
         if (argIn.size() == 2) {
             name = argIn[1].getContentAsWideString();
         }
-        DisplayVariableHeader(io, param1, name);
-        Dimensions dimsParam1 = param1.getDimensions();
-        io->outputMessage(L"[audioplayer] - size: ");
-        dimsParam1.printMe(io);
-        io->outputMessage("\n");
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
                 Error(_W("audioplayer handle expected."));
             }
             auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
-            objPlayer->disp(eval);
+            objPlayer->disp(io);
         }
-        DisplayVariableFooter(io, param1, name);
+        DisplayVariableFooter(io, name.empty());
     } else {
         Error(_W("audioplayer handle expected."));
     }

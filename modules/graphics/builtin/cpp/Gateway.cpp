@@ -45,6 +45,8 @@ const std::wstring gatewayName = L"graphics";
 static const nlsGateway gateway[] = {
     { "graphic_object_display", (void*)Nelson::GraphicsGateway::graphic_object_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "graphic_object_disp", (void*)Nelson::GraphicsGateway::graphic_object_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "figure", (void*)Nelson::GraphicsGateway::figureBuiltin, 1, 2 },
     { "groot", (void*)Nelson::GraphicsGateway::grootBuiltin, 1, 0 },
     { "gcf", (void*)Nelson::GraphicsGateway::gcfBuiltin, 1, 0 },
@@ -60,7 +62,6 @@ static const nlsGateway gateway[] = {
         (void*)Nelson::GraphicsGateway::graphic_object_horzcat_graphic_objectBuiltin, 1, 2 },
     { "graphic_object_vertcat_graphic_object",
         (void*)Nelson::GraphicsGateway::graphic_object_vertcat_graphic_objectBuiltin, 1, 2 },
-
 };
 //=============================================================================
 static bool

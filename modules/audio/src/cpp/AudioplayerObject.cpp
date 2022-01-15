@@ -197,48 +197,44 @@ AudioplayerObject::setUserData(Nelson::ArrayOf userData)
 }
 //=============================================================================
 bool
-AudioplayerObject::disp(Evaluator* eval)
+AudioplayerObject::disp(Interface* io)
 {
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            std::wstring valueToDisp;
-            io->outputMessage(L"\n");
-            valueToDisp = std::to_wstring(getSampleRate());
-            io->outputMessage(L"\tSampleRate: \t" + valueToDisp + L"\n");
-            valueToDisp = std::to_wstring(getBitsPerSample());
-            io->outputMessage(L"\tBitsPerSample: \t" + valueToDisp + L"\n");
-            valueToDisp = std::to_wstring(getNumberOfChannels());
-            io->outputMessage(L"\tNumberOfChannels: \t" + valueToDisp + L"\n");
-            valueToDisp = std::to_wstring(getDeviceID());
-            io->outputMessage(L"\tDeviceID: \t" + valueToDisp + L"\n");
-            valueToDisp = std::to_wstring(getCurrentSample());
-            io->outputMessage(L"\tCurrentSample: \t" + valueToDisp + L"\n");
-            valueToDisp = std::to_wstring(getTotalSamples());
-            io->outputMessage(L"\tTotalSamples: \t" + valueToDisp + L"\n");
-            if (getRunning()) {
-                valueToDisp = L"on";
-            } else {
-                valueToDisp = L"off";
-            }
-            io->outputMessage(L"\tRunning: \t" + valueToDisp + L"\n");
-            valueToDisp = getTag();
-            io->outputMessage(L"\tTag: \t'" + valueToDisp + L"'\n");
-            if (_UserData.isEmpty(true)) {
-                valueToDisp = L"[]";
-            } else {
-                Dimensions dimsUserData = _UserData.getDimensions();
-                std::string userDataClassName;
-                ClassName(_UserData, userDataClassName);
-                valueToDisp = utf8_to_wstring(
-                    "[" + userDataClassName + "] - size: " + dimsUserData.toString());
-            }
-            io->outputMessage(L"\tUserData: \t" + valueToDisp + L"\n");
-            valueToDisp = getType();
-            io->outputMessage(L"\tType: \t'" + valueToDisp + L"'\n");
-            io->outputMessage(L"\n");
-            return true;
+    if (io) {
+        std::wstring valueToDisp;
+        io->outputMessage(L"\n");
+        valueToDisp = std::to_wstring(getSampleRate());
+        io->outputMessage(L"\tSampleRate: \t" + valueToDisp + L"\n");
+        valueToDisp = std::to_wstring(getBitsPerSample());
+        io->outputMessage(L"\tBitsPerSample: \t" + valueToDisp + L"\n");
+        valueToDisp = std::to_wstring(getNumberOfChannels());
+        io->outputMessage(L"\tNumberOfChannels: \t" + valueToDisp + L"\n");
+        valueToDisp = std::to_wstring(getDeviceID());
+        io->outputMessage(L"\tDeviceID: \t" + valueToDisp + L"\n");
+        valueToDisp = std::to_wstring(getCurrentSample());
+        io->outputMessage(L"\tCurrentSample: \t" + valueToDisp + L"\n");
+        valueToDisp = std::to_wstring(getTotalSamples());
+        io->outputMessage(L"\tTotalSamples: \t" + valueToDisp + L"\n");
+        if (getRunning()) {
+            valueToDisp = L"on";
+        } else {
+            valueToDisp = L"off";
         }
+        io->outputMessage(L"\tRunning: \t" + valueToDisp + L"\n");
+        valueToDisp = getTag();
+        io->outputMessage(L"\tTag: \t'" + valueToDisp + L"'\n");
+        if (_UserData.isEmpty(true)) {
+            valueToDisp = L"[]";
+        } else {
+            Dimensions dimsUserData = _UserData.getDimensions();
+            std::string userDataClassName;
+            ClassName(_UserData, userDataClassName);
+            valueToDisp
+                = utf8_to_wstring("[" + userDataClassName + "] - size: " + dimsUserData.toString());
+        }
+        io->outputMessage(L"\tUserData: \t" + valueToDisp + L"\n");
+        valueToDisp = getType();
+        io->outputMessage(L"\tType: \t'" + valueToDisp + L"'\n");
+        return true;
     }
     return false;
 }
@@ -519,7 +515,9 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
                 case NLS_INT16: {
                     *outAsInt16++ = 0;
                 } break;
-                default: { } break; }
+                default: {
+                } break;
+                }
             }
         }
         data->_CurrentSample++;

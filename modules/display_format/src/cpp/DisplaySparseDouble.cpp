@@ -37,64 +37,48 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define MIDDLE_MULTIPLY "\U000000D7"
-#define BLANKS_INTEGER_AT_BOL L"   "
-#define LENGTH_BLANKS_INTEGER_AT_BOL 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_BANK 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_HEX 6
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_PLUS 3
-#define LENGTH_BLANKS_BETWEEN_INDEX_AND_NUMBER_RATIONAL 6
-//============================================================================
 static void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
-        DisplayEmptySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
         if (A.getNonzeros() == 1) {
-            DisplaySparseDoubleScalar(io, A, name, currentNumericFormat, currentLineSpacing);
+            DisplaySparseDoubleScalar(
+                io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         } else {
-            DisplaySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        }
-        if (A.isScalar() || A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
+            DisplaySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         }
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {}
 //=============================================================================
 void
 DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
@@ -123,11 +107,14 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
     io->outputMessage(msg);
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 static void
 DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
@@ -200,6 +187,9 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             buffer.clear();
             block_page = 0;
         }
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

@@ -40,32 +40,22 @@ Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
-    if (eval == nullptr) {
-        return retval;
-    }
-    Interface* io = eval->getInterface();
-    if (io == nullptr) {
-        return retval;
-    }
     std::wstring name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsWideString();
     }
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        DisplayVariableHeader(io, param1, name);
-        Dimensions dimsParam1 = param1.getDimensions();
-        io->outputMessage(L"[dlsym] - size: ");
-        dimsParam1.printMe(io);
-        io->outputMessage("\n");
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
                 Error(_W("dlsym handle expected."));
             }
             auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
-            dlsymObj->disp(eval);
+            dlsymObj->disp(io);
         }
-        DisplayVariableFooter(io, param1, name);
+        DisplayVariableFooter(io, name.empty());
     } else {
         Error(_W("dlsym handle expected."));
     }

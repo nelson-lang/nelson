@@ -39,39 +39,35 @@ DisplayEmptyStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
 //=============================================================================
 static void
 DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayStruct(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayStruct(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = true;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
         DisplayEmptyStruct(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
     } else if (A.isScalar()) {
-        DisplayScalarStruct(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayScalarStruct(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.is2D()) {
-        Display2dStruct(io, A, name, currentNumericFormat, currentLineSpacing);
+        Display2dStruct(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdStruct(io, A, name, currentNumericFormat, currentLineSpacing);
+        DisplayNdStruct(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
@@ -94,7 +90,7 @@ DisplayEmptyStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
 //=============================================================================
 void
 DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     stringVector fieldnames = A.getFieldNames();
     size_t maxLen = 0;
@@ -114,11 +110,14 @@ DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
             io->outputMessage(beginning + valueAsString + L"\n");
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 Display2dStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     stringVector fieldnames = A.getFieldNames();
     if (!fieldnames.empty()) {
@@ -132,11 +131,14 @@ Display2dStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
             io->outputMessage(L"\n");
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     stringVector fieldnames = A.getFieldNames();
     if (!fieldnames.empty()) {
@@ -149,6 +151,9 @@ DisplayNdStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
             io->outputMessage(fieldName);
             io->outputMessage(L"\n");
         }
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

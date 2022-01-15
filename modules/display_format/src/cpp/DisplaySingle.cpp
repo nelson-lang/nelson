@@ -41,74 +41,67 @@ namespace Nelson {
 //============================================================================
 static void
 DisplayEmptySingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
+    DisplayVariableHeader(io, A, name, asDisp);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && !A.isEmpty()) {
         io->outputMessage(L"\n");
     }
-    bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptySingle(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptySingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar()) {
-        DisplayScalarSingle(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
-    } else if (A.is2D() || A.isRowVector()) {
-        Display2dSingle(io, A, name, currentNumericFormat, currentLineSpacing);
-        if (A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
-        }
+        DisplayScalarSingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+    } else if (A.is2D()) {
+        Display2dSingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdSingle(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdSingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptySingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+{
+}
 //=============================================================================
 void
 DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     std::wstring msg;
     const single* ptrValue = (const single*)A.getDataPointer();
     msg.append(formatScalarNumber((double)ptrValue[0], true, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
     const single* pValues = (const single*)A.getDataPointer();
@@ -181,11 +174,14 @@ Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
             block_page = 0;
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -277,6 +273,9 @@ DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
         io->outputMessage(buffer);
         buffer.clear();
         block_page = 0;
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

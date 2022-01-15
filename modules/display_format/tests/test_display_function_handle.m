@@ -23,8 +23,26 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
+% function handle will be reworked with new anonymous functions
 format('short')
-R = evalc('A = ''hello''');
-REF = [10    65    32    61    10    10    32    32    32    32    39   104   101   108   108   111    39    10    10];
-assert_isequal(double(R), REF)
+fh = str2func('cos');
+%=============================================================================
+R = evalc('disp(fh)');
+REF = '         name: ''cos''
+    anonymous: ''''
+
+';
+assert_isequal(R, REF);
+%=============================================================================
+R = evalc('display(fh)');
+REF = '
+fh =
+
+  function_handle with properties:
+
+         name: ''cos''
+    anonymous: ''''
+
+';
+assert_isequal(R, REF);
 %=============================================================================

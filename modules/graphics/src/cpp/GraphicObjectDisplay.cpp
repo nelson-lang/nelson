@@ -45,10 +45,12 @@ graphicObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrGO
                     if (GOType == FIGURE_TYPE_STR) {
                         auto* goFigure = (GOFigure*)go;
                         io->outputMessage(
-                            "  " + GOType + " (" + std::to_string(goFigure->id()) + ")\n");
+                            "  " + GOType + " (" + std::to_string(goFigure->id()) + ") " + _("with properties:") + "\n");
+                        io->outputMessage("\n");
                         io->outputMessage(goFigure->displayProperties());
                     } else if (GOType == ROOT_TYPE_STR) {
-                        io->outputMessage("  " + GOType + "\n");
+                        io->outputMessage("  " + GOType + " " + _("with properties:") + "\n");
+                        io->outputMessage("\n");
                         auto* goRoot = (GORoot*)go;
                         io->outputMessage(goRoot->displayProperties());
                     } else {

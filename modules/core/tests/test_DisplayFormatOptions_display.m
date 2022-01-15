@@ -23,8 +23,23 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format('short')
-R = evalc('A = ''hello''');
-REF = [10    65    32    61    10    10    32    32    32    32    39   104   101   108   108   111    39    10    10];
-assert_isequal(double(R), REF)
+f = format();
+%=============================================================================
+R = evalc('display(f)');
+REF = '
+f =
+
+  DisplayFormatOptions with properties:
+
+    NumericFormat: "short"
+      LineSpacing: "loose"
+
+';
+assert_isequal(R, REF)
+%=============================================================================
+R = evalc('disp(f)');
+REF = '    NumericFormat: "short"
+LineSpacing: "loose"
+
+';
 %=============================================================================

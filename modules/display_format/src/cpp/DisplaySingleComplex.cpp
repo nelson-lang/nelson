@@ -40,63 +40,52 @@ namespace Nelson {
 //============================================================================
 static void
 DisplayEmptySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
+    DisplayVariableHeader(io, A, name, asDisp);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && !A.isEmpty()) {
         io->outputMessage(L"\n");
     }
-    bool withFooter = false;
     if (A.isEmpty()) {
-        DisplayEmptySingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptySingleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar()) {
-        DisplayScalarSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
-    } else if (A.is2D() || A.isRowVector()) {
-        Display2dSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        if (A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
-        }
+        DisplayScalarSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+    } else if (A.is2D()) {
+        Display2dSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdSingleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+{ }
 //=============================================================================
 void
 DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     std::wstring msg;
     const single* ptrValue = (const single*)A.getDataPointer();
@@ -104,6 +93,9 @@ DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
         (double)(ptrValue[0]), (double)(ptrValue[1]), true, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 template <class T>
@@ -151,7 +143,7 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max)
 //=============================================================================
 void
 Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
     const single* pValues = (const single*)A.getDataPointer();
@@ -230,11 +222,14 @@ Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
             block_page = 0;
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -328,6 +323,9 @@ DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
         io->outputMessage(buffer);
         buffer.clear();
         block_page = 0;
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

@@ -223,62 +223,58 @@ DynamicLinkSymbolObject::lengthTextToDisplay(const wstringVector& params)
 }
 //=============================================================================
 void
-DynamicLinkSymbolObject::disp(Evaluator* eval)
+DynamicLinkSymbolObject::disp(Interface* io)
 {
-    if (eval != nullptr) {
-        Interface* io = eval->getInterface();
-        if (io) {
-            std::wstring buffer;
-            io->outputMessage(L"\n");
+    if (io) {
+        std::wstring buffer;
+        io->outputMessage(L"\n");
 #define PROTOTYPE_FIELD_STR L"  Prototype: "
 #define OUTPUT_FIELD_STR L"  Output:    "
 #define INPUT_FIELD_STR L"  Input:     "
-            if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4) {
-                buffer = std::wstring(PROTOTYPE_FIELD_STR) + std::wstring(L"string 1x")
-                    + std::to_wstring(_prototype.length());
-            } else {
-                buffer = std::wstring(PROTOTYPE_FIELD_STR) + L"'" + _prototype + L"'";
-            }
-            io->outputMessage(buffer + L"\n");
-            if (wcslen(INPUT_FIELD_STR) + lengthTextToDisplay(_paramsInTypes)
-                > io->getTerminalWidth() - 4) {
-                buffer = INPUT_FIELD_STR;
-                buffer = buffer + std::wstring(L"1x") + std::to_wstring(_nArgIn) + L" "
-                    + _W("cell array");
-                io->outputMessage(buffer + L"\n");
-            } else {
-                buffer = INPUT_FIELD_STR;
-                buffer = buffer + L"{";
-                for (size_t k = 0; k < _paramsInTypes.size(); k++) {
-                    if (k == _paramsInTypes.size() - 1) {
-                        buffer = buffer + _paramsInTypes[k];
-                    } else {
-                        buffer = buffer + _paramsInTypes[k] + L", ";
-                    }
-                }
-                buffer = buffer + L"}";
-                io->outputMessage(buffer + L"\n");
-            }
-            if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes)
-                > io->getTerminalWidth() - 4) {
-                buffer = OUTPUT_FIELD_STR;
-                buffer = buffer + std::wstring(L"1x") + std::to_wstring(_nArgOut) + L" "
-                    + _W("cell array");
-            } else {
-                buffer = OUTPUT_FIELD_STR;
-                buffer = buffer + L"{";
-                for (size_t k = 0; k < _paramsOutTypes.size(); k++) {
-                    if (k == _paramsOutTypes.size() - 1) {
-                        buffer = buffer + _paramsOutTypes[k];
-                    } else {
-                        buffer = buffer + _paramsOutTypes[k] + L", ";
-                    }
-                }
-                buffer = buffer + L"}";
-            }
-            io->outputMessage(buffer + L"\n");
-            io->outputMessage(L"\n");
+        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4) {
+            buffer = std::wstring(PROTOTYPE_FIELD_STR) + std::wstring(L"string 1x")
+                + std::to_wstring(_prototype.length());
+        } else {
+            buffer = std::wstring(PROTOTYPE_FIELD_STR) + L"'" + _prototype + L"'";
         }
+        io->outputMessage(buffer + L"\n");
+        if (wcslen(INPUT_FIELD_STR) + lengthTextToDisplay(_paramsInTypes)
+            > io->getTerminalWidth() - 4) {
+            buffer = INPUT_FIELD_STR;
+            buffer
+                = buffer + std::wstring(L"1x") + std::to_wstring(_nArgIn) + L" " + _W("cell array");
+            io->outputMessage(buffer + L"\n");
+        } else {
+            buffer = INPUT_FIELD_STR;
+            buffer = buffer + L"{";
+            for (size_t k = 0; k < _paramsInTypes.size(); k++) {
+                if (k == _paramsInTypes.size() - 1) {
+                    buffer = buffer + _paramsInTypes[k];
+                } else {
+                    buffer = buffer + _paramsInTypes[k] + L", ";
+                }
+            }
+            buffer = buffer + L"}";
+            io->outputMessage(buffer + L"\n");
+        }
+        if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes)
+            > io->getTerminalWidth() - 4) {
+            buffer = OUTPUT_FIELD_STR;
+            buffer = buffer + std::wstring(L"1x") + std::to_wstring(_nArgOut) + L" "
+                + _W("cell array");
+        } else {
+            buffer = OUTPUT_FIELD_STR;
+            buffer = buffer + L"{";
+            for (size_t k = 0; k < _paramsOutTypes.size(); k++) {
+                if (k == _paramsOutTypes.size() - 1) {
+                    buffer = buffer + _paramsOutTypes[k];
+                } else {
+                    buffer = buffer + _paramsOutTypes[k] + L", ";
+                }
+            }
+            buffer = buffer + L"}";
+        }
+        io->outputMessage(buffer + L"\n");
     }
 }
 //=============================================================================

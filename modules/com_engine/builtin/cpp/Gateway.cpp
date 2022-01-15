@@ -56,6 +56,8 @@ static const nlsGateway gateway[] = {
     { "actxserverlist", (void*)Nelson::ComEngineGateway::actxserverlistBuiltin, 1, 0 },
     { "COM_display", (void*)Nelson::ComEngineGateway::COM_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "COM_disp", (void*)Nelson::ComEngineGateway::COM_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "COM_fieldnames", (void*)Nelson::ComEngineGateway::COM_fieldnamesBuiltin, 1, 1 },
     { "COM_methods", (void*)Nelson::ComEngineGateway::COM_methodsBuiltin, 1, 1 },
     { "COM_used", (void*)Nelson::ComEngineGateway::COM_usedBuiltin, 1, 1 },

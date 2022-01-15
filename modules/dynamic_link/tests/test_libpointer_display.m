@@ -23,8 +23,21 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format('short')
-R = evalc('A = ''hello''');
-REF = [10    65    32    61    10    10    32    32    32    32    39   104   101   108   108   111    39    10    10];
-assert_isequal(double(R), REF)
+% <-- NO USER MODULES -->
+%=============================================================================
+p = libpointer('int8Ptr', int8([3 4]));
+%=============================================================================
+R = evalc('display(p)');
+REF = '
+p =
+
+  1×1 handle [libpointer] 
+
+';
+assert_isequal(R, REF);
+%=============================================================================
+R = evalc('disp(p)');
+REF = '  1×1 handle [libpointer] 
+';
+assert_isequal(R, REF);
 %=============================================================================

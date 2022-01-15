@@ -45,7 +45,7 @@ public:
     ArrayOfVector
     call(Evaluator* eval, int Lhs, ArrayOfVector params);
     void
-    disp(Evaluator* eval);
+    disp(Interface* io);
     static Class
     GetNelsonType(const std::wstring& type);
     static bool

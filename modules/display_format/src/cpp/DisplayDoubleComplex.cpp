@@ -40,67 +40,50 @@ namespace Nelson {
 //============================================================================
 static void
 DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
-        DisplayEmptyDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptyDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar()) {
-        DisplayScalarDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayScalarDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.is2D() || A.isRowVector()) {
-        Display2dDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        if (A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
-        }
+        Display2dDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    if (A.isEmpty()) {
-        bool allEmpty = A.isEmpty(true);
-        if (allEmpty && !name.empty()) {
-            io->outputMessage(L"     []\n");
-        }
-    }
 }
 //=============================================================================
 void
 DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     std::wstring msg;
     const double* ptrValue = (const double*)A.getDataPointer();
@@ -108,6 +91,9 @@ DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
         formatScalarComplexNumber(ptrValue[0], ptrValue[1], false, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 template <class T>
@@ -155,7 +141,7 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max)
 //=============================================================================
 void
 Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
     const double* pValues = (const double*)A.getDataPointer();
@@ -234,11 +220,14 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
             block_page = 0;
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -332,6 +321,9 @@ DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
         io->outputMessage(buffer);
         buffer.clear();
         block_page = 0;
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

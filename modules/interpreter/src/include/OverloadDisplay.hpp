@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name);
+OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name, bool asDispBuiltin);
 //=============================================================================
 }
 //=============================================================================

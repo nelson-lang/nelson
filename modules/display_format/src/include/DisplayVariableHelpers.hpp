@@ -40,10 +40,10 @@ namespace Nelson {
 #define DEFAULT_NOMINAL_WIDTH 10
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP void
-DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name);
+DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP void
-DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name);
+DisplayVariableFooter(Interface* io, bool asDisp);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP std::wstring
 completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay currentNumericFormat);

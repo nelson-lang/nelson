@@ -25,15 +25,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
-#include "Interface.hpp"
-#include "nlsFunction_handle_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSFUNCTION_HANDLE_IMPEXP void
-FunctionHandleDisplay(Interface* io, const ArrayOf& Var, const std::string& name);
+namespace DynamicLinkGateway {
+   //=============================================================================
+    ArrayOfVector
+    dllib_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

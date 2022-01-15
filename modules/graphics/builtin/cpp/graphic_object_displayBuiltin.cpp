@@ -42,16 +42,16 @@ Nelson::GraphicsGateway::graphic_object_displayBuiltin(
     if (paramGo.getDataClass() != NLS_GO_HANDLE) {
         Error(_W("graphic_object expected."));
     }
-    Dimensions dims = paramGo.getDimensions();
     auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
     std::wstring name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsWideString();
     }
     Interface* io = eval->getInterface();
-    DisplayVariableHeader(io, argIn[0], name);
+    DisplayVariableHeader(io, argIn[0], name, false);
+    Dimensions dims = paramGo.getDimensions();
     graphicObjectDisplay(io, dims, ptrGO);
-    DisplayVariableFooter(io, argIn[0], name);
+    DisplayVariableFooter(io, name.empty());
     return retval;
 }
 //=============================================================================

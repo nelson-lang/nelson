@@ -56,6 +56,8 @@ static const nlsGateway gateway[] = {
     { "MPI_Init", (void*)Nelson::MpiGateway::MPI_InitBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
     { "MPI_Comm_display", (void*)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "MPI_Comm_disp", (void*)Nelson::MpiGateway::MPI_Comm_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "MPI_Comm_isvalid", (void*)Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "MPI_Initialized", (void*)Nelson::MpiGateway::MPI_InitializedBuiltin, 1, 0 },

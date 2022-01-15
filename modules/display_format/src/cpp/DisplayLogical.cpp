@@ -41,7 +41,7 @@ DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
 //=============================================================================
 static void
 Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -49,57 +49,47 @@ DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& n
 //=============================================================================
 static void
 Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
         if (A.isSparse()) {
             DisplayEmptySparseLogical(io, A, name, currentNumericFormat, currentLineSpacing);
         } else {
             DisplayEmptyLogical(io, A, name, currentNumericFormat, currentLineSpacing);
         }
-        withFooter = !name.empty();
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
         if (A.isSparse()) {
-            Display2dSparseLogical(io, A, name, currentNumericFormat, currentLineSpacing);
+            Display2dSparseLogical(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         } else {
-            Display2dLogical(io, A, name, currentNumericFormat, currentLineSpacing);
-        }
-        if (A.isScalar() || A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
+            Display2dLogical(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         }
     } else {
-        DisplayNdLogical(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdLogical(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{ }
 //=============================================================================
 void
 Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType rows = A.getRows();
     indexType columns = A.getColumns();
@@ -185,11 +175,14 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
             block_page = 0;
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -280,16 +273,19 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
         offset += rows * columns;
         wdims.incrementModulo(dims, 2);
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+{ }
 //=============================================================================
 void
 Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
@@ -339,6 +335,9 @@ Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name
             io->outputMessage(BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString)
                 + BLANKS_BETWEEN + asStr + L"\n");
         }
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

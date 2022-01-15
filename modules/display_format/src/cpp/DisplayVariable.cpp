@@ -42,7 +42,8 @@
 namespace Nelson {
 //=============================================================================
 void
-DisplayVariable(Interface* io, const ArrayOf& A, const std::wstring& name, bool& needToOverload)
+DisplayVariable(
+    Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp, bool& needToOverload)
 {
     if (io == nullptr) {
         return;
@@ -56,51 +57,51 @@ DisplayVariable(Interface* io, const ArrayOf& A, const std::wstring& name, bool&
     case NLS_INT32:
     case NLS_UINT64:
     case NLS_INT64: {
-        DisplayInteger(io, A, name);
+        DisplayInteger(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_LOGICAL: {
-        DisplayLogical(io, A, name);
+        DisplayLogical(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_CHAR: {
-        DisplayChar(io, A, name);
+        DisplayChar(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_STRING_ARRAY: {
-        DisplayString(io, A, name);
+        DisplayString(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_STRUCT_ARRAY: {
-        DisplayStruct(io, A, name);
+        DisplayStruct(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_CELL_ARRAY: {
-        DisplayCell(io, A, name);
+        DisplayCell(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_DOUBLE: {
         if (A.isSparse()) {
-            DisplaySparseDouble(io, A, name);
+            DisplaySparseDouble(io, A, name, asDisp);
         } else {
-            DisplayDouble(io, A, name);
+            DisplayDouble(io, A, name, asDisp);
         }
         needToOverload = false;
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
-            DisplaySparseDoubleComplex(io, A, name);
+            DisplaySparseDoubleComplex(io, A, name, asDisp);
         } else {
-            DisplayDoubleComplex(io, A, name);
+            DisplayDoubleComplex(io, A, name, asDisp);
         }
         needToOverload = false;
     } break;
     case NLS_SINGLE: {
-        DisplaySingle(io, A, name);
+        DisplaySingle(io, A, name, asDisp);
         needToOverload = false;
     } break;
     case NLS_SCOMPLEX: {
-        DisplaySingleComplex(io, A, name);
+        DisplaySingleComplex(io, A, name, asDisp);
         needToOverload = false;
     } break;
 
