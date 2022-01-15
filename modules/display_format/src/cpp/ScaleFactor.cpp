@@ -34,11 +34,7 @@ static inline double
 getScaleFactorWithAmplitude(double max_amplitude, double maxval)
 {
     int commonLogarithm;
-    if (max_amplitude < 0) {
-        commonLogarithm = log10(-max_amplitude);
-    } else {
-        commonLogarithm = log10(max_amplitude);
-    }
+    commonLogarithm = log10(std::abs(max_amplitude));
     if (commonLogarithm == 1) {
         return 1;
     }
@@ -60,11 +56,11 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, Class c
     }
     bool finiteElementFound = false;
     for (indexType i = 0; i < count; i++) {
-        if (isfinite(static_cast<double>(ptrData[i])) && !finiteElementFound) {
+        if (std::isfinite(static_cast<double>(ptrData[i])) && !finiteElementFound) {
             max_amplitude = static_cast<double>(ptrData[i]);
             finiteElementFound = true;
         }
-        if ((isfinite(static_cast<double>(ptrData[i])))
+        if ((std::isfinite(static_cast<double>(ptrData[i])))
             && (fabs((double)ptrData[i]) > fabs((double)max_amplitude))) {
             max_amplitude = static_cast<double>(ptrData[i]);
         }

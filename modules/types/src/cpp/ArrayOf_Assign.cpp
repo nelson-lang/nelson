@@ -585,7 +585,6 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 rightData = promute;
             } else {
                 if (!isEmpty()) {
-                    bool isRightComplex = rightData.isComplex();
                     bool isLeftComplex = isComplex();
                     bool isRightSingle = rightData.isSingleClass();
                     bool isLeftSingle = isSingleClass();
@@ -853,7 +852,6 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     } else {
 
         if (isEmpty() || rightData.getDataClass() > getDataClass()) {
-            bool isRightComplex = rightData.isComplex();
             bool isLeftComplex = isComplex();
             bool isRightSingle = rightData.isSingleClass();
             bool isLeftSingle = isSingleClass();

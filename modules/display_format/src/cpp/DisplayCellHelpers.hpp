@@ -58,7 +58,6 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
     } else {
         if (A.isRowVector() || A.isScalar()) {
             const T* values = (static_cast<const T*>(A.getDataPointer()));
-            indexType len = 1;
             if (asStructElement) {
                 if (!A.isScalar()) {
                     msg.append(L"[");
@@ -126,7 +125,6 @@ summarizeCellComplexEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
     } else {
         if (A.isRowVector() || A.isScalar()) {
             const double* ap = static_cast<const double*>(A.getDataPointer());
-            indexType len = 1;
             if (asStructElement) {
                 if (!A.isScalar()) {
                     msg.append(L"[");

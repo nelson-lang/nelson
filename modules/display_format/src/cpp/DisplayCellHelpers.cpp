@@ -41,7 +41,6 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
     } else {
         if (A.isRowVector() || A.isScalar()) {
             const logical* values = (static_cast<const logical*>(A.getDataPointer()));
-            indexType len = 1;
             if (asStructElement) {
                 if (!A.isScalar()) {
                     msg.append(L"[");

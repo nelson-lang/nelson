@@ -46,7 +46,6 @@
 #include "FormatBank.hpp"
 #include "FormatPlus.hpp"
 #include "FormatHex.hpp"
-#include "FormatRational.hpp"
 #include "FormatHelpers.hpp"
 //=============================================================================
 namespace Nelson {

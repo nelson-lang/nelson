@@ -87,25 +87,5 @@ formatRational(single number, size_t width, bool trim)
     return str;
 }
 //=============================================================================
-std::wstring
-formatComplexRational(double realPart, double imagPart, size_t width, bool trim)
-{
-    std::wstring signStr;
-    if (imagPart < 0) {
-        signStr = L" - ";
-    } else {
-        signStr = L" + ";
-    }
-    /* return formatRational(realPart, width, trim) + signStr
-        + formatRational(fabs(imagPart), width, trim) + L"i";*/
-    return L"";
-}
-//=============================================================================
-std::wstring
-formatComplexRational(single realPart, single imagPart, size_t width, bool trim)
-{
-    return formatComplexRational((double)realPart, (double)imagPart, width, trim);
-}
-//=============================================================================
 }
 //=============================================================================

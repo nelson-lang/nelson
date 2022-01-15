@@ -39,13 +39,5 @@ NLSDISPLAY_FORMAT_IMPEXP
 std::wstring
 formatRational(single number, size_t width, bool trim = false);
 //=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP
-std::wstring
-formatComplexRational(double realPart, double imagPart, size_t width, bool trim = false);
-//=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP
-std::wstring
-formatComplexRational(single realPart, single imagPart, size_t width, bool trim = false);
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

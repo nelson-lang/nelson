@@ -830,10 +830,6 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
     return formatInfo;
 }
 //=============================================================================
-static std::wstring
-formatLongElementHelper(double val, const FormatDisplayInformation& formatInfo)
-{}
-
 std::wstring
 formatElement(double val, NumericFormatDisplay currentNumericFormat,
     const FormatDisplayInformation& formatInfo)

@@ -278,7 +278,6 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     if (!buffer.empty()) {
         io->outputMessage(buffer);
         buffer.clear();
-        block_page = 0;
     }
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
         io->outputMessage(L"\n");

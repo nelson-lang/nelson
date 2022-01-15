@@ -121,7 +121,6 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
         if (readcount == sfinfo.frames * sfinfo.channels) {
             int8* dataAsInt8 = static_cast<int8*>(
                 ArrayOf::allocateArrayOf(NLS_INT8, dims.getElementCount(), stringVector(), true));
-            indexType elementCount = dims.getElementCount();
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsInt8[i * m_out + j]
@@ -143,7 +142,6 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
         if (readcount == sfinfo.frames * sfinfo.channels) {
             uint8* dataAsUInt8 = static_cast<uint8*>(
                 ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount(), stringVector(), true));
-            size_t elementCount = static_cast<size_t>(dims.getElementCount());
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsUInt8[i * m_out + j]

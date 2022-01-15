@@ -80,9 +80,6 @@ void
 DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    indexType nbRows = A.getRows();
-    indexType nbCols = A.getColumns();
-
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
 
@@ -100,10 +97,8 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     size_t maxLenIndexString = indexAsString.length();
 
     const double* values = spMat->valuePtr();
-    double value = values[0];
     std::wstring asStr = formatScalarNumber(values[0], false, currentNumericFormat, false);
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
-    std::wstring blanks(maxLenIndexString - indexAsString.length(), L' ');
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
     io->outputMessage(msg);
@@ -116,9 +111,6 @@ static void
 DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    indexType nbRows = A.getRows();
-    indexType nbCols = A.getColumns();
-
     if (A.getNonzeros() == 0) {
         std::wstring format = _W("All zero sparse: %s");
         std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
