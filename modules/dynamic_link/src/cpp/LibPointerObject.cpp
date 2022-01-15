@@ -138,7 +138,6 @@ LibPointerObject::~LibPointerObject()
 void
 LibPointerObject::disp(Interface* io)
 {
-    io->outputMessage(L"\n");
 }
 //=============================================================================
 void*

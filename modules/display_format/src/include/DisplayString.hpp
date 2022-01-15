@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP void
-DisplayString(Interface* io, const ArrayOf& A, const std::wstring& name);
+DisplayString(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

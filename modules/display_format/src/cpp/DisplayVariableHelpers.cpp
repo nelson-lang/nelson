@@ -128,7 +128,9 @@ completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         width = 0;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return completeWithBlanksAtBeginning(msg, width);
 }
 //=============================================================================
@@ -145,7 +147,7 @@ completeWithBlanksAtBeginning(const std::wstring& msg, size_t width)
 }
 //=============================================================================
 static std::wstring
-getClassAsWideString(const ArrayOf& A)
+getClassAsWideString(const ArrayOf& A, bool isInAcell)
 {
     std::wstring typeAsText;
     switch (A.getDataClass()) {
@@ -183,30 +185,58 @@ getClassAsWideString(const ArrayOf& A)
         typeAsText = L"single";
         break;
     case NLS_DOUBLE: {
-        if (A.isSparse()) {
-            typeAsText = L"sparse double";
-        } else {
+        if (isInAcell) {
             typeAsText = L"double";
+        } else {
+            if (A.isSparse()) {
+                typeAsText = L"sparse double";
+            } else {
+                typeAsText = L"double";
+            }
         }
     } break;
     case NLS_LOGICAL: {
-        if (A.isSparse()) {
-            typeAsText = L"sparse logical";
-        } else {
+        if (isInAcell) {
             typeAsText = L"logical";
+        } else {
+            if (A.isSparse()) {
+                typeAsText = L"sparse logical";
+            } else {
+                typeAsText = L"logical";
+            }
         }
     } break;
     case NLS_CHAR:
         typeAsText = L"char";
         break;
     case NLS_SCOMPLEX:
-        typeAsText = L"single";
+        if (isInAcell) {
+            typeAsText = L"single";
+        } else {
+            if (A.isEmpty()) {
+                typeAsText = L"complex single";
+            } else {
+                typeAsText = L"single";
+            }
+        }
         break;
     case NLS_DCOMPLEX: {
-        if (A.isSparse()) {
-            typeAsText = L"sparse double";
-        } else {
+        if (isInAcell) {
             typeAsText = L"double";
+        } else {
+            if (A.isEmpty()) {
+                if (A.isSparse()) {
+                    typeAsText = L"sparse complex double";
+                } else {
+                    typeAsText = L"complex double";
+                }
+            } else {
+                if (A.isSparse()) {
+                    typeAsText = L"sparse double";
+                } else {
+                    typeAsText = L"double";
+                }
+            }
         }
     } break;
     case NLS_CELL_ARRAY:
@@ -222,7 +252,9 @@ getClassAsWideString(const ArrayOf& A)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return typeAsText;
 }
 //=============================================================================
@@ -230,13 +262,21 @@ static std::wstring
 buildHeader(const ArrayOf& A)
 {
     std::wstring msg;
-    std::wstring typeAsText = getClassAsWideString(A);
-    if (A.isScalar() && !(A.isCell() || A.isStruct())) {
+    std::wstring typeAsText = getClassAsWideString(A, false);
+    if (A.isScalar() && !(A.isCell() || A.isStruct() || A.isHandle() || A.isGraphicObject())) {
         msg = L"  " + typeAsText + L"\n";
     } else {
         std::wstring dimensions = A.getDimensions().toWideString();
         std::wstring dimensionsForHuman = L"";
         switch (A.getDataClass()) {
+        case NLS_GO_HANDLE: {
+            return msg;
+        } break;
+        case NLS_HANDLE: {
+            if (A.isScalar()) {
+                typeAsText = typeAsText + L" [" + A.getHandleCategory() + L"]";
+            }
+        } break;
         case NLS_STRUCT_ARRAY: {
             stringVector fieldnames = A.getFieldNames();
             bool haveFields = !fieldnames.empty();
@@ -300,31 +340,36 @@ buildHeader(const ArrayOf& A)
 }
 //=============================================================================
 void
-DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
-    if (!name.empty()) {
-        bool isNdArrayAndNotEmpty = (A.getDimensions().getLength() > 2) && !A.isEmpty();
-        if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-            == NLS_LINE_SPACING_COMPACT) {
-            if (!isNdArrayAndNotEmpty) {
-                io->outputMessage(name + L" =\n");
-            }
-        } else {
+    if (!asDisp) {
+        if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE
+            && !name.empty()) {
             io->outputMessage(L"\n");
-            if (!isNdArrayAndNotEmpty) {
-                io->outputMessage(name + L" =\n\n");
+        }
+        bool isNdArrayAndNotEmpty = (A.getDimensions().getLength() > 2) && !A.isEmpty();
+
+        if (!name.empty() && !isNdArrayAndNotEmpty) {
+            io->outputMessage(name + L" =\n");
+            if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
+                == NLS_LINE_SPACING_LOOSE) {
+                io->outputMessage(L"\n");
             }
         }
-        switch (A.getDataClass()) {
-        case NLS_CHAR: {
-            bool withType = A.isEmpty() || !A.isRowVector();
+    }
+    switch (A.getDataClass()) {
+    case NLS_CHAR: {
+        if (!asDisp) {
+            bool withType = (A.isEmpty() || !A.isRowVector());
             if (withType) {
                 std::wstring msg = buildHeader(A);
                 io->outputMessage(msg);
             }
-        } break;
-        case NLS_DOUBLE:
-        case NLS_DCOMPLEX: {
+        }
+    } break;
+    case NLS_DOUBLE: {
+        if (!asDisp) {
+
             if (A.isEmpty()) {
                 bool allEmpty = A.isEmpty(true);
                 if (!allEmpty || A.isSparse()) {
@@ -332,41 +377,116 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name)
                     io->outputMessage(msg);
                 }
             }
-        } break;
-        case NLS_STRING_ARRAY: {
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        if (!asDisp) {
+            if (A.isEmpty()) {
+                std::wstring msg = buildHeader(A);
+                io->outputMessage(msg);
+            }
+        }
+    } break;
+    case NLS_STRING_ARRAY: {
+        if (!asDisp) {
+
             if (!A.isScalar()) {
                 std::wstring msg = buildHeader(A);
                 io->outputMessage(msg);
             }
-        } break;
+        }
+    } break;
 
-        case NLS_GO_HANDLE:
-        case NLS_HANDLE:
-        case NLS_CELL_ARRAY:
-        case NLS_STRUCT_ARRAY:
-        case NLS_LOGICAL:
-        case NLS_UINT8:
-        case NLS_INT8:
-        case NLS_UINT16:
-        case NLS_INT16:
-        case NLS_UINT32:
-        case NLS_INT32:
-        case NLS_UINT64:
-        case NLS_INT64:
-        case NLS_SINGLE:
-        case NLS_SCOMPLEX:
-        default: {
+    case NLS_GO_HANDLE:
+    case NLS_HANDLE:
+    case NLS_CELL_ARRAY:
+    case NLS_STRUCT_ARRAY:
+    case NLS_LOGICAL:
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64:
+    case NLS_SINGLE:
+    case NLS_SCOMPLEX:
+    default: {
+        if (!asDisp) {
             std::wstring msg = buildHeader(A);
             io->outputMessage(msg);
-        } break;
         }
+    } break;
     }
+    /*
+      if (!name.empty()) {
+          bool isNdArrayAndNotEmpty = (A.getDimensions().getLength() > 2) && !A.isEmpty();
+          if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
+              == NLS_LINE_SPACING_COMPACT) {
+              if (!isNdArrayAndNotEmpty) {
+                  io->outputMessage(name + L" =\n");
+              }
+          } else {
+              io->outputMessage(L"\n");
+              if (!isNdArrayAndNotEmpty) {
+                  io->outputMessage(name + L" =\n\n");
+              }
+          }
+          switch (A.getDataClass()) {
+          case NLS_CHAR: {
+              bool withType = A.isEmpty() || !A.isRowVector();
+              if (withType) {
+                  std::wstring msg = buildHeader(A);
+                  io->outputMessage(msg);
+              }
+          } break;
+          case NLS_DOUBLE:
+          case NLS_DCOMPLEX: {
+              if (A.isEmpty()) {
+                  bool allEmpty = A.isEmpty(true);
+                  if (!allEmpty || A.isSparse()) {
+                      std::wstring msg = buildHeader(A);
+                      io->outputMessage(msg);
+                  }
+              }
+          } break;
+          case NLS_STRING_ARRAY: {
+              if (!A.isScalar()) {
+                  std::wstring msg = buildHeader(A);
+                  io->outputMessage(msg);
+              }
+          } break;
+
+          case NLS_GO_HANDLE:
+          case NLS_HANDLE:
+          case NLS_CELL_ARRAY:
+          case NLS_STRUCT_ARRAY:
+          case NLS_LOGICAL:
+          case NLS_UINT8:
+          case NLS_INT8:
+          case NLS_UINT16:
+          case NLS_INT16:
+          case NLS_UINT32:
+          case NLS_INT32:
+          case NLS_UINT64:
+          case NLS_INT64:
+          case NLS_SINGLE:
+          case NLS_SCOMPLEX:
+          default: {
+              std::wstring msg = buildHeader(A);
+              io->outputMessage(msg);
+          } break;
+          }
+      }
+      */
 }
 //=============================================================================
 void
-DisplayVariableFooter(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayVariableFooter(Interface* io, bool asDisp)
 {
-    if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
+    if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE
+        && !asDisp) {
         io->outputMessage(L"\n");
     }
 }
@@ -429,7 +549,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat, true)
+                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat, true)
                 + L"}";
         } else if (A.isRowVector()) {
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
@@ -487,10 +607,10 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     case NLS_INT8: {
         msg = summarizeCellRealEntry<int8>(
             A, beginingLineLength, termWidth, currentNumericFormat, true);
-     } break;
+    } break;
     case NLS_UINT8: {
-         msg = summarizeCellRealEntry<uint8>(
-             A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellRealEntry<uint8>(
+            A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT16: {
         msg = summarizeCellRealEntry<int16>(
@@ -532,7 +652,9 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         msg = summarizeCellComplexEntry<single>(
             A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return msg;
 }
 //=============================================================================
@@ -540,8 +662,8 @@ std::wstring
 lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar)
 {
     std::wstring format = L"%s%s %s%s";
-    return fmt::sprintf(
-        format, firstChar, A.getDimensions().toWideString(), getClassAsWideString(A), lastChar);
+    return fmt::sprintf(format, firstChar, A.getDimensions().toWideString(),
+        getClassAsWideString(A, true), lastChar);
 }
 //=============================================================================
 std::wstring

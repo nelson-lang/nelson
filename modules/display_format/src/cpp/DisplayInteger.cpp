@@ -154,53 +154,44 @@ getIntegerNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericForm
 //=============================================================================
 static void
 DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayInteger(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayInteger(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
-        DisplayEmptyInteger(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptyInteger(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
-        Display2dInteger(io, A, name, currentNumericFormat, currentLineSpacing);
-        if (A.isScalar() || A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
-        }
+        Display2dInteger(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdInteger(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdInteger(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{}
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+{
+}
 //=============================================================================
 void
 Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
     const void* ap = A.getDataPointer();
@@ -260,11 +251,14 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -330,6 +324,9 @@ DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
         offset += rows * columns;
         wdims.incrementModulo(dims, 2);
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

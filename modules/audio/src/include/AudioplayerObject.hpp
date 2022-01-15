@@ -57,7 +57,7 @@ public:
 
     // disp
     bool
-    disp(Evaluator* eval);
+    disp(Interface* eval);
     wstringVector
     fieldnames();
     bool

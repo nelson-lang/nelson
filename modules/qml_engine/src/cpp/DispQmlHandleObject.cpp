@@ -256,7 +256,6 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
                 io->outputMessage(msg);
             }
         }
-        io->outputMessage("\n");
     }
 }
 //=============================================================================
@@ -264,25 +263,16 @@ void
 DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
-        DisplayVariableHeader(io, A, utf8_to_wstring(name));
+        DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
         if (A.isScalar()) {
             if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
             }
-            Dimensions dimsA = A.getDimensions();
-            io->outputMessage(L"[QObject] - size: ");
-            dimsA.printMe(io);
-            io->outputMessage("\n");
             io->outputMessage("\n");
             QmlHandleObject* qmlhandleobj = (QmlHandleObject*)A.getContentAsHandleScalar();
             DispQmlHandleObject(io, qmlhandleobj);
-        } else {
-            Dimensions dimsA = A.getDimensions();
-            io->outputMessage(L"[QObject] - size: ");
-            dimsA.printMe(io);
-            io->outputMessage("\n");
         }
-        DisplayVariableFooter(io, A, utf8_to_wstring(name));
+        DisplayVariableFooter(io, name.empty());
     } else {
         Error(_W("QObject handle expected."));
     }

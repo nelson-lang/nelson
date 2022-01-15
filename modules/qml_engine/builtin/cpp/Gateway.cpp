@@ -91,6 +91,8 @@ static const nlsGateway gateway[] = {
     { "QObject_delete", (void*)Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
     { "QObject_display", (void*)Nelson::QmlEngineGateway::QObject_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "QObject_disp", (void*)Nelson::QmlEngineGateway::QObject_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "QObject_get", (void*)Nelson::QmlEngineGateway::QObject_getBuiltin, 1, 2 },
     { "QObject_set", (void*)Nelson::QmlEngineGateway::QObject_setBuiltin, 1, 3 },
     { "QObject_fieldnames", (void*)Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin, 1, 1 },
@@ -108,7 +110,6 @@ static const nlsGateway gateway[] = {
     { "QObject_used", (void*)Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
     { "qt_version", (void*)Nelson::QmlEngineGateway::qt_versionBuiltin, 1, 0 },
     { "qt_constant", (void*)Nelson::QmlEngineGateway::qt_constantBuiltin, 1, 1 },
-
 };
 //=============================================================================
 static bool

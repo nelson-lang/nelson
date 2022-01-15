@@ -23,8 +23,30 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format('short')
-R = evalc('A = ''hello''');
-REF = [10    65    32    61    10    10    32    32    32    32    39   104   101   108   108   111    39    10    10];
-assert_isequal(double(R), REF)
+% <-- NO USER MODULES -->
+%=============================================================================
+lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
+%=============================================================================
+R = evalc('display(f)');
+REF = '
+f =
+
+  1×1 handle [dlsym] 
+
+  Prototype: string 1x79
+  Input:     {doublePtr, int32}
+  Output:    {int32, doublePtr}
+
+';
+assert_isequal(R, REF);
+%=============================================================================
+R = evalc('disp(f)');
+REF = '  1×1 handle [dlsym] 
+
+  Prototype: string 1x79
+  Input:     {doublePtr, int32}
+  Output:    {int32, doublePtr}
+';
+assert_isequal(R, REF);
 %=============================================================================

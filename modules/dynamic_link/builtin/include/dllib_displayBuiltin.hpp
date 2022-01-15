@@ -29,9 +29,11 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 namespace DynamicLinkGateway {
     ArrayOfVector
     dllib_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

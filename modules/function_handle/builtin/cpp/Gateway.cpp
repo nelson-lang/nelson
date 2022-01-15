@@ -25,7 +25,6 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "func2strBuiltin.hpp"
-#include "function_handle_displayBuiltin.hpp"
 #include "function_handle_extractionBuiltin.hpp"
 #include "function_handle_fieldnamesBuiltin.hpp"
 #include "function_handle_isequalBuiltin.hpp"
@@ -41,9 +40,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "function_handle_extraction",
         (void*)Nelson::FunctionHandleGateway::function_handle_extractionBuiltin, -1, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "function_handle_display",
-        (void*)Nelson::FunctionHandleGateway::function_handle_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "isfunction_handle", (void*)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1, 1 },
     { "function_handle_fieldnames",

@@ -39,54 +39,48 @@ namespace Nelson {
 //=============================================================================
 static void
 DisplayEmptySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
-        DisplayEmptySparseDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptySparseDoubleComplex(
+            io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
         if (A.getNonzeros() == 1) {
-            DisplaySparseDoubleComplexScalar(io, A, name, currentNumericFormat, currentLineSpacing);
+            DisplaySparseDoubleComplexScalar(
+                io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         } else {
-            DisplaySparseDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing);
-        }
-        if (A.isScalar() || A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
+            DisplaySparseDoubleComplex(
+                io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         }
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {}
 //=============================================================================
 void
 DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
@@ -115,11 +109,14 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
     io->outputMessage(msg);
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 static void
 DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
@@ -197,6 +194,9 @@ DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
             buffer.clear();
             block_page = 0;
         }
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

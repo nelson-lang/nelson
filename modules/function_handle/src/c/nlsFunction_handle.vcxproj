@@ -168,7 +168,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\FunctionHandleDisplay.cpp" />
     <ClCompile Include="..\cpp\FunctionHandleIsEqual.cpp" />
     <ClCompile Include="..\cpp\StringToFunctionHandle.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -197,7 +196,6 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\FunctionHandleDisplay.hpp" />
     <ClInclude Include="..\include\FunctionHandleIsEqual.hpp" />
     <ClInclude Include="..\include\nlsFunction_handle_exports.h" />
     <ClInclude Include="..\include\StringToFunctionHandle.hpp" />

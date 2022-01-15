@@ -40,78 +40,71 @@ namespace Nelson {
 //============================================================================
 static void
 DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
-        DisplayEmptyDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
+        DisplayEmptyDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar()) {
-        DisplayScalarDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
-    } else if (A.is2D() || A.isRowVector()) {
-        Display2dDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        if (A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = true;
-        }
+        DisplayScalarDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+    } else if (A.is2D()) {
+        Display2dDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdDouble(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
 DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    if (A.isEmpty()) {
-        bool allEmpty = A.isEmpty(true);
-        if (allEmpty && !name.empty()) {
-            io->outputMessage(L"     []\n");
+    bool allEmpty = A.isEmpty(true);
+    if (allEmpty && !asDisp) {
+        io->outputMessage(L"     []\n");
+        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+            io->outputMessage(L"\n");
         }
     }
 }
 //=============================================================================
 void
 DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     std::wstring msg;
     const double* ptrValue = (const double*)A.getDataPointer();
     msg.append(formatScalarNumber(ptrValue[0], false, currentNumericFormat, false));
     msg.append(L"\n");
     io->outputMessage(msg);
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
     const double* pValues = (const double*)A.getDataPointer();
@@ -184,11 +177,14 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
             block_page = 0;
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -283,6 +279,9 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         io->outputMessage(buffer);
         buffer.clear();
         block_page = 0;
+    }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
     }
 }
 //=============================================================================

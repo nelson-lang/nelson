@@ -61,6 +61,8 @@ static const nlsGateway gateway[] = {
     { "audioplayer", (void*)Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
     { "audioplayer_display", (void*)Nelson::AudioGateway::audioplayer_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "audioplayer_disp", (void*)Nelson::AudioGateway::audioplayer_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "audioplayer_delete", (void*)Nelson::AudioGateway::audioplayer_deleteBuiltin, 0, 1 },
     { "audioplayer_isvalid", (void*)Nelson::AudioGateway::audioplayer_isvalidBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },

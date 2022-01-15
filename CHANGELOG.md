@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [UNRELEASED]
 
+### Changed
+
+- display of all types reworked to be more `pixel perfect`. (a small sentence but a big rework)
+
 ### Added
 
 - `CHANGELOG` 0.6.x family.
 
-- [#548](http://github.com/Nelson-numerical-software/nelson/issues/548): hypot builtin: Square root of sum of squares.
+- [#507](http://github.com/Nelson-numerical-software/nelson/issues/507): `celldisp`: Display cell array contents.
 
-- [#555](http://github.com/Nelson-numerical-software/nelson/issues/555): rsf2csf function: Convert real Schur form to complex Schur form.
+- [#548](http://github.com/Nelson-numerical-software/nelson/issues/548): `hypot` builtin: Square root of sum of squares.
+
+- [#555](http://github.com/Nelson-numerical-software/nelson/issues/555): `rsf2csf` function: Convert real Schur form to complex Schur form.
 
 ## Previous changelog
 

@@ -23,24 +23,62 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-function DisplayFormatOptions_display(e, name)
-  fmt = format();
-  if ~isempty(name)
-    if strcmp(fmt.LineSpacing, 'loose') == true
-      fprintf(char(10))  
-    end
-    fprintf([name, ' = ', char(10)])
-    if strcmp(fmt.LineSpacing, 'loose') == true
-      fprintf(char(10))  
-    end
-  end
-  fprintf('  %s with properties:', class(e))
-  fprintf(char(10))
-  r = struct(e);
-  d = evalc('disp(r);');
-  fprintf(d);
-  if strcmp(fmt.LineSpacing, 'loose') == true
-    fprintf(char(10))  
-  end
-end
+C = {{42}};
+R = evalc('celldisp(C)');
+REF = ' 
+C{1}{1} =
+ 
+    42
+
+ 
+';
+assert_isequal(R, REF)
 %=============================================================================
+C = {'row1',[1 2 3],3+4i;
+     'row2',[2 4;1 3],{'innercells',42}};
+R = evalc('celldisp(C)');
+REF = ' 
+C{1,1} =
+ 
+row1
+ 
+ 
+C{2,1} =
+ 
+row2
+ 
+ 
+C{1,2} =
+ 
+     1     2     3
+
+ 
+ 
+C{2,2} =
+ 
+     2     4
+     1     3
+
+ 
+ 
+C{1,3} =
+ 
+   3.0000 + 4.0000i
+
+ 
+ 
+C{2,3}{1} =
+ 
+innercells
+ 
+ 
+C{2,3}{2} =
+ 
+    42
+
+ 
+';
+assert_isequal(R, REF)
+%=============================================================================
+
+

@@ -25,6 +25,7 @@
 //=============================================================================
 #include "handle_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "DisplayVariableHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,11 +40,14 @@ Nelson::HandleGateway::handle_displayBuiltin(Evaluator* eval, int nLhs, const Ar
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     Interface* io = eval->getInterface();
+    std::wstring name;
+    if (argIn.size() == 2) {
+        name = argIn[1].getContentAsWideString();
+    }
     if (io) {
-        Dimensions dimsParam1 = param1.getDimensions();
-        io->outputMessage(L"[handle] - size: ");
-        dimsParam1.printMe(io);
-        io->outputMessage("\n");
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
+        DisplayVariableFooter(io, name.empty());
     }
     return retval;
 }

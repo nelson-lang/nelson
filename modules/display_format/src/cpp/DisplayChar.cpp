@@ -46,32 +46,22 @@ DisplayNdChar(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 void
-DisplayChar(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayChar(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
         DisplayEmptyChar(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
         Display2dChar(io, A, name, currentNumericFormat, currentLineSpacing);
-        if (A.isScalar() || A.isRowVector()) {
-            withFooter = !name.empty();
-        } else {
-            withFooter = !name.empty();
-        }
     } else {
         DisplayNdChar(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+        DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void

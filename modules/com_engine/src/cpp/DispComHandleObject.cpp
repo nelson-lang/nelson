@@ -39,19 +39,19 @@ static void
 DispComHandleObject(Interface* io, ComHandleObject* comHandle)
 {
     if (comHandle != nullptr) {
+        io->outputMessage("\n");
         std::wstring fullClassName;
         classnameComHandle(comHandle, fullClassName);
         io->outputMessage(L"\t" + fullClassName);
         io->outputMessage("\n");
     }
-    io->outputMessage("\n");
 }
 //=============================================================================
 void
 DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
-        DisplayVariableHeader(io, A, utf8_to_wstring(name));
+        DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
         if (A.isScalar()) {
             auto* qp = (nelson_handle*)A.getDataPointer();
             nelson_handle hl = qp[0];
@@ -59,20 +59,10 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             if (hlObj->getCategory() != COM_CATEGORY_STR) {
                 Error(_W("COM handle expected."));
             }
-            Dimensions dimsA = A.getDimensions();
-            io->outputMessage(L"[COM] - size: ");
-            dimsA.printMe(io);
-            io->outputMessage("\n");
-            io->outputMessage("\n");
             auto* comhandleobj = (ComHandleObject*)hlObj;
             DispComHandleObject(io, comhandleobj);
-        } else {
-            Dimensions dimsA = A.getDimensions();
-            io->outputMessage(L"[COM] - size: ");
-            dimsA.printMe(io);
-            io->outputMessage("\n");
         }
-        DisplayVariableFooter(io, A, utf8_to_wstring(name));
+        DisplayVariableFooter(io, name.empty());
     } else {
         Error(_W("COM handle expected."));
     }

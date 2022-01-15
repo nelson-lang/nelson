@@ -48,35 +48,29 @@ DisplayEmptyCell(Interface* io, const ArrayOf& A, const std::wstring& name,
 //=============================================================================
 static void
 Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayCell(Interface* io, const ArrayOf& A, const std::wstring& name)
+DisplayCell(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
     LineSpacingDisplay currentLineSpacing
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
-    DisplayVariableHeader(io, A, name);
-    bool withFooter = false;
+    DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
         DisplayEmptyCell(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = !name.empty();
     } else if (A.isScalar() || A.is2D()) {
-        Display2dCell(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        Display2dCell(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdCell(io, A, name, currentNumericFormat, currentLineSpacing);
-        withFooter = true;
+        DisplayNdCell(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
-    if (withFooter) {
-        DisplayVariableFooter(io, A, name);
-    }
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
@@ -88,7 +82,7 @@ DisplayEmptyCell(Interface* io, const ArrayOf& A, const std::wstring& name,
 //=============================================================================
 void
 Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType rows = A.getRows();
     indexType columns = A.getColumns();
@@ -166,11 +160,14 @@ Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
             block_page = 0;
         }
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 void
 DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -248,6 +245,9 @@ DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
         offset += rows * columns;
         wdims.incrementModulo(dims, 2);
     }
+    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
+        io->outputMessage(L"\n");
+    }
 }
 //=============================================================================
 std::wstring
@@ -277,8 +277,7 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
         msg = lightDescription(elements[idx], L"{", L"}");
     } break;
     case NLS_LOGICAL: {
-        msg = summarizeCellLogicalEntry(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = summarizeCellLogicalEntry(elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
     case NLS_UINT8: {

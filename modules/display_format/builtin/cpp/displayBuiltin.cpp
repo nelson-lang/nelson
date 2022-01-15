@@ -27,8 +27,6 @@
 #include "Error.hpp"
 #include "OverloadDisplay.hpp"
 #include "DisplayVariable.hpp"
-#include "characters_encoding.hpp"
-#include "DisplayCell.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,7 +42,7 @@ Nelson::DisplayFormatGateway::displayBuiltin(Evaluator* eval, int nLhs, const Ar
     if (argIn.size() == 2) {
         variableName = argIn[1].getContentAsWideString();
     }
-    OverloadDisplay(eval, variable, variableName);
+    OverloadDisplay(eval, variable, variableName, false);
     return retval;
 }
 //=============================================================================
@@ -58,7 +56,7 @@ generic_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         variableName = argIn[1].getContentAsWideString();
     }
     bool needToOverload;
-    DisplayVariable(eval->getInterface(), variable, variableName, needToOverload);
+    DisplayVariable(eval->getInterface(), variable, variableName, false, needToOverload);
     return retval;
 }
 //=============================================================================
@@ -157,14 +155,7 @@ ArrayOfVector
 Nelson::DisplayFormatGateway::cell_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    ArrayOf variable = argIn[0];
-    std::wstring variableName = variable.wname();
-    if (argIn.size() == 2) {
-        variableName = argIn[1].getContentAsWideString();
-    }
-    DisplayCell(eval->getInterface(), variable, variableName);
-    return retval;
+    return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
 ArrayOfVector

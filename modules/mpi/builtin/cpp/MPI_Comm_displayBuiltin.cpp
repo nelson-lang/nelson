@@ -58,32 +58,24 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
         name = argIn[1].getContentAsWideString();
     }
     if (param1.isHandle()) {
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
                 Error(_W("MPI_Comm handle expected."));
             }
-            DisplayVariableHeader(io, param1, name);
-            Dimensions dimsParam1 = param1.getDimensions();
-            io->outputMessage(L"[MPI_Comm] - size: ");
-            dimsParam1.printMe(io);
-            io->outputMessage("\n\n");
             MPI_CommHandleObject* mpicommhandleobj
                 = (MPI_CommHandleObject*)param1.getContentAsHandleScalar();
             if (mpicommhandleobj != nullptr) {
                 MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
                 if (obj != nullptr) {
-                    std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
-                    io->outputMessage(L"    " + _W("Description") + L":    " + description);
                     io->outputMessage("\n");
+                    std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
+                    io->outputMessage(L"    " + _W("Description") + L":    " + description + L"\n");
                 }
             }
-        } else {
-            Dimensions dimsParam1 = param1.getDimensions();
-            io->outputMessage(L"[MPI_Comm] - size: ");
-            dimsParam1.printMe(io);
-            io->outputMessage("\n");
         }
-        io->outputMessage("\n");
+        DisplayVariableFooter(io, name.empty());
     } else {
         Error(_W("MPI_Comm handle expected."));
     }

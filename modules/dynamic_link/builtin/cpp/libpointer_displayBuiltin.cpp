@@ -40,23 +40,13 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    if (eval == nullptr) {
-        return retval;
-    }
-    Interface* io = eval->getInterface();
-    if (io == nullptr) {
-        return retval;
-    }
     std::wstring name;
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsWideString();
     }
     if (param1.isHandle()) {
-        DisplayVariableHeader(io, param1, name);
-        Dimensions dimsParam1 = param1.getDimensions();
-        io->outputMessage(L"[libpointer] - size: ");
-        dimsParam1.printMe(io);
-        io->outputMessage("\n");
+        Interface* io = eval->getInterface();
+        DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
                 Error(_W("libpointer handle expected."));
@@ -64,7 +54,7 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(io);
         }
-        DisplayVariableFooter(io, param1, name);
+        DisplayVariableFooter(io, name.empty());
     } else {
         Error(_W("libpointer handle expected."));
     }
