@@ -81,7 +81,7 @@ DisplaySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, 
 void
 DisplayEmptySingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{ }
+{}
 //=============================================================================
 void
 DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,

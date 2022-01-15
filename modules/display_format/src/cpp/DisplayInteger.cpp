@@ -186,8 +186,7 @@ DisplayInteger(Interface* io, const ArrayOf& A, const std::wstring& name, bool a
 void
 DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{
-}
+{}
 //=============================================================================
 void
 Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,

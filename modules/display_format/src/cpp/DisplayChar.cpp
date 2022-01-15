@@ -61,7 +61,7 @@ DisplayChar(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDi
     } else {
         DisplayNdChar(io, A, name, currentNumericFormat, currentLineSpacing);
     }
-        DisplayVariableFooter(io, asDisp);
+    DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
 void
