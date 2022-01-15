@@ -127,7 +127,6 @@ DisplayNdChar(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType columns(A.getColumns());
     indexType offset = 0;
 
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
         io->outputMessage(L"\n");
     }

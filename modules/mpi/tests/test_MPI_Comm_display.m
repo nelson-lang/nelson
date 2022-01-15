@@ -35,7 +35,7 @@ R = evalc('display(comm)');
 REF =  '
 comm =
 
-  1×1 handle [MPI_Comm]
+  1×1 handle [MPI_Comm] 
 
     Description:    MPI_COMM_WORLD
 
@@ -43,10 +43,10 @@ comm =
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('disp(comm)');
-REF = '  1×1 handle [MPI_Comm]
+REF = '  1×1 handle [MPI_Comm] 
 
-Description:    MPI_COMM_WORLD
-';
+    Description:    MPI_COMM_WORLD
+' ;
 assert_isequal(R, REF)
 %=============================================================================
 delete(comm);

@@ -409,13 +409,15 @@ Dimensions::isVector() const
 bool
 Dimensions::isRowVector() const
 {
-    return (getLength() == 2 && getRows() == 1 && getColumns() >= 0);
+    return (getLength() == 2 && getRows() == 1
+        && getColumns() >= 0); // lgtm [cpp/unsigned-comparison-zero]
 }
 //=============================================================================
 bool
 Dimensions::isColumnVector() const
 {
-    return (getLength() == 2 && getRows() >= 0 && getColumns() == 1);
+    return (getLength() == 2 && getRows() >= 0
+        && getColumns() == 1); // lgtm [cpp/unsigned-comparison-zero]
 }
 //=============================================================================
 bool

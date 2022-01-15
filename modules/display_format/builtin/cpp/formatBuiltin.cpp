@@ -35,7 +35,7 @@ DisplayFormatOptionsToArray(
     NumericFormatDisplay currentNumericFormatDisplay, LineSpacingDisplay currentLineSpacingDisplay);
 //=============================================================================
 static bool
-setDisplayOption(std::wstring param);
+setDisplayOption(const std::wstring& param);
 //=============================================================================
 ArrayOfVector
 Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -159,7 +159,7 @@ DisplayFormatOptionsToArray(
 }
 //=============================================================================
 bool
-setDisplayOption(std::wstring param)
+setDisplayOption(const std::wstring& param)
 {
     if (param == L"default") {
         NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_LOOSE);

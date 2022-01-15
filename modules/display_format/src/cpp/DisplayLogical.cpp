@@ -91,10 +91,6 @@ void
 Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    indexType rows = A.getRows();
-    indexType columns = A.getColumns();
-    indexType nbElements = A.getElementCount();
-
     sizeType termWidth = io->getTerminalWidth();
     size_t lengthLogicalString;
     if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
@@ -104,6 +100,9 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     }
     indexType colsPerPage = static_cast<indexType>(
         floor((termWidth - 1) / (static_cast<single>(lengthLogicalString))));
+
+    indexType rows = A.getRows();
+    indexType columns = A.getColumns();
 
     indexType pageCount
         = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));

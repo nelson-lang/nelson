@@ -37,7 +37,6 @@ formatLongEng(double number, bool trim)
 {
     std::wstring str;
     if (IsInfinite(number)) {
-        std::wstring format = L"%*s";
         if (number < 0) {
             str = L"                     -Inf";
         } else {

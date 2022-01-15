@@ -61,17 +61,18 @@ floatNumberToApproxRational(T value, size_t length)
         return L"0/0";
     }
     std::wstring result;
-    if (value < std::numeric_limits<CAST>::min() || value > std::numeric_limits<CAST>::max()
-        || x_nint<T>(value) == value) {
-        result = fmt::to_wstring(static_cast<CAST>(value));
-    }
     T lastNumerator = 1;
     T lastDenominator = 0;
     T numerator = round(value);
     T denominator = 1;
     T fraction = value - numerator;
 
-    result = fmt::to_wstring(static_cast<CAST>(numerator));
+    if (value < std::numeric_limits<CAST>::min() || value > std::numeric_limits<CAST>::max()
+        || x_nint<T>(value) == value) {
+        result = fmt::to_wstring(static_cast<CAST>(value));
+    } else {
+        result = fmt::to_wstring(static_cast<CAST>(numerator));
+    }
 
     while (true) {
         T flip = 1 / fraction;
