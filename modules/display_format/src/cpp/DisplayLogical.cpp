@@ -85,7 +85,7 @@ DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name, bool a
 void
 DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 void
 Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
@@ -281,7 +281,7 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
 void
 DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{ }
+{}
 //=============================================================================
 void
 Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,

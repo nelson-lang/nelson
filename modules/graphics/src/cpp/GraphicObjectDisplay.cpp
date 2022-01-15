@@ -44,8 +44,8 @@ graphicObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrGO
                     std::string GOType = go->getType();
                     if (GOType == FIGURE_TYPE_STR) {
                         auto* goFigure = (GOFigure*)go;
-                        io->outputMessage(
-                            "  " + GOType + " (" + std::to_string(goFigure->id()) + ") " + _("with properties:") + "\n");
+                        io->outputMessage("  " + GOType + " (" + std::to_string(goFigure->id())
+                            + ") " + _("with properties:") + "\n");
                         io->outputMessage("\n");
                         io->outputMessage(goFigure->displayProperties());
                     } else if (GOType == ROOT_TYPE_STR) {

@@ -78,8 +78,7 @@ DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, 
 void
 DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{
-}
+{}
 //=============================================================================
 void
 DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
