@@ -61,13 +61,13 @@
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${elementary_functions}display">display</link>
+			<link linkend="${display_format}display">display</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${display_format}fprintf">fprintf</link>
+			<link linkend="${stream_manager}fprintf">fprintf</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${core}format">format</link>
+			<link linkend="${display_format}format">format</link>
 		</see_also_item>
 	</see_also>
 

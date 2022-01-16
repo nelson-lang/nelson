@@ -35,11 +35,10 @@ const std::wstring gatewayName = L"display_format";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "echo", (void*)Nelson::DisplayFormatGateway::echoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "format", (void*)Nelson::DisplayFormatGateway::formatBuiltin, 1, 1 },
+    { "format", (void*)Nelson::DisplayFormatGateway::formatBuiltin, 1, 2 },
     { "disp", (void*)Nelson::DisplayFormatGateway::dispBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "display", (void*)Nelson::DisplayFormatGateway::displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-
     { "int8_display", (void*)Nelson::DisplayFormatGateway::int8_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "int16_display", (void*)Nelson::DisplayFormatGateway::int16_displayBuiltin, 0, 2,
