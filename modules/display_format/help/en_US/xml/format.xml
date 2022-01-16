@@ -9,8 +9,8 @@
 	<syntax>
 		<syntax_item>fmt = format()</syntax_item>
 		<syntax_item>format()</syntax_item>
+		<syntax_item>format('default')</syntax_item>
 		<syntax_item>format(new_style)</syntax_item>
-		<syntax_item>fmt = format('get')</syntax_item>
 
 	</syntax>
 	
@@ -23,25 +23,32 @@
 
 	<param_output>
 
-		<param_output_item>
-			<param_name>fmt</param_name>
-			<param_description>a string: current format used</param_description>
+	<param_output_item>
+		<param_name>fmt</param_name>
+			<param_description>DisplayFormatOptions object: format used</param_description>
 		</param_output_item>
 	</param_output>
 
 	<description>
 		<p><b>format(new_style)</b> changes the display format and number printing of the current session.</p>
-		<p><b>format()</b> without output and input arguments will reset to default format (short).</p>
-
-		<p>Current styles supported:</p>
+		<p><b>format('default')</b> will reset to default format (short, loose).</p>
+		<p></p>
+		<p>Styles supported:</p>
 		<p><b>short</b></p>
 		<p><b>long</b></p>
 		<p><b>shortE</b></p>
 		<p><b>longE</b></p>
+		<p><b>shortEng</b></p>
+		<p><b>longEng</b></p>
+		<p><b>plus</b></p>
+		<p><b>rational</b></p>
 		<p><b>hex</b></p>
+		<p></p>
+		<p>Line Spacing Format supported:</p>
+		<p><b>loose</b></p>
+		<p><b>compact</b></p>
 
 	</description>
-
 
 	<used_function></used_function>
 	<bibliography></bibliography>
@@ -52,7 +59,6 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>an example</example_item_description>
 		<example_item_data><![CDATA[current_style = format()
-current_style = format('get')
 pi
 format('short')
 pi
@@ -64,7 +70,14 @@ format('longE')
 pi
 format('hex')
 pi
-format(current_style)]]>
+format('+')
+pi
+format('rational')
+pi
+format('compact')
+pi
+format(current_style)
+pi]]>
 		</example_item_data>	
 	</example_item>
 
@@ -72,8 +85,12 @@ format(current_style)]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${elementary_functions}disp">disp</link>
+			<link linkend="${display_format}disp">disp</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${display_format}display">display</link>
+		</see_also_item>
+
 	</see_also>
 
 	<history>
