@@ -46,8 +46,9 @@ Nelson::DisplayFormatGateway::displayBuiltin(Evaluator* eval, int nLhs, const Ar
     return retval;
 }
 //=============================================================================
-static ArrayOfVector
-generic_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DisplayFormatGateway::generic_displayBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf variable = argIn[0];
@@ -58,131 +59,5 @@ generic_displayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     bool needToOverload;
     DisplayVariable(eval->getInterface(), variable, variableName, false, needToOverload);
     return retval;
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::int8_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::int16_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::int32_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::int64_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::uint8_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::uint16_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::uint32_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::uint64_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::logical_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::char_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::double_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::single_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::struct_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::cell_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::handle_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::string_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::sparsedouble_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::DisplayFormatGateway::sparselogical_displayBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    return generic_displayBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================

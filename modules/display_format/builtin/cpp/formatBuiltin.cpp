@@ -97,9 +97,7 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
         }
     } break;
     case 0:
-    default: {
-    } break;
-    }
+    default: { } break; }
     return retval;
 }
 //=============================================================================
@@ -144,9 +142,7 @@ NumericFormatDisplayToString(NumericFormatDisplay currentNumericFormatDisplay)
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         asString = L"rational";
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return asString;
 }
 //=============================================================================
@@ -161,9 +157,7 @@ LineSpacingDisplayToString(LineSpacingDisplay currentLineSpacingDisplay)
     case NLS_LINE_SPACING_LOOSE: {
         asString = L"loose";
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return asString;
 }
 //=============================================================================

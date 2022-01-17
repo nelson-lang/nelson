@@ -36,60 +36,8 @@ namespace DisplayFormatGateway {
     dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
     ArrayOfVector
-    int8_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    generic_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-    ArrayOfVector
-    int16_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    int32_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    int64_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    uint8_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    uint16_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    uint32_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    uint64_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    logical_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    char_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    double_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    single_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    struct_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    cell_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    handle_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    string_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    sparsedouble_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    ArrayOfVector
-    sparselogical_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-
 }
 //=============================================================================
 } // namespace Nelson
