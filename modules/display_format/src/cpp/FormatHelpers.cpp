@@ -98,6 +98,9 @@ getArrayOfFormatInfoDouble(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_SHORTENG: {
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        formatInfo.widthReal = 26;
+        formatInfo.floatAsInteger = false;
+        formatInfo.decimalsReal = 26;
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
         formatInfo.widthReal = 13;
@@ -146,6 +149,9 @@ getArrayOfFormatInfoSingle(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_SHORTENG: {
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        formatInfo.widthReal = 17;
+        formatInfo.floatAsInteger = false;
+        formatInfo.decimalsReal = 17;
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
         formatInfo.widthReal = 13;
@@ -194,6 +200,11 @@ getArrayOfFormatInfoDoubleComplex(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_SHORTENG: {
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        formatInfo.floatAsInteger = false;
+        formatInfo.widthReal = 51;
+        formatInfo.decimalsReal = 0;
+        formatInfo.widthImag = 51;
+        formatInfo.decimalsImag = 0;
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
     } break;
@@ -227,6 +238,12 @@ getArrayOfFormatInfoSingleComplex(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_SHORTENG: {
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
+        formatInfo.floatAsInteger = false;
+        formatInfo.widthReal = 34;
+        formatInfo.decimalsReal = 0;
+        formatInfo.widthImag = 34;
+        formatInfo.decimalsImag = 0;
+
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
     } break;
@@ -942,15 +959,108 @@ std::wstring
 formatElement(single val, NumericFormatDisplay currentNumericFormat,
     const FormatDisplayInformation& formatInfo)
 {
-    return formatElement((double)val, currentNumericFormat, formatInfo);
+    std::wstring result;
+    switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_LONGENG: {
+        result = formatLongEng(val, formatInfo.trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        size_t width = formatInfo.widthReal;
+        size_t lengthWithoutBlanks = formatInfo.decimalsReal - 1;
+        result = formatRational(val, width, lengthWithoutBlanks, formatInfo.trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_PLUS: {
+        result = formatPlus(val, false);
+    } break;
+    case NLS_NUMERIC_FORMAT_HEX: {
+        result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(val, false));
+    } break;
+    case NLS_NUMERIC_FORMAT_BANK:
+    case NLS_NUMERIC_FORMAT_LONG:
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        bool haveDecimals = formatInfo.decimalsReal != 0;
+        if (formatInfo.scaleFactor != 1) {
+            if (haveDecimals) {
+                double value = val / pow(10, formatInfo.scaleFactor);
+                if (value == 0.) {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, 0, value);
+
+                } else {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,
+                        formatInfo.decimalsReal, value);
+                }
+            } else {
+                if (formatInfo.floatAsInteger) {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,
+                        (long int)(val / pow(10, formatInfo.scaleFactor)));
+                } else {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal,
+                        val / pow(10, formatInfo.scaleFactor));
+                }
+            }
+        } else {
+            if (haveDecimals) {
+                if (val == 0.) {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, 0, val);
+
+                } else {
+                    result = fmt::sprintf(
+                        formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, val);
+                }
+            } else {
+                if (formatInfo.floatAsInteger) {
+                    if (!std::isfinite(val)) {
+                        if (std::isnan(val)) {
+                            result = fmt::sprintf(L"%*s", formatInfo.widthReal, L"NaN");
+                        } else if (val < 0) {
+                            result = fmt::sprintf(L"%*s", formatInfo.widthReal, L"-Inf");
+                        } else {
+                            result = fmt::sprintf(L"%*s", formatInfo.widthReal, L"Inf");
+                        }
+                    } else {
+                        result = fmt::sprintf(
+                            formatInfo.formatReal, formatInfo.widthReal, (long int)val);
+                    }
+                } else {
+                    result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, val);
+                }
+            }
+        }
+    } break;
+    }
+    return result;
 }
 //=============================================================================
 std::wstring
 formatElementComplex(single realPart, single ImagPart, NumericFormatDisplay currentNumericFormat,
     const FormatDisplayInformation& formatInfo)
 {
-    return formatElementComplex(
-        (double)realPart, (double)ImagPart, currentNumericFormat, formatInfo);
+    std::wstring result;
+    switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_LONG: {
+        result = formatComplex<single>(realPart, ImagPart, formatInfo);
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGENG: {
+        result.append(formatLongEng(realPart, formatInfo.trim));
+        if (ImagPart < 0) {
+            result.append(L" -");
+        } else {
+            result.append(L" +");
+        }
+        if (std::isfinite(ImagPart)) {
+            result.append(L" ");
+            result.append(formatLongEng(fabs(ImagPart), true));
+        } else {
+            result.append(formatLongEng(fabs(ImagPart), false));
+        }
+        result.append(L"i");
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORT: {
+        result = formatComplex<single>(realPart, ImagPart, formatInfo);
+
+    } break;
+    default: { } break; }
+    return result;
 }
 //=============================================================================
 std::wstring
@@ -960,10 +1070,18 @@ formatScalarNumber(
     std::wstring result;
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_SHORTENG: {
-        result = formatShortEng(val, forceLeftTrim);
+        if (asSingle) {
+            result = formatShortEng((single)val, forceLeftTrim);
+        } else {
+            result = formatShortEng((double)val, forceLeftTrim);
+        }
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
-        result = formatLongEng(val, forceLeftTrim);
+        if (asSingle) {
+            result = formatLongEng((single)val, forceLeftTrim);
+        } else {
+            result = formatLongEng((double)val, forceLeftTrim);
+        }
     } break;
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         FormatDisplayInformation formatInfo
