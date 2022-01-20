@@ -33,8 +33,7 @@
 #include "FormatPlus.hpp"
 #include "FormatRational.hpp"
 #include "FormatHex.hpp"
-#include "FormatLongEng.hpp"
-#include "FormatShortEng.hpp"
+#include "FormatEngineeringNotation.hpp"
 #include "Types.hpp"
 #include "IEEEFP.hpp"
 #include "ScaleFactor.hpp"
@@ -96,6 +95,10 @@ getArrayOfFormatInfoDouble(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_LONGG: {
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
+        formatInfo.widthReal = 17;
+        formatInfo.floatAsInteger = false;
+        formatInfo.decimalsReal = 17;
+
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         formatInfo.widthReal = 26;
@@ -147,6 +150,9 @@ getArrayOfFormatInfoSingle(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_LONGG: {
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
+        formatInfo.widthReal = 17;
+        formatInfo.floatAsInteger = false;
+        formatInfo.decimalsReal = 17;
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         formatInfo.widthReal = 17;
@@ -198,6 +204,12 @@ getArrayOfFormatInfoDoubleComplex(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_LONGG: {
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
+        formatInfo.floatAsInteger = false;
+        formatInfo.widthReal = (17 * 2) + 3 + 1;
+        formatInfo.decimalsReal = 0;
+        formatInfo.widthImag = (17 * 2) + 3 + 1;
+        formatInfo.decimalsImag = 0;
+
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         formatInfo.floatAsInteger = false;
@@ -236,6 +248,10 @@ getArrayOfFormatInfoSingleComplex(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_LONGG: {
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
+        formatInfo.widthReal = 34;
+        formatInfo.floatAsInteger = false;
+        formatInfo.decimalsReal = 34;
+
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         formatInfo.floatAsInteger = false;
@@ -450,7 +466,9 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
             formatInfo.trim = true;
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return formatInfo;
 }
 //=============================================================================
@@ -756,7 +774,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } else {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_HEX: {
@@ -842,7 +862,9 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.formatReal = L"%*s";
 
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     return formatInfo;
 }
@@ -853,6 +875,9 @@ formatElement(double val, NumericFormatDisplay currentNumericFormat,
 {
     std::wstring result;
     switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORTENG: {
+        result = formatShortEng(val, formatInfo.trim);
+    } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         result = formatLongEng(val, formatInfo.trim);
     } break;
@@ -932,26 +957,19 @@ formatElementComplex(double realPart, double ImagPart, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
     } break;
+    case NLS_NUMERIC_FORMAT_SHORTENG: {
+        result = formatComplexShortEng(realPart, ImagPart, formatInfo.trim);
+    } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
-        result.append(formatLongEng(realPart, formatInfo.trim));
-        if (ImagPart < 0) {
-            result.append(L" -");
-        } else {
-            result.append(L" +");
-        }
-        if (std::isfinite(ImagPart)) {
-            result.append(L" ");
-            result.append(formatLongEng(fabs(ImagPart), true));
-        } else {
-            result.append(formatLongEng(fabs(ImagPart), false));
-        }
-        result.append(L"i");
+        result = formatComplexLongEng(realPart, ImagPart, formatInfo.trim);
     } break;
     case NLS_NUMERIC_FORMAT_SHORT: {
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
 
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================
@@ -961,6 +979,9 @@ formatElement(single val, NumericFormatDisplay currentNumericFormat,
 {
     std::wstring result;
     switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORTENG: {
+        result = formatShortEng(val, formatInfo.trim);
+    } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         result = formatLongEng(val, formatInfo.trim);
     } break;
@@ -1040,26 +1061,18 @@ formatElementComplex(single realPart, single ImagPart, NumericFormatDisplay curr
     case NLS_NUMERIC_FORMAT_LONG: {
         result = formatComplex<single>(realPart, ImagPart, formatInfo);
     } break;
+    case NLS_NUMERIC_FORMAT_SHORTENG: {
+        result = formatComplexShortEng(realPart, ImagPart, formatInfo.trim);
+    } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
-        result.append(formatLongEng(realPart, formatInfo.trim));
-        if (ImagPart < 0) {
-            result.append(L" -");
-        } else {
-            result.append(L" +");
-        }
-        if (std::isfinite(ImagPart)) {
-            result.append(L" ");
-            result.append(formatLongEng(fabs(ImagPart), true));
-        } else {
-            result.append(formatLongEng(fabs(ImagPart), false));
-        }
-        result.append(L"i");
+        result = formatComplexLongEng(realPart, ImagPart, formatInfo.trim);
     } break;
     case NLS_NUMERIC_FORMAT_SHORT: {
         result = formatComplex<single>(realPart, ImagPart, formatInfo);
-
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================
