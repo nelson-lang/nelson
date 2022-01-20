@@ -77,7 +77,7 @@
     <ClInclude Include="..\include\FormatLongE.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FormatLongEng.hpp">
+    <ClInclude Include="..\include\FormatEngineeringNotation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FormatLongG.hpp">
@@ -90,9 +90,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FormatShortE.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\FormatShortEng.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FormatShortG.hpp">
@@ -178,9 +175,6 @@
     <ClCompile Include="..\cpp\FormatLongE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FormatLongEng.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\FormatLongG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -191,9 +185,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FormatShortE.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\FormatShortEng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FormatShortG.cpp">
@@ -221,6 +212,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FormatRational.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\FormatEngineeringNotation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

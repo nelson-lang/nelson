@@ -47,5 +47,21 @@ NLSDISPLAY_FORMAT_IMPEXP
 std::wstring
 formatComplexLongEng(single realPart, single imagPart, bool trim = false);
 //=============================================================================
+NLSDISPLAY_FORMAT_IMPEXP
+std::wstring
+formatShortEng(double number, bool trim = false);
+//=============================================================================
+NLSDISPLAY_FORMAT_IMPEXP
+std::wstring
+formatShortEng(single number, bool trim = false);
+//=============================================================================
+NLSDISPLAY_FORMAT_IMPEXP
+std::wstring
+formatComplexShortEng(double realPart, double imagPart, bool trim = false);
+//=============================================================================
+NLSDISPLAY_FORMAT_IMPEXP
+std::wstring
+formatComplexShortEng(single realPart, single imagPart, bool trim = false);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
