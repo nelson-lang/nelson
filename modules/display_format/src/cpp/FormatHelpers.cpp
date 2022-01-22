@@ -89,6 +89,11 @@ getArrayOfFormatInfoDouble(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_SHORTE: {
     } break;
     case NLS_NUMERIC_FORMAT_LONGE: {
+        formatInfo.widthReal = 26;
+        formatInfo.formatReal = L"%*.*g";
+
+        formatInfo.floatAsInteger = true;
+        formatInfo.decimalsReal = 17;
     } break;
     case NLS_NUMERIC_FORMAT_SHORTG: {
     } break;
@@ -144,6 +149,10 @@ getArrayOfFormatInfoSingle(NumericFormatDisplay currentNumericFormat)
     case NLS_NUMERIC_FORMAT_SHORTE: {
     } break;
     case NLS_NUMERIC_FORMAT_LONGE: {
+        formatInfo.widthReal = 27;
+        formatInfo.floatAsInteger = true;
+        formatInfo.decimalsReal = 15;
+
     } break;
     case NLS_NUMERIC_FORMAT_SHORTG: {
     } break;
@@ -310,20 +319,23 @@ computeFormatInfo(double realPart, double imagPart, NumericFormatDisplay current
         formatInfo.widthImag = 13;
         formatInfo.decimalsImag = 2;
     } else {
-        if (std::isfinite(realPart) && std::isfinite(imagPart)) {
+        if (std::isfinite(realPart) || std::isfinite(imagPart)) {
+            bool isSmallReal = (fabs(realPart) <= 1e-3);
+            bool isSmallImag = (fabs(imagPart) <= 1e-3);
+            bool isAllSmall = isSmallReal && isSmallImag;
 
-            bool isInteger = false;
-            if (IsIntegerForm(realPart) && (fabs(realPart) < 100) && (fabs(imagPart) < 100)) {
-                isInteger = true;
+            bool isBigReal = (fabs(realPart) >= 1e2);
+            bool isBigImag = (fabs(imagPart) >= 1e2);
+            bool isBig = isBigReal || isBigImag;
+            bool engineer = false;
+            if (realPart == 0 && imagPart == 0) {
+                engineer = false;
+            } else if (isBig || isAllSmall) {
+                engineer = true;
+            } else if (std::hypot(realPart, imagPart) == realPart
+                || std::hypot(realPart, imagPart) == imagPart) {
+                engineer = false;
             }
-            if (IsIntegerForm(imagPart) && (fabs(realPart) < 100) && (fabs(imagPart) < 100)) {
-                isInteger = true;
-            }
-            bool isLess = (fabs(realPart) <= 1e-3 || fabs(imagPart) <= 1e-3);
-            bool isMore = (fabs(realPart) >= 1e2 || fabs(imagPart) >= 1e2);
-
-            bool engineer = ((isLess || isMore) && !isInteger);
-
             if (engineer) {
                 formatInfo.formatReal = L"%*.*e";
                 formatInfo.widthReal = 13;
@@ -401,6 +413,9 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
         }
     } break;
 
+    case NLS_NUMERIC_FORMAT_LONGE: {
+
+    } break;
     case NLS_NUMERIC_FORMAT_LONG: {
         double absoluteValue = fabs(val);
         if (!std::isfinite(absoluteValue)) {
@@ -782,6 +797,36 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
         case NLS_NUMERIC_FORMAT_HEX: {
         } break;
 
+        case NLS_NUMERIC_FORMAT_LONGE: {
+            if (allInteger) {
+                if (absoluteValue <= 999) {
+                    formatInfo.floatAsInteger = true;
+                    formatInfo.formatReal = L"%*ld";
+                    formatInfo.widthReal = 6;
+                    formatInfo.decimalsReal = 0;
+                } else if (absoluteValue <= 999999999) {
+                    formatInfo.floatAsInteger = true;
+                    formatInfo.formatReal = L"%*ld";
+                    formatInfo.widthReal = 12;
+                    formatInfo.decimalsReal = 0;
+                } else {
+                    formatInfo.floatAsInteger = false;
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 13;
+                    formatInfo.decimalsReal = 4;
+                }
+            } else {
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 12;
+                    formatInfo.decimalsReal = 7;
+                } else {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 26;
+                    formatInfo.decimalsReal = 15;
+                }
+            }
+        } break;
         case NLS_NUMERIC_FORMAT_LONG: {
             ComputeScaleFactor(A, allInteger, formatInfo);
             if (allInteger) {
@@ -894,6 +939,7 @@ formatElement(double val, NumericFormatDisplay currentNumericFormat,
     } break;
     case NLS_NUMERIC_FORMAT_BANK:
     case NLS_NUMERIC_FORMAT_LONG:
+    case NLS_NUMERIC_FORMAT_LONGE:
     case NLS_NUMERIC_FORMAT_SHORT: {
         bool haveDecimals = formatInfo.decimalsReal != 0;
         if (formatInfo.scaleFactor != 1) {
