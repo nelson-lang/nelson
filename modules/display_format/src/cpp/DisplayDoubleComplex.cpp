@@ -157,8 +157,10 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
             io->outputMessage(L"\n");
         }
     }
-
     indexType nominalWidth = formatInfo.widthReal;
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE) {
+        nominalWidth = nominalWidth * 2;
+    }
     sizeType termWidth = io->getTerminalWidth();
     indexType colsPerPage
         = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
@@ -251,6 +253,9 @@ DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     std::wstring buffer;
 
     indexType nominalWidth = formatInfo.widthReal;
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE) {
+        nominalWidth = nominalWidth * 2;
+    }
     const double* pValues = (const double*)A.getDataPointer();
     while (wdims.inside(dims)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
