@@ -145,7 +145,8 @@ formatComplexLongEng(single realPart, single imagPart, bool trim)
 }
 //=============================================================================
 template <class T>
-std::wstring formatShortEngineer(T x, bool trim, const std::wstring &format, size_t width, size_t nbBlanks)
+std::wstring
+formatShortEngineer(T x, bool trim, const std::wstring& format, size_t width, size_t nbBlanks)
 {
     std::wstring str;
     if (IsInfinite(x)) {
@@ -200,7 +201,7 @@ formatShortEng(double number, bool trim)
 //=============================================================================
 std::wstring
 formatShortEng(single number, bool trim)
-{ 
+{
     return formatShortEngineer<single>(number, trim, L"%.4f%s%s", 16, 6);
 }
 //=============================================================================
@@ -227,8 +228,8 @@ formatComplexShortEng(T realPart, T imagPart, bool trim)
 //=============================================================================
 std::wstring
 formatComplexShortEng(double realPart, double imagPart, bool trim)
-{ 
-  return formatComplexShortEng<double>(realPart, imagPart, trim);
+{
+    return formatComplexShortEng<double>(realPart, imagPart, trim);
 }
 //=============================================================================
 std::wstring

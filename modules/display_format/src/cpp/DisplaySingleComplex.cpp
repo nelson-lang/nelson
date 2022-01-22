@@ -89,8 +89,12 @@ DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
 {
     std::wstring msg;
     const single* ptrValue = (const single*)A.getDataPointer();
-    msg.append(formatScalarComplexNumber(
-        (double)(ptrValue[0]), (double)(ptrValue[1]), true, currentNumericFormat, false));
+    if ((double)(ptrValue[1]) == 0.) {
+        msg.append(formatScalarNumber((double)(ptrValue[0]), true, currentNumericFormat, false));
+    } else {
+        msg.append(formatScalarComplexNumber(
+            (double)(ptrValue[0]), (double)(ptrValue[1]), true, currentNumericFormat, false));
+    }
     msg.append(L"\n");
     io->outputMessage(msg);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
@@ -162,6 +166,9 @@ Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     }
 
     indexType nominalWidth = formatInfo.widthReal;
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE) {
+        nominalWidth = nominalWidth * 2;
+    }
     sizeType termWidth = io->getTerminalWidth();
     indexType colsPerPage
         = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
@@ -254,6 +261,9 @@ DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     std::wstring buffer;
 
     indexType nominalWidth = formatInfo.widthReal;
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE) {
+        nominalWidth = nominalWidth * 2;
+    }
     const single* pValues = (const single*)A.getDataPointer();
     while (wdims.inside(dims)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
