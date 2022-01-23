@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format('shortE')
+format('shortG')
 %=============================================================================
 A = complex(0, 0);
 R = evalc('A = single(A)');
@@ -44,7 +44,7 @@ A =
 
   single
 
-  0.0000e+00 +1.0000e+00i
+           0 +          1i
 
 ';
 assert_isequal(R, REF)
@@ -56,19 +56,19 @@ A =
 
   single
 
-  0.0000e+00 -2.2204e-16i
+           0 - 2.2204e-16i
 
 ';
 assert_isequal(R, REF)
 %=============================================================================
 A = complex(1.8e99, -eps);
 R = evalc('A = single(A)');
-REF = '
+REF =   '
 A =
 
   single
 
-         Inf -2.2204e-16i
+         Inf - 2.2204e-16i
 
 ';
 assert_isequal(R, REF)
@@ -80,7 +80,7 @@ A =
 
   single
 
-  2.0000e+00 +3.0000e+00i
+           2 +          3i
 
 ';
 assert_isequal(R, REF)
@@ -92,7 +92,7 @@ A =
 
   single
 
-  1.0000e+02 +3.1416e+00i
+         100 +     3.1416i
 
 ';
 assert_isequal(R, REF)
@@ -106,19 +106,19 @@ A =
 
   2×2 single matrix
 
-  8.1472e-01 +1.0000e+00i  1.2699e-01 +1.0000e+00i
-  9.0579e-01 +1.0000e+00i         NaN +0.0000e+00i
+     0.81472 +          1i     0.12699 +          1i
+     0.90579 +          1i         NaN +          0i
 
 ';
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('A = single(complex([6.5574e-04, 6.5574e-04], pi))');
-REF =  '
+REF =   '
 A =
 
   1×2 single row vector
 
-  6.5574e-04 +3.1416e+00i  6.5574e-04 +3.1416e+00i
+  0.00065574 +     3.1416i  0.00065574 +     3.1416i
 
 ';
 assert_isequal(R, REF)
@@ -129,8 +129,8 @@ A =
 
   2×2 single matrix
 
-  1.0000e+00 +3.1416e+06i  1.0000e+00 +3.1416e+06i
-  1.0000e+00 +3.1416e+06i  1.0000e+00 +3.1416e+06i
+           1 + 3.1416e+06i           1 + 3.1416e+06i
+           1 + 3.1416e+06i           1 + 3.1416e+06i
 
 ';
 assert_isequal(R, REF)
@@ -141,8 +141,8 @@ A =
 
   2×2 single matrix
 
-  1.0000e+03 +3.1416e+06i  1.0000e+03 +3.1416e+06i
-  1.0000e+03 +3.1416e+06i  1.0000e+03 +3.1416e+06i
+        1000 + 3.1416e+06i        1000 + 3.1416e+06i
+        1000 + 3.1416e+06i        1000 + 3.1416e+06i
 
 ';
 assert_isequal(R, REF)
@@ -155,26 +155,26 @@ A =
 
   Columns 1 through 3
 
-  3.7290e-01 +2.2204e-16i  6.5574e-04 +2.2204e-16i  1.3930e-01 +2.2204e-16i
+      0.3729 + 2.2204e-16i  0.00065574 + 2.2204e-16i      0.1393 + 2.2204e-16i
 
   Column 4
 
-  0.0000e+00 +2.2204e-16i
+           0 + 2.2204e-16i
 
 ';
 assert_isequal(R, REF)
 %=============================================================================
 A = complex(eye(3,3)*pi,-Inf);
 A(2,2) = pi*i;
-R = evalc('A= single(A)');
+R = evalc('A = single(A)');
 REF =  '
 A =
 
   3×3 single matrix
 
-  3.1416e+00 -       Infi  0.0000e+00 -       Infi  0.0000e+00 -       Infi
-  0.0000e+00 -       Infi  0.0000e+00 +3.1416e+00i  0.0000e+00 -       Infi
-  0.0000e+00 -       Infi  0.0000e+00 -       Infi  3.1416e+00 -       Infi
+      3.1416 -        Infi           0 -        Infi           0 -        Infi
+           0 -        Infi           0 +     3.1416i           0 -        Infi
+           0 -        Infi           0 -        Infi      3.1416 -        Infi
 
 ';
 assert_isequal(R, REF)
