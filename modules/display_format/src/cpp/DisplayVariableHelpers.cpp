@@ -658,7 +658,7 @@ columnsHeader(indexType startCol, indexType endCol)
 {
     std::wstring msg;
     if (startCol == endCol) {
-        msg = fmt::sprintf(_W("  Columns %d"), startCol);
+        msg = fmt::sprintf(_W("  Column %d"), startCol);
     } else {
         msg = fmt::sprintf(_W("  Columns %d through %d"), startCol, endCol);
     }

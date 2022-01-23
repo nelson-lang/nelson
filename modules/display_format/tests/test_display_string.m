@@ -155,7 +155,7 @@ A =
 
     "ffffffffffffff"    "ddddddddddddddd…"    "ddddddddddddddd…"
 
-  Columns 4
+  Column 4
 
     "ddddddddddddddd…"
 
