@@ -216,9 +216,9 @@ HistoryManager::appendLine(const std::wstring& line)
     wstringVector strs;
     boost::split(strs, line, boost::is_any_of(L"\n"));
     wstringVector lines;
-    for (size_t k = 0; k < strs.size(); k++) {
-        if ((strs[k] != L"\n") && (!strs[k].empty())) {
-            lines.push_back(strs[k]);
+    for (auto s : strs) {
+        if ((s != L"\n") && (!s.empty())) {
+            lines.push_back(s);
         }
     }
     strs.clear();
@@ -231,14 +231,15 @@ HistoryManager::appendLine(const std::wstring& line)
                 }
             }
         } else {
-            for (size_t k = 0; k < strs.size(); k++) {
-                commands.push_back(strs[k]);
+
+            for (auto s : strs) {
+                commands.push_back(s);
                 nbCommands++;
             }
         }
     } else {
-        for (size_t k = 0; k < lines.size(); k++) {
-            commands.push_back(lines[k]);
+        for (auto l : lines) {
+            commands.push_back(l);
             nbCommands++;
         }
     }
@@ -255,9 +256,9 @@ HistoryManager::appendLine(const std::wstring& line)
 bool
 HistoryManager::appendLines(const wstringVector& lines)
 {
-    for (size_t k = 0; k < lines.size(); k++) {
-        if ((lines[k] != L"\n") && (!lines[k].empty())) {
-            commands.push_back(lines[k]);
+    for (auto l : lines) {
+        if ((l != L"\n") && (!l.empty())) {
+            commands.push_back(l);
         }
     }
     setToken(L"");
@@ -362,12 +363,12 @@ HistoryManager::getPreviousLine()
     } else {
         token_position--;
     }
-    if (token.empty()) {
-        if ((token_position >= 0) && (token_position < (int64)commands.size())) {
+
+    if (token_position < (int64)commands.size()) {
+        if (token.empty()) {
             line = commands[(size_t)token_position];
-        }
-    } else {
-        if ((token_position >= 0) && (token_position < (int64)tokens_found.size())) {
+
+        } else {
             line = tokens_found[(size_t)token_position];
         }
     }
@@ -504,10 +505,7 @@ HistoryManager::copyPreviousFile(const std::wstring& _filename)
     bool bRes = false;
     try {
         bRes = boost::filesystem::exists(src) && !boost::filesystem::is_directory(src);
-    } catch (const boost::filesystem::filesystem_error& e) {
-        if (e.code() == boost::system::errc::permission_denied) {
-            bRes = false;
-        }
+    } catch (const boost::filesystem::filesystem_error&) {
         bRes = false;
     }
     if (bRes) {
@@ -515,10 +513,7 @@ HistoryManager::copyPreviousFile(const std::wstring& _filename)
             boost::filesystem::copy_file(
                 src, dst, boost::filesystem::copy_option::overwrite_if_exists);
             bRes = true;
-        } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-                bRes = false;
-            }
+        } catch (const boost::filesystem::filesystem_error&) {
             bRes = false;
         }
     }

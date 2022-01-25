@@ -352,7 +352,9 @@ XmlDocDocument::clearItems()
                 ptr = nullptr;
             }
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     }
     this->items.clear();
 }
@@ -2448,14 +2450,8 @@ XmlDocDocument::readFileCaseLink(
                 }
                 url = utf8_to_wstring(val);
             } else {
-                if (linkendItemNode) {
-                    this->errorMessage.push_back(_W("line ")
-                        + std::to_wstring(linkendItemNode->line) + _W(": ")
-                        + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
-                } else {
-                    this->errorMessage.push_back(
-                        utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
-                }
+                this->errorMessage.push_back(
+                    utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
                 xmlFreeDoc(doc);
                 this->bReadOk = false;
                 return false;
