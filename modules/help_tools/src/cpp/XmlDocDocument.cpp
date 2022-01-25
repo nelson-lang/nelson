@@ -352,9 +352,7 @@ XmlDocDocument::clearItems()
                 ptr = nullptr;
             }
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     this->items.clear();
 }

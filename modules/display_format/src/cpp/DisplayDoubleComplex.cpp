@@ -158,7 +158,10 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
         }
     }
     indexType nominalWidth = formatInfo.widthReal;
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE || NLS_NUMERIC_FORMAT_SHORTG) {
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTENG
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGE
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG) {
         nominalWidth = nominalWidth * 2;
     }
     sizeType termWidth = io->getTerminalWidth();
@@ -253,7 +256,8 @@ DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     std::wstring buffer;
 
     indexType nominalWidth = formatInfo.widthReal;
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE) {
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGE) {
         nominalWidth = nominalWidth * 2;
     }
     const double* pValues = (const double*)A.getDataPointer();

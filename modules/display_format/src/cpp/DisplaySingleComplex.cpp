@@ -263,6 +263,7 @@ DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
 
     indexType nominalWidth = formatInfo.widthReal;
     if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGE
         || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG) {
         nominalWidth = nominalWidth * 2;
     }
