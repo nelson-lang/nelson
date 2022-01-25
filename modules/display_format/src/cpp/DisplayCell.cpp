@@ -326,7 +326,7 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
         msg = L"{" + msg + L"}";
     } break;
     case NLS_SINGLE: {
-        msg = summarizeCellRealEntry<double>(
+        msg = summarizeCellRealEntry<single>(
             elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;

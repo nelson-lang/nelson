@@ -569,9 +569,6 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         msg = summarizeCellStringEntry(
             A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
-    case NLS_STRUCT_ARRAY: {
-        msg = lightDescription(A, L"[", L"]");
-    } break;
     case NLS_CHAR: {
         if (A.isRowVector()) {
             if (A.getColumns() < termWidth - beginingLineLength - 3) {
@@ -583,9 +580,8 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             msg = lightDescription(A, L"[", L"]");
         }
     } break;
-    case NLS_GO_HANDLE: {
-        msg = lightDescription(A, L"[", L"]");
-    } break;
+    case NLS_STRUCT_ARRAY:
+    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         msg = lightDescription(A, L"[", L"]");
     } break;
