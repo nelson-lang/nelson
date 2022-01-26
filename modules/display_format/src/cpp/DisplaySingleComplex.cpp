@@ -167,6 +167,7 @@ Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
 
     indexType nominalWidth = formatInfo.widthReal;
     if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGG
         || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG) {
         nominalWidth = nominalWidth * 2;
     }
@@ -264,8 +265,9 @@ DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     indexType nominalWidth = formatInfo.widthReal;
     if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
         || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGE
+        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGG
         || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG) {
-        nominalWidth = nominalWidth * 2;
+        nominalWidth = nominalWidth * 2 + 1;
     }
     const single* pValues = (const single*)A.getDataPointer();
     while (wdims.inside(dims)) {
