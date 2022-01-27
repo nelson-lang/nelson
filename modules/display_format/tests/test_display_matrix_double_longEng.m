@@ -126,7 +126,7 @@ A = [0.2220, NaN, 2;
      5, 6, -Inf];
 A = complex(A, A);
 R = evalc('A');
-REF =  '
+REF =   '
 A =
 
   Column 1
