@@ -27,6 +27,7 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <type_traits>
 #include "FormatEngineeringNotation.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
@@ -123,8 +124,14 @@ formatComplexLongEng(T realPart, T imagPart, bool trim)
         result.append(L" +");
     }
     if (std::isfinite(imagPart)) {
-        result.append(L" ");
-        result.append(formatLongEng(fabs(imagPart), true));
+        std::wstring imgStr = formatLongEng(fabs(imagPart), false);
+        size_t nbMaxBlanks = std::is_same<T, float>::value ? 2 : 3;
+        for (size_t k = 0; k < nbMaxBlanks; ++k) {
+            if (imgStr[0] == L' ') {
+                imgStr.erase(0, 1);
+            }
+        }
+        result.append(imgStr);
     } else {
         result.append(formatLongEng(fabs(imagPart), false));
     }
@@ -217,8 +224,14 @@ formatComplexShortEng(T realPart, T imagPart, bool trim)
         result.append(L" +");
     }
     if (std::isfinite(imagPart)) {
-        result.append(L" ");
-        result.append(formatShortEng(fabs(imagPart), true));
+        std::wstring imgStr = formatShortEng(fabs(imagPart), false);
+        size_t nbMaxBlanks = 3;
+        for (size_t k = 0; k < nbMaxBlanks; ++k) {
+            if (imgStr[0] == L' ') {
+                imgStr.erase(0, 1);
+            }
+        }
+        result.append(imgStr);
     } else {
         result.append(formatShortEng(fabs(imagPart), false));
     }

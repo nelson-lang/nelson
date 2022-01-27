@@ -23,48 +23,28 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format long
-R = evalc('pi');
-REF = '
-ans =
-
-   3.141592653589793
-
-';
-assert_isequal(R, REF);
+rng('default')
+format('shortE')
 %=============================================================================
-format long
-R = evalc('single(pi)');
-REF = '
-ans =
-
-  single
-
-   3.1415927
-
-';
-assert_isequal(R, REF);
-%=============================================================================
-format hex
-R = evalc('R = intmax(''uint64'')')
+A = rand(3,3,2);
+A(1) = 0;
+R = evalc('single(A)');
 REF =  '
-R =
+  3×3×2 single array
 
-  uint64
+ans(:,:,1) =
 
-   ffffffffffffffff
+           0  9.1338e-01  2.7850e-01
+  9.0579e-01  6.3236e-01  5.4688e-01
+  1.2699e-01  9.7540e-02  9.5751e-01
+
+
+ans(:,:,2) =
+
+  9.6489e-01  9.5717e-01  1.4189e-01
+  1.5761e-01  4.8538e-01  4.2176e-01
+  9.7059e-01  8.0028e-01  9.1574e-01
 
 ';
-assert_isequal(R, REF);
-%=============================================================================
-format shortEng
-format compact
-x = rand(3);
-R = evalc('x');
-REF = 'x =
-   814.7237e-003   913.3759e-003   278.4982e-003
-   905.7919e-003   632.3592e-003   546.8815e-003
-   126.9868e-003    97.5404e-003   957.5068e-003
-';
-assert_isequal(R, REF);
+assert_isequal(R, REF)
 %=============================================================================
