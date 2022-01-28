@@ -65,5 +65,7 @@ formatScaleFactor(const FormatDisplayInformation& formatInfo);
 std::wstring
 centerText(const std::wstring& text, size_t width);
 //=============================================================================
+indexType
+getNominalWidth(const FormatDisplayInformation& formatInfo);
 }
 //=============================================================================

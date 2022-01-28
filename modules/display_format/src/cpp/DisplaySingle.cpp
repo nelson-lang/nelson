@@ -117,7 +117,7 @@ Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
     }
 
-    indexType nominalWidth = formatInfo.widthReal;
+    indexType nominalWidth = getNominalWidth(formatInfo);
     sizeType termWidth = io->getTerminalWidth();
     indexType colsPerPage
         = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
@@ -204,7 +204,7 @@ DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType block_page = 0;
     std::wstring buffer;
 
-    indexType nominalWidth = formatInfo.widthReal;
+    indexType nominalWidth = getNominalWidth(formatInfo);
     const single* pValues = (const single*)A.getDataPointer();
     while (wdims.inside(dims)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {

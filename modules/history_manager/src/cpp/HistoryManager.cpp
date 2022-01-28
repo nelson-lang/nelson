@@ -369,7 +369,9 @@ HistoryManager::getPreviousLine()
             line = commands[(size_t)token_position];
 
         } else {
-            line = tokens_found[(size_t)token_position];
+            if ((size_t)token_position < tokens_found.size()) {
+                line = tokens_found[(size_t)token_position];
+            }
         }
     }
     bEmptyLineAtNextState = false;

@@ -145,9 +145,6 @@
     <ClCompile Include="..\cpp\DisplayVariableHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FloatNumberToRational.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\FormatBank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

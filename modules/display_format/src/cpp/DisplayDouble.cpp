@@ -121,7 +121,7 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
     }
 
-    indexType nominalWidth = formatInfo.widthReal;
+    indexType nominalWidth = getNominalWidth(formatInfo);
     sizeType termWidth = io->getTerminalWidth();
     indexType colsPerPage
         = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
@@ -208,7 +208,7 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType block_page = 0;
     std::wstring buffer;
 
-    indexType nominalWidth = formatInfo.widthReal;
+    indexType nominalWidth = getNominalWidth(formatInfo);
     const double* pValues = (const double*)A.getDataPointer();
     if (name.empty() && currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
         buffer.append(L"\n");
