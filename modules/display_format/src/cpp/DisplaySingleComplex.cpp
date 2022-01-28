@@ -165,12 +165,7 @@ Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
         }
     }
 
-    indexType nominalWidth = formatInfo.widthReal;
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
-        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGG
-        || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG) {
-        nominalWidth = nominalWidth * 2;
-    }
+    indexType nominalWidth = getNominalWidth(formatInfo);
     sizeType termWidth = io->getTerminalWidth();
     indexType colsPerPage
         = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
@@ -262,13 +257,7 @@ DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     indexType block_page = 0;
     std::wstring buffer;
 
-    indexType nominalWidth = formatInfo.widthReal;
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE
-        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGE
-        || currentNumericFormat == NLS_NUMERIC_FORMAT_LONGG
-        || currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG) {
-        nominalWidth = nominalWidth * 2 + 1;
-    }
+    indexType nominalWidth = getNominalWidth(formatInfo);
     const single* pValues = (const single*)A.getDataPointer();
     while (wdims.inside(dims)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending()) {

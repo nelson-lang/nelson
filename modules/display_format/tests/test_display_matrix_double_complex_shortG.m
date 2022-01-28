@@ -131,13 +131,13 @@ R = evalc('A = [0.3729   6.5574e-04    0.1393 0]+ eps * i');
 REF = '
 A =
 
-  Columns 1 through 3
+  Columns 1 through 2
 
-       0.3729 + 2.2204e-16i   0.00065574 + 2.2204e-16i       0.1393 + 2.2204e-16i
+       0.3729 + 2.2204e-16i   0.00065574 + 2.2204e-16i
 
-  Column 4
+  Columns 3 through 4
 
-            0 + 2.2204e-16i
+       0.1393 + 2.2204e-16i            0 + 2.2204e-16i
 
 ';
 assert_isequal(R, REF)
@@ -148,9 +148,17 @@ R = evalc('A');
 REF =  '
 A =
 
-       3.1416 -        Infi            0 -        Infi            0 -        Infi
-            0 -        Infi            0 +     3.1416i            0 -        Infi
-            0 -        Infi            0 -        Infi       3.1416 -        Infi
+  Columns 1 through 2
+
+       3.1416 -        Infi            0 -        Infi
+            0 -        Infi            0 +     3.1416i
+            0 -        Infi            0 -        Infi
+
+  Column 3
+
+            0 -        Infi
+            0 -        Infi
+       3.1416 -        Infi
 
 ';
 assert_isequal(R, REF)

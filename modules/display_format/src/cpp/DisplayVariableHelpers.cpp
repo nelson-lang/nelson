@@ -408,67 +408,6 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
     } break;
     }
-    /*
-      if (!name.empty()) {
-          bool isNdArrayAndNotEmpty = (A.getDimensions().getLength() > 2) && !A.isEmpty();
-          if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
-              == NLS_LINE_SPACING_COMPACT) {
-              if (!isNdArrayAndNotEmpty) {
-                  io->outputMessage(name + L" =\n");
-              }
-          } else {
-              io->outputMessage(L"\n");
-              if (!isNdArrayAndNotEmpty) {
-                  io->outputMessage(name + L" =\n\n");
-              }
-          }
-          switch (A.getDataClass()) {
-          case NLS_CHAR: {
-              bool withType = A.isEmpty() || !A.isRowVector();
-              if (withType) {
-                  std::wstring msg = buildHeader(A);
-                  io->outputMessage(msg);
-              }
-          } break;
-          case NLS_DOUBLE:
-          case NLS_DCOMPLEX: {
-              if (A.isEmpty()) {
-                  bool allEmpty = A.isEmpty(true);
-                  if (!allEmpty || A.isSparse()) {
-                      std::wstring msg = buildHeader(A);
-                      io->outputMessage(msg);
-                  }
-              }
-          } break;
-          case NLS_STRING_ARRAY: {
-              if (!A.isScalar()) {
-                  std::wstring msg = buildHeader(A);
-                  io->outputMessage(msg);
-              }
-          } break;
-
-          case NLS_GO_HANDLE:
-          case NLS_HANDLE:
-          case NLS_CELL_ARRAY:
-          case NLS_STRUCT_ARRAY:
-          case NLS_LOGICAL:
-          case NLS_UINT8:
-          case NLS_INT8:
-          case NLS_UINT16:
-          case NLS_INT16:
-          case NLS_UINT32:
-          case NLS_INT32:
-          case NLS_UINT64:
-          case NLS_INT64:
-          case NLS_SINGLE:
-          case NLS_SCOMPLEX:
-          default: {
-              std::wstring msg = buildHeader(A);
-              io->outputMessage(msg);
-          } break;
-          }
-      }
-      */
 }
 //=============================================================================
 void
@@ -508,7 +447,6 @@ summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWid
     return str;
 }
 //=============================================================================
-
 /**
  * Print this object when it is an element of a cell array.  This is
  * generally a shorthand summary of the description of the object.

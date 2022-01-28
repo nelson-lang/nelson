@@ -253,7 +253,6 @@
     <ClCompile Include="..\cpp\DisplayStruct.cpp" />
     <ClCompile Include="..\cpp\DisplayVariable.cpp" />
     <ClCompile Include="..\cpp\DisplayVariableHelpers.cpp" />
-    <ClCompile Include="..\cpp\FloatNumberToRational.cpp" />
     <ClCompile Include="..\cpp\FormatBank.cpp" />
     <ClCompile Include="..\cpp\FormatEngineeringNotation.cpp" />
     <ClCompile Include="..\cpp\FormatHelpers.cpp" />
