@@ -33,6 +33,7 @@
 #include "characters_encoding.hpp"
 #include "IEEEFP.hpp"
 #include "FormatHelpers.hpp"
+#include "ComputeFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -88,9 +89,11 @@ void
 DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
+    FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+    formatInfo.trim = false;
     std::wstring msg;
     const single* ptrValue = (const single*)A.getDataPointer();
-    msg.append(formatScalarNumber((double)ptrValue[0], true, currentNumericFormat, false));
+    msg.append(formatScalarNumber((double)ptrValue[0], true, formatInfo));
     msg.append(L"\n");
     io->outputMessage(msg);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
@@ -156,7 +159,7 @@ Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
-                buffer.append(formatElement(pValues[idx], currentNumericFormat, formatInfo));
+                buffer.append(formatElement(pValues[idx], formatInfo));
             }
             buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
@@ -251,8 +254,7 @@ DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage && continueDisplay; j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
-                    std::wstring valueAsString
-                        = formatElement(pValues[idx], currentNumericFormat, formatInfo);
+                    std::wstring valueAsString = formatElement(pValues[idx], formatInfo);
                     buffer.append(valueAsString);
                 }
                 buffer.append(L"\n");

@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
+    <Text Include="..\cpp\FormatTemplateHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
@@ -212,6 +213,7 @@
     <ClInclude Include="..\cpp\FloatNumberToRational.hpp" />
     <ClInclude Include="..\cpp\ScaleFactor.hpp" />
     <ClInclude Include="..\include\ArrayOfFormatInfo.hpp" />
+    <ClInclude Include="..\include\ComputeFormatInfo.hpp" />
     <ClInclude Include="..\include\DisplayCell.hpp" />
     <ClInclude Include="..\include\DisplayChar.hpp" />
     <ClInclude Include="..\include\DisplayDouble.hpp" />
@@ -237,6 +239,7 @@
     <ClInclude Include="..\include\nlsDisplay_format_exports.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\ComputeFormatInfo.cpp" />
     <ClCompile Include="..\cpp\DisplayCell.cpp" />
     <ClCompile Include="..\cpp\DisplayCellHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayChar.cpp" />

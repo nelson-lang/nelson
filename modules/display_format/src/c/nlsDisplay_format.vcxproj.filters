@@ -16,6 +16,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
+    <Text Include="..\cpp\FormatTemplateHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
@@ -107,6 +110,9 @@
     <ClInclude Include="..\include\FormatRational.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ComputeFormatInfo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\DisplayCell.cpp">
@@ -182,6 +188,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FormatEngineeringNotation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ComputeFormatInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

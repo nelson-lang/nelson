@@ -31,9 +31,9 @@
 #include "DisplayDouble.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
-#include "IEEEFP.hpp"
 #include "FormatHelpers.hpp"
 #include "ArrayOfFormatInfo.hpp"
+#include "ComputeFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -99,9 +99,11 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
     std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     size_t maxLenIndexString = indexAsString.length();
 
+    FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+    formatInfo.trim = false;
     const std::complex<double>* values = spMat->valuePtr();
-    std::wstring asStr = formatScalarComplexNumber(
-        values[0].real(), values[0].imag(), false, currentNumericFormat, false);
+    std::wstring asStr
+        = formatScalarComplexNumber(values[0].real(), values[0].imag(), false, formatInfo);
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
@@ -167,8 +169,7 @@ DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
                 break;
             }
             std::complex<double> value = it.value();
-            std::wstring asStr = formatElementComplex(
-                value.real(), value.imag(), currentNumericFormat, formatInfo);
+            std::wstring asStr = formatElementComplex(value.real(), value.imag(), formatInfo);
 
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));

@@ -32,6 +32,7 @@
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "FormatHelpers.hpp"
+#include "ComputeFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -65,9 +66,10 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
             } else {
                 msg.append(L"[");
             }
+            FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+            formatInfo.trim = true;
             for (indexType k = 0; k < A.getElementCount(); ++k) {
-                std::wstring numberAsStr
-                    = formatScalarNumber(values[k], false, currentNumericFormat, true);
+                std::wstring numberAsStr = formatScalarNumber(values[k], false, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     size_t nbCharsLimit = 6;
                     if (boost::contains(numberAsStr, L"/")) {
@@ -132,9 +134,11 @@ summarizeCellComplexEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
             } else {
                 msg.append(L"[");
             }
+            FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+            formatInfo.trim = true;
             for (indexType k = 0; k < A.getElementCount() * 2; k = k + 2) {
-                std::wstring numberAsStr = formatScalarComplexNumber(
-                    ap[k], ap[k + 1], false, currentNumericFormat, true);
+                std::wstring numberAsStr
+                    = formatScalarComplexNumber(ap[k], ap[k + 1], false, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
                     size_t nbCharsLimit = (8 * 2) + 3;
                     if (boost::contains(numberAsStr, L"/")) {

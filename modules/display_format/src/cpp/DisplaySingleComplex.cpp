@@ -32,6 +32,8 @@
 #include "characters_encoding.hpp"
 #include "IEEEFP.hpp"
 #include "FormatHelpers.hpp"
+#include "FormatTemplateHelpers.hpp"
+#include "ComputeFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -88,61 +90,20 @@ DisplayScalarSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     std::wstring msg;
+    FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+    formatInfo.trim = false;
     const single* ptrValue = (const single*)A.getDataPointer();
     if ((double)(ptrValue[1]) == 0.) {
-        msg.append(formatScalarNumber((double)(ptrValue[0]), true, currentNumericFormat, false));
+        msg.append(formatScalarNumber((double)(ptrValue[0]), true, formatInfo));
     } else {
         msg.append(formatScalarComplexNumber(
-            (double)(ptrValue[0]), (double)(ptrValue[1]), true, currentNumericFormat, false));
+            (double)(ptrValue[0]), (double)(ptrValue[1]), true, formatInfo));
     }
     msg.append(L"\n");
     io->outputMessage(msg);
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
         io->outputMessage(L"\n");
     }
-}
-//=============================================================================
-template <class T>
-bool
-getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max)
-{
-    T minValue = std::nan("NaN");
-    T maxValue = std::nan("NaN");
-    T shared_max = std::nan("NaN");
-    T shared_min = std::nan("NaN");
-
-    for (indexType k = 0; k < nbElements; ++k) {
-        if (std::isfinite(val[k])) {
-            minValue = val[k];
-            maxValue = val[k];
-            shared_max = maxValue;
-            shared_min = minValue;
-            break;
-        }
-    }
-    if (std::isnan(shared_min) && std::isnan(shared_max)) {
-        min = shared_min;
-        max = shared_max;
-        return false;
-    }
-#pragma omp parallel
-    {
-#pragma omp for nowait
-        for (ompIndexType idx = 0; idx < (ompIndexType)nbElements; ++idx) {
-            if (std::isfinite(val[idx])) {
-                maxValue = std::max(val[idx], maxValue);
-                minValue = std::min(val[idx], minValue);
-            }
-        }
-#pragma omp critical
-        {
-            shared_max = std::max(shared_max, maxValue);
-            shared_min = std::min(shared_min, minValue);
-        }
-    }
-    min = shared_min;
-    max = shared_max;
-    return true;
 }
 //=============================================================================
 void
@@ -208,8 +169,7 @@ Display2dSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
                 indexType idx = i + (k * colsPerPage + j) * rows;
                 single rvalue = pValues[2 * idx];
                 single ivalue = pValues[2 * idx + 1];
-                buffer.append(
-                    formatElementComplex(rvalue, ivalue, currentNumericFormat, formatInfo));
+                buffer.append(formatElementComplex(rvalue, ivalue, formatInfo));
             }
             buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
@@ -306,8 +266,7 @@ DisplayNdSingleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     single rvalue = pValues[2 * idx];
                     single ivalue = pValues[2 * idx + 1];
-                    std::wstring valueAsString
-                        = formatElementComplex(rvalue, ivalue, currentNumericFormat, formatInfo);
+                    std::wstring valueAsString = formatElementComplex(rvalue, ivalue, formatInfo);
                     buffer.append(valueAsString);
                 }
                 buffer.append(L"\n");
