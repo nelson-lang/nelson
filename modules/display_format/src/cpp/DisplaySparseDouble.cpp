@@ -31,9 +31,9 @@
 #include "DisplayDouble.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
-#include "IEEEFP.hpp"
 #include "FormatHelpers.hpp"
 #include "ArrayOfFormatInfo.hpp"
+#include "ComputeFormatInfo.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -96,8 +96,10 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     size_t maxLenIndexString = indexAsString.length();
 
+    FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
+    formatInfo.trim = false;
     const double* values = spMat->valuePtr();
-    std::wstring asStr = formatScalarNumber(values[0], false, currentNumericFormat, false);
+    std::wstring asStr = formatScalarNumber(values[0], false, formatInfo);
     indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
@@ -160,7 +162,7 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
                 break;
             }
             double value = it.value();
-            std::wstring asStr = formatElement(value, currentNumericFormat, formatInfo);
+            std::wstring asStr = formatElement(value, formatInfo);
             std::wstring indexAsString
                 = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             buffer.append(BLANKS_AT_BOL);

@@ -23,41 +23,16 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsDisplay_format_exports.h"
 #include "ArrayOfFormatInfo.hpp"
-#include "NelsonConfiguration.hpp"
 #include "ArrayOf.hpp"
+#include "NelsonConfiguration.hpp"
+//=============================================================================
+#pragma once
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring
-formatScalarNumber(double val, bool asSingle, const FormatDisplayInformation& formatInfo);
+FormatDisplayInformation
+computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
-std::wstring
-formatScalarComplexNumber(
-    double realPart, double imagPart, bool asSingle, const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatElement(double val, const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatElementComplex(double realPart, double imagPart, const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatElement(single val, const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatElementComplex(single realPart, single ImagPart, const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-formatScaleFactor(const FormatDisplayInformation& formatInfo);
-//=============================================================================
-std::wstring
-centerText(const std::wstring& text, size_t width);
-//=============================================================================
-indexType
-getNominalWidth(const FormatDisplayInformation& formatInfo);
 }
 //=============================================================================
