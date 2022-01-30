@@ -49,7 +49,6 @@ formatAsRational(T numerator, T denominator)
         + fmt::to_wstring(static_cast<CAST>(denominator));
 }
 //=============================================================================
-
 template <typename T, typename CAST>
 std::wstring
 floatNumberToApproxRational(T value, size_t length)
