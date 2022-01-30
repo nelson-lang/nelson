@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 static FormatDisplayInformation
-getArrayOfFormatInfoDouble(bool asComplex, NumericFormatDisplay currentNumericFormat);
+getArrayOfFormatInfo(bool asSingle, bool asComplex, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 static FormatDisplayInformation
 getArrayOfFormatInfoSingle(NumericFormatDisplay currentNumericFormat);
@@ -110,15 +110,11 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
     bool isFinite = false;
     bool allInteger = false;
     double absoluteValue;
+    formatInfo = getArrayOfFormatInfo(A.isSingleClass(), A.isComplex(), currentNumericFormat);
+
     if (A.isSingleClass()) {
         single minValue = 0;
         single maxValue = 0;
-
-        if (A.isComplex()) {
-            formatInfo = getArrayOfFormatInfoSingleComplex(currentNumericFormat);
-        } else {
-            formatInfo = getArrayOfFormatInfoSingle(currentNumericFormat);
-        }
         if (A.isSparse()) {
             if (A.isComplex()) {
                 Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>* spMat
@@ -152,12 +148,6 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
     } else {
         double minValue = 0;
         double maxValue = 0;
-
-        if (A.isComplex()) {
-            formatInfo = getArrayOfFormatInfoDouble(true, currentNumericFormat);
-        } else {
-            formatInfo = getArrayOfFormatInfoDouble(false, currentNumericFormat);
-        }
         if (A.isSparse()) {
             if (A.isComplex()) {
                 Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
@@ -213,9 +203,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     } else {
         switch (currentNumericFormat) {
         case NLS_NUMERIC_FORMAT_HEX: {
@@ -454,168 +442,226 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             formatInfo.formatReal = L"%*s";
 
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     return formatInfo;
 }
 //=============================================================================
 static FormatDisplayInformation
-getArrayOfFormatInfoDouble(bool asComplex, NumericFormatDisplay currentNumericFormat)
+getArrayOfFormatInfo(bool asSingle, bool asComplex, NumericFormatDisplay currentNumericFormat)
 {
     FormatDisplayInformation formatInfo;
     formatInfo.isComplex = asComplex;
     formatInfo.numericFormatDisplay = currentNumericFormat;
+    formatInfo.floatAsInteger = false;
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_SHORT: {
         formatInfo.widthReal = 9;
         formatInfo.decimalsReal = 4;
-        formatInfo.floatAsInteger = false;
-        if (asComplex) {
-            formatInfo.widthImag = 9;
-            formatInfo.decimalsImag = 4;
-        } else {
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
-        }
+        formatInfo.widthImag = 9;
+        formatInfo.decimalsImag = 4;
     } break;
     case NLS_NUMERIC_FORMAT_LONG: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 18;
-        formatInfo.decimalsReal = 18;
-        if (asComplex) {
+        if (asSingle) {
+            formatInfo.widthReal = 18;
+            formatInfo.floatAsInteger = false;
+            formatInfo.decimalsReal = 7;
+            formatInfo.widthImag = 18;
+            formatInfo.decimalsImag = 7;
+        } else {
+            formatInfo.widthReal = 18;
+            formatInfo.decimalsReal = 18;
             formatInfo.widthImag = 18;
             formatInfo.decimalsImag = 18;
-        } else {
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
         }
     } break;
     case NLS_NUMERIC_FORMAT_SHORTE: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 13;
-        formatInfo.decimalsReal = 4;
-        formatInfo.formatReal = L"%*.*e";
-
-        if (asComplex) {
-            formatInfo.widthImag = 11;
+        if (asSingle) {
+            formatInfo.widthReal = 12;
+            formatInfo.decimalsReal = 4;
+            formatInfo.formatReal = L"%*.*e";
+            formatInfo.widthImag = 10;
             formatInfo.decimalsImag = 4;
             formatInfo.formatImag = L"%*.*e";
         } else {
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
-            formatInfo.formatImag = L"%*.*e";
-        }
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.formatReal = L"%*.*e";
-        formatInfo.decimalsReal = 15;
-        if (asComplex) {
-            formatInfo.widthReal = 27;
-            formatInfo.widthImag = 22;
-            formatInfo.decimalsImag = 15;
-            formatInfo.formatImag = L"%*.*e";
-        } else {
-            formatInfo.widthReal = 26;
+            formatInfo.widthReal = 13;
+            formatInfo.decimalsReal = 4;
             formatInfo.formatReal = L"%*.*e";
-        }
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 13;
-        formatInfo.decimalsReal = 5;
-        formatInfo.formatReal = L"%*.*g";
-        if (asComplex) {
             formatInfo.widthImag = 11;
-            formatInfo.decimalsImag = 5;
-            formatInfo.formatImag = L"%*.*g";
+            formatInfo.decimalsImag = 4;
+            formatInfo.formatImag = L"%*.*e";
+        }
+    } break;
+    case NLS_NUMERIC_FORMAT_LONGE: {
+        if (asSingle) {
+            if (asComplex) {
+                formatInfo.widthReal = 15;
+                formatInfo.decimalsReal = 7;
+                formatInfo.formatReal = L"%*.*e";
+                formatInfo.widthImag = 14;
+                formatInfo.decimalsImag = 7;
+                formatInfo.formatImag = L"%*.*e";
+            } else {
+                formatInfo.widthReal = 16;
+                formatInfo.formatReal = L"%*.*e";
+                formatInfo.decimalsReal = 7;
+            }
         } else {
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
-            formatInfo.formatImag = L"%*.*g";
+            formatInfo.formatReal = L"%*.*e";
+            formatInfo.decimalsReal = 15;
+            if (asComplex) {
+                formatInfo.widthReal = 27;
+                formatInfo.widthImag = 22;
+                formatInfo.decimalsImag = 15;
+                formatInfo.formatImag = L"%*.*e";
+            } else {
+                formatInfo.widthReal = 26;
+                formatInfo.formatReal = L"%*.*e";
+            }
+        }
+    } break;
+    case NLS_NUMERIC_FORMAT_SHORTG: {
+        if (asSingle) {
+            if (asComplex) {
+                formatInfo.widthReal = 12;
+                formatInfo.decimalsReal = 5;
+                formatInfo.formatReal = L"%*.*g";
+                formatInfo.widthImag = 11;
+                formatInfo.decimalsImag = 5;
+                formatInfo.formatImag = L"%*.*g";
+            } else {
+                formatInfo.widthReal = 13;
+                formatInfo.decimalsReal = 5;
+                formatInfo.formatReal = L"%*.*g";
+            }
+        } else {
+            formatInfo.widthReal = 13;
+            formatInfo.decimalsReal = 5;
+            formatInfo.formatReal = L"%*.*g";
+            if (asComplex) {
+                formatInfo.widthImag = 11;
+                formatInfo.decimalsImag = 5;
+                formatInfo.formatImag = L"%*.*g";
+            } else {
+                formatInfo.widthImag = 0;
+                formatInfo.decimalsImag = 0;
+                formatInfo.formatImag = L"%*.*g";
+            }
         }
     } break;
     case NLS_NUMERIC_FORMAT_LONGG: {
-        formatInfo.floatAsInteger = false;
-        if (asComplex) {
-            formatInfo.widthReal = 27;
-            formatInfo.decimalsReal = 15;
-            formatInfo.formatReal = L"%*.*g";
-            formatInfo.widthImag = 22;
-            formatInfo.decimalsImag = 15;
-            formatInfo.formatImag = L"%*.*g";
+        if (asSingle) {
+            if (asComplex) {
+                formatInfo.widthReal = 14;
+                formatInfo.decimalsReal = 7;
+                formatInfo.formatReal = L"%*.*g";
+                formatInfo.widthImag = 13;
+                formatInfo.decimalsImag = 7;
+                formatInfo.formatImag = L"%*.*g";
+            } else {
+                formatInfo.widthReal = 16;
+                formatInfo.decimalsReal = 7;
+                formatInfo.formatReal = L"%*.*g";
+            }
         } else {
-            formatInfo.widthReal = 26;
-            formatInfo.decimalsReal = 15;
-            formatInfo.formatReal = L"%*.*g";
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
-            formatInfo.formatImag = L"%*.*g";
+            if (asComplex) {
+                formatInfo.widthReal = 27;
+                formatInfo.decimalsReal = 15;
+                formatInfo.formatReal = L"%*.*g";
+                formatInfo.widthImag = 22;
+                formatInfo.decimalsImag = 15;
+                formatInfo.formatImag = L"%*.*g";
+            } else {
+                formatInfo.widthReal = 26;
+                formatInfo.decimalsReal = 15;
+                formatInfo.formatReal = L"%*.*g";
+                formatInfo.widthImag = 0;
+                formatInfo.decimalsImag = 0;
+                formatInfo.formatImag = L"%*.*g";
+            }
         }
     } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
-        formatInfo.floatAsInteger = false;
-        if (asComplex) {
-            formatInfo.widthReal = 17;
-            formatInfo.decimalsReal = 0;
-            formatInfo.widthImag = 13;
-            formatInfo.decimalsImag = 0;
+        if (asSingle) {
+            if (asComplex) {
+                formatInfo.widthReal = 13;
+                formatInfo.decimalsReal = 7;
+                formatInfo.widthImag = 13;
+                formatInfo.decimalsImag = 7;
+
+            } else {
+                formatInfo.widthReal = 17;
+                formatInfo.decimalsReal = 16;
+            }
         } else {
-            formatInfo.widthReal = 17;
-            formatInfo.decimalsReal = 17;
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
+            if (asComplex) {
+                formatInfo.widthReal = 17;
+                formatInfo.decimalsReal = 0;
+                formatInfo.widthImag = 13;
+                formatInfo.decimalsImag = 0;
+            } else {
+                formatInfo.widthReal = 17;
+                formatInfo.decimalsReal = 17;
+                formatInfo.widthImag = 0;
+                formatInfo.decimalsImag = 0;
+            }
         }
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
-        formatInfo.floatAsInteger = false;
-        if (asComplex) {
-            formatInfo.widthReal = 51;
-            formatInfo.decimalsReal = 0;
-            formatInfo.widthImag = 51;
-            formatInfo.decimalsImag = 0;
+        if (asSingle) {
+            if (asComplex) {
+                formatInfo.widthReal = 34;
+                formatInfo.decimalsReal = 0;
+                formatInfo.widthImag = 34;
+                formatInfo.decimalsImag = 0;
+            } else {
+                formatInfo.widthReal = 17;
+                formatInfo.decimalsReal = 17;
+            }
         } else {
-            formatInfo.widthReal = 26;
-            formatInfo.decimalsReal = 26;
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
+            if (asComplex) {
+                formatInfo.widthReal = 51;
+                formatInfo.decimalsReal = 0;
+                formatInfo.widthImag = 51;
+                formatInfo.decimalsImag = 0;
+            } else {
+                formatInfo.widthReal = 26;
+                formatInfo.decimalsReal = 26;
+                formatInfo.widthImag = 0;
+                formatInfo.decimalsImag = 0;
+            }
         }
     } break;
     case NLS_NUMERIC_FORMAT_PLUS: {
-        if (asComplex) {
-            formatInfo.widthReal = 1;
-            formatInfo.widthImag = 1;
-        } else {
-            formatInfo.widthReal = 1;
-            formatInfo.widthImag = 0;
-        }
+        formatInfo.widthReal = 1;
+        formatInfo.widthImag = 0;
     } break;
     case NLS_NUMERIC_FORMAT_BANK: {
-        formatInfo.widthReal = 13;
+        if (asSingle) {
+            formatInfo.widthReal = 14;
+            formatInfo.widthImag = 14;
+        } else {
+            formatInfo.widthReal = 13;
+            formatInfo.widthImag = 13;
+        }
         formatInfo.formatReal = L"%*.*f";
         formatInfo.decimalsReal = 2;
-        if (asComplex) {
-            formatInfo.widthImag = 13;
-            formatInfo.formatReal = L"%*.*f";
-            formatInfo.decimalsImag = 2;
-        } else {
-            formatInfo.widthImag = 0;
-            formatInfo.formatImag = L"%*.*f";
-            formatInfo.decimalsImag = 0;
-        }
+        formatInfo.formatImag = L"%*.*f";
+        formatInfo.decimalsImag = 2;
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
-        formatInfo.widthReal = 20;
-        formatInfo.formatReal = L"%*s";
-        formatInfo.decimalsReal = 0;
-        if (asComplex) {
-            formatInfo.widthImag = 20;
+        if (asSingle) {
+            formatInfo.widthReal = 11;
+            formatInfo.formatReal = L"%*s";
+            formatInfo.decimalsReal = 0;
+            formatInfo.widthImag = 11;
             formatInfo.formatImag = L"%*s";
             formatInfo.decimalsImag = 0;
         } else {
-            formatInfo.widthImag = 0;
+            formatInfo.widthReal = 19;
+            formatInfo.formatReal = L"%*s";
+            formatInfo.decimalsReal = 0;
+            formatInfo.widthImag = 19;
             formatInfo.formatImag = L"%*s";
             formatInfo.decimalsImag = 0;
         }
@@ -624,174 +670,11 @@ getArrayOfFormatInfoDouble(bool asComplex, NumericFormatDisplay currentNumericFo
         formatInfo.widthReal = 9;
         formatInfo.decimalsReal = 0;
         formatInfo.formatReal = L"%*s";
-        if (asComplex) {
-            formatInfo.widthImag = 9;
-            formatInfo.decimalsImag = 0;
-            formatInfo.formatImag = L"%*s";
-        } else {
-            formatInfo.widthImag = 0;
-            formatInfo.decimalsImag = 0;
-            formatInfo.formatImag = L"%*s";
-        }
-    } break;
-    default: {
-    } break;
-    }
-    return formatInfo;
-}
-//=============================================================================
-static FormatDisplayInformation
-getArrayOfFormatInfoSingle(NumericFormatDisplay currentNumericFormat)
-{
-    FormatDisplayInformation formatInfo;
-    formatInfo.isComplex = false;
-    formatInfo.numericFormatDisplay = currentNumericFormat;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        formatInfo.widthReal = 12;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 4;
-        formatInfo.formatReal = L"%*.*e";
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        formatInfo.widthReal = 13;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 5;
-        formatInfo.formatReal = L"%*.*g";
-
-    } break;
-
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        formatInfo.widthReal = 9;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 4;
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-        formatInfo.widthReal = 18;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 7;
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        formatInfo.widthReal = 16;
-        formatInfo.formatReal = L"%*.*e";
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 7;
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        formatInfo.widthReal = 16;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 7;
-        formatInfo.formatReal = L"%*.*g";
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-        formatInfo.widthReal = 17;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 16;
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-        formatInfo.widthReal = 17;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 17;
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-        formatInfo.widthReal = 13;
-        formatInfo.formatReal = L"%*.*f";
-        formatInfo.decimalsReal = 2;
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        formatInfo.widthReal = 20;
-        formatInfo.formatReal = L"%*s";
-        formatInfo.decimalsReal = 0;
-    } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-        formatInfo.widthReal = 9;
-        formatInfo.formatReal = L"%*s";
-    } break;
-    }
-    return formatInfo;
-}
-//=============================================================================
-static FormatDisplayInformation
-getArrayOfFormatInfoSingleComplex(NumericFormatDisplay currentNumericFormat)
-{
-    FormatDisplayInformation formatInfo;
-    formatInfo.isComplex = true;
-    formatInfo.numericFormatDisplay = currentNumericFormat;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT: {
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 12;
-        formatInfo.decimalsReal = 4;
-        formatInfo.formatReal = L"%*.*e";
-        formatInfo.widthImag = 10;
-        formatInfo.decimalsImag = 4;
-        formatInfo.formatImag = L"%*.*e";
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 15;
-        formatInfo.decimalsReal = 7;
-        formatInfo.formatReal = L"%*.*e";
-        formatInfo.widthImag = 14;
-        formatInfo.decimalsImag = 7;
-        formatInfo.formatImag = L"%*.*e";
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTG: {
-        formatInfo.widthReal = 12;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 5;
-        formatInfo.formatReal = L"%*.*g";
-        formatInfo.widthImag = 11;
-        formatInfo.decimalsImag = 5;
-        formatInfo.formatImag = L"%*.*g";
-
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 14;
-        formatInfo.decimalsReal = 7;
-        formatInfo.formatReal = L"%*.*g";
-        formatInfo.widthImag = 13;
-        formatInfo.decimalsImag = 7;
-        formatInfo.formatImag = L"%*.*g";
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTENG: {
-        formatInfo.widthReal = 13;
-        formatInfo.floatAsInteger = false;
-        formatInfo.decimalsReal = 7;
-        formatInfo.widthImag = 13;
-        formatInfo.decimalsImag = 7;
-
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGENG: {
-        formatInfo.floatAsInteger = false;
-        formatInfo.widthReal = 34;
-        formatInfo.decimalsReal = 0;
-        formatInfo.widthImag = 34;
-        formatInfo.decimalsImag = 0;
-
-    } break;
-    case NLS_NUMERIC_FORMAT_PLUS: {
-    } break;
-    case NLS_NUMERIC_FORMAT_BANK: {
-    } break;
-    case NLS_NUMERIC_FORMAT_HEX: {
-        formatInfo.widthReal = 9;
-        formatInfo.formatReal = L"%*s";
-        formatInfo.decimalsReal = 0;
         formatInfo.widthImag = 9;
-        formatInfo.formatImag = L"%*s";
         formatInfo.decimalsImag = 0;
+        formatInfo.formatImag = L"%*s";
     } break;
-    case NLS_NUMERIC_FORMAT_RATIONAL: {
-    } break;
-    }
+    default: { } break; }
     return formatInfo;
 }
 //=============================================================================
@@ -799,17 +682,25 @@ static FormatDisplayInformation
 computeFormatInfo(
     double realPart, double imagPart, bool asSingle, NumericFormatDisplay currentNumericFormat)
 {
-    FormatDisplayInformation formatInfo;
-    if (asSingle) {
-        formatInfo = getArrayOfFormatInfoSingleComplex(currentNumericFormat);
-    } else {
-        formatInfo = getArrayOfFormatInfoDouble(true, currentNumericFormat);
-    }
-    if ((currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTE)
-        || (currentNumericFormat == NLS_NUMERIC_FORMAT_SHORTG)
-        || (currentNumericFormat == NLS_NUMERIC_FORMAT_LONGE)
-        || (currentNumericFormat == NLS_NUMERIC_FORMAT_LONGG)) {
-    } else if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
+    FormatDisplayInformation formatInfo
+        = getArrayOfFormatInfo(asSingle, true, currentNumericFormat);
+
+    switch (currentNumericFormat) {
+    case NLS_NUMERIC_FORMAT_SHORTE:
+    case NLS_NUMERIC_FORMAT_SHORTG:
+    case NLS_NUMERIC_FORMAT_LONGE:
+    case NLS_NUMERIC_FORMAT_LONGG: {
+    } break;
+    case NLS_NUMERIC_FORMAT_BANK: {
+        formatInfo.formatReal = L"%*.*f";
+        formatInfo.widthReal = 13;
+        formatInfo.decimalsReal = 2;
+
+        formatInfo.formatImag = L"%*.*f";
+        formatInfo.widthImag = 13;
+        formatInfo.decimalsImag = 2;
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
         if (fabs(realPart) < 1e-10) {
             formatInfo.widthReal = 50;
             formatInfo.formatReal = L"%*s";
@@ -831,16 +722,8 @@ computeFormatInfo(
             formatInfo.formatImag = L"%*s";
             formatInfo.trim = true;
         }
-
-    } else if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
-        formatInfo.formatReal = L"%*.*f";
-        formatInfo.widthReal = 13;
-        formatInfo.decimalsReal = 2;
-
-        formatInfo.formatImag = L"%*.*f";
-        formatInfo.widthImag = 13;
-        formatInfo.decimalsImag = 2;
-    } else {
+    } break;
+    default: {
         if (std::isfinite(realPart) || std::isfinite(imagPart)) {
             bool isSmallReal = (fabs(realPart) <= 1e-3);
             bool isSmallImag = (fabs(imagPart) <= 1e-3);
@@ -885,6 +768,7 @@ computeFormatInfo(
             formatInfo.widthImag = 7;
             formatInfo.decimalsImag = 4;
         }
+    } break;
     }
     return formatInfo;
 }
@@ -892,12 +776,9 @@ computeFormatInfo(
 static FormatDisplayInformation
 computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumericFormat)
 {
-    FormatDisplayInformation formatInfo;
-    if (asSingle) {
-        formatInfo = getArrayOfFormatInfoSingle(currentNumericFormat);
-    } else {
-        formatInfo = getArrayOfFormatInfoDouble(false, currentNumericFormat);
-    }
+    FormatDisplayInformation formatInfo
+        = getArrayOfFormatInfo(asSingle, false, currentNumericFormat);
+
     switch (currentNumericFormat) {
     case NLS_NUMERIC_FORMAT_LONGG: {
         double absoluteValue = fabs(val);
@@ -1112,9 +993,7 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
             formatInfo.trim = true;
         }
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return formatInfo;
 }
 //=============================================================================
