@@ -83,14 +83,23 @@ getNominalWidth(const FormatDisplayInformation& formatInfo)
         case NLS_NUMERIC_FORMAT_LONG:
         case NLS_NUMERIC_FORMAT_LONGE:
         case NLS_NUMERIC_FORMAT_SHORTG:
-        case NLS_NUMERIC_FORMAT_LONGG:
-        case NLS_NUMERIC_FORMAT_BANK: {
+        case NLS_NUMERIC_FORMAT_LONGG: {
             nominalWidth = formatInfo.widthReal + formatInfo.widthImag + 3;
         } break;
-        case NLS_NUMERIC_FORMAT_HEX:
-        case NLS_NUMERIC_FORMAT_RATIONAL:
+        case NLS_NUMERIC_FORMAT_BANK: {
+            nominalWidth = formatInfo.widthReal;
+        } break;
+        case NLS_NUMERIC_FORMAT_HEX: {
+            nominalWidth = formatInfo.widthReal + formatInfo.widthImag + 1;
+        } break;
+        case NLS_NUMERIC_FORMAT_RATIONAL: {
+            nominalWidth = formatInfo.widthReal + formatInfo.widthImag + 1;
+        } break;
         case NLS_NUMERIC_FORMAT_PLUS:
-        default: { } break; }
+            nominalWidth = 1; 
+        default: {
+        } break;
+        }
     }
     return nominalWidth;
 }
@@ -331,31 +340,48 @@ formatElementComplex(double realPart, double ImagPart, const FormatDisplayInform
 {
     std::wstring result;
     switch (formatInfo.numericFormatDisplay) {
-    case NLS_NUMERIC_FORMAT_LONG: {
-        result = formatComplex<double>(realPart, ImagPart, formatInfo);
-    } break;
     case NLS_NUMERIC_FORMAT_SHORTENG: {
         result = formatComplexShortEng(realPart, ImagPart, formatInfo.trim);
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         result = formatComplexLongEng(realPart, ImagPart, formatInfo.trim);
     } break;
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        result = formatComplex<double>(realPart, ImagPart, formatInfo);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGE: {
-        result = formatComplex<double>(realPart, ImagPart, formatInfo);
-    } break;
-    case NLS_NUMERIC_FORMAT_LONGG: {
-        result = formatComplex<double>(realPart, ImagPart, formatInfo);
-    } break;
-    case NLS_NUMERIC_FORMAT_SHORTE: {
-        result = formatComplex<double>(realPart, ImagPart, formatInfo);
-    } break;
+    case NLS_NUMERIC_FORMAT_LONG:
+    case NLS_NUMERIC_FORMAT_SHORT:
+    case NLS_NUMERIC_FORMAT_LONGE:
+    case NLS_NUMERIC_FORMAT_LONGG:
+    case NLS_NUMERIC_FORMAT_SHORTE:
     case NLS_NUMERIC_FORMAT_SHORTG: {
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
     } break;
-    default: { } break; }
+    case NLS_NUMERIC_FORMAT_HEX: {
+        std::wstring partReal
+            = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(realPart, true));
+        std::wstring partImag
+            = fmt::sprintf(formatInfo.formatImag, formatInfo.widthImag, formatHex(ImagPart, true));
+        result.append(partReal);
+        result.append(partImag);
+        result.append(L"i");
+    } break;
+    case NLS_NUMERIC_FORMAT_BANK: {
+        result = formatElement(realPart, formatInfo);
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        result.append(formatRational(
+            realPart, formatInfo.widthReal, formatInfo.widthReal - 1, formatInfo.trim));
+        if (ImagPart < 0) {
+            result.append(L" - ");
+        } else {
+            result.append(L" + ");
+        }
+        result.append(
+            formatRational(fabs(ImagPart), formatInfo.widthImag, formatInfo.widthImag - 1, true));
+        result.append(L"i");
+
+    } break;
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================
@@ -464,7 +490,35 @@ formatElementComplex(single realPart, single ImagPart, const FormatDisplayInform
     case NLS_NUMERIC_FORMAT_SHORT: {
         result = formatComplex<single>(realPart, ImagPart, formatInfo);
     } break;
-    default: { } break; }
+    case NLS_NUMERIC_FORMAT_HEX: {
+        std::wstring partReal = fmt::sprintf(
+            formatInfo.formatReal, formatInfo.widthReal, formatHex(realPart, true));
+        std::wstring partImag
+            = fmt::sprintf(formatInfo.formatImag, formatInfo.widthImag, formatHex(ImagPart, true));
+        result.append(L"   ");
+        result.append(partReal);
+        result.append(L"   ");
+        result.append(partImag);
+        result.append(L"i");
+    } break;
+    case NLS_NUMERIC_FORMAT_BANK: {
+        result = formatElement(realPart, formatInfo);
+    } break;
+    case NLS_NUMERIC_FORMAT_RATIONAL: {
+        result.append(formatRational(
+            realPart, formatInfo.widthReal, formatInfo.widthReal - 1, formatInfo.trim));
+        if (ImagPart < 0) {
+            result.append(L" - ");
+        } else {
+            result.append(L" + ");
+        }
+        result.append(
+            formatRational(fabs(ImagPart), formatInfo.widthImag, formatInfo.widthImag - 1, true));
+        result.append(L"i");
+    } break;
+    default: {
+    } break;
+    }
     return result;
 }
 //=============================================================================
@@ -502,7 +556,13 @@ formatScalarNumber(double val, bool asSingle, const FormatDisplayInformation& fo
         result.append(formatPlus(val, formatInfo.trim));
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
-        result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(val, false));
+        if (asSingle) {
+            result = fmt::sprintf(
+                formatInfo.formatReal, formatInfo.widthReal, formatHex((single)val, false));
+        } else {
+            result
+                = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(val, false));
+        }
         if (formatInfo.trim) {
             boost::trim_left(result);
         }
@@ -546,7 +606,7 @@ formatScalarComplexNumber(
         result = formatPlus(realPart, formatInfo.trim);
     } break;
     case NLS_NUMERIC_FORMAT_HEX: {
-        result.append(formatHex(realPart, true));
+        result.append(formatHex(realPart, formatInfo.trim));
         result.append(L"   ");
         result.append(formatHex(imagPart, true));
         result.append(L"i");
