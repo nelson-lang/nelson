@@ -23,15 +23,25 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-format('bank')
+rng('default')
+format('hex')
 %=============================================================================
-R = evalc('A = single(complex([0.3 .2 .1],.4))');
+A = pi;
+R = evalc('A');
+REF =  '
+A =
+
+   400921fb54442d18
+
+';
+assert_isequal(R, REF)
+%=============================================================================
+A = [pi, eps];
+R = evalc('A');
 REF = '
 A =
 
-  1×3 single row vector
-
-          0.30          0.20          0.10
+   400921fb54442d18   3cb0000000000000
 
 ';
 assert_isequal(R, REF)
