@@ -27,7 +27,6 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-#include <type_traits>
 #include "FormatEngineeringNotation.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
@@ -114,7 +113,7 @@ formatLongEng(single number, bool trim)
 //=============================================================================
 template <class T>
 std::wstring
-formatComplexLongEng(T realPart, T imagPart, bool trim)
+formatComplexLongEng(T realPart, T imagPart, bool trim, size_t nbMaxBlanks)
 {
     std::wstring result;
     result.append(formatLongEng(realPart, trim));
@@ -123,18 +122,15 @@ formatComplexLongEng(T realPart, T imagPart, bool trim)
     } else {
         result.append(L" +");
     }
+    std::wstring imgStr = formatLongEng((T)fabs(imagPart), false);
     if (std::isfinite(imagPart)) {
-        std::wstring imgStr = formatLongEng(fabs(imagPart), false);
-        size_t nbMaxBlanks = std::is_same<T, float>::value ? 2 : 3;
         for (size_t k = 0; k < nbMaxBlanks; ++k) {
             if (imgStr[0] == L' ') {
                 imgStr.erase(0, 1);
             }
         }
-        result.append(imgStr);
-    } else {
-        result.append(formatLongEng(fabs(imagPart), false));
     }
+    result.append(imgStr);    
     result.append(L"i");
     return result;
 }
@@ -142,13 +138,13 @@ formatComplexLongEng(T realPart, T imagPart, bool trim)
 std::wstring
 formatComplexLongEng(double realPart, double imagPart, bool trim)
 {
-    return formatComplexLongEng<double>(realPart, imagPart, trim);
+    return formatComplexLongEng<double>((double)realPart, (double)imagPart, trim, 3);
 }
 //=============================================================================
 std::wstring
 formatComplexLongEng(single realPart, single imagPart, bool trim)
 {
-    return formatComplexLongEng<single>(realPart, imagPart, trim);
+    return formatComplexLongEng<single>((single)realPart, (single)imagPart, trim, 2);
 }
 //=============================================================================
 template <class T>
