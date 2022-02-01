@@ -130,7 +130,7 @@ formatComplexLongEng(T realPart, T imagPart, bool trim, size_t nbMaxBlanks)
             }
         }
     }
-    result.append(imgStr);    
+    result.append(imgStr);
     result.append(L"i");
     return result;
 }
