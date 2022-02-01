@@ -183,13 +183,24 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
         case NLS_NUMERIC_FORMAT_LONG: {
             ComputeScaleFactor(A, allInteger, formatInfo);
             formatInfo.isComplex = true;
-            formatInfo.formatReal = L"%*.*f";
-            formatInfo.widthReal = 11;
-            formatInfo.decimalsReal = 7;
+            if (A.isSingleClass()) {
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.widthReal = 11;
+                formatInfo.decimalsReal = 7;
 
-            formatInfo.formatImag = L"%*.*f";
-            formatInfo.widthImag = 10;
-            formatInfo.decimalsImag = 7;
+                formatInfo.formatImag = L"%*.*f";
+                formatInfo.widthImag = 10;
+                formatInfo.decimalsImag = 7;
+
+            } else {
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.widthReal = 19;
+                formatInfo.decimalsReal = 15;
+
+                formatInfo.formatImag = L"%*.*f";
+                formatInfo.widthImag = 18;
+                formatInfo.decimalsImag = 15;
+            }
 
         } break;
         case NLS_NUMERIC_FORMAT_SHORT: {
