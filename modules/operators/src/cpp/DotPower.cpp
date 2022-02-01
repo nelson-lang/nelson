@@ -80,6 +80,11 @@ power_zi(double* p, const double* a, int b)
 void
 power_zz(double* c, const double* a, const double* b)
 {
+    if (b[0] == 0 && b[1] == 0) {
+        c[0] = 1;
+        c[1] = 0;
+        return;
+    }
     auto mag = complex_abs<double>(a[0], a[1]);
     if (mag == 0) {
         c[0] = 0;
@@ -112,7 +117,7 @@ double
 power_dd(double a, double b)
 {
     if (b == 0) {
-        return a;
+        return 1;
     }
     if (b == 1) {
         return a;

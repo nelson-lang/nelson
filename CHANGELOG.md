@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - [#562](http://github.com/Nelson-numerical-software/nelson/issues/562): `format long` complex do not display expected precision.
+- [#561](http://github.com/Nelson-numerical-software/nelson/issues/561): `0^0` did not return expected value.
 
 ## 0.6.1 (2022-01-31)
 
