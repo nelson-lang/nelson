@@ -415,7 +415,15 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
                 }
             }
         } break;
+        case NLS_NUMERIC_FORMAT_BANK: {
+            formatInfo.widthReal = 14;
+            formatInfo.widthImag = 14;
+            formatInfo.formatReal = L"%*.*f";
+            formatInfo.decimalsReal = 2;
+            formatInfo.formatImag = L"%*.*f";
+            formatInfo.decimalsImag = 2;
 
+        } break;
         case NLS_NUMERIC_FORMAT_SHORT: {
             ComputeScaleFactor(A, allInteger, formatInfo);
             if (allInteger) {

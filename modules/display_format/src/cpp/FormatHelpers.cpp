@@ -352,6 +352,9 @@ formatElementComplex(double realPart, double ImagPart, const FormatDisplayInform
     case NLS_NUMERIC_FORMAT_SHORTG: {
         result = formatComplex<double>(realPart, ImagPart, formatInfo);
     } break;
+    case NLS_NUMERIC_FORMAT_PLUS: {
+        result = formatPlus(realPart, false);
+    } break;
     case NLS_NUMERIC_FORMAT_HEX: {
         std::wstring partReal
             = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, formatHex(realPart, true));
@@ -477,6 +480,9 @@ formatElementComplex(single realPart, single ImagPart, const FormatDisplayInform
     } break;
     case NLS_NUMERIC_FORMAT_LONGENG: {
         result = formatComplexLongEng(realPart, ImagPart, formatInfo.trim);
+    } break;
+    case NLS_NUMERIC_FORMAT_PLUS: {
+        result = formatPlus(realPart, false);
     } break;
     case NLS_NUMERIC_FORMAT_LONG:
     case NLS_NUMERIC_FORMAT_LONGG:
