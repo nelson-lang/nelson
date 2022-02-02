@@ -111,18 +111,15 @@ getMin(T* val, indexType nbElements)
 }
 //=============================================================================
 std::wstring
-completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay currentNumericFormat)
+completeWithBlanksAtTheEnd(const std::wstring& msg, size_t width)
 {
-    size_t width = 10;
-    switch (currentNumericFormat) {
-    case NLS_NUMERIC_FORMAT_SHORT: {
-        width = 13;
-    } break;
-    case NLS_NUMERIC_FORMAT_LONG: {
-        width = 0;
-    } break;
-    default: { } break; }
-    return completeWithBlanksAtBeginning(msg, width);
+    size_t len = msg.length();
+    std::wstring blanks;
+    if (int(width) - int(len) > 0) {
+        blanks.append(width - len, L' ');
+        return msg + blanks;
+    }
+    return msg;
 }
 //=============================================================================
 std::wstring

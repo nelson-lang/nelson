@@ -46,7 +46,7 @@ NLSDISPLAY_FORMAT_IMPEXP void
 DisplayVariableFooter(Interface* io, bool asDisp);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP std::wstring
-completeWithBlanksAtBeginning(const std::wstring& msg, NumericFormatDisplay currentNumericFormat);
+completeWithBlanksAtTheEnd(const std::wstring& msg, size_t width);
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP std::wstring
 completeWithBlanksAtBeginning(const std::wstring& msg, size_t width);
