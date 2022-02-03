@@ -41,7 +41,7 @@
  disp(['nb calls to test_persistent_function: ', int2str(calls)]);
  r= calls;
  calls = calls + 1;
-endfunction]]>
+end]]>
 		</example_item_data>
 	</example_item>
 

@@ -44,7 +44,7 @@
 		<example_item_data><![CDATA[ Y = 'variable in base scope';
 function myfun()
   disp(acquirevar('base', 'Y')
-endfunction
+end
 myfun()]]>
 		</example_item_data>
 	</example_item>
