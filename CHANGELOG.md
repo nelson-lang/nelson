@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## UNRELEASED
 
+### Added
+
+- [#567](http://github.com/Nelson-numerical-software/nelson/issues/567): `…` in cells if character vector is too long.
+
 ### Fixed
 
 - [#562](http://github.com/Nelson-numerical-software/nelson/issues/562): `format long` complex do not display expected precision.

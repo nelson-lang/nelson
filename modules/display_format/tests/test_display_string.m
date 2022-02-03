@@ -244,3 +244,17 @@ R = evalc('display("hello", ''A'')');
 REF = char([ 10    65    32    61    10    10    32    32    32    32    34   104   101   108   108   111    34    10    10]);
 assert_isequal(R, REF)
 %=============================================================================
+A = ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";"vvvvvvvvvvvvvvvvvvvvvvvvvv";"ddddddddddddddddddd"];
+R = evalc('A');
+REF = '
+A =
+
+  3×1 string array
+
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    "vvvvvvvvvvvvvvvvvvvvvvvvvv"
+    "ddddddddddddddddddd"
+
+' ;
+assert_isequal(R, REF)
+%=============================================================================

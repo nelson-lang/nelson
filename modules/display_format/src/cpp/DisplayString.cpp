@@ -110,6 +110,11 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
 {
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
     if (A.isColumnVector()) {
+        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+            if (!name.empty()) {
+                io->outputMessage(L"\n");
+            }
+        }
         for (indexType k = 0;
              k < A.getElementCount() && !NelsonConfiguration::getInstance()->getInterruptPending();
              ++k) {

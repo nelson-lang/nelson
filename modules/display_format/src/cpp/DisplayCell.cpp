@@ -37,7 +37,7 @@ namespace Nelson {
 //=============================================================================
 static std::wstring
 getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay currentNumericFormat,
-    indexType termWidth);
+    indexType termWidth, bool asColumnsVector);
 //=============================================================================
 static indexType
 getColsPerPage(const std::vector<size_t>& vSize, indexType termWidth);
@@ -94,11 +94,13 @@ Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
     sizeType termWidth = io->getTerminalWidth();
 
     indexType v = 0;
+    bool isColumnsVector = A.isColumnVector();
     for (indexType k = 0; k < nbElements; ++k) {
         if (v >= columns) {
             v = 0;
         }
-        cellSummarize[k] = getAsFormattedString(elements, k, currentNumericFormat, termWidth);
+        cellSummarize[k]
+            = getAsFormattedString(elements, k, currentNumericFormat, termWidth, isColumnsVector);
         vSize[k / rows] = std::max(vSize[k / rows], cellSummarize[k].length());
     }
 
@@ -143,7 +145,7 @@ Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
                 indexType idx = i + (k * colsPerPage + j) * rows;
                 indexType len = vSize[colsPos];
                 buffer.append(BLANKS_AT_BOL);
-                buffer.append(completeWithBlanksAtBeginning(cellSummarize[idx], len));
+                buffer.append(completeWithBlanksAtTheEnd(cellSummarize[idx], len));
             }
             buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
@@ -204,8 +206,8 @@ DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
         indexType nbElements = rows * columns;
         wstringVector cellSummarize(nbElements, L"");
         for (indexType k = 0; k < nbElements; ++k) {
-            cellSummarize[k]
-                = getAsFormattedString(elements, k + offset, currentNumericFormat, termWidth);
+            cellSummarize[k] = getAsFormattedString(
+                elements, k + offset, currentNumericFormat, termWidth, false);
             vSize[k / rows] = std::max(vSize[k / rows], cellSummarize[k].length());
         }
         indexType colsPerPage = getColsPerPage(vSize, termWidth);
@@ -252,16 +254,23 @@ DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
 //=============================================================================
 std::wstring
 getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay currentNumericFormat,
-    indexType termWidth)
+    indexType termWidth, bool asColumnsVector)
 {
     std::wstring msg;
     switch (elements[idx].getDataClass()) {
     case NLS_CHAR: {
         if (elements[idx].isRowVector()) {
-            msg = elements[idx].getContentAsWideString(16);
-            if (msg.length() > 15) {
+            indexType nbCharsMax;
+            if (asColumnsVector) {
+                nbCharsMax = termWidth - 8;
+            } else {
+                nbCharsMax = 16;
+            }
+            msg = elements[idx].getContentAsWideString(nbCharsMax);
+
+            if (msg.length() > nbCharsMax - 1) {
                 msg.pop_back();
-                msg = msg.substr(0, 15);
+                msg = msg.substr(0, nbCharsMax - 1);
                 msg = msg + HORIZONTAL_ELLIPSIS;
             }
             msg = L"{'" + msg + L"'}";
