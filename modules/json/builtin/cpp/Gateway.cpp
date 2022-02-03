@@ -33,11 +33,11 @@ using namespace Nelson;
 const std::wstring gatewayName = L"json";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "jsondecode", (void*)Nelson::JsonGateway::jsondecodeBuiltin, 1, 1,
+    { "jsondecode", (ptrBuiltin)Nelson::JsonGateway::jsondecodeBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "jsonencode", (void*)Nelson::JsonGateway::jsonencodeBuiltin, 1, -1,
+    { "jsonencode", (ptrBuiltin)Nelson::JsonGateway::jsonencodeBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "jsonprettyprint", (void*)Nelson::JsonGateway::jsonprettyprintBuiltin, 1, 1,
+    { "jsonprettyprint", (ptrBuiltin)Nelson::JsonGateway::jsonprettyprintBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================

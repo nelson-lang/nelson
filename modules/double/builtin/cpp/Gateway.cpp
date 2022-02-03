@@ -33,9 +33,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"double";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "double", (void*)Nelson::DoubleGateway::doubleBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "flintmax", (void*)Nelson::DoubleGateway::flintmaxBuiltin, 1, 1 },
-    { "realmax", (void*)Nelson::DoubleGateway::realmaxBuiltin, 1, 1 },
+    { "double", (ptrBuiltin)Nelson::DoubleGateway::doubleBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "flintmax", (ptrBuiltin)Nelson::DoubleGateway::flintmaxBuiltin, 1, 1 },
+    { "realmax", (ptrBuiltin)Nelson::DoubleGateway::realmaxBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

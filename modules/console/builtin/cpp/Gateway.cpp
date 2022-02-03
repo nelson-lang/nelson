@@ -31,9 +31,10 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"console";
 //=============================================================================
-static const nlsGateway gateway[] = { { "clc", (void*)Nelson::ConsoleGateway::clcBuiltin, 0, 0,
-                                          CPP_BUILTIN_WITH_EVALUATOR },
-    { "input", (void*)Nelson::ConsoleGateway::inputBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR } };
+static const nlsGateway gateway[] = {
+    { "clc", (ptrBuiltin)Nelson::ConsoleGateway::clcBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
+    { "input", (ptrBuiltin)Nelson::ConsoleGateway::inputBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR }
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

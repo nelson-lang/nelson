@@ -39,24 +39,27 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"error_manager";
 //=============================================================================
-static const nlsGateway gateway[] = { { "error", (void*)Nelson::ErrorManagerGateway::errorBuiltin,
-                                          0, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "warning", (void*)Nelson::ErrorManagerGateway::warningBuiltin, 1, -1,
+static const nlsGateway gateway[] = {
+    { "error", (ptrBuiltin)Nelson::ErrorManagerGateway::errorBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "lasterror", (void*)Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1,
+    { "warning", (ptrBuiltin)Nelson::ErrorManagerGateway::warningBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "lastwarn", (void*)Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2,
+    { "lasterror", (ptrBuiltin)Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "getLastReport", (void*)Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0,
+    { "lastwarn", (ptrBuiltin)Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "MException", (void*)Nelson::ErrorManagerGateway::MExceptionBuiltin, 1, 2,
+    { "getLastReport", (ptrBuiltin)Nelson::ErrorManagerGateway::getLastReportBuiltin, 1, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "throw", (void*)Nelson::ErrorManagerGateway::throwBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "throwAsCaller", (void*)Nelson::ErrorManagerGateway::throwAsCallerBuiltin, 0, 1,
+    { "MException", (ptrBuiltin)Nelson::ErrorManagerGateway::MExceptionBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "rethrow", (void*)Nelson::ErrorManagerGateway::rethrowBuiltin, 0, 1, CPP_BUILTIN },
-    { "MException_fieldnames", (void*)Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin, 1,
-        1, CPP_BUILTIN } };
+    { "throw", (ptrBuiltin)Nelson::ErrorManagerGateway::throwBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "throwAsCaller", (ptrBuiltin)Nelson::ErrorManagerGateway::throwAsCallerBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "rethrow", (ptrBuiltin)Nelson::ErrorManagerGateway::rethrowBuiltin, 0, 1, CPP_BUILTIN },
+    { "MException_fieldnames",
+        (ptrBuiltin)Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin, 1, 1, CPP_BUILTIN }
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

@@ -37,14 +37,20 @@ using namespace Nelson;
 const std::wstring gatewayName = L"data_analysis";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "prod", (void*)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "sum", (void*)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "ismissing", (void*)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1,
+    { "prod", (ptrBuiltin)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "sort", (void*)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "max", (void*)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4, CPP_BUILTIN_WITH_EVALUATOR },
-    { "min", (void*)Nelson::DataAnalysisGateway::minBuiltin, 2, 4, CPP_BUILTIN_WITH_EVALUATOR },
-    { "conv2", (void*)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4, CPP_BUILTIN_WITH_EVALUATOR },
+    { "sum", (ptrBuiltin)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "max", (ptrBuiltin)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "min", (ptrBuiltin)Nelson::DataAnalysisGateway::minBuiltin, 2, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
 
 };
 //=============================================================================

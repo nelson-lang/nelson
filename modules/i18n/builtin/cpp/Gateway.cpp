@@ -31,8 +31,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"i18n";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "gettext", (void*)Nelson::I18nGateway::gettextBuiltin, 1, 1 },
-    { "_", (void*)Nelson::I18nGateway::gettextBuiltin, 1, 1 },
+    { "gettext", (ptrBuiltin)Nelson::I18nGateway::gettextBuiltin, 1, 1 },
+    { "_", (ptrBuiltin)Nelson::I18nGateway::gettextBuiltin, 1, 1 },
 
 };
 //=============================================================================

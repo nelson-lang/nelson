@@ -36,21 +36,22 @@ using namespace Nelson;
 const std::wstring gatewayName = L"function_handle";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "func2str", (void*)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1,
+    { "func2str", (ptrBuiltin)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "function_handle_extraction",
-        (void*)Nelson::FunctionHandleGateway::function_handle_extractionBuiltin, -1, -1,
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_extractionBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "isfunction_handle", (void*)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1, 1 },
+    { "isfunction_handle", (ptrBuiltin)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1,
+        1 },
     { "function_handle_fieldnames",
-        (void*)Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1 },
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1 },
     { "function_handle_isequal",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
     { "function_handle_isequaln",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
     { "function_handle_isequalto",
-        (void*)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
-    { "str2func", (void*)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1 },
+        (ptrBuiltin)Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
+    { "str2func", (ptrBuiltin)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

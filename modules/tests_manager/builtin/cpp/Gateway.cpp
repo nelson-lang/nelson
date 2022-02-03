@@ -31,7 +31,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"tests_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "test_parsetags", (void*)Nelson::TestsManagerGateway::test_parsetagsBuiltin, -1, -1 },
+    { "test_parsetags", (ptrBuiltin)Nelson::TestsManagerGateway::test_parsetagsBuiltin, -1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

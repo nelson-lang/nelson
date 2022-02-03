@@ -41,23 +41,23 @@ using namespace Nelson;
 const std::wstring gatewayName = L"data_structures";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "isfield", (void*)Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2,
+    { "isfield", (ptrBuiltin)Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "fieldnames", (void*)Nelson::DataStructuresGateway::fieldnamesBuiltin, 1, 1,
+    { "fieldnames", (ptrBuiltin)Nelson::DataStructuresGateway::fieldnamesBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "cellfun", (void*)Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1,
+    { "cellfun", (ptrBuiltin)Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "namedargs2cell", (void*)Nelson::DataStructuresGateway::namedargs2cellBuiltin, 1, 1,
+    { "namedargs2cell", (ptrBuiltin)Nelson::DataStructuresGateway::namedargs2cellBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "getfield", (void*)Nelson::DataStructuresGateway::getfieldBuiltin, 1, 2,
+    { "getfield", (ptrBuiltin)Nelson::DataStructuresGateway::getfieldBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "rmfield", (void*)Nelson::DataStructuresGateway::rmfieldBuiltin, 1, 2,
+    { "rmfield", (ptrBuiltin)Nelson::DataStructuresGateway::rmfieldBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "struct", (void*)Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
-    { "iscellstr", (void*)Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },
-    { "cell", (void*)Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },
-    { "struct2cell", (void*)Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
-    { "cell2struct", (void*)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
+    { "struct", (ptrBuiltin)Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
+    { "iscellstr", (ptrBuiltin)Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },
+    { "cell", (ptrBuiltin)Nelson::DataStructuresGateway::cellBuiltin, 1, 0 },
+    { "struct2cell", (ptrBuiltin)Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
+    { "cell2struct", (ptrBuiltin)Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

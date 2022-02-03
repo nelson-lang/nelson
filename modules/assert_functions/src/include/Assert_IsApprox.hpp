@@ -32,7 +32,7 @@
 //=============================================================================
 namespace Nelson {
 NLSASSERT_FUNCTIONS_IMPEXP bool
-Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, double precision,
+Assert_IsApprox(Evaluator* eval, const ArrayOf &computedArray, const ArrayOf &expectedArray, double precision,
     std::wstring& msg);
 }
 //=============================================================================

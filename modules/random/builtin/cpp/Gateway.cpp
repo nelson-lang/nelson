@@ -34,9 +34,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"random";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "rand", (void*)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "randn", (void*)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "rng", (void*)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "rng", (ptrBuiltin)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 static bool

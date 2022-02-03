@@ -39,6 +39,7 @@ typedef enum
     C_MEX_BUILTIN = 2
 } BUILTIN_PROTOTYPE;
 //=============================================================================
+typedef void (*ptrBuiltin)();
 typedef struct nlsGatewayStructType
 {
     std::string functionName;

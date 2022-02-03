@@ -202,6 +202,6 @@ destroyMainEvaluator()
 void*
 getNelsonMainEvaluator()
 {
-    return (void*)Nelson::getMainEvaluator();
+    return (ptrBuiltin)Nelson::getMainEvaluator();
 }
 //=============================================================================
