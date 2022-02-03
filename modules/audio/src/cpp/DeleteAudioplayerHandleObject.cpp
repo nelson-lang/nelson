@@ -36,7 +36,7 @@ DeleteAudioplayerHandleObject(ArrayOf A)
     if (A.isHandle()) {
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
-            auto* qp = (nelson_handle*)A.getDataPointer();
+            nelson_handle* qp = (nelson_handle*)(A.getDataPointer());
             size_t elementCount = static_cast<size_t>(dims.getElementCount());
             for (size_t k = 0; k < elementCount; k++) {
                 nelson_handle hl = qp[k];

@@ -64,9 +64,10 @@ AudioSupportedFormats()
     extensions.reserve((size_t)countFormat);
     subformats.reserve((size_t)countFormat);
     Dimensions dims;
-    dims[0] = countFormat;
-    dims[1] = 1;
+    dims[0] = (indexType)countFormat;
+    dims[1] = (indexType)1;
     stringVector fieldnames;
+    fieldnames.reserve(3);
     fieldnames.push_back("Name");
     fieldnames.push_back("Extension");
     fieldnames.push_back("Subformats");
