@@ -29,10 +29,11 @@
 #include <unordered_map>
 #include <string>
 #include "BuiltInFunctionDef.hpp"
-#include "NelsonGateway.hpp"
 #include "nlsInterpreter_exports.h"
+#include "NelsonGateway.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 class NLSINTERPRETER_IMPEXP BuiltInFunctionDefManager
 {
 public:
@@ -50,7 +51,7 @@ public:
     bool
     remove(BuiltInFunctionDef* ptr);
     bool
-    remove(void* fptr);
+    remove(ptrBuiltin fptr);
     bool
     removeAll();
 

@@ -26,11 +26,12 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "BuiltInFunctionDefManager.hpp"
 #include "Evaluator.hpp"
 #include "GatewayHelpers.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+typedef void* ptrBuiltin;
 //=============================================================================
 typedef enum
 {
@@ -39,11 +40,10 @@ typedef enum
     C_MEX_BUILTIN = 2
 } BUILTIN_PROTOTYPE;
 //=============================================================================
-typedef void (*ptrBuiltin)();
 typedef struct nlsGatewayStructType
 {
     std::string functionName;
-    void* fptr;
+    ptrBuiltin fptr;
     int nLhs;
     int nRhs;
     BUILTIN_PROTOTYPE builtinPrototype;

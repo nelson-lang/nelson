@@ -132,7 +132,7 @@ BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::remove(void* fptr)
+BuiltInFunctionDefManager::remove(ptrBuiltin fptr)
 {
     bool res = false;
     for (size_t k = 0; k < builtinVector.size(); k++) {
