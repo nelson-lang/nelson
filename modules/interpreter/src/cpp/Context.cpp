@@ -269,7 +269,6 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
     }
     bool res = scopestack.front()->lookupFunction(funcName, val);
     if (!res && functionDefInMem != nullptr) {
-        std::wstring filename;
         std::string utf8msg = str(boost::format(_("'%s' is not found in the current folder or on "
                                                   "the Nelson path, but exists in:"))
             % funcName);
@@ -357,7 +356,7 @@ Context::bypassScope(int count)
     if (count < 0) {
         count = (int)(scopestack.size() - 2);
     }
-    if (count > scopestack.size()) {
+    if (count > (int)scopestack.size()) {
         return;
     }
     for (int i = 0; i < count; i++) {
@@ -369,7 +368,7 @@ Context::bypassScope(int count)
 void
 Context::restoreBypassedScopes()
 {
-    for (int i = 0; i < bypassstack.size(); i++) {
+    for (size_t i = 0; i < bypassstack.size(); i++) {
         scopestack.push_back(bypassstack[bypassstack.size() - 1 - i]);
     }
     bypassstack.clear();

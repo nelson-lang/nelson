@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveClassAttribute(hid_t fid, const std::string& location, ArrayOf variableValue)
+h5SaveClassAttribute(hid_t fid, const std::string& location, const ArrayOf &variableValue)
 {
     std::string value = ClassName(variableValue);
     if (value == "sparsedouble") {

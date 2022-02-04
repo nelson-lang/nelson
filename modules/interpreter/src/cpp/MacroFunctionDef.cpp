@@ -58,7 +58,7 @@ MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatche
     this->code = nullptr;
     this->setFilename(filename);
     this->setTimestamp(0);
-    updateCode();
+    updateCode(); //-V1053
     this->withWatcher = withWatcher;
 }
 //=============================================================================
@@ -298,11 +298,9 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         context->popScope();
         eval->callstack.popDebug();
     } catch (const Exception&) {
-        if (tic != 0) {
-            internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
-            Profiler::getInstance()->toc(tic, stack);
-        }
+        internalProfileFunction stack
+            = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
+        Profiler::getInstance()->toc(tic, stack);
         context->popScope();
         eval->callstack.popDebug();
         throw;
@@ -340,11 +338,9 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
         }
         eval->callstack.popDebug();
     } catch (const Exception&) {
-        if (tic != 0) {
-            internalProfileFunction stack
-                = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
-            Profiler::getInstance()->toc(tic, stack);
-        }
+        internalProfileFunction stack
+            = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
+        Profiler::getInstance()->toc(tic, stack);
         eval->callstack.popDebug();
         throw;
     }

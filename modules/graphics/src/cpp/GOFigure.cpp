@@ -150,11 +150,12 @@ GOFigure::refreshInnerPositionProperty()
 void
 GOFigure::refreshPositionProperty()
 {
-    QRect qFrameGeometry = m_win->frameGeometry();
-    QSize qSize = qFrameGeometry.size();
-    QPoint qPoint = qFrameGeometry.topLeft();
     GOProperty* property = this->searchProperty(POSITION_PROPERTY_STR);
     if (property != nullptr) {
+        QRect qFrameGeometry = m_win->frameGeometry();
+        QSize qSize = qFrameGeometry.size();
+        QPoint qPoint = qFrameGeometry.topLeft();
+
         auto* positionProperty = (GOVector4DProperty*)property;
         positionProperty->value(qPoint.x(), qPoint.y(), qSize.width(), qSize.height());
     }

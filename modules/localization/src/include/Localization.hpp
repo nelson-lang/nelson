@@ -31,7 +31,8 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-class NLSLOCALIZATION_IMPEXP Localization
+//=============================================================================
+class NLSLOCALIZATION_IMPEXP Localization //-V690
 {
 public:
     static Localization*
@@ -53,7 +54,7 @@ public:
 
 private:
     Localization();
-    Localization(Localization const& /*unused*/){};
+    Localization(Localization const& /*unused*/) {};
     static Localization* m_pInstance;
 
     std::wstring currentLanguage;

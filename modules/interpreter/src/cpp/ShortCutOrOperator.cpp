@@ -43,7 +43,7 @@ Evaluator::shortCutOrOperator(const ArrayOf& A, const ArrayOf& B)
             } else {
                 if (B.isScalar()) {
                     bool b = B.getContentAsLogicalScalar() != 0U;
-                    return ArrayOf::logicalConstructor(a || b);
+                    return ArrayOf::logicalConstructor(b);
                 }
                 Error(_W("Operand to || operator must be convertible to "
                          "logical scalar values."));
@@ -59,7 +59,7 @@ Evaluator::shortCutOrOperator(const ArrayOf& A, const ArrayOf& B)
 ArrayOf
 Evaluator::shortCutOrOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     const ArrayOf A = expression(t->down);
     const ArrayOf B = expression(t->down->right);
     ArrayOf retval = shortCutOrOperator(A, B);

@@ -59,22 +59,25 @@ filePointerWithoutShebang(const boost::filesystem::path& absolutePath)
 #else
     FILE* fr = fopen(absolutePath.generic_string().c_str(), "rt");
 #endif
+    if (!fr) {
+      return fr;
+    }
     bool bBOM = false;
     bool bSheBang = false;
     char _buffer[8192];
     fpos_t pos;
-    fgetpos(fr, &pos);
+    fgetpos(fr, &pos); //-V530 //-V575
     const char* utf8bom = "\xef\xbb\xbf";
     // UTF-8 bom
     indexType nread = fread(_buffer, sizeof(char), strlen(utf8bom), fr);
     if (nread == 0) {
         fsetpos(fr, &pos);
-        fgetpos(fr, &pos);
+        fgetpos(fr, &pos); //-V530
     } else {
         _buffer[nread] = '\0';
         bBOM = (strcmp(_buffer, utf8bom) == 0);
         if (bBOM) {
-            fgetpos(fr, &pos);
+            fgetpos(fr, &pos); //-V530
         } else {
             fsetpos(fr, &pos);
         }
@@ -83,13 +86,13 @@ filePointerWithoutShebang(const boost::filesystem::path& absolutePath)
         const char* shebang = "#!";
         bSheBang = (strncmp(_buffer, shebang, strlen(shebang)) == 0);
         if (bSheBang) {
-            fgetpos(fr, &pos);
+            fgetpos(fr, &pos); //-V530
         } else {
             fsetpos(fr, &pos);
         }
     } else {
         fsetpos(fr, &pos);
-        fgetpos(fr, &pos);
+        fgetpos(fr, &pos); //-V530
     }
     return fr;
 }
@@ -133,7 +136,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         if (bNeedToRestoreDirectory) {
             ChangeDirectory(initialDir.generic_wstring(), false);
         }
-        throw;
+        throw; //-V565
     }
 
     Exception currentException;
@@ -141,10 +144,10 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     MacroFunctionDef* fptr = nullptr;
     try {
         fptr = new MacroFunctionDef(absolutePath.generic_wstring(), true);
-        if (fptr != nullptr) {
+        try {
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);
-        }
+        } catch (std::bad_alloc&) { } //-V565
     } catch (const Exception& ce) {
         currentException = ce;
         needThrowException = true;

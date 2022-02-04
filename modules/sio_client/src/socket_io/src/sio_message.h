@@ -411,7 +411,7 @@ namespace sio
         }
     };
 
-    class message::list
+    class message::list //-V690
     {
     public:
         list()

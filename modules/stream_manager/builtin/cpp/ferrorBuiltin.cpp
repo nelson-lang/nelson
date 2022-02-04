@@ -55,7 +55,7 @@ Nelson::StreamGateway::ferrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     ArrayOf param1 = argIn[0];
     int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));
-    if (!fm->isOpened(iValue)) {
+    if (!fm->isOpened(iValue)) { //-V1004
         Error(_W("Invalid file identifier."));
     }
     int errorCode = 0;

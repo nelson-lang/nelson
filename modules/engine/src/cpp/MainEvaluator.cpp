@@ -62,6 +62,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
         if (context != nullptr) {
             std::string msg = _("This mode is not yet implemented.\n");
             switch (_mode) {
+            case ADVANCED_SIO_CLIENT:
             case BASIC_ENGINE: {
                 fprintf(stderr, "%s", msg.c_str());
                 exit(1);
@@ -94,10 +95,6 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                     mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                     mainEvaluator->mainGuiObject = nullptr;
                 }
-            } break;
-            case ADVANCED_SIO_CLIENT: {
-                fprintf(stderr, "%s", msg.c_str());
-                exit(1);
             } break;
             case ADVANCED_TERMINAL: {
                 InitGuiObjectsDynamic();

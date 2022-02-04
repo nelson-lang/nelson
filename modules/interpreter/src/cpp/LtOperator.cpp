@@ -32,7 +32,7 @@ namespace Nelson {
 ArrayOf
 Evaluator::ltOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     ArrayOf retval = this->ltOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

@@ -180,7 +180,7 @@ Evaluator::setExitCode(int _exitCode)
 ArrayOfVector
 Evaluator::rowDefinition(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     if (t->opNum != OP_SEMICOLON) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
@@ -257,9 +257,9 @@ Evaluator::matrixDefinition(AbstractSyntaxTreePtr t)
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     AbstractSyntaxTreePtr s = t->down;
-    callstack.pushID(s->getContext());
+    callstack.pushID((size_t)s->getContext());
     while (s != nullptr) {
-        m.push_back(rowDefinition(s));
+        m.emplace_back(rowDefinition(s));
         s = s->right;
     }
     ArrayOfVector v(m.size());
@@ -320,9 +320,9 @@ Evaluator::cellDefinition(AbstractSyntaxTreePtr t)
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     AbstractSyntaxTreePtr s = t->down;
-    callstack.pushID(s->getContext());
+    callstack.pushID((size_t)s->getContext());
     while (s != nullptr) {
-        m.push_back(rowDefinition(s));
+        m.emplace_back(rowDefinition(s));
         s = s->right;
     }
     ArrayOf retval(ArrayOf::cellConstructor(m));
@@ -338,7 +338,7 @@ Evaluator::needToOverloadOperator(const ArrayOf& a)
 }
 //=============================================================================
 ArrayOf
-Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
+Evaluator::EndReference(const ArrayOf &v, indexType index, size_t count)
 {
     Dimensions dim(v.getDimensions());
     ArrayOf res;
@@ -361,8 +361,9 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
 {
     ArrayOf retval;
     // by default as the target we create double
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     switch (t->type) {
+    case const_double_node:
     case const_int_node: {
         retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
     } break;
@@ -374,9 +375,6 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
     } break;
     case const_float_node: {
         retval = ArrayOf::singleConstructor(((float)asciiToDouble(t->text)));
-    } break;
-    case const_double_node: {
-        retval = ArrayOf::doubleConstructor(asciiToDouble(t->text));
     } break;
     case const_character_array_node: {
         retval = ArrayOf::characterArrayConstructor(t->text);
@@ -399,7 +397,7 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
                 Error(ERROR_END_ILLEGAL);
             }
             endData enddatat(endStack.back());
-            retval = EndReference(enddatat.endArray, enddatat.index, enddatat.count);
+            retval = EndReference(enddatat.endArray, (indexType)enddatat.index, enddatat.count);
         } else {
             Error(ERROR_UNRECOGNIZED_NODE);
         }
@@ -2192,7 +2190,7 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (t == nullptr) {
         Error(_W("Syntax error."));
     }
-    if (!context->lookupVariable(t->text, lhs)) {
+    if (!context->lookupVariable(t->text, lhs)) { //-V1004
         lhs = ArrayOf::emptyConstructor();
     }
     AbstractSyntaxTreePtr s = t->down;
@@ -2473,7 +2471,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         m = functionExpression(fptr, fAST, (int)lhsCount, false);
         callstack = backupCallStack;
     }
-    s = saveLHS;
+    s = saveLHS; //-V1048
     while ((s != nullptr) && (m.size() > 0)) {
         ArrayOf c(assignExpression(s->down, m));
         if (!context->insertVariable(s->down->text, c)) {
@@ -3012,7 +3010,7 @@ Evaluator::functionExpression(
                                 Error(utf8_to_wstring(_("out-of-order argument /") + keywords[i]
                                     + _(" is not defined in the called function!")));
                             }
-                            keywordNdx[i] = ndx;
+                            keywordNdx[i] = ndx; //-V522
                             if (ndx > maxndx) {
                                 maxndx = ndx;
                             }
@@ -3075,7 +3073,7 @@ Evaluator::functionExpression(
                     bool isVar = context->lookupVariable(t->text, r);
                     if (isVar) {
                         if (r.isClassStruct()) {
-                            s = t->down;
+                            s = t->down; //-V1048
                             if (s->opNum == (OP_DOT) || s->opNum == (OP_DOTDYN)) {
                                 s = s->down;
                                 return scalarArrayOfToArrayOfVector(r.getField(s->text));
@@ -3939,7 +3937,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         Exception e(_W("a valid script expected."));
         setLastErrorException(e);
         if (propogateException) {
-            throw;
+            throw; //-V667
         }
         return false;
     }

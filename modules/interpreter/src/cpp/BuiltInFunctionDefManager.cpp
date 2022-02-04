@@ -175,7 +175,7 @@ BuiltInFunctionDefManager::getNameList()
     stringVector nameList;
     nameList.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
-        nameList.push_back(it->getName());
+        nameList.emplace_back(it->getName());
     }
     return nameList;
 }
@@ -202,7 +202,7 @@ BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
     if (!builtinVector.empty()) {
         for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->getName() == name) {
-                paths.push_back(((BuiltInFunctionDef*)(*it))->getFilename());
+                paths.emplace_back(((BuiltInFunctionDef*)(*it))->getFilename());
                 res = true;
             }
         }

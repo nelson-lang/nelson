@@ -43,7 +43,7 @@ namespace Nelson {
 typedef std::tuple<double, double, double> versionElement;
 typedef std::tuple<std::wstring, std::wstring, bool, versionElement> mapElement;
 //=============================================================================
-class NLSMODULES_MANAGER_IMPEXP ModulesManager
+class NLSMODULES_MANAGER_IMPEXP ModulesManager //-V690
 {
 public:
     static ModulesManager&

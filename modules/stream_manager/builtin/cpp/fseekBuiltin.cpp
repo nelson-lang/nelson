@@ -40,7 +40,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
-    int ORIGIN;
+    int ORIGIN = 0;
     if (param3.isRowVectorCharacterArray()) {
         std::wstring str = param3.getContentAsWideString();
         if ((str == L"bof") || (str == L"set")) {
@@ -71,7 +71,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(_W("Problem with file manager."));
     }
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
-    if (fm->isOpened(iValue)) {
+    if (fm->isOpened(iValue)) { //-V1004
         File* f = fm->getFile(iValue);
         if (!FileSeek(f, iOffset, ORIGIN)) {
             retval << ArrayOf::doubleConstructor(-1);

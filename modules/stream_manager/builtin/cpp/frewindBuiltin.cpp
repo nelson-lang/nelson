@@ -43,7 +43,7 @@ Nelson::StreamGateway::frewindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     ArrayOf param1 = argIn[0];
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
-    if (fm->isOpened(iValue)) {
+    if (fm->isOpened(iValue)) { //-V1004
         File* f = fm->getFile(iValue);
         if (f->isInterfaceMethod()) {
             Error(_W("Rewind failed."));

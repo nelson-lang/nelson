@@ -35,7 +35,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf &VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     function_handle fh = VariableValue.getContentAsFunctionHandle();

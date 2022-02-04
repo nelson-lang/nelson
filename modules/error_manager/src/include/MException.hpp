@@ -110,7 +110,6 @@ inline Exception
 ArrayOfToException(const ArrayOf& arg)
 {
     Exception e;
-    stringVector fs = arg.getFieldNames();
     ArrayOf copyArg = arg;
     ArrayOf idArrayOf = copyArg.getField("identifier");
     ArrayOf msgArrayOf = copyArg.getField("message");
@@ -127,7 +126,7 @@ ArrayOfToException(const ArrayOf& arg)
     std::vector<Exception> cause;
     auto* cell = (ArrayOf*)causeArrayOf.getDataPointer();
     for (indexType k = 0; k < causeArrayOf.getElementCount(); ++k) {
-        cause.push_back(ArrayOfToException(cell[k]));
+        cause.emplace_back(ArrayOfToException(cell[k]));
     }
     e.setCause(cause);
 
@@ -138,7 +137,7 @@ ArrayOfToException(const ArrayOf& arg)
         ArrayOf fileAsArrayOf = stackElement[k].getField("file");
         ArrayOf nameAsArrayOf = stackElement[k].getField("name");
         ArrayOf lineAsArrayOf = stackElement[k].getField("line");
-        trace.push_back(PositionScript(nameAsArrayOf.getContentAsWideString(),
+        trace.emplace_back(PositionScript(nameAsArrayOf.getContentAsWideString(),
             fileAsArrayOf.getContentAsWideString(), (int)lineAsArrayOf.getContentAsDoubleScalar()));
     }
     e.setTrace(trace);

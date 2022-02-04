@@ -156,7 +156,7 @@ Localization::setLanguageEnvironment(const std::wstring& lang)
             std::string effectiveLang = wstring_to_utf8(lang);
             const std::string langDesired = effectiveLang + std::string(".UTF-8");
             std::locale::global(gen(langDesired));
-        } catch (const std::exception&) {
+        } catch (const std::exception&) { //-V565
         }
         setlocale(LC_NUMERIC, "C");
     }

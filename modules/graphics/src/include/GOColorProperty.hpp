@@ -53,6 +53,7 @@ public:
     asVector()
     {
         std::vector<double> rgb;
+        rgb.reserve(3);
         rgb.push_back(R);
         rgb.push_back(G);
         rgb.push_back(B);

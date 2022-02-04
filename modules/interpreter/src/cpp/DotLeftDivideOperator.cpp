@@ -33,7 +33,7 @@ namespace Nelson {
 ArrayOf
 Evaluator::dotLeftDivideOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     ArrayOf retval = this->dotLeftDivideOperator(expression(t->down), expression(t->down->right));
     callstack.popID();
     return retval;

@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 static bool
 h5SaveSingleEmptyMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+    hid_t fid, const std::string& location, const std::string& variableName, const ArrayOf &VariableValue);
 //=============================================================================
 static bool
 h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
@@ -40,7 +40,7 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
 //=============================================================================
 bool
 h5SaveSingle(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf &VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     if (VariableValue.isEmpty(false)) {
@@ -53,7 +53,7 @@ h5SaveSingle(hid_t fid, const std::string& location, const std::string& variable
 //=============================================================================
 bool
 h5SaveSingleEmptyMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+    hid_t fid, const std::string& location, const std::string& variableName, const ArrayOf &VariableValue)
 {
     bool bSuccess = false;
     std::string h5path;

@@ -119,28 +119,36 @@ void
 GraphicObject::setPropertyAsStringValue(const std::string& propertyName, const std::string& value)
 {
     auto* property = (GOStringProperty*)searchProperty(propertyName);
-    property->value(value);
+    if (property) {
+        property->value(value);
+    }
 }
 //=============================================================================
 void
 GraphicObject::setPropertyAsScalarDoubleValue(const std::string& propertyName, double value)
 {
     auto* property = (GOScalarDoubleProperty*)searchProperty(propertyName);
-    property->value(value);
+    if (property) {
+        property->value(value);
+    }
 }
 //=============================================================================
 void
 GraphicObject::setPropertyAsScalarLogicalValue(const std::string& propertyName, bool value)
 {
     auto* property = (GOScalarLogicalProperty*)searchProperty(propertyName);
-    property->value(static_cast<Nelson::logical>(value));
+    if (property) {
+        property->value(static_cast<Nelson::logical>(value));
+    }
 }
 //=============================================================================
 void
 GraphicObject::setPropertyAsVector2DValue(const std::string& propertyName, double x1, double x2)
 {
     auto* property = (GOVector2DProperty*)searchProperty(propertyName);
-    property->value(x1, x2);
+    if (property) {
+        property->value(x1, x2);
+    }
 }
 //=============================================================================
 void
@@ -148,7 +156,9 @@ GraphicObject::setPropertyAsVector3DValue(
     const std::string& propertyName, double x1, double x2, double x3)
 {
     auto* property = (GOVector3DProperty*)searchProperty(propertyName);
-    property->value(x1, x2, x3);
+    if (property) {
+        property->value(x1, x2, x3);
+    }
 }
 //=============================================================================
 void
@@ -156,7 +166,9 @@ GraphicObject::setPropertyAsVector4DValue(
     const std::string& propertyName, double x1, double x2, double x3, double x4)
 {
     auto* property = (GOVector4DProperty*)searchProperty(propertyName);
-    property->value(x1, x2, x3, x4);
+    if (property) {
+        property->value(x1, x2, x3, x4);
+    }
 }
 //=============================================================================
 void
@@ -164,14 +176,18 @@ GraphicObject::setPropertyAsOnOffSwitchValue(
     const std::string& propertyName, const std::string& value)
 {
     auto* property = (GOOnOffSwitchProperty*)searchProperty(propertyName);
-    property->value(value);
+    if (property) {
+        property->value(value);
+    }
 }
 //=============================================================================
 void
 GraphicObject::setPropertyAsArrayOfValue(const std::string& propertyName, ArrayOf value)
 {
     auto* property = (GOArrayOfProperty*)searchProperty(propertyName);
-    property->value(value);
+    if (property) {
+        property->value(value);
+    }
 }
 //=============================================================================
 void
@@ -179,7 +195,9 @@ GraphicObject::setPropertyAsColorValue(
     const std::string& propertyName, double R, double G, double B)
 {
     auto* property = (GOColorProperty*)searchProperty(propertyName);
-    property->value(R, G, B);
+    if (property) {
+        property->value(R, G, B);
+    }
 }
 //=============================================================================
 } // namespace Nelson

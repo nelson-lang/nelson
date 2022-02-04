@@ -36,10 +36,10 @@ Nelson::GraphicsGateway::graphic_object_setBuiltin(int nLhs, const ArrayOfVector
     ArrayOfVector retval;
     ArrayOf paramGo = argIn[0];
     ArrayOf paramName = argIn[1];
-    ArrayOf paramValue = argIn[2];
     auto* go = (GraphicObject*)paramGo.getContentAsGraphicObjectScalar();
-    std::string propertyName = paramName.getContentAsCString();
     if (go != nullptr) {
+        std::string propertyName = paramName.getContentAsCString();
+        ArrayOf paramValue = argIn[2];
         graphicObjectSet(go, propertyName, paramValue);
     }
     return retval;
