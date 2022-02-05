@@ -40,7 +40,7 @@ ArrayOfVector
 Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 2, 4);
+    nargincheck(argIn, 2, 4); //-V112
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -72,7 +72,7 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     }
     wstringVector lines = param2.getContentAsWideStringVector(false);
-    if (argIn.size() == 4) {
+    if (argIn.size() == 4) { //-V112
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsCString();
         if (!isSupportedEncoding(encoding)) {

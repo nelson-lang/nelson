@@ -96,7 +96,6 @@ NaturalLogarithmComplex(Class classDestination, const ArrayOf& A)
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
         classDestination, dimsA.getElementCount(), stringVector(), false);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
-    T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
 #if defined(_NLS_WITH_VML)

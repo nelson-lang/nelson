@@ -807,9 +807,9 @@ Evaluator::subsindex(const ArrayOfVector& m)
     for (size_t k = 0; k < m.size(); k++) {
         ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
         t.promoteType(NLS_UINT32);
-        size_t len = t.getElementCount();
+        indexType len = t.getElementCount();
         uint32* dp = (uint32*)t.getReadWriteDataPointer();
-        for (size_t j = 0; j < len; j++) {
+        for (indexType j = 0; j < len; j++) {
             dp[j]++;
         }
         n.push_back(t);
@@ -825,7 +825,7 @@ Evaluator::conditionedStatement(AbstractSyntaxTreePtr t)
         Error(ERROR_AST_SYNTAX_ERROR);
     }
     AbstractSyntaxTreePtr s = t->down;
-    callstack.pushID(s->getContext());
+    callstack.pushID((size_t)s->getContext());
     ArrayOf condVar;
     condVar = expression(s);
     conditionState = checkIfWhileCondition(condVar);
@@ -851,7 +851,7 @@ Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, ArrayOf s)
 {
     bool caseMatched;
     ArrayOf r;
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
@@ -1082,7 +1082,7 @@ Evaluator::switchStatement(AbstractSyntaxTreePtr t)
 void
 Evaluator::ifStatement(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     bool condStat = conditionedStatement(t);
     if (!condStat) {
         t = t->right;
@@ -1139,7 +1139,7 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
     AbstractSyntaxTreePtr codeBlock;
     bool conditionTrue;
     bool breakEncountered;
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     testCondition = t;
     codeBlock = t->right;
     breakEncountered = false;
@@ -1354,7 +1354,7 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
         context->exitLoop();
         return;
     }
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
 
     /* Get the name of the indexing variable */
     std::string indexVarName = t->text;
@@ -1820,7 +1820,7 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
     if (t == nullptr) {
         return;
     }
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     // check the debug flag
     int fullcontext = t->getContext();
     handleDebug(fullcontext);
@@ -1964,7 +1964,7 @@ void
 Evaluator::statement(AbstractSyntaxTreePtr t)
 {
     try {
-        callstack.pushID(t->getContext());
+        callstack.pushID((size_t)t->getContext());
         if (t->opNum == (OP_QSTATEMENT)) {
             statementType(t->down, false);
         } else if (t->opNum == (OP_RSTATEMENT)) {
@@ -2098,7 +2098,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
 {
     Dimensions rhsDimensions;
     ArrayOfVector m;
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     if (!r.isEmpty()) {
         rhsDimensions = r.getDimensions();
     } else if (t->opNum != OP_BRACES) {
@@ -2197,7 +2197,7 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (s == nullptr) {
         return 1;
     }
-    callstack.pushID(s->getContext());
+    callstack.pushID((size_t)s->getContext());
     while (s->right != nullptr) {
         if (!lhs.isEmpty()) {
             lhs = simpleSubindexExpression(lhs, s);
@@ -2278,7 +2278,7 @@ Evaluator::assignExpression(AbstractSyntaxTreePtr t, ArrayOf& val)
 ArrayOf
 Evaluator::assignExpression(AbstractSyntaxTreePtr t, ArrayOfVector& value)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     if (t->down == nullptr) {
         ArrayOf retval(value[0]);
         value.pop_front();
@@ -2357,7 +2357,7 @@ Evaluator::specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
     FunctionDefPtr val;
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     if (!lookupFunction(args[0], val)) {
         Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
     }
@@ -3416,7 +3416,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
     bool isVar = false;
     bool isFun = false;
     FunctionDef* funcDef = nullptr;
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     isVar = context->lookupVariable(t->text, r);
@@ -3634,7 +3634,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
     ArrayOfVector rv;
     Dimensions rhsDimensions;
     FunctionDef* funcDef = nullptr;
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     // Try to satisfy the rhs expression with what functions we have already
     // loaded.
     if (context->lookupVariable(t->text, r)) {

@@ -108,14 +108,14 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     std::wstring machineFormat = isLittleEndianFormat() ? L"ieee-le" : L"ieee-be";
     std::wstring encoding = L"UTF-8";
 
-    nargincheck(argIn, 1, 4);
+    nargincheck(argIn, 1, 4); //-V112
     ArrayOf param1 = argIn[0];
     if (argIn.size() == 1) {
         if (param1.isDoubleType()) {
             int32 iValue = (int32)param1.getContentAsDoubleScalar();
             FilesManager* fm = (FilesManager*)(eval->FileManager);
             File* _file = fm->getFile(iValue);
-            nargoutcheck(nLhs, 0, 4);
+            nargoutcheck(nLhs, 0, 4); //-V112
             if (_file) {
                 if (nLhs >= 0) {
                     retval << ArrayOf::characterArrayConstructor(_file->getFileName());

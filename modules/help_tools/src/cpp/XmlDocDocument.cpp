@@ -445,12 +445,14 @@ XmlDocDocument::readFile()
         currentNode = currentNode->next;
     }
     if (nbXmlDocTag == 0) {
-        if (currentNode) { //-V547
-            this->errorMessage.push_back(utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
-        } else {
-            this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ") //-V522
-                + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
+        std::wstring line = currentNode ? std::to_wstring(currentNode->line) : L"";
+        std::wstring tag = utf8_to_wstring(XMLDOC_TAG);
+        std::wstring msg;
+        if (!line.empty()) {
+            msg.append(_W("line ") + line + _W(": "));
         }
+        msg.append(tag + L" " + _W("missing."));
+        this->errorMessage.push_back(msg);
         this->bReadOk = false;
         xmlFreeDoc(doc);
         return false;

@@ -317,7 +317,6 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
             T val_re = sp[2 * k];
             T val_im = sp[(2 * k) + 1];
             if ((!std::isnan(val_re)) && (!std::isnan(val_im))) {
-                tstval = complex_abs(val_re, val_im);
                 init = true;
                 break;
             }
@@ -351,7 +350,6 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
         T minval_r = (T)0;
         T minval_i = (T)0;
         T tstval;
-        tstval = complex_abs(sp[0], sp[1]);
         for (ompIndexType k = 1; k < (ompIndexType)elementCount; ++k) {
             T val_re = sp[2 * k];
             T val_im = sp[(2 * k) + 1];

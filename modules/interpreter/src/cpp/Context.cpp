@@ -268,7 +268,7 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
         return true;
     }
     bool res = scopestack.front()->lookupFunction(funcName, val);
-    if (!res && functionDefInMem != nullptr) {
+    if (!res && functionDefInMem != nullptr) { //-V560
         std::string utf8msg = str(boost::format(_("'%s' is not found in the current folder or on "
                                                   "the Nelson path, but exists in:"))
             % funcName);

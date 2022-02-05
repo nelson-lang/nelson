@@ -40,7 +40,10 @@ IsEmptyScriptFile(const std::wstring& filename)
 #endif
     if (fr != nullptr) {
         int ch;
-        while (EOF != (ch = getc(fr))) {
+        while (ch = getc(fr)) {
+            if (ch == EOF) {
+                break;
+            }
             bool isCharManaged = (ch == ' ') || (ch == '\r') || (ch == '\n');
             if (!isCharManaged) {
                 fclose(fr);
@@ -48,11 +51,9 @@ IsEmptyScriptFile(const std::wstring& filename)
             }
         }
         fclose(fr);
-        return true;
     }
     return true;
-
-    return false;
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
