@@ -331,7 +331,7 @@ CeilDouble(const ArrayOf& arrayIn)
 }
 //=============================================================================
 static std::wstring
-getNotSupportedTypeMessage(ArrayOf arrayIn, TRUNCATE_LEVEL level)
+getNotSupportedTypeMessage(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
 {
     std::wstring name;
     ClassName(arrayIn, name);

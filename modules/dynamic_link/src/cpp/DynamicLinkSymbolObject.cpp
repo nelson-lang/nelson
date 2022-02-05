@@ -119,7 +119,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
     return ret.NelsonClass;
 }
 //=============================================================================
-DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction,
+DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, void* pointerFunction,
     const std::wstring& symbol, const std::wstring& returnType, wstringVector paramsTypes)
     : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
 {

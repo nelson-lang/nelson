@@ -48,7 +48,7 @@ using namespace Nelson;
 static ArrayOf
 backupCurrentRng(Evaluator* eval);
 static ArrayOfVector
-splitRngStruct(Evaluator* eval, ArrayOf structRng);
+splitRngStruct(Evaluator* eval, const ArrayOf& structRng);
 //=============================================================================
 ArrayOfVector
 Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -172,7 +172,7 @@ backupCurrentRng(Evaluator* eval)
 }
 //=============================================================================
 static ArrayOfVector
-splitRngStruct(Evaluator* eval, ArrayOf structRng)
+splitRngStruct(Evaluator* eval, const ArrayOf& structRng)
 {
     ArrayOfVector elements;
     stringVector fieldnames = structRng.getFieldNames();

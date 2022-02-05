@@ -53,7 +53,7 @@ public:
 
     // setter
     bool
-    set(const std::wstring& propertyName, ArrayOf propertyValue, std::wstring& errorMessage);
+    set(const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage);
 
     // disp
     bool
@@ -66,12 +66,12 @@ public:
     isMethod(const std::wstring& methodName) override;
 
     bool
-    setSamples(ArrayOf data, int SampleRate, std::wstring& errorMessage);
+    setSamples(const ArrayOf& data, int SampleRate, std::wstring& errorMessage);
     bool
-    setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring& errorMessage);
+    setSamples(const ArrayOf& data, int SampleRate, int BitsPerSample, std::wstring& errorMessage);
     bool
-    setSamples(
-        ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring& errorMessage);
+    setSamples(const ArrayOf& data, int SampleRate, int BitsPerSample, int deviceID,
+        std::wstring& errorMessage);
 
     bool
     play(int start = 0, int end = 0);
@@ -107,7 +107,7 @@ private:
     bool
     setTag(const std::wstring& tag);
     bool
-    setUserData(Nelson::ArrayOf userData);
+    setUserData(const Nelson::ArrayOf& userData);
 
     // getter
     int

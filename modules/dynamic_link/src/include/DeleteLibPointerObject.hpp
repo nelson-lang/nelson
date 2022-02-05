@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSDYNAMIC_LINK_IMPEXP bool
-DeleteLibPointerObject(ArrayOf A);
+DeleteLibPointerObject(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

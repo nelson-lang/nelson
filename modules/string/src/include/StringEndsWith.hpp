@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive = true);
+StringEndsWith(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive = true);
 }
 //=============================================================================

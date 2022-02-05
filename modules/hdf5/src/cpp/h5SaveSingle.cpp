@@ -36,7 +36,7 @@ h5SaveSingleEmptyMatrix(hid_t fid, const std::string& location, const std::strin
 //=============================================================================
 static bool
 h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression);
+    const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 bool
 h5SaveSingle(hid_t fid, const std::string& location, const std::string& variableName,
@@ -103,7 +103,7 @@ h5SaveSingleEmptyMatrix(hid_t fid, const std::string& location, const std::strin
 //=============================================================================
 bool
 h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
 

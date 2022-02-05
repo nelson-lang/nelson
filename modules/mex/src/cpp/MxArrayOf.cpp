@@ -146,7 +146,7 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
 }
 //=============================================================================
 static mxArray*
-ArrayOfSparseToMxArray(ArrayOf nlsArrayOf, bool interleavedComplex)
+ArrayOfSparseToMxArray(const ArrayOf &nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res;
     switch (nlsArrayOf.getDataClass()) {

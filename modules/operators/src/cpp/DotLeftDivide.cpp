@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-DotLeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
+DotLeftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     return DotRightDivide(B, A, needToOverload);
 }

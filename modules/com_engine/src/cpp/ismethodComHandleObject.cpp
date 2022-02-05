@@ -45,7 +45,7 @@ ismethodComHandleObject(ComHandleObject* comhandleobj, const std::wstring& metho
 }
 //=============================================================================
 ArrayOf
-ismethodComHandleObject(ArrayOf A, const std::wstring& methodname)
+ismethodComHandleObject(const ArrayOf& A, const std::wstring& methodname)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));

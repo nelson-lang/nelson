@@ -55,7 +55,7 @@ sparsedouble_uminus(Class dclass, indexType rows, indexType cols, const void* cp
 }
 //=============================================================================
 ArrayOf
-sparsedouble_uminus(ArrayOf a)
+sparsedouble_uminus(const ArrayOf& a)
 {
     switch (a.getDataClass()) {
     case NLS_DOUBLE: {
@@ -76,7 +76,7 @@ sparsedouble_uminus(ArrayOf a)
 }
 //=============================================================================
 ArrayOf
-sparselogical_uminus(ArrayOf a)
+sparselogical_uminus(const ArrayOf& a)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* res
         = (Eigen::SparseMatrix<double, 0, signedIndexType>*)Eigen_TypeConvertSparse(
@@ -90,5 +90,6 @@ sparselogical_uminus(ArrayOf a)
     res->makeCompressed();
     return ArrayOf(NLS_DOUBLE, a.getDimensions(), (void*)res, true);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

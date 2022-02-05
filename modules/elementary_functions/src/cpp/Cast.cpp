@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Cast(const ArrayOf &arrayIn, Class destinationClass, bool isSparse)
+Cast(const ArrayOf& arrayIn, Class destinationClass, bool isSparse)
 {
     ArrayOf res;
     res = arrayIn;

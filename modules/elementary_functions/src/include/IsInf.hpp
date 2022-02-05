@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-IsInf(ArrayOf A);
+IsInf(const ArrayOf& A);
 }
 //=============================================================================

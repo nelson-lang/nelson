@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsEqualHandle(const ArrayOf &A, const ArrayOf &B)
+IsEqualHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (A.getDataClass() == B.getDataClass()) {
         Dimensions dimsA = A.getDimensions();

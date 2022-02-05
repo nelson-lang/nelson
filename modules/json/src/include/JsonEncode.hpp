@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSJSON_IMPEXP ArrayOf
-jsonEncode(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& errorMessage);
+jsonEncode(const ArrayOf& ValueToEncode, bool convertNanInf, std::wstring& errorMessage);
 };
 //=============================================================================

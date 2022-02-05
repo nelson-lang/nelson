@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteAudioplayerHandleObject(ArrayOf A)
+DeleteAudioplayerHandleObject(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {

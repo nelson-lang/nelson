@@ -59,7 +59,7 @@ methodSignatureQObject(
 }
 //=============================================================================
 ArrayOf
-methodSignatureQObject(ArrayOf A, const std::wstring& methodName)
+methodSignatureQObject(const ArrayOf& A, const std::wstring& methodName)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {

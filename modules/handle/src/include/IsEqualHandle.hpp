@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSHANDLE_IMPEXP bool
-IsEqualHandle(const ArrayOf &A, const ArrayOf &B);
+IsEqualHandle(const ArrayOf& A, const ArrayOf& B);
 }
 //=============================================================================

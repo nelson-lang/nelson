@@ -138,8 +138,7 @@ getVariableNames(hid_t fid)
                     fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, varName, sLen + 1, H5P_DEFAULT);
                 variableNames.push_back(varName);
                 delete[] varName;
-            } catch (const std::bad_alloc&) {
-            }
+            } catch (const std::bad_alloc&) { }
         }
     }
     return variableNames;

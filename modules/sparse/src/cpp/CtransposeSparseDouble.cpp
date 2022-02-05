@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-CtransposeSparseDouble(ArrayOf A)
+CtransposeSparseDouble(const ArrayOf& A)
 {
     ArrayOf C;
     if (A.isEmpty()) {

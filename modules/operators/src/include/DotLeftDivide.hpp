@@ -33,11 +33,9 @@ namespace Nelson {
  * Element-wise left divide.
  * DOTLEFTDIVIDE Element-wise Left-Division Operator
  */
-NLSOPERATORS_IMPEXP ArrayOf
-DotLeftDivide(ArrayOf A, ArrayOf B);
 
 NLSOPERATORS_IMPEXP ArrayOf
-DotLeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
+DotLeftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

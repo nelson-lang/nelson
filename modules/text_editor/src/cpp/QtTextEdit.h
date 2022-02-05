@@ -62,11 +62,12 @@ private:
     QString
     textUnderCursor() const;
     QAbstractItemModel*
-    modelFromNelson(wstringVector filesList, wstringVector builtinList, wstringVector macroList,
-        wstringVector variableList);
+    modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
+        const wstringVector& macroList, const wstringVector& variableList);
     void
-    updateModel(const std::wstring& prefix, wstringVector filesList, wstringVector builtinList,
-        wstringVector macroList, wstringVector variableList);
+    updateModel(const std::wstring& prefix, const wstringVector& filesList,
+        const wstringVector& builtinList, const wstringVector& macroList,
+        const wstringVector& variableList);
     void
     complete(QString prefix);
 

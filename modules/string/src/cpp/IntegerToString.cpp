@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 wstringVector
-toString(ArrayOf A)
+toString(const ArrayOf& A)
 {
     wstringVector result;
     auto* ptrValue = (double*)A.getDataPointer();
@@ -64,7 +64,7 @@ toString(ArrayOf A)
 }
 //=============================================================================
 wstringVector
-uint64ToString(ArrayOf A)
+uint64ToString(const ArrayOf& A)
 {
     wstringVector result;
     auto* ptrValue = (uint64*)A.getDataPointer();

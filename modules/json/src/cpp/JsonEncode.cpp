@@ -51,7 +51,7 @@ json_append_string(const std::wstring& str)
 }
 //=============================================================================
 static bool
-isSupportedType(ArrayOf ValueToEncode)
+isSupportedType(const ArrayOf& ValueToEncode)
 {
     if (ValueToEncode.isClassStruct()) {
         return false;
@@ -179,7 +179,7 @@ encode_single(single val, bool convertNanInf)
 }
 //=============================================================================
 static void
-encode_array(ArrayOf ValueToEncode, bool close)
+encode_array(const ArrayOf& ValueToEncode, bool close)
 {
     if (ValueToEncode.isCell()) {
         if (close) {
@@ -523,7 +523,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
 }
 //=============================================================================
 ArrayOf
-jsonEncode(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& errorMessage)
+jsonEncode(const ArrayOf& ValueToEncode, bool convertNanInf, std::wstring& errorMessage)
 {
     jsonString.clear();
     ArrayOf res = jsonEncodeInternal(ValueToEncode, convertNanInf, errorMessage);

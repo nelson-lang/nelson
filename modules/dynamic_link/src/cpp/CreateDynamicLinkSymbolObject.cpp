@@ -34,7 +34,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-createDynamicLinkSymbolObject(ArrayOf dllibObject, const std::wstring& symbol,
+createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& symbol,
     const std::wstring& returnType, const wstringVector& argumentsType)
 {
     ArrayOf handle;

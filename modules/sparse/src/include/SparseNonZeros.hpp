@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSPARSE_IMPEXP indexType
-SparseNonZeros(ArrayOf a);
+SparseNonZeros(const ArrayOf& a);
 }
 //=============================================================================

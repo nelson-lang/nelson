@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-IsValidHandle(Evaluator* eval, ArrayOf A)
+IsValidHandle(Evaluator* eval, const ArrayOf& A)
 {
     ArrayOf res;
     if (A.isHandle()) {

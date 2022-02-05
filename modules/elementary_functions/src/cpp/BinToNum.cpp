@@ -86,7 +86,7 @@ bin2double(const std::string& s)
 }
 //=========================================================================
 ArrayOf
-BinToNum(const ArrayOf &A, bool& needToOverload)
+BinToNum(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;

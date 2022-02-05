@@ -33,6 +33,6 @@ namespace Nelson {
  * Transposes the argument.
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-ComplexConjugate(const ArrayOf &A);
+ComplexConjugate(const ArrayOf& A);
 } // namespace Nelson
 //=============================================================================

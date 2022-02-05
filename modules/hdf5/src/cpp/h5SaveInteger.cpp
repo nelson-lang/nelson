@@ -36,7 +36,7 @@ h5SaveIntegerEmptyMatrix(hid_t fid, const std::string& location, const std::stri
 //=============================================================================
 bool
 h5SaveInteger(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf& VariableValue, bool useCompression)
 {
     if (VariableValue.isEmpty(false)) {
         return h5SaveIntegerEmptyMatrix(fid, location, variableName, VariableValue);

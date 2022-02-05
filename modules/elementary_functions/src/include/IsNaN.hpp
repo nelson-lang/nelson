@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-IsNaN(ArrayOf A);
+IsNaN(const ArrayOf& A);
 }
 //=============================================================================

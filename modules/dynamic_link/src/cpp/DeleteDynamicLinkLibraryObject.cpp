@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteDynamicLinkLibraryObject(ArrayOf A)
+DeleteDynamicLinkLibraryObject(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {

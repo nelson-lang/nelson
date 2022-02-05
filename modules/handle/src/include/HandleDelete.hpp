@@ -31,6 +31,6 @@
 //=============================================================================
 namespace Nelson {
 NLSHANDLE_IMPEXP void
-HandleDelete(Evaluator* eval, ArrayOf A);
+HandleDelete(Evaluator* eval, const ArrayOf& A);
 }
 //=============================================================================

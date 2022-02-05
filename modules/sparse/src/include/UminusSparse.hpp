@@ -29,9 +29,12 @@
 #include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSSPARSE_IMPEXP ArrayOf
-sparsedouble_uminus(ArrayOf a);
+sparsedouble_uminus(const ArrayOf& a);
+//=============================================================================
 NLSSPARSE_IMPEXP ArrayOf
-sparselogical_uminus(ArrayOf a);
+sparselogical_uminus(const ArrayOf& a);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -58,11 +58,11 @@ public:
 };
 //=============================================================================
 NLSMPI_IMPEXP MPI_Comm
-HandleToMpiComm(ArrayOf A);
+HandleToMpiComm(const ArrayOf& A);
 NLSMPI_IMPEXP ArrayOf
 MpiCommToHandle(MPI_Comm mpicomm);
 NLSMPI_IMPEXP bool
-MPICommHandleDelete(ArrayOf A);
+MPICommHandleDelete(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

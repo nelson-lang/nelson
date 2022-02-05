@@ -64,8 +64,9 @@ QtTextEdit::setCompleter(QCompleter* completer)
 }
 //=============================================================================
 void
-QtTextEdit::updateModel(const std::wstring& prefix, wstringVector filesList,
-    wstringVector builtinList, wstringVector macroList, wstringVector variableList)
+QtTextEdit::updateModel(const std::wstring& prefix, const wstringVector& filesList,
+    const wstringVector& builtinList, const wstringVector& macroList,
+    const wstringVector& variableList)
 {
     if (qCompleter != nullptr) {
         qCompleter->setModel(modelFromNelson(filesList, builtinList, macroList, variableList));
@@ -74,8 +75,8 @@ QtTextEdit::updateModel(const std::wstring& prefix, wstringVector filesList,
 }
 //=============================================================================
 QAbstractItemModel*
-QtTextEdit::modelFromNelson(wstringVector filesList, wstringVector builtinList,
-    wstringVector macroList, wstringVector variableList)
+QtTextEdit::modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
+    const wstringVector& macroList, const wstringVector& variableList)
 {
     QStringList words;
     for (size_t k = 0; k < filesList.size(); ++k) {

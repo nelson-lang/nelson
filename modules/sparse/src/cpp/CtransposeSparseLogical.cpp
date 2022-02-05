@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-CtransposeSparseLogical(ArrayOf A)
+CtransposeSparseLogical(const ArrayOf& A)
 {
     ArrayOf C;
     if (A.isEmpty()) {

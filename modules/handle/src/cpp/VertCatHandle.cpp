@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-VertCatHandle(ArrayOf A, ArrayOf B)
+VertCatHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (!A.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);

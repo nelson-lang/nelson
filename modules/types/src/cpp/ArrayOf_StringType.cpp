@@ -111,7 +111,7 @@ ArrayOf::stringArrayConstructor(const wstringVector& values, Dimensions& dims)
 }
 //=============================================================================
 static ArrayOf
-character2dArrayTotoStringArray(const ArrayOf &m)
+character2dArrayTotoStringArray(const ArrayOf& m)
 {
     ArrayOf res;
     auto* ptr = (wchar_t*)m.getDataPointer();
@@ -130,7 +130,7 @@ character2dArrayTotoStringArray(const ArrayOf &m)
 }
 //=============================================================================
 static ArrayOf
-characterNdArrayTotoStringArray(const ArrayOf &m)
+characterNdArrayTotoStringArray(const ArrayOf& m)
 {
     wstringVector v;
     Dimensions dimsM = m.getDimensions();

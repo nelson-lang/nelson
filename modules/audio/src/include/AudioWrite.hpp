@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 NLSAUDIO_IMPEXP bool
-AudioWrite(const std::wstring& filename, const ArrayOf &data, int fs, const wstringVector &metadata,
+AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstringVector& metadata,
     int BitsPerSample, int BitRate, std::wstring& errorMessage);
 }
 //=============================================================================

@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsCellOfString(ArrayOf cellarr)
+IsCellOfString(const ArrayOf& cellarr)
 {
     if (cellarr.getDataClass() != NLS_CELL_ARRAY) {
         return false;

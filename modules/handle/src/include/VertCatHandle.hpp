@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSHANDLE_IMPEXP ArrayOf
-VertCatHandle(ArrayOf A, ArrayOf B);
+VertCatHandle(const ArrayOf& A, const ArrayOf& B);
 }
 //=============================================================================

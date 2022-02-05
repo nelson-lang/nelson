@@ -919,7 +919,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
 //=============================================================================
 template <class T>
 QVariant
-NelsonTypeToQVariant(ArrayOf A)
+NelsonTypeToQVariant(const ArrayOf& A)
 {
     QVariant res;
     if (A.isVector()) {

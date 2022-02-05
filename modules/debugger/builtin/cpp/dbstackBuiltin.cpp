@@ -37,7 +37,7 @@
 using namespace Nelson;
 //=============================================================================
 static void
-checkArgument(Evaluator* eval, ArrayOf arg, bool& withCompleteNames, int& nbOmits,
+checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int& nbOmits,
     bool& isCompleteNames, bool& isNbOmits)
 {
     if (arg.isRowVectorCharacterArray()) {

@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-FunctionHandleIsEqual(ArrayOf A, ArrayOf B)
+FunctionHandleIsEqual(const ArrayOf& A, const ArrayOf& B)
 {
     bool bRes = false;
     if (A.isFunctionHandle() && B.isFunctionHandle()) {

@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioDouble(const std::string& variableName, ArrayOf variableValue)
+SaveMatioDouble(const std::string& variableName, const ArrayOf& variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;

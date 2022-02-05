@@ -847,7 +847,7 @@ Evaluator::conditionedStatement(AbstractSyntaxTreePtr t)
  * this is applied on an element-by-element basis also.
  */
 bool
-Evaluator::testCaseStatement(AbstractSyntaxTreePtr t,const ArrayOf &s)
+Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s)
 {
     bool caseMatched;
     ArrayOf r;

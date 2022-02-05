@@ -45,7 +45,7 @@ typedef enum
 } COMPARISON_METHOD;
 //=============================================================================
 NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
-Sort(const ArrayOf &arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,
+Sort(const ArrayOf& arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,
     MISSING_PLACEMENT placement, COMPARISON_METHOD comparisonMethod, bool& needToOverload);
 }
 //=============================================================================

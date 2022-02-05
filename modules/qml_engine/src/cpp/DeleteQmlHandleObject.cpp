@@ -34,7 +34,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteQmlHandleObject(ArrayOf A)
+DeleteQmlHandleObject(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {

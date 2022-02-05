@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 void
-fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames)
+fieldnamesComHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));

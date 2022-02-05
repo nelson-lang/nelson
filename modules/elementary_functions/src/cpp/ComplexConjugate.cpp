@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ComplexConjugate(const ArrayOf &A)
+ComplexConjugate(const ArrayOf& A)
 {
     Class classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse()) {

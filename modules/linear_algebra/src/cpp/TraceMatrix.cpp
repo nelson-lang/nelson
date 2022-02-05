@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-TraceMatrix(ArrayOf A)
+TraceMatrix(const ArrayOf& A)
 {
     bool isSupportedTypes
         = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE

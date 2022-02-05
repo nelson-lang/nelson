@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 void
-CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname)
+CheckNumeric(const ArrayOf& A, const ArrayOf& B, const std::string& opname)
 {
     bool Anumeric, Bnumeric;
     Anumeric = !A.isReferenceType();
@@ -53,7 +53,7 @@ VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname)
 }
 //=============================================================================
 bool
-MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname)
+MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname)
 {
     // Test for either a scalar (test 1)
     if (A.isScalar() || B.isScalar()) {

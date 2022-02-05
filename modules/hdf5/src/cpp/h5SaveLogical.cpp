@@ -34,20 +34,20 @@
 namespace Nelson {
 //=============================================================================
 static bool
-h5SaveLogicalEmptyMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveLogicalEmptyMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    const ArrayOf& VariableValue);
 //=============================================================================
 static bool
 h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression);
+    const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 static bool
 h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression);
+    const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 bool
 h5SaveLogical(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     if (VariableValue.isEmpty(false)) {
@@ -65,8 +65,8 @@ h5SaveLogical(hid_t fid, const std::string& location, const std::string& variabl
 }
 //=============================================================================
 bool
-h5SaveLogicalEmptyMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveLogicalEmptyMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    const ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -115,7 +115,7 @@ h5SaveLogicalEmptyMatrix(
 //=============================================================================
 bool
 h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -181,7 +181,7 @@ h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& v
 //=============================================================================
 bool
 h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression)
+    const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;

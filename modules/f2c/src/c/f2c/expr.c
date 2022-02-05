@@ -1059,16 +1059,16 @@ mkfunct(expptr p0)
     register expptr q;
     extern chainp new_procs;
     int k, nargs;
-    int class;
+    int cclass;
     if(p->tag != TPRIM)
     {
         return( errnode() );
     }
     np = p->namep;
-    class = np->vclass;
-    if(class == CLUNKNOWN)
+    cclass = np->vclass;
+    if(cclass == CLUNKNOWN)
     {
-        np->vclass = class = CLPROC;
+        np->vclass = cclass = CLPROC;
         if(np->vstg == STGUNKNOWN)
         {
             if(np->vtype!=TYSUBR && (k = intrfunct(np->fvarname))
@@ -1109,7 +1109,7 @@ mkfunct(expptr p0)
             np->vprocclass = PEXTERNAL;
         }
     }
-    if(class != CLPROC)
+    if(cclass != CLPROC)
     {
         if (np->vstg == STGCOMMON)
             fatalstr(

@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 void
-HandleDelete(Evaluator* eval, ArrayOf A)
+HandleDelete(Evaluator* eval, const ArrayOf& A)
 {
     if (A.isHandle()) {
         Dimensions dimsA = A.getDimensions();

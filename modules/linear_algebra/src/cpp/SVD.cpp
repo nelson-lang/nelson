@@ -37,7 +37,7 @@ namespace Nelson {
 // https://software.intel.com/sites/products/documentation/doclib/mkl_sa/11/mkl_lapack_examples/lapacke_dgesvd_col.c.htm
 //=============================================================================
 static void
-SVD_double(ArrayOf A, ArrayOf& s)
+SVD_double(const ArrayOf& A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
@@ -67,7 +67,7 @@ SVD_double(ArrayOf A, ArrayOf& s)
 }
 //=============================================================================
 static void
-SVD_doublecomplex(ArrayOf A, ArrayOf& s)
+SVD_doublecomplex(const ArrayOf& A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
@@ -98,7 +98,7 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
 }
 //=============================================================================
 static void
-SVD_single(ArrayOf A, ArrayOf& s)
+SVD_single(const ArrayOf& A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
@@ -128,7 +128,7 @@ SVD_single(ArrayOf A, ArrayOf& s)
 }
 //=============================================================================
 static void
-SVD_singlecomplex(ArrayOf A, ArrayOf& s)
+SVD_singlecomplex(const ArrayOf& A, ArrayOf& s)
 {
     char JOBU = 'N';
     char JOBVT = 'N';
@@ -159,7 +159,7 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
 }
 //=============================================================================
 static void
-SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
     int m = static_cast<int>(dimsA.getRows());
@@ -319,7 +319,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
 }
 //=============================================================================
 static void
-SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
     int m = static_cast<int>(dimsA.getRows());
@@ -468,7 +468,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
 }
 //=============================================================================
 static void
-SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD_double(const ArrayOf &A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
     int m = static_cast<int>(dimsA.getRows());
@@ -620,7 +620,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
 }
 //=============================================================================
 static void
-SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD_singlecomplex(const ArrayOf &A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
     int m = static_cast<int>(dimsA.getRows());
@@ -780,7 +780,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
 }
 //=============================================================================
 static void
-SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     bool isSupportedTypes
         = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
@@ -862,20 +862,20 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 }
 //=============================================================================
 void
-SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V)
+SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V)
 {
     SVD(A, flag, U, S, V, true);
 }
 //=============================================================================
 void
-SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S)
+SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S)
 {
     ArrayOf V;
     SVD(A, flag, U, S, V);
 }
 //=============================================================================
 void
-SVD(ArrayOf A, ArrayOf& s)
+SVD(const ArrayOf& A, ArrayOf& s)
 {
     bool isSupportedTypes
         = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE

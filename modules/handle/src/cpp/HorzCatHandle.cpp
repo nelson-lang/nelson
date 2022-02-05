@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-HorzCatHandle(ArrayOf A, ArrayOf B)
+HorzCatHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (!A.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);

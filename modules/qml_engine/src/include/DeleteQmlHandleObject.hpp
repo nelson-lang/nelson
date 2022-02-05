@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP bool
-DeleteQmlHandleObject(ArrayOf A);
+DeleteQmlHandleObject(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

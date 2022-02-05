@@ -554,7 +554,7 @@ public:
      * malformed.
      */
     bool
-    testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf &s);
+    testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s);
     /**
      * Execute the statement described by the AST - the printIt flag
      * determines if the result of the statement should be printed to

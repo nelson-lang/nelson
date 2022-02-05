@@ -43,7 +43,7 @@ namespace Nelson {
  *     match the number of rows in B.
  */
 NLSAPI_NELSON_IMPEXP bool
-MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname);
+MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname);
 
 /**
  * Check that both of the argument objects are of the
@@ -77,7 +77,7 @@ FindCommonType(const ArrayOf& A, const ArrayOf& B);
  * Check that both of the argument objects are numeric.
  */
 NLSAPI_NELSON_IMPEXP void
-CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname);
+CheckNumeric(const ArrayOf& A, const ArrayOf& B, const std::string& opname);
 
 /*
  * Check to see if two dimensions (when treated as vectors) are equivalent in size.

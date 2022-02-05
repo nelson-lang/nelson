@@ -32,12 +32,13 @@ namespace Nelson {
 NLSSPARSE_IMPEXP ArrayOf
 SparseConstructor(indexType m, indexType n);
 NLSSPARSE_IMPEXP ArrayOf
-SparseConstructor(ArrayOf a);
+SparseConstructor(const ArrayOf& a);
 NLSSPARSE_IMPEXP ArrayOf
 SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V);
 NLSSPARSE_IMPEXP ArrayOf
-SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n);
+SparseConstructor(const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexType m, indexType n);
 NLSSPARSE_IMPEXP ArrayOf
-SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, indexType nnz);
+SparseConstructor(
+    const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexType m, indexType n, indexType nnz);
 } // namespace Nelson
 //=============================================================================

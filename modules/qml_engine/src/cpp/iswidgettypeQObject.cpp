@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-iswidgettypeQObject(ArrayOf A)
+iswidgettypeQObject(const ArrayOf& A)
 {
     if (!A.isHandle()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);

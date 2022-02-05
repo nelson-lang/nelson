@@ -74,7 +74,7 @@ ispropQObject(QmlHandleObject* qmlHandle, const std::wstring& propertyName)
 }
 //=============================================================================
 ArrayOf
-ispropQObject(ArrayOf A, const std::wstring& propertyName)
+ispropQObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {

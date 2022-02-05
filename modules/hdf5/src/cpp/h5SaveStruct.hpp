@@ -33,7 +33,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5SaveStruct(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression);
+    const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 };
 //=============================================================================
