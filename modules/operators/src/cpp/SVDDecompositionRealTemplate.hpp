@@ -23,34 +23,39 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
+#include "ArrayOf.hpp"
 //=============================================================================
-#include "nlsConfig.h"
-#include <Windows.h>
+namespace Nelson {
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-
-#pragma comment(lib, "portaudio.lib")
-#pragma comment(lib, "sndfile.lib")
-#pragma comment(lib, "tag.lib")
-#pragma comment(lib, "zlib.lib")
-//=============================================================================
-int WINAPI
-DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+template <class T>
+ArrayOf
+solveSVDDecompositionReal(Class destinationClass, const ArrayOf& matA, const ArrayOf& matB)
 {
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
-        break;
-    case DLL_PROCESS_DETACH:
-        break;
-    case DLL_THREAD_ATTACH:
-        break;
-    case DLL_THREAD_DETACH:
-        break;
-    }
-    return 1;
+    ArrayOf res;
+
+    indexType n = matA.getDimensionLength(1);
+    indexType k = matB.getDimensionLength(1);
+    Dimensions outDim(n, k);
+
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matAz(
+        (T*)matA.getDataPointer(), matA.getRows(), matA.getColumns());
+
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matBz(
+        (T*)matB.getDataPointer(), matB.getRows(), matB.getColumns());
+
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(destinationClass, n * k);
+    res = ArrayOf(destinationClass, outDim, ptrC);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matCz(
+        ptrC, outDim.getRows(), outDim.getColumns());
+
+    matCz = matAz
+                .bdcSvd(Eigen::DecompositionOptions::ComputeThinU
+                    | Eigen::DecompositionOptions::ComputeThinV)
+                .solve(matBz);
+    return res;
 }
 //=============================================================================
-#endif
+}
 //=============================================================================

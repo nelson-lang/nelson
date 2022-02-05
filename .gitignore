@@ -146,6 +146,7 @@ bin/macos/*-exec
 /tools/gettext/generatepo/x64
 /tools/gettext/generatemo/*/*/*.log
 /tools/gettext/generatepo/*/*/*.log
+/tools/gettext/license.txt
 /tools/gettext/gettext-license.txt
 ################################################################################
 *.ipdb

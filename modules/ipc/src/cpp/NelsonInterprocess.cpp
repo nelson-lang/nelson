@@ -240,7 +240,7 @@ createNelsonInterprocessReceiverThread(int currentPID, bool withEventsLoop)
     dataInterProcessToExchange msg(currentPID, NELSON_INTERPROCESS_COMMAND::POST_COMMAND, true);
     isMessageQueueReady = true;
     std::string serialized_compressed_string;
-    unsigned int maxMessageSize = messageQueue->get_max_msg_size();
+    unsigned int maxMessageSize = (unsigned int)messageQueue->get_max_msg_size();
     loopTerminated = false;
     while (receiverLoopRunning) {
         unsigned int priority = 0;

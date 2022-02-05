@@ -25,6 +25,12 @@
 ;==============================================================================
 #define MODULE_NAME "help_tools"
 ;==============================================================================
+; xml libraries
+Source: {#RootPath}bin\{#BinPath}\iconv-2.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\charset-1.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\libxml2.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\lzma.dll; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsHelp_tools.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsHelp_tools_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
