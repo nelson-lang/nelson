@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Cast(ArrayOf arrayIn, Class destinationClass, bool isSparse);
+Cast(const ArrayOf &arrayIn, Class destinationClass, bool isSparse);
 }
 //=============================================================================

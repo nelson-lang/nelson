@@ -77,7 +77,7 @@ namespace Nelson {
 static int objectBalance;
 //=============================================================================
 ArrayOfVector
-scalarArrayOfToArrayOfVector(ArrayOf a)
+scalarArrayOfToArrayOfVector(const ArrayOf &a)
 {
     ArrayOfVector retval(1);
     retval << a;

@@ -150,7 +150,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
 }
 //=============================================================================
 ArrayOf
-ComplexConstructor(ArrayOf arrayA)
+ComplexConstructor(const ArrayOf &arrayA)
 {
     ArrayOf res;
     switch (arrayA.getDataClass()) {

@@ -83,8 +83,8 @@ convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
     return false;
 }
 //=============================================================================
-bool
-isSupportedDataType(ArrayOf data)
+static bool
+isSupportedDataType(const ArrayOf &data)
 {
     Class dataClass = data.getDataClass();
     return (dataClass == NLS_UINT8) || (dataClass == NLS_INT16) || (dataClass == NLS_INT32)
@@ -92,7 +92,7 @@ isSupportedDataType(ArrayOf data)
 }
 //=============================================================================
 bool
-AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector metadata,
+AudioWrite(const std::wstring& filename, const ArrayOf &data, int fs, const wstringVector &metadata,
     int BitsPerSample, int BitRate, std::wstring& errorMessage)
 {
     if (!data.isNumeric() || data.isComplex() || data.isSparse()) {

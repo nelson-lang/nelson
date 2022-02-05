@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-BinToNum(ArrayOf A, bool& needToOverload);
+BinToNum(const ArrayOf &A, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

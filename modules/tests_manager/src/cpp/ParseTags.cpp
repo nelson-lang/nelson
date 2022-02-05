@@ -86,7 +86,7 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
     bool isValidFilename = (boost::algorithm::starts_with(basename, L"test_")
                                || boost::algorithm::starts_with(basename, L"bench_")
                                || boost::algorithm::starts_with(basename, L"bug_"))
-        && (ext == L".m"));
+        && (ext == L".m");
     if (!isValidFilename) {
         bool isSupportedFileExtension = (ext == L".m");
         if (!isSupportedFileExtension) {

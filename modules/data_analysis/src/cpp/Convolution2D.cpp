@@ -162,9 +162,9 @@ Conv2Complex(std::complex<T>* C, const std::complex<T>* A, const std::complex<T>
     }
 }
 //=============================================================================
-ArrayOf
+static ArrayOf
 Conv2dDispatch(
-    ArrayOf X, ArrayOf Y, indexType Cm, indexType Cn, indexType Cm_offset, indexType Cn_offset)
+    const ArrayOf &X, const ArrayOf &Y, indexType Cm, indexType Cn, indexType Cm_offset, indexType Cn_offset)
 {
     ArrayOf res;
     Dimensions dimsRes(Cm, Cn);

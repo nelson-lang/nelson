@@ -56,7 +56,7 @@
 
 namespace Nelson {
 
-NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
+NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(const ArrayOf&);
 
 class Data;
 
@@ -786,7 +786,7 @@ public:
     getValueAtIndex(uint64 index);
 
     void
-    setValueAtIndex(uint64 index, ArrayOf scalarValue);
+    setValueAtIndex(uint64 index, const ArrayOf &scalarValue);
 
     void
     setValue(const ArrayOf& value);
