@@ -25,8 +25,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <complex>
 #include "nlsOperators_exports.h"
 #include "Types.hpp"
 #include "ArrayOf.hpp"

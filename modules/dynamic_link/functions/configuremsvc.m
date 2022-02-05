@@ -24,7 +24,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [status, message] = configuremsvc()
-  % currently only VS 2017 and VS 2019 (compatibility with previous vs on demand)
+  % currently only VS 2017, VS 2019 and VS 2022
   status = false;
   message = '';
   clear('havecompiler');  % clear persistent variable
@@ -42,7 +42,9 @@ function [status, message] = configuremsvc()
     return
   end
 
-  if startsWith(vsjon.installationVersion, '16.')
+  if startsWith(vsjon.installationVersion, '17.')
+    vsconfig = [modulepath('dynamic_link'), '/resources/msvc2022.json'];
+  elseif startsWith(vsjon.installationVersion, '16.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2019.json'];
   else
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2017.json'];

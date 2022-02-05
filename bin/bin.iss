@@ -25,7 +25,7 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\readme.txt; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
-; Boost 1.77
+; Boost 1.78
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\boost_chrono-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\boost_date_time-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
@@ -41,16 +41,11 @@ Source: {#RootPath}bin\{#BinPath}\boost_zlib-{#BOOST_TARGET}.dll; DestDir: {app}
 Source: {#RootPath}bin\{#BinPath}\boost_bzip2-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\boost_serialization-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
-; xml libraries
-Source: {#RootPath}bin\{#BinPath}\zlib.dll; DestDir: {app}\bin\{#BinPath}\ 
-Source: {#RootPath}bin\{#BinPath}\libiconv.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\libxml2.dll; DestDir: {app}\bin\{#BinPath}\
-;==============================================================================
 ; vc & intel runtime
 #ifdef NELSON_X64
-Source: {#RootPath}bin\{#BinPath}\vcredist_x64.exe; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\vc_redist.x64.exe; DestDir: {app}\bin\{#BinPath}\
 #else
-Source: {#RootPath}bin\{#BinPath}\vcredist_x86.exe; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\vc_redist.x86.exe; DestDir: {app}\bin\{#BinPath}\
 #endif
 Source: {#RootPath}bin\{#BinPath}\msvcp140.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\vcruntime140.dll; DestDir: {app}\bin\{#BinPath}\

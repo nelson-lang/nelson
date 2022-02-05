@@ -151,7 +151,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/openblas/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/vml/lib</AdditionalLibraryDirectories>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -176,7 +175,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/openblas/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/vml/lib</AdditionalLibraryDirectories>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -202,12 +200,8 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="..\cpp\LinearEquationSolver.cpp" />
-    <ClCompile Include="..\cpp\SVDDecomposition.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
+    <ClCompile Include="..\cpp\SVDDecompositionDouble.cpp" />
+    <ClCompile Include="..\cpp\SVDDecompositionDoubleComplex.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
     <ClCompile Include="..\cpp\GreaterEquals.cpp" />
     <ClCompile Include="..\cpp\GreaterThan.cpp" />
@@ -225,6 +219,8 @@
     <ClCompile Include="..\cpp\StringArrayAddition.cpp" />
     <ClCompile Include="..\cpp\Subtraction.cpp" />
     <ClCompile Include="..\cpp\ElementWiseMultiplication.cpp" />
+    <ClCompile Include="..\cpp\SVDDecompositionSingle.cpp" />
+    <ClCompile Include="..\cpp\SVDDecompositionSingleComplex.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\UnaryMinus.cpp" />
     <ClCompile Include="..\cpp\UnaryPlus.cpp" />
@@ -242,6 +238,8 @@
     <ClInclude Include="..\cpp\SubtractionComplex.hpp" />
     <ClInclude Include="..\cpp\SubtractionInteger.hpp" />
     <ClInclude Include="..\cpp\SubtractionReal.hpp" />
+    <ClInclude Include="..\cpp\SVDDecompositionComplexTemplate.hpp" />
+    <ClInclude Include="..\cpp\SVDDecompositionRealTemplate.hpp" />
     <ClInclude Include="..\include\Addition.hpp" />
     <ClInclude Include="..\include\All.hpp" />
     <ClInclude Include="..\include\And.hpp" />

@@ -25,6 +25,8 @@
 ;==============================================================================
 #define MODULE_NAME "file_archiver"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\zlib1.dll; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsFile_archiver.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsFile_archiver_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
