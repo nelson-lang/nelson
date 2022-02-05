@@ -31,8 +31,8 @@
 namespace Nelson {
 //=============================================================================
 static bool
-h5SaveIntegerEmptyMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, const ArrayOf &VariableValue);
+h5SaveIntegerEmptyMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    const ArrayOf& VariableValue);
 //=============================================================================
 bool
 h5SaveInteger(hid_t fid, const std::string& location, const std::string& variableName,
@@ -125,8 +125,8 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
 }
 //=============================================================================
 bool
-h5SaveIntegerEmptyMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, const ArrayOf &VariableValue)
+h5SaveIntegerEmptyMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    const ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     std::string h5path;

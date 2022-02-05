@@ -107,7 +107,8 @@ formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
 }
 //=============================================================================
 bool
-Assert_IsEqual(Evaluator* eval, const ArrayOf &computedArray, const ArrayOf &expectedArray, std::wstring& msg)
+Assert_IsEqual(
+    Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& expectedArray, std::wstring& msg)
 {
     bool bRes = false;
     Context* context = eval->getContext();

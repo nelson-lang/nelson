@@ -67,7 +67,7 @@ public:
     }
     //=============================================================================
     void
-    value(const ArrayOf &m)
+    value(const ArrayOf& m)
     {
         m_data = m;
     }

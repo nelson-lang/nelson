@@ -85,7 +85,7 @@ copyHtmlDependencies(
 //=============================================================================
 void
 generateProfileIndexHtml(const std::wstring& htmlFilename,
-    const std::vector<std::tuple<std::wstring, std::wstring, int, double, double>> &indexData)
+    const std::vector<std::tuple<std::wstring, std::wstring, int, double, double>>& indexData)
 {
 #ifdef _MSC_VER
     std::ofstream file(htmlFilename);
@@ -153,8 +153,8 @@ generateProfileIndexHtml(const std::wstring& htmlFilename,
 }
 //=============================================================================
 static void
-sectionMostTimeWasSpent(
-    std::ofstream& file, const std::vector<std::tuple<int, std::string, int, double>> &fiveSlowerLines)
+sectionMostTimeWasSpent(std::ofstream& file,
+    const std::vector<std::tuple<int, std::string, int, double>>& fiveSlowerLines)
 {
     if (!fiveSlowerLines.empty()) {
         file << "<hr>" << std::endl;
@@ -252,7 +252,7 @@ sectionCoverage(std::ofstream& file, std::tuple<int, int, int, int, int, double>
 //=============================================================================
 static void
 sectionFunctionListing(std::ofstream& file, const stringVector& functionContent,
-    const std::vector<std::tuple<int, double>> &lineInfo)
+    const std::vector<std::tuple<int, double>>& lineInfo)
 {
     file << "<p>" << _("Function listing") << "</p>" << std::endl;
     file << "<table cellpadding = \"0\" cellspacing = \"0\" border = \"0\">" << std::endl;

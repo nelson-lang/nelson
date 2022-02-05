@@ -42,13 +42,13 @@ copyHtmlDependencies(
 void
 generateProfileFileHtml(const std::wstring& srcFilename, const stringVector& functionContent,
     const std::vector<std::tuple<int, std::string, int, double>>& fiveSlowerLines,
-    const std::tuple<int, int, int, int, int, double> &coverage,
-    const std::vector<std::tuple<int, double>> &lineInfo, int nbCalls, double totalTime,
+    const std::tuple<int, int, int, int, int, double>& coverage,
+    const std::vector<std::tuple<int, double>>& lineInfo, int nbCalls, double totalTime,
     const std::wstring& htmlFilename);
 //=============================================================================
 void
 generateProfileIndexHtml(const std::wstring& htmlFilename,
-    const std::vector<std::tuple<std::wstring, std::wstring, int, double, double>> &indexData);
+    const std::vector<std::tuple<std::wstring, std::wstring, int, double, double>>& indexData);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

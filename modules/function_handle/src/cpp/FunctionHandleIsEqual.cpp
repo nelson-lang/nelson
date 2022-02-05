@@ -35,7 +35,7 @@ FunctionHandleIsEqual(ArrayOf A, ArrayOf B)
     if (A.isFunctionHandle() && B.isFunctionHandle()) {
         function_handle fhA = A.getContentAsFunctionHandle();
         function_handle fhB = B.getContentAsFunctionHandle();
-        bRes = (fhA.name == fhB.name) && (fhA.anonymous == fhA.anonymous);
+        bRes = (fhA.name == fhB.name) && (fhA.anonymous == fhB.anonymous);
     }
     return bRes;
 }

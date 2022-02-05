@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveClassAttribute(hid_t fid, const std::string& location, const ArrayOf &variableValue);
+h5SaveClassAttribute(hid_t fid, const std::string& location, const ArrayOf& variableValue);
 //=============================================================================
 bool
 h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensions& dims);

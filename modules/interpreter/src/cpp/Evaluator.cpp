@@ -338,7 +338,7 @@ Evaluator::needToOverloadOperator(const ArrayOf& a)
 }
 //=============================================================================
 ArrayOf
-Evaluator::EndReference(const ArrayOf &v, indexType index, size_t count)
+Evaluator::EndReference(const ArrayOf& v, indexType index, size_t count)
 {
     Dimensions dim(v.getDimensions());
     ArrayOf res;

@@ -270,7 +270,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
                 // For each explicit argument (that we have), insert it
                 // into the scope.
                 ArrayOf a;
-                for (int i = 0; i < explicitCount; i++) {
+                for (indexType i = 0; i < (indexType)explicitCount; i++) {
                     if (!context->lookupVariableLocally(returnVals[i], a)) {
                         if (!warningIssued) {
                             Warning(_W("one or more outputs not assigned in call."));

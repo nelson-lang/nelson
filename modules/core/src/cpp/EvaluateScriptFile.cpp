@@ -60,7 +60,7 @@ filePointerWithoutShebang(const boost::filesystem::path& absolutePath)
     FILE* fr = fopen(absolutePath.generic_string().c_str(), "rt");
 #endif
     if (!fr) {
-      return fr;
+        return fr;
     }
     bool bBOM = false;
     bool bSheBang = false;
@@ -147,7 +147,8 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         try {
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);
-        } catch (std::bad_alloc&) { } //-V565
+        } catch (std::bad_alloc&) {
+        } //-V565
     } catch (const Exception& ce) {
         currentException = ce;
         needThrowException = true;

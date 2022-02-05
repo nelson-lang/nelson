@@ -32,6 +32,7 @@
 //=============================================================================
 namespace Nelson {
 NLSASSERT_FUNCTIONS_IMPEXP bool
-Assert_IsEqual(Evaluator* eval, const ArrayOf &computedArray, const ArrayOf &expectedArray, std::wstring& msg);
+Assert_IsEqual(
+    Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& expectedArray, std::wstring& msg);
 }
 //=============================================================================

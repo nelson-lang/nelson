@@ -257,7 +257,7 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
 }
 //=============================================================================
 void
-Scope::setInputArgumentNames(const stringVector &names)
+Scope::setInputArgumentNames(const stringVector& names)
 {
     inputNames = names;
 }

@@ -43,7 +43,7 @@ OverloadFindFunction(Evaluator* eval, const std::string& forcedFunctionName, Fun
 }
 //=============================================================================
 static ArrayOf
-callOverloadedFunction(Evaluator* eval, const ArrayOfVector &argsIn,
+callOverloadedFunction(Evaluator* eval, const ArrayOfVector& argsIn,
     const std::string& OverloadNameDesired, bool wasFound, FunctionDef* funcDef, bool bRaiseError)
 {
     ArrayOf res;

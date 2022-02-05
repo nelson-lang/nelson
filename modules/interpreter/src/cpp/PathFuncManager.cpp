@@ -339,8 +339,7 @@ PathFuncManager::setCurrentUserPath(const std::wstring& path)
     try {
         _currentPath = new PathFunc(normalizedPath);
         _currentPath->rehash();
-    }
-    catch (const std::bad_alloc&) {
+    } catch (const std::bad_alloc&) {
         _currentPath = nullptr;
     }
     return false;
@@ -380,7 +379,8 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error&) { } //-V565
+    } catch (const boost::filesystem::filesystem_error&) {
+    } //-V565
     userpathCompute();
 }
 //=============================================================================
@@ -407,33 +407,36 @@ PathFuncManager::rehash(const std::wstring& path)
 {
     if (_currentPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _currentPath->getPath() }, p2 { path };
+            boost::filesystem::path p1{ _currentPath->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _currentPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) { } //-V565
+        } catch (const boost::filesystem::filesystem_error&) {
+        } //-V565
     }
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
+            boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
             }
-        } catch (const boost::filesystem::filesystem_error&) { } //-V565
+        } catch (const boost::filesystem::filesystem_error&) {
+        } //-V565
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
+                boost::filesystem::path p1{ pf->getPath() }, p2{ path };
                 if (boost::filesystem::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
                 }
-            } catch (const boost::filesystem::filesystem_error&) { } //-V565
+            } catch (const boost::filesystem::filesystem_error&) {
+            } //-V565
         }
     }
 }
@@ -541,7 +544,7 @@ PathFuncManager::clearCache()
 }
 //=============================================================================
 void
-PathFuncManager::clearCache(const stringVector &exceptedFunctions)
+PathFuncManager::clearCache(const stringVector& exceptedFunctions)
 {
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
 }
@@ -613,7 +616,8 @@ PathFuncManager::userpathCompute()
                     bSet = true;
                 }
             }
-        } catch (const boost::filesystem::filesystem_error&) { } //-V565
+        } catch (const boost::filesystem::filesystem_error&) {
+        } //-V565
     }
     if (!bSet) {
 #ifdef _MSC_VER
@@ -623,7 +627,8 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) { } //-V565
+                } catch (const boost::filesystem::filesystem_error&) {
+                } //-V565
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);
@@ -636,7 +641,8 @@ PathFuncManager::userpathCompute()
             if (!isDir(userpathDir)) {
                 try {
                     boost::filesystem::create_directories(userpathDir);
-                } catch (const boost::filesystem::filesystem_error&) { }
+                } catch (const boost::filesystem::filesystem_error&) {
+                }
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);

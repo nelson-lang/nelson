@@ -231,7 +231,8 @@ DynamicLinkSymbolObject::disp(Interface* io)
 #define PROTOTYPE_FIELD_STR L"  Prototype: "
 #define OUTPUT_FIELD_STR L"  Output:    "
 #define INPUT_FIELD_STR L"  Input:     "
-        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4) { //-V112
+        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length()
+            > io->getTerminalWidth() - 4) { //-V112
             buffer = std::wstring(PROTOTYPE_FIELD_STR) + std::wstring(L"string 1x")
                 + std::to_wstring(_prototype.length());
         } else {

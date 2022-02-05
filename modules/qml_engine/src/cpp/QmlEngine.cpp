@@ -164,7 +164,7 @@ QmlEngine::createQQuickView(const std::wstring& filename)
             view->deleteLater();
             Error(_W("Cannot create QQuickView."));
         }
-        topLevel->setParent(view);
+        topLevel->setParent(view); //-V595
         view->show();
         if (topLevel != nullptr) {
             topLevel = topLevel->parent();

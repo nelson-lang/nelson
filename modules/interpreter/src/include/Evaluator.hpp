@@ -819,7 +819,7 @@ private:
     ArrayOfVector
     getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params);
     ArrayOf
-    EndReference(const ArrayOf &v, indexType index, size_t count);
+    EndReference(const ArrayOf& v, indexType index, size_t count);
     size_t
     countSubExpressions(AbstractSyntaxTreePtr t);
 

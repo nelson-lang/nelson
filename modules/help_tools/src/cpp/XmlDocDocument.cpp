@@ -352,9 +352,7 @@ XmlDocDocument::clearItems()
                 ptr = nullptr;
             }
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     this->items.clear();
 }
@@ -458,8 +456,14 @@ XmlDocDocument::readFile()
         return false;
     }
     if (nbXmlDocTag > 1) {
-        this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ")
-            + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("duplicated."));
+        std::wstring line = currentNode ? std::to_wstring(currentNode->line) : L"";
+        std::wstring tag = utf8_to_wstring(XMLDOC_TAG);
+        std::wstring msg;
+        if (!line.empty()) {
+            msg.append(_W("line ") + std::to_wstring(currentNode->line) + _W(": "));
+        }
+        msg.append(tag + L" " + _W("duplicated."));
+        this->errorMessage.push_back(msg);
         this->bReadOk = false;
         xmlFreeDoc(doc);
         return false;
@@ -1494,7 +1498,8 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     historyItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line) //-V522
+                this->errorMessage.push_back(_W("line ")
+                    + std::to_wstring(currentItemNode->line) //-V522
                     + _W(": ") + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" " + _W("missing."));
                 this->bReadOk = false;
                 return false;
@@ -2094,7 +2099,8 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     examplesItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line) //-V522
+                this->errorMessage.push_back(_W("line ")
+                    + std::to_wstring(currentItemNode->line) //-V522
                     + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_DESCRIPTION_TAG) + L" "
                     + _W("missing."));
                 this->bReadOk = false;
@@ -2472,7 +2478,8 @@ XmlDocDocument::readFileCaseLink(
         }
         name = utf8_to_wstring(str);
     } else {
-        this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line) + _W(": ") //-V522
+        this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line)
+            + _W(": ") //-V522
             + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
         xmlFreeDoc(doc);
         this->bReadOk = false;
