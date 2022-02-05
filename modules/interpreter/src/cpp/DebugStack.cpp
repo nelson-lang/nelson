@@ -86,7 +86,7 @@ DebugStack(const CallStack& callstack, int nbOmitLines, stackTrace& stackPositio
             std::wstring filename = utf8_to_wstring(callstack.getContext(j - 1));
             std::wstring functionname = utf8_to_wstring(callstack.getDetail(j - 1));
             int lineposition = callstack.getID(j - 1) & 0x0000FFFF;
-            stackPositions.push_back(PositionScript(functionname, filename, lineposition));
+            stackPositions.emplace_back(PositionScript(functionname, filename, lineposition));
             i = j;
         } else {
             i++;

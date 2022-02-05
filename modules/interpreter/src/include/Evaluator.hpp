@@ -554,7 +554,7 @@ public:
      * malformed.
      */
     bool
-    testCaseStatement(AbstractSyntaxTreePtr t, ArrayOf s);
+    testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s);
     /**
      * Execute the statement described by the AST - the printIt flag
      * determines if the result of the statement should be printed to
@@ -819,7 +819,7 @@ private:
     ArrayOfVector
     getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params);
     ArrayOf
-    EndReference(ArrayOf v, indexType index, size_t count);
+    EndReference(const ArrayOf& v, indexType index, size_t count);
     size_t
     countSubExpressions(AbstractSyntaxTreePtr t);
 

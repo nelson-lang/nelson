@@ -77,7 +77,7 @@ namespace Nelson {
 static int objectBalance;
 //=============================================================================
 ArrayOfVector
-scalarArrayOfToArrayOfVector(ArrayOf a)
+scalarArrayOfToArrayOfVector(const ArrayOf& a)
 {
     ArrayOfVector retval(1);
     retval << a;
@@ -1387,7 +1387,7 @@ DoCountNNZComplex(const void* dp, indexType len)
 }
 //=============================================================================
 indexType
-ArrayOf::nzmax()
+ArrayOf::nzmax() const
 {
     if (isSparse()) {
         return CountNonzerosMaxDynamicFunction(
@@ -1422,7 +1422,7 @@ ArrayOf::nzmax()
 }
 //=============================================================================
 indexType
-ArrayOf::nnz()
+ArrayOf::nnz() const
 {
     if (isSparse()) {
         if (isEmpty()) {

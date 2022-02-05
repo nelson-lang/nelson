@@ -36,7 +36,7 @@
 namespace Nelson {
 //=============================================================================
 void
-SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
+SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B)
 {
     ArrayOf res;
     if (A.getHandleCategory() != COM_CATEGORY_STR) {

@@ -39,7 +39,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-InverseDouble(ArrayOf A, double rcond)
+InverseDouble(const ArrayOf& A, double rcond)
 {
     ArrayOf res = A;
     res.ensureSingleOwner();
@@ -137,7 +137,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
 }
 //=============================================================================
 static ArrayOf
-InverseSingle(ArrayOf A, single rcond)
+InverseSingle(const ArrayOf& A, single rcond)
 {
     ArrayOf res = A;
     res.ensureSingleOwner();

@@ -29,8 +29,10 @@
 #include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSSPARSE_IMPEXP void
-SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ,
-    bool& needToOverload);
+SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N,
+    ArrayOf& NNZ, bool& needToOverload);
+//=============================================================================
 }
 //=============================================================================

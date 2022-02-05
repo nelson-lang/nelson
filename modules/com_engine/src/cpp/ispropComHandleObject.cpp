@@ -46,7 +46,7 @@ ispropComHandleObject(ComHandleObject* comhandleobj, const std::wstring& propert
 }
 //=============================================================================
 ArrayOf
-ispropComHandleObject(ArrayOf A, const std::wstring& propertyName)
+ispropComHandleObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));

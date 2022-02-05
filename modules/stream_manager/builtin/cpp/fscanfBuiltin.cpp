@@ -85,7 +85,7 @@ Nelson::StreamGateway::fscanfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         }
         haveThirdArgument = true;
     }
-    if (!fm->isOpened(iValue)) {
+    if (!fm->isOpened(iValue)) { //-V1004
         Error(_W("Wrong value for #1 argument: a valid file ID expected."));
     }
     File* f = fm->getFile(iValue);

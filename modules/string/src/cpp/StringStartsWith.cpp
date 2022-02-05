@@ -43,7 +43,7 @@ startsWithString(const std::wstring& A, const std::wstring& pattern, bool bCaseS
 }
 //=============================================================================
 ArrayOf
-StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
+StringStartsWith(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
     if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))

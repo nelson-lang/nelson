@@ -128,7 +128,8 @@ modfunc_integer(indexType N, T* C, const T* A, int stride1, const T* B, int stri
 }
 //=============================================================================
 static void
-computeEntries(ArrayOf A, ArrayOf B, int& Astride, int& Bstride, indexType& Clen, Dimensions& Cdim)
+computeEntries(const ArrayOf& A, const ArrayOf& B, int& Astride, int& Bstride, indexType& Clen,
+    Dimensions& Cdim)
 {
     if (A.isScalar()) {
         Astride = 0;

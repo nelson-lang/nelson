@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringLength(ArrayOf A);
+StringLength(const ArrayOf& A);
 }
 //=============================================================================

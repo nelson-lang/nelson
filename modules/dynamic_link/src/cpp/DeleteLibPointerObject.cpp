@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteLibPointerObject(ArrayOf A)
+DeleteLibPointerObject(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {

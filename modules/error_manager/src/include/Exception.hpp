@@ -74,10 +74,10 @@ private:
     std::wstring msg = L"";
     //=============================================================================
 public:
-    Exception(const std::string& msg_in, std::vector<PositionScript> positions,
+    Exception(const std::string& msg_in, const std::vector<PositionScript>& positions,
         const std::string& identifier_in = "");
     //=============================================================================
-    Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
+    Exception(const std::wstring& msg_in, const std::vector<PositionScript>& positions,
         const std::wstring& identifier_in = L"");
     //=============================================================================
     Exception(const std::string& msg_in, const PositionScript& position,

@@ -36,7 +36,7 @@ namespace Nelson {
 inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs)
 {
-    if (argIn.size() < minArgs) {
+    if (argIn.size() < (size_t)minArgs) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }
@@ -47,10 +47,10 @@ nargincheck(const ArrayOfVector& argIn, int minArgs)
 inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs, int maxArgs)
 {
-    if (argIn.size() < minArgs) {
+    if (argIn.size() < (size_t)minArgs) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() > maxArgs) {
+    if (argIn.size() > (size_t)maxArgs) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }

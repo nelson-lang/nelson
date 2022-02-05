@@ -55,7 +55,7 @@ namespace Nelson {
 //=============================================================================
 Scope::Scope(const std::string& scopeName)
 {
-    name = std::move(scopeName);
+    name = scopeName;
     loopLevel = 0;
 }
 //=============================================================================
@@ -252,12 +252,12 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
     stringVector ulist = variablesTab.getVariablesList(withPersistent);
     list.clear();
     for (const auto& k : ulist) {
-        list.push_back(utf8_to_wstring(k));
+        list.emplace_back(utf8_to_wstring(k));
     }
 }
 //=============================================================================
 void
-Scope::setInputArgumentNames(stringVector names)
+Scope::setInputArgumentNames(const stringVector& names)
 {
     inputNames = names;
 }

@@ -32,7 +32,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"help_browser";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "helpbrowser", (void*)Nelson::HelpBrowserGateway::helpbrowserBuiltin, 1, 2 },
+    { "helpbrowser", (ptrBuiltin)Nelson::HelpBrowserGateway::helpbrowserBuiltin, 1, 2 },
 };
 //=============================================================================
 static bool

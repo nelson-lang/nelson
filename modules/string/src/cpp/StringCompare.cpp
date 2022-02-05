@@ -59,7 +59,7 @@ compareString(const std::wstring& A, const std::wstring& B, bool bCaseSensitive,
 }
 //=============================================================================
 static ArrayOf
-CompareStringString(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len = 0)
+CompareStringString(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive, indexType len = 0)
 {
     bool bEq = false;
     if (A.isRowVectorCharacterArray() && B.isRowVectorCharacterArray()) {
@@ -84,7 +84,7 @@ CompareStringString(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len = 0
 }
 //=============================================================================
 ArrayOf
-StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
+StringCompare(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive, indexType len)
 {
     ArrayOf res;
     if (A.isCharacterArray() && B.isCharacterArray()) {
@@ -114,12 +114,6 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     wstringVector s1 = elementA.getContentAsWideStringVector();
                     wstringVector s2 = elementB.getContentAsWideStringVector();
                     if (s1.size() == s2.size()) {
-                        for (size_t l = 0; l < s1.size(); ++l) {
-                            if (s1[l] != s2[l]) {
-                                Cp[k] = false;
-                                break;
-                            }
-                        }
                         Cp[k] = true;
                     }
                 } else {

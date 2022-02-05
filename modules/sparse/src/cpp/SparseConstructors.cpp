@@ -48,7 +48,7 @@ SparseConstructor(indexType m, indexType n)
 }
 //=============================================================================
 ArrayOf
-SparseConstructor(ArrayOf a)
+SparseConstructor(const ArrayOf& a)
 {
     ArrayOf res;
     if (a.isSparse()) {
@@ -104,7 +104,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
 }
 //=============================================================================
 ArrayOf
-SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n)
+SparseConstructor(const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexType m, indexType n)
 {
     ArrayOf res;
     res = SparseConstructor(I, J, V);
@@ -119,7 +119,8 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n)
 }
 //=============================================================================
 ArrayOf
-SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, indexType nnz)
+SparseConstructor(
+    const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexType m, indexType n, indexType nnz)
 {
     ArrayOf res = SparseConstructor(I, J, V, m, n);
     switch (res.getDataClass()) {

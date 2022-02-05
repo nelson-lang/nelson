@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP void
-methodsComHandleObject(ArrayOf A, wstringVector& methods);
+methodsComHandleObject(const ArrayOf& A, wstringVector& methods);
 NLSCOM_ENGINE_IMPEXP void
 methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods);
 //=============================================================================

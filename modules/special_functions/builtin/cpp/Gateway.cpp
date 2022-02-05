@@ -33,11 +33,12 @@ using namespace Nelson;
 const std::wstring gatewayName = L"special_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "gamma", (void*)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
+    { "gamma", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "betainc", (void*)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
+    { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "gcd", (void*)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "gcd", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSparseDouble(const std::string& variableName, ArrayOf variableValue);
+SaveMatioSparseDouble(const std::string& variableName, const ArrayOf& variableValue);
 //=============================================================================
 }
 //=============================================================================

@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive = true);
+StringStartsWith(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive = true);
 }
 //=============================================================================

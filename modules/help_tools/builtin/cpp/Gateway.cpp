@@ -35,14 +35,14 @@ using namespace Nelson;
 const std::wstring gatewayName = L"help_tools";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "headcomments", (void*)Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1,
+    { "headcomments", (ptrBuiltin)Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "xmldocchecker", (void*)Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1,
+    { "xmldocchecker", (ptrBuiltin)Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "htmltopdf", (void*)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2,
+    { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "markdown", (void*)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
-    { "xmldocbuild", (void*)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
+    { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
+    { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
 
 };
 //=============================================================================

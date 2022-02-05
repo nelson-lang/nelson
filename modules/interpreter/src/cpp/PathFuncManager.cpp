@@ -304,13 +304,13 @@ PathFuncManager::getPathNameVector()
 {
     wstringVector list;
     if (_userPath != nullptr) {
-        list.push_back(_userPath->getPath());
+        list.emplace_back(_userPath->getPath());
     }
     for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
-            list.push_back(pf->getPath());
+            list.emplace_back(pf->getPath());
         }
     }
     return list;
@@ -336,9 +336,11 @@ PathFuncManager::setCurrentUserPath(const std::wstring& path)
         }
         delete _currentPath;
     }
-    _currentPath = new PathFunc(normalizedPath);
-    if (_currentPath != nullptr) {
+    try {
+        _currentPath = new PathFunc(normalizedPath);
         _currentPath->rehash();
+    } catch (const std::bad_alloc&) {
+        _currentPath = nullptr;
     }
     return false;
 }
@@ -378,7 +380,7 @@ PathFuncManager::resetUserPath()
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
     } catch (const boost::filesystem::filesystem_error&) {
-    }
+    } //-V565
     userpathCompute();
 }
 //=============================================================================
@@ -411,7 +413,7 @@ PathFuncManager::rehash(const std::wstring& path)
                 return;
             }
         } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } //-V565
     }
     if (_userPath != nullptr) {
         try {
@@ -421,7 +423,7 @@ PathFuncManager::rehash(const std::wstring& path)
                 return;
             }
         } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } //-V565
     }
     for (boost::container::vector<PathFunc*>::reverse_iterator it = _pathFuncVector.rbegin();
          it != _pathFuncVector.rend(); ++it) {
@@ -434,7 +436,7 @@ PathFuncManager::rehash(const std::wstring& path)
                     return;
                 }
             } catch (const boost::filesystem::filesystem_error&) {
-            }
+            } //-V565
         }
     }
 }
@@ -542,7 +544,7 @@ PathFuncManager::clearCache()
 }
 //=============================================================================
 void
-PathFuncManager::clearCache(stringVector exceptedFunctions)
+PathFuncManager::clearCache(const stringVector& exceptedFunctions)
 {
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
 }
@@ -615,7 +617,7 @@ PathFuncManager::userpathCompute()
                 }
             }
         } catch (const boost::filesystem::filesystem_error&) {
-        }
+        } //-V565
     }
     if (!bSet) {
 #ifdef _MSC_VER
@@ -626,7 +628,7 @@ PathFuncManager::userpathCompute()
                 try {
                     boost::filesystem::create_directories(userpathDir);
                 } catch (const boost::filesystem::filesystem_error&) {
-                }
+                } //-V565
             }
             if (isDir(userpathDir)) {
                 setUserPath(userpathDir);

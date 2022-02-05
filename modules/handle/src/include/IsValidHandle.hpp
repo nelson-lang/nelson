@@ -31,6 +31,6 @@
 //=============================================================================
 namespace Nelson {
 NLSHANDLE_IMPEXP ArrayOf
-IsValidHandle(Evaluator* eval, ArrayOf A);
+IsValidHandle(Evaluator* eval, const ArrayOf& A);
 }
 //=============================================================================

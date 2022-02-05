@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSAUDIO_IMPEXP bool
-DeleteAudioplayerHandleObject(ArrayOf A);
+DeleteAudioplayerHandleObject(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

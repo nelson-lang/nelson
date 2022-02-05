@@ -670,7 +670,7 @@ powerInteger(
 }
 //=============================================================================
 ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
+DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf C;
     bool Anegative;

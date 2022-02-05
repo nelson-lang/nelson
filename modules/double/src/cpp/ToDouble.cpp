@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-ToDouble(ArrayOf A)
+ToDouble(const ArrayOf& A)
 {
     double* pDouble
         = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
@@ -49,7 +49,7 @@ ToDouble(ArrayOf A)
 }
 //=============================================================================
 ArrayOf
-ToDouble(ArrayOf A, bool& needToOverload)
+ToDouble(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     switch (A.getDataClass()) {

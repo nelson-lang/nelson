@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-RealPart(ArrayOf arrayIn)
+RealPart(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (arrayIn.isSparse()) {

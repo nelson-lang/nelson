@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-EqHandle(ArrayOf A, ArrayOf B)
+EqHandle(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     if (!A.isHandle() && !B.isHandle()) {

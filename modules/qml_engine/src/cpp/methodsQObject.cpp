@@ -59,7 +59,7 @@ methodsQObject(QmlHandleObject* qmlhandleobj, stringVector& methods)
 }
 //=============================================================================
 ArrayOf
-methodsQObject(ArrayOf A)
+methodsQObject(const ArrayOf& A)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {

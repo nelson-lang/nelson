@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive = true);
+StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive = true);
 }
 //=============================================================================

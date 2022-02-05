@@ -53,9 +53,8 @@ boolean_isnan_cplx(indexType N, logical* C, const T* A)
     }
 }
 //=============================================================================
-
 ArrayOf
-IsNaN(ArrayOf A)
+IsNaN(const ArrayOf& A)
 {
     ArrayOf C;
     switch (A.getDataClass()) {

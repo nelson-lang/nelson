@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive = true);
+StringContains(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive = true);
 }
 //=============================================================================

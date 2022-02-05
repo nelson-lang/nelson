@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-callOverloadedFunction(Evaluator* eval, ArrayOf a, ArrayOf b,
+callOverloadedFunction(Evaluator* eval, const ArrayOf& a, const ArrayOf& b,
     const std::string& OverloadNameDesired, bool wasFound, FunctionDef* funcDef, bool bRaiseError)
 {
     ArrayOfVector argsIn;
@@ -44,8 +44,9 @@ callOverloadedFunction(Evaluator* eval, ArrayOf a, ArrayOf b,
 }
 //=============================================================================
 static ArrayOf
-OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string& functionName,
-    bool bRaiseError, bool& bSuccess, const std::string& forcedFunctionName)
+OverloadBinaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b,
+    const std::string& functionName, bool bRaiseError, bool& bSuccess,
+    const std::string& forcedFunctionName)
 {
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);
@@ -128,15 +129,15 @@ OverloadBinaryOperator(
 }
 //=============================================================================
 inline ArrayOf
-OverloadBinaryOperator(
-    Evaluator* eval, ArrayOf a, ArrayOf b, const std::string& functionName, bool& bSuccess)
+OverloadBinaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b,
+    const std::string& functionName, bool& bSuccess)
 {
     return OverloadBinaryOperator(eval, a, b, functionName, false, bSuccess, "");
 }
 //=============================================================================
 inline ArrayOf
-OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string& functionName,
-    bool& bSuccess, const std::string& forcedFunctionName)
+OverloadBinaryOperator(Evaluator* eval, const ArrayOf& a, const ArrayOf& b,
+    const std::string& functionName, bool& bSuccess, const std::string& forcedFunctionName)
 {
     return OverloadBinaryOperator(eval, a, b, functionName, false, bSuccess, forcedFunctionName);
 }

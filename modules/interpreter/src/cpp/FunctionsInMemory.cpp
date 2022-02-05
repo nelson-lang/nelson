@@ -72,9 +72,9 @@ FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
 {
     if (function != nullptr) {
         if (function->type() == NLS_MACRO_FUNCTION) {
-            _macroFunctionsInMemory.push_back(std::make_pair(functionName, function));
+            _macroFunctionsInMemory.emplace_back(std::make_pair(functionName, function));
         } else if (function->type() == NLS_MEX_FUNCTION) {
-            _mexFunctionsInMemory.push_back(std::make_pair(functionName, function));
+            _mexFunctionsInMemory.emplace_back(std::make_pair(functionName, function));
         } else if (function->type() == NLS_BUILT_IN_FUNCTION) {
             _builtinFunctionInMemory.emplace(functionName, function);
         }
@@ -234,13 +234,12 @@ FunctionsInMemory::deleteAllMexFunctions()
                 delete f;
                 f = nullptr;
             } else {
-                lockedMex.push_back(std::make_pair(iter->first, iter->second));
+                lockedMex.emplace_back(std::make_pair(iter->first, iter->second));
                 noLocked = false;
             }
         }
     }
     _mexFunctionsInMemory.clear();
-    _mexFunctionsInMemory = lockedMex;
     _builtinFunctionInMemory.clear();
     clearMapCache();
     return noLocked;
@@ -253,7 +252,7 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
         for (auto it = _mexFunctionsInMemory.rbegin(); it != _mexFunctionsInMemory.rend();) {
             MexFunctionDef* funcPtr = (MexFunctionDef*)it->second;
             if (funcPtr->isLocked()) {
-                it++;
+                ++it;
             } else {
                 delete funcPtr;
                 funcPtr = nullptr;
@@ -276,7 +275,7 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
                 = std::find(exceptedFunctions.begin(), exceptedFunctions.end(), funcPtr->getName());
             if (iter == exceptedFunctions.end()) {
                 if (funcPtr->isLocked()) {
-                    it++;
+                    ++it;
                 } else {
                     delete funcPtr;
                     funcPtr = nullptr;
@@ -284,7 +283,7 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
                         _mexFunctionsInMemory.erase((++it).base()));
                 }
             } else {
-                it++;
+                ++it;
             }
         }
 
@@ -298,7 +297,7 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
                 it = std::vector<std::pair<std::string, FunctionDefPtr>>::reverse_iterator(
                     _macroFunctionsInMemory.erase((++it).base()));
             } else {
-                it++;
+                ++it;
             }
         }
     }
@@ -315,9 +314,9 @@ FunctionsInMemory::getMacroInMemory(bool withCompleteNames)
          it != _macroFunctionsInMemory.end(); ++it) {
         MacroFunctionDef* fptr = (MacroFunctionDef*)it->second;
         if (withCompleteNames) {
-            names.push_back(fptr->getFilename());
+            names.emplace_back(fptr->getFilename());
         } else {
-            names.push_back(utf8_to_wstring(fptr->getName()));
+            names.emplace_back(utf8_to_wstring(fptr->getName()));
         }
     }
     return names;
@@ -332,9 +331,9 @@ FunctionsInMemory::getMexInMemory(bool withCompleteNames)
          it != _mexFunctionsInMemory.end(); ++it) {
         MexFunctionDef* fptr = (MexFunctionDef*)it->second;
         if (withCompleteNames) {
-            names.push_back(fptr->getFilename());
+            names.emplace_back(fptr->getFilename());
         } else {
-            names.push_back(utf8_to_wstring(fptr->getName()));
+            names.emplace_back(utf8_to_wstring(fptr->getName()));
         }
     }
     return names;

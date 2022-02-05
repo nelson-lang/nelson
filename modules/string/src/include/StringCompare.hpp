@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive = true, indexType len = 0);
+StringCompare(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive = true, indexType len = 0);
 }
 //=============================================================================

@@ -323,7 +323,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
     for (int mIndex = 0; mIndex < nmembers; mIndex++) {
         hid_t mType = H5Tget_member_type(type, mIndex);
         char* fieldname = H5Tget_member_name(type, mIndex);
-        fieldnames.push_back(std::string(fieldname));
+        fieldnames.emplace_back(std::string(fieldname));
 #if H5_VERS_MAJOR <= 1 && H5_VERS_MINOR < 9
         free(fieldname);
 #else

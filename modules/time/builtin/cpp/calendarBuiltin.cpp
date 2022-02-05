@@ -68,31 +68,31 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (cal == nullptr) {
         Error(_W("Calendar not initialized."));
     }
-    if (cal->getYear() < 1400 || cal->getYear() > 9999) {
+    if (cal->getYear() < 1400 || cal->getYear() > 9999) { //-V1004
         delete cal;
         Error(_W("Year value is wrong [1400, 9999] expected."));
     }
-    if (!(cal->getMonth() > 0 && cal->getMonth() < 13)) {
+    if (!(cal->getMonth() > 0 && cal->getMonth() < 13)) { //-V774
         delete cal;
         Error(_W("Month value is wrong [1, 12] expected."));
     }
     switch (nLhs) {
     case 0: {
-        std::wstring msg = cal->getAsFormatedText();
+        std::wstring msg = cal->getAsFormatedText(); //-V774
         delete cal;
         NelsonPrint(msg);
     } break;
     case 1: {
-        retval << cal->get();
+        retval << cal->get(); //-V774
         delete cal;
     } break;
     case 2: {
-        retval << cal->get();
+        retval << cal->get(); //-V774
         retval << ToCellStringAsRow(cal->getNameOfDays());
         delete cal;
     } break;
     default: {
-        delete cal;
+        delete cal; //-V586
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }

@@ -35,7 +35,7 @@ MPI_CommHandleObject::MPI_CommHandleObject(void* _ptr)
 MPI_CommHandleObject::~MPI_CommHandleObject() = default;
 //=============================================================================
 MPI_Comm
-HandleToMpiComm(ArrayOf A)
+HandleToMpiComm(const ArrayOf& A)
 {
     MPI_Comm commReturned = MPI_COMM_NULL;
     if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
@@ -62,7 +62,7 @@ MpiCommToHandle(MPI_Comm mpicomm)
 }
 //=============================================================================
 bool
-MPICommHandleDelete(ArrayOf A)
+MPICommHandleDelete(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {

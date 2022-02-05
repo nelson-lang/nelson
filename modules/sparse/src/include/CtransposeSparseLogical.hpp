@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSPARSE_IMPEXP ArrayOf
-CtransposeSparseLogical(ArrayOf A);
+CtransposeSparseLogical(const ArrayOf& A);
 }
 //=============================================================================

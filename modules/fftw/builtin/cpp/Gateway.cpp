@@ -34,10 +34,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"fftw";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "fft", (void*)Nelson::FftwGateway::fftBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "ifft", (void*)Nelson::FftwGateway::ifftBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "fftw", (void*)Nelson::FftwGateway::fftwBuiltin, 1, 2 },
-    { "FFTWwrapper", (void*)Nelson::FftwGateway::FFTWwrapperBuiltin, 1, 3 },
+    { "fft", (ptrBuiltin)Nelson::FftwGateway::fftBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "ifft", (ptrBuiltin)Nelson::FftwGateway::ifftBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fftw", (ptrBuiltin)Nelson::FftwGateway::fftwBuiltin, 1, 2 },
+    { "FFTWwrapper", (ptrBuiltin)Nelson::FftwGateway::FFTWwrapperBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

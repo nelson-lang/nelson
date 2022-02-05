@@ -59,7 +59,7 @@ GetKeywords(bool bSorted)
     wstringVector strList;
     strList.reserve(KEYWORDCOUNT);
     for (auto& k : keyWord) {
-        strList.push_back(utf8_to_wstring(k.word));
+        strList.emplace_back(utf8_to_wstring(k.word));
     }
     if (bSorted) {
         if (!strList.empty()) {

@@ -48,7 +48,7 @@ ExponentialRealScalar(T value)
 }
 //=============================================================================
 ArrayOf
-Exponential(ArrayOf A, bool& needToOverload)
+Exponential(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;

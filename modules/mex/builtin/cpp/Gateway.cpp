@@ -31,7 +31,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"mex";
 //=============================================================================
 static const nlsGateway gateway[]
-    = { { "mexext", (void*)Nelson::MexGateway::mexextBuiltin, 1, 1, CPP_BUILTIN } };
+    = { { "mexext", (ptrBuiltin)Nelson::MexGateway::mexextBuiltin, 1, 1, CPP_BUILTIN } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

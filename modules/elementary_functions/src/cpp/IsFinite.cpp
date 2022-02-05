@@ -54,7 +54,7 @@ boolean_isfinite_cplx(indexType N, logical* C, const T* A)
 }
 //=============================================================================
 ArrayOf
-IsFinite(ArrayOf A)
+IsFinite(const ArrayOf& A)
 {
     ArrayOf C;
     switch (A.getDataClass()) {

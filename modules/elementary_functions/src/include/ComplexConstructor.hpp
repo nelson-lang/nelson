@@ -32,6 +32,6 @@ namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB);
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-ComplexConstructor(ArrayOf arrayA);
+ComplexConstructor(const ArrayOf& arrayA);
 } // namespace Nelson
   //=============================================================================

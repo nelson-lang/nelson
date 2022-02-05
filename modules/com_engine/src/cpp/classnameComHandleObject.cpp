@@ -94,7 +94,7 @@ classnameComHandle(ComHandleObject* comHandle, std::wstring& classname)
 }
 //=============================================================================
 void
-classnameComHandle(ArrayOf A, std::wstring& classname)
+classnameComHandle(const ArrayOf& A, std::wstring& classname)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != COM_CATEGORY_STR) {
@@ -107,7 +107,7 @@ classnameComHandle(ArrayOf A, std::wstring& classname)
 }
 //=============================================================================
 void
-classnameComHandle(ArrayOf A, wstringVector& classname)
+classnameComHandle(const ArrayOf& A, wstringVector& classname)
 {
     classname.clear();
     if (!A.isHandle()) {

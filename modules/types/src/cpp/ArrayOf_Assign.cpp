@@ -922,7 +922,7 @@ ArrayOf::setValue(const ArrayOf& value)
 }
 //=============================================================================
 void
-ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
+ArrayOf::setValueAtIndex(uint64 index, const ArrayOf& scalarValue)
 {
     if (!scalarValue.isScalar()) {
         Error(ERROR_SCALAR_EXPECTED);

@@ -35,7 +35,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-GetQmlHandleObject(ArrayOf A, const std::wstring& propertyName)
+GetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();

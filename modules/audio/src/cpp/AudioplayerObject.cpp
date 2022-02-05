@@ -189,7 +189,7 @@ AudioplayerObject::setTag(const std::wstring& tag)
 }
 //=============================================================================
 bool
-AudioplayerObject::setUserData(Nelson::ArrayOf userData)
+AudioplayerObject::setUserData(const Nelson::ArrayOf& userData)
 {
     _UserData = userData;
     _UserData.ensureSingleOwner();
@@ -310,7 +310,7 @@ AudioplayerObject::get(const std::wstring& propertyName, ArrayOf& res)
 //=============================================================================
 bool
 AudioplayerObject::set(
-    const std::wstring& propertyName, ArrayOf propertyValue, std::wstring& errorMessage)
+    const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage)
 {
     if (propertyName == L"SampleRate") {
         return true;
@@ -346,21 +346,21 @@ AudioplayerObject::set(
 }
 //=============================================================================
 bool
-AudioplayerObject::setSamples(ArrayOf data, int SampleRate, std::wstring& errorMessage)
+AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, std::wstring& errorMessage)
 {
     return setSamples(data, SampleRate, 16, -1, errorMessage);
 }
 //=============================================================================
 bool
 AudioplayerObject::setSamples(
-    ArrayOf data, int SampleRate, int BitsPerSample, std::wstring& errorMessage)
+    const ArrayOf& data, int SampleRate, int BitsPerSample, std::wstring& errorMessage)
 {
     return setSamples(data, SampleRate, BitsPerSample, -1, errorMessage);
 }
 //=============================================================================
 bool
-AudioplayerObject::setSamples(
-    ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring& errorMessage)
+AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, int BitsPerSample, int deviceID,
+    std::wstring& errorMessage)
 {
     errorMessage.clear();
     PaDeviceIndex outputIndex = getOutputDeviceIndex(deviceID);

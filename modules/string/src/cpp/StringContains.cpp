@@ -43,7 +43,7 @@ containsString(const std::wstring& A, const std::wstring& pattern, bool bCaseSen
 }
 //=============================================================================
 ArrayOf
-StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
+StringContains(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
     if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))

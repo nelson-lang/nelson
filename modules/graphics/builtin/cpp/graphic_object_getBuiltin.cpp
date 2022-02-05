@@ -37,8 +37,8 @@ Nelson::GraphicsGateway::graphic_object_getBuiltin(int nLhs, const ArrayOfVector
     ArrayOf param = argIn[0];
     ArrayOf paramName = argIn[1];
     auto* go = (GraphicObject*)param.getContentAsGraphicObjectScalar();
-    std::string propertyName = paramName.getContentAsCString();
     if (go != nullptr) {
+        std::string propertyName = paramName.getContentAsCString();
         retval << graphicObjectGet(go, propertyName);
     }
     return retval;

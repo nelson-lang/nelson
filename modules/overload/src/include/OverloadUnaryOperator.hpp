@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-callOverloadedFunction(Evaluator* eval, ArrayOf a, const std::string& OverloadNameDesired,
+callOverloadedFunction(Evaluator* eval, const ArrayOf& a, const std::string& OverloadNameDesired,
     bool wasFound, FunctionDef* funcDef, bool bRaiseError)
 {
     ArrayOfVector argsIn;
@@ -43,8 +43,8 @@ callOverloadedFunction(Evaluator* eval, ArrayOf a, const std::string& OverloadNa
 }
 //=============================================================================
 static ArrayOf
-OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionName, bool bRaiseError,
-    bool& bSuccess, const std::string& forcedFunctionName)
+OverloadUnaryOperator(Evaluator* eval, const ArrayOf& a, const std::string& functionName,
+    bool bRaiseError, bool& bSuccess, const std::string& forcedFunctionName)
 {
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);

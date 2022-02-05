@@ -143,11 +143,7 @@ VariablesTable::getVariablesList(bool withPersistent)
     stringVector retlist;
 
     for (auto e : list) {
-        if (!withPersistent) {
-            if (e.at(0) != '_') {
-                retlist.push_back(e);
-            }
-        } else {
+        if (e.at(0) != '_') {
             retlist.push_back(e);
         }
     }
@@ -181,7 +177,8 @@ bool
 VariablesTable::unlockVariable(const std::string& key)
 {
     if (isLockedVariable(key)) {
-        lockedVariables.erase(std::find(lockedVariables.begin(), lockedVariables.end(), key));
+        lockedVariables.erase(
+            std::find(lockedVariables.begin(), lockedVariables.end(), key)); //-V783
         return true;
     }
     return false;

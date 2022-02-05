@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioHandle(const std::string& variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioHandle(const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
 {
     /* handle have no equivalent in others softwares */
     Warning(_W("handle not saved."));

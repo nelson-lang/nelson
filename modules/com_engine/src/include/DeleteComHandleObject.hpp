@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP bool
-DeleteComHandleObject(ArrayOf A);
+DeleteComHandleObject(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

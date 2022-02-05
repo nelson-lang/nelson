@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSDATA_STRUCTURES_IMPEXP bool
-IsCellOfString(ArrayOf cellarr);
+IsCellOfString(const ArrayOf& cellarr);
 }
 //=============================================================================

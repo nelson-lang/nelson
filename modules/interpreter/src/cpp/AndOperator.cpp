@@ -45,7 +45,7 @@ Evaluator::andOperator(const ArrayOf& A, const ArrayOf& B)
 ArrayOf
 Evaluator::andOperator(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID(t->getContext());
+    callstack.pushID((size_t)t->getContext());
     ArrayOf A = expression(t->down);
     ArrayOf B = expression(t->down->right);
     ArrayOf retval = andOperator(A, B);

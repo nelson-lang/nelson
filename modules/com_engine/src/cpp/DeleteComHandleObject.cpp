@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteComHandleObject(ArrayOf A)
+DeleteComHandleObject(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {

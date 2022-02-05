@@ -33,11 +33,11 @@ namespace Nelson {
 //=============================================================================
 bool
 h5SaveStringArray(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression);
+    const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 bool
 h5SaveCharacterArray(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf VariableValue, bool useCompression);
+    const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

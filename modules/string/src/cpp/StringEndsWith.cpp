@@ -43,7 +43,7 @@ endsWithString(const std::wstring& A, const std::wstring& pattern, bool bCaseSen
 }
 //=============================================================================
 ArrayOf
-StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
+StringEndsWith(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
     if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))

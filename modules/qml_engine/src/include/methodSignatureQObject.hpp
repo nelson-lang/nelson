@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP ArrayOf
-methodSignatureQObject(ArrayOf A, const std::wstring& methodname);
+methodSignatureQObject(const ArrayOf& A, const std::wstring& methodname);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

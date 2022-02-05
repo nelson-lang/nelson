@@ -81,9 +81,9 @@ Nelson::StatisticsGateway::meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             }
 
             if (isAll) {
-                res = MeanAll(argIn[0], omitNaN, outType, needToOverload);
+                res = MeanAll(param1, omitNaN, outType, needToOverload);
             } else {
-                res = Mean(argIn[0], dim, omitNaN, outType, needToOverload);
+                res = Mean(param1, dim, omitNaN, outType, needToOverload);
             }
 
         } break;
@@ -126,9 +126,9 @@ Nelson::StatisticsGateway::meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 Error(_("Invalid third argument."));
             }
             if (isAll) {
-                res = MeanAll(argIn[0], omitNaN, outType, needToOverload);
+                res = MeanAll(param1, omitNaN, outType, needToOverload);
             } else {
-                res = Mean(argIn[0], dim, omitNaN, outType, needToOverload);
+                res = Mean(param1, dim, omitNaN, outType, needToOverload);
             }
         } break;
         case 4: {
@@ -212,9 +212,9 @@ Nelson::StatisticsGateway::meanBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 Error(_("Invalid 4th argument."));
             }
             if (isAll) {
-                res = MeanAll(argIn[0], omitNaN, outType, needToOverload);
+                res = MeanAll(param1, omitNaN, outType, needToOverload);
             } else {
-                res = Mean(argIn[0], dim, omitNaN, outType, needToOverload);
+                res = Mean(param1, dim, omitNaN, outType, needToOverload);
             }
         } break;
         default: {

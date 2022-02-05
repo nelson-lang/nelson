@@ -240,7 +240,7 @@ public:
     deleteVariable(const std::string& var);
 
     void
-    setInputArgumentNames(stringVector names);
+    setInputArgumentNames(const stringVector& names);
     stringVector
     getInputArgumentNames();
 

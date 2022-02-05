@@ -96,7 +96,7 @@ dlmwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         boost::replace_all(paramStr, L"\\t", L"\t");
         boost::replace_all(paramStr, L"\\n", L"\n");
         boost::replace_all(paramStr, L"\\r", L"\r");
-        res.delimiter = paramStr;
+        res.delimiter = paramStr; //-V820
     }
     return res;
 }
@@ -124,7 +124,7 @@ dlmwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     boost::replace_all(paramStr, L"\\t", L"\t");
     boost::replace_all(paramStr, L"\\n", L"\n");
     boost::replace_all(paramStr, L"\\r", L"\r");
-    res.delimiter = paramStr;
+    res.delimiter = paramStr; //-V519 //-V820
     return res;
 }
 //=============================================================================
@@ -147,11 +147,11 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     boost::replace_all(paramStr, L"\\t", L"\t");
     boost::replace_all(paramStr, L"\\n", L"\n");
     boost::replace_all(paramStr, L"\\r", L"\r");
-    res.delimiter = paramStr;
+    res.delimiter = paramStr; //-V519 //-V820
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
-    res.rowsOffset = param4.getContentAsInteger64Scalar();
-    res.colsOffset = param5.getContentAsInteger64Scalar();
+    res.rowsOffset = param4.getContentAsInteger64Scalar(); //-V519
+    res.colsOffset = param5.getContentAsInteger64Scalar(); //-V519
     return res;
 }
 //=============================================================================
@@ -185,7 +185,7 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         boost::replace_all(paramStr, L"\\t", L"\t");
         boost::replace_all(paramStr, L"\\n", L"\n");
         boost::replace_all(paramStr, L"\\r", L"\r");
-        res.delimiter = paramStr;
+        res.delimiter = paramStr; //-V820
         ArrayOf param4 = argIn[3];
         ArrayOf param5 = argIn[4];
         res.rowsOffset = param4.getContentAsInteger64Scalar();
@@ -244,17 +244,17 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (paramStr != L"-append") {
         Error(_W("'-append' expected."));
     }
-    res.isAppend = true;
+    res.isAppend = true; //-V519
     ArrayOf param4 = argIn[3];
     paramStr = param4.getContentAsWideString();
     boost::replace_all(paramStr, L"\\t", L"\t");
     boost::replace_all(paramStr, L"\\n", L"\n");
     boost::replace_all(paramStr, L"\\r", L"\r");
-    res.delimiter = paramStr;
+    res.delimiter = paramStr; //-V519 //-V820
     ArrayOf param5 = argIn[4];
     ArrayOf param6 = argIn[5];
-    res.rowsOffset = param5.getContentAsInteger64Scalar();
-    res.colsOffset = param6.getContentAsInteger64Scalar();
+    res.rowsOffset = param5.getContentAsInteger64Scalar(); //-V519
+    res.colsOffset = param6.getContentAsInteger64Scalar(); //-V519
     ArrayOf param7 = argIn[6];
     std::wstring eolStr = param7.getContentAsWideString();
     if (eolStr == L"pc" || eolStr == L"unix") {
@@ -331,8 +331,8 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
-    delimitedWrite(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset,
-        opts.colsOffset, opts.fmt, opts.isPcEOL);
+    delimitedWrite(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset, //-V614
+        opts.colsOffset, opts.fmt, opts.isPcEOL); //-V614
     return retval;
 }
 //=============================================================================

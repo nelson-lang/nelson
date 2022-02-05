@@ -185,7 +185,7 @@ testSpecialFuncs()
     size_t i = 0;
     std::wstring wkeyword;
     wkeyword.reserve(IDENTIFIER_LENGTH_MAX);
-    while (iswalnum(wline[i]) && i < wline.size()) {
+    while (iswalnum(wline[i]) && i < wline.size()) { //-V781
         wkeyword.push_back(wline[i]);
         i++;
     }
@@ -193,13 +193,13 @@ testSpecialFuncs()
     if (keyword.length() > IDENTIFIER_LENGTH_MAX) {
         Error(_("Maximum name length exceeded."));
     }
-    tSearch.word = keyword.c_str();
+    tSearch.word = keyword.c_str(); //-V506
     pSearch = static_cast<keywordStruct*>(
         bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
     if (pSearch != nullptr) {
         return false;
     }
-    while ((iswspace(wline[i]) || wline[i] == L'\t') && i < wline.size()) {
+    while ((iswspace(wline[i]) || wline[i] == L'\t') && i < wline.size()) { //-V781
         i++;
     }
     return (iswalpha(wline[i]) || iswdigit(wline[i]));
@@ -577,7 +577,7 @@ lexNumber()
             } else {
                 return 0;
             }
-            state = 4;
+            state = 4; //-V112
             break;
         case 4:
             if (isE(datap[cp]) != 0) {
@@ -599,7 +599,7 @@ lexNumber()
                 while (_isDigit(datap[cp]) != 0) {
                     cp++;
                 }
-                state = 4;
+                state = 4; //-V112
                 break;
             } else {
                 state = 7;
@@ -621,7 +621,7 @@ lexNumber()
         vtype = 1;
     } else if ((datap[cp] == 'u') || (datap[cp] == 'U')) {
         cp++;
-        vtype = 4;
+        vtype = 4; //-V112
     } else if ((datap[cp] == 'd') || (datap[cp] == 'D')) {
         cp++;
         vtype = 2;
@@ -1018,10 +1018,10 @@ setLexFile(FILE* fp)
     lexState = Initial;
     vcStackSize = 0;
     lineNumber = 0;
-    long cpos = st.st_size;
+    size_t cpos = (size_t)st.st_size;
     clearTextBufferLexer();
     // Allocate enough for the text, an extra newline, and null
-    textbuffer = static_cast<char*>(calloc(cpos + 2, sizeof(char)));
+    textbuffer = static_cast<char*>(calloc((size_t)(cpos + 2), sizeof(char)));
     if (textbuffer != nullptr) {
         datap = textbuffer;
         size_t n = fread(textbuffer, sizeof(char), cpos, fp);

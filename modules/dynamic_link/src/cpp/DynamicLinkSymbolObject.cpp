@@ -119,7 +119,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
     return ret.NelsonClass;
 }
 //=============================================================================
-DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction,
+DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, void* pointerFunction,
     const std::wstring& symbol, const std::wstring& returnType, wstringVector paramsTypes)
     : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
 {
@@ -151,7 +151,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* poin
     if (!args) {
         Error(_W("error memory allocation."));
     } else {
-        int i = 0;
+        size_t i = 0;
         for (std::wstring param : _paramsTypes) {
             args[i++] = GetFFIType(param);
         }
@@ -231,7 +231,8 @@ DynamicLinkSymbolObject::disp(Interface* io)
 #define PROTOTYPE_FIELD_STR L"  Prototype: "
 #define OUTPUT_FIELD_STR L"  Output:    "
 #define INPUT_FIELD_STR L"  Input:     "
-        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4) {
+        if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length()
+            > io->getTerminalWidth() - 4) { //-V112
             buffer = std::wstring(PROTOTYPE_FIELD_STR) + std::wstring(L"string 1x")
                 + std::to_wstring(_prototype.length());
         } else {
@@ -239,7 +240,7 @@ DynamicLinkSymbolObject::disp(Interface* io)
         }
         io->outputMessage(buffer + L"\n");
         if (wcslen(INPUT_FIELD_STR) + lengthTextToDisplay(_paramsInTypes)
-            > io->getTerminalWidth() - 4) {
+            > io->getTerminalWidth() - 4) { //-V112
             buffer = INPUT_FIELD_STR;
             buffer
                 = buffer + std::wstring(L"1x") + std::to_wstring(_nArgIn) + L" " + _W("cell array");
@@ -258,7 +259,7 @@ DynamicLinkSymbolObject::disp(Interface* io)
             io->outputMessage(buffer + L"\n");
         }
         if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes)
-            > io->getTerminalWidth() - 4) {
+            > io->getTerminalWidth() - 4) { //-V112
             buffer = OUTPUT_FIELD_STR;
             buffer = buffer + std::wstring(L"1x") + std::to_wstring(_nArgOut) + L" "
                 + _W("cell array");

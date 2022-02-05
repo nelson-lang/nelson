@@ -38,7 +38,7 @@ Nelson::StringGateway::endsWithBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() != 2 && argIn.size() != 4) {
+    if (argIn.size() != 2 && argIn.size() != 4) { //-V112
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
@@ -51,7 +51,7 @@ Nelson::StringGateway::endsWithBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
         if (A.isCharacterArray() || A.isStringArray() || IsCellOfString(A)) {
-            if (argIn.size() == 4) {
+            if (argIn.size() == 4) { //-V112
                 ArrayOf param3 = argIn[2];
                 std::wstring fieldname = param3.getContentAsWideString();
                 if (fieldname != L"IgnoreCase") {

@@ -39,7 +39,7 @@ private:
     using value_type = ArrayOf;
     stringVector lockedVariables;
     void* variablesTable;
-    bool lockedAccess = false;
+    volatile bool lockedAccess = false;
     //=============================================================================
 public:
     VariablesTable();

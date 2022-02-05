@@ -34,13 +34,13 @@ using namespace Nelson;
 const std::wstring gatewayName = L"interpreter";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "parsefile", (void*)Nelson::InterpreterGateway::parsefileBuiltin, 1, 1,
+    { "parsefile", (ptrBuiltin)Nelson::InterpreterGateway::parsefileBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "parsestring", (void*)Nelson::InterpreterGateway::parsestringBuiltin, 1, 1,
+    { "parsestring", (ptrBuiltin)Nelson::InterpreterGateway::parsestringBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "max_recursion_depth", (void*)Nelson::InterpreterGateway::max_recursion_depthBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "iskeyword", (void*)Nelson::InterpreterGateway::iskeywordBuiltin, 1, 1 },
+    { "max_recursion_depth", (ptrBuiltin)Nelson::InterpreterGateway::max_recursion_depthBuiltin, 1,
+        1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "iskeyword", (ptrBuiltin)Nelson::InterpreterGateway::iskeywordBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-RealPart(ArrayOf arrayIn);
+RealPart(const ArrayOf& arrayIn);
 }
 //=============================================================================

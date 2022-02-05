@@ -54,7 +54,7 @@ countString(const std::wstring& str, const std::wstring& pattern, bool caseSensi
 }
 //=============================================================================
 ArrayOf
-StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
+StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
     if ((A.isCharacterArray() && Pattern.isCharacterArray())

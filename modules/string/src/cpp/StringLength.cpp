@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-StringLength(ArrayOf A)
+StringLength(const ArrayOf& A)
 {
     ArrayOf res;
     Dimensions outputDims;

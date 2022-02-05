@@ -34,7 +34,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-SparseImagPart(ArrayOf a)
+SparseImagPart(const ArrayOf& a)
 {
     ArrayOf res;
     if (!a.isSparse()) {

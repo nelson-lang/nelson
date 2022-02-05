@@ -33,8 +33,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"text_editor";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "editor", (void*)Nelson::TextEditorGateway::editorBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
-    { "smartindent", (void*)Nelson::TextEditorGateway::smartindentBuiltin, 0, -1 },
+    { "editor", (ptrBuiltin)Nelson::TextEditorGateway::editorBuiltin, 0, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "smartindent", (ptrBuiltin)Nelson::TextEditorGateway::smartindentBuiltin, 0, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

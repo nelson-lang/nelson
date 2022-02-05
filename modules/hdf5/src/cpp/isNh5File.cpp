@@ -67,7 +67,6 @@ isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, A
             elementVersions[k] = ArrayOf::characterArrayConstructor("");
             elementHeaders[k] = ArrayOf::characterArrayConstructor("");
         } else {
-            std::string utf8filename = wstring_to_utf8(filename);
             std::wstring nh5Header;
             int16 nh5Version;
             int16 nh5Endian;
@@ -81,6 +80,7 @@ isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, A
                 }
                 elementHeaders[k] = ArrayOf::characterArrayConstructor(nh5Header);
             } else {
+                std::string utf8filename = wstring_to_utf8(filename);
                 hid_t fid = H5Fopen(utf8filename.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
                 if (fid == H5I_INVALID_HID) {
                     res[k] = false;

@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 void
-methodsComHandleObject(ArrayOf A, wstringVector& methods)
+methodsComHandleObject(const ArrayOf& A, wstringVector& methods)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));

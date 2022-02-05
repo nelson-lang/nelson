@@ -68,7 +68,7 @@ boolXor(
 }
 //=============================================================================
 ArrayOf
-XorLogical(ArrayOf A, ArrayOf B)
+XorLogical(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf C;
     if ((A.getDataClass() == NLS_LOGICAL) && (B.getDataClass() == NLS_LOGICAL)) {

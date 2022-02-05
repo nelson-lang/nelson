@@ -49,16 +49,14 @@ Nelson::ElementaryFunctionsGateway::bin2decBuiltin(
                 return retval;
             }
         }
-        if (!bSuccess) {
-            bool needToOverload;
-            ArrayOf param1 = argIn[0];
-            ArrayOf param2 = ArrayOf::doubleConstructor(2.);
-            ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
-            if (needToOverload) {
-                retval = OverloadFunction(eval, nLhs, argIn, "bin2dec");
-            } else {
-                retval << res;
-            }
+        bool needToOverload;
+        ArrayOf param1 = argIn[0];
+        ArrayOf param2 = ArrayOf::doubleConstructor(2.);
+        ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "bin2dec");
+        } else {
+            retval << res;
         }
     }
     return retval;
@@ -83,11 +81,11 @@ Nelson::ElementaryFunctionsGateway::hex2decBuiltin(
                 return retval;
             }
         }
-        if (!bSuccess) {
+        if (!bSuccess) { //-V547
             bool needToOverload;
             ArrayOf param1 = argIn[0];
             ArrayOf param2 = ArrayOf::doubleConstructor(16.);
-            ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
+            ArrayOf res = BaseToDecimal(param1, param2, needToOverload); //-V821
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "hex2dec");
             } else {
@@ -117,11 +115,11 @@ Nelson::ElementaryFunctionsGateway::base2decBuiltin(
                 return retval;
             }
         }
-        if (!bSuccess) {
+        if (!bSuccess) { //-V547
             bool needToOverload;
             ArrayOf param1 = argIn[0];
             ArrayOf param2 = argIn[1];
-            ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
+            ArrayOf res = BaseToDecimal(param1, param2, needToOverload); //-V821
             if (needToOverload) {
                 retval = OverloadFunction(eval, nLhs, argIn, "base2dec");
             } else {

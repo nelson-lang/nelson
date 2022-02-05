@@ -443,19 +443,27 @@ XmlDocDocument::readFile()
         currentNode = currentNode->next;
     }
     if (nbXmlDocTag == 0) {
-        if (currentNode) {
-            this->errorMessage.push_back(utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
-        } else {
-            this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ")
-                + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
+        std::wstring line = currentNode ? std::to_wstring(currentNode->line) : L"";
+        std::wstring tag = utf8_to_wstring(XMLDOC_TAG);
+        std::wstring msg;
+        if (!line.empty()) {
+            msg.append(_W("line ") + line + _W(": "));
         }
+        msg.append(tag + L" " + _W("missing."));
+        this->errorMessage.push_back(msg);
         this->bReadOk = false;
         xmlFreeDoc(doc);
         return false;
     }
     if (nbXmlDocTag > 1) {
-        this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ")
-            + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("duplicated."));
+        std::wstring line = currentNode ? std::to_wstring(currentNode->line) : L"";
+        std::wstring tag = utf8_to_wstring(XMLDOC_TAG);
+        std::wstring msg;
+        if (!line.empty()) {
+            msg.append(_W("line ") + std::to_wstring(currentNode->line) + _W(": "));
+        }
+        msg.append(tag + L" " + _W("duplicated."));
+        this->errorMessage.push_back(msg);
         this->bReadOk = false;
         xmlFreeDoc(doc);
         return false;
@@ -798,7 +806,7 @@ XmlDocDocument::writeAsMarkdown(std::string& utf8stream)
     if (haveExample()) {
         XmlDocGenericItem* pItem = findfirst(EXAMPLES_TAG);
         XmlDocExamples* pExamples = (XmlDocExamples*)pItem;
-        pExamples->writeHeaderAsMarkdown(utf8stream); // lgtm [cpp/useless-expression]
+        pExamples->writeHeaderAsMarkdown(utf8stream); // lgtm [cpp/useless-expression] //-V522
     }
     // header
     if (isKeywordDocument()) {
@@ -818,7 +826,7 @@ XmlDocDocument::writeAsMarkdown(std::string& utf8stream)
     if (isTitleDocument()) {
         XmlDocGenericItem* pItem = findfirst(TITLE_TAG);
         XmlDocTitleItem* pItemTitle = (XmlDocTitleItem*)pItem;
-        pItemTitle->writeHeaderAsMarkdown(utf8stream);
+        pItemTitle->writeHeaderAsMarkdown(utf8stream); //-V522
     }
     utf8stream = utf8stream + "\n";
     for (size_t k = 0; k < this->items.size(); k++) {
@@ -841,7 +849,7 @@ XmlDocDocument::writeAsHtml(std::string& utf8stream)
     if (!getCopyright().empty()) {
         XmlDocGenericItem* pItem = findfirst(COPYRIGHT_TAG);
         XmlDocCopyrightItem* pCopyrightItem = (XmlDocCopyrightItem*)pItem;
-        pCopyrightItem->writeAsHtml(utf8stream);
+        pCopyrightItem->writeAsHtml(utf8stream); //-V522
     }
     utf8stream = utf8stream + HTML_HEAD_IN_TAG + "\n";
     utf8stream = utf8stream + HTML_GENERATOR_TAG + "\n";
@@ -852,7 +860,7 @@ XmlDocDocument::writeAsHtml(std::string& utf8stream)
     if (haveExample()) {
         XmlDocGenericItem* pItem = findfirst(EXAMPLES_TAG);
         XmlDocExamples* pExamples = (XmlDocExamples*)pItem;
-        pExamples->writeHeaderAsHtml(utf8stream);
+        pExamples->writeHeaderAsHtml(utf8stream); //-V522
     }
     // header
     if (isKeywordDocument()) {
@@ -872,7 +880,7 @@ XmlDocDocument::writeAsHtml(std::string& utf8stream)
     if (isTitleDocument()) {
         XmlDocGenericItem* pItem = findfirst(TITLE_TAG);
         XmlDocTitleItem* pItemTitle = (XmlDocTitleItem*)pItem;
-        pItemTitle->writeHeaderAsHtml(utf8stream);
+        pItemTitle->writeHeaderAsHtml(utf8stream); //-V522
     }
     utf8stream = utf8stream + HTML_HEAD_OUT_TAG + "\n";
     utf8stream = utf8stream + HTML_BODY_IN_TAG + "\n";
@@ -1378,9 +1386,7 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     // NOTHING TO DO :)
                 } else if (currentItemNodeName == HISTORY_ITEM_VERSION_TAG) {
                     xmlNodePtr versionNode = currentItemNode;
-                    if (versionNode != nullptr) {
-                        versionNode = versionNode->children;
-                    }
+                    versionNode = versionNode->children; //-V547
                     if (versionNode) {
                         std::string str;
                         if (versionNode->content) {
@@ -1419,7 +1425,7 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     }
                 } else if (currentItemNodeName == HISTORY_ITEM_DESCRIPTION_TAG) {
                     xmlNodePtr descriptionNode = currentItemNode;
-                    if (descriptionNode != nullptr) {
+                    if (descriptionNode != nullptr) { //-V547
                         descriptionNode = descriptionNode->children;
                     }
                     if (descriptionNode) {
@@ -1475,7 +1481,7 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     historyItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                if (currentItemNode) {
+                if (currentItemNode) { //-V547
                     this->errorMessage.push_back(_W("line ")
                         + std::to_wstring(currentItemNode->line) + _W(": ")
                         + utf8_to_wstring(HISTORY_ITEM_DESCRIPTION_TAG) + L" " + _W("missing."));
@@ -1492,7 +1498,8 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     historyItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line)
+                this->errorMessage.push_back(_W("line ")
+                    + std::to_wstring(currentItemNode->line) //-V522
                     + _W(": ") + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" " + _W("missing."));
                 this->bReadOk = false;
                 return false;
@@ -1547,7 +1554,7 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
                     // NOTHING TO DO :)
                 } else if (currentItemNodeName == PARAM_NAME_TAG) {
                     xmlNodePtr nameNode = currentItemNode;
-                    if (nameNode != nullptr) {
+                    if (nameNode != nullptr) { //-V547
                         nameNode = nameNode->children;
                     }
                     if (nameNode) {
@@ -1587,7 +1594,7 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
                     }
                 } else if (currentItemNodeName == PARAM_DESCRIPTION_TAG) {
                     xmlNodePtr descriptionNode = currentItemNode;
-                    if (descriptionNode != nullptr) {
+                    if (descriptionNode != nullptr) { //-V547
                         descriptionNode = descriptionNode->children;
                     }
                     if (descriptionNode) {
@@ -1708,7 +1715,7 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
                     // NOTHING TO DO :)
                 } else if (currentItemNodeName == PARAM_NAME_TAG) {
                     xmlNodePtr nameNode = currentItemNode;
-                    if (nameNode != nullptr) {
+                    if (nameNode != nullptr) { //-V547
                         nameNode = nameNode->children;
                     }
                     if (nameNode) {
@@ -1748,7 +1755,7 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
                     }
                 } else if (currentItemNodeName == PARAM_DESCRIPTION_TAG) {
                     xmlNodePtr descriptionNode = currentItemNode;
-                    if (descriptionNode != nullptr) {
+                    if (descriptionNode != nullptr) { //-V547
                         descriptionNode = descriptionNode->children;
                     }
                     if (descriptionNode) {
@@ -1875,7 +1882,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     // NOTHING TO DO :)
                 } else if (currentItemNodeName == EXAMPLE_ITEM_TYPE_TAG) {
                     xmlNodePtr nameNode = currentItemNode;
-                    if (nameNode != nullptr) {
+                    if (nameNode != nullptr) { //-V547
                         nameNode = nameNode->children;
                     }
                     if (nameNode) {
@@ -1915,7 +1922,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     }
                 } else if (currentItemNodeName == EXAMPLE_ITEM_DESCRIPTION_TAG) {
                     xmlNodePtr descriptionNode = currentItemNode;
-                    if (descriptionNode != nullptr) {
+                    if (descriptionNode != nullptr) { //-V547
                         descriptionNode = descriptionNode->children;
                     }
                     if (descriptionNode) {
@@ -2020,7 +2027,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     }
                 } else if (currentItemNodeName == EXAMPLE_ITEM_DATA_TAG) {
                     xmlNodePtr dataNode = currentItemNode;
-                    if (dataNode != nullptr) {
+                    if (dataNode != nullptr) { //-V547
                         dataNode = dataNode->children;
                     }
                     if (dataNode) {
@@ -2073,7 +2080,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     delete examplesItems;
                     examplesItems = nullptr;
                 }
-                if (currentItemNode) {
+                if (currentItemNode) { //-V547
                     this->errorMessage.push_back(_W("line ")
                         + std::to_wstring(currentItemNode->line) + _W(": ")
                         + utf8_to_wstring(EXAMPLE_ITEM_TYPE_TAG) + L" " + _W("missing."));
@@ -2092,7 +2099,8 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     examplesItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line)
+                this->errorMessage.push_back(_W("line ")
+                    + std::to_wstring(currentItemNode->line) //-V522
                     + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_DESCRIPTION_TAG) + L" "
                     + _W("missing."));
                 this->bReadOk = false;
@@ -2348,7 +2356,7 @@ XmlDocDocument::readFileCaseChapterIndex(xmlDocPtr doc, xmlNodePtr node)
                     }
                 } else if (currentItemNodeName == CHAPTER_REF_DESCRIPTION_TAG) {
                     xmlNodePtr descriptionNode = currentItemNode;
-                    if (descriptionNode != nullptr) {
+                    if (descriptionNode != nullptr) { //-V547
                         descriptionNode = descriptionNode->children;
                     }
                     if (descriptionNode) {
@@ -2422,7 +2430,7 @@ XmlDocDocument::readFileCaseLink(
             strlinkend = std::string((char*)node->properties->name);
         } else {
             xmlFreeDoc(doc);
-            if (node) {
+            if (node) { //-V547
                 this->errorMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ")
                     + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
             } else {
@@ -2470,7 +2478,8 @@ XmlDocDocument::readFileCaseLink(
         }
         name = utf8_to_wstring(str);
     } else {
-        this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line) + _W(": ")
+        this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line)
+            + _W(": ") //-V522
             + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
         xmlFreeDoc(doc);
         this->bReadOk = false;
@@ -2629,7 +2638,7 @@ XmlDocDocument::writeAsMarkdown()
             if (markdownFile.is_open()) {
                 markdownFile << markdownUtf8Stream << std::endl;
                 markdownFile.close();
-                res = true;
+                res = true; //-V1048
             } else {
                 res = false;
             }
@@ -2659,7 +2668,7 @@ XmlDocDocument::writeAsHtml()
                 copyHtmlDependencies();
                 htmlfile << htmlUtf8Stream << std::endl;
                 htmlfile.close();
-                res = true;
+                res = true; //-V1048
             } else {
                 res = false;
             }

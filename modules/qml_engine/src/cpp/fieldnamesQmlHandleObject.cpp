@@ -35,7 +35,7 @@
 namespace Nelson {
 //=============================================================================
 void
-fieldnamesQmlHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames)
+fieldnamesQmlHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {

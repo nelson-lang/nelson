@@ -84,6 +84,7 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
             if (!bSuccess) {
                 Error(ERROR_TYPE_NOT_SUPPORTED);
             }
+            return retval;
         }
     }
     return OverloadFunction(eval, nLhs, argIn, "str2double");

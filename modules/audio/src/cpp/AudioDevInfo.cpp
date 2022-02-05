@@ -51,25 +51,23 @@ getOutputDeviceIndex(int deviceID)
 {
     PaDeviceIndex idx = paNoDevice;
     if (deviceID < -1) {
-        idx = paNoDevice;
-    } else {
-        if (deviceID == -1) {
-            idx = Pa_GetDefaultOutputDevice();
-        } else {
-            const PaDeviceInfo* pdi = nullptr;
-            for (AudioDeviceInfo dev : audioDevices) {
-                if (deviceID == dev.Id) {
-                    pdi = dev.padeviceInfo;
-                    break;
-                }
-            }
-            if (pdi) {
-                for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++) {
-                    const PaDeviceInfo* currentdeviceInfo = Pa_GetDeviceInfo(i);
-                    if (pdi == currentdeviceInfo) {
-                        return i;
-                    }
-                }
+        return paNoDevice;
+    }
+    if (deviceID == -1) {
+        return Pa_GetDefaultOutputDevice();
+    }
+    const PaDeviceInfo* pdi = nullptr;
+    for (AudioDeviceInfo dev : audioDevices) {
+        if (deviceID == dev.Id) {
+            pdi = dev.padeviceInfo;
+            break;
+        }
+    }
+    if (pdi) {
+        for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++) {
+            const PaDeviceInfo* currentdeviceInfo = Pa_GetDeviceInfo(i);
+            if (pdi == currentdeviceInfo) {
+                return i;
             }
         }
     }
@@ -81,25 +79,23 @@ getInputDeviceIndex(int deviceID)
 {
     PaDeviceIndex idx = paNoDevice;
     if (deviceID < -1) {
-        idx = paNoDevice;
-    } else {
-        if (deviceID == -1) {
-            idx = Pa_GetDefaultInputDevice();
-        } else {
-            const PaDeviceInfo* pdi = nullptr;
-            for (AudioDeviceInfo dev : audioDevices) {
-                if (deviceID == dev.Id) {
-                    pdi = dev.padeviceInfo;
-                    break;
-                }
-            }
-            if (pdi) {
-                for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++) {
-                    const PaDeviceInfo* currentdeviceInfo = Pa_GetDeviceInfo(i);
-                    if (pdi == currentdeviceInfo) {
-                        return i;
-                    }
-                }
+        return paNoDevice;
+    }
+    if (deviceID == -1) {
+        return Pa_GetDefaultInputDevice();
+    }
+    const PaDeviceInfo* pdi = nullptr;
+    for (AudioDeviceInfo dev : audioDevices) {
+        if (deviceID == dev.Id) {
+            pdi = dev.padeviceInfo;
+            break;
+        }
+    }
+    if (pdi) {
+        for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++) {
+            const PaDeviceInfo* currentdeviceInfo = Pa_GetDeviceInfo(i);
+            if (pdi == currentdeviceInfo) {
+                return i;
             }
         }
     }

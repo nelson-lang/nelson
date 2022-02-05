@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 indexType
-SparseNonZeros(ArrayOf a)
+SparseNonZeros(const ArrayOf& a)
 {
     indexType nnz = 0;
     if (a.isSparse()) {

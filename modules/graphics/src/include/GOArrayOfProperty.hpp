@@ -50,11 +50,11 @@ public:
     std::string
     print(const std::string& propertyName) override
     {
-        Dimensions dims = m_data.getDimensions();
         std::string v;
         if (m_data.isNumeric() && m_data.isEmpty(true)) {
             v = "[]";
         } else {
+            Dimensions dims = m_data.getDimensions();
             v = "[" + dims.toString() + " " + ClassName(m_data) + "]";
         }
         return "\t" + propertyName + ":\t" + v;
@@ -67,7 +67,7 @@ public:
     }
     //=============================================================================
     void
-    value(ArrayOf m)
+    value(const ArrayOf& m)
     {
         m_data = m;
     }

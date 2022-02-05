@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSDYNAMIC_LINK_IMPEXP bool
-DeleteDynamicLinkSymbolObject(ArrayOf A);
+DeleteDynamicLinkSymbolObject(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

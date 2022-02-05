@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP ArrayOf
-ispropComHandleObject(ArrayOf A, const std::wstring& propertyName);
+ispropComHandleObject(const ArrayOf& A, const std::wstring& propertyName);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

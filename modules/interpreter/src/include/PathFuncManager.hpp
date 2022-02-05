@@ -117,7 +117,7 @@ public:
     void
     clearCache();
     void
-    clearCache(stringVector exceptedFunctions);
+    clearCache(const stringVector& exceptedFunctions);
 
     bool
     isAvailablePath(const std::wstring& path);

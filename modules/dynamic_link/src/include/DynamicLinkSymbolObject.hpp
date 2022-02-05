@@ -39,8 +39,8 @@ namespace Nelson {
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject
 {
 public:
-    DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction, const std::wstring& symbol,
-        const std::wstring& returnType, wstringVector paramsType);
+    DynamicLinkSymbolObject(const ArrayOf& dllibObject, void* pointerFunction,
+        const std::wstring& symbol, const std::wstring& returnType, wstringVector paramsType);
     ~DynamicLinkSymbolObject() override;
     ArrayOfVector
     call(Evaluator* eval, int Lhs, ArrayOfVector params);

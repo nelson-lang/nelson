@@ -41,7 +41,7 @@ Nelson::StreamGateway::feofBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     ArrayOf param1 = argIn[0];
     int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));
-    if (!fm->isOpened(iValue)) {
+    if (!fm->isOpened(iValue)) { //-V1004
         Error(_W("Invalid file identifier."));
     }
     FILE* fileptr = static_cast<FILE*>(fm->getFilePointer(iValue));

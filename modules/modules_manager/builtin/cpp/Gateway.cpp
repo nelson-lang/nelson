@@ -39,18 +39,19 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"modules_manager";
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "removemodule", (void*)Nelson::ModulesManagerGateway::removemoduleBuiltin, 0, 1,
-            CPP_BUILTIN_WITH_EVALUATOR },
-          { "addmodule", (void*)Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2,
-              CPP_BUILTIN_WITH_EVALUATOR },
-          { "modulepath", (void*)Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
-          { "getmodules", (void*)Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
-          { "ismodule", (void*)Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
-          { "toolboxdir", (void*)Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
-          { "usermodulesdir", (void*)Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
-          { "requiremodule", (void*)Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 },
-          { "semver", (void*)Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 } };
+static const nlsGateway gateway[] = {
+    { "removemodule", (ptrBuiltin)Nelson::ModulesManagerGateway::removemoduleBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "addmodule", (ptrBuiltin)Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "modulepath", (ptrBuiltin)Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
+    { "getmodules", (ptrBuiltin)Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 1 },
+    { "ismodule", (ptrBuiltin)Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
+    { "toolboxdir", (ptrBuiltin)Nelson::ModulesManagerGateway::toolboxdirBuiltin, 1, 1 },
+    { "usermodulesdir", (ptrBuiltin)Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
+    { "requiremodule", (ptrBuiltin)Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 },
+    { "semver", (ptrBuiltin)Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 }
+};
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

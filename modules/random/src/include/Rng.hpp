@@ -48,6 +48,6 @@ RngSetEngine(Evaluator* eval, double seed, const std::wstring& engineName);
 NLSRANDOM_IMPEXP void
 RngDelete(Evaluator* eval);
 NLSRANDOM_IMPEXP bool
-RngSetState(Evaluator* eval, ArrayOf st);
+RngSetState(Evaluator* eval, const ArrayOf& st);
 } // namespace Nelson
 //=============================================================================

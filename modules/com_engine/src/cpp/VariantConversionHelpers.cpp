@@ -393,7 +393,7 @@ makeSafeArrayFromDimensions(const Dimensions& dims, VARTYPE vt)
 }
 //=============================================================================
 bool
-NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
+NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessage)
 {
     errorMessage.clear();
     Class type = A.getDataClass();

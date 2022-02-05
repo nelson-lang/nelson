@@ -240,7 +240,7 @@ RngDelete(Evaluator* eval)
 }
 //=============================================================================
 bool
-RngSetState(Evaluator* eval, ArrayOf st)
+RngSetState(Evaluator* eval, const ArrayOf& st)
 {
     auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());

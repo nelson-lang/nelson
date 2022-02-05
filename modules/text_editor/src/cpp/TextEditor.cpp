@@ -45,7 +45,7 @@ editor(Evaluator* eval)
 }
 //=============================================================================
 bool
-editor(Evaluator* eval, std::wstring filename)
+editor(Evaluator* eval, const std::wstring& filename)
 {
     bool res = false;
     if (edit == nullptr) {
@@ -59,7 +59,7 @@ editor(Evaluator* eval, std::wstring filename)
 }
 //=============================================================================
 bool
-editor(Evaluator* eval, wstringVector filenames)
+editor(Evaluator* eval, const wstringVector& filenames)
 {
     bool res = true;
     for (size_t k = 0; k < filenames.size(); k++) {

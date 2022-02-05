@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSPARSE_IMPEXP ArrayOf
-SparseImagPart(ArrayOf a);
+SparseImagPart(const ArrayOf& a);
 }
 //=============================================================================

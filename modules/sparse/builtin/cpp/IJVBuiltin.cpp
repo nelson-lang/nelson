@@ -69,7 +69,7 @@ Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             if (nLhs > 3) {
                 retval << M;
             }
-            if (nLhs > 4) {
+            if (nLhs > 4) { //-V112
                 retval << N;
             }
             if (nLhs > 5) {

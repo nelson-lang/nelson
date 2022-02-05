@@ -177,8 +177,8 @@ RCVFindModeFullComplex(const ArrayOf& x)
     return retval;
 }
 //=============================================================================
-ArrayOfVector
-RCVFindModeFull(ArrayOf x)
+static ArrayOfVector
+RCVFindModeFull(const ArrayOf& x)
 {
     switch (x.getDataClass()) {
     default: {

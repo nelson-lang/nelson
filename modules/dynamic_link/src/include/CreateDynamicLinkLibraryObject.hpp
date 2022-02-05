@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 NLSDYNAMIC_LINK_IMPEXP ArrayOf
-createDynamicLinkSymbolObject(ArrayOf dllibObject, const std::wstring& symbol,
+createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& symbol,
     const std::wstring& returnType, const wstringVector& argumentsType);
 //=============================================================================
 } // namespace Nelson

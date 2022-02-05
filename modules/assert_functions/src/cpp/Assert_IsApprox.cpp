@@ -30,8 +30,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, double precision,
-    std::wstring& msg)
+Assert_IsApprox(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& expectedArray,
+    double precision, std::wstring& msg)
 {
     bool bRes = false;
     Context* context = eval->getContext();

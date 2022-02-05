@@ -77,7 +77,7 @@ nelsonClassToHdf5DataType(Class dataType)
 }
 //=============================================================================
 static herr_t
-setFillValue(ArrayOf fillvalue, Class dataType, hid_t dcpl)
+setFillValue(const ArrayOf& fillvalue, Class dataType, hid_t dcpl)
 {
     herr_t status = H5Pset_alloc_time(dcpl, H5D_ALLOC_TIME_EARLY);
     switch (dataType) {
@@ -141,7 +141,7 @@ setFillValue(ArrayOf fillvalue, Class dataType, hid_t dcpl)
 void
 h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     const boost::container::vector<double>& sizeData, Class dataType,
-    const boost::container::vector<double>& chunksize, int deflate, ArrayOf fillvalue,
+    const boost::container::vector<double>& chunksize, int deflate, const ArrayOf& fillvalue,
     bool fletcher32, bool shuffle, const std::wstring& textEncoding)
 {
     if (deflate < 0 || deflate > 9) {

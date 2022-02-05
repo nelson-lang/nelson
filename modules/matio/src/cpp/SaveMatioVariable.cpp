@@ -42,7 +42,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioVariable(const std::string& variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioVariable(const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
 {
     matvar_t* matVariable = nullptr;
     switch (variableValue.getDataClass()) {

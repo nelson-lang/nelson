@@ -33,8 +33,8 @@
 namespace Nelson {
 //=============================================================================
 void
-SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ,
-    bool& needToOverload)
+SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N,
+    ArrayOf& NNZ, bool& needToOverload)
 {
     needToOverload = false;
     if (spA.isSparse()) {

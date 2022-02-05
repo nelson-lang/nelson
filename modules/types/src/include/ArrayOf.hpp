@@ -56,7 +56,8 @@
 
 namespace Nelson {
 
-NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
+NLSTYPES_IMPEXP ArrayOfVector
+scalarArrayOfToArrayOfVector(const ArrayOf&);
 
 class Data;
 
@@ -786,7 +787,7 @@ public:
     getValueAtIndex(uint64 index);
 
     void
-    setValueAtIndex(uint64 index, ArrayOf scalarValue);
+    setValueAtIndex(uint64 index, const ArrayOf& scalarValue);
 
     void
     setValue(const ArrayOf& value);
@@ -1139,13 +1140,13 @@ public:
      * types, this is a best-guess.
      */
     indexType
-    nnz();
+    nnz() const;
 
     /*
      * Amount of storage allocated for nonzero matrix elements
      */
     indexType
-    nzmax();
+    nzmax() const;
 
     /*
      * number of elements

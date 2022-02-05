@@ -38,10 +38,10 @@ typedef enum
 } SVD_FLAG;
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP void
-SVD(ArrayOf A, ArrayOf& s);
+SVD(const ArrayOf& A, ArrayOf& s);
 NLSLINEAR_ALGEBRA_IMPEXP void
-SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S);
+SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S);
 NLSLINEAR_ALGEBRA_IMPEXP void
-SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V);
+SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V);
 } // namespace Nelson
 //=============================================================================

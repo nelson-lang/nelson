@@ -32,9 +32,9 @@ namespace Nelson {
 NLSTEXT_EDITOR_IMPEXP bool
 editor(Evaluator* eval);
 NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, std::wstring filename);
+editor(Evaluator* eval, const std::wstring& filename);
 NLSTEXT_EDITOR_IMPEXP bool
-editor(Evaluator* eval, wstringVector filenames);
+editor(Evaluator* eval, const wstringVector& filenames);
 NLSTEXT_EDITOR_IMPEXP bool
 closeEditor();
 } // namespace Nelson

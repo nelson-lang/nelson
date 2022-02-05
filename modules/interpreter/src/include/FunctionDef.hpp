@@ -164,7 +164,7 @@ public:
      * Evaluate the function and return its output.
      */
     virtual ArrayOfVector
-    evaluateFunction(Evaluator*, const ArrayOfVector&, int)
+    evaluateFunction(Evaluator*, const ArrayOfVector&, int) //-V1071
         = 0;
     //=============================================================================
     virtual bool

@@ -35,9 +35,9 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"ipc";
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "getpid", (void*)Nelson::IpcGateway::getpidBuiltin, 1, 0, CPP_BUILTIN },
-          { "ipc", (void*)Nelson::IpcGateway::ipcBuiltin, -1, 3, CPP_BUILTIN_WITH_EVALUATOR } };
+static const nlsGateway gateway[] = { { "getpid", (ptrBuiltin)Nelson::IpcGateway::getpidBuiltin, 1,
+                                          0, CPP_BUILTIN },
+    { "ipc", (ptrBuiltin)Nelson::IpcGateway::ipcBuiltin, -1, 3, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 static bool
 initializeIpcModule(Nelson::Evaluator* eval)

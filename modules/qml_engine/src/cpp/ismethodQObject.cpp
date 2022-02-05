@@ -57,7 +57,7 @@ ismethodQObject(QmlHandleObject* qmlhandleobj, const std::wstring& methodname)
 }
 //=============================================================================
 ArrayOf
-ismethodQObject(ArrayOf A, const std::wstring& methodname)
+ismethodQObject(const ArrayOf& A, const std::wstring& methodname)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {

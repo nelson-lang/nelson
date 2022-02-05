@@ -56,7 +56,6 @@ static void
 splitpath(const std::wstring& prefix, std::wstring& path, std::wstring& fname)
 {
     const wchar_t* lastslash = nullptr;
-    const wchar_t* p2 = prefix.c_str();
     int lastslash_pos = -1;
     for (size_t k = 0; k < prefix.size(); ++k) {
 #ifdef _MSC_VER
