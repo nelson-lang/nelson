@@ -26,6 +26,7 @@
 #pragma once
 //=============================================================================
 #if defined(_MSC_VER)
+#define EIGEN_USE_MKL
 #define EIGEN_USE_MKL_VML
 #define _NLS_WITH_VML
 #endif
