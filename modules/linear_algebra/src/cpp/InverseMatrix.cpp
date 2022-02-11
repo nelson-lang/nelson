@@ -28,6 +28,7 @@
 #endif
 #include "nlsConfig.h"
 #undef EIGEN_USE_MKL_VML
+#undef EIGEN_USE_MKL
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include <Eigen/src/misc/lapacke.h>

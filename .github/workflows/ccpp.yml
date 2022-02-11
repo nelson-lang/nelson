@@ -251,7 +251,6 @@ jobs:
         cd ..
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git
         cd nelson-thirdparty-win32
-        git checkout vs2022
         install.bat
         cd ..
 
@@ -373,7 +372,6 @@ jobs:
         cd ..
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git
         cd nelson-thirdparty-x64
-        git checkout vs2022
         install.bat
         cd ..
 
