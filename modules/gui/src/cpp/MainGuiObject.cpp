@@ -41,6 +41,7 @@
 #include "QStringConverter.hpp"
 #include "GetNelsonPath.hpp"
 #include "NelsonPalette.hpp"
+#include "DefaultFont.hpp"
 //===================================================================================
 static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
@@ -106,6 +107,7 @@ InitGuiObjects(void)
         QCoreApplication::setOrganizationDomain(
             "https://nelson-numerical-software.github.io/nelson-website/");
         AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
+        configureDefaultFont();
     }
 }
 //===================================================================================

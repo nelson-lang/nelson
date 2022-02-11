@@ -72,6 +72,9 @@
     <ClCompile Include="..\cpp\NelsonMinimized.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\DefaultFont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsGui_exports.h">
@@ -114,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\NelsonMinimized.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DefaultFont.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,24 +23,42 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <QtGui/QFontDatabase>
+#include <QtCore/QFile>
+#include "DefaultFont.hpp"
+#include "GetNelsonPath.hpp"
+#include "QStringConverter.hpp"
 //=============================================================================
-#include "Types.hpp"
-#include <QtCore/QPoint>
-#include <QtCore/QSize>
-#include <QtGui/QFont>
+namespace Nelson {
 //=============================================================================
-#define TEXT_EDITOR_DEFAULT_POS_X 0
-#define TEXT_EDITOR_DEFAULT_POS_Y 0
-#define TEXT_EDITOR_DEFAULT_SIZE_X 640
-#define TEXT_EDITOR_DEFAULT_SIZE_Y 480
-#define TEXT_EDITOR_PREFERENCES_FILENAME "editor.conf"
+static std::wstring defaultFontName;
 //=============================================================================
 bool
-TextEditorSavePreferences(
-    QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles);
-//=============================================================================
-bool
-TextEditorLoadPreferences(
-    QFont& currentFont, QPoint& pos, QSize& sz, Nelson::wstringVector& recentFiles);
-//=============================================================================
+configureDefaultFont()
+{
+    std::wstring nelsonPath = Nelson::GetRootPath();
+    std::wstring fontPath = nelsonPath + L"/resources/fonts";
+    std::wstring JuliaMonoFullFilename = fontPath + L"/JuliaMono-Regular.ttf";
+    QString qFilename = Nelson::wstringToQString(JuliaMonoFullFilename);
+    if (QFile::exists(qFilename)) {
+        QFontDatabase::addApplicationFont(Nelson::wstringToQString(fontPath));
+        defaultFontName = L"JuliaMono-Regular";
+        return true;
+    } else {
+#ifdef __APPLE__
+        defaultFontName = L"Monaco";
+#else
+        defaultFontName = L"Monospace";
+#endif
+    }
+    return false;
+}
+//===================================================================================
+std::wstring
+getDefaultFontName()
+{
+    return defaultFontName;
+}
+//===================================================================================
+}
+//===================================================================================
