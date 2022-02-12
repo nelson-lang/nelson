@@ -37,14 +37,7 @@ install(
   DESTINATION ${ROOT_OUTPUT}
   FILES_MATCHING
   PATTERN "*.svg")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/resources/fonts
-  DESTINATION ${ROOT_OUTPUT}
-  FILES_MATCHING
-  PATTERN "*.ttf")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/resources/fonts
-  DESTINATION ${ROOT_OUTPUT}
-  FILES_MATCHING
-  PATTERN "LICENSE")
+# ==============================================================================
+install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/JuliaMono-Regular.ttf DESTINATION ${ROOT_OUTPUT}/resources/fonts)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/LICENSE DESTINATION ${ROOT_OUTPUT}/resources/fonts)
 # ==============================================================================
