@@ -24,23 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-//=============================================================================
-#include "Types.hpp"
-#include <QtCore/QPoint>
-#include <QtCore/QSize>
-#include <QtGui/QFont>
-//=============================================================================
-#define TEXT_EDITOR_DEFAULT_POS_X 0
-#define TEXT_EDITOR_DEFAULT_POS_Y 0
-#define TEXT_EDITOR_DEFAULT_SIZE_X 640
-#define TEXT_EDITOR_DEFAULT_SIZE_Y 480
-#define TEXT_EDITOR_PREFERENCES_FILENAME "editor.conf"
-//=============================================================================
-bool
-TextEditorSavePreferences(
-    QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles);
-//=============================================================================
-bool
-TextEditorLoadPreferences(
-    QFont& currentFont, QPoint& pos, QSize& sz, Nelson::wstringVector& recentFiles);
-//=============================================================================
+//===================================================================================
+#include <string>
+#include "nlsGui_exports.h"
+//===================================================================================
+namespace Nelson {
+NLSGUI_IMPEXP bool
+configureDefaultFont();
+//===================================================================================
+NLSGUI_IMPEXP std::wstring
+getDefaultFontName();
+//===================================================================================
+}
+//===================================================================================

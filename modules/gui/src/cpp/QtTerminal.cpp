@@ -57,6 +57,7 @@
 #include "PostCommand.hpp"
 #include "NelsonPalette.hpp"
 #include "NelsonColors.hpp"
+#include "DefaultFont.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -69,12 +70,7 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
     setPalette(getNelsonPalette());
-
-#ifdef __APPLE__
-    QFont f("Monaco");
-#else
-    QFont f("Monospace");
-#endif
+    QFont f(wstringToQString(Nelson::getDefaultFontName()));
     f.setStyleHint(QFont::TypeWriter);
     f.setPointSize(10);
     f.setFixedPitch(true);

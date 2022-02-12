@@ -23,16 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "TextEditorPreferences.hpp"
-#include "GetVariableEnvironment.hpp"
-#include "QStringConverter.hpp"
-#include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/foreach.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include "TextEditorPreferences.hpp"
+#include "GetVariableEnvironment.hpp"
+#include "QStringConverter.hpp"
+#include "characters_encoding.hpp"
+#include "DefaultFont.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -108,7 +109,7 @@ TextEditorLoadPreferences(
     int pref_sz_y = TEXT_EDITOR_DEFAULT_SIZE_Y;
     int pref_font_size = -1;
     bool pref_font_fixed_pitch = true;
-    std::string pref_font_name = TEXT_EDITOR_DEFAULT_FONT;
+    std::string pref_font_name = wstring_to_utf8(getDefaultFontName());
     std::wstring prefDir = getPreferencesPath();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);

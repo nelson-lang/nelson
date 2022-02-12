@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Console.cpp" />
+    <ClCompile Include="..\cpp\DefaultFont.cpp" />
     <ClCompile Include="..\cpp\GetQtPath.cpp" />
     <ClCompile Include="..\cpp\HtmlToPdf.cpp" />
     <ClCompile Include="..\cpp\MainGuiObject.cpp" />
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Console.hpp" />
+    <ClInclude Include="..\include\DefaultFont.hpp" />
     <ClInclude Include="..\include\GetQtPath.hpp" />
     <ClInclude Include="..\include\HtmlToPdf.hpp" />
     <ClInclude Include="..\include\NelsonColors.hpp" />
