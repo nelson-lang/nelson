@@ -29,7 +29,7 @@
 //=============================================================================
 #include <cstdlib>
 #include <algorithm>
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <boost/algorithm/string.hpp>
 #include <Eigen/Dense>
 #include "DecimalToBase.hpp"
@@ -42,7 +42,7 @@ namespace Nelson {
 //=============================================================================
 static wchar_t digit[] = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 //=============================================================================
-static boost::unordered_map<uint64, std::wstring> baseConverted;
+static std::unordered_map<uint64, std::wstring> baseConverted;
 static size_t lastBase = 10;
 static size_t lastDigits = 0;
 //=============================================================================

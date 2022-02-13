@@ -58,7 +58,7 @@ HandleManager::addHandle(HandleGenericObject* ptr)
     if (ptr == nullptr) {
         return static_cast<nelson_handle>(0);
     }
-    boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
+    std::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
     while (it != handleMap.end()) {
         if (it->second->getPointer() == ptr->getPointer()) {
             return it->first;
@@ -75,7 +75,7 @@ nelson_handle
 HandleManager::findByPointerValue(void* ptr)
 {
     if (ptr != nullptr) {
-        boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
+        std::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
         while (it != handleMap.end()) {
             if (it->second != nullptr) {
                 if (it->second->getPointer() == ptr) {
@@ -91,7 +91,7 @@ HandleManager::findByPointerValue(void* ptr)
 bool
 HandleManager::removeHandle(nelson_handle hl)
 {
-    boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.find(hl);
+    std::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.find(hl);
     if (it != handleMap.end()) {
         if (it->second != nullptr) {
             it->second = nullptr;
@@ -105,7 +105,7 @@ HandleManager::removeHandle(nelson_handle hl)
 HandleGenericObject*
 HandleManager::getPointer(nelson_handle hl)
 {
-    boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.find(hl);
+    std::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.find(hl);
     if (it != handleMap.end()) {
         return it->second;
     }
@@ -115,7 +115,7 @@ HandleManager::getPointer(nelson_handle hl)
 bool
 HandleManager::isValid(nelson_handle hl)
 {
-    boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.find(hl);
+    std::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.find(hl);
     if (it != handleMap.end()) {
         return true;
     }
@@ -126,7 +126,7 @@ std::vector<nelson_handle>
 HandleManager::getAllHandlesOfCategory(const std::wstring& category)
 {
     std::vector<nelson_handle> res;
-    boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
+    std::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
     while (it != handleMap.end()) {
         if (it->second != nullptr) {
             if (category == it->second->getCategory()) {

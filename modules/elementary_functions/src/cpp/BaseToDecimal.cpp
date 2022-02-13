@@ -27,7 +27,7 @@
 #include <cwchar>
 #include <boost/algorithm/string/erase.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include "Error.hpp"
 #include "Exception.hpp"
 #include "BaseToDecimal.hpp"
@@ -36,7 +36,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::unordered_map<std::wstring, double> baseConverted;
+static std::unordered_map<std::wstring, double> baseConverted;
 static size_t lastBase = 10;
 //=============================================================================
 static uint64

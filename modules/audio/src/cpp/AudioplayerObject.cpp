@@ -27,7 +27,6 @@
 #include "AudioDevInfo.hpp"
 #include "ClassName.hpp"
 #include "ComplexTranspose.hpp"
-#include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {

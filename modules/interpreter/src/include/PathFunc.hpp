@@ -25,7 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <string>
 #include "FileFunction.hpp"
 #include "Types.hpp"
@@ -50,8 +50,8 @@ public:
     findFuncName(const std::wstring& functionName, FileFunction** ff);
 
 private:
-    boost::unordered_map<std::wstring, FileFunction*> mapAllFiles;
-    boost::unordered_map<std::wstring, FileFunction*> mapRecentFiles;
+    std::unordered_map<std::wstring, FileFunction*> mapAllFiles;
+    std::unordered_map<std::wstring, FileFunction*> mapRecentFiles;
     std::wstring _path;
     bool
     isSupportedFuncFilename(const std::wstring& name);

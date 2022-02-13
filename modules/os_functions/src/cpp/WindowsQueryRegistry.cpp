@@ -26,7 +26,7 @@
 #ifdef _MSC_VER
 #include "ToCellString.hpp"
 #include <Windows.h>
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #endif
 #include "WindowsQueryRegistry.hpp"
 //=============================================================================
@@ -34,7 +34,7 @@ namespace Nelson {
 #ifdef _MSC_VER
 #define MAX_KEY_LENGTH 255
 #define MAX_VALUE_NAME 16383
-static boost::unordered::unordered_map<std::wstring, HKEY> hkeyMap;
+static std::unordered_map<std::wstring, HKEY> hkeyMap;
 static bool hkeyMapInitialized = false;
 static void
 initializeHkeyMap();

@@ -636,13 +636,13 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
         }
         JSON_TO_NELSON_Type commonType = findCommonJsonVariableType(jsVar);
         if (commonType != JSON_TO_NELSON_UNDEFINED) {
-            boost::container::vector<size_t> refVar = jsVar.vectorJsonVariable[0].dims;
+            std::vector<size_t> refVar = jsVar.vectorJsonVariable[0].dims;
             size_t totaldims = 1;
             for (auto i : refVar) {
                 totaldims *= i;
             }
             for (auto element : jsVar.vectorJsonVariable) {
-                boost::container::vector<size_t> dims = element.dims;
+                std::vector<size_t> dims = element.dims;
                 if (refVar.size() != dims.size()) {
                     jsVar.reduced = true;
                     jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
