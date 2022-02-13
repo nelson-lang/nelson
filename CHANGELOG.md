@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- [#576](http://github.com/Nelson-numerical-software/nelson/issues/575): C++17 Compiler required to build Nelson.
+
+
 - [#539](http://github.com/Nelson-numerical-software/nelson/issues/539): Visual studio 2022 build on Windows
   - Visual studio 2022 solution upgraded,
   - Github CI and Appveyor use VS 2022 image,
