@@ -78,7 +78,7 @@ PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 //=============================================================================
 PathFunc::~PathFunc()
 {
-    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
+    for (std::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
             delete it->second;
@@ -94,7 +94,7 @@ wstringVector
 PathFunc::getFunctionsName(const std::wstring& prefix)
 {
     wstringVector functionsName;
-    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
+    for (std::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
             if (prefix.empty()) {
@@ -114,7 +114,7 @@ wstringVector
 PathFunc::getFunctionsFilename()
 {
     wstringVector functionsFilename;
-    for (boost::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
+    for (std::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
          it != mapAllFiles.end(); ++it) {
         if (it->second) {
             functionsFilename.push_back(it->second->getFilename());
@@ -189,7 +189,7 @@ isfile(const std::wstring& filename)
 bool
 PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
 {
-    boost::unordered_map<std::wstring, FileFunction*>::iterator found
+    std::unordered_map<std::wstring, FileFunction*>::iterator found
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
@@ -215,7 +215,7 @@ PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
 bool
 PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
 {
-    boost::unordered_map<std::wstring, FileFunction*>::const_iterator foundit
+    std::unordered_map<std::wstring, FileFunction*>::const_iterator foundit
         = mapRecentFiles.find(functionName);
     if (foundit != mapRecentFiles.end()) {
         *ff = foundit->second;
@@ -229,7 +229,7 @@ PathFunc::findFuncName(const std::wstring& functionName, FileFunction** ff)
             Error(msg);
         }
     }
-    boost::unordered_map<std::wstring, FileFunction*>::iterator found
+    std::unordered_map<std::wstring, FileFunction*>::iterator found
         = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         *ff = found->second;

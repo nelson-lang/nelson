@@ -30,9 +30,9 @@
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <curl/curl.h>
+#include <unordered_map>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/unordered_map.hpp>
 #include <boost/algorithm/string.hpp>
 #include "WebREST.hpp"
 #include "characters_encoding.hpp"
@@ -44,7 +44,7 @@
 namespace Nelson {
 //=============================================================================
 static bool bHaveEventsLoop = false;
-static boost::unordered_map<std::string, std::string> unsafeCharacters;
+static std::unordered_map<std::string, std::string> unsafeCharacters;
 //=============================================================================
 static std::string
 protectCharacters(const std::string& str);
@@ -319,7 +319,7 @@ protectCharacters(const std::string& str)
     }
     for (char c : str) {
         std::string s(1, c);
-        boost::unordered_map<std::string, std::string>::const_iterator found
+        std::unordered_map<std::string, std::string>::const_iterator found
             = unsafeCharacters.find(s);
         if (found != unsafeCharacters.end()) {
             safeString.append(found->second);

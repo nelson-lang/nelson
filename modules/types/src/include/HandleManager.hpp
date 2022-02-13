@@ -28,7 +28,7 @@
 #include "HandleGenericObject.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <string>
 #include <vector>
 //=============================================================================
@@ -57,7 +57,7 @@ public:
     //=============================================================================
 private:
     HandleManager();
-    boost::unordered_map<nelson_handle, HandleGenericObject*> handleMap;
+    std::unordered_map<nelson_handle, HandleGenericObject*> handleMap;
     static HandleManager* m_pInstance;
     //=============================================================================
 };

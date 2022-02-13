@@ -93,12 +93,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/asio/asio/include;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4267;4834</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,12 +113,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/asio/asio/include;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4267;4834</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,12 +135,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/asio/asio/include;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4267;4834</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,12 +159,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/asio/asio/include;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4267;4834</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

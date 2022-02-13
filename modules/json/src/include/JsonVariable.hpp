@@ -25,7 +25,6 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
 #include <boost/unordered_map.hpp>
 #include <vector>
 #include "Types.hpp"
@@ -50,19 +49,19 @@ class JsonVariable
 {
 public:
     JSON_TO_NELSON_Type jsonVariableType;
-    boost::container::vector<size_t> dims;
+    std::vector<size_t> dims;
 
     std::string scalarString;
     double scalarDouble;
     logical scalarLogical;
     boost::unordered_map<std::string, JsonVariable> scalarMap;
 
-    boost::container::vector<std::string> vectorString;
-    boost::container::vector<double> vectorDouble;
-    boost::container::vector<logical> vectorLogical;
+    std::vector<std::string> vectorString;
+    std::vector<double> vectorDouble;
+    std::vector<logical> vectorLogical;
 
-    boost::container::vector<JsonVariable> vectorJsonVariable;
-    boost::unordered_map<std::string, boost::container::vector<JsonVariable>> map;
+    std::vector<JsonVariable> vectorJsonVariable;
+    boost::unordered_map<std::string, std::vector<JsonVariable>> map;
     std::vector<std::string> fieldnames;
 
     bool reduced = false;
@@ -78,7 +77,7 @@ JsonVariable::JsonVariable()
     scalarLogical = false;
 };
 //=============================================================================
-JsonVariable::~JsonVariable(){};
+JsonVariable::~JsonVariable() {};
 //=============================================================================
 }
 //=============================================================================

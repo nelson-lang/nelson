@@ -120,6 +120,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +139,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +160,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -180,6 +183,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/types/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

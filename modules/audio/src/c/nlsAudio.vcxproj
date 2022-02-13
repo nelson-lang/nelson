@@ -98,6 +98,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/audio/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libsndfile/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/taglib/include/taglib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,6 +118,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/audio/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libsndfile/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/taglib/include/taglib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +140,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/audio/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libsndfile/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/taglib/include/taglib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +163,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/audio/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libsndfile/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/taglib/include/taglib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

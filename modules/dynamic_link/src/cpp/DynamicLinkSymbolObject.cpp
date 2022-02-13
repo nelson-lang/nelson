@@ -25,8 +25,8 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include <unordered_map>
 #include <boost/algorithm/string.hpp>
-#include <boost/unordered_map.hpp>
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
@@ -50,7 +50,7 @@ CType::CType() = default;
 CType::CType(ffi_type* baseType, Class baseClass) : NelsonClass(baseClass) { FFIType = baseType; }
 //=============================================================================
 static bool ffiTypesMapInitialized = false;
-static boost::unordered::unordered_map<std::wstring, CType> ffiTypesMap;
+static std::unordered_map<std::wstring, CType> ffiTypesMap;
 //=============================================================================
 void
 initializeFfiTypesMap()
