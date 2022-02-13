@@ -48,6 +48,34 @@ computeFormatInfo(
 static FormatDisplayInformation
 computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
+static bool
+computeWidthRealByScaleFactor(FormatDisplayInformation& formatInfo)
+{
+    if (formatInfo.scaleFactor < 9) {
+        formatInfo.formatReal = L"%*ld";
+        formatInfo.floatAsInteger = true;
+        int scaleFactor = formatInfo.scaleFactor;
+        switch (scaleFactor) {
+        case 1:
+        case 2: {
+            formatInfo.widthReal = 6;
+        } break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        default: {
+            formatInfo.widthReal = 12;
+        } break;
+        }
+        formatInfo.decimalsReal = 0;
+        return true;
+    }
+    return false;
+}
+//=============================================================================
 FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
 {
@@ -216,194 +244,21 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
         } break;
         default: { } break; }
     } else {
-        switch (currentNumericFormat) {
-        case NLS_NUMERIC_FORMAT_HEX: {
-        } break;
-
-        case NLS_NUMERIC_FORMAT_LONGG: {
-            if (allInteger) {
-                if (!std::isfinite(absoluteValue)) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999999999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 12;
-                    formatInfo.decimalsReal = 0;
-                } else {
-                    formatInfo.floatAsInteger = false;
-                    formatInfo.formatReal = L"%*.*g";
-                    if (A.isSingleClass()) {
-                        formatInfo.widthReal = 16;
-                        formatInfo.decimalsReal = 7;
-                    } else {
-                        formatInfo.widthReal = 26;
-                        formatInfo.decimalsReal = 15;
-                    }
-                }
-            } else {
-                if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"%*.*g";
-                    formatInfo.widthReal = 16;
-                    formatInfo.decimalsReal = 7;
-                } else {
-                    formatInfo.formatReal = L"%*.*g";
-                    formatInfo.widthReal = 26;
-                    formatInfo.decimalsReal = 15;
-                }
-            }
-
-        } break;
-
-        case NLS_NUMERIC_FORMAT_SHORTG: {
-            if (allInteger) {
-                if (!std::isfinite(absoluteValue)) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999999999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 12;
-                    formatInfo.decimalsReal = 0;
-                } else {
-                    formatInfo.floatAsInteger = false;
-                    formatInfo.formatReal = L"%*.*g";
-                    formatInfo.widthReal = 13;
-                    formatInfo.decimalsReal = 4;
-                }
-            } else {
-                formatInfo.formatReal = L"%*.*g";
-                formatInfo.widthReal = 13;
-                formatInfo.decimalsReal = 5;
-            }
-
-        } break;
-
-        case NLS_NUMERIC_FORMAT_SHORTE: {
-            if (allInteger) {
-                if (!std::isfinite(absoluteValue)) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999999999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 12;
-                    formatInfo.decimalsReal = 0;
-                } else {
-                    formatInfo.floatAsInteger = false;
-                    formatInfo.formatReal = L"%*.*e";
-                    if (A.isSingleClass()) {
-                        formatInfo.widthReal = 12;
-                    } else {
-                        formatInfo.widthReal = 13;
-                    }
-                    formatInfo.decimalsReal = 4;
-                }
-            } else {
-                if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"%*.*e";
-                    formatInfo.widthReal = 12;
-                    formatInfo.decimalsReal = 4;
-                } else {
-                    formatInfo.formatReal = L"%*.*e";
-                    formatInfo.widthReal = 13;
-                    formatInfo.decimalsReal = 4;
-                }
-            }
-
-        } break;
-        case NLS_NUMERIC_FORMAT_LONGE: {
-            if (allInteger) {
-                if (!std::isfinite(absoluteValue)) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 6;
-                    formatInfo.decimalsReal = 0;
-                } else if (absoluteValue <= 999999999) {
-                    formatInfo.floatAsInteger = true;
-                    formatInfo.formatReal = L"%*ld";
-                    formatInfo.widthReal = 12;
-                    formatInfo.decimalsReal = 0;
-                } else {
-                    formatInfo.floatAsInteger = false;
-                    formatInfo.formatReal = L"%*.*e";
-                    if (A.isSingleClass()) {
-                        formatInfo.widthReal = 16;
-                        formatInfo.decimalsReal = 7;
-                    } else {
-                        formatInfo.widthReal = 26;
-                        formatInfo.decimalsReal = 15;
-                    }
-                }
-            } else {
-                if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"%*.*e";
-                    formatInfo.widthReal = 16;
-                    formatInfo.decimalsReal = 7;
-                } else {
-                    formatInfo.formatReal = L"%*.*e";
-                    formatInfo.widthReal = 26;
-                    formatInfo.decimalsReal = 15;
-                }
-            }
-        } break;
-        case NLS_NUMERIC_FORMAT_LONG: {
-            ComputeScaleFactor(A, allInteger, formatInfo);
-            if (allInteger) {
-                if (formatInfo.scaleFactor == 1) {
-                    if (absoluteValue <= 999) {
-                        formatInfo.floatAsInteger = true;
-                        formatInfo.formatReal = L"%*ld";
-                        formatInfo.widthReal = 6;
-                        formatInfo.decimalsReal = 0;
-                    } else if (absoluteValue <= 999999999) {
-                        formatInfo.floatAsInteger = true;
-                        formatInfo.formatReal = L"%*ld";
-                        formatInfo.widthReal = 12;
-                        formatInfo.decimalsReal = 0;
-                    } else {
-                        formatInfo.floatAsInteger = false;
-                        formatInfo.formatReal = L"%*.*e";
-                        formatInfo.widthReal = 13;
-                        formatInfo.decimalsReal = 4;
-                    }
-                } else {
-                    formatInfo.formatReal = L"%*.*f";
-                    if (A.isSingleClass()) {
-                        formatInfo.widthReal = 12;
-                        formatInfo.decimalsReal = 7;
-                    } else {
-                        formatInfo.widthReal = 20;
-                        formatInfo.decimalsReal = 15;
-                    }
-                }
-            } else {
+        if (allInteger) {
+            switch (currentNumericFormat) {
+            case NLS_NUMERIC_FORMAT_SHORT: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                formatInfo.floatAsInteger = false;
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.widthReal = 10;
+                formatInfo.decimalsReal = 4;
+                if (computeWidthRealByScaleFactor(formatInfo)) {
+                    formatInfo.scaleFactor = 1;
+                };
+            } break;
+            case NLS_NUMERIC_FORMAT_LONG: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                formatInfo.floatAsInteger = false;
                 if (A.isSingleClass()) {
                     formatInfo.formatReal = L"%*.*f";
                     formatInfo.widthReal = 12;
@@ -413,55 +268,160 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
                     formatInfo.widthReal = 20;
                     formatInfo.decimalsReal = 15;
                 }
-            }
-        } break;
-        case NLS_NUMERIC_FORMAT_BANK: {
-            formatInfo.widthReal = 14;
-            formatInfo.widthImag = 14;
-            formatInfo.formatReal = L"%*.*f";
-            formatInfo.decimalsReal = 2;
-            formatInfo.formatImag = L"%*.*f";
-            formatInfo.decimalsImag = 2;
-
-        } break;
-        case NLS_NUMERIC_FORMAT_SHORT: {
-            ComputeScaleFactor(A, allInteger, formatInfo);
-            if (allInteger) {
-                if (formatInfo.scaleFactor == 1) {
-                    if (absoluteValue <= 999) {
-                        formatInfo.floatAsInteger = true;
-                        formatInfo.formatReal = L"%*ld";
-                        formatInfo.widthReal = 6;
-                        formatInfo.decimalsReal = 0;
-                    } else if (absoluteValue <= 999999999) {
-                        formatInfo.floatAsInteger = true;
-                        formatInfo.formatReal = L"%*ld";
-                        formatInfo.widthReal = 12;
-                        formatInfo.decimalsReal = 0;
-                    } else {
-                        formatInfo.floatAsInteger = false;
-                        formatInfo.formatReal = L"%*.*e";
-                        formatInfo.widthReal = 13;
-                        formatInfo.decimalsReal = 4;
-                    }
+                computeWidthRealByScaleFactor(formatInfo);
+                if (computeWidthRealByScaleFactor(formatInfo)) {
+                    formatInfo.scaleFactor = 1;
+                };
+            } break;
+            case NLS_NUMERIC_FORMAT_SHORTE: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                formatInfo.floatAsInteger = false;
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 12;
+                    formatInfo.decimalsReal = 4;
                 } else {
-                    formatInfo.formatReal = L"%*.*f";
-                    formatInfo.widthReal = 10;
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 13;
                     formatInfo.decimalsReal = 4;
                 }
-            } else {
+                computeWidthRealByScaleFactor(formatInfo);
+                formatInfo.scaleFactor = 1;
+            } break;
+            case NLS_NUMERIC_FORMAT_LONGE: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                formatInfo.floatAsInteger = false;
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 16;
+                    formatInfo.decimalsReal = 7;
+                } else {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 26;
+                    formatInfo.decimalsReal = 15;
+                }
+                computeWidthRealByScaleFactor(formatInfo);
+                formatInfo.scaleFactor = 1;
+            } break;
+            case NLS_NUMERIC_FORMAT_SHORTG: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                formatInfo.floatAsInteger = false;
+                formatInfo.formatReal = L"%*.*g";
+                formatInfo.widthReal = 13;
+                formatInfo.decimalsReal = 5;
+                computeWidthRealByScaleFactor(formatInfo);
+                formatInfo.scaleFactor = 1;
+            } break;
+            case NLS_NUMERIC_FORMAT_LONGG: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                formatInfo.floatAsInteger = false;
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*g";
+                    formatInfo.widthReal = 16;
+                    formatInfo.decimalsReal = 7;
+                } else {
+                    formatInfo.formatReal = L"%*.*g";
+                    formatInfo.widthReal = 26;
+                    formatInfo.decimalsReal = 15;
+                }
+                computeWidthRealByScaleFactor(formatInfo);
+                formatInfo.scaleFactor = 1;
+            } break;
+            case NLS_NUMERIC_FORMAT_RATIONAL: {
+                formatInfo.widthReal = 11;
+                formatInfo.decimalsReal = 9;
+                formatInfo.formatReal = L"%*s";
+                formatInfo.scaleFactor = 1;
+            } break;
+            case NLS_NUMERIC_FORMAT_BANK: {
+                formatInfo.widthReal = 14;
+                formatInfo.widthImag = 14;
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.decimalsReal = 2;
+                formatInfo.formatImag = L"%*.*f";
+                formatInfo.decimalsImag = 2;
+                formatInfo.scaleFactor = 1;
+            } break;
+            case NLS_NUMERIC_FORMAT_HEX: {
+                formatInfo.scaleFactor = 1;
+            } break;
+            default: { } break; }
+        } else {
+            formatInfo.floatAsInteger = false;
+            switch (currentNumericFormat) {
+            case NLS_NUMERIC_FORMAT_LONGG: {
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*g";
+                    formatInfo.widthReal = 16;
+                    formatInfo.decimalsReal = 7;
+                } else {
+                    formatInfo.formatReal = L"%*.*g";
+                    formatInfo.widthReal = 26;
+                    formatInfo.decimalsReal = 15;
+                }
+            } break;
+            case NLS_NUMERIC_FORMAT_SHORTG: {
+                formatInfo.formatReal = L"%*.*g";
+                formatInfo.widthReal = 13;
+                formatInfo.decimalsReal = 5;
+            } break;
+            case NLS_NUMERIC_FORMAT_SHORTE: {
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 12;
+                    formatInfo.decimalsReal = 4;
+                } else {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 13;
+                    formatInfo.decimalsReal = 4;
+                }
+            } break;
+            case NLS_NUMERIC_FORMAT_LONGE: {
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 16;
+                    formatInfo.decimalsReal = 7;
+                } else {
+                    formatInfo.formatReal = L"%*.*e";
+                    formatInfo.widthReal = 26;
+                    formatInfo.decimalsReal = 15;
+                }
+            } break;
+            case NLS_NUMERIC_FORMAT_LONG: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
+                if (A.isSingleClass()) {
+                    formatInfo.formatReal = L"%*.*f";
+                    formatInfo.widthReal = 12;
+                    formatInfo.decimalsReal = 7;
+                } else {
+                    formatInfo.formatReal = L"%*.*f";
+                    formatInfo.widthReal = 20;
+                    formatInfo.decimalsReal = 15;
+                }
+            } break;
+            case NLS_NUMERIC_FORMAT_SHORT: {
+                ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.formatReal = L"%*.*f";
                 formatInfo.widthReal = 10;
                 formatInfo.decimalsReal = 4;
-            }
-        } break;
-        case NLS_NUMERIC_FORMAT_RATIONAL: {
-            formatInfo.widthReal = 11;
-            formatInfo.decimalsReal = 9;
-            formatInfo.formatReal = L"%*s";
-
-        } break;
-        default: { } break; }
+            } break;
+            case NLS_NUMERIC_FORMAT_RATIONAL: {
+                formatInfo.widthReal = 11;
+                formatInfo.decimalsReal = 9;
+                formatInfo.formatReal = L"%*s";
+            } break;
+            case NLS_NUMERIC_FORMAT_BANK: {
+                formatInfo.widthReal = 14;
+                formatInfo.widthImag = 14;
+                formatInfo.formatReal = L"%*.*f";
+                formatInfo.decimalsReal = 2;
+                formatInfo.formatImag = L"%*.*f";
+                formatInfo.decimalsImag = 2;
+            } break;
+            case NLS_NUMERIC_FORMAT_HEX: {
+            } break;
+            default: { } break; }
+        }
     }
     return formatInfo;
 }

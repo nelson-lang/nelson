@@ -468,7 +468,7 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
 }
 //=============================================================================
 static void
-SVD_double(const ArrayOf &A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
     int m = static_cast<int>(dimsA.getRows());
@@ -620,7 +620,7 @@ SVD_double(const ArrayOf &A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
 }
 //=============================================================================
 static void
-SVD_singlecomplex(const ArrayOf &A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
+SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
     int m = static_cast<int>(dimsA.getRows());
