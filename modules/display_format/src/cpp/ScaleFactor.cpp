@@ -69,30 +69,6 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, Class c
         return false;
     }
     double maxval = ::pow(double(10.0), 3);
-    if (formatInfo.numericFormatDisplay == NLS_NUMERIC_FORMAT_LONG) {
-        if (isSparse) {
-            if (allInteger) {
-                maxval = ::pow(double(10.0), 9);
-            } else {
-                maxval = ::pow(double(10.0), 3);
-            }
-        } else {
-            double commonLogarithm = log10(max_amplitude);
-            if (commonLogarithm < 0) {
-                maxval = ::pow(double(10.0), 3);
-            } else {
-                if (classReal == NLS_SINGLE) {
-                    if (allInteger) {
-                        maxval = ::pow(double(10.0), 9);
-                    } else {
-                        maxval = ::pow(double(10.0), 3);
-                    }
-                } else {
-                    maxval = ::pow(double(10.0), 9);
-                }
-            }
-        }
-    }
     formatInfo.scaleFactor = getScaleFactorWithAmplitude(max_amplitude, maxval);
     return true;
 }
