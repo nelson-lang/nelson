@@ -38,6 +38,9 @@ set(Nelson_VERSION_MINOR_DEFAULT 6)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 1)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================
+option(ENABLE_CLANG_TIDY "Analyze code with clang-tidy." OFF)
+option(ENABLE_CLANG_TIDY_FIX  "Analyze code with clang-tidy and fix errors." OFF)
+# ==============================================================================
 option(WITHOUT_FFTW "Build Nelson without FFTW module" OFF)
 option(WITHOUT_SLICOT "Build Nelson without SLICOT module" OFF)
 option(LGPL21_ONLY "Build Nelson under LGPL v2.1 only" OFF)
@@ -59,6 +62,8 @@ include (VersionConfig)
 include (OptionsConfig)
 # ==============================================================================
 include(C17Config)
+# ==============================================================================
+include(clang-tidy)
 # ==============================================================================
 include(TreeConfig)
 # ==============================================================================
