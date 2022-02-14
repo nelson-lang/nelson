@@ -81,7 +81,7 @@ matrixScalarPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     }
     ArrayOf V;
     ArrayOf D;
-    if (IsSymmetric(A, (bool)false, needToOverload)) {
+    if (IsSymmetricWithoutSkew(A, needToOverload)) {
         EigenDecompositionFullSymmetric(A, V, D, needToOverload, errorMessage);
     } else {
         EigenDecompositionFullGeneral(A, false, V, D, needToOverload, errorMessage);
@@ -99,7 +99,7 @@ scalarMatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     std::wstring errorMessage;
     ArrayOf V;
     ArrayOf D;
-    if (IsSymmetric(B, (bool)false, needToOverload)) {
+    if (IsSymmetricWithoutSkew(B, needToOverload)) {
         EigenDecompositionFullSymmetric(B, V, D, needToOverload, errorMessage);
     } else {
         EigenDecompositionFullGeneral(B, false, V, D, needToOverload, errorMessage);

@@ -31,7 +31,10 @@
 namespace Nelson {
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
-IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload);
+IsSymmetricWithSkew(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsSymmetricWithoutSkew(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP bool
 IsSymmetric(const ArrayOf& A, double tol, bool& needToOverload);

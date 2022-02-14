@@ -112,8 +112,8 @@ eigCompact(Evaluator* eval, int nLhs, bool balance, bool generalizedDecompositio
     if (generalizedDecomposition) {
         ArrayOf A(argIn[0]);
         ArrayOf B(argIn[1]);
-        bool isHermitianA = IsHermitian(A, (bool)false, needToOverload);
-        bool isHermitianB = IsHermitian(B, (bool)false, needToOverload);
+        bool isHermitianA = IsHermitianWithoutSkew(A, needToOverload);
+        bool isHermitianB = IsHermitianWithoutSkew(B, needToOverload);
         if (isHermitianA && isHermitianB) {
             bSuccess = GeneralizedEigenDecompositionCompactSymmetric(
                 A, B, D, needToOverload, errorMessage);
@@ -127,7 +127,7 @@ eigCompact(Evaluator* eval, int nLhs, bool balance, bool generalizedDecompositio
         }
     } else {
         ArrayOf A(argIn[0]);
-        bool isHermitianA = IsHermitian(A, (bool)false, needToOverload);
+        bool isHermitianA = IsHermitianWithoutSkew(A, needToOverload);
         if (isHermitianA) {
             bSuccess = EigenDecompositionCompactSymmetric(A, D, needToOverload, errorMessage);
             if (!bSuccess && errorMessage.empty()) {
@@ -163,8 +163,8 @@ eigFull(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
     if (generalizedDecomposition) {
         ArrayOf A(argIn[0]);
         ArrayOf B(argIn[1]);
-        bool isHermitianA = IsHermitian(A, (bool)false, needToOverload);
-        bool isHermitianB = IsHermitian(B, (bool)false, needToOverload);
+        bool isHermitianA = IsHermitianWithoutSkew(A, needToOverload);
+        bool isHermitianB = IsHermitianWithoutSkew(B, needToOverload);
         if (isHermitianA && isHermitianB) {
             bSuccess = GeneralizedEigenDecompositionFullSymmetric(
                 A, B, V, D, needToOverload, errorMessage);
@@ -178,7 +178,7 @@ eigFull(Evaluator* eval, int nLhs, bool balance, bool generalizedDecomposition,
         }
     } else {
         ArrayOf A(argIn[0]);
-        bool isHermitianA = IsHermitian(A, (bool)false, needToOverload);
+        bool isHermitianA = IsHermitianWithoutSkew(A, needToOverload);
         if (isHermitianA) {
             bSuccess = EigenDecompositionFullSymmetric(A, V, D, needToOverload, errorMessage);
         } else {
