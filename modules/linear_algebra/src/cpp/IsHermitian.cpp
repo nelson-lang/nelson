@@ -71,8 +71,8 @@ isHermitianComplex(T* data, indexType N, bool skew)
     return true;
 }
 //=============================================================================
-bool
-IsHermitian(const ArrayOf& A, bool skew, bool& needToOverload)
+static bool
+IsHermitianInternal(const ArrayOf& A, bool skew, bool& needToOverload)
 {
     needToOverload = false;
     bool res = false;
@@ -88,29 +88,21 @@ IsHermitian(const ArrayOf& A, bool skew, bool& needToOverload)
     case NLS_DCOMPLEX:
         return isHermitianComplex<double>((double*)A.getDataPointer(), A.getRows(), skew);
     case NLS_SINGLE:
-        return IsSymmetric(A, skew, needToOverload);
     case NLS_DOUBLE:
-        return IsSymmetric(A, skew, needToOverload);
     case NLS_INT8:
-        return IsSymmetric(A, skew, needToOverload);
     case NLS_INT16:
-        return IsSymmetric(A, skew, needToOverload);
     case NLS_INT32:
-        return IsSymmetric(A, skew, needToOverload);
     case NLS_INT64:
-        return IsSymmetric(A, skew, needToOverload);
-    case NLS_UINT8: {
-        return IsSymmetric(A, skew, needToOverload);
-    }
-    case NLS_UINT16: {
-        return IsSymmetric(A, skew, needToOverload);
-    }
-    case NLS_UINT32: {
-        return IsSymmetric(A, skew, needToOverload);
-    }
+    case NLS_UINT8:
+    case NLS_UINT16:
+    case NLS_UINT32:
     case NLS_UINT64: {
-        return IsSymmetric(A, skew, needToOverload);
-    }
+        if (skew) {
+            return IsSymmetricWithSkew(A, needToOverload);
+        } else {
+            return IsSymmetricWithoutSkew(A, needToOverload);
+        }
+    } break;
     default: {
         needToOverload = true;
         res = false;
@@ -120,10 +112,22 @@ IsHermitian(const ArrayOf& A, bool skew, bool& needToOverload)
 }
 //=============================================================================
 bool
+IsHermitianWithSkew(const ArrayOf& A, bool& needToOverload)
+{ 
+  return IsHermitianInternal(A, true, needToOverload);
+}
+//=============================================================================
+bool
+IsHermitianWithoutSkew(const ArrayOf& A, bool& needToOverload)
+{
+    return IsHermitianInternal(A, false, needToOverload);
+}
+//=============================================================================
+bool
 IsHermitian(const ArrayOf& A, bool skew, const std::string& functionName)
 {
     bool needToOverload;
-    bool res = IsHermitian(A, skew, needToOverload);
+    bool res = IsHermitianInternal(A, skew, needToOverload);
     if (needToOverload) {
         char errorBuffer[1024];
         std::string fmt = _("Undefined function '%s' for input arguments of type '%s'");

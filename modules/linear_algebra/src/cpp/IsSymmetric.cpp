@@ -145,8 +145,8 @@ isSymmetricComplex(T* data, indexType N, double tol)
     return true;
 }
 //=============================================================================
-bool
-IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload)
+static bool
+IsSymmetricInternal(const ArrayOf& A, bool skew, bool& needToOverload)
 {
     needToOverload = false;
     bool res = false;
@@ -212,10 +212,27 @@ IsSymmetric(const ArrayOf& A, bool skew, bool& needToOverload)
 }
 //=============================================================================
 bool
+IsSymmetricWithSkew(const ArrayOf& A, bool& needToOverload)
+{ 
+  return IsSymmetricInternal(A, true, needToOverload);
+}
+//=============================================================================
+bool
+IsSymmetricWithoutSkew(const ArrayOf& A, bool& needToOverload)
+{
+    return IsSymmetricInternal(A, false, needToOverload);
+}
+//=============================================================================
+bool
 IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName)
 {
     bool needToOverload;
-    bool res = IsSymmetric(A, skew, needToOverload);
+    bool res;
+    if (skew) {
+        res = IsSymmetricWithSkew(A, needToOverload);
+    } else {
+        res = IsSymmetricWithoutSkew(A, needToOverload);
+    }
     if (needToOverload) {
         char errorBuffer[1024];
         std::string fmt = _("Undefined function '%s' for input arguments of type '%s'");
