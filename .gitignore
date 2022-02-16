@@ -26,6 +26,8 @@
 # This .gitignore for Nelson
 tests_*.xml
 tests_*.json
+compile_commands.json
+checks.json
 /$tf
 /bin/*/mkl
 /bin/*/openblas
