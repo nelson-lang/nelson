@@ -35,7 +35,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    Class cl = NLS_DOUBLE;
+    NelsonType cl = NLS_DOUBLE;
     if (argIn.empty()) {
         retval << Zeros(cl);
     } else {

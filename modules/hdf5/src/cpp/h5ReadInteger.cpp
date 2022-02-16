@@ -45,7 +45,7 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
-    Class outputClass;
+    NelsonType outputClass;
     hid_t dataType;
     switch (sizeType) {
     case 1: {

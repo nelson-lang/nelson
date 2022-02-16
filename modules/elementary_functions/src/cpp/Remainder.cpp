@@ -164,8 +164,8 @@ Remainder(ArrayOf A, ArrayOf B)
         }
         VectorCheck(A, B, "rem");
         computeEntries(A, B, Astride, Bstride, Clen, Cdim);
-        Class classA = A.getDataClass();
-        Class classB = B.getDataClass();
+        NelsonType classA = A.getDataClass();
+        NelsonType classB = B.getDataClass();
         if (classB == NLS_DOUBLE || classB == NLS_SINGLE) {
             classB = classA;
         }

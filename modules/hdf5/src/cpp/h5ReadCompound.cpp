@@ -64,7 +64,7 @@ static ArrayOf
 h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
-    Class outputClass;
+    NelsonType outputClass;
     hsize_t msizeType = H5Tget_size(mType);
     switch (msizeType) {
     case 1: {
@@ -208,7 +208,7 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
 {
     ArrayOf fieldvalue;
     hsize_t sizeMembertype = H5Tget_size(mType);
-    Class outputClass;
+    NelsonType outputClass;
     switch (sizeMembertype) {
     case 4: {
         outputClass = NLS_SINGLE;

@@ -31,7 +31,7 @@
 namespace Nelson {
 void*
 ArrayOf::allocateArrayOf(
-    Class type, indexType length, const stringVector& names, bool initializeValues)
+    NelsonType type, indexType length, const stringVector& names, bool initializeValues)
 {
     switch (type) {
     case NLS_GO_HANDLE: {
@@ -115,7 +115,7 @@ ArrayOf::allocateArrayOf(
 }
 //=============================================================================
 void
-ArrayOf::deleteArrayOf(void* dp, Class dataclass)
+ArrayOf::deleteArrayOf(void* dp, NelsonType dataclass)
 {
     switch (dataclass) {
     case NLS_GO_HANDLE: {

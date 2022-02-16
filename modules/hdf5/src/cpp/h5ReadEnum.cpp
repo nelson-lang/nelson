@@ -51,7 +51,7 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
         error = e.getMessage();
         return ArrayOf();
     }
-    Class outputClass;
+    NelsonType outputClass;
     switch (sizeType) {
     case 1: {
         if (H5Tget_sign(type_id) == H5T_SGN_NONE) {

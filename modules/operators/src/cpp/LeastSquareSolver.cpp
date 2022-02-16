@@ -37,7 +37,7 @@ static char msgBuffer[MSGBUFLEN];
 //=============================================================================
 template <class T>
 ArrayOf
-solveLeastSquareReal(Class destinationClass, const ArrayOf& matA, const ArrayOf& matB,
+solveLeastSquareReal(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB,
     std::wstring& warningId, std::string& warningMessage)
 {
     ArrayOf res;
@@ -99,7 +99,7 @@ solveLeastSquareSingle(
 //=============================================================================
 template <class T>
 ArrayOf
-solveLeastSquareComplex(Class destinationClass, const ArrayOf& matA, const ArrayOf& matB,
+solveLeastSquareComplex(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB,
     std::wstring& warningId, std::string& warningMessage)
 {
     ArrayOf res;

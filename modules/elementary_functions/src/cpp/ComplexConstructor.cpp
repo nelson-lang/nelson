@@ -81,7 +81,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
         || (arrayB.getDataClass() == NLS_SCOMPLEX) || (arrayB.getDataClass() == NLS_DCOMPLEX)) {
         Error(_W("Input arguments must be real."));
     }
-    Class DestinationClass = NLS_DCOMPLEX;
+    NelsonType DestinationClass = NLS_DCOMPLEX;
     if ((arrayA.getDataClass() == NLS_SINGLE) || (arrayB.getDataClass() == NLS_SINGLE)) {
         DestinationClass = NLS_SCOMPLEX;
     }

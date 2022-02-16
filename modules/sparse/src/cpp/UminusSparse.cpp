@@ -36,7 +36,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 void*
-sparsedouble_uminus(Class dclass, indexType rows, indexType cols, const void* cp)
+sparsedouble_uminus(NelsonType dclass, indexType rows, indexType cols, const void* cp)
 {
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;

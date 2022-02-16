@@ -61,7 +61,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     for (indexType i = 0; i < nbElements; i++) {
         sizeData.push_back(sizePtr[i]);
     }
-    Class dataType = NLS_DOUBLE;
+    NelsonType dataType = NLS_DOUBLE;
     std::wstring textEncoding = L"system";
     boost::container::vector<double> chunksize;
     int deflate = 0;
@@ -123,7 +123,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!paramXvalue.isScalar()) {
                 Error(_W("Scalar value expected."));
             }
-            Class valueClass = paramXvalue.getDataClass();
+            NelsonType valueClass = paramXvalue.getDataClass();
             bool isSupportedType = (valueClass == NLS_DOUBLE || valueClass == NLS_SINGLE
                 || valueClass == NLS_INT8 || valueClass == NLS_UINT8 || valueClass == NLS_INT16
                 || valueClass == NLS_UINT16 || valueClass == NLS_INT32 || valueClass == NLS_UINT32

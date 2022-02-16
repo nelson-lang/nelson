@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 static bool
-isSignedInteger(Class destinationClass)
+isSignedInteger(NelsonType destinationClass)
 {
     return (destinationClass == NLS_INT8 || destinationClass == NLS_INT16
         || destinationClass == NLS_INT32 || destinationClass == NLS_INT64);
@@ -41,7 +41,7 @@ isSignedInteger(Class destinationClass)
 //=============================================================================
 template <class T>
 static ArrayOf
-integer_colon(Class destinationClass, T low, T high, T step)
+integer_colon(NelsonType destinationClass, T low, T high, T step)
 {
     if (step == 0) {
         ArrayOf res = ArrayOf::emptyConstructor(1, 0);
@@ -108,7 +108,7 @@ char_colon(charType low, charType high, charType step)
 //=============================================================================
 template <class T>
 static ArrayOf
-real_colon(Class destinationClass, T low, T high, T step)
+real_colon(NelsonType destinationClass, T low, T high, T step)
 {
     if (step == 0) {
         ArrayOf res = ArrayOf::emptyConstructor(1, 0);
@@ -232,7 +232,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                         }
                         if (d < 0 && _K.isUnsignedIntegerType()) {
                             try {
-                                _K.promoteType(static_cast<Class>(_K.getDataClass() + 1));
+                                _K.promoteType(static_cast<NelsonType>(_K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
                                 return ArrayOf();
@@ -253,7 +253,7 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needToOverload
                         }
                         if (d < 0 && _K.isUnsignedIntegerType()) {
                             try {
-                                _K.promoteType(static_cast<Class>(_K.getDataClass() + 1));
+                                _K.promoteType(static_cast<NelsonType>(_K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
                                 return ArrayOf();

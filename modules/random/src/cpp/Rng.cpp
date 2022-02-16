@@ -244,7 +244,7 @@ RngSetState(Evaluator* eval, const ArrayOf& st)
 {
     auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
-    Class stClass = st.getDataClass();
+    NelsonType stClass = st.getDataClass();
     switch (rngtype) {
     case RNG_TWISTER: {
         if (stClass == NLS_UINT32) {

@@ -44,7 +44,7 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
     }
     if (!bSuccess) {
         bool isSparse = false;
-        Class destinationClass;
+        NelsonType destinationClass;
         if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
             std::wstring dest = param2.getContentAsWideString();

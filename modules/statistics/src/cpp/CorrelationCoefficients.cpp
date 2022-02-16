@@ -38,7 +38,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-CorrelationCoefficients(const T* data, indexType R, indexType C, Class destination)
+CorrelationCoefficients(const T* data, indexType R, indexType C, NelsonType destination)
 {
     if (R == 0 && C == 0) {
         Dimensions dimsOut(1, 1);

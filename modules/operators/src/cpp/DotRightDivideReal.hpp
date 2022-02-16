@@ -35,7 +35,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-scalar_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+scalar_matrix_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -52,7 +52,7 @@ scalar_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_scalar_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_scalar_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -69,7 +69,7 @@ matrix_scalar_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_matrix_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -98,7 +98,7 @@ matrix_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
 //=============================================================================
 template <class T>
 ArrayOf
-row_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+row_matrix_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -124,7 +124,7 @@ row_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
 //=============================================================================
 template <class T>
 ArrayOf
-column_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+column_matrix_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -145,7 +145,7 @@ column_matrix_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_row_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -167,7 +167,7 @@ matrix_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_column_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -187,7 +187,7 @@ matrix_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, cons
 //=============================================================================
 template <class T>
 ArrayOf
-row_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+row_column_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     indexType rows = std::max(A.getRows(), B.getRows());
@@ -212,7 +212,7 @@ row_column_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
 //=============================================================================
 template <class T>
 ArrayOf
-column_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+column_row_real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     indexType rows = std::max(A.getRows(), B.getRows());
@@ -239,7 +239,7 @@ column_row_real_dotRightDivide(Class classDestination, const ArrayOf& A, const A
 //=============================================================================
 template <class T>
 ArrayOf
-real_dotRightDivide(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+real_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();

@@ -33,7 +33,7 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dimsO
     bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    Class outputClass;
+    NelsonType outputClass;
     void* ptrVoid = nullptr;
     if (H5Tequal(type, H5T_NATIVE_FLOAT) == 0) {
         outputClass = NLS_SINGLE;
@@ -75,7 +75,7 @@ h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dim
     bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    Class outputClass;
+    NelsonType outputClass;
     void* ptrVoid = nullptr;
     if (H5Tequal(type, H5T_NATIVE_INT64) == 0) {
         outputClass = NLS_INT64;

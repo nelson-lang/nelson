@@ -80,7 +80,7 @@ matrix_matrix_atan2_single(const ArrayOf& a, const ArrayOf& b)
 //=============================================================================
 template <class T>
 static ArrayOf
-scalar_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+scalar_matrix_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
     indexType Clen = dimsC.getElementCount();
@@ -99,7 +99,7 @@ scalar_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
 //=============================================================================
 template <class T>
 static ArrayOf
-matrix_scalar_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+matrix_scalar_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
@@ -143,7 +143,7 @@ vector_row_column_atan2(T* C, const T* A, indexType NA, const T* B, indexType NB
 //=============================================================================
 template <class T>
 static ArrayOf
-vector_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+vector_matrix_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     const T* ptrA = (const T*)a.getDataPointer();
     const T* ptrB = (const T*)b.getDataPointer();
@@ -164,7 +164,7 @@ vector_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
 //=============================================================================
 template <class T>
 static ArrayOf
-vector_column_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+vector_column_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     const T* ptrA = (const T*)a.getDataPointer();
     const T* ptrB = (const T*)b.getDataPointer();
@@ -182,7 +182,7 @@ vector_column_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
 }
 //=============================================================================
 static ArrayOf
-Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     void* Cp = nullptr;
     Dimensions dimsA = A.getDimensions();
@@ -302,7 +302,7 @@ Atan2(ArrayOf A, ArrayOf B, bool& needToOverload)
     }
     if ((A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE)
         && (B.getDataClass() == NLS_DOUBLE || B.getDataClass() == NLS_SINGLE)) {
-        Class destinationClass;
+        NelsonType destinationClass;
         if (A.getDataClass() == B.getDataClass()) {
             destinationClass = A.getDataClass();
         } else {

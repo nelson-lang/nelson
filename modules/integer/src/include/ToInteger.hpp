@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSINTEGER_IMPEXP ArrayOf
-ToInteger(Class destinationClass, const ArrayOf& A);
+ToInteger(NelsonType destinationClass, const ArrayOf& A);
 //=============================================================================
 }
 //=============================================================================

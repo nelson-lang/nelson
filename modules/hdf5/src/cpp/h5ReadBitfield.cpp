@@ -45,7 +45,7 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
-    Class outputClass;
+    NelsonType outputClass;
     hid_t dataType;
     switch (sizeType) {
     case 1: {

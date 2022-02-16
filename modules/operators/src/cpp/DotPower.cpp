@@ -599,7 +599,7 @@ fffpower(int n, single* c, single* a, int stride1, single* b, int stride2)
 using vvfun = void (*)(indexType, void*, const void*, const int, const void*, const int);
 //=============================================================================
 inline ArrayOf
-doPowerAssist(ArrayOf A, Class AClass, ArrayOf B, Class BClass, Class CClass, vvfun exec)
+doPowerAssist(ArrayOf A, NelsonType AClass, ArrayOf B, NelsonType BClass, NelsonType CClass, vvfun exec)
 {
     ArrayOf C;
     A.promoteType(AClass);
@@ -674,8 +674,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf C;
     bool Anegative;
-    Class AClass;
-    Class BClass;
+    NelsonType AClass;
+    NelsonType BClass;
     int opType;
 
     if (A.isEmpty() || B.isEmpty()) {
@@ -865,7 +865,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    Class destinationClass;
+    NelsonType destinationClass;
     if (A.getDataClass() != B.getDataClass()) {
         bool isIntegerA = (A.isIntegerType() || A.isNdArrayIntegerType());
         bool isIntegerB = (B.isIntegerType() || B.isNdArrayIntegerType());

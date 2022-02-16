@@ -55,7 +55,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         }
         Dimensions repcount;
         ArrayOf x = argIn[0];
-        Class classx = x.getDataClass();
+        NelsonType classx = x.getDataClass();
         bool isNotSupportedType = (classx == NLS_HANDLE || classx == NLS_GO_HANDLE || x.isSparse());
         if (isNotSupportedType) {
             Error(ERROR_TYPE_NOT_SUPPORTED);

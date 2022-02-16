@@ -138,7 +138,7 @@ GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B
     indexType N = A.getDimensionLength(0);
     Dimensions Ddims(N, 1);
 
-    Class Aclass = _A.getDataClass();
+    NelsonType Aclass = _A.getDataClass();
     switch (Aclass) {
     case NLS_SINGLE: {
         single* eigenvals = (single*)new_with_exception<double>(N, true);
@@ -220,7 +220,7 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
     indexType N = A.getDimensionLength(0);
     Dimensions Vdims(N, N);
 
-    Class Aclass = _A.getDataClass();
+    NelsonType Aclass = _A.getDataClass();
     switch (Aclass) {
     case NLS_SINGLE: {
         single* eigenvals = (single*)new_with_exception<single>(N, true);
@@ -345,7 +345,7 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
     }
     indexType N = A.getDimensionLength(0);
     Dimensions Vdims(N, N);
-    Class classA = _A.getDataClass();
+    NelsonType classA = _A.getDataClass();
     switch (classA) {
     case NLS_SINGLE: {
         single* eigenvals = (single*)new_with_exception<single>(2 * N, false);
@@ -552,7 +552,7 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
     }
     indexType N = A.getDimensionLength(0);
     Dimensions Vdims(N, 1);
-    Class classA = _A.getDataClass();
+    NelsonType classA = _A.getDataClass();
     switch (classA) {
     case NLS_SINGLE: {
         single* eigenvals = (single*)new_with_exception<single>(2 * N, false);

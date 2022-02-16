@@ -35,7 +35,7 @@ namespace Nelson {
 ArrayOf
 ComplexConjugate(const ArrayOf& A)
 {
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse()) {
         Error(_("Undefined function 'conj' for input arguments of type") + " '" + ClassName(A)
             + "'.");

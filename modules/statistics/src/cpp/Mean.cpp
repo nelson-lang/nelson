@@ -204,10 +204,10 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
     return mean;
 }
 //=============================================================================
-static Class
+static NelsonType
 getOutPutClass(const ArrayOf& A, MEAN_OUT_TYPE outType)
 {
-    Class outClass = A.getDataClass();
+    NelsonType outClass = A.getDataClass();
     switch (outType) {
     default:
     case MEAN_OUT_TYPE::DEFAULT: {
@@ -259,7 +259,7 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
     ArrayOfVector retval;
     ArrayOf res;
     needToOverload = false;
-    Class outClass = getOutPutClass(A, outType);
+    NelsonType outClass = getOutPutClass(A, outType);
     if (A.isEmpty(false)) {
         Dimensions dims(1, 0);
         res = ArrayOf::emptyConstructor(dims, A.isSparse());
@@ -383,7 +383,7 @@ ArrayOf
 Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverload)
 {
     ArrayOf res;
-    Class outClass = getOutPutClass(A, outType);
+    NelsonType outClass = getOutPutClass(A, outType);
     if (A.isEmpty(false)) {
         Dimensions dims(1, 0);
         res = ArrayOf::emptyConstructor(dims, A.isSparse());
@@ -440,7 +440,7 @@ Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool&
     for (indexType l = workDim + 1; l < dimsA.getLength(); l++) {
         planecount *= dimsA[l];
     }
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     switch (classA) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

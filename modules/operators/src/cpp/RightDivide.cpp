@@ -66,7 +66,7 @@ RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
         }
         if (dimsA[0] != 0 && dimsB[0] != 0) {
             Dimensions dimsC(dimsA[0], dimsB[0]);
-            Class commonClass = FindCommonClass(A, B, needToOverload);
+            NelsonType commonClass = FindCommonClass(A, B, needToOverload);
             void* pT = ArrayOf::allocateArrayOf(
                 commonClass, dimsC.getElementCount(), stringVector(), true);
             return ArrayOf(commonClass, dimsC, pT, false);

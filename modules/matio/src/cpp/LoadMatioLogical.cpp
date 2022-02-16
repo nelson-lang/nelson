@@ -37,7 +37,7 @@ LoadMatioLogical(matvar_t* matVariable, ArrayOf& VariableValue)
     if (matVariable == nullptr) {
         return bSuccess;
     }
-    Class destinationClass = NLS_LOGICAL;
+    NelsonType destinationClass = NLS_LOGICAL;
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
         VariableValue = ArrayOf::emptyConstructor(dims);

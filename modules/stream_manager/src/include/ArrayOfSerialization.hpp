@@ -90,7 +90,7 @@ private:
             ar& J;
             ar& nzmax;
         }
-        switch ((Class)nelsonObjectClass) {
+        switch ((NelsonType)nelsonObjectClass) {
         case NLS_NOT_TYPED:
         case NLS_GO_HANDLE:
         case NLS_HANDLE:

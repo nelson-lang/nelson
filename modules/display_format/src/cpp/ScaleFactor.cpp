@@ -47,7 +47,7 @@ getScaleFactorWithAmplitude(double max_amplitude, double maxval)
 //=============================================================================
 template <class T>
 static bool
-ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, Class classReal,
+ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, NelsonType classReal,
     bool allInteger, FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
@@ -76,7 +76,7 @@ ComputeScaleFactorReal(const T* ptrData, indexType count, bool isSparse, Class c
 template <class T>
 static bool
 ComputeScaleFactorComplex(const std::complex<T>* ptrData, indexType count, bool isSparse,
-    Class classReal, FormatDisplayInformation& formatInfo)
+    NelsonType classReal, FormatDisplayInformation& formatInfo)
 {
     double max_amplitude = 0;
     if (count == 0) {

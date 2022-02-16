@@ -45,7 +45,7 @@ h5ReadFloat(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
-    Class outputClass;
+    NelsonType outputClass;
     if (sizeType == 4) {
         outputClass = NLS_SINGLE;
     } else if (sizeType == 8) {

@@ -76,7 +76,7 @@ formatUnsignedInteger(const void* ptr, indexType index, NumericFormatDisplay cur
 }
 //=============================================================================
 std::wstring
-formatInteger(const void* ptrScalar, Class integerType, indexType index,
+formatInteger(const void* ptrScalar, NelsonType integerType, indexType index,
     NumericFormatDisplay currentNumericFormat)
 {
     switch (integerType) {

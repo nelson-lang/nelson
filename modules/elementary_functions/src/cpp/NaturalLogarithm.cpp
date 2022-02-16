@@ -66,7 +66,7 @@ haveNegativeValue(T* values, indexType lengthValues)
 //=============================================================================
 template <class T>
 static ArrayOf
-NaturalLogarithmReal(Class classDestination, const ArrayOf& A)
+NaturalLogarithmReal(NelsonType classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     T* ptrIn = (T*)A.getDataPointer();
@@ -90,7 +90,7 @@ NaturalLogarithmReal(Class classDestination, const ArrayOf& A)
 //=============================================================================
 template <class T>
 static ArrayOf
-NaturalLogarithmComplex(Class classDestination, const ArrayOf& A)
+NaturalLogarithmComplex(NelsonType classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
@@ -118,7 +118,7 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX) {
         if (A.isSparse()) {
             needToOverload = true;

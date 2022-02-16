@@ -56,7 +56,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param4 = argIn[3];
     auto skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
     ArrayOf param3 = argIn[2];
-    Class classDest = NLS_UINT8;
+    NelsonType classDest = NLS_UINT8;
     if (param3.isRowVectorCharacterArray()) {
         std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;

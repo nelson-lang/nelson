@@ -40,7 +40,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-Subtraction(const ArrayOf& A, const ArrayOf& B, Class commonClass)
+Subtraction(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
 {
     ArrayOf res;
     if (A.isEmpty() || B.isEmpty()) {
@@ -210,7 +210,7 @@ Subtraction(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    Class commonClass = FindCommonClass(A, B, needToOverload);
+    NelsonType commonClass = FindCommonClass(A, B, needToOverload);
     if (!needToOverload) {
         if (A.getDataClass() == commonClass && B.getDataClass() == commonClass) {
             res = Subtraction(A, B, commonClass);

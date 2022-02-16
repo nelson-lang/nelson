@@ -70,7 +70,7 @@ haveNegativeValue(T* values, indexType lengthValues)
 //=============================================================================
 template <class T>
 static ArrayOf
-SqrtReal(Class classDestination, const ArrayOf& A)
+SqrtReal(NelsonType classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     ompIndexType elementCount = (ompIndexType)A.getElementCount();
@@ -93,7 +93,7 @@ SqrtReal(Class classDestination, const ArrayOf& A)
 //=============================================================================
 template <class T>
 static ArrayOf
-SqrtComplex(Class classDestination, const ArrayOf& A)
+SqrtComplex(NelsonType classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     ompIndexType elementCount = (ompIndexType)A.getElementCount();
@@ -127,7 +127,7 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     ArrayOf AA(A);
 
     if (classA == NLS_DOUBLE) {
@@ -142,7 +142,7 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
         }
     }
 
-    Class classAA = AA.getDataClass();
+    NelsonType classAA = AA.getDataClass();
     switch (AA.getDataClass()) {
     case NLS_DOUBLE: {
         res = SqrtReal<double>(NLS_DOUBLE, AA);

@@ -962,7 +962,7 @@ ArrayOfToQVariant(ArrayOf A)
     if (A.isEmpty()) {
         Error(_W("Empty matrix not managed."));
     }
-    Class ClassA = A.getDataClass();
+    NelsonType ClassA = A.getDataClass();
     switch (ClassA) {
     case NLS_LOGICAL: {
         if (A.isScalar()) {

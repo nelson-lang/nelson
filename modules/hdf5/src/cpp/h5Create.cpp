@@ -35,7 +35,7 @@
 namespace Nelson {
 //=============================================================================
 static hid_t
-nelsonClassToHdf5DataType(Class dataType)
+nelsonClassToHdf5DataType(NelsonType dataType)
 {
     hid_t datatype = H5I_INVALID_HID;
     switch (dataType) {
@@ -77,7 +77,7 @@ nelsonClassToHdf5DataType(Class dataType)
 }
 //=============================================================================
 static herr_t
-setFillValue(const ArrayOf& fillvalue, Class dataType, hid_t dcpl)
+setFillValue(const ArrayOf& fillvalue, NelsonType dataType, hid_t dcpl)
 {
     herr_t status = H5Pset_alloc_time(dcpl, H5D_ALLOC_TIME_EARLY);
     switch (dataType) {
@@ -140,7 +140,7 @@ setFillValue(const ArrayOf& fillvalue, Class dataType, hid_t dcpl)
 //=============================================================================
 void
 h5Create(const std::wstring& filename, const std::wstring& dataSetName,
-    const boost::container::vector<double>& sizeData, Class dataType,
+    const boost::container::vector<double>& sizeData, NelsonType dataType,
     const boost::container::vector<double>& chunksize, int deflate, const ArrayOf& fillvalue,
     bool fletcher32, bool shuffle, const std::wstring& textEncoding)
 {

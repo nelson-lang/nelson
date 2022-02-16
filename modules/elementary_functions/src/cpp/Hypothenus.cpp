@@ -33,7 +33,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static Class
+static NelsonType
 computeCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = true;
@@ -43,7 +43,7 @@ computeCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     if ((A.isDoubleClass() || A.isSingleClass()) && (B.isDoubleClass() || B.isSingleClass())) {
         needToOverload = false;
         bool asComplex = A.isComplex() || B.isComplex();
-        Class destinationClass;
+        NelsonType destinationClass;
         if (A.getDataClass() == B.getDataClass()) {
             destinationClass = A.getDataClass();
         } else {
@@ -73,7 +73,7 @@ computeCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 }
 //=============================================================================
 static ArrayOf
-Hypothenuse(const ArrayOf& A, const ArrayOf& B, Class commonClass)
+Hypothenuse(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
 {
     ArrayOf res;
     if (A.isEmpty() || B.isEmpty()) {
@@ -170,7 +170,7 @@ Hypothenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     ArrayOf res;
-    Class commonClass = computeCommonClass(A, B, needToOverload);
+    NelsonType commonClass = computeCommonClass(A, B, needToOverload);
     if (!needToOverload) {
         if (A.getDataClass() == commonClass && B.getDataClass() == commonClass) {
             res = Hypothenuse(A, B, commonClass);

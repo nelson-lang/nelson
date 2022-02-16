@@ -71,7 +71,7 @@ validateScanFormatSpec(char* cp)
 //=============================================================================
 template <class T>
 ArrayOf
-convertToArrayOf(ArrayOfVector& values, Class classDestination, bool haveThirdArgument, double m,
+convertToArrayOf(ArrayOfVector& values, NelsonType classDestination, bool haveThirdArgument, double m,
     double n, bool mixed)
 {
     ArrayOf value;

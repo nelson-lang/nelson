@@ -29,7 +29,7 @@ namespace Nelson {
 //=============================================================================
 ArrayOf
 binaryOperatorEmptyMatrixEmptryMatrix(
-    const ArrayOf& A, const ArrayOf& B, Class commonClass, const std::string& operatorName)
+    const ArrayOf& A, const ArrayOf& B, NelsonType commonClass, const std::string& operatorName)
 {
     std::vector<indexType> dimsA = A.getDimensions().getAsVector();
     std::vector<indexType> dimsB = B.getDimensions().getAsVector();

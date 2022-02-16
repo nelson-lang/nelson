@@ -31,7 +31,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-SignUnsignedInteger(Class outputClass, const T* ptrA, const Dimensions& dimsA)
+SignUnsignedInteger(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
@@ -50,7 +50,7 @@ SignUnsignedInteger(Class outputClass, const T* ptrA, const Dimensions& dimsA)
 //=============================================================================
 template <class T>
 ArrayOf
-SignSignedInteger(Class outputClass, const T* ptrA, const Dimensions& dimsA)
+SignSignedInteger(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
@@ -72,7 +72,7 @@ SignSignedInteger(Class outputClass, const T* ptrA, const Dimensions& dimsA)
 
 template <class T>
 ArrayOf
-SignReal(Class outputClass, const T* ptrA, const Dimensions& dimsA)
+SignReal(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);
@@ -95,7 +95,7 @@ SignReal(Class outputClass, const T* ptrA, const Dimensions& dimsA)
 //=============================================================================
 template <class T>
 ArrayOf
-SignComplex(Class outputClass, const T* ptrA, const Dimensions& dimsA)
+SignComplex(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
 {
     ompIndexType nbElements = dimsA.getElementCount();
     T* ptrB = (T*)ArrayOf::allocateArrayOf(outputClass, nbElements);

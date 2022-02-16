@@ -67,7 +67,7 @@ private:
      * The Class of the data block.  Useful for determining how the data
      * block must be treated.
      */
-    Class dataClass;
+    NelsonType dataClass;
     /**
      * Sparsity flag - true if we are a sparse array.
      */
@@ -98,7 +98,7 @@ private:
      * Construct a Data object with the given arguments.
      * the owner count is initialized to 1.
      */
-    Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag = false,
+    Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag = false,
         stringVector fields = stringVector());
     /**
      * The destructor.  Calls freeDataBlock member function.
@@ -123,7 +123,7 @@ private:
      *     with the given contents.
      */
     Data*
-    putData(Class aClass, const Dimensions& dims, void* s, bool sparseflag = false,
+    putData(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag = false,
         const stringVector& fields = stringVector());
     /**
      * Decrement the reference count (owners) by one.

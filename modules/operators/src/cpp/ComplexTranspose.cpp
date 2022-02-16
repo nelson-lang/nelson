@@ -72,7 +72,7 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
 {
     /* Code not factorized with Transpose to speed up at runtime */
     needToOverload = false;
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if ((classA < NLS_LOGICAL || A.isSparse())
         && !(A.isCell() || A.isStruct() || A.isStringArray())) {
         needToOverload = true;

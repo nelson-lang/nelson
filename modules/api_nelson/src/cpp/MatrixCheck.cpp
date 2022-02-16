@@ -69,12 +69,12 @@ MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname)
     return true;
 }
 //=============================================================================
-Class
+NelsonType
 FindCommonType(const ArrayOf& A, const ArrayOf& B)
 {
-    Class Cclass;
-    Class Aclass = A.getDataClass();
-    Class Bclass = B.getDataClass();
+    NelsonType Cclass;
+    NelsonType Aclass = A.getDataClass();
+    NelsonType Bclass = B.getDataClass();
     if ((Aclass == Bclass)
         && ((Aclass == NLS_LOGICAL) || (Aclass == NLS_UINT8) || (Aclass == NLS_INT8)
                || (Aclass == NLS_UINT16) || (Aclass == NLS_INT16) || (Aclass == NLS_UINT32)

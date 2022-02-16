@@ -153,7 +153,7 @@ public:
      * Allocate an array.
      */
     static void*
-    allocateArrayOf(Class /*type*/, indexType length, const stringVector& names = stringVector(),
+    allocateArrayOf(NelsonType /*type*/, indexType length, const stringVector& names = stringVector(),
         bool initializeValues = false);
     /** Convert us to an index type
      * Convert the current object to an ordinal one.  This has different
@@ -190,12 +190,12 @@ public:
     /**
      * Create an empty ArrayOf of the specified type.
      */
-    ArrayOf(Class type);
+    ArrayOf(NelsonType type);
     /**
      * Create an ArrayOf with the specified contents.
      */
     ArrayOf(
-        Class, const Dimensions&, void*, bool sparse = false, const stringVector& = stringVector());
+        NelsonType, const Dimensions&, void*, bool sparse = false, const stringVector& = stringVector());
     /**
      * Destructor - free the data object.
      */
@@ -325,7 +325,7 @@ public:
     /**
      * Get our data class (of type Class).
      */
-    Class
+    NelsonType
     getDataClass() const;
     /**
      * Calculate the size of each element in this array.
@@ -525,19 +525,19 @@ public:
      *   - we try to convert any numerical types to a reference type.
      */
     void
-    promoteType(Class new_type, stringVector fieldNames);
+    promoteType(NelsonType new_type, stringVector fieldNames);
     /**
      * Promote our array to a new type.  This is a shortcut for when new_type is
      * not NLS_STRUCT_ARRAY, so that the fieldNames argument is not needed.
      */
     void
-    promoteType(Class new_type);
+    promoteType(NelsonType new_type);
 
     /**
      * returns if array can be promoted to new type
      */
     bool
-    canBePromotedTo(Class new_type);
+    canBePromotedTo(NelsonType new_type);
 
     /**
      * Diagonal constructor - construct an array from a given vector, with
@@ -1133,7 +1133,7 @@ public:
      * Returns true if the given Class is either NLS_CELL_ARRAY or
      * NLS_STRUCT_ARRAY.
      */
-    static bool isDataClassReferenceType(Class);
+    static bool isDataClassReferenceType(NelsonType);
 
     /**
      * Returns the number of nonzero elements in the array.  For reference
@@ -1189,7 +1189,7 @@ public:
     isNumeric() const;
 
     void
-    deleteArrayOf(void* dp, Class dataclass);
+    deleteArrayOf(void* dp, NelsonType dataclass);
 
     /*
      * check is handle type

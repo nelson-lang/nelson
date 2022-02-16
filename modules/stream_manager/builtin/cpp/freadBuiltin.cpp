@@ -46,7 +46,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsLittleEndian = true;
     size_t skipSize = 0;
-    Class classDest = NLS_UINT8;
+    NelsonType classDest = NLS_UINT8;
     int64 isize = 0;
     int32 idFile = 0;
     ArrayOfVector retval;

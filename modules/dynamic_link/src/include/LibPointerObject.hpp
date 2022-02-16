@@ -41,7 +41,7 @@ public:
     LibPointerObject(const std::wstring& DataType);
     LibPointerObject(const std::wstring& DataType, ArrayOf Value);
     LibPointerObject(void* pointer);
-    LibPointerObject(void* pointer, const std::wstring& DataType, Class currentType);
+    LibPointerObject(void* pointer, const std::wstring& DataType, NelsonType currentType);
 
     ~LibPointerObject() override;
 
@@ -83,7 +83,7 @@ private:
     void* _voidPointer;
     long int _dimX;
     long int _dimY;
-    Class _currentType;
+    NelsonType _currentType;
     long int _initialDimX;
     long int _initialDimY;
 };

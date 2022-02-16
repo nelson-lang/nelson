@@ -32,7 +32,7 @@ ArrayOf
 decomplexify(const ArrayOf& A)
 {
     ArrayOf res;
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if (classA == NLS_DCOMPLEX || classA == NLS_SCOMPLEX) {
         if (A.allReal()) {
             if (classA == NLS_DCOMPLEX) {

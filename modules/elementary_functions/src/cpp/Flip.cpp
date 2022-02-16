@@ -123,7 +123,7 @@ Fliplr(const ArrayOf& arrayIn, bool& needToOverload)
     }
     Dimensions dims = arrayIn.getDimensions();
     indexType elementCount = dims.getElementCount();
-    Class outType = arrayIn.getDataClass();
+    NelsonType outType = arrayIn.getDataClass();
     switch (outType) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
@@ -248,7 +248,7 @@ Flipud(const ArrayOf& arrayIn, bool& needToOverload)
     }
     Dimensions dims = arrayIn.getDimensions();
     indexType elementCount = dims.getElementCount();
-    Class outType = arrayIn.getDataClass();
+    NelsonType outType = arrayIn.getDataClass();
     switch (outType) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

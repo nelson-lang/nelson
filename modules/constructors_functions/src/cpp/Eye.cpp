@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
+Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
 {
     Dimensions dimMat(n, m);
     void* vmat = nullptr;

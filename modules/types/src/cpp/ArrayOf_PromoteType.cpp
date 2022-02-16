@@ -85,7 +85,7 @@ numeric_cast(TIN value)
 //=============================================================================
 template <class TIN, class TOUT>
 void
-saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType count)
+saturate(NelsonType classIn, NelsonType classOut, const void* pIn, void* pOut, indexType count)
 {
     const TIN* sp = (const TIN*)pIn;
     TOUT* qp = (TOUT*)pOut;
@@ -151,7 +151,7 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteAsReal(Class dstClass, const TIN* ptr, indexType count)
+promoteAsReal(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
 #if defined(_NLS_WITH_OPENMP)
@@ -165,7 +165,7 @@ promoteAsReal(Class dstClass, const TIN* ptr, indexType count)
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteAsLogical(Class dstClass, const TIN* ptr, indexType count)
+promoteAsLogical(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
 #if defined(_NLS_WITH_OPENMP)
@@ -179,7 +179,7 @@ promoteAsLogical(Class dstClass, const TIN* ptr, indexType count)
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteComplexAsLogical(Class dstClass, const TIN* ptr, indexType count)
+promoteComplexAsLogical(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
 #if defined(_NLS_WITH_OPENMP)
@@ -193,7 +193,7 @@ promoteComplexAsLogical(Class dstClass, const TIN* ptr, indexType count)
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteComplexAsReal(Class dstClass, const TIN* ptr, indexType count)
+promoteComplexAsReal(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
 #if defined(_NLS_WITH_OPENMP)
@@ -207,7 +207,7 @@ promoteComplexAsReal(Class dstClass, const TIN* ptr, indexType count)
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteComplexAsComplex(Class dstClass, const TIN* ptr, indexType count)
+promoteComplexAsComplex(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
 #if defined(_NLS_WITH_OPENMP)
@@ -222,7 +222,7 @@ promoteComplexAsComplex(Class dstClass, const TIN* ptr, indexType count)
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteAsComplex(Class dstClass, const TIN* ptr, indexType count)
+promoteAsComplex(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count, stringVector(), true);
 #if defined(_NLS_WITH_OPENMP)
@@ -236,7 +236,7 @@ promoteAsComplex(Class dstClass, const TIN* ptr, indexType count)
 //=============================================================================
 template <class TIN, class TOUT>
 TOUT*
-promoteComplexAsInteger(Class dstClass, const TIN* ptr, indexType count)
+promoteComplexAsInteger(NelsonType dstClass, const TIN* ptr, indexType count)
 {
     TOUT* dstPtr = (TOUT*)ArrayOf::allocateArrayOf(dstClass, count);
     bool checkNaN = false;
@@ -265,7 +265,7 @@ promoteComplexAsInteger(Class dstClass, const TIN* ptr, indexType count)
 }
 //=============================================================================
 void
-ArrayOf::promoteType(Class dstClass, stringVector fNames)
+ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
 {
     if (isEmpty()) {
         dp = dp->putData(dstClass, dp->dimensions, NULL, isSparse(), fNames);
@@ -1147,14 +1147,14 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
 }
 //=============================================================================
 void
-ArrayOf::promoteType(Class dstClass)
+ArrayOf::promoteType(NelsonType dstClass)
 {
     stringVector dummy;
     promoteType(dstClass, dummy);
 }
 //=============================================================================
 bool
-ArrayOf::canBePromotedTo(Class dstClass)
+ArrayOf::canBePromotedTo(NelsonType dstClass)
 {
     if (isEmpty()) {
         return true;

@@ -34,7 +34,7 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
 {
     ArrayOf element;
     hsize_t sizeSType = H5Tget_size(mtype);
-    Class outputClass;
+    NelsonType outputClass;
     hid_t dataType;
     switch (sizeSType) {
     case 4: {
@@ -71,7 +71,7 @@ h5ReadReferenceInteger(
 {
     ArrayOf element;
     hsize_t sizeType = H5Tget_size(mtype);
-    Class outputClass;
+    NelsonType outputClass;
     hid_t dataType;
     switch (sizeType) {
     case 1: {

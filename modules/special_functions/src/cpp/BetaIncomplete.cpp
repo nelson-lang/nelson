@@ -43,7 +43,7 @@ maxDimensions(Dimensions& a, Dimensions& b)
 //=============================================================================
 template <class T>
 ArrayOf
-BetaIncomplete(const Dimensions& retDims, Class destinationType, indexType maxLen, const ArrayOf& X,
+BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType maxLen, const ArrayOf& X,
     const ArrayOf& Y, const ArrayOf& Z, bool isLower)
 {
     T* result = (T*)ArrayOf::allocateArrayOf(

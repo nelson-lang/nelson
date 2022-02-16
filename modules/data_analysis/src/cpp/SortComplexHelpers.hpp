@@ -661,7 +661,7 @@ ComplexSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesiz
 //=============================================================================
 template <class T>
 ArrayOfVector
-sortComplex(const ArrayOf& arrayIn, Class dataClass, bool withIndex, indexType linesize,
+sortComplex(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType linesize,
     indexType planecount, indexType planesize, Dimensions& outDim, indexType dim, bool ascend,
     MISSING_PLACEMENT placement, COMPARISON_METHOD comparisonMethod)
 {

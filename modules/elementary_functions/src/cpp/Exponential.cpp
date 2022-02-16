@@ -52,7 +52,7 @@ Exponential(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX) {
         if (A.isSparse()) {
             needToOverload = true;

@@ -29,11 +29,11 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Cast(const ArrayOf& arrayIn, Class destinationClass, bool isSparse)
+Cast(const ArrayOf& arrayIn, NelsonType destinationClass, bool isSparse)
 {
     ArrayOf res;
     res = arrayIn;
-    Class originClass = res.getDataClass();
+    NelsonType originClass = res.getDataClass();
     if (originClass == NLS_SCOMPLEX || originClass == NLS_DCOMPLEX) {
         if (destinationClass == NLS_DOUBLE) {
             destinationClass = NLS_DCOMPLEX;

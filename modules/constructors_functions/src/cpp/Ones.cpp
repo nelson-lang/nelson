@@ -29,14 +29,14 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-Ones(Class cl)
+Ones(NelsonType cl)
 {
     Dimensions dims(1, 1);
     return Ones(dims, cl);
 }
 //=============================================================================
 ArrayOf
-Ones(Dimensions& dims, Class cl)
+Ones(Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {
