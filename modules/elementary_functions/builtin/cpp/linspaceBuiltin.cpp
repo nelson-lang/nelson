@@ -32,7 +32,7 @@ using namespace Nelson;
 //=============================================================================
 template <class T>
 ArrayOf
-linspaceReal(Class destinationClass, T startValue, T endValue, Eigen::Index n)
+linspaceReal(NelsonType destinationClass, T startValue, T endValue, Eigen::Index n)
 {
     ArrayOf res;
     if (n <= 0) {
@@ -54,7 +54,7 @@ linspaceReal(Class destinationClass, T startValue, T endValue, Eigen::Index n)
 template <class T>
 ArrayOf
 linspaceComplex(
-    Class destinationClass, std::complex<T> startValue, std::complex<T> endValue, Eigen::Index n)
+    NelsonType destinationClass, std::complex<T> startValue, std::complex<T> endValue, Eigen::Index n)
 {
     ArrayOf res;
     if (n <= 0) {
@@ -112,7 +112,7 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(
         Error(_W("Inputs parameters must be scalars."));
     }
     ArrayOf res;
-    Class destinationClass;
+    NelsonType destinationClass;
     if (param1.isComplex() || param2.isComplex()) {
         if (param1.getDataClass() == NLS_SCOMPLEX || param2.getDataClass() == NLS_SCOMPLEX) {
             destinationClass = NLS_SCOMPLEX;

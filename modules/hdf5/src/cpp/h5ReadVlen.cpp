@@ -34,7 +34,7 @@ h5ReadVlenOpaque(
     hid_t attr_id, hid_t stype, const hvl_t* rdata, const Dimensions& dims, std::wstring& error)
 {
     ArrayOf* elements = nullptr;
-    Class outputClass = NLS_UINT8;
+    NelsonType outputClass = NLS_UINT8;
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
@@ -65,7 +65,7 @@ h5ReadVlenFloat(
 {
     ArrayOf* elements = nullptr;
     hsize_t sizeSType = H5Tget_size(stype);
-    Class outputClass;
+    NelsonType outputClass;
     switch (sizeSType) {
     case 4: {
         outputClass = NLS_SINGLE;
@@ -108,7 +108,7 @@ h5ReadVlenInteger(
 {
     ArrayOf* elements = nullptr;
     hsize_t sizeSType = H5Tget_size(stype);
-    Class outputClass;
+    NelsonType outputClass;
     switch (sizeSType) {
     case 1: {
         if (H5Tget_sign(stype) == H5T_SGN_NONE) {

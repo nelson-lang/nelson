@@ -32,11 +32,11 @@ namespace Nelson {
 ArrayOf
 relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(
-        Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     bool& needToOverload);
 } // namespace Nelson
 //=============================================================================

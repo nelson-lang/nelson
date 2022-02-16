@@ -489,12 +489,12 @@ ArrayOf::ArrayOf()
  * Create a variable with the specified contents.
  */
 ArrayOf::ArrayOf(
-    Class type, const Dimensions& dims, void* data, bool sparse, const stringVector& fnames)
+    NelsonType type, const Dimensions& dims, void* data, bool sparse, const stringVector& fnames)
 {
     dp = new Data(type, dims, data, sparse, fnames);
 }
 //=============================================================================
-ArrayOf::ArrayOf(Class type) { dp = new Data(type, Dimensions(0, 0), nullptr); }
+ArrayOf::ArrayOf(NelsonType type) { dp = new Data(type, Dimensions(0, 0), nullptr); }
 //=============================================================================
 /**
  * Destructor - free the data object.
@@ -773,9 +773,9 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
 }
 //=============================================================================
 /**
- * Get our data class (of type Class).
+ * Get our data class (of type NelsonType).
  */
-Class
+NelsonType
 ArrayOf::getDataClass() const
 {
     return (dp == nullptr) ? NLS_DOUBLE : dp->dataClass;
@@ -1228,19 +1228,19 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
 }
 //=============================================================================
 static bool
-isDoubleClass(Class classIn)
+isDoubleClass(NelsonType classIn)
 {
     return (classIn == NLS_DOUBLE || classIn == NLS_DCOMPLEX);
 }
 //=============================================================================
 static bool
-isSingleClass(Class classIn)
+isSingleClass(NelsonType classIn)
 {
     return (classIn == NLS_SINGLE || classIn == NLS_SCOMPLEX);
 }
 //=============================================================================
 static bool
-isDoubleOrSingleClass(Class classIn)
+isDoubleOrSingleClass(NelsonType classIn)
 {
     return (isSingleClass(classIn) || isDoubleClass(classIn));
 }
@@ -1325,7 +1325,7 @@ bool
 ArrayOf::isNumeric() const
 {
     bool bRes = false;
-    Class currentclass = this->getDataClass();
+    NelsonType currentclass = this->getDataClass();
     switch (this->getDataClass()) {
     case NLS_UINT8:
     case NLS_INT8:
@@ -1349,7 +1349,7 @@ ArrayOf::isNumeric() const
 }
 //=============================================================================
 bool
-ArrayOf::isDataClassReferenceType(Class cls)
+ArrayOf::isDataClassReferenceType(NelsonType cls)
 {
     return (cls == NLS_CELL_ARRAY || cls == NLS_STRUCT_ARRAY || cls == NLS_STRING_ARRAY);
 }

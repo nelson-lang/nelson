@@ -93,7 +93,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
 
     if (A.isEmpty(false) && B.isEmpty(false)) {
         bool needOverload;
-        Class classCommon = FindConcatenateClass(A, B, needOverload);
+        NelsonType classCommon = FindConcatenateClass(A, B, needOverload);
         if (A.isStringArray() || B.isStringArray()) {
             classCommon = NLS_STRING_ARRAY;
         } else if (A.isCell() || B.isCell()) {
@@ -149,7 +149,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         return C;
     }
     bool needOverload;
-    Class classCommon = FindConcatenateClass(A, B, needOverload);
+    NelsonType classCommon = FindConcatenateClass(A, B, needOverload);
     if (A.isStringArray() || B.isStringArray()) {
         classCommon = NLS_STRING_ARRAY;
     } else if (A.isCell() || B.isCell()) {

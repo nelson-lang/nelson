@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
-Eye(indexType n = 1, indexType m = 1, Class classDest = NLS_DOUBLE, bool bIsSparse = false);
+Eye(indexType n = 1, indexType m = 1, NelsonType classDest = NLS_DOUBLE, bool bIsSparse = false);
 }
 //=============================================================================

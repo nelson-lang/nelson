@@ -53,7 +53,7 @@ h5LoadVariable(
         nzmax = getNelsonNzmax(fid, location, variableName);
     }
 
-    Class clDest;
+    NelsonType clDest;
     if (isObject) {
         clDest = NLS_STRUCT_ARRAY;
     } else {

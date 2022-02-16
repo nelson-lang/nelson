@@ -40,14 +40,14 @@ class CType
 {
 public:
     ffi_type* FFIType;
-    Class NelsonClass;
+    NelsonType NelsonClass;
     CType();
-    CType(ffi_type* baseType, Class baseClass);
+    CType(ffi_type* baseType, NelsonType baseClass);
 };
 //=============================================================================
 CType::CType() = default;
 //=============================================================================
-CType::CType(ffi_type* baseType, Class baseClass) : NelsonClass(baseClass) { FFIType = baseType; }
+CType::CType(ffi_type* baseType, NelsonType baseClass) : NelsonClass(baseClass) { FFIType = baseType; }
 //=============================================================================
 static bool ffiTypesMapInitialized = false;
 static std::unordered_map<std::wstring, CType> ffiTypesMap;
@@ -107,7 +107,7 @@ GetFFIType(const std::wstring& type)
     return ret.FFIType;
 }
 //=============================================================================
-Class
+NelsonType
 DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
 {
     CType ret;

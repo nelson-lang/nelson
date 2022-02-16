@@ -202,7 +202,7 @@ ArrayOf
 Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
 {
     ArrayOf res;
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse() || classA == NLS_CHAR) {
         std::wstring classname;
         ClassName(A, classname);
@@ -329,7 +329,7 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         } break;
         }
     }
-    Class outputClass = classA;
+    NelsonType outputClass = classA;
     if (strtype == L"default") {
         if (classA == NLS_DOUBLE || classA == NLS_SINGLE || classA == NLS_DCOMPLEX
             || classA == NLS_SCOMPLEX) {

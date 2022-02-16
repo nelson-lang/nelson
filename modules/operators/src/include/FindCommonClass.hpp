@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 NLSOPERATORS_IMPEXP
-Class
+NelsonType
 FindCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
 }

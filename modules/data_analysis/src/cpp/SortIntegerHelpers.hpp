@@ -157,7 +157,7 @@ IntegerSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesiz
 //=============================================================================
 template <class T>
 ArrayOfVector
-sortInteger(const ArrayOf& arrayIn, Class dataClass, bool withIndex, indexType linesize,
+sortInteger(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType linesize,
     indexType planecount, indexType planesize, Dimensions& outDim, indexType dim, bool ascend)
 {
     ArrayOfVector res;

@@ -46,7 +46,7 @@ public:
     call(Evaluator* eval, int Lhs, ArrayOfVector params);
     void
     disp(Interface* io);
-    static Class
+    static NelsonType
     GetNelsonType(const std::wstring& type);
     static bool
     isValidDataType(const std::wstring& DataType);

@@ -89,7 +89,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     }
-    Class outputClass = NLS_CHAR;
+    NelsonType outputClass = NLS_CHAR;
     if (STR.isCell() || OLD.isCell() || NEW.isCell()) {
         outputClass = NLS_CELL_ARRAY;
     }
@@ -343,7 +343,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 }
             }
         }
-        Class outputClass = NLS_CHAR;
+        NelsonType outputClass = NLS_CHAR;
         if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar()))
             && ((OLD.isCell() || OLD.isStringArray()) && !OLD.isScalar())) {
             if (STR.isStringArray()) {

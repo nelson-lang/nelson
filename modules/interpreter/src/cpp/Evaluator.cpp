@@ -1217,7 +1217,7 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, Class indexClass,
+ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
     ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf* ptrVariable = nullptr;
@@ -1256,7 +1256,7 @@ ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, Class indexC
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, Class indexClass, ArrayOf& indexSet,
+ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, ArrayOf& indexSet,
     indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf* ptrVariable = nullptr;

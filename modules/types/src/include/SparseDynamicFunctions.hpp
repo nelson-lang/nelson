@@ -38,78 +38,78 @@ extern "C"
 #endif
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    EyeSparseMatrixConstructorDynamicFunction(Class dclass, indexType rows, indexType cols);
+    EyeSparseMatrixConstructorDynamicFunction(NelsonType dclass, indexType rows, indexType cols);
     //=============================================================================
     NLSTYPES_IMPEXP void*
     LogicalSparseMatrixConstructorDynamicFunction(indexType rows, indexType cols, bool bMotif);
     //=============================================================================
     NLSTYPES_IMPEXP void
-    DeleteSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, void* cp);
+    DeleteSparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType cols, void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
+    MakeDenseArrayOfDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    MakeSparseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
+    MakeSparseArrayOfDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
     TypeConvertSparseDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp, Class oclass);
+        NelsonType dclass, indexType rows, indexType cols, const void* cp, NelsonType oclass);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    CopySparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
+    CopySparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP indexType
-    CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
+    CountNonzerosDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP indexType
-    CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
+    CountNonzerosMaxDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
     SparseMatrixConstructorDynamicFunction(
-        Class dclass, indexType rows, indexType cols, ArrayOfMatrix m);
+        NelsonType dclass, indexType rows, indexType cols, ArrayOfMatrix m);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    GetSparseVectorSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols,
+    GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
         const void* src, const indexType* indx, indexType irows, indexType icols);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    GetSparseNDimSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols,
+    GetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
         const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
         indexType icols);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    SetSparseVectorSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& cols,
+    SetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexType& cols,
         const void* src, const indexType* indx, indexType irows, indexType icols, const void* data,
         int advance);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    SetSparseNDimSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& cols,
+    SetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexType& cols,
         const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
         indexType icols, const void* data, int advance);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    GetSparseScalarElementDynamicFunction(Class dclass, indexType rows, indexType cols,
+    GetSparseScalarElementDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
         const void* src, indexType rindx, indexType cindx);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    SparseToIJVDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp,
+    SparseToIJVDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* cp,
         indexType*& I, indexType*& J, int& nnz);
     //=============================================================================
     NLSTYPES_IMPEXP void*
     DeleteSparseMatrixColsDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
+        NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
     //=============================================================================
     NLSTYPES_IMPEXP void*
     DeleteSparseMatrixRowsDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
+        NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    DeleteSparseMatrixVectorSubsetDynamicFunction(Class dclass, indexType& rows, indexType& cols,
+    DeleteSparseMatrixVectorSubsetDynamicFunction(NelsonType dclass, indexType& rows, indexType& cols,
         const void* cp, const indexType* todel, indexType delete_len);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    ReshapeSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols,
+    ReshapeSparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
         indexType newrows, indexType newcols, const void* cp);
     //=============================================================================
 

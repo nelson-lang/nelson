@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 logical
 realComparatorLessEquals(
-    Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
+    NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
     case NLS_LOGICAL: {
@@ -101,7 +101,7 @@ realComparatorLessEquals(
 //=============================================================================
 logical
 complexComparatorLessEquals(
-    Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
+    NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
     case NLS_SCOMPLEX: {
@@ -122,7 +122,7 @@ complexComparatorLessEquals(
 //=============================================================================
 logical
 stringArrayComparatorLessEquals(
-    Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
+    NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     if (commonClass == NLS_STRING_ARRAY) {
         auto* ptrA = static_cast<ArrayOf*>(vptrA);

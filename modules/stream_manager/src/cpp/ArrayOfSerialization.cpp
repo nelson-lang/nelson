@@ -269,7 +269,7 @@ ArrayOf
 ArrayOfSerialization::get(bool& success)
 {
     ArrayOf res;
-    Class destinationClass = (Class)nelsonObjectClass;
+    NelsonType destinationClass = (NelsonType)nelsonObjectClass;
     Dimensions destinationDims(dims);
     switch (destinationClass) {
     case NLS_GO_HANDLE: {

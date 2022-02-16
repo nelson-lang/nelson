@@ -30,6 +30,6 @@
 //=============================================================================
 namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOf
-ConcatenateNdArray(ArrayOfMatrix& m, Class destClass);
+ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass);
 }
 //=============================================================================

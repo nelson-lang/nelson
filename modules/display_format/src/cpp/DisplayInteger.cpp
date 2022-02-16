@@ -197,7 +197,7 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType rows = dims.getRows();
     indexType columns = dims.getColumns();
     indexType nominalWidth = getIntegerNominalWidth(A, currentNumericFormat);
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage("\n");
@@ -265,7 +265,7 @@ DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType rows(A.getRows());
     indexType columns(A.getColumns());
     indexType offset = 0;
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     indexType nominalWidth = getIntegerNominalWidth(A, currentNumericFormat);
     const void* ap = A.getDataPointer();
     while (wdims.inside(dims)) {

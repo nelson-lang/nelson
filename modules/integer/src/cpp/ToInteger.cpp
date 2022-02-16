@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToInteger(Class destinationClass, const ArrayOf& A)
+ToInteger(NelsonType destinationClass, const ArrayOf& A)
 {
 
     std::wstring destType = ClassToString(destinationClass);

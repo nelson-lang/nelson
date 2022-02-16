@@ -450,7 +450,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
     int8* outAsInt8 = static_cast<int8*>(outputBuffer);
     auto* outAsUInt8 = static_cast<uint8*>(outputBuffer);
     auto* outAsInt16 = static_cast<int16*>(outputBuffer);
-    Class dataClass = data->audioData.getDataClass();
+    NelsonType dataClass = data->audioData.getDataClass();
     for (unsigned int i = 0; i < framesPerBuffer; i++) {
         for (int c = 0; c < data->_NumberOfChannels; c++) {
             if (static_cast<uint32>(data->_CurrentSample) < data->lastSample) {

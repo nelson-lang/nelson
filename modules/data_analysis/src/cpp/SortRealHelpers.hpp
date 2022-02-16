@@ -260,7 +260,7 @@ RealSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesize, 
 //=============================================================================
 template <class T>
 ArrayOfVector
-sortReal(const ArrayOf& arrayIn, Class dataClass, bool withIndex, indexType linesize,
+sortReal(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType linesize,
     indexType planecount, indexType planesize, Dimensions& outDim, indexType dim, bool ascend,
     MISSING_PLACEMENT placement)
 {

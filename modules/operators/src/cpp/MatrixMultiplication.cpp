@@ -48,7 +48,7 @@ isSizeMismatch(const ArrayOf& A, const ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
-real_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
+real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
     if (A.isScalar() && B.isScalar()) {
@@ -191,7 +191,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
-complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
+complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions Cdim;
     ArrayOf AA = A;
@@ -300,7 +300,7 @@ complex_mtimes(Class currentClass, const ArrayOf& A, const ArrayOf& B)
 //=============================================================================
 template <class T>
 ArrayOf
-T_mtimes_T(Class realClass, Class complexClass, const ArrayOf& A, const ArrayOf& B)
+T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, const ArrayOf& B)
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();

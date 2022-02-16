@@ -48,7 +48,7 @@ LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue)
         bSuccess = true;
     } else {
         void* ptr = nullptr;
-        Class classAsInteger;
+        NelsonType classAsInteger;
         bool asUtf = false;
         switch (matVariable->data_type) {
         case MAT_T_UTF8: {

@@ -41,7 +41,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-Addition(const ArrayOf& A, const ArrayOf& B, Class commonClass)
+Addition(const ArrayOf& A, const ArrayOf& B, NelsonType commonClass)
 {
     ArrayOf res;
     if (A.isEmpty() || B.isEmpty()) {
@@ -218,7 +218,7 @@ Addition(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
         return stringArray_plus_stringArray(a, b);
     }
-    Class commonClass = FindCommonClass(A, B, needToOverload);
+    NelsonType commonClass = FindCommonClass(A, B, needToOverload);
     if (!needToOverload) {
         if (A.getDataClass() == commonClass && B.getDataClass() == commonClass) {
             res = Addition(A, B, commonClass);

@@ -100,7 +100,7 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
         Value.getElementSize() * Value.getElementCount());
 }
 //=============================================================================
-LibPointerObject::LibPointerObject(void* pointer, const std::wstring& DataType, Class currentType)
+LibPointerObject::LibPointerObject(void* pointer, const std::wstring& DataType, NelsonType currentType)
     : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
 {
     initializeCommon();

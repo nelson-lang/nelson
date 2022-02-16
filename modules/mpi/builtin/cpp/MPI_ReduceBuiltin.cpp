@@ -62,7 +62,7 @@ Nelson::MpiGateway::MPI_ReduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     ArrayOf dest = A;
     dest.ensureSingleOwner();
-    Class dataClass = A.getDataClass();
+    NelsonType dataClass = A.getDataClass();
     switch (dataClass) {
     case NLS_LOGICAL:
         MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),

@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ConcatenateNdArray(ArrayOfMatrix& m, Class destClass)
+ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass)
 {
     Dimensions mat_dims;
     Dimensions row_dims;

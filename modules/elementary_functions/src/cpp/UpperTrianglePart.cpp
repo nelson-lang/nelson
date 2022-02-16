@@ -34,7 +34,7 @@ template <class T>
 ArrayOf
 UpperTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
 {
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
     indexType nbElements = dimsA.getElementCount();
     T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);
@@ -59,7 +59,7 @@ template <class T>
 ArrayOf
 UpperTrianglePartReal(const ArrayOf& A, signedIndexType offset)
 {
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
     indexType nbElements = dimsA.getElementCount();
     T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);

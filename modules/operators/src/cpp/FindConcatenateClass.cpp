@@ -28,15 +28,15 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Class
+NelsonType
 FindConcatenateClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = true;
     if (A.isSparse() && B.isSparse()) {
         return NLS_NOT_TYPED;
     }
-    Class Aclass = A.getDataClass();
-    Class Bclass = B.getDataClass();
+    NelsonType Aclass = A.getDataClass();
+    NelsonType Bclass = B.getDataClass();
     if (Aclass == Bclass) {
         needToOverload = false;
         return Aclass;

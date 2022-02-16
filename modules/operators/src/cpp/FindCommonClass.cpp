@@ -28,11 +28,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Class
+NelsonType
 FindCommonClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    Class commonClass = NLS_NOT_TYPED;
+    NelsonType commonClass = NLS_NOT_TYPED;
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
         return commonClass;

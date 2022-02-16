@@ -37,7 +37,7 @@ LoadMatioDouble(matvar_t* matVariable, ArrayOf& VariableValue)
     if (matVariable == nullptr) {
         return bSuccess;
     }
-    Class destinationClass = matVariable->isComplex ? NLS_DCOMPLEX : NLS_DOUBLE;
+    NelsonType destinationClass = matVariable->isComplex ? NLS_DCOMPLEX : NLS_DOUBLE;
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
         VariableValue = ArrayOf::emptyConstructor(dims);

@@ -27,7 +27,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Class
+NelsonType
 precisionFromString(const std::wstring& str, bool& bOK)
 {
     bOK = true;

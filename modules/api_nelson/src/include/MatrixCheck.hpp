@@ -70,7 +70,7 @@ MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname);
  *
  */
 NLSAPI_NELSON_IMPEXP
-Class
+NelsonType
 FindCommonType(const ArrayOf& A, const ArrayOf& B);
 
 /**

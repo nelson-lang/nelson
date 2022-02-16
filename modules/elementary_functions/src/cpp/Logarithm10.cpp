@@ -31,7 +31,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-log10Complex(Class destinationClass, T* values, bool allReal, Dimensions& dims)
+log10Complex(NelsonType destinationClass, T* values, bool allReal, Dimensions& dims)
 {
     ompIndexType elementCount = dims.getElementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, elementCount);

@@ -43,7 +43,7 @@ ArrayOf
 Negate(ArrayOf A)
 {
     ArrayOf C;
-    Class Aclass;
+    NelsonType Aclass;
     if (A.isReferenceType()) {
         Error(L"Cannot negate non-numeric types.");
     }

@@ -32,10 +32,10 @@ namespace Nelson {
 #define TOWSTRING_(x) L##x
 #define TOWSTRING(x) TOWSTRING_(x)
 //=============================================================================
-Class
+NelsonType
 StringToClass(const std::wstring& classname, bool& haveError)
 {
-    Class destClass = NLS_NOT_TYPED;
+    NelsonType destClass = NLS_NOT_TYPED;
     haveError = false;
     if (classname.compare(TOWSTRING(NLS_GO_HANDLE_STR)) == 0) {
         destClass = NLS_GO_HANDLE;
@@ -77,24 +77,24 @@ StringToClass(const std::wstring& classname, bool& haveError)
     return destClass;
 }
 //=============================================================================
-Class
+NelsonType
 StringToClass(const std::wstring& classname)
 {
     bool haveError;
-    Class destClass = StringToClass(classname, haveError);
+    NelsonType destClass = StringToClass(classname, haveError);
     if (haveError) {
         Error(_W("input must be a valid class name."));
     }
     return destClass;
 }
 //=============================================================================
-Class
+NelsonType
 StringToClass(const std::string& classname)
 {
     return StringToClass(utf8_to_wstring(classname));
 }
 //=============================================================================
-Class
+NelsonType
 StringToClass(const std::string& classname, bool& haveError)
 {
     return StringToClass(utf8_to_wstring(classname), haveError);

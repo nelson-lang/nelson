@@ -35,7 +35,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    Class cl = NLS_DOUBLE;
+    NelsonType cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
         retval << Rand(eval, cl);
     } else {

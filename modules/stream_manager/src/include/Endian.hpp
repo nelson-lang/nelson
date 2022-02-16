@@ -45,7 +45,7 @@ bswap(T val)
 }
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP bool
-BITSWAP(void* ptrReadWrite, size_t count, Class destClass);
+BITSWAP(void* ptrReadWrite, size_t count, NelsonType destClass);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP bool
 isLittleEndianFormat();

@@ -740,7 +740,7 @@ MxArrayToArrayOf(const mxArray* pm)
         Dimensions dims(1, 0);
         return ArrayOf::emptyConstructor(dims);
     }
-    Class destClass = NLS_NOT_TYPED;
+    NelsonType destClass = NLS_NOT_TYPED;
     Dimensions dim;
     void* cp = nullptr;
     for (mwSize i = 0; i < pm->number_of_dims; i++) {

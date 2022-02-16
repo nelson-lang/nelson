@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-ClassToString(Class classType)
+ClassToString(NelsonType classType)
 {
     std::wstring classString;
     switch (classType) {

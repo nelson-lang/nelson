@@ -36,11 +36,11 @@ namespace Nelson {
 static ArrayOf
 matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -49,7 +49,7 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
 
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -108,18 +108,18 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -178,18 +178,18 @@ scalar_matrix_operator(const ArrayOf& A, const ArrayOf& B,
 static ArrayOf
 matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -248,11 +248,11 @@ matrix_scalar_operator(const ArrayOf& A, const ArrayOf& B,
 static ArrayOf
 vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     ArrayOf res;
     indexType Clen = outputDimensions.getElementCount();
@@ -261,7 +261,7 @@ vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
     void* ptrB = const_cast<void*>(B.getDataPointer());
     indexType nbElementsA = A.getElementCount();
     indexType nbElementsB = B.getElementCount();
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     indexType m = 0;
     for (indexType i = 0; i < nbElementsA; i++) {
         for (indexType j = 0; j < nbElementsB; j++) {
@@ -321,18 +321,18 @@ vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
 static ArrayOf
 vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     ArrayOf res;
     indexType Clen = outputDimensions.getElementCount();
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     indexType m = 0;
     indexType elementCountA = A.getElementCount();
     indexType elementCountB = B.getElementCount();
@@ -394,11 +394,11 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
 static ArrayOf
 vector_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     indexType q = 0;
     Dimensions dimsC = B.getDimensions();
@@ -406,7 +406,7 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getRows();
@@ -466,11 +466,11 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 matrix_vector_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     indexType q = 0;
     Dimensions dimsC = A.getDimensions();
@@ -478,7 +478,7 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getRows();
@@ -538,11 +538,11 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
 
     Dimensions dimsC = B.getDimensions();
@@ -550,7 +550,7 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getColumns();
@@ -609,18 +609,18 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     auto* Cp = new_with_exception<logical>(Clen, false);
     void* ptrA = const_cast<void*>(A.getDataPointer());
     void* ptrB = const_cast<void*>(B.getDataPointer());
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * B.getColumns();
@@ -679,11 +679,11 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
 ArrayOf
 relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        NelsonType commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     bool& needToOverload)
 {
     ArrayOf _A = A;
@@ -700,7 +700,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
         needToOverload = true;
         return ArrayOf();
     }
-    Class classCommon = FindCommonType(_A, _B);
+    NelsonType classCommon = FindCommonType(_A, _B);
     if (asStringArray) {
         if (!_A.isStringArray()) {
             _A = ArrayOf::toStringArray(_A, needToOverload);

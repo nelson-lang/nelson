@@ -31,8 +31,8 @@
 //=============================================================================
 namespace Nelson {
 NLSRANDOM_IMPEXP ArrayOf
-Rand(Evaluator* eval, Class cl);
+Rand(Evaluator* eval, NelsonType cl);
 NLSRANDOM_IMPEXP ArrayOf
-Rand(Evaluator* eval, Dimensions& dims, Class cl);
+Rand(Evaluator* eval, Dimensions& dims, NelsonType cl);
 } // namespace Nelson
 //=============================================================================

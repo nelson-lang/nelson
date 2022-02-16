@@ -34,7 +34,7 @@ ArrayOfVector
 Nelson::ConstructorsGateway::eyeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsSparse = false;
-    Class destClass = NLS_DOUBLE;
+    NelsonType destClass = NLS_DOUBLE;
     indexType n = 1;
     indexType m = 1;
     nargoutcheck(nLhs, 0, 1);

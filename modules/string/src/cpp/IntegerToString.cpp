@@ -92,7 +92,7 @@ IntegerToString(ArrayOf A, wstringVector& result, std::wstring& error_message)
         error_message = _W("Type not managed in this case.");
         return false;
     }
-    Class classA = A.getDataClass();
+    NelsonType classA = A.getDataClass();
     switch (classA) {
     case NLS_GO_HANDLE:
     case NLS_HANDLE:

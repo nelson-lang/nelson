@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-LoadMatioInteger(matvar_t* matVariable, Class destinationClass, ArrayOf& VariableValue);
+LoadMatioInteger(matvar_t* matVariable, NelsonType destinationClass, ArrayOf& VariableValue);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

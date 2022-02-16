@@ -120,7 +120,7 @@ typedef enum
     NLS_SCOMPLEX,
     NLS_DCOMPLEX,
     NLS_CHAR,
-} Class;
+} NelsonType;
 using stringVector = std::vector<std::string>;
 using wstringVector = std::vector<std::wstring>;
 

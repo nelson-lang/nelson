@@ -36,7 +36,7 @@ isLittleEndianFormat()
 }
 //=============================================================================
 bool
-BITSWAP(void* ptrReadWrite, size_t count, Class destClass)
+BITSWAP(void* ptrReadWrite, size_t count, NelsonType destClass)
 {
     switch (destClass) {
     case NLS_LOGICAL: {

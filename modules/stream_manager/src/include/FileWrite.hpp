@@ -45,6 +45,6 @@ typedef enum
 
 NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
 FileWrite(
-    File* fp, ArrayOf src, Class destClass, size_t skip, bool bIsLittleEndian, int& sizeWritten);
+    File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLittleEndian, int& sizeWritten);
 }; // namespace Nelson
 //=============================================================================

@@ -32,7 +32,7 @@
 namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOf
 binaryOperatorEmptyMatrixEmptryMatrix(
-    const ArrayOf& A, const ArrayOf& B, Class commonClass, const std::string& operatorName);
+    const ArrayOf& A, const ArrayOf& B, NelsonType commonClass, const std::string& operatorName);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

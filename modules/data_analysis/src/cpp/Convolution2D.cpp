@@ -73,12 +73,12 @@ isSupportedInputTypes(const ArrayOf& A)
 }
 //=============================================================================
 static void
-computeCommonType(const ArrayOf& A, const ArrayOf& B, Class& intermediateClass, Class& outClass)
+computeCommonType(const ArrayOf& A, const ArrayOf& B, NelsonType& intermediateClass, NelsonType& outClass)
 {
     intermediateClass = NLS_DOUBLE;
     outClass = NLS_DOUBLE;
-    Class Ain(A.getDataClass());
-    Class Bin(B.getDataClass());
+    NelsonType Ain(A.getDataClass());
+    NelsonType Bin(B.getDataClass());
     if (Ain == NLS_SINGLE && Bin == NLS_SINGLE) {
         intermediateClass = NLS_SINGLE;
         outClass = NLS_SINGLE;
@@ -266,8 +266,8 @@ Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, boo
         Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
     }
 
-    Class intermediateClass;
-    Class outputClass;
+    NelsonType intermediateClass;
+    NelsonType outputClass;
     computeCommonType(A, B, intermediateClass, outputClass);
 
     if (A.isEmpty() || B.isEmpty()) {

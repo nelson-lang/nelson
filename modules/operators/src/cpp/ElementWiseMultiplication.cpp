@@ -36,7 +36,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 static ArrayOf
-matrix_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+matrix_matrix_elementWiseMultiplication(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
@@ -75,7 +75,7 @@ matrix_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
 template <class T>
 static ArrayOf
 complex_matrix_matrix_elementWiseMultiplication(
-    Class classDestination, const ArrayOf& a, const ArrayOf& b)
+    NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
@@ -92,7 +92,7 @@ complex_matrix_matrix_elementWiseMultiplication(
 //=============================================================================
 template <class T>
 static ArrayOf
-scalar_matrix_elementWiseMultiplication(Class classDestination, ArrayOf& a, ArrayOf& b)
+scalar_matrix_elementWiseMultiplication(NelsonType classDestination, ArrayOf& a, ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
     indexType Clen = dimsC.getElementCount();
@@ -126,7 +126,7 @@ scalar_matrix_elementWiseMultiplication(Class classDestination, ArrayOf& a, Arra
 //=============================================================================
 template <class T>
 static ArrayOf
-complex_scalar_matrix_elementWiseMultiplication(Class classDestination, ArrayOf& a, ArrayOf& b)
+complex_scalar_matrix_elementWiseMultiplication(NelsonType classDestination, ArrayOf& a, ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
     indexType Clen = dimsC.getElementCount();
@@ -144,7 +144,7 @@ complex_scalar_matrix_elementWiseMultiplication(Class classDestination, ArrayOf&
 template <class T>
 static void
 vector_elementWiseMultiplication(
-    Class classDestination, T* C, const T* A, indexType NA, const T* B, indexType NB)
+    NelsonType classDestination, T* C, const T* A, indexType NA, const T* B, indexType NB)
 {
     indexType m = 0;
     if (isIntegerClass(classDestination)) {
@@ -198,7 +198,7 @@ complex_vector_elementWiseMultiplication(T* C, T* A, indexType NA, T* B, indexTy
 //=============================================================================
 template <class T>
 static ArrayOf
-vector_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+vector_matrix_elementWiseMultiplication(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     const T* ptrA = (const T*)a.getDataPointer();
     const T* ptrB = (const T*)b.getDataPointer();
@@ -250,7 +250,7 @@ vector_matrix_elementWiseMultiplication(Class classDestination, const ArrayOf& a
 template <class T>
 static ArrayOf
 complex_vector_matrix_elementWiseMultiplication(
-    Class classDestination, const ArrayOf& a, const ArrayOf& b)
+    NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
     indexType q = 0;
@@ -274,7 +274,7 @@ complex_vector_matrix_elementWiseMultiplication(
 //=============================================================================
 template <class T>
 static ArrayOf
-vector_column_elementWiseMultiplication(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+vector_column_elementWiseMultiplication(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     const T* ptrA = (const T*)a.getDataPointer();
     const T* ptrB = (const T*)b.getDataPointer();
@@ -321,7 +321,7 @@ vector_column_elementWiseMultiplication(Class classDestination, const ArrayOf& a
 template <class T>
 static ArrayOf
 complex_vector_column_elementWiseMultiplication(
-    Class classDestination, const ArrayOf& a, const ArrayOf& b)
+    NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
     indexType q = 0;
     Dimensions dimsC = b.getDimensions();
@@ -344,7 +344,7 @@ complex_vector_column_elementWiseMultiplication(
 //=============================================================================
 template <class T>
 ArrayOf
-elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
+elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
 {
     void* Cp = nullptr;
     if (a.isScalar() && b.isScalar()) {
@@ -455,7 +455,7 @@ elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
 //=============================================================================
 template <class T>
 ArrayOf
-complex_elementWiseMultiplication(Class classDestination, ArrayOf a, ArrayOf b)
+complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
 {
     a.promoteType(classDestination);
     b.promoteType(classDestination);

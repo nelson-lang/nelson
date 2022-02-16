@@ -135,7 +135,7 @@ EigenDecompositionFullSymmetric(
     auto N = (indexType)A.getDimensionLength(0);
     Dimensions Vdims(N, N);
 
-    Class Aclass = A.getDataClass();
+    NelsonType Aclass = A.getDataClass();
     switch (Aclass) {
     case NLS_SINGLE: {
         single* eigenvals = (single*)new_with_exception<single>(N, false);
@@ -226,7 +226,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         return true;
     }
     indexType N = A.getDimensionLength(0);
-    Class Aclass = A.getDataClass();
+    NelsonType Aclass = A.getDataClass();
     Dimensions Vdims(N, N);
     switch (Aclass) {
     case NLS_SINGLE: {
@@ -407,7 +407,7 @@ EigenDecompositionCompactSymmetric(
     auto N = (indexType)A.getDimensionLength(0);
     Dimensions Ddims(N, 1);
 
-    Class Aclass = A.getDataClass();
+    NelsonType Aclass = A.getDataClass();
     switch (Aclass) {
     case NLS_SINGLE: {
         single* eigenvals = (single*)new_with_exception<single>(N, false);
@@ -457,7 +457,7 @@ EigenDecompositionCompactGeneral(
         return true;
     }
     indexType N = A.getDimensionLength(0);
-    Class Aclass = A.getDataClass();
+    NelsonType Aclass = A.getDataClass();
     Dimensions Ddims(N, 1);
     switch (Aclass) {
     case NLS_SINGLE: {

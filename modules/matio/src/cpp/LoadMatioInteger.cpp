@@ -45,7 +45,7 @@ complexIntegerTocomplexDouble(mat_complex_split_t* cplx, indexType nbElements, d
 }
 //=============================================================================
 bool
-LoadMatioInteger(matvar_t* matVariable, Class destinationClass, ArrayOf& VariableValue)
+LoadMatioInteger(matvar_t* matVariable, NelsonType destinationClass, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {

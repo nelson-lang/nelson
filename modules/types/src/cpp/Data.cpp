@@ -51,7 +51,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Data::Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag, stringVector fields)
+Data::Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, stringVector fields)
     : cp(s), owners(1), dimensions(dims), fieldNames(std::move(fields)), dataClass(aClass)
 {
     sparse = sparseflag;
@@ -69,7 +69,7 @@ Data::getCopy()
 //=============================================================================
 Data*
 Data::putData(
-    Class aClass, const Dimensions& dims, void* s, bool sparseflag, const stringVector& fields)
+    NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, const stringVector& fields)
 {
     if ((owners <= 1)) {
         freeDataBlock();

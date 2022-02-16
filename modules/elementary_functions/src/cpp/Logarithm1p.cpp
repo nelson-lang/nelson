@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-log1pComplex(Class destinationClass, T* values, bool allReal, const Dimensions& dims)
+log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensions& dims)
 {
     ompIndexType nbElements = dims.getElementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, nbElements);

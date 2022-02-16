@@ -396,7 +396,7 @@ bool
 NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessage)
 {
     errorMessage.clear();
-    Class type = A.getDataClass();
+    NelsonType type = A.getDataClass();
     if (A.isSparse()) {
         errorMessage = _W("Sparse not supported.");
         return false;

@@ -45,7 +45,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool containsCellOrStringInput = false;
     bool containsStringInput = false;
     ArrayOfVector theInputs = argIn;
-    std::vector<Class> classType;
+    std::vector<NelsonType> classType;
     for (auto& theInput : theInputs) {
         classType.push_back(theInput.getDataClass());
         ArrayOf inputElement = theInput;
@@ -102,7 +102,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
                 dimsOutput = Dimensions(1, 1);
             }
         }
-        Class outputClass = containsStringInput ? NLS_STRING_ARRAY : NLS_CELL_ARRAY;
+        NelsonType outputClass = containsStringInput ? NLS_STRING_ARRAY : NLS_CELL_ARRAY;
         indexType nbElements = dimsOutput.getElementCount();
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(outputClass, nbElements);
         ArrayOf res = ArrayOf(outputClass, dimsOutput, elements);
@@ -111,7 +111,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 
         for (indexType k = 0; k < theInputs.size(); ++k) {
             ArrayOf v = theInputs[k];
-            Class cl = classType[k];
+            NelsonType cl = classType[k];
             if (v.isCharacterArray()) {
                 std::wstring str = v.getContentAsWideString();
                 if (cl == NLS_CHAR) {

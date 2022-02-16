@@ -71,14 +71,14 @@ initializeMPI()
     return flag;
 }
 //=============================================================================
-static Class
+static NelsonType
 IntToClass(int code)
 {
-    return static_cast<Class>(code / 1000);
+    return static_cast<NelsonType>(code / 1000);
 }
 //=============================================================================
 static int
-ClassToInt(Class dataClass)
+ClassToInt(NelsonType dataClass)
 {
     return (dataClass * 1000);
 }
@@ -86,7 +86,7 @@ ClassToInt(Class dataClass)
 void
 packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
 {
-    Class dataClass(A.getDataClass());
+    NelsonType dataClass(A.getDataClass());
     int idclass = ClassToInt(dataClass);
     MPI_Pack(&idclass, 1, MPI_INT, buffer, bufsize, packpos, comm);
     int issparse = static_cast<int>(A.isSparse());
@@ -247,7 +247,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
 {
     int idclass;
     MPI_Unpack(buffer, bufsize, packpos, &idclass, 1, MPI_INT, comm);
-    Class dataClass = IntToClass(idclass);
+    NelsonType dataClass = IntToClass(idclass);
     int issparse = 0;
     MPI_Unpack(buffer, bufsize, packpos, &issparse, 1, MPI_INT, comm);
     int dimlength = 0;
@@ -440,7 +440,7 @@ int
 getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
 {
     unsigned int overhead = getCanonicalSize(maxDims + 1, MPI_INT, comm);
-    Class dataClass(A.getDataClass());
+    NelsonType dataClass(A.getDataClass());
     if (A.isReferenceType()) {
         if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             int total = 0;

@@ -31,7 +31,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-solveSVDDecompositionReal(Class destinationClass, const ArrayOf& matA, const ArrayOf& matB)
+solveSVDDecompositionReal(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB)
 {
     ArrayOf res;
 

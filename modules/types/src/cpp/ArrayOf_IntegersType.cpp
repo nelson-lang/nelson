@@ -216,7 +216,7 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
 //=============================================================================
 template <class T>
 T
-getContentAsScalar(const ArrayOf& M, Class destinationClass, bool arrayAsScalar)
+getContentAsScalar(const ArrayOf& M, NelsonType destinationClass, bool arrayAsScalar)
 {
     T value;
     if (M.getDataClass() != destinationClass && !M.isSparse()) {

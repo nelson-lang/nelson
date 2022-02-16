@@ -86,7 +86,7 @@ convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
 static bool
 isSupportedDataType(const ArrayOf& data)
 {
-    Class dataClass = data.getDataClass();
+    NelsonType dataClass = data.getDataClass();
     return (dataClass == NLS_UINT8) || (dataClass == NLS_INT16) || (dataClass == NLS_INT32)
         || (dataClass == NLS_SINGLE) || (dataClass == NLS_DOUBLE);
 }

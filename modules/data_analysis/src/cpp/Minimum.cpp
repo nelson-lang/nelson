@@ -498,7 +498,7 @@ Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     } else {
         Error(_W("Input Arguments must have same size."));
     }
-    Class outType;
+    NelsonType outType;
     if (A.getDataClass() != B.getDataClass()) {
         outType = FindCommonClass(A, B, needToOverload);
     } else {

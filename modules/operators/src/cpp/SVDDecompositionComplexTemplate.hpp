@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-solveSVDDecompositionComplex(Class destinationClass, const ArrayOf& matA, const ArrayOf& matB)
+solveSVDDecompositionComplex(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB)
 {
     ArrayOf res;
 

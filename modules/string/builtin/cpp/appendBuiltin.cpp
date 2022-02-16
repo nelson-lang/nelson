@@ -99,7 +99,7 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
                 dimsOutput = Dimensions(1, 1);
             }
         }
-        Class outputClass = containsStringInput ? NLS_STRING_ARRAY : NLS_CELL_ARRAY;
+        NelsonType outputClass = containsStringInput ? NLS_STRING_ARRAY : NLS_CELL_ARRAY;
         indexType nbElements = dimsOutput.getElementCount();
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(outputClass, nbElements);
         ArrayOf res = ArrayOf(outputClass, dimsOutput, elements);

@@ -47,7 +47,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
     if (A.isSparse()) {
         A.makeDense();
     }
-    Class dataClass = A.getDataClass();
+    NelsonType dataClass = A.getDataClass();
     bool needToConvert
         = (dataClass != NLS_LOGICAL) && (dataClass != NLS_SINGLE) && (dataClass != NLS_DOUBLE);
     if (needToConvert) {

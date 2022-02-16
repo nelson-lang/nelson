@@ -29,14 +29,14 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-RandNormal(Evaluator* eval, Class cl)
+RandNormal(Evaluator* eval, NelsonType cl)
 {
     Dimensions dims(1, 1);
     return RandNormal(eval, dims, cl);
 }
 //=============================================================================
 ArrayOf
-RandNormal(Evaluator* eval, Dimensions& dims, Class cl)
+RandNormal(Evaluator* eval, Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (eval->RandomEngine == nullptr) {
