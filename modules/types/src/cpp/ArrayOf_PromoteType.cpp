@@ -57,7 +57,8 @@ numeric_cast(TIN value)
     else if ((!std::numeric_limits<TOUT>::is_signed) && std::numeric_limits<TIN>::is_signed) {
         if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
             return std::numeric_limits<TOUT>::max();
-        } else if (negative_overflow_possible && (value < 0)) {
+        }
+        if (negative_overflow_possible && (value < 0)) {
             return std::numeric_limits<TOUT>::min();
         }
     }
@@ -71,7 +72,8 @@ numeric_cast(TIN value)
     else if (std::numeric_limits<TOUT>::is_signed && std::numeric_limits<TIN>::is_signed) {
         if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
             return std::numeric_limits<TOUT>::max();
-        } else if (negative_overflow_possible && (value < std::numeric_limits<TOUT>::lowest())) {
+        }
+        if (negative_overflow_possible && (value < std::numeric_limits<TOUT>::lowest())) {
             return std::numeric_limits<TOUT>::min();
         }
     }
@@ -268,7 +270,7 @@ void
 ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
 {
     if (isEmpty()) {
-        dp = dp->putData(dstClass, dp->dimensions, NULL, isSparse(), fNames);
+        dp = dp->putData(dstClass, dp->dimensions, nullptr, isSparse(), fNames);
         return;
     }
     if (dp->dataClass != dstClass) {
@@ -291,16 +293,16 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
     case NLS_HANDLE: {
         if (dstClass == NLS_HANDLE) {
             return;
-        } else {
-            Error(_W("Cannot convert handle-arrays to any other type."));
         }
+        Error(_W("Cannot convert handle-arrays to any other type."));
+
     } break;
     case NLS_CELL_ARRAY: {
         if (dstClass == NLS_CELL_ARRAY) {
             return;
-        } else {
-            Error(_W("Cannot convert cell-arrays to any other type."));
         }
+        Error(_W("Cannot convert cell-arrays to any other type."));
+
     } break;
     case NLS_STRUCT_ARRAY: {
         if (dstClass == NLS_STRUCT_ARRAY) {
@@ -348,16 +350,16 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
             }
             dp = dp->putData(dp->dataClass, dp->dimensions, dstPtr, false, fNames);
             return;
-        } else {
-            Error(_W("Cannot convert struct-arrays to any other type."));
         }
+        Error(_W("Cannot convert struct-arrays to any other type."));
+
     } break;
     case NLS_STRING_ARRAY: {
         if (dstClass == NLS_STRING_ARRAY) {
             return;
-        } else {
-            Error(_W("Cannot convert string-arrays to any other type."));
         }
+        Error(_W("Cannot convert string-arrays to any other type."));
+
     } break;
     case NLS_LOGICAL: {
         const logical* sp = (const logical*)dp->getData();

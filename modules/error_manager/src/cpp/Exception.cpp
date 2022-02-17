@@ -33,6 +33,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <utility>
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -49,14 +50,16 @@ Exception::Exception()
     this->msg.clear();
 }
 //=============================================================================
-Exception::Exception(const std::string& msg_in, const std::vector<PositionScript>& positions,
+Exception::Exception(const std::string& msg_in, std::vector<PositionScript> positions,
     const std::string& identifier_in)
-    : backtrace(positions), identifier(utf8_to_wstring(identifier_in)), msg(utf8_to_wstring(msg_in))
+    : backtrace(std::move(positions))
+    , identifier(utf8_to_wstring(identifier_in))
+    , msg(utf8_to_wstring(msg_in))
 {}
 //=============================================================================
-Exception::Exception(const std::wstring& msg_in, const std::vector<PositionScript>& positions,
-    const std::wstring& identifier_in)
-    : backtrace(positions), identifier(identifier_in), msg(msg_in)
+Exception::Exception(
+    std::wstring msg_in, std::vector<PositionScript> positions, std::wstring identifier_in)
+    : backtrace(std::move(positions)), identifier(std::move(identifier_in)), msg(std::move(msg_in))
 {}
 //=============================================================================
 Exception::Exception(

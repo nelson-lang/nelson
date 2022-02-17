@@ -35,9 +35,9 @@ XmlDocAuthors::XmlDocAuthors() { authorVector.clear(); }
 //=============================================================================
 XmlDocAuthors::~XmlDocAuthors()
 {
-    for (size_t k = 0; k < authorVector.size(); k++) {
-        delete authorVector[k];
-        authorVector[k] = nullptr;
+    for (auto& k : authorVector) {
+        delete k;
+        k = nullptr;
     }
     authorVector.clear();
 }
@@ -72,8 +72,8 @@ XmlDocAuthors::writeAsHtml(std::string& utf8stream)
     }
     utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < authorVector.size(); k++) {
-        authorVector[k]->writeAsHtml(utf8stream);
+    for (auto& k : authorVector) {
+        k->writeAsHtml(utf8stream);
     }
     return true;
 }
@@ -87,8 +87,8 @@ XmlDocAuthors::writeAsMarkdown(std::string& utf8stream)
         utf8stream = utf8stream + "## " + _("Author") + "\n";
     }
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < authorVector.size(); k++) {
-        authorVector[k]->writeAsMarkdown(utf8stream);
+    for (auto& k : authorVector) {
+        k->writeAsMarkdown(utf8stream);
     }
     return true;
 }

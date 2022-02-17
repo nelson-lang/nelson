@@ -26,6 +26,8 @@ set(module_name sio_client)
 set(module_library_name nlsSio_client)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
+set(CMAKE_CXX_CLANG_TIDY "")
+# ==============================================================================
 include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include

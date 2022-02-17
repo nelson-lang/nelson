@@ -53,9 +53,8 @@ ArrayOf::getFieldNames() const
 {
     if (dp) {
         return dp->fieldNames;
-    } else {
-        return stringVector();
     }
+    return stringVector();
 }
 //=============================================================================
 std::string
@@ -207,8 +206,8 @@ ArrayOf
 ArrayOf::structConstructor(const wstringVector& fNames, const ArrayOfVector& values)
 {
     stringVector fNamesUtf8;
-    for (size_t k = 0; k < fNames.size(); k++) {
-        fNamesUtf8.push_back(wstring_to_utf8(fNames[k]));
+    for (const auto& fName : fNames) {
+        fNamesUtf8.push_back(wstring_to_utf8(fName));
     }
     return ArrayOf::structConstructor(fNamesUtf8, values);
 }
@@ -300,8 +299,8 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
     }
     if (isEmpty()) {
         bool bFieldAlreadyExist = false;
-        for (size_t k = 0; k < dp->fieldNames.size(); k++) {
-            if (fieldName == dp->fieldNames[k]) {
+        for (auto& k : dp->fieldNames) {
+            if (fieldName == k) {
                 bFieldAlreadyExist = true;
                 break;
             }
@@ -388,9 +387,8 @@ ArrayOf::getFieldIndexFromList(const std::string& fName, const stringVector& fie
     }
     if (foundName) {
         return i;
-    } else {
-        return -1;
     }
+    return -1;
 }
 //=============================================================================
 /**
@@ -428,8 +426,8 @@ ArrayOf::emptyStructConstructor(const wstringVector& fNames, Dimensions& dim)
 {
     stringVector fs;
     fs.reserve(fNames.size());
-    for (size_t k = 0; k < fNames.size(); k++) {
-        fs.push_back(wstring_to_utf8(fNames[k]));
+    for (const auto& fName : fNames) {
+        fs.push_back(wstring_to_utf8(fName));
     }
     return ArrayOf::emptyStructConstructor(fs, dim);
 }
@@ -440,11 +438,11 @@ ArrayOf::haveValidFieldNames(const stringVector& fieldnames)
     if (fieldnames.empty()) {
         return true;
     }
-    for (size_t k = 0; k < fieldnames.size(); ++k) {
-        if (fieldnames[k].size() == 0) {
+    for (const auto& fieldname : fieldnames) {
+        if (fieldname.size() == 0) {
             return false;
         }
-        if (boost::algorithm::contains(fieldnames[k], "\n")) {
+        if (boost::algorithm::contains(fieldname, "\n")) {
             return false;
         }
     }

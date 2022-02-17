@@ -39,8 +39,8 @@ using PROC_fftw_execute = void (*)(const fftw_plan plan);
 using PROC_fftw_plan_dft_1d
     = fftw_plan (*)(int n, fftw_complex* in, fftw_complex* out, int sign, unsigned flags);
 using PROC_fftw_destroy_plan = void (*)(fftw_plan plan);
-using PROC_fftw_forget_wisdom = void (*)(void);
-using PROC_fftw_export_wisdom_to_string = char* (*)(void);
+using PROC_fftw_forget_wisdom = void (*)();
+using PROC_fftw_export_wisdom_to_string = char* (*)();
 using PROC_fftw_import_wisdom_from_string = int (*)(const char* input_string);
 using PROC_fftw_malloc = void* (*)(size_t n);
 using PROC_fftw_free = void (*)(void* p);
@@ -50,12 +50,12 @@ using PROC_fftwf_destroy_plan = void (*)(fftwf_plan plan);
 using PROC_fftwf_free = void (*)(void* p);
 using PROC_fftwf_malloc = void* (*)(size_t n);
 using PROC_fftwf_import_wisdom_from_string = int (*)(const char* input_string);
-using PROC_fftwf_export_wisdom_to_string = char* (*)(void);
-using PROC_fftwf_forget_wisdom = void (*)(void);
+using PROC_fftwf_export_wisdom_to_string = char* (*)();
+using PROC_fftwf_forget_wisdom = void (*)();
 using PROC_fftwf_plan_dft_1d
     = fftwf_plan (*)(int n, fftwf_complex* in, fftwf_complex* out, int sign, unsigned flags);
 using PROC_fftw_plan_with_nthreads = void (*)(int nthreads);
-using PROC_fftw_init_threads = int (*)(void);
+using PROC_fftw_init_threads = int (*)();
 //=============================================================================
 PROC_fftw_execute fftw_executePtr = nullptr;
 PROC_fftw_plan_dft_1d fftw_plan_dft_1dPtr = nullptr;
@@ -206,7 +206,7 @@ freeFFTWLibrary()
 }
 //=============================================================================
 bool
-loadFFTWLibrary(void)
+loadFFTWLibrary()
 {
     if (fftwLoaded) {
         return true;
@@ -275,13 +275,13 @@ dyn_fftw_destroy_plan(fftw_plan plan)
 }
 //=============================================================================
 void
-dyn_fftw_forget_wisdom(void)
+dyn_fftw_forget_wisdom()
 {
     fftw_forget_wisdomPtr();
 }
 //=============================================================================
 char*
-dyn_fftw_export_wisdom_to_string(void)
+dyn_fftw_export_wisdom_to_string()
 {
     return fftw_export_wisdom_to_stringPtr();
 }
@@ -335,13 +335,13 @@ dyn_fftwf_import_wisdom_from_string(const char* input_string)
 }
 //=============================================================================
 char*
-dyn_fftwf_export_wisdom_to_string(void)
+dyn_fftwf_export_wisdom_to_string()
 {
     return fftwf_export_wisdom_to_stringPtr();
 }
 //=============================================================================
 void
-dyn_fftwf_forget_wisdom(void)
+dyn_fftwf_forget_wisdom()
 {
     fftwf_forget_wisdomPtr();
 }

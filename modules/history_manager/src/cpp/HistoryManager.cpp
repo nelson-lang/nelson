@@ -162,7 +162,7 @@ HistoryManager::appendHeader()
     std::wstring post = L" -- %%";
 #ifdef __GNUC__
     /* std::put_time only in GCC >= 5 ... */
-    time_t timer = time(NULL);
+    time_t timer = time(nullptr);
     struct tm t_result;
     const struct tm* timeptr = localtime_r(&timer, &t_result);
     std::wstring month;
@@ -216,7 +216,7 @@ HistoryManager::appendLine(const std::wstring& line)
     wstringVector strs;
     boost::split(strs, line, boost::is_any_of(L"\n"));
     wstringVector lines;
-    for (auto s : strs) {
+    for (const auto& s : strs) {
         if ((s != L"\n") && (!s.empty())) {
             lines.push_back(s);
         }
@@ -224,21 +224,21 @@ HistoryManager::appendLine(const std::wstring& line)
     strs.clear();
     if (!bAllowDuplicatedLines) {
         if (commands.size() > 0) {
-            for (size_t k = 0; k < lines.size(); k++) {
-                if (commands[commands.size() - 1] != lines[k]) {
-                    commands.push_back(lines[k]);
+            for (auto& line : lines) {
+                if (commands[commands.size() - 1] != line) {
+                    commands.push_back(line);
                     nbCommands++;
                 }
             }
         } else {
 
-            for (auto s : strs) {
+            for (const auto& s : strs) {
                 commands.push_back(s);
                 nbCommands++;
             }
         }
     } else {
-        for (auto l : lines) {
+        for (const auto& l : lines) {
             commands.push_back(l);
             nbCommands++;
         }
@@ -256,7 +256,7 @@ HistoryManager::appendLine(const std::wstring& line)
 bool
 HistoryManager::appendLines(const wstringVector& lines)
 {
-    for (auto l : lines) {
+    for (const auto& l : lines) {
         if ((l != L"\n") && (!l.empty())) {
             commands.push_back(l);
         }
@@ -485,10 +485,10 @@ HistoryManager::setToken(const std::wstring& _token)
     token.assign(_token);
     tokens_found.clear();
     if (!token.empty()) {
-        for (size_t k = 0; k < commands.size(); k++) {
+        for (auto& command : commands) {
             tokens_found.reserve(commands.size());
-            if (boost::algorithm::starts_with(commands[k], token)) {
-                tokens_found.push_back(commands[k]);
+            if (boost::algorithm::starts_with(command, token)) {
+                tokens_found.push_back(command);
             }
         }
         token_position = tokens_found.size();

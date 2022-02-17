@@ -49,7 +49,7 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
         Error(fmt::sprintf(_W("Invalid argument type: %s."), returnType));
     }
-    for (std::wstring arg : argumentsType) {
+    for (const std::wstring& arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
             Error(fmt::sprintf(_W("Invalid argument type: %s."), arg));
         }

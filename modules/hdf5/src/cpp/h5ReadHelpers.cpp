@@ -36,7 +36,7 @@ getDimensions(hid_t space_id, int& rank)
         rank = H5Sget_simple_extent_ndims(space_id);
         if (rank > 0) {
             hsize_t* len = new_with_exception<hsize_t>((size_t)rank, false);
-            int ret = H5Sget_simple_extent_dims(space_id, len, NULL);
+            int ret = H5Sget_simple_extent_dims(space_id, len, nullptr);
             hsize_t i = rank - 1;
             hsize_t j = 0;
             while (i > j) {

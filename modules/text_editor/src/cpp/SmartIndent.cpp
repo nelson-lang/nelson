@@ -82,11 +82,11 @@ countMatches(QString line, QString& patternStr)
 QString
 stripLine(QString line)
 {
-    QString literal("\'([^\']*)\'");
+    QString literal(R"('([^']*)')");
     removeMatch(line, literal);
-    QString endparenthese("\\([^\\)]*(\\b(end|endfunction)\\b)[^\\)]*\\)");
+    QString endparenthese(R"(\([^\)]*(\b(end|endfunction)\b)[^\)]*\))");
     removeMatch(line, endparenthese);
-    QString endbracket("\\{[^\\}]*(\\b(end|endfunction)\\b)[^\\}]*\\}");
+    QString endbracket(R"(\{[^\}]*(\b(end|endfunction)\b)[^\}]*\})");
     removeMatch(line, endbracket);
     QString commentPercent("%.*");
     removeMatch(line, commentPercent);
@@ -129,23 +129,23 @@ smartIndentLine(QString lineToIndent, QStringList previousText, int indentSize)
     last = stripLine(last);
     int indentIncrement = computeIndexIncrement(last);
     QString stripped = stripLine(lineToIndent);
-    QRegularExpression keyword_adjust("^\\s*\\b(endfunction|end|else|elseif|catch)\\b");
+    QRegularExpression keyword_adjust(R"(^\s*\b(endfunction|end|else|elseif|catch)\b)");
     if (stripped.indexOf(keyword_adjust) >= 0) {
         indentIncrement--;
     }
     if (last.indexOf(keyword_adjust) >= 0) {
         indentIncrement++;
     }
-    QRegularExpression keyword_case("^\\s*\\b(case|otherwise)\\b");
-    QRegularExpression keyword_switch("^\\s*\\b(switch)\\b");
-    QRegularExpression keyword_end("^\\s*\\b(end)\\b");
+    QRegularExpression keyword_case(R"(^\s*\b(case|otherwise)\b)");
+    QRegularExpression keyword_switch(R"(^\s*\b(switch)\b)");
+    QRegularExpression keyword_end(R"(^\s*\b(end)\b)");
     if (stripped.indexOf(keyword_case) >= 0 && last.indexOf(keyword_switch) < 0) {
         indentIncrement--;
     }
     if (last.indexOf(keyword_case) >= 0 && stripped.indexOf(keyword_end) < 0) {
         indentIncrement++;
     }
-    QRegularExpression function_det("^\\s*\\b(function)\\b");
+    QRegularExpression function_det(R"(^\s*\b(function)\b)");
     if (stripped.indexOf(function_det) >= 0) {
         return setIndentSpace(lineToIndent, 0);
     }

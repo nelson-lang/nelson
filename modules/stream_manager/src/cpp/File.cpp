@@ -62,7 +62,7 @@ File::getFileMode()
 void
 File::setFileMode(const std::wstring& _mode)
 {
-    this->mode = std::move(_mode);
+    this->mode = _mode;
 }
 //=============================================================================
 void*
@@ -86,7 +86,7 @@ File::getFileName()
 void
 File::setFileName(const std::wstring& _filename)
 {
-    this->filename = std::move(_filename);
+    this->filename = _filename;
 }
 //=============================================================================
 bool

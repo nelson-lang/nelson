@@ -44,13 +44,12 @@ configureDefaultFont()
         QFontDatabase::addApplicationFont(Nelson::wstringToQString(fontPath));
         defaultFontName = L"JuliaMono-Regular";
         return true;
-    } else {
-#ifdef __APPLE__
-        defaultFontName = L"Monaco";
-#else
-        defaultFontName = L"Monospace";
-#endif
     }
+#ifdef __APPLE__ defaultFontName = L"Monaco";
+#else
+    defaultFontName = L"Monospace";
+#endif
+
     return false;
 }
 //===================================================================================

@@ -142,8 +142,8 @@ nelsonObject::call(const QString& functionName, const QVariantList& args)
             if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                 ArrayOfVector argIn;
-                for (int k = 0; k < args.size(); k++) {
-                    argIn.push_back(QVariantToArrayOf(args[k]));
+                for (const auto& arg : args) {
+                    argIn.push_back(QVariantToArrayOf(arg));
                 }
                 int nLhs = funcDef->outputArgCount();
                 ArrayOfVector resVector;
@@ -159,8 +159,8 @@ nelsonObject::call(const QString& functionName, const QVariantList& args)
                     res = ArrayOfToQVariant(resVector[0]);
                 } else {
                     QVariantList qlistVariant;
-                    for (size_t j = 0; j < resVector.size(); j++) {
-                        qlistVariant.push_back(ArrayOfToQVariant(resVector[j]));
+                    for (auto& j : resVector) {
+                        qlistVariant.push_back(ArrayOfToQVariant(j));
                     }
                     res = qlistVariant;
                 }

@@ -128,16 +128,16 @@ CopyFiles(
 {
     bool bRes = false;
     message = L"";
-    for (size_t k = 0; k < srcFiles.size(); k++) {
-        if (!IsFile(srcFiles[k])) {
+    for (const auto& srcFile : srcFiles) {
+        if (!IsFile(srcFile)) {
             Error(_W("A cell of existing filenames expected."));
         }
     }
     if (!IsDirectory(destDir)) {
         Error(_W("Directory destination does not exist."));
     }
-    for (size_t k = 0; k < srcFiles.size(); k++) {
-        boost::filesystem::path srcPath = srcFiles[k];
+    for (const auto& srcFile : srcFiles) {
+        boost::filesystem::path srcPath = srcFile;
         boost::filesystem::path destPath = destDir;
         destPath = destPath / srcPath.filename();
         try {

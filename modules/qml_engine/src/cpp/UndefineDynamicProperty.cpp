@@ -57,8 +57,8 @@ UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
         bool isDynamicProperty = false;
         QList<QByteArray> names = qobj->dynamicPropertyNames();
         std::string upropertyname = wstring_to_utf8(propertyName);
-        for (int k = 0; k < names.size(); k++) {
-            std::string name = std::string(names[k]);
+        for (auto& k : names) {
+            std::string name = std::string(k);
             if (name == upropertyname) {
                 isDynamicProperty = true;
                 break;

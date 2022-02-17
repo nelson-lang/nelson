@@ -32,7 +32,8 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-scalar_matrix_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+scalar_matrix_integer_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -54,7 +55,8 @@ scalar_matrix_integer_dotRightDivide(NelsonType classDestination, const ArrayOf&
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_scalar_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_scalar_integer_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -75,7 +77,8 @@ matrix_scalar_integer_dotRightDivide(NelsonType classDestination, const ArrayOf&
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_matrix_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_matrix_integer_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -122,7 +125,8 @@ row_matrix_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
 //=============================================================================
 template <class T>
 ArrayOf
-column_matrix_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+column_matrix_integer_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -172,7 +176,8 @@ matrix_row_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_column_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_column_integer_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();

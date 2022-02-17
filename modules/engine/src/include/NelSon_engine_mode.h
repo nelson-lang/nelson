@@ -25,7 +25,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-typedef enum
+enum NELSON_ENGINE_MODE
 {
     BASIC_ENGINE,
     ADVANCED_ENGINE,
@@ -34,5 +34,5 @@ typedef enum
     BASIC_SIO_CLIENT,
     ADVANCED_SIO_CLIENT,
     GUI
-} NELSON_ENGINE_MODE;
+};
 //=============================================================================

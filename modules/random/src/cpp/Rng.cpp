@@ -178,17 +178,17 @@ RngShuffle(Evaluator* eval)
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
-        uint32 newseed = static_cast<uint32>(std::time(0));
+        uint32 newseed = static_cast<uint32>(std::time(nullptr));
         auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
         randEngine->setSeed(newseed);
     } break;
     case RNG_TWISTER64: {
         auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
-        uint64 newseed = static_cast<uint64>(std::time(0));
+        uint64 newseed = static_cast<uint64>(std::time(nullptr));
         randEngine->setSeed(newseed);
     } break;
     case RNG_LAGGED_FIBONACCI_607: {
-        uint32 newseed = static_cast<uint32>(std::time(0));
+        uint32 newseed = static_cast<uint32>(std::time(nullptr));
         auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
         randEngine->setSeed(newseed);
     } break;

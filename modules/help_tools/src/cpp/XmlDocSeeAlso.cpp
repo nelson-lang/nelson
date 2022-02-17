@@ -35,9 +35,9 @@ XmlDocSeeAlso::XmlDocSeeAlso() { seeAlsoVector.clear(); }
 //=============================================================================
 XmlDocSeeAlso::~XmlDocSeeAlso()
 {
-    for (size_t k = 0; k < seeAlsoVector.size(); k++) {
-        delete seeAlsoVector[k];
-        seeAlsoVector[k] = nullptr;
+    for (auto& k : seeAlsoVector) {
+        delete k;
+        k = nullptr;
     }
     seeAlsoVector.clear();
 }

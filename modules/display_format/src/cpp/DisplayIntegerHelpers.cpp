@@ -43,11 +43,11 @@ formatSignedInteger(const void* ptr, indexType index, NumericFormatDisplay curre
     case NLS_NUMERIC_FORMAT_PLUS: {
         if (values[index] == (T)0) {
             return L" ";
-        } else if (values[index] < (T)0) {
-            return L"-";
-        } else {
-            return L"+";
         }
+        if (values[index] < (T)0) {
+            return L"-";
+        }
+        return L"+";
     }
     default: {
         return fmt::to_wstring(values[index]);

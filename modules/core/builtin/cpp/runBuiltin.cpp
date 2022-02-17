@@ -139,7 +139,8 @@ Nelson::CoreGateway::runBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     ArrayOfVector retval;
     if (argIn.size() == 1) {
         return runBuiltinOneRhs(eval, nLhs, argIn);
-    } else if (argIn.size() == 2) {
+    }
+    if (argIn.size() == 2) {
         return runBuiltinTwoRhs(eval, nLhs, argIn);
     } else if (argIn.size() == 3) {
         return runBuiltinThreeRhs(eval, nLhs, argIn);

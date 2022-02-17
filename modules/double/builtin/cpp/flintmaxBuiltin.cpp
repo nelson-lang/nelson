@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <float.h>
+#include <cfloat>
 #include "flintmaxBuiltin.hpp"
 #include "Error.hpp"
 //=============================================================================

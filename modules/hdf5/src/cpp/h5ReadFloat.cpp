@@ -91,7 +91,7 @@ h5ReadFloat(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std
                 Error("Impossible to read dimensions and maximum size of data set.");
                 return ArrayOf();
             }
-            memspace = H5Screate_simple(rank, h5_dims, NULL);
+            memspace = H5Screate_simple(rank, h5_dims, nullptr);
             delete[] h5_dims;
             delete[] h5_maxdims;
         }

@@ -205,10 +205,8 @@ FunctionsInMemory::find(
 void
 FunctionsInMemory::deleteAllMFunctions()
 {
-    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator iter
-         = _macroFunctionsInMemory.begin();
-         iter != _macroFunctionsInMemory.end(); ++iter) {
-        FunctionDefPtr funPtr = iter->second;
+    for (auto& iter : _macroFunctionsInMemory) {
+        FunctionDefPtr funPtr = iter.second;
         MacroFunctionDef* f = (MacroFunctionDef*)funPtr;
         if (f != nullptr) {
             delete f;
@@ -224,17 +222,15 @@ FunctionsInMemory::deleteAllMexFunctions()
 {
     bool noLocked = true;
     std::vector<std::pair<std::string, FunctionDefPtr>> lockedMex;
-    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator iter
-         = _mexFunctionsInMemory.begin();
-         iter != _mexFunctionsInMemory.end(); ++iter) {
-        FunctionDefPtr funPtr = iter->second;
+    for (auto& iter : _mexFunctionsInMemory) {
+        FunctionDefPtr funPtr = iter.second;
         MexFunctionDef* f = (MexFunctionDef*)funPtr;
         if (f != nullptr) {
             if (!f->isLocked()) {
                 delete f;
                 f = nullptr;
             } else {
-                lockedMex.emplace_back(std::make_pair(iter->first, iter->second));
+                lockedMex.emplace_back(std::make_pair(iter.first, iter.second));
                 noLocked = false;
             }
         }
@@ -309,10 +305,8 @@ wstringVector
 FunctionsInMemory::getMacroInMemory(bool withCompleteNames)
 {
     wstringVector names;
-    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator it
-         = _macroFunctionsInMemory.begin();
-         it != _macroFunctionsInMemory.end(); ++it) {
-        MacroFunctionDef* fptr = (MacroFunctionDef*)it->second;
+    for (auto& it : _macroFunctionsInMemory) {
+        MacroFunctionDef* fptr = (MacroFunctionDef*)it.second;
         if (withCompleteNames) {
             names.emplace_back(fptr->getFilename());
         } else {
@@ -326,10 +320,8 @@ wstringVector
 FunctionsInMemory::getMexInMemory(bool withCompleteNames)
 {
     wstringVector names;
-    for (std::vector<std::pair<std::string, FunctionDefPtr>>::iterator it
-         = _mexFunctionsInMemory.begin();
-         it != _mexFunctionsInMemory.end(); ++it) {
-        MexFunctionDef* fptr = (MexFunctionDef*)it->second;
+    for (auto& it : _mexFunctionsInMemory) {
+        MexFunctionDef* fptr = (MexFunctionDef*)it.second;
         if (withCompleteNames) {
             names.emplace_back(fptr->getFilename());
         } else {

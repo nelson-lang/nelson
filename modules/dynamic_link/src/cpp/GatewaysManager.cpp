@@ -42,7 +42,7 @@ static std::map<std::wstring, library_handle> libraryMap;
 //=============================================================================
 GatewaysManager* GatewaysManager::m_pInstance = nullptr;
 //=============================================================================
-GatewaysManager::GatewaysManager() {}
+GatewaysManager::GatewaysManager() = default;
 //=============================================================================
 GatewaysManager*
 GatewaysManager::getInstance()
@@ -65,7 +65,7 @@ GatewaysManager::destroy(Evaluator* eval)
         for (auto it = libraryMap.rbegin(); it != libraryMap.rend(); ++it) {
             names.push_back(it->first);
         }
-        for (auto n : names) {
+        for (const auto& n : names) {
             std::wstring errorMessage;
             removeGateway(eval, n, errorMessage);
         }
@@ -119,12 +119,11 @@ GatewaysManager::addGateway(
             }
             boost::filesystem::current_path(currentdirbackup);
             return AddGatewayPtr((void*)eval, libraryFullName.c_str());
-        } else {
-            std::string error_msg = get_dynamic_library_error();
-            boost::filesystem::current_path(currentdirbackup);
-            errorMessage = _W("Module not loaded: library not loaded.\n") + libraryFullName + L"\n"
-                + utf8_to_wstring(error_msg) + L"\n";
         }
+        std::string error_msg = get_dynamic_library_error();
+        boost::filesystem::current_path(currentdirbackup);
+        errorMessage = _W("Module not loaded: library not loaded.\n") + libraryFullName + L"\n"
+            + utf8_to_wstring(error_msg) + L"\n";
     }
     return false;
 }
@@ -166,9 +165,9 @@ GatewaysManager::removeGateway(
                 libraryMap.erase(libraryFullName);
                 close_dynamic_library(nlsModuleHandleDynamicLibrary);
                 return res;
-            } else {
-                errorMessage = _W("Module not loaded: symbol not found.");
             }
+            errorMessage = _W("Module not loaded: symbol not found.");
+
         } else {
             errorMessage = _W("Module not loaded: library handle not found.");
         }

@@ -88,7 +88,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             variablesName = Who(eval, scope, false);
             if (!names.empty()) {
                 stringVector result;
-                for (std::string n : names) {
+                for (const std::string& n : names) {
                     if (std::find(variablesName.begin(), variablesName.end(), n)
                         != variablesName.end()) {
                         result.push_back(n);
@@ -184,7 +184,7 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     }
     ArrayOfVector inputArguments;
     inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
-    for (std::string name : names) {
+    for (const std::string& name : names) {
         inputArguments.push_back(ArrayOf::characterArrayConstructor(name));
     }
     ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, asCell ? 1 : 0);

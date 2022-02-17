@@ -68,13 +68,13 @@ public:
         vector.clear();
     }
     //=============================================================================
-    inline size_t
+    [[nodiscard]] inline size_t
     size() const
     {
         return vector.size();
     }
     //=============================================================================
-    inline bool
+    [[nodiscard]] inline bool
     empty() const
     {
         return vector.empty();
@@ -121,7 +121,7 @@ public:
         return vector.front();
     }
     //=============================================================================
-    inline const T&
+    [[nodiscard]] inline const T&
     front() const
     {
         return vector.front();
@@ -133,7 +133,7 @@ public:
         return vector.back();
     }
     //=============================================================================
-    inline const T&
+    [[nodiscard]] inline const T&
     back() const
     {
         return vector.back();
@@ -143,7 +143,7 @@ public:
     //=============================================================================
     inline const T& operator[](size_t i) const { return vector[i]; }
     //=============================================================================
-    inline const T&
+    [[nodiscard]] inline const T&
     at(size_t i) const
     {
         return vector.at(i);
@@ -172,7 +172,7 @@ public:
         return vector.begin();
     }
     //=============================================================================
-    inline typename std::vector<T>::const_iterator
+    [[nodiscard]] inline typename std::vector<T>::const_iterator
     begin() const noexcept
     {
         return vector.begin();
@@ -184,7 +184,7 @@ public:
         return vector.end();
     }
     //=============================================================================
-    inline typename std::vector<T>::const_iterator
+    [[nodiscard]] inline typename std::vector<T>::const_iterator
     end() const noexcept
     {
         return vector.end();

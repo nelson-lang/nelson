@@ -339,8 +339,8 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
 {
     // Precondition the arrays by converting to sparse and to
     // the output type
-    for (ArrayOfMatrix::iterator i = m.begin(); i != m.end(); ++i) {
-        for (std::vector<ArrayOf>::iterator j = i->begin(); j != i->end(); ++j) {
+    for (auto& i : m) {
+        for (std::vector<ArrayOf>::iterator j = i.begin(); j != i.end(); ++j) {
             j->promoteType(dclass);
             j->makeSparse();
         }
@@ -359,8 +359,8 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
         }
         indexType X = 0;
         indexType Y = 0;
-        for (ArrayOfMatrix::iterator i = m.begin(); i != m.end(); ++i) {
-            for (std::vector<ArrayOf>::iterator j = i->begin(); j != i->end(); ++j) {
+        for (auto& i : m) {
+            for (std::vector<ArrayOf>::iterator j = i.begin(); j != i.end(); ++j) {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* src
                     = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(j->getDataPointer());
             }
@@ -436,7 +436,7 @@ Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, 
     case NLS_DCOMPLEX: {
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatsrc
             = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)src;
-        typedef Eigen::Triplet<doublecomplex, signedIndexType> T;
+        using T = Eigen::Triplet<std::complex<double>, signedIndexType>;
         std::vector<T> tripletList;
         tripletList.reserve(irows * icols);
         indexType X = 0;
@@ -446,7 +446,7 @@ Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, 
             indexType J = (indx[i] - 1) / rows;
             doublecomplex cValue = spMatsrc->coeff(I, J);
             if ((cValue.real() != 0.) && (cValue.imag() != 0.)) {
-                tripletList.push_back(T(X, Y, cValue));
+                tripletList.emplace_back(X, Y, cValue);
             }
             X++;
             if (X >= irows) {
@@ -686,8 +686,8 @@ Eigen_GetSparseScalarElement(
 }
 //=============================================================================
 void*
-Eigen_GetSparseScalarElement(
-    NelsonType dclass, indexType rows, indexType cols, const void* src, indexType rindx, indexType cindx)
+Eigen_GetSparseScalarElement(NelsonType dclass, indexType rows, indexType cols, const void* src,
+    indexType rindx, indexType cindx)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -795,7 +795,7 @@ void*
 Eigen_makeSparseFromIJVInternal(indexType rows, indexType cols, indexType nnz, indexType* I,
     indexType* J, const void* cp, bool bScalarV)
 {
-    typedef Eigen::Triplet<T, signedIndexType> Triplet;
+    using Triplet = Eigen::Triplet<T, signedIndexType>;
     std::vector<Triplet> tripletList;
     tripletList.reserve(nnz);
     T* pV = (T*)cp;
@@ -836,7 +836,7 @@ void*
 Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, indexType* I,
     indexType* J, const void* cp, bool bScalarV)
 {
-    typedef Eigen::Triplet<logical, signedIndexType> Triplet;
+    using Triplet = Eigen::Triplet<logical, signedIndexType>;
     std::vector<Triplet> tripletList;
     tripletList.reserve(nnz);
     auto* pV = (logical*)cp;
@@ -870,7 +870,7 @@ void*
 Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, indexType* I,
     indexType* J, const void* cp, bool bScalarV)
 {
-    typedef Eigen::Triplet<doublecomplex, signedIndexType> T;
+    using T = Eigen::Triplet<std::complex<double>, signedIndexType>;
     std::vector<T> tripletList;
     tripletList.reserve(nnz);
     auto* pV = (double*)cp;
@@ -880,11 +880,11 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
         if (bScalarV) {
             doublecomplex v(pV[0], pV[1]);
             q = q + 2;
-            tripletList.push_back(T(I[k] - 1, J[k] - 1, v));
+            tripletList.emplace_back(I[k] - 1, J[k] - 1, v);
         } else {
             doublecomplex v(pV[q], pV[q + 1]);
             q = q + 2;
-            tripletList.push_back(T(I[k] - 1, J[k] - 1, v));
+            tripletList.emplace_back(I[k] - 1, J[k] - 1, v);
         }
     }
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat = nullptr;
@@ -901,8 +901,9 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
 }
 //=============================================================================
 void*
-Eigen_makeSparseFromIJV(NelsonType dclass, indexType rows, indexType cols, indexType nnz, indexType* I,
-    int istride, indexType* J, int jstride, const void* cp, int cpstride, bool bScalarV)
+Eigen_makeSparseFromIJV(NelsonType dclass, indexType rows, indexType cols, indexType nnz,
+    indexType* I, int istride, indexType* J, int jstride, const void* cp, int cpstride,
+    bool bScalarV)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -940,8 +941,8 @@ Eigen_DeleteSparseMatrixRows(
 }
 //=============================================================================
 void*
-Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexType& cols, const void* cp,
-    const indexType* todel, indexType delete_len)
+Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexType& cols,
+    const void* cp, const indexType* todel, indexType delete_len)
 {
     void* spMat = nullptr;
     Error(_W("Eigen_DeleteSparseMatrixVectorSubset not yet implemented."));
@@ -949,7 +950,8 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
 }
 //=============================================================================
 void*
-Eigen_TypeConvertSparse(NelsonType dclass, indexType rows, indexType cols, const void* cp, NelsonType oclass)
+Eigen_TypeConvertSparse(
+    NelsonType dclass, indexType rows, indexType cols, const void* cp, NelsonType oclass)
 {
     switch (oclass) {
     case NLS_LOGICAL: {
@@ -1072,48 +1074,47 @@ Eigen_ReshapeSparseMatrix(
 {
     if ((rows == newrows) && (cols == newcols)) {
         return Eigen_CopySparseMatrix<T>(rows, cols, cp);
-    } else {
-        if (cp) {
-            Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
-            indexType nnz = spMat->nonZeros();
-            indexType q = 0;
-            T* pV = new_with_exception<T>(spMat->nonZeros(), false);
-            indexType* pI = new_with_exception<indexType>(spMat->nonZeros(), false);
-            indexType* pJ = new_with_exception<indexType>(spMat->nonZeros(), false);
-            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(
-                         *spMat, k);
-                     it; ++it) {
-                    pI[q] = it.row() + 1;
-                    pJ[q] = it.col() + 1;
-                    pV[q] = it.value();
-                    q++;
-                }
-            }
-            typedef Eigen::Triplet<T, signedIndexType> Triplet;
-            std::vector<Triplet> tripletList;
-            tripletList.reserve(nnz);
-            for (indexType k = 0; k < nnz; k++) {
-                indexType idx = pI[k] + (pJ[k] - 1) * rows;
-                indexType vi = ((idx - 1) % newrows) + 1;
-                indexType Y = (idx - vi) / newrows + 1;
-                indexType X = vi;
-                tripletList.push_back(Triplet(X - 1, Y - 1, pV[k]));
-            }
-            delete[] pV;
-            delete[] pI;
-            delete[] pJ;
-            Eigen::SparseMatrix<T, 0, signedIndexType>* reshapedMat
-                = new Eigen::SparseMatrix<T, 0, signedIndexType>(newrows, newcols);
-            if (reshapedMat) {
-                reshapedMat->setFromTriplets(tripletList.begin(), tripletList.end());
-                reshapedMat->finalize();
-                reshapedMat->makeCompressed();
-            }
-            return (void*)reshapedMat;
-        }
     }
+    if (cp) {
+        Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
+        indexType nnz = spMat->nonZeros();
+        indexType q = 0;
+        T* pV = new_with_exception<T>(spMat->nonZeros(), false);
+        indexType* pI = new_with_exception<indexType>(spMat->nonZeros(), false);
+        indexType* pJ = new_with_exception<indexType>(spMat->nonZeros(), false);
+        for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+            for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k);
+                 it; ++it) {
+                pI[q] = it.row() + 1;
+                pJ[q] = it.col() + 1;
+                pV[q] = it.value();
+                q++;
+            }
+        }
+        typedef Eigen::Triplet<T, signedIndexType> Triplet;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(nnz);
+        for (indexType k = 0; k < nnz; k++) {
+            indexType idx = pI[k] + (pJ[k] - 1) * rows;
+            indexType vi = ((idx - 1) % newrows) + 1;
+            indexType Y = (idx - vi) / newrows + 1;
+            indexType X = vi;
+            tripletList.push_back(Triplet(X - 1, Y - 1, pV[k]));
+        }
+        delete[] pV;
+        delete[] pI;
+        delete[] pJ;
+        Eigen::SparseMatrix<T, 0, signedIndexType>* reshapedMat
+            = new Eigen::SparseMatrix<T, 0, signedIndexType>(newrows, newcols);
+        if (reshapedMat) {
+            reshapedMat->setFromTriplets(tripletList.begin(), tripletList.end());
+            reshapedMat->finalize();
+            reshapedMat->makeCompressed();
+        }
+        return (void*)reshapedMat;
+    }
+
     return nullptr;
 }
 //=============================================================================

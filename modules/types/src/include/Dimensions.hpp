@@ -85,7 +85,7 @@ private:
     /**
      * The number of dimensions currently allocated.
      */
-    indexType length;
+    indexType length{ 0 };
     //=============================================================================
 public:
     //=============================================================================
@@ -141,7 +141,7 @@ public:
     /**
      * Get the number of currently allocated dimensions.
      */
-    indexType
+    [[nodiscard]] indexType
     getLength() const;
     //=============================================================================
     /**
@@ -149,7 +149,7 @@ public:
      * calculated via $$\Prod_{i=0}^{L-1} a_i$$, where $$L$$ is the value
      * of length, and $$a_i$$ is equivalent to data[i].
      */
-    indexType
+    [[nodiscard]] indexType
     getElementCount() const;
     //=============================================================================
     /**
@@ -168,14 +168,14 @@ public:
      * Returns the first dimension value (or zero if no dimensions have
      * been defined yet).
      */
-    indexType
+    [[nodiscard]] indexType
     getRows() const;
     //=============================================================================
     /**
      * Returns the second dimension value (or zero if no dimensions have
      * been defined yet).
      */
-    indexType
+    [[nodiscard]] indexType
     getColumns() const;
     //=============================================================================
     /**
@@ -184,7 +184,7 @@ public:
      * the access operator, this call does not modify the contents of
      * the class.
      */
-    indexType
+    [[nodiscard]] indexType
     getDimensionLength(indexType arg) const;
     //=============================================================================
     /**
@@ -242,10 +242,10 @@ public:
      * Print in a string some representation of this object as a row vector, i.e.,
      * $$[a_1 a_2 \ldots a_n]$$.
      */
-    std::string
+    [[nodiscard]] std::string
     toString() const;
 
-    std::wstring
+    [[nodiscard]] std::wstring
     toWideString() const;
     //=============================================================================
     /**
@@ -283,38 +283,38 @@ public:
     /**
      * Returns true if and only if we are equal to $$[1,1]$$.
      */
-    bool
+    [[nodiscard]] bool
     isScalar() const;
     //=============================================================================
     /**
      * Returns true if and only if we are equal to $$[1,n]$$ or $$[n,1]$$ for
      * some value of $$n$$.
      */
-    bool
+    [[nodiscard]] bool
     isVector() const;
     //=============================================================================
-    bool
+    [[nodiscard]] bool
     isRowVector() const;
     //=============================================================================
-    bool
+    [[nodiscard]] bool
     isColumnVector() const;
     //=============================================================================
     /**
      * Returns true if we have exactly 2 dimensions allocated.
      */
-    bool
+    [[nodiscard]] bool
     is2D() const;
     //=============================================================================
     /**
      * Returns true if we have exactly 2 dimensions allocated and cols == rows.
      */
-    bool
+    [[nodiscard]] bool
     isSquare() const;
     //=============================================================================
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    bool
+    [[nodiscard]] bool
     isEmpty(bool allDimensionsIsZero) const;
     //=============================================================================
 };

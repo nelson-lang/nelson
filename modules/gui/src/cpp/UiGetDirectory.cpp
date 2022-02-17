@@ -46,7 +46,7 @@ UiGetDirectory(
         }
     } else {
         try {
-            fd = new QFileDialog(0, wstringToQString(title));
+            fd = new QFileDialog(nullptr, wstringToQString(title));
         } catch (const std::bad_alloc&) {
             fd = nullptr;
         }

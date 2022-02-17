@@ -36,11 +36,11 @@ AudioSubFormats(int format)
 {
     stringVector subFormats;
     int countSubFormats;
-    sf_command(NULL, SFC_GET_FORMAT_SUBTYPE_COUNT, &countSubFormats, sizeof(int));
+    sf_command(nullptr, SFC_GET_FORMAT_SUBTYPE_COUNT, &countSubFormats, sizeof(int));
     for (int i = 0; i < countSubFormats; i++) {
         SF_FORMAT_INFO info;
         info.format = i;
-        sf_command(NULL, SFC_GET_FORMAT_SUBTYPE, &info, sizeof(info));
+        sf_command(nullptr, SFC_GET_FORMAT_SUBTYPE, &info, sizeof(info));
         SF_INFO sfinfo;
         memset(&sfinfo, 0, sizeof(sfinfo));
         sfinfo.channels = 1;
@@ -56,7 +56,7 @@ ArrayOf
 AudioSupportedFormats()
 {
     int countFormat;
-    sf_command(NULL, SFC_GET_FORMAT_MAJOR_COUNT, &countFormat, sizeof(int));
+    sf_command(nullptr, SFC_GET_FORMAT_MAJOR_COUNT, &countFormat, sizeof(int));
     ArrayOfVector formats;
     ArrayOfVector extensions;
     ArrayOfVector subformats;
@@ -80,7 +80,7 @@ AudioSupportedFormats()
     for (int i = 0; i < countFormat; i++) {
         SF_FORMAT_INFO info;
         info.format = i;
-        sf_command(NULL, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
+        sf_command(nullptr, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
         formats.push_back(ArrayOf::characterArrayConstructor(info.name));
         std::string extension = std::string(info.extension);
         if (extension[0] != '.') {

@@ -45,7 +45,7 @@ Nelson::FunctionsGateway::ismexBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool res = false;
     PathFuncManager::getInstance()->find(name, filenames);
     if (!filenames.empty()) {
-        for (auto filename : filenames) {
+        for (const auto& filename : filenames) {
             if (boost::algorithm::ends_with(filename, getMexExtension())) {
                 res = true;
                 break;

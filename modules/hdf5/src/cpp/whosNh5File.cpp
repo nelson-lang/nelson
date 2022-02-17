@@ -82,7 +82,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     if (names.empty()) {
         variablesNamesToRead = variableNamesInFile;
     } else {
-        for (std::wstring uname : names) {
+        for (const std::wstring& uname : names) {
             std::string name = wstring_to_utf8(uname);
             if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
                 != variableNamesInFile.end()) {
@@ -112,7 +112,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     _complex.reserve(variablesNamesToRead.size());
     _persistent.reserve(variablesNamesToRead.size());
 
-    for (std::string name : variablesNamesToRead) {
+    for (const std::string& name : variablesNamesToRead) {
         ArrayOf value;
         if (h5LoadVariable(fid, "/", name, value)) {
             _names.push_back(name);

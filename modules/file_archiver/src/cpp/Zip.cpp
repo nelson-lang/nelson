@@ -65,15 +65,13 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                              p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
                                 continue;
-
-                            } else {
-                                std::wstring file(p->path().wstring());
-                                if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                                    file = std::wstring(file.begin() + 2, file.end());
-                                }
-                                boost::filesystem::path current = file;
-                                res.push_back(current.generic_path().wstring());
                             }
+                            std::wstring file(p->path().wstring());
+                            if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
+                                file = std::wstring(file.begin() + 2, file.end());
+                            }
+                            boost::filesystem::path current = file;
+                            res.push_back(current.generic_path().wstring());
                         }
 
                     } catch (const boost::filesystem::filesystem_error&) {
@@ -88,15 +86,13 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
                                 continue;
-
-                            } else {
-                                std::wstring file(p->path().wstring());
-                                if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                                    file = std::wstring(file.begin() + 2, file.end());
-                                }
-                                boost::filesystem::path current = file;
-                                res.push_back(current.generic_path().wstring());
                             }
+                            std::wstring file(p->path().wstring());
+                            if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
+                                file = std::wstring(file.begin() + 2, file.end());
+                            }
+                            boost::filesystem::path current = file;
+                            res.push_back(current.generic_path().wstring());
                         }
 
                     } catch (const boost::filesystem::filesystem_error&) {
@@ -203,7 +199,7 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
     wstringVector paths;
     boost::filesystem::path rootPath = getRootPath(rootpath);
 
-    for (std::wstring f : filteredNames) {
+    for (const std::wstring& f : filteredNames) {
         boost::filesystem::path p = f;
         if (p.is_absolute()) {
             filenames.emplace_back(normalizePath(p.filename().generic_wstring()));
@@ -245,8 +241,7 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
         } else {
             pathwstr = rootPath.generic_wstring();
         }
-        for (size_t j = 0; j < res.size(); ++j) {
-            std::wstring name = res[j];
+        for (const auto& name : res) {
             localFiles.emplace_back(normalizePath(name));
             std::wstring entry;
             if (boost::algorithm::starts_with(name, pathwstr)) {

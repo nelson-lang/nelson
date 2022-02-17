@@ -51,8 +51,8 @@ ispropQObject(QmlHandleObject* qmlHandle, const std::wstring& propertyName)
         }
     }
     QList<QByteArray> names = qobj->dynamicPropertyNames();
-    for (int k = 0; k < names.size(); k++) {
-        std::string name = std::string(names[k]);
+    for (auto& k : names) {
+        std::string name = std::string(k);
         if (name == upropertyName) {
             return true;
         }

@@ -44,7 +44,7 @@ RepositoryCreateBranch(
 
     git_libgit2_init();
 
-    int errorCode = git_repository_open_ext(&repo, localPathUtf8.c_str(), 0, NULL);
+    int errorCode = git_repository_open_ext(&repo, localPathUtf8.c_str(), 0, nullptr);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_libgit2_shutdown();

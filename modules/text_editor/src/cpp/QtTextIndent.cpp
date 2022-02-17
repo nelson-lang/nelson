@@ -26,9 +26,9 @@
 #include "QtTextIndent.h"
 #include <QtGui/QTextDocumentFragment>
 //=============================================================================
-QtTextIndent::QtTextIndent() {}
+QtTextIndent::QtTextIndent() = default;
 //=============================================================================
-QtTextIndent::~QtTextIndent() {}
+QtTextIndent::~QtTextIndent() = default;
 //=============================================================================
 void
 QtTextIndent::setDocument(QtTextEdit* te)

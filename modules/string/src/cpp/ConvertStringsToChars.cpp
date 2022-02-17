@@ -82,7 +82,7 @@ ArrayOfVector
 ConvertStringsToChars(const ArrayOfVector& A)
 {
     ArrayOfVector res;
-    for (auto value : A) {
+    for (const auto& value : A) {
         res.push_back(ConvertStringsToChars(value, false));
     }
     return res;

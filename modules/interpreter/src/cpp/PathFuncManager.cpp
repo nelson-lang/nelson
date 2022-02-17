@@ -189,9 +189,7 @@ PathFuncManager::find(const std::wstring& functionName, FileFunction** ff)
             return res;
         }
     }
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
-        PathFunc* pf = *it;
+    for (auto pf : _pathFuncVector) {
         if (pf) {
             res = pf->findFuncName(functionName, ff);
             if (res) {
@@ -306,9 +304,7 @@ PathFuncManager::getPathNameVector()
     if (_userPath != nullptr) {
         list.emplace_back(_userPath->getPath());
     }
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
-        PathFunc* pf = *it;
+    for (auto pf : _pathFuncVector) {
         if (pf) {
             list.emplace_back(pf->getPath());
         }
@@ -454,9 +450,7 @@ PathFuncManager::getPathNameAsString()
 #endif
         }
     }
-    for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
-         it != _pathFuncVector.end(); ++it) {
-        PathFunc* pf = *it;
+    for (auto pf : _pathFuncVector) {
         if (pf) {
 #ifdef _MSC_VER
             p = p + pf->getPath() + L";";

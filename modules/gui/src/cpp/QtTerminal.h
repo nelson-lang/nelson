@@ -72,13 +72,13 @@ public slots:
     sendKeyEvent(QKeyEvent* event);
 
 private:
-    typedef enum
+    enum DISP_MODE
     {
         WARNING_DISP,
         STDOUT_DISP,
         STDERR_DISP,
         STDIN_DISP,
-    } DISP_MODE;
+    };
     QString nelsonPath;
     void
     keyPressEvent(QKeyEvent* event) override;

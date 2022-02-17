@@ -64,14 +64,11 @@ TraceMatrix(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA(
             (single*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
         return ArrayOf::singleConstructor(matA.trace());
-    } else // NLS_SCOMPLEX
-    {
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcf> matA(
-            Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
-        singlecomplex res = matA.trace();
-        return ArrayOf::complexConstructor(res.real(), res.imag());
-    }
+    } // NLS_SCOMPLEX
+    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    singlecomplex res = matA.trace();
+    return ArrayOf::complexConstructor(res.real(), res.imag());
 }
 //=============================================================================
 } // namespace Nelson

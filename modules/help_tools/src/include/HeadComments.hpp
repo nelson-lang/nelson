@@ -32,12 +32,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum HEADCOMMENTS_ERROR
 {
     MACRO_OK,
     NOT_A_MACRO,
     FILE_NOT_EXIST,
-} HEADCOMMENTS_ERROR;
+};
 //=============================================================================
 NLSHELP_TOOLS_IMPEXP wstringVector
 HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& headError);

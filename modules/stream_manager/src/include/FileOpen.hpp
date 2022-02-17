@@ -31,7 +31,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum FOPEN_ERROR_TYPE
 {
     FOPEN_NO_ERROR,
     FOPEN_INVALID_NAME,
@@ -40,7 +40,7 @@ typedef enum
     FOPEN_INVALID_ENCODING,
     FOPEN_IMPOSSIBLE_TO_ADD_FILE,
     FOPEN_CANNOT_OPEN
-} FOPEN_ERROR_TYPE;
+};
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP FOPEN_ERROR_TYPE
 FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& filemode,

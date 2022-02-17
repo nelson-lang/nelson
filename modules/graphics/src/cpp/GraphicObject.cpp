@@ -96,7 +96,7 @@ stringVector
 GraphicObject::getPropertiesName()
 {
     stringVector names;
-    for (auto p : properties) {
+    for (const auto& p : properties) {
         names.push_back(p.first);
     }
     return names;
@@ -107,7 +107,7 @@ GraphicObject::displayProperties()
 {
     refreshProperties();
     std::wstring content;
-    for (auto p : properties) {
+    for (const auto& p : properties) {
         auto propertyValue = p.second;
         auto propertyName = p.first;
         content = content + utf8_to_wstring(propertyValue->print(propertyName)) + L"\n";

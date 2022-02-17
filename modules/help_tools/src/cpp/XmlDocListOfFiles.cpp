@@ -77,8 +77,8 @@ XmlDocListOfFiles::~XmlDocListOfFiles()
 void
 XmlDocListOfFiles::clearItems()
 {
-    for (size_t k = 0; k < this->xmlItems.size(); k++) {
-        XmlDocDocument* pItem = (XmlDocDocument*)this->xmlItems[k];
+    for (auto& xmlItem : this->xmlItems) {
+        XmlDocDocument* pItem = (XmlDocDocument*)xmlItem;
         if (pItem) {
             delete pItem;
             pItem = nullptr;
@@ -92,24 +92,24 @@ XmlDocListOfFiles::read()
 {
     bool haveChapterFile = false;
     std::wstring chapterFilename = L"";
-    for (size_t k = 0; k < this->srcFiles.size(); k++) {
-        bool b = boost::algorithm::ends_with(this->srcFiles[k], L"chapter.xml");
+    for (auto& srcFile : this->srcFiles) {
+        bool b = boost::algorithm::ends_with(srcFile, L"chapter.xml");
         if (b) {
             if (!chapterFilename.empty()) {
                 this->lastError = _W("multiple chapter.xml definition.");
                 return false;
             }
-            chapterFilename = this->srcFiles[k];
+            chapterFilename = srcFile;
             haveChapterFile = true;
         }
     }
-    for (size_t k = 0; k < this->srcFiles.size(); k++) {
-        bool b = boost::algorithm::ends_with(this->srcFiles[k], L"chapter.xml");
+    for (auto& srcFile : this->srcFiles) {
+        bool b = boost::algorithm::ends_with(srcFile, L"chapter.xml");
         if (!b) {
             XmlDocDocument* xmlDoc = nullptr;
             try {
-                xmlDoc = new XmlDocDocument(this->srcFiles[k], this->sectionUpName,
-                    this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
+                xmlDoc = new XmlDocDocument(srcFile, this->sectionUpName, this->dstDirectory,
+                    this->bOverwriteExistingFiles, this->outputTarget);
             } catch (std::bad_alloc&) {
                 this->lastError = ERROR_MEMORY_ALLOCATION;
                 this->clearItems();
@@ -119,7 +119,7 @@ XmlDocListOfFiles::read()
                 xmlItems.push_back(xmlDoc);
             } else {
                 wstringVector errors = xmlDoc->getError();
-                this->lastError = _W("Error in file:") + L"\n" + this->srcFiles[k];
+                this->lastError = _W("Error in file:") + L"\n" + srcFile;
                 delete xmlDoc;
                 xmlDoc = nullptr;
                 if (!errors.empty()) {
@@ -150,11 +150,11 @@ XmlDocListOfFiles::read()
                 boost::container::vector<XmlDocGenericItem*> items
                     = xmlDoc->getXmlDocGenericItems();
                 XmlDocChapterIndexItem* indexItem = new XmlDocChapterIndexItem();
-                for (size_t k = 0; k < xmlItems.size(); k++) {
+                for (auto& xmlItem : xmlItems) {
                     bool bSuccess;
-                    indexItem->append(xmlItems[k]->getPageTitle(),
-                        RelativePath(dstDirectory, xmlItems[k]->getDestinationFile(), bSuccess),
-                        xmlItems[k]->getPageDescription());
+                    indexItem->append(xmlItem->getPageTitle(),
+                        RelativePath(dstDirectory, xmlItem->getDestinationFile(), bSuccess),
+                        xmlItem->getPageDescription());
                 }
                 items.push_back(indexItem);
                 std::wstring htmlFilenameDestination = L"";
@@ -242,9 +242,9 @@ XmlDocListOfFiles::read()
 bool
 XmlDocListOfFiles::writeAsHtml()
 {
-    for (size_t k = 0; k < this->xmlItems.size(); k++) {
-        if (this->xmlItems[k]) {
-            this->xmlItems[k]->writeAsHtml();
+    for (auto& xmlItem : this->xmlItems) {
+        if (xmlItem) {
+            xmlItem->writeAsHtml();
         }
     }
     return true;
@@ -253,9 +253,9 @@ XmlDocListOfFiles::writeAsHtml()
 bool
 XmlDocListOfFiles::writeAsMarkdown()
 {
-    for (size_t k = 0; k < this->xmlItems.size(); k++) {
-        if (this->xmlItems[k]) {
-            this->xmlItems[k]->writeAsMarkdown();
+    for (auto& xmlItem : this->xmlItems) {
+        if (xmlItem) {
+            xmlItem->writeAsMarkdown();
         }
     }
     return true;
@@ -289,11 +289,11 @@ void
 XmlDocListOfFiles::getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions)
 {
     bool bSuccess = false;
-    for (size_t k = 0; k < xmlItems.size(); k++) {
-        if (xmlItems[k]->getPageTitle() != L"") {
-            names.push_back(xmlItems[k]->getPageTitle());
-            urls.push_back(RelativePath(dstDirectory, xmlItems[k]->getDestinationFile(), bSuccess));
-            descriptions.push_back(xmlItems[k]->getPageDescription());
+    for (auto& xmlItem : xmlItems) {
+        if (xmlItem->getPageTitle() != L"") {
+            names.push_back(xmlItem->getPageTitle());
+            urls.push_back(RelativePath(dstDirectory, xmlItem->getDestinationFile(), bSuccess));
+            descriptions.push_back(xmlItem->getPageDescription());
         }
     }
 }

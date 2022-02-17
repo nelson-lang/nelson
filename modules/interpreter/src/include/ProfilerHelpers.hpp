@@ -33,13 +33,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef std::tuple<std::string, uint64> profileParent;
+using profileParent = std::tuple<std::string, uint64>;
 //=============================================================================
 using profileParentStack = std::vector<profileParent>;
 //=============================================================================
-typedef std::tuple<profileParentStack, std::string, std::wstring, bool> internalProfileFunction;
+using internalProfileFunction = std::tuple<profileParentStack, std::string, std::wstring, bool>;
 //=============================================================================
-typedef std::tuple<internalProfileFunction, uint64, uint64, uint64> profileFunction;
+using profileFunction = std::tuple<internalProfileFunction, uint64, uint64, uint64>;
 //=============================================================================
 internalProfileFunction
 computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,

@@ -49,9 +49,8 @@ RightDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
         if (B.isEmpty() && A.isScalar()) {
             if (dimsB.getColumns() == 1 && dimsB.is2D()) {
                 return ArrayOf::emptyConstructor(Dimensions(1, 0));
-            } else {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
             }
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
         }
         dimsA.simplify();
         dimsB.simplify();

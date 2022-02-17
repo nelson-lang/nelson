@@ -213,8 +213,8 @@ IsSymmetricInternal(const ArrayOf& A, bool skew, bool& needToOverload)
 //=============================================================================
 bool
 IsSymmetricWithSkew(const ArrayOf& A, bool& needToOverload)
-{ 
-  return IsSymmetricInternal(A, true, needToOverload);
+{
+    return IsSymmetricInternal(A, true, needToOverload);
 }
 //=============================================================================
 bool

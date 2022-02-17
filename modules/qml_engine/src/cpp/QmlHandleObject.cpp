@@ -31,7 +31,7 @@ QmlHandleObject::QmlHandleObject(void* _ptr)
     : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr, false)
 {}
 //=============================================================================
-QmlHandleObject::~QmlHandleObject() {}
+QmlHandleObject::~QmlHandleObject() = default;
 //=============================================================================
 }
 //=============================================================================

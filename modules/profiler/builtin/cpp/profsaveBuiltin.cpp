@@ -107,8 +107,8 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
             uint64 numcall = (uint64)numcalls[k].getContentAsDoubleScalar();
             uint64 totaltime = (uint64)(totaltimes[k].getContentAsDoubleScalar() * 1e9);
             uint64 percall = (uint64)(percalls[k].getContentAsDoubleScalar() * 1e9);
-            profilerInfo.push_back(
-                std::make_tuple(filename, position, functionname, numcall, totaltime, percall));
+            profilerInfo.emplace_back(
+                filename, position, functionname, numcall, totaltime, percall);
         }
     }
     std::wstring errorMessage;

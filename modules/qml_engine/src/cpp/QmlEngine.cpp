@@ -170,9 +170,9 @@ QmlEngine::createQQuickView(const std::wstring& filename)
             topLevel = topLevel->parent();
             topLevel->setParent(QMainWindowParent);
             return allocateQmlHandle(topLevel);
-        } else {
-            Error(_W("Cannot set parent."));
         }
+        Error(_W("Cannot set parent."));
+
     } else {
         Error(_W("File does not exist:") + L"\n" + filename);
     }

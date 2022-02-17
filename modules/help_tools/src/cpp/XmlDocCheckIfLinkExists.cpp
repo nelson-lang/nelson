@@ -53,18 +53,18 @@ XmlDocCheckIfLinkExists(
         boost::replace_all(modulename, L"${", L"");
         boost::replace_all(modulename, L"}", L"");
         boost::container::vector<module> modules = GetModules(true);
-        for (size_t k = 0; k < modules.size(); k++) {
-            if (modules[k].modulename == modulename) {
+        for (auto& module : modules) {
+            if (module.modulename == modulename) {
                 std::wstring name = linkname;
                 boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
-                filepath = modules[k].modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml"
+                filepath = module.modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml"
                     + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
                 if (IsFile(filepath)) {
                     return true;
                 }
                 if (language != L"en_US") {
-                    filepath = modules[k].modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/"
-                        + L"xml" + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
+                    filepath = module.modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml"
+                        + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
                     if (IsFile(filepath)) {
                         return true;
                     }

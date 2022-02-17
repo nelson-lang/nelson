@@ -99,15 +99,15 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
                 ClearGlobalVariable(eval, arg2);
             } else {
-                for (size_t k = 0; k < argIn.size(); k++) {
-                    std::string name = argIn[k].getContentAsCString();
+                for (const auto& k : argIn) {
+                    std::string name = k.getContentAsCString();
                     clearByName(eval, name);
                 }
             }
         } else {
             // clear varname1 varname2 ... varnameN
-            for (size_t k = 0; k < argIn.size(); k++) {
-                std::string name = argIn[k].getContentAsCString();
+            for (const auto& k : argIn) {
+                std::string name = k.getContentAsCString();
                 clearByName(eval, name);
             }
         }

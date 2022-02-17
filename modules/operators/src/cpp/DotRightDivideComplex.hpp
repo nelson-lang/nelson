@@ -33,7 +33,8 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-scalar_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+scalar_matrix_complex_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -56,7 +57,8 @@ scalar_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf&
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_scalar_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_scalar_complex_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -79,7 +81,8 @@ matrix_scalar_complex_dotRightDivide(NelsonType classDestination, const ArrayOf&
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_matrix_complex_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
@@ -219,7 +222,8 @@ matrix_row_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
 //=============================================================================
 template <class T>
 ArrayOf
-column_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+column_matrix_complex_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = B.getDimensions();
@@ -245,7 +249,8 @@ column_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf&
 //=============================================================================
 template <class T>
 ArrayOf
-matrix_column_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+matrix_column_complex_dotRightDivide(
+    NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();

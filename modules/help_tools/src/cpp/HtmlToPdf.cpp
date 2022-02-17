@@ -33,7 +33,7 @@ static library_handle nlsGuiHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
 static void
-initGuiDynamicLibrary(void)
+initGuiDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathGuiSharedLibrary = "libnlsGui" + get_dynamic_library_extension();
@@ -86,7 +86,7 @@ HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfde
 bool
 HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename)
 {
-    typedef bool (*PROC_HtmlStreamToPdfFile)(std::wstring htmlstream, std::wstring pdfdestfilename);
+    using PROC_HtmlStreamToPdfFile = bool (*)(std::wstring, std::wstring);
     static PROC_HtmlStreamToPdfFile HtmlStreamToPdfFilePtr = nullptr;
     initGuiDynamicLibrary();
     if (!HtmlStreamToPdfFilePtr) {

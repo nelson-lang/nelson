@@ -99,9 +99,9 @@ IsHermitianInternal(const ArrayOf& A, bool skew, bool& needToOverload)
     case NLS_UINT64: {
         if (skew) {
             return IsSymmetricWithSkew(A, needToOverload);
-        } else {
-            return IsSymmetricWithoutSkew(A, needToOverload);
         }
+        return IsSymmetricWithoutSkew(A, needToOverload);
+
     } break;
     default: {
         needToOverload = true;
@@ -113,8 +113,8 @@ IsHermitianInternal(const ArrayOf& A, bool skew, bool& needToOverload)
 //=============================================================================
 bool
 IsHermitianWithSkew(const ArrayOf& A, bool& needToOverload)
-{ 
-  return IsHermitianInternal(A, true, needToOverload);
+{
+    return IsHermitianInternal(A, true, needToOverload);
 }
 //=============================================================================
 bool

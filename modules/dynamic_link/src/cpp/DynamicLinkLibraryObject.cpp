@@ -81,7 +81,7 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
         boost::dll::library_info libinfo(_libraryPath, false);
         std::vector<std::string> stdSymbols = libinfo.symbols();
         symbols.reserve(stdSymbols.size());
-        for (std::string s : stdSymbols) {
+        for (const std::string& s : stdSymbols) {
             symbols.push_back(s);
         }
     } catch (const std::runtime_error& e) {
@@ -190,7 +190,7 @@ DynamicLinkLibraryObject::findLibrary(
 {
     fullLibraryPath.clear();
     if (!paths.empty()) {
-        for (std::wstring path : paths) {
+        for (const std::wstring& path : paths) {
             boost::system::error_code errorCode;
             boost::filesystem::path dir(path);
             boost::filesystem::path file(libraryName);

@@ -96,7 +96,7 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
         index << ArrayOf::characterArrayConstructor(":");
         allFrames = false;
     }
-    if (sf_command(file, SFC_SET_NORM_DOUBLE, NULL, SF_TRUE) == SF_FALSE) {
+    if (sf_command(file, SFC_SET_NORM_DOUBLE, nullptr, SF_TRUE) == SF_FALSE) {
         errorMessage = _W("Cannot read audio file.");
         return retval;
     }

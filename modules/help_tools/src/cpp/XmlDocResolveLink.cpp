@@ -69,9 +69,25 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                         + std::wstring(L".help/help/") + name + L".html";
                     bFound = true;
                     return bFound;
-                } else {
-                    filepath = modules[k].modulepath + L"/" + L"help" + L"/" + language + L"/"
-                        + L"xml" + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
+                }
+                filepath = modules[k].modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml"
+                    + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
+                if (IsFile(filepath)) {
+                    if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
+                        if (currentModuleName != modules[k].modulename) {
+                            resolvedlink = L"../" + modules[k].modulename + L"/" + name + L".md";
+                        } else {
+                            resolvedlink = name + L".md";
+                        }
+                    } else {
+                        resolvedlink = name + L".html";
+                    }
+                    bFound = true;
+                    return bFound;
+                }
+                if (language != L"en_US") {
+                    filepath = modules[k].modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/"
+                        + L"xml" + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
                     if (IsFile(filepath)) {
                         if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                             if (currentModuleName != modules[k].modulename) {
@@ -85,24 +101,6 @@ XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkn
                         }
                         bFound = true;
                         return bFound;
-                    }
-                    if (language != L"en_US") {
-                        filepath = modules[k].modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/"
-                            + L"xml" + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
-                        if (IsFile(filepath)) {
-                            if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
-                                if (currentModuleName != modules[k].modulename) {
-                                    resolvedlink
-                                        = L"../" + modules[k].modulename + L"/" + name + L".md";
-                                } else {
-                                    resolvedlink = name + L".md";
-                                }
-                            } else {
-                                resolvedlink = name + L".html";
-                            }
-                            bFound = true;
-                            return bFound;
-                        }
                     }
                 }
             }

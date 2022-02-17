@@ -291,7 +291,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
             Error("Impossible to read dimensions and maximum size of data set.");
             return ArrayOf();
         }
-        memspace = H5Screate_simple(rank, h5_dims, NULL);
+        memspace = H5Screate_simple(rank, h5_dims, nullptr);
         delete[] h5_dims;
         delete[] h5_maxdims;
     }

@@ -24,13 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocCopyrightItem.hpp"
+
+#include <utility>
 #include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocCopyrightItem::XmlDocCopyrightItem(const std::wstring& copyright) : _copyright(copyright) {}
+XmlDocCopyrightItem::XmlDocCopyrightItem(std::wstring copyright) : _copyright(std::move(copyright))
+{}
 //=============================================================================
 XmlDocCopyrightItem::~XmlDocCopyrightItem() { this->_copyright.clear(); }
 //=============================================================================

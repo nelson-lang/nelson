@@ -66,13 +66,13 @@ validateScanFormatSpec(char* cp)
     if ((*cp) && (convspec(*cp) || (*cp == 'l'))) {
         return cp + 1;
     }
-    return 0;
+    return nullptr;
 }
 //=============================================================================
 template <class T>
 ArrayOf
-convertToArrayOf(ArrayOfVector& values, NelsonType classDestination, bool haveThirdArgument, double m,
-    double n, bool mixed)
+convertToArrayOf(ArrayOfVector& values, NelsonType classDestination, bool haveThirdArgument,
+    double m, double n, bool mixed)
 {
     ArrayOf value;
     indexType nbValues;
@@ -217,33 +217,31 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                 if (feof(filepointer) || resf == EOF || resf == 0) {
                                     bContinue = false;
                                     break;
-                                } else {
-                                    if (outType == AS_NONE) {
-                                        outType = AS_INT64;
-                                    } else {
-                                        if (outType != AS_INT64) {
-                                            outType = AS_MIXED;
-                                        }
-                                    }
-                                    values.push_back(ArrayOf::int64Constructor((int64)sdumint64));
                                 }
+                                if (outType == AS_NONE) {
+                                    outType = AS_INT64;
+                                } else {
+                                    if (outType != AS_INT64) {
+                                        outType = AS_MIXED;
+                                    }
+                                }
+                                values.push_back(ArrayOf::int64Constructor((int64)sdumint64));
+
                             } else {
                                 int sdumdouble;
                                 resf = fscanf(filepointer, dp, &sdumdouble);
                                 if (resf == EOF || resf == 0) {
                                     bContinue = false;
                                     break;
-                                } else {
-                                    if (outType == AS_NONE) {
-                                        outType = AS_DOUBLE;
-                                    } else {
-                                        if (outType != AS_DOUBLE) {
-                                            outType = AS_MIXED;
-                                        }
-                                    }
-                                    values.push_back(
-                                        ArrayOf::doubleConstructor((double)sdumdouble));
                                 }
+                                if (outType == AS_NONE) {
+                                    outType = AS_DOUBLE;
+                                } else {
+                                    if (outType != AS_DOUBLE) {
+                                        outType = AS_MIXED;
+                                    }
+                                }
+                                values.push_back(ArrayOf::doubleConstructor((double)sdumdouble));
                             }
                         } break;
                         case 'o':
@@ -256,33 +254,32 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                 if (resf == EOF || resf == 0) {
                                     bContinue = false;
                                     break;
-                                } else {
-                                    if (outType == AS_NONE) {
-                                        outType = AS_UINT64;
-                                    } else {
-                                        if (outType != AS_UINT64) {
-                                            outType = AS_MIXED;
-                                        }
-                                    }
-                                    values.push_back(ArrayOf::uint64Constructor((uint64)sdumint64));
                                 }
+                                if (outType == AS_NONE) {
+                                    outType = AS_UINT64;
+                                } else {
+                                    if (outType != AS_UINT64) {
+                                        outType = AS_MIXED;
+                                    }
+                                }
+                                values.push_back(ArrayOf::uint64Constructor((uint64)sdumint64));
+
                             } else {
                                 unsigned int dumpUnsignedInt;
                                 resf = fscanf(filepointer, dp, &dumpUnsignedInt);
                                 if (resf == EOF || resf == 0) {
                                     bContinue = false;
                                     break;
-                                } else {
-                                    if (outType == AS_NONE) {
-                                        outType = AS_DOUBLE;
-                                    } else {
-                                        if (outType != AS_DOUBLE) {
-                                            outType = AS_MIXED;
-                                        }
-                                    }
-                                    values.push_back(
-                                        ArrayOf::doubleConstructor((double)dumpUnsignedInt));
                                 }
+                                if (outType == AS_NONE) {
+                                    outType = AS_DOUBLE;
+                                } else {
+                                    if (outType != AS_DOUBLE) {
+                                        outType = AS_MIXED;
+                                    }
+                                }
+                                values.push_back(
+                                    ArrayOf::doubleConstructor((double)dumpUnsignedInt));
                             }
                         } break;
                         case 'e':
@@ -347,8 +344,8 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
     switch (outType) {
     case AS_STRING: {
         std::wstring strs;
-        for (indexType k = 0; k < (indexType)values.size(); k++) {
-            std::wstring str = values[k].getContentAsWideString();
+        for (auto& value : values) {
+            std::wstring str = value.getContentAsWideString();
             strs.append(str);
         }
         value = ArrayOf::characterArrayConstructor(strs);

@@ -62,9 +62,9 @@ getPartialLine(const std::wstring& line)
 {
     std::wstring symbols = L"+-*/\\([ ^,;={.&|\'])}:\'><~@\t";
     size_t index = -1;
-    for (size_t i = 0; i < symbols.size(); i++) {
+    for (wchar_t symbol : symbols) {
         size_t len = 0;
-        size_t pch = line.rfind(symbols[i]);
+        size_t pch = line.rfind(symbol);
         if (pch != std::wstring::npos) {
             len = pch;
             index = std::max(index, len);
@@ -90,8 +90,8 @@ getPartialLineAsPath(const std::wstring& line)
     bool symbol_found = false;
     size_t index = 0;
     // cd c:/Program Files (x86)/
-    for (size_t i = 0; i < symbols.size(); i++) {
-        std::string::size_type filePos = lineWithoutSpaceAtBeginning.rfind(symbols[i]);
+    for (wchar_t symbol : symbols) {
+        std::string::size_type filePos = lineWithoutSpaceAtBeginning.rfind(symbol);
         if (filePos != std::wstring::npos) {
             index = std::max(index, filePos);
             symbol_found = true;

@@ -74,11 +74,11 @@ private:
     std::wstring msg = L"";
     //=============================================================================
 public:
-    Exception(const std::string& msg_in, const std::vector<PositionScript>& positions,
+    Exception(const std::string& msg_in, std::vector<PositionScript> positions,
         const std::string& identifier_in = "");
     //=============================================================================
-    Exception(const std::wstring& msg_in, const std::vector<PositionScript>& positions,
-        const std::wstring& identifier_in = L"");
+    Exception(std::wstring msg_in, std::vector<PositionScript> positions,
+        std::wstring identifier_in = L"");
     //=============================================================================
     Exception(const std::string& msg_in, const PositionScript& position,
         const std::string& identifier_in = "");
@@ -126,7 +126,7 @@ public:
     /**
      * Get the message member function.
      */
-    std::wstring
+    [[nodiscard]] std::wstring
     getMessage() const
     {
         return msg;
@@ -144,7 +144,7 @@ public:
     void
     setIdentifier(const std::string& identifier_in);
     //=============================================================================
-    std::vector<Exception>
+    [[nodiscard]] std::vector<Exception>
     getCause() const
     {
         return cause;
@@ -156,34 +156,34 @@ public:
         cause = _cause;
     }
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     getFormattedErrorMessage() const;
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     what() const
     {
         return msg;
     }
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     getFilename() const;
     //=============================================================================
-    int
+    [[nodiscard]] int
     getLine() const;
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     getFunctionName() const;
     //=============================================================================
-    bool
+    [[nodiscard]] bool
     isEmpty() const;
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     getIdentifier() const
     {
         return identifier;
     }
     //=============================================================================
-    std::vector<PositionScript>
+    [[nodiscard]] std::vector<PositionScript>
     getTrace() const
     {
         return backtrace;

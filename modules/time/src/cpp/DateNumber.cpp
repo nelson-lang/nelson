@@ -167,9 +167,9 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
         boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
         boost::gregorian::date currentdate = t.date();
         const size_t formats_n = sizeof(formats_without_date) / sizeof(formats_without_date[0]);
-        for (size_t i = 0; i < formats_n; ++i) {
+        for (const auto& i : formats_without_date) {
             std::wistringstream is(datestring);
-            is.imbue(formats_without_date[i]);
+            is.imbue(i);
             is >> pt;
             if (pt != boost::posix_time::ptime()) {
                 break;
@@ -216,9 +216,9 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
             }
         } else {
             const size_t formats_n = sizeof(formats_without_time) / sizeof(formats_without_time[0]);
-            for (size_t i = 0; i < formats_n; ++i) {
+            for (const auto& i : formats_without_time) {
                 std::wistringstream is(datestring);
-                is.imbue(formats_without_time[i]);
+                is.imbue(i);
                 is >> pt;
                 if (pt != boost::posix_time::ptime()) {
                     break;
@@ -240,9 +240,9 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
     }
     if (is_with_date_time) {
         const size_t formats_n = sizeof(formats_date_time) / sizeof(formats_date_time[0]);
-        for (size_t i = 0; i < formats_n; ++i) {
+        for (const auto& i : formats_date_time) {
             std::wistringstream is(datestring);
-            is.imbue(formats_date_time[i]);
+            is.imbue(i);
             is >> pt;
             if (pt != boost::posix_time::ptime()) {
                 break;

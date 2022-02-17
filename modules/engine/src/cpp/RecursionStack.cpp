@@ -44,9 +44,8 @@ setRecursionStacksize(size_t sizerstack)
         rl.rlim_cur = (int)sizerstack;
         if (setrlimit(RLIMIT_STACK, &rl) == 0) {
             return sizerstack;
-        } else {
-            returnedSize = getRecursionStacksize();
         }
+        returnedSize = getRecursionStacksize();
     }
 #else
 #endif

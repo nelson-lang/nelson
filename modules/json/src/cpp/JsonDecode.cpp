@@ -308,17 +308,17 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar)
     case 0: {
         if (jsVar.fieldnames.size() == 0) {
             return ArrayOf::emptyStructWithoutFields();
-        } else {
-            stringVector fieldnames;
-            ArrayOfVector fieldvalues;
-            for (size_t k = 0; k < jsVar.fieldnames.size(); k++) {
-                fieldnames.push_back(jsVar.fieldnames[k]);
-                JsonVariable jsv = jsVar.scalarMap[jsVar.fieldnames[k]];
-                ArrayOf fieldvalue = jsonVariableToNelson(jsv);
-                fieldvalues.push_back(fieldvalue);
-            }
-            return ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
         }
+        stringVector fieldnames;
+        ArrayOfVector fieldvalues;
+        for (size_t k = 0; k < jsVar.fieldnames.size(); k++) {
+            fieldnames.push_back(jsVar.fieldnames[k]);
+            JsonVariable jsv = jsVar.scalarMap[jsVar.fieldnames[k]];
+            ArrayOf fieldvalue = jsonVariableToNelson(jsv);
+            fieldvalues.push_back(fieldvalue);
+        }
+        return ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
+
     } break;
     case 1: {
         if (jsVar.dims[0] == 1) {
@@ -329,10 +329,9 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar)
                 fieldvalues.push_back(jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[k])[0]));
             }
             return ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
-        } else {
-            Dimensions dims(jsVar.dims[0], 1);
-            return jsonVariableToNelsonStructType(jsVar, dims);
         }
+        Dimensions dims(jsVar.dims[0], 1);
+        return jsonVariableToNelsonStructType(jsVar, dims);
     }
     default: {
         Dimensions dims;
@@ -391,7 +390,7 @@ findCommonJsonVariableType(JsonVariable& jsVar)
     JSON_TO_NELSON_Type commonType = JSON_TO_NELSON_UNDEFINED;
     if (jsVar.vectorJsonVariable.size() > 0) {
         commonType = jsVar.vectorJsonVariable[0].jsonVariableType;
-        for (auto element : jsVar.vectorJsonVariable) {
+        for (const auto& element : jsVar.vectorJsonVariable) {
             if (element.jsonVariableType != commonType) {
                 return JSON_TO_NELSON_UNDEFINED;
             }
@@ -429,8 +428,8 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
-        for (size_t k = 0; k < jsVar.dims.size(); k++) {
-            elementCount *= jsVar.dims[k];
+        for (unsigned long dim : jsVar.dims) {
+            elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
         size_t k = 0;
@@ -477,8 +476,8 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
-        for (size_t k = 0; k < jsVar.dims.size(); k++) {
-            elementCount *= jsVar.dims[k];
+        for (unsigned long dim : jsVar.dims) {
+            elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
         size_t k = 0;
@@ -525,8 +524,8 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
-        for (size_t k = 0; k < jsVar.dims.size(); k++) {
-            elementCount *= jsVar.dims[k];
+        for (unsigned long dim : jsVar.dims) {
+            elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
         size_t k = 0;
@@ -548,7 +547,7 @@ static bool
 transformStructArray(JsonVariable& jsVar, size_t totaldims)
 {
     std::vector<std::string> fieldnamesRef;
-    for (auto elements : jsVar.vectorJsonVariable[0].fieldnames) {
+    for (const auto& elements : jsVar.vectorJsonVariable[0].fieldnames) {
         fieldnamesRef.push_back(elements);
     }
     for (size_t i = 1; i < jsVar.vectorJsonVariable.size(); ++i) {
@@ -557,7 +556,7 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
             jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
             return true;
         }
-        for (auto element : jsVar.vectorJsonVariable[i].fieldnames) {
+        for (const auto& element : jsVar.vectorJsonVariable[i].fieldnames) {
             if (std::find(fieldnamesRef.begin(), fieldnamesRef.end(), element)
                 == fieldnamesRef.end()) {
                 jsVar.reduced = true;
@@ -569,14 +568,14 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
     jsVar.vectorJsonVariable.reserve(fieldnamesRef.size());
     switch (jsVar.dims.size()) {
     case 1: {
-        for (auto name : fieldnamesRef) {
+        for (const auto& name : fieldnamesRef) {
             for (auto var : jsVar.vectorJsonVariable) {
                 jsVar.map[name].push_back(var.scalarMap[name]);
             }
         }
     } break;
     case 2: {
-        for (auto name : fieldnamesRef) {
+        for (const auto& name : fieldnamesRef) {
             for (size_t j = 0; j < jsVar.dims[1]; ++j) {
                 for (size_t i = 0; i < jsVar.dims[0]; ++i) {
                     auto var = jsVar.vectorJsonVariable[i];
@@ -590,7 +589,7 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
         }
     } break;
     default: {
-        for (auto name : fieldnamesRef) {
+        for (const auto& name : fieldnamesRef) {
             for (auto var : jsVar.vectorJsonVariable) {
                 if (var.dims.size() != 0) {
                     jsVar.map[name].insert(
@@ -641,7 +640,7 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
             for (auto i : refVar) {
                 totaldims *= i;
             }
-            for (auto element : jsVar.vectorJsonVariable) {
+            for (const auto& element : jsVar.vectorJsonVariable) {
                 std::vector<size_t> dims = element.dims;
                 if (refVar.size() != dims.size()) {
                     jsVar.reduced = true;
@@ -765,14 +764,15 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
     jsonString = wstring_to_utf8(_stringToDecode);
     jsmn_parser parserJson;
     jsmn_init(&parserJson);
-    int nbTokensOrError = jsmn_parse(&parserJson, jsonString.c_str(), jsonString.size(), NULL, 0);
+    int nbTokensOrError
+        = jsmn_parse(&parserJson, jsonString.c_str(), jsonString.size(), nullptr, 0);
     if (nbTokensOrError == 0) {
         if (jsonString.empty()) {
             return ArrayOf::emptyConstructor();
-        } else {
-            errorMessage = _W("valid JSON Object expected.");
-            return ArrayOf();
         }
+        errorMessage = _W("valid JSON Object expected.");
+        return ArrayOf();
+
     } else if (nbTokensOrError > 0) {
         // init again the parser required.
         jsmn_init(&parserJson);
@@ -783,17 +783,17 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
             delete[] tokens;
             errorMessage = _W("valid JSON Object expected.");
             return ArrayOf();
-        } else {
-            tokens_offset = 0;
-            JsonVariable jsVar;
-            bool converted = importTokens(tokens, jsVar);
-            delete[] tokens;
-            if (!converted) {
-                errorMessage = _W("valid JSON Object expected.");
-                return ArrayOf();
-            }
-            return jsonVariableToNelson(jsVar);
         }
+        tokens_offset = 0;
+        JsonVariable jsVar;
+        bool converted = importTokens(tokens, jsVar);
+        delete[] tokens;
+        if (!converted) {
+            errorMessage = _W("valid JSON Object expected.");
+            return ArrayOf();
+        }
+        return jsonVariableToNelson(jsVar);
+
     } else {
         errorMessage = getErrorMessage(nbTokensOrError);
     }

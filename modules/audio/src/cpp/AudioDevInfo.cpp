@@ -304,9 +304,9 @@ AudioDevInfo(int io, std::wstring& errorMessage)
             }
         }
         return ArrayOf::doubleConstructor((double)res);
-    } else {
-        errorMessage = _W("Wrong value for #1 argument.");
     }
+    errorMessage = _W("Wrong value for #1 argument.");
+
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================
@@ -341,9 +341,9 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
             }
             return ArrayOf::characterArrayConstructor(
                 utf8_to_wstring(infoFound.padeviceInfo->name));
-        } else {
-            errorMessage = _W("Wrong value for #2 argument.");
         }
+        errorMessage = _W("Wrong value for #2 argument.");
+
     } else {
         errorMessage = _W("Wrong value for #1 argument.");
     }
@@ -412,9 +412,9 @@ AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage)
             const PaHostApiInfo* apiInfo = Pa_GetHostApiInfo(infoFound.padeviceInfo->hostApi);
             const char* driverVersion = apiInfo ? apiInfo->name : "";
             return ArrayOf::characterArrayConstructor(utf8_to_wstring(driverVersion));
-        } else {
-            errorMessage = _W("Wrong value for #2 argument.");
         }
+        errorMessage = _W("Wrong value for #2 argument.");
+
     } else {
         errorMessage = _W("Wrong value for #1 argument.");
     }
@@ -450,34 +450,34 @@ searchAudioDevice(const boost::container::vector<AudioDeviceInfo>& infos, int io
     int bits, int chans, AudioDeviceInfo& info)
 {
     if (io == 0 || io == 1) {
-        for (size_t k = 0; k < infos.size(); k++) {
+        for (auto k : infos) {
             PaStreamParameters streamParameters;
-            streamParameters.device = infos[k].Id;
+            streamParameters.device = k.Id;
             streamParameters.channelCount = chans;
             PaSampleFormat format = bitsToFormat(bits);
             if (format == 0) {
                 return false;
-            } else {
-                streamParameters.sampleFormat = format;
             }
-            streamParameters.suggestedLatency = infos[k].padeviceInfo->defaultLowInputLatency;
-            streamParameters.hostApiSpecificStreamInfo = 0;
+            streamParameters.sampleFormat = format;
+
+            streamParameters.suggestedLatency = k.padeviceInfo->defaultLowInputLatency;
+            streamParameters.hostApiSpecificStreamInfo = nullptr;
             if (io == 0) {
-                if (infos[k].padeviceInfo->maxOutputChannels < chans) {
+                if (k.padeviceInfo->maxOutputChannels < chans) {
                     continue;
                 }
-                PaError err = Pa_IsFormatSupported(0, &streamParameters, rate);
+                PaError err = Pa_IsFormatSupported(nullptr, &streamParameters, rate);
                 if (err == paFormatIsSupported) {
-                    info = infos[k];
+                    info = k;
                     return true;
                 }
             } else {
-                if (infos[k].padeviceInfo->maxInputChannels < chans) {
+                if (k.padeviceInfo->maxInputChannels < chans) {
                     continue;
                 }
-                PaError err = Pa_IsFormatSupported(&streamParameters, 0, rate);
+                PaError err = Pa_IsFormatSupported(&streamParameters, nullptr, rate);
                 if (err == paFormatIsSupported) {
-                    info = infos[k];
+                    info = k;
                     return true;
                 }
             }
@@ -494,9 +494,9 @@ AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage)
         AudioDeviceInfo deviceFound;
         if (searchAudioDevice(audioDevices, io, rate, bits, chans, deviceFound)) {
             return ArrayOf::doubleConstructor((double)deviceFound.Id);
-        } else {
-            return ArrayOf::doubleConstructor(-1);
         }
+        return ArrayOf::doubleConstructor(-1);
+
     } else {
         errorMessage = _W("Wrong value for #1 argument.");
     }
@@ -511,13 +511,13 @@ supportAudioDevice(
     streamParameters.channelCount = chans;
     streamParameters.sampleFormat = format;
     streamParameters.suggestedLatency = padeviceInfo->defaultLowInputLatency;
-    streamParameters.hostApiSpecificStreamInfo = 0;
+    streamParameters.hostApiSpecificStreamInfo = nullptr;
     if (io == 0) {
         streamParameters.device = getOutputDeviceIndex(id);
         if (padeviceInfo->maxOutputChannels < chans) {
             return false;
         }
-        PaError err = Pa_IsFormatSupported(0, &streamParameters, rate);
+        PaError err = Pa_IsFormatSupported(nullptr, &streamParameters, rate);
         if (err == paFormatIsSupported) {
             return true;
         }
@@ -526,7 +526,7 @@ supportAudioDevice(
         if (padeviceInfo->maxInputChannels < chans) {
             return false;
         }
-        PaError err = Pa_IsFormatSupported(&streamParameters, 0, rate);
+        PaError err = Pa_IsFormatSupported(&streamParameters, nullptr, rate);
         if (err == paFormatIsSupported) {
             return true;
         }
@@ -553,9 +553,9 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorM
             if (format != 0) {
                 if (supportAudioDevice(padeviceInfo, io, id, rate, format, chans)) {
                     return ArrayOf::logicalConstructor(true);
-                } else {
-                    return ArrayOf::logicalConstructor(false);
                 }
+                return ArrayOf::logicalConstructor(false);
+
             } else {
                 errorMessage = _W("Wrong value for #4 argument.");
             }

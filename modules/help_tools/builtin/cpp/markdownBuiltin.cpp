@@ -77,12 +77,12 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
             bool bRes = true;
-            for (size_t k = 0; k < filesListIn.size(); k++) {
-                boost::filesystem::path st(filesListIn[k]);
+            for (auto& k : filesListIn) {
+                boost::filesystem::path st(k);
                 boost::filesystem::path out(pathOut);
                 out /= st.stem();
                 out += L".html";
-                bool bLocal = MarkdownFile(filesListIn[k], out.generic_wstring());
+                bool bLocal = MarkdownFile(k, out.generic_wstring());
                 if (!bLocal) {
                     bRes = bLocal;
                 }
@@ -98,8 +98,8 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring stringInput;
         if (IsCellOfString(param1)) {
             wstringVector vstr = param1.getContentAsWideStringColumnVector();
-            for (size_t k = 0; k < vstr.size(); k++) {
-                stringInput = stringInput + L"\n" + vstr[k];
+            for (auto& k : vstr) {
+                stringInput = stringInput + L"\n" + k;
             }
         } else {
             if (param1.isRowVectorCharacterArray()) {

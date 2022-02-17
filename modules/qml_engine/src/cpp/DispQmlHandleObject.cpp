@@ -170,7 +170,7 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
         QObject* qobj = (QObject*)qmlHandle->getPointer();
         if (qobj) {
             std::wstring msg;
-            for (std::wstring wfieldname : wfieldnames) {
+            for (const std::wstring& wfieldname : wfieldnames) {
                 if (wfieldname == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
                     dispParent(qobj, msg);
                 } else if (wfieldname == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {

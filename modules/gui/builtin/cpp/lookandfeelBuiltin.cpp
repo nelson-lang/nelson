@@ -46,7 +46,8 @@ Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring previousStyleSheet = GetCurrentStyleSheet();
             retval << ArrayOf::characterArrayConstructor(previousStyleSheet);
             return retval;
-        } else if (param1 == L"available") {
+        }
+        if (param1 == L"available") {
             wstringVector lfs = GetLookAndFeelAvailable();
             retval << ToCellStringAsColumn(lfs);
             return retval;

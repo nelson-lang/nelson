@@ -35,9 +35,9 @@ XmlDocHistory::XmlDocHistory() { historyVector.clear(); }
 //=============================================================================
 XmlDocHistory::~XmlDocHistory()
 {
-    for (size_t k = 0; k < historyVector.size(); k++) {
-        delete historyVector[k];
-        historyVector[k] = nullptr;
+    for (auto& k : historyVector) {
+        delete k;
+        k = nullptr;
     }
     historyVector.clear();
 }
@@ -68,13 +68,13 @@ XmlDocHistory::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_H3_IN_TAG + _("History") + HTML_H3_OUT_TAG + "\n";
     utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
-    utf8stream = utf8stream + "<table summary = \"history\" style=\"width:50%\">" + "\n";
+    utf8stream = utf8stream + R"(<table summary = "history" style="width:50%">)" + "\n";
     utf8stream = utf8stream + HTML_TR_IN_TAG + "\n";
     utf8stream = utf8stream + "\t" + HTML_TH_IN_TAG + _("Version") + HTML_TH_OUT_TAG + "\n";
     utf8stream = utf8stream + "\t" + HTML_TH_IN_TAG + _("Description") + HTML_TH_OUT_TAG + "\n";
     utf8stream = utf8stream + HTML_TR_OUT_TAG + "\n";
-    for (size_t k = 0; k < historyVector.size(); k++) {
-        historyVector[k]->writeAsHtml(utf8stream);
+    for (auto& k : historyVector) {
+        k->writeAsHtml(utf8stream);
     }
     utf8stream = utf8stream + HTML_TABLE_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
@@ -88,8 +88,8 @@ XmlDocHistory::writeAsMarkdown(std::string& utf8stream)
     utf8stream = utf8stream + "\n";
     utf8stream = utf8stream + "|" + _("Version") + "|" + _("Description") + "|" + "\n";
     utf8stream = utf8stream + "|" + "------" + "|" + "------" + "|" + "\n";
-    for (size_t k = 0; k < historyVector.size(); k++) {
-        historyVector[k]->writeAsMarkdown(utf8stream);
+    for (auto& k : historyVector) {
+        k->writeAsMarkdown(utf8stream);
     }
     utf8stream = utf8stream + "\n";
     return true;

@@ -24,14 +24,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocChapterDescriptionItem.hpp"
+
+#include <utility>
 #include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocChapterDescriptionItem::XmlDocChapterDescriptionItem(const std::wstring& description)
-    : _description(description)
+XmlDocChapterDescriptionItem::XmlDocChapterDescriptionItem(std::wstring description)
+    : _description(std::move(description))
 {}
 //=============================================================================
 XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem() { this->_description.clear(); }
@@ -39,7 +41,7 @@ XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem() { this->_descripti
 void
 XmlDocChapterDescriptionItem::setValue(const std::wstring& value)
 {
-    this->_description = std::move(value);
+    this->_description = value;
 }
 //=============================================================================
 std::wstring

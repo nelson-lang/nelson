@@ -115,7 +115,7 @@ ArrayOf::copyObject(const ArrayOf& copy)
 }
 //=============================================================================
 inline void
-ArrayOf::deleteContents(void)
+ArrayOf::deleteContents()
 {
     if (dp) {
         if (dp->deleteCopy() <= 1) {
@@ -521,9 +521,8 @@ ArrayOf::getReferenceCount() const
 {
     if (dp) {
         return dp->numberOfOwners();
-    } else {
-        return 0;
     }
+    return 0;
 }
 //=============================================================================
 indexType
@@ -531,9 +530,8 @@ ArrayOf::getRows() const
 {
     if (dp) {
         return dp->getRows();
-    } else {
-        return 0;
     }
+    return 0;
 }
 //=============================================================================
 indexType
@@ -541,9 +539,8 @@ ArrayOf::getColumns() const
 {
     if (dp) {
         return dp->getColumns();
-    } else {
-        return 0;
     }
+    return 0;
 }
 //=============================================================================
 indexType
@@ -551,9 +548,8 @@ ArrayOf::nDims() const
 {
     if (dp) {
         return dp->dimensions.getLength();
-    } else {
-        return 0;
     }
+    return 0;
 }
 //=============================================================================
 indexType
@@ -561,9 +557,8 @@ ArrayOf::getElementCount() const
 {
     if (dp) {
         return dp->getElementCount();
-    } else {
-        return 0;
     }
+    return 0;
 }
 //=============================================================================
 Dimensions
@@ -571,9 +566,8 @@ ArrayOf::getDimensions() const
 {
     if (dp) {
         return dp->dimensions;
-    } else {
-        return Dimensions();
     }
+    return Dimensions();
 }
 //=============================================================================
 indexType
@@ -581,9 +575,8 @@ ArrayOf::getDimensionLength(int t) const
 {
     if (dp) {
         return dp->dimensions[t];
-    } else {
-        return 0;
     }
+    return 0;
 }
 //=============================================================================
 const void*
@@ -594,9 +587,8 @@ ArrayOf::getDataPointer() const
     }
     if (dp) {
         return dp->getData();
-    } else {
-        return nullptr;
     }
+    return nullptr;
 }
 //=============================================================================
 void
@@ -1510,7 +1502,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
         if (!colonFound && isColon && preserveColons) {
             colonFound = true;
             colonIndex = i;
-            outndx[i] = NULL;
+            outndx[i] = nullptr;
             outDims[i] = dims[i];
         } else if (isColon) {
             indexType* buildcolon = new_with_exception<indexType>(dims[i], false);
@@ -1520,7 +1512,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
             outDims[i] = dims[i];
         } else if (index[i].isEmpty()) {
             anyEmpty = true;
-            outndx[i] = NULL;
+            outndx[i] = nullptr;
             outDims[i] = 0;
         } else {
             index[i].toOrdinalType();

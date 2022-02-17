@@ -63,7 +63,7 @@ XmlDocLinkItem::getItemType()
 bool
 XmlDocLinkItem::writeAsHtml(std::string& utf8stream)
 {
-    utf8stream = utf8stream + "<a href = \"" + wstring_to_utf8(this->_link) + "\" class = \"link\">"
+    utf8stream = utf8stream + "<a href = \"" + wstring_to_utf8(this->_link) + R"(" class = "link">)"
         + wstring_to_utf8(this->_name) + HTML_A_OUT_TAG;
     return true;
 }

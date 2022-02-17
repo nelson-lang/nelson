@@ -30,13 +30,13 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-typedef enum
+enum RNG_TYPE
 {
     RNG_ERROR = -1,
     RNG_TWISTER = 0,
     RNG_TWISTER64,
     RNG_LAGGED_FIBONACCI_607,
-} RNG_TYPE;
+};
 
 NLSRANDOM_IMPEXP wstringVector
 getSupportedRngEngineName();

@@ -29,7 +29,7 @@
 #endif
 //=============================================================================
 #include <string>
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <boost/process.hpp>
 #include <boost/thread/thread.hpp>

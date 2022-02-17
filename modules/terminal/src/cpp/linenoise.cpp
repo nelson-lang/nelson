@@ -111,7 +111,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-#include <ctype.h>
+#include <cctype>
 #include <termios.h>
 
 #include "Evaluator.hpp"
@@ -119,21 +119,21 @@
 #include "NelsonHistory.h"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "linenoise.h"
-#include <ctype.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cctype>
+#include <cerrno>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <unistd.h>
 
 static Nelson::Evaluator* eval = nullptr;
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
 #define LINENOISE_MAX_LINE 4096
-static char* unsupported_term[] = { "dumb", "cons25", "emacs", NULL };
-static linenoiseCompletionCallback* completionCallback = NULL;
-static linenoiseHintsCallback* hintsCallback = NULL;
-static linenoiseFreeHintsCallback* freeHintsCallback = NULL;
+static char* unsupported_term[] = { "dumb", "cons25", "emacs", nullptr };
+static linenoiseCompletionCallback* completionCallback = nullptr;
+static linenoiseHintsCallback* hintsCallback = nullptr;
+static linenoiseFreeHintsCallback* freeHintsCallback = nullptr;
 
 static struct termios orig_termios; /* In order to restore at exit.*/
 static int rawmode = 0; /* For atexit() function to check if restore is needed*/
@@ -141,7 +141,7 @@ static int mlmode = 0; /* Multi line mode. Default is single line. */
 static int atexit_registered = 0; /* Register atexit just 1 time. */
 static int history_max_len = LINENOISE_DEFAULT_HISTORY_MAX_LEN;
 static int history_len = 0;
-static char** history = NULL;
+static char** history = nullptr;
 
 /* The linenoiseState structure represents the state during line editing.
  * We pass this state to functions implementing specific editing
@@ -186,7 +186,7 @@ enum KEY_ACTION
 };
 
 static void
-linenoiseAtExit(void);
+linenoiseAtExit();
 int
 linenoiseHistoryAdd(const char* line);
 static void
@@ -222,11 +222,11 @@ linenoiseSetMultiLine(int ml)
 /* Return true if the terminal name is in the list of terminals we know are
  * not able to understand basic escape sequences. */
 static int
-isUnsupportedTerm(void)
+isUnsupportedTerm()
 {
     char* term = getenv("TERM");
     int j;
-    if (term == NULL) {
+    if (term == nullptr) {
         return 0;
     }
     for (j = 0; unsupported_term[j]; j++)
@@ -351,9 +351,9 @@ getColumns(int ifd, int ofd)
             }
         }
         return cols;
-    } else {
-        return ws.ws_col;
     }
+    return ws.ws_col;
+
 failed:
     return 80;
 }
@@ -370,7 +370,7 @@ linenoiseClearScreen(void)
 /* Beep, used for completion when there is nothing to complete or when all
  * the choices were already shown. */
 static void
-linenoiseBeep(void)
+linenoiseBeep()
 {
     fprintf(stderr, "\x7");
     fflush(stderr);
@@ -386,7 +386,7 @@ freeCompletions(linenoiseCompletions* lc)
     for (i = 0; i < lc->len; i++) {
         free(lc->cvec[i]);
     }
-    if (lc->cvec != NULL) {
+    if (lc->cvec != nullptr) {
         free(lc->cvec);
     }
 }
@@ -400,7 +400,7 @@ freeCompletions(linenoiseCompletions* lc)
 static int
 completeLine(struct linenoiseState* ls)
 {
-    linenoiseCompletions lc = { 0, NULL };
+    linenoiseCompletions lc = { 0, nullptr };
     char c = 0;
     completionCallback(ls->buf, &lc);
     if (lc.len == 0) {
@@ -487,12 +487,12 @@ linenoiseAddCompletion(linenoiseCompletions* lc, const char* str)
     size_t len = strlen(str);
     char *copy, **cvec;
     copy = (char*)malloc(len + 1);
-    if (copy == NULL) {
+    if (copy == nullptr) {
         return;
     }
     memcpy(copy, str, len + 1);
     cvec = (char**)realloc(lc->cvec, sizeof(char*) * (lc->len + 1));
-    if (cvec == NULL) {
+    if (cvec == nullptr) {
         free(copy);
         return;
     }
@@ -515,7 +515,7 @@ struct abuf
 static void
 abInit(struct abuf* ab)
 {
-    ab->b = NULL;
+    ab->b = nullptr;
     ab->len = 0;
 }
 
@@ -523,7 +523,7 @@ static void
 abAppend(struct abuf* ab, const char* s, int len)
 {
     char* newchar = (char*)realloc(ab->b, ab->len + len);
-    if (newchar == NULL) {
+    if (newchar == nullptr) {
         return;
     }
     memcpy(newchar + ab->len, s, len);
@@ -783,7 +783,7 @@ linenoiseEditMoveEnd(struct linenoiseState* l)
 void
 linenoiseEditHistoryNext(struct linenoiseState* l, int dir)
 {
-    const char* line = NULL;
+    const char* line = nullptr;
     if (dir == LINENOISE_HISTORY_PREV) {
         line = (const char*)NelsonHistoryGetPreviousLine();
     } else {
@@ -863,7 +863,7 @@ kbhit()
     tv.tv_usec = 0;
     FD_ZERO(&fds);
     FD_SET(STDIN_FILENO, &fds); // STDIN_FILENO is 0
-    select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
+    select(STDIN_FILENO + 1, &fds, nullptr, nullptr, &tv);
     return FD_ISSET(STDIN_FILENO, &fds) || bStopReadLine;
 }
 
@@ -906,7 +906,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
         return -1;
     }
     bStopReadLine = 0;
-    while (1) {
+    while (true) {
         char c;
         int nread;
         char seq[3];
@@ -944,7 +944,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
         /* Only autocomplete when the callback is set. It returns < 0 when
          * there was an error reading from fd. Otherwise it will return the
          * character that should be handled next. */
-        if (c == 9 && completionCallback != NULL) {
+        if (c == 9 && completionCallback != nullptr) {
             c = completeLine(&l);
             /* Return on errors */
             if (c < 0) {
@@ -969,7 +969,7 @@ linenoiseEdit(int stdin_fd, int stdout_fd, char* buf, size_t buflen, const char*
                 /* Force a refresh without hints to leave the previous
                  * line as the user typed it after a newline. */
                 linenoiseHintsCallback* hc = hintsCallback;
-                hintsCallback = NULL;
+                hintsCallback = nullptr;
                 refreshLine(&l);
                 hintsCallback = hc;
             }
@@ -1120,7 +1120,7 @@ linenoisePrintKeyCodes(void)
         return;
     }
     memset(quit, ' ', 4);
-    while (1) {
+    while (true) {
         char c;
         int nread;
         nread = read(STDIN_FILENO, &c, 1);
@@ -1163,11 +1163,11 @@ linenoiseRaw(char* buf, size_t buflen, const char* prompt)
  * to its standard input. In this case, we want to be able to return the
  * line regardless of its length (by default we are limited to 4k). */
 static char*
-linenoiseNoTTY(void)
+linenoiseNoTTY()
 {
-    char* line = NULL;
+    char* line = nullptr;
     size_t len = 0, maxlen = 0;
-    while (1) {
+    while (true) {
         if (len == maxlen) {
             if (maxlen == 0) {
                 maxlen = 16;
@@ -1175,22 +1175,22 @@ linenoiseNoTTY(void)
             maxlen *= 2;
             char* oldval = line;
             line = (char*)realloc(line, maxlen);
-            if (line == NULL) {
+            if (line == nullptr) {
                 if (oldval) {
                     free(oldval);
                 }
-                return NULL;
+                return nullptr;
             }
         }
         int c = fgetc(stdin);
         if (c == EOF || c == '\n') {
             if (c == EOF && len == 0) {
                 free(line);
-                return NULL;
-            } else {
-                line[len] = '\0';
-                return line;
+                return nullptr;
             }
+            line[len] = '\0';
+            return line;
+
         } else {
             line[len] = c;
             len++;
@@ -1212,7 +1212,8 @@ linenoise(const char* prompt)
         /* Not a tty: read from file / pipe. In this mode we don't want any
          * limit to the line size, so we call a function to handle that. */
         return linenoiseNoTTY();
-    } else if (isUnsupportedTerm()) {
+    }
+    if (isUnsupportedTerm()) {
         size_t len;
         printf("%s", prompt);
         fflush(stdout);
@@ -1249,7 +1250,7 @@ linenoiseFree(void* ptr)
 /* Free the history, but does not reset it. Only used when we have to
  * exit() to avoid memory leaks are reported by valgrind & co. */
 static void
-freeHistory(void)
+freeHistory()
 {
     if (history) {
         int j;
@@ -1262,7 +1263,7 @@ freeHistory(void)
 
 /* At exit we'll try to fix the terminal to the initial conditions. */
 static void
-linenoiseAtExit(void)
+linenoiseAtExit()
 {
     disableRawMode(STDIN_FILENO);
     freeHistory();
@@ -1283,9 +1284,9 @@ linenoiseHistoryAdd(const char* line)
         return 0;
     }
     /* Initialization on first call. */
-    if (history == NULL) {
+    if (history == nullptr) {
         history = (char**)malloc(sizeof(char*) * history_max_len);
-        if (history == NULL) {
+        if (history == nullptr) {
             return 0;
         }
         memset(history, 0, (sizeof(char*) * history_max_len));
@@ -1324,7 +1325,7 @@ linenoiseHistorySetMaxLen(int len)
     if (history) {
         int tocopy = history_len;
         newchar = (char**)malloc(sizeof(char*) * len);
-        if (newchar == NULL) {
+        if (newchar == nullptr) {
             return 0;
         }
         /* If we can't copy everything, free the elements we'll not use. */
@@ -1354,7 +1355,7 @@ linenoiseHistorySave(const char* filename)
 {
     FILE* fp = fopen(filename, "w");
     int j;
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return -1;
     }
     for (j = 0; j < history_len; j++) {
@@ -1374,10 +1375,10 @@ linenoiseHistoryLoad(const char* filename)
 {
     FILE* fp = fopen(filename, "r");
     char buf[LINENOISE_MAX_LINE];
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return -1;
     }
-    while (fgets(buf, LINENOISE_MAX_LINE, fp) != NULL) {
+    while (fgets(buf, LINENOISE_MAX_LINE, fp) != nullptr) {
         char* p;
         p = strchr(buf, '\r');
         if (!p) {

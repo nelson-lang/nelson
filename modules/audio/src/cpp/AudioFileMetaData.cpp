@@ -64,20 +64,18 @@ AudioFileMetaData(const std::wstring& filename, wstringVector& fieldnames,
         for (TagLib::PropertyMap::ConstIterator i = tags.begin(); i != tags.end(); ++i) {
             std::wstring name = MakeValidFieldname(i->first.toWString());
             std::wstring content;
-            for (TagLib::StringList::ConstIterator j = i->second.begin(); j != i->second.end();
-                 ++j) {
+            for (const auto& j : i->second) {
                 if (content.empty()) {
-                    content = j->toWString();
+                    content = j.toWString();
                 } else {
-                    content = content + L"\n" + j->toWString();
+                    content = content + L"\n" + j.toWString();
                 }
             }
             map[name] = content;
         }
-        for (std::map<std::wstring, std::wstring>::iterator it = map.begin(); it != map.end();
-             ++it) {
-            fieldnames.push_back(it->first);
-            fiedvalues.push_back(it->second);
+        for (auto& it : map) {
+            fieldnames.push_back(it.first);
+            fiedvalues.push_back(it.second);
         }
         return true;
     }

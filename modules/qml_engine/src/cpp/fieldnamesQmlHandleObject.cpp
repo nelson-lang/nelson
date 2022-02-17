@@ -64,8 +64,8 @@ fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVect
         }
     }
     QList<QByteArray> names = qobj->dynamicPropertyNames();
-    for (int k = 0; k < names.size(); k++) {
-        std::string name = std::string(names[k]);
+    for (auto& k : names) {
+        std::string name = std::string(k);
         if (std::find(allFields.begin(), allFields.end(), name) == allFields.end()) {
             allFields.push_back(name);
         }
@@ -93,11 +93,11 @@ fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVect
         std::sort(allFields.begin(), allFields.end());
     }
     if (fullList) {
-        for (std::string allField : allFields) {
+        for (const std::string& allField : allFields) {
             fieldnames.push_back(utf8_to_wstring(allField));
         }
     } else {
-        for (std::string allField : allFields) {
+        for (const std::string& allField : allFields) {
             if (allField == QOBJECT_PROPERTY_PARENT_STR || allField == QOBJECT_PROPERTY_CHILDREN_STR
                 || allField == QOBJECT_PROPERTY_CLASSNAME_STR) {
                 fieldnames.push_back(utf8_to_wstring(allField));

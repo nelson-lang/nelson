@@ -37,7 +37,8 @@ isValidDirection(const std::wstring& direction, bool& isAscend)
     if (direction == L"a" || direction == L"ascend") {
         isAscend = true;
         return true;
-    } else if (direction == L"d" || direction == L"descend") {
+    }
+    if (direction == L"d" || direction == L"descend") {
         isAscend = false;
         return true;
     }

@@ -70,8 +70,8 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                     io->outputMessage(_W("Error:") + L"\n");
                 }
                 if (!errorRes.empty()) {
-                    for (size_t k = 0; k < errorRes.size(); k++) {
-                        io->errorMessage(std::wstring(L"\t") + errorRes[k]);
+                    for (auto& errorRe : errorRes) {
+                        io->errorMessage(std::wstring(L"\t") + errorRe);
                     }
                 } else {
                     io->outputMessage(std::wstring(L"\t") + _W("No error.") + L"\n");
@@ -83,8 +83,8 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                     io->outputMessage(_W("Warning:") + L"\n");
                 }
                 if (!warningRes.empty()) {
-                    for (size_t k = 0; k < warningRes.size(); k++) {
-                        io->warningMessage(std::wstring(L"\t") + warningRes[k]);
+                    for (auto& warningRe : warningRes) {
+                        io->warningMessage(std::wstring(L"\t") + warningRe);
                     }
                 } else {
                     io->warningMessage(std::wstring(L"\t") + _W("No warning.") + L"\n");

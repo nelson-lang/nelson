@@ -64,7 +64,7 @@ initializeMPI()
     if (flag) {
         return flag;
     }
-    MPI_Init(NULL, NULL);
+    MPI_Init(nullptr, nullptr);
     MPI_Comm_create_errhandler(MPIErrorHandler, &errhdl);
     MPI_Comm_set_errhandler(MPI_COMM_WORLD, errhdl);
     MPI_Initialized(&flag);
@@ -273,7 +273,8 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_CELL_ARRAY, outDim, dp);
-    } else if (dataClass == NLS_STRUCT_ARRAY) {
+    }
+    if (dataClass == NLS_STRUCT_ARRAY) {
         int fieldcnt = 0;
         MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
         stringVector fieldnames;

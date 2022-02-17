@@ -53,8 +53,8 @@ linspaceReal(NelsonType destinationClass, T startValue, T endValue, Eigen::Index
 //=============================================================================
 template <class T>
 ArrayOf
-linspaceComplex(
-    NelsonType destinationClass, std::complex<T> startValue, std::complex<T> endValue, Eigen::Index n)
+linspaceComplex(NelsonType destinationClass, std::complex<T> startValue, std::complex<T> endValue,
+    Eigen::Index n)
 {
     ArrayOf res;
     if (n <= 0) {

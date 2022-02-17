@@ -35,9 +35,9 @@ XmlDocParamInput::XmlDocParamInput() { paramInputItemVector.clear(); }
 //=============================================================================
 XmlDocParamInput::~XmlDocParamInput()
 {
-    for (size_t k = 0; k < paramInputItemVector.size(); k++) {
-        delete paramInputItemVector[k];
-        paramInputItemVector[k] = nullptr;
+    for (auto& k : paramInputItemVector) {
+        delete k;
+        k = nullptr;
     }
     paramInputItemVector.clear();
 }
@@ -69,8 +69,8 @@ XmlDocParamInput::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
     utf8stream = utf8stream + HTML_DL_IN_TAG + "\n";
-    for (size_t k = 0; k < paramInputItemVector.size(); k++) {
-        paramInputItemVector[k]->writeAsHtml(utf8stream);
+    for (auto& k : paramInputItemVector) {
+        k->writeAsHtml(utf8stream);
     }
     utf8stream = utf8stream + HTML_DL_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
@@ -82,8 +82,8 @@ XmlDocParamInput::writeAsMarkdown(std::string& utf8stream)
 {
     utf8stream = utf8stream + "## " + _("Input argument") + "\n";
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < paramInputItemVector.size(); k++) {
-        paramInputItemVector[k]->writeAsMarkdown(utf8stream);
+    for (auto& k : paramInputItemVector) {
+        k->writeAsMarkdown(utf8stream);
     }
     utf8stream = utf8stream + "\n";
     return true;

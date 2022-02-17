@@ -54,7 +54,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-Dimensions::Dimensions() : length(0) { memset(data, 0, sizeof(indexType) * MAXDIMS); }
+Dimensions::Dimensions() { memset(data, 0, sizeof(indexType) * MAXDIMS); }
 //=============================================================================
 Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 {

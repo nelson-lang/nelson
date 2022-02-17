@@ -41,7 +41,7 @@ RepositoryCreateAndCheckoutBranch(
     const std::wstring& localPath, const std::wstring& branchName, std::wstring& errorMessage)
 {
     git_libgit2_init();
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     std::string branchNameUtf8 = wstring_to_utf8(branchName);
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
@@ -59,14 +59,14 @@ RepositoryCreateAndCheckoutBranch(
         git_libgit2_shutdown();
         return;
     }
-    errorCode = git_checkout_index(repo, NULL, &checkout_opts);
+    errorCode = git_checkout_index(repo, nullptr, &checkout_opts);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
-    git_object* treeish = NULL;
+    git_object* treeish = nullptr;
     errorCode = git_revparse_single(&treeish, repo, branchNameUtf8.c_str());
     if (errorCode != 0) {
         std::string branchTempName = std::string("origin/") + branchNameUtf8;
@@ -115,7 +115,7 @@ RepositoryCheckoutDetached(
     const std::wstring& localPath, const std::wstring& sha1OrTag, std::wstring& errorMessage)
 {
     git_libgit2_init();
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     std::string sha1OrTagUtf8 = wstring_to_utf8(sha1OrTag);
 
@@ -135,14 +135,14 @@ RepositoryCheckoutDetached(
         git_libgit2_shutdown();
         return;
     }
-    errorCode = git_checkout_index(repo, NULL, &checkout_opts);
+    errorCode = git_checkout_index(repo, nullptr, &checkout_opts);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
-    git_object* treeish = NULL;
+    git_object* treeish = nullptr;
     errorCode = git_revparse_single(&treeish, repo, sha1OrTagUtf8.c_str());
     if (errorCode != 0) {
         std::string sha1OrTagTempName = std::string("origin/") + sha1OrTagUtf8;

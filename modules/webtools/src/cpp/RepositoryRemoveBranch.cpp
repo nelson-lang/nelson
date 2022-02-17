@@ -39,7 +39,7 @@ RepositoryRemoveBranch(
 {
     if (RepositoryIsLocalBranch(localPath, branchName)) {
         git_libgit2_init();
-        git_repository* repo = NULL;
+        git_repository* repo = nullptr;
         std::string localPathUtf8 = wstring_to_utf8(localPath);
         int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
         if (errorCode != 0) {

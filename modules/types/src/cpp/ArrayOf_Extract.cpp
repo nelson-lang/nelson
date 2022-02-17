@@ -93,10 +93,9 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                 logical idx = index.getContentAsLogicalScalar();
                 if (idx) {
                     return getValueAtIndex(0);
-                } else {
-                    Dimensions dims(0, 0);
-                    return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
                 }
+                Dimensions dims(0, 0);
+                return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
             }
             double idx = (double)index.getContentAsInteger64Scalar();
             auto iidx = static_cast<int64>(idx);

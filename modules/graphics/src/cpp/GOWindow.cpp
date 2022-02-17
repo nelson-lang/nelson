@@ -53,7 +53,7 @@ GOWindow::GOWindow(unsigned id)
     m_goFig = new GOFigure(this);
     std::string title = "Figure " + std::to_string(id);
     setWindowTitle(title.c_str());
-    m_qtChild = new QtBaseFigure(NULL, m_goFig);
+    m_qtChild = new QtBaseFigure(nullptr, m_goFig);
     m_layout = new QStackedWidget(this);
     QHBoxLayout* box = new QHBoxLayout(this);
     box->setContentsMargins(0, 0, 0, 0);

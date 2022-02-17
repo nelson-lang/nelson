@@ -128,7 +128,7 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elements.size(), stringVector(), false);
         res = ArrayOf(NLS_DOUBLE, dims, ptr);
         size_t k = 0;
-        for (std::wstring e : elements) {
+        for (const std::wstring& e : elements) {
             if (baseConverted.count(e) != 0) {
                 ptr[k] = baseConverted[e];
             } else {

@@ -79,7 +79,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
 
         Dimensions dimsOutput;
         bool haveDimsOutput = false;
-        for (auto theInput : theInputs) {
+        for (const auto& theInput : theInputs) {
             if (!haveDimsOutput) {
                 if (!theInput.isCharacterArray()) {
                     dimsOutput = theInput.getDimensions();

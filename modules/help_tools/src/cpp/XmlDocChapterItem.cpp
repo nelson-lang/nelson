@@ -24,13 +24,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocChapterItem.hpp"
+
+#include <utility>
 #include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocChapterItem::XmlDocChapterItem(const std::wstring& chapter) : _chapter(chapter) {}
+XmlDocChapterItem::XmlDocChapterItem(std::wstring chapter) : _chapter(std::move(chapter)) {}
 //=============================================================================
 XmlDocChapterItem::~XmlDocChapterItem() { this->_chapter.clear(); }
 //=============================================================================
@@ -56,7 +58,7 @@ bool
 XmlDocChapterItem::writeHeaderAsHtml(std::string& utf8stream)
 {
     utf8stream = utf8stream + "\t"
-        + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n";
+        + R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)" + "\n";
     utf8stream = utf8stream + "\t" + HTML_TITLE_IN_TAG + wstring_to_utf8(_chapter)
         + HTML_TITLE_OUT_TAG + "\n";
     return true;

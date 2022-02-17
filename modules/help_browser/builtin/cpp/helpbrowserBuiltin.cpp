@@ -51,18 +51,18 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
                 retval << ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes());
             }
             return retval;
-        } else {
-            nargoutcheck(nLhs, 0, 0);
-            if (param1 == L"-close") {
-                HelpBrowser::getInstance()->closeBrowser();
-            } else if (param1 == L"-clearcache") {
-                HelpBrowser::getInstance()->clearCache();
-            } else if (param1 == L"-sync") {
-                HelpBrowser::getInstance()->syncBrowser();
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
-            }
         }
+        nargoutcheck(nLhs, 0, 0);
+        if (param1 == L"-close") {
+            HelpBrowser::getInstance()->closeBrowser();
+        } else if (param1 == L"-clearcache") {
+            HelpBrowser::getInstance()->clearCache();
+        } else if (param1 == L"-sync") {
+            HelpBrowser::getInstance()->syncBrowser();
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+        }
+
     } else if (argIn.size() == 2) {
         nargoutcheck(nLhs, 0, 0);
         std::wstring param1 = argIn[0].getContentAsWideString();

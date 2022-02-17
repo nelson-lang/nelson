@@ -75,8 +75,9 @@ Zipper::addEntry(const char* filename, uint32_t attributes)
         getTime(zi.tmz_date);
         zi.dosDate = 0;
         zi.external_fa = attributes;
-        int err = zipOpenNewFileInZip4_64(m_zipFile, filename, &zi, NULL, 0, NULL, 0, NULL,
-            Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0, 0, 0, 0, NULL, 0, MZ_VERSION_MADEBY, 1 << 11, 0);
+        int err = zipOpenNewFileInZip4_64(m_zipFile, filename, &zi, nullptr, 0, nullptr, 0, nullptr,
+            Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0, 0, 0, 0, nullptr, 0, MZ_VERSION_MADEBY, 1 << 11,
+            0);
         m_entryOpen = (err == ZIP_OK);
     }
     return m_entryOpen;

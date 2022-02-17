@@ -62,7 +62,7 @@
 #include "CallStack.hpp"
 namespace Nelson {
 
-typedef enum
+enum State
 {
     NLS_STATE_OK = 0,
     NLS_STATE_BREAK = 1,
@@ -70,7 +70,7 @@ typedef enum
     NLS_STATE_RETURN = 3,
     NLS_STATE_QUIT = 4,
     NLS_STATE_ABORT = 5
-} State;
+};
 
 class Context;
 

@@ -66,7 +66,7 @@ bool
 XmlDocTitleItem::writeHeaderAsHtml(std::string& utf8stream)
 {
     utf8stream = utf8stream + "\t"
-        + "<meta http-equiv=\"Content-Type\" content = \"text/html; charset=utf-8\" />" + "\n";
+        + R"(<meta http-equiv="Content-Type" content = "text/html; charset=utf-8" />)" + "\n";
     utf8stream = utf8stream + "\t" + HTML_TITLE_IN_TAG + wstring_to_utf8(this->_title)
         + HTML_TITLE_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";

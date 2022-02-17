@@ -31,13 +31,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum CHARSETENCODING
 {
     NLS_CHARSET_UTF8 = 0,
     NLS_CHARSET_UNICODE = 1,
     NLS_CHARSET_LATIN1 = 2,
     NLS_CHARSET_SHIFT_JIS = 3
-} CHARSETENCODING;
+};
 //=============================================================================
 NLSCHARACTERS_ENCODING_IMPEXP bool
 isSupportedEncoding(const std::string& encoding);

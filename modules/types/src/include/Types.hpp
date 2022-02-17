@@ -82,11 +82,11 @@ using constIndexPtr = const indexType*;
 
 using nelson_handle = uint64_t;
 
-typedef struct
+struct function_handle
 {
     std::string name;
     std::string anonymous;
-} function_handle;
+};
 
 #define doublecomplex std::complex<double>
 #define singlecomplex std::complex<single>
@@ -98,7 +98,7 @@ typedef struct
 #define true 1
 #endif
 
-typedef enum
+enum NelsonType
 {
     NLS_NOT_TYPED = -1,
     NLS_GO_HANDLE = 0,
@@ -120,7 +120,8 @@ typedef enum
     NLS_SCOMPLEX,
     NLS_DCOMPLEX,
     NLS_CHAR,
-} NelsonType;
+};
+
 using stringVector = std::vector<std::string>;
 using wstringVector = std::vector<std::wstring>;
 

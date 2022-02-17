@@ -78,11 +78,10 @@ PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 //=============================================================================
 PathFunc::~PathFunc()
 {
-    for (std::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
-         it != mapAllFiles.end(); ++it) {
-        if (it->second) {
-            delete it->second;
-            it->second = nullptr;
+    for (auto& mapAllFile : mapAllFiles) {
+        if (mapAllFile.second) {
+            delete mapAllFile.second;
+            mapAllFile.second = nullptr;
         }
     }
     mapRecentFiles.clear();
@@ -94,13 +93,12 @@ wstringVector
 PathFunc::getFunctionsName(const std::wstring& prefix)
 {
     wstringVector functionsName;
-    for (std::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
-         it != mapAllFiles.end(); ++it) {
-        if (it->second) {
+    for (auto& mapAllFile : mapAllFiles) {
+        if (mapAllFile.second) {
             if (prefix.empty()) {
-                functionsName.push_back(it->second->getName());
+                functionsName.push_back(mapAllFile.second->getName());
             } else {
-                std::wstring name = it->second->getName();
+                std::wstring name = mapAllFile.second->getName();
                 if (boost::starts_with(name, prefix)) {
                     functionsName.push_back(name);
                 }
@@ -114,10 +112,9 @@ wstringVector
 PathFunc::getFunctionsFilename()
 {
     wstringVector functionsFilename;
-    for (std::unordered_map<std::wstring, FileFunction*>::iterator it = mapAllFiles.begin();
-         it != mapAllFiles.end(); ++it) {
-        if (it->second) {
-            functionsFilename.push_back(it->second->getFilename());
+    for (auto& mapAllFile : mapAllFiles) {
+        if (mapAllFile.second) {
+            functionsFilename.push_back(mapAllFile.second->getFilename());
         }
     }
     return functionsFilename;

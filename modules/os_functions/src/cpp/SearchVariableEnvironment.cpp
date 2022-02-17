@@ -64,8 +64,8 @@ SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring&
     wstringVector res;
     std::wstring envValue = GetVariableEnvironment(envVarName, L"");
     wstringVector envValuevector = splitEnvironmentPath(envValue);
-    for (size_t k = 0; k < envValuevector.size(); k++) {
-        boost::filesystem::path fullpath(envValuevector[k]);
+    for (auto& k : envValuevector) {
+        boost::filesystem::path fullpath(k);
         fullpath /= fileToSearch;
         if (boost::filesystem::exists(fullpath) && !boost::filesystem::is_directory(fullpath)) {
             res.push_back(fullpath.generic_wstring());
