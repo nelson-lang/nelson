@@ -209,145 +209,145 @@ XmlDocDocument::~XmlDocDocument()
 void
 XmlDocDocument::clearItems()
 {
-    for (size_t k = 0; k < this->items.size(); k++) {
-        enum XMLDOC_ITEMS_ID id = stringTagToId(wstring_to_utf8(this->items[k]->getItemType()));
+    for (auto& item : this->items) {
+        enum XMLDOC_ITEMS_ID id = stringTagToId(wstring_to_utf8(item->getItemType()));
         switch (id) {
         case XMLDOC_ITEMS_ID::LANGUAGE_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocLanguageItem* ptr = (XmlDocLanguageItem*)this->items[k];
+            if (item) {
+                XmlDocLanguageItem* ptr = (XmlDocLanguageItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::TITLE_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocTitleItem* ptr = (XmlDocTitleItem*)this->items[k];
+            if (item) {
+                XmlDocTitleItem* ptr = (XmlDocTitleItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::KEYWORD_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocKeywordItem* ptr = (XmlDocKeywordItem*)this->items[k];
+            if (item) {
+                XmlDocKeywordItem* ptr = (XmlDocKeywordItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::SHORT_DESCRIPTION_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocShortDescriptionItem* ptr = (XmlDocShortDescriptionItem*)this->items[k];
+            if (item) {
+                XmlDocShortDescriptionItem* ptr = (XmlDocShortDescriptionItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::COPYRIGHT_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocCopyrightItem* ptr = (XmlDocCopyrightItem*)this->items[k];
+            if (item) {
+                XmlDocCopyrightItem* ptr = (XmlDocCopyrightItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::SYNTAX_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocSyntax* ptr = (XmlDocSyntax*)this->items[k];
+            if (item) {
+                XmlDocSyntax* ptr = (XmlDocSyntax*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::PARAM_INPUT_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocParamInput* ptr = (XmlDocParamInput*)this->items[k];
+            if (item) {
+                XmlDocParamInput* ptr = (XmlDocParamInput*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::PARAM_OUTPUT_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocParamOutput* ptr = (XmlDocParamOutput*)this->items[k];
+            if (item) {
+                XmlDocParamOutput* ptr = (XmlDocParamOutput*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::DESCRIPTION_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocDescriptionItem* ptr = (XmlDocDescriptionItem*)this->items[k];
+            if (item) {
+                XmlDocDescriptionItem* ptr = (XmlDocDescriptionItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::USED_FUNCTION_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocUsedFunctionItem* ptr = (XmlDocUsedFunctionItem*)this->items[k];
+            if (item) {
+                XmlDocUsedFunctionItem* ptr = (XmlDocUsedFunctionItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::BIBLIOGRAPHY_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocBibliographyItem* ptr = (XmlDocBibliographyItem*)this->items[k];
+            if (item) {
+                XmlDocBibliographyItem* ptr = (XmlDocBibliographyItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::EXAMPLES_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocExamples* ptr = (XmlDocExamples*)this->items[k];
+            if (item) {
+                XmlDocExamples* ptr = (XmlDocExamples*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::SEE_ALSO_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocSeeAlso* ptr = (XmlDocSeeAlso*)this->items[k];
+            if (item) {
+                XmlDocSeeAlso* ptr = (XmlDocSeeAlso*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::HISTORY_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocHistory* ptr = (XmlDocHistory*)this->items[k];
+            if (item) {
+                XmlDocHistory* ptr = (XmlDocHistory*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::AUTHORS_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocAuthors* ptr = (XmlDocAuthors*)this->items[k];
+            if (item) {
+                XmlDocAuthors* ptr = (XmlDocAuthors*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::CHAPTER_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocChapterItem* ptr = (XmlDocChapterItem*)this->items[k];
+            if (item) {
+                XmlDocChapterItem* ptr = (XmlDocChapterItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::CHAPTER_DESCRIPTION_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocChapterDescriptionItem* ptr = (XmlDocChapterDescriptionItem*)this->items[k];
+            if (item) {
+                XmlDocChapterDescriptionItem* ptr = (XmlDocChapterDescriptionItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::CHAPTER_INDEX_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocChapterIndexItem* ptr = (XmlDocChapterIndexItem*)this->items[k];
+            if (item) {
+                XmlDocChapterIndexItem* ptr = (XmlDocChapterIndexItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::MODULE_NAME_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocModuleNameItem* ptr = (XmlDocModuleNameItem*)this->items[k];
+            if (item) {
+                XmlDocModuleNameItem* ptr = (XmlDocModuleNameItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
         } break;
         case XMLDOC_ITEMS_ID::IMAGE_TAG_ID: {
-            if (this->items[k]) {
-                XmlDocImageItem* ptr = (XmlDocImageItem*)this->items[k];
+            if (item) {
+                XmlDocImageItem* ptr = (XmlDocImageItem*)item;
                 delete ptr;
                 ptr = nullptr;
             }
@@ -379,8 +379,8 @@ size_t
 XmlDocDocument::count(const std::string& tag)
 {
     size_t nbref = 0;
-    for (size_t k = 0; k < this->items.size(); k++) {
-        if (this->items[k]->getItemType() == utf8_to_wstring(tag)) {
+    for (auto& item : this->items) {
+        if (item->getItemType() == utf8_to_wstring(tag)) {
             nbref++;
         }
     }
@@ -589,9 +589,9 @@ XmlDocGenericItem*
 XmlDocDocument::findfirst(const std::string& tag)
 {
     if (count(tag) > 0) {
-        for (size_t k = 0; k < this->items.size(); k++) {
-            if (this->items[k]->getItemType() == utf8_to_wstring(tag)) {
-                return this->items[k];
+        for (auto& item : this->items) {
+            if (item->getItemType() == utf8_to_wstring(tag)) {
+                return item;
             }
         }
     }
@@ -769,24 +769,24 @@ XmlDocDocument::writeNavigatorBarAsHtml(std::string& utf8stream)
         utf8stream = utf8stream + "<table width = \"100%\"><tr>" + "\n";
         utf8stream = utf8stream + "\n";
         if (!this->previousLinkName.empty()) {
-            utf8stream = utf8stream + "<td width=\"30%\" class=\"previous\">" + "\n";
-            utf8stream = utf8stream + "<span class=\"top\"><a href=\""
+            utf8stream = utf8stream + R"(<td width="30%" class="previous">)" + "\n";
+            utf8stream = utf8stream + R"(<span class="top"><a href=")"
                 + wstring_to_utf8(this->previousLinkUrl) + "\">" + "&lt;&lt; "
                 + wstring_to_utf8(this->previousLinkName) + "</a></span>" + "\n";
             utf8stream = utf8stream + "</td>" + "\n";
             utf8stream = utf8stream + "\n";
         }
         if (!this->indexLinkName.empty()) {
-            utf8stream = utf8stream + "<td width=\"40%\" class=\"center\">" + "\n";
-            utf8stream = utf8stream + "<span class=\"top\"><a href=\""
+            utf8stream = utf8stream + R"(<td width="40%" class="center">)" + "\n";
+            utf8stream = utf8stream + R"(<span class="top"><a href=")"
                 + wstring_to_utf8(this->indexLinkUrl) + "\">" + wstring_to_utf8(this->indexLinkName)
                 + "</a></span>" + "\n";
             utf8stream = utf8stream + "</td>" + "\n";
             utf8stream = utf8stream + "\n";
         }
         if (!this->nextLinkName.empty()) {
-            utf8stream = utf8stream + "<td width = \"30%\" class = \"next\">" + "\n";
-            utf8stream = utf8stream + "<span class = \"next\"><a href = \""
+            utf8stream = utf8stream + R"(<td width = "30%" class = "next">)" + "\n";
+            utf8stream = utf8stream + R"(<span class = "next"><a href = ")"
                 + wstring_to_utf8(this->nextLinkUrl) + "\">" + wstring_to_utf8(this->nextLinkName)
                 + " &gt;&gt;</a></span>" + "\n";
             utf8stream = utf8stream + "</td>" + "\n";
@@ -829,11 +829,11 @@ XmlDocDocument::writeAsMarkdown(std::string& utf8stream)
         pItemTitle->writeHeaderAsMarkdown(utf8stream); //-V522
     }
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < this->items.size(); k++) {
-        std::wstring currentItemType = this->items[k]->getItemType();
+    for (auto& item : this->items) {
+        std::wstring currentItemType = item->getItemType();
         if ((currentItemType != utf8_to_wstring(LANGUAGE_TAG))
             && (currentItemType != utf8_to_wstring(COPYRIGHT_TAG))) {
-            this->items[k]->writeAsMarkdown(utf8stream);
+            item->writeAsMarkdown(utf8stream);
         }
     }
     utf8stream = utf8stream + "\n";
@@ -855,7 +855,7 @@ XmlDocDocument::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_GENERATOR_TAG + "\n";
     // default style
     utf8stream
-        = utf8stream + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + "\n";
+        = utf8stream + R"(<link rel="stylesheet" type="text/css" href="style.css" />)" + "\n";
     // header for examples
     if (haveExample()) {
         XmlDocGenericItem* pItem = findfirst(EXAMPLES_TAG);
@@ -886,11 +886,11 @@ XmlDocDocument::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_BODY_IN_TAG + "\n";
     utf8stream = utf8stream + "\n";
     this->writeNavigatorBarAsHtml(utf8stream);
-    for (size_t k = 0; k < this->items.size(); k++) {
-        std::wstring currentItemType = this->items[k]->getItemType();
+    for (auto& item : this->items) {
+        std::wstring currentItemType = item->getItemType();
         if ((currentItemType != utf8_to_wstring(LANGUAGE_TAG))
             && (currentItemType != utf8_to_wstring(COPYRIGHT_TAG))) {
-            this->items[k]->writeAsHtml(utf8stream);
+            item->writeAsHtml(utf8stream);
         }
     }
     this->writeNavigatorBarAsHtml(utf8stream);
@@ -1000,11 +1000,11 @@ XmlDocDocument::readFileCaseSyntax(xmlDocPtr doc, xmlNodePtr node)
                     + utf8_to_wstring(SYNTAX_ITEM_TAG) + L" " + _W("is empty."));
                 this->bReadOk = false;
                 return false;
-            } else {
-                if (syntaxItems) {
-                    syntaxItems->append(utf8_to_wstring(str));
-                }
             }
+            if (syntaxItems) {
+                syntaxItems->append(utf8_to_wstring(str));
+            }
+
         } else {
             xmlFreeDoc(doc);
             this->errorMessage.push_back(_W("line ") + std::to_wstring(syntaxItemNode->line)
@@ -1326,11 +1326,11 @@ XmlDocDocument::readFileCaseAuthors(xmlDocPtr doc, xmlNodePtr node)
                     + utf8_to_wstring(AUTHOR_ITEM_TAG) + L" " + _W("is empty."));
                 this->bReadOk = false;
                 return false;
-            } else {
-                if (authorsItems) {
-                    authorsItems->append(utf8_to_wstring(str));
-                }
             }
+            if (authorsItems) {
+                authorsItems->append(utf8_to_wstring(str));
+            }
+
         } else {
             xmlFreeDoc(doc);
             this->errorMessage.push_back(_W("line ") + std::to_wstring(authorItemNode->line)
@@ -1404,23 +1404,21 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        version = utf8_to_wstring(str);
+                        if (nbversiontag == 0) {
+                            nbversiontag++;
                         } else {
-                            version = utf8_to_wstring(str);
-                            if (nbversiontag == 0) {
-                                nbversiontag++;
-                            } else {
-                                if (historyItems) {
-                                    delete historyItems;
-                                    historyItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ")
-                                    + std::to_wstring(versionNode->line) + _W(": ")
-                                    + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (historyItems) {
+                                delete historyItems;
+                                historyItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ") + std::to_wstring(versionNode->line)
+                                + _W(": ") + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else if (currentItemNodeName == HISTORY_ITEM_DESCRIPTION_TAG) {
@@ -1446,23 +1444,22 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        description = utf8_to_wstring(str);
+                        if (nbdescriptiontag == 0) {
+                            nbdescriptiontag++;
                         } else {
-                            description = utf8_to_wstring(str);
-                            if (nbdescriptiontag == 0) {
-                                nbdescriptiontag++;
-                            } else {
-                                if (historyItems) {
-                                    delete historyItems;
-                                    historyItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ")
-                                    + std::to_wstring(descriptionNode->line) + _W(": ")
-                                    + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (historyItems) {
+                                delete historyItems;
+                                historyItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ")
+                                + std::to_wstring(descriptionNode->line) + _W(": ")
+                                + utf8_to_wstring(HISTORY_ITEM_VERSION_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else {
@@ -1574,22 +1571,21 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        name = utf8_to_wstring(str);
+                        if (nbnametag == 0) {
+                            nbnametag++;
                         } else {
-                            name = utf8_to_wstring(str);
-                            if (nbnametag == 0) {
-                                nbnametag++;
-                            } else {
-                                if (paramInputItems) {
-                                    delete paramInputItems;
-                                    paramInputItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ") + std::to_wstring(nameNode->line)
-                                    + _W(": ") + utf8_to_wstring(PARAM_NAME_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (paramInputItems) {
+                                delete paramInputItems;
+                                paramInputItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ") + std::to_wstring(nameNode->line)
+                                + _W(": ") + utf8_to_wstring(PARAM_NAME_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else if (currentItemNodeName == PARAM_DESCRIPTION_TAG) {
@@ -1614,23 +1610,22 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
                                 + utf8_to_wstring(PARAM_DESCRIPTION_TAG) + L" " + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        description = utf8_to_wstring(str);
+                        if (nbdescriptiontag == 0) {
+                            nbdescriptiontag++;
                         } else {
-                            description = utf8_to_wstring(str);
-                            if (nbdescriptiontag == 0) {
-                                nbdescriptiontag++;
-                            } else {
-                                if (paramInputItems) {
-                                    delete paramInputItems;
-                                    paramInputItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ")
-                                    + std::to_wstring(descriptionNode->line) + _W(": ")
-                                    + utf8_to_wstring(PARAM_DESCRIPTION_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (paramInputItems) {
+                                delete paramInputItems;
+                                paramInputItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ")
+                                + std::to_wstring(descriptionNode->line) + _W(": ")
+                                + utf8_to_wstring(PARAM_DESCRIPTION_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else {
@@ -1735,22 +1730,21 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        name = utf8_to_wstring(str);
+                        if (nbnametag == 0) {
+                            nbnametag++;
                         } else {
-                            name = utf8_to_wstring(str);
-                            if (nbnametag == 0) {
-                                nbnametag++;
-                            } else {
-                                if (paramOutputItems) {
-                                    delete paramOutputItems;
-                                    paramOutputItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ") + std::to_wstring(nameNode->line)
-                                    + _W(": ") + utf8_to_wstring(PARAM_NAME_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (paramOutputItems) {
+                                delete paramOutputItems;
+                                paramOutputItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ") + std::to_wstring(nameNode->line)
+                                + _W(": ") + utf8_to_wstring(PARAM_NAME_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else if (currentItemNodeName == PARAM_DESCRIPTION_TAG) {
@@ -1775,23 +1769,22 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
                                 + utf8_to_wstring(PARAM_DESCRIPTION_TAG) + L" " + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        description = utf8_to_wstring(str);
+                        if (nbdescriptiontag == 0) {
+                            nbdescriptiontag++;
                         } else {
-                            description = utf8_to_wstring(str);
-                            if (nbdescriptiontag == 0) {
-                                nbdescriptiontag++;
-                            } else {
-                                if (paramOutputItems) {
-                                    delete paramOutputItems;
-                                    paramOutputItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ")
-                                    + std::to_wstring(descriptionNode->line) + _W(": ")
-                                    + utf8_to_wstring(PARAM_DESCRIPTION_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (paramOutputItems) {
+                                delete paramOutputItems;
+                                paramOutputItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ")
+                                + std::to_wstring(descriptionNode->line) + _W(": ")
+                                + utf8_to_wstring(PARAM_DESCRIPTION_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else {
@@ -1902,22 +1895,21 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        type = utf8_to_wstring(str);
+                        if (nbtypetag == 0) {
+                            nbtypetag++;
                         } else {
-                            type = utf8_to_wstring(str);
-                            if (nbtypetag == 0) {
-                                nbtypetag++;
-                            } else {
-                                if (examplesItems) {
-                                    delete examplesItems;
-                                    examplesItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ") + std::to_wstring(nameNode->line)
-                                    + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_TYPE_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (examplesItems) {
+                                delete examplesItems;
+                                examplesItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ") + std::to_wstring(nameNode->line)
+                                + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_TYPE_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else if (currentItemNodeName == EXAMPLE_ITEM_DESCRIPTION_TAG) {
@@ -2047,22 +2039,21 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        data = utf8_to_wstring(str);
+                        if (nbdatatag == 0) {
+                            nbdatatag++;
                         } else {
-                            data = utf8_to_wstring(str);
-                            if (nbdatatag == 0) {
-                                nbdatatag++;
-                            } else {
-                                if (examplesItems) {
-                                    delete examplesItems;
-                                    examplesItems = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ") + std::to_wstring(dataNode->line)
-                                    + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_DATA_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (examplesItems) {
+                                delete examplesItems;
+                                examplesItems = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ") + std::to_wstring(dataNode->line)
+                                + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_DATA_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else {
@@ -2338,22 +2329,21 @@ XmlDocDocument::readFileCaseChapterIndex(xmlDocPtr doc, xmlNodePtr node)
                             chapterIndexItem = nullptr;
                         }
                         return false;
-                    } else {
-                        if (nblinktag == 0) {
-                            nblinktag++;
-                        } else {
-                            if (chapterIndexItem) {
-                                delete chapterIndexItem;
-                                chapterIndexItem = nullptr;
-                            }
-                            xmlFreeDoc(doc);
-                            errorMessage.push_back(_W("line ")
-                                + std::to_wstring(currentItemNode->line) + _W(": ")
-                                + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("duplicated."));
-                            this->bReadOk = false;
-                            return false;
-                        }
                     }
+                    if (nblinktag == 0) {
+                        nblinktag++;
+                    } else {
+                        if (chapterIndexItem) {
+                            delete chapterIndexItem;
+                            chapterIndexItem = nullptr;
+                        }
+                        xmlFreeDoc(doc);
+                        errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line)
+                            + _W(": ") + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("duplicated."));
+                        this->bReadOk = false;
+                        return false;
+                    }
+
                 } else if (currentItemNodeName == CHAPTER_REF_DESCRIPTION_TAG) {
                     xmlNodePtr descriptionNode = currentItemNode;
                     if (descriptionNode != nullptr) { //-V547
@@ -2377,23 +2367,22 @@ XmlDocDocument::readFileCaseChapterIndex(xmlDocPtr doc, xmlNodePtr node)
                                 + _W("is empty."));
                             this->bReadOk = false;
                             return false;
+                        }
+                        linkdescription = utf8_to_wstring(str);
+                        if (nbdescriptiontag == 0) {
+                            nbdescriptiontag++;
                         } else {
-                            linkdescription = utf8_to_wstring(str);
-                            if (nbdescriptiontag == 0) {
-                                nbdescriptiontag++;
-                            } else {
-                                if (chapterIndexItem) {
-                                    delete chapterIndexItem;
-                                    chapterIndexItem = nullptr;
-                                }
-                                xmlFreeDoc(doc);
-                                errorMessage.push_back(_W("line ")
-                                    + std::to_wstring(descriptionNode->line) + _W(": ")
-                                    + utf8_to_wstring(CHAPTER_REF_DESCRIPTION_TAG) + L" "
-                                    + _W("duplicated."));
-                                this->bReadOk = false;
-                                return false;
+                            if (chapterIndexItem) {
+                                delete chapterIndexItem;
+                                chapterIndexItem = nullptr;
                             }
+                            xmlFreeDoc(doc);
+                            errorMessage.push_back(_W("line ")
+                                + std::to_wstring(descriptionNode->line) + _W(": ")
+                                + utf8_to_wstring(CHAPTER_REF_DESCRIPTION_TAG) + L" "
+                                + _W("duplicated."));
+                            this->bReadOk = false;
+                            return false;
                         }
                     }
                 } else {
@@ -2583,12 +2572,12 @@ XmlDocDocument::copyHtmlDependencies()
         files.push_back(L"highlight.pack.js");
         files.push_back(L"style.css");
         files.push_back(L"mono-blue.css");
-        for (size_t k = 0; k < files.size(); k++) {
+        for (auto& file : files) {
             boost::filesystem::path dstFile = this->directoryDestination;
-            dstFile = dstFile / files[k];
+            dstFile = dstFile / file;
             if (!boost::filesystem::exists(dstFile)) {
                 boost::filesystem::path srcFile = ressourcesPath;
-                srcFile = srcFile / files[k];
+                srcFile = srcFile / file;
                 bool bIsFile = boost::filesystem::exists(srcFile)
                     && !boost::filesystem::is_directory(srcFile);
                 if (bIsFile) {
@@ -2611,9 +2600,8 @@ XmlDocDocument::needToUpdate()
         std::time_t t2 = boost::filesystem::last_write_time(this->filenameDestination);
         if (t1 >= t2) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
     return true;
 }

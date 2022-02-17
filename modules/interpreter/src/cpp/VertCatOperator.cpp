@@ -31,8 +31,8 @@ namespace Nelson {
 static bool
 hasCell(const ArrayOfVector& v)
 {
-    for (indexType k = 0; k < v.size(); ++k) {
-        if (v[k].isCell()) {
+    for (const auto& k : v) {
+        if (k.isCell()) {
             return true;
         }
     }

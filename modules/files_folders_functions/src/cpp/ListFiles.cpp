@@ -60,14 +60,13 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                              p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
                                 continue;
-                            } else {
-                                std::wstring file(p->path().wstring());
-                                if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                                    file = std::wstring(file.begin() + 2, file.end());
-                                }
-                                boost::filesystem::path current = file;
-                                res.push_back(FileInfo(current.wstring()));
                             }
+                            std::wstring file(p->path().wstring());
+                            if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
+                                file = std::wstring(file.begin() + 2, file.end());
+                            }
+                            boost::filesystem::path current = file;
+                            res.push_back(FileInfo(current.wstring()));
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
                         boost::system::error_code error_code = e.code();
@@ -89,14 +88,13 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
                                 continue;
-                            } else {
-                                std::wstring file(p->path().wstring());
-                                if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                                    file = std::wstring(file.begin() + 2, file.end());
-                                }
-                                boost::filesystem::path current = file;
-                                res.push_back(FileInfo(current.wstring()));
                             }
+                            std::wstring file(p->path().wstring());
+                            if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
+                                file = std::wstring(file.begin() + 2, file.end());
+                            }
+                            boost::filesystem::path current = file;
+                            res.push_back(FileInfo(current.wstring()));
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {

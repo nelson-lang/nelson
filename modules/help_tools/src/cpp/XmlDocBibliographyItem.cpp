@@ -24,6 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocBibliographyItem.hpp"
+
+#include <utility>
 #include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
@@ -31,11 +33,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocBibliographyItem::XmlDocBibliographyItem(const std::wstring& bibliography)
-    : _bibliography(bibliography)
+XmlDocBibliographyItem::XmlDocBibliographyItem(std::wstring bibliography)
+    : _bibliography(std::move(bibliography))
 {}
 //=============================================================================
-XmlDocBibliographyItem::~XmlDocBibliographyItem() { this->_bibliography = std::move(L""); }
+XmlDocBibliographyItem::~XmlDocBibliographyItem() { this->_bibliography = L""; }
 //=============================================================================
 std::wstring
 XmlDocBibliographyItem::getItemType()

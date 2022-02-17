@@ -35,7 +35,7 @@ XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
     DOCUMENT_OUTPUT outputTarget)
     : srcDirectories(srcDirectories), dstDirectory(dstDirectory)
 {
-    this->mainTitle = std::move(mainTitle);
+    this->mainTitle = mainTitle;
     this->outputTarget = outputTarget;
     if (boost::algorithm::ends_with(dstDirectory, L"/")
         || boost::algorithm::ends_with(dstDirectory, L"\\")) {
@@ -43,10 +43,10 @@ XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
     }
     this->bOverwriteExistingFiles = bOverwriteExistingFiles;
     this->lastError.clear();
-    for (size_t k = 0; k < srcDirectories.size(); k++) {
+    for (auto& srcDirectorie : srcDirectories) {
         XmlDocDirectory* xmlDirectory;
         try {
-            xmlDirectory = new XmlDocDirectory(srcDirectories[k], this->dstDirectory,
+            xmlDirectory = new XmlDocDirectory(srcDirectorie, this->dstDirectory,
                 this->bOverwriteExistingFiles, this->outputTarget);
         } catch (const std::bad_alloc&) {
             xmlDirectory = nullptr;
@@ -78,8 +78,8 @@ XmlDocListOfDirectories::~XmlDocListOfDirectories()
 void
 XmlDocListOfDirectories::clearItems()
 {
-    for (size_t k = 0; k < this->itemsDirectories.size(); k++) {
-        XmlDocDirectory* pItem = (XmlDocDirectory*)this->itemsDirectories[k];
+    for (auto& itemsDirectorie : this->itemsDirectories) {
+        XmlDocDirectory* pItem = (XmlDocDirectory*)itemsDirectorie;
         if (pItem) {
             delete pItem;
             pItem = nullptr;
@@ -91,9 +91,9 @@ XmlDocListOfDirectories::clearItems()
 bool
 XmlDocListOfDirectories::read()
 {
-    for (size_t k = 0; k < itemsDirectories.size(); k++) {
-        if (!itemsDirectories[k]->read()) {
-            this->lastError = itemsDirectories[k]->getLastError();
+    for (auto& itemsDirectorie : itemsDirectories) {
+        if (!itemsDirectorie->read()) {
+            this->lastError = itemsDirectorie->getLastError();
             return false;
         }
     }
@@ -104,13 +104,13 @@ XmlDocListOfDirectories::read()
         mainIndex = nullptr;
     }
     if (mainIndex) {
-        for (size_t k = 0; k < itemsDirectories.size(); k++) {
-            std::wstring titleChapter = itemsDirectories[k]->getChapterTitle();
-            std::wstring filenameChapter = itemsDirectories[k]->getGeneratedChapterFilename();
+        for (auto& itemsDirectorie : itemsDirectories) {
+            std::wstring titleChapter = itemsDirectorie->getChapterTitle();
+            std::wstring filenameChapter = itemsDirectorie->getGeneratedChapterFilename();
             wstringVector names;
             wstringVector urls;
             wstringVector descriptions;
-            itemsDirectories[k]->getIndex(names, urls, descriptions);
+            itemsDirectorie->getIndex(names, urls, descriptions);
             mainIndex->appendSection(titleChapter, filenameChapter, names, urls, descriptions);
         }
     }
@@ -120,9 +120,9 @@ XmlDocListOfDirectories::read()
 bool
 XmlDocListOfDirectories::writeAsMarkdown()
 {
-    for (size_t k = 0; k < itemsDirectories.size(); k++) {
-        if (!itemsDirectories[k]->writeAsMarkdown()) {
-            this->lastError = itemsDirectories[k]->getLastError();
+    for (auto& itemsDirectorie : itemsDirectories) {
+        if (!itemsDirectorie->writeAsMarkdown()) {
+            this->lastError = itemsDirectorie->getLastError();
             return false;
         }
     }
@@ -135,9 +135,9 @@ XmlDocListOfDirectories::writeAsMarkdown()
 bool
 XmlDocListOfDirectories::writeAsHtml()
 {
-    for (size_t k = 0; k < itemsDirectories.size(); k++) {
-        if (!itemsDirectories[k]->writeAsHtml()) {
-            this->lastError = itemsDirectories[k]->getLastError();
+    for (auto& itemsDirectorie : itemsDirectories) {
+        if (!itemsDirectorie->writeAsHtml()) {
+            this->lastError = itemsDirectorie->getLastError();
             return false;
         }
     }
@@ -157,8 +157,8 @@ void
 XmlDocListOfDirectories::getIndex(
     wstringVector& names, wstringVector& urls, wstringVector& descriptions)
 {
-    for (size_t k = 0; k < itemsDirectories.size(); k++) {
-        itemsDirectories[k]->getIndex(names, urls, descriptions);
+    for (auto& itemsDirectorie : itemsDirectories) {
+        itemsDirectorie->getIndex(names, urls, descriptions);
     }
 }
 //=============================================================================

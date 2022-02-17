@@ -70,7 +70,7 @@ public:
         this->line = -1;
     }
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     getFilename() const
     {
         return this->filename;
@@ -82,7 +82,7 @@ public:
         this->filename = filename;
     }
     //=============================================================================
-    int
+    [[nodiscard]] int
     getLine() const
     {
         return this->line;
@@ -94,13 +94,13 @@ public:
         this->functionname = functionname;
     }
     //=============================================================================
-    std::wstring
+    [[nodiscard]] std::wstring
     getFunctionName() const
     {
         return this->functionname;
     }
     //=============================================================================
-    bool
+    [[nodiscard]] bool
     isEmpty() const
     {
         return (this->functionname.empty() && this->filename.empty() && this->line == -1);

@@ -94,7 +94,7 @@ DisplayScalarStruct(Interface* io, const ArrayOf& A, const std::wstring& name,
 {
     stringVector fieldnames = A.getFieldNames();
     size_t maxLen = 0;
-    for (auto fieldname : fieldnames) {
+    for (const auto& fieldname : fieldnames) {
         maxLen = std::max(fieldname.length(), maxLen);
     }
     if (!fieldnames.empty()) {

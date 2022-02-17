@@ -32,7 +32,7 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-typedef enum
+enum FWRITE_ERROR_TYPE
 {
     FWRITE_NO_ERROR,
     FWRITE_DATA_TYPE_NOT_SUPPORTED,
@@ -41,10 +41,10 @@ typedef enum
     FWRITE_INVALID_FILE,
     FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED,
     FWRITE_ERROR_ENCODING
-} FWRITE_ERROR_TYPE;
+};
 
 NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
-FileWrite(
-    File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLittleEndian, int& sizeWritten);
+FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLittleEndian,
+    int& sizeWritten);
 }; // namespace Nelson
 //=============================================================================

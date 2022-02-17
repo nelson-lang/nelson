@@ -59,7 +59,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
         stringVector currentFieldnames = param2.getFieldNames();
         wstringVector wcurrentFieldname;
         wstringVector currentValues;
-        for (std::string fieldname : currentFieldnames) {
+        for (const std::string& fieldname : currentFieldnames) {
             ArrayOf value = param2.getField(fieldname);
             if ((value.isEmpty(true) && value.isDoubleType())
                 || value.isRowVectorCharacterArray()) {

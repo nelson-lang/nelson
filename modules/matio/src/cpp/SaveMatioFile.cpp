@@ -84,13 +84,13 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
     const std::wstring& matFileVersion, bool append, bool nocompression)
 {
     wstringVector variablesName;
-    for (size_t k = 0; k < names.size(); k++) {
+    for (const auto& name : names) {
 
-        if (!IsValidVariableName(names[k])) {
-            Error(_W("Invalid variable name:") + names[k]);
+        if (!IsValidVariableName(name)) {
+            Error(_W("Invalid variable name:") + name);
         }
-        if (!eval->getContext()->isVariable(names[k])) {
-            Error(_W("Variable does not exist:") + names[k]);
+        if (!eval->getContext()->isVariable(name)) {
+            Error(_W("Variable does not exist:") + name);
         }
     }
 
@@ -127,9 +127,9 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
         Error(_W("Cannot save file."));
     }
 
-    for (size_t k = 0; k < variablesName.size(); k++) {
+    for (auto& k : variablesName) {
         ArrayOf variableValue;
-        std::string variableName = wstring_to_utf8(variablesName[k]);
+        std::string variableName = wstring_to_utf8(k);
         eval->getContext()->getCurrentScope()->lookupVariable(variableName, variableValue);
         matvar_t* matioVariable = SaveMatioVariable(variableName, variableValue, matVersion);
         if (matioVariable == nullptr) {

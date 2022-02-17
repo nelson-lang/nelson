@@ -123,7 +123,7 @@ SaveMatioSparseDoubleComplex(const std::string& variableName, const ArrayOf& var
         delete[] realptr;
         return nullptr;
     }
-    mat_complex_split_t z = { NULL, NULL };
+    mat_complex_split_t z = { nullptr, nullptr };
     if (spmat) {
         doublecomplex* cplx = spmat->valuePtr();
         for (indexType k = 0; k < nnz; ++k) {

@@ -363,7 +363,7 @@ buildHeader(CURL* curlObject, WebOptions& options)
     }
 
     struct curl_slist* chunk = nullptr;
-    for (std::string l : lines) {
+    for (const std::string& l : lines) {
         chunk = curl_slist_append(chunk, l.c_str());
     }
     return curl_easy_setopt(curlObject, CURLOPT_HTTPHEADER, chunk);

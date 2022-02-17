@@ -42,8 +42,8 @@ bool
 finishGraphics()
 {
     std::vector<GOWindow*> goWindows = getGOWindows();
-    for (size_t k = 0; k < goWindows.size(); ++k) {
-        GOFigure* goPtr = newFigure(goWindows[k]->ID());
+    for (auto& goWindow : goWindows) {
+        GOFigure* goPtr = newFigure(goWindow->ID());
         graphicObjectDelete(goPtr);
     }
     goWindows.clear();

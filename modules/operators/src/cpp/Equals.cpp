@@ -30,7 +30,8 @@
 namespace Nelson {
 //=============================================================================
 logical
-realComparatorEquals(NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
+realComparatorEquals(
+    NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
     case NLS_LOGICAL: {
@@ -98,7 +99,8 @@ realComparatorEquals(NelsonType commonClass, void* vptrA, void* vptrB, indexType
 }
 //=============================================================================
 logical
-complexComparatorEquals(NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
+complexComparatorEquals(
+    NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
     case NLS_SCOMPLEX: {

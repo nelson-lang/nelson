@@ -35,9 +35,9 @@ XmlDocSyntax::XmlDocSyntax() { syntaxVector.clear(); }
 //=============================================================================
 XmlDocSyntax::~XmlDocSyntax()
 {
-    for (size_t k = 0; k < syntaxVector.size(); k++) {
-        delete syntaxVector[k];
-        syntaxVector[k] = nullptr;
+    for (auto& k : syntaxVector) {
+        delete k;
+        k = nullptr;
     }
     syntaxVector.clear();
 }
@@ -68,9 +68,9 @@ XmlDocSyntax::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_H3_IN_TAG + _("Syntax") + HTML_H3_OUT_TAG + "\n";
     utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
-    utf8stream = utf8stream + "<table summary=\"syntax\" style=\"width:50%\">" + "\n";
-    for (size_t k = 0; k < syntaxVector.size(); k++) {
-        syntaxVector[k]->writeAsHtml(utf8stream);
+    utf8stream = utf8stream + R"(<table summary="syntax" style="width:50%">)" + "\n";
+    for (auto& k : syntaxVector) {
+        k->writeAsHtml(utf8stream);
     }
     utf8stream = utf8stream + HTML_TABLE_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
@@ -82,8 +82,8 @@ XmlDocSyntax::writeAsMarkdown(std::string& utf8stream)
 {
     utf8stream = utf8stream + "## " + _("Syntax") + "\n";
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < syntaxVector.size(); k++) {
-        syntaxVector[k]->writeAsMarkdown(utf8stream);
+    for (auto& k : syntaxVector) {
+        k->writeAsMarkdown(utf8stream);
     }
     utf8stream = utf8stream + "\n";
     return true;

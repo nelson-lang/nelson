@@ -55,14 +55,12 @@ FindConcatenateClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (Aclass == Bclass) {
             needToOverload = false;
             return Aclass;
-        } else {
-            needToOverload = false;
-            if (Aclass > Bclass) {
-                return Aclass;
-            } else {
-                return Bclass;
-            }
         }
+        needToOverload = false;
+        if (Aclass > Bclass) {
+            return Aclass;
+        }
+        return Bclass;
     }
     if ((Aclass == NLS_CHAR && isIntegerB) || (Bclass == NLS_CHAR && isIntegerA)) {
         needToOverload = false;

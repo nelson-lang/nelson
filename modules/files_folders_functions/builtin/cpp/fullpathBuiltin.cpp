@@ -43,7 +43,7 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
         wstringVector paths = param1.getContentAsWideStringVector();
         wstringVector normalizedPaths;
         normalizedPaths.reserve(dims.getElementCount());
-        for (std::wstring s : paths) {
+        for (const std::wstring& s : paths) {
             normalizedPaths.push_back(NormalizePath(s));
         }
         if (param1.isStringArray()) {

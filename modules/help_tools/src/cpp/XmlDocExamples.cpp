@@ -39,9 +39,9 @@ XmlDocExamples::XmlDocExamples(DOCUMENT_OUTPUT outputTarget)
 //=============================================================================
 XmlDocExamples::~XmlDocExamples()
 {
-    for (size_t k = 0; k < examplesVector.size(); k++) {
-        delete examplesVector[k];
-        examplesVector[k] = nullptr;
+    for (auto& k : examplesVector) {
+        delete k;
+        k = nullptr;
     }
     examplesVector.clear();
     this->outputTarget = DOCUMENT_OUTPUT::HMTL;
@@ -71,9 +71,9 @@ XmlDocExamples::getItemType()
 bool
 XmlDocExamples::writeHeaderAsHtml(std::string& utf8stream)
 {
-    utf8stream = utf8stream
-        + "<link rel=\"stylesheet\" href=\"mono-blue.css\"  type=\"text/css\" />" + "\n";
-    utf8stream = utf8stream + "<script src = \"highlight.pack.js\" type = \"text/javascript\">"
+    utf8stream
+        = utf8stream + R"(<link rel="stylesheet" href="mono-blue.css"  type="text/css" />)" + "\n";
+    utf8stream = utf8stream + R"(<script src = "highlight.pack.js" type = "text/javascript">)"
         + "\n" + HTML_SCRIPT_OUT_TAG + "\n";
     utf8stream = utf8stream + "<script type = \"text/javascript\">hljs.initHighlightingOnLoad();"
         + HTML_SCRIPT_OUT_TAG + "\n";
@@ -91,8 +91,8 @@ XmlDocExamples::writeAsHtml(std::string& utf8stream)
     }
     utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < examplesVector.size(); k++) {
-        examplesVector[k]->writeAsHtml(utf8stream);
+    for (auto& k : examplesVector) {
+        k->writeAsHtml(utf8stream);
     }
     utf8stream = utf8stream + "\n";
     return true;
@@ -113,8 +113,8 @@ XmlDocExamples::writeAsMarkdown(std::string& utf8stream)
         utf8stream = utf8stream + "## " + _("Example") + "\n";
     }
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < examplesVector.size(); k++) {
-        examplesVector[k]->writeAsMarkdown(utf8stream);
+    for (auto& k : examplesVector) {
+        k->writeAsMarkdown(utf8stream);
     }
     utf8stream = utf8stream + "\n";
     return true;
@@ -123,8 +123,8 @@ XmlDocExamples::writeAsMarkdown(std::string& utf8stream)
 void
 XmlDocExamples::setDirectories(const std::wstring& srcDirectory, const std::wstring& dstDirectory)
 {
-    for (size_t k = 0; k < examplesVector.size(); k++) {
-        examplesVector[k]->setDirectories(srcDirectory, dstDirectory);
+    for (auto& k : examplesVector) {
+        k->setDirectories(srcDirectory, dstDirectory);
     }
 }
 //=============================================================================

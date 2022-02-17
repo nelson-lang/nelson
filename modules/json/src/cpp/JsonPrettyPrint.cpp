@@ -128,8 +128,7 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
     std::wstring pretty;
     bool bInQuote = false;
     pretty.reserve(json.size());
-    for (std::wstring::const_iterator it = json.begin(), end_it = json.end(); it != end_it; ++it) {
-        wchar_t c = *it;
+    for (wchar_t c : json) {
         if (c == L'\"') {
             bInQuote = !bInQuote;
             pretty.push_back(c);

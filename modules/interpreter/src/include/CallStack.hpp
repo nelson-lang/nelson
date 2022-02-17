@@ -73,31 +73,31 @@ public:
         IDX = 0;
     }
     //=============================================================================
-    size_t
+    [[nodiscard]] size_t
     size() const
     {
         return IDX;
     }
     //=============================================================================
-    std::string
+    [[nodiscard]] std::string
     getContext(size_t pos) const
     {
         return context[pos];
     }
     //=============================================================================
-    std::string
+    [[nodiscard]] std::string
     getDetail(size_t pos) const
     {
         return detail[pos];
     }
     //=============================================================================
-    size_t
+    [[nodiscard]] size_t
     getID(size_t pos) const
     {
         return id[pos];
     }
     //=============================================================================
-    std::string
+    [[nodiscard]] std::string
     getLastContext() const
     {
         return context[IDX - 1];

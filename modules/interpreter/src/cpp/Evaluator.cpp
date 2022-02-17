@@ -263,8 +263,8 @@ Evaluator::matrixDefinition(AbstractSyntaxTreePtr t)
         s = s->right;
     }
     ArrayOfVector v(m.size());
-    for (size_t k = 0; k < m.size(); k++) {
-        v << HorzCatOperator(this, m[k]);
+    for (auto& k : m) {
+        v << HorzCatOperator(this, k);
     }
     ArrayOf res = VertCatOperator(this, v);
     callstack.popID();
@@ -717,8 +717,8 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t)
                 n = ArrayOfVector();
             }
             m.reserve(n.size());
-            for (size_t i = 0; i < n.size(); i++) {
-                m.push_back(n[i]);
+            for (const auto& i : n) {
+                m.push_back(i);
             }
         } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
             Error(_W("Illegal use of the ':' operator"));
@@ -763,8 +763,8 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
                 n = ArrayOfVector();
             }
             m.reserve(n.size());
-            for (size_t i = 0; i < n.size(); i++) {
-                m.push_back(n[i]);
+            for (const auto& i : n) {
+                m.push_back(i);
             }
         } else if ((t->type == non_terminal && t->opNum == OP_ALL)
             || (t->type == const_character_array_node && t->text == ":")) {
@@ -787,7 +787,7 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
             }
         } else {
             // Set up the value of the "end" token
-            endStack.push_back(endData(subRoot, (int)index, count));
+            endStack.emplace_back(subRoot, (int)index, count);
             // Call the expression
             m.push_back(expression(t));
             endStack.pop_back();
@@ -804,8 +804,8 @@ Evaluator::subsindex(const ArrayOfVector& m)
 {
     ArrayOfVector n;
     n.reserve(m.size());
-    for (size_t k = 0; k < m.size(); k++) {
-        ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
+    for (const auto& k : m) {
+        ArrayOf t = OverloadUnaryOperator(this, k, "subsindex");
         t.promoteType(NLS_UINT32);
         indexType len = t.getElementCount();
         uint32* dp = (uint32*)t.getReadWriteDataPointer();
@@ -1256,8 +1256,8 @@ ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType i
 //=============================================================================
 template <class T>
 void
-ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, ArrayOf& indexSet,
-    indexType elementCount, const std::string& indexVarName, Evaluator* eval)
+ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
+    ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
     ArrayOf* ptrVariable = nullptr;
     T* ptrValue = nullptr;
@@ -2221,20 +2221,19 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
             }
             callstack.popID();
             return (m[0].getElementCount());
-        } else {
-            size_t i = 0;
-            indexType outputCount = 1;
-            while (i < m.size()) {
-                m[i].toOrdinalType();
-                outputCount *= m[i].getElementCount();
-                i++;
-            }
-            if (outputCount > 1) {
-                Error(ERROR_PARENTHETICAL_EXPRESSION);
-            }
-            callstack.popID();
-            return (outputCount);
         }
+        size_t i = 0;
+        indexType outputCount = 1;
+        while (i < m.size()) {
+            m[i].toOrdinalType();
+            outputCount *= m[i].getElementCount();
+            i++;
+        }
+        if (outputCount > 1) {
+            Error(ERROR_PARENTHETICAL_EXPRESSION);
+        }
+        callstack.popID();
+        return (outputCount);
     }
     if (s->opNum == (OP_BRACES)) {
         m = expressionList(s->down, lhs);
@@ -2246,17 +2245,16 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
             m[0].toOrdinalType();
             callstack.popID();
             return (m[0].getElementCount());
-        } else {
-            size_t i = 0;
-            indexType outputCount = 1;
-            while (i < m.size()) {
-                m[i].toOrdinalType();
-                outputCount *= m[i].getElementCount();
-                i++;
-            }
-            callstack.popID();
-            return (outputCount);
         }
+        size_t i = 0;
+        indexType outputCount = 1;
+        while (i < m.size()) {
+            m[i].toOrdinalType();
+            outputCount *= m[i].getElementCount();
+            i++;
+        }
+        callstack.popID();
+        return (outputCount);
     }
     if (s->opNum == (OP_DOT)) {
         callstack.popID();
@@ -3641,22 +3639,22 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
         if (t->down == nullptr) {
             callstack.popID();
             return ArrayOfVector(r);
-        } else {
-            AbstractSyntaxTreePtr tt;
-            tt = t->down;
-            if (tt->opNum == OP_PARENS) {
-                if (tt->down == nullptr) {
-                    if (tt->right != nullptr) {
-                        tt = tt->right;
-                        if (tt->opNum == OP_DOT) {
-                            ArrayOfVector rv(r.getField(tt->down->text));
-                            callstack.popID();
-                            return rv;
-                        }
+        }
+        AbstractSyntaxTreePtr tt;
+        tt = t->down;
+        if (tt->opNum == OP_PARENS) {
+            if (tt->down == nullptr) {
+                if (tt->right != nullptr) {
+                    tt = tt->right;
+                    if (tt->opNum == OP_DOT) {
+                        ArrayOfVector rv(r.getField(tt->down->text));
+                        callstack.popID();
+                        return rv;
                     }
                 }
             }
         }
+
     } else {
         if (lookupFunction(t->text, funcDef)) {
             if (funcDef->outputArgCount() == 0) {
@@ -3665,9 +3663,8 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
             m = functionExpression(funcDef, t, 1, false);
             callstack.popID();
             return m;
-        } else {
-            Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
         }
+        Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
     }
     t = t->down;
     while (t != nullptr) {
@@ -3711,9 +3708,9 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
                 if (t->right == nullptr) {
                     callstack.popID();
                     return ArrayOfVector(r);
-                } else {
-                    Error(_W("index expected."));
                 }
+                Error(_W("index expected."));
+
             } else if (m.size() == 1) {
                 if (r.isClassStruct()) {
                     bool haveFunction;
@@ -4169,7 +4166,7 @@ setNamedMutexNelsonReady()
 void
 Evaluator::evalCLI()
 {
-    while (1) {
+    while (true) {
         if (!bpActive) {
             clearStacks();
         }
@@ -4405,7 +4402,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
         int nLhs = 1;
         argIn.reserve(params.size() + 1);
         argIn.push_back(r);
-        for (ArrayOf a : params) {
+        for (const ArrayOf& a : params) {
             argIn.push_back(a);
         }
         return funcDef->evaluateFunction(this, argIn, nLhs);

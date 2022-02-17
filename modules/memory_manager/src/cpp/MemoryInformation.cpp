@@ -39,10 +39,10 @@
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #else
-#include <errno.h>
+#include <cerrno>
 #include <fstream>
 #include <iostream>
-#include <stdint.h>
+#include <cstdint>
 #include <linux/sysctl.h>
 #include <sys/resource.h>
 #include <sys/sysinfo.h>

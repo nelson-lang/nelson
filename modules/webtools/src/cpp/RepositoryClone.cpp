@@ -55,7 +55,7 @@ RepositoryClone(const std::wstring& url, const std::wstring& user, const std::ws
     _username = wstring_to_utf8(user);
     _password = wstring_to_utf8(password);
     git_libgit2_init();
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
     git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
     clone_opts.fetch_opts.callbacks.credentials = credentialsCallback;

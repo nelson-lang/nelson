@@ -145,8 +145,8 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     }
     stringVector inputNames;
     inputNames.reserve(inputs.size());
-    for (size_t i = 0; i < inputs.size(); i++) {
-        inputNames.push_back(inputs[i].name());
+    for (const auto& input : inputs) {
+        inputNames.push_back(input.name());
     }
     context->getCurrentScope()->setInputArgumentNames(inputNames);
     // When the function is called, the number of inputs is

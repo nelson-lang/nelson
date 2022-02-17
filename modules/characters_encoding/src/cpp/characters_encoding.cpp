@@ -73,7 +73,7 @@ detectBestEncoding(const std::string& data)
         std::string s = data;
         ucsdet_setText(detector, s.c_str(), (int32_t)s.length(), &status);
         const UCharsetMatch* match = ucsdet_detect(detector, &status);
-        if (match != NULL) {
+        if (match != nullptr) {
             encoding = ucsdet_getName(match, &status);
         }
         ucsdet_close(detector);
@@ -93,7 +93,7 @@ detectEncodings(const std::string& data)
         ucsdet_setText(detector, s.c_str(), (int32_t)s.length(), &status);
         int32_t matches_count;
         const UCharsetMatch** matches = ucsdet_detectAll(detector, &matches_count, &status);
-        if (matches != NULL) {
+        if (matches != nullptr) {
             for (int i = 0; i < matches_count; ++i) {
                 std::string encoding = ucsdet_getName(matches[i], &status);
                 encodings.push_back(encoding);
@@ -113,7 +113,7 @@ utf8ToCharsetConverter(
         outputStr.clear();
         return false;
     }
-    int32_t l = uStr.extract(0, uStr.length(), NULL, 0, codeOut.c_str());
+    int32_t l = uStr.extract(0, uStr.length(), nullptr, 0, codeOut.c_str());
     std::vector<char> tmp(l + 1);
     char* target = &tmp[0];
     int32_t s = uStr.extract(0, uStr.length(), target, l, codeOut.c_str());
@@ -270,7 +270,7 @@ utf8_to_wstring(const std::vector<std::string>& strs)
 {
     std::vector<std::wstring> wideVector;
     wideVector.reserve(strs.size());
-    for (auto s : strs) {
+    for (const auto& s : strs) {
         wideVector.push_back(utf8_to_wstring(s));
     }
     return wideVector;
@@ -290,7 +290,7 @@ wstring_to_utf8(const std::vector<std::wstring>& strs)
 {
     std::vector<std::string> utf8Vector;
     utf8Vector.reserve(strs.size());
-    for (auto s : strs) {
+    for (const auto& s : strs) {
         utf8Vector.push_back(wstring_to_utf8(s));
     }
     return utf8Vector;

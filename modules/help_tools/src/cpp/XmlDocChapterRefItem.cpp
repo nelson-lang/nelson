@@ -24,6 +24,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocChapterRefItem.hpp"
+
+#include <utility>
 #include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
@@ -31,8 +33,10 @@
 namespace Nelson {
 //=============================================================================
 XmlDocChapterRefItem::XmlDocChapterRefItem(
-    const std::wstring& linkname, const std::wstring& linkurl, const std::wstring& description)
-    : _description(description), _linkname(linkname), _linkurl(linkurl)
+    std::wstring linkname, std::wstring linkurl, std::wstring description)
+    : _description(std::move(description))
+    , _linkname(std::move(linkname))
+    , _linkurl(std::move(linkurl))
 {}
 //=============================================================================
 XmlDocChapterRefItem::~XmlDocChapterRefItem()
@@ -53,12 +57,12 @@ XmlDocChapterRefItem::writeAsHtml(std::string& utf8stream)
 {
     if (!this->_description.empty()) {
         utf8stream = utf8stream + HTML_LI_IN_TAG + "<a href = \"" + wstring_to_utf8(this->_linkurl)
-            + "\" class=\"refentry\">" + wstring_to_utf8(this->_linkname)
+            + R"(" class="refentry">)" + wstring_to_utf8(this->_linkname)
             + "</a> &#8212; <span class = \"refentry-description\">"
             + wstring_to_utf8(this->_description) + "</span>" + HTML_LI_OUT_TAG + "\n";
     } else {
         utf8stream = utf8stream + HTML_LI_IN_TAG + "<a href = \"" + wstring_to_utf8(this->_linkurl)
-            + "\" class=\"refentry\">" + wstring_to_utf8(this->_linkname) + HTML_LI_OUT_TAG + "\n";
+            + R"(" class="refentry">)" + wstring_to_utf8(this->_linkname) + HTML_LI_OUT_TAG + "\n";
     }
     return true;
 }

@@ -32,12 +32,12 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-typedef enum
+enum SHA256_CONVERSION_TYPE
 {
     FILENAME,
     STRING,
     AUTO
-} SHA256_CONVERSION_TYPE;
+};
 //=============================================================================
 static bool
 isFile(const std::wstring& filename)

@@ -37,7 +37,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum NODE_TYPE
 {
     non_terminal,
     id_node,
@@ -51,9 +51,9 @@ typedef enum
     const_dcomplex_node,
     const_complex_node,
     const_uint64_node
-} NODE_TYPE;
+};
 //=============================================================================
-typedef enum
+enum OP_TYPE
 {
     OP_BLOCK, // block
     OP_CASEBLOCK, // caseblock
@@ -107,7 +107,7 @@ typedef enum
     OP_LOAD,
     OP_KEYWORD,
     OP_DOTDYN
-} OP_TYPE;
+};
 //=============================================================================
 class AbstractSyntaxTree;
 using AbstractSyntaxTreePtr = AbstractSyntaxTree*;
@@ -256,17 +256,17 @@ private:
 /**
  * The Parser value stack contains either a raw token's context or an AST pointer
  */
-typedef union
+using contextOrPointer = union
 {
     int i;
     AbstractSyntaxTreePtr p; //-V117
-} contextOrPointer;
+};
 //=============================================================================
-typedef struct
+struct ParseRHS
 {
     bool isToken;
     contextOrPointer v;
-} ParseRHS;
+};
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

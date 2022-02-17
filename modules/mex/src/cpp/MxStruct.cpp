@@ -23,7 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string.h>
+#include <cstring>
 #include <algorithm>
 #include "mex.h"
 #include "matrix.h"
@@ -174,9 +174,8 @@ mxAddField(mxArray* pm, const char* fieldname)
         Nelson::stringVector names = ptr->getFieldNames();
         if (std::find(names.begin(), names.end(), std::string(fieldname)) != names.end()) {
             return mxGetFieldNumber(pm, fieldname);
-        } else {
-            return (int)ptr->insertFieldName(fieldname);
         }
+        return (int)ptr->insertFieldName(fieldname);
     }
     return -1;
 }
@@ -205,7 +204,7 @@ mxRemoveField(mxArray* pm, int fieldnumber)
     Nelson::ArrayOf* qp = static_cast<Nelson::ArrayOf*>(Nelson::ArrayOf::allocateArrayOf(
         Nelson::NLS_STRUCT_ARRAY, dims.getElementCount(), newFieldnames, false));
     Nelson::ArrayOf st = Nelson::ArrayOf(Nelson::NLS_STRUCT_ARRAY, dims, qp, false, newFieldnames);
-    for (std::string c : newFieldnames) {
+    for (const std::string& c : newFieldnames) {
         Nelson::ArrayOfVector data = ptr->getFieldAsList(c);
         st.setFieldAsList(c, data);
     }

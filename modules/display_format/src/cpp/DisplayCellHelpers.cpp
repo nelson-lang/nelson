@@ -75,9 +75,8 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
                 if (msg.size() + 1 > termWidth) {
                     if (asStructElement) {
                         return lightDescription(A, L"[", L"]");
-                    } else {
-                        return lightDescription(A, L"", L"");
                     }
+                    return lightDescription(A, L"", L"");
                 }
             }
             if (asStructElement) {

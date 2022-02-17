@@ -46,12 +46,12 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "nlsTypes_exports.h"
 #include "Dimensions.hpp"
 #include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "ArrayOfVector.hpp"
-#include "nlsTypes_exports.h"
 #include "CheckerHelpers.hpp"
 
 namespace Nelson {
@@ -116,9 +116,9 @@ private:
      * is the index into the fieldname array of the argument.  If the
      * argument is not found, a value of -1 is returned.
      */
-    int64
+    [[nodiscard]] int64
     getFieldIndex(const std::string& fieldName) const;
-    int64
+    [[nodiscard]] int64
     getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames) const;
     /**
      * Copy us from the source object.
@@ -140,21 +140,21 @@ private:
     haveUniqueFieldNames(const stringVector& fieldnames);
 
 public:
-    std::string
+    [[nodiscard]] std::string
     name() const;
 
     void
     name(const std::string& name);
 
-    std::wstring
+    [[nodiscard]] std::wstring
     wname() const;
 
     /**
      * Allocate an array.
      */
     static void*
-    allocateArrayOf(NelsonType /*type*/, indexType length, const stringVector& names = stringVector(),
-        bool initializeValues = false);
+    allocateArrayOf(NelsonType /*type*/, indexType length,
+        const stringVector& names = stringVector(), bool initializeValues = false);
     /** Convert us to an index type
      * Convert the current object to an ordinal one.  This has different
      * meanings for different data types.
@@ -194,8 +194,8 @@ public:
     /**
      * Create an ArrayOf with the specified contents.
      */
-    ArrayOf(
-        NelsonType, const Dimensions&, void*, bool sparse = false, const stringVector& = stringVector());
+    ArrayOf(NelsonType, const Dimensions&, void*, bool sparse = false,
+        const stringVector& = stringVector());
     /**
      * Destructor - free the data object.
      */
@@ -209,43 +209,43 @@ public:
      * Get the reference count to our data object - useful for
      * debug purposes.
      */
-    indexType
+    [[nodiscard]] indexType
     getReferenceCount() const;
     /**
      * Get rows (equivalent to getDimensions().getRows()
      */
-    indexType
+    [[nodiscard]] indexType
     getRows() const;
     /**
      * Get columns (equivalent to getDimensions().getColumns()
      */
-    indexType
+    [[nodiscard]] indexType
     getColumns() const;
     /**
      * returns the number of dimensions in the array A.
      */
-    indexType
+    [[nodiscard]] indexType
     nDims() const;
     /**
      * Get the length of the array as a vector.  This is equivalent
      * to computing length(this(:)).
      */
-    indexType
+    [[nodiscard]] indexType
     getElementCount() const;
     /**
      * Get a copy of our dimensions vector.
      */
-    Dimensions
+    [[nodiscard]] Dimensions
     getDimensions() const;
     /**
      * Get the fieldnames.
      */
-    stringVector
+    [[nodiscard]] stringVector
     getFieldNames() const;
     /**
      * Get our length along the given dimension.
      */
-    indexType
+    [[nodiscard]] indexType
     getDimensionLength(int) const;
     /** Get the contents of our data block as a (read-only) void* pointer.
      * Get the contents of our data block as a void* pointer.  The
@@ -258,9 +258,9 @@ public:
      * Another option is to use getReadWriteDataPointer, which returns a
      * pointer that is free of object aliases.
      */
-    const void*
+    [[nodiscard]] const void*
     getDataPointer() const;
-    const void*
+    [[nodiscard]] const void*
     getSparseDataPointer() const;
     /** Get the contents of our data block as a read-write void* pointer.
      * Get the contents of our data block as a read-write void*
@@ -325,17 +325,17 @@ public:
     /**
      * Get our data class (of type Class).
      */
-    NelsonType
+    [[nodiscard]] NelsonType
     getDataClass() const;
     /**
      * Calculate the size of each element in this array.
      */
-    indexType
+    [[nodiscard]] indexType
     getElementSize() const;
     /**
      * Calculate the bytes required to hold this array (element size * length)
      */
-    indexType
+    [[nodiscard]] indexType
     getByteSize() const;
     /**
      * Returns true if we are (meaningfully) positive.  For the unsigned integer
@@ -343,23 +343,23 @@ public:
      * signed integer types or the floating point types, the result is based on a
      * linear scan through the array.
      */
-    bool
+    [[nodiscard]] bool
     isPositive() const;
-    bool
+    [[nodiscard]] bool
     isSparse() const;
 
     void
     makeSparse();
     void
     makeDense();
-    indexType
+    [[nodiscard]] indexType
     getNonzeros() const;
     /**
      * Returns true if we match the scalar value in x.  For strings, this is done
      * by doing a string compare.  For numerical values, we promote to a common
      * type and do a comparison.
      */
-    bool
+    [[nodiscard]] bool
     testCaseMatchScalar(ArrayOf x) const;
     /**
      * Returns true if we match the argument x, or if x is a cell-array,
@@ -368,130 +368,130 @@ public:
      * for non-scalars (apart from strings) or reference types. Also throws an
      * exception if the argument is not either a scalar or a cell array.
      */
-    bool
+    [[nodiscard]] bool
     testForCaseMatch(ArrayOf x) const;
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    bool
+    [[nodiscard]] bool
     isEmpty(bool allDimensionsIsZero = false) const;
     /**
      * Returns TRUE if we have only a single element.
      */
-    bool
+    [[nodiscard]] bool
     isScalar() const;
     /**
      * Returns TRUE if we are 2-Dimensional.
      */
-    bool
+    [[nodiscard]] bool
     is2D() const;
     /**
      * Returns TRUE if we are 2-Dimensional and rows == cols.
      */
-    bool
+    [[nodiscard]] bool
     isSquare() const;
     /**
      * Returns TRUE if we are a vector.
      */
-    bool
+    [[nodiscard]] bool
     isVector() const;
 
-    bool
+    [[nodiscard]] bool
     isRowVector() const;
 
-    bool
+    [[nodiscard]] bool
     isColumnVector() const;
     /**
      * Returns TRUE if we are a reference type (cell array or
      * struct array).
      */
-    bool
+    [[nodiscard]] bool
     isReferenceType() const;
     /**
      * Returns TRUE if we are a complex data type.
      */
-    bool
+    [[nodiscard]] bool
     isComplex() const;
     /**
      * Returns TRUE if we are a real data type.
      */
-    bool
+    [[nodiscard]] bool
     isReal() const;
     /**
      * Returns TRUE if all values are real.
      */
-    bool
+    [[nodiscard]] bool
     allReal() const;
     /**
      * Returns TRUE if we are a sparse double or complex data type.
      */
-    bool
+    [[nodiscard]] bool
     isSparseDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
      */
-    bool
+    [[nodiscard]] bool
     isNdArrayDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a double type (not ndarray, not sparse)
      */
-    bool
+    [[nodiscard]] bool
     isDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a single type (not ndarray, not sparse)
      */
-    bool
+    [[nodiscard]] bool
     isSingleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a NLS_DOUBLE or NLS_DCOMPLEX
      */
-    bool
+    [[nodiscard]] bool
     isDoubleClass() const;
 
     /**
      * Returns TRUE if it is a NLS_SINGLE or NLS_SCOMPLEX
      */
-    bool
+    [[nodiscard]] bool
     isSingleClass() const;
 
     /**
      * Returns TRUE if it is a ndarraysingle type (not sparse, not scalar, 2D matrix)
      */
-    bool
+    [[nodiscard]] bool
     isNdArraySingleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if we are a string.
      */
-    bool
+    [[nodiscard]] bool
     isCharacterArray() const;
-    bool
+    [[nodiscard]] bool
     isRowVectorCharacterArray() const;
 
-    bool
+    [[nodiscard]] bool
     isNdArrayCharacterType() const;
 
-    bool
+    [[nodiscard]] bool
     isIntegerType() const;
-    bool
+    [[nodiscard]] bool
     isNdArrayIntegerType() const;
 
     /*
      * helpers function
      * NLS_UINT8, ..., NLS_UINT64
      */
-    bool
+    [[nodiscard]] bool
     isUnsignedIntegerType() const;
 
     /*
      * helpers function
      * NLS_INT8, ..., NLS_INT64
      */
-    bool
+    [[nodiscard]] bool
     isSignedIntegerType() const;
 
     /**
@@ -839,7 +839,7 @@ public:
      * assignments only, and the argument must be a scalar structure. Throws an
      * exection if we are a vector, or if the supplied field do not exist.
      */
-    ArrayOf
+    [[nodiscard]] ArrayOf
     getField(const std::string& fieldName) const;
     /**
      * Add another fieldname to our structure array.
@@ -969,107 +969,107 @@ public:
      * Get our contents as a C-string (UTF-8). Only works for STRING types.
      * Throws an exception for non-string types.
      */
-    std::string
+    [[nodiscard]] std::string
     getContentAsCString() const;
 
     /**
      * Get our contents as a wide string (UTF-16). Only works for STRING types.
      * Throws an exception for non-string types.
      */
-    std::wstring
+    [[nodiscard]] std::wstring
     getContentAsWideString(size_t lengthMax = std::string::npos) const;
 
-    std::wstring
+    [[nodiscard]] std::wstring
     getContentAsArrayOfCharacters() const;
 
     /**
      * Get our contents as a C char * (pointer allocated with new). Only works for
      * STRING types. Throws an exception for non-string types.
      */
-    char*
+    [[nodiscard]] char*
     getContentAsCharactersPointer() const;
 
     /**
      * Get our contents as a C wchar_t * (pointer allocated with new). Only works
      * for STRING types. Throws an exception for non-string types.
      */
-    wchar_t*
+    [[nodiscard]] wchar_t*
     getContentAsWideCharactersPointer() const;
 
     /**
      * Get our contents as a vector wide string (UTF-16). Only works for CELL of
      * STRING types. no check on dimensions
      */
-    wstringVector
+    [[nodiscard]] wstringVector
     getContentAsWideStringVector(bool bCheckVector = true) const;
-    stringVector
+    [[nodiscard]] stringVector
     getContentAsCStringVector(bool bCheckVector = true) const;
 
     /**
      * Get our contents as a vector wide string (UTF-16). Only works for CELL of
      * STRING types. Check if it is a cell with a row vector dimension
      */
-    wstringVector
+    [[nodiscard]] wstringVector
     getContentAsWideStringRowVector() const;
-    stringVector
+    [[nodiscard]] stringVector
     getContentAsCStringRowVector() const;
 
     /**
      * Get our contents as a vector wide string (UTF-16). Only works for CELL of
      * STRING types. Check if it is a cell with a column vector dimension
      */
-    wstringVector
+    [[nodiscard]] wstringVector
     getContentAsWideStringColumnVector() const;
-    stringVector
+    [[nodiscard]] stringVector
     getContentAsCStringColumnVector() const;
 
     /**
      * Get our contents as an logical scalar.
      * Throws an exception if we are not a scalar logical type.
      */
-    logical
+    [[nodiscard]] logical
     getContentAsLogicalScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
-    int8
+    [[nodiscard]] int8
     getContentAsInteger8Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
-    uint8
+    [[nodiscard]] uint8
     getContentAsUnsignedInteger8Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
-    int16
+    [[nodiscard]] int16
     getContentAsInteger16Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
-    uint16
+    [[nodiscard]] uint16
     getContentAsUnsignedInteger16Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
-    int32
+    [[nodiscard]] int32
     getContentAsInteger32Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
-    uint32
+    [[nodiscard]] uint32
     getContentAsUnsignedInteger32Scalar(bool arrayAsScalar = false) const;
 
     /**
@@ -1077,21 +1077,21 @@ public:
      * Throws an exception if we are not scalar or cannot meaningfully
      * be converted to a double precision value.
      */
-    double
+    [[nodiscard]] double
     getContentAsDoubleScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an unsigned integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
-    uint64
+    [[nodiscard]] uint64
     getContentAsUnsignedInteger64Scalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
-    int64
+    [[nodiscard]] int64
     getContentAsInteger64Scalar(bool arrayAsScalar = false) const;
 
     /**
@@ -1099,7 +1099,7 @@ public:
      * Throws an exception if we are not scalar or cannot meaningfully
      * be converted to a index typevalue.
      */
-    indexType
+    [[nodiscard]] indexType
     getContentAsScalarIndex(bool bWithZero = true) const;
 
     indexType*
@@ -1110,7 +1110,7 @@ public:
      * Throws an exception if we are not scalar or cannot meaningfully
      * be converted to a double precision value.
      */
-    doublecomplex
+    [[nodiscard]] doublecomplex
     getContentAsDoubleComplexScalar(bool arrayAsScalar = false) const;
 
     /**
@@ -1118,7 +1118,7 @@ public:
      * Throws an exception if we are not scalar or cannot meaningfully
      * be converted to a double precision value.
      */
-    single
+    [[nodiscard]] single
     getContentAsSingleScalar(bool arrayAsScalar = false) const;
 
     /**
@@ -1126,7 +1126,7 @@ public:
      * Throws an exception if we are not scalar or cannot meaningfully
      * be converted to a single precision value.
      */
-    std::complex<single>
+    [[nodiscard]] std::complex<single>
     getContentAsSingleComplexScalar(bool arrayAsScalar = false) const;
 
     /**
@@ -1139,33 +1139,33 @@ public:
      * Returns the number of nonzero elements in the array.  For reference
      * types, this is a best-guess.
      */
-    indexType
+    [[nodiscard]] indexType
     nnz() const;
 
     /*
      * Amount of storage allocated for nonzero matrix elements
      */
-    indexType
+    [[nodiscard]] indexType
     nzmax() const;
 
     /*
      * number of elements
      */
-    indexType
+    [[nodiscard]] indexType
     numel() const;
 
-    bool
+    [[nodiscard]] bool
     isCell() const;
 
-    bool
+    [[nodiscard]] bool
     isStruct() const;
     void
     setStructType(const std::string& structname);
     void
     setStructType(const std::wstring& structname);
-    std::string
+    [[nodiscard]] std::string
     getStructType() const;
-    bool
+    [[nodiscard]] bool
     isClassStruct() const;
 
     static ArrayOf
@@ -1173,19 +1173,20 @@ public:
     static ArrayOf
     functionHandleConstructor(const std::wstring& functionName, const std::wstring& anonymous);
 
-    function_handle
+    [[nodiscard]] function_handle
     getContentAsFunctionHandle() const;
-    bool
+
+    [[nodiscard]] bool
     isFunctionHandle() const;
 
-    bool
+    [[nodiscard]] bool
     isLogical() const;
-    bool
+    [[nodiscard]] bool
     isNdArrayLogical() const;
-    bool
+    [[nodiscard]] bool
     isSparseLogicalType() const;
 
-    bool
+    [[nodiscard]] bool
     isNumeric() const;
 
     void
@@ -1194,7 +1195,7 @@ public:
     /*
      * check is handle type
      */
-    bool
+    [[nodiscard]] bool
     isHandle() const;
     /*
      * handle constructors
@@ -1206,22 +1207,22 @@ public:
     /*
      * check that scalar handle have an property name
      */
-    bool
+    [[nodiscard]] bool
     isHandleProperty(const std::wstring& propertyName) const;
     /*
      * check that scalar handle have an method name
      */
-    bool
+    [[nodiscard]] bool
     isHandleMethod(const std::wstring& methodName) const;
     /*
      * get handle category
      */
-    std::wstring
+    [[nodiscard]] std::wstring
     getHandleCategory() const;
     /*
      * return handle as HandleGenericObject*
      */
-    HandleGenericObject*
+    [[nodiscard]] HandleGenericObject*
     getContentAsHandleScalar() const;
 
     /** Compute the maximum index.
@@ -1237,10 +1238,10 @@ public:
     //=========================================================================
     // string array
     //=========================================================================
-    bool
+    [[nodiscard]] bool
     isStringArray() const;
 
-    bool
+    [[nodiscard]] bool
     isNdArrayString() const;
 
     static ArrayOf
@@ -1267,7 +1268,7 @@ public:
     /*
      * check is graphic object handle type
      */
-    bool
+    [[nodiscard]] bool
     isGraphicObject() const;
 
     static ArrayOf
@@ -1276,7 +1277,7 @@ public:
     /*
      * return nelson_handle as void *
      */
-    void*
+    [[nodiscard]] void*
     getContentAsGraphicObjectScalar() const;
 };
 //=========================================================================

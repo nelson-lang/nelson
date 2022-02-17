@@ -321,40 +321,38 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         if (m.isCharacterArray()) {
             if (m.is2D() && m.getRows() == m.getColumns()) {
                 return ArrayOf::stringArrayConstructor("");
-            } else {
-                Dimensions newDims;
-                indexType i = 0;
-                for (indexType k = 0; k < dimsM.getLength(); ++k) {
-                    if (k != 1) {
-                        newDims[i] = dimsM.getAt(k);
-                        i++;
-                    }
-                }
-                if (newDims.getLength() < 2) {
-                    newDims[i] = 1;
-                }
-                ArrayOf* elements = nullptr;
-                size_t nbElements = newDims.getElementCount();
-                try {
-                    elements = new ArrayOf[nbElements];
-                    for (indexType k = 0; k < nbElements; ++k) {
-                        elements[k] = ArrayOf::characterArrayConstructor("");
-                    }
-                } catch (const std::bad_alloc&) {
-                    Error(ERROR_MEMORY_ALLOCATION);
-                }
-                return ArrayOf(NLS_STRING_ARRAY, newDims, elements);
             }
-        } else {
+            Dimensions newDims;
+            indexType i = 0;
+            for (indexType k = 0; k < dimsM.getLength(); ++k) {
+                if (k != 1) {
+                    newDims[i] = dimsM.getAt(k);
+                    i++;
+                }
+            }
+            if (newDims.getLength() < 2) {
+                newDims[i] = 1;
+            }
             ArrayOf* elements = nullptr;
-            size_t nbElements = dimsM.getElementCount();
+            size_t nbElements = newDims.getElementCount();
             try {
                 elements = new ArrayOf[nbElements];
+                for (indexType k = 0; k < nbElements; ++k) {
+                    elements[k] = ArrayOf::characterArrayConstructor("");
+                }
             } catch (const std::bad_alloc&) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
-            return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
+            return ArrayOf(NLS_STRING_ARRAY, newDims, elements);
         }
+        ArrayOf* elements = nullptr;
+        size_t nbElements = dimsM.getElementCount();
+        try {
+            elements = new ArrayOf[nbElements];
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+        return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
     }
     switch (m.getDataClass()) {
     case NLS_CELL_ARRAY: {

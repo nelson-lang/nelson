@@ -107,7 +107,7 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
                 Error("Impossible to read dimensions and maximum size of data set.");
                 return ArrayOf();
             }
-            memspace = H5Screate_simple(rank, h5_dims, NULL);
+            memspace = H5Screate_simple(rank, h5_dims, nullptr);
             delete[] h5_dims;
             delete[] h5_maxdims;
             status = H5Dread(dset_id, dataType, memspace, dspace_id, H5P_DEFAULT, ptr);

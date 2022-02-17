@@ -104,8 +104,8 @@ canBeConvertedToArrayOf(QVariant Q)
     } break;
     case QMetaType::Type::QVariantList: {
         QList<QVariant> qlistVariant = qvariant_cast<QList<QVariant>>(Q);
-        for (int k = 0; k < qlistVariant.size(); k++) {
-            if (!canBeConvertedToArrayOf(qlistVariant[k])) {
+        for (auto& k : qlistVariant) {
+            if (!canBeConvertedToArrayOf(k)) {
                 return false;
             }
         }
@@ -506,28 +506,27 @@ QVariantToArrayOf(QVariant Q)
                 res = ArrayOf::emptyConstructor(dims);
                 res.promoteType(NLS_HANDLE);
                 return res;
-            } else {
-                Dimensions dims(1, nbChilds);
-                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
-                    NLS_HANDLE, nbChilds, stringVector(), false);
-                for (int k = 0; k < nbChilds; k++) {
-                    QObject* qobj = ref.at(k);
-                    nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
-                    if (nh_found != -1) {
-                        nh[k] = nh_found;
-                    } else {
-                        QmlHandleObject* qmlHandle = nullptr;
-                        try {
-                            qmlHandle = new QmlHandleObject(qobj);
-                        } catch (const std::bad_alloc&) {
-                            qmlHandle = nullptr;
-                            Error(ERROR_MEMORY_ALLOCATION);
-                        }
-                        nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
-                    }
-                }
-                return ArrayOf(NLS_HANDLE, dims, (void*)nh);
             }
+            Dimensions dims(1, nbChilds);
+            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+                NLS_HANDLE, nbChilds, stringVector(), false);
+            for (int k = 0; k < nbChilds; k++) {
+                QObject* qobj = ref.at(k);
+                nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
+                if (nh_found != -1) {
+                    nh[k] = nh_found;
+                } else {
+                    QmlHandleObject* qmlHandle = nullptr;
+                    try {
+                        qmlHandle = new QmlHandleObject(qobj);
+                    } catch (const std::bad_alloc&) {
+                        qmlHandle = nullptr;
+                        Error(ERROR_MEMORY_ALLOCATION);
+                    }
+                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+                }
+            }
+            return ArrayOf(NLS_HANDLE, dims, (void*)nh);
         }
         const char* name = Q.typeName();
         if (strncmp(name, "QQmlListProperty<", 17) == 0) {
@@ -542,28 +541,28 @@ QVariantToArrayOf(QVariant Q)
                 res = ArrayOf::emptyConstructor(dims);
                 res.promoteType(NLS_HANDLE);
                 return res;
-            } else {
-                Dimensions dims(1, nbChilds);
-                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
-                    NLS_HANDLE, nbChilds, stringVector(), false);
-                for (int k = 0; k < nbChilds; k++) {
-                    QObject* qobj = list->at(list, k);
-                    nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
-                    if (nh_found != -1) {
-                        nh[k] = nh_found;
-                    } else {
-                        QmlHandleObject* qmlHandle = nullptr;
-                        try {
-                            qmlHandle = new QmlHandleObject(qobj);
-                        } catch (const std::bad_alloc&) {
-                            qmlHandle = nullptr;
-                            Error(ERROR_MEMORY_ALLOCATION);
-                        }
-                        nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
-                    }
-                }
-                return ArrayOf(NLS_HANDLE, dims, (void*)nh);
             }
+            Dimensions dims(1, nbChilds);
+            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+                NLS_HANDLE, nbChilds, stringVector(), false);
+            for (int k = 0; k < nbChilds; k++) {
+                QObject* qobj = list->at(list, k);
+                nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
+                if (nh_found != -1) {
+                    nh[k] = nh_found;
+                } else {
+                    QmlHandleObject* qmlHandle = nullptr;
+                    try {
+                        qmlHandle = new QmlHandleObject(qobj);
+                    } catch (const std::bad_alloc&) {
+                        qmlHandle = nullptr;
+                        Error(ERROR_MEMORY_ALLOCATION);
+                    }
+                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+                }
+            }
+            return ArrayOf(NLS_HANDLE, dims, (void*)nh);
+
         } else if (Q.canConvert<QJSValue>()) {
             Q = Q.value<QJSValue>().toVariant();
             return QVariantToArrayOf(Q);
@@ -632,8 +631,8 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QStringList: {
         wstringVector v = A.getContentAsWideStringVector(true);
         QStringList stringlist;
-        for (size_t k = 0; k < v.size(); k++) {
-            stringlist << wstringToQString(v[k]);
+        for (auto& k : v) {
+            stringlist << wstringToQString(k);
         }
         res = stringlist;
     } break;
@@ -1037,49 +1036,49 @@ ArrayOfToQVariant(ArrayOf A)
         if (A.isVector()) {
             wstringVector vstr = A.getContentAsWideStringVector();
             QStringList stringlist;
-            for (size_t k = 0; k < vstr.size(); k++) {
-                stringlist.push_back(wstringToQString(vstr[k]));
+            for (auto& k : vstr) {
+                stringlist.push_back(wstringToQString(k));
             }
             QVariant res = stringlist;
             return res;
-        } else {
-            QVariantList qlistVariantRows;
-            Dimensions dimsA = A.getDimensions();
-            ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
-            indexType rows = dimsA.getRows();
-            indexType columns = dimsA.getColumns();
-            for (indexType i = 0; i < rows; i++) {
-                QVariantList qlistVariantColumns;
-                for (indexType j = 0; j < columns; j++) {
-                    size_t idx = i + j * rows;
-                    QVariant Q = ArrayOfToQVariant(cellArray[idx]);
-                    qlistVariantColumns.push_back(Q);
-                }
-                qlistVariantRows.push_back(qlistVariantColumns);
-            }
-            res = qlistVariantRows;
         }
+        QVariantList qlistVariantRows;
+        Dimensions dimsA = A.getDimensions();
+        ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
+        indexType rows = dimsA.getRows();
+        indexType columns = dimsA.getColumns();
+        for (indexType i = 0; i < rows; i++) {
+            QVariantList qlistVariantColumns;
+            for (indexType j = 0; j < columns; j++) {
+                size_t idx = i + j * rows;
+                QVariant Q = ArrayOfToQVariant(cellArray[idx]);
+                qlistVariantColumns.push_back(Q);
+            }
+            qlistVariantRows.push_back(qlistVariantColumns);
+        }
+        res = qlistVariantRows;
+
     } break;
     case NLS_CELL_ARRAY: {
         if (A.isVector()) {
             if (IsCellOfString(A)) {
                 wstringVector vstr = A.getContentAsWideStringVector();
                 QStringList stringlist;
-                for (size_t k = 0; k < vstr.size(); k++) {
-                    stringlist.push_back(wstringToQString(vstr[k]));
+                for (auto& k : vstr) {
+                    stringlist.push_back(wstringToQString(k));
                 }
                 QVariant res = stringlist;
                 return res;
-            } else {
-                Dimensions dimsA = A.getDimensions();
-                ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
-                QVariantList qvariantList;
-                indexType elementCount = dimsA.getElementCount();
-                for (indexType k = 0; k < elementCount; k++) {
-                    qvariantList.push_back(ArrayOfToQVariant(cellArray[k]));
-                }
-                res = qvariantList;
             }
+            Dimensions dimsA = A.getDimensions();
+            ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
+            QVariantList qvariantList;
+            indexType elementCount = dimsA.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
+                qvariantList.push_back(ArrayOfToQVariant(cellArray[k]));
+            }
+            res = qvariantList;
+
         } else {
             QVariantList qlistVariantRows;
             Dimensions dimsA = A.getDimensions();
@@ -1101,8 +1100,8 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_STRUCT_ARRAY: {
         QVariantMap qvariantMap;
         stringVector fieldnames = A.getFieldNames();
-        for (size_t k = 0; k < fieldnames.size(); k++) {
-            qvariantMap[fieldnames[k].c_str()] = ArrayOfToQVariant(A.getField(fieldnames[k]));
+        for (auto& fieldname : fieldnames) {
+            qvariantMap[fieldname.c_str()] = ArrayOfToQVariant(A.getField(fieldname));
         }
         res = qvariantMap;
     } break;

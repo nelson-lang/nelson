@@ -90,29 +90,29 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         vB.push_back(L"");
     }
     size_t lenMax = 0;
-    for (size_t i = 0; i < vA.size(); ++i) {
-        if (lenMax < vA[i].size()) {
-            lenMax = vA[i].size();
+    for (auto& i : vA) {
+        if (lenMax < i.size()) {
+            lenMax = i.size();
         }
     }
-    for (size_t i = 0; i < vB.size(); ++i) {
-        if (lenMax < vB[i].size()) {
-            lenMax = vB[i].size();
+    for (auto& i : vB) {
+        if (lenMax < i.size()) {
+            lenMax = i.size();
         }
     }
-    for (size_t i = 0; i < vA.size(); ++i) {
-        size_t newLen = lenMax - vA[i].size();
+    for (auto& i : vA) {
+        size_t newLen = lenMax - i.size();
         if (newLen > 0) {
             for (size_t q = 0; q < newLen; q++) {
-                vA[i] = vA[i] + std::wstring(L" ");
+                i = i + std::wstring(L" ");
             }
         }
     }
-    for (size_t i = 0; i < vB.size(); ++i) {
-        size_t newLen = lenMax - vB[i].size();
+    for (auto& i : vB) {
+        size_t newLen = lenMax - i.size();
         if (newLen > 0) {
             for (size_t q = 0; q < newLen; q++) {
-                vB[i] = vB[i] + std::wstring(L" ");
+                i = i + std::wstring(L" ");
             }
         }
     }
@@ -122,8 +122,8 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         ArrayOf BA = ArrayOf::characterArrayConstructor(vA[i]);
         res = VertCat(res, BA, true, bSuccess);
     }
-    for (size_t i = 0; i < vB.size(); i++) {
-        ArrayOf BB = ArrayOf::characterArrayConstructor(vB[i]);
+    for (auto& i : vB) {
+        ArrayOf BB = ArrayOf::characterArrayConstructor(i);
         res = VertCat(res, BB, true, bSuccess);
     }
     return res;

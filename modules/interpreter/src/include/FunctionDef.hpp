@@ -52,12 +52,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum FunctionType
 {
     NLS_MACRO_FUNCTION,
     NLS_BUILT_IN_FUNCTION,
     NLS_MEX_FUNCTION,
-} FunctionType;
+};
 //=============================================================================
 class Evaluator;
 //=============================================================================
@@ -143,7 +143,7 @@ public:
     /**
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
-    virtual FunctionType
+    [[nodiscard]] virtual FunctionType
     type() const = 0;
     //=============================================================================
     /**

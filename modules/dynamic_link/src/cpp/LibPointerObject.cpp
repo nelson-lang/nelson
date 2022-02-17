@@ -100,7 +100,8 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
         Value.getElementSize() * Value.getElementCount());
 }
 //=============================================================================
-LibPointerObject::LibPointerObject(void* pointer, const std::wstring& DataType, NelsonType currentType)
+LibPointerObject::LibPointerObject(
+    void* pointer, const std::wstring& DataType, NelsonType currentType)
     : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
 {
     initializeCommon();
@@ -120,7 +121,7 @@ LibPointerObject::initializeCommon()
     _initialDimY = -1;
     _dimX = _initialDimX;
     _dimY = _initialDimY;
-    _currentType = Nelson::Class::NLS_NOT_TYPED;
+    _currentType = NelsonType::NLS_NOT_TYPED;
 }
 //=============================================================================
 LibPointerObject::~LibPointerObject()

@@ -30,19 +30,19 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum MISSING_PLACEMENT
 {
     AUTO_PLACEMENT,
     FIRST_PLACEMENT,
     LAST_PLACEMENT
-} MISSING_PLACEMENT;
+};
 //=============================================================================
-typedef enum
+enum COMPARISON_METHOD
 {
     AUTO_METHOD,
     REAL_METHOD,
     ABS_METHOD
-} COMPARISON_METHOD;
+};
 //=============================================================================
 NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
 Sort(const ArrayOf& arrayIn, size_t nargin, bool withIndex, indexType dim, bool ascend,

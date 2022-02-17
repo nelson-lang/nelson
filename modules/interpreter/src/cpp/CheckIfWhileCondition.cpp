@@ -68,9 +68,9 @@ checkIfWhileCondition(const ArrayOf& A)
                 Eigen::Index nnz = spMatA->nonZeros();
                 if (A.isScalar()) {
                     return (nnz == 1);
-                } else {
-                    return (nnz == A.getElementCount());
                 }
+                return (nnz == A.getElementCount());
+
             } break;
             case NLS_DOUBLE: {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
@@ -78,9 +78,9 @@ checkIfWhileCondition(const ArrayOf& A)
                 Eigen::Index nnz = spMatA->nonZeros();
                 if (A.isScalar()) {
                     return (nnz == 1);
-                } else {
-                    return (nnz == A.getElementCount());
                 }
+                return (nnz == A.getElementCount());
+
             } break;
             case NLS_DCOMPLEX: {
                 Error(_W("Complex cannot be converted to logical."));

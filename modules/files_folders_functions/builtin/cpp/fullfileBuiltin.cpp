@@ -68,7 +68,7 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
     } else {
         Dimensions dimsOutput;
         bool haveDimsOutput = false;
-        for (auto theInput : theInputs) {
+        for (const auto& theInput : theInputs) {
             if (!haveDimsOutput) {
                 if (!theInput.isCharacterArray()) {
                     dimsOutput = theInput.getDimensions();
@@ -98,7 +98,7 @@ Nelson::FilesFoldersGateway::fullfileBuiltin(int nLhs, const ArrayOfVector& argI
         std::vector<wstringVector> vectorOfStringVector;
         vectorOfStringVector.reserve(theInputs.size());
 
-        for (auto v : theInputs) {
+        for (const auto& v : theInputs) {
             if (v.isCharacterArray()) {
                 std::wstring str = v.getContentAsWideString();
                 wstringVector vstr;

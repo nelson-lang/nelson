@@ -31,15 +31,16 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <fstream>
+#include <utility>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-QtHelpProject::QtHelpProject(const std::wstring& destdirectory, const std::wstring& mainTitle,
-    const std::wstring& name_space, const std::wstring& virtualfolder)
+QtHelpProject::QtHelpProject(const std::wstring& destdirectory, std::wstring mainTitle,
+    std::wstring name_space, std::wstring virtualfolder)
     : destdirectory(destdirectory)
-    , mainTitle(mainTitle)
-    , name_space(name_space)
-    , virtualfolder(virtualfolder)
+    , mainTitle(std::move(mainTitle))
+    , name_space(std::move(name_space))
+    , virtualfolder(std::move(virtualfolder))
 {
     this->filenameDestination = destdirectory + L"/helpproject.qhp";
     this->utf8stream.clear();
@@ -73,7 +74,7 @@ void
 QtHelpProject::assembleContent()
 {
     this->utf8stream
-        = this->utf8stream + "<?xml version = \"1.0\" encoding = \"UTF-8\"?>" + std::string("\n");
+        = this->utf8stream + R"(<?xml version = "1.0" encoding = "UTF-8"?>)" + std::string("\n");
     this->utf8stream = this->utf8stream + "<QtHelpProject version = \"1.0\">" + std::string("\n");
     this->utf8stream = this->utf8stream + "<namespace>" + wstring_to_utf8(this->name_space)
         + "</namespace>" + std::string("\n");
@@ -175,11 +176,11 @@ QtHelpProject::appendSection(const std::wstring& sectionName, const std::wstring
 {
     this->sectionsName.push_back(sectionName);
     this->sectionsUrl.push_back(sectionUrl);
-    for (size_t k = 0; k < names.size(); k++) {
-        this->keywordsName.push_back(names[k]);
+    for (const auto& name : names) {
+        this->keywordsName.push_back(name);
     }
-    for (size_t k = 0; k < urls.size(); k++) {
-        this->keywordsUrl.push_back(urls[k]);
+    for (const auto& url : urls) {
+        this->keywordsUrl.push_back(url);
     }
 }
 //=============================================================================

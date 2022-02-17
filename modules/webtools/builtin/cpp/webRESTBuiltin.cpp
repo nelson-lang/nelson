@@ -60,8 +60,8 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;
-    for (size_t k = 0; k < names.size(); k++) {
-        ArrayOf paramValue = param4.getField(names[k]);
+    for (auto& name : names) {
+        ArrayOf paramValue = param4.getField(name);
         if (paramValue.isSparse()) {
             Error(_W("Sparse not supported."));
         }

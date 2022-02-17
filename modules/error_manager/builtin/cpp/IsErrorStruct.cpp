@@ -98,17 +98,17 @@ IsErrorStruct(const ArrayOf& arg, Exception& e)
         ArrayOfVector fileArray = stack.getFieldAsList("file");
         ArrayOfVector nameArray = stack.getFieldAsList("name");
         ArrayOfVector lineArray = stack.getFieldAsList("line");
-        for (ArrayOf element : fileArray) {
+        for (const ArrayOf& element : fileArray) {
             if (!element.isRowVectorCharacterArray()) {
                 return false;
             }
         }
-        for (ArrayOf element : nameArray) {
+        for (const ArrayOf& element : nameArray) {
             if (!element.isRowVectorCharacterArray()) {
                 return false;
             }
         }
-        for (ArrayOf element : lineArray) {
+        for (const ArrayOf& element : lineArray) {
             if (!element.isDoubleType() || !element.isScalar()) {
                 return false;
             }
@@ -120,7 +120,7 @@ IsErrorStruct(const ArrayOf& arg, Exception& e)
             std::wstring file = fileArray[k].getContentAsWideString();
             std::wstring name = nameArray[k].getContentAsWideString();
             int line = (int)lineArray[k].getContentAsDoubleScalar();
-            trace.push_back(PositionScript(name, file, line));
+            trace.emplace_back(name, file, line);
         }
         e.setTrace(trace);
         e.setMessage(message);

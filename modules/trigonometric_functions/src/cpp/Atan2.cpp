@@ -203,24 +203,21 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
     if (SameSizeCheck(dimsA, dimsB)) {
         if (classDestination == NLS_DOUBLE) {
             return matrix_matrix_atan2_double(A, B);
-        } else {
-            return matrix_matrix_atan2_single(A, B);
         }
+        return matrix_matrix_atan2_single(A, B);
     }
     if (A.isScalar() || B.isScalar()) {
         if (A.isScalar()) {
             if (classDestination == NLS_DOUBLE) {
                 return scalar_matrix_atan2<double>(classDestination, A, B);
-            } else {
-                return scalar_matrix_atan2<single>(classDestination, A, B);
             }
+            return scalar_matrix_atan2<single>(classDestination, A, B);
         }
         // b.isScalar()
         if (classDestination == NLS_DOUBLE) {
             return matrix_scalar_atan2<double>(classDestination, A, B);
-        } else {
-            return matrix_scalar_atan2<single>(classDestination, A, B);
         }
+        return matrix_scalar_atan2<single>(classDestination, A, B);
     }
     if (A.isVector() || B.isVector()) {
         if (A.isRowVector() && B.isColumnVector()) {
@@ -259,29 +256,25 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
                 if (A.isVector()) {
                     if (classDestination == NLS_DOUBLE) {
                         return vector_matrix_atan2<double>(classDestination, A, B);
-                    } else {
-                        return vector_matrix_atan2<single>(classDestination, A, B);
                     }
+                    return vector_matrix_atan2<single>(classDestination, A, B);
                 }
                 if (classDestination == NLS_DOUBLE) {
                     return vector_matrix_atan2<double>(classDestination, B, A);
-                } else {
-                    return vector_matrix_atan2<single>(classDestination, B, A);
                 }
+                return vector_matrix_atan2<single>(classDestination, B, A);
             }
             if (dimsA[1] == dimsB[1]) {
                 if (A.isVector()) {
                     if (classDestination == NLS_DOUBLE) {
                         return vector_column_atan2<double>(classDestination, A, B);
-                    } else {
-                        return vector_column_atan2<single>(classDestination, A, B);
                     }
+                    return vector_column_atan2<single>(classDestination, A, B);
                 }
                 if (classDestination == NLS_DOUBLE) {
                     return vector_column_atan2<double>(classDestination, B, A);
-                } else {
-                    return vector_column_atan2<single>(classDestination, B, A);
                 }
+                return vector_column_atan2<single>(classDestination, B, A);
             }
             Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
         }

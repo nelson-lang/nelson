@@ -67,7 +67,8 @@ extern "C"
     Eigen_CountNonzeros(NelsonType dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols, ArrayOfMatrix m);
+    Eigen_SparseMatrixConstructor(
+        NelsonType dclass, indexType rows, indexType cols, ArrayOfMatrix m);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, const void* src,
@@ -78,8 +79,9 @@ extern "C"
         const indexType* rindx, indexType irows, const indexType* cindx, indexType icols);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_SetSparseVectorSubsets(NelsonType dclass, indexType& rows, indexType& cols, const void* src,
-        const indexType* indx, indexType irows, indexType icols, const void* data, int advance);
+    Eigen_SetSparseVectorSubsets(NelsonType dclass, indexType& rows, indexType& cols,
+        const void* src, const indexType* indx, indexType irows, indexType icols, const void* data,
+        int advance);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SetSparseNDimSubsets(NelsonType dclass, indexType& rows, indexType& cols, const void* src,
@@ -91,8 +93,8 @@ extern "C"
         indexType rindx, indexType cindx);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_SparseToIJV(NelsonType dclass, indexType rows, indexType cols, const void* cp, indexType*& I,
-        indexType*& J, int& nnz);
+    Eigen_SparseToIJV(NelsonType dclass, indexType rows, indexType cols, const void* cp,
+        indexType*& I, indexType*& J, int& nnz);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_makeSparseFromIJV(NelsonType dclass, indexType rows, indexType cols, indexType nnz,

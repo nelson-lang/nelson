@@ -62,9 +62,8 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
                 if (IsErrorStruct(argIn[0], e)) {
                     eval->setLastErrorException(e);
                     throw e;
-                } else {
-                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
                 }
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
         } else {
             // nargin == 2

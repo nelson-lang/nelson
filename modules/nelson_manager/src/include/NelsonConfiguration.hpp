@@ -34,7 +34,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
+enum NumericFormatDisplay
 {
     NLS_NUMERIC_FORMAT_SHORT,
     NLS_NUMERIC_FORMAT_LONG,
@@ -48,13 +48,13 @@ typedef enum
     NLS_NUMERIC_FORMAT_BANK,
     NLS_NUMERIC_FORMAT_HEX,
     NLS_NUMERIC_FORMAT_RATIONAL
-} NumericFormatDisplay;
+};
 //=============================================================================
-typedef enum
+enum LineSpacingDisplay
 {
     NLS_LINE_SPACING_COMPACT,
     NLS_LINE_SPACING_LOOSE
-} LineSpacingDisplay;
+};
 //=============================================================================
 class NLSNELSON_MANAGER_IMPEXP NelsonConfiguration
 {

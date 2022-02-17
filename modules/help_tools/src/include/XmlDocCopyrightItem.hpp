@@ -37,7 +37,7 @@ private:
     std::wstring _copyright;
 
 public:
-    XmlDocCopyrightItem(const std::wstring& copyright = L"");
+    XmlDocCopyrightItem(std::wstring copyright = L"");
     ~XmlDocCopyrightItem();
     void
     setValue(const std::wstring& value);

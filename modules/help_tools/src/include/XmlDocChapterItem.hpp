@@ -37,7 +37,7 @@ private:
     std::wstring _chapter;
 
 public:
-    XmlDocChapterItem(const std::wstring& chapter = L"");
+    XmlDocChapterItem(std::wstring chapter = L"");
     ~XmlDocChapterItem();
     void
     setValue(const std::wstring& value);

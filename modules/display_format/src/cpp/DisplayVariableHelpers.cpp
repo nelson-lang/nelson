@@ -463,9 +463,8 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
                 msg = L"[]";
             }
             return msg;
-        } else {
-            return lightDescription(A, L"{", L"}");
         }
+        return lightDescription(A, L"{", L"}");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY: {

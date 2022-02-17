@@ -68,8 +68,7 @@ ModulesManager::getModulesPathList(bool bReverse)
             }
         }
     } else {
-        for (size_t i = 0; i < modulesMap.size(); i++) {
-            mapElement elem = modulesMap[i];
+        for (auto elem : modulesMap) {
             retlist.push_back(std::get<1>(elem));
         }
     }
@@ -88,8 +87,7 @@ ModulesManager::getModulesList(bool bReverse)
             }
         }
     } else {
-        for (size_t i = 0; i < modulesMap.size(); i++) {
-            mapElement elem = modulesMap[i];
+        for (auto elem : modulesMap) {
             retlist.push_back(std::get<0>(elem));
         }
     }
@@ -108,8 +106,7 @@ ModulesManager::getModulesProtectedList(bool bReverse)
             }
         }
     } else {
-        for (size_t i = 0; i < modulesMap.size(); i++) {
-            mapElement elem = modulesMap[i];
+        for (auto elem : modulesMap) {
             retlist.push_back(std::get<2>(elem));
         }
     }
@@ -173,9 +170,9 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
     }
     if (version.size() == 3) {
         return std::make_tuple(version[0], version[1], version[2]);
-    } else {
-        Warning(L"module_manager:modulejson", _W("Please check: ") + moduleJsonFilename);
     }
+    Warning(L"module_manager:modulejson", _W("Please check: ") + moduleJsonFilename);
+
     return std::make_tuple(std::nan("NaN"), std::nan("NaN"), std::nan("NaN"));
 }
 //=============================================================================
@@ -191,8 +188,7 @@ ModulesManager::getModulesVersionList(bool bReverse)
             }
         }
     } else {
-        for (size_t i = 0; i < modulesMap.size(); i++) {
-            mapElement elem = modulesMap[i];
+        for (auto elem : modulesMap) {
             retlist.push_back(std::get<3>(elem));
         }
     }
@@ -210,7 +206,7 @@ ModulesManager::insertModule(
     } else {
         version = readVersionFromJson(path);
     }
-    modulesMap.push_back(std::make_tuple(modulename, path, protectedModule, version));
+    modulesMap.emplace_back(modulename, path, protectedModule, version);
 }
 //=============================================================================
 void
@@ -234,9 +230,9 @@ ModulesManager::deleteModule(const std::wstring& modulename)
 bool
 ModulesManager::findModule(const std::wstring& modulename, std::wstring& path)
 {
-    for (auto it = modulesMap.begin(); it != modulesMap.end(); ++it) {
-        if (std::get<0>(*it) == modulename) {
-            path = std::get<1>(*it);
+    for (auto& it : modulesMap) {
+        if (std::get<0>(it) == modulename) {
+            path = std::get<1>(it);
             return true;
         }
     }

@@ -62,8 +62,8 @@ bool
 editor(Evaluator* eval, const wstringVector& filenames)
 {
     bool res = true;
-    for (size_t k = 0; k < filenames.size(); k++) {
-        res = res && editor(eval, filenames[k]);
+    for (const auto& filename : filenames) {
+        res = res && editor(eval, filename);
     }
     return res;
 }

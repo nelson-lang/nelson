@@ -40,7 +40,7 @@ void
 disableHdf5Warning()
 {
     H5Eget_auto(H5E_DEFAULT, &oef, &hdf5ErrorFunction);
-    H5Eset_auto(H5E_DEFAULT, 0, 0);
+    H5Eset_auto(H5E_DEFAULT, nullptr, nullptr);
 }
 //=============================================================================
 void

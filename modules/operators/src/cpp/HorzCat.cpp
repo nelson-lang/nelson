@@ -244,12 +244,12 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         void* ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA, false);
         auto* elements = static_cast<ArrayOf*>(ptrC);
         res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
-        for (size_t k = 0; k < fieldnamesA.size(); k++) {
-            ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
-            ArrayOfVector fieldsB = B.getFieldAsList(fieldnamesA[k]);
+        for (auto& k : fieldnamesA) {
+            ArrayOfVector fieldsA = A.getFieldAsList(k);
+            ArrayOfVector fieldsB = B.getFieldAsList(k);
             ArrayOfVector fieldsC(fieldsA);
             fieldsC += fieldsB;
-            res.setFieldAsList(fieldnamesA[k], fieldsC);
+            res.setFieldAsList(k, fieldsC);
         }
         if (A.getStructType() == NLS_STRUCT_ARRAY_STR) {
             res.setStructType(B.getStructType());

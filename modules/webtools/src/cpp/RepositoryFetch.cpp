@@ -45,7 +45,7 @@ RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
     const std::wstring& password, std::wstring& errorMessage)
 {
     git_libgit2_init();
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     _username = wstring_to_utf8(user);
     _password = wstring_to_utf8(password);
@@ -56,7 +56,7 @@ RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
         git_libgit2_shutdown();
         return;
     }
-    git_remote* origin = NULL;
+    git_remote* origin = nullptr;
     errorCode = git_remote_lookup(&origin, repo, "origin");
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);

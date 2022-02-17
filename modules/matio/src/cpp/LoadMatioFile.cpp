@@ -68,7 +68,7 @@ LoadMatioFile(
     if (names.empty()) {
         variablesNamesToRead = variableNamesInFile;
     } else {
-        for (std::wstring uname : names) {
+        for (const std::wstring& uname : names) {
             std::string name = wstring_to_utf8(uname);
             if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
                 == variableNamesInFile.end()) {
@@ -78,7 +78,7 @@ LoadMatioFile(
         }
     }
     ArrayOfVector values;
-    for (std::string name : variablesNamesToRead) {
+    for (const std::string& name : variablesNamesToRead) {
         ArrayOf value;
         matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
         if (matVariable == nullptr) {

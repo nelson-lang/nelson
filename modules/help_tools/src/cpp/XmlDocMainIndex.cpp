@@ -192,7 +192,7 @@ XmlDocMainIndex::appendSection(const std::wstring& sectionName, const std::wstri
         bool bSuccess;
         std::wstring relative = RelativePath(this->directoryDestination, sectionUrl, bSuccess);
         this->utf8stream = this->utf8stream + HTML_LI_IN_TAG + "<a href = \""
-            + wstring_to_utf8(relative) + "\" class = \"chapter\">" + wstring_to_utf8(sectionName)
+            + wstring_to_utf8(relative) + R"(" class = "chapter">)" + wstring_to_utf8(sectionName)
             + HTML_A_OUT_TAG + HTML_LI_OUT_TAG + std::string("\n");
         this->utf8stream = this->utf8stream + "<ul class = \"list-chapter\">" + std::string("\n");
         if ((names.size() == urls.size()) && (names.size() == descriptions.size())) {

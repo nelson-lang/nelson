@@ -24,13 +24,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocAuthorItem.hpp"
+
+#include <utility>
 #include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocAuthorItem::XmlDocAuthorItem(const std::wstring& author) : _author(author){};
+XmlDocAuthorItem::XmlDocAuthorItem(std::wstring author) : _author(std::move(author)){};
 //=============================================================================
 XmlDocAuthorItem::~XmlDocAuthorItem() { this->_author = L""; }
 //=============================================================================

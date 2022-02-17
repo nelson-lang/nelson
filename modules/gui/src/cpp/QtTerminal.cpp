@@ -364,7 +364,8 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
     if (event->matches(QKeySequence::MoveToStartOfLine)) {
         handleHomePress();
         return;
-    } else if (event->matches(QKeySequence::MoveToPreviousLine)) {
+    }
+    if (event->matches(QKeySequence::MoveToPreviousLine)) {
         handleUpKeyPress();
         return;
     } else if (event->matches(QKeySequence::MoveToNextLine)) {

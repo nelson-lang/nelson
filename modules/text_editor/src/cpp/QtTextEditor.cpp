@@ -117,11 +117,10 @@ QtTextEditor::loadOrCreateFile(const QString& filename)
                 QMessageBox::Yes | QMessageBox::Default, QMessageBox::No)
             == QMessageBox::No) {
             return;
-        } else {
-            addTabUntitled();
-            setCurrentFile(filename);
-            return;
         }
+        addTabUntitled();
+        setCurrentFile(filename);
+        return;
     }
     loadFile(filename);
 }
@@ -151,10 +150,10 @@ QtTextEditor::createActions()
     saveAllAction = new QAction(QIcon(fileNameIcon), TR("Save A&ll"), this);
     saveAllAction->setShortcut(QKeySequence(Qt::Key_S, Qt::CTRL, Qt::SHIFT));
     connect(saveAllAction, SIGNAL(triggered()), this, SLOT(saveAll()));
-    for (int i = 0; i < MAX_RECENT_FILES; ++i) {
-        recentFileActions[i] = new QAction(this);
-        recentFileActions[i]->setVisible(false);
-        connect(recentFileActions[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
+    for (auto& recentFileAction : recentFileActions) {
+        recentFileAction = new QAction(this);
+        recentFileAction->setVisible(false);
+        connect(recentFileAction, SIGNAL(triggered()), this, SLOT(openRecentFile()));
     }
     closeAction = new QAction(TR("&Close"), this);
     connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTab()));
@@ -239,8 +238,8 @@ QtTextEditor::createMenus()
     fileMenu->addAction(closeAction);
     fileMenu->addAction(closeAllAction);
     separatorAction = fileMenu->addSeparator();
-    for (int i = 0; i < MAX_RECENT_FILES; ++i) {
-        fileMenu->addAction(recentFileActions[i]);
+    for (auto& recentFileAction : recentFileActions) {
+        fileMenu->addAction(recentFileAction);
     }
     fileMenu->addSeparator();
     updateRecentFileActions();
@@ -337,7 +336,8 @@ QtTextEditor::maybeSave()
             QMessageBox::Cancel | QMessageBox::Escape);
         if (ret == QMessageBox::Yes) {
             return save();
-        } else if (ret == QMessageBox::Cancel) {
+        }
+        if (ret == QMessageBox::Cancel) {
             return false;
         }
     }
@@ -366,9 +366,9 @@ QtTextEditor::saveFileWithEncoding(
             out << data;
             file.close();
             return true;
-        } else {
-            return false;
         }
+        return false;
+
     } else {
         std::wstring unicodeData = QStringTowstring(data);
         std::string encoding = wstring_to_utf8(QStringTowstring(sourceEncoding));
@@ -794,12 +794,12 @@ QtTextEditor::closeTab(int indexTab)
 void
 QtTextEditor::tabChanged(int indexTab)
 {
-    disconnect(copyAction, SIGNAL(triggered()), 0, 0);
+    disconnect(copyAction, SIGNAL(triggered()), nullptr, nullptr);
     connect(cutAction, SIGNAL(triggered()), currentEditor(), SLOT(cut()));
     connect(copyAction, SIGNAL(triggered()), currentEditor(), SLOT(copy()));
     connect(pasteAction, SIGNAL(triggered()), currentEditor(), SLOT(paste()));
     if (prevEdit) {
-        disconnect(prevEdit->document(), SIGNAL(contentsChanged()), 0, 0);
+        disconnect(prevEdit->document(), SIGNAL(contentsChanged()), nullptr, nullptr);
     }
     connect(
         currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
@@ -1078,13 +1078,12 @@ QtTextEditor::reloadFile(const QString filenameModified)
                     == QMessageBox::No) {
                     filesModifiedMessageDisplayedList.removeAll(filenameModified);
                     return;
-                } else {
-                    filesModifiedMessageDisplayedList.removeAll(filenameModified);
-                    tab->setCurrentIndex(i);
-                    closeTab();
-                    loadFile(filenameModified);
-                    return;
                 }
+                filesModifiedMessageDisplayedList.removeAll(filenameModified);
+                tab->setCurrentIndex(i);
+                closeTab();
+                loadFile(filenameModified);
+                return;
             }
         }
     }

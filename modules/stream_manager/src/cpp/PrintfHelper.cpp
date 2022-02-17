@@ -28,8 +28,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-PrintfHelper::PrintfHelper(ArrayOfVector arg_)
-    : args(std::move(arg_)), vectorIndex(1), elementIndex(0)
+PrintfHelper::PrintfHelper(ArrayOfVector arg_) : args(arg_), vectorIndex(1), elementIndex(0)
 {
     hasMoreData = (args.size() > 1);
     dataUsed = false;

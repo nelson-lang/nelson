@@ -140,52 +140,51 @@ FileCompleter(const std::wstring& prefix)
                         for (boost::filesystem::directory_iterator p(branch), end; p != end; ++p) {
                             if (!boost::regex_match(p->path().leaf().wstring(), rmask)) {
                                 continue;
+                            }
+                            std::wstring file(p->path().wstring());
+                            if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
+                                file = std::wstring(file.begin() + 2, file.end());
+                            }
+                            boost::filesystem::path current = file;
+                            std::wstring fname = current.wstring();
+                            if (IsDirectory(fname)) {
+                                fname = fname + L"/";
+                            }
+                            std::wstring complet;
+#ifdef _MSC_VER
+                            if ((*prefix.rbegin() == L'/') || (*prefix.rbegin() == L'\\'))
+#else
+                            if ((*prefix.rbegin() == L'/'))
+#endif
+                            {
+                                complet
+                                    = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
                             } else {
-                                std::wstring file(p->path().wstring());
-                                if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                                    file = std::wstring(file.begin() + 2, file.end());
-                                }
-                                boost::filesystem::path current = file;
-                                std::wstring fname = current.wstring();
-                                if (IsDirectory(fname)) {
-                                    fname = fname + L"/";
-                                }
-                                std::wstring complet;
+                                size_t pos = std::wstring::npos;
 #ifdef _MSC_VER
-                                if ((*prefix.rbegin() == L'/') || (*prefix.rbegin() == L'\\'))
-#else
-                                if ((*prefix.rbegin() == L'/'))
-#endif
-                                {
-                                    complet = fname.substr(
-                                        prefix.size(), fname.size() - prefix.size() + 1);
+                                size_t pos1 = prefix.rfind(L'/');
+                                size_t pos2 = prefix.rfind(L'\\');
+                                if (pos1 != std::wstring::npos && pos2 != std::wstring::npos) {
+                                    pos = std::max(pos1, pos2);
                                 } else {
-                                    size_t pos = std::wstring::npos;
-#ifdef _MSC_VER
-                                    size_t pos1 = prefix.rfind(L'/');
-                                    size_t pos2 = prefix.rfind(L'\\');
-                                    if (pos1 != std::wstring::npos && pos2 != std::wstring::npos) {
-                                        pos = std::max(pos1, pos2);
+                                    if (pos1 != std::wstring::npos) {
+                                        pos = pos1;
                                     } else {
-                                        if (pos1 != std::wstring::npos) {
-                                            pos = pos1;
-                                        } else {
-                                            pos = pos2;
-                                        }
+                                        pos = pos2;
                                     }
+                                }
 #else
-                                    pos = prefix.rfind(L'/');
+                                pos = prefix.rfind(L'/');
 #endif
-                                    if (pos != std::wstring::npos) {
-                                        complet = fname.substr(pos + 1);
-                                    } else {
-                                        complet = fname.substr(
-                                            path.size(), fname.size() - path.size() + 1);
-                                    }
+                                if (pos != std::wstring::npos) {
+                                    complet = fname.substr(pos + 1);
+                                } else {
+                                    complet
+                                        = fname.substr(path.size(), fname.size() - path.size() + 1);
                                 }
-                                if (!complet.empty()) {
-                                    res.push_back(complet);
-                                }
+                            }
+                            if (!complet.empty()) {
+                                res.push_back(complet);
                             }
                         }
                     } catch (const boost::filesystem::filesystem_error&) {

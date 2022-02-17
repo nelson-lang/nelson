@@ -38,19 +38,19 @@ constexpr auto WARNING_NEARLY_SINGULAR_MATRIX = L"Nelson:nearlySingularMatrix";
 constexpr auto WARNING_IMAGINARY_PART_IGNORED = L"Nelson:imaginaryPartIgnored";
 constexpr auto WARNING_NOT_FULLY_SERIALIZED = L"Nelson:notFullySerialized";
 //=============================================================================
-typedef enum
+enum WARNING_STATE
 {
     DISABLED,
     ENABLED,
     AS_ERROR,
     NOT_FOUND
-} WARNING_STATE;
+};
 //=============================================================================
-typedef struct
+struct WARNING_IDS_STATES
 {
     std::vector<std::wstring> IDs;
     std::vector<WARNING_STATE> states;
-} WARNING_IDS_STATES;
+};
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP WARNING_STATE
 warningCheckState(const std::wstring& id);

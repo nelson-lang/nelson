@@ -159,7 +159,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     ArrayOfVector inputArguments;
     inputArguments.push_back(ArrayOf::characterArrayConstructor(paramFilename));
-    for (std::wstring name : names) {
+    for (const std::wstring& name : names) {
         inputArguments.push_back(ArrayOf::characterArrayConstructor(name));
     }
     return funcDef->evaluateFunction(eval, inputArguments, nLhs);

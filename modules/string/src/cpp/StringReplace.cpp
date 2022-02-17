@@ -282,9 +282,9 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         }
         if (STR.isStringArray()) {
             return ArrayOf::stringArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
-        } else {
-            return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
         }
+        return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
+
     } else {
         size_t nbOutput;
         Dimensions outputDims;

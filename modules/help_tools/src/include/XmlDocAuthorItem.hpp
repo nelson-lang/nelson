@@ -37,7 +37,7 @@ private:
     std::wstring _author;
 
 public:
-    XmlDocAuthorItem(const std::wstring& author);
+    XmlDocAuthorItem(std::wstring author);
     ~XmlDocAuthorItem();
     std::wstring
     getItemType();

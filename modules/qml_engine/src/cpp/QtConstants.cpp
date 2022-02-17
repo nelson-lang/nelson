@@ -1254,9 +1254,8 @@ QtConstants()
         initializeQtConstantsMap();
     }
     wstringVector names;
-    for (std::map<std::wstring, int>::iterator it = mapConstants.begin(); it != mapConstants.end();
-         ++it) {
-        names.push_back(it->first);
+    for (auto& mapConstant : mapConstants) {
+        names.push_back(mapConstant.first);
     }
     return names;
 }

@@ -53,7 +53,7 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
     hssize_t npoints = H5Sget_select_npoints(space2);
     int rank = 1;
     Dimensions dims2((indexType)npoints, 1);
-    hid_t memspace = H5Screate_simple(rank, (hsize_t*)&npoints, NULL);
+    hid_t memspace = H5Screate_simple(rank, (hsize_t*)&npoints, nullptr);
     void* rdata2 = ArrayOf::allocateArrayOf(outputClass, (indexType)npoints, stringVector(), false);
     element = ArrayOf(outputClass, dims2, rdata2);
     herr_t status = H5Dread(dset2, dataType, memspace, space2, H5P_DEFAULT, rdata2);
@@ -118,7 +118,7 @@ h5ReadReferenceInteger(
     hssize_t npoints = H5Sget_select_npoints(space2);
     int rank = 1;
     Dimensions dims2((indexType)npoints, 1);
-    hid_t memspace = H5Screate_simple(rank, (hsize_t*)&npoints, NULL);
+    hid_t memspace = H5Screate_simple(rank, (hsize_t*)&npoints, nullptr);
     void* rdata2 = ArrayOf::allocateArrayOf(outputClass, (indexType)npoints, stringVector(), false);
     element = ArrayOf(outputClass, dims2, rdata2);
     herr_t status = H5Dread(dset2, dataType, memspace, space2, H5P_DEFAULT, rdata2);

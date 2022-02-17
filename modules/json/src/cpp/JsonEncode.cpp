@@ -458,7 +458,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             indexType elementCount = ValueToEncode.getElementCount();
             for (int i = 0; i < elementCount; i++) {
                 json_append_char(L'{');
-                for (auto fieldname : fieldnames) {
+                for (const auto& fieldname : fieldnames) {
                     ArrayOfVector values = ValueToEncode.getFieldAsList(fieldname);
                     if (!values.empty()) {
                         json_append_string(L"\"" + utf8_to_wstring(fieldname) + L"\":");

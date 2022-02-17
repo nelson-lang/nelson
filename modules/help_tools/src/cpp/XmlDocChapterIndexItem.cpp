@@ -33,9 +33,9 @@ XmlDocChapterIndexItem::XmlDocChapterIndexItem() { chapterRefVector.clear(); }
 //=============================================================================
 XmlDocChapterIndexItem::~XmlDocChapterIndexItem()
 {
-    for (size_t k = 0; k < chapterRefVector.size(); k++) {
-        delete chapterRefVector[k];
-        chapterRefVector[k] = nullptr;
+    for (auto& k : chapterRefVector) {
+        delete k;
+        k = nullptr;
     }
     chapterRefVector.clear();
 }
@@ -66,8 +66,8 @@ bool
 XmlDocChapterIndexItem::writeAsHtml(std::string& utf8stream)
 {
     utf8stream = utf8stream + "<ul class=\"list-chapter\">" + "\n";
-    for (size_t k = 0; k < chapterRefVector.size(); k++) {
-        chapterRefVector[k]->writeAsHtml(utf8stream);
+    for (auto& k : chapterRefVector) {
+        k->writeAsHtml(utf8stream);
     }
     utf8stream = utf8stream + "</ul>" + "\n";
     utf8stream = utf8stream + "\n";
@@ -78,8 +78,8 @@ bool
 XmlDocChapterIndexItem::writeAsMarkdown(std::string& utf8stream)
 {
     utf8stream = utf8stream + "\n";
-    for (size_t k = 0; k < chapterRefVector.size(); k++) {
-        chapterRefVector[k]->writeAsMarkdown(utf8stream);
+    for (auto& k : chapterRefVector) {
+        k->writeAsMarkdown(utf8stream);
     }
     utf8stream = utf8stream + "\n";
     return true;

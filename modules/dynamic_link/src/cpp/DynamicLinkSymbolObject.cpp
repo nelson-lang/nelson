@@ -47,7 +47,10 @@ public:
 //=============================================================================
 CType::CType() = default;
 //=============================================================================
-CType::CType(ffi_type* baseType, NelsonType baseClass) : NelsonClass(baseClass) { FFIType = baseType; }
+CType::CType(ffi_type* baseType, NelsonType baseClass) : NelsonClass(baseClass)
+{
+    FFIType = baseType;
+}
 //=============================================================================
 static bool ffiTypesMapInitialized = false;
 static std::unordered_map<std::wstring, CType> ffiTypesMap;
@@ -137,7 +140,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     if (_returnType != L"void") {
         _nArgOut++;
     }
-    for (std::wstring param : _paramsTypes) {
+    for (const std::wstring& param : _paramsTypes) {
         if (param == L"void") {
             Error(_W("'void' not allowed as input type."));
         }
@@ -152,7 +155,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
         Error(_W("error memory allocation."));
     } else {
         size_t i = 0;
-        for (std::wstring param : _paramsTypes) {
+        for (const std::wstring& param : _paramsTypes) {
             args[i++] = GetFFIType(param);
         }
         if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(),
@@ -190,7 +193,7 @@ DynamicLinkSymbolObject::buildPrototype()
     } else {
         _paramsOutTypes.push_back(_returnType);
         _prototype = L"[" + _returnType;
-        for (std::wstring param : _paramsTypes) {
+        for (const std::wstring& param : _paramsTypes) {
             if (boost::algorithm::ends_with(param, L"Ptr")) {
                 _prototype = _prototype + L", " + param;
                 _paramsOutTypes.push_back(param);
@@ -199,7 +202,7 @@ DynamicLinkSymbolObject::buildPrototype()
         _prototype = _prototype + L"] = " + _symbol + L" (";
     }
     bool first = true;
-    for (std::wstring param : _paramsTypes) {
+    for (const std::wstring& param : _paramsTypes) {
         if (first) {
             _prototype = _prototype + param;
             first = false;
@@ -216,7 +219,7 @@ DynamicLinkSymbolObject::lengthTextToDisplay(const wstringVector& params)
 {
     size_t len = 0;
     size_t postLen = wcslen(L", ");
-    for (std::wstring str : params) {
+    for (const std::wstring& str : params) {
         len = len + str.length() + postLen;
     }
     return len;

@@ -138,7 +138,7 @@ ClearPersistentVariable(Evaluator* eval, const std::string& variable)
         if (func->type() == NLS_MACRO_FUNCTION) {
             stringVector allVariableNames;
             eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
-            for (std::string name : allVariableNames) {
+            for (const std::string& name : allVariableNames) {
                 if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
                     res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
                 }

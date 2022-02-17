@@ -200,8 +200,8 @@ RandomLaggedFibonacci607::setState(const boost::container::vector<uint32>& _stat
 {
     // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::stringstream line;
-    for (size_t k = 0; k < _state.size(); k++) {
-        line << ' ' << _state[k];
+    for (unsigned int k : _state) {
+        line << ' ' << k;
     }
     line >> rngLaggedFibonacci607;
 }

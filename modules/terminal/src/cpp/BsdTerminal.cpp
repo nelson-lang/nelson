@@ -37,7 +37,7 @@ BsdTerminal::BsdTerminal()
     atPrompt = false;
 }
 //=============================================================================
-BsdTerminal::~BsdTerminal() {}
+BsdTerminal::~BsdTerminal() = default;
 //=============================================================================
 std::wstring
 BsdTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)

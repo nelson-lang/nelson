@@ -117,7 +117,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     }
     ArrayOfVector inputArguments;
     inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
-    for (std::string name : names) {
+    for (const std::string& name : names) {
         inputArguments.push_back(ArrayOf::characterArrayConstructor(name));
     }
     ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, asStruct ? 1 : 0);
@@ -183,7 +183,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
         Context* context = eval->getContext();
         Scope* globalScope = context->getGlobalScope();
         Scope* currentScope = context->getCurrentScope();
-        for (std::string name : variablesNamesToRead) {
+        for (const std::string& name : variablesNamesToRead) {
             ArrayOf value;
             bool found = false;
             if (onlyGlobal) {

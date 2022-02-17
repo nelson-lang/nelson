@@ -92,13 +92,12 @@ commonFilesAssociated(
     if (currentMode == NELSON_ENGINE_MODE::GUI) {
         if (!filesToOpen.empty()) {
             try {
-                for (size_t k = 0; k < filesToOpen.size(); k++) {
-                    boost::filesystem::path pathFileToOpen(filesToOpen[k]);
+                for (const auto& k : filesToOpen) {
+                    boost::filesystem::path pathFileToOpen(k);
                     bool bIsFile = boost::filesystem::exists(pathFileToOpen)
                         && !boost::filesystem::is_directory(pathFileToOpen);
                     if (bIsFile) {
-                        std::wstring commandToExecute
-                            = command + std::wstring(L"('" + filesToOpen[k] + L"');");
+                        std::wstring commandToExecute = command + std::wstring(L"('" + k + L"');");
                         bool r = PostCommandDynamicFunction(commandToExecute);
                         if (r != true) {
                             return false;

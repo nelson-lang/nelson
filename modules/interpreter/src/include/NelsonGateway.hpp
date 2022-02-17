@@ -33,12 +33,12 @@ namespace Nelson {
 //=============================================================================
 typedef void* ptrBuiltin;
 //=============================================================================
-typedef enum
+enum BUILTIN_PROTOTYPE
 {
     CPP_BUILTIN = 0,
     CPP_BUILTIN_WITH_EVALUATOR = 1,
     C_MEX_BUILTIN = 2
-} BUILTIN_PROTOTYPE;
+};
 //=============================================================================
 typedef struct nlsGatewayStructType
 {

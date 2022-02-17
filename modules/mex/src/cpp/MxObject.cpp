@@ -46,7 +46,8 @@ mxIsClass(const mxArray* pm, const char* classname)
     }
     if (strcmp(classname, "cell") == 0) {
         return (pm->classID == mxCELL_CLASS);
-    } else if (strcmp(classname, "char") == 0) {
+    }
+    if (strcmp(classname, "char") == 0) {
         return (pm->classID == mxCHAR_CLASS);
     } else if (strcmp(classname, "double") == 0) {
         return (pm->classID == mxDOUBLE_CLASS);

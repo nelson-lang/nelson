@@ -120,8 +120,8 @@ void
 XmlDocDescriptionItem::replaceImageTag()
 {
     // extract path
-    for (size_t k = 0; k < imagesTag.size(); k++) {
-        std::wstring tag = imagesTag[k];
+    for (auto& k : imagesTag) {
+        std::wstring tag = k;
         std::wstring oldPath;
         std::wstring newPath;
         if (parseImageTag(tag, this->srcDirectory, oldPath, newPath)) {
@@ -142,8 +142,8 @@ XmlDocDescriptionItem::replaceImageTag()
                 newfilename = filename + L"_" + crc + extension;
             }
             boost::replace_all(tag, oldPath, newfilename);
-            boost::replace_all(this->_description, imagesTag[k], tag);
-            imagesTag[k] = tag;
+            boost::replace_all(this->_description, k, tag);
+            k = tag;
             imagesSource.push_back(newPath);
             imagesDestination.push_back(this->destDirectory + L"/" + newfilename);
         } else {

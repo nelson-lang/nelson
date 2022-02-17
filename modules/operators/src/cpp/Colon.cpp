@@ -141,12 +141,11 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
             if (step < 0) {
                 Dimensions dims(1, 0);
                 return ArrayOf::emptyConstructor(dims);
-            } else {
-                if (destinationClass == NLS_SINGLE) {
-                    return ArrayOf::singleConstructor((single)low);
-                }
-                return ArrayOf::doubleConstructor((double)low);
             }
+            if (destinationClass == NLS_SINGLE) {
+                return ArrayOf::singleConstructor((single)low);
+            }
+            return ArrayOf::doubleConstructor((double)low);
         }
         if (!std::isfinite(high)) {
             if (high < 0) {

@@ -100,37 +100,37 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     retval << ArrayOf::characterArrayConstructor(L"off");
                 }
                 return retval;
-            } else {
-                double val = param1.getContentAsDoubleScalar();
-                if (!pauseOn) {
-                    return retval;
-                }
-                if (std::isinf(val)) {
-                    while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
-                        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
-                        if (eval->haveEventsLoop()) {
-                            ProcessEventsDynamicFunctionWithoutWait();
-                        }
-                    }
-                } else if (std::isnan(val)) {
-                    // DO NOTHING
-                } else {
-                    boost::chrono::nanoseconds begin_time
-                        = boost::chrono::high_resolution_clock::now().time_since_epoch();
-                    bool bContinue = true;
-                    do {
-                        boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
-                        boost::chrono::nanoseconds current_time
-                            = boost::chrono::high_resolution_clock::now().time_since_epoch();
-                        boost::chrono::nanoseconds difftime = (current_time - begin_time);
-                        bContinue = !(difftime.count() > int64(val * 1e9));
-                        if (eval->haveEventsLoop()) {
-                            ProcessEventsDynamicFunctionWithoutWait();
-                        }
-                    } while (!NelsonConfiguration::getInstance()->getInterruptPending()
-                        && (static_cast<int>(bContinue) == true));
-                }
             }
+            double val = param1.getContentAsDoubleScalar();
+            if (!pauseOn) {
+                return retval;
+            }
+            if (std::isinf(val)) {
+                while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
+                    boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
+                    if (eval->haveEventsLoop()) {
+                        ProcessEventsDynamicFunctionWithoutWait();
+                    }
+                }
+            } else if (std::isnan(val)) {
+                // DO NOTHING
+            } else {
+                boost::chrono::nanoseconds begin_time
+                    = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                bool bContinue = true;
+                do {
+                    boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
+                    boost::chrono::nanoseconds current_time
+                        = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                    boost::chrono::nanoseconds difftime = (current_time - begin_time);
+                    bContinue = !(difftime.count() > int64(val * 1e9));
+                    if (eval->haveEventsLoop()) {
+                        ProcessEventsDynamicFunctionWithoutWait();
+                    }
+                } while (!NelsonConfiguration::getInstance()->getInterruptPending()
+                    && (static_cast<int>(bContinue) == true));
+            }
+
         } else {
             bool bSuccess = false;
             retval = OverloadFunction(eval, nLhs, argIn, "pause", bSuccess);

@@ -28,7 +28,7 @@
 #else
 #include <sys/resource.h>
 #include <sys/times.h>
-#include <time.h>
+#include <ctime>
 #include <unistd.h>
 #endif
 #include "CpuTime.hpp"

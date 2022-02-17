@@ -599,7 +599,8 @@ fffpower(int n, single* c, single* a, int stride1, single* b, int stride2)
 using vvfun = void (*)(indexType, void*, const void*, const int, const void*, const int);
 //=============================================================================
 inline ArrayOf
-doPowerAssist(ArrayOf A, NelsonType AClass, ArrayOf B, NelsonType BClass, NelsonType CClass, vvfun exec)
+doPowerAssist(
+    ArrayOf A, NelsonType AClass, ArrayOf B, NelsonType BClass, NelsonType CClass, vvfun exec)
 {
     ArrayOf C;
     A.promoteType(AClass);

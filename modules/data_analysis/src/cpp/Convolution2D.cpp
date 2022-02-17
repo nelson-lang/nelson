@@ -73,7 +73,8 @@ isSupportedInputTypes(const ArrayOf& A)
 }
 //=============================================================================
 static void
-computeCommonType(const ArrayOf& A, const ArrayOf& B, NelsonType& intermediateClass, NelsonType& outClass)
+computeCommonType(
+    const ArrayOf& A, const ArrayOf& B, NelsonType& intermediateClass, NelsonType& outClass)
 {
     intermediateClass = NLS_DOUBLE;
     outClass = NLS_DOUBLE;

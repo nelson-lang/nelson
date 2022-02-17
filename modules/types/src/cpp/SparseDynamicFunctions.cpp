@@ -151,7 +151,8 @@ void*
 TypeConvertSparseDynamicFunction(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, NelsonType oclass)
 {
-    using PROC_TypeConvertSparse = void* (*)(NelsonType, indexType, indexType, const void*, NelsonType);
+    using PROC_TypeConvertSparse
+        = void* (*)(NelsonType, indexType, indexType, const void*, NelsonType);
     static PROC_TypeConvertSparse Eigen_TypeConvertSparsePtr = nullptr;
     initSparseDynamicLibrary();
     if (!Eigen_TypeConvertSparsePtr) {
@@ -230,8 +231,8 @@ SparseMatrixConstructorDynamicFunction(
 }
 //=============================================================================
 void*
-GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* src,
-    const indexType* indx, indexType irows, indexType icols)
+GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
+    const void* src, const indexType* indx, indexType irows, indexType icols)
 {
     using PROC_GetSparseVectorSubsets = void* (*)(NelsonType, indexType, indexType, const void*,
         const indexType*, indexType, indexType);
@@ -248,8 +249,9 @@ GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexTy
 }
 //=============================================================================
 void*
-GetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols, const void* src,
-    const indexType* rindx, indexType irows, const indexType* cindx, indexType icols)
+GetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
+    const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
+    indexType icols)
 {
     using PROC_GetSparseNDimSubsets = void* (*)(NelsonType, indexType, indexType, const void*,
         const indexType*, indexType, const indexType*, indexType);
@@ -286,9 +288,9 @@ SetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexT
 }
 //=============================================================================
 void*
-SetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexType& cols, const void* src,
-    const indexType* rindx, indexType irows, const indexType* cindx, indexType icols,
-    const void* data, int advance)
+SetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexType& cols,
+    const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
+    indexType icols, const void* data, int advance)
 {
     using PROC_SetSparseNDimSubsets = void* (*)(NelsonType, indexType&, indexType&, const void*,
         const indexType*, indexType, const indexType*, indexType, const void*, int);
@@ -306,8 +308,8 @@ SetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexTyp
 }
 //=============================================================================
 void*
-GetSparseScalarElementDynamicFunction(
-    NelsonType dclass, indexType rows, indexType cols, const void* src, indexType rindx, indexType cindx)
+GetSparseScalarElementDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
+    const void* src, indexType rindx, indexType cindx)
 {
     using PROC_GetSparseScalarElement
         = void* (*)(NelsonType, indexType, indexType, const void*, indexType, indexType);
@@ -327,7 +329,8 @@ void*
 DeleteSparseMatrixColsDynamicFunction(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
-    using PROC_DeleteSparseMatrixCols = void* (*)(NelsonType, indexType, indexType, const void*, bool*);
+    using PROC_DeleteSparseMatrixCols
+        = void* (*)(NelsonType, indexType, indexType, const void*, bool*);
     static PROC_DeleteSparseMatrixCols Eigen_DeleteSparseMatrixColsPtr = nullptr;
     initSparseDynamicLibrary();
     if (!Eigen_DeleteSparseMatrixColsPtr) {
@@ -344,7 +347,8 @@ void*
 DeleteSparseMatrixRowsDynamicFunction(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
-    using PROC_DeleteSparseMatrixRows = void* (*)(NelsonType, indexType, indexType, const void*, bool*);
+    using PROC_DeleteSparseMatrixRows
+        = void* (*)(NelsonType, indexType, indexType, const void*, bool*);
     static PROC_DeleteSparseMatrixRows Eigen_DeleteSparseMatrixRowsPtr = nullptr;
     initSparseDynamicLibrary();
     if (!Eigen_DeleteSparseMatrixRowsPtr) {
@@ -377,8 +381,8 @@ DeleteSparseMatrixVectorSubsetDynamicFunction(NelsonType dclass, indexType& rows
 }
 //=============================================================================
 void*
-ReshapeSparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType cols, indexType newrows,
-    indexType newcols, const void* cp)
+ReshapeSparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
+    indexType newrows, indexType newcols, const void* cp)
 {
     using PROC_Eigen_ReshapeSparseMatrix
         = void* (*)(NelsonType, indexType, indexType, indexType, indexType, const void*);

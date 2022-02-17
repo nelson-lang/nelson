@@ -98,8 +98,8 @@ isMemberCharacterArray(const ArrayOf& A, const ArrayOf& B)
 #endif
     for (ompIndexType k = 0; k < (ompIndexType)stringsA.size(); ++k) {
         std::wstring value = stringsA[k];
-        for (indexType q = 0; q < stringsB.size(); ++q) {
-            if (value == stringsB[q]) {
+        for (auto& q : stringsB) {
+            if (value == q) {
                 elements[k] = true;
                 break;
             }

@@ -34,10 +34,10 @@ bool
 RepositoryIsSHA1(const std::wstring& localPath, const std::wstring& sha1Str)
 {
     bool found = false;
-    git_object* treeish = NULL;
+    git_object* treeish = nullptr;
 
     std::string localPathUtf8 = wstring_to_utf8(localPath);
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     git_libgit2_init();
 
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());

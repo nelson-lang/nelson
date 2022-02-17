@@ -95,7 +95,7 @@ initContext(std::wstring& error, bool validate)
     ctxt = xmlNewParserCtxt();
     if (!ctxt) {
         error = _W("Cannot create a parser context");
-        return 0;
+        return nullptr;
     }
     if (errorBuffer) {
         delete errorBuffer;
@@ -112,20 +112,20 @@ xmlDoc*
 readDocument(const std::string& xmlCode, bool validate, std::wstring& error)
 {
     xmlParserCtxt* ctxt = initContext(error, validate);
-    xmlDoc* doc = 0;
+    xmlDoc* doc = nullptr;
     int options = XML_PARSE_NSCLEAN | XML_PARSE_NOBLANKS;
     if (validate) {
         options = options | XML_PARSE_DTDVALID;
     }
     if (!ctxt) {
-        xmlSetGenericErrorFunc(0, errorFunctionWithoutOutput);
-        return 0;
+        xmlSetGenericErrorFunc(nullptr, errorFunctionWithoutOutput);
+        return nullptr;
     }
-    doc = xmlCtxtReadDoc(ctxt, (const xmlChar*)xmlCode.c_str(), 0, 0, options);
+    doc = xmlCtxtReadDoc(ctxt, (const xmlChar*)xmlCode.c_str(), nullptr, nullptr, options);
     if (!doc || !ctxt->valid) {
         error = *errorBuffer;
     }
-    xmlSetGenericErrorFunc(0, errorFunctionWithoutOutput);
+    xmlSetGenericErrorFunc(nullptr, errorFunctionWithoutOutput);
     xmlFreeParserCtxt(ctxt);
     return doc;
 }

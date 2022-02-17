@@ -130,7 +130,7 @@ getVariableNames(hid_t fid)
             char* varName = nullptr;
             size_t sLen = 0;
             sLen = (size_t)H5Lget_name_by_idx(
-                fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, NULL, sLen, H5P_DEFAULT);
+                fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, nullptr, sLen, H5P_DEFAULT);
 
             try {
                 varName = new char[sLen + 1];
@@ -203,7 +203,7 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
     hid_t attr_id
         = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_CLASS_STR, H5P_DEFAULT, H5P_DEFAULT);
     hid_t aspace = H5Aget_space(attr_id);
-    herr_t status = H5Sget_simple_extent_dims(aspace, dims, NULL);
+    herr_t status = H5Sget_simple_extent_dims(aspace, dims, nullptr);
     if (status < 0) {
         H5Aclose(attr_id);
         H5Sclose(aspace);
@@ -267,7 +267,7 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
         return res;
     }
     hid_t aspace = H5Aget_space(attr_id);
-    herr_t status = H5Sget_simple_extent_dims(aspace, dims, NULL);
+    herr_t status = H5Sget_simple_extent_dims(aspace, dims, nullptr);
     if (status < 0) {
         H5Sclose(aspace);
         H5Oclose(obj_id);

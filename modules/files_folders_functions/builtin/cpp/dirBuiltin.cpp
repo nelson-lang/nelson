@@ -77,19 +77,18 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
             NelsonPrint(msg);
         } else {
             NelsonPrint("\n");
-            for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
-                 ++it) {
+            for (auto& re : res) {
                 if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                     break;
                 }
                 std::wstring filename;
                 if (bSubDirectories) {
-                    filename = it->getFolder() + L"/" + it->getName();
+                    filename = re.getFolder() + L"/" + re.getName();
                 } else {
-                    filename = it->getName();
+                    filename = re.getName();
                 }
-                if (it->isDir()) {
-                    if (it->getName() != L"." && it->getName() != L"..") {
+                if (re.isDir()) {
+                    if (re.getName() != L"." && re.getName() != L"..") {
                         filename = filename + L"/";
                     }
                 }
@@ -126,19 +125,18 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
             bytes.reserve(res.size());
             isdirs.reserve(res.size());
             datenums.reserve(res.size());
-            for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
-                 ++it) {
-                names.push_back(ArrayOf::characterArrayConstructor(it->getName()));
-                folder.push_back(ArrayOf::characterArrayConstructor(it->getFolder()));
-                dates.push_back(ArrayOf::characterArrayConstructor(it->getDate()));
-                double bytesval = it->getBytes();
+            for (auto& re : res) {
+                names.push_back(ArrayOf::characterArrayConstructor(re.getName()));
+                folder.push_back(ArrayOf::characterArrayConstructor(re.getFolder()));
+                dates.push_back(ArrayOf::characterArrayConstructor(re.getDate()));
+                double bytesval = re.getBytes();
                 if (bytesval == -1) {
                     bytes.push_back(ArrayOf::emptyConstructor());
                 } else {
                     bytes.push_back(ArrayOf::doubleConstructor(bytesval));
                 }
-                isdirs.push_back(ArrayOf::logicalConstructor(it->isDir()));
-                double datenumval = it->getDatenum();
+                isdirs.push_back(ArrayOf::logicalConstructor(re.isDir()));
+                double datenumval = re.getDatenum();
                 if (datenumval == -1) {
                     datenums.push_back(ArrayOf::emptyConstructor());
                 } else {

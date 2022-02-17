@@ -425,8 +425,8 @@ AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, int BitsPerSa
         _TotalSamples = static_cast<int>(audioData.getElementCount() / _NumberOfChannels);
         outputStreamParameters.suggestedLatency
             = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
-        outputStreamParameters.hostApiSpecificStreamInfo = NULL;
-        PaError err = Pa_IsFormatSupported(0, &(outputStreamParameters), SampleRate);
+        outputStreamParameters.hostApiSpecificStreamInfo = nullptr;
+        PaError err = Pa_IsFormatSupported(nullptr, &(outputStreamParameters), SampleRate);
         if (err != paNoError) {
             const char* errorText = Pa_GetErrorText(err);
             errorMessage = utf8_to_wstring(errorText);
@@ -556,8 +556,8 @@ AudioplayerObject::play(int start, int end)
         }
     }
     _CurrentSample = firstSample;
-    PaError err = Pa_OpenStream(
-        &paStream, 0, &(outputStreamParameters), _SampleRate, 1024, paNoFlag, paPlayCallback, this);
+    PaError err = Pa_OpenStream(&paStream, nullptr, &(outputStreamParameters), _SampleRate, 1024,
+        paNoFlag, paPlayCallback, this);
     if (err != paNoError) {
         paStream = nullptr;
         return false;

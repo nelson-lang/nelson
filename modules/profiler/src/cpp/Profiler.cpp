@@ -206,7 +206,7 @@ Profiler::info(Profiler::Profile_Sort_Type sortOption)
 {
     std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>> profilerLines;
 
-    for (std::pair<size_t, profileFunction> element : profileMap) {
+    for (const std::pair<size_t, profileFunction>& element : profileMap) {
         profileFunction pF = element.second;
         uint64 index = std::get<3>(pF);
         internalProfileFunction iPf = std::get<0>(pF);
@@ -233,17 +233,15 @@ Profiler::info(Profiler::Profile_Sort_Type sortOption)
                 = std::make_tuple(filename, line, name, nbcalls, tottime, percall);
 
             bool found = false;
-            for (size_t k = 0; k < profilerLines.size(); ++k) {
-                if ((std::get<0>(value) == std::get<0>(profilerLines[k]))
-                    && (std::get<1>(value) == std::get<1>(profilerLines[k]))
-                    && (std::get<2>(value) == std::get<2>(profilerLines[k]))) {
+            for (auto& profilerLine : profilerLines) {
+                if ((std::get<0>(value) == std::get<0>(profilerLine))
+                    && (std::get<1>(value) == std::get<1>(profilerLine))
+                    && (std::get<2>(value) == std::get<2>(profilerLine))) {
                     found = true;
-                    std::get<3>(profilerLines[k])
-                        = std::get<3>(profilerLines[k]) + std::get<3>(value);
-                    std::get<4>(profilerLines[k])
-                        = std::get<4>(profilerLines[k]) + std::get<4>(value);
-                    std::get<5>(profilerLines[k])
-                        = std::get<4>(profilerLines[k]) / std::get<3>(profilerLines[k]);
+                    std::get<3>(profilerLine) = std::get<3>(profilerLine) + std::get<3>(value);
+                    std::get<4>(profilerLine) = std::get<4>(profilerLine) + std::get<4>(value);
+                    std::get<5>(profilerLine)
+                        = std::get<4>(profilerLine) / std::get<3>(profilerLine);
                 }
             }
             if (!found) {
@@ -291,9 +289,9 @@ Profiler::hash(internalProfileFunction stack)
 {
     std::string res;
     profileParentStack parent = std::get<0>(stack);
-    for (size_t k = 0; k < parent.size(); ++k) {
-        std::string filename = std::get<0>(parent[k]);
-        int linePosition = (int)std::get<1>(parent[k]);
+    for (auto& k : parent) {
+        std::string filename = std::get<0>(k);
+        int linePosition = (int)std::get<1>(k);
         res = res + filename + "|" + std::to_string(linePosition) + ">";
     }
     if (res.size()) {
@@ -380,7 +378,7 @@ Profiler::getInfoForContent(
             numcalls = -1;
             time = -1;
         }
-        lines.push_back(std::make_tuple(numcalls, time));
+        lines.emplace_back(numcalls, time);
     }
     return lines;
 }
@@ -390,11 +388,10 @@ Profiler::getInfoForLine(
     const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
     const std::wstring& filename, size_t line, int& numcalls, double& time)
 {
-    for (size_t k = 0; k < flatProfile.size(); ++k) {
-        if (utf8_to_wstring(std::get<0>(flatProfile[k])) == filename
-            && std::get<1>(flatProfile[k]) == line) {
-            numcalls = (int)std::get<2>(flatProfile[k]);
-            time = std::get<3>(flatProfile[k]) * 1e-9;
+    for (const auto& k : flatProfile) {
+        if (utf8_to_wstring(std::get<0>(k)) == filename && std::get<1>(k) == line) {
+            numcalls = (int)std::get<2>(k);
+            time = std::get<3>(k) * 1e-9;
             return true;
         }
     }
@@ -442,11 +439,10 @@ Profiler::save(
         std::tuple<std::string, uint64, uint64, uint64> value = std::make_tuple(
             std::get<0>(element), std::get<1>(element), std::get<3>(element), std::get<4>(element));
         bool found = false;
-        for (size_t k = 0; k < flatProfile.size(); ++k) {
-            if ((std::get<0>(value) == std::get<0>(flatProfile[k]))
-                && (std::get<1>(value) == std::get<1>(flatProfile[k]))) {
+        for (auto& k : flatProfile) {
+            if ((std::get<0>(value) == std::get<0>(k)) && (std::get<1>(value) == std::get<1>(k))) {
                 found = true;
-                std::get<3>(flatProfile[k]) = std::get<3>(flatProfile[k]) + std::get<3>(value);
+                std::get<3>(k) = std::get<3>(k) + std::get<3>(value);
             }
         }
         if (!found) {
@@ -457,8 +453,8 @@ Profiler::save(
     std::unordered_map<std::wstring, std::wstring> filenameIndex;
 
     size_t idx = 0;
-    for (size_t k = 0; k < flatProfile.size(); ++k) {
-        std::wstring filename = utf8_to_wstring(std::get<0>(flatProfile[k]));
+    for (auto& k : flatProfile) {
+        std::wstring filename = utf8_to_wstring(std::get<0>(k));
         auto it = filenameIndex.find(filename);
         if (it == filenameIndex.end()) {
             std::wstring destination
@@ -470,7 +466,7 @@ Profiler::save(
 
     std::vector<std::tuple<std::wstring, std::wstring, int, double, double>> indexData;
 
-    for (std::pair<std::wstring, std::wstring> element : filenameIndex) {
+    for (const std::pair<std::wstring, std::wstring>& element : filenameIndex) {
         stringVector functionContent = readFunction(element.first);
         std::tuple<int, double> res
             = computeBasicFileStats(flatProfile, functionContent, element.first);
@@ -481,8 +477,8 @@ Profiler::save(
         std::tuple<int, int, int, int, int, double> coverage
             = coverageAnalyzer(flatProfile, element.first, functionContent);
 
-        indexData.push_back(std::make_tuple(element.first, element.second, std::get<0>(res),
-            std::get<1>(res), std::get<5>(coverage)));
+        indexData.emplace_back(element.first, element.second, std::get<0>(res), std::get<1>(res),
+            std::get<5>(coverage));
 
         std::vector<std::tuple<int, double>> lineInfo
             = getInfoForContent(flatProfile, element.first, functionContent.size());
@@ -563,13 +559,13 @@ Profiler::getFiveLinesConsumingMostTime(
 {
     std::vector<std::tuple<int, std::string, int, double>> lines;
 
-    for (size_t k = 0; k < flatProfile.size(); ++k) {
-        if (utf8_to_wstring(std::get<0>(flatProfile[k])) == srcFilename) {
-            int linePos = (int)std::get<1>(flatProfile[k]);
-            double time = std::get<3>(flatProfile[k]) * 1e-9;
+    for (const auto& k : flatProfile) {
+        if (utf8_to_wstring(std::get<0>(k)) == srcFilename) {
+            int linePos = (int)std::get<1>(k);
+            double time = std::get<3>(k) * 1e-9;
 
-            std::tuple<int, std::string, int, double> line = std::make_tuple(
-                linePos, functionContent[linePos - 1], (int)std::get<2>(flatProfile[k]), time);
+            std::tuple<int, std::string, int, double> line
+                = std::make_tuple(linePos, functionContent[linePos - 1], (int)std::get<2>(k), time);
             lines.push_back(line);
         }
     }
@@ -619,7 +615,7 @@ Profiler::coverageAnalyzer(
     int keywords = 0;
 
     size_t res = 0;
-    for (std::string line : functionContent) {
+    for (const std::string& line : functionContent) {
         std::string temp = boost::algorithm::trim_copy(line);
         if (temp.empty() || boost::algorithm::starts_with(temp, "%")) {
             nonCodeLines++;
@@ -643,10 +639,9 @@ Profiler::getProfileForFile(
     const std::wstring& srcFilename)
 {
     std::vector<std::tuple<uint64, uint64, uint64>> profileByLine;
-    for (size_t k = 0; k < flatProfile.size(); ++k) {
-        if (utf8_to_wstring(std::get<0>(flatProfile[k])) == srcFilename) {
-            profileByLine.push_back(std::make_tuple(std::get<1>(flatProfile[k]),
-                std::get<2>(flatProfile[k]), std::get<3>(flatProfile[k])));
+    for (const auto& k : flatProfile) {
+        if (utf8_to_wstring(std::get<0>(k)) == srcFilename) {
+            profileByLine.emplace_back(std::get<1>(k), std::get<2>(k), std::get<3>(k));
         }
     }
     return profileByLine;

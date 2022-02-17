@@ -34,9 +34,9 @@ matchesString(const std::wstring& A, const std::wstring& B, bool ignoreCase)
 {
     if (!ignoreCase) {
         return (A == B);
-    } else {
-        return boost::iequals(A, B);
     }
+    return boost::iequals(A, B);
+
     return false;
 }
 //=============================================================================

@@ -36,7 +36,7 @@ RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& erro
 {
     std::wstring branchName;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     git_libgit2_init();
 
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
@@ -81,7 +81,7 @@ RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage)
 {
     wstringVector branchs;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
-    git_repository* repo = NULL;
+    git_repository* repo = nullptr;
     git_libgit2_init();
 
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());

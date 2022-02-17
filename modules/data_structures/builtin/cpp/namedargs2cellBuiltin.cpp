@@ -54,7 +54,7 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(
         Dimensions dims(1, fieldnames.size() * 2);
         ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         indexType k = 0;
-        for (std::string name : fieldnames) {
+        for (const std::string& name : fieldnames) {
             elements[k] = ArrayOf::characterArrayConstructor(name);
             elements[k + 1] = param1.getField(name);
             k = k + 2;

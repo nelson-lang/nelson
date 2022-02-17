@@ -47,14 +47,14 @@ getline(std::string& line, FILE* fp, bool& isCRLF)
 {
     isCRLF = false;
     line.clear();
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return false;
     }
     auto posBegin = NLSFTELL(fp);
     char chunk[BUFFER_LINE_SIZE];
     memset(chunk, '\0', sizeof(char) * BUFFER_LINE_SIZE);
     size_t len = BUFFER_LINE_SIZE;
-    while (fgets(chunk, sizeof(chunk), fp) != NULL) {
+    while (fgets(chunk, sizeof(chunk), fp) != nullptr) {
         line.append(chunk);
         memset(chunk, '\0', sizeof(char) * BUFFER_LINE_SIZE);
         if (line[line.size() - 1] == '\n') {

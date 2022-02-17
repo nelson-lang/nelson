@@ -172,8 +172,8 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         }
     } else {
         bool haveZeros = false;
-        for (size_t k = 0; k < sizeData.size(); k++) {
-            if (sizeData[k] < 0.5) {
+        for (double k : sizeData) {
+            if (k < 0.5) {
                 haveZeros = true;
                 break;
             }

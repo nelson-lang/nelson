@@ -133,18 +133,18 @@ private:
     /**
      * Get a read-only pointer to the data.
      */
-    const void*
+    [[nodiscard]] const void*
     getData() const;
     /**
      * Get the dimensions for the data block.
      */
-    const Dimensions&
+    [[nodiscard]] const Dimensions&
     getDimensions() const;
     /**
      * Get the field names for the data block
      */
 
-    std::string
+    [[nodiscard]] std::string
     getStructTypeName() const;
     /**
      * get struct type name (by default: struct)
@@ -156,7 +156,7 @@ private:
      * set struct type name (by default: struct)
      */
 
-    const stringVector&
+    [[nodiscard]] const stringVector&
     getFieldNames() const;
     /**
      * Set the dimensions for the data block.
@@ -176,7 +176,7 @@ private:
     /**
      * Get the number of owners.
      */
-    indexType
+    [[nodiscard]] indexType
     numberOfOwners() const;
     /**
      * If the data pointer is non-null, we take one of
@@ -191,43 +191,43 @@ private:
     /**
      * Check sparsity.
      */
-    bool
+    [[nodiscard]] bool
     isSparse() const;
     //=============================================================================
     void
     refreshDimensionCache();
     //=============================================================================
-    inline indexType
+    [[nodiscard]] inline indexType
     getElementCount() const
     {
         return getElementCountCache;
     }
     //=============================================================================
-    inline bool
+    [[nodiscard]] inline bool
     isScalar() const
     {
         return isScalarCache;
     }
     //=============================================================================
-    inline indexType
+    [[nodiscard]] inline indexType
     getRows() const
     {
         return getRowsCache;
     }
     //=============================================================================
-    inline indexType
+    [[nodiscard]] inline indexType
     getColumns() const
     {
         return getColumnsCache;
     }
     //=============================================================================
-    inline bool
+    [[nodiscard]] inline bool
     is2D() const
     {
         return is2DCache;
     }
     //=============================================================================
-    inline bool
+    [[nodiscard]] inline bool
     isVector() const
     {
         return isVectorCache;

@@ -328,8 +328,8 @@ Localization::initializeLocalization(const std::wstring& lang)
 bool
 Localization::isSupportedLanguage(const std::wstring& lang)
 {
-    for (size_t k = 0; k < LanguageSupported.size(); k++) {
-        if (lang == LanguageSupported[k]) {
+    for (auto& k : LanguageSupported) {
+        if (lang == k) {
             return true;
         }
     }

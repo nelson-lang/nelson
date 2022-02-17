@@ -31,7 +31,8 @@
 namespace Nelson {
 //=============================================================================
 logical
-realComparatorLessThan(NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
+realComparatorLessThan(
+    NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
     case NLS_LOGICAL: {

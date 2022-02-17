@@ -77,9 +77,9 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
 
             unsortedRemoveDuplicates(namesToRemove);
 
-            for (std::string n : namesToRemove) {
+            for (const std::string& n : namesToRemove) {
                 bool have = false;
-                for (std::string c : currentNames) {
+                for (const std::string& c : currentNames) {
                     if (c.compare(n) == 0) {
                         have = true;
                     }
@@ -89,12 +89,12 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
                 }
             }
             common = currentNames;
-            for (std::string c : namesToRemove) {
+            for (const std::string& c : namesToRemove) {
                 common.erase(std::remove(common.begin(), common.end(), c), common.end());
             }
             if (param1.isScalar()) {
                 ArrayOfVector values;
-                for (std::string c : common) {
+                for (const std::string& c : common) {
                     values.push_back(param1.getField(c));
                 }
                 retval << ArrayOf::structScalarConstructor(common, values);
@@ -104,7 +104,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(Evaluator* eval, int nLhs, const A
                     NLS_STRUCT_ARRAY, dims.getElementCount(), common, false));
 
                 ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, common);
-                for (std::string c : common) {
+                for (const std::string& c : common) {
                     ArrayOfVector data = param1.getFieldAsList(c);
                     st.setFieldAsList(c, data);
                 }

@@ -37,10 +37,10 @@ RepositorySwitchBranch(
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     std::string branchUtf8 = wstring_to_utf8(branch);
     git_repository* repo;
-    git_object* tree = NULL;
+    git_object* tree = nullptr;
     git_checkout_options opts;
     git_libgit2_init();
-    int errorCode = git_repository_open_ext(&repo, localPathUtf8.c_str(), 0, NULL);
+    int errorCode = git_repository_open_ext(&repo, localPathUtf8.c_str(), 0, nullptr);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
         git_libgit2_shutdown();

@@ -54,12 +54,12 @@ static int inStatement = 0;
 static bool inFunction = false;
 static int countEndFunction = 0;
 //=============================================================================
-typedef enum
+enum LexingStates
 {
     Initial,
     Scanning,
     SpecScan
-} LexingStates;
+};
 //=============================================================================
 #define DEFAULT_BUFFER_SIZE_LEXER 256
 //=============================================================================

@@ -80,7 +80,7 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     if (names.empty()) {
         variableNames = variableNamesInFile;
     } else {
-        for (std::wstring uname : names) {
+        for (const std::wstring& uname : names) {
             std::string name = wstring_to_utf8(uname);
             if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
                 != variableNamesInFile.end()) {
@@ -92,7 +92,7 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         }
     }
     ArrayOfVector values;
-    for (std::string name : variableNames) {
+    for (const std::string& name : variableNames) {
         ArrayOf value;
         if (h5LoadVariable(fid, "/", name, value)) {
             values.push_back(value);

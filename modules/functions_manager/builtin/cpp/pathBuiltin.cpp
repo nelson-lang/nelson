@@ -50,8 +50,8 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else {
                 NelsonPrint(_W("Nelson's search path contains the following directories:") + L"\n");
                 NelsonPrint(L"\n");
-                for (size_t k = 0; k < list.size(); ++k) {
-                    NelsonPrint(L"	" + list[k] + L"\n");
+                for (auto& k : list) {
+                    NelsonPrint(L"	" + k + L"\n");
                 }
             }
         } else {

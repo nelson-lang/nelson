@@ -105,7 +105,7 @@ get_dynamic_library_error()
 //=============================================================================
 #else
 typedef void* library_handle;
-typedef void* generic_function_ptr;
+using generic_function_ptr = void*;
 //=============================================================================
 inline int
 get_dlopen_flag(const std::string& library_name)

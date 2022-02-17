@@ -43,11 +43,11 @@ extensionToFormat(const std::wstring& extension, int& format)
 {
     int countFormat = 0;
     std::wstring EXT = boost::to_upper_copy(extension);
-    sf_command(NULL, SFC_GET_FORMAT_MAJOR_COUNT, &countFormat, sizeof(int));
+    sf_command(nullptr, SFC_GET_FORMAT_MAJOR_COUNT, &countFormat, sizeof(int));
     for (int i = 0; i < countFormat; i++) {
         SF_FORMAT_INFO info;
         info.format = i;
-        sf_command(NULL, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
+        sf_command(nullptr, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
         std::wstring ext = L"." + utf8_to_wstring(info.extension);
         boost::to_upper(ext);
         if (ext == EXT) {
@@ -69,8 +69,8 @@ convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
         }
         sfinfo.format |= SF_FORMAT_PCM_S8;
         return true;
-
-    } else if (BitsPerSample == 16) {
+    }
+    if (BitsPerSample == 16) {
         sfinfo.format |= SF_FORMAT_PCM_16;
         return true;
     } else if (BitsPerSample == 24) {
@@ -149,7 +149,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
         file = sf_open(ufilename.c_str(), SFM_WRITE, &sfinfo);
 #endif
         if (file == nullptr) {
-            const char* msg = sf_strerror(NULL);
+            const char* msg = sf_strerror(nullptr);
             errorMessage = utf8_to_wstring(msg);
             return false;
         }

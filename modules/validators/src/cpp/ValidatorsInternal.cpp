@@ -267,8 +267,8 @@ mustBeA(const ArrayOf& arg, const wstringVector& classNames, int argPosition, bo
     std::wstring currentClassName;
     ClassName(arg, currentClassName);
     bool findClass = false;
-    for (size_t k = 0; k < classNames.size(); ++k) {
-        if (currentClassName == classNames[k]) {
+    for (const auto& className : classNames) {
+        if (currentClassName == className) {
             findClass = true;
         }
     }

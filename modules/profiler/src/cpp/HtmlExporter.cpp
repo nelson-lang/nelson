@@ -65,12 +65,12 @@ copyHtmlDependencies(
         files.push_back(L"highlight.pack.js");
         files.push_back(L"sort.js");
         files.push_back(L"mono-blue.css");
-        for (size_t k = 0; k < files.size(); k++) {
+        for (auto& file : files) {
             boost::filesystem::path dstFile = directoryDestination;
-            dstFile = dstFile / files[k];
+            dstFile = dstFile / file;
             if (!boost::filesystem::exists(dstFile)) {
                 boost::filesystem::path srcFile = ressourcesPath;
-                srcFile = srcFile / files[k];
+                srcFile = srcFile / file;
                 bool bIsFile = boost::filesystem::exists(srcFile)
                     && !boost::filesystem::is_directory(srcFile);
                 if (bIsFile) {
@@ -94,7 +94,7 @@ generateProfileIndexHtml(const std::wstring& htmlFilename,
 #endif
     file << "<html lang=\"en\">" << std::endl;
     file << "<head>" << std::endl;
-    file << "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+    file << R"(    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">)"
          << std::endl;
     file << "    <title>Profile and Coverage " << _("Summary") << "</title>" << std::endl;
     file << "</head>" << std::endl;
@@ -159,7 +159,7 @@ sectionMostTimeWasSpent(std::ofstream& file,
     if (!fiveSlowerLines.empty()) {
         file << "<hr>" << std::endl;
         file << "<p>" << _("Lines where the most time was spent") << "</p>" << std::endl;
-        file << "<table cellpadding = \"0\" cellspacing = \"0\" border = \"1\">" << std::endl;
+        file << R"(<table cellpadding = "0" cellspacing = "0" border = "1">)" << std::endl;
         file << "<tbody>" << std::endl;
         file << "<tr>" << std::endl;
         file << "<td style = \"padding-left:10px;padding-right:10px;\">" << _("Line Number")
@@ -173,14 +173,14 @@ sectionMostTimeWasSpent(std::ofstream& file,
         file << "</tr>" << std::endl;
         file << "</tbody>" << std::endl;
     }
-    for (size_t k = 0; k < fiveSlowerLines.size(); ++k) {
+    for (const auto& fiveSlowerLine : fiveSlowerLines) {
         file << "<tbody>" << std::endl;
         file << "<tr>" << std::endl;
-        file << "<td align=\"right\" style = \"padding-left:10px;padding-right:10px;\"><a name = \""
-             << std::to_string(std::get<0>(fiveSlowerLines[k])) << "\"></a>";
-        file << "<span class = \"lineNum\">" << std::to_string(std::get<0>(fiveSlowerLines[k]))
+        file << R"(<td align="right" style = "padding-left:10px;padding-right:10px;"><a name = ")"
+             << std::to_string(std::get<0>(fiveSlowerLine)) << "\"></a>";
+        file << "<span class = \"lineNum\">" << std::to_string(std::get<0>(fiveSlowerLine))
              << "</span></td>" << std::endl;
-        std::string content = std::get<1>(fiveSlowerLines[k]);
+        std::string content = std::get<1>(fiveSlowerLine);
         if (content.empty()) {
             content = "&nbsp;";
         }
@@ -188,9 +188,9 @@ sectionMostTimeWasSpent(std::ofstream& file,
              << "</code></pre></td>";
 
         file << "<td style = \"padding-left:10px;padding-right:10px;\">"
-             << std::to_string(std::get<2>(fiveSlowerLines[k])) << "</td>" << std::endl;
+             << std::to_string(std::get<2>(fiveSlowerLine)) << "</td>" << std::endl;
         file << "<td style = \"padding-left:10px;padding-right:10px;\">"
-             << timeToString(std::get<3>(fiveSlowerLines[k])) << "</td>" << std::endl;
+             << timeToString(std::get<3>(fiveSlowerLine)) << "</td>" << std::endl;
         file << "</tr>" << std::endl;
         file << "</tbody>" << std::endl;
     }
@@ -202,7 +202,7 @@ sectionCoverage(std::ofstream& file, std::tuple<int, int, int, int, int, double>
 {
     file << "<p>" << _("Coverage results") << "</p>" << std::endl;
 
-    file << "<table cellpadding = \"0\" cellspacing = \"0\" border = \"1\">" << std::endl;
+    file << R"(<table cellpadding = "0" cellspacing = "0" border = "1">)" << std::endl;
     file << "<tbody>" << std::endl;
     file << "<tr>" << std::endl;
     file << "<td style = \"padding-left:10px;padding-right:10px;\">" << _("Total lines in file")
@@ -255,7 +255,7 @@ sectionFunctionListing(std::ofstream& file, const stringVector& functionContent,
     const std::vector<std::tuple<int, double>>& lineInfo)
 {
     file << "<p>" << _("Function listing") << "</p>" << std::endl;
-    file << "<table cellpadding = \"0\" cellspacing = \"0\" border = \"0\">" << std::endl;
+    file << R"(<table cellpadding = "0" cellspacing = "0" border = "0">)" << std::endl;
     file << "    <thead>" << std::endl;
     file << "        <tr>" << std::endl;
     file << "            <td  style = \"padding-left:10px;padding-right:10px;\">" << _("Line")
@@ -294,7 +294,7 @@ sectionFunctionListing(std::ofstream& file, const stringVector& functionContent,
         file << "            <td align = \"right\" style = "
                 "\"padding-left:10px;padding-right:10px;\"><a name = "
                 "\""
-             << lineAsStr << "\"><span class = \"lineNum\">" << lineAsStr << "</span></td>"
+             << lineAsStr << R"("><span class = "lineNum">)" << lineAsStr << "</span></td>"
              << std::endl;
         file << "            <td align = \"right\" style = "
                 "\"padding-left:10px;padding-right:10px;\">"
@@ -336,14 +336,14 @@ generateProfileFileHtml(const std::wstring& srcFilename, const stringVector& fun
     size_t lenNbLines = std::max(std::to_string(nbLines).size(), _("lines").size() + 1);
     file << "<html lang=\"en\">" << std::endl;
     file << "<head>" << std::endl;
-    file << "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+    file << R"(    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">)"
          << std::endl;
     file << "    <title>" << _("Profile and Coverage") << " " << wstring_to_utf8(srcFilename)
          << "</title>" << std::endl;
     file << "</head>" << std::endl;
     file << "" << std::endl;
 
-    file << "<link rel = \"stylesheet\" href = \"./mono-blue.css\">" << std::endl;
+    file << R"(<link rel = "stylesheet" href = "./mono-blue.css">)" << std::endl;
     file << "<script src = "
             "\"./highlight.pack.js\"></script>"
          << std::endl;

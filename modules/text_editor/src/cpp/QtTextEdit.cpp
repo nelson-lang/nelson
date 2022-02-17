@@ -46,7 +46,7 @@ QtTextEdit::QtTextEdit()
     setAcceptDrops(false);
 }
 //=============================================================================
-QtTextEdit::~QtTextEdit() {}
+QtTextEdit::~QtTextEdit() = default;
 //=============================================================================
 void
 QtTextEdit::setCompleter(QCompleter* completer)
@@ -79,21 +79,21 @@ QtTextEdit::modelFromNelson(const wstringVector& filesList, const wstringVector&
     const wstringVector& macroList, const wstringVector& variableList)
 {
     QStringList words;
-    for (size_t k = 0; k < filesList.size(); ++k) {
-        words.append(wstringToQString(filesList[k]) + QString(" (")
-            + wstringToQString(POSTFIX_FILES) + QString(")"));
+    for (const auto& k : filesList) {
+        words.append(
+            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
     }
-    for (size_t k = 0; k < builtinList.size(); ++k) {
-        words.append(wstringToQString(builtinList[k]) + QString(" (")
-            + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
+    for (const auto& k : builtinList) {
+        words.append(
+            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
     }
-    for (size_t k = 0; k < macroList.size(); ++k) {
-        words.append(wstringToQString(macroList[k]) + QString(" (")
-            + wstringToQString(POSTFIX_MACRO) + QString(")"));
+    for (const auto& k : macroList) {
+        words.append(
+            wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
     }
-    for (size_t k = 0; k < variableList.size(); ++k) {
-        words.append(wstringToQString(variableList[k]) + QString(" (")
-            + wstringToQString(POSTFIX_VARIABLE) + QString(")"));
+    for (const auto& k : variableList) {
+        words.append(wstringToQString(k) + QString(" (") + wstringToQString(POSTFIX_VARIABLE)
+            + QString(")"));
     }
     words.sort();
     return new QStringListModel(words, qCompleter);
@@ -309,7 +309,8 @@ QtTextEdit::uncomment()
             if (textPosition.selectedText() == " ") {
                 textPosition.clearSelection();
                 continue;
-            } else if (textPosition.selectedText() == "%") {
+            }
+            if (textPosition.selectedText() == "%") {
                 textPosition.deleteChar();
                 textPosition.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
                 if (textPosition.selectedText() == " ") {
