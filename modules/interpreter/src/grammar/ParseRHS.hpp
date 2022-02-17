@@ -25,17 +25,28 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsInterpreter_exports.h"
+#if _MSC_VER
+#pragma warning(disable : 4251)
+#endif
+//=============================================================================
+#include "AbstractSyntaxTree.hpp"
 //=============================================================================
 namespace Nelson {
-NLSINTERPRETER_IMPEXP void
-setParserFilename(const std::string& filename);
-NLSINTERPRETER_IMPEXP void
-setParserFilename(const std::wstring& filename);
-NLSINTERPRETER_IMPEXP std::string
-getParserFilenameU();
-NLSINTERPRETER_IMPEXP std::wstring
-getParserFilenameW();
+//=============================================================================
+/**
+ * The Parser value stack contains either a raw token's context or an AST pointer
+ */
+using contextOrPointer = union
+{
+    int i;
+    AbstractSyntaxTreePtr p; //-V117
+};
+//=============================================================================
+struct ParseRHS
+{
+    bool isToken;
+    contextOrPointer v;
+};
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -316,9 +316,6 @@
     <ClInclude Include="..\include\StackEntry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SymbolTable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\VariablesTable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -362,6 +359,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FunctionsInMemory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\grammar\ParseRHS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

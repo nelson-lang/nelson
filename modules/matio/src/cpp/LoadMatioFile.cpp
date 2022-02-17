@@ -29,6 +29,7 @@
 #include "LoadMatioFile.hpp"
 #include "LoadMatioVariable.hpp"
 #include "characters_encoding.hpp"
+#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

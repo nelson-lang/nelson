@@ -28,6 +28,7 @@
 #include <string>
 #include "MacroFunctionDef.hpp"
 #include "AbstractSyntaxTree.hpp"
+#include "ParseRHS.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -25,13 +25,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Evaluator.hpp"
 #include "ParserState.hpp"
 #include "nlsInterpreter_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
 NLSINTERPRETER_IMPEXP ParserState
-ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException = true);
+ParseFile(Evaluator* eval, const std::wstring &filename, bool bIgnoreException = true);
 }
 //=============================================================================

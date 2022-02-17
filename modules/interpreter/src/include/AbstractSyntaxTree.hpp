@@ -33,7 +33,6 @@
 #include <vector>
 #include "nlsInterpreter_exports.h"
 #include "Types.hpp"
-#include "Keywords.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -251,21 +250,6 @@ private:
     AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr arg, int context);
 
     static AbstractSyntaxTreePtrVector pAstVector;
-};
-//=============================================================================
-/**
- * The Parser value stack contains either a raw token's context or an AST pointer
- */
-using contextOrPointer = union
-{
-    int i;
-    AbstractSyntaxTreePtr p; //-V117
-};
-//=============================================================================
-struct ParseRHS
-{
-    bool isToken;
-    contextOrPointer v;
 };
 //=============================================================================
 } // namespace Nelson

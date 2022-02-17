@@ -34,6 +34,7 @@
 #define YYSTYPE Nelson::ParseRHS
 //=============================================================================
 #include "AbstractSyntaxTree.hpp"
+#include "ParseRHS.hpp"
 #include "i18n.hpp"
 #include "nlsInterpreter_exports.h"
 #include "characters_encoding.hpp"
@@ -1043,8 +1044,7 @@ lexCheckForMoreInput(int ccount)
                    && ((bracketStack[bracketStackSize - 1] == '[')
                           || (bracketStack[bracketStackSize - 1] == '{')))
             || (inBlock != 0));
-    } catch (Exception& e) {
-        e.what();
+    } catch (Exception& ) {
         continuationCount = 0;
         return false;
     }

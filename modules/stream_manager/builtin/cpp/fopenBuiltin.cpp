@@ -29,6 +29,7 @@
 //=============================================================================
 #include "fopenBuiltin.hpp"
 #include "Error.hpp"
+#include "Warning.hpp"
 #include "File.hpp"
 #include "FileOpen.hpp"
 #include "FilesManager.hpp"
