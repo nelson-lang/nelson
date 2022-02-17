@@ -33,6 +33,7 @@
 #include "characters_encoding.hpp"
 #include "h5LoadVariable.hpp"
 #include "haveNh5Header.hpp"
+#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -31,6 +31,7 @@
 #include "ClearFunction.hpp"
 #include "ClearGlobal.hpp"
 #include "Error.hpp"
+#include "Warning.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
 #include "GatewaysManager.hpp"

@@ -23,11 +23,11 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/function.hpp>
+#include <cstdio>
 #include "SparseDynamicFunctions.hpp"
 #include "dynamic_library.hpp"
 #include "Error.hpp"
-#include <boost/function.hpp>
-#include <cstdio>
 //=============================================================================
 static library_handle nlsSparseHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;

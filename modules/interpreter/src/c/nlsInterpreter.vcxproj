@@ -329,6 +329,7 @@
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
+    <ClInclude Include="..\grammar\ParseRHS.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
     <ClInclude Include="..\include\AbstractSyntaxTree.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
@@ -370,7 +371,6 @@
     <ClInclude Include="..\include\ProfilerHelpers.hpp" />
     <ClInclude Include="..\include\Scope.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
-    <ClInclude Include="..\include\SymbolTable.hpp" />
     <ClInclude Include="..\include\VariablesTable.hpp" />
     <ClInclude Include="..\include\VertCatOperator.hpp" />
     <ClInclude Include="..\include\WarningEmitter.h" />

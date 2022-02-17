@@ -428,7 +428,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
-        for (unsigned long dim : jsVar.dims) {
+        for (size_t dim : jsVar.dims) {
             elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
@@ -476,7 +476,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
-        for (unsigned long dim : jsVar.dims) {
+        for (size_t dim : jsVar.dims) {
             elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;
@@ -524,7 +524,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
         }
         size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
         size_t elementCount = 1;
-        for (unsigned long dim : jsVar.dims) {
+        for (size_t dim : jsVar.dims) {
             elementCount *= dim;
         }
         size_t ymax = elementCount / lastdimlen;

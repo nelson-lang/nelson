@@ -25,13 +25,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include <vector>
-#include "Evaluator.hpp"
-#include "PositionScript.hpp"
-#include "StackEntry.hpp"
-#include "Types.hpp"
 #include "nlsInterpreter_exports.h"
+#include "PositionScript.hpp"
 #include "CallStack.hpp"
 //=============================================================================
 namespace Nelson {

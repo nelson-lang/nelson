@@ -35,11 +35,13 @@ namespace Nelson {
  *    - ParseError corresponds to a syntax error when
  *      parsing.
  */
-typedef enum
+//=============================================================================
+enum ParserState
 {
     ScriptBlock,
     FuncDef,
     ParseError
-} ParserState;
+};
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

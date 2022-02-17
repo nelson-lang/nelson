@@ -71,10 +71,10 @@ struct keywordStruct
     int token;
     int ordinal;
 };
-
+//=============================================================================
 #define KEYWORDCOUNT 20
 extern keywordStruct keyWord[KEYWORDCOUNT];
-
+//=============================================================================
 /**
  * A comparison function for the keyWord list of
  * structures, so that the binary search algorithm used
@@ -82,6 +82,6 @@ extern keywordStruct keyWord[KEYWORDCOUNT];
  */
 int
 compareKeyword(const void* /*a*/, const void* /*b*/);
-
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

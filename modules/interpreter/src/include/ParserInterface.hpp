@@ -25,12 +25,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <cstdio>
 #include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserState.hpp"
 #include "nlsInterpreter_exports.h"
-#include <cstdio>
 //=============================================================================
 namespace Nelson {
 /**
