@@ -73,10 +73,12 @@ convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
     if (BitsPerSample == 16) {
         sfinfo.format |= SF_FORMAT_PCM_16;
         return true;
-    } else if (BitsPerSample == 24) {
+    }
+    if (BitsPerSample == 24) {
         sfinfo.format |= SF_FORMAT_PCM_24;
         return true;
-    } else if (BitsPerSample == 32) {
+    }
+    if (BitsPerSample == 32) {
         sfinfo.format |= SF_FORMAT_PCM_32;
         return true;
     }

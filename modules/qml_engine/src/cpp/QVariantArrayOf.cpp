@@ -562,11 +562,12 @@ QVariantToArrayOf(QVariant Q)
                 }
             }
             return ArrayOf(NLS_HANDLE, dims, (void*)nh);
-
-        } else if (Q.canConvert<QJSValue>()) {
+        }
+        if (Q.canConvert<QJSValue>()) {
             Q = Q.value<QJSValue>().toVariant();
             return QVariantToArrayOf(Q);
-        } else if (Q.canConvert<double>()) {
+        }
+        if (Q.canConvert<double>()) {
             Q = Q.value<QJSValue>().toVariant();
             return QVariantToArrayOf(Q);
         }

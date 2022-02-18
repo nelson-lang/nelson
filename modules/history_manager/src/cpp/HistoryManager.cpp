@@ -224,9 +224,9 @@ HistoryManager::appendLine(const std::wstring& line)
     strs.clear();
     if (!bAllowDuplicatedLines) {
         if (commands.size() > 0) {
-            for (auto& line : lines) {
-                if (commands[commands.size() - 1] != line) {
-                    commands.push_back(line);
+            for (auto& _line : lines) {
+                if (commands[commands.size() - 1] != _line) {
+                    commands.push_back(_line);
                     nbCommands++;
                 }
             }

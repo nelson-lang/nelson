@@ -433,10 +433,8 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
                         return vector_column_elementWiseMultiplication<T>(classDestination, a, b);
                     }
                     return vector_column_elementWiseMultiplication<T>(classDestination, b, a);
-
-                } else {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
                 }
+                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
         } else {
             Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
@@ -519,17 +517,16 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
                         classDestination, a, b);
                 }
                 return complex_vector_matrix_elementWiseMultiplication<T>(classDestination, b, a);
-
-            } else if (a.getColumns() == b.getColumns()) {
+            }
+            if (a.getColumns() == b.getColumns()) {
                 if (a.isVector()) {
                     return complex_vector_column_elementWiseMultiplication<T>(
                         classDestination, a, b);
                 }
                 return complex_vector_column_elementWiseMultiplication<T>(classDestination, b, a);
 
-            } else {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
             }
+            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
         }
     } else {
         Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");

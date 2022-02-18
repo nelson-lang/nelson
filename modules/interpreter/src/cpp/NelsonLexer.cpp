@@ -1044,7 +1044,7 @@ lexCheckForMoreInput(int ccount)
                    && ((bracketStack[bracketStackSize - 1] == '[')
                           || (bracketStack[bracketStackSize - 1] == '{')))
             || (inBlock != 0));
-    } catch (Exception& ) {
+    } catch (Exception&) {
         continuationCount = 0;
         return false;
     }

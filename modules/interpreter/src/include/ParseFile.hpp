@@ -32,6 +32,6 @@
 //=============================================================================
 namespace Nelson {
 NLSINTERPRETER_IMPEXP ParserState
-ParseFile(Evaluator* eval, const std::wstring &filename, bool bIgnoreException = true);
+ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException = true);
 }
 //=============================================================================

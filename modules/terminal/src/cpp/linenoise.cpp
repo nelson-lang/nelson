@@ -1190,11 +1190,9 @@ linenoiseNoTTY()
             }
             line[len] = '\0';
             return line;
-
-        } else {
-            line[len] = c;
-            len++;
         }
+        line[len] = c;
+        len++;
     }
 }
 
@@ -1217,8 +1215,8 @@ linenoise(const char* prompt)
         size_t len;
         printf("%s", prompt);
         fflush(stdout);
-        if (fgets(buf, LINENOISE_MAX_LINE, stdin) == NULL) {
-            return NULL;
+        if (fgets(buf, LINENOISE_MAX_LINE, stdin) == nullptr) {
+            return nullptr;
         }
         len = strlen(buf);
         while (len && (buf[len - 1] == '\n' || buf[len - 1] == '\r')) {
@@ -1226,13 +1224,12 @@ linenoise(const char* prompt)
             buf[len] = '\0';
         }
         return strdup(buf);
-    } else {
-        count = linenoiseRaw(buf, LINENOISE_MAX_LINE, prompt);
-        if (count == -1) {
-            return NULL;
-        }
-        return strdup(buf);
     }
+    count = linenoiseRaw(buf, LINENOISE_MAX_LINE, prompt);
+    if (count == -1) {
+        return nullptr;
+    }
+    return strdup(buf);
 }
 
 /* This is just a wrapper the user may want to call in order to make sure

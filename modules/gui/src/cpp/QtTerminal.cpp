@@ -368,10 +368,12 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
     if (event->matches(QKeySequence::MoveToPreviousLine)) {
         handleUpKeyPress();
         return;
-    } else if (event->matches(QKeySequence::MoveToNextLine)) {
+    }
+    if (event->matches(QKeySequence::MoveToNextLine)) {
         handleDownKeyPress();
         return;
-    } else if (event->matches(QKeySequence::MoveToPreviousChar)) {
+    }
+    if (event->matches(QKeySequence::MoveToPreviousChar)) {
         if (handleBackspaceKeyPress()) {
             return;
         }
