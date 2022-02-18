@@ -10,12 +10,15 @@ file a new issue.
 
 ## How to build Nelson ?
 
-### [Linux](BUILDIN_Linux.md)
+To compile Nelson, you will need a C++17 compiler.
 
-### [Mac OS X](BUILDIN_Macos.md)
 
-### [Windows](BUILDIN_Windows.md)
+### [Linux](BUILDING_Linux.md)
 
-You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.travis.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files to help you to see dependencies.
+### [Mac OS X](BUILDING_Macos.md)
 
-[.travis.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.travis.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files are always more up-to-date than this help.
+### [Windows](BUILDING_Windows.md)
+
+You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files to help you to see dependencies.
+
+[ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) and [appveyor.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/appveyor.yml) files are always more up-to-date than this help.
