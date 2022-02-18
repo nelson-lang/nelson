@@ -306,9 +306,9 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                     Error(_W("A valid function name expected."));
                 }
                 return ArrayOf::functionHandleConstructor(fptr);
-            } else {
-                Error(_W("String expected."));
             }
+            Error(_W("String expected."));
+
         } else {
             indexType elementCount = (indexType)(fieldcnt * outDim.getElementCount());
             auto* dp = new ArrayOf[elementCount];

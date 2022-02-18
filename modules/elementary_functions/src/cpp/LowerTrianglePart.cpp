@@ -34,7 +34,6 @@ template <class T>
 ArrayOf
 LowerTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
 {
-    NelsonType classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
     indexType nbElements = dimsA.getElementCount();
     ArrayOf res = A;
@@ -58,7 +57,6 @@ template <class T>
 ArrayOf
 LowerTrianglePartReal(const ArrayOf& A, signedIndexType offset)
 {
-    NelsonType classA = A.getDataClass();
     Dimensions dimsA = A.getDimensions();
     ArrayOf res = A;
     res.ensureSingleOwner();

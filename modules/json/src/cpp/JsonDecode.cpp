@@ -772,8 +772,8 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
         }
         errorMessage = _W("valid JSON Object expected.");
         return ArrayOf();
-
-    } else if (nbTokensOrError > 0) {
+    }
+    if (nbTokensOrError > 0) {
         // init again the parser required.
         jsmn_init(&parserJson);
         auto* tokens = new jsmntok_t[nbTokensOrError + 1];
@@ -794,9 +794,9 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
         }
         return jsonVariableToNelson(jsVar);
 
-    } else {
-        errorMessage = getErrorMessage(nbTokensOrError);
     }
+    errorMessage = getErrorMessage(nbTokensOrError);
+
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================

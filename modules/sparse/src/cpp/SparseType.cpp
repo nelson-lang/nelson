@@ -340,9 +340,9 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
     // Precondition the arrays by converting to sparse and to
     // the output type
     for (auto& i : m) {
-        for (std::vector<ArrayOf>::iterator j = i.begin(); j != i.end(); ++j) {
-            j->promoteType(dclass);
-            j->makeSparse();
+        for (auto& j : i) {
+            j.promoteType(dclass);
+            j.makeSparse();
         }
     }
     switch (dclass) {
@@ -360,9 +360,9 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
         indexType X = 0;
         indexType Y = 0;
         for (auto& i : m) {
-            for (std::vector<ArrayOf>::iterator j = i.begin(); j != i.end(); ++j) {
+            for (auto& j : i) {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* src
-                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(j->getDataPointer());
+                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(j.getDataPointer());
             }
         }
         return spMat;
@@ -1092,7 +1092,7 @@ Eigen_ReshapeSparseMatrix(
                 q++;
             }
         }
-        typedef Eigen::Triplet<T, signedIndexType> Triplet;
+        using Triplet = Eigen::Triplet<T, signedIndexType>;
         std::vector<Triplet> tripletList;
         tripletList.reserve(nnz);
         for (indexType k = 0; k < nnz; k++) {

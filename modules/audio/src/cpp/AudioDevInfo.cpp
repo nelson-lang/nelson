@@ -496,10 +496,9 @@ AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage)
             return ArrayOf::doubleConstructor((double)deviceFound.Id);
         }
         return ArrayOf::doubleConstructor(-1);
-
-    } else {
-        errorMessage = _W("Wrong value for #1 argument.");
     }
+    errorMessage = _W("Wrong value for #1 argument.");
+
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================
@@ -555,10 +554,8 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorM
                     return ArrayOf::logicalConstructor(true);
                 }
                 return ArrayOf::logicalConstructor(false);
-
-            } else {
-                errorMessage = _W("Wrong value for #4 argument.");
             }
+            errorMessage = _W("Wrong value for #4 argument.");
         }
     } else {
         errorMessage = _W("Wrong value for #1 argument.");

@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 ParserState
-ParseFile(Evaluator* eval, const std::wstring &filename, bool bIgnoreException)
+ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
 {
     ParserState ps = ParserState::ParseError;
     boost::filesystem::path pathFunction(filename);

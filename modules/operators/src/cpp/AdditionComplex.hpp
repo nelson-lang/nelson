@@ -274,7 +274,6 @@ scalar_scalar_complex_addition(NelsonType classDestination, const ArrayOf& A, co
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
-    Dimensions dimsA = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);

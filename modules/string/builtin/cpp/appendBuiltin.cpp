@@ -106,7 +106,7 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::vector<wstringVector> vectorOfStringVector;
         vectorOfStringVector.reserve(theInputs.size());
 
-        for (auto v : theInputs) {
+        for (const auto& v : theInputs) {
             if (v.isCharacterArray()) {
                 std::wstring str = v.getContentAsWideString();
                 wstringVector vstr;

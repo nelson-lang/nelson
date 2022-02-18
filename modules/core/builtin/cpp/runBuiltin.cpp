@@ -142,11 +142,12 @@ Nelson::CoreGateway::runBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     }
     if (argIn.size() == 2) {
         return runBuiltinTwoRhs(eval, nLhs, argIn);
-    } else if (argIn.size() == 3) {
-        return runBuiltinThreeRhs(eval, nLhs, argIn);
-    } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    if (argIn.size() == 3) {
+        return runBuiltinThreeRhs(eval, nLhs, argIn);
+    }
+    Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+
     return retval;
 }
 //=============================================================================

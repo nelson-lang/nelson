@@ -33,7 +33,7 @@ ArrayOfVector
 ConvertCharsToStrings(const ArrayOfVector& A)
 {
     ArrayOfVector res;
-    for (auto value : A) {
+    for (const auto& value : A) {
         Dimensions dims = value.getDimensions();
         if (value.isCharacterArray()) {
             if (value.isEmpty(false)) {

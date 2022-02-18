@@ -317,9 +317,8 @@ QtTextEdit::uncomment()
                     textPosition.deleteChar();
                 }
                 break;
-            } else {
-                break;
             }
+            break;
         }
         if (textPosition.position() < lineTwo.position()) {
             textPosition.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);

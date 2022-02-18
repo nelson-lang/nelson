@@ -42,9 +42,11 @@ precisionFromString(const std::wstring& str, bool& bOK)
     }
     if (str == L"int") {
         return NLS_INT32;
-    } else if ((str == L"int8") || (str == L"integer*1") || (str == L"schar")) {
+    }
+    if ((str == L"int8") || (str == L"integer*1") || (str == L"schar")) {
         return NLS_INT8;
-    } else if ((str == L"int16") || (str == L"integer*2")) {
+    }
+    if ((str == L"int16") || (str == L"integer*2")) {
         return NLS_INT16;
     } else if ((str == L"int32") || (str == L"integer*4")) {
         return NLS_INT32;

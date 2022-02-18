@@ -49,9 +49,11 @@ mxIsClass(const mxArray* pm, const char* classname)
     }
     if (strcmp(classname, "char") == 0) {
         return (pm->classID == mxCHAR_CLASS);
-    } else if (strcmp(classname, "double") == 0) {
+    }
+    if (strcmp(classname, "double") == 0) {
         return (pm->classID == mxDOUBLE_CLASS);
-    } else if (strcmp(classname, "function_handle") == 0) {
+    }
+    if (strcmp(classname, "function_handle") == 0) {
         return (pm->classID == mxFUNCTION_CLASS);
     } else if (strcmp(classname, "int8") == 0) {
         return (pm->classID == mxINT8_CLASS);
