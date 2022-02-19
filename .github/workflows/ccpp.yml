@@ -4,10 +4,93 @@ on: [push]
 
 jobs:
 
-  catalina:
+  BigSur:
+    name: MacOS X BigSur
+    runs-on: macos-11
+    timeout-minutes: 120 
+
+    steps:
+    - name: install dependencies
+      run: |
+        brew --version
+        brew install zlib
+        brew install libtool
+        brew install automake
+        brew unlink libffi
+        brew install libffi
+        brew unlink libffi
+        brew link libffi --force
+        brew uninstall --ignore-dependencies icu4c
+        brew install icu4c
+        brew unlink icu4c
+        brew link icu4c --force
+        brew info open-mpi
+        brew install openmpi
+        brew install pkg-config
+        brew install pkgconfig
+        brew install gettext
+        brew link gettext --force
+        echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
+        source ~/.zshrc
+        brew install boost
+        brew install libxml2
+        brew upgrade cmake
+        brew install qt5
+        brew install fftw
+        brew install portaudio
+        brew install libsndfile
+        brew install taglib
+        brew install libgit2
+        brew install hdf5
+        brew install libmatio
+        brew install eigen
+        brew install libomp
+        brew install openblas
+        export BUILD_ROOT=$(pwd);
+        cd /Users/runner/work/nelson;
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Get package version 
+      uses: nyaascii/package-version@v1
+
+    - name: Update version
+      run: |
+        python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+ 
+    - name: CMake
+      run: |
+        export PATH=/usr/local/opt/qt5/bin:$PATH
+        cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
+    - name: make
+      run: make -j4
+    - name: get module skeleton
+      run: make get_module_skeleton
+    - name: build help
+      run: |
+        export PATH=/usr/local/opt/qt5/bin:$PATH
+        make buildhelp
+    - name: minimal tests
+      run: make tests_minimal
+    - name: package
+      run: make package
+    - name: all benchs
+      run: make benchs_all
+    - name: all tests
+      run: make tests_all
+    - name: Copy artifacts
+      run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: nelson-github-action-artifacts-macOS-BigSur-amd64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
+        path: artifacts/
+
+  Catalina:
     name: MacOS X Catalina
     runs-on: macos-10.15
-    timeout-minutes: 120    
+    timeout-minutes: 120 
 
     steps:
     - name: install dependencies
@@ -87,9 +170,9 @@ jobs:
         name: nelson-github-action-artifacts-macos64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
 
-  bionic:
+  Focal:
     name: Ubuntu-20.04 Focal
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 120
 
     steps:
@@ -194,10 +277,271 @@ jobs:
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-linux64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
+        name: nelson-github-action-artifacts-linux-ubuntu-20-04-amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
         path: artifacts/
 
-  windows_win32:
+  Bionic:
+    name: Ubuntu-18.04 bionic
+    runs-on: ubuntu-18.04
+    timeout-minutes: 120
+
+    steps:
+    - name: install dependencies
+      run: |
+        sudo apt install apt-transport-https ca-certificates gnupg software-properties-common wget ;
+        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+        sudo apt update
+        sudo apt upgrade
+        sudo add-apt-repository --yes ppa:mhier/libboost-latest
+        sudo apt-get update -y
+        sudo add-apt-repository --yes ppa:cran/libgit2
+        sudo apt-get update -y
+        sudo apt-get install -f -y libboost1.68-dev
+        sudo apt-get install -y libopenmpi-dev
+        sudo apt-get install -y openmpi-bin
+        sudo apt-get install -y gettext
+        sudo apt-get install -y pkg-config
+        sudo apt-get install -y libffi-dev
+        sudo apt-get install -y libhdf5-dev
+        sudo apt-get install -y hdf5-tools
+        sudo apt-get install -y libicu-dev
+        sudo apt-get install -y libxml2-dev
+        sudo apt-get install -y liblapack-dev
+        sudo apt-get install -y liblapacke-dev
+        sudo apt-get install -y fftw3
+        sudo apt-get install -y fftw3-dev
+        sudo apt-get install -y libasound-dev
+        sudo apt-get install -y portaudio19-dev
+        sudo apt-get install -y libsndfile1-dev
+        sudo apt-get install -y libtag1-dev
+        sudo apt-get install -y alsa-utils
+        sudo add-apt-repository --yes ppa:beineri/opt-qt-5.15.2-bionic
+        sudo apt-get update
+        sudo apt-get install -y qtbase5-dev
+        sudo apt-get install -y qt515tools
+        sudo apt-get install -y qtdeclarative5-dev
+        sudo apt-get install -y libqt5webkit5-dev
+        sudo apt-get install -y libsqlite3-dev
+        sudo apt-get install -y qt5-default
+        sudo apt-get install -y libcurl4-openssl-dev
+        sudo apt-get install -y libgit2-dev
+        sudo apt install -y gcc-10
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10000 --slave /usr/bin/g++ g++ /usr/bin/g++-10
+        export BUILD_ROOT=$(pwd);
+        cd && mkdir -p repos && cd repos
+        wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
+        sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+        sudo apt-get update
+        sudo apt install -y cmake
+        hash -r
+        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -
+        git clone https://github.com/HDFGroup/hdf5.git /tmp/hdf5-1_12_1
+        cd /tmp/hdf5-1_12_1 && git checkout hdf5-1_12_1 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v112 CFLAGS="-w" && sudo make install -C src
+        git clone https://github.com/tbeu/matio /tmp/matio
+        cd /tmp/matio && git checkout v1.5.21 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_12_1/hdf5 && make && sudo make install;
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Get package version 
+      uses: nyaascii/package-version@v1
+    - name: Update version
+      run: |
+        python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+    - name: CMake
+      run: cmake -G "Unix Makefiles" .
+    - name: make with CMake
+      run: make -j4
+    - name: build help
+      run: source /opt/qt515/bin/qt515-env.sh && make buildhelp
+    - name: minimal tests
+      run: source /opt/qt515/bin/qt515-env.sh && make tests_minimal
+      continue-on-error: true
+    - name: package
+      run: make package
+    - name: all benchs
+      run: source /opt/qt515/bin/qt515-env.sh && xvfb-run -a make benchs_all
+      continue-on-error: true
+    - name: all tests
+      run: source /opt/qt515/bin/qt515-env.sh && xvfb-run -a make tests_all
+      continue-on-error: true
+    - name: Copy artifacts
+      run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: nelson-github-action-artifacts-ubuntu-18.4_amd64-${{env.PACKAGE_VERSION}}.${{ github.run_number }}
+        path: artifacts/
+
+  ArchLinux:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    timeout-minutes: 120
+    steps:
+      - name: Install dependencies
+        run: |
+          pacman -Sy --noconfirm
+          pacman -S base-devel --noconfirm
+          pacman -S git --noconfirm       
+          pacman -S gcc binutils glibc --noconfirm
+          pacman -S inetutils --noconfirm
+          pacman -S gawk --noconfirm
+          pacman -S m4 --noconfirm
+          pacman -S pkg-config --noconfirm
+          pacman -S boost-libs boost --noconfirm
+          pacman -S cmake --noconfirm
+          pacman -S libffi --noconfirm
+          pacman -S icu --noconfirm
+          pacman -S qt5-base --noconfirm
+          pacman -S qt5-tools --noconfirm
+          pacman -S qt5-webkit --noconfirm
+          pacman -S libxml2 --noconfirm
+          pacman -S gcc --noconfirm
+          pacman -S make --noconfirm
+          pacman -S blas --noconfirm
+          pacman -S lapack --noconfirm
+          pacman -S lapacke --noconfirm
+          pacman -S fftw --noconfirm
+          pacman -S openmpi --noconfirm
+          pacman -S hdf5 --noconfirm
+          pacman -S taglib --noconfirm
+          pacman -S portaudio --noconfirm
+          pacman -S libsndfile --noconfirm
+          pacman -S zlib --noconfirm
+          pacman -S curl --noconfirm
+          pacman -S libgit2 --noconfirm
+          pacman -S python3 --noconfirm
+          git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen
+          mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;        
+          git clone https://github.com/HDFGroup/hdf5.git /tmp/hdf5-1_12_1
+          cd /tmp/hdf5-1_12_1 && git checkout hdf5-1_12_1 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v112 CFLAGS="-w" && make install -C src
+          git clone https://github.com/tbeu/matio /tmp/matio
+          cd /tmp/matio && git checkout v1.5.21 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5-1_12_1/hdf5 && make && make install;
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Get package version 
+        uses: nyaascii/package-version@v1
+      - name: Update version
+        run: |
+          python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: CMake
+        run: |
+          cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
+      - name: Make
+        run: |
+          make -j4
+      - name: Download module skeleton
+        run: |
+          make get_module_skeleton
+      - name: Build help
+        run: |
+          make buildhelp
+      - name: Minimal tests
+        run: |
+          make tests_minimal
+      - name: Make package
+        run: |
+          make package
+      - name: Benchs
+        run: |
+          make benchs_all_no_display
+        continue-on-error: true
+      - name: Tests
+        run: |
+          make tests_all_no_display
+        continue-on-error: true
+  
+  Fedora:
+    runs-on: ubuntu-latest
+    container: fedora:35
+    timeout-minutes: 120
+ 
+    steps:
+      - name: Install dependencies
+        run: |
+          dnf update -y
+          dnf upgrade -y
+          dnf install -y which
+          dnf install -y hostname
+          dnf install -y git
+          dnf install -y make
+          dnf install -y libtool
+          dnf install -y gcc
+          dnf install -y gcc-c++
+          dnf install -y autoconf
+          dnf install -y automake
+          dnf install -y openmpi-devel
+          dnf install -y gettext
+          dnf install -y pkg-config
+          dnf install -y cmake
+          dnf install -y libffi-devel
+          dnf install -y libicu-devel
+          dnf install -y libxml2-devel
+          dnf install -y lapack-devel
+          dnf install -y fftw3-devel
+          dnf install -y portaudio-devel
+          dnf install -y libsndfile-devel
+          dnf install -y jack-audio-connection-kit-devel
+          dnf install -y taglib-devel
+          dnf install -y qt5-qtbase-devel
+          dnf install -y qt5-qtdeclarative-devel
+          dnf install -y qt5-assistant
+          dnf install -y qt5-doctools
+          dnf install -y qt5-qtquickcontrols
+          dnf install -y boost-devel
+          dnf install -y zlib-devel
+          dnf install -y curl-devel
+          dnf install -y libgit2-devel
+          dnf install -y matio-devel
+          dnf install -y hdf5-devel
+          dnf install -y eigen3-devel
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Get package version 
+        uses: nyaascii/package-version@v1
+      - name: Update version
+        run: |
+          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+      - name: CMake
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
+      - name: Make
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          make -j4
+      - name: Download module skeleton
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          make get_module_skeleton
+      - name: Build help
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          make buildhelp
+      - name: Minimal tests
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          make tests_minimal
+      - name: Make package
+        run: |
+          make package
+      - name: Benchs
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          make benchs_all_no_display
+        continue-on-error: true
+    
+      - name: Tests
+        run: |
+          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          export PATH=/usr/lib64/openmpi/bin:$PATH      
+          make tests_all_no_display
+        continue-on-error: true
+
+  Windows_win32:
     name: Windows 32 bits
     runs-on: windows-2022
     defaults:
@@ -315,10 +659,10 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-win32-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
+        name: nelson-github-action-artifacts-windows-win32-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
 
-  windows_win64:
+  Windows_win64:
     name: Windows 64 bits
     runs-on: windows-2022
     defaults: 
@@ -436,5 +780,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: nelson-github-action-artifacts-x64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
+        name: nelson-github-action-artifacts-windows-amd64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
+
+

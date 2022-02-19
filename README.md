@@ -136,16 +136,13 @@ The systems listed here without CI or binaries are known to build and operate, b
 | :--------------: | :-------------: | :-: | :------: |
 | Windows 7 to 11  | x86-64 (64-bit) |  ✓  |    ✓     |
 |                  |  i686 (32-bit)  |  ✓  |    ✓     |
-|   MacOS 10.10+   | x86-64 (64-bit) |  ✓  |          |
-|   Ubuntu 20.04   | x86-64 (64-bit) |     |          |
+|   MacOS BigSur   | x86-64 (64-bit) |  ✓  |          |
+|  MacOS Catalina  | x86-64 (64-bit) |  ✓  |          |
+|   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  |          |
 |   Ubuntu 18.04   | x86-64 (64-bit) |  ✓  |          |
-|   Ubuntu 16.04   | x86-64 (64-bit) |  ✓  |          |
-|    Debian 10     | x86-64 (64-bit) |  ✓  |          |
-|    Fedora 30     | x86-64 (64-bit) |  ✓  |          |
 |    ArchLinux     | x86-64 (64-bit) |  ✓  |          |
-|                  | ARM v7 (32-bit) |     |          |
-|                  | ARM v8 (64-bit) |     |          |
-| Ubuntu (aarch64) | ARM v8 (64-bit) |     |          |
-|     Raspbian     | ARM v7 (32-bit) |     |          |
+|    Fedora 35     | x86-64 (64-bit) |  ✓  |          |
+|     Raspbian     | ARM v8 (64-bit) |     |          |
+|  MacOS Monterey  |   arm64 (M1)    |     |          |
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
