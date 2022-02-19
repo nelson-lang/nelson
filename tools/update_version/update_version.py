@@ -91,19 +91,6 @@ def get_github_repo_commit():
 def get_github_build_number():
     return int(os.getenv('GITHUB_RUN_NUMBER'))
 
-
-def get_travis_build_number():
-    return int(os.getenv('TRAVIS_BUILD_NUMBER'))
-
-
-def get_travis_commit():
-    return os.getenv('TRAVIS_COMMIT')
-
-
-def use_travis():
-    return os.getenv('TRAVIS') == 'true'
-
-
 def edit_homepage_md(version_str):
     for (directory, _, files) in os.walk('./modules/main/help'):
         for f in files:
@@ -302,15 +289,6 @@ if __name__ == '__main__':
         maintenance = current_version[2]
         build = get_github_build_number()
         git_hash = get_github_repo_commit()
-    elif use_travis() is True:
-        print('USE TRAVIS')
-        print('REPO COMMIT: ' + get_travis_commit())
-        print('BUILD NUMBER: ' + str(get_travis_build_number()))
-        major = current_version[0]
-        minor = current_version[1]
-        maintenance = current_version[2]
-        build = get_travis_build_number()
-        git_hash = get_travis_commit()
     else:
         print('USE COMMAND LINE')
         parser = argparse.ArgumentParser(
