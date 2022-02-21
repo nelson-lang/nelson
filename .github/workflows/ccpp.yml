@@ -323,6 +323,8 @@ jobs:
         sudo apt-get install -y libqt5webkit5-dev
         sudo apt-get install -y libsqlite3-dev
         sudo apt-get install -y qt5-default
+        sudo apt-get install -y qt515quickcontrols
+        sudo apt-get install -y qt515quickcontrols2
         sudo apt-get install -y libcurl4-openssl-dev
         sudo apt-get install -y libgit2-dev
         sudo apt install -y gcc-10
