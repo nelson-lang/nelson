@@ -90,7 +90,7 @@ ENV PATH="/usr/lib64/openmpi/bin:${PATH}"
 #ENV LD_LIBRARY_PATH="${HDF5_LIBRARIES}:/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 ENV LD_LIBRARY_PATH="/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 
-RUN cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
+RUN cmake -DWITH_SLICOT=OFF -G "Unix Makefiles" .
 RUN make -j4
 RUN make get_module_skeleton
 

@@ -87,7 +87,7 @@ USER nelsonuser
 
 ENV AUDIODEV null
 
-RUN cmake -DWITHOUT_SLICOT=TRUE -G "Unix Makefiles" .
+RUN cmake -DWITH_SLICOT=OFF -G "Unix Makefiles" .
 RUN make -j4
 RUN make get_module_skeleton
 

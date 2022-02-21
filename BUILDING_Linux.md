@@ -146,22 +146,43 @@
   cmake -DLGPL21_ONLY=ON -G "Unix Makefiles" .
   ```
 
-  - Start the build:
+  You can build Nelson without FFTW module
 
   ```bash
-  make
+  cd nelson
+  cmake -DWITH_FFTW=OFF -G "Unix Makefiles" .
   ```
 
-  - Update localization files if you modify it (optional, only for dev):
+  You can build Nelson without SLICOT module
 
   ```bash
-  make updatelocalization
+  cd nelson
+  cmake -DWITH_SLICOT=OFF -G "Unix Makefiles" .
   ```
 
-  - Build help files:
+  You can build Nelson with clang-tidy fix
 
   ```bash
-  make buildhelp
+  cd nelson
+  cmake -ENABLE_CLANG_TIDY_FIX=ON -G "Unix Makefiles" .
   ```
+
+- Start the build:
+
+```bash
+make
+```
+
+- Update localization files if you modify it (optional, only for dev):
+
+```bash
+make updatelocalization
+```
+
+- Build help files:
+
+```bash
+make buildhelp
+```
 
 [Previous (Building)](BUILDING.md)
