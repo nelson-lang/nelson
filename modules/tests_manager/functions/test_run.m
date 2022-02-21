@@ -776,14 +776,14 @@ end
 %=============================================================================
 function modules_list = getAllModulesList()
   run([nelsonroot(), '/modules/modules.m']);
+  current_modules = getmodules();
   if isempty(modules_list)
-    modules_list = getmodules();
-  else
-    if ~isequal(modules_list, getmodules())
-      for m = getmodules()'
-        if ~any(contains(modules_list, m{1}))
-          modules_list = [modules_list; m{1}];
-        end
+    modules_list = current_modules;
+  end
+  if ~isequal(modules_list, current_modules)
+    for m = current_modules'
+      if ~any(contains(modules_list, m{1}))
+        modules_list = [modules_list; m{1}];
       end
     end
   end

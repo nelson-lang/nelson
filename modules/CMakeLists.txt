@@ -97,12 +97,13 @@ list(
   polynomial_functions)
 list(APPEND moduleslist main)
 # ==============================================================================
-if(NOT WITHOUT_FFTW AND NOT LGPL21_ONLY)
-  list(APPEND moduleslist fftw)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_SLICOT AND NOT LGPL21_ONLY)
-  list(APPEND moduleslist slicot)
+if (NOT LGPL21_ONLY)
+  if(WITH_FFTW)
+    list(APPEND moduleslist fftw)
+  endif()
+  if(WITH_SLICOT)
+    list(APPEND moduleslist slicot)
+  endif()
 endif()
 # ==============================================================================
 foreach(mod ${moduleslist})
