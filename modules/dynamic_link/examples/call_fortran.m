@@ -34,7 +34,11 @@ else
     if isfile('/usr/lib/x86_64-linux-gnu/libblas.so')
       blas_library_name = '/usr/lib/x86_64-linux-gnu/libblas.so';
     else
-      blas_library_name = ['libblas', getdynlibext(), '.3'];
+      if isfile('/usr/lib64/libblas.so')
+        blas_library_name = '/usr/lib64/libblas.so';
+      else
+        blas_library_name = ['libblas', getdynlibext(), '.3'];
+      end
     end
     try
       lib = dlopen(blas_library_name)
