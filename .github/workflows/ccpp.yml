@@ -441,11 +441,9 @@ jobs:
       - name: Benchs
         run: |
           make benchs_all_no_display
-        continue-on-error: true
       - name: Tests
         run: |
           make tests_all_no_display
-        continue-on-error: true
   
   Fedora:
     runs-on: ubuntu-latest
@@ -531,14 +529,12 @@ jobs:
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH      
           make benchs_all_no_display
-        continue-on-error: true
-    
+  
       - name: Tests
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
           export PATH=/usr/lib64/openmpi/bin:$PATH      
           make tests_all_no_display
-        continue-on-error: true
 
   Windows_win32:
     name: Windows 32 bits
