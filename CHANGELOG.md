@@ -32,7 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Nelson uses `JuliaMono-Regular` font as default.
 
-- [#567](http://github.com/Nelson-numerical-software/nelson/issues/567): `…` in cells if character vector is too long.
+- [#567](http://github.com/Nelson-numerical-software/nelson/issues/567): `...` in cells if character vector is too long.
 
 ### Fixed
 
