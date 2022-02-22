@@ -475,7 +475,7 @@ jobs:
           dnf install -y fftw3-devel
           dnf install -y portaudio-devel
           dnf install -y libsndfile-devel
-          dnf install -y jack-audio-connection-kit-devel
+          dnf install -y pipewire-jack-audio-connection-kit-devel
           dnf install -y taglib-devel
           dnf install -y qt5-qtbase-devel
           dnf install -y qt5-qtdeclarative-devel

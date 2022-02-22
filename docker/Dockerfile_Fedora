@@ -52,7 +52,7 @@ RUN dnf install -y lapack-devel
 RUN dnf install -y fftw3-devel
 RUN dnf install -y portaudio-devel
 RUN dnf install -y libsndfile-devel
-RUN dnf install -y jack-audio-connection-kit-devel
+RUN dnf install -y pipewire-jack-audio-connection-kit-devel
 RUN dnf install -y taglib-devel
 RUN dnf install -y qt5-qtbase-devel
 RUN dnf install -y qt5-qtdeclarative-devel
@@ -84,10 +84,6 @@ USER nelsonuser
 
 ENV AUDIODEV null
 ENV PATH="/usr/lib64/openmpi/bin:${PATH}"
-#ENV HDF5_LIBRARIES="//usr/lib64/"
-#ENV HDF5_INCLUDE_DIRS="/tmp/hdf5-1_10_5/hdf5"
-#ENV HDF5_ROOT="/tmp/hdf5-1_10_5/hdf5"
-#ENV LD_LIBRARY_PATH="${HDF5_LIBRARIES}:/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 ENV LD_LIBRARY_PATH="/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}"
 
 RUN cmake -DWITH_SLICOT=OFF -G "Unix Makefiles" .
