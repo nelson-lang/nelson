@@ -52,7 +52,8 @@ RUN dnf install -y lapack-devel
 RUN dnf install -y fftw3-devel
 RUN dnf install -y portaudio-devel
 RUN dnf install -y libsndfile-devel
-RUN dnf install -y pipewire-jack-audio-connection-kit-devel
+RUN dnf install -y jack-audio-connection-kit-devel
+# RUN dnf install -y pipewire-jack-audio-connection-kit-devel 
 RUN dnf install -y taglib-devel
 RUN dnf install -y qt5-qtbase-devel
 RUN dnf install -y qt5-qtdeclarative-devel
