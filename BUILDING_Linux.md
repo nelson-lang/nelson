@@ -10,6 +10,8 @@
   docker run -ti nelson_debian
   ```
 
+- On Fedora distribution: replaces jack-audio-connection-kit-devel package by pipewire-jack-audio-connection-kit-devel
+
 - On debian/ubuntu distribution:
 
   - Prerequirements:
@@ -114,13 +116,13 @@
   ```
 
   - Get thirdparty:
-    - on Linux 32 bit architecture:
+  - on Linux 32 bit architecture:
 
   ```bash
   git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-linux32.git
   ```
 
-        - on Linux 64 bit architecture:
+  - on Linux 64 bit architecture:
 
   ```bash
   git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-linux64.git
