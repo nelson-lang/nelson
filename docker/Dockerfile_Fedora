@@ -25,7 +25,7 @@
 #==============================================================================
 
 FROM fedora:35
-MAINTAINER Allan CORNET "nelson.numerical.computation@gmail.com"
+LABEL maintainer="Allan CORNET nelson.numerical.computation@gmail.com"
 
 ARG BRANCH_NAME
 RUN echo "Nelson's branch: ${BRANCH_NAME}"
