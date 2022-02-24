@@ -787,6 +787,10 @@ function modules_list = getAllModulesList()
       end
     end
   end
+  withAudioModule = ~strcmp(getenv('AUDIODEV'), 'null');
+  if strcmp(getenv('AUDIODEV'), 'null')
+    modules_list(modules_list == "audio") = [];
+  end
 end
 %=============================================================================
 function files = getFilesToTest(param)
