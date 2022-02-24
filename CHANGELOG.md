@@ -41,6 +41,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#561](http://github.com/Nelson-numerical-software/nelson/issues/561): `0^0` did not return expected value.
 - [#560](http://github.com/Nelson-numerical-software/nelson/issues/560): many warnings fixed (Thanks to new PVS-Studio and cppcheck).
 - cmake `WITH_SLICOT`, `WITH_FFTW`, `ENABLE_CLANG_TIDY_FIX` were not documented.
+- [#584](http://github.com/Nelson-numerical-software/nelson/issues/584): docker files updated to support C++17 and new libraries.
+
 
 ## 0.6.1 (2022-01-31)
 
