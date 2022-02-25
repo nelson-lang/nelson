@@ -29,6 +29,17 @@
 namespace Nelson {
 //=============================================================================
 static bool
+hasStringArray(const ArrayOfVector& v)
+{
+    for (const auto& k : v) {
+        if (k.isStringArray()) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+static bool
 hasCell(const ArrayOfVector& v)
 {
     for (const auto& k : v) {
@@ -52,16 +63,52 @@ HorzCatOperator(Evaluator* eval, const ArrayOfVector& v)
     } break;
     default: {
         bool asCell = hasCell(v);
+        bool asStringArray = hasStringArray(v);
+        if (asStringArray) {
+            bool needToOverload;
+            if (!v[0].isStringArray()) {
+                res = ArrayOf::toStringArray(v[0], needToOverload);
+                if (needToOverload) {
+                    Error(_("Conversion not possible."));
+                }
+            } else {
+                res = v[0];
+                res.ensureSingleOwner();
+            }
+            for (size_t k = 1; k < v.size(); k++) {
+                ArrayOf arg2 = v[k];
+                if ((!arg2.isStringArray())) {
+                    arg2 = ArrayOf::toStringArray(arg2, needToOverload);
+                    if (needToOverload) {
+                        Error(_("Conversion not possible."));
+                    }
+                }
+                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
+            }
+            return res;
+        }
+        if (asCell) {
+            if (!v[0].isCell() && !v[0].isEmpty()) {
+                res = ArrayOf::toCell(v[0]);
+            } else {
+                res = v[0];
+                res.ensureSingleOwner();
+            }
+            for (size_t k = 1; k < v.size(); k++) {
+                ArrayOf arg2 = v[k];
+                if ((!arg2.isCell()) && !arg2.isEmpty()) {
+                    arg2 = ArrayOf::toCell(arg2);
+                }
+                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
+            }
+            return res;
+        }
+
         res = v[0];
         res.ensureSingleOwner();
         for (size_t k = 1; k < v.size(); k++) {
             ArrayOf arg2 = v[k];
-            if (asCell && (!arg2.isCell() && !arg2.isEmpty())) {
-                ArrayOf arg = ArrayOf::toCell(arg2);
-                res = eval->doBinaryOperatorOverload(res, arg, HorzCat, "horzcat");
-            } else {
-                res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
-            }
+            res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
         }
     } break;
     }
