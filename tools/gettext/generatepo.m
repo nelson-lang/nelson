@@ -61,7 +61,7 @@ end
 SRCLISTFILE = [TARGETDIR, '/', DOMAIN, '_src_lst_pot'];
 fw = fopen(SRCLISTFILE, 'wt');
 for k = 1:length(FILESINFO_SRC)
-  srcfilename = FILESINFO_SRC(k).name;
+  srcfilename = sprintf('%s/%s', FILESINFO_SRC(k).folder, FILESINFO_SRC(k).name);
   fwrite(fw, [srcfilename, char(10)])
 end
 fclose(fw);
@@ -75,7 +75,7 @@ end
 MACROSLISTFILE = [TARGETDIR, '/', DOMAIN, '_macros_lst_pot'];
 fw = fopen(MACROSLISTFILE, 'wt');
 for k = 1:length(FILESINFO_MACROS)
-  srcfilename = FILESINFO_MACROS(k).name;
+  srcfilename = sprintf('%s/%s', FILESINFO_MACROS(k).folder, FILESINFO_MACROS(k).name);
   fwrite(fw, [srcfilename, char(10)])
 end
 fclose(fw);
@@ -101,11 +101,11 @@ if r != 0
 end
 
 txt = fileread(SRC_POT, 'string');
-txt = [header_pot; txt];
+txt = [string(header_pot); txt];
 filewrite(SRC_POT, txt);
 
 txt = fileread(MACROS_POT, 'string');
-txt = [header_pot; txt];
+txt = [string(header_pot); txt];
 filewrite(MACROS_POT, txt);
 
 cat_cmd = [MSGCAT, ' ', MSGCAT_OPTIONS, ' ', SRC_POT, ' ', MACROS_POT, ' -o ', ALL_POT];
