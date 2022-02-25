@@ -36,7 +36,7 @@ function options = weboptions(varargin)
     end
     [r, fieldname, fieldvalue] = checkArgument(key, value);
     if ~r
-      error(sprintf(_('invalid value for ''%s'' field.'), fieldname));
+      error(sprintf(_('invalid value for "%s" field.'), fieldname));
     end
     webtools_options.(fieldname) = fieldvalue;
   end

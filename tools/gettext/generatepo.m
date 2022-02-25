@@ -37,7 +37,7 @@ end
 
 MSGCAT_OPTIONS = '--lang=en_US --force-po --no-location';
 
-XGETTEXT_KEYWORDS = '-k --keyword=dgettext --keyword=_ --keyword=_W  --keyword=TR';
+XGETTEXT_KEYWORDS = '-k --keyword=dgettext --keyword=_ --keyword=_W --keyword=TR';
 XGETTEXT_OPTION_NO_HEADER = '--omit-header';
 
 XGETTEXT_OPTIONS = [XGETTEXT_OPTION_NO_HEADER, ' ', XGETTEXT_KEYWORDS, ' ', '-force-po', ' ', '--from-code=UTF-8'];
