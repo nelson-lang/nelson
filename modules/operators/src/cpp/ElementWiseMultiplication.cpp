@@ -524,7 +524,6 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
                         classDestination, a, b);
                 }
                 return complex_vector_column_elementWiseMultiplication<T>(classDestination, b, a);
-
             }
             Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
         }

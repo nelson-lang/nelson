@@ -793,7 +793,6 @@ jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessag
             return ArrayOf();
         }
         return jsonVariableToNelson(jsVar);
-
     }
     errorMessage = getErrorMessage(nbTokensOrError);
 
