@@ -1897,6 +1897,129 @@ msgstr "Résumé:"
 msgid "Time:"
 msgstr "Temps écoulé:"
 
+#, c-format
+msgid ""
+"Assertion failed: expected '%ls' and computed '%ls' values are different."
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: expected (%ls) and computed (%ls) values are different."
+msgstr ""
+
+#, c-format
+msgid ""
+"Assertion failed: expected \"%ls\" and computed \"%ls\" values are different."
+msgstr ""
+
+#, c-format
+msgid "Invalid argument type: %ls."
+msgstr ""
+
+#, c-format
+msgid "Invalid symbol name: %ls"
+msgstr ""
+
+#, c-format
+msgid "import type %ls not defined in FFI type table."
+msgstr ""
+
+#, c-format
+msgid "Invalid type for #%zu input argument: %ls expected."
+msgstr ""
+
+#, c-format
+msgid "at line %5d of '%ls'\n"
+msgstr ""
+
+#, c-format
+msgid "Source directory %ls does not exist or is not a directory."
+msgstr ""
+
+#, c-format
+msgid "Cannot create destination directory %ls"
+msgstr ""
+
+msgid "function handle not defined."
+msgstr ""
+
+msgid "FunctionHandleDisplay method: function_handle expected."
+msgstr ""
+
+msgid "Error code:"
+msgstr ""
+
+#, c-format
+msgid "Value of errno: %s"
+msgstr ""
+
+#, c-format
+msgid "filename and function name are not same (%s vs %s)."
+msgstr ""
+
+msgid "Function not loaded."
+msgstr ""
+
+msgid "Invalid evaluator."
+msgstr ""
+
+#, c-format
+msgid "\tAll zero sparse: %d-by-%d\n"
+msgstr ""
+
+#, c-format
+msgid "\tAll zero sparse: %lu-by-%lu\n"
+msgstr ""
+
+#, c-format
+msgid "Duplicated tag detected: %ls"
+msgstr ""
+
+#, c-format
+msgid "Multiple exclusive tags detected: %ls"
+msgstr ""
+
+msgid "character array expected."
+msgstr ""
+
+#, python-format
+msgid "Value must be greater than %.6f."
+msgstr ""
+
+#, python-format
+msgid "Value must be greater than or equal to %.6f."
+msgstr ""
+
+#, python-format
+msgid "Value must be less than %.6f."
+msgstr ""
+
+#, python-format
+msgid "Value must be less than or equal to %.6f."
+msgstr ""
+
+msgid "Module already loaded."
+msgstr ""
+
+msgid "Please install and configure a C/C++ compiler"
+msgstr ""
+
+#, python-format
+msgid "Building %s dependencies.\n"
+msgstr ""
+
+#, python-format
+msgid "Building %s sources.\n"
+msgstr ""
+
+#, python-format
+msgid "Building %s builtin.\n"
+msgstr ""
+
+#, python-format
+msgid "Building %s loader.\n"
+msgstr ""
+
 msgid " to reference types."
 msgstr ""
 
@@ -1925,21 +2048,6 @@ msgid "computed error identifier ="
 msgstr ""
 
 msgid "Assertion failed: expected and computed values are too different."
-msgstr ""
-
-#, c-format
-msgid ""
-"Assertion failed: expected '%ls' and computed '%ls' values are different."
-msgstr ""
-
-#, c-format
-msgid ""
-"Assertion failed: expected (%ls) and computed (%ls) values are different."
-msgstr ""
-
-#, c-format
-msgid ""
-"Assertion failed: expected \"%ls\" and computed \"%ls\" values are different."
 msgstr ""
 
 #, c-format
@@ -2233,14 +2341,6 @@ msgstr ""
 msgid "Valid handle expected."
 msgstr ""
 
-#, c-format
-msgid "Invalid argument type: %ls."
-msgstr ""
-
-#, c-format
-msgid "Invalid symbol name: %ls"
-msgstr ""
-
 msgid "dllib valid handle expected."
 msgstr ""
 
@@ -2257,10 +2357,6 @@ msgstr ""
 msgid "import type %s not defined in FFI type table."
 msgstr ""
 
-#, c-format
-msgid "import type %ls not defined in FFI type table."
-msgstr ""
-
 msgid "'void' not allowed as input type."
 msgstr ""
 
@@ -2271,10 +2367,6 @@ msgid "Unable to import function through FFI."
 msgstr ""
 
 msgid "cell array"
-msgstr ""
-
-#, c-format
-msgid "Invalid type for #%zu input argument: %ls expected."
 msgstr ""
 
 msgid "Module not loaded: library handle not found."
@@ -2393,6 +2485,9 @@ msgid "#3 parameter: positive integer value expected."
 msgstr ""
 
 msgid "Invalid third input argument. 'first' or 'last' expected."
+msgstr ""
+
+msgid "Type not managed."
 msgstr ""
 
 msgid "Undefined function 'isfinite' for input arguments of type"
@@ -2523,10 +2618,6 @@ msgstr ""
 msgid "line"
 msgstr ""
 
-#, c-format
-msgid "at line %5d of '%ls'\n"
-msgstr ""
-
 msgid "Cannot apply wisdom."
 msgstr ""
 
@@ -2560,14 +2651,6 @@ msgstr ""
 
 #, c-format
 msgid "Cannot change directory '%s'."
-msgstr ""
-
-#, c-format
-msgid "Source directory %ls does not exist or is not a directory."
-msgstr ""
-
-#, c-format
-msgid "Cannot create destination directory %ls"
 msgstr ""
 
 msgid "Cannot create directory."
@@ -2606,9 +2689,6 @@ msgstr ""
 msgid "Cannot add entry:"
 msgstr ""
 
-msgid "function handle not defined."
-msgstr ""
-
 msgid "The path is empty. Please restore path."
 msgstr ""
 
@@ -2622,9 +2702,6 @@ msgid "built-in"
 msgstr ""
 
 msgid "Shadowed"
-msgstr ""
-
-msgid "FunctionHandleDisplay method: function_handle expected."
 msgstr ""
 
 msgid "Scalar value expected."
@@ -2754,9 +2831,6 @@ msgid "handle expected."
 msgstr ""
 
 msgid "Handles being catenated have incompatible classes."
-msgstr ""
-
-msgid "Type not managed."
 msgstr ""
 
 msgid "Unsupported value type."
@@ -2987,9 +3061,6 @@ msgstr ""
 msgid "BUILTIN type not managed."
 msgstr ""
 
-msgid "Error code:"
-msgstr ""
-
 msgid "mpower function not found."
 msgstr ""
 
@@ -3076,6 +3147,13 @@ msgstr ""
 msgid "one or more outputs not assigned in call."
 msgstr ""
 
+#, c-format
+msgid "Value of errno: %d"
+msgstr ""
+
+msgid "Cannot open:"
+msgstr ""
+
 msgid "Maximum name length exceeded."
 msgstr ""
 
@@ -3083,24 +3161,6 @@ msgid "unterminated character array"
 msgstr ""
 
 msgid "This statement is not inside any function."
-msgstr ""
-
-#, c-format
-msgid "Value of errno: %d"
-msgstr ""
-
-#, c-format
-msgid "Value of errno: %s"
-msgstr ""
-
-msgid "Cannot open:"
-msgstr ""
-
-#, c-format
-msgid "filename and function name are not same (%s vs %s)."
-msgstr ""
-
-msgid "Function not loaded."
 msgstr ""
 
 msgid "Operand to && operator must be convertible to logical scalar values."
@@ -3601,9 +3661,6 @@ msgstr ""
 msgid "MPI_Comm valid handle expected."
 msgstr ""
 
-msgid "Invalid evaluator."
-msgstr ""
-
 msgid "String expected."
 msgstr ""
 
@@ -3641,6 +3698,9 @@ msgid "Integer type not managed."
 msgstr ""
 
 msgid "Integers of the same class expected."
+msgstr ""
+
+msgid "Conversion to char from complex is not possible."
 msgstr ""
 
 msgid "Cannot promote to string array."
@@ -4007,14 +4067,6 @@ msgstr ""
 msgid "Index exceeds matrix dimensions."
 msgstr ""
 
-#, c-format
-msgid "\tAll zero sparse: %d-by-%d\n"
-msgstr ""
-
-#, c-format
-msgid "\tAll zero sparse: %lu-by-%lu\n"
-msgstr ""
-
 msgid "Cannot do imag with current type '"
 msgstr ""
 
@@ -4227,9 +4279,6 @@ msgstr ""
 msgid "Undefined function 'char' for input arguments."
 msgstr ""
 
-msgid "Conversion to char from complex is not possible."
-msgstr ""
-
 msgid "char vector or cell of strings expected."
 msgstr ""
 
@@ -4293,15 +4342,7 @@ msgstr ""
 msgid "wrong file prefix 'test_' or 'bug_' expected."
 msgstr ""
 
-#, c-format
-msgid "Duplicated tag detected: %ls"
-msgstr ""
-
 msgid "Check tags used."
-msgstr ""
-
-#, c-format
-msgid "Multiple exclusive tags detected: %ls"
 msgstr ""
 
 msgid "Cannot edit the directory: %1"
@@ -4634,9 +4675,6 @@ msgstr ""
 msgid "sparse matrices do not support deleting n-dimensional planes - Only 2-D"
 msgstr ""
 
-msgid "character array expected."
-msgstr ""
-
 msgid "Expected a real value scalar."
 msgstr ""
 
@@ -4845,7 +4883,7 @@ msgstr ""
 msgid "Inputs to function 'mustBeLessThan' must be real."
 msgstr ""
 
-#, c-format
+#, c-format, python-format
 msgid "Value must be less than %s."
 msgstr ""
 
@@ -4862,7 +4900,7 @@ msgstr ""
 msgid "Inputs to function 'mustBeGreaterThanOrEqual' must be real."
 msgstr ""
 
-#, c-format
+#, c-format, python-format
 msgid "Value must be greater than or equal to %s."
 msgstr ""
 
@@ -4878,7 +4916,7 @@ msgstr ""
 msgid "Inputs to function 'mustBeLessThanOrEqual' must be real."
 msgstr ""
 
-#, c-format
+#, c-format, python-format
 msgid "Value must be less than or equal to %s."
 msgstr ""
 
@@ -5203,6 +5241,17 @@ msgid "No empty matrix expected."
 msgstr ""
 
 msgid "Only 2D matrix supported."
+msgstr ""
+
+#, python-format
+msgid "\"%s\" is not a recognized parameter."
+msgstr ""
+
+#, python-format
+msgid "invalid value for \"%s\" field."
+msgstr ""
+
+msgid "String or characters expected."
 msgstr ""
 
 msgid ""
@@ -5600,30 +5649,7 @@ msgid "Undefined function tanm for input arguments of type "
 msgstr ""
 
 #, python-format
-msgid "Value must be greater than %.6f."
-msgstr ""
-
-#, python-format
-msgid "Value must be greater than or equal to %.6f."
-msgstr ""
-
-#, python-format
-msgid "Value must be less than %.6f."
-msgstr ""
-
-#, python-format
-msgid "Value must be less than or equal to %.6f."
-msgstr ""
-
-#, python-format
 msgid "%s is not a recognized parameter."
-msgstr ""
-
-#, python-format
-msgid "invalid value for %s field."
-msgstr ""
-
-msgid "String or characters expected."
 msgstr ""
 
 msgid "weboptions must be last argument."
@@ -5639,28 +5665,6 @@ msgid "unmanaged case."
 msgstr ""
 
 msgid "Timeout was reached"
-msgstr ""
-
-msgid "Module already loaded."
-msgstr ""
-
-msgid "Please install and configure a C/C++ compiler"
-msgstr ""
-
-#, python-format
-msgid "Building %s dependencies.\n"
-msgstr ""
-
-#, python-format
-msgid "Building %s sources.\n"
-msgstr ""
-
-#, python-format
-msgid "Building %s builtin.\n"
-msgstr ""
-
-#, python-format
-msgid "Building %s loader.\n"
 msgstr ""
 
 msgid "help build failed."

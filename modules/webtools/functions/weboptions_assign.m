@@ -25,11 +25,11 @@
 %=============================================================================
 function r = weboptions_assign(cl, key, value)
     if ~isSupportedFieldNames(key)
-      error(sprintf(_('''%s'' is not a recognized parameter.'), key));
+      error(sprintf(_('"%s" is not a recognized parameter.'), key));
     end
     [r, fieldname, fieldvalue] = checkArgument(key, value);
     if ~r
-      error(sprintf(_('invalid value for ''%s'' field.'), fieldname));
+      error(sprintf(_('invalid value for "%s" field.'), fieldname));
     end
     s = struct(cl);
     s.(fieldname) = fieldvalue;
