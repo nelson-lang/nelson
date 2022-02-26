@@ -36,12 +36,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - [#587](http://github.com/Nelson-numerical-software/nelson/issues/587): implicit cast to string array for horzcat and vertcat operators.
-- [#584](http://github.com/Nelson-numerical-software/nelson/issues/584): docker files updated to support C++17 and new libraries.
 - [#562](http://github.com/Nelson-numerical-software/nelson/issues/562): `format long` complex do not display expected precision.
 - scale factor for integer values did not display as expected.
 - [#561](http://github.com/Nelson-numerical-software/nelson/issues/561): `0^0` did not return expected value.
 - [#560](http://github.com/Nelson-numerical-software/nelson/issues/560): many warnings fixed (Thanks to new PVS-Studio and cppcheck).
 - cmake `WITH_SLICOT`, `WITH_FFTW`, `ENABLE_CLANG_TIDY_FIX` were not documented.
+- [#584](http://github.com/Nelson-numerical-software/nelson/issues/584): docker files updated to support C++17 and new libraries.
+- [#591](http://github.com/Nelson-numerical-software/nelson/issues/591): Innosetup display glitch with `Nelson's website` button.
 
 ## 0.6.1 (2022-01-31)
 
