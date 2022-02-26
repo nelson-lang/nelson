@@ -204,8 +204,8 @@ begin
   
   URLLabel.Font.Style := URLLabel.Font.Style + [fsUnderline];
   URLLabel.Font.Color := clBlue;
-  URLLabel.Top := WizardForm.ClientHeight - URLLabel.Height - 15;
-  URLLabel.Left := ScaleX(20);
+  URLLabel.Top := WizardForm.ClientHeight - 1;
+  URLLabel.Left := ScaleX(500);
 
   if not IsSilentMode() then
     begin
@@ -225,8 +225,12 @@ begin
 
       License2AcceptedRadio :=
         CloneLicenseRadioButton(WizardForm.LicenseAcceptedRadio);
+      License2AcceptedRadio.Top := License2AcceptedRadio.Top + 77;
+
       License2NotAcceptedRadio :=
         CloneLicenseRadioButton(WizardForm.LicenseNotAcceptedRadio);
+      License2NotAcceptedRadio.Top := License2NotAcceptedRadio.Top + 77;
+  
       License2NotAcceptedRadio.Checked := True;
      end;
 end;
