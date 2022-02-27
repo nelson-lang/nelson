@@ -83,6 +83,26 @@ function status = test_run(varargin)
   end
 end
 %=============================================================================
+function r = getStatusCharacter(status)
+  if ~isunicodesupported()
+    r = status;
+    return
+  end
+  if strcmp(status, 'Fail') == true
+    r = '❌';
+    return
+  end
+  if strcmp(status, 'Pass') == true
+    r = '✔️';
+    return
+  end 
+  if contains(status, {'Skip', 'Interactive', 'No display'})
+    r = '⊘';
+    return
+  end
+  r = status;
+end
+%=============================================================================
 function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalTests, initialIndex)
   accumulator = [];
   test_cases_updated = [];
@@ -106,7 +126,7 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
         test_cases_updated = [test_cases_updated; accumulator(i)];
         startChars = sprintf(fmtStart, indexTest, nbTotalTests,  accumulator(i).name);
         nb_spaces = 80 - length(startChars) - length(accumulator(i).status) + 1;
-        fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), accumulator(i).status, newline);
+        fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), getStatusCharacter(accumulator(i).status), newline);
         displayTestCaseFail(accumulator(i))
         indexTest = indexTest + 1;
       end
@@ -975,10 +995,17 @@ end
 function disp_summary(test_suites)
   fprintf(stdout, ['  ===============================================================================', newline]);
   fprintf(stdout, ['  ', _('Summary:'), newline]);
-  fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), newline]);
-  fprintf(stdout, ['  ', _('Passed:'), ' ', int2str(test_suites.passed), newline]);
-  fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), newline]);
-  fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
+  if isunicodesupported()
+    fprintf(stdout, ['  ', _('Tests:'),   ' ', int2str(test_suites.tests), newline]);
+    fprintf(stdout, ['  ', _('Passed'),  ' ✔️ : ', int2str(test_suites.passed), newline]);
+    fprintf(stdout, ['  ', _('Failed'),  ' ❌ : ', int2str(test_suites.errors), newline]);
+    fprintf(stdout, ['  ', _('Skipped'), ' ⊘ : ',  int2str(test_suites.disabled), newline]);
+  else
+    fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), newline]);
+    fprintf(stdout, ['  ', _('Passed:'), ' ', int2str(test_suites.passed), newline]);
+    fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), newline]);
+    fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
+  end
   fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), newline]);
   if test_suites.time > 100
     fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);

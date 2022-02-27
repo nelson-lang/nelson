@@ -4,11 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## UNRELEASED
+
+### Changed
+
+- [#596](http://github.com/Nelson-numerical-software/nelson/issues/596): Tests results display use emoji if terminal supports Unicode.
+
+### Added
+
+- `isunicodesupported` function: Detect whether the current terminal supports Unicode.
+
 ## 0.6.2 (2022-02-26)
 
 ### Changed
 
-- [#576](http://github.com/Nelson-numerical-software/nelson/issues/575): C++17 Compiler required to build Nelson.
+- [#576](http://github.com/Nelson-numerical-software/nelson/issues/576): C++17 Compiler required to build Nelson.
 
 - [#581](http://github.com/Nelson-numerical-software/nelson/issues/581): Github CI platforms list extended (ArchLinux, Fedora, Ubuntu 18.04, MacOs BigSur).
 
