@@ -996,13 +996,12 @@ end
 function disp_summary(test_suites)
   fprintf(stdout, ['  ===============================================================================', newline]);
   fprintf(stdout, ['  ', _('Summary:'), newline]);
+  fprintf(stdout, ['  ', _('Tests:'),   ' ', int2str(test_suites.tests), newline]);
   if isunicodesupported()
-    fprintf(stdout, ['  ', _('Tests:'),   ' ', int2str(test_suites.tests), newline]);
     fprintf(stdout, ['  ✅ ', _('Passed:'),  ' ', int2str(test_suites.passed), newline]);
     fprintf(stdout, ['  🔴 ', _('Failed:'),  ' ', int2str(test_suites.errors), newline]);
     fprintf(stdout, ['  ⭕ ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
   else
-    fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), newline]);
     fprintf(stdout, ['  ', _('Passed:'), ' ', int2str(test_suites.passed), newline]);
     fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), newline]);
     fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);

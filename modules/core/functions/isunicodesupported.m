@@ -37,7 +37,7 @@ function tf = isunicodesupported()
 
     tf = false;
     if ~ispc()
-        tf = ~strcmp(getenv(TERM), 'linux')
+        tf = ~strcmp(getenv('TERM'), 'linux');
         return
     end
     tf = ~isempty(getenv('WT_SESSION')) || ...
