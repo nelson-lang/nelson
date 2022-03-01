@@ -38,6 +38,7 @@ before_build:
 
 
 after_build:
+- set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
 - if %platform%==x64 (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe) else (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.exe)
 
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --noipc --quiet -f c:/build_chain/nelson/tools/clone_module_skeleton/clone.m"

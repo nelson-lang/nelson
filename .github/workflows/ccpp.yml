@@ -612,6 +612,7 @@ jobs:
 
     - name: Minimal tests
       run: |
+        set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
         %GITHUB_WORKSPACE%/bin/win32/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.m
 
     - name: Inno setup
@@ -638,12 +639,14 @@ jobs:
 
     - name: Benchs
       run: |
+        set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
         "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.m"
 
     - name: Tests
       run: |
+        set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
         "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
@@ -733,6 +736,7 @@ jobs:
 
     - name: Minimal tests
       run: |
+        set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
         %GITHUB_WORKSPACE%/bin/x64/nelson-cli --noipc --quiet -f %GITHUB_WORKSPACE%/tools/tests_minimal/runtests_minimal.m
 
     - name: Inno setup
@@ -759,12 +763,14 @@ jobs:
 
     - name: Benchs
       run: |
+        set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
         "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/benchs_all/runbenchs_all.m"
 
     - name: Tests
       run: |
+        set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
         set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
         set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
         "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ env.PACKAGE_VERSION }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
