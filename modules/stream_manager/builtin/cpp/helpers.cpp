@@ -54,7 +54,8 @@ precisionFromString(const std::wstring& str, bool& bOK)
     }
     if ((str == L"int64") || (str == L"integer*8")) {
         return NLS_INT64;
-    } else if ((str == L"uint8") || (str == L"uchar")) {
+    }
+    if ((str == L"uint8") || (str == L"uchar")) {
         return NLS_UINT8;
     } else if (str == L"uint16") {
         return NLS_UINT16;
