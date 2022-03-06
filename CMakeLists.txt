@@ -22,6 +22,10 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 # ==============================================================================
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+  message(SEND_ERROR "On Windows, please uses Visual studio solution.")
+endif()
+# ==============================================================================
 message(
   STATUS
     "CMake version ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}"
@@ -31,12 +35,15 @@ cmake_minimum_required(VERSION 3.9)
 # ==============================================================================
 project(Nelson)
 # ==============================================================================
-set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
-# ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 0)
 set(Nelson_VERSION_MINOR_DEFAULT 6)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 2)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
+# ==============================================================================
+if(NOT DEFINED CMAKE_INSTALL_PREFIX)
+  option(CMAKE_INSTALL_PREFIX "Install directory used by instal." "$ENV{HOME}")
+endif()
+message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
 # ==============================================================================
 option(ENABLE_CLANG_TIDY "Analyze code with clang-tidy." OFF)
 option(ENABLE_CLANG_TIDY_FIX  "Analyze code with clang-tidy and fix errors." OFF)
@@ -46,19 +53,20 @@ option(WITH_SLICOT "Build Nelson without SLICOT module" ON)
 option(LGPL21_ONLY "Build Nelson under LGPL v2.1 only" OFF)
 # ==============================================================================
 if (LGPL21_ONLY)
-  message(STATUS "FFTW module: OFF")
-  message(STATUS "SLICOT module: OFF")
+  set(WITH_FFTW OFF)
+  set(WITH_SLICOT OFF)
+  message(STATUS "LGPL v2.1: ON")
+endif()
+# ==============================================================================
+if(WITH_FFTW)
+  message(STATUS "FFTW module: ON")
 else()
-  if(WITH_FFTW)
-    message(STATUS "FFTW module: ON")
-  else()
-    message(STATUS "FFTW module: OFF")
-  endif()
-  if(WITH_SLICOT)
-    message(STATUS "SLICOT module: ON")
-  else()
-    message(STATUS "SLICOT module: OFF")
-  endif()
+  message(STATUS "FFTW module: OFF")
+endif()
+if(WITH_SLICOT)
+  message(STATUS "SLICOT module: ON")
+else()
+  message(STATUS "SLICOT module: OFF")
 endif()
 # ==============================================================================
 if(POLICY CMP0068)
@@ -68,10 +76,6 @@ endif()
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 set(BUILD_SHARED_LIBS "true")
-# ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-  message(SEND_ERROR "On Windows, please uses Visual studio solution.")
-endif()
 # ==============================================================================
 include (VersionConfig)
 # ==============================================================================

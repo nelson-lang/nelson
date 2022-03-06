@@ -97,6 +97,8 @@ set_target_properties(
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
+install(TARGETS ${module_library_builtin_name}
+        LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/include
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/include
