@@ -135,10 +135,10 @@ add_custom_target(
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
-install(FILES ${BIN_DIRECTORY}/nelson-adv-cli DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${BIN_DIRECTORY}/nelson-cli DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${BIN_DIRECTORY}/nelson-gui DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${BIN_DIRECTORY}/nelson-sio-cli DESTINATION ${LIBRARY_OUTPUT})
+install(FILES ${BIN_DIRECTORY}/nelson-adv-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
+install(FILES ${BIN_DIRECTORY}/nelson-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
+install(FILES ${BIN_DIRECTORY}/nelson-gui DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
+install(FILES ${BIN_DIRECTORY}/nelson-sio-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
 # ==============================================================================
 install(TARGETS nelson-adv-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
