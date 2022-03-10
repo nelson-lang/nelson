@@ -198,6 +198,7 @@
     <ClCompile Include="..\cpp\helpers.cpp" />
     <ClCompile Include="..\cpp\loadBuiltin.cpp" />
     <ClCompile Include="..\cpp\saveBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sscanfBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -252,6 +253,7 @@
     <ClInclude Include="..\include\loadBuiltin.hpp" />
     <ClInclude Include="..\include\nlsStream_manager_builtin_exports.h" />
     <ClInclude Include="..\include\saveBuiltin.hpp" />
+    <ClInclude Include="..\include\sscanfBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

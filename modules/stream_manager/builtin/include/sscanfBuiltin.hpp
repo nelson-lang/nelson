@@ -25,16 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <cstdio>
-#include <string>
-#include "nlsStream_manager_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP ArrayOf
-FscanF(FILE* filepointer, const std::string& format, const std::string& encoding, double m,
-    double n, bool haveThirdArgument, indexType& count, bool asSscanf);
-//=============================================================================
+namespace StreamGateway {
+    ArrayOfVector
+    sscanfBuiltin(int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

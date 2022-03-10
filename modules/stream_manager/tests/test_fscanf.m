@@ -103,21 +103,6 @@ REF = [0.0000      0.1000      0.2000      1.0000;
 assert_isapprox(R, REF, 1e-4);
 assert_isapprox(C, 8);
 %=============================================================================
-fscanf_2 = [modulepath('stream_manager'), '/tests/fscanf_2.txt'];
-FD = fopen(fscanf_2, 'r');
-[R, C] = fscanf(FD,'%g %g',[20 30]);
-fclose(FD);
-REF = [0.0000;
-      1.0000;
-      0.1000;
-      1.1052;
-      0.2000;
-      2.1052;
-      1.0000;
-      3.7183];
-assert_isapprox(R, REF, 1e-4);
-assert_isapprox(C, 8);
-%=============================================================================
 fscanf_3 = [modulepath('stream_manager'), '/tests/fscanf_3.txt'];
 FD = fopen(fscanf_3, 'r');
 R = fscanf(FD,'%s');
@@ -214,4 +199,19 @@ R = fscanf(fd, "%f");
 fclose(fd);
 REF = [pi; 4*pi; 2*pi; 5*pi; 3*pi; 6*pi];
 assert_isapprox(R, REF, 1e-4);
+%=============================================================================
+fscanf_2 = [modulepath('stream_manager'), '/tests/fscanf_2.txt'];
+FD = fopen(fscanf_2, 'r');
+[R, C] = fscanf(FD,'%g %g',[20 30]);
+fclose(FD);
+REF = [0.0000;
+      1.0000;
+      0.1000;
+      1.1052;
+      0.2000;
+      2.1052;
+      1.0000;
+      3.7183];
+assert_isapprox(R, REF, 1e-4);
+assert_isapprox(C, 8);
 %=============================================================================

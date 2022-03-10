@@ -37,8 +37,8 @@
 namespace Nelson {
 //=============================================================================
 static stringVector
-getPossibleSymbolNames(const std::string &userSymbolName)
-{ 
+getPossibleSymbolNames(const std::string& userSymbolName)
+{
     std::string cleanedSymbolName = userSymbolName;
     if (cleanedSymbolName[0] == '_') {
         cleanedSymbolName.erase(0, 1);
@@ -97,8 +97,8 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         }
         if (symbolsFound.size() > 1) {
             ptr = nullptr;
-            Error(fmt::sprintf(
-                _("Multiple possible symbol name found: %s"), boost::algorithm::join(symbolsFound, ", ")));
+            Error(fmt::sprintf(_("Multiple possible symbol name found: %s"),
+                boost::algorithm::join(symbolsFound, ", ")));
         }
     }
     if (!ptr) {
