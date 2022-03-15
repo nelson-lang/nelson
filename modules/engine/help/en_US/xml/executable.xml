@@ -7,12 +7,25 @@
   <short_description>Executables to start Nelson software.</short_description>
 
   <syntax>
-    <syntax_item>nelson-cli arg1 arg1 ... argn</syntax_item>
-    <syntax_item>nelson-adv-cli arg1 arg1 ... argn</syntax_item>
-    <syntax_item>nelson-gui arg1 arg1 ... argn</syntax_item>
+    <syntax_item>nelson arg1 ... argn</syntax_item>
+    <syntax_item>nelson-cli arg1 ... argn</syntax_item>
+    <syntax_item>nelson-adv-cli  arg1 ... argn</syntax_item>
+    <syntax_item>nelson-gui arg1 ... argn</syntax_item>
   </syntax>
   
   <param_input>
+    <param_input_item>
+      <param_name>-cli</param_name>
+      <param_description>equivalent to call 'nelson-cli'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-adv-cli</param_name>
+      <param_description>equivalent to call 'nelson-adv-cli'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-gui</param_name>
+      <param_description>equivalent to call 'nelson-gui'.</param_description>
+    </param_input_item>
     <param_input_item>
       <param_name>-e "nelson instructions"</param_name>
       <param_description>If this option is present then Nelson instruction is executed just after startup file execution into Nelson. -e and -f options are mutually exclusive.</param_description>

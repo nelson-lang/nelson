@@ -172,6 +172,11 @@ add_custom_target(
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m"
   DEPENDS nelson-cli-exec)
 # ==============================================================================
+install(FILES ${BIN_DIRECTORY}/nelson DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS 
+  WORLD_EXECUTE WORLD_READ 
+  GROUP_EXECUTE GROUP_READ 
+  OWNER_EXECUTE OWNER_READ OWNER_WRITE)
+
 install(FILES ${BIN_DIRECTORY}/nelson-adv-cli DESTINATION ${LIBRARY_OUTPUT} PERMISSIONS 
   WORLD_EXECUTE WORLD_READ 
   GROUP_EXECUTE GROUP_READ 
