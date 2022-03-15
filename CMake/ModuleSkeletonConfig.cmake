@@ -28,7 +28,7 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/module_skeleton")
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/etc/finish.m
           DESTINATION ${ROOT_OUTPUT}/module_skeleton/etc)
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/loader.m
-          DESTINATION ${ROOT_OUTPUT}/module_skeleton)
+          DESTINATION ${ROOT_OUTPUT}/module_skeleton OPTIONAL)
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/builder.m
           DESTINATION ${ROOT_OUTPUT}/module_skeleton)
   install(FILES ${CMAKE_SOURCE_DIR}/module_skeleton/module.json
