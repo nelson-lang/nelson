@@ -58,12 +58,53 @@ add_executable(nelson-sio-cli-exec ${MAINSIOCLI_SRC})
 # ==============================================================================
 target_link_libraries(nelson-sio-cli-exec nlsEngine)
 # ==============================================================================
+set(LOCALIZATION_ACTION 
+  COMMAND 
+  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
+  --file
+  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.m")
+set(BUILD_ALL_LOCALIZATION_ACTION ${LOCALIZATION_ACTION})
+# ==============================================================================
+set(GET_MODULE_SKELETON_ACTION
+  COMMAND 
+  ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
+  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
+  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.m")
+set(BUILD_ALL_GET_MODULE_SKELETON_ACTION ${GET_MODULE_SKELETON_ACTION})
+# ==============================================================================
+set (BUILDHELP_ACTION
+  COMMAND 
+  ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
+  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
+  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.m")
+set(BUILD_ALL_BUILDHELP_ACTION ${BUILDHELP_ACTION})
+# ==============================================================================
+set (TESTS_MINIMAL_ACTION
+  COMMAND
+  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
+  --file
+  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m")
+set(BUILD_ALL_TESTS_MINIMAL_ACTION ${TESTS_MINIMAL_ACTION})
+# ==============================================================================
+if (NOT ENABLE_PACKAGING)
+  set (BUILD_ALL_TESTS_MINIMAL_ACTION)
+  set (BUILD_ALL_GET_MODULE_SKELETON_ACTION)
+  set (BUILD_ALL_BUILDHELP_ACTION)
+endif()
+# ==============================================================================
 add_custom_target(
   Name ALL
   COMMAND
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --nousermodules --noipc --quiet
-    --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.m"
+  ${BUILD_ALL_LOCALIZATION_ACTION}
+  ${BUILD_ALL_GET_MODULE_SKELETON_ACTION}
+  ${BUILD_ALL_BUILDHELP_ACTION}
+  ${BUILD_ALL_TESTS_MINIMAL_ACTION}
+  DEPENDS nelson-cli-exec)
+# ==============================================================================
+add_custom_target(
+  localization
+  COMMAND
+  ${LOCALIZATION_ACTION}
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
@@ -77,17 +118,13 @@ add_custom_target(
 add_custom_target(
   get_module_skeleton
   COMMAND
-    ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.m"
+  ${GET_MODULE_SKELETON_ACTION}
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
   buildhelp
   COMMAND
-    ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
-    "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.m"
+  ${BUILDHELP_ACTION}
   DEPENDS nelson-cli-exec)
 # ==============================================================================
 add_custom_target(
