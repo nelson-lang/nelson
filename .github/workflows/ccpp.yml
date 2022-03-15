@@ -70,7 +70,6 @@ jobs:
       run: make get_module_skeleton
     - name: build help
       run: |
-        export PATH=/usr/local/opt/qt5/bin:$PATH
         make buildhelp
     - name: minimal tests
       run: make tests_minimal
@@ -155,7 +154,6 @@ jobs:
       run: make get_module_skeleton
     - name: build help
       run: |
-        export PATH=/usr/local/opt/qt5/bin:$PATH
         make buildhelp
     - name: minimal tests
       run: make tests_minimal
@@ -513,23 +511,15 @@ jobs:
           cmake -DWITH_SLICOT=OFF -G "Unix Makefiles" .
       - name: Make
         run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH      
           make -j4
       - name: Download module skeleton
         run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH      
           make get_module_skeleton
       - name: Build help
         run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH      
           make buildhelp
       - name: Minimal tests
         run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH      
           make tests_minimal
       - name: Make package
         run: |
@@ -538,14 +528,10 @@ jobs:
         run: sudo make install          
       - name: Benchs
         run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH      
           make benchs_all_no_display
   
       - name: Tests
         run: |
-          export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
-          export PATH=/usr/lib64/openmpi/bin:$PATH      
           make tests_all_no_display
 
   Windows_win32:

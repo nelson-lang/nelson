@@ -23,8 +23,6 @@
 ; License along with this program. If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\readme.txt; DestDir: {app}\bin\{#BinPath}\
-;==============================================================================
 ; Boost 1.78
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\boost_chrono-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
