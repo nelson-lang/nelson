@@ -135,7 +135,7 @@ install(
   PATTERN "*.nh5")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/h5
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
   FILES_MATCHING
   PATTERN "*.h5")
 # ==============================================================================
