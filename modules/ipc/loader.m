@@ -23,7 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~any(contains(argv(),'--noipc'))
-    addmodule([nelsonroot() '/modules/' 'ipc'], 'ipc');
+if ~any(contains(argv(),'--noipc')) && ~strcmp(getenv('NELSON_WITHOUT_IPC'), 'TRUE')
+        addmodule([nelsonroot() '/modules/' 'ipc'], 'ipc');
 end
 %=============================================================================
