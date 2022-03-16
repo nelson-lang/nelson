@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `nelson` Main script to start Nelson (superceed others scripts).
 
+- add information for Software Center (Linux desktop).
+
 ### Fixed
 
 - [#599](http://github.com/Nelson-numerical-software/nelson/issues/599): make install step in CI for linux and MacOs.

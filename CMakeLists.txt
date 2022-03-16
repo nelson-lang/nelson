@@ -193,6 +193,7 @@ add_subdirectory(modules)
 add_subdirectory(etc)
 add_subdirectory(locale)
 add_subdirectory(resources)
+add_subdirectory(desktop)
 # ==============================================================================
 include(ModuleSkeletonConfig)
 # ==============================================================================
