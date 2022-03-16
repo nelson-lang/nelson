@@ -45,7 +45,8 @@ configureDefaultFont()
         defaultFontName = L"JuliaMono-Regular";
         return true;
     }
-#ifdef __APPLE__ defaultFontName = L"Monaco";
+#ifdef __APPLE__
+    defaultFontName = L"Monaco";
 #else
     defaultFontName = L"Monospace";
 #endif
