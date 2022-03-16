@@ -25,6 +25,9 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include <algorithm>
+#include <string>
+#include <boost/algorithm/string.hpp>
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
@@ -54,12 +57,69 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
             Error(fmt::sprintf(_W("Invalid argument type: %s."), arg));
         }
     }
-    void* ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
+    std::wstring symbolUsed = symbol;
+    std::string utf8Symbol = wstring_to_utf8(symbol);
+    void* ptr = obj->getFunctionPointer(utf8Symbol); // 'foo'
+
+    if (!ptr) {
+        // possible cases: 'foo', 'FOO', 'foo_', 'FOO_', '_foo', '_FOO'
+        // find alternative symbol
+        // This is made to simplify life of the user
+        std::string cleanedSymbol = utf8Symbol;
+        if (cleanedSymbol[0] == '_') {
+            cleanedSymbol.erase(0, 1);
+        }
+        if (cleanedSymbol.back() == '_') {
+            cleanedSymbol.pop_back();
+        }
+        std::string possibleSymbol = boost::to_lower_copy<std::string>(cleanedSymbol); // 'foo'
+        ptr = obj->getFunctionPointer(possibleSymbol);
+        if (ptr) {
+            symbolUsed = utf8_to_wstring(possibleSymbol);
+        }
+        if (!ptr){
+            possibleSymbol = boost::to_lower_copy<std::string>(cleanedSymbol) + "_"; // 'foo_'
+            ptr = obj->getFunctionPointer(possibleSymbol);
+            if (ptr) {
+                symbolUsed = utf8_to_wstring(possibleSymbol);
+            }
+        }
+        if (!ptr){
+            possibleSymbol = "_" + boost::to_lower_copy<std::string>(cleanedSymbol); // '_foo'
+            ptr = obj->getFunctionPointer(possibleSymbol);
+            if (ptr) {
+                symbolUsed = utf8_to_wstring(possibleSymbol);
+            }
+        }
+        if (!ptr){
+            possibleSymbol = boost::to_upper_copy<std::string>(cleanedSymbol); // 'FOO'
+            ptr = obj->getFunctionPointer(possibleSymbol);
+            if (ptr) {
+                symbolUsed = utf8_to_wstring(possibleSymbol);
+            }
+        }
+
+        if (!ptr){
+            possibleSymbol = boost::to_upper_copy<std::string>(cleanedSymbol) + "_"; // 'FOO_'
+            ptr = obj->getFunctionPointer(possibleSymbol);
+            if (ptr) {
+                symbolUsed = utf8_to_wstring(possibleSymbol);
+            }
+        }
+        if (!ptr){
+            possibleSymbol = "_" + boost::to_upper_copy<std::string>(cleanedSymbol) ; // '_FOO'
+            ptr = obj->getFunctionPointer(possibleSymbol);
+            if (ptr) {
+                symbolUsed = utf8_to_wstring(possibleSymbol);
+            }
+        }
+    }
     if (!ptr) {
         Error(fmt::sprintf(_W("Invalid symbol name: %s"), symbol));
     }
+
     DynamicLinkSymbolObject* dlSymbolObject
-        = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);
+        = new DynamicLinkSymbolObject(dllibObject, ptr, symbolUsed, returnType, argumentsType);
     return ArrayOf::handleConstructor(dlSymbolObject);
 }
 //=============================================================================

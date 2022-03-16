@@ -48,27 +48,7 @@ else
   end
 end
 
-% system dependant
-DASUM_SYMBOLS = ["DASUM", "DASUM_", "dasum", "dasum_"];
-if ispc() || ismac()
-  DASUM_SYMBOL = char(DASUM_SYMBOLS(1))
-else
- DASUM_SYMBOL = '';
- c = dllibinfo(lib);
- for s = DASUM_SYMBOLS
-   try
-     DASUM_SYMBOL = char(s);
-     f = dlsym(lib, char(s), 'double',{'int32Ptr','doublePtr','int32Ptr'})
-     break;
-   catch
-     DASUM_SYMBOL = '';
-   end
- end
- if isempty(DASUM_SYMBOL)
-   error('DASUM symbol not found.');
- end
-end
-
+DASUM_SYMBOL = "dasum";
 V = [ -2, 1, 3, -5, 4, 0, -1, -3]
 N = length(V)
 % load DASUM blas symbol (L1 Norm)

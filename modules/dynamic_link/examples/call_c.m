@@ -23,9 +23,9 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
+getpid_symbol = 'getpid';
 if ispc()
   lib_c_name = ['msvcrt', getdynlibext()];
-  getpid_symbol = '_getpid';
   libc = dlopen(lib_c_name)
 else
   if isunix()
@@ -52,7 +52,6 @@ else
     lib_c_name = ['libc', getdynlibext()];
     libc = dlopen(lib_c_name)
   end
-  getpid_symbol = 'getpid';
 end
 % getpid C function from standard libc library
 f = dlsym(libc, getpid_symbol, 'int32', {})
