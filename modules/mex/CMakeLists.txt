@@ -101,7 +101,7 @@ install(TARGETS ${module_library_builtin_name}
         LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/include
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/include
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/src
   FILES_MATCHING
   PATTERN "*.h"
   PATTERN "*.hpp")
@@ -128,6 +128,11 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.c")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

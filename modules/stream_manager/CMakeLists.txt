@@ -146,7 +146,7 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
-  PATTERN "*.bin")
+  PATTERN "*.ref")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#599](http://github.com/Nelson-numerical-software/nelson/issues/599): make install step in CI for linux and MacOs.
 
+- [#601](http://github.com/Nelson-numerical-software/nelson/issues/601): embed all tests on linux and macos install.
+
 ## 0.6.2 (2022-02-26)
 
 ### Changed

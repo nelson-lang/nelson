@@ -125,7 +125,7 @@ install(
   PATTERN "*.m")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/mat
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
   FILES_MATCHING
   PATTERN "*.mat")
 # ==============================================================================

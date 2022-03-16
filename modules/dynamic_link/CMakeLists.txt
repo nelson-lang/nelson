@@ -114,6 +114,12 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.m
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.txt")        
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
@@ -136,6 +142,11 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.c")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.cpp")  
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
