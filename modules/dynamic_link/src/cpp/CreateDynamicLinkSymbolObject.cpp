@@ -36,6 +36,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static stringVector
+getPossibleSymbolNames(const std::string &userSymbolName)
+{ 
+    std::string cleanedSymbolName = userSymbolName;
+    if (cleanedSymbolName[0] == '_') {
+        cleanedSymbolName.erase(0, 1);
+    }
+    if (cleanedSymbolName.back() == '_') {
+        cleanedSymbolName.pop_back();
+    }
+    std::string cleanedSymbolNameUpperCase = boost::to_upper_copy<std::string>(cleanedSymbolName);
+    std::string cleanedSymbolNameLowerCase = boost::to_lower_copy<std::string>(cleanedSymbolName);
+    stringVector possibleSymbolNames;
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameLowerCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameLowerCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameLowerCase + "_");
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameLowerCase + "_");
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameUpperCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameUpperCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameUpperCase + "_");
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameUpperCase + "_");
+    return possibleSymbolNames;
+}
+//=============================================================================
 ArrayOf
 createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& symbol,
     const std::wstring& returnType, const wstringVector& argumentsType)
@@ -59,58 +83,15 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
     }
     std::wstring symbolUsed = symbol;
     std::string utf8Symbol = wstring_to_utf8(symbol);
-    void* ptr = obj->getFunctionPointer(utf8Symbol); // 'foo'
+    void* ptr = obj->getFunctionPointer(utf8Symbol);
 
     if (!ptr) {
-        // possible cases: 'foo', 'FOO', 'foo_', 'FOO_', '_foo', '_FOO'
-        // find alternative symbol
-        // This is made to simplify life of the user
-        std::string cleanedSymbol = utf8Symbol;
-        if (cleanedSymbol[0] == '_') {
-            cleanedSymbol.erase(0, 1);
-        }
-        if (cleanedSymbol.back() == '_') {
-            cleanedSymbol.pop_back();
-        }
-        std::string possibleSymbol = boost::to_lower_copy<std::string>(cleanedSymbol); // 'foo'
-        ptr = obj->getFunctionPointer(possibleSymbol);
-        if (ptr) {
-            symbolUsed = utf8_to_wstring(possibleSymbol);
-        }
-        if (!ptr){
-            possibleSymbol = boost::to_lower_copy<std::string>(cleanedSymbol) + "_"; // 'foo_'
-            ptr = obj->getFunctionPointer(possibleSymbol);
+        stringVector symbolNames = getPossibleSymbolNames(utf8Symbol);
+        for (auto name : symbolNames) {
+            ptr = obj->getFunctionPointer(name);
             if (ptr) {
-                symbolUsed = utf8_to_wstring(possibleSymbol);
-            }
-        }
-        if (!ptr){
-            possibleSymbol = "_" + boost::to_lower_copy<std::string>(cleanedSymbol); // '_foo'
-            ptr = obj->getFunctionPointer(possibleSymbol);
-            if (ptr) {
-                symbolUsed = utf8_to_wstring(possibleSymbol);
-            }
-        }
-        if (!ptr){
-            possibleSymbol = boost::to_upper_copy<std::string>(cleanedSymbol); // 'FOO'
-            ptr = obj->getFunctionPointer(possibleSymbol);
-            if (ptr) {
-                symbolUsed = utf8_to_wstring(possibleSymbol);
-            }
-        }
-
-        if (!ptr){
-            possibleSymbol = boost::to_upper_copy<std::string>(cleanedSymbol) + "_"; // 'FOO_'
-            ptr = obj->getFunctionPointer(possibleSymbol);
-            if (ptr) {
-                symbolUsed = utf8_to_wstring(possibleSymbol);
-            }
-        }
-        if (!ptr){
-            possibleSymbol = "_" + boost::to_upper_copy<std::string>(cleanedSymbol) ; // '_FOO'
-            ptr = obj->getFunctionPointer(possibleSymbol);
-            if (ptr) {
-                symbolUsed = utf8_to_wstring(possibleSymbol);
+                symbolUsed = utf8_to_wstring(name);
+                break;
             }
         }
     }

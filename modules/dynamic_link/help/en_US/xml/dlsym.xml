@@ -41,13 +41,15 @@
 	<description>
 		<p><b>dlsym</b> retrieves the address of an exported function as an dlsym handle.</p>
 		<p>if <b>symbolname</b> not found, nelson try to find symbol equivalent based on these rules and in this order:</p>
+		<p><b>_symbolname</b></p>
 		<p><b>symbolname</b></p>
 		<p><b>symbolname_</b></p>
-		<p><b>_symbolname</b></p>
+		<p><b>_symbolname_</b></p>
+		<p><b>_SYMBOLNAME</b></p>
 		<p><b>SYMBOLNAME</b></p>
 		<p><b>SYMBOLNAME_</b></p>
-		<p><b>_SYMBOLNAME</b></p>
-		<p>symbol name used, if available in prototype field available in returned handle.</p>
+		<p><b>_SYMBOLNAME_</b></p>
+		<p>symbol name used is available in prototype field of the returned handle.</p>
 		<p></p>
 		<p>Warning: Uses wrong datatype definitions a foreign function can terminate unexpectedly.</p>
 	</description>
