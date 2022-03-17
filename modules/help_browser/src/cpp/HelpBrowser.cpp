@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstdlib>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QtGlobal>
 #include <QtCore/QByteArray>
@@ -43,6 +44,7 @@
 #include "GetNelsonPath.hpp"
 #include "GetQtPath.hpp"
 #include "IsFile.hpp"
+#include "characters_encoding.hpp"
 #include "QStringConverter.hpp"
 #include "RemoveDirectory.hpp"
 //=============================================================================
@@ -140,14 +142,9 @@ HelpBrowser::getAttributes()
     return attributes;
 }
 //=============================================================================
-bool
-HelpBrowser::startBrowser(std::wstring& msg)
-{
-    if (qprocess->state() == QProcess::Running) {
-        QProcess::ProcessError err = qprocess->error();
-        msg.clear();
-        return true;
-    }
+static
+std::wstring
+getAssistantFilename() {
     std::wstring wapp;
 #ifdef _MSC_VER
     wapp = GetNelsonBinariesPath() + L"/assistant.exe";
@@ -171,6 +168,29 @@ HelpBrowser::startBrowser(std::wstring& msg)
 #endif
 #endif
     }
+#if !defined(_MSC_VER) && !defined(Q_OS_MAC)
+    if (!IsFile(wapp)) {
+        const char* qtBinaries = getenv("QTDIR_BINARIES");
+        if (qtBinaries) {
+            wapp = utf8_to_wstring(qtBinaries) + std::wstring(L"/assistant");
+        }
+    }
+    if (!IsFile(wapp)) {
+        wapp = std::wstring(L"/usr/lib/x86_64-linux-gnu/qt5/bin/assistant");
+    }
+#endif
+    return wapp;
+}
+//=============================================================================
+bool
+HelpBrowser::startBrowser(std::wstring& msg)
+{
+    if (qprocess->state() == QProcess::Running) {
+        QProcess::ProcessError err = qprocess->error();
+        msg.clear();
+        return true;
+    }
+    std::wstring wapp = getAssistantFilename();
     if (!IsFile(wapp)) {
         msg = _W("Qt Assistant not found.");
         return false;
