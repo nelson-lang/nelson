@@ -86,20 +86,11 @@ set (TESTS_MINIMAL_ACTION
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.m")
 set(BUILD_ALL_TESTS_MINIMAL_ACTION ${TESTS_MINIMAL_ACTION})
 # ==============================================================================
-if (NOT ENABLE_PACKAGING)
-  set (BUILD_ALL_TESTS_MINIMAL_ACTION)
-  set (BUILD_ALL_GET_MODULE_SKELETON_ACTION)
-  set (BUILD_ALL_BUILDHELP_ACTION)
-endif()
-# ==============================================================================
 add_custom_target(
   Name ALL
   COMMAND
   ${BUILD_ALL_LOCALIZATION_ACTION}
-  ${BUILD_ALL_GET_MODULE_SKELETON_ACTION}
-  ${BUILD_ALL_BUILDHELP_ACTION}
-  ${BUILD_ALL_TESTS_MINIMAL_ACTION}
-  DEPENDS nelson-cli-exec)
+  DEPENDS nelson-cli-exec nelson-adv-cli-exec nelson-gui-exec)
 # ==============================================================================
 add_custom_target(
   localization
