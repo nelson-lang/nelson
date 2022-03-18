@@ -193,3 +193,11 @@ install(TARGETS nelson-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-gui-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-sio-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 # ==============================================================================
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.qch"
+  PATTERN "xml" EXCLUDE
+  PATTERN "md" EXCLUDE)
+# ==============================================================================
