@@ -23,5 +23,7 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-addmodule([nelsonroot() '/modules/' 'mpi'], 'mpi');
+if ~strcmp(getenv('NELSON_WITHOUT_MPI'), 'TRUE')
+  addmodule([nelsonroot() '/modules/' 'mpi'], 'mpi');
+end
 %=============================================================================
