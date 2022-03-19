@@ -29,6 +29,14 @@ these own data types and operations on these data types by using overload.
 
 [Web site](https://nelson-numerical-software.github.io/nelson-website/)
 
+## Download
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/nelson)
+
+[Latest Windows Installer](https://github.com/Nelson-numerical-software/nelson/releases)
+
+[Get it from the Windows Package Manager](https://winstall.app/apps/NelsonNumericalSoftware.Nelson)
+
 ## Features
 
 - Types managed by Nelson:
@@ -138,10 +146,10 @@ The systems listed here without CI or binaries are known to build and operate, b
 |                  |  i686 (32-bit)  |  ✓  |    ✓     |
 |   MacOS BigSur   | x86-64 (64-bit) |  ✓  |          |
 |  MacOS Catalina  | x86-64 (64-bit) |  ✓  |          |
-|   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  |          |
-|   Ubuntu 18.04   | x86-64 (64-bit) |  ✓  |          |
-|    ArchLinux     | x86-64 (64-bit) |  ✓  |          |
-|    Fedora 35     | x86-64 (64-bit) |  ✓  |          |
+|   Ubuntu 20.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
+|   Ubuntu 18.04   | x86-64 (64-bit) |  ✓  | ✓ (snap) |
+|    ArchLinux     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
+|    Fedora 35     | x86-64 (64-bit) |  ✓  | ✓ (snap) |
 |     Raspbian     | ARM v8 (64-bit) |     |          |
 |  MacOS Monterey  |   arm64 (M1)    |     |          |
 
