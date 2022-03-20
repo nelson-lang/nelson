@@ -33,7 +33,7 @@ if isempty(qobj)
   qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
   qobj = qml_createqquickview(qml_file)
   qobj.title = 'Nelson <--> qcharts demo';
-  //child_text = qobj.children(2).children(5);
+  %child_text = qobj.children(2).children(5);
   child_text = QObject_findchildren(qobj, 'textField', true);
   child_text.text = 'Nelson with QCharts.js';
 else

@@ -40,7 +40,7 @@ R = eye(0, 4);
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_empty', v{1}, '.mat'];
+  test_file_mat = [tempdir(), 'test_save_double_empty', v{1}, '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);

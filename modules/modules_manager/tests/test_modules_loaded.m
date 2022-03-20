@@ -40,6 +40,9 @@ end
 if ~ismodule('fftw')
   modules_list(strcmp(modules_list, 'fftw')) = [];
 end
+if ~ismodule('mpi')
+  modules_list(strcmp(modules_list, 'mpi')) = [];
+end
 if ~ismodule('ipc')
   modules_list(strcmp(modules_list, 'ipc')) = [];
 end
