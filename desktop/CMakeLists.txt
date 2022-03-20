@@ -32,16 +32,20 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   message(STATUS "Enable desktop icons association: ${ENABLE_DESKTOP_ICONS_ASSOCIATION}")
   if (ENABLE_DESKTOP_ICONS_ASSOCIATION)
     include(GNUInstallDirs)
-    install(FILES ${CMAKE_SOURCE_DIR}/desktop/org.nelson.Nelson.desktop
-      DESTINATION ${DATAROOTDIR}/share/applications/
-      OPTIONAL)
-    install(FILES ${CMAKE_SOURCE_DIR}/desktop/org.nelson.Nelson.appdata.xml
-      DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo/
-      OPTIONAL)
-    install(DIRECTORY
-      ${CMAKE_SOURCE_DIR}/desktop/icons/
-      DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons
-      OPTIONAL)
+
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/16x16/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/24x24/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/24x24/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/32x32/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/32x32/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/48x48/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/48x48/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/64x64/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/64x64/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/96x96/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/96x96/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/128x128/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/128x128/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/256x256/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/256x256/apps" OPTIONAL)
+    install(FILES "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/512x512/nelson.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/512x512/apps" OPTIONAL)
+
+    install(FILES ${CMAKE_SOURCE_DIR}/desktop/org.nelson.Nelson.desktop DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" OPTIONAL)
+    install(FILES ${CMAKE_SOURCE_DIR}/desktop/org.nelson.Nelson.appdata.xml DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/metainfo" OPTIONAL)
+
   endif()
 endif()
 # ==============================================================================
