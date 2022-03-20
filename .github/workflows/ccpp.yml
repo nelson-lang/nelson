@@ -503,7 +503,7 @@ jobs:
         uses: nyaascii/package-version@v1
       - name: Update version
         run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+          python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
       - name: CMake
         run: |
           export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
