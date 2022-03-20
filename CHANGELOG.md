@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - add information for Software Center (Linux desktop).
 
+- [#603](http://github.com/Nelson-numerical-software/nelson/issues/603): Nelson as snap package for Linux.
+
 ### Fixed
 
 - [#599](http://github.com/Nelson-numerical-software/nelson/issues/599): make install step in CI for linux and MacOs.

@@ -1,0 +1,291 @@
+# ==============================================================================
+# Copyright (c) 2016-present Allan CORNET (Nelson)
+# ==============================================================================
+# This file is part of the Nelson.
+# =============================================================================
+# LICENCE_BLOCK_BEGIN
+# This program is free software; you can redistribute it
+# and/or modify it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of the License,
+# or (at your option) any later version.
+#
+# Alternatively, you can redistribute it and/or modify it under the terms of the
+# GNU General Public License as published by the Free Software Foundation;
+# either version 2 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+# details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>.
+# LICENCE_BLOCK_END
+# ==============================================================================
+name: nelson
+base: core20
+icon: snap/gui/logo.png
+summary: Let's Nelson! matrix language for engineering and scientific applications.
+description: |
+  Nelson is an matrix/array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …) and others state of art numerical libraries.
+  It has sophisticated data structures (including cell, struct, linear systems, …), an interpreter and a high level programming language.
+  Nelson has been developed to be an open/modular system where an user can define these own data types and operations on these data types by using overload.
+  Syntax is very similar to GNU Octave or MATLAB® so that most programs are easily portable.
+confinement: strict
+adopt-info: nelson
+compression: lzo
+
+architectures:
+  - build-on: amd64
+
+plugs:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
+
+parts:
+  nelson:
+    plugin: nil
+    after: [qt5]    
+    source: https://github.com/Nelson-numerical-software/nelson
+    source-type: git
+    source-branch: 603-nelson-available-as-snap-on-linux
+ 
+    override-build: |
+      snapcraftctl build
+
+      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DENABLE_PACKAGING=ON .
+      cmake --build . -- -j $(nproc)
+      cmake --build . -- -j $(nproc) buildhelp
+      cmake --build . -- -j $(nproc) get_module_skeleton
+
+      # Include the icon's path in the desktop file, not just the name.
+      # This needs to happen post-build or the build versioning will show as "modified locally"
+      sed -i 's|Icon=nelson|Icon=$SNAPCRAFT_PART_INSTALL/usr/share/icons/hicolor/128x128/nelson\.png|' desktop/org.nelson.Nelson.desktop
+
+      DESTDIR=$SNAPCRAFT_PART_INSTALL cmake --build . -- install
+      ln -sf libpsm_infinipath.so.1.16 $SNAPCRAFT_PART_INSTALL/usr/lib/libpsm1/libpsm_infinipath.so.1
+      ln -s mpiexec.openmpi $SNAPCRAFT_PART_INSTALL/usr/bin/mpiexec
+    
+      snapcraftctl set-grade stable
+      snapcraftctl set-version 0.6.2.1
+      rm -rf $SNAPCRAFT_PART_INSTALL/usr/share/perl5/XML/
+      rm -rf $SNAPCRAFT_PART_INSTALL/usr/share/texmf
+
+    build-packages:
+      - libopenmpi-dev
+      - autotools-dev
+      - libtool
+      - automake
+      - cmake
+      - openmpi-bin
+      - gettext
+      - pkg-config
+      - libffi-dev
+      - libicu-dev
+      - libxml2-dev
+      - libblas-dev  
+      - liblapack-dev
+      - liblapacke-dev
+      - fftw3-dev
+      - libasound-dev
+      - portaudio19-dev
+      - libsndfile1-dev
+      - libtag1-dev
+      - alsa-utils
+      - libslicot-dev
+      - libsqlite3-dev
+      - libgl-dev
+      - hdf5-tools
+      - zlib1g-dev
+      - libcurl4-openssl-dev
+      - libgit2-dev
+      - libqt5opengl5-dev
+      - qt5-assistant
+      - qhelpgenerator-qt5
+      - qtbase5-dev
+      - qttools5-dev
+      - qttools5-dev-tools      
+      - libeigen3-dev
+      - libmatio-dev      
+      - libboost-all-dev
+      - qml-module-qtqml-models2
+      - qml-module-qtquick-controls  
+      - qml-module-qtquick-dialogs    
+      - qtdeclarative5-dev
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5quick5
+      - qmlscene
+
+    stage-packages:
+      - build-essential
+      - curl
+      - cmake      
+      - info
+      - liblapack-dev
+      - liblapacke
+      - libopenblas-dev
+      - libfftw3-double3
+      - libfftw3-single3
+      - libslicot-dev
+      - libhdf5-dev
+      - libncurses5-dev
+      - libpython3-dev
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5help5
+      - libqt5network5
+      - libqt5opengl5
+      - libqt5printsupport5
+      - libqt5sql5
+      - libqt5sql5-sqlite
+      - libqt5widgets5
+      - libqt5xml5
+      - qt5-assistant
+      - qhelpgenerator-qt5
+      - qttools5-dev-tools
+      - libqt5qml5
+      - qml-module-qtquick-controls  
+      - qml-module-qtquick-dialogs 
+      - qml-module-qtquick2
+      - qml-module-qtquick-window2      
+      - qtwayland5
+      - libqt5quick5
+      - qtbase5-dev
+      - libsndfile1
+      - libportaudio2      
+      - libtag1v5-vanilla
+      - locales-all
+      - pkg-config
+      - python3-venv
+      - texinfo
+      - units
+      - unzip
+      - hdf5-tools
+      - zip
+      - libboost-chrono1.71.0
+      - libboost-date-time1.71.0
+      - libboost-filesystem1.71.0
+      - libboost-iostreams1.71.0
+      - libboost-locale1.71.0
+      - libboost-regex1.71.0
+      - libboost-serialization1.71.0
+      - libboost-thread1.71.0
+      - libevent-2.1-7
+      - libevent-pthreads-2.1-7
+      - libgit2-28
+      - libhttp-parser2.9
+      - libhwloc15
+      - libltdl7
+      - libmatio9
+      - libmbedcrypto3
+      - libmbedtls12
+      - libmbedx509-0
+      - libopenmpi3
+      - openmpi-bin
+      - libssh2-1
+      - libtmglib3
+
+  qt5:
+      source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+      source-subdir: qt
+      plugin: make
+      make-parameters: ["FLAVOR=qt5"]
+      build-packages:
+        - build-essential
+        - qtbase5-dev
+        - dpkg-dev
+      stage-packages:
+        - libxkbcommon0
+        - ttf-ubuntu-font-family
+        - dmz-cursor-theme
+        - light-themes
+        - adwaita-icon-theme
+        - gnome-themes-standard
+        - shared-mime-info
+        - libqt5gui5
+        - libgdk-pixbuf2.0-0
+        - libqt5svg5
+        - locales-all
+        - libgtk2.0-0    
+apps:
+  nelson:
+    command: usr/Nelson-0.6.2/bin/linux64/nelson
+    desktop: usr/share/applications/org.nelson.Nelson.desktop
+    environment:
+      XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
+      LOCPATH: "$SNAP/usr/lib/locale"
+      NELSON_WITHOUT_IPC: "TRUE"
+      NELSON_WITHOUT_MPI: "TRUE"
+      PATH: "$SNAP/usr/bin:$SNAP/bin:/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/bin:$PATH"
+      QTDIR: "/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/"
+      QTDIR_BINARIES: "/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/bin"
+
+    plugs: &plugs
+      - alsa
+      - jack1    
+      - audio-playback
+      - audio-record
+      - pulseaudio      
+      - desktop
+      - desktop-legacy
+      - home
+      - network
+      - network-bind
+      - opengl
+      - removable-media
+      - unity7
+      - wayland
+      - x11
+      - browser-support
+      - hardware-observe
+
+layout:
+  /usr/local/lib:
+    symlink: $SNAP/usr/local/lib
+
+  # Make staged qt plugins available in expected locations
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5
+
+  # Make staged dri and pulseaudio modules available in expected locations
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
+
+  # Dynamic link (used for external modules and mex)
+  /usr/include:
+    bind: $SNAP/usr/include  
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_nonshared.a:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_nonshared.a
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libmvec_nonshared.a:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libmvec_nonshared.a
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpthread_nonshared.a:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpthread_nonshared.a
+
+  # openmpi dependencies paths
+  /usr/share/openmpi:
+    symlink: $SNAP/usr/share/openmpi
+  /etc/openmpi:
+    bind: $SNAP/etc/openmpi
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/openmpi:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/openmpi
+
+  #alsa
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/share/alsa:
+    symlink: $SNAP/usr/share/alsa  

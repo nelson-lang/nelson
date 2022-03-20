@@ -23,19 +23,16 @@
 % License along with this program. If not, see <http://www.gnu.org/licenses/>.
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ADV-CLI MODE-->
+% <--GUI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
-qobj = qml_createqquickview(qml_file);
-child_text = QObject_findchildren(qobj, 'textField', false);
-assert_istrue(isempty(child_text));
-child_text = QObject_findchildren(qobj, 'textField', true);
-assert_isfalse(isempty(child_text));
-assert_isequal(size(child_text), [1 1]);
+qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
+qobj = qml_loadfile(qml_file_ok);
+child = QObject_findchildren(QObject_root(), 'text1', false);
+assert_isequal(size(child), [0 0]);
 %=============================================================================
-charts_obj = QObject_findchildren(qobj, 'chart', true);
-assert_isequal(size(charts_obj), [1 5])
+child = QObject_findchildren(QObject_root(), 'text1', true);
+assert_isequal(size(child), [1 1]);
 %=============================================================================
 delete(qobj);
 %=============================================================================
