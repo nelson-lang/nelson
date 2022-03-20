@@ -812,6 +812,14 @@ function modules_list = getAllModulesList()
   if strcmp(getenv('AUDIODEV'), 'null')
     modules_list(modules_list == "audio") = [];
   end
+  withoutIPC = strcmp(getenv('NELSON_WITHOUT_IPC'), 'TRUE');
+  if withoutIPC
+    modules_list(modules_list == "ipc") = [];
+  end
+  withoutMPI = strcmp(getenv('NELSON_WITHOUT_MPI'), 'TRUE');  
+  if withoutMPI  
+    modules_list(modules_list == "mpi") = [];  
+  end
 end
 %=============================================================================
 function files = getFilesToTest(param)
