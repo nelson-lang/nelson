@@ -164,6 +164,11 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         fptr = nullptr;
     }
 
+    if (fr) {
+        fclose(fr);
+        fr = nullptr;
+    }
+
     if (bNeedToRestoreDirectory) {
         ChangeDirectory(initialDir.generic_wstring(), false);
     }
