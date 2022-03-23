@@ -59,7 +59,7 @@ parts:
     after: [qt5]    
     source: https://github.com/Nelson-numerical-software/nelson
     source-type: git
-    source-branch: 603-nelson-available-as-snap-on-linux
+    source-branch: master
  
     override-build: |
       snapcraftctl build
@@ -78,7 +78,7 @@ parts:
       ln -s mpiexec.openmpi $SNAPCRAFT_PART_INSTALL/usr/bin/mpiexec
     
       snapcraftctl set-grade stable
-      snapcraftctl set-version 0.6.2.1
+      snapcraftctl set-version 0.6.2.2
       rm -rf $SNAPCRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $SNAPCRAFT_PART_INSTALL/usr/share/texmf
 
