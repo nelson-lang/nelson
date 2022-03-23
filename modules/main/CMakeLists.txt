@@ -22,6 +22,8 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 # ==============================================================================
+set(module_name main)
+# ==============================================================================
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
 file(GLOB MAINCLI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/nelson_cli/*.cpp")
