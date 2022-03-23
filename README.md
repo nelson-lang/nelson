@@ -37,6 +37,8 @@ these own data types and operations on these data types by using overload.
 
 [Get it from the Windows Package Manager](https://winstall.app/apps/NelsonNumericalSoftware.Nelson)
 
+[Get it from the Chocolatey Package Manager](https://community.chocolatey.org/packages/nelson)
+
 ## Features
 
 - Types managed by Nelson:
