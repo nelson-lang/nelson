@@ -25,6 +25,9 @@
 //=============================================================================
 #include <fmt/printf.h>
 #include <fmt/format.h>
+#include <algorithm>
+#include <string>
+#include <boost/algorithm/string.hpp>
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
@@ -32,6 +35,30 @@
 #include "dynamic_library.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static stringVector
+getPossibleSymbolNames(const std::string &userSymbolName)
+{ 
+    std::string cleanedSymbolName = userSymbolName;
+    if (cleanedSymbolName[0] == '_') {
+        cleanedSymbolName.erase(0, 1);
+    }
+    if (cleanedSymbolName.back() == '_') {
+        cleanedSymbolName.pop_back();
+    }
+    std::string cleanedSymbolNameUpperCase = boost::to_upper_copy<std::string>(cleanedSymbolName);
+    std::string cleanedSymbolNameLowerCase = boost::to_lower_copy<std::string>(cleanedSymbolName);
+    stringVector possibleSymbolNames;
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameLowerCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameLowerCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameLowerCase + "_");
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameLowerCase + "_");
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameUpperCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameUpperCase);
+    possibleSymbolNames.push_back(cleanedSymbolNameUpperCase + "_");
+    possibleSymbolNames.push_back("_" + cleanedSymbolNameUpperCase + "_");
+    return possibleSymbolNames;
+}
 //=============================================================================
 ArrayOf
 createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& symbol,
@@ -54,12 +81,26 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
             Error(fmt::sprintf(_W("Invalid argument type: %s."), arg));
         }
     }
-    void* ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
+    std::wstring symbolUsed = symbol;
+    std::string utf8Symbol = wstring_to_utf8(symbol);
+    void* ptr = obj->getFunctionPointer(utf8Symbol);
+
+    if (!ptr) {
+        stringVector symbolNames = getPossibleSymbolNames(utf8Symbol);
+        for (auto name : symbolNames) {
+            ptr = obj->getFunctionPointer(name);
+            if (ptr) {
+                symbolUsed = utf8_to_wstring(name);
+                break;
+            }
+        }
+    }
     if (!ptr) {
         Error(fmt::sprintf(_W("Invalid symbol name: %s"), symbol));
     }
+
     DynamicLinkSymbolObject* dlSymbolObject
-        = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);
+        = new DynamicLinkSymbolObject(dllibObject, ptr, symbolUsed, returnType, argumentsType);
     return ArrayOf::handleConstructor(dlSymbolObject);
 }
 //=============================================================================
