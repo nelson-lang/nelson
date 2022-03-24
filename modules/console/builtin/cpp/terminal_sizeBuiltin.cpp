@@ -23,27 +23,27 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "clcBuiltin.hpp"
-#include "inputBuiltin.hpp"
 #include "terminal_sizeBuiltin.hpp"
+#include "Interface.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"console";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "clc", (ptrBuiltin)Nelson::ConsoleGateway::clcBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
-    { "input", (ptrBuiltin)Nelson::ConsoleGateway::inputBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "terminal_size", (ptrBuiltin)Nelson::ConsoleGateway::terminal_sizeBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR }
-
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+ArrayOfVector
+Nelson::ConsoleGateway::terminal_sizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector res;
+    if (eval) {
+        Interface* io = eval->getInterface();
+        if (io) {
+            ArrayOf v = ArrayOf::doubleVectorConstructor(2);
+            double* ptrDouble = (double*)v.getDataPointer();
+            ptrDouble[0] = (double)io->getTerminalHeight();
+            ptrDouble[1] = (double)io->getTerminalWidth();
+            res << v;
+        }
+    }
+    return res;
+}
 //=============================================================================
