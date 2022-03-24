@@ -1,7 +1,6 @@
 ### Linux
 
-- You will find in [docker](https://github.com/Nelson-numerical-software/nelson/tree/master/docker) directory a docker file for Debian, Arch and Fedora
-  These files are up-to-date about how to build Nelson on each platform.
+- You can also see [ccpp.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.github/workflows/ccpp.yml) file to help you to see dependencies. This file is up-to-date about how to build Nelson on each platform.
 
   Example with latest debian:
 
