@@ -86,15 +86,15 @@ USER nelsonuser
 
 ENV AUDIODEV null
 
-RUN cmake -DWITH_SLICOT=OFF -G "Unix Makefiles" .
-RUN make -j4
-RUN make get_module_skeleton
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+RUN cmake --build . -- -j $(nproc)
+RUN cmake --build . -- -j $(nproc) get_module_skeleton
 
-RUN make buildhelp
-RUN make tests_minimal
-RUN make package
-RUN make benchs_all_no_display
-RUN make tests_all_no_display
+RUN cmake --build . -- -j $(nproc) buildhelp
+RUN cmake --build . -- -j $(nproc) tests_minimal
+RUN cmake --build . -- -j $(nproc) package
+RUN cmake --build . -- -j $(nproc) benchs_all_no_display
+RUN cmake --build . -- -j $(nproc) tests_all_no_display
 
 
 ENTRYPOINT ["/nelson/bin/linux64/nelson-cli"]
