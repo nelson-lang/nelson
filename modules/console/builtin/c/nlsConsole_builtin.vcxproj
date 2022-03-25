@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\clcBuiltin.cpp" />
     <ClCompile Include="..\cpp\inputBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\terminal_sizeBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="..\include\clcBuiltin.hpp" />
     <ClInclude Include="..\include\inputBuiltin.hpp" />
     <ClInclude Include="..\include\nlsConsole_builtin_exports.h" />
+    <ClInclude Include="..\include\terminal_sizeBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

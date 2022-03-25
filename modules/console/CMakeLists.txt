@@ -89,4 +89,9 @@ install(
   PATTERN "*.qch"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.m")
 # ==============================================================================
