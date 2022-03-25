@@ -84,15 +84,21 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
     std::wstring symbolUsed = symbol;
     std::string utf8Symbol = wstring_to_utf8(symbol);
     void* ptr = obj->getFunctionPointer(utf8Symbol);
-
     if (!ptr) {
         stringVector symbolNames = getPossibleSymbolNames(utf8Symbol);
+        stringVector symbolsFound;
         for (auto name : symbolNames) {
-            ptr = obj->getFunctionPointer(name);
-            if (ptr) {
+            void* ptrSymbolName = obj->getFunctionPointer(name);
+            if (ptrSymbolName) {
+                ptr = ptrSymbolName;
+                symbolsFound.push_back(name);
                 symbolUsed = utf8_to_wstring(name);
-                break;
             }
+        }
+        if (symbolsFound.size() > 1) {
+            ptr = nullptr;
+            Error(fmt::sprintf(
+                _("Multiple possible symbol name found: %s"), boost::algorithm::join(symbolsFound, ", ")));
         }
     }
     if (!ptr) {

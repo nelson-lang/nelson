@@ -50,6 +50,8 @@
 		<p><b>SYMBOLNAME_</b></p>
 		<p><b>_SYMBOLNAME_</b></p>
 		<p>symbol name used is available in prototype field of the returned handle.</p>
+		<p>If multiple symbol names found, an error is raised with possible names.</p>
+
 		<p></p>
 		<p>Warning: Uses wrong datatype definitions a foreign function can terminate unexpectedly.</p>
 	</description>
