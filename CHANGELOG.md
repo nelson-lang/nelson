@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 0.6.3 (UNRELEASED)
+## 0.6.3 (2022-03-26)
 
 ### Changed
 
@@ -12,15 +12,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- `isunicodesupported` function: Detect whether the current terminal supports Unicode.
+- Packaging:
+
+  - [#603](http://github.com/Nelson-numerical-software/nelson/issues/603): Nelson as snap package for Linux.
+  - [#605](http://github.com/Nelson-numerical-software/nelson/issues/605): [Package request] Chocolatey package manager for Windows.
+  - [#582](http://github.com/Nelson-numerical-software/nelson/issues/582): Nelson available as Portable apps.
+
+- add information for Software Center (Linux desktop, icons).
 
 - `nelson` Main script to start Nelson (superceed others scripts).
 
-- add information for Software Center (Linux desktop).
-
-- [#603](http://github.com/Nelson-numerical-software/nelson/issues/603): Nelson as snap package for Linux.
-
-- [#605](http://github.com/Nelson-numerical-software/nelson/issues/605): [Package request] Chocolatey package manager for Windows.
+- `isunicodesupported` function: Detect whether the current terminal supports Unicode.
 
 - `dlsym` function: search nearest symbol name if value entry is not found.
 
@@ -30,7 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- [#599](http://github.com/Nelson-numerical-software/nelson/issues/599): make install step in CI for linux and MacOs.
+- [#599](http://github.com/Nelson-numerical-software/nelson/issues/599): `make install` step in CI for linux and MacOs.
 
 - [#601](http://github.com/Nelson-numerical-software/nelson/issues/601): embed all tests on linux and macos install.
 
