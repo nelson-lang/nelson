@@ -27,29 +27,33 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include "fscanfBuiltin.hpp"
+#include <cstdio>
+#include <boost/filesystem.hpp>
+#include "sscanfBuiltin.hpp"
 #include "Error.hpp"
 #include "File.hpp"
 #include "FilesManager.hpp"
 #include "Interface.hpp"
 #include "characters_encoding.hpp"
 #include "FscanFunction.hpp"
+#include "FileSeek.hpp"
+#include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fscanfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);
-    nargoutcheck(nLhs, 0, 2);
-    ArrayOf param1 = argIn[0];
-    double dID = param1.getContentAsDoubleScalar();
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
-    auto iValue = static_cast<int32>(dID);
-    if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+    nargoutcheck(nLhs, 0, 4);
+    bool isParam1SupportedType
+        = (argIn[0].isStringArray() && argIn[0].isScalar() || argIn[0].isRowVectorCharacterArray());
+
+    if (!isParam1SupportedType) {
+        Error(_("First argument must be a text scalar."));
     }
+    std::wstring wstr = argIn[0].getContentAsWideString();
     ArrayOf param2 = argIn[1];
     std::string format = param2.getContentAsCString();
 
@@ -85,24 +89,75 @@ Nelson::StreamGateway::fscanfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         }
         haveThirdArgument = true;
     }
-    if (!fm->isOpened(iValue)) { //-V1004
-        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+    boost::filesystem::path tempFilePath = boost::filesystem::temp_directory_path();
+    tempFilePath /= boost::filesystem::unique_path();
+#ifdef _MSC_VER
+    const std::wstring filenameTemp = tempFilePath.wstring();
+#else
+    const std::string filenameTemp = tempFilePath.string();
+#endif
+    std::wofstream wof(filenameTemp, std::ios::trunc | std::ios::binary);
+    FILE* fp = nullptr;
+    if (wof.is_open()) {
+        wof << wstr;
+        wof.close();
+#ifdef _MSC_VER
+        fp = _wfopen(filenameTemp.c_str(), L"rb");
+#else
+        fp = fopen(filenameTemp.c_str(), "rb");
+#endif
     }
-    File* f = fm->getFile(iValue);
-    if (f->isInterfaceMethod()) {
-        Error(_W("Not implemented for 'stdout', 'stderr' or 'stdin'."));
-    }
-    std::string encoding = wstring_to_utf8(f->getEncoding());
-    FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
-    if (!filepointer) {
-        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+    if (fp == nullptr) {
+        if (nLhs > 1) {
+            retval << ArrayOf::doubleConstructor(0);
+        }
+        std::wstring errorMessage = _W("Cannot create temporary file.");
+        if (nLhs > 2) {
+            retval << ArrayOf::characterArrayConstructor(errorMessage);
+        } else {
+            Error(errorMessage);
+        }
+        if (nLhs > 3) {
+            retval << ArrayOf::doubleConstructor(0);
+        }
+        return retval;
     }
     indexType count = 0;
-    ArrayOf value = FscanF(filepointer, format, encoding, m, n, haveThirdArgument, count, false);
-    retval << value;
+    ArrayOf value;
+    std::wstring errorMessage;
+    try {
+        value = FscanF(fp, format, "", m, n, haveThirdArgument, count, true);
+        retval << value;
+        bool isMalFormated = (feof(fp) == 0);
+        if (isMalFormated) {
+            errorMessage = _W("Matching failure in format.");
+        }
+    } catch (Exception& e) {
+        errorMessage = e.getMessage();
+        value = ArrayOf::emptyConstructor();
+        retval << value;
+    }
+    int filePosition = ftell(fp) + 1;
+    fclose(fp);
+#ifdef _MSC_VER
+    _wremove(filenameTemp.c_str());
+#else
+    remove(filenameTemp.c_str());
+#endif
     if (nLhs > 1) {
         retval << ArrayOf::doubleConstructor((double)count);
     }
+    if (nLhs > 2) {
+        retval << ArrayOf::characterArrayConstructor(errorMessage);
+    } else {
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+    }
+    if (nLhs > 3) {
+        retval << ArrayOf::doubleConstructor(filePosition);
+    }
+
     return retval;
 }
 //=============================================================================

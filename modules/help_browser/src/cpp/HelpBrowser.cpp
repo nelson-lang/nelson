@@ -142,9 +142,9 @@ HelpBrowser::getAttributes()
     return attributes;
 }
 //=============================================================================
-static
-std::wstring
-getAssistantFilename() {
+static std::wstring
+getAssistantFilename()
+{
     std::wstring wapp;
 #ifdef _MSC_VER
     wapp = GetNelsonBinariesPath() + L"/assistant.exe";

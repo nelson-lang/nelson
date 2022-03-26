@@ -46,6 +46,7 @@
 #include "feofBuiltin.hpp"
 #include "ferrorBuiltin.hpp"
 #include "fscanfBuiltin.hpp"
+#include "sscanfBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -81,6 +82,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "fscanf", (ptrBuiltin)Nelson::StreamGateway::fscanfBuiltin, 2, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "sscanf", (ptrBuiltin)Nelson::StreamGateway::sscanfBuiltin, 3, 4, CPP_BUILTIN },
 };
 //=============================================================================
 static bool
