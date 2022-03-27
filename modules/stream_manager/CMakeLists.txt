@@ -119,12 +119,12 @@ install(
   PATTERN "md" EXCLUDE)
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/src
   FILES_MATCHING
   PATTERN "*.h")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/src
   FILES_MATCHING
   PATTERN "*.hpp")
 install(
