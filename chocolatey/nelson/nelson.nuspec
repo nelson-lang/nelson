@@ -47,82 +47,10 @@ these own data types and operations on these data types by using overload.
 
 ![Nelson environment](https://github.com/Nelson-numerical-software/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
-## Features
-
-- Types managed by Nelson:
-
-  - double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  - single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  - logical: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  - character array (UNICODE supported).
-  - string array (UNICODE supported).
-  - integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
-  - handle objects.
-
-- `OpenMP` and `SIMD` extensions used.
-
-- Fast Fourrier Transformation functions based on FFTW and MKL wrapper.
-
-- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
-
-- Message Passing Interface (MPI): functions for parallel computing.
-
-- JSON decode/encode data support.
-
-- HDF5 high-level functions I/O,
-
-- HDF5 used as default data file format (.nh5) load/save workspace,
-
-- MAT-file compatible load/save workspace,
-
-- Foreign Function Interface C/Fortran.
-
-- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
-
-- MEX C API compatibility.
-
-- Nelson Engine API for C (compatible with MEX Engine). Call Nelson from your C code as engine.
-
-- RESTful API web service.
-
-- Inter-process communication between Nelson's process.
-
-- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
-
-- Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
-
-- Write/Read xlsx files on Windows using COM.
-
-- Embedded Nelson code editor.
-
-- Help engine:
-
-  Generate help files using Nelson dedicated functions.
-  View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
-
-- Tests engine:
-
-  Validate your algorithm using Nelson dedicated functions.
-  Export the test results under the xUnit reports format.
-
-- Profiling and Code coverage tools for Nelson's language:
-
-  Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
-
-- [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
-  Instant access to Nelson anywhere from an web browser.
-
-- Module skeleton to extend Nelson available here:
-
-  - [template macros and builtin](https://github.com/Nelson-numerical-software/module_skeleton),
-  - [basic template macros only](https://github.com/Nelson-numerical-software/module_skeleton_basic).
-
-- Nelson Modules Manager (nmm) : package manager for Nelson
-
+[Features and more](https://nelson-numerical-software.github.io/nelson-website/)
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
-
-    </description>
+</description>
 
   </metadata>
   <files>
