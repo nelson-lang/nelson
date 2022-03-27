@@ -1,5 +1,5 @@
 ﻿$packageName = 'nelson'
-$packageSearch = 'nelson-0.6.2.1745'
+$packageSearch = 'nelson-0.6.3.1844'
 $installerType = 'exe'
 $silentArgs = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
 $validExitCodes = @(0)

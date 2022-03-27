@@ -19,7 +19,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>nelson</id>
-    <version>0.6.2.1745</version>
+    <version>0.6.3.1844</version>
     <owners>Allan CORNET</owners>
     <title>nelson</title>
     <authors>Nelson numerical software</authors>
