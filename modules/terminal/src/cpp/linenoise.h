@@ -85,6 +85,9 @@ extern "C"
     interruptReadLine();
     void
     clearLine();
+    int getWidthLineNoise();
+    int getHeightLineNoise();
+
 
 #ifdef __cplusplus
 }

@@ -97,13 +97,13 @@ BsdTerminal::getLine(const std::string& prompt)
 size_t
 BsdTerminal::getTerminalWidth()
 {
-    return DEFAULT_CONSOLE_WIDTH;
+    return getWidthLineNoise();
 }
 //=============================================================================
 size_t
 BsdTerminal::getTerminalHeight()
 {
-    return DEFAULT_CONSOLE_HEIGHT;
+    return getHeightLineNoise();
 }
 //=============================================================================
 void
