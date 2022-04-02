@@ -326,6 +326,12 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     setRecursionStacksize(SIZE_MAX_RECURSION_CALL);
 #endif
     setlocale(LC_NUMERIC, "C");
+
+#ifndef _MSC_VER
+    if (_mode == NELSON_ENGINE_MODE::BASIC_TERMINAL) {
+        setlocale(LC_CTYPE, "en_US.utf8");
+    }
+#endif
     if (getRecursionStacksize() < SIZE_MAX_RECURSION_CALL) {
         std::string msg;
         msg = _("Recursion stack not enough.\nPlease set C recursion stack to ");

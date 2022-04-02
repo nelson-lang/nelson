@@ -71,68 +71,6 @@ validateScanFormatSpec(char* cp)
 //=============================================================================
 template <class T>
 ArrayOf
-convertToArrayOfSscanf(ArrayOfVector& values, NelsonType classDestination, bool haveThirdArgument,
-    double m, double n, bool mixed)
-{
-    ArrayOf value;
-    Dimensions nDims;
-
-    indexType M = 0;
-    indexType N = 0;
-
-    if (mixed) {
-        ArrayOf v = values[0];
-        M = v.getRows();
-        N = v.getColumns();
-    } else {
-        if (!haveThirdArgument) {
-            M = values.size();
-            N = 1;
-        } else {
-            if (std::isinf(n)) {
-                M = m;
-                N = values.size() / m;
-            } else {
-                M = m;
-                N = n;
-            }
-        }
-    }
-    Dimensions dims(M, N);
-    T* ptr = (T*)ArrayOf::allocateArrayOf(
-        classDestination, M * N, stringVector(), M * N != (indexType)values.size());
-    value = ArrayOf(classDestination, dims, ptr);
-    indexType minLength = std::min(M * N, mixed ? M * N : (indexType)values.size());
-
-    if (mixed) {
-        ArrayOf v = values[0];
-        T* src = (T*)v.getDataPointer();
-        std::memcpy(ptr, src, sizeof(T) * minLength);
-    } else {
-        switch (classDestination) {
-        case NLS_UINT64: {
-            for (indexType k = 0; k < minLength; k++) {
-                ptr[k] = (T)values[k].getContentAsUnsignedInteger64Scalar();
-            }
-        } break;
-        case NLS_INT64: {
-            for (indexType k = 0; k < minLength; k++) {
-                ptr[k] = (T)values[k].getContentAsInteger64Scalar();
-            }
-        } break;
-        case NLS_DOUBLE:
-        default: {
-            for (indexType k = 0; k < minLength; k++) {
-                ptr[k] = (T)values[k].getContentAsDoubleScalar();
-            }
-        } break;
-        }
-    }
-    return value;
-}
-//=============================================================================
-template <class T>
-ArrayOf
 convertToArrayOfFscanf(ArrayOfVector& values, NelsonType classDestination, bool haveThirdArgument,
     double m, double n, bool mixed)
 {
@@ -210,17 +148,6 @@ convertToArrayOfFscanf(ArrayOfVector& values, NelsonType classDestination, bool 
     return value;
 }
 //=============================================================================
-template <class T>
-ArrayOf
-convertToArrayOf(ArrayOfVector& values, NelsonType classDestination, bool haveThirdArgument,
-    double m, double n, bool mixed, bool asSscanf)
-{
-    if (asSscanf) {
-        return convertToArrayOfSscanf<T>(values, classDestination, haveThirdArgument, m, n, mixed);
-    }
-    return convertToArrayOfFscanf<T>(values, classDestination, haveThirdArgument, m, n, mixed);
-}
-//=============================================================================
 ArrayOf
 FscanF(FILE* filepointer, const std::string& format, const std::string& encoding, double m,
     double n, bool haveThirdArgument, indexType& count, bool asSscanf)
@@ -264,7 +191,10 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
             if (*dp) {
                 np = validateScanFormatSpec(dp + 1);
                 if (!np) {
-                    delete[] buff;
+                    if (buff) {
+                        delete[] buff;
+                        buff = nullptr;
+                    }
                     Error(_W("Invalid format."));
                 } else {
                     if (*(np - 1) == '%') {
@@ -378,29 +308,32 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                         } break;
                         case 'c':
                         case 's': {
-                            char buff[8192];
-                            resf = fscanf(filepointer, dp, buff);
+                            if (outType == AS_NONE) {
+                                outType = AS_STRING;
+                            } else {
+                                if (outType != AS_STRING) {
+                                    outType = AS_MIXED;
+                                }
+                            }
+                            char buffer[8192];
+                            resf = fscanf(filepointer, dp, buffer);
                             if (resf == EOF || resf == 0) {
                                 bContinue = false;
-                            } else {
-                                if (*(np - 1) == 'c') {
-                                    buff[resf] = 0;
-                                }
-                                if (outType == AS_NONE) {
-                                    outType = AS_STRING;
-                                } else {
-                                    if (outType != AS_STRING) {
-                                        outType = AS_MIXED;
-                                    }
-                                }
-                                std::string charset(buff);
-                                std::string asUtf8;
-                                charsetToUtf8Converter(charset, encoding, asUtf8);
-                                values.push_back(ArrayOf::characterArrayConstructor(asUtf8));
+                                break;
                             }
+                            if (*(np - 1) == 'c') {
+                                buffer[resf] = 0;
+                            }
+                            std::string charset(buffer);
+                            std::string asUtf8;
+                            charsetToUtf8Converter(charset, encoding, asUtf8);
+                            values.push_back(ArrayOf::characterArrayConstructor(asUtf8));
                         } break;
                         default: {
-                            delete[] buff;
+                            if (buff) {
+                                delete[] buff;
+                                buff = nullptr;
+                            }
                             Error(_W("Unsupported fscanf format."));
                         } break;
                         }
@@ -410,10 +343,35 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                 }
             }
         }
-        delete[] buff;
+        if (buff) {
+            delete[] buff;
+            buff = nullptr;
+        }
     }
     count = values.size();
     ArrayOf value;
+    if (count == 0) {
+        Dimensions empty(0, 0);
+        value = ArrayOf::emptyConstructor(empty);
+        switch (outType) {
+        case AS_STRING: {
+            value.promoteType(NLS_CHAR);
+        } break;
+        case AS_INT64: {
+            value.promoteType(NLS_INT64);
+        } break;
+        case AS_UINT64: {
+            value.promoteType(NLS_UINT64);
+        } break;
+        case AS_DOUBLE:
+        case AS_MIXED:
+        case AS_NONE:
+        default: {
+            value.promoteType(NLS_DOUBLE);
+        } break;
+        }
+        return value;
+    }
     switch (outType) {
     case AS_STRING: {
         std::wstring strs;
@@ -424,16 +382,13 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
         value = ArrayOf::characterArrayConstructor(strs);
     } break;
     case AS_DOUBLE: {
-        value = convertToArrayOf<double>(
-            values, NLS_DOUBLE, haveThirdArgument, m, n, false, asSscanf);
+        value = convertToArrayOfFscanf<double>(values, NLS_DOUBLE, haveThirdArgument, m, n, false);
     } break;
     case AS_INT64: {
-        value
-            = convertToArrayOf<int64>(values, NLS_INT64, haveThirdArgument, m, n, false, asSscanf);
+        value = convertToArrayOfFscanf<int64>(values, NLS_INT64, haveThirdArgument, m, n, false);
     } break;
     case AS_UINT64: {
-        value = convertToArrayOf<uint64>(
-            values, NLS_UINT64, haveThirdArgument, m, n, false, asSscanf);
+        value = convertToArrayOfFscanf<uint64>(values, NLS_UINT64, haveThirdArgument, m, n, false);
     } break;
     case AS_MIXED: {
         std::vector<double> v;
@@ -455,7 +410,9 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                     v.push_back(ptr[k]);
                 }
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
         ArrayOfVector promoted;
         double* ptr
@@ -464,12 +421,13 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
         value = ArrayOf(NLS_DOUBLE, dims, ptr);
         std::memcpy(ptr, v.data(), sizeof(double) * v.size());
         promoted.push_back(value);
-        value = convertToArrayOf<double>(
-            promoted, NLS_DOUBLE, haveThirdArgument, m, n, true, asSscanf);
+        value = convertToArrayOfFscanf<double>(promoted, NLS_DOUBLE, haveThirdArgument, m, n, true);
     } break;
     case AS_NONE: {
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return value;
 }
 //=============================================================================

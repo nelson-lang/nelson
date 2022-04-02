@@ -204,6 +204,7 @@
     <ClInclude Include="..\include\MapFileRead.hpp" />
     <ClInclude Include="..\include\NelsonPrint.hpp" />
     <ClInclude Include="..\include\PrintfFunction.hpp" />
+    <ClInclude Include="..\include\SscanfFunction.hpp" />
     <ClInclude Include="..\include\Stream.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +231,7 @@
     <ClCompile Include="..\cpp\NelsonPrint.cpp" />
     <ClCompile Include="..\cpp\PrintfHelper.cpp" />
     <ClCompile Include="..\cpp\PrintfFunction.cpp" />
+    <ClCompile Include="..\cpp\SscanfFunction.cpp" />
     <ClCompile Include="..\fmt\src\format.cc" />
     <ClCompile Include="..\fmt\src\os.cc" />
     <ClCompile Include="dllMain.c" />

@@ -28,15 +28,10 @@
 #endif
 //=============================================================================
 #include <cstdio>
-#include <boost/filesystem.hpp>
 #include "sscanfBuiltin.hpp"
 #include "Error.hpp"
-#include "File.hpp"
-#include "FilesManager.hpp"
-#include "Interface.hpp"
 #include "characters_encoding.hpp"
-#include "FscanFunction.hpp"
-#include "FileSeek.hpp"
+#include "SscanfFunction.hpp"
 #include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -55,7 +50,7 @@ Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     std::wstring wstr = argIn[0].getContentAsWideString();
     ArrayOf param2 = argIn[1];
-    std::string format = param2.getContentAsCString();
+    std::wstring format = param2.getContentAsWideString();
 
     double m = -1, n = -1;
     bool haveThirdArgument = false;
@@ -89,75 +84,22 @@ Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         haveThirdArgument = true;
     }
-    boost::filesystem::path tempFilePath = boost::filesystem::temp_directory_path();
-    tempFilePath /= boost::filesystem::unique_path();
-#ifdef _MSC_VER
-    const std::wstring filenameTemp = tempFilePath.wstring();
-#else
-    const std::string filenameTemp = tempFilePath.string();
-#endif
-    std::wofstream wof(filenameTemp, std::ios::trunc | std::ios::binary);
-    FILE* fp = nullptr;
-    if (wof.is_open()) {
-        wof << wstr;
-        wof.close();
-#ifdef _MSC_VER
-        fp = _wfopen(filenameTemp.c_str(), L"rb");
-#else
-        fp = fopen(filenameTemp.c_str(), "rb");
-#endif
-    }
-    if (fp == nullptr) {
-        if (nLhs > 1) {
-            retval << ArrayOf::doubleConstructor(0);
-        }
-        std::wstring errorMessage = _W("Cannot create temporary file.");
-        if (nLhs > 2) {
-            retval << ArrayOf::characterArrayConstructor(errorMessage);
-        } else {
-            Error(errorMessage);
-        }
-        if (nLhs > 3) {
-            retval << ArrayOf::doubleConstructor(0);
-        }
-        return retval;
-    }
+
     indexType count = 0;
-    ArrayOf value;
+    indexType nextIndex = 0;
     std::wstring errorMessage;
-    try {
-        value = FscanF(fp, format, "", m, n, haveThirdArgument, count, true);
-        retval << value;
-        bool isMalFormated = (feof(fp) == 0);
-        if (isMalFormated) {
-            errorMessage = _W("Matching failure in format.");
-        }
-    } catch (Exception& e) {
-        errorMessage = e.getMessage();
-        value = ArrayOf::emptyConstructor();
-        retval << value;
-    }
-    int filePosition = ftell(fp) + 1;
-    fclose(fp);
-#ifdef _MSC_VER
-    _wremove(filenameTemp.c_str());
-#else
-    remove(filenameTemp.c_str());
-#endif
+ 
+    ArrayOf value = SscanF(wstr, format, m, n, haveThirdArgument, count, nextIndex, errorMessage);
+    retval << value; 
     if (nLhs > 1) {
         retval << ArrayOf::doubleConstructor((double)count);
     }
     if (nLhs > 2) {
         retval << ArrayOf::characterArrayConstructor(errorMessage);
-    } else {
-        if (!errorMessage.empty()) {
-            Error(errorMessage);
-        }
     }
     if (nLhs > 3) {
-        retval << ArrayOf::doubleConstructor(filePosition);
+        retval << ArrayOf::doubleConstructor((double)nextIndex);
     }
-
     return retval;
 }
 //=============================================================================
