@@ -72,7 +72,7 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     setPalette(getNelsonPalette());
     QFont f(wstringToQString(Nelson::getDefaultFontName()));
     f.setStyleHint(QFont::TypeWriter);
-    f.setPointSize(9);
+    f.setPointSize(10);
     f.setFixedPitch(true);
     setFont(f);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)

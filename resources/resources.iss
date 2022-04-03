@@ -27,6 +27,6 @@ Source: {#RootPath}resources\*.png; DestDir: {app}\resources\;
 Source: {#RootPath}resources\*ico; DestDir: {app}\resources\;
 Source: {#RootPath}resources\*.svg; DestDir: {app}\resources\;
 ;==============================================================================
-Source: {#RootPath}resources\fonts\JuliaMono-Regular.ttf; DestDir: {app}\resources\fonts\;
+Source: {#RootPath}resources\fonts\Hack-Regular.ttf; DestDir: {app}\resources\fonts\;
 Source: {#RootPath}resources\fonts\LICENSE; DestDir: {app}\resources\fonts\;
 ;==============================================================================
