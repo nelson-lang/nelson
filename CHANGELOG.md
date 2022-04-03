@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - French translations imported from Weblate (Thanks to contributors)
 
+### Fixed
+
+- JuliaMono font was not applied on some OS platforms (ex: MacOS Catalina)
+
 ## 0.6.3 (2022-03-26)
 
 ### Changed

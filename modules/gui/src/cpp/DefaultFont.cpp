@@ -41,10 +41,14 @@ configureDefaultFont()
     std::wstring JuliaMonoFullFilename = fontPath + L"/JuliaMono-Regular.ttf";
     QString qFilename = Nelson::wstringToQString(JuliaMonoFullFilename);
     if (QFile::exists(qFilename)) {
-        QFontDatabase::addApplicationFont(Nelson::wstringToQString(fontPath));
-        defaultFontName = L"JuliaMono-Regular";
+        int appFontId = QFontDatabase::addApplicationFont(qFilename);
+        if (appFontId < 0) {
+            goto defaultFont;
+        }
+        defaultFontName = L"JuliaMono";
         return true;
     }
+defaultFont:
 #ifdef __APPLE__
     defaultFontName = L"Monaco";
 #else
