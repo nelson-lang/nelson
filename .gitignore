@@ -24,6 +24,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 # This .gitignore for Nelson
+chocolatey/nelson/*.nupkg
 nelson*.snap
 tests_*.xml
 tests_*.json
