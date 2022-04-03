@@ -306,10 +306,12 @@ fast_float number parsing library: 4x faster than strtod
 
 > <https://github.com/fastfloat/fast_float/blob/main/LICENSE-MIT> MIT license
 
-- JuliaMono-Regular font
+- Hack-Regular font
 
-JuliaMono, a font for programming
+A typeface designed for source code
 
-> <https://github.com/cormullion/juliamono>
 
-> <https://github.com/cormullion/juliamono/blob/master/LICENSE> SIL Open Font License 1.1
+
+> <https://sourcefoundry.org/hack/>
+
+> <https://github.com/source-foundry/Hack/blob/master/LICENSE.md> MIT license

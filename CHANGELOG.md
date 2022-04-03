@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## UNRELEASED
 
+### Changed
+
+- Nelson uses [Hack](https://sourcefoundry.org/hack/) font.
+
 ### Added
 
 - 'sscanf' reworked to manage unicode characters and speed optimization.
@@ -15,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - JuliaMono font was not applied on some OS platforms (ex: MacOS Catalina)
+
+- Main Nelson's font was not applied on some OS platforms (ex: MacOS Catalina)
 
 ## 0.6.3 (2022-03-26)
 
