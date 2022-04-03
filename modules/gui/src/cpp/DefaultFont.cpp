@@ -38,13 +38,17 @@ configureDefaultFont()
 {
     std::wstring nelsonPath = Nelson::GetRootPath();
     std::wstring fontPath = nelsonPath + L"/resources/fonts";
-    std::wstring JuliaMonoFullFilename = fontPath + L"/JuliaMono-Regular.ttf";
+    std::wstring JuliaMonoFullFilename = fontPath + L"/Hack-Regular.ttf";
     QString qFilename = Nelson::wstringToQString(JuliaMonoFullFilename);
     if (QFile::exists(qFilename)) {
-        QFontDatabase::addApplicationFont(Nelson::wstringToQString(fontPath));
-        defaultFontName = L"JuliaMono-Regular";
+        int appFontId = QFontDatabase::addApplicationFont(qFilename);
+        if (appFontId < 0) {
+            goto defaultFont;
+        }
+        defaultFontName = L"Hack";
         return true;
     }
+defaultFont:
 #ifdef __APPLE__
     defaultFontName = L"Monaco";
 #else
