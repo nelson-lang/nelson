@@ -49,18 +49,49 @@ done
 #==============================================================================
 SCRIPT_DIRECTORY=$(cd "$(dirname "$0")"; pwd)
 #==============================================================================
+ARCH=$(uname -m)
+if [ $ARCH = "x86_64" ]
+then
+    NLS_OPENMPI_LIBRARY_PATH="/usr/lib64/openmpi/lib"
+    NLS_OPENMPI_BIN_PATH="/usr/lib64/openmpi/bin"
+else
+    NLS_OPENMPI_LIBRARY_PATH="/usr/lib32/openmpi/lib"
+    NLS_OPENMPI_BIN_PATH="/usr/lib32/openmpi/bin"
+fi 
+#==============================================================================
 # fedora path
-if test -d "/usr/lib64/openmpi/lib"; then
-  export LD_LIBRARY_PATH="/usr/lib64/openmpi/lib:{$LD_LIBRARY_PATH}"
+if test -d $NLS_OPENMPI_LIBRARY_PATH; then
+  if [ "$LD_LIBRARY_PATH" = "" ]
+  then
+    export LD_LIBRARY_PATH="$NLS_OPENMPI_LIBRARY_PATH"
+  else
+    export LD_LIBRARY_PATH="$NLS_OPENMPI_LIBRARY_PATH:{$LD_LIBRARY_PATH}"
+  fi
 fi
-if test -d "/usr/lib64/openmpi/bin"; then
-    export PATH="/usr/lib64/openmpi/bin:${PATH}"
+if test -d $NLS_OPENMPI_BIN_PATH; then
+  if [ "$PATH" = "" ]
+  then
+    export PATH="$NLS_OPENMPI_BIN_PATH"
+  else
+    export PATH="$NLS_OPENMPI_BIN_PATH:${PATH}"
+  fi
 fi
 #==============================================================================
 if test -d "/usr/local/lib"; then
-    export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
+    if [ "$LD_LIBRARY_PATH" = "" ]
+    then
+        export LD_LIBRARY_PATH="/usr/local/lib"
+    else
+        export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
+    fi
 fi
 #==============================================================================
-export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:${LD_LIBRARY_PATH}"
+if [ "$LD_LIBRARY_PATH" = "" ]
+then
+  export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY"
+else
+  export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:${LD_LIBRARY_PATH}"
+fi
+#==============================================================================
 $SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec "$@" 
 #==============================================================================

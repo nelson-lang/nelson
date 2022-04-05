@@ -135,10 +135,10 @@ install_manifest.txt
 *.dylib
 Nelson-*-Darwin.tar.Z
 Nelson-*-Linux.tar.Z
-bin/linux32/*.so.*
-bin/linux32/*-exec
-bin/linux64/*.so.*
-bin/linux64/*-exec
+bin/linux/*.so.*
+bin/linux/*-exec
+bin/linux/*.so.*
+bin/linux/*-exec
 bin/macos/*.dylib.*
 bin/macos/*-exec
 /modules/help_tools/thirdparty/highlight.js
