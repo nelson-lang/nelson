@@ -221,7 +221,7 @@ parts:
         - libgtk2.0-0    
 apps:
   nelson:
-    command: usr/Nelson-0.6.3/bin/linux64/nelson
+    command: usr/Nelson-0.6.3/bin/linux/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7

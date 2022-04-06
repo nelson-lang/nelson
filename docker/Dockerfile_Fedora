@@ -98,4 +98,4 @@ RUN cmake --build . -- -j $(nproc) benchs_all_no_display
 RUN cmake --build . -- -j $(nproc) tests_all_no_display
 
 
-ENTRYPOINT ["/nelson/bin/linux64/nelson-cli"]
+ENTRYPOINT ["/nelson/bin/linux/nelson-cli"]

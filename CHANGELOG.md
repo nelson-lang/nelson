@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Nelson uses [Hack](https://sourcefoundry.org/hack/) font.
 
+- Linux 64 bits and 32 bits uses same main script.
+
 ### Added
 
 - 'sscanf' reworked to manage unicode characters and speed optimization.

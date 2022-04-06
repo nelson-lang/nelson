@@ -61,11 +61,7 @@ GetNelsonBinariesPath()
 #if defined(__APPLE__) || defined(__MACH__)
     binpath += L"/bin/macOS";
 #else
-#if defined(__x86_64__) || defined(__aarch64__)
-    binpath += L"/bin/linux64";
-#else
-    binpath += L"/bin/linux32";
-#endif
+    binpath += L"/bin/linux";
 #endif
 #endif
     if (boost::filesystem::is_directory(binpath)) {

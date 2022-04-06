@@ -161,7 +161,7 @@ add_definitions(-DBOOST_ALL_DYN_LINK)
 add_definitions(-DOMPI_SKIP_MPICXX)
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux${BITNESS})
+  set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux)
 endif()
 # =============================================================================
 include(MacOsConfig)
@@ -176,7 +176,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   )
 else()
   set(LIBRARY_OUTPUT
-      "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/linux${BITNESS}/"
+      "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/linux/"
   )
 endif()
 set(ROOT_OUTPUT
