@@ -1390,21 +1390,27 @@ linenoiseHistoryLoad(const char* filename)
     return 0;
 }
 
-static void getWidthHeight(int *h, int *w) {
+static void
+getWidthHeight(int* h, int* w)
+{
     struct winsize ws;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
     *w = ws.ws_row;
     *h = ws.ws_col;
 }
 
-int getWidthLineNoise() {
+int
+getWidthLineNoise()
+{
     int w;
     int h;
     getWidthHeight(&w, &h);
     return w;
 }
 
-int getHeightLineNoise() {
+int
+getHeightLineNoise()
+{
     int w;
     int h;
     getWidthHeight(&w, &h);
