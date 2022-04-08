@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Main Nelson's font was not applied on some OS platforms (ex: MacOS Catalina)
 
+- [#622](http://github.com/Nelson-numerical-software/nelson/issues/622): `isreal(sqrt(i^4))` did not return true.
+
 ## 0.6.3 (2022-03-26)
 
 ### Changed

@@ -24,28 +24,37 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsConfig.h"
-#include "Sqrt.hpp"
+#include <limits>
+#include <cmath>
 #include <complex>
 #include <Eigen/Dense>
+#include "Sqrt.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 template <class T>
 std::complex<T>
-SqrtComplexScalar(std::complex<T> z)
+SqrtComplexScalar(std::complex<T> z, bool& isReal)
 {
     // r = sqrt((real(z) * real(z)) + (imag(z) * imag(z)))
     // phi = atan2(imag(z), real(z))
     // sqrt(r)*(cos(phi/2) + 1i*sin(phi/2))
-    if (z.imag() == 0 && z.real() < 0) {
-        T r = sqrt((z.real() * z.real()) + (z.imag() * z.imag()));
-        T phi = atan2(z.imag(), z.real());
-        std::complex<T> res(0, sqrt(r) * sin(phi / 2));
-        return res;
-    }
-    T r = sqrt((z.real() * z.real()) + (z.imag() * z.imag()));
+    T realPart = 0;
     T phi = atan2(z.imag(), z.real());
-    std::complex<T> res(sqrt(r) * cos(phi / 2), sqrt(r) * sin(phi / 2));
+    T r = sqrt((z.real() * z.real()) + (z.imag() * z.imag()));
+    if (z.imag() != 0 || z.real() >= 0) {
+        realPart = sqrt(r) * cos(phi / 2);
+    }
+    T imagPart = sqrt(r) * sin(phi / 2);
+    isReal = false;
+    if (fabs(imagPart) < std::numeric_limits<T>::epsilon()) {
+        imagPart = (T)0.;
+        isReal = true;
+    }
+    if (fabs(realPart) < std::numeric_limits<single>::epsilon()) {
+        realPart = 0;
+    }
+    std::complex<T> res(realPart, imagPart);
     return res;
 }
 //=============================================================================
@@ -93,7 +102,7 @@ SqrtReal(NelsonType classDestination, const ArrayOf& A)
 //=============================================================================
 template <class T>
 static ArrayOf
-SqrtComplex(NelsonType classDestination, const ArrayOf& A)
+SqrtComplex(NelsonType classDestination, const ArrayOf& A, bool& allReal)
 {
     Dimensions dimsA = A.getDimensions();
     ompIndexType elementCount = (ompIndexType)A.getElementCount();
@@ -102,18 +111,17 @@ SqrtComplex(NelsonType classDestination, const ArrayOf& A)
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
     T* ptrIn = (T*)A.getDataPointer();
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-#if defined(_NLS_WITH_VML)
-    Eigen::Map<Eigen::Matrix<std::complex<T>, 1, Eigen::Dynamic>> matIn(Az, elementCount);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, 1, Eigen::Dynamic>> matOut(Cz, elementCount);
-    matOut = matIn.array().sqrt();
-#else
+    allReal = true;
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < elementCount; k++) {
-        Cz[k] = SqrtComplexScalar<T>(Az[k]);
+        bool isReal;
+        Cz[k] = SqrtComplexScalar<T>(Az[k], isReal);
+        if (!isReal) {
+            allReal = false;
+        }
     }
-#endif
     return ArrayOf(classDestination, dimsA, ptrOut);
 }
 //=============================================================================
@@ -151,14 +159,16 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
         res = SqrtReal<single>(NLS_SINGLE, AA);
     } break;
     case NLS_DCOMPLEX: {
-        res = SqrtComplex<double>(NLS_DCOMPLEX, AA);
-        if (res.allReal()) {
+        bool allReal = false;
+        res = SqrtComplex<double>(NLS_DCOMPLEX, AA, allReal);
+        if (allReal) {
             res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_SCOMPLEX: {
-        res = SqrtComplex<single>(NLS_SCOMPLEX, AA);
-        if (res.allReal()) {
+        bool allReal = false;
+        res = SqrtComplex<single>(NLS_SCOMPLEX, AA, allReal);
+        if (allReal) {
             res.promoteType(NLS_SINGLE);
         }
     } break;

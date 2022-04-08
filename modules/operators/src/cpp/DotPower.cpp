@@ -73,8 +73,16 @@ power_zi(double* p, const double* a, int b)
 {
     std::complex<double> ca(a[0], a[1]);
     std::complex<double> cc = std::pow(ca, b);
-    p[0] = cc.real();
-    p[1] = cc.imag();
+    if (fabs(cc.real()) < std::numeric_limits<single>::epsilon()) {
+        p[0] = 0;
+    } else {
+        p[0] = cc.real();
+    }
+    if (fabs(cc.imag()) < std::numeric_limits<double>::epsilon()) {
+        p[1] = 0;
+    } else {
+        p[1] = cc.imag();
+    }
 }
 //=============================================================================
 void
@@ -99,11 +107,19 @@ power_zz(double* c, const double* a, const double* b)
     } else {
         cc = std::exp(cb * log(ca));
     }
-    c[0] = cc.real();
+    if (fabs(cc.real()) < std::numeric_limits<single>::epsilon()) {
+        c[0] = 0;
+    } else {
+        c[0] = cc.real();
+    }
     if (ca.imag() == 0 && !std::isfinite(cc.imag())) {
         c[1] = 0;
     } else {
-        c[1] = cc.imag();
+        if (fabs(cc.imag()) < std::numeric_limits<single>::epsilon()) {
+            c[1] = 0;
+        } else {
+            c[1] = cc.imag();
+        }
     }
 }
 //=============================================================================
@@ -866,7 +882,13 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    NelsonType destinationClass;
+    bool AsSingle = A.isSingleClass() || B.isSingleClass();
+    if (A.isCharacterArray()) {
+        A.promoteType(NLS_DOUBLE);
+    }
+    if (B.isCharacterArray()) {
+        B.promoteType(NLS_DOUBLE);
+    }
     if (A.getDataClass() != B.getDataClass()) {
         bool isIntegerA = (A.isIntegerType() || A.isNdArrayIntegerType());
         bool isIntegerB = (B.isIntegerType() || B.isNdArrayIntegerType());
@@ -894,11 +916,9 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         } else if ((A.isDoubleClass() || A.isSingleClass())
             && (B.isDoubleClass() || B.isSingleClass())) {
             if (A.isComplex() || B.isComplex()) {
-                destinationClass = NLS_DCOMPLEX;
                 A.promoteType(NLS_DCOMPLEX);
                 B.promoteType(NLS_DCOMPLEX);
             } else {
-                destinationClass = NLS_DOUBLE;
                 A.promoteType(NLS_DOUBLE);
                 B.promoteType(NLS_DOUBLE);
             }
@@ -923,18 +943,22 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
     case NLS_CHAR: {
-        destinationClass = A.getDataClass();
         ArrayOf res = DoPowerTwoArgFunction(A, B);
-        if (res.getDataClass() == NLS_DCOMPLEX) {
+        if (res.isComplex()) {
             if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
+                if (res.isDoubleClass()) {
+                    res.promoteType(NLS_DOUBLE);
+                } else {
+                    res.promoteType(NLS_SINGLE);
+                }
             }
-        } else if (res.getDataClass() == NLS_SCOMPLEX) {
-            if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
+        }
+        if (AsSingle) {
+            if (res.isComplex()) {
+                res.promoteType(NLS_SCOMPLEX);
+            } else {
+                res.promoteType(NLS_SINGLE);
             }
-        } else {
-            res.promoteType(destinationClass);
         }
         return res;
     } break;
