@@ -410,9 +410,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                     v.push_back(ptr[k]);
                 }
             } break;
-            default: {
-            } break;
-            }
+            default: { } break; }
         }
         ArrayOfVector promoted;
         double* ptr
@@ -425,9 +423,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
     } break;
     case AS_NONE: {
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return value;
 }
 //=============================================================================
