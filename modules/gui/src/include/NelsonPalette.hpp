@@ -31,7 +31,7 @@
 namespace Nelson {
 //===================================================================================
 NLSGUI_IMPEXP void
-createNelsonPalette(QPalette qDefaultPalette);
+createNelsonPalette();
 //===================================================================================
 NLSGUI_IMPEXP bool
 isDarkPalette();

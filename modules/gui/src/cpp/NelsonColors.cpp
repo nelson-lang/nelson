@@ -31,13 +31,13 @@ namespace Nelson {
 QColor
 getWarningColor()
 {
-    return QColor(Qt::darkYellow);
+    return QColor(QColor(255, 175, 0));
 }
 //===================================================================================
 QColor
 getInputColor()
 {
-    return QColor(Qt::blue);
+    return isDarkPalette() ? QColor(Qt::cyan) : QColor(Qt::blue);
 }
 //===================================================================================
 QColor

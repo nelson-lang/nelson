@@ -100,9 +100,7 @@ InitGuiObjects(void)
     qInstallMessageHandler(QtMessageOutput);
     if (NelSonQtApp == nullptr) {
         NelSonQtApp = new QApplication(argc, argv);
-        if (NelSonQtApp) {
-            createNelsonPalette(NelSonQtApp->palette());
-        }
+        createNelsonPalette();
         QCoreApplication::setApplicationName("Nelson");
         QCoreApplication::setOrganizationDomain(
             "https://nelson-numerical-software.github.io/nelson-website/");

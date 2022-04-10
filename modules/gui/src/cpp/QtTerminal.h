@@ -118,6 +118,9 @@ private:
     bool
     updateHistoryToken();
 
+    void
+    ensureInputColor();
+
     QMenu* contextMenu;
     QAction* helpOnSelectionAction;
     QAction* cutAction;
