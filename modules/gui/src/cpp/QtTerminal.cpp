@@ -298,11 +298,28 @@ QtTerminal::clearTerminal()
     }
 }
 //=============================================================================
+void
+QtTerminal::ensureInputColor()
+{
+    // force to restore input color
+    if (isInEditionZone()) {
+        QTextCursor cur = textCursor();
+        setTextColor(getInputColor());
+        QTextCharFormat fmt;
+        fmt.setForeground(getInputColor());
+        cur.setCharFormat(fmt);
+        cur.setCharFormat(QTextCharFormat());
+        setTextCursor(cur);
+    }
+}
+//=============================================================================
 bool
 QtTerminal::handlePreviousCharKeyPress()
 {
     QTextCursor cur = textCursor();
     const int col = cur.columnNumber();
+    ensureInputColor();
+
     if ((promptBlock == cur.block()) && (col == mPrompt.size())) {
         return true;
     }
@@ -387,6 +404,7 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
         if (!isInEditionZone()) {
             return;
         }
+        ensureInputColor();
     } else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
         if (isInEditionZone()) {
             QString cmd = getCurrentCommandLine();

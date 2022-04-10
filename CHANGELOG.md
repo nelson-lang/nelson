@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - French translations imported from Weblate (Thanks to contributors)
 
+- Dark theme detected and applied on Linux, MacOS and Windows.
+
 ### Fixed
 
 - Main Nelson's font was not applied on some OS platforms (ex: MacOS Catalina)
