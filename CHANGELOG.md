@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- [#590](http://github.com/Nelson-numerical-software/nelson/issues/590): Nelson's license moved to LGPL v3.0 and GPL v3.0 and uses SPDX format.
+
 - Nelson uses [Hack](https://sourcefoundry.org/hack/) font.
 
 - Linux 64 bits and 32 bits uses same main script.

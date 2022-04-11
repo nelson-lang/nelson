@@ -4,23 +4,7 @@
 % This file is part of the Nelson.
 %=============================================================================
 % LICENCE_BLOCK_BEGIN
-% This program is free software; you can redistribute it and/or
-% modify it under the terms of the GNU Lesser General Public
-% License as published by the Free Software Foundation; either
-% version 2.1 of the License, or (at your option) any later version.
-%
-% Alternatively, you can redistribute it and/or
-% modify it under the terms of the GNU General Public License as
-% published by the Free Software Foundation; either version 2 of
-% the License, or (at your option) any later version.
-%
-% This program is distributed in the hope that it will be useful,
-% but WITHOUT ANY WARRANTY; without even the implied warranty of
-% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-% GNU Lesser General Public License for more details.
-%
-% You should have received a copy of the GNU Lesser General Public
-% License along with this program. If not, see <http://www.gnu.org/licenses/>.
+% SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
 assert_isequal(nargin('profsave'), 2);
@@ -35,32 +19,32 @@ p = profile('info');
 assert_isequal(fieldnames(p), {'FunctionName'; 'Filename'; 'LinePosition'; 'NumCalls';'TotalTime'; 'PerCall'});
 R1.FunctionName = 'colon';
 R1.Filename = [currentpath, '/script_to_profile.m'];
-R1.LinePosition = 26;
+R1.LinePosition = 10;
 R1.NumCalls = 1;
 %=============================================================================
 R2.FunctionName = 'mod';
 R2.Filename = [currentpath, '/script_to_profile.m'];
-R2.LinePosition = 27;
+R2.LinePosition = 11;
 R2.NumCalls = 10;
 %=============================================================================
 R3.FunctionName = 'assign';
 R3.Filename = [currentpath, '/script_to_profile.m'];
-R3.LinePosition = 28;
+R3.LinePosition = 12;
 R3.NumCalls = 5;
 %=============================================================================
 R4.FunctionName = 'plus'
 R4.Filename = [currentpath, '/script_to_profile.m'];
-R4.LinePosition = 28;
+R4.LinePosition = 12;
 R4.NumCalls = 5;
 %=============================================================================
 R5.FunctionName = 'assign'
 R5.Filename = [currentpath, '/script_to_profile.m']
-R5.LinePosition = 30;
+R5.LinePosition = 14;
 R5.NumCalls = 5;
 %=============================================================================
 R6.FunctionName = 'minus';
 R6.Filename = [currentpath, '/script_to_profile.m']
-R6.LinePosition = 30;
+R6.LinePosition = 14;
 R6.NumCalls = 5;
 %=============================================================================
 assert_isequal(p(1).FunctionName, R1.FunctionName);
