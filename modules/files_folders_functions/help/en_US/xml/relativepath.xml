@@ -42,9 +42,9 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[relativepath(nelsonroot(), [nelsonroot(), '/COPYING.LGPLv2.1'])
+		<example_item_data><![CDATA[relativepath(nelsonroot(), [nelsonroot(), '/lgpl-3.0.md'])
 relativepath(nelsonroot(), [nelsonroot(), '/etc/finish.m'])
-relativepath([nelsonroot(),'/bin'], [nelsonroot(), '/COPYING.LGPLv2.1'])
+relativepath([nelsonroot(),'/bin'], [nelsonroot(), '/lgpl-3.0.md'])
 relativepath('.', '.')
 relativepath('.', '..')
 relativepath('..', '.')]]>

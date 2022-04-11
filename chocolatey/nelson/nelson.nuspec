@@ -30,7 +30,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <docsUrl>https://nelson-9.gitbook.io/nelson/</docsUrl>
     <!--<mailingListUrl></mailingListUrl>-->
     <bugTrackerUrl>https://github.com/Nelson-numerical-software/nelson/issues</bugTrackerUrl>
-    <licenseUrl>https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/COPYING</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/Nelson-numerical-software/nelson/master/lgpl-3.0.md</licenseUrl>
     <packageSourceUrl>https://github.com/Nelson-numerical-software/nelson/tree/master/chocolatey</packageSourceUrl>
     <tags>nelson development science education matrix</tags>
     <summary>Let's Nelson! matrix language for engineering and scientific application</summary>

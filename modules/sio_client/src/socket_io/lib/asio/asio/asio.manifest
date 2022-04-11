@@ -5,7 +5,8 @@
 /config.sub
 /configure
 /configure.ac
-/COPYING
+/gpl-3.0.md
+/lgpl-3.0.md
 /depcomp
 /doc/
 /doc/asio/
