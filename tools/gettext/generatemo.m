@@ -38,6 +38,13 @@ end
 
 DOMAIN = 'nelson';
 
+pot_en_US = [nelsonroot(), '/locale/nelson.pot'];
+po_en_US = [nelsonroot(), '/locale/en_US/LC_MESSAGES/nelson.po'];
+if ~isfile(po_en_US)
+  status = mkdir([nelsonroot(), '/locale/en_US/LC_MESSAGES']);
+  copyfile(pot_en_US, po_en_US);
+end
+
 langs = getavailablelanguages();
 
 for l = langs(:)'

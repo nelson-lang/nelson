@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Linux 64 bits and 32 bits uses same main script.
 
+- [#594](http://github.com/Nelson-numerical-software/nelson/issues/594): `.pot` used to generate en_US.
+
 ### Added
 
 - 'sscanf' reworked to manage unicode characters and speed optimization.
