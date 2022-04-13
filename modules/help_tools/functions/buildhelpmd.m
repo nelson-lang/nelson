@@ -93,6 +93,12 @@ function helpForNelsonOnly(destinationdir)
     locale = k{1}(1:2);
     dir_dst = [destinationdir, '/', locale];
     dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
+    if ~isfile([dir_src, '/gpl-3.0.md'])
+      copyfile([nelsonroot(), '/gpl-3.0.md'], [dir_src, '/gpl-3.0.md']);
+    end
+    if ~isfile([dir_src, '/lgpl-3.0.md'])
+      copyfile([nelsonroot(), '/lgpl-3.0.md'], [dir_src, '/lgpl-3.0.md']);
+    end
     mkdir(dir_dst);
     for k = 1:length(src_files)
       copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);

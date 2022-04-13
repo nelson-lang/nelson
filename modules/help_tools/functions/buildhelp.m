@@ -85,6 +85,12 @@ function helpForNelsonOnly()
     if isdir(dir_src)
       banner_png = 'banner_homepage.png';
       copyfile([dir_src, '/', banner_png], [dir_dst, '/', banner_png]);
+      if ~isfile([dir_src, '/gpl-3.0.md'])
+        copyfile([nelsonroot(), '/gpl-3.0.md'], [dir_src, '/gpl-3.0.md']);
+      end
+      if ~isfile([dir_src, '/lgpl-3.0.md'])
+        copyfile([nelsonroot(), '/lgpl-3.0.md'], [dir_src, '/lgpl-3.0.md']);
+      end
       md_files = {'homepage.md', 'license.md', 'gpl-3.0.md', 'lgpl-3.0.md'};
       for md_filename = md_files(:)'
         html_filename = strrep(md_filename{1}, '.md', '.html');
