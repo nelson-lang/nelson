@@ -10,7 +10,7 @@
 <p>The FFTW library is no longer distributed as part of Nelson.</p>
 
 <p>Note that FFTW is licensed under GPLv2 or higher (see http://www.fftw.org/doc/License-and-Copyright.html), but the bindings
-to the library in this nelson's module, is licensed under LGPL2 v2.1.</p>
+to the library in this nelson's module, is licensed under LGPL v3.0.</p>
 <p>This means that code using the FFTW library via FFTW bindings is subject to FFTW's licensing terms.</p>
 
 <p>Code using alternative implementations of the FFTW API, such as
