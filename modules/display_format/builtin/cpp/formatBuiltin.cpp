@@ -46,10 +46,14 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
             if (argIn[0].isScalar()) {
                 ArrayOf numericFormat = argIn[0].getField("NumericFormat");
                 ArrayOf lineSpacing = argIn[0].getField("LineSpacing");
-                if (!setDisplayOption(numericFormat.getContentAsWideString(), L"")) {
+                std::wstring numericFormatAsString = numericFormat.getContentAsWideString();
+                boost::to_upper(numericFormatAsString);
+                if (!setDisplayOption(numericFormatAsString, L"")) {
                     Error(_W("unexpected Numeric Format."));
                 }
-                if (!setDisplayOption(lineSpacing.getContentAsWideString(), L"")) {
+                std::wstring lineSpacingAsString = lineSpacing.getContentAsWideString();
+                boost::to_upper(lineSpacingAsString);
+                if (!setDisplayOption(lineSpacingAsString, L"")) {
                     Error(_W("unexpected Line Spacing."));
                 }
             } else {

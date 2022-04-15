@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%addpath(modulepath(nelsonroot(), 'display_format', 'functions'), '-frozen');
+addpath(modulepath(nelsonroot(), 'display_format', 'functions'), '-frozen');
 addgateway(modulepath(nelsonroot(), 'display_format', 'builtin'));
 %=============================================================================
