@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Dark theme detected and applied on Linux, MacOS and Windows.
 
+- [#559](http://github.com/Nelson-numerical-software/nelson/issues/559): `formattedDisplayText` function: Capture display output as string.
+
 ### Fixed
 
 - Main Nelson's font was not applied on some OS platforms (ex: MacOS Catalina)
