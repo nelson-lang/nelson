@@ -15,9 +15,8 @@
 #include <QtCore/QString>
 #include <QtCore/QThread>
 #include <QtCore/QVariant>
-#include <QtGui/QDesktopServices>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
+#include <QtCore/QFileInfo>
+#include <QtHelp/QHelpEngineCore>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/chrono/chrono.hpp>
 #include <boost/filesystem.hpp>
@@ -30,7 +29,7 @@
 #include "IsFile.hpp"
 #include "characters_encoding.hpp"
 #include "QStringConverter.hpp"
-#include "RemoveDirectory.hpp"
+#include "HelpCollection.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -87,43 +86,10 @@ HelpBrowser::sendCommand(const std::wstring& cmd)
     boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(1000)));
 }
 //=============================================================================
-std::wstring
-HelpBrowser::getCachePath()
-{
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-#else
-    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-#endif
-    return QStringTowstring(cacheLocation) + std::wstring(L"/help");
-}
-//=============================================================================
 wstringVector
 HelpBrowser::getAttributes()
 {
-    wstringVector attributes;
-#if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
-    boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(500)));
-    std::wstring database_path = getCacheFile();
-    if (!database_path.empty()) {
-        QSqlDatabase m_db;
-        m_db = QSqlDatabase::addDatabase("QSQLITE");
-        m_db.setDatabaseName(wstringToQString(database_path));
-        if (m_db.open()) {
-            QSqlQuery query("SELECT attributes FROM contents");
-            while (query.next()) {
-                QString qattribute = query.value(0).toString();
-                std::wstring attribute = QStringTowstring(qattribute);
-                if (std::find(attributes.begin(), attributes.end(), attribute)
-                    == attributes.end()) {
-                    attributes.push_back(attribute);
-                }
-            }
-            m_db.close();
-        }
-    }
-#endif
-    return attributes;
+    return HelpCollection::getInstance()->getRegisteredFiles();
 }
 //=============================================================================
 static std::wstring
@@ -167,6 +133,12 @@ getAssistantFilename()
 }
 //=============================================================================
 bool
+HelpBrowser::isAvailable()
+{
+    return IsFile(getAssistantFilename());
+}
+//=============================================================================
+ bool
 HelpBrowser::startBrowser(std::wstring& msg)
 {
     if (qprocess->state() == QProcess::Running) {
@@ -179,15 +151,18 @@ HelpBrowser::startBrowser(std::wstring& msg)
         msg = _W("Qt Assistant not found.");
         return false;
     }
-    if (!IsFile(getQhcPath())) {
+    std::wstring cachedCollectionFile
+        = HelpCollection::getInstance()->getNelsonCachedCollectionFullFilename();
+    if (!IsFile(cachedCollectionFile)) {
         msg = _W("help collection file not found.");
         return false;
     }
+    HelpCollection::getInstance()->stripNonExistingHelpFiles();
     QStringList args;
     args << QLatin1String("-quiet");
     args << QLatin1String("-enableRemoteControl");
     args << QLatin1String("-collectionFile");
-    args << wstringToQString(getQhcPath());
+    args << wstringToQString(cachedCollectionFile);
     qprocess->start(wstringToQString(wapp), args);
     msg.clear();
     if (!qprocess->waitForStarted()) {
@@ -209,77 +184,27 @@ HelpBrowser::closeBrowser()
         qprocess->terminate();
         qprocess->waitForFinished(3000);
     }
-    bOpenHomepage = true;
 }
 //=============================================================================
 HelpBrowser::HelpBrowser() { qprocess = new QProcess(); }
 //=============================================================================
 void
-HelpBrowser::registerHelpFile(const std::wstring& filename)
+HelpBrowser::registerHelpFiles(const wstringVector& filenames)
 {
-    std::wstring command = std::wstring(L"register ") + filename;
-    if (boost::algorithm::ends_with(filename, L"org.nelson.help.qch")) {
-        if (bOpenHomepage) {
-            command = command + L";" + L"setSource qthelp://org.nelson.help/help/homepage.html";
-            bOpenHomepage = false;
-        }
-    }
-    sendCommand(command);
+    HelpCollection::getInstance()->registerHelpFiles(filenames);
 }
 //=============================================================================
 void
-HelpBrowser::unregisterHelpFile(const std::wstring& filename)
+HelpBrowser::unregisterHelpFiles(const wstringVector& filenames)
 {
-    std::wstring command = std::wstring(L"unregister ") + filename;
-    sendCommand(command);
+    HelpCollection::getInstance()->unregisterHelpFiles(filenames);
 }
 //=============================================================================
 void
 HelpBrowser::clearCache()
 {
     closeBrowser();
-    std::wstring cachePath = getCachePath();
-    std::wstring msgError = L"";
-    RemoveDirectory(cachePath, true, msgError);
-}
-//=============================================================================
-std::wstring
-HelpBrowser::getQhcFilename()
-{
-    return L"nelson_help_collection.qhc";
-}
-//=============================================================================
-std::wstring
-HelpBrowser::getQhcPath()
-{
-    std::wstring path = GetNelsonPath() + L"/modules/help_tools/resources/" + getQhcFilename();
-    return path;
-}
-//=============================================================================
-std::wstring
-HelpBrowser::getCacheFile()
-{
-    std::wstring database_path = getCachePath() + L"/.nelson_help_collection";
-#ifdef _MSC_VER
-#else
-#endif
-    boost::filesystem::path base_dir(database_path);
-    bool isdir = false;
-    try {
-        isdir = boost::filesystem::exists(base_dir) && boost::filesystem::is_directory(base_dir);
-    } catch (const boost::filesystem::filesystem_error&) {
-        isdir = false;
-    }
-    if (isdir) {
-        for (boost::filesystem::recursive_directory_iterator iter(base_dir), end; iter != end;
-             ++iter) {
-            std::wstring name = iter->path().filename().wstring();
-            if (name == L"fts") {
-                return database_path + L"/" + name;
-            }
-        }
-    }
-    return L"";
+    HelpCollection::getInstance()->clearCache();
 }
 //=============================================================================
 }

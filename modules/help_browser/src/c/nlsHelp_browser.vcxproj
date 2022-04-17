@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\HelpBrowser.cpp" />
+    <ClCompile Include="..\cpp\HelpCollection.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\HelpBrowser.hpp" />
+    <ClInclude Include="..\include\HelpCollection.hpp" />
     <ClInclude Include="..\include\nlsHelp_browser_exports.h" />
   </ItemGroup>
   <ItemGroup>

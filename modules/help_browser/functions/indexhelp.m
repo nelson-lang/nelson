@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = indexhelp(varargin)
-% private function used to index help files
-% indexhelp(true) forces indexing
+  % private function used to index help files
+  % indexhelp(true) forces indexing
   force = false;
   if nargin > 1
     error(_('Wrong number of input arguments.'));
@@ -30,19 +30,15 @@ function r = indexhelp(varargin)
     needToIndex = true;
   else
     load(pref_help);
-    if ~isvar('modules_help_available') || ~isvar('version_help')
+    if ~isvar('version_help')
       needToIndex = true;
     else
       current_version = version('-number');
       if (compareVersion(version_help, current_version) ~= 0)
         needToIndex = true;
-      else
-        modules_help_list = getModulesHelpList();
-        needToIndex = ~isequal(modules_help_available, ['Nelson'; modules_help_list]);
       end
     end
   end
-
   if needToIndex
     r = reindexhelp(pref_help);
   else
@@ -51,8 +47,8 @@ function r = indexhelp(varargin)
 end
 %=============================================================================
 function modules_help_list = getModulesHelpList()
-    run([nelsonroot() '/modules/' 'modules.m']);
-    modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
+  run([nelsonroot() '/modules/' 'modules.m']);
+  modules_help_list = [convertStringsToChars(modules_help_list); getExternalModules()];
 end
 %=============================================================================
 function external_modules = getExternalModules()
@@ -60,65 +56,35 @@ function external_modules = getExternalModules()
   external_modules = m(pm == false);
 end
 %=============================================================================
-function r = compareVersion(previous, current)
-  if (previous(1) == current(1))
-    if (previous(2) == current(2))
-      if (previous(3) == current(3))
-        r = 0;
-      else
-        if (previous(3) > current(3))
-          r = -1;
-        else
-          r = 1;
-        end
-      end
-    else
-      if (previous(2) > current(2))
-        r = -1;
-      else
-        r = 1;
-      end
-    end
-  else
-    if (previous(1) > current(1))
-      r = -1;
-    else
-      r = 1;
-    end
-  end
-end
-%=============================================================================
 function r = reindexhelp(pref_help)
-    helpbrowser('-clearcache');
-    helpbrowser();
-    helpbrowser('-hide', 'bookmarks');
-    homepage = [nelsonroot(), '/modules/main/help/', getlanguage(), '/', 'org.nelson.help.qch'];
-    if ~isfile(homepage)
-      homepage = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch'];
+  helpbrowser('-clearcache');
+  homepage = string([nelsonroot(), '/modules/main/help/', getlanguage(), '/', 'org.nelson.help.qch']);
+  if ~isfile(homepage)
+    homepage = string([nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch']);
+  end
+  filesToRegister = string([]);
+  filesToRegister = [filesToRegister; homepage];
+  modules_help_list = getModulesHelpList();
+  len = length(modules_help_list);
+  lastDisplayedPercent = dispPercentLevel(0, '');    
+  for idx = [1:len]
+    module_name = modules_help_list{idx};
+    help_file = getHelpFile(module_name);
+    if isfile(help_file)
+      filesToRegister = [filesToRegister; string(help_file)];
     end
-    lastDisplayedPercent = dispPercentLevel(0, '');
-    if isfile(homepage)
-      forceaddmodule('Nelson', homepage);
-    end
-    helpbrowser('-identifier', 'Nelson::homepage');
-    modules_help_list = getModulesHelpList();
-    len = length(modules_help_list);
-    modules_help_available = {'Nelson'};
-    for idx = [1:len]
-      module_name = modules_help_list{idx};
-      help_file = getHelpFile(module_name);
-      modules_help_available{end+1, 1} = module_name;
-      if isfile(help_file)
-        forceaddmodule(module_name, help_file);
-        percent = (idx * 100) * inv(len);
-        lastDisplayedPercent = dispPercentLevel(percent, lastDisplayedPercent);
-      end
-    end
-    dispPercentLevel(100, lastDisplayedPercent);
-    fprintf(stdout, char(13));
-    version_help = version('-number');
-    save(pref_help, 'modules_help_available', 'version_help');
-    r = true;
+    percent = (idx * 100) * inv(len);
+    lastDisplayedPercent = dispPercentLevel(percent, lastDisplayedPercent);     
+  end
+  helpbrowser('-register', filesToRegister);
+  dispPercentLevel(100, lastDisplayedPercent);    
+  fprintf(stdout, char(13));
+  helpbrowser();
+  helpbrowser('-hide', 'bookmarks');
+  helpbrowser('-setsource', 'qthelp://org.nelson.help/help/homepage.html')
+  version_help = version('-number');
+  save(pref_help, 'version_help');
+  r = true;
 end
 %=============================================================================
 function newPrevious = dispPercentLevel(percent, previous)
@@ -144,13 +110,16 @@ function help_file = getHelpFile(module_name)
   end
 end
 %=============================================================================
-function forceaddmodule(module_name, help_file)
-  for i = 1:5
-    helpbrowser();
-    helpbrowser('-register', help_file);
-    attributes = helpbrowser('-attributes');
-    if any(strcmp(attributes, module_name))
-      break;
+function r = compareVersion(previous, current)
+  currentAsNumber = 1000 * current(1) + 100 * current(2) + 10 * current(3);
+  previousAsNumber = 1000 * previous(1) + 100 * previous(2) + 10 * current(3);
+  if (currentAsNumber == previousAsNumber)
+    r = 0;
+  else
+    if (previousAsNumber > currentAsNumber)
+      r = -1;
+    else
+      r = 1;
     end
   end
 end

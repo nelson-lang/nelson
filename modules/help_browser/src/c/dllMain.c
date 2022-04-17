@@ -18,11 +18,11 @@
 #pragma comment(lib, "shlwapi.lib") // AllocConsole
 //=============================================================================
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#pragma comment(lib, "Qt6Sql.lib")
 #pragma comment(lib, "Qt6Core.lib")
+#pragma comment(lib, "Qt6Help.lib")
 #else
-#pragma comment(lib, "Qt5Sql.lib")
 #pragma comment(lib, "Qt5Core.lib")
+#pragma comment(lib, "Qt5Help.lib")
 #endif
 //=============================================================================
 int WINAPI

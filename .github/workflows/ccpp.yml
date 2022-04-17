@@ -319,13 +319,13 @@ jobs:
         sudo apt-get install -y libsndfile1-dev
         sudo apt-get install -y libtag1-dev
         sudo apt-get install -y alsa-utils
-        sudo add-apt-repository --yes ppa:beineri/opt-qt-5.15.2-bionic
+        sudo add-apt-repository ppa:savoury1/qt-5-15
+        sudo add-apt-repository ppa:savoury1/gcc-defaults-9
         sudo apt-get update
         sudo apt-get install -y qtbase5-dev
         sudo apt-get install -y qt515tools
         sudo apt-get install -y qtdeclarative5-dev
         sudo apt-get install -y libqt5webkit5-dev
-        sudo apt-get install -y libsqlite3-dev
         sudo apt-get install -y qt5-default
         sudo apt-get install -y qt515quickcontrols
         sudo apt-get install -y qt515quickcontrols2
@@ -482,6 +482,7 @@ jobs:
           dnf install -y qt5-qtdeclarative-devel
           dnf install -y qt5-assistant
           dnf install -y qt5-doctools
+          dnf install -y qt5-qttools-devel
           dnf install -y qt5-qtquickcontrols
           dnf install -y boost-devel
           dnf install -y zlib-devel

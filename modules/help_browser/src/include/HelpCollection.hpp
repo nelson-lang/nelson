@@ -9,45 +9,49 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "Types.hpp"
 #include "nlsHelp_browser_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSHELP_BROWSER_IMPEXP HelpBrowser
+class NLSHELP_BROWSER_IMPEXP HelpCollection
 {
 public:
-    static HelpBrowser*
+    static HelpCollection*
     getInstance();
-    void
-    registerHelpFiles(const wstringVector& filenames);
-    void
-    unregisterHelpFiles(const wstringVector& filenames);
-    void
-    showDocByName(const std::wstring& filenames);
-    void
-    showDocByIdentifier(const std::wstring& identifier);
     bool
-    startBrowser(std::wstring& msg);
-    void
-    closeBrowser();
-    void
-    syncBrowser();
-    void
-    sendCommand(const std::wstring& cmd);
+    registerHelpFiles(const wstringVector& filenames);
+    bool
+    unregisterHelpFiles(const wstringVector& filenames);
+
+    wstringVector
+    stripNonExistingHelpFiles();
+
+    wstringVector
+    getRegisteredFiles();
+
+    bool
+    clearCache();
+
     void
     destroy();
-    void
-    clearCache();
-    wstringVector
-    getAttributes();
-    bool
-    isAvailable();
+
+    std::wstring
+    getNelsonCachedCollectionFullFilename();
 
 private:
-    HelpBrowser();
-    HelpBrowser(HelpBrowser const&){};
-    static HelpBrowser* m_pInstance;
+    static HelpCollection* m_pInstance;
+
+    HelpCollection();
+
+    std::wstring
+    getNelsonCollectionFullFilename();
+
+    std::wstring
+    getNelsonCacheCollectionPath();
+    std::wstring
+    getNelsonQhcFilename();
 };
 //=============================================================================
 } // namespace Nelson

@@ -57,7 +57,7 @@ DisplayVariable(
         needToOverload = false;
     } break;
     case NLS_STRUCT_ARRAY: {
-        bool needToHideHeader = false;  
+        bool needToHideHeader = false;
         if (asDisp) {
             needToHideHeader = (A.isEmpty() || A.isScalar());
         } else {

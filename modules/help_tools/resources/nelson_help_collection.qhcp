@@ -18,9 +18,4 @@
       <icon>../../../resources/fibonacci.ico</icon>
     </aboutDialog>
   </assistant>
-  <docFiles>
-    <register>
-    	<file>myapplication-manual.qch</file>
-    </register>
-  </docFiles>
 </QHelpCollectionProject>

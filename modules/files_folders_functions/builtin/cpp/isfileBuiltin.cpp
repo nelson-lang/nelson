@@ -24,33 +24,33 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
         retval << ArrayOf::logicalConstructor(IsFile(wpath));
-    } else {
-        if (argIn[0].getDataClass() == NLS_CELL_ARRAY) {
-            Dimensions dim = argIn[0].getDimensions();
-            if (argIn[0].isEmpty()) {
-                retval << ArrayOf::emptyConstructor(dim);
-            } else {
-                ArrayOf cell(argIn[0]);
-                logical* bmat = static_cast<logical*>(ArrayOf::allocateArrayOf(
-                    NLS_LOGICAL, argIn[0].getElementCount(), stringVector(), false));
-                indexType elementCount = dim.getElementCount();
-                for (indexType k = 0; k < elementCount; k++) {
-                    ArrayOf cell(argIn[0]);
-                    auto* arg = (ArrayOf*)(cell.getDataPointer());
-                    if (arg[k].isRowVectorCharacterArray()) {
-                        bmat[k]
-                            = static_cast<Nelson::logical>(IsFile(arg[k].getContentAsWideString()));
-                    } else {
-                        delete[] bmat;
-                        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
-                    }
-                }
-                ArrayOf res = ArrayOf(NLS_LOGICAL, dim, bmat, false);
-                retval << res;
-            }
+    } else if (argIn[0].isStringArray() && argIn[0].isScalar()) {
+        std::wstring wpath = argIn[0].getContentAsWideString();
+        retval << ArrayOf::logicalConstructor(IsFile(wpath));
+    } else if (argIn[0].getDataClass() == NLS_CELL_ARRAY) {
+        Dimensions dim = argIn[0].getDimensions();
+        if (argIn[0].isEmpty()) {
+            retval << ArrayOf::emptyConstructor(dim);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            ArrayOf cell(argIn[0]);
+            logical* bmat = static_cast<logical*>(ArrayOf::allocateArrayOf(
+                NLS_LOGICAL, argIn[0].getElementCount(), stringVector(), false));
+            indexType elementCount = dim.getElementCount();
+            for (indexType k = 0; k < elementCount; k++) {
+                ArrayOf cell(argIn[0]);
+                auto* arg = (ArrayOf*)(cell.getDataPointer());
+                if (arg[k].isRowVectorCharacterArray()) {
+                    bmat[k] = static_cast<Nelson::logical>(IsFile(arg[k].getContentAsWideString()));
+                } else {
+                    delete[] bmat;
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+                }
+            }
+            ArrayOf res = ArrayOf(NLS_LOGICAL, dim, bmat, false);
+            retval << res;
         }
+    } else {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
     }
     return retval;
 }
