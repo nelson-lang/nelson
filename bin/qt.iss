@@ -45,7 +45,7 @@ Source: {#RootPath}bin\{#BinPath}\Qt5QuickParticles.dll; DestDir: {app}\bin\{#Bi
 Source: {#RootPath}bin\{#BinPath}\Qt5QuickTemplates2.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5QuickWidgets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Sensors.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Sql.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt5Help.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Svg.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WebChannel.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WebEngine.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist

@@ -59,7 +59,7 @@ XmlDocExamples::writeHeaderAsHtml(std::string& utf8stream)
         = utf8stream + R"(<link rel="stylesheet" href="mono-blue.css"  type="text/css" />)" + "\n";
     utf8stream = utf8stream + R"(<script src = "highlight.pack.js" type = "text/javascript">)"
         + "\n" + HTML_SCRIPT_OUT_TAG + "\n";
-    utf8stream = utf8stream + "<script type = \"text/javascript\">hljs.initHighlightingOnLoad();"
+    utf8stream = utf8stream + "<script type = \"text/javascript\">hljs.highlightAll();"
         + HTML_SCRIPT_OUT_TAG + "\n";
     utf8stream = utf8stream + HTML_SCRIPT_OUT_TAG + "\n";
     return true;
