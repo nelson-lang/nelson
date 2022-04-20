@@ -34,8 +34,7 @@ Basic Linear Algebra Subprograms
 
 Linear Algebra PACKage
 
-> <http://www.netlib.org/lapack/>
-> <http://www.netlib.org/lapack/#_licensing>
+> <http://www.netlib.org/lapack/> > <http://www.netlib.org/lapack/#_licensing>
 
 - OpenBLAS
 
@@ -310,8 +309,14 @@ fast_float number parsing library: 4x faster than strtod
 
 A typeface designed for source code
 
-
-
 > <https://sourcefoundry.org/hack/>
 
 > <https://github.com/source-foundry/Hack/blob/master/LICENSE.md> MIT license
+
+- Combinear Theme
+
+A typeface designed for source code
+
+> <https://qss-stock.devsecstudio.com/templates/components/components2/combinear/Combinear.rar>
+
+> MIT license

@@ -26,3 +26,6 @@ install(
 install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/Hack-Regular.ttf DESTINATION ${ROOT_OUTPUT}/resources/fonts)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/LICENSE DESTINATION ${ROOT_OUTPUT}/resources/fonts)
 # ==============================================================================
+install(FILES ${CMAKE_SOURCE_DIR}/resources/qss/Combinear.qss DESTINATION ${ROOT_OUTPUT}/resources/qss)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/qss/License.txt DESTINATION ${ROOT_OUTPUT}/resources/qss)
+# ==============================================================================

@@ -14,3 +14,6 @@ Source: {#RootPath}resources\*.svg; DestDir: {app}\resources\;
 Source: {#RootPath}resources\fonts\Hack-Regular.ttf; DestDir: {app}\resources\fonts\;
 Source: {#RootPath}resources\fonts\LICENSE; DestDir: {app}\resources\fonts\;
 ;==============================================================================
+Source: {#RootPath}resources\qss\Combinear.qss; DestDir: {app}\resources\qss\;
+Source: {#RootPath}resources\qss\License.txt; DestDir: {app}\resources\qss\;
+;==============================================================================
