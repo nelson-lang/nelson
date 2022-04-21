@@ -313,11 +313,16 @@ bool
 QtTextEditor::maybeSave()
 {
     if (currentEditor()->document()->isModified()) {
-        int ret = QMessageBox::warning(this, TR("Nelson"),
+        QMessageBox msgWarning(this);
+        msgWarning.setText(
             TR("The document %1 has been modified.\nDo you want to save your changes ?")
-                .arg(shownName()),
-            QMessageBox::Yes | QMessageBox::Default, QMessageBox::No,
-            QMessageBox::Cancel | QMessageBox::Escape);
+                .arg(shownName()));
+        msgWarning.setIcon(QMessageBox::Warning);
+        msgWarning.setWindowTitle(TR("Nelson"));
+        msgWarning.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        msgWarning.setDefaultButton(QMessageBox::Yes);
+        msgWarning.setEscapeButton(QMessageBox::Cancel);
+        int ret = msgWarning.exec();
         if (ret == QMessageBox::Yes) {
             return save();
         }
