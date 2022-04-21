@@ -152,8 +152,9 @@ QtMainWindow::QtMainWindow(bool minimized)
     } else {
         show();
     }
-    show();
     qtTerminal->show();
+    qApp->processEvents(QEventLoop::WaitForMoreEvents);
+
     bClosed = false;
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.ico";
     QIcon icon(fileNameIcon);

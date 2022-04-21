@@ -138,7 +138,7 @@ HelpBrowser::isAvailable()
     return IsFile(getAssistantFilename());
 }
 //=============================================================================
- bool
+bool
 HelpBrowser::startBrowser(std::wstring& msg)
 {
     if (qprocess->state() == QProcess::Running) {

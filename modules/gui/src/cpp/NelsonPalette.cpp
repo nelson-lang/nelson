@@ -11,10 +11,13 @@
 #if _MSC_VER
 #include <QtCore/QSettings>
 #endif
+#include <QtCore/QFile>
 #include <QtWidgets/QStyle>
 #include <QtWidgets/QToolTip>
 #include <QtWidgets/QStyleFactory>
 #include "NelsonPalette.hpp"
+#include "GetNelsonPath.hpp"
+#include "QStringConverter.hpp"
 //===================================================================================
 namespace Nelson {
 //===================================================================================
@@ -24,31 +27,14 @@ static bool isQtDarkMode = false;
 static void
 changeToDarkTheme()
 {
-    nelsonPalette.setColor(QPalette::Window, QColor(53, 53, 53));
-    nelsonPalette.setColor(QPalette::WindowText, Qt::white);
-    nelsonPalette.setColor(QPalette::Base, QColor(30, 30, 30));
-    nelsonPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
-    nelsonPalette.setColor(QPalette::ToolTipBase, QColor(53, 53, 53));
-    nelsonPalette.setColor(QPalette::ToolTipText, Qt::white);
-    nelsonPalette.setColor(QPalette::Text, Qt::white);
-    nelsonPalette.setColor(QPalette::Button, QColor(53, 53, 53));
-    nelsonPalette.setColor(QPalette::ButtonText, Qt::white);
-    nelsonPalette.setColor(QPalette::BrightText, Qt::red);
-    nelsonPalette.setColor(QPalette::Link, QColor(42, 130, 218));
-    nelsonPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    nelsonPalette.setColor(QPalette::HighlightedText, Qt::black);
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::Text, QColor(164, 166, 168));
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::WindowText, QColor(164, 166, 168));
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(164, 166, 168));
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, QColor(164, 166, 168));
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::Base, QColor(68, 68, 68));
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::Window, QColor(68, 68, 68));
-    nelsonPalette.setColor(QPalette::Disabled, QPalette::Highlight, QColor(68, 68, 68));
-    qApp->setStyle(QStyleFactory::create("Fusion"));
-    QToolTip::setPalette(nelsonPalette);
-    qApp->setPalette(nelsonPalette);
-    qApp->setStyleSheet(
-        "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+    QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+    QString darkThemeFullFilename = nelsonPath + "/resources/qss/Combinear.qss";
+    QFile file(darkThemeFullFilename);
+    if (file.exists()) {
+        file.open(QFile::ReadOnly);
+        QString styleSheet{ file.readAll() };
+        qApp->setStyleSheet(styleSheet);
+    }
 }
 //===================================================================================
 void
