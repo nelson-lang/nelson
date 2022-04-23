@@ -30,6 +30,8 @@ if(NOT DEFINED CMAKE_INSTALL_PREFIX)
 endif()
 message(STATUS "CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}")
 # ==============================================================================
+option(FORCE_QT5 "Force to use Qt5." OFF)
+# ==============================================================================
 option(ENABLE_CLANG_TIDY "Analyze code with clang-tidy." OFF)
 option(ENABLE_CLANG_TIDY_FIX  "Analyze code with clang-tidy and fix errors." OFF)
 # ==============================================================================
@@ -84,7 +86,7 @@ endif()
 # ==============================================================================
 include(Eigen3Config)
 # ==============================================================================
-include(Qt5Config)
+include(QtConfig)
 # ==============================================================================
 include(MpiConfig)
 # ==============================================================================
@@ -105,13 +107,8 @@ find_package(
              date_time
              iostreams
   REQUIRED)
-find_package(MKL)  
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Qml REQUIRED)
-find_package(Qt5Help REQUIRED)
-find_package(Qt5Quick REQUIRED)
-find_package(Qt5PrintSupport REQUIRED)
+find_package(MKL) 
+# ==============================================================================
 find_package(LibXml2 REQUIRED)
 find_package(LibSndFile REQUIRED)
 find_package(Taglib REQUIRED)

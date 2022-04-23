@@ -13,13 +13,13 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions("-std=c++11")
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
+add_definitions("-std=c++17")
+set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
 include_directories(
   ${Boost_INCLUDE_DIRS}
-  ${Qt5Widgets_INCLUDES}
+  ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -45,8 +45,8 @@ target_link_libraries(
   nlsGui
   nlsCore
   nlsFiles_folders_functions
-  ${Qt5Widgets_LIBRARIES}
-  ${Qt5Help_LIBRARIES})
+  ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
+  ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES})
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

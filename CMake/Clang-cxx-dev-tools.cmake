@@ -26,7 +26,7 @@ if(CLANG_TIDY)
     ${ALL_CXX_SOURCE_FILES}
     -config=''
     --
-    -std=c++11
+    -std=c++17
     ${INCLUDE_DIRECTORIES}
     )
 endif()

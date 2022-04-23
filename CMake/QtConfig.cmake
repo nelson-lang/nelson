@@ -28,3 +28,12 @@ else()
   endif()
 endif()
 # ==============================================================================
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core) 
+if (FORCE_QT5)
+  set(QT_VERSION_MAJOR 5)
+else()
+  find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core) 
+endif()
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Gui Help Qml Quick PrintSupport)
+message(STATUS "Qt${QT_VERSION_MAJOR} detected and used.")
+# ==============================================================================
