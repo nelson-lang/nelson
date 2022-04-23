@@ -13,13 +13,13 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions("-std=c++11")
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
+add_definitions("-std=c++17")
+set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
 include_directories(
   ${Boost_INCLUDE_DIRS}
-  ${Qt5Widgets_INCLUDES}
+  ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -42,6 +42,7 @@ add_library(${module_library_name} SHARED ${TEXT_EDITOR_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
+
   nlsCharacters_encoding
   nlsFunctions_manager
   nlsGui
@@ -53,8 +54,9 @@ target_link_libraries(
   nlsOs_functions
   nlsText_completion
   nlsEngine
-  ${Qt5Widgets_LIBRARIES}
-  ${Qt5PrintSupport_LIBRARIES})
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::PrintSupport)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

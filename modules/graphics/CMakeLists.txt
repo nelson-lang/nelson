@@ -13,13 +13,13 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions("-std=c++11")
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+add_definitions(${Qt${QT_VERSION_MAJOR}Widgets_DEFINITIONS})
+add_definitions("-std=c++17")
+set(CMAKE_CXX_FLAGS "${Qt${QT_VERSION_MAJOR}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 # ==============================================================================
 include_directories(
+  ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
-  ${Qt5Widgets_INCLUDES}
   ${EIGEN3_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
@@ -39,7 +39,7 @@ file(GLOB GRAPHICS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 add_library(${module_library_name} SHARED ${GRAPHICS_SRC})
 # ==============================================================================
 target_link_libraries(
-  ${module_library_name}
+  ${module_library_name} 
   nlsInterpreter
   nlsTypes
   nlsError_manager
@@ -50,7 +50,8 @@ target_link_libraries(
   nlsModules_manager
   nlsEngine
   nlsFiles_folders_functions
-  ${Qt5Widgets_LIBRARIES})
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -59,9 +60,8 @@ set_target_properties(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
     SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
-file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-# ==============================================================================
 include_directories(
+  ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -70,10 +70,12 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
+file(GLOB GRAPHICS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+# ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${GRAPHICS_BUILTIN})
 # ==============================================================================
 target_link_libraries(
-  ${module_library_builtin_name}
+  ${module_library_builtin_name} 
   ${module_library_name}
   nlsError_manager
   nlsInterpreter

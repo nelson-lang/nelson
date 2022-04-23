@@ -13,11 +13,13 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+add_definitions("-std=c++17")
 # ==============================================================================
 include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
-  ${Qt5Widgets_INCLUDES}
+  ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
+  ${Qt${QT_VERSION_MAJOR}Qml_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
@@ -39,7 +41,7 @@ add_library(${module_library_name} SHARED ${QML_ENGINE_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-  nlsApi_nelson
+   nlsApi_nelson
   nlsGui
   nlsInterpreter
   nlsCharacters_encoding
@@ -48,9 +50,10 @@ target_link_libraries(
   nlsI18n
   nlsData_structures
   nlsDisplay_format
-  ${Qt5Widgets_LIBRARIES}
-  ${Qt5Qml_LIBRARIES}
-  ${Qt5Quick_LIBRARIES})
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Qml
+  Qt${QT_VERSION_MAJOR}::Quick)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -74,7 +77,8 @@ add_library(${module_library_builtin_name} SHARED ${QML_ENGINE_BUILTIN})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
-  ${module_library_name}
+ 
+  ${module_library_name} 
   nlsError_manager
   nlsInterpreter
   nlsOverload
