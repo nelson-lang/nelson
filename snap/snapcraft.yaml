@@ -63,7 +63,7 @@ parts:
       ln -s mpiexec.openmpi $SNAPCRAFT_PART_INSTALL/usr/bin/mpiexec
     
       snapcraftctl set-grade stable
-      snapcraftctl set-version 0.6.3.1
+      snapcraftctl set-version 0.6.4.0
       rm -rf $SNAPCRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $SNAPCRAFT_PART_INSTALL/usr/share/texmf
 
