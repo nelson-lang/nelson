@@ -72,7 +72,6 @@ parts:
       - autotools-dev
       - libtool
       - automake
-      - cmake
       - openmpi-bin
       - gettext
       - pkg-config
@@ -95,15 +94,15 @@ parts:
       - zlib1g-dev
       - libcurl4-openssl-dev
       - libgit2-dev
+      - libeigen3-dev
+      - libmatio-dev      
+      - libboost-all-dev
       - libqt5opengl5-dev
       - qt5-assistant
       - qhelpgenerator-qt5
       - qtbase5-dev
       - qttools5-dev
       - qttools5-dev-tools      
-      - libeigen3-dev
-      - libmatio-dev      
-      - libboost-all-dev
       - qml-module-qtqml-models2
       - qml-module-qtquick-controls  
       - qml-module-qtquick-dialogs    
@@ -111,7 +110,9 @@ parts:
       - libqt5core5a
       - libqt5gui5
       - libqt5quick5
+      - libqt5help5
       - qmlscene
+      - cmake
 
     stage-packages:
       - build-essential
@@ -127,26 +128,7 @@ parts:
       - libhdf5-dev
       - libncurses5-dev
       - libpython3-dev
-      - libqt5core5a
-      - libqt5gui5
-      - libqt5help5
-      - libqt5network5
-      - libqt5opengl5
-      - libqt5printsupport5
-      - libqt5Help5
-      - libqt5widgets5
-      - libqt5xml5
-      - qt5-assistant
-      - qhelpgenerator-qt5
-      - qttools5-dev-tools
-      - libqt5qml5
-      - qml-module-qtquick-controls  
-      - qml-module-qtquick-dialogs 
-      - qml-module-qtquick2
-      - qml-module-qtquick-window2      
       - qtwayland5
-      - libqt5quick5
-      - qtbase5-dev
       - libsndfile1
       - libportaudio2      
       - libtag1v5-vanilla
@@ -180,6 +162,26 @@ parts:
       - openmpi-bin
       - libssh2-1
       - libtmglib3
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5help5
+      - libqt5network5
+      - libqt5opengl5
+      - libqt5printsupport5
+      - libqt5widgets5
+      - libqt5xml5
+      - qt5-assistant
+      - qhelpgenerator-qt5
+      - qttools5-dev-tools
+      - libqt5qml5
+      - qml-module-qtquick-controls  
+      - qml-module-qtquick-dialogs 
+      - qml-module-qtquick2
+      - qml-module-qtquick-window2      
+      - libqt5quick5
+      - qtbase5-dev
+      - qttools5-dev
+      - qtdeclarative5-dev
 
   qt5:
       source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
@@ -198,14 +200,15 @@ parts:
         - adwaita-icon-theme
         - gnome-themes-standard
         - shared-mime-info
-        - libqt5gui5
         - libgdk-pixbuf2.0-0
+        - libqt5gui5
         - libqt5svg5
+        - libqt5help5
         - locales-all
         - libgtk2.0-0    
 apps:
   nelson:
-    command: usr/Nelson-0.6.3/bin/linux/nelson
+    command: usr/Nelson-0.6.4/bin/linux/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
