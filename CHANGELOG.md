@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## UNRELEASED
+## 0.6.4 (2022-04-24)
 
 ### Changed
 
@@ -25,6 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Dark theme detected and applied on Linux, MacOS and Windows.
 
 - [#559](http://github.com/Nelson-numerical-software/nelson/issues/559): `formattedDisplayText` function: Capture display output as string.
+
+- Better detection Qt6 or Qt5 with CMake.
 
 ### Fixed
 
