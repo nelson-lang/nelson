@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#636](http://github.com/Nelson-numerical-software/nelson/issues/636): docker image uses bullseye image.
 
+### Fixed
+
+- Dark theme detection with Gnome.
+
 ## 0.6.4 (2022-04-24)
 
 ### Changed

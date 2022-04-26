@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtWidgets/QApplication>
+#include <QtCore/QProcess>
 #if _MSC_VER
 #include <QtCore/QSettings>
 #endif
@@ -51,15 +52,22 @@ createNelsonPalette()
             "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
             QSettings::NativeFormat);
         isQtDarkMode = (settings.value("AppsUseLightTheme") == 0);
-        if (isQtDarkMode) {
-            changeToDarkTheme();
-        }
-#endif
+#else
 #ifdef __APPLE__
         QColor baseActiveColor = nelsonPalette.color(QPalette::Active, QPalette::Base);
         QColor defaultDarkColorMacos(30, 30, 30, 255);
         isQtDarkMode = baseActiveColor == defaultDarkColorMacos;
+#else
+        QProcess process;
+        process.start("gsettings get org.gnome.desktop.interface gtk-theme");
+        process.waitForFinished();
+        QString output = process.readAllStandardOutput();
+        isQtDarkMode = output.contains("dark", Qt::CaseInsensitive);
 #endif
+#endif
+        if (isQtDarkMode) {
+            changeToDarkTheme();
+        }
     }
 }
 //===================================================================================
