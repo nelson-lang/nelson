@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.X (UNRELEASED)
 
+### Added
+
+- [#572](http://github.com/Nelson-numerical-software/nelson/issues/572): `pow2`: Base 2 exponentiation.
+
 ### Changed
 
 - [#636](http://github.com/Nelson-numerical-software/nelson/issues/636): docker image uses bullseye image.
