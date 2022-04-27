@@ -22,7 +22,9 @@ Nelson::IntegerGateway::intmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval << ArrayOf::int32Constructor(std::numeric_limits<int32>::max());
     } else {
         ArrayOf param1 = argIn[0];
-        if (!param1.isRowVectorCharacterArray()) {
+        bool isSupportedInput
+            = param1.isRowVectorCharacterArray() || (param1.isStringArray() && param1.isScalar());
+        if (!isSupportedInput) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring classInt = param1.getContentAsWideString();
