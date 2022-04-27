@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <thread>
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
@@ -56,6 +57,65 @@ static std::wstring
 DetectDetachProcess(const std::wstring& command, bool& haveDetach);
 //=============================================================================
 static std::wstring
+getResult(int ierr, const boost::filesystem::path& tempOutputFile,
+  const boost::filesystem::path& tempErrorFile)
+{
+    std::string result;
+    FILE* pFile = nullptr;
+    if (ierr) {
+        int fsize = 0;
+        try {
+            fsize = (int)boost::filesystem::file_size(tempErrorFile);
+        } catch (const boost::filesystem::filesystem_error& e) {
+            if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
+            }
+            fsize = 0;
+        }
+        if (fsize == 0) {
+#ifdef _MSC_VER
+            pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
+#else
+            pFile = fopen(tempOutputFile.string().c_str(), "r");
+#endif
+        } else {
+#ifdef _MSC_VER
+            pFile = _wfopen(tempErrorFile.wstring().c_str(), L"r");
+#else
+            pFile = fopen(tempErrorFile.string().c_str(), "r");
+#endif
+        }
+    } else {
+#ifdef _MSC_VER
+        pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
+#else
+        pFile = fopen(tempOutputFile.string().c_str(), "r");
+#endif
+    }
+    if (pFile != nullptr) {
+        char buffer[4096];
+        result.reserve(4096 * 2);
+        while (fgets(buffer, sizeof(buffer), pFile)) {
+#ifdef _MSC_VER
+            std::string str = std::string(buffer);
+            boost::replace_all(str, "\r\n", "\n");
+            OemToCharA(str.c_str(), const_cast<char*>(str.c_str()));
+            result.append(str);
+#else
+            result.append(buffer);
+#endif
+        }
+        if (result.size() > 0) {
+            if (*result.rbegin() != '\n') {
+                result.append("\n");
+            }
+        }
+        fclose(pFile);
+    }
+    return utf8_to_wstring(result);
+}
+//=============================================================================
+static void
 internalSystemCommand(const std::wstring& command, const boost::filesystem::path& tempOutputFile,
     const boost::filesystem::path& tempErrorFile, int& ierr, bool withEventsLoop)
 {
@@ -101,59 +161,7 @@ internalSystemCommand(const std::wstring& command, const boost::filesystem::path
         } else {
             ierr = childProcess.exit_code();
         }
-        FILE* pFile = nullptr;
-        if (ierr) {
-            int fsize = 0;
-            try {
-                fsize = (int)boost::filesystem::file_size(tempErrorFile);
-            } catch (const boost::filesystem::filesystem_error& e) {
-                if (e.code() == boost::system::errc::permission_denied) {
-                    // ONLY FOR DEBUG
-                }
-                fsize = 0;
-            }
-            if (fsize == 0) {
-#ifdef _MSC_VER
-                pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
-#else
-                pFile = fopen(tempOutputFile.string().c_str(), "r");
-#endif
-            } else {
-#ifdef _MSC_VER
-                pFile = _wfopen(tempErrorFile.wstring().c_str(), L"r");
-#else
-                pFile = fopen(tempErrorFile.string().c_str(), "r");
-#endif
-            }
-        } else {
-#ifdef _MSC_VER
-            pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
-#else
-            pFile = fopen(tempOutputFile.string().c_str(), "r");
-#endif
-        }
-        if (pFile != nullptr) {
-            char buffer[4096];
-            result.reserve(4096 * 2);
-            while (fgets(buffer, sizeof(buffer), pFile)) {
-#ifdef _MSC_VER
-                std::string str = std::string(buffer);
-                boost::replace_all(str, "\r\n", "\n");
-                OemToCharA(str.c_str(), const_cast<char*>(str.c_str()));
-                result.append(str);
-#else
-                result.append(buffer);
-#endif
-            }
-            if (result.size() > 0) {
-                if (*result.rbegin() != '\n') {
-                    result.append("\n");
-                }
-            }
-            fclose(pFile);
-        }
     }
-    return utf8_to_wstring(result);
 }
 //=============================================================================
 std::wstring
@@ -164,8 +172,8 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
     boost::filesystem::path tempErrorFile = pwd;
     tempOutputFile /= boost::filesystem::unique_path();
     tempErrorFile /= boost::filesystem::unique_path();
-    std::wstring result
-        = internalSystemCommand(command, tempOutputFile, tempErrorFile, ierr, withEventsLoop);
+    internalSystemCommand(command, tempOutputFile, tempErrorFile, ierr, withEventsLoop);
+    std::wstring result = getResult(ierr, tempOutputFile, tempErrorFile);
     deleteFile(tempOutputFile);
     deleteFile(tempErrorFile);
     return result;
@@ -276,17 +284,21 @@ ParallelSystemCommand(const wstringVector& commands, std::vector<int>& ierrs, bo
         tempOutputFiles.push_back(tempOutputFile);
         tempErrorFiles.push_back(tempErrorFile);
     }
-    wstringVector results;
-    results.resize(nbCommands);
     ierrs.resize(nbCommands);
+
 #if defined(_NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
     for (ompIndexType k = 0; k < nbCommands; k++) {
         int ierr;
-        results[k] = internalSystemCommand(
+        internalSystemCommand(
             commands[k], tempOutputFiles[k], tempErrorFiles[k], ierr, withEventsLoop);
         ierrs[k] = ierr;
+    }
+    wstringVector results;
+    results.resize(nbCommands);
+    for (ompIndexType k = 0; k < nbCommands; k++) {
+        results[k] = getResult(ierrs[k], tempOutputFiles[k], tempErrorFiles[k]);
     }
     for (ompIndexType k = 0; k < nbCommands; k++) {
         deleteFile(tempOutputFiles[k]);

@@ -4,6 +4,96 @@ on: [push]
 
 jobs:
 
+  Monterey:
+    name: MacOS X Monterey
+    runs-on: macos-12
+    timeout-minutes: 120 
+
+    steps:
+    - name: install dependencies
+      run: |
+        brew --version
+        brew install zlib
+        brew install libtool
+        brew install automake
+        brew unlink libffi
+        brew install libffi
+        brew unlink libffi
+        brew link libffi --force
+        brew uninstall --ignore-dependencies icu4c
+        brew install icu4c
+        brew unlink icu4c
+        brew link icu4c --force
+        brew info open-mpi
+        brew install openmpi
+        brew install pkg-config
+        brew install pkgconfig
+        brew install gettext
+        brew link gettext --force
+        echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
+        source ~/.zshrc
+        brew install boost
+        brew install libxml2
+        brew upgrade cmake
+        brew install qt5
+        brew install fftw
+        brew install portaudio
+        brew install libsndfile
+        brew install taglib
+        brew install libgit2
+        brew install hdf5
+        brew install libmatio
+        brew install eigen
+        brew install libomp
+        brew install openblas
+        export BUILD_ROOT=$(pwd);
+        cd /Users/runner/work/nelson;
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Get package version 
+      uses: nyaascii/package-version@v1
+
+    - name: Update version
+      run: |
+        python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+ 
+    - name: CMake
+      run: |
+        export PATH=/usr/local/opt/qt5/bin:$PATH
+        cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SLICOT=OFF -G "Unix Makefiles" .
+    - name: make
+      run: cmake --build . -- -j $(nproc)
+    - name: get module skeleton
+      run: cmake --build . -- get_module_skeleton
+    - name: build help
+      run: |
+        cmake --build . -- buildhelp
+    - name: minimal tests
+      run: |
+        export OMP_NUM_THREADS=1
+        cmake --build . -- tests_minimal
+    - name: package
+      run: cmake --build . -- package
+    - name: Install
+      run: sudo make install
+    - name: all benchs
+      run: |
+        export OMP_NUM_THREADS=1
+        cmake --build . -- benchs_all
+    - name: all tests
+      run: |
+        export OMP_NUM_THREADS=1
+        cmake --build . -- tests_all
+    - name: Copy artifacts
+      run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: nelson-github-action-artifacts-macOS-BigSur-amd64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
+        path: artifacts/
+
   BigSur:
     name: MacOS X BigSur
     runs-on: macos-11
@@ -67,20 +157,20 @@ jobs:
     - name: make
       run: cmake --build . -- -j $(nproc)
     - name: get module skeleton
-      run: cmake --build . -- -j $(nproc) get_module_skeleton
+      run: cmake --build . -- get_module_skeleton
     - name: build help
       run: |
-        cmake --build . -- -j $(nproc) buildhelp
+        cmake --build . -- buildhelp
     - name: minimal tests
-      run: cmake --build . -- -j $(nproc) tests_minimal
+      run: cmake --build . -- tests_minimal
     - name: package
-      run: cmake --build . -- -j $(nproc) package
+      run: cmake --build . -- package
     - name: Install
       run: sudo make install
     - name: all benchs
-      run: cmake --build . -- -j $(nproc) benchs_all
+      run: cmake --build . -- benchs_all
     - name: all tests
-      run: cmake --build . -- -j $(nproc) tests_all
+      run: cmake --build . -- tests_all
     - name: Copy artifacts
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1
@@ -151,20 +241,20 @@ jobs:
     - name: make
       run: cmake --build . -- -j $(nproc) -j4
     - name: get module skeleton
-      run: cmake --build . -- -j $(nproc) get_module_skeleton
+      run: cmake --build . -- get_module_skeleton
     - name: build help
       run: |
         make buildhelp
     - name: minimal tests
-      run: cmake --build . -- -j $(nproc) tests_minimal
+      run: cmake --build . -- tests_minimal
     - name: package
-      run: cmake --build . -- -j $(nproc) package
+      run: cmake --build . -- package
     - name: Install
       run: sudo make install      
     - name: all benchs
-      run: cmake --build . -- -j $(nproc) benchs_all
+      run: cmake --build . -- benchs_all
     - name: all tests
-      run: cmake --build . -- -j $(nproc) tests_all
+      run: cmake --build . -- tests_all
     - name: Copy artifacts
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1
@@ -264,13 +354,13 @@ jobs:
     - name: make with Ninja
       run: cmake --build . -- -j $(nproc)
     - name: get module skeleton
-      run: cmake --build . -- -j $(nproc) get_module_skeleton
+      run: cmake --build . -- get_module_skeleton
     - name: build help
-      run: cmake --build . -- -j $(nproc) buildhelp
+      run: cmake --build . -- buildhelp
     - name: minimal tests
-      run: cmake --build . -- -j $(nproc) tests_minimal
+      run: cmake --build . -- tests_minimal
     - name: package
-      run: cmake --build . -- -j $(nproc) package
+      run: cmake --build . -- package
     - name: Install
       run: sudo ninja install      
     - name: all benchs
@@ -359,13 +449,13 @@ jobs:
     - name: make with CMake
       run: cmake --build . -- -j $(nproc)
     - name: build help
-      run: cmake --build . -- -j $(nproc) buildhelp
+      run: cmake --build . -- buildhelp
     - name: minimal tests
-      run: cmake --build . -- -j $(nproc) tests_minimal
+      run: cmake --build . -- tests_minimal
     - name: package
-      run: cmake --build . -- -j $(nproc) package
+      run: cmake --build . -- package
     - name: Install
-      run: sudo cmake --build . -- -j $(nproc) install      
+      run: sudo cmake --build . -- install      
     - name: all benchs
       run: xvfb-run -a make benchs_all
     - name: all tests
@@ -434,19 +524,19 @@ jobs:
       - name: Make
         run: cmake --build . -- -j $(nproc)
       - name: Download module skeleton
-        run: cmake --build . -- -j $(nproc) get_module_skeleton
+        run: cmake --build . -- get_module_skeleton
       - name: Build help
-        run: cmake --build . -- -j $(nproc) buildhelp
+        run: cmake --build . -- buildhelp
       - name: Minimal tests
-        run: cmake --build . -- -j $(nproc) tests_minimal
+        run: cmake --build . -- tests_minimal
       - name: Make package
-        run: cmake --build . -- -j $(nproc) package
+        run: cmake --build . -- package
       - name: Install
-        run: sudo cmake --build . -- -j $(nproc) install          
+        run: sudo cmake --build . -- install          
       - name: Benchs
-        run: cmake --build . -- -j $(nproc) benchs_all_no_display
+        run: cmake --build . -- benchs_all_no_display
       - name: Tests
-        run: cmake --build . -- -j $(nproc) tests_all_no_display
+        run: cmake --build . -- tests_all_no_display
   
   Fedora:
     runs-on: ubuntu-latest
@@ -508,20 +598,20 @@ jobs:
       - name: Make
         run: cmake --build . -- -j $(nproc)
       - name: Download module skeleton
-        run: cmake --build . -- -j $(nproc) get_module_skeleton
+        run: cmake --build . -- get_module_skeleton
       - name: Build help
-        run: cmake --build . -- -j $(nproc) buildhelp
+        run: cmake --build . -- buildhelp
       - name: Minimal tests
         run: |
-          cmake --build . -- -j $(nproc) tests_minimal
+          cmake --build . -- tests_minimal
       - name: Make package
-        run: cmake --build . -- -j $(nproc) package
+        run: cmake --build . -- package
       - name: Install
-        run: sudo cmake --build . -- -j $(nproc) install          
+        run: sudo cmake --build . -- install          
       - name: Benchs
-        run: cmake --build . -- -j $(nproc) benchs_all_no_display
+        run: cmake --build . -- benchs_all_no_display
       - name: Tests
-        run: cmake --build . -- -j $(nproc) tests_all_no_display
+        run: cmake --build . -- tests_all_no_display
 
   Windows_win32:
     name: Windows 32 bits
@@ -770,4 +860,3 @@ jobs:
       with:
         name: nelson-github-action-artifacts-windows-amd64-${{ env.PACKAGE_VERSION }}.${{ github.run_number }}
         path: artifacts/
-
