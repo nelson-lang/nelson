@@ -81,7 +81,6 @@ jobs:
       run: sudo make install
     - name: all benchs
       run: |
-        export OMP_NUM_THREADS=1
         cmake --build . -- benchs_all
     - name: all tests
       run: |

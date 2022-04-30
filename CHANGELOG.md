@@ -10,9 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#572](http://github.com/Nelson-numerical-software/nelson/issues/572): `pow2`: Base 2 exponentiation.
 
+- MacOs 12 Monterey Github CI.
+
 ### Changed
 
 - [#636](http://github.com/Nelson-numerical-software/nelson/issues/636): docker image uses bullseye image.
+
+- `system` builtin: multithread rework.
 
 ### Fixed
 

@@ -320,3 +320,11 @@ A typeface designed for source code
 > <https://qss-stock.devsecstudio.com/templates/components/components2/combinear/Combinear.rar>
 
 > MIT license
+
+- thread-pool
+
+A C++17 Thread Pool for High-Performance Scientific Computing
+
+> <https://github.com/bshoshany/thread-pool>
+
+> <https://github.com/bshoshany/thread-pool/blob/master/LICENSE.txt> MIT license
