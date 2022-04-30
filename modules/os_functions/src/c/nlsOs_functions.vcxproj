@@ -196,6 +196,7 @@
     <ClInclude Include="..\include\CreateGUID.hpp" />
     <ClInclude Include="..\include\GetHostname.hpp" />
     <ClInclude Include="..\include\GetUsername.hpp" />
+    <ClInclude Include="..\include\thread_pool.hpp" />
     <ClInclude Include="..\include\WindowsQueryRegistry.hpp" />
     <ClInclude Include="..\include\WinOpen.hpp" />
   </ItemGroup>

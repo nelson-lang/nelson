@@ -80,9 +80,17 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"]'-parallel')]]>
+    <example_item_data><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"], '-parallel')]]>
     </example_item_data>
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[tic();[s,w] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"], '-parallel'), toc()]]>
+    </example_item_data>
+  </example_item>
+
 
   <example_item>
     <example_item_type>nelson</example_item_type>

@@ -77,9 +77,8 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
     std::wstring command
         = boost::process::search_path(executable_name).generic_wstring() + L" " + arguments + L" &";
 #endif
-    int res = 0;
-    Nelson::SystemCommand(command, res, false);
-    if (res == -1) {
+    std::pair<int, std::wstring> res = Nelson::SystemCommand(command, false);
+    if (res.first == -1) {
         child = nullptr;
     } else {
         int l = 0;
