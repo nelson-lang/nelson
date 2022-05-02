@@ -635,7 +635,12 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
             }
         } break;
         default: {
-            Error(ERROR_UNRECOGNIZED_EXPRESSION);
+            std::wstring msg;
+            msg = ERROR_UNRECOGNIZED_EXPRESSION + L"\ncode: " + std::to_wstring(t->type);
+            if (!t->text.empty()) {
+                msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
+            }
+            Error(msg);
         } break;
         }
         if (ticProfiling != 0 && !operatorName.empty()) {
