@@ -19,8 +19,10 @@ assert_istrue(iscell(lfs));
 for lf = lfs'
   c = lookandfeel(lf{1});
 end
-r = lookandfeel(currentlf);
-assert_istrue(ischar(r));
+if ~isempty(currentlf)
+  r = lookandfeel(currentlf);
+  assert_istrue(ischar(r));
+end
 %=============================================================================
 currentstylesheet = lookandfeel('stylesheet');
 assert_istrue(ischar(currentstylesheet));
