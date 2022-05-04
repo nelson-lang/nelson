@@ -22,7 +22,7 @@ audiowrite(dest_file, Y_REF, FS_REF)
 assert_isapprox(y, Y_REF, 1e-4);
 %=============================================================================
 formats = audiosupportedformats();
-unsupported_extensions = {'.htk', '.iff', '.oga', '.sds', '.wve', '.xi', '.raw', '.sd2'};
+unsupported_extensions = {'.htk', '.iff', '.sds', '.wve', '.xi', '.raw', '.sd2', '.m1a', '.oga'};
 for f = formats(:)'
   if ~any(strcmp(f.Extension, unsupported_extensions))
     dest_file = [dest_path, '/test_audiowrite_1', f.Extension];

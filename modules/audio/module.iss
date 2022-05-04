@@ -12,13 +12,6 @@
 Source: {#RootPath}bin\{#BinPath}\portaudio.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\sndfile.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\tag.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\FLAC.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\FLAC++.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\ogg.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\opus.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\vorbis.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\vorbisenc.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\vorbisfile.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
@@ -32,6 +25,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.wav; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.flac; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.ogg; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.mp3; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs

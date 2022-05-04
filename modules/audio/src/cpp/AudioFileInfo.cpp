@@ -9,14 +9,13 @@
 //=============================================================================
 #ifdef _MSC_VER
 #include <Windows.h>
-#define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
 #endif
-#include "AudioFileInfo.hpp"
-#include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <fileref.h>
 #include <sndfile.h>
 #include <tag.h>
+#include "AudioFileInfo.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#572](http://github.com/Nelson-numerical-software/nelson/issues/572): `pow2`: Base 2 exponentiation.
 
+- `audioread`, `audiowrite` supports new file formats `.mp3`, `.flac`, `.caf` (Thanks to libsndfile).
+
 - MacOs 12 Monterey Github CI.
 
 ### Changed
@@ -17,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#636](http://github.com/Nelson-numerical-software/nelson/issues/636): docker image uses bullseye image.
 
 - `system` builtin: multithread rework.
+
+- [#633](http://github.com/Nelson-numerical-software/nelson/issues/633): libsndfile 1.1.0 used.
 
 ### Fixed
 
