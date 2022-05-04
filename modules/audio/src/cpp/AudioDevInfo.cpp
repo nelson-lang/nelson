@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <portaudio.h>
 #include "AudioDevInfo.hpp"
 #include "characters_encoding.hpp"
-#include <portaudio.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

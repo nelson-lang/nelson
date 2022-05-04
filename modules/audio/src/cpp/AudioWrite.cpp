@@ -9,35 +9,96 @@
 //=============================================================================
 #ifdef _MSC_VER
 #include <Windows.h>
-#define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
 #endif
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <sndfile.h>
+#include <map>
 #include "AudioWrite.hpp"
 #include "ComplexTranspose.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <sndfile.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static bool
 extensionToFormat(const std::wstring& extension, int& format)
 {
-    int countFormat = 0;
-    std::wstring EXT = boost::to_upper_copy(extension);
-    sf_command(nullptr, SFC_GET_FORMAT_MAJOR_COUNT, &countFormat, sizeof(int));
-    for (int i = 0; i < countFormat; i++) {
-        SF_FORMAT_INFO info;
-        info.format = i;
-        sf_command(nullptr, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
-        std::wstring ext = L"." + utf8_to_wstring(info.extension);
-        boost::to_upper(ext);
-        if (ext == EXT) {
-            format = info.format;
-            return true;
+#define SF_FORMAT_MPEG_LAYER_III 0x0082
+#define SF_FORMAT_MPEG 0x230000
+#define SF_FORMAT_OPUS 0x0064
+
+    static bool tableFormatInitialized = false;
+    static std::map<std::wstring, int> tableFormat;
+    if (!tableFormatInitialized) {
+        int majorCount = 0;
+        sf_command(NULL, SFC_GET_FORMAT_MAJOR_COUNT, &majorCount, sizeof(int));
+        bool haveOgg = false;
+        bool haveFlac = false;
+        bool haveMpg = false;
+        bool haveCaf = false;
+        for (int m = 0; m < majorCount; m++) {
+            SF_FORMAT_INFO info;
+            info.format = m;
+            sf_command(NULL, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
+            haveFlac = info.format == SF_FORMAT_FLAC ? true : haveFlac;
+            haveOgg = info.format == SF_FORMAT_OGG ? true : haveOgg;
+            haveMpg = info.format == SF_FORMAT_MPEG ? true : haveMpg;
+            haveCaf = info.format == SF_FORMAT_CAF ? true : haveCaf;
+        };
+
+        tableFormat[L".wav"] = SF_FORMAT_WAV;
+        tableFormat[L".aiff"] = SF_FORMAT_AIFF;
+        tableFormat[L".au"] = SF_FORMAT_AU;
+        tableFormat[L".raw"] = SF_FORMAT_RAW;
+        tableFormat[L".paf"] = SF_FORMAT_PAF;
+        tableFormat[L".pvf"] = SF_FORMAT_PVF;
+        tableFormat[L".svx"] = SF_FORMAT_SVX;
+        tableFormat[L".iff"] = SF_FORMAT_SVX;
+        tableFormat[L".nist"] = SF_FORMAT_NIST;
+        tableFormat[L".voc"] = SF_FORMAT_VOC;
+        tableFormat[L".ircam"] = SF_FORMAT_IRCAM;
+        tableFormat[L".sf"] = SF_FORMAT_IRCAM;
+        tableFormat[L".w64"] = SF_FORMAT_W64;
+        tableFormat[L".mat4"] = SF_FORMAT_MAT4;
+        tableFormat[L".mat5"] = SF_FORMAT_MAT5;
+        tableFormat[L".htk"] = SF_FORMAT_HTK;
+        tableFormat[L".sds"] = SF_FORMAT_SDS;
+        tableFormat[L".avr"] = SF_FORMAT_AVR;
+        tableFormat[L".wavex"] = SF_FORMAT_WAVEX;
+        tableFormat[L".sd2"] = SF_FORMAT_SD2;
+        if (haveFlac) {
+            tableFormat[L".flac"] = SF_FORMAT_FLAC;
         }
+        if (haveCaf) {
+            tableFormat[L".caf"] = SF_FORMAT_CAF;
+        }
+        tableFormat[L".wve"] = SF_FORMAT_WVE;
+        if (haveOgg) {
+            tableFormat[L".ogg"] = SF_FORMAT_OGG | (SF_FORMAT_VORBIS & SF_FORMAT_SUBMASK);
+            tableFormat[L".oga"] = SF_FORMAT_OGG | (SF_FORMAT_VORBIS & SF_FORMAT_SUBMASK);
+        }
+        tableFormat[L".mpc2k"] = SF_FORMAT_MPC2K;
+        tableFormat[L".rf64"] = SF_FORMAT_RF64;
+        tableFormat[L".opus"] = SF_FORMAT_OGG | SF_FORMAT_OPUS;
+        if (haveMpg) {
+            tableFormat[L".mp3"] = SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III;
+        }
+        tableFormat[L".vox"] = SF_FORMAT_RAW | SF_FORMAT_VOX_ADPCM;
+        tableFormat[L".aifc"] = SF_FORMAT_AIFF | SF_FORMAT_FLOAT;
+        tableFormat[L".mpc"] = SF_FORMAT_MPC2K;
+        tableFormat[L".xi"] = SF_FORMAT_XI;
+        tableFormat[L".mat"] = SF_FORMAT_MAT5;
+        tableFormat[L".mat4"] = SF_FORMAT_MAT4;
+
+        tableFormatInitialized = true;
+    }
+    std::wstring EXT = boost::to_lower_copy(extension);
+    std::map<std::wstring, int>::const_iterator it = tableFormat.find(EXT);
+    if (it != tableFormat.end()) {
+        format = it->second;
+        return true;
     }
     return false;
 }
@@ -45,28 +106,49 @@ extensionToFormat(const std::wstring& extension, int& format)
 static bool
 convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
 {
-    sfinfo.format &= ~SF_FORMAT_SUBMASK;
-    if (BitsPerSample == 8) {
-        if ((sfinfo.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_WAV) {
-            sfinfo.format |= SF_FORMAT_PCM_U8;
+    if ((sfinfo.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_CAF) {
+        if (BitsPerSample == 16) {
+            sfinfo.format |= SF_FORMAT_ALAC_16;
             return true;
         }
-        sfinfo.format |= SF_FORMAT_PCM_S8;
+        if (BitsPerSample == 20) {
+            sfinfo.format |= SF_FORMAT_ALAC_20;
+            return true;
+        }
+        if (BitsPerSample == 24) {
+            sfinfo.format |= SF_FORMAT_ALAC_24;
+            return true;
+        }
+        if (BitsPerSample == 32) {
+            sfinfo.format |= SF_FORMAT_ALAC_32;
+            return true;
+        }
+        return false;
+    }
+    bool supported
+        = (BitsPerSample == 8 || BitsPerSample == 16 || BitsPerSample == 24 || BitsPerSample == 32);
+    if (!supported) {
+        return false;
+    }
+    if ((sfinfo.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_OGG) {
         return true;
+    }
+    if ((sfinfo.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_MPEG) {
+        return true;
+    }
+    if (BitsPerSample == 8) {
+        sfinfo.format |= SF_FORMAT_PCM_U8;
     }
     if (BitsPerSample == 16) {
         sfinfo.format |= SF_FORMAT_PCM_16;
-        return true;
     }
     if (BitsPerSample == 24) {
         sfinfo.format |= SF_FORMAT_PCM_24;
-        return true;
     }
     if (BitsPerSample == 32) {
         sfinfo.format |= SF_FORMAT_PCM_32;
-        return true;
     }
-    return false;
+    return true;
 }
 //=============================================================================
 static bool
@@ -125,6 +207,10 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
         sfinfo.samplerate = fs;
         if (!convertBitsPerSample(sfinfo, BitsPerSample)) {
             errorMessage = _W("Invalid BitsPerSample value.");
+            return false;
+        }
+        if (!sf_format_check(&sfinfo)) {
+            errorMessage = _W("Invalid parameters values.");
             return false;
         }
         SNDFILE* file = nullptr;
@@ -288,7 +374,9 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
             } while (writecount > 0 && total < rows);
             delete[] buffer;
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
         // metadata works only for wav
         std::string title = wstring_to_utf8(metadata[0]);
         sf_set_string(file, SF_STR_TITLE, title.c_str());
@@ -305,3 +393,4 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
 }
 //=============================================================================
 } // namespace Nelson
+//=============================================================================

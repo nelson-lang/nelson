@@ -10,9 +10,9 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include "Beep.hpp"
 #include <iostream>
 #include <cstdio>
+#include "Beep.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

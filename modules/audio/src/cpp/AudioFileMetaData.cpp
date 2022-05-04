@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fileref.h>
+#include <tag.h>
+#include <tpropertymap.h>
 #include "AudioFileMetaData.hpp"
 #include "MakeValidFieldname.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
-#include <fileref.h>
-#include <tag.h>
-#include <tpropertymap.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
