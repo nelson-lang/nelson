@@ -3818,16 +3818,16 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
     return rv;
 }
 //=============================================================================
-Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
+Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLoop)
 {
     Exception e;
     lastErrorException = e;
     lastWarningException = e;
-    engineMode = _engineMode;
     bAllowOverload = true;
     context = aContext;
     resetState();
     depth = 0;
+    _haveEventsLoop = haveEventsLoop;
     io = aInterface;
     autostop = true;
     InCLI = false;
@@ -4214,13 +4214,7 @@ Evaluator::evalCLI()
 bool
 Evaluator::haveEventsLoop()
 {
-    return ((this->engineMode != BASIC_ENGINE) && (this->engineMode != BASIC_TERMINAL));
-}
-//=============================================================================
-int
-Evaluator::getNelsonEngineMode()
-{
-    return this->engineMode;
+    return this->_haveEventsLoop;
 }
 //=============================================================================
 void

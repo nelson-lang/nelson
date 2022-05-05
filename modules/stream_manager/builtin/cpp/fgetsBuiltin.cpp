@@ -12,11 +12,12 @@
 #include "File.hpp"
 #include "FileGetLine.hpp"
 #include "FilesManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fgetsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::fgetsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
@@ -35,7 +36,7 @@ Nelson::StreamGateway::fgetsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
-        auto* fm = static_cast<FilesManager*>(eval->FileManager);
+        auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
             Error(_W("Problem with file manager."));
         }

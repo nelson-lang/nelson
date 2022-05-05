@@ -12,16 +12,17 @@
 #include "File.hpp"
 #include "FileRewind.hpp"
 #include "FilesManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::frewindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::frewindBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }

@@ -18,18 +18,19 @@
 #include "Interface.hpp"
 #include "characters_encoding.hpp"
 #include "FscanFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fscanfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 2);
     ArrayOf param1 = argIn[0];
     double dID = param1.getContentAsDoubleScalar();
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));

@@ -11,7 +11,8 @@ set(module_name nelson_manager)
 set(module_library_name nlsNelson_manager)
 # ==============================================================================
 include_directories(${Boost_INCLUDE_DIRS}
-                    ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+                    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
 file(GLOB CORE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================

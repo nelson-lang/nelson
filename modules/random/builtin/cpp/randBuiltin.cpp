@@ -15,13 +15,13 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::RandomGateway::randBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     NelsonType cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
-        retval << Rand(eval, cl);
+        retval << Rand(cl);
     } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
@@ -63,7 +63,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             }
         }
         if (nRhs == 0) {
-            retval << Rand(eval, cl);
+            retval << Rand(cl);
             return retval;
         }
         Dimensions dims;
@@ -108,7 +108,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 dims[1] = dims[0];
             }
         }
-        retval << Rand(eval, dims, cl);
+        retval << Rand(dims, cl);
     }
     return retval;
 }

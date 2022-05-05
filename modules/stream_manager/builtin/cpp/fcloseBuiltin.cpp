@@ -11,14 +11,15 @@
 #include "Error.hpp"
 #include "FileClose.hpp"
 #include "FilesManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
@@ -47,8 +48,11 @@ Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 nfm = nullptr;
             }
             if (nfm) {
-                delete fm;
-                eval->FileManager = (void*)nfm;
+                if (fm) {
+                    delete fm;
+                    fm = nullptr;
+                }
+                NelsonConfiguration::getInstance()->setFileManager((void*)nfm);
             } else {
                 Error(_W("Cannot close files."));
             }

@@ -13,6 +13,7 @@
 #include "FileRead.hpp"
 #include "FilesManager.hpp"
 #include "helpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +27,7 @@ using namespace Nelson;
 // fread(fd, sz) --> fread(fd, sz, 'double')
 //=============================================================================
 static ArrayOfVector
-freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsLittleEndian = true;
     size_t skipSize = 0;
@@ -101,7 +102,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 isize = static_cast<int64>(dsize);
             }
         }
-        auto* fm = static_cast<FilesManager*>(eval->FileManager);
+        auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm == nullptr) {
             Error(_W("Problem with file manager."));
@@ -154,7 +155,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 static ArrayOfVector
-freadBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+freadBuiltinFourRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -173,11 +174,11 @@ freadBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(param3);
     modifiedArgIn.push_back(param4);
     modifiedArgIn.push_back(param5);
-    return freadBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
+    return freadBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 static ArrayOfVector
-freadBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+freadBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -199,11 +200,11 @@ freadBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(param3);
     modifiedArgIn.push_back(param4);
     modifiedArgIn.push_back(param5);
-    return freadBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
+    return freadBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 static ArrayOfVector
-freadBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+freadBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -222,22 +223,22 @@ freadBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(param3);
     modifiedArgIn.push_back(param4);
     modifiedArgIn.push_back(param5);
-    return freadBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
+    return freadBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::freadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 2);
     switch (argIn.size()) {
     case 2:
-        return freadBuiltinTwoRhs(eval, nLhs, argIn);
+        return freadBuiltinTwoRhs(nLhs, argIn);
     case 3:
-        return freadBuiltinThreeRhs(eval, nLhs, argIn);
+        return freadBuiltinThreeRhs(nLhs, argIn);
     case 4:
-        return freadBuiltinFourRhs(eval, nLhs, argIn);
+        return freadBuiltinFourRhs(nLhs, argIn);
     case 5:
-        return freadBuiltinFiveRhs(eval, nLhs, argIn);
+        return freadBuiltinFiveRhs(nLhs, argIn);
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;

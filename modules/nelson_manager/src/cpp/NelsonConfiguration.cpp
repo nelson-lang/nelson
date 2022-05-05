@@ -9,6 +9,7 @@
 //=============================================================================
 #include <new>
 #include "NelsonConfiguration.hpp"
+#include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,6 +23,11 @@ NelsonConfiguration::NelsonConfiguration()
     modulesProtected = false;
     nelsonRootPath = L"";
     ipcEnabled = false;
+    mainGuiObject = nullptr;
+    FileManager = nullptr;
+    RandomEngine = nullptr;
+    HistoryManager = nullptr;
+    engineMode = 0;
 }
 //=============================================================================
 NelsonConfiguration*
@@ -116,6 +122,72 @@ std::wstring
 NelsonConfiguration::getNelsonRootDirectory()
 {
     return nelsonRootPath;
+}
+//=============================================================================
+void
+NelsonConfiguration::setMainGuiObject(void* mainGuiObject)
+{
+    this->mainGuiObject = mainGuiObject;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getMainGuiObject()
+{
+    return this->mainGuiObject;
+}
+//=============================================================================
+void
+NelsonConfiguration::setFileManager(void* filemanager)
+{
+    this->FileManager = filemanager;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getFileManager()
+{
+    return this->FileManager;
+}
+//=============================================================================
+void
+NelsonConfiguration::setRandomEngine(void* randomEngine)
+{
+    this->RandomEngine = randomEngine;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getRandomEngine()
+{
+    return this->RandomEngine;
+}
+//=============================================================================
+void
+NelsonConfiguration::setHistoryManager(void* historyManager)
+{
+    this->HistoryManager = historyManager;
+}
+//=============================================================================
+void*
+NelsonConfiguration::getHistoryManager()
+{
+    return this->HistoryManager;
+}
+//=============================================================================
+int
+NelsonConfiguration::getNelsonEngineMode()
+{
+    return this->engineMode;
+}
+//=============================================================================
+void
+NelsonConfiguration::setNelsonEngineMode(int nelsonMode)
+{
+    this->engineMode = nelsonMode;
+}
+//=============================================================================
+bool
+NelsonConfiguration::haveEventsLoop()
+{
+    return ((this->engineMode != BASIC_ENGINE) && (this->engineMode != BASIC_TERMINAL));
 }
 //=============================================================================
 } // namespace Nelson

@@ -12,11 +12,12 @@
 #include "File.hpp"
 #include "FileSeek.hpp"
 #include "FilesManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 3, 3);
     nargoutcheck(nLhs, 0, 1);
@@ -50,7 +51,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         }
     }
     auto iOffset = static_cast<int64>(param2.getContentAsDoubleScalar());
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }

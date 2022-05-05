@@ -12,17 +12,18 @@
 #include "HistoryManager.hpp"
 #include "IsCellOfStrings.hpp"
 #include "ToCellString.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
-historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+historyBuiltin_size_one_rhs(
+    Evaluator* eval, HistoryManager* ptrHistoryManager, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring str = arg1.getContentAsWideString();
-        auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         if (str == L"size") {
             retval << ArrayOf::doubleConstructor(
                 static_cast<double>(ptrHistoryManager->getLastNCommandsSize()));
@@ -82,10 +83,10 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
 }
 //=============================================================================
 static ArrayOfVector
-historyBuiltin_no_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+historyBuiltin_no_rhs(
+    Evaluator* eval, HistoryManager* ptrHistoryManager, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
     wstringVector res = ptrHistoryManager->get();
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
@@ -101,14 +102,13 @@ historyBuiltin_no_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 static ArrayOfVector
-historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring str = arg1.getContentAsWideString();
-        auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         if (str == L"size") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
@@ -198,7 +198,6 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring str = arg2.getContentAsWideString();
-                auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
                 ptrHistoryManager->appendLine(str);
             } else if (IsCellOfString(arg2)) {
                 ArrayOf cell(arg2);
@@ -346,19 +345,21 @@ ArrayOfVector
 Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (eval->HistoryManager == nullptr) {
+    auto* ptrHistoryManager
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
+    if (ptrHistoryManager == nullptr) {
         Error(_W("History manager not enabled."));
     }
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
-        return historyBuiltin_no_rhs(eval, nLhs, argIn);
+        return historyBuiltin_no_rhs(eval, ptrHistoryManager, nLhs, argIn);
     } break;
     case 1: {
-        return historyBuiltin_size_one_rhs(eval, nLhs, argIn);
+        return historyBuiltin_size_one_rhs(eval, ptrHistoryManager, nLhs, argIn);
     } break;
     case 2: {
-        return historyBuiltin_two_rhs(eval, nLhs, argIn);
+        return historyBuiltin_two_rhs(ptrHistoryManager, nLhs, argIn);
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

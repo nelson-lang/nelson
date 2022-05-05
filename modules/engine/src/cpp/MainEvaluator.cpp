@@ -26,6 +26,7 @@
 #include "ModulesManager.hpp"
 #include "PathFuncManager.hpp"
 #include "i18n.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +44,8 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
             context = nullptr;
         }
         std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
+        NelsonConfiguration::getInstance()->setMainGuiObject(nullptr);
+
         if (context != nullptr) {
             std::string msg = _("This mode is not yet implemented.\n");
             switch (_mode) {
@@ -64,8 +67,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                     nlsTerm = nullptr;
                 }
                 if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, _mode);
-                    mainEvaluator->mainGuiObject = nullptr;
+                    mainEvaluator = new Evaluator(context, nlsTerm, false);
                 }
             } break;
             case BASIC_TERMINAL: {
@@ -76,8 +78,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                     nlsTerm = nullptr;
                 }
                 if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, _mode);
-                    mainEvaluator->mainGuiObject = nullptr;
+                    mainEvaluator = new Evaluator(context, nlsTerm, false);
                 }
             } break;
             case ADVANCED_TERMINAL: {
@@ -98,7 +99,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 }
 #endif
                 if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, _mode);
+                    mainEvaluator = new Evaluator(context, nlsTerm, true);
                 }
             } break;
             case GUI: {
@@ -140,7 +141,7 @@ destroyMainEvaluator()
         PathFuncManager::getInstance()->destroy();
         Interface* io = mainEvaluator->getInterface();
         if (io != nullptr) {
-            int engineMode = mainEvaluator->getNelsonEngineMode();
+            int engineMode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
             switch (engineMode) {
             case ADVANCED_SIO_CLIENT:
             case BASIC_SIO_CLIENT:

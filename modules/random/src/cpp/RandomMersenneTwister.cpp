@@ -9,12 +9,12 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
-#include "RandomMersenneTwister.hpp"
 #include <boost/random/seed_seq.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "RandomMersenneTwister.hpp"
 //=============================================================================
 #define MAGIC_SEED 5489
 //=============================================================================

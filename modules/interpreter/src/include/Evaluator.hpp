@@ -47,8 +47,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     bool bAllowOverload;
 
-    int engineMode;
-
     /**
      * The context that the intepreter operates in.
      */
@@ -112,16 +110,8 @@ public:
 
     bool isReadyToUse = false;
 
-    void* mainGuiObject = nullptr;
-
-    void* FileManager = nullptr;
-
-    void* RandomEngine = nullptr;
-
-    void* HistoryManager = nullptr;
-
     CallStack callstack;
-    // std::vector<StackEntry> cstack;
+
     void
     setCLI(bool bCLI);
     bool
@@ -166,7 +156,7 @@ public:
      * Construct a Evaluator object with the given context to operate
      * in.
      */
-    Evaluator(Context* aContext, Interface* aInterface, int engineMode);
+    Evaluator(Context* aContext, Interface* aInterface, bool haveEventLoop);
     /**
      * Destruct the Evaluator object.
      */
@@ -658,8 +648,6 @@ public:
     void
     decreaseDebugDepth();
 
-    int
-    getNelsonEngineMode();
     bool
     haveEventsLoop();
 
@@ -873,6 +861,8 @@ private:
 
     bool
     needToOverloadOperator(const ArrayOf& a);
+
+    bool _haveEventsLoop;
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

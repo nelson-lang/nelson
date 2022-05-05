@@ -9,27 +9,20 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include "NelsonHistory.hpp"
-#include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include <boost/algorithm/string/replace.hpp>
 #include "HistoryManager.hpp"
+#include "NelsonHistory.hpp"
 #include "NelsonHistory.h"
 #include "characters_encoding.hpp"
-#include <boost/algorithm/string/replace.hpp>
+#include "NelsonConfiguration.hpp"
 //=============================================================================
-Nelson::Evaluator* mainEvaluator = nullptr;
 static char* _line = nullptr;
 //=============================================================================
 bool
 Nelson::History::addLine(const std::wstring& line)
 {
-    if (mainEvaluator == nullptr) {
-        mainEvaluator = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    }
-    if (mainEvaluator == nullptr) {
-        return false;
-    }
-    auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
+    auto* hist
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (hist != nullptr) {
         std::wstring mline;
         mline.assign(line);
@@ -42,13 +35,8 @@ Nelson::History::addLine(const std::wstring& line)
 bool
 Nelson::History::setToken(const std::wstring& line)
 {
-    if (mainEvaluator == nullptr) {
-        mainEvaluator = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    }
-    if (mainEvaluator == nullptr) {
-        return false;
-    }
-    auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
+    auto* hist
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (hist != nullptr) {
         return hist->setToken(line);
     }
@@ -58,13 +46,8 @@ Nelson::History::setToken(const std::wstring& line)
 std::wstring
 Nelson::History::getNextLine()
 {
-    if (mainEvaluator == nullptr) {
-        mainEvaluator = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    }
-    if (mainEvaluator == nullptr) {
-        return L"";
-    }
-    auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
+    auto* hist
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (hist != nullptr) {
         return hist->getNextLine();
     }
@@ -74,13 +57,8 @@ Nelson::History::getNextLine()
 std::wstring
 Nelson::History::getPreviousLine()
 {
-    if (mainEvaluator == nullptr) {
-        mainEvaluator = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    }
-    if (mainEvaluator == nullptr) {
-        return L"";
-    }
-    auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
+    auto* hist
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (hist != nullptr) {
         return hist->getPreviousLine();
     }

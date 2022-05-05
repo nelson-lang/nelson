@@ -58,7 +58,7 @@ internalSystemCommand(const std::wstring& command)
     boost::filesystem::path tempErrorFile = pwd;
     tempOutputFile /= boost::filesystem::unique_path();
     tempErrorFile /= boost::filesystem::unique_path();
- 
+
     std::pair<int, std::wstring> result;
     bool mustDetach = false;
     std::wstring _command = DetectDetachProcess(command, mustDetach);
@@ -108,7 +108,7 @@ internalSystemCommand(const std::wstring& command)
     }
     deleteFile(tempOutputFile);
     deleteFile(tempErrorFile);
- 
+
     result.first = ierr;
     result.second = outputResult;
     return result;
@@ -223,8 +223,7 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
     for (ompIndexType k = 0; k < nbCommands; k++) {
-        systemThreads[k] = pool.submit(
-            internalSystemCommand, commands[k]);
+        systemThreads[k] = pool.submit(internalSystemCommand, commands[k]);
     }
     if (withEventsLoop) {
         bool running = false;

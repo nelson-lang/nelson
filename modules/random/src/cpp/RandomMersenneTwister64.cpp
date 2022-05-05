@@ -12,13 +12,14 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include "RandomMersenneTwister64.hpp"
 #include <boost/random/seed_seq.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "RandomMersenneTwister64.hpp"
 //=============================================================================
 #define MAGIC_SEED 5489
+//=============================================================================
 namespace Nelson {
 //=============================================================================
 RandomMersenneTwister64::RandomMersenneTwister64()

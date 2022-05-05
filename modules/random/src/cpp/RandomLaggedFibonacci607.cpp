@@ -9,10 +9,10 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
-#include "RandomLaggedFibonacci607.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "RandomLaggedFibonacci607.hpp"
 //=============================================================================
 namespace Nelson {
 RandomLaggedFibonacci607::RandomLaggedFibonacci607()

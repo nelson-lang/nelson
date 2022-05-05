@@ -226,8 +226,12 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         io->errorMessage(e.getMessage());
     }
     eval->isReadyToUse = true;
-    OpenFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToOpen, false);
-    LoadFilesAssociated((NELSON_ENGINE_MODE)eval->getNelsonEngineMode(), filesToLoad, false);
+    OpenFilesAssociated(
+        (NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode(), filesToOpen,
+        false);
+    LoadFilesAssociated(
+        (NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode(), filesToLoad,
+        false);
     while (eval->getState() != NLS_STATE_QUIT) {
         if (eval->getState() == NLS_STATE_ABORT) {
             eval->clearStacks();
@@ -259,6 +263,7 @@ static int
 StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 {
     int exitCode = -1;
+    NelsonConfiguration::getInstance()->setNelsonEngineMode(_mode);
     ProgramOptions po(args, _mode);
     if (!po.isValid()) {
         ErrorCommandLine(po.getErrorMessage(), _mode);

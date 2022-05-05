@@ -11,6 +11,7 @@
 #include "NelsonGateway.hpp"
 #include "historyBuiltin.hpp"
 #include "history_managerBuiltin.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -18,7 +19,7 @@ const std::wstring gatewayName = L"history_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "history_manager", (ptrBuiltin)Nelson::HistoryManagerGateway::history_managerBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN },
     { "history", (ptrBuiltin)Nelson::HistoryManagerGateway::historyBuiltin, 0, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
@@ -26,9 +27,11 @@ static const nlsGateway gateway[] = {
 static bool
 initializeHistoryManagerModule(Nelson::Evaluator* eval)
 {
-    if (eval->HistoryManager == nullptr) {
+    auto* ptrHistoryManager
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
+    if (ptrHistoryManager == nullptr) {
         auto* ptrHistoryManager = new HistoryManager();
-        eval->HistoryManager = (void*)ptrHistoryManager;
+        NelsonConfiguration::getInstance()->setHistoryManager((void*)ptrHistoryManager);
     }
     return true;
 }
@@ -36,11 +39,12 @@ initializeHistoryManagerModule(Nelson::Evaluator* eval)
 static bool
 finishHistoryManagerModule(Nelson::Evaluator* eval)
 {
-    if (eval->HistoryManager) {
-        auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
+    auto* ptrHistoryManager
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
+    if (ptrHistoryManager) {
         delete ptrHistoryManager;
     }
-    eval->HistoryManager = nullptr;
+    NelsonConfiguration::getInstance()->setHistoryManager(nullptr);
     return true;
 }
 //=============================================================================

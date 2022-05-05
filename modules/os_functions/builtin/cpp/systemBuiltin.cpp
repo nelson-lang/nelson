@@ -68,8 +68,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::pair<int, std::wstring> result = SystemCommand(cmd, eval->haveEventsLoop());
-        ArrayOf ret
-            = ArrayOf::characterArrayConstructor(result.second);
+        ArrayOf ret = ArrayOf::characterArrayConstructor(result.second);
         if (bEcho) {
             Interface* io = eval->getInterface();
             io->outputMessage(result.second);

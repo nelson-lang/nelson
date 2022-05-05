@@ -7,18 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
 #include "HtmlToPdf.hpp"
 #include "IsFile.hpp"
 #include "NelSon_engine_mode.h"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HelpToolsGateway::htmltopdfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
@@ -31,7 +32,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(Evaluator* eval, int nLhs, const Arra
         if (!IsFile(param1)) {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
-        auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
+        auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
         switch (_mode) {
         case ADVANCED_ENGINE:
         case ADVANCED_TERMINAL:

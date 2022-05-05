@@ -26,6 +26,7 @@
 #include "GetNelsonPath.hpp"
 #include "NelsonPalette.hpp"
 #include "DefaultFont.hpp"
+#include "NelsonConfiguration.hpp"
 //===================================================================================
 static QApplication* NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
@@ -113,12 +114,12 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow
         if (nlsTerm) {
             Evaluator* mainEvaluator = nullptr;
             try {
-                mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, _mode);
+                mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, true);
             } catch (std::bad_alloc&) {
                 mainEvaluator = nullptr;
             }
             if (mainEvaluator) {
-                mainEvaluator->mainGuiObject = (void*)NelSonQtMainWindow;
+                NelsonConfiguration::getInstance()->setMainGuiObject((void*)NelSonQtMainWindow);
             }
             return (void*)mainEvaluator;
         }

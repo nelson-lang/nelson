@@ -26,6 +26,7 @@
 #include "IpcReadyReceiverNamedMutex.hpp"
 #include "FilesAssociation.hpp"
 #include "NelsonMinimizedDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -175,15 +176,14 @@ processMessageData(const dataInterProcessToExchange& messageData)
         res = true;
     } break;
     case SET_MINIMIZE: {
-        auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        if ((eval != nullptr) && NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode()) {
+        if (NELSON_ENGINE_MODE::GUI == NelsonConfiguration::getInstance()->getNelsonEngineMode()) {
             setNelsonMinimizedDynamicFunction(messageData.valueAnswer);
         }
     } break;
     case IS_MINIMIZED: {
         auto* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
         bool minimized = true;
-        if ((eval != nullptr) && NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode()) {
+        if (NELSON_ENGINE_MODE::GUI == NelsonConfiguration::getInstance()->getNelsonEngineMode()) {
             minimized = getNelsonMinimizedDynamicFunction();
         }
         res = sendIsMinimizedAnswerToNelsonInterprocessReceiver(messageData.pid, minimized);
