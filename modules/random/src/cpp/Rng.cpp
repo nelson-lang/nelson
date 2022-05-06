@@ -14,40 +14,46 @@
 #include "RandomMersenneTwister.hpp"
 #include "RandomMersenneTwister64.hpp"
 #include "Rng_helpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 std::wstring
-RngGetType(Evaluator* eval)
+RngGetType()
 {
-    if (eval->RandomEngine == nullptr) {
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
+    if (randEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     return randEngine->getGeneratorName();
 }
 //=============================================================================
 void
-RngSetSeed(Evaluator* eval, double seed)
+RngSetSeed(double seed)
 {
-    if (eval->RandomEngine == nullptr) {
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
+    if (randEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
-        auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         auto s = static_cast<uint32>(seed);
         randEngine->setSeed(s);
     } break;
     case RNG_TWISTER64: {
-        auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister64*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         auto s = static_cast<uint64>(seed);
         randEngine->setSeed(s);
     } break;
     case RNG_LAGGED_FIBONACCI_607: {
-        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         auto s = static_cast<uint32>(seed);
         randEngine->setSeed(s);
     } break;
@@ -55,25 +61,29 @@ RngSetSeed(Evaluator* eval, double seed)
 }
 //=============================================================================
 ArrayOf
-RngGetSeed(Evaluator* eval)
+RngGetSeed()
 {
-    if (eval->RandomEngine == nullptr) {
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
+    if (randEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     ArrayOf res;
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
-        auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         res = ArrayOf::uint32Constructor(randEngine->getSeed());
     } break;
     case RNG_TWISTER64: {
-        auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister64*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         res = ArrayOf::uint64Constructor(randEngine->getSeed());
     } break;
     case RNG_LAGGED_FIBONACCI_607: {
-        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         res = ArrayOf::uint32Constructor(randEngine->getSeed());
     } break;
     default: { } break; }
@@ -81,17 +91,19 @@ RngGetSeed(Evaluator* eval)
 }
 //=============================================================================
 ArrayOf
-RngGetState(Evaluator* eval)
+RngGetState()
 {
-    if (eval->RandomEngine == nullptr) {
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
+    if (randEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
     ArrayOf state;
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
-        auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         boost::container::vector<uint32> uint32State = randEngine->getState();
         uint32* mat = (uint32*)ArrayOf::allocateArrayOf(
             NLS_UINT32, uint32State.size(), Nelson::stringVector(), false);
@@ -104,7 +116,8 @@ RngGetState(Evaluator* eval)
         state = ArrayOf(NLS_UINT32, dims, mat, false);
     } break;
     case RNG_TWISTER64: {
-        auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister64*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         boost::container::vector<uint64> uint64State = randEngine->getState();
         uint64* mat = (uint64*)ArrayOf::allocateArrayOf(
             NLS_UINT64, uint64State.size(), Nelson::stringVector(), false);
@@ -117,7 +130,8 @@ RngGetState(Evaluator* eval)
         state = ArrayOf(NLS_UINT64, dims, mat, false);
     } break;
     case RNG_LAGGED_FIBONACCI_607: {
-        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         boost::container::vector<uint32> uint32State = randEngine->getState();
         uint32* mat = (uint32*)ArrayOf::allocateArrayOf(
             NLS_UINT32, uint32State.size(), Nelson::stringVector(), false);
@@ -134,78 +148,82 @@ RngGetState(Evaluator* eval)
 }
 //=============================================================================
 void
-RngSetDefault(Evaluator* eval)
+RngSetDefault()
 {
-    if (eval->RandomEngine != nullptr) {
-        RngDelete(eval);
+    if (NelsonConfiguration::getInstance()->getRandomEngine() != nullptr) {
+        RngDelete();
     }
-    if (eval->RandomEngine == nullptr) {
+    if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
         try {
             RandomMersenneTwister* tmp = new RandomMersenneTwister();
-            eval->RandomEngine = (void*)tmp;
+            NelsonConfiguration::getInstance()->setRandomEngine((void*)tmp);
         } catch (std::bad_alloc&) {
-            eval->RandomEngine = nullptr;
+            NelsonConfiguration::getInstance()->setRandomEngine(nullptr);
         }
     }
-    if (eval->RandomEngine == nullptr) {
+    if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
         Error(_W("random engine not initialized."));
     }
 }
 //=============================================================================
 void
-RngShuffle(Evaluator* eval)
+RngShuffle()
 {
-    if (eval->RandomEngine == nullptr) {
+    if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
         uint32 newseed = static_cast<uint32>(std::time(nullptr));
-        auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         randEngine->setSeed(newseed);
     } break;
     case RNG_TWISTER64: {
-        auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomMersenneTwister64*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         uint64 newseed = static_cast<uint64>(std::time(nullptr));
         randEngine->setSeed(newseed);
     } break;
     case RNG_LAGGED_FIBONACCI_607: {
         uint32 newseed = static_cast<uint32>(std::time(nullptr));
-        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
+        auto* randEngine = static_cast<RandomLaggedFibonacci607*>(
+            NelsonConfiguration::getInstance()->getRandomEngine());
         randEngine->setSeed(newseed);
     } break;
     default: { } break; }
 }
 //=============================================================================
 bool
-RngSetEngine(Evaluator* eval, double seed, const std::wstring& engineName)
+RngSetEngine(double seed, const std::wstring& engineName)
 {
-    if (eval->RandomEngine == nullptr) {
+    if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
         Error(_W("random engine not initialized."));
     }
     if (isRngType(engineName)) {
-        RngDelete(eval);
+        RngDelete();
         RNG_TYPE newrngtype = getRngType(engineName);
         switch (newrngtype) {
         case RNG_TWISTER: {
             RandomMersenneTwister* tmp = new RandomMersenneTwister();
-            eval->RandomEngine = (void*)tmp;
+            NelsonConfiguration::getInstance()->setRandomEngine((void*)tmp);
         } break;
         case RNG_TWISTER64: {
             RandomMersenneTwister64* tmp = new RandomMersenneTwister64();
-            eval->RandomEngine = (void*)tmp;
+            NelsonConfiguration::getInstance()->setRandomEngine((void*)tmp);
         } break;
         case RNG_LAGGED_FIBONACCI_607: {
             RandomLaggedFibonacci607* tmp = new RandomLaggedFibonacci607();
-            eval->RandomEngine = (void*)tmp;
+            NelsonConfiguration::getInstance()->setRandomEngine((void*)tmp);
         } break;
         default: { } break; }
-        if (eval->RandomEngine == nullptr) {
+        if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
             Error(_W("random engine not initialized."));
         }
-        RngSetSeed(eval, seed);
+        RngSetSeed(seed);
     } else {
         Error(_W("A valid generator expected."));
     }
@@ -213,20 +231,22 @@ RngSetEngine(Evaluator* eval, double seed, const std::wstring& engineName)
 }
 //=============================================================================
 void
-RngDelete(Evaluator* eval)
+RngDelete()
 {
-    if (eval->RandomEngine != nullptr) {
-        auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
+    if (NelsonConfiguration::getInstance()->getRandomEngine() != nullptr) {
+        auto* randEngine
+            = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
         delete randEngine;
         randEngine = nullptr;
-        eval->RandomEngine = nullptr;
+        NelsonConfiguration::getInstance()->setRandomEngine(nullptr);
     }
 }
 //=============================================================================
 bool
-RngSetState(Evaluator* eval, const ArrayOf& st)
+RngSetState(const ArrayOf& st)
 {
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     NelsonType stClass = st.getDataClass();
     switch (rngtype) {
@@ -235,7 +255,8 @@ RngSetState(Evaluator* eval, const ArrayOf& st)
             if (st.isVector()) {
                 if (st.getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint32*)st.getDataPointer();
-                    auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
+                    auto* randEngine = static_cast<RandomMersenneTwister*>(
+                        NelsonConfiguration::getInstance()->getRandomEngine());
                     randEngine->setState(vec, st.getElementCount());
                     return true;
                 }
@@ -257,7 +278,8 @@ RngSetState(Evaluator* eval, const ArrayOf& st)
             if (st.isVector()) {
                 if (st.getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint64*)st.getDataPointer();
-                    auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
+                    auto* randEngine = static_cast<RandomMersenneTwister64*>(
+                        NelsonConfiguration::getInstance()->getRandomEngine());
                     randEngine->setState(vec, st.getElementCount());
                     return true;
                 }
@@ -279,7 +301,8 @@ RngSetState(Evaluator* eval, const ArrayOf& st)
             if (st.isVector()) {
                 if (st.getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint32*)st.getDataPointer();
-                    auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
+                    auto* randEngine = static_cast<RandomLaggedFibonacci607*>(
+                        NelsonConfiguration::getInstance()->getRandomEngine());
                     randEngine->setState(vec, st.getElementCount());
                     return true;
                 }
@@ -299,5 +322,6 @@ RngSetState(Evaluator* eval, const ArrayOf& st)
     default: { } break; }
     return false;
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

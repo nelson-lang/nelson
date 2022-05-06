@@ -10,6 +10,7 @@
 #include "getnelsonmodeBuiltin.hpp"
 #include "Error.hpp"
 #include "NelSon_engine_mode.h"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,7 +20,7 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
+    auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
     switch (_mode) {
     case BASIC_ENGINE: {
         retval << ArrayOf::characterArrayConstructor("BASIC_ENGINE");

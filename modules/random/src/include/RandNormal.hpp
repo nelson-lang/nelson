@@ -10,13 +10,15 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 #include "nlsRandom_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSRANDOM_IMPEXP ArrayOf
-RandNormal(Evaluator* eval, NelsonType cl);
+RandNormal(NelsonType cl);
+//=============================================================================
 NLSRANDOM_IMPEXP ArrayOf
-RandNormal(Evaluator* eval, Dimensions& dims, NelsonType cl);
+RandNormal(Dimensions& dims, NelsonType cl);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

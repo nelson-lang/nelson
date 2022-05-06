@@ -15,16 +15,18 @@
 #include "Error.hpp"
 #include "FilesManager.hpp"
 #include "FileError.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::ferrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::ferrorBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 2);
-    FilesManager* fm = static_cast<FilesManager*>(eval->FileManager);
+    FilesManager* fm
+        = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }

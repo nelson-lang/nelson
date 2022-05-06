@@ -10,28 +10,36 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 #include "nlsRandom_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSRANDOM_IMPEXP std::wstring
-RngGetType(Evaluator* eval);
+RngGetType();
+//=============================================================================
 NLSRANDOM_IMPEXP void
-RngSetSeed(Evaluator* eval, double seed);
+RngSetSeed(double seed);
+//=============================================================================
 NLSRANDOM_IMPEXP ArrayOf
-RngGetSeed(Evaluator* eval);
+RngGetSeed();
+//=============================================================================
 NLSRANDOM_IMPEXP ArrayOf
-RngGetState(Evaluator* eval);
-
+RngGetState();
+//=============================================================================
 NLSRANDOM_IMPEXP void
-RngSetDefault(Evaluator* eval);
+RngSetDefault();
+//=============================================================================
 NLSRANDOM_IMPEXP void
-RngShuffle(Evaluator* eval);
+RngShuffle();
+//=============================================================================
 NLSRANDOM_IMPEXP bool
-RngSetEngine(Evaluator* eval, double seed, const std::wstring& engineName);
+RngSetEngine(double seed, const std::wstring& engineName);
+//=============================================================================
 NLSRANDOM_IMPEXP void
-RngDelete(Evaluator* eval);
+RngDelete();
+//=============================================================================
 NLSRANDOM_IMPEXP bool
-RngSetState(Evaluator* eval, const ArrayOf& st);
+RngSetState(const ArrayOf& st);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

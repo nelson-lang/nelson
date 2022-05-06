@@ -13,6 +13,7 @@
 #include "GuiTerminal.hpp"
 #include "Interface.hpp"
 #include "NelSon_engine_mode.h"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,7 +25,8 @@ Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
+            auto _mode
+                = (NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode();
             switch (_mode) {
             case GUI: {
                 auto* gtio = (GuiTerminal*)io;

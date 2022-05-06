@@ -10,17 +10,19 @@
 #include "Rand.hpp"
 #include "Error.hpp"
 #include "RandomInterface.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 ArrayOf
-Rand(Evaluator* eval, NelsonType cl)
+Rand(NelsonType cl)
 {
     Dimensions dims(1, 1);
-    return Rand(eval, dims, cl);
+    return Rand(dims, cl);
 }
 //=============================================================================
 ArrayOf
-Rand(Evaluator* eval, Dimensions& dims, NelsonType cl)
+Rand(Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {
@@ -28,10 +30,11 @@ Rand(Evaluator* eval, Dimensions& dims, NelsonType cl)
         res.promoteType(cl);
         return res;
     }
-    if (eval->RandomEngine == nullptr) {
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
+    if (randEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     switch (cl) {
     case NLS_SINGLE: {
         indexType nbElements = dims.getElementCount();

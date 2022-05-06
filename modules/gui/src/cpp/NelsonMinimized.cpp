@@ -8,17 +8,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonMinimized.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "Evaluator.hpp"
 #include "NelSon_engine_mode.h"
 #include "QtMainWindow.h"
+#include "NelsonConfiguration.hpp"
 //===================================================================================
 bool
 setNelsonMinimized(bool minimize)
 {
-    Nelson::Evaluator* eval = (Nelson::Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-    if (NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode() && eval->mainGuiObject) {
-        QtMainWindow* NelSonQtMainWindow = (QtMainWindow*)eval->mainGuiObject;
+    if (NELSON_ENGINE_MODE::GUI == Nelson::NelsonConfiguration::getInstance()->getNelsonEngineMode()
+        && Nelson::NelsonConfiguration::getInstance()->getMainGuiObject()) {
+        QtMainWindow* NelSonQtMainWindow
+            = (QtMainWindow*)Nelson::NelsonConfiguration::getInstance()->getMainGuiObject();
         if (minimize) {
             NelSonQtMainWindow->setWindowState(Qt::WindowMinimized);
         } else {
@@ -33,9 +33,10 @@ setNelsonMinimized(bool minimize)
 bool
 getNelsonMinimized()
 {
-    Nelson::Evaluator* eval = (Nelson::Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-    if (NELSON_ENGINE_MODE::GUI == eval->getNelsonEngineMode() && eval->mainGuiObject) {
-        QtMainWindow* NelSonQtMainWindow = (QtMainWindow*)eval->mainGuiObject;
+    if (NELSON_ENGINE_MODE::GUI == Nelson::NelsonConfiguration::getInstance()->getNelsonEngineMode()
+        && Nelson::NelsonConfiguration::getInstance()->getMainGuiObject()) {
+        QtMainWindow* NelSonQtMainWindow
+            = (QtMainWindow*)Nelson::NelsonConfiguration::getInstance()->getMainGuiObject();
         return NelSonQtMainWindow->windowState() == Qt::WindowMinimized
             && NelSonQtMainWindow->isVisible();
     }

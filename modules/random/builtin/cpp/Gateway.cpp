@@ -18,22 +18,22 @@ using namespace Nelson;
 const std::wstring gatewayName = L"random";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "rng", (ptrBuiltin)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN },
+    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN },
+    { "rng", (ptrBuiltin)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool
 initializeRandModule(Nelson::Evaluator* eval)
 {
-    RngSetDefault(eval);
+    RngSetDefault();
     return true;
 }
 //=============================================================================
 static bool
 finishRandModule(Nelson::Evaluator* eval)
 {
-    RngDelete(eval);
+    RngDelete();
     return true;
 }
 //=============================================================================

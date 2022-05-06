@@ -10,17 +10,19 @@
 #include "history_managerBuiltin.hpp"
 #include "Error.hpp"
 #include "HistoryManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::HistoryManagerGateway::history_managerBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HistoryManagerGateway::history_managerBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
+    auto* ptrHistoryManager
+        = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (argIn.empty()) {
-        if (eval->HistoryManager) {
+        if (ptrHistoryManager) {
             retval << ArrayOf::characterArrayConstructor(L"on");
         } else {
             retval << ArrayOf::characterArrayConstructor(L"off");
@@ -29,22 +31,21 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
         if (argIn[0].isCharacterArray()) {
             bool bOldMode = false;
             std::wstring arg = argIn[0].getContentAsWideString();
-            if (eval->HistoryManager) {
+            if (ptrHistoryManager) {
                 bOldMode = true;
             } else {
                 bOldMode = false;
             }
             if (arg.compare(L"on") == 0) {
-                if (eval->HistoryManager == nullptr) {
+                if (ptrHistoryManager == nullptr) {
                     auto* ptrHistoryManager = new HistoryManager();
-                    eval->HistoryManager = (void*)ptrHistoryManager;
+                    NelsonConfiguration::getInstance()->setHistoryManager((void*)ptrHistoryManager);
                 }
             } else if (arg.compare(L"off") == 0) {
-                if (eval->HistoryManager) {
-                    auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
+                if (ptrHistoryManager) {
                     delete ptrHistoryManager;
                 }
-                eval->HistoryManager = nullptr;
+                NelsonConfiguration::getInstance()->setHistoryManager(nullptr);
             } else {
                 Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }

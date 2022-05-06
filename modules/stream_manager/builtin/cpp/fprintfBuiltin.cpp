@@ -14,6 +14,7 @@
 #include "Interface.hpp"
 #include "PrintfFunction.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,7 +53,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!printfFunction(args, errorMessage, result)) {
         Error(errorMessage);
     }
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));

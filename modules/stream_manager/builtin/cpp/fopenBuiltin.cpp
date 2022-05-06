@@ -19,6 +19,7 @@
 #include "FilesManager.hpp"
 #include "Endian.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,11 +27,11 @@ using namespace Nelson;
 // fIDs = fopen('all')
 //=============================================================================
 static ArrayOfVector
-Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode,
-    const std::wstring& machineFormat, const std::wstring& encoding)
+Fopen(const std::wstring& filename, const std::wstring& mode, const std::wstring& machineFormat,
+    const std::wstring& encoding)
 {
     ArrayOfVector retval;
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     int filepos = -1;
     FOPEN_ERROR_TYPE fopen_error = FileOpen(fm, filename, mode, machineFormat, encoding, filepos);
     std::wstring msg;
@@ -64,10 +65,10 @@ Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode,
 }
 //=============================================================================
 static ArrayOfVector
-FopenAll(Evaluator* eval)
+FopenAll()
 {
     ArrayOfVector retval;
-    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     boost::container::vector<uint64> IDs = fm->getIDs();
     if (IDs.size()) {
         double* dIDs
@@ -85,7 +86,7 @@ FopenAll(Evaluator* eval)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::fopenBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     std::wstring mode = L"rb";
@@ -98,7 +99,8 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (argIn.size() == 1) {
         if (param1.isDoubleType()) {
             int32 iValue = (int32)param1.getContentAsDoubleScalar();
-            FilesManager* fm = (FilesManager*)(eval->FileManager);
+            FilesManager* fm
+                = (FilesManager*)(NelsonConfiguration::getInstance()->getFileManager());
             File* _file = fm->getFile(iValue);
             nargoutcheck(nLhs, 0, 4); //-V112
             if (_file) {
@@ -122,7 +124,7 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     filename = param1.getContentAsWideString();
     if (filename == L"all") {
-        return FopenAll(eval);
+        return FopenAll();
     }
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
@@ -139,6 +141,6 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsWideString();
     }
-    return Fopen(eval, filename, mode, machineFormat, encoding);
+    return Fopen(filename, mode, machineFormat, encoding);
 }
 //=============================================================================

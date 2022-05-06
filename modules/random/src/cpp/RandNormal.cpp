@@ -10,23 +10,26 @@
 #include "RandNormal.hpp"
 #include "Error.hpp"
 #include "RandomInterface.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 ArrayOf
-RandNormal(Evaluator* eval, NelsonType cl)
+RandNormal(NelsonType cl)
 {
     Dimensions dims(1, 1);
-    return RandNormal(eval, dims, cl);
+    return RandNormal(dims, cl);
 }
 //=============================================================================
 ArrayOf
-RandNormal(Evaluator* eval, Dimensions& dims, NelsonType cl)
+RandNormal(Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
-    if (eval->RandomEngine == nullptr) {
+    auto* randEngine
+        = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
+    if (randEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     switch (cl) {
     case NLS_SINGLE: {
         indexType nbElements = dims.getElementCount();

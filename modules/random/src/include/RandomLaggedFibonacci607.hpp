@@ -9,14 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "RandomInterface.hpp"
-#include "nlsRandom_exports.h"
 #include <boost/container/vector.hpp>
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
 #include <string>
+#include "RandomInterface.hpp"
+#include "nlsRandom_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 class NLSRANDOM_IMPEXP RandomLaggedFibonacci607 : public RandomInterface
 {
 
@@ -69,5 +70,6 @@ public:
     void
     getMinMaxUniformIntDistribution(int& _min, int& _max) override;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -12,6 +12,7 @@
 #include "FileWrite.hpp"
 #include "FilesManager.hpp"
 #include "helpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,7 +23,7 @@ using namespace Nelson;
 // fwrite(fid, data, precision, skip, arch)
 //=============================================================================
 static ArrayOfVector
-fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf param5 = argIn[4];
@@ -60,7 +61,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (param2.isSparse()) {
             Error(_W("Cannot write sparse type."));
         }
-        auto* fm = static_cast<FilesManager*>(eval->FileManager);
+        auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
@@ -100,7 +101,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 }
 //=============================================================================
 static ArrayOfVector
-fwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+fwriteBuiltinFourRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
@@ -119,11 +120,11 @@ fwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         modifiedArgIn.push_back(argIn[2]);
         modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
     }
-    return fwriteBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
+    return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 static ArrayOfVector
-fwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+fwriteBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
@@ -131,11 +132,11 @@ fwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(argIn[2]);
     modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
     modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
-    return fwriteBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
+    return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 static ArrayOfVector
-fwriteBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+fwriteBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
@@ -143,22 +144,22 @@ fwriteBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
     modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
     modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
-    return fwriteBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
+    return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 ArrayOfVector
-Nelson::StreamGateway::fwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 2:
-        return fwriteBuiltinTwoRhs(eval, nLhs, argIn);
+        return fwriteBuiltinTwoRhs(nLhs, argIn);
     case 3:
-        return fwriteBuiltinThreeRhs(eval, nLhs, argIn);
+        return fwriteBuiltinThreeRhs(nLhs, argIn);
     case 4:
-        return fwriteBuiltinFourRhs(eval, nLhs, argIn);
+        return fwriteBuiltinFourRhs(nLhs, argIn);
     case 5:
-        return fwriteBuiltinFiveRhs(eval, nLhs, argIn);
+        return fwriteBuiltinFiveRhs(nLhs, argIn);
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Rng_helpers.hpp"
-
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -64,6 +64,12 @@ isRngType(const std::wstring& enginename)
 {
     RNG_TYPE res = getRngType(enginename);
     return (res != RNG_ERROR);
+}
+//=============================================================================
+bool
+haveRandomEngine()
+{
+    return (NelsonConfiguration::getInstance()->getRandomEngine() != nullptr);
 }
 //=============================================================================
 } // namespace Nelson

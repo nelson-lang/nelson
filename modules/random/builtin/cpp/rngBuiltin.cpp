@@ -30,21 +30,21 @@ using namespace Nelson;
 // rng(s) implemented
 //=============================================================================
 static ArrayOf
-backupCurrentRng(Evaluator* eval);
+backupCurrentRng();
 static ArrayOfVector
-splitRngStruct(Evaluator* eval, const ArrayOf& structRng);
+splitRngStruct(const ArrayOf& structRng);
 //=============================================================================
 ArrayOfVector
-Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
-        if (eval->RandomEngine == nullptr) {
+        if (!haveRandomEngine()) {
             Error(_W("random engine not initialized."));
         }
-        retval << backupCurrentRng(eval);
+        retval << backupCurrentRng();
     } break;
     case 1: {
         ArrayOf arg1 = argIn[0];
@@ -55,15 +55,15 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
-                backupCurrentRngStruct = backupCurrentRng(eval);
+                backupCurrentRngStruct = backupCurrentRng();
             }
             if (param == L"default") {
-                RngSetDefault(eval);
+                RngSetDefault();
                 if (nLhs == 1) {
                     retval << backupCurrentRngStruct;
                 }
             } else if (param == L"shuffle") {
-                RngShuffle(eval);
+                RngShuffle();
                 if (nLhs == 1) {
                     retval << backupCurrentRngStruct;
                 }
@@ -74,18 +74,18 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             double s = arg1.getContentAsDoubleScalar();
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
-                backupCurrentRngStruct = backupCurrentRng(eval);
+                backupCurrentRngStruct = backupCurrentRng();
             }
-            RngSetSeed(eval, s);
+            RngSetSeed(s);
             if (nLhs == 1) {
                 retval << backupCurrentRngStruct;
             }
         } else if (arg1.isStruct()) {
-            ArrayOfVector elements = splitRngStruct(eval, arg1);
+            ArrayOfVector elements = splitRngStruct(arg1);
             std::wstring genname = elements[0].getContentAsWideString();
             double s = elements[1].getContentAsDoubleScalar();
-            RngSetEngine(eval, s, genname);
-            RngSetState(eval, elements[2]);
+            RngSetEngine(s, genname);
+            RngSetState(elements[2]);
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE);
         }
@@ -101,9 +101,9 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
-                backupCurrentRngStruct = backupCurrentRng(eval);
+                backupCurrentRngStruct = backupCurrentRng();
             }
-            RngSetEngine(eval, s, genname);
+            RngSetEngine(s, genname);
             if (nLhs == 1) {
                 retval << backupCurrentRngStruct;
             }
@@ -118,10 +118,10 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
-                backupCurrentRngStruct = backupCurrentRng(eval);
+                backupCurrentRngStruct = backupCurrentRng();
             }
-            RngSetEngine(eval, 0, genname);
-            RngShuffle(eval);
+            RngSetEngine(0, genname);
+            RngShuffle();
             if (nLhs == 1) {
                 retval << backupCurrentRngStruct;
             }
@@ -137,11 +137,11 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 }
 //=============================================================================
 static ArrayOf
-backupCurrentRng(Evaluator* eval)
+backupCurrentRng()
 {
-    ArrayOf typeOfRng = ArrayOf::characterArrayConstructor(RngGetType(eval));
-    ArrayOf seedOfRng = RngGetSeed(eval);
-    ArrayOf stateOfRng = RngGetState(eval);
+    ArrayOf typeOfRng = ArrayOf::characterArrayConstructor(RngGetType());
+    ArrayOf seedOfRng = RngGetSeed();
+    ArrayOf stateOfRng = RngGetState();
     ArrayOf structRng;
     ArrayOfVector fieldvalues;
     stringVector fieldnames;
@@ -156,7 +156,7 @@ backupCurrentRng(Evaluator* eval)
 }
 //=============================================================================
 static ArrayOfVector
-splitRngStruct(Evaluator* eval, const ArrayOf& structRng)
+splitRngStruct(const ArrayOf& structRng)
 {
     ArrayOfVector elements;
     stringVector fieldnames = structRng.getFieldNames();

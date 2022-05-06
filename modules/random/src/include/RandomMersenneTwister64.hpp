@@ -9,16 +9,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "RandomInterface.hpp"
-#include "nlsRandom_exports.h"
 #include <boost/container/vector.hpp>
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
 #include <string>
+#include "RandomInterface.hpp"
+#include "nlsRandom_exports.h"
 //=============================================================================
 // http://www.boost.org/doc/libs/1_57_0/doc/html/boost_random/reference.html#boost_random.reference.generators
 // http://www.boost.org/doc/libs/1_57_0/doc/html/boost_random/reference.html#boost_random.reference.distributions
+//=============================================================================
 namespace Nelson {
+//=============================================================================
 class NLSRANDOM_IMPEXP RandomMersenneTwister64 : public RandomInterface
 {
 
@@ -70,5 +72,6 @@ public:
     void
     getMinMaxUniformIntDistribution(int& _min, int& _max) override;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -16,6 +16,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
@@ -24,7 +25,7 @@ file(GLOB RANDOM_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 add_library(${module_library_name} SHARED ${RANDOM_SRC})
 # ==============================================================================
 target_link_libraries(${module_library_name} nlsError_manager nlsTypes
-                      nlsInterpreter nlsI18n)
+                      nlsInterpreter nlsI18n nlsNelson_manager)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
