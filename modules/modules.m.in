@@ -69,7 +69,8 @@ modules_list = [
 "ipc";
 "statistics";
 "validators";
-"polynomial_functions"
+"polynomial_functions";
+"parallel"
 ];
 % ============================================================================
 % optional modules
@@ -144,6 +145,7 @@ modules_help_list = [
 "ipc";
 "statistics";
 "validators";
-"polynomial_functions"
+"polynomial_functions";
+"parallel"
 ];
 % ============================================================================

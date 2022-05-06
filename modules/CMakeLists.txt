@@ -79,7 +79,8 @@ list(
   ipc
   statistics
   validators
-  polynomial_functions)
+  polynomial_functions
+  parallel)
 list(APPEND moduleslist main)
 # ==============================================================================
 if (NOT LGPL21_ONLY)
