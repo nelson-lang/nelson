@@ -19,6 +19,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../parallel/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)

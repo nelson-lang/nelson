@@ -7,20 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "backgroundPoolBuiltin.hpp"
-#include "Error.hpp"
+#include "backgroundPool_usedBuiltin.hpp"
 #include "BackgroundPoolObject.hpp"
+#include "Error.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::backgroundPoolBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::backgroundPool_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    nargincheck(nLhs, 0, 0);
+    nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    BackgroundPoolObject* backgroundPoolObject = new BackgroundPoolObject();
-    retval << ArrayOf::handleConstructor(backgroundPoolObject);
+    ArrayOfVector retval(1);
+    retval << usedHandle(BACKGROUNDPOOL_CATEGORY_STR);
     return retval;
 }
 //=============================================================================

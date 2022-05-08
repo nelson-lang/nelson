@@ -9,37 +9,38 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include <thread_pool.hpp>
+#include <future>
+#include <tuple>
 #include "nlsParallel_exports.h"
 #include "HandleGenericObject.hpp"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
-#include "FevalFutureObject.hpp"
-#include "FunctionDef.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define BACKGROUNDPOOL_CATEGORY_STR L"backgroundPool"
+#define FEVALFUTURE_CATEGORY_STR L"fevalFuture"
 //=============================================================================
-class NLSPARALLEL_IMPEXP BackgroundPoolObject : public HandleGenericObject
+class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject
 {
 public:
-    BackgroundPoolObject();
-    ~BackgroundPoolObject() override;
+    FevalFutureObject(std::future<std::tuple<ArrayOfVector, Exception>> f, const std::wstring &functionName);
+    ~FevalFutureObject() override;
 
     void
     display(Interface* io);
 
-    FevalFutureObject *
-    feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
+    std::tuple<ArrayOfVector, Exception>
+    get(bool &valid);
 
 private:
-    std::vector<FevalFutureObject*> fEvalQueue;
     wstringVector propertiesNames;
-    thread_pool threadPool;
-
+    std::future<std::tuple<ArrayOfVector, Exception>> future;
+    size_t ID;
+    std::wstring functionName;
+    bool wasReaded;
+    std::tuple<ArrayOfVector, Exception> content;
 };
 //=============================================================================
 } // namespace Nelson

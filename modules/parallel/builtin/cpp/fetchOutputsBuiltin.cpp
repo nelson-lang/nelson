@@ -7,20 +7,32 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "backgroundPoolBuiltin.hpp"
+#include <tuple>
+#include "fetchOutputsBuiltin.hpp"
 #include "Error.hpp"
-#include "BackgroundPoolObject.hpp"
+#include "FevalFutureObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::backgroundPoolBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::fetchOutputsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(nLhs, 0, 0);
-    nargoutcheck(nLhs, 0, 1);
-    BackgroundPoolObject* backgroundPoolObject = new BackgroundPoolObject();
-    retval << ArrayOf::handleConstructor(backgroundPoolObject);
-    return retval;
+    ArrayOf param1 = argIn[0];
+    if (!param1.isHandle()) { 
+            Error(_W("fevalFuture handle expected."));
+    }
+    if (!param1.isScalar()) { 
+            Error(_W("fevalFuture handle expected."));
+    }
+    if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
+            Error(_W("fevalFuture handle expected."));
+    }
+    auto* fevalFutureObject = (FevalFutureObject*)param1.getContentAsHandleScalar();
+    bool valid;
+    std::tuple<ArrayOfVector, Exception> resultOrFuture = fevalFutureObject->get(valid);
+    ArrayOfVector result; 
+    result = std::get<0>(resultOrFuture);
+    return result;
 }
 //=============================================================================

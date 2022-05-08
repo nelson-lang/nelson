@@ -24,12 +24,27 @@
     <ClCompile Include="..\cpp\BackgroundPoolObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\DeleteBackgroundPoolObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\FevalFutureObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsParallel_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BackgroundPoolObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\thread_pool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DeleteBackgroundPoolObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\FevalFutureObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

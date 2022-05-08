@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSPARALLEL_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSPARALLEL_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -137,7 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSPARALLEL_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -161,7 +161,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSPARALLEL_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/parallel/builtin/include;$(SolutionDir)modules/parallel/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/handle/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -177,15 +177,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\backgroundPoolBuiltin.cpp" />
+    <ClCompile Include="..\cpp\backgroundPool_deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\backgroundPool_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\backgroundPool_usedBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fetchOutputsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fevalFuture_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\parfevalBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
       <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\display_format\src\c\nlsDisplay_format.vcxproj">
+      <Project>{2469b77e-f2b0-4b0e-b814-bb57747e0865}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\handle\src\c\nlsHandle.vcxproj">
+      <Project>{841d21ca-740b-420a-b519-887bbd8643a3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
@@ -213,7 +228,14 @@
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\backgroundPoolBuiltin.hpp" />
+    <ClInclude Include="..\include\backgroundPool_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\backgroundPool_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\backgroundPool_usedBuiltin.hpp" />
+    <ClInclude Include="..\include\fetchOutputsBuiltin.hpp" />
+    <ClInclude Include="..\include\fevalFuture_displayBuiltin.hpp" />
     <ClInclude Include="..\include\nlsParallel_builtin_exports.h" />
+    <ClInclude Include="..\include\parfevalBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

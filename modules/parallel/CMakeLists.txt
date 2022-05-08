@@ -17,6 +17,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
@@ -24,8 +25,13 @@ file(GLOB PARALLEL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 # ==============================================================================
 add_library(${module_library_name} SHARED ${PARALLEL_SRC})
 # ==============================================================================
-target_link_libraries(${module_library_name} nlsError_manager nlsTypes
-                      nlsInterpreter nlsI18n nlsNelson_manager)
+target_link_libraries(${module_library_name} 
+  nlsError_manager
+  nlsTypes
+  nlsInterpreter
+  nlsI18n
+  nlsNelson_manager
+  nlsCharacters_encoding)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -41,7 +47,10 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${PARALLEL_BUILTIN})
@@ -52,6 +61,8 @@ target_link_libraries(
   nlsError_manager
   nlsInterpreter
   nlsOverload
+  nlsHandle
+  nlsDisplay_format
   nlsTypes
   nlsApi_nelson
   nlsI18n)

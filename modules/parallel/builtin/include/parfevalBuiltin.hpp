@@ -9,38 +9,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include <thread_pool.hpp>
-#include "nlsParallel_exports.h"
-#include "HandleGenericObject.hpp"
-#include "Types.hpp"
 #include "ArrayOf.hpp"
-#include "Interface.hpp"
-#include "FevalFutureObject.hpp"
-#include "FunctionDef.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define BACKGROUNDPOOL_CATEGORY_STR L"backgroundPool"
-//=============================================================================
-class NLSPARALLEL_IMPEXP BackgroundPoolObject : public HandleGenericObject
-{
-public:
-    BackgroundPoolObject();
-    ~BackgroundPoolObject() override;
-
-    void
-    display(Interface* io);
-
-    FevalFutureObject *
-    feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
-
-private:
-    std::vector<FevalFutureObject*> fEvalQueue;
-    wstringVector propertiesNames;
-    thread_pool threadPool;
-
-};
+namespace ParallelGateway {
+    //=============================================================================
+    ArrayOfVector
+    parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
