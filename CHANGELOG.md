@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Dark theme detection with Gnome.
 
+- [#642](http://github.com/Nelson-numerical-software/nelson/issues/642): `rand` was not thread safe.
+
 ## 0.6.4 (2022-04-24)
 
 ### Changed
