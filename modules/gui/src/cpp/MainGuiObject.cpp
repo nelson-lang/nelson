@@ -76,7 +76,8 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     }
 }
 //===================================================================================
-static char* argv[] = { "Nelson", nullptr };
+static char execName[7] = "Nelson";
+static char* argv[] = { execName, nullptr };
 static int argc = 1;
 //===================================================================================
 void
