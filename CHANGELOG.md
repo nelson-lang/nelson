@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 0.6.X (UNRELEASED)
+## 0.6.5 (UNRELEASED)
 
 ### Added
 
@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `system` builtin: multithread rework.
 
 - [#633](http://github.com/Nelson-numerical-software/nelson/issues/633): libsndfile 1.1.0 used.
+
+- Windows build uses `/permissive-` option.
 
 ### Fixed
 
