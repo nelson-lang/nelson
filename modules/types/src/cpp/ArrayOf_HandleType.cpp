@@ -81,7 +81,11 @@ std::wstring
 ArrayOf::getHandleCategory() const
 {
     HandleGenericObject* obj = getContentAsHandleScalar();
-    return obj->getCategory();
+    std::wstring category;
+    if (obj) {
+        category = obj->getCategory();
+    }
+    return category;
 }
 //=============================================================================
 } // namespace Nelson

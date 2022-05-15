@@ -11,7 +11,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "ToCellString.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
@@ -39,7 +39,7 @@ classnameQObject(const ArrayOf& A)
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {
                 if (hlObj->getPointer()) {
-                    QmlHandleObject* qmlHandle = (QmlHandleObject*)hlObj;
+                    QObjectHandleObject* qmlHandle = (QObjectHandleObject*)hlObj;
                     void* ptr = qmlHandle->getPointer();
                     if (ptr == nullptr) {
                         names.push_back("");

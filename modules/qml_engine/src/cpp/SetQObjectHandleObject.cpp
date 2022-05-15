@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "SetQmlHandleObject.hpp"
+#include "SetQObjectHandleObject.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtCore/QStringList>
 #include <QtCore/qdatetime.h>
@@ -28,14 +28,14 @@
 namespace Nelson {
 //=============================================================================
 void
-SetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B)
+SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B)
 {
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("QObject valid handle expected."));
@@ -50,7 +50,7 @@ SetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
                 Error(_W("QObject handle expected."));
             }
         }
-        QmlHandleObject* qmlhandleobjparent = (QmlHandleObject*)hlObjParent;
+        QObjectHandleObject* qmlhandleobjparent = (QObjectHandleObject*)hlObjParent;
         void* ptr = qmlhandleobjparent->getPointer();
         if (ptr == nullptr) {
             Error(_W("QObject valid handle expected."));

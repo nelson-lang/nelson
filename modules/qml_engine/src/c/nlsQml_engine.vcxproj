@@ -185,11 +185,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\classnameQObject.cpp" />
-    <ClCompile Include="..\cpp\DeleteQmlHandleObject.cpp" />
-    <ClCompile Include="..\cpp\DispQmlHandleObject.cpp" />
-    <ClCompile Include="..\cpp\fieldnamesQmlHandleObject.cpp" />
+    <ClCompile Include="..\cpp\DeleteQObjectHandleObject.cpp" />
+    <ClCompile Include="..\cpp\DispQObjectHandleObject.cpp" />
+    <ClCompile Include="..\cpp\fieldnamesQObjectHandleObject.cpp" />
     <ClCompile Include="..\cpp\findchildrenQObject.cpp" />
-    <ClCompile Include="..\cpp\GetQmlHandleObject.cpp" />
+    <ClCompile Include="..\cpp\GetQObjectHandleObject.cpp" />
     <ClCompile Include="..\cpp\invokeQObject.cpp" />
     <ClCompile Include="..\cpp\ismethodQObject.cpp" />
     <ClCompile Include="..\cpp\ispropQObject.cpp" />
@@ -200,23 +200,22 @@
     <ClCompile Include="..\cpp\moc_nelsonObject.cpp" />
     <ClCompile Include="..\cpp\nelsonObject.cpp" />
     <ClCompile Include="..\cpp\QmlEngine.cpp" />
-    <ClCompile Include="..\cpp\QmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\QtConstants.cpp" />
     <ClCompile Include="..\cpp\QtVersion.cpp" />
     <ClCompile Include="..\cpp\QVariantArrayOf.cpp" />
     <ClCompile Include="..\cpp\rootQObject.cpp" />
-    <ClCompile Include="..\cpp\SetQmlHandleObject.cpp" />
+    <ClCompile Include="..\cpp\SetQObjectHandleObject.cpp" />
     <ClCompile Include="..\cpp\UndefineDynamicProperty.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsQml_engine_exports.h" />
     <ClInclude Include="..\include\classnameQObject.hpp" />
-    <ClInclude Include="..\include\DeleteQmlHandleObject.hpp" />
-    <ClInclude Include="..\include\DispQmlHandleObject.hpp" />
-    <ClInclude Include="..\include\fieldnamesQmlHandleObject.hpp" />
+    <ClInclude Include="..\include\DeleteQObjectHandleObject.hpp" />
+    <ClInclude Include="..\include\DispQObjectHandleObject.hpp" />
+    <ClInclude Include="..\include\fieldnamesQObjectHandleObject.hpp" />
     <ClInclude Include="..\include\findchildrenQObject.hpp" />
-    <ClInclude Include="..\include\GetQmlHandleObject.hpp" />
+    <ClInclude Include="..\include\GetQObjectHandleObject.hpp" />
     <ClInclude Include="..\include\invokeQObject.hpp" />
     <ClInclude Include="..\include\ismethodQObject.hpp" />
     <ClInclude Include="..\include\ispropQObject.hpp" />
@@ -224,12 +223,13 @@
     <ClInclude Include="..\include\iswindowtypeQObject.hpp" />
     <ClInclude Include="..\include\methodSignatureQObject.hpp" />
     <ClInclude Include="..\include\methodsQObject.hpp" />
-    <ClInclude Include="..\include\QmlHandleObject.hpp" />
+    <ClInclude Include="..\include\QObjectHandleObject.hpp" />
+    <ClInclude Include="..\include\QObjectHandleObjectAllocator.hpp" />
     <ClInclude Include="..\include\QtConstants.hpp" />
     <ClInclude Include="..\include\QtVersion.hpp" />
     <ClInclude Include="..\include\QVariantArrayOf.hpp" />
     <ClInclude Include="..\include\rootQObject.hpp" />
-    <ClInclude Include="..\include\SetQmlHandleObject.hpp" />
+    <ClInclude Include="..\include\SetQObjectHandleObject.hpp" />
     <ClInclude Include="..\include\UndefineDynamicProperty.hpp" />
     <CustomBuild Include="..\cpp\nelsonObject.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "fieldnamesQmlHandleObject.hpp"
+#include "fieldnamesQObjectHandleObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
@@ -19,18 +19,19 @@
 namespace Nelson {
 //=============================================================================
 void
-fieldnamesQmlHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames)
+fieldnamesQObjectHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
-    fieldnamesQmlHandleObject(qmlhandleobj, fullList, fieldnames);
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
+    fieldnamesQObjectHandleObject(qmlhandleobj, fullList, fieldnames);
 }
 //=============================================================================
 void
-fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVector& fieldnames)
+fieldnamesQObjectHandleObject(
+    QObjectHandleObject* qmlHandle, bool fullList, wstringVector& fieldnames)
 {
     void* ptr = qmlHandle->getPointer();
     fieldnames.clear();

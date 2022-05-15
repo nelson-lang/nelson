@@ -9,13 +9,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <QtCore/QObject>
 #include "nlsQml_engine_exports.h"
+#include "QObjectHandleObject.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSQML_ENGINE_IMPEXP void
-SetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B);
+QObjectHandleObject*
+QObjectHandleObjectAllocator(QObject* qobj)
+{
+    QObjectHandleObject* qObjectHandle = nullptr;
+    try {
+        qObjectHandle = new QObjectHandleObject(qobj);
+    } catch (const std::bad_alloc&) {
+        qObjectHandle = nullptr;
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    return qObjectHandle;
+}
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

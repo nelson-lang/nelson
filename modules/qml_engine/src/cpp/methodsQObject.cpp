@@ -10,14 +10,14 @@
 #include "methodsQObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "ToCellString.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
-methodsQObject(QmlHandleObject* qmlhandleobj, stringVector& methods)
+methodsQObject(QObjectHandleObject* qmlhandleobj, stringVector& methods)
 {
     void* ptr = qmlhandleobj->getPointer();
     methods.clear();
@@ -49,7 +49,7 @@ methodsQObject(const ArrayOf& A)
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     stringVector methodsName;
     methodsQObject(qmlhandleobj, methodsName);
     return ToCellStringAsColumn(methodsName);

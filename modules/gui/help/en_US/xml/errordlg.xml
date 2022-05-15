@@ -10,7 +10,7 @@
   <syntax_item>h = errordlg()</syntax_item>
   <syntax_item>h = errordlg(text_error)</syntax_item>
   <syntax_item>h = errordlg(text_error, title)</syntax_item>
-  <syntax_item>h = errordlg(text_error, title, 'on')</syntax_item>
+  <syntax_item>h = errordlg(text_error, title, mode)</syntax_item>
 
   </syntax>
   
@@ -26,6 +26,11 @@
       <param_description>a string: the title of the dialog box.</param_description>
     </param_input_item>
 
+    <param_input_item>
+      <param_name>mode</param_name>
+      <param_description>a string: 'mode', 'non-modal', 'replace'.</param_description>
+    </param_input_item>
+
   </param_input>
 
   <param_output>
@@ -37,7 +42,7 @@
   </param_output>
 
   <description><p><b>errordlg</b> creates an error dialog box.</p>
-  <p><b>h = errordlg(text_error, title, 'on')</b> specifies whether to replace an existing dialog box having the same name.</p>
+  <p><b>h = errordlg(text_error, title, 'replace')</b> specifies whether to replace an existing dialog box having the same title.</p>
   <p><img src="../images/errordlg_1.png"/></p>
   
 </description>

@@ -10,7 +10,7 @@
 #include "findchildrenQObject.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
@@ -24,7 +24,7 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("QObject valid handle expected."));
@@ -44,9 +44,9 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
             if (nh_found != -1) {
                 nh[k] = nh_found;
             } else {
-                QmlHandleObject* qmlHandle = nullptr;
+                QObjectHandleObject* qmlHandle = nullptr;
                 try {
-                    qmlHandle = new QmlHandleObject(qobjfound[k]);
+                    qmlHandle = new QObjectHandleObject(qobjfound[k]);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
                     Error(ERROR_MEMORY_ALLOCATION);

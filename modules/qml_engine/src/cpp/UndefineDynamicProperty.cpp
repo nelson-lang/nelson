@@ -13,7 +13,7 @@
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
@@ -27,7 +27,7 @@ UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("QObject valid handle expected."));

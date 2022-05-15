@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DeleteQmlHandleObject.hpp"
+#include "DeleteQObjectHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "MainGuiObject.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include <QtGui/QWindow>
 #include <QtQml/QQmlComponent>
 #include <QtQml/QQmlEngine>
@@ -18,7 +18,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-DeleteQmlHandleObject(const ArrayOf& A)
+DeleteQObjectHandleObject(const ArrayOf& A)
 {
     bool res = false;
     if (A.isHandle()) {
@@ -33,7 +33,7 @@ DeleteQmlHandleObject(const ArrayOf& A)
                     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
                         Error(_W("QObject handle expected."));
                     }
-                    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+                    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
                     void* ptr = qmlhandleobj->getPointer();
                     if (ptr) {
                         QObject* qobj = (QObject*)ptr;
@@ -41,6 +41,10 @@ DeleteQmlHandleObject(const ArrayOf& A)
                         if (qobj == qobjMainWindow) {
                             qmlhandleobj->setPointer(nullptr);
                         } else {
+                            int idx = qobj->metaObject()->indexOfProperty("visible");
+                            if (idx != -1) {
+                                qobj->setProperty("visible", QVariant(false));
+                            }
                             if (qobj->isWindowType()) {
                                 QWindow* w = static_cast<QWindow*>(qobj);
                                 w->destroy();

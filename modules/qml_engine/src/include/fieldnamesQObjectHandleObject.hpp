@@ -9,16 +9,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
-#include "Interface.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "nlsQml_engine_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP void
-DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name);
+fieldnamesQObjectHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames);
+NLSQML_ENGINE_IMPEXP void
+fieldnamesQObjectHandleObject(
+    QObjectHandleObject* qmlHandle, bool fullList, wstringVector& fieldnames);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -10,7 +10,7 @@
 #include "QObject_iswidgettypeBuiltin.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "iswidgettypeQObject.hpp"
 //=============================================================================
 using namespace Nelson;

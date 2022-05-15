@@ -20,7 +20,7 @@ Nelson::QmlEngineGateway::qml_createqquickviewBuiltin(int nLhs, const ArrayOfVec
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
-    QmlHandleObject* qmlhandle = QmlEngine::getInstance()->createQQuickView(filename);
+    QObjectHandleObject* qmlhandle = QmlEngine::getInstance()->createQQuickView(filename);
     ArrayOfVector retval;
     retval.push_back(ArrayOf::handleConstructor(qmlhandle));
     return retval;

@@ -11,6 +11,7 @@
 % <--WITH DISPLAY-->
 %=============================================================================
 h = msgbox({'Operation' 'Completed'});
-assert_istrue(h.isWindow);
+assert_isfalse(h.minimized);
+assert_isequal(h.className, 'QMessageBox');
 assert_isequal(h.visible, true);
 %=============================================================================

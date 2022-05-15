@@ -13,6 +13,8 @@
 #include "qt_verboseBuiltin.hpp"
 #include "uigetdirBuiltin.hpp"
 #include "lookandfeelBuiltin.hpp"
+#include "msgboxBuiltin.hpp"
+#include "questdlgBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,6 +27,8 @@ static const nlsGateway gateway[] = {
     { "lookandfeel", (ptrBuiltin)Nelson::GuiGateway::lookandfeelBuiltin, 1, 2 },
     { "uigetdir", (ptrBuiltin)Nelson::GuiGateway::uigetdirBuiltin, 1, 2 },
     { "qt_verbose", (ptrBuiltin)Nelson::GuiGateway::qt_verboseBuiltin, 1, 1 },
+    { "msgbox", (ptrBuiltin)Nelson::GuiGateway::msgboxBuiltin, 1, 4 },
+    { "questdlg", (ptrBuiltin)Nelson::GuiGateway::questdlgBuiltin, 1, 6 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

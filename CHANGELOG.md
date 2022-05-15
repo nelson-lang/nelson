@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Windows build uses `/permissive-` option.
 
+- [#646](http://github.com/Nelson-numerical-software/nelson/issues/646): `warndlg`, `questdlg`, `errordlg`, `helpdlg` reworked to better Qt6 support.
+
 ### Fixed
 
 - Dark theme detection with Gnome.
