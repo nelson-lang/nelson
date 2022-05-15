@@ -29,11 +29,11 @@
 #include <QtQml/QQmlListProperty>
 #include "QVariantArrayOf.hpp"
 #include "Error.hpp"
-#include "GetQmlHandleObject.hpp"
+#include "GetQObjectHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "IsCellOfStrings.hpp"
 #include "QStringConverter.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -470,9 +470,9 @@ QVariantToArrayOf(QVariant Q)
                 if (nh_found != -1) {
                     nh[0] = nh_found;
                 } else {
-                    QmlHandleObject* qmlHandle = nullptr;
+                    QObjectHandleObject* qmlHandle = nullptr;
                     try {
-                        qmlHandle = new QmlHandleObject(qobject);
+                        qmlHandle = new QObjectHandleObject(qobject);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
                         Error(ERROR_MEMORY_ALLOCATION);
@@ -500,9 +500,9 @@ QVariantToArrayOf(QVariant Q)
                 if (nh_found != -1) {
                     nh[k] = nh_found;
                 } else {
-                    QmlHandleObject* qmlHandle = nullptr;
+                    QObjectHandleObject* qmlHandle = nullptr;
                     try {
-                        qmlHandle = new QmlHandleObject(qobj);
+                        qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
                         Error(ERROR_MEMORY_ALLOCATION);
@@ -535,9 +535,9 @@ QVariantToArrayOf(QVariant Q)
                 if (nh_found != -1) {
                     nh[k] = nh_found;
                 } else {
-                    QmlHandleObject* qmlHandle = nullptr;
+                    QObjectHandleObject* qmlHandle = nullptr;
                     try {
-                        qmlHandle = new QmlHandleObject(qobj);
+                        qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
                         Error(ERROR_MEMORY_ALLOCATION);
@@ -559,10 +559,10 @@ QVariantToArrayOf(QVariant Q)
         if (obj == nullptr) {
             Error(_W("property type not managed."));
         }
-        QmlHandleObject* qmlHandle = nullptr;
+        QObjectHandleObject* qmlHandle = nullptr;
         try {
             QObject* obj = qvariant_cast<QObject*>(Q);
-            qmlHandle = new QmlHandleObject(obj);
+            qmlHandle = new QObjectHandleObject(obj);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);

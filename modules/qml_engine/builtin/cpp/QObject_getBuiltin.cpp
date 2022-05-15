@@ -9,7 +9,7 @@
 //=============================================================================
 #include "QObject_getBuiltin.hpp"
 #include "Error.hpp"
-#include "GetQmlHandleObject.hpp"
+#include "GetQObjectHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,7 +22,7 @@ Nelson::QmlEngineGateway::QObject_getBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
-    retval.push_back(GetQmlHandleObject(param1, propertyName));
+    retval.push_back(GetQObjectHandleObject(param1, propertyName));
     return retval;
 }
 //=============================================================================

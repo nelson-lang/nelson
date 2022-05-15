@@ -10,14 +10,14 @@
 #include "ismethodQObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-ismethodQObject(QmlHandleObject* qmlhandleobj, const std::wstring& methodname)
+ismethodQObject(QObjectHandleObject* qmlhandleobj, const std::wstring& methodname)
 {
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
@@ -47,7 +47,7 @@ ismethodQObject(const ArrayOf& A, const std::wstring& methodname)
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     bool res = ismethodQObject(qmlhandleobj, methodname);
     return ArrayOf::logicalConstructor(res);
 }

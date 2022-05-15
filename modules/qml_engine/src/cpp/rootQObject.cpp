@@ -10,7 +10,7 @@
 #include "rootQObject.hpp"
 #include "HandleManager.hpp"
 #include "MainGuiObject.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include <QtGui/QWindow>
 #include <QtQml/QQmlComponent>
 //=============================================================================
@@ -22,9 +22,9 @@ rootQObject()
     ArrayOf res;
     QWindow* parent = (QWindow*)GetMainGuiObject();
     if (parent) {
-        QmlHandleObject* qmlHandle = nullptr;
+        QObjectHandleObject* qmlHandle = nullptr;
         try {
-            qmlHandle = new QmlHandleObject(parent);
+            qmlHandle = new QObjectHandleObject(parent);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);

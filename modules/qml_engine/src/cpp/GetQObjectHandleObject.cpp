@@ -7,26 +7,26 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "GetQmlHandleObject.hpp"
+#include "GetQObjectHandleObject.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "QVariantArrayOf.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-GetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName)
+GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("QObject valid handle expected."));
@@ -39,9 +39,9 @@ GetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName)
             if (nh_found != -1) {
                 res = ArrayOf::handleConstructor(nh_found);
             } else {
-                QmlHandleObject* qmlHandle = nullptr;
+                QObjectHandleObject* qmlHandle = nullptr;
                 try {
-                    qmlHandle = new QmlHandleObject(qparent);
+                    qmlHandle = new QObjectHandleObject(qparent);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
                     Error(ERROR_MEMORY_ALLOCATION);
@@ -71,9 +71,9 @@ GetQmlHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                 if (nh_found != -1) {
                     nh[k] = nh_found;
                 } else {
-                    QmlHandleObject* qmlHandle = nullptr;
+                    QObjectHandleObject* qmlHandle = nullptr;
                     try {
-                        qmlHandle = new QmlHandleObject(childs[k]);
+                        qmlHandle = new QObjectHandleObject(childs[k]);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
                         Error(ERROR_MEMORY_ALLOCATION);

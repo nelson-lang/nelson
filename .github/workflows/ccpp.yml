@@ -381,6 +381,8 @@ jobs:
     steps:
     - name: install dependencies
       run: |
+        sudo apt update
+        sudo apt upgrade --fix-missing
         sudo apt install apt-transport-https ca-certificates gnupg software-properties-common wget ;
         sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
         sudo apt update

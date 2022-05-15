@@ -10,7 +10,7 @@
 #include "QObject_propertiesBuiltin.hpp"
 #include "Error.hpp"
 #include "ToCellString.hpp"
-#include "fieldnamesQmlHandleObject.hpp"
+#include "fieldnamesQObjectHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,7 +27,7 @@ Nelson::QmlEngineGateway::QObject_propertiesBuiltin(
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     wstringVector fieldnames;
-    fieldnamesQmlHandleObject(param1, fullList, fieldnames);
+    fieldnamesQObjectHandleObject(param1, fullList, fieldnames);
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
         if (io) {

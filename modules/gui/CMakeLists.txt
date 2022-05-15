@@ -32,6 +32,8 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../qml_engine/src/include
+
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include)
 # ==============================================================================
 file(GLOB GUI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -40,7 +42,7 @@ add_library(${module_library_name} SHARED ${GUI_SRC})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
-   nlsInterpreter
+  nlsInterpreter
   nlsTypes
   nlsError_manager
   nlsNelson_manager
@@ -69,6 +71,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 # ==============================================================================
@@ -80,6 +83,7 @@ target_link_libraries(
   nlsError_manager
   nlsInterpreter
   nlsTypes
+  nlsData_structures
   nlsApi_nelson
   nlsI18n)
 # ==============================================================================
@@ -104,11 +108,6 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/qml
-  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
-  FILES_MATCHING
-  PATTERN "*.*")
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}

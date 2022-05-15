@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_deleteBuiltin.hpp"
-#include "DeleteQmlHandleObject.hpp"
+#include "DeleteQObjectHandleObject.hpp"
 #include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,7 +20,7 @@ Nelson::QmlEngineGateway::QObject_deleteBuiltin(int nLhs, const ArrayOfVector& a
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        DeleteQmlHandleObject(param1);
+        DeleteQObjectHandleObject(param1);
     }
     ArrayOfVector retval;
     return retval;

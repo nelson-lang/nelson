@@ -27,22 +27,19 @@
     <ClCompile Include="..\cpp\moc_nelsonObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\QmlHandleObject.cpp">
+    <ClCompile Include="..\cpp\DeleteQObjectHandleObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\DeleteQmlHandleObject.cpp">
+    <ClCompile Include="..\cpp\DispQObjectHandleObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\DispQmlHandleObject.cpp">
+    <ClCompile Include="..\cpp\GetQObjectHandleObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\GetQmlHandleObject.cpp">
+    <ClCompile Include="..\cpp\fieldnamesQObjectHandleObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\fieldnamesQmlHandleObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\SetQmlHandleObject.cpp">
+    <ClCompile Include="..\cpp\SetQObjectHandleObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\QVariantArrayOf.cpp">
@@ -95,22 +92,22 @@
     <ClInclude Include="..\include\QmlEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\QmlHandleObject.hpp">
+    <ClInclude Include="..\include\QObjectHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\DeleteQmlHandleObject.hpp">
+    <ClInclude Include="..\include\DeleteQObjectHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\DispQmlHandleObject.hpp">
+    <ClInclude Include="..\include\DispQObjectHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\GetQmlHandleObject.hpp">
+    <ClInclude Include="..\include\GetQObjectHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\fieldnamesQmlHandleObject.hpp">
+    <ClInclude Include="..\include\fieldnamesQObjectHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SetQmlHandleObject.hpp">
+    <ClInclude Include="..\include\SetQObjectHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\QVariantArrayOf.hpp">
@@ -153,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\QtConstants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\QObjectHandleObjectAllocator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

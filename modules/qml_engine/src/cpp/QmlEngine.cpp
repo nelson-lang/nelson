@@ -7,13 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QmlEngine.hpp"
-#include "Error.hpp"
-#include "MainGuiObject.hpp"
-#include "QStringConverter.hpp"
-#include "QVariantArrayOf.hpp"
-#include "characters_encoding.hpp"
-#include "nelsonObject.h"
 #include <QtCore/QFile>
 #include <QtCore/QPointer>
 #include <QtCore/QScopedPointer>
@@ -24,6 +17,14 @@
 #include <QtQml/QQmlProperty>
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
+#include "QmlEngine.hpp"
+#include "Error.hpp"
+#include "MainGuiObject.hpp"
+#include "QStringConverter.hpp"
+#include "QVariantArrayOf.hpp"
+#include "characters_encoding.hpp"
+#include "nelsonObject.h"
+#include "QObjectHandleObjectAllocator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -63,20 +64,7 @@ QmlEngine::destroy()
     }
 }
 //=============================================================================
-static QmlHandleObject*
-allocateQmlHandle(QObject* qobj)
-{
-    QmlHandleObject* qmlHandle = nullptr;
-    try {
-        qmlHandle = new QmlHandleObject(qobj);
-    } catch (const std::bad_alloc&) {
-        qmlHandle = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
-    }
-    return qmlHandle;
-}
-//=============================================================================
-QmlHandleObject*
+QObjectHandleObject*
 QmlEngine::setData(const std::wstring& data)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
@@ -98,12 +86,12 @@ QmlEngine::setData(const std::wstring& data)
                 topLevel->setParent(QMainWindowParent);
             }
         }
-        return allocateQmlHandle(topLevel);
+        return QObjectHandleObjectAllocator(topLevel);
     }
     return nullptr;
 }
 //=============================================================================
-QmlHandleObject*
+QObjectHandleObject*
 QmlEngine::loadQmlFile(const std::wstring& filename)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
@@ -122,13 +110,13 @@ QmlEngine::loadQmlFile(const std::wstring& filename)
                 QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
                 topLevel->setParent(QMainWindowParent);
             }
-            return allocateQmlHandle(topLevel);
+            return QObjectHandleObjectAllocator(topLevel);
         }
     }
     return nullptr;
 }
 //=============================================================================
-QmlHandleObject*
+QObjectHandleObject*
 QmlEngine::createQQuickView(const std::wstring& filename)
 {
     QObject* topLevel = nullptr;
@@ -153,14 +141,14 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         if (topLevel != nullptr) {
             topLevel = topLevel->parent();
             topLevel->setParent(QMainWindowParent);
-            return allocateQmlHandle(topLevel);
+            return QObjectHandleObjectAllocator(topLevel);
         }
         Error(_W("Cannot set parent."));
 
     } else {
         Error(_W("File does not exist:") + L"\n" + filename);
     }
-    return allocateQmlHandle(topLevel);
+    return QObjectHandleObjectAllocator(topLevel);
 }
 //=============================================================================
 QmlEngine::QmlEngine()

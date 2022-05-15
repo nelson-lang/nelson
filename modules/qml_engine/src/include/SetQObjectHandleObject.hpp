@@ -10,15 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "nlsQml_engine_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace GuiGateway {
-    //=============================================================================
-    ArrayOfVector
-    lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-};
+NLSQML_ENGINE_IMPEXP void
+SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B);
 //=============================================================================
-}; // namespace Nelson
+} // namespace Nelson
 //=============================================================================

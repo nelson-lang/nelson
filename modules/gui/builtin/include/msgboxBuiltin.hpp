@@ -9,23 +9,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "HandleGenericObject.hpp"
-#include "nlsQml_engine_exports.h"
-#include <string>
-//=============================================================================
-#define QOBJECT_CATEGORY_STR L"QObject"
-#define QOBJECT_PROPERTY_PARENT_STR "parent"
-#define QOBJECT_PROPERTY_CHILDREN_STR "children"
-#define QOBJECT_PROPERTY_CLASSNAME_STR "className"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject
-{
-public:
-    QmlHandleObject(void* _ptr);
-    ~QmlHandleObject();
+namespace GuiGateway {
+    //=============================================================================
+    ArrayOfVector
+    msgboxBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 };
 //=============================================================================
-} // namespace Nelson
+}; // namespace Nelson
 //=============================================================================

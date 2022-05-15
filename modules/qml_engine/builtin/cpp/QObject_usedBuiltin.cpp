@@ -9,7 +9,7 @@
 //=============================================================================
 #include "QObject_usedBuiltin.hpp"
 #include "Error.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;

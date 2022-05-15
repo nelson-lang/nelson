@@ -10,7 +10,7 @@
 #include "methodSignatureQObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
 //=============================================================================
@@ -18,7 +18,7 @@ namespace Nelson {
 //=============================================================================
 bool
 methodSignatureQObject(
-    QmlHandleObject* qmlhandleobj, const std::wstring& methodName, std::wstring& signature)
+    QObjectHandleObject* qmlhandleobj, const std::wstring& methodName, std::wstring& signature)
 {
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
@@ -49,7 +49,7 @@ methodSignatureQObject(const ArrayOf& A, const std::wstring& methodName)
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
         Error(_W("QObject handle expected."));
     }
-    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     std::wstring signature;
     bool res = methodSignatureQObject(qmlhandleobj, methodName, signature);
     if (res == false) {

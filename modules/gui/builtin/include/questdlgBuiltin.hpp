@@ -16,7 +16,7 @@ namespace Nelson {
 namespace GuiGateway {
     //=============================================================================
     ArrayOfVector
-    lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn);
+    questdlgBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 };
 //=============================================================================

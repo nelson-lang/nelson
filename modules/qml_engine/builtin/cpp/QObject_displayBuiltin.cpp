@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_displayBuiltin.hpp"
-#include "DispQmlHandleObject.hpp"
+#include "DispQObjectHandleObject.hpp"
 #include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -32,7 +32,7 @@ Nelson::QmlEngineGateway::QObject_displayBuiltin(
     if (argIn.size() == 2) {
         name = argIn[1].getContentAsCString();
     }
-    DispQmlHandleObject(io, param1, name);
+    DispQObjectHandleObject(io, param1, name);
     return retval;
 }
 //=============================================================================

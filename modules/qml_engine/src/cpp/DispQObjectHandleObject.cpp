@@ -24,13 +24,13 @@
 #include <QtGui/QTransform>
 #include <QtGui/QVector2D>
 #include <QtQml/QQmlComponent>
-#include "DispQmlHandleObject.hpp"
+#include "DispQObjectHandleObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include "fieldnamesQmlHandleObject.hpp"
+#include "fieldnamesQObjectHandleObject.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -146,13 +146,13 @@ dispQColor(const QColor& qcolor, const std::wstring& fieldname, std::wstring& ms
 }
 //=============================================================================
 static void
-DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
+DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
 {
     if (qmlHandle != nullptr) {
         wstringVector wfieldnames;
-        fieldnamesQmlHandleObject(qmlHandle, false, wfieldnames);
         QObject* qobj = (QObject*)qmlHandle->getPointer();
         if (qobj) {
+            fieldnamesQObjectHandleObject(qmlHandle, false, wfieldnames);
             std::wstring msg;
             for (const std::wstring& wfieldname : wfieldnames) {
                 if (wfieldname == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
@@ -239,12 +239,15 @@ DispQmlHandleObject(Interface* io, QmlHandleObject* qmlHandle)
             if (!msg.empty()) {
                 io->outputMessage(msg);
             }
+        } else {
+            std::wstring msg = L"  " + _W("handle to deleted: ") + QOBJECT_CATEGORY_STR + L"\n";
+            io->outputMessage(msg);
         }
     }
 }
 //=============================================================================
 void
-DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
+DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
 {
     if (A.isHandle()) {
         DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
@@ -252,9 +255,11 @@ DispQmlHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
                 Error(_W("QObject handle expected."));
             }
+
             io->outputMessage("\n");
-            QmlHandleObject* qmlhandleobj = (QmlHandleObject*)A.getContentAsHandleScalar();
-            DispQmlHandleObject(io, qmlhandleobj);
+
+            QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)A.getContentAsHandleScalar();
+            DispQObjectHandleObject(io, qmlhandleobj);
         }
         DisplayVariableFooter(io, name.empty());
     } else {

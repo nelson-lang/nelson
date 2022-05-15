@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "QmlHandleObject.hpp"
+#include "QObjectHandleObject.hpp"
 #include "nlsQml_engine_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -20,11 +20,11 @@ class NLSQML_ENGINE_IMPEXP QmlEngine
 public:
     static QmlEngine*
     getInstance();
-    QmlHandleObject*
+    QObjectHandleObject*
     loadQmlFile(const std::wstring& filename);
-    QmlHandleObject*
+    QObjectHandleObject*
     setData(const std::wstring& data);
-    QmlHandleObject*
+    QObjectHandleObject*
     createQQuickView(const std::wstring& filename);
 
     ArrayOf
