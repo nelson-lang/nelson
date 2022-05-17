@@ -381,8 +381,12 @@ jobs:
     steps:
     - name: install dependencies
       run: |
+        curl https://packages.microsoft.com/config/ubuntu/18.04/multiarch/prod.list > ./microsoft-prod.list
+        sudo cp ./microsoft-prod.list /etc/apt/sources.list.d/
+        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+        sudo cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ 
         sudo apt update
-        sudo apt upgrade --fix-missing
+        sudo apt upgrade
         sudo apt install apt-transport-https ca-certificates gnupg software-properties-common wget ;
         sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
         sudo apt update
