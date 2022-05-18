@@ -14,6 +14,10 @@ if fp ~= -1
   fprintf(fp, ['#define GENERATED_INFO', char(10)]);
   compiler = version('-compiler');
   vernumber = version('-number');
+  isQt5 = isfile([modulepath(nelsonroot(),'core','bin'), '/', 'Qt5Core.dll']);
+  if isQt5
+    fprintf(fp, ['#define QT5_USED', char(10)]);
+  end
   if strcmp(compiler{3}, '64') == true
     fprintf(fp, ['#define NELSON_X64', char(10)]);
   end

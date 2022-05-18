@@ -13,4 +13,5 @@
 qml_file = [modulepath('qml_engine'), '/examples/clock/clocks.qml'];
 addpath([modulepath('qml_engine'), '/examples/clock/']);
 qobj = qml_loadfile(qml_file);
+qobj.visible = true;
 %=============================================================================

@@ -1,6 +1,7 @@
 
 import QtQuick 2.2
-import QtQuick.Controls 1.1
+import QtQuick.Controls 2.12
+
 import "content"
 
 ApplicationWindow {
@@ -14,52 +15,8 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
-    toolBar: BorderImage {
-        border.bottom: 8
-        source: "images/toolbar.png"
-        width: parent.width
-        height: 100
-
-        Rectangle {
-            id: backButton
-            width: opacity ? 60 : 0
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            opacity: stackView.depth > 1 ? 1 : 0
-            anchors.verticalCenter: parent.verticalCenter
-            antialiasing: true
-            height: 60
-            radius: 4
-            color: backmouse.pressed ? "#222" : "transparent"
-            Behavior on opacity { NumberAnimation{} }
-            Image {
-                anchors.verticalCenter: parent.verticalCenter
-                source: "images/navigation_previous_item.png"
-            }
-            MouseArea {
-                id: backmouse
-                anchors.fill: parent
-                anchors.margins: -10
-                onClicked: stackView.pop()
-            }
-        }
-
-        Text {
-            font.pixelSize: 42
-            Behavior on x { NumberAnimation{ easing.type: Easing.OutCubic} }
-            x: backButton.x + backButton.width + 20
-            anchors.verticalCenter: parent.verticalCenter
-            color: "white"
-            text: "Nelson QML demos"
-        }
-    }
-
     ListModel {
         id: pageModel
-        ListElement {
-            title: "d3 demo"
-            page: "d3_demo"
-        }
         ListElement {
             title: "qcharts <--> Nelson"
             page: "qcharts_demo"
@@ -89,16 +46,8 @@ ApplicationWindow {
             page: "colors"
         }
         ListElement {
-            title: "component gallery"
-            page: "component_gallery"
-        }
-        ListElement {
             title: "dynamic scene"
             page: "dynamic_scene_demo"
-        }
-        ListElement {
-            title: "widget gallery"
-            page: "widget_gallery"
         }
     }
 

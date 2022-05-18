@@ -126,6 +126,9 @@ getAssistantFilename()
         }
     }
     if (!IsFile(wapp)) {
+        wapp = std::wstring(L"/usr/lib/x86_64-linux-gnu/qt6/bin/assistant");
+    }
+    if (!IsFile(wapp)) {
         wapp = std::wstring(L"/usr/lib/x86_64-linux-gnu/qt5/bin/assistant");
     }
 #endif

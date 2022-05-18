@@ -438,7 +438,7 @@ jobs:
         host: 'linux'
         target: 'desktop'
         install-deps: 'true'
-        modules: 'qtcharts, qtwebengine'
+        modules: 'qtwebengine'
         cached: 'false'
         setup-python: 'false'
 
@@ -661,7 +661,7 @@ jobs:
         arch: 'win32_msvc2019'
         dir: 'C:/install/QT5/'
         install-deps: 'true'
-        modules: 'qtcharts, qtwebengine'
+        modules: 'qtwebengine'
         cached: 'false'
         setup-python: 'false'
 
@@ -785,7 +785,7 @@ jobs:
         arch: 'win64_msvc2019_64'
         dir: 'C:/install/QT5/'
         install-deps: 'true'
-        modules: 'qtcharts, qtwebengine'
+        modules: 'qtwebengine'
         cached: 'false'
         setup-python: 'false'         
 

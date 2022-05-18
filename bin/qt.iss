@@ -7,7 +7,7 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-; Qt 5.x
+; Qt 5.x & Qt 6.x
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\qt.conf; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
@@ -16,50 +16,55 @@ Source: {#RootPath}bin\{#BinPath}\plugins\*; DestDir: {app}\bin\{#BinPath}\plugi
 Source: {#RootPath}bin\{#BinPath}\qml\*; DestDir: {app}\bin\{#BinPath}\qml; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\d3dcompiler_*.dll; DestDir: {app}\bin\{#BinPath}\
+#ifdef QT5_USED
 Source: {#RootPath}bin\{#BinPath}\libEGL.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libGLESv2.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DExtras.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DInput.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DLogic.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DQuick.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DQuickExtras.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DQuickInput.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DQuickRender.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?3DRender.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Multimedia.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?MultimediaWidgets.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Sensors.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?WebChannel.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?WebSockets.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?WebView.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?WinExtras.dll; DestDir: {app}\bin\{#BinPath}\
+#endif
 Source: {#RootPath}bin\{#BinPath}\opengl32sw.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5*.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DExtras.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DInput.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DLogic.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DQuick.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DQuickExtras.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DQuickInput.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DQuickRender.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DRender.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Concurrent.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Core.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5DBus.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Gui.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Help.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Multimedia.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5MultimediaWidgets.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Network.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5OpenGL.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5PrintSupport.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Qml.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Quick.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5QuickControls2.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5QuickParticles.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5QuickTemplates2.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5QuickWidgets.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Sensors.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Help.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Svg.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WebChannel.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WebEngine.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineCore.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineWidgets.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}bin\{#BinPath}\Qt5QmlWorkerScript.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}bin\{#BinPath}\Qt5QmlModels.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}bin\{#BinPath}\Qt5WebSockets.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WebView.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WinExtras.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?*.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Concurrent.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Core.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?DBus.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Gui.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Help.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Network.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?OpenGL.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?PrintSupport.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Qml.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Quick.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?QuickControls2.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?QuickParticles.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?QuickTemplates2.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?QuickWidgets.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Help.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?Svg.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt?WebEngine.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt?WebEngineCore.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt?WebEngineWidgets.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt?QmlWorkerScript.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt?QmlModels.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt?Widgets.dll; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\assistant.exe; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\Qt5CLucene.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
-Source: {#RootPath}bin\{#BinPath}\qcollectiongenerator.exe; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\qhelpgenerator.exe; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
+#ifdef QT5_USED
+Source: {#RootPath}bin\{#BinPath}\Qt?CLucene.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\qcollectiongenerator.exe; DestDir: {app}\bin\{#BinPath}\;
+#endif
 ;==============================================================================

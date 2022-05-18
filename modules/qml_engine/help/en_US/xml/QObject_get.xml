@@ -53,9 +53,9 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[h = errordlg()
+    <example_item_data><![CDATA[h = errordlg();
 h.visible % or get(h, 'visible')
-h.title % or get(h, 'title')]]>
+h.windowTitle % or get(h, 'windowTitle')]]>
     </example_item_data>
   </example_item>
 
