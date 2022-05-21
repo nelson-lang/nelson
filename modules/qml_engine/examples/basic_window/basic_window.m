@@ -14,7 +14,11 @@ else
   qobj = [];
 end
 if isempty(qobj)
-  qml_file = [modulepath('qml_engine'), '/examples/basic_window/hello.qml'];
+  if semver(qt_version(), '>=6.0')
+    qml_file = [modulepath('qml_engine'), '/examples/basic_window/hello_qt6.qml'];
+  else
+    qml_file = [modulepath('qml_engine'), '/examples/basic_window/hello_qt5.qml'];
+  end
   qobj = qml_loadfile(qml_file);
 else
   qobj.visible = true;

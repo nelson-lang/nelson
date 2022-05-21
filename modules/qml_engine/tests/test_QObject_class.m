@@ -10,7 +10,11 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
+if semver(qt_version(), '>=6.0')
+    qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt6.qml'];
+else
+    qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt5.qml'];
+end 
 qobj1 = qml_loadfile(qml_file_ok);
 qobj2 = qml_loadfile(qml_file_ok);
 qobj3 = qml_loadfile(qml_file_ok);

@@ -10,6 +10,10 @@
 % <--GUI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/colors/main.qml'];
+if semver(qt_version(), '>=6.0')
+    qml_file = [modulepath('qml_engine'), '/examples/colors/main_qt6.qml'];
+else
+    qml_file = [modulepath('qml_engine'), '/examples/colors/main_qt5.qml'];
+end
 qobj = qml_loadfile(qml_file);
 %=============================================================================

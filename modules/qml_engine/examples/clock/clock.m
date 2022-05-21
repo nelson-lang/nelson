@@ -14,8 +14,12 @@ else
   qobj = [];
 end
 if isempty(qobj)
-  qml_file = [modulepath('qml_engine'), '/examples/clock/clocks.qml'];
-  addpath([modulepath('qml_engine'), '/examples/clock/']);
+  if semver(qt_version(), '>=6.0')
+    qml_file = [modulepath('qml_engine'), '/examples/clock/clocks_qt6.qml'];
+  else
+    qml_file = [modulepath('qml_engine'), '/examples/clock/clocks_qt5.qml'];
+  end
+    addpath([modulepath('qml_engine'), '/examples/clock/']);
   qobj = qml_loadfile(qml_file);
 end
 qobj.visible = true;

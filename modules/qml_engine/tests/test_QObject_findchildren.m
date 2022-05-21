@@ -10,7 +10,11 @@
 % <--GUI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
+if semver(qt_version(), '>=6.0')
+    qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt6.qml'];
+else
+    qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt5.qml'];
+end
 qobj = qml_loadfile(qml_file_ok);
 child = QObject_findchildren(QObject_root(), 'text1', false);
 assert_isequal(size(child), [0 0]);

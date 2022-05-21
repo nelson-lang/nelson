@@ -13,7 +13,11 @@
 assert_isequal(nargin('QObject_iswindowtype'), 1);
 assert_isequal(nargout('QObject_iswindowtype'), 1);
 %=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
+if semver(qt_version(), '>=6.0')
+    qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt6.qml'];
+else
+    qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt5.qml'];
+end
 qobj = qml_loadfile(qml_file_ok);
 assert_istrue(QObject_iswindowtype(qobj));
 child = qobj.children(1);

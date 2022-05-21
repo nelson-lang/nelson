@@ -9,7 +9,11 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-qml_file = [modulepath('qml_engine'), '/tests/test_qvariant.qml'];
+if semver(qt_version(), '>=6.0')
+  qml_file = [modulepath('qml_engine'), '/tests/test_qvariant_qt6.qml'];
+else
+  qml_file = [modulepath('qml_engine'), '/tests/test_qvariant_qt5.qml'];
+end 
 qobj = qml_loadfile(qml_file);
 %=============================================================================
 assert_isequal(class(qobj.active), 'logical');
