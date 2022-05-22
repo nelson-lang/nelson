@@ -34,6 +34,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#648](http://github.com/Nelson-numerical-software/nelson/issues/648): Ubuntu 18.04 CI failed.
 
+- [#651](http://github.com/Nelson-numerical-software/nelson/issues/651): MacOs monterey crashs at exit with mpi module.
+
 ## 0.6.4 (2022-04-24)
 
 ### Changed
