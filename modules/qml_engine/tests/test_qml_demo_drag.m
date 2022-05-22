@@ -10,7 +10,11 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/drag_demo/drag.qml'];
+if semver(qt_version(), '>=6.0')
+    qml_file = [modulepath('qml_engine'), '/examples/drag_demo/drag_qt6.qml'];
+else 
+    qml_file = [modulepath('qml_engine'), '/examples/drag_demo/drag_qt5.qml'];
+end 
 addpath([modulepath('qml_engine'), '/examples/drag_demo/']);
 qobj = qml_loadfile(qml_file);
 %=============================================================================

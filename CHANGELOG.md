@@ -16,6 +16,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- [#631](http://github.com/Nelson-numerical-software/nelson/issues/631): Qt6 used as default distribution on some OS platforms.
+
+  For backport compatibility only Qt5.15.x and Qt6.3 (or more) are supported.
+
+  - Windows 64 bits: Qt6.3
+  - Windows 32 bits: Qt5.15.x
+  - Ubuntu 22.04: Qt6.3
+  - Ubuntu 20.04, 18.04: Qt5.15.x
+  - MacOs Monterey: Qt6.3
+  - MacOs BigSur, Catalina: Qt5.15.x
+  - Others OS platforms: Qt version based on distributed Qt version.
+
 - [#636](http://github.com/Nelson-numerical-software/nelson/issues/636): docker image uses bullseye image.
 
 - `system` builtin: multithread rework.

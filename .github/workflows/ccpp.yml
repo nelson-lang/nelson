@@ -35,7 +35,7 @@ jobs:
         brew install boost
         brew install libxml2
         brew upgrade cmake
-        brew install qt5
+        brew install qt6
         brew install fftw
         brew install portaudio
         brew install libsndfile
@@ -438,7 +438,7 @@ jobs:
         host: 'linux'
         target: 'desktop'
         install-deps: 'true'
-        modules: 'qtcharts, qtwebengine'
+        modules: 'qtwebengine'
         cached: 'false'
         setup-python: 'false'
 
@@ -661,7 +661,7 @@ jobs:
         arch: 'win32_msvc2019'
         dir: 'C:/install/QT5/'
         install-deps: 'true'
-        modules: 'qtcharts, qtwebengine'
+        modules: 'qtwebengine'
         cached: 'false'
         setup-python: 'false'
 
@@ -776,22 +776,22 @@ jobs:
       run: |  
         python %GITHUB_WORKSPACE%/tools/update_version/update_version.py
 
-    - name: Install Qt 5.15.2
+    - name: Install Qt 6.3.0
       uses: jurplel/install-qt-action@v2
       with:
-        version: '5.15.2'
+        version: '6.3.0'
         host: 'windows'
         target: 'desktop'
         arch: 'win64_msvc2019_64'
-        dir: 'C:/install/QT5/'
+        dir: 'C:/install/QT6/'
         install-deps: 'true'
-        modules: 'qtcharts, qtwebengine'
+        modules: 'qtwebengine'
         cached: 'false'
         setup-python: 'false'         
 
     - name: Install dependencies
       run: |
-        set QTDIR64=C:\install\QT5\Qt\5.15.2\msvc2019_64
+        set QTDIR64=C:\install\QT6\Qt\6.3.0\msvc2019_64
         set QTDIR=%QTDIR64%
         cd ..
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git
@@ -801,7 +801,7 @@ jobs:
 
     - name: Build Nelson
       run: |
-        set QTDIR64=C:\install\QT5\Qt\5.15.2\msvc2019_64
+        set QTDIR64=C:\install\QT6\Qt\6.3.0\msvc2019_64
         set QTDIR=%QTDIR64%
         SET PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\current\Bin\;C:\Program Files (x86)\Inno Setup 6;%PATH%
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvar64.bat"

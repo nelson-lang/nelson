@@ -10,14 +10,26 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-qml_file = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
+if semver(qt_version(), '>=6.0')
+    qml_file = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt6.qml'];
+else
+    qml_file = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window_qt5.qml'];
+end
 qobj1 = qml_loadfile(qml_file);
 %=============================================================================
-assert_isequal(QObject_classname(qobj1), 'QQuickWindow');
+if semver(qt_version(), '>=6.0')
+    assert_isequal(QObject_classname(qobj1), 'QQuickWindowQmlImpl');
+else
+    assert_isequal(QObject_classname(qobj1), 'QQuickWindow');
+end
 ref_1 = {'QQuickRootItem';'QQuickText'};
 ref_2 = 'QQuickText';
 assert_istrue(isequal(QObject_classname(qobj1.children), ref_1) || isequal(QObject_classname(qobj1.children), ref_2));
 %=============================================================================
-res = isequal(qobj1.className, 'QQuickWindow');
+if semver(qt_version(), '>=6.0')
+    res = isequal(qobj1.className, 'QQuickWindowQmlImpl');
+else 
+    res = isequal(qobj1.className, 'QQuickWindow');
+end
 assert_istrue(res);
 %=============================================================================

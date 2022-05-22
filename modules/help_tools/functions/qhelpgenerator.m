@@ -26,8 +26,12 @@ function qhelpgenerator(varargin)
   QTDIR_BINARIES = getenv('QTDIR_BINARIES');
   if strcmp(QTDIR_BINARIES, '')
     if ismac()
-      if isdir('/usr/local/opt/qt5/bin/')
-        QTDIR_BINARIES = '/usr/local/opt/qt5/bin/';
+      if isdir('/usr/local/opt/qt6/bin/')
+        QTDIR_BINARIES = '/usr/local/opt/qt6/bin/';
+      else 
+        if isdir('/usr/local/opt/qt5/bin/')
+          QTDIR_BINARIES = '/usr/local/opt/qt5/bin/';
+        end
       end
     end
   end
@@ -45,9 +49,14 @@ function qhelpgenerator(varargin)
     end
   end
   if ~ispc() && ~ismac()
-    [status, msg] = unix('which qhelpgenerator-qt5');
+    [status, msg] = unix('which qhelpgenerator-qt6');
     if status == 0
       qhelpgenerator_filename = [replace(msg, char(10), '')];
+    else
+      [status, msg] = unix('which qhelpgenerator-qt5');
+      if status == 0
+        qhelpgenerator_filename = [replace(msg, char(10), '')];
+      end
     end
   end
   if isfile(file_generated)

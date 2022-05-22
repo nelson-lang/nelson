@@ -35,6 +35,10 @@ SCRIPT_DIRECTORY=$(cd "$(dirname "$0")"; pwd)
 #==============================================================================
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 #==============================================================================
+if test -d "/usr/local/opt/qt6/bin"; then
+    export PATH=/usr/local/opt/qt6/bin:$PATH
+fi
+#==============================================================================
 if test -d "/usr/local/opt/qt5/bin"; then
     export PATH=/usr/local/opt/qt5/bin:$PATH
 fi

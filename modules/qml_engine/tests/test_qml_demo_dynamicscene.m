@@ -12,9 +12,11 @@
 % <--NATIVE ARCHITECTURE TEST REQUIRED-->
 % <--INTERACTIVE TEST-->
 %=============================================================================
-if ispc()
-  qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];
-  qobj = qml_createqquickview(qml_file);
-  qobj.title = 'Nelson demo dynamic scene';
+if semver(qt_version(), '>=6.0')
+    qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene_qt6.qml'];
+else
+    qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene_qt5.qml'];
 end
+qobj = qml_createqquickview(qml_file);
+qobj.title = 'Nelson demo dynamic scene';
 %=============================================================================

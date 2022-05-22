@@ -44,6 +44,7 @@
     <example_item_data><![CDATA[h1 = errordlg()
 h2 = errordlg()
 h3 = errordlg()
+used = QObject_used()delete(used)
 used = QObject_used()
 delete(used)
 used = QObject_used()]]>
