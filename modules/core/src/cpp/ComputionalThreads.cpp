@@ -14,22 +14,15 @@
 #include "ComputionalThreads.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "SetVariableEnvironment.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static unsigned int nbOfThreadsToUse = 0;
-//=============================================================================
-unsigned int
-getMaxNumCompThreads()
-{
-    return nbOfThreadsToUse;
-}
 //=============================================================================
 unsigned int
 setMaxNumCompThreads(unsigned int _nbOfCores)
 {
-    unsigned int previousValue = nbOfThreadsToUse;
-    nbOfThreadsToUse = _nbOfCores;
+    unsigned int previousValue = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
+    NelsonConfiguration::getInstance()->setMaxNumCompThreads(_nbOfCores);
 #if defined(_NLS_WITH_OPENMP)
     omp_set_num_threads(_nbOfCores);
 #endif
@@ -41,6 +34,7 @@ unsigned int
 setDefaultMaxNumCompThreads()
 {
     std::wstring omp_env = GetVariableEnvironment(L"OMP_NUM_THREADS", L"0");
+    int nbOfThreadsToUse = 1;
     if (omp_env == L"0") {
         nbOfThreadsToUse = boost::thread::hardware_concurrency();
     } else {
@@ -53,7 +47,7 @@ setDefaultMaxNumCompThreads()
             nbOfThreadsToUse = boost::thread::hardware_concurrency();
         }
     }
-    setMaxNumCompThreads(nbOfThreadsToUse);
+    NelsonConfiguration::getInstance()->setMaxNumCompThreads(nbOfThreadsToUse);
     return nbOfThreadsToUse;
 }
 //=============================================================================
