@@ -9,6 +9,7 @@
 //=============================================================================
 #include "maxNumCompThreadsBuiltin.hpp"
 #include "ComputionalThreads.hpp"
+#include "NelsonConfiguration.hpp"
 #include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -18,7 +19,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    unsigned int currentValue = getMaxNumCompThreads();
+    unsigned int currentValue = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
     switch (argIn.size()) {
     case 0: {
         retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));

@@ -190,5 +190,17 @@ NelsonConfiguration::haveEventsLoop()
     return ((this->engineMode != BASIC_ENGINE) && (this->engineMode != BASIC_TERMINAL));
 }
 //=============================================================================
+void
+NelsonConfiguration::setMaxNumCompThreads(int nbThreads)
+{
+    nbOfThreadsToUse = nbThreads;
+}
+//=============================================================================
+int
+NelsonConfiguration::getMaxNumCompThreads()
+{
+    return nbOfThreadsToUse;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

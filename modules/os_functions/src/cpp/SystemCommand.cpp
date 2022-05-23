@@ -11,9 +11,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <winsock2.h>
 #include <Windows.h>
+#undef min
 #else
 #include <fcntl.h>
 #endif
+#include <algorithm>
 #include <cstdio>
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
@@ -215,14 +217,16 @@ ProcessEventsDynamicFunction()
 std::vector<std::pair<int, std::wstring>>
 ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
 {
-    ompIndexType nbCommands = (ompIndexType)commands.size();
     std::vector<std::pair<int, std::wstring>> results;
+    int nbCommands = (int)commands.size();
     results.resize(nbCommands);
+    int nbThreadsMax = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
+    const int nbThreads = std::min(nbCommands, nbThreadsMax);
 
-    thread_pool pool;
+    thread_pool pool(nbThreads);
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
-    for (ompIndexType k = 0; k < nbCommands; k++) {
+    for (int k = 0; k < nbCommands; k++) {
         systemThreads[k] = pool.submit(internalSystemCommand, commands[k]);
     }
     if (withEventsLoop) {
@@ -272,8 +276,10 @@ readFile(const boost::filesystem::path& filePath)
     pFile = fopen(filePath.string().c_str(), "r");
 #endif
     if (pFile != nullptr) {
-        char buffer[4096];
-        result.reserve(4096 * 2);
+#define bufferSize 4096
+#define bufferSizeMax 4096 * 2
+        char buffer[bufferSize];
+        result.reserve(bufferSizeMax);
         while (fgets(buffer, sizeof(buffer), pFile)) {
 #ifdef _MSC_VER
             std::string str = std::string(buffer);
