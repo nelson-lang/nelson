@@ -305,6 +305,7 @@ jobs:
           sudo apt -y install libhdf5-dev;
           sudo apt -y install libmatio-dev;
           sudo apt -y install qt6-base-dev;
+          sudo apt -y install libqt6svg6-dev;
           sudo apt -y install qt6-declarative-dev;
           sudo apt -y install qt6-documentation-tools;
           sudo apt -y install qml6-module-qtquick;
