@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - MacOs 12 Monterey Github CI.
 
+- [#634](http://github.com/Nelson-numerical-software/nelson/issues/634): Ubuntu 22.04 CI.
+
 ### Changed
 
 - [#631](http://github.com/Nelson-numerical-software/nelson/issues/631): Qt6 used as default distribution on some OS platforms.
