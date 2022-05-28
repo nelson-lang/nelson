@@ -40,6 +40,11 @@ public:
     std::wstring
     getNelsonCachedCollectionFullFilename();
 
+    wstringVector
+    searchByIdentifier(const std::wstring& identifier);
+    wstringVector
+    searchByName(const std::wstring& name);
+
 private:
     static HelpCollection* m_pInstance;
 

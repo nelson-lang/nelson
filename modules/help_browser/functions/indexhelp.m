@@ -80,7 +80,6 @@ function r = reindexhelp(pref_help)
   dispPercentLevel(100, lastDisplayedPercent);    
   fprintf(stdout, char(13));
   helpbrowser();
-  helpbrowser('-hide', 'bookmarks');
   helpbrowser('-setsource', 'qthelp://org.nelson.help/help/homepage.html')
   version_help = version('-number');
   save(pref_help, 'version_help');

@@ -20,9 +20,15 @@
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #pragma comment(lib, "Qt6Core.lib")
 #pragma comment(lib, "Qt6Help.lib")
+#pragma comment(lib, "Qt6Widgets.lib")
+#pragma comment(lib, "Qt6Gui.lib")
+#pragma comment(lib, "Qt6PrintSupport.lib")
 #else
 #pragma comment(lib, "Qt5Core.lib")
 #pragma comment(lib, "Qt5Help.lib")
+#pragma comment(lib, "Qt5Widgets.lib")
+#pragma comment(lib, "Qt5Gui.lib")
+#pragma comment(lib, "Qt5PrintSupport.lib")
 #endif
 //=============================================================================
 int WINAPI

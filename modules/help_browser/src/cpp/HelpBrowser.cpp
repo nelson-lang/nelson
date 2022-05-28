@@ -8,34 +8,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstdlib>
-#include <QtCore/QStandardPaths>
-#include <QtCore/QtGlobal>
-#include <QtCore/QByteArray>
-#include <QtCore/QProcess>
 #include <QtCore/QString>
-#include <QtCore/QThread>
-#include <QtCore/QVariant>
-#include <QtCore/QFileInfo>
-#include <QtHelp/QHelpEngineCore>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/chrono/chrono.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/regex.hpp>
-#include <boost/thread/thread.hpp>
 #include "HelpBrowser.hpp"
-#include "GetNelsonBinariesPath.hpp"
-#include "GetNelsonPath.hpp"
-#include "GetQtPath.hpp"
 #include "IsFile.hpp"
 #include "characters_encoding.hpp"
 #include "QStringConverter.hpp"
 #include "HelpCollection.hpp"
+#include "HelpViewerWindow.h"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static QProcess* qprocess = nullptr;
-//=============================================================================
-static bool bOpenHomepage = true;
+static HelpViewerWindow* helpWindow = nullptr;
 //=============================================================================
 HelpBrowser* HelpBrowser::m_pInstance = nullptr;
 //=============================================================================
@@ -51,39 +35,29 @@ HelpBrowser::getInstance()
 void
 HelpBrowser::destroy()
 {
+    closeBrowser();
     if (m_pInstance) {
         delete m_pInstance;
         m_pInstance = nullptr;
-    }
-    if (qprocess) {
-        delete qprocess;
-        qprocess = nullptr;
     }
 }
 //=============================================================================
 void
 HelpBrowser::showDocByName(const std::wstring& name)
 {
-    std::wstring command = std::wstring(L"activateKeyword") + std::wstring(L" ") + name;
-    sendCommand(command);
+    wstringVector urls = HelpCollection::getInstance()->searchByName(name);
+    if (helpWindow && !urls.empty()) {
+        helpWindow->setSource(urls[0]);
+    }
 }
 //=============================================================================
 void
 HelpBrowser::showDocByIdentifier(const std::wstring& identifier)
 {
-    std::wstring command = std::wstring(L"activateIdentifier") + std::wstring(L" ") + identifier;
-    sendCommand(command);
-}
-//=============================================================================
-void
-HelpBrowser::sendCommand(const std::wstring& cmd)
-{
-    QString CommandToSend = Nelson::wstringToQString(cmd);
-    if (qprocess->state() != QProcess::Running) {
-        return;
+    wstringVector urls = HelpCollection::getInstance()->searchByIdentifier(identifier);
+    if (helpWindow && !urls.empty()) {
+        helpWindow->setSource(urls[0]);
     }
-    qprocess->write(CommandToSend.toLocal8Bit() + '\n');
-    boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(1000)));
 }
 //=============================================================================
 wstringVector
@@ -92,104 +66,65 @@ HelpBrowser::getAttributes()
     return HelpCollection::getInstance()->getRegisteredFiles();
 }
 //=============================================================================
-static std::wstring
-getAssistantFilename()
+bool
+HelpBrowser::isVisible()
 {
-    std::wstring wapp;
-#ifdef _MSC_VER
-    wapp = GetNelsonBinariesPath() + L"/assistant.exe";
-#else
-#if !defined(Q_OS_MAC)
-    wapp = GetNelsonBinariesPath() + std::wstring(L"/assistant");
-#else
-    wapp = GetNelsonBinariesPath() + std::wstring(L"/Assistant");
-#endif
-#endif
-    if (!IsFile(wapp)) {
-#ifdef _MSC_VER
-        wapp = GetQtPath(L"BinariesPath");
-        wapp = wapp + std::wstring(L"/assistant.exe");
-#else
-        wapp = GetQtPath(L"BinariesPath");
-#if !defined(Q_OS_MAC)
-        wapp = wapp + std::wstring(L"/assistant");
-#else
-        wapp = wapp + std::wstring(L"/Assistant.app/Contents/MacOS/Assistant");
-#endif
-#endif
+    if (helpWindow) {
+        return helpWindow->isVisible();
     }
-#if !defined(_MSC_VER) && !defined(Q_OS_MAC)
-    if (!IsFile(wapp)) {
-        const char* qtBinaries = getenv("QTDIR_BINARIES");
-        if (qtBinaries) {
-            wapp = utf8_to_wstring(qtBinaries) + std::wstring(L"/assistant");
-        }
-    }
-    if (!IsFile(wapp)) {
-        wapp = std::wstring(L"/usr/lib/x86_64-linux-gnu/qt6/bin/assistant");
-    }
-    if (!IsFile(wapp)) {
-        wapp = std::wstring(L"/usr/lib/x86_64-linux-gnu/qt5/bin/assistant");
-    }
-#endif
-    return wapp;
+    return false;
 }
 //=============================================================================
-bool
-HelpBrowser::isAvailable()
+void
+HelpBrowser::show()
 {
-    return IsFile(getAssistantFilename());
+    if (helpWindow) {
+        helpWindow->show();
+    }
+}
+//=============================================================================
+void
+HelpBrowser::hide()
+{
+    if (helpWindow) {
+        helpWindow->hide();
+    }
 }
 //=============================================================================
 bool
 HelpBrowser::startBrowser(std::wstring& msg)
 {
-    if (qprocess->state() == QProcess::Running) {
-        QProcess::ProcessError err = qprocess->error();
-        msg.clear();
-        return true;
+    if (helpWindow == nullptr) {
+        std::wstring cachedCollectionFile
+            = HelpCollection::getInstance()->getNelsonCachedCollectionFullFilename();
+        if (!IsFile(cachedCollectionFile)) {
+            msg = _W("help collection file not found.");
+            return false;
+        }
+        std::wstring mainUrl = L"qthelp://org.nelson.help/help/homepage.html";
+        try {
+            helpWindow = new HelpViewerWindow(cachedCollectionFile, mainUrl);
+        } catch (std::bad_alloc& e) {
+            helpWindow = nullptr;
+            msg = utf8_to_wstring(e.what());
+            return false;
+        }
     }
-    std::wstring wapp = getAssistantFilename();
-    if (!IsFile(wapp)) {
-        msg = _W("Qt Assistant not found.");
-        return false;
-    }
-    std::wstring cachedCollectionFile
-        = HelpCollection::getInstance()->getNelsonCachedCollectionFullFilename();
-    if (!IsFile(cachedCollectionFile)) {
-        msg = _W("help collection file not found.");
-        return false;
-    }
-    HelpCollection::getInstance()->stripNonExistingHelpFiles();
-    QStringList args;
-    args << QLatin1String("-quiet");
-    args << QLatin1String("-enableRemoteControl");
-    args << QLatin1String("-collectionFile");
-    args << wstringToQString(cachedCollectionFile);
-    qprocess->start(wstringToQString(wapp), args);
-    msg.clear();
-    if (!qprocess->waitForStarted()) {
-        return false;
-    }
+    helpWindow->show();
     return true;
-}
-//=============================================================================
-void
-HelpBrowser::syncBrowser()
-{
-    sendCommand(L"SyncContents");
 }
 //=============================================================================
 void
 HelpBrowser::closeBrowser()
 {
-    if (qprocess->state() == QProcess::Running) {
-        qprocess->terminate();
-        qprocess->waitForFinished(3000);
+    if (helpWindow) {
+        helpWindow->close();
+        delete helpWindow;
+        helpWindow = nullptr;
     }
 }
 //=============================================================================
-HelpBrowser::HelpBrowser() { qprocess = new QProcess(); }
+HelpBrowser::HelpBrowser() {}
 //=============================================================================
 void
 HelpBrowser::registerHelpFiles(const wstringVector& filenames)
@@ -208,6 +143,14 @@ HelpBrowser::clearCache()
 {
     closeBrowser();
     HelpCollection::getInstance()->clearCache();
+}
+//=============================================================================
+void
+HelpBrowser::setSource(const std::wstring& url)
+{
+    if (helpWindow) {
+        helpWindow->setSource(url);
+    }
 }
 //=============================================================================
 }

@@ -13,7 +13,6 @@ function doc(varargin)
   end
   if ~indexhelp()
     helpbrowser();
-    helpbrowser('-hide', 'bookmarks');
   end
   if nargin() == 1
     name = varargin{1};
