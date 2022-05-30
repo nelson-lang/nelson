@@ -22,9 +22,9 @@
 #include "QStringConverter.hpp"
 //=============================================================================
 HelpViewerWindow::HelpViewerWindow(const std::wstring& qchFilename, const std::wstring& openUrl)
+    : _qchFilename(Nelson::wstringToQString(qchFilename))
+    , _openUrl(Nelson::wstringToQString(openUrl))
 {
-    _qchFilename = Nelson::wstringToQString(qchFilename);
-    _openUrl = Nelson::wstringToQString(openUrl);
     createHelpWindow();
     setWindowTitle(tr("Nelson's Help"));
     resize(600, 400);

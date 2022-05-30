@@ -9,13 +9,8 @@
 //=============================================================================
 #include <cstdlib>
 #include <QtCore/QFileInfo>
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-#include <QtCore/QMap>
-#include <QtCore/QUrl>
-#else
 #include <QtHelp/QHelpLink>
 #include <QtCore/QList>
-#endif
 #include <QtHelp/QHelpEngineCore>
 #include <QtCore/QStandardPaths>
 #include "QStringConverter.hpp"
@@ -191,11 +186,7 @@ HelpCollection::getNelsonQhcFilename()
 std::wstring
 HelpCollection::getNelsonCacheCollectionPath()
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-#else
     QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-#endif
     return QStringTowstring(cacheLocation) + std::wstring(L"/help");
 }
 //=============================================================================
@@ -204,14 +195,6 @@ HelpCollection::searchByIdentifier(const std::wstring& identifier)
 {
     wstringVector result;
     if (cachedCollection) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QMap<QString, QUrl> links
-            = cachedCollection->linksForIdentifier(wstringToQString(identifier));
-        foreach (QString i, links.keys()) {
-            QString urlString = links[i].toString();
-            result.push_back(QStringTowstring(urlString));
-        }
-#else
         QList<QHelpLink> links
             = cachedCollection->documentsForIdentifier(wstringToQString(identifier));
         result.reserve((int)links.count());
@@ -219,7 +202,6 @@ HelpCollection::searchByIdentifier(const std::wstring& identifier)
             QString urlString = links[i].url.toString();
             result.push_back(QStringTowstring(urlString));
         }
-#endif
     }
     return result;
 }
@@ -229,20 +211,12 @@ HelpCollection::searchByName(const std::wstring& name)
 {
     wstringVector result;
     if (cachedCollection) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QMap<QString, QUrl> links = cachedCollection->linksForKeyword(wstringToQString(name));
-        foreach (QString i, links.keys()) {
-            QString urlString = links[i].toString();
-            result.push_back(QStringTowstring(urlString));
-        }
-#else
         QList<QHelpLink> links = cachedCollection->documentsForKeyword(wstringToQString(name));
         result.reserve((int)links.count());
         for (qsizetype i = 0; i < links.count(); ++i) {
             QString urlString = links[i].url.toString();
             result.push_back(QStringTowstring(urlString));
         }
-#endif
     }
     return result;
 }

@@ -315,7 +315,6 @@ jobs:
           sudo apt -y install qml6-module-qtquick-dialogs;
           sudo apt -y install qml6-module-qtqml-workerscript;
           sudo apt -y install qml6-module-qtquick-layouts;
-          sudo apt -y install assistant-qt6;
           sudo apt -y install qt6-tools-dev;
 
       - name: Checkout
@@ -672,7 +671,6 @@ jobs:
           dnf install -y taglib-devel
           dnf install -y qt5-qtbase-devel
           dnf install -y qt5-qtdeclarative-devel
-          dnf install -y qt5-assistant
           dnf install -y qt5-doctools
           dnf install -y qt5-qttools-devel
           dnf install -y qt5-qtquickcontrols

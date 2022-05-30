@@ -11,9 +11,6 @@
 //=============================================================================
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#include <QtWidgets/QDesktopWidget>
-#endif
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
@@ -112,15 +109,11 @@ std::vector<double>
 GOWindow::getCurrentScreenGeometry()
 {
     QPoint qPoint = this->pos();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     QScreen* currentQScreen = QGuiApplication::screenAt(qPoint);
     QRect currentScreenGeometry;
     if (currentQScreen != nullptr) {
         currentScreenGeometry = currentQScreen->geometry();
     }
-#else
-    QRect currentScreenGeometry = QApplication::desktop()->screenGeometry(qPoint);
-#endif
     std::vector<double> res;
     res.reserve(4);
     res.push_back(currentScreenGeometry.x());

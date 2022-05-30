@@ -98,7 +98,6 @@ parts:
       - libmatio-dev      
       - libboost-all-dev
       - libqt5opengl5-dev
-      - qt5-assistant
       - qhelpgenerator-qt5
       - qtbase5-dev
       - qttools5-dev
@@ -170,7 +169,6 @@ parts:
       - libqt5printsupport5
       - libqt5widgets5
       - libqt5xml5
-      - qt5-assistant
       - qhelpgenerator-qt5
       - qttools5-dev-tools
       - libqt5qml5

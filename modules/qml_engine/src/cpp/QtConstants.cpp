@@ -97,12 +97,10 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.ClickFocus"] = Qt::ClickFocus;
     mapConstants[L"Qt.StrongFocus"] = Qt::StrongFocus;
     mapConstants[L"Qt.WheelFocus"] = Qt::WheelFocus;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.NoTabFocus"] = Qt::NoTabFocus;
     mapConstants[L"Qt.TabFocusTextControls"] = Qt::TabFocusTextControls;
     mapConstants[L"Qt.TabFocusListControls"] = Qt::TabFocusListControls;
     mapConstants[L"Qt.TabFocusAllControls"] = Qt::TabFocusAllControls;
-#endif
     mapConstants[L"Qt.AscendingOrder"] = Qt::AscendingOrder;
     mapConstants[L"Qt.DescendingOrder"] = Qt::DescendingOrder;
     mapConstants[L"Qt.StretchTile"] = Qt::StretchTile;
@@ -175,10 +173,8 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.WindowTransparentForInput"] = Qt::WindowTransparentForInput;
     mapConstants[L"Qt.WindowOverridesSystemGestures"] = Qt::WindowOverridesSystemGestures;
     mapConstants[L"Qt.WindowDoesNotAcceptFocus"] = Qt::WindowDoesNotAcceptFocus;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.MaximizeUsingFullscreenGeometryHint"]
         = Qt::MaximizeUsingFullscreenGeometryHint;
-#endif
     mapConstants[L"Qt.CustomizeWindowHint"] = Qt::CustomizeWindowHint;
     mapConstants[L"Qt.WindowStaysOnBottomHint"] = Qt::WindowStaysOnBottomHint;
     mapConstants[L"Qt.WindowCloseButtonHint"] = Qt::WindowCloseButtonHint;
@@ -308,12 +304,10 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.WA_MacNoShadow"] = Qt::WA_MacNoShadow;
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.WA_AlwaysStackOnTop"] = Qt::WA_AlwaysStackOnTop;
     mapConstants[L"Qt.WA_TabletTracking"] = Qt::WA_TabletTracking;
     mapConstants[L"Qt.WA_ContentsMarginsRespectsSafeArea"] = Qt::WA_ContentsMarginsRespectsSafeArea;
     mapConstants[L"Qt.WA_AttributeCount"] = Qt::WA_AttributeCount;
-#endif
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     mapConstants[L"Qt.AA_ImmediateWidgetCreation"] = Qt::AA_ImmediateWidgetCreation;
 #endif
@@ -321,9 +315,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.AA_NativeWindows"] = Qt::AA_NativeWindows;
     mapConstants[L"Qt.AA_DontCreateNativeWidgetSiblings"] = Qt::AA_DontCreateNativeWidgetSiblings;
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.AA_PluginApplication"] = Qt::AA_PluginApplication;
-#endif
     mapConstants[L"Qt.AA_DontUseNativeMenuBar"] = Qt::AA_DontUseNativeMenuBar;
     mapConstants[L"Qt.AA_MacDontSwapCtrlAndMeta"] = Qt::AA_MacDontSwapCtrlAndMeta;
     mapConstants[L"Qt.AA_Use96Dpi"] = Qt::AA_Use96Dpi;
@@ -334,21 +326,16 @@ initializeQtConstantsMap()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     mapConstants[L"Qt.AA_UseHighDpiPixmaps"] = Qt::AA_UseHighDpiPixmaps;
 #endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.AA_ForceRasterWidgets"] = Qt::AA_ForceRasterWidgets;
     mapConstants[L"Qt.AA_UseDesktopOpenGL"] = Qt::AA_UseDesktopOpenGL;
     mapConstants[L"Qt.AA_UseOpenGLES"] = Qt::AA_UseOpenGLES;
     mapConstants[L"Qt.AA_UseSoftwareOpenGL"] = Qt::AA_UseSoftwareOpenGL;
     mapConstants[L"Qt.AA_ShareOpenGLContexts"] = Qt::AA_ShareOpenGLContexts;
     mapConstants[L"Qt.AA_SetPalette"] = Qt::AA_SetPalette;
-#endif
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.AA_EnableHighDpiScaling"] = Qt::AA_EnableHighDpiScaling;
     mapConstants[L"Qt.AA_DisableHighDpiScaling"] = Qt::AA_DisableHighDpiScaling;
 #endif
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.AA_UseStyleSheetPropagationInWidgetStyles"]
         = Qt::AA_UseStyleSheetPropagationInWidgetStyles;
     mapConstants[L"Qt.AA_DontUseNativeDialogs"] = Qt::AA_DontUseNativeDialogs;
@@ -358,7 +345,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.AA_DontCheckOpenGLContextThreadAffinity"]
         = Qt::AA_DontCheckOpenGLContextThreadAffinity;
     mapConstants[L"Qt.AA_DisableShaderDiskCache"] = Qt::AA_DisableShaderDiskCache;
-#endif
 
     mapConstants[L"Qt.AA_AttributeCount"] = Qt::AA_AttributeCount;
     mapConstants[L"Qt.ColorMode_Mask"] = Qt::ColorMode_Mask;
@@ -641,7 +627,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Dead_Belowdot"] = Qt::Key_Dead_Belowdot;
     mapConstants[L"Qt.Key_Dead_Hook"] = Qt::Key_Dead_Hook;
     mapConstants[L"Qt.Key_Dead_Horn"] = Qt::Key_Dead_Horn;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.Key_Dead_Stroke"] = Qt::Key_Dead_Stroke;
     mapConstants[L"Qt.Key_Dead_Abovecomma"] = Qt::Key_Dead_Abovecomma;
     mapConstants[L"Qt.Key_Dead_Abovereversedcomma"] = Qt::Key_Dead_Abovereversedcomma;
@@ -672,7 +657,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Dead_Aboveverticalline"] = Qt::Key_Dead_Aboveverticalline;
     mapConstants[L"Qt.Key_Dead_Belowverticalline"] = Qt::Key_Dead_Belowverticalline;
     mapConstants[L"Qt.Key_Dead_Longsolidusoverlay"] = Qt::Key_Dead_Longsolidusoverlay;
-#endif
     mapConstants[L"Qt.Key_Back"] = Qt::Key_Back;
     mapConstants[L"Qt.Key_Forward"] = Qt::Key_Forward;
     mapConstants[L"Qt.Key_Stop"] = Qt::Key_Stop;
@@ -819,7 +803,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Blue"] = Qt::Key_Blue;
     mapConstants[L"Qt.Key_ChannelUp"] = Qt::Key_ChannelUp;
     mapConstants[L"Qt.Key_ChannelDown"] = Qt::Key_ChannelDown;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.Key_Guide"] = Qt::Key_Guide;
     mapConstants[L"Qt.Key_Info"] = Qt::Key_Info;
     mapConstants[L"Qt.Key_Settings"] = Qt::Key_Settings;
@@ -830,7 +813,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Find"] = Qt::Key_Find;
     mapConstants[L"Qt.Key_Undo"] = Qt::Key_Undo;
     mapConstants[L"Qt.Key_Redo"] = Qt::Key_Redo;
-#endif
     mapConstants[L"Qt.Key_MediaLast"] = Qt::Key_MediaLast;
     mapConstants[L"Qt.Key_Select"] = Qt::Key_Select;
     mapConstants[L"Qt.Key_Yes"] = Qt::Key_Yes;
@@ -841,9 +823,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Sleep"] = Qt::Key_Sleep;
     mapConstants[L"Qt.Key_Play"] = Qt::Key_Play;
     mapConstants[L"Qt.Key_Zoom"] = Qt::Key_Zoom;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.Key_Exit"] = Qt::Key_Exit;
-#endif
     mapConstants[L"Qt.Key_Context1"] = Qt::Key_Context1;
     mapConstants[L"Qt.Key_Context2"] = Qt::Key_Context2;
     mapConstants[L"Qt.Key_Context3"] = Qt::Key_Context3;
@@ -956,9 +936,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.TextDate"] = Qt::TextDate;
     mapConstants[L"Qt.ISODate"] = Qt::ISODate;
     mapConstants[L"Qt.RFC2822Date"] = Qt::RFC2822Date;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.ISODateWithMs"] = Qt::ISODateWithMs;
-#endif
     mapConstants[L"Qt.LocalTime"] = Qt::LocalTime;
     mapConstants[L"Qt.UTC"] = Qt::UTC;
     mapConstants[L"Qt.OffsetFromUTC"] = Qt::OffsetFromUTC;
@@ -1003,10 +981,8 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.IntersectsItemShape"] = Qt::IntersectsItemShape;
     mapConstants[L"Qt.ContainsItemBoundingRect"] = Qt::ContainsItemBoundingRect;
     mapConstants[L"Qt.IntersectsItemBoundingRect"] = Qt::IntersectsItemBoundingRect;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.ReplaceSelection"] = Qt::ReplaceSelection;
     mapConstants[L"Qt.AddToSelection"] = Qt::AddToSelection;
-#endif
     mapConstants[L"Qt.FastTransformation"] = Qt::FastTransformation;
     mapConstants[L"Qt.SmoothTransformation"] = Qt::SmoothTransformation;
     mapConstants[L"Qt.XAxis"] = Qt::XAxis;
@@ -1036,14 +1012,12 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.ImAnchorPosition"] = Qt::ImAnchorPosition;
     mapConstants[L"Qt.ImHints"] = Qt::ImHints;
     mapConstants[L"Qt.ImPreferredLanguage"] = Qt::ImPreferredLanguage;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.ImAbsolutePosition"] = Qt::ImAbsolutePosition;
     mapConstants[L"Qt.ImTextBeforeCursor"] = Qt::ImTextBeforeCursor;
     mapConstants[L"Qt.ImTextAfterCursor"] = Qt::ImTextAfterCursor;
     mapConstants[L"Qt.ImEnterKeyType"] = Qt::ImEnterKeyType;
     mapConstants[L"Qt.ImAnchorRectangle"] = Qt::ImAnchorRectangle;
     mapConstants[L"Qt.ImInputItemClipRectangle"] = Qt::ImInputItemClipRectangle;
-#endif
     mapConstants[L"Qt.ImPlatformData"] = Qt::ImPlatformData;
     mapConstants[L"Qt.ImQueryInput"] = Qt::ImQueryInput;
     mapConstants[L"Qt.ImQueryAll"] = Qt::ImQueryAll;
@@ -1068,7 +1042,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.ImhUrlCharactersOnly"] = Qt::ImhUrlCharactersOnly;
     mapConstants[L"Qt.ImhLatinOnly"] = Qt::ImhLatinOnly;
     mapConstants[L"Qt.ImhExclusiveInputMask"] = Qt::ImhExclusiveInputMask;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.EnterKeyDefault"] = Qt::EnterKeyDefault;
     mapConstants[L"Qt.EnterKeyReturn"] = Qt::EnterKeyReturn;
     mapConstants[L"Qt.EnterKeyDone"] = Qt::EnterKeyDone;
@@ -1077,7 +1050,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.EnterKeySearch"] = Qt::EnterKeySearch;
     mapConstants[L"Qt.EnterKeyNext"] = Qt::EnterKeyNext;
     mapConstants[L"Qt.EnterKeyPrevious"] = Qt::EnterKeyPrevious;
-#endif
     mapConstants[L"Qt.ToolButtonIconOnly"] = Qt::ToolButtonIconOnly;
     mapConstants[L"Qt.ToolButtonTextOnly"] = Qt::ToolButtonTextOnly;
     mapConstants[L"Qt.ToolButtonTextBesideIcon"] = Qt::ToolButtonTextBesideIcon;
@@ -1131,10 +1103,8 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.ItemIsDropEnabled"] = Qt::ItemIsDropEnabled;
     mapConstants[L"Qt.ItemIsUserCheckable"] = Qt::ItemIsUserCheckable;
     mapConstants[L"Qt.ItemIsEnabled"] = Qt::ItemIsEnabled;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     mapConstants[L"Qt.ItemIsAutoTristate"] = Qt::ItemIsAutoTristate;
     mapConstants[L"Qt.ItemIsUserTristate"] = Qt::ItemIsUserTristate;
-#endif
     mapConstants[L"Qt.ItemNeverHasChildren"] = Qt::ItemNeverHasChildren;
     mapConstants[L"Qt.MatchExactly"] = Qt::MatchExactly;
     mapConstants[L"Qt.MatchContains"] = Qt::MatchContains;
@@ -1142,9 +1112,7 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.MatchEndsWith"] = Qt::MatchEndsWith;
     mapConstants[L"Qt.MatchWildcard"] = Qt::MatchWildcard;
     mapConstants[L"Qt.MatchFixedString"] = Qt::MatchFixedString;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     mapConstants[L"Qt.MatchRegularExpression"] = Qt::MatchRegularExpression;
-#endif
     mapConstants[L"Qt.MatchCaseSensitive"] = Qt::MatchCaseSensitive;
     mapConstants[L"Qt.MatchWrap"] = Qt::MatchWrap;
     mapConstants[L"Qt.MatchRecursive"] = Qt::MatchRecursive;
@@ -1210,15 +1178,10 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.PreciseTimer"] = Qt::PreciseTimer;
     mapConstants[L"Qt.CoarseTimer"] = Qt::CoarseTimer;
     mapConstants[L"Qt.VeryCoarseTimer"] = Qt::VeryCoarseTimer;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     mapConstants[L"Qt.NoScrollPhase"] = Qt::NoScrollPhase;
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     mapConstants[L"Qt.ScrollBegin"] = Qt::ScrollBegin;
     mapConstants[L"Qt.ScrollUpdate"] = Qt::ScrollUpdate;
     mapConstants[L"Qt.ScrollEnd"] = Qt::ScrollEnd;
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     mapConstants[L"Qt.MouseEventNotSynthesized"] = Qt::MouseEventNotSynthesized;
     mapConstants[L"Qt.MouseEventSynthesizedBySystem"] = Qt::MouseEventSynthesizedBySystem;
     mapConstants[L"Qt.MouseEventSynthesizedByQt"] = Qt::MouseEventSynthesizedByQt;
@@ -1227,7 +1190,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.MouseEventFlagMask"] = Qt::MouseEventFlagMask;
     mapConstants[L"Qt.ChecksumIso3309"] = Qt::ChecksumIso3309;
     mapConstants[L"Qt.ChecksumItuV41"] = Qt::ChecksumItuV41;
-#endif
     mapConstants[L"Qt.Widget"] = Qt::Widget;
 }
 //=============================================================================

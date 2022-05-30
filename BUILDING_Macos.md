@@ -48,9 +48,8 @@
     You can also use optimized CPU version with OpenBLAS
     `bash brew install homebrew/science/openblas `
 
-  - Qt 5.6 or more
+  - Qt 5.15 or more
     You can install from Qt.io or brew
-    Current brew version does not package Qt help assistant
     `bash brew install qt5 export PATH=/usr/local/opt/qt5/bin:$PATH `
 
 - Creates Nelson main directory
