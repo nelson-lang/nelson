@@ -1,0 +1,47 @@
+name: "CodeQL analysis"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-22.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp', 'javascript', 'python' ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
+        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-extended,security-and-quality
+
+    - name: Install dependencies
+      run: |
+        sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ninja-build xvfb libopenmpi-dev autotools-dev libtool automake openmpi-bin gettext pkg-config libffi-dev libicu-dev libxml2-dev liblapack-dev liblapacke-dev fftw3 fftw3-dev libasound-dev portaudio19-dev libsndfile1-dev libtag1-dev alsa-utils libslicot-dev libsqlite3-dev libgl-dev hdf5-tools zlib1g-dev libcurl4-openssl-dev libgit2-dev libboost-all-dev libeigen3-dev libhdf5-dev libmatio-dev qt6-base-dev libqt6svg6-dev qt6-declarative-dev qt6-documentation-tools qml6-module-qtquick qml6-module-qtquick-templates qml6-module-qtquick-controls qml6-module-qtquick-window qml6-module-qtquick-dialogs qml6-module-qtqml-workerscript qml6-module-qtquick-layouts assistant-qt6 qt6-tools-dev
+        
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
