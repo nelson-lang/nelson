@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.6.5 (UNRELEASED)
+
+### Fixed
+
+- [#659](http://github.com/Nelson-numerical-software/nelson/issues/659): qhelpgenerator on macOs after brew Qt6.3.0 update.
+
 ## 0.6.5 (2022-05-26)
 
 ### Added

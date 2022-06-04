@@ -9,9 +9,7 @@
 %=============================================================================
 function qhelpgenerator(varargin)
 % internal function not documented
-  if (nargin() ~= 3)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(3, 3);
 
   src_in = varargin{1};
   dir_out = varargin{2};
@@ -22,52 +20,96 @@ function qhelpgenerator(varargin)
     error(_('helpproject.qhp is missing.'))
   end
 
-  qhelpgenerator_filename = 'qhelpgenerator';
-  QTDIR_BINARIES = getenv('QTDIR_BINARIES');
-  if strcmp(QTDIR_BINARIES, '')
-    if ismac()
-      if isdir('/usr/local/opt/qt6/bin/')
-        QTDIR_BINARIES = '/usr/local/opt/qt6/bin/';
-      else 
-        if isdir('/usr/local/opt/qt5/bin/')
-          QTDIR_BINARIES = '/usr/local/opt/qt5/bin/';
-        end
-      end
-    end
-  end
-  if ~strcmp(QTDIR_BINARIES, '')
-    new_qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
-    if isfile(new_qhelpgenerator_filename)
-      qhelpgenerator_filename = new_qhelpgenerator_filename;
-    else
-      if ismac()
-        [status, msg] = unix('which qhelpgenerator');
-        if status == 0
-          qhelpgenerator_filename = [replace(msg, char(10), '')];
-        end
-      end
-    end
-  end
-  if ~ispc() && ~ismac()
-    [status, msg] = unix('which qhelpgenerator-qt6');
-    if status == 0
-      qhelpgenerator_filename = [replace(msg, char(10), '')];
-    else
-      [status, msg] = unix('which qhelpgenerator-qt5');
-      if status == 0
-        qhelpgenerator_filename = [replace(msg, char(10), '')];
-      end
-    end
-  end
   if isfile(file_generated)
     [res, msg] = rmfile(file_generated);
     if res
       error(msg)
     end
   end
+
+  qhelpgenerator_filename = get_help_generator_filename();
+
   cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
   [res, msg] = unix(cmd);
   if res
     error(msg)
   end
 end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename()
+  if ispc()
+    qhelpgenerator_filename = get_help_generator_filename_windows();
+    return
+  end
+  if ismac()
+    qhelpgenerator_filename = get_help_generator_filename_macos();
+    return
+  end
+  qhelpgenerator_filename = get_help_generator_filename_linux();
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_windows()
+  qhelpgenerator_filename = 'qhelpgenerator';
+end
+%=============================================================================
+function QTDIR_BINARIES = get_qtdir_binaries()
+  QTDIR_BINARIES = getenv('QTDIR_BINARIES');
+  if isempty(QTDIR_BINARIES)
+    QTDIR = getenv('QTDIR');
+    if ~isempty(QTDIR)
+      QTDIR_BINARIES = [QTDIR, '/bin']
+    end
+  end
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_macos()
+  if isfile('/usr/local/share/qt/libexec/qhelpgenerator')
+    qhelpgenerator_filename = '/usr/local/share/qt/libexec/qhelpgenerator';
+    return
+  end 
+  if isfile('/usr/local/opt/qt6/bin/qhelpgenerator')
+    qhelpgenerator_filename = '/usr/local/opt/qt6/bin/qhelpgenerator';
+    return
+  end 
+  if isfile('/usr/local/opt/qt5/bin/qhelpgenerator')
+    qhelpgenerator_filename = '/usr/local/opt/qt5/bin/qhelpgenerator';
+    return
+  end 
+  QTDIR_BINARIES = get_qtdir_binaries();
+  qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
+  if isfile(qhelpgenerator_filename)
+    return
+  end 
+  [status, msg] = unix('which qhelpgenerator');
+  if status == 0
+    qhelpgenerator_filename = [replace(msg, char(10), '')];
+    return
+  end
+  % not found :(
+  qhelpgenerator_filename = 'qhelpgenerator';
+end
+%=============================================================================
+function qhelpgenerator_filename = get_help_generator_filename_linux()
+  QTDIR_BINARIES = get_qtdir_binaries();
+  qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
+  if isfile(qhelpgenerator_filename)
+    return
+  end 
+  [status, msg] = unix('which qhelpgenerator-qt6');
+  if status == 0
+    qhelpgenerator_filename = [replace(msg, char(10), '')];
+    return
+  end
+  [status, msg] = unix('which qhelpgenerator-qt5');
+  if status == 0
+    qhelpgenerator_filename = [replace(msg, char(10), '')];
+    return
+  end
+  [status, msg] = unix('which qhelpgenerator');
+  if status == 0
+    qhelpgenerator_filename = [replace(msg, char(10), '')];
+    return
+  end
+  qhelpgenerator_filename = 'qhelpgenerator';
+end
+%=============================================================================
