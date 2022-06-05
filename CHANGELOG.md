@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.5 (UNRELEASED)
 
+### Changed
+
+ - LGTM replaced by CodeQL (Thanks to Github for their support)
+
 ### Fixed
 
 - [#659](http://github.com/Nelson-numerical-software/nelson/issues/659): qhelpgenerator on macOs after brew Qt6.3.0 update.

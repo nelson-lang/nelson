@@ -3,8 +3,7 @@
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=Nelson-numerical-software.nelson)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d5f82474da134d979b472fa5fbe7b5b9)](https://www.codacy.com/gh/Nelson-numerical-software/nelson/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=Badge_Grade)
-[![Total alerts](https://img.shields.io/lgtm/grade/cpp/g/Nelson-numerical-software/nelson.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Nelson-numerical-software/nelson/alerts/)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602)
+[![CodeQL analysis (C/C++)](https://github.com/Nelson-numerical-software/nelson/actions/workflows/codeql-analysis-cpp.yml/badge.svg)](https://github.com/Nelson-numerical-software/nelson/actions/workflows/codeql-analysis-cpp.yml)[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602)
 
 [![Build Status](https://github.com/Nelson-numerical-software/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)](https://github.com/Nelson-numerical-software/nelson/workflows/C%2FC%2B%2B%20CI/badge.svg)
 
