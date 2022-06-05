@@ -24,7 +24,9 @@ public:
     void
     unregisterHelpFiles(const wstringVector& filenames);
     void
-    showDocByName(const std::wstring& filenames);
+    showDocByModuleName(const std::wstring& moduleName);
+    void
+    showDocByName(const std::wstring& name);
     void
     showDocByIdentifier(const std::wstring& identifier);
     bool
@@ -32,17 +34,20 @@ public:
     void
     closeBrowser();
     void
-    syncBrowser();
-    void
-    sendCommand(const std::wstring& cmd);
+    setSource(const std::wstring& url);
     void
     destroy();
     void
     clearCache();
     wstringVector
     getAttributes();
+
     bool
-    isAvailable();
+    isVisible();
+    void
+    show();
+    void
+    hide();
 
 private:
     HelpBrowser();

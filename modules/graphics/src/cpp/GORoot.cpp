@@ -11,9 +11,6 @@
 #include <QtGui/QCursor>
 #include <QtGui/QGuiApplication>
 #include <QtWidgets/QApplication>
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#include <QtWidgets/QDesktopWidget>
-#endif
 #include "GORoot.hpp"
 #include "GOStringProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"
@@ -73,11 +70,7 @@ GORoot::initializeProperties()
     setPropertyAsArrayOfValue(USERDATA_PROPERTY_STR, ArrayOf::emptyConstructor());
 
     QPoint qPoint = QCursor::pos();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     const QRect currentScreenGeometry = QGuiApplication::screenAt(qPoint)->availableGeometry();
-#else
-    const QRect currentScreenGeometry = QApplication::desktop()->screenGeometry(qPoint);
-#endif
     setPropertyAsVector2DValue(
         POINTERLOCATION_PROPERTY_STR, qPoint.x(), currentScreenGeometry.height() - qPoint.y());
 
@@ -149,11 +142,7 @@ GORoot::refreshProperties()
         = (GOVector2DProperty*)this->searchProperty(POINTERLOCATION_PROPERTY_STR);
     if (pointerLocation != nullptr) {
         QPoint qPoint = QCursor::pos();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
         const QRect currentScreenGeometry = QGuiApplication::screenAt(qPoint)->availableGeometry();
-#else
-        const QRect currentScreenGeometry = QApplication::desktop()->screenGeometry(qPoint);
-#endif
         pointerLocation->value(qPoint.x(), currentScreenGeometry.height() - qPoint.y());
     }
 
@@ -215,12 +204,7 @@ GORoot::repaint()
     std::vector<double> location = pointerLocation->data();
 
     QPoint qPoint = QCursor::pos();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     const QRect currentScreenGeometry = QGuiApplication::screenAt(qPoint)->availableGeometry();
-#else
-    const QRect currentScreenGeometry = QApplication::desktop()->screenGeometry(qPoint);
-#endif
-
     QPoint pos(location[0], currentScreenGeometry.height() - location[1]);
     QCursor::setPos(pos);
 }

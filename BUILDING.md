@@ -11,7 +11,7 @@ file a new issue.
 ## How to build Nelson ?
 
 To compile Nelson, you will need a C++17 compiler.
-
+Qt 5.15 or more required.
 
 ### [Linux](BUILDING_Linux.md)
 

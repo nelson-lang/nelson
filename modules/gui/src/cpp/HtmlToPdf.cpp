@@ -13,9 +13,7 @@
 #include <QtCore/QFileInfo>
 #include <QtGui/QTextDocument>
 #include <QtPrintSupport/QPrinter>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
 #include <QtGui/QPageSize>
-#endif
 #include <fstream>
 //=============================================================================
 namespace Nelson {
@@ -65,11 +63,7 @@ HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestf
 {
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
     printer.setPageSize(QPageSize(QPageSize::A4));
-#else
-    printer.setPaperSize(QPrinter::A4);
-#endif
     QString dest = wstringToQString(pdfdestfilename);
     if (QFileInfo(dest).suffix().isEmpty()) {
         dest.append(".pdf");
@@ -77,11 +71,7 @@ HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestf
     printer.setOutputFileName(wstringToQString(pdfdestfilename));
     QTextDocument doc;
     doc.setHtml(wstringToQString(htmlstream));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
     doc.setPageSize(printer.pageLayout().fullRect().size());
-#else
-    doc.setPageSize(printer.pageRect().size());
-#endif
     doc.print(&printer);
     return true;
 }

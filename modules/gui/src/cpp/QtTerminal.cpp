@@ -59,21 +59,13 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     f.setPointSize(10);
     f.setFixedPitch(true);
     setFont(f);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
-#else
-    setCursorWidth(QFontMetrics(font()).width(QChar('x')));
-#endif
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setUndoRedoEnabled(false);
     setWordWrapMode(QTextOption::NoWrap);
     setFrameStyle(QFrame::NoFrame);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     setTabStopDistance(40);
-#else
-    setTabStopWidth(40);
-#endif
     setAcceptDrops(false);
     lineToSend.clear();
     // disable cursor
@@ -188,11 +180,7 @@ QtTerminal::getLine(const std::wstring& prompt)
     printPrompt(Nelson::wstringToQString(prompt));
     promptBlock = document()->lastBlock();
     // enable cursor text
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
-#else
-    setCursorWidth(QFontMetrics(font()).width(QChar('x')));
-#endif
     // restore default icon cursor
     QApplication::restoreOverrideCursor();
     if (eval == nullptr) {
@@ -229,11 +217,7 @@ QtTerminal::getLine(const std::wstring& prompt)
 size_t
 QtTerminal::getTerminalWidth()
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     size_t chSize = QFontMetrics(font()).horizontalAdvance(QChar('M'));
-#else
-    size_t chSize = QFontMetrics(font()).width(QChar('M'));
-#endif
     QScrollBar* vsb = verticalScrollBar();
     size_t res = (document()->textWidth() - vsb->width()) / chSize;
     return res;

@@ -46,7 +46,8 @@ target_link_libraries(
   nlsCore
   nlsFiles_folders_functions
   ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
-  ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES})
+  ${Qt${QT_VERSION_MAJOR}Help_LIBRARIES}
+  Qt${QT_VERSION_MAJOR}::PrintSupport)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}

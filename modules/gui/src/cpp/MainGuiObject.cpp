@@ -57,9 +57,7 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     case QtDebugMsg: {
         Warning(str);
     } break;
-#if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
     case QtInfoMsg:
-#endif
     case QtWarningMsg: {
         Warning(str);
     } break;

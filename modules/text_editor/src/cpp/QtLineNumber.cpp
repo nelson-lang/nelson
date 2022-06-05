@@ -17,11 +17,7 @@
 QtLineNumber::QtLineNumber(QtTextEdit* editor) : QWidget(), tEditor(editor)
 {
     int width;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     width = QFontMetrics(font()).horizontalAdvance(QLatin1String("0000")) + 5;
-#else
-    width = fontMetrics().width(QLatin1String("0000")) + 5;
-#endif
     setFixedWidth(width);
     connect((QTextEdit*)tEditor->document()->documentLayout(), SIGNAL(update(const QRectF&)), this,
         SLOT(update()));
@@ -51,12 +47,8 @@ QtLineNumber::paintEvent(QPaintEvent* paintEvent)
             break;
         }
         const QString txt = QString::number(lineNumber);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
         p.drawText(
             width() - fm.horizontalAdvance(txt), qRound(position.y()) - contentsY + ascent, txt);
-#else
-        p.drawText(width() - fm.width(txt), qRound(position.y()) - contentsY + ascent, txt);
-#endif
     }
 }
 //=============================================================================

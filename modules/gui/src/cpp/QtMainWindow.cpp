@@ -139,16 +139,7 @@ QtMainWindow::QtMainWindow(bool minimized)
     resize(840, 600);
     // https://bugreports.qt.io/browse/QTBUG-76354
     if (minimized) {
-#if !defined(__APPLE__) && !defined(__MACH__) && !defined(_MSC_VER)
-#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
-        setWindowState(Qt::WindowMinimized);
-        setVisible(true);
-#else
         showMinimized();
-#endif
-#else
-        showMinimized();
-#endif
     } else {
         show();
     }

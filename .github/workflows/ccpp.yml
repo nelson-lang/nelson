@@ -315,7 +315,6 @@ jobs:
           sudo apt -y install qml6-module-qtquick-dialogs;
           sudo apt -y install qml6-module-qtqml-workerscript;
           sudo apt -y install qml6-module-qtquick-layouts;
-          sudo apt -y install assistant-qt6;
           sudo apt -y install qt6-tools-dev;
 
       - name: Checkout
@@ -406,9 +405,9 @@ jobs:
         sudo apt -y install zlib1g-dev;
         sudo apt -y install libcurl4-openssl-dev;
         sudo apt -y install libgit2-dev;
-        sudo add-apt-repository --yes ppa:beineri/opt-qt-5.14.2-focal;
+        sudo add-apt-repository --yes ppa:beineri/opt-qt-5.15.4-focal;
         sudo apt update;
-        sudo apt -y install qt514-meta-full;
+        sudo apt -y install qt515base qt515svg qt515tools qt515quickcontrols2 qt515quickcontrols qt515declarative qt515wayland;
         sudo apt-get install -y libboost-all-dev;
         git clone https://gitlab.com/libeigen/eigen.git /tmp/eigen;
         mkdir /tmp/eigen-build;
@@ -444,7 +443,7 @@ jobs:
       run: |
         python $GITHUB_WORKSPACE/tools/update_version/update_version.py
     - name: CMake
-      run: source /opt/qt514/bin/qt514-env.sh && cmake -DCMAKE_BUILD_TYPE=Release -G "Ninja" .
+      run: source /opt/qt515/bin/qt515-env.sh && cmake -DCMAKE_BUILD_TYPE=Release -G "Ninja" .
     - name: make with Ninja
       run: cmake --build . -- -j $(nproc)
     - name: get module skeleton
@@ -458,9 +457,9 @@ jobs:
     - name: Install
       run: sudo ninja install      
     - name: all benchs
-      run: source /opt/qt514/bin/qt514-env.sh && xvfb-run -a ninja benchs_all
+      run: source /opt/qt515/bin/qt515-env.sh && xvfb-run -a ninja benchs_all
     - name: all tests
-      run: source /opt/qt514/bin/qt514-env.sh && xvfb-run -a ninja tests_all
+      run: source /opt/qt515/bin/qt515-env.sh && xvfb-run -a ninja tests_all
     - name: Copy artifacts
       run: mkdir artifacts && mv tests_all*.* artifacts && mv benchs_all*.* artifacts && mv Nelson-*.tar.Z artifacts
     - uses: actions/upload-artifact@v1
@@ -672,7 +671,6 @@ jobs:
           dnf install -y taglib-devel
           dnf install -y qt5-qtbase-devel
           dnf install -y qt5-qtdeclarative-devel
-          dnf install -y qt5-assistant
           dnf install -y qt5-doctools
           dnf install -y qt5-qttools-devel
           dnf install -y qt5-qtquickcontrols

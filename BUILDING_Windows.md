@@ -5,7 +5,7 @@
 - Prerequirements:
   Git for Windows
   Visual studio 2022 (C++)
-  Qt 5.x for Windows
+  Qt 5.15 or more for Windows
 
 - Creates Nelson main directory
   ```bash

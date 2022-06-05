@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 0.6.5 (UNRELEASED)
+## 0.6.X (UNRELEASED)
 
+### Added
+
+- [#655](http://github.com/Nelson-numerical-software/nelson/issues/655): help viewer embedded (available on all platforms).
+  
 ### Changed
 
  - LGTM replaced by CodeQL (Thanks to Github for their support)

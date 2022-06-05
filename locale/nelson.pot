@@ -1538,9 +1538,6 @@ msgstr ""
 msgid "Attributes"
 msgstr ""
 
-msgid "Qt Assistant not found."
-msgstr ""
-
 msgid "help collection file not found."
 msgstr ""
 

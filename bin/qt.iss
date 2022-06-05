@@ -64,7 +64,6 @@ Source: {#RootPath}bin\{#BinPath}\Qt?Widgets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt6QuickLayouts.dll; DestDir: {app}\bin\{#BinPath}\
 #endif
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\assistant.exe; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\qhelpgenerator.exe; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 #ifdef QT5_USED

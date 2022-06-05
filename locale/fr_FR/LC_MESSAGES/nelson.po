@@ -564,9 +564,6 @@ msgstr "Effacer la fenêtre de commande"
 msgid "Stop execution"
 msgstr "Arrêter l'exécution"
 
-msgid "Qt Assistant not found."
-msgstr "Qt Assistant non trouvé."
-
 msgid "help collection file not found."
 msgstr "fichier help collection non trouvée."
 

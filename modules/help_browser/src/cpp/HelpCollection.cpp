@@ -9,6 +9,8 @@
 //=============================================================================
 #include <cstdlib>
 #include <QtCore/QFileInfo>
+#include <QtHelp/QHelpLink>
+#include <QtCore/QList>
 #include <QtHelp/QHelpEngineCore>
 #include <QtCore/QStandardPaths>
 #include "QStringConverter.hpp"
@@ -16,7 +18,6 @@
 #include "GetNelsonPath.hpp"
 #include "IsFile.hpp"
 #include "RemoveDirectory.hpp"
-
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -185,12 +186,39 @@ HelpCollection::getNelsonQhcFilename()
 std::wstring
 HelpCollection::getNelsonCacheCollectionPath()
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-#else
     QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-#endif
     return QStringTowstring(cacheLocation) + std::wstring(L"/help");
+}
+//=============================================================================
+wstringVector
+HelpCollection::searchByIdentifier(const std::wstring& identifier)
+{
+    wstringVector result;
+    if (cachedCollection) {
+        QList<QHelpLink> links
+            = cachedCollection->documentsForIdentifier(wstringToQString(identifier));
+        result.reserve((int)links.count());
+        for (qsizetype i = 0; i < links.count(); ++i) {
+            QString urlString = links[i].url.toString();
+            result.push_back(QStringTowstring(urlString));
+        }
+    }
+    return result;
+}
+//=============================================================================
+wstringVector
+HelpCollection::searchByName(const std::wstring& name)
+{
+    wstringVector result;
+    if (cachedCollection) {
+        QList<QHelpLink> links = cachedCollection->documentsForKeyword(wstringToQString(name));
+        result.reserve((int)links.count());
+        for (qsizetype i = 0; i < links.count(); ++i) {
+            QString urlString = links[i].url.toString();
+            result.push_back(QStringTowstring(urlString));
+        }
+    }
+    return result;
 }
 //=============================================================================
 }
