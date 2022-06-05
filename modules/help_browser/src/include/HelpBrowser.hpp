@@ -24,7 +24,9 @@ public:
     void
     unregisterHelpFiles(const wstringVector& filenames);
     void
-    showDocByName(const std::wstring& filenames);
+    showDocByModuleName(const std::wstring& moduleName);
+    void
+    showDocByName(const std::wstring& name);
     void
     showDocByIdentifier(const std::wstring& identifier);
     bool

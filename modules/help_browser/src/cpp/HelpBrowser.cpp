@@ -43,11 +43,25 @@ HelpBrowser::destroy()
 }
 //=============================================================================
 void
+HelpBrowser::showDocByModuleName(const std::wstring& name)
+{
+    std::wstring moduleIndex
+        = L"qthelp://org.nelson.modules." + name + std::wstring(L".help/help/") + L"index.html";
+    if (helpWindow) {
+        helpWindow->setSource(moduleIndex);
+    }
+}
+//=============================================================================
+void
 HelpBrowser::showDocByName(const std::wstring& name)
 {
     wstringVector urls = HelpCollection::getInstance()->searchByName(name);
-    if (helpWindow && !urls.empty()) {
-        helpWindow->setSource(urls[0]);
+    if (urls.empty()) {
+        helpWindow->search(name);
+    } else {
+        if (helpWindow) {
+            helpWindow->setSource(urls[0]);
+        }
     }
 }
 //=============================================================================
@@ -80,6 +94,8 @@ HelpBrowser::show()
 {
     if (helpWindow) {
         helpWindow->show();
+        helpWindow->activateWindow();
+        helpWindow->setWindowState(Qt::WindowActive);
     }
 }
 //=============================================================================
@@ -124,7 +140,7 @@ HelpBrowser::closeBrowser()
     }
 }
 //=============================================================================
-HelpBrowser::HelpBrowser() {}
+HelpBrowser::HelpBrowser() { }
 //=============================================================================
 void
 HelpBrowser::registerHelpFiles(const wstringVector& filenames)

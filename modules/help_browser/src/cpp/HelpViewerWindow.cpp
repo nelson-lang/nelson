@@ -195,9 +195,8 @@ HelpViewerWindow::createHelpWindow()
 
     searchHelpEngine = helpEngine->searchEngine();
 
-    QTabWidget* tWidget = new QTabWidget;
-
-    QWidget* searchWidget = new QWidget(this);
+    tabWidget = new QTabWidget;
+    searchWidget = new QWidget(this);
     QVBoxLayout* vLayout = new QVBoxLayout(searchWidget);
 
     queryWidget = searchHelpEngine->queryWidget();
@@ -212,9 +211,9 @@ HelpViewerWindow::createHelpWindow()
 
     searchHelpEngine->reindexDocumentation();
 
-    tWidget->addTab(contentWidget, tr("Contents"));
-    tWidget->addTab(indexWidget, tr("Index"));
-    tWidget->addTab(searchWidget, tr("Search"));
+    tabWidget->addTab(contentWidget, tr("Contents"));
+    tabWidget->addTab(indexWidget, tr("Index"));
+    tabWidget->addTab(searchWidget, tr("Search"));
 
     helpViewer = new HelpViewer(helpEngine, qUrl);
 
@@ -223,7 +222,7 @@ HelpViewerWindow::createHelpWindow()
     createConnections();
 
     QSplitter* horizSplitter = new QSplitter(Qt::Horizontal);
-    horizSplitter->insertWidget(0, tWidget);
+    horizSplitter->insertWidget(0, tabWidget);
     horizSplitter->insertWidget(1, helpViewer);
     horizSplitter->setStretchFactor(1, 1);
 
@@ -241,5 +240,19 @@ HelpViewerWindow::search()
     }
     QString searchInput = searchHelpEngine->queryWidget()->searchInput();
     searchHelpEngine->search(searchInput);
+}
+//=============================================================================
+void
+HelpViewerWindow::search(const std::wstring& name)
+{
+    if (helpEngine == nullptr || searchHelpEngine == nullptr) {
+        return;
+    }
+    QString searchInput = Nelson::wstringToQString(name);
+    if (tabWidget) {
+        tabWidget->setCurrentWidget(searchWidget);
+        searchHelpEngine->queryWidget()->setSearchInput(searchInput);
+        searchHelpEngine->search(searchInput);
+    }
 }
 //=============================================================================

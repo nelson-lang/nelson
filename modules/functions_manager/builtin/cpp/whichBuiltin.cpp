@@ -24,7 +24,8 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 2);
     if (argIn.size() == 1) {
-        if (argIn[0].isRowVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()
+            || (argIn[0].isStringArray() && argIn[0].isScalar())) {
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
             if (nLhs == 0) {
                 FunctionDefPtr fptr = nullptr;
@@ -49,13 +50,15 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         // case argIn.size() == 2
         std::wstring wfunctionname;
-        if (argIn[0].isRowVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()
+            || (argIn[0].isStringArray() && argIn[0].isScalar())) {
             wfunctionname = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring wparam2;
-        if (argIn[1].isRowVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray()
+            || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             wparam2 = argIn[1].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);

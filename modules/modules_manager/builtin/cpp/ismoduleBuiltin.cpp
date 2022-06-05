@@ -20,7 +20,8 @@ Nelson::ModulesManagerGateway::ismoduleBuiltin(int nLhs, const ArrayOfVector& ar
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     std::wstring moduleshortname;
-    if (argIn[0].isRowVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray() ||
+      (argIn[0].isStringArray() && argIn[0].isScalar())) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

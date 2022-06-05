@@ -41,6 +41,8 @@ public:
     ~HelpViewerWindow();
     void
     setSource(const std::wstring& url);
+    void
+    search(const std::wstring& name);
 
 public slots:
     void
@@ -54,6 +56,8 @@ private:
     QHelpSearchResultWidget* resultWidget;
     QHelpContentWidget* contentWidget;
     QHelpIndexWidget* indexWidget;
+    QWidget* searchWidget;
+    QTabWidget* tabWidget;
 
     QToolBar* toolbar;
     QAction* printAction;

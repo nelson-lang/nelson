@@ -8,28 +8,33 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function doc(varargin)
-  if nargin() > 1
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(0, 1);
   if ~indexhelp()
     helpbrowser();
   end
-  if nargin() == 1
-    name = varargin{1};
-    if ~ischar(name)
-      error(_('Wrong type for argument #1: string expected.'));
-    end
-    p = which(name,'-module');
-    if isempty(p)
-      helpbrowser('-name', name);
-    else
-      if length(p) == 1
-        id = [p{1}, '::', name];
-        helpbrowser('-identifier', id);
-      else
-        helpbrowser('-name', name);
-      end
-    end
+  if nargin() == 0
+    helpbrowser('-show');
+    return
   end
+  name = varargin{1};
+  mustBeTextScalar(name, 1);
+  if ismodule(name)
+    helpbrowser('-module', name);
+    helpbrowser('-show');
+    return
+  end
+  p = which(name,'-module');
+  if isempty(p)
+    helpbrowser('-name', name);
+    helpbrowser('-show');
+    return
+  end
+  if length(p) == 1
+    id = [p{1}, '::', char(name)];
+    helpbrowser('-identifier', id);
+  else
+    helpbrowser('-name', name);
+  end
+  helpbrowser('-show');
 end
 %==============================================================================

@@ -60,6 +60,9 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(int nLhs, const ArrayOfVector& ar
         } else if (param1 == L"-unregister") {
             wstringVector param2 = argIn[1].getContentAsWideStringVector(true);
             HelpBrowser::getInstance()->unregisterHelpFiles(param2);
+        } else if (param1 == L"-module") {
+            std::wstring param2 = argIn[1].getContentAsWideString();
+            HelpBrowser::getInstance()->showDocByModuleName(param2);
         } else if (param1 == L"-name") {
             std::wstring param2 = argIn[1].getContentAsWideString();
             HelpBrowser::getInstance()->showDocByName(param2);
