@@ -54,7 +54,6 @@ set(BUILD_ALL_LOCALIZATION_ACTION ${LOCALIZATION_ACTION})
 # ==============================================================================
 set(GET_MODULE_SKELETON_ACTION
   COMMAND 
-  ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
   ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --noipc --nousermodules --quiet --file
   "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/clone_module_skeleton/clone.m")
 set(BUILD_ALL_GET_MODULE_SKELETON_ACTION ${GET_MODULE_SKELETON_ACTION})
@@ -108,7 +107,6 @@ add_custom_target(
 add_custom_target(
   missing_help
   COMMAND
-    ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}'
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --nousermodules --noipc
     --quiet --file
     "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.m"

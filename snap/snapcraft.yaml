@@ -218,7 +218,6 @@ apps:
       NELSON_WITHOUT_MPI: "TRUE"
       PATH: "$SNAP/usr/bin:$SNAP/bin:/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/bin:$PATH"
       QTDIR: "/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/"
-      QTDIR_BINARIES: "/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/bin"
 
     plugs: &plugs
       - alsa
