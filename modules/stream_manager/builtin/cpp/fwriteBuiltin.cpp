@@ -64,6 +64,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
             Error(_W("Problem with file manager."));
+            return retval;
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isOpened(iValue))  {
