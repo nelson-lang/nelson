@@ -367,7 +367,7 @@ FMT_BEGIN_DETAIL_NAMESPACE
 struct buffer_size {
   buffer_size() = default;
   size_t value = 0;
-  buffer_size operator=(size_t val) const { // lgtm [cpp/assignment-does-not-return-this]
+  buffer_size operator=(size_t val) const { 
     auto bs = buffer_size();
     bs.value = val;
     return bs;

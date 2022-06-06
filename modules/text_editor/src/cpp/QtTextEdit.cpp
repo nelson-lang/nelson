@@ -109,14 +109,12 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
             complete(completionPrefix);
         } else {
             if ((e->key() == Qt::Key_Tab)
-                || (QApplication::keyboardModifiers()
-                       && Qt::ControlModifier // lgtm [cpp/logical-operator-applied-to-flag]
+                || (QApplication::keyboardModifiers() && Qt::ControlModifier
                        && (e->key() == Qt::Key_Space))) {
                 QString completionPrefix = textUnderCursor();
                 complete(completionPrefix);
             } else {
-                if ((e->key() == Qt::Key_A)
-                    && Qt::ControlModifier) { // lgtm [cpp/logical-operator-applied-to-flag]
+                if ((e->key() == Qt::Key_A) && Qt::ControlModifier) {
                     QTextEdit::keyPressEvent(e);
                     return;
                 }

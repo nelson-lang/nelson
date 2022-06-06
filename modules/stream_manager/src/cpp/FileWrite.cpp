@@ -67,7 +67,7 @@ FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLitt
                 FILE* filepointer = static_cast<FILE*>(fp->getFilePointer());
                 if (filepointer) {
                     if (skip) {
-                        char* skipdata;
+                        char* skipdata = nullptr;
                         try {
                             skipdata = new char[skip];
                         } catch (const std::bad_alloc&) {

@@ -142,7 +142,7 @@ mz_zip_search_eocd(void* stream, int64_t* central_pos)
 
     file_size = mz_stream_tell(stream);
 
-    if (max_back <= 0) { // lgtm [cpp/constant-comparison]
+    if (max_back <= 0) {
         max_back = file_size;
     }
     if (max_back > file_size) {
@@ -1397,11 +1397,11 @@ mz_zip_close(void* handle)
     }
 
     if (zip->file_info_stream != NULL) {
-        mz_stream_mem_close(zip->file_info_stream); // lgtm [cpp/useless-expression]
+        mz_stream_mem_close(zip->file_info_stream); 
         mz_stream_mem_delete(&zip->file_info_stream);
     }
     if (zip->local_file_info_stream != NULL) {
-        mz_stream_mem_close(zip->local_file_info_stream); // lgtm [cpp/useless-expression]
+        mz_stream_mem_close(zip->local_file_info_stream); 
         mz_stream_mem_delete(&zip->local_file_info_stream);
     }
 

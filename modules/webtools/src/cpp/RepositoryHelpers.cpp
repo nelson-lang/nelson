@@ -8,6 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <git2.h>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "characters_encoding.hpp"
 #include "RepositoryHelpers.hpp"
 #include "i18n.hpp"
@@ -17,19 +20,16 @@ namespace Nelson {
 std::wstring
 gitErrorCodeToMessage(int errorCode)
 {
-#define BUFFER_SIZE 4096
     std::wstring errorMessage;
     if (errorCode != 0) {
         const git_error* e = giterr_last();
-        wchar_t buffer[BUFFER_SIZE];
         if (e) {
             std::wstring msg = utf8_to_wstring(e->message);
-            swprintf(buffer, BUFFER_SIZE, _W("repository error %d/%d: %ls").c_str(), errorCode,
-                e->klass, msg.c_str());
+            errorMessage
+                = fmt::sprintf(_W("repository error %d/%d: %ls"), errorCode, e->klass, msg);
         } else {
-            swprintf(buffer, BUFFER_SIZE, _W("repository error %d").c_str(), errorCode);
+            errorMessage = fmt::sprintf(_W("repository error %d"), errorCode);
         }
-        errorMessage = std::wstring(buffer);
     }
     return errorMessage;
 }

@@ -39,8 +39,7 @@ StartNelsonUserScript(Evaluator* eval)
                     io->errorMessage(errmsg);
                 } else {
                     const wchar_t* format = L"%s\n";
-                    fwprintf(
-                        stderr, format, errmsg.c_str()); // lgtm [cpp/wrong-type-format-argument]
+                    fwprintf(stderr, format, errmsg.c_str());
                 }
             }
             return true;

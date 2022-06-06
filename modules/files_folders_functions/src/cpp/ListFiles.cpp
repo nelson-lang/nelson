@@ -178,7 +178,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
         struct
         {
             bool
-            operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
+            operator()(FileInfo a, FileInfo b)
             {
                 return static_cast<int>(a.isDir()) > static_cast<int>(b.isDir());
             }
@@ -189,7 +189,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
         struct
         {
             bool
-            operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
+            operator()(FileInfo a, FileInfo b)
             {
                 return a.getName() < b.getName();
             }

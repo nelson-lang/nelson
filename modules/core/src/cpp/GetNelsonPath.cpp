@@ -67,7 +67,7 @@ get_basepathU()
 {
     std::string path = "";
     pid_t pid = getpid();
-    char buf[10];
+    char buf[13];
     sprintf(buf, "%d", pid);
     std::string _link = "/proc/";
     _link.append(buf);

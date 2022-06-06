@@ -140,7 +140,7 @@ HelpBrowser::closeBrowser()
     }
 }
 //=============================================================================
-HelpBrowser::HelpBrowser() { }
+HelpBrowser::HelpBrowser() {}
 //=============================================================================
 void
 HelpBrowser::registerHelpFiles(const wstringVector& filenames)

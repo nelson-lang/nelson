@@ -111,7 +111,7 @@ ErrorPathDetection(NELSON_ENGINE_MODE _mode)
     }
 #else
     msg = msg + L"\n";
-    fwprintf(stderr, msg.c_str());
+    fwprintf(stderr, L"%ls", msg.c_str());
 #endif
 }
 //=============================================================================
@@ -128,7 +128,7 @@ ErrorInterpreter(NELSON_ENGINE_MODE _mode)
     }
 #else
     msg = msg + L"\n";
-    fwprintf(stderr, msg.c_str());
+    fwprintf(stderr, L"%ls", msg.c_str());
 #endif
 }
 //=============================================================================

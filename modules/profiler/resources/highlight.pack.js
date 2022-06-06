@@ -165,14 +165,14 @@
               [],
               t.c.map(function(e) {
                 return (
-                  (n = "self" === e ? t : e).v && // lgtm [js/use-before-declaration]
+                  (n = "self" === e ? t : e).v && 
                     !n.cached_variants &&
                     (n.cached_variants = n.v.map(function(e) {
                       return l(n, { v: null }, e);
                     })),
                   n.cached_variants || (n.eW && [l(n)]) || [n]
                 );
-                var n; // lgtm [js/unreachable-statement]
+                var n; 
               })
             )),
             t.c.forEach(function(e) {
@@ -430,7 +430,7 @@
                       " " +
                       e.nodeName +
                       '="' +
-                      _(e.value).replace('"', "&quot;") + // lgtm [js/incomplete-sanitization]
+                      _(e.value).replace('"', "&quot;") + 
                       '"'
                     );
                   })

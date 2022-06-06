@@ -389,7 +389,7 @@ rndr_raw_block(hoedown_buffer *ob, const hoedown_buffer *text, const hoedown_ren
     {
         return;
     }
-    /* FIXME: Do we *really* need to trim the HTML? How does that make a difference? */ // lgtm [cpp/fixme-comment]
+    /* FIXME: Do we *really* need to trim the HTML? How does that make a difference? */ 
     sz = text->size;
     while (sz > 0 && text->data[sz - 1] == '\n')
     {
