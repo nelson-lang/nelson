@@ -24,7 +24,6 @@ template <typename T>
 static std::wstring
 complexToString(T complexValue, const std::wstring& formatNumber)
 {
-    wchar_t buffer[1024];
     std::wstring res;
     std::wstring realPartStr;
     std::wstring imagPartStr;
@@ -96,7 +95,6 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         if (!A.isScalar()) {
             res = res + L"[";
         }
-        wchar_t buffer[1024];
         switch (A.getDataClass()) {
         default: {
             Error(ERROR_TYPE_NOT_SUPPORTED);
