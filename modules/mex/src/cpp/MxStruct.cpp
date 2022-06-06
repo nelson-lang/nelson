@@ -102,7 +102,7 @@ mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber)
     if (!mxIsStruct(pm)) {
         return nullptr;
     }
-    if (index >= mxGetNumberOfElements(pm) || index < 0) { // lgtm [cpp/constant-comparison]
+    if (index >= mxGetNumberOfElements(pm) || index < 0) {
         return nullptr;
     }
     if (fieldnumber >= mxGetNumberOfFields(pm) || fieldnumber < 0) {

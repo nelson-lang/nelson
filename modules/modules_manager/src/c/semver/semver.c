@@ -53,7 +53,7 @@ strcut (char *str, int begin, int len) {
   size_t l;
   l = strlen(str);
 
-  if((int)l < 0 || (int)l > MAX_SAFE_INT) return -1; // lgtm [cpp/constant-comparison]
+  if((int)l < 0 || (int)l > MAX_SAFE_INT) return -1;
 
   if (len < 0) len = l - begin + 1;
   if (begin + len > (int)l) len = l - begin;
@@ -97,7 +97,7 @@ parse_int (const char *s) {
   if (valid == 0) return -1;
 
   num = strtol(s, NULL, 10);
-  if (num > MAX_SAFE_INT) return -1; // lgtm [cpp/constant-comparison]
+  if (num > MAX_SAFE_INT) return -1; 
 
   return num;
 }

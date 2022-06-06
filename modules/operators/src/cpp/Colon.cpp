@@ -34,7 +34,7 @@ integer_colon(NelsonType destinationClass, T low, T high, T step)
     }
     if (low < high) {
         if (isSignedInteger(destinationClass)) {
-            if (step < 0) { // lgtm [cpp/constant-comparison]
+            if (step < 0) {
                 ArrayOf res = ArrayOf::emptyConstructor(1, 0);
                 res.promoteType(destinationClass);
                 return res;

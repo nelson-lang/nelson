@@ -7,14 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#if _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#define _CRT_NON_CONFORMING_SWPRINTFS
-#endif
 #include <boost/algorithm/string.hpp>
 #include <cmath>
 #include <cstdio>
 #include <cwchar>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "MatrixToString.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -25,7 +24,6 @@ template <typename T>
 static std::wstring
 complexToString(T complexValue, const std::wstring& formatNumber)
 {
-    wchar_t buffer[1024];
     std::wstring res;
     std::wstring realPartStr;
     std::wstring imagPartStr;
@@ -39,8 +37,7 @@ complexToString(T complexValue, const std::wstring& formatNumber)
                 realPartStr = L"-Inf";
             }
         } else {
-            swprintf(buffer, 1024, formatNumber.c_str(), complexValue.real());
-            realPartStr = buffer;
+            realPartStr = fmt::sprintf(formatNumber, complexValue.real());
         }
     }
     if (std::isnan(complexValue.imag())) {
@@ -53,8 +50,7 @@ complexToString(T complexValue, const std::wstring& formatNumber)
                 imagPartStr = L"-Inf";
             }
         } else {
-            swprintf(buffer, 1024, formatNumber.c_str(), complexValue.imag());
-            imagPartStr = buffer;
+            imagPartStr = fmt::sprintf(formatNumber, complexValue.imag());
         }
     }
     if (imagPartStr.compare(L"NaN") == 0 || imagPartStr.compare(L"Inf") == 0
@@ -99,7 +95,6 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         if (!A.isScalar()) {
             res = res + L"[";
         }
-        wchar_t buffer[1024];
         switch (A.getDataClass()) {
         default: {
             Error(ERROR_TYPE_NOT_SUPPORTED);
@@ -147,8 +142,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                                 res = res + L"-Inf" + L" ";
                             }
                         } else {
-                            swprintf(buffer, 1024, formatNumber.c_str(), val);
-                            res = res + buffer + L" ";
+                            res = res + fmt::sprintf(formatNumber, val) + L" ";
                         }
                     }
                 }
@@ -173,8 +167,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                                 res = res + L"-Inf" + L" ";
                             }
                         } else {
-                            swprintf(buffer, 1024, formatNumber.c_str(), val);
-                            res = res + buffer + L" ";
+                            res = res + fmt::sprintf(formatNumber, val) + L" ";
                         }
                     }
                 }

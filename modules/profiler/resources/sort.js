@@ -25,7 +25,7 @@ function SortTable() {
     arrayOfRows[i].oldIndex = i;
     var celltext = rows[i]
       .getElementsByTagName("td")
-      [sortColumn].innerHTML.replace(/<[^>]*>/g, ""); // lgtm [js/incomplete-multi-character-sanitization]
+      [sortColumn].innerHTML.replace(/<[^>]*>/g, "");
     var re = type == "N" ? /[^\.\-\+\d]/g : /[^a-zA-Z0-9]/g;
     arrayOfRows[i].value = celltext
       .replace(re, "")

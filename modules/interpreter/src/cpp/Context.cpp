@@ -59,11 +59,7 @@ Context::pushScope(const std::string& name)
     } catch (const std::bad_alloc&) {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
-    if (sc != nullptr) {
-        scopestack.push_back(sc);
-    } else {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
-    }
+    scopestack.push_back(sc);
 }
 //=============================================================================
 void

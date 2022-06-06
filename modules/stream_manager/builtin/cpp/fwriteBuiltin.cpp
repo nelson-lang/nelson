@@ -62,6 +62,10 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Cannot write sparse type."));
         }
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
+        if (fm == nullptr) {
+            Error(_W("Problem with file manager."));
+            return retval;
+        }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);

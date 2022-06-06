@@ -25,7 +25,7 @@ printError(Interface* io, const std::wstring& message)
         io->warningMessage(message);
     } else {
         const wchar_t* format = L"%s\n";
-        fwprintf(stdout, format, message.c_str()); // lgtm [cpp/wrong-type-format-argument]
+        fwprintf(stdout, format, message.c_str());
     }
 }
 //=============================================================================

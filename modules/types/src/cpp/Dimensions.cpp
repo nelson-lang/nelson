@@ -178,7 +178,7 @@ Dimensions::mapPoint(const Dimensions& point)
     nextCoeff = 1;
     testableDims = (point.length < length) ? point.length : length;
     for (indexType i = 0; i < testableDims; i++) {
-        if ((point.data[i] < 0) || (point.data[i] >= data[i])) { // lgtm [cpp/constant-comparison]
+        if ((point.data[i] < 0) || (point.data[i] >= data[i])) {
             Error(_W("Index exceeds dimensions."));
         }
         retval += nextCoeff * point.data[i];

@@ -865,9 +865,8 @@ lexInitialState()
 {
     if (isNewline() != 0) {
         NextLine();
-    } else if (isWhitespace() != 0) { // lgtm [cpp/empty-block]
-        // nothing
-    } else if (match(";") != 0) { // lgtm [cpp/empty-block]
+    } else if (isWhitespace() != 0) { // nothing
+    } else if (match(";") != 0) {
         // nothing
     } else if (currentChar() == '%') {
         fetchComment();

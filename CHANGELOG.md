@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#659](http://github.com/Nelson-numerical-software/nelson/issues/659): qhelpgenerator on macOs after brew Qt6.3.0 update.
 
+- [#661](http://github.com/Nelson-numerical-software/nelson/issues/661): CodeQL warnings.
+
 ## 0.6.5 (2022-05-26)
 
 ### Added

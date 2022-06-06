@@ -13,10 +13,10 @@
 //=============================================================================
 #include <cstdio>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 #include "PrintfFunction.hpp"
 #include "Error.hpp"
 #include "PrintfHelper.hpp"
-#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -134,7 +134,8 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                             boost::replace_all(f, L"d", L"lld");
                             nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
                         } else {
-                            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, dp, data);
+                            std::wstring fmt = std::wstring(dp);
+                            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, fmt.c_str(), data);
                         }
                         nbuff[nprn + 1] = L'\0';
                         result = result + nbuff;
@@ -152,7 +153,8 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                         return false;
                     }
                     if (!isEmpty) {
-                        nprn = swprintf(nbuff, BUFFER_SIZE_MAX, dp, data);
+                        std::wstring fmt = std::wstring(dp);
+                        nprn = swprintf(nbuff, BUFFER_SIZE_MAX, fmt.c_str(), data);
                         nbuff[nprn + 1] = L'\0';
                         result = result + nbuff;
                     }

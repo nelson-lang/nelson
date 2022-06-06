@@ -174,9 +174,8 @@ getTotalVirtualMemoryByNelson()
         int utime, stime, cutime, cstime, counter, priority, timeout;
         unsigned itrealvalue, starttime;
         int vsize = 0, rss = 0;
-        f >> pid >> name >> state >> ppid >> pgrp >> session >> tty // lgtm [cpp/dangerous-cin]
-            >> tpgid // lgtm [cpp/dangerous-cin]
-            >> flags; // lgtm [cpp/dangerous-cin]
+        std::cin.width(4096);
+        f >> pid >> name >> state >> ppid >> pgrp >> session >> tty >> tpgid >> flags;
         f >> minflt >> cminflt >> majflt >> cmajflt >> utime >> stime >> cutime;
         f >> cstime >> counter >> priority >> timeout >> itrealvalue >> starttime;
         f >> vsize >> rss;

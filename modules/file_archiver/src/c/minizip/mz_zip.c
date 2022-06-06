@@ -141,13 +141,7 @@ mz_zip_search_eocd(void* stream, int64_t* central_pos)
         return err;
 
     file_size = mz_stream_tell(stream);
-
-    if (max_back <= 0) { // lgtm [cpp/constant-comparison]
-        max_back = file_size;
-    }
-    if (max_back > file_size) {
-        max_back = file_size;
-    }
+    max_back = file_size;
     return mz_stream_find_reverse(stream, (const void*)find, sizeof(find), max_back, central_pos);
 }
 
@@ -1397,11 +1391,11 @@ mz_zip_close(void* handle)
     }
 
     if (zip->file_info_stream != NULL) {
-        mz_stream_mem_close(zip->file_info_stream); // lgtm [cpp/useless-expression]
+        mz_stream_mem_close(zip->file_info_stream);
         mz_stream_mem_delete(&zip->file_info_stream);
     }
     if (zip->local_file_info_stream != NULL) {
-        mz_stream_mem_close(zip->local_file_info_stream); // lgtm [cpp/useless-expression]
+        mz_stream_mem_close(zip->local_file_info_stream);
         mz_stream_mem_delete(&zip->local_file_info_stream);
     }
 
