@@ -67,7 +67,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             return retval;
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
-        if (fm->isOpened(iValue))  {
+        if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             int written = -1;
             FWRITE_ERROR_TYPE fwriteError
