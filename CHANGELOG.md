@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
  - LGTM replaced by CodeQL (Thanks to Github for their support)
 
+ - [#662](http://github.com/Nelson-numerical-software/nelson/issues/662): Snap uses Core22 and Qt6 (all dependencies are up-to-date).
+
 ### Fixed
 
 - [#659](http://github.com/Nelson-numerical-software/nelson/issues/659): qhelpgenerator on macOs after brew Qt6.3.0 update.
