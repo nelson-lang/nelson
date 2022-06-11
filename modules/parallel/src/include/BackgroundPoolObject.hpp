@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include <vector>
-#include <thread_pool.hpp>
+#include <BS_thread_pool.hpp>
 #include "nlsParallel_exports.h"
 #include "HandleGenericObject.hpp"
 #include "Types.hpp"
@@ -26,8 +26,13 @@ namespace Nelson {
 class NLSPARALLEL_IMPEXP BackgroundPoolObject : public HandleGenericObject
 {
 public:
-    BackgroundPoolObject();
-    ~BackgroundPoolObject() override;
+    static BackgroundPoolObject*
+    getInstance();
+    void
+    destroy();
+
+    bool
+    get(const std::wstring& propertyName, ArrayOf& result);
 
     void
     display(Interface* io);
@@ -35,11 +40,22 @@ public:
     FevalFutureObject *
     feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
 
-private:
-    std::vector<FevalFutureObject*> fEvalQueue;
-    wstringVector propertiesNames;
-    thread_pool threadPool;
+    size_t
+    getTasksQueued();
+    size_t
+    getTasksRunning();
+    size_t
+    getNumberOfThreads();
 
+private:
+    BackgroundPoolObject();
+    ~BackgroundPoolObject() override;
+
+    static BackgroundPoolObject* m_pInstance;
+
+    wstringVector propertiesNames;
+ 
+    BS::thread_pool *threadPool = nullptr;
 };
 //=============================================================================
 } // namespace Nelson

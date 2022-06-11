@@ -210,14 +210,16 @@
     <ClCompile Include="..\cpp\BackgroundPoolObject.cpp" />
     <ClCompile Include="..\cpp\DeleteBackgroundPoolObject.cpp" />
     <ClCompile Include="..\cpp\FevalFutureObject.cpp" />
+    <ClCompile Include="..\cpp\FevalQueueObject.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BackgroundPoolObject.hpp" />
     <ClInclude Include="..\include\DeleteBackgroundPoolObject.hpp" />
     <ClInclude Include="..\include\FevalFutureObject.hpp" />
+    <ClInclude Include="..\include\FevalQueueObject.hpp" />
     <ClInclude Include="..\include\nlsParallel_exports.h" />
-    <ClInclude Include="..\include\thread_pool.hpp" />
+    <ClInclude Include="..\include\BS_thread_pool.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />

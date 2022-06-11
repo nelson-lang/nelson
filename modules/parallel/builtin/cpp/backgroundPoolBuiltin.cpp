@@ -19,8 +19,7 @@ Nelson::ParallelGateway::backgroundPoolBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOfVector retval;
     nargincheck(nLhs, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    BackgroundPoolObject* backgroundPoolObject = new BackgroundPoolObject();
-    retval << ArrayOf::handleConstructor(backgroundPoolObject);
+    retval << ArrayOf::handleConstructor(BackgroundPoolObject::getInstance());
     return retval;
 }
 //=============================================================================

@@ -10,60 +10,49 @@
 #pragma once
 //=============================================================================
 #include <future>
-#include <tuple>
+#include <vector>
 #include "nlsParallel_exports.h"
 #include "HandleGenericObject.hpp"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "Exception.hpp"
+#include "FevalFutureObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define FEVALFUTURE_CATEGORY_STR L"FevalFuture"
+#define FEVALQUEUE_CATEGORY_STR L"FevalQueue"
 //=============================================================================
-enum THREAD_STATE
-{
-    QUEUED,
-    RUNNING,
-    FINISHED,
-    FAILED,
-    UNAVAILABLE,
-
-};
-//=============================================================================
-class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject
+class NLSPARALLEL_IMPEXP FevalQueueObject : public HandleGenericObject
 {
 public:
-    FevalFutureObject(std::future<std::tuple<ArrayOfVector, Exception>> f,
-        const std::wstring& functionName, size_t ID);
-    ~FevalFutureObject() override;
+    static FevalQueueObject*
+    getInstance();
+  
+    void
+    destroy();
+
+    void
+    add(FevalFutureObject* fevalFutureObject);
+
+    size_t
+    getQueueLength();
 
     void
     display(Interface* io);
 
-    std::tuple<ArrayOfVector, Exception>
-    get(bool& valid);
-
-    size_t
-    getID();
-
-    THREAD_STATE
-    getState();
+    std::vector<FevalFutureObject*>
+    getQueue();
 
 private:
-    void
-    read();
-    void
-    checkState();
-    wstringVector propertiesNames;
-    std::future<std::tuple<ArrayOfVector, Exception>> future;
-    size_t ID;
-    std::wstring functionName;
+    FevalQueueObject();
+    ~FevalQueueObject() override;
 
-    bool wasReaded;
-    THREAD_STATE state;
-    std::tuple<ArrayOfVector, Exception> content;
+    static FevalQueueObject* m_pInstance;
+
+    std::vector<FevalFutureObject*> fEvalQueue;
+    wstringVector propertiesNames;
+
 };
 //=============================================================================
 } // namespace Nelson

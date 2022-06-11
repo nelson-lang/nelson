@@ -183,9 +183,11 @@
     <ClCompile Include="..\cpp\backgroundPoolBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\backgroundPool_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\fetchOutputsBuiltin.cpp" />
-    <ClCompile Include="..\cpp\fevalFuture_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\FevalFuture_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\FevalQueue_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\parfevalBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -235,9 +237,11 @@
     <ClInclude Include="..\include\backgroundPoolBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\backgroundPool_getBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_usedBuiltin.hpp" />
     <ClInclude Include="..\include\fetchOutputsBuiltin.hpp" />
-    <ClInclude Include="..\include\fevalFuture_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\FevalFuture_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\FevalQueue_displayBuiltin.hpp" />
     <ClInclude Include="..\include\nlsParallel_builtin_exports.h" />
     <ClInclude Include="..\include\parfevalBuiltin.hpp" />
   </ItemGroup>

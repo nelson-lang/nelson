@@ -29,8 +29,6 @@ DeleteBackgroundPoolObject(const ArrayOf& A)
                     if (hlObj->getCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
                         Error(_W("backgroundPool handle expected."));
                     }
-                    auto* backgroundPoolObj = (BackgroundPoolObject*)hlObj;
-                    delete backgroundPoolObj;
                     HandleManager::getInstance()->removeHandle(hl);
                     res = true;
                 }

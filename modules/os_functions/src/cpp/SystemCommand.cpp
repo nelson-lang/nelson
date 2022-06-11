@@ -22,7 +22,7 @@
 #include <boost/process/shell.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
-#include <thread_pool.hpp>
+#include <BS_thread_pool.hpp>
 #include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
@@ -223,7 +223,7 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     int nbThreadsMax = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
     const int nbThreads = std::min(nbCommands, nbThreadsMax);
 
-    thread_pool pool(nbThreads);
+    BS::thread_pool pool(nbThreads);
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
     for (int k = 0; k < nbCommands; k++) {

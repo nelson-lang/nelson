@@ -9,11 +9,13 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "backgroundPoolBuiltin.hpp"
+#include "backgroundPool_getBuiltin.hpp"
 #include "backgroundPool_displayBuiltin.hpp"
 #include "backgroundPool_usedBuiltin.hpp"
 #include "backgroundPool_deleteBuiltin.hpp"
 #include "parfevalBuiltin.hpp"
-#include "fevalFuture_displayBuiltin.hpp"
+#include "FevalFuture_displayBuiltin.hpp"
+#include "FevalQueue_displayBuiltin.hpp"
 #include "fetchOutputsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -21,6 +23,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"parallel";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "backgroundPool_get", (ptrBuiltin)Nelson::ParallelGateway::backgroundPool_getBuiltin, 1, 2 },
     { "backgroundPool", (ptrBuiltin)Nelson::ParallelGateway::backgroundPoolBuiltin, 1, 0,
         CPP_BUILTIN },
     { "backgroundPool_display", (ptrBuiltin)Nelson::ParallelGateway::backgroundPool_displayBuiltin,
@@ -33,12 +36,17 @@ static const nlsGateway gateway[] = {
         0 },
     { "parfeval", (ptrBuiltin)Nelson::ParallelGateway::parfevalBuiltin, 1, -3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "fevalFuture_display", (ptrBuiltin)Nelson::ParallelGateway::fevalFuture_displayBuiltin,
-        0, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "fevalFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::fevalFuture_displayBuiltin, 0,
-        1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "fetchOutputs", (ptrBuiltin)Nelson::ParallelGateway::fetchOutputsBuiltin,
-        -1, 1, CPP_BUILTIN },
+    { "FevalFuture_display", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "FevalFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "fetchOutputs", (ptrBuiltin)Nelson::ParallelGateway::fetchOutputsBuiltin, -1, 1,
+        CPP_BUILTIN },
+    { "FevalQueue_display", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "FevalQueue_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 
 };
 //=============================================================================

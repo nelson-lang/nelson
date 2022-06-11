@@ -565,7 +565,7 @@ ArrayOf::getDataPointer() const
 void
 ArrayOf::ensureSingleOwner()
 {
-    if (dp->numberOfOwners() > 1) {
+    if (dp != nullptr && dp->numberOfOwners() > 1) {
         if (!dp->sparse) {
             std::string currentStructType = dp->getStructTypeName();
             void* np = allocateArrayOf(dp->dataClass, getElementCount(), dp->fieldNames, false);

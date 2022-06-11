@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FevalFuture_displayBuiltin.hpp"
-#include "FevalFutureObject.hpp"
+#include "FevalQueue_displayBuiltin.hpp"
+#include "FevalQueueObject.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -17,7 +17,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::FevalFuture_displayBuiltin(
+Nelson::ParallelGateway::FevalQueue_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
@@ -32,15 +32,15 @@ Nelson::ParallelGateway::FevalFuture_displayBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
-                Error(_W("FevalFuture handle expected."));
+            if (param1.getHandleCategory() != FEVALQUEUE_CATEGORY_STR) {
+                Error(_W("FevalQueue handle expected."));
             }
-            auto* fevalFutureObject = (FevalFutureObject*)param1.getContentAsHandleScalar();
-            fevalFutureObject->display(io);
+            auto* fevalQueueObject = (FevalQueueObject*)param1.getContentAsHandleScalar();
+            fevalQueueObject->display(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("FevalFuture handle expected."));
+        Error(_W("FevalQueue handle expected."));
     }
     return retval;
 }
