@@ -109,6 +109,9 @@ ArrayOfToException(const ArrayOf& arg)
 
     std::vector<Exception> cause;
     auto* cell = (ArrayOf*)causeArrayOf.getDataPointer();
+    if (cell == nullptr) {
+        return e;
+    }
     for (indexType k = 0; k < causeArrayOf.getElementCount(); ++k) {
         cause.emplace_back(ArrayOfToException(cell[k]));
     }
