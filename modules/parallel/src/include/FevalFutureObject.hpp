@@ -35,9 +35,10 @@ enum THREAD_STATE
 class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject
 {
 public:
-    FevalFutureObject(std::future<std::tuple<ArrayOfVector, Exception>> f,
-        const std::wstring& functionName, size_t ID);
+    FevalFutureObject(const std::wstring& functionName, size_t ID);
     ~FevalFutureObject() override;
+    void
+    setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f);
 
     void
     display(Interface* io);
@@ -51,18 +52,19 @@ public:
     THREAD_STATE
     getState();
 
+    std::atomic<THREAD_STATE>*
+    getStatePtr();
+
+
 private:
     void
     read();
-    void
-    checkState();
     wstringVector propertiesNames;
     std::future<std::tuple<ArrayOfVector, Exception>> future;
     size_t ID;
     std::wstring functionName;
-
+    std::atomic<THREAD_STATE> state;
     bool wasReaded;
-    THREAD_STATE state;
     std::tuple<ArrayOfVector, Exception> content;
 };
 //=============================================================================

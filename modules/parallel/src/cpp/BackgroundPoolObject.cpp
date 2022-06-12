@@ -120,16 +120,20 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 }
 //=============================================================================
 static std::tuple<ArrayOfVector, Exception>
-FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
+FunctionEvalInternal(
+    FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, std::atomic<THREAD_STATE>* s)
 {
+    *s = THREAD_STATE::RUNNING;
     Context* context = new Context;
     Evaluator* eval = new Evaluator(context, nullptr, false);
     ArrayOfVector retValues;
     Exception retException;
     try {
         retValues = fptr->evaluateFunction(eval, argIn, nLhs);
+        *s = THREAD_STATE::FINISHED;
     } catch (Exception& e) {
         retException = e;
+        *s = THREAD_STATE::FAILED;
     }
     return std::make_tuple(retValues, retException);
 }
@@ -137,11 +141,12 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 FevalFutureObject*
 BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
-    std::future<std::tuple<ArrayOfVector, Exception>> f
-        = threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn);
     ID++;
-    FevalFutureObject* retFuture
-        = new FevalFutureObject(std::move(f), utf8_to_wstring(fptr->getName()), ID);
+    FevalFutureObject* retFuture = new FevalFutureObject(
+        utf8_to_wstring(fptr->getName()), ID);
+    std::future<std::tuple<ArrayOfVector, Exception>> f
+        = threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn, retFuture->getStatePtr());
+    retFuture->setFuture(std::move(f));
     FevalQueueObject::getInstance()->add(retFuture);
     return retFuture;
 }

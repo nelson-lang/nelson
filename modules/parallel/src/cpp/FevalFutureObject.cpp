@@ -12,13 +12,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-FevalFutureObject::FevalFutureObject(std::future<std::tuple<ArrayOfVector, Exception>> f,
+FevalFutureObject::FevalFutureObject(
     const std::wstring& functionName, size_t ID)
     : HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
 {
-    state = THREAD_STATE::UNAVAILABLE;
     propertiesNames = { L"ID", L"Function", L"Error" };
-    this->future = std::move(f);
     this->functionName = functionName;
     this->ID = ID;
     wasReaded = false;
@@ -26,17 +24,21 @@ FevalFutureObject::FevalFutureObject(std::future<std::tuple<ArrayOfVector, Excep
 }
 //=============================================================================
 void
-FevalFutureObject::display(Interface* io)
+FevalFutureObject::setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f)
+{ 
+  this->future = std::move(f);
+}
+//=============================================================================
+void FevalFutureObject::display(Interface* io)
 {
 #define BLANKS_AT_BOL std::wstring(L"   ")
-    checkState();
     if (io) {
         io->outputMessage(BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->ID) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"Function: " + L"@" + this->functionName + L"\n");
         std::wstring stateString;
         std::wstring errorString = L"none";
 
-        switch (state) {
+        switch (this->state) {
         case THREAD_STATE::FAILED: {
             stateString = L"failed";
         } break;
@@ -82,46 +84,6 @@ FevalFutureObject::getID()
     return ID;
 }
 //=============================================================================
-void
-FevalFutureObject::checkState()
-{
-    switch (state) {
-    case THREAD_STATE::UNAVAILABLE: {
-        if (BackgroundPoolObject::getInstance()->getTasksRunning()
-            > BackgroundPoolObject::getInstance()->getNumberOfThreads()) {
-            state = THREAD_STATE::QUEUED;
-        } else {
-            state = THREAD_STATE::RUNNING;
-        }
-    } break;
-    case THREAD_STATE::QUEUED: {
-        /*
-        std::future_status status = future.wait_for(std::chrono::seconds(0));
-        if (status == std::future_status::timeout) {
-            state = THREAD_STATE::QUEUED;
-        } else if (status == std::future_status::ready) {
-            state = THREAD_STATE::FINISHED;
-        } else {
-            state = THREAD_STATE::RUNNING;
-        }
-        */
-    } break;
-    case THREAD_STATE::RUNNING: {
-        bool isReady = future.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
-        if (isReady) {
-            if (future.valid()) {
-                state = THREAD_STATE::FINISHED;
-            }
-        }
-    } break;
-    case THREAD_STATE::FAILED: {
-    } break;
-    case THREAD_STATE::FINISHED: {
-    } break;
-    default: {
-    } break;
-    }
-}
 //=============================================================================
 void
 FevalFutureObject::read()
@@ -134,8 +96,13 @@ FevalFutureObject::read()
 THREAD_STATE
 FevalFutureObject::getState()
 {
-    checkState();
     return state;
+}
+//=============================================================================
+std::atomic<THREAD_STATE>*
+FevalFutureObject::getStatePtr()
+{
+    return &state;
 }
 //=============================================================================
 } // namespace Nelson
