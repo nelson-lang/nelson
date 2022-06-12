@@ -44,8 +44,7 @@ getNumberOfPhysicalCores()
     int nbPhysicalCores = 0;
 #ifdef _MSC_VER
     DWORD length = 0;
-    const BOOL result_first
-        = GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &length);
+    GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &length);
     if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
         return getNumberOfLogicalCores();
     }
