@@ -119,8 +119,14 @@ indexType
 ArrayOf::getMaxAsIndex()
 {
     indexType maxval;
+    if (dp == nullptr) {
+        Error(_W("Invalid index"));
+    }
     constIndexPtr rp = (constIndexPtr)dp->getData();
-    indexType K = getElementCount();
+    if (rp == nullptr) {
+        Error(_W("Illegal zero or negative index"));
+    }
+   indexType K = getElementCount();
     maxval = rp[0];
     for (indexType k = 1; k < K; k++) {
         if (rp[k] > maxval) {
@@ -786,7 +792,9 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    default: { } break; }
+    default: {
+    } break;
+    }
     return 0;
 }
 //=============================================================================
