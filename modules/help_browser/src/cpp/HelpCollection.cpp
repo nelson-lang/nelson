@@ -155,7 +155,12 @@ HelpCollection::clearCache()
         std::wstring cachedCollectionFile = getNelsonCachedCollectionFullFilename();
         if (!IsFile(cachedCollectionFile)) {
             std::wstring collectionFile = getNelsonCollectionFullFilename();
-            QHelpEngineCore* collection = new QHelpEngineCore(wstringToQString(collectionFile));
+            QHelpEngineCore* collection = nullptr;
+            try {
+                collection = new QHelpEngineCore(wstringToQString(collectionFile));
+            } catch (std::bad_alloc&) {
+                collection = nullptr;
+            }
             if (collection) {
                 collection->copyCollectionFile(wstringToQString(cachedCollectionFile));
                 delete collection;
