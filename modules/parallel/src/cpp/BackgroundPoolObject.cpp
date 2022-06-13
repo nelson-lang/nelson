@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <tuple>
+#include <ctime>
 #include "BackgroundPoolObject.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -17,7 +18,6 @@
 namespace Nelson {
 //=============================================================================
 BackgroundPoolObject* BackgroundPoolObject::m_pInstance = nullptr;
-static size_t ID = 0;
 //=============================================================================
 BackgroundPoolObject*
 BackgroundPoolObject::getInstance()
@@ -119,11 +119,20 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
     return false;
 }
 //=============================================================================
+static uint64
+getEpoch()
+{ 
+  return (uint64) std::time(nullptr);
+}
+//=============================================================================
 static std::tuple<ArrayOfVector, Exception>
-FunctionEvalInternal(
-    FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, std::atomic<THREAD_STATE>* s)
+FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
+    std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate, std::atomic<uint64>* endRunningDate)
 {
+    *startRunningDate = getEpoch();
+    *endRunningDate = (uint64)0;
     *s = THREAD_STATE::RUNNING;
+ 
     Context* context = new Context;
     Evaluator* eval = new Evaluator(context, nullptr, false);
     ArrayOfVector retValues;
@@ -135,17 +144,20 @@ FunctionEvalInternal(
         retException = e;
         *s = THREAD_STATE::FAILED;
     }
+    *endRunningDate = (uint64)getEpoch();
     return std::make_tuple(retValues, retException);
 }
 //=============================================================================
 FevalFutureObject*
 BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
-    ID++;
     FevalFutureObject* retFuture = new FevalFutureObject(
-        utf8_to_wstring(fptr->getName()), ID);
+        utf8_to_wstring(fptr->getName()));
     std::future<std::tuple<ArrayOfVector, Exception>> f
-        = threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn, retFuture->getStatePtr());
+        = threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn, 
+          &retFuture->state,
+          &retFuture->startDateTime,
+          &retFuture->endDateTime);
     retFuture->setFuture(std::move(f));
     FevalQueueObject::getInstance()->add(retFuture);
     return retFuture;

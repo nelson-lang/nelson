@@ -7,29 +7,71 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#if _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+#include <ctime>
+#include <boost/date_time/posix_time/posix_time_io.hpp>
+#include <boost/chrono/chrono.hpp>
 #include "FevalFutureObject.hpp"
 #include "BackgroundPoolObject.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-FevalFutureObject::FevalFutureObject(
-    const std::wstring& functionName, size_t ID)
+static size_t _ID = 0;
+//=============================================================================
+static uint64
+getEpoch()
+{
+    return (uint64)std::time(nullptr);
+}
+//=============================================================================
+static std::wstring
+epochToDateString(uint64 epoch)
+{
+    std::time_t result = (std::time_t)epoch;
+    return utf8_to_wstring(std::asctime(std::localtime(&result)));
+}
+//=============================================================================
+static std::wstring
+millisecondsToDuration(uint64 _ms)
+{
+    boost::chrono::milliseconds ms(_ms);
+    auto secs = boost::chrono::duration_cast<boost::chrono::seconds>(ms);
+    ms -= boost::chrono::duration_cast<boost::chrono::milliseconds>(secs);
+    auto mins = boost::chrono::duration_cast<boost::chrono::minutes>(secs);
+    secs -= boost::chrono::duration_cast<boost::chrono::seconds>(mins);
+    auto hour = boost::chrono::duration_cast<boost::chrono::hours>(mins);
+    mins -= boost::chrono::duration_cast<boost::chrono::minutes>(hour);
+
+    std::stringstream ss;
+    ss << hour.count() << " Hours : " << mins.count() << " Minutes : " << secs.count()
+       << " Seconds : " << ms.count() << " Milliseconds";
+    return utf8_to_wstring(ss.str());
+}
+//=============================================================================
+FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     : HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
 {
-    propertiesNames = { L"ID", L"Function", L"Error" };
+    creationDateTime = getEpoch();
+    propertiesNames
+        = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"RunningDuration", L"Error" };
     this->functionName = functionName;
-    this->ID = ID;
+    _ID++;
+    this->ID = _ID;
     wasReaded = false;
     content = std::make_tuple<ArrayOfVector, Exception>(ArrayOfVector(), Exception());
 }
 //=============================================================================
 void
 FevalFutureObject::setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f)
-{ 
-  this->future = std::move(f);
+{
+    this->future = std::move(f);
 }
 //=============================================================================
-void FevalFutureObject::display(Interface* io)
+void
+FevalFutureObject::display(Interface* io)
 {
 #define BLANKS_AT_BOL std::wstring(L"   ")
     if (io) {
@@ -58,6 +100,16 @@ void FevalFutureObject::display(Interface* io)
             stateString = L"unavailable";
         } break;
         }
+        io->outputMessage(
+            BLANKS_AT_BOL + L"CreateDateTime: " + epochToDateString(creationDateTime));
+
+        std::wstring strStart = L"\n";
+        if (startDateTime > 0) {
+            strStart = epochToDateString(startDateTime);
+        }
+        io->outputMessage(BLANKS_AT_BOL + L"StartDateTime: " + strStart);
+        io->outputMessage(BLANKS_AT_BOL + L"RunningDuration: "
+            + millisecondsToDuration(getRunningDuration()) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"State: " + stateString + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"Error: " + errorString + L"\n");
     }
@@ -84,7 +136,6 @@ FevalFutureObject::getID()
     return ID;
 }
 //=============================================================================
-//=============================================================================
 void
 FevalFutureObject::read()
 {
@@ -94,15 +145,33 @@ FevalFutureObject::read()
 }
 //=============================================================================
 THREAD_STATE
-FevalFutureObject::getState()
+FevalFutureObject::getState() { return state; }
+//=============================================================================
+uint64
+FevalFutureObject::getEpochCreateDateTime()
 {
-    return state;
+    return creationDateTime;
 }
 //=============================================================================
-std::atomic<THREAD_STATE>*
-FevalFutureObject::getStatePtr()
+uint64
+FevalFutureObject::getEpochStartDateTime()
 {
-    return &state;
+    return startDateTime;
+}
+//=============================================================================
+uint64
+FevalFutureObject::getEpochEndDateTime()
+{
+    return endDateTime;
+}
+//=============================================================================
+uint64
+FevalFutureObject::getRunningDuration()
+{
+    if (startDateTime < endDateTime) {
+        return endDateTime - startDateTime;
+    }
+    return 0;
 }
 //=============================================================================
 } // namespace Nelson
