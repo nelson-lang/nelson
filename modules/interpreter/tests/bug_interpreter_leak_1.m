@@ -18,5 +18,5 @@ end
 [u2, s2] = memory();
 r = u2.MemUsedNelson - u1.MemUsedNelson;
 disp(r)
-assert_istrue(r < 600000)
+assert_istrue(r < 630000)
 %=============================================================================

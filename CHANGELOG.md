@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#662](http://github.com/Nelson-numerical-software/nelson/issues/662): Snap uses Core22 and Qt6 (all dependencies are up-to-date).
 
-- [#668](http://github.com/Nelson-numerical-software/nelson/issues/668): `maxNumCompThreads` detects numbers of physical cores.
+- [#668](http://github.com/Nelson-numerical-software/nelson/issues/668): `maxNumCompThreads` detects numbers of physical cores on Windows.
 
 ### Fixed
 

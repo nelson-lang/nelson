@@ -804,6 +804,10 @@ function modules_list = getAllModulesList()
   if withoutMPI  
     modules_list(modules_list == "mpi") = [];  
   end
+  withoutSlicot = ~ismodule('slicot');
+  if withoutSlicot
+    modules_list(modules_list == "slicot") = [];  
+  end
 end
 %=============================================================================
 function files = getFilesToTest(param)
