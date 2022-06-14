@@ -429,9 +429,7 @@ ArrayOf::toOrdinalType()
         dp = dp->putData(NLS_UINT32, dp->getDimensions(), lp);
 #endif
     } break;
-    case NLS_GO_HANDLE: {
-        Error(_W("Cannot convert handle arrays to indices."));
-    } break;
+    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         Error(_W("Cannot convert handle arrays to indices."));
     } break;
@@ -755,7 +753,6 @@ ArrayOf::getElementSize() const
     }
     switch (dp->dataClass) {
     case NLS_GO_HANDLE:
-        return sizeof(nelson_handle);
     case NLS_HANDLE:
         return sizeof(nelson_handle);
     case NLS_STRING_ARRAY:

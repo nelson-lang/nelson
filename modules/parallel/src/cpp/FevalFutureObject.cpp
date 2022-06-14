@@ -58,10 +58,8 @@ FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     : HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
 {
     creationDateTime = getEpoch();
-    propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime",
-        L"FinishDateTime",
-        L"RunningDuration",
-        L"State", L"Error" };
+    propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"FinishDateTime",
+        L"RunningDuration", L"State", L"Error" };
     this->functionName = functionName;
     _ID++;
     this->ID = _ID;
@@ -80,8 +78,7 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
 {
     if (io) {
         std::wstring finishedDateTime = L"";
-        if (this->getEpochEndDateTime() > 0)
-        {
+        if (this->getEpochEndDateTime() > 0) {
             finishedDateTime = epochToDateString(this->getEpochEndDateTime());
         }
         std::wstring errorString = L"";
@@ -90,12 +87,11 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
         }
-        std::wstring message = fmt::sprintf(_W("%4d %4d %10s %15s %30s %30s\n"), index, this->getID(), this->getStateAsString(), finishedDateTime,
-            L"@" + this->functionName,
-            errorString);
+        std::wstring message
+            = fmt::sprintf(_W("%4d %4d %10s %15s %30s %30s\n"), index, this->getID(),
+                this->getStateAsString(), finishedDateTime, L"@" + this->functionName, errorString);
         io->outputMessage(message);
     }
-    
 }
 //=============================================================================
 void
@@ -130,7 +126,7 @@ FevalFutureObject::display(Interface* io)
     }
 }
 //=============================================================================
-FevalFutureObject::~FevalFutureObject() { }
+FevalFutureObject::~FevalFutureObject() {}
 //=============================================================================
 std::tuple<ArrayOfVector, Exception>
 FevalFutureObject::get(bool& valid)
@@ -238,23 +234,23 @@ FevalFutureObject::getStateAsString()
 bool
 FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 {
-    if (propertyName == L"ID") { 
-      result = ArrayOf::doubleConstructor((double)this->ID);
-      return true;
-    }
-    if (propertyName == L"Function") { 
-      return true;
-    }
-    if (propertyName == L"CreateDateTime") { 
-      result = ArrayOf::doubleConstructor((double)this->getEpochCreateDateTime());
-      return true;
-    }
-    if (propertyName == L"StartDateTime") { 
-      result = ArrayOf::doubleConstructor((double)this->getEpochStartDateTime());
+    if (propertyName == L"ID") {
+        result = ArrayOf::doubleConstructor((double)this->ID);
         return true;
     }
-    if (propertyName == L"RunningDuration") { 
-      result = ArrayOf::doubleConstructor((double)this->getRunningDuration());
+    if (propertyName == L"Function") {
+        return true;
+    }
+    if (propertyName == L"CreateDateTime") {
+        result = ArrayOf::doubleConstructor((double)this->getEpochCreateDateTime());
+        return true;
+    }
+    if (propertyName == L"StartDateTime") {
+        result = ArrayOf::doubleConstructor((double)this->getEpochStartDateTime());
+        return true;
+    }
+    if (propertyName == L"RunningDuration") {
+        result = ArrayOf::doubleConstructor((double)this->getRunningDuration());
         return true;
     }
     if (propertyName == L"FinishDateTime") {
@@ -266,18 +262,17 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         return true;
     }
 
-    if (propertyName == L"Error") { 
-      switch (this->state) {
+    if (propertyName == L"Error") {
+        switch (this->state) {
         case THREAD_STATE::FINISHED:
-        case THREAD_STATE::FAILED:
-        {
+        case THREAD_STATE::FAILED: {
             read();
             Exception e = std::get<1>(content);
             result = ExceptionToArrayOf(e);
         } break;
-        case THREAD_STATE::RUNNING: 
+        case THREAD_STATE::RUNNING:
         case THREAD_STATE::QUEUED:
-        default:{
+        default: {
             Exception e;
             result = ExceptionToArrayOf(e);
         } break;

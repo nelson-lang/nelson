@@ -18,11 +18,9 @@ ArrayOf::allocateArrayOf(
     NelsonType type, indexType length, const stringVector& names, bool initializeValues)
 {
     switch (type) {
-    case NLS_GO_HANDLE: {
-        return (void*)new_with_exception<nelson_handle>(length);
-    } break;
+    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
-        return (void*)new_with_exception<nelson_handle>(length, false);
+        return (void*)new_with_exception<nelson_handle>(length);
     } break;
     case NLS_STRING_ARRAY: {
         auto* dp = new_with_exception<ArrayOf>(length, false);
@@ -102,10 +100,7 @@ void
 ArrayOf::deleteArrayOf(void* dp, NelsonType dataclass)
 {
     switch (dataclass) {
-    case NLS_GO_HANDLE: {
-        auto* rp = static_cast<nelson_handle*>(dp);
-        delete[] rp;
-    } break;
+    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         auto* rp = static_cast<nelson_handle*>(dp);
         delete[] rp;

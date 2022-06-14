@@ -49,7 +49,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalFuture_get", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_getBuiltin, 1, 2 },
 
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

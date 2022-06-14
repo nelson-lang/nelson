@@ -56,7 +56,6 @@ Nelson::ParallelGateway::FevalFuture_displayBuiltin(
                     }
                 }
             }
-
         }
         DisplayVariableFooter(io, name.empty());
     } else {

@@ -1739,30 +1739,26 @@ void
 Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
 {
     uint64 ticProfiling = Profiler::getInstance()->tic();
-    bool isHandle = false;
     ArrayOf b = expression(t->right);
     std::string variableName = t->text;
     if (t->down != nullptr) {
         b = assignExpression(t, b);
-        isHandle = b.isHandle();
     }
-    if (!isHandle) {
-        ArrayOf* var = context->lookupVariable(variableName);
-        if (var == nullptr) {
-            b.ensureSingleOwner();
-            bool bInserted = context->insertVariable(variableName, b);
-            if (!bInserted) {
-                if (IsValidVariableName(variableName, true)) {
-                    Error(_W("Redefining permanent variable."));
-                }
-                Error(_W("Valid variable name expected."));
-            }
-        } else {
-            if (context->isLockedVariable(variableName)) {
+    ArrayOf* var = context->lookupVariable(variableName);
+    if (var == nullptr) {
+        b.ensureSingleOwner();
+        bool bInserted = context->insertVariable(variableName, b);
+        if (!bInserted) {
+            if (IsValidVariableName(variableName, true)) {
                 Error(_W("Redefining permanent variable."));
             }
-            var->setValue(b);
+            Error(_W("Valid variable name expected."));
         }
+    } else {
+        if (context->isLockedVariable(variableName)) {
+            Error(_W("Redefining permanent variable."));
+        }
+        var->setValue(b);
     }
     if (printIt) {
         OverloadDisplay(this, b, utf8_to_wstring(variableName), false);

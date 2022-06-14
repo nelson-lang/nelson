@@ -66,6 +66,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
     FevalFutureObject* fevalFutureObj = backgroundPoolObject->feval(funcDef, ivalue, args);
     retval << ArrayOf::handleConstructor(fevalFutureObj);
+
     return retval;
 }
 //=============================================================================

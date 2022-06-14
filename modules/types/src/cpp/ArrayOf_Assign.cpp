@@ -600,6 +600,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         } else {
             if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
                 && (getDataClass() == NLS_STRUCT_ARRAY)) {
+                if (rightData.isFunctionHandle() && !isFunctionHandle()) {
+                    Error(_W("Cannot promote to function_handle array."));
+                }
                 if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
                     promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
                 } else {
@@ -705,12 +708,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const uint64*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, advance);
             break;
-        case NLS_GO_HANDLE:
-            setNDimSubsetDispatchReal<nelson_handle>(colonIndex, static_cast<nelson_handle*>(qp),
-                static_cast<const nelson_handle*>(rightData.getDataPointer()), outDimsInt,
-                srcDimsInt, indx, L, advance);
-            break;
         case NLS_HANDLE:
+        case NLS_GO_HANDLE:
             setNDimSubsetDispatchReal<nelson_handle>(colonIndex, static_cast<nelson_handle*>(qp),
                 static_cast<const nelson_handle*>(rightData.getDataPointer()), outDimsInt,
                 srcDimsInt, indx, L, advance);
@@ -828,6 +827,9 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         rightData = promute;
     } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
         && (getDataClass() == NLS_STRUCT_ARRAY)) {
+        if (rightData.isFunctionHandle() && !isFunctionHandle()) {
+            Error(_W("Cannot promote to function_handle array."));
+        }
         if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
             promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
         } else {
