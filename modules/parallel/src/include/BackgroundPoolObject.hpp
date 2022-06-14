@@ -37,7 +37,7 @@ public:
     void
     display(Interface* io);
 
-    FevalFutureObject *
+    FevalFutureObject*
     feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
 
     size_t
@@ -54,8 +54,8 @@ private:
     static BackgroundPoolObject* m_pInstance;
 
     wstringVector propertiesNames;
- 
-    BS::thread_pool *threadPool = nullptr;
+
+    BS::thread_pool* threadPool = nullptr;
 };
 //=============================================================================
 } // namespace Nelson

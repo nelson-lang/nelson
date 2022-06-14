@@ -16,13 +16,13 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::parfevalBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 3, std::numeric_limits<int>::max());
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
-    if (!param1.isHandle()){
+    if (!param1.isHandle()) {
         Error(_W("backgroundPool handle expected."));
     }
     if (param1.getHandleCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
@@ -47,7 +47,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator *eval, int nLhs, const ArrayO
         Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
     }
     if (funcDef->type() != NLS_BUILT_IN_FUNCTION) {
- //       Error(_W("Only builtin "));
+        //       Error(_W("Only builtin "));
     }
 
     ArrayOf param3 = argIn[2];
@@ -64,7 +64,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator *eval, int nLhs, const ArrayO
         Error(_W("non negative value expected."));
     }
     auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
-    FevalFutureObject *fevalFutureObj = backgroundPoolObject->feval(funcDef, ivalue, args);
+    FevalFutureObject* fevalFutureObj = backgroundPoolObject->feval(funcDef, ivalue, args);
     retval << ArrayOf::handleConstructor(fevalFutureObj);
     return retval;
 }

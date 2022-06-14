@@ -19,6 +19,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/fmt/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 file(GLOB PARALLEL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
@@ -31,6 +32,7 @@ target_link_libraries(${module_library_name}
   nlsInterpreter
   nlsI18n
   nlsNelson_manager
+  nlsStream_manager
   nlsCharacters_encoding)
 # ==============================================================================
 set_target_properties(

@@ -19,14 +19,14 @@ Nelson::ParallelGateway::fetchOutputsBuiltin(int nLhs, const ArrayOfVector& argI
 {
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (!param1.isHandle()) { 
-            Error(_W("FevalFuture handle expected."));
+    if (!param1.isHandle()) {
+        Error(_W("FevalFuture handle expected."));
     }
-    if (!param1.isScalar()) { 
-            Error(_W("FevalFuture handle expected."));
+    if (!param1.isScalar()) {
+        Error(_W("FevalFuture handle expected."));
     }
     if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
-            Error(_W("FevalFuture handle expected."));
+        Error(_W("FevalFuture handle expected."));
     }
     auto* fevalFutureObject = (FevalFutureObject*)param1.getContentAsHandleScalar();
     if (fevalFutureObject) {

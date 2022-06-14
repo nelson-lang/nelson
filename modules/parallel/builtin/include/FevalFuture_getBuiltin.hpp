@@ -9,50 +9,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <future>
-#include <vector>
-#include "nlsParallel_exports.h"
-#include "HandleGenericObject.hpp"
-#include "Types.hpp"
 #include "ArrayOf.hpp"
-#include "Interface.hpp"
-#include "Exception.hpp"
-#include "FevalFutureObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define FEVALQUEUE_CATEGORY_STR L"FevalQueue"
-//=============================================================================
-class NLSPARALLEL_IMPEXP FevalQueueObject : public HandleGenericObject
-{
-public:
-    static FevalQueueObject*
-    getInstance();
-
-    void
-    destroy();
-
-    void
-    add(FevalFutureObject* fevalFutureObject);
-
-    size_t
-    getQueueLength();
-
-    void
-    display(Interface* io);
-
-    std::vector<FevalFutureObject*>
-    getQueue();
-
-private:
-    FevalQueueObject();
-    ~FevalQueueObject() override;
-
-    static FevalQueueObject* m_pInstance;
-
-    std::vector<FevalFutureObject*> fEvalQueue;
-    wstringVector propertiesNames;
-};
+namespace ParallelGateway {
+    //=============================================================================
+    ArrayOfVector
+    FevalFuture_getBuiltin(int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

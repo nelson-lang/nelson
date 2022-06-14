@@ -45,7 +45,7 @@ ExceptionToArrayOf(const Exception& e)
         ArrayOf* elements
             = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
         causeCell = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-        for (indexType k = 0; k < causeExceptions.size(); ++k) {
+        for (indexType k = 0; k < (indexType)causeExceptions.size(); ++k) {
             elements[k] = ExceptionToArrayOf(causeExceptions[k]);
         }
     }

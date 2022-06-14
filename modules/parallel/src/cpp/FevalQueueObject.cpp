@@ -50,8 +50,8 @@ FevalQueueObject::display(Interface* io)
             if (fEvalQueue[k]->getState() == THREAD_STATE::QUEUED) {
                 nbQueued++;
             }
-            if (fEvalQueue[k]->getState() == THREAD_STATE::RUNNING) { 
-              nbRunning++;
+            if (fEvalQueue[k]->getState() == THREAD_STATE::RUNNING) {
+                nbRunning++;
             }
         }
         if (nbQueued) {
@@ -63,18 +63,15 @@ FevalQueueObject::display(Interface* io)
             io->outputMessage(BLANKS_AT_BOL + L" QueuedFutures [0x0 FevalFuture]" + L"\n");
         }
         if (nbRunning) {
-            io->outputMessage(
-                BLANKS_AT_BOL + 
-              L"RunningFutures" +
-              L" [1x" + std::to_wstring(nbRunning) + L" FevalFuture]" + L"\n");
+            io->outputMessage(BLANKS_AT_BOL + L"RunningFutures" + L" [1x"
+                + std::to_wstring(nbRunning) + L" FevalFuture]" + L"\n");
         } else {
             io->outputMessage(BLANKS_AT_BOL + L" RunningFutures [0x0 FevalFuture]" + L"\n");
         }
-
     }
 }
 //=============================================================================
-FevalQueueObject::~FevalQueueObject() { }
+FevalQueueObject::~FevalQueueObject() {}
 //=============================================================================
 void
 FevalQueueObject::add(FevalFutureObject* fevalFutureObject)

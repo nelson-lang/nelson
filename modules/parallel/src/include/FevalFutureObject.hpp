@@ -42,6 +42,9 @@ public:
 
     void
     display(Interface* io);
+    void
+    displayOnOneLine(Interface* io, size_t index);
+
 
     std::tuple<ArrayOfVector, Exception>
     get(bool& valid);
@@ -51,6 +54,9 @@ public:
 
     THREAD_STATE
     getState();
+
+    std::wstring
+    getStateAsString();
 
     uint64
     getEpochCreateDateTime();
@@ -64,12 +70,14 @@ public:
     uint64
     getRunningDuration();
 
-
     std::atomic<THREAD_STATE> state;
     std::atomic<uint64> creationDateTime;
     std::atomic<uint64> startDateTime;
     std::atomic<uint64> endDateTime;
     std::atomic<uint64> runningDuration;
+
+    bool
+    get(const std::wstring& propertyName, ArrayOf& result);
 
 private:
     void

@@ -121,18 +121,19 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 //=============================================================================
 static uint64
 getEpoch()
-{ 
-  return (uint64) std::time(nullptr);
+{
+    return (uint64)std::time(nullptr);
 }
 //=============================================================================
 static std::tuple<ArrayOfVector, Exception>
 FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
-    std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate, std::atomic<uint64>* endRunningDate)
+    std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
+    std::atomic<uint64>* endRunningDate)
 {
     *startRunningDate = getEpoch();
     *endRunningDate = (uint64)0;
     *s = THREAD_STATE::RUNNING;
- 
+
     Context* context = new Context;
     Evaluator* eval = new Evaluator(context, nullptr, false);
     ArrayOfVector retValues;
@@ -151,13 +152,9 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
 FevalFutureObject*
 BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
-    FevalFutureObject* retFuture = new FevalFutureObject(
-        utf8_to_wstring(fptr->getName()));
-    std::future<std::tuple<ArrayOfVector, Exception>> f
-        = threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn, 
-          &retFuture->state,
-          &retFuture->startDateTime,
-          &retFuture->endDateTime);
+    FevalFutureObject* retFuture = new FevalFutureObject(utf8_to_wstring(fptr->getName()));
+    std::future<std::tuple<ArrayOfVector, Exception>> f = threadPool->submit(FunctionEvalInternal,
+        fptr, nLhs, argIn, &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime);
     retFuture->setFuture(std::move(f));
     FevalQueueObject::getInstance()->add(retFuture);
     return retFuture;

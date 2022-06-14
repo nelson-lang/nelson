@@ -37,6 +37,26 @@ Nelson::ParallelGateway::FevalFuture_displayBuiltin(
             }
             auto* fevalFutureObject = (FevalFutureObject*)param1.getContentAsHandleScalar();
             fevalFutureObject->display(io);
+        } else {
+            Dimensions dims = param1.getDimensions();
+            nelson_handle* qp = (nelson_handle*)(param1.getDataPointer());
+            size_t elementCount = static_cast<size_t>(dims.getElementCount());
+            if (elementCount) {
+                io->outputMessage(L"\n");
+            }
+            size_t idx = 1;
+            for (size_t k = 0; k < elementCount; k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() == FEVALFUTURE_CATEGORY_STR) {
+                        auto* fevalFutureObject = (FevalFutureObject*)hlObj;
+                        fevalFutureObject->displayOnOneLine(io, idx);
+                        idx++;
+                    }
+                }
+            }
+
         }
         DisplayVariableFooter(io, name.empty());
     } else {

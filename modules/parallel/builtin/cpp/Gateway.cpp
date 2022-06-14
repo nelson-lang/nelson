@@ -15,6 +15,7 @@
 #include "backgroundPool_deleteBuiltin.hpp"
 #include "parfevalBuiltin.hpp"
 #include "FevalFuture_displayBuiltin.hpp"
+#include "FevalFuture_getBuiltin.hpp"
 #include "FevalQueue_displayBuiltin.hpp"
 #include "fetchOutputsBuiltin.hpp"
 //=============================================================================
@@ -46,6 +47,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalQueue_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "FevalFuture_get", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_getBuiltin, 1, 2 },
 
 
 };

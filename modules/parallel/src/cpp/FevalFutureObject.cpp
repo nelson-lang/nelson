@@ -11,11 +11,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 #include <ctime>
-#include <boost/date_time/posix_time/posix_time_io.hpp>
-#include <boost/chrono/chrono.hpp>
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "FevalFutureObject.hpp"
 #include "BackgroundPoolObject.hpp"
 #include "characters_encoding.hpp"
+#include "MException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,28 +37,31 @@ epochToDateString(uint64 epoch)
 }
 //=============================================================================
 static std::wstring
-millisecondsToDuration(uint64 _ms)
+milliSecondsToDHMSMsString(uint64 n)
 {
-    boost::chrono::milliseconds ms(_ms);
-    auto secs = boost::chrono::duration_cast<boost::chrono::seconds>(ms);
-    ms -= boost::chrono::duration_cast<boost::chrono::milliseconds>(secs);
-    auto mins = boost::chrono::duration_cast<boost::chrono::minutes>(secs);
-    secs -= boost::chrono::duration_cast<boost::chrono::seconds>(mins);
-    auto hour = boost::chrono::duration_cast<boost::chrono::hours>(mins);
-    mins -= boost::chrono::duration_cast<boost::chrono::minutes>(hour);
+    uint64 days = n / (24 * 3600 * 1000);
+    n = n % (24 * 3600 * 1000);
+    uint64 hours = n / (3600 * 1000);
+    n %= 3600 * 1000;
+    uint64 minutes = n / (60 * 1000);
+    n %= (60 * 1000);
+    uint64 seconds = n / 1000;
+    n %= 1000;
+    uint64 ms = n;
 
-    std::stringstream ss;
-    ss << hour.count() << " Hours : " << mins.count() << " Minutes : " << secs.count()
-       << " Seconds : " << ms.count() << " Milliseconds";
-    return utf8_to_wstring(ss.str());
+    return std::to_wstring(days) + L" days " + std::to_wstring(hours) + L"h "
+        + std::to_wstring(minutes) + L"m " + std::to_wstring(seconds) + L"s " + std::to_wstring(ms)
+        + L"ms";
 }
 //=============================================================================
 FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     : HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
 {
     creationDateTime = getEpoch();
-    propertiesNames
-        = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"RunningDuration", L"Error" };
+    propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime",
+        L"FinishDateTime",
+        L"RunningDuration",
+        L"State", L"Error" };
     this->functionName = functionName;
     _ID++;
     this->ID = _ID;
@@ -71,34 +76,44 @@ FevalFutureObject::setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f
 }
 //=============================================================================
 void
+FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
+{
+    if (io) {
+        std::wstring finishedDateTime = L"";
+        if (this->getEpochEndDateTime() > 0)
+        {
+            finishedDateTime = epochToDateString(this->getEpochEndDateTime());
+        }
+        std::wstring errorString = L"";
+        if (this->state == THREAD_STATE::FAILED) {
+            read();
+            Exception e = std::get<1>(content);
+            errorString = e.getMessage();
+        }
+        std::wstring message = fmt::sprintf(_W("%4d %4d %10s %15s %30s %30s\n"), index, this->getID(), this->getStateAsString(), finishedDateTime,
+            L"@" + this->functionName,
+            errorString);
+        io->outputMessage(message);
+    }
+    
+}
+//=============================================================================
+void
 FevalFutureObject::display(Interface* io)
 {
 #define BLANKS_AT_BOL std::wstring(L"   ")
     if (io) {
         io->outputMessage(BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->ID) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"Function: " + L"@" + this->functionName + L"\n");
-        std::wstring stateString;
+        std::wstring stateString = getStateAsString();
         std::wstring errorString = L"none";
-
-        switch (this->state) {
-        case THREAD_STATE::FAILED: {
-            stateString = L"failed";
-        } break;
-        case THREAD_STATE::RUNNING: {
-            stateString = L"running";
-        } break;
-        case THREAD_STATE::FINISHED: {
-            stateString = wasReaded ? L"finished (read)" : L"finished (unread)";
+        if (state == THREAD_STATE::FINISHED) {
+            stateString = wasReaded ? stateString + L" (read)" : stateString + L" (unread)";
+        }
+        if (state == THREAD_STATE::FAILED) {
             read();
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
-        } break;
-        case THREAD_STATE::QUEUED: {
-            stateString = L"queued";
-        } break;
-        case THREAD_STATE::UNAVAILABLE: {
-            stateString = L"unavailable";
-        } break;
         }
         io->outputMessage(
             BLANKS_AT_BOL + L"CreateDateTime: " + epochToDateString(creationDateTime));
@@ -109,7 +124,7 @@ FevalFutureObject::display(Interface* io)
         }
         io->outputMessage(BLANKS_AT_BOL + L"StartDateTime: " + strStart);
         io->outputMessage(BLANKS_AT_BOL + L"RunningDuration: "
-            + millisecondsToDuration(getRunningDuration()) + L"\n");
+            + milliSecondsToDHMSMsString(getRunningDuration()) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"State: " + stateString + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"Error: " + errorString + L"\n");
     }
@@ -168,10 +183,109 @@ FevalFutureObject::getEpochEndDateTime()
 uint64
 FevalFutureObject::getRunningDuration()
 {
-    if (startDateTime < endDateTime) {
-        return endDateTime - startDateTime;
+    switch (this->state) {
+    case THREAD_STATE::UNAVAILABLE:
+    case THREAD_STATE::FINISHED:
+    case THREAD_STATE::FAILED:
+    default: {
+        if (startDateTime < endDateTime) {
+            return endDateTime - startDateTime;
+        }
+        return 0;
+    } break;
+    case THREAD_STATE::RUNNING: {
+        uint64 currentTime = getEpoch();
+        if (startDateTime < currentTime) {
+            return currentTime - startDateTime;
+        }
+        return 0;
+    } break;
+    case THREAD_STATE::QUEUED: {
+        return 0;
+    } break;
     }
     return 0;
+}
+//=============================================================================
+std::wstring
+FevalFutureObject::getStateAsString()
+{
+    std::wstring result;
+    switch (this->state) {
+    case THREAD_STATE::FINISHED: {
+        result = L"finished";
+    } break;
+    case THREAD_STATE::FAILED: {
+        result = L"failed";
+    } break;
+    case THREAD_STATE::RUNNING: {
+        result = L"running";
+    } break;
+    case THREAD_STATE::QUEUED: {
+        result = L"queued";
+    } break;
+    case THREAD_STATE::UNAVAILABLE: {
+        result = L"unavailable";
+    } break;
+    default: {
+        result = L"unknown";
+    } break;
+    }
+    return result;
+}
+//=============================================================================
+
+bool
+FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
+{
+    if (propertyName == L"ID") { 
+      result = ArrayOf::doubleConstructor((double)this->ID);
+      return true;
+    }
+    if (propertyName == L"Function") { 
+      return true;
+    }
+    if (propertyName == L"CreateDateTime") { 
+      result = ArrayOf::doubleConstructor((double)this->getEpochCreateDateTime());
+      return true;
+    }
+    if (propertyName == L"StartDateTime") { 
+      result = ArrayOf::doubleConstructor((double)this->getEpochStartDateTime());
+        return true;
+    }
+    if (propertyName == L"RunningDuration") { 
+      result = ArrayOf::doubleConstructor((double)this->getRunningDuration());
+        return true;
+    }
+    if (propertyName == L"FinishDateTime") {
+        result = ArrayOf::doubleConstructor((double)this->getEpochEndDateTime());
+        return true;
+    }
+    if (propertyName == L"State") {
+        result = ArrayOf::characterArrayConstructor(getStateAsString());
+        return true;
+    }
+
+    if (propertyName == L"Error") { 
+      switch (this->state) {
+        case THREAD_STATE::FINISHED:
+        case THREAD_STATE::FAILED:
+        {
+            read();
+            Exception e = std::get<1>(content);
+            result = ExceptionToArrayOf(e);
+        } break;
+        case THREAD_STATE::RUNNING: 
+        case THREAD_STATE::QUEUED:
+        default:{
+            Exception e;
+            result = ExceptionToArrayOf(e);
+        } break;
+        }
+        return true;
+    }
+
+    return false;
 }
 //=============================================================================
 } // namespace Nelson
