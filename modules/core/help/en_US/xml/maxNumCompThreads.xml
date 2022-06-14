@@ -35,7 +35,7 @@
   <description>
     <p><b>maxNumCompThreads</b> returns the number of threads used by Nelson for computations.</p>
     <p><b>maxNumCompThreads(T)</b> sets the maximum number of computational threads. This modification is only available for current session.</p>
-    <p>By default, maxNumCompThreads uses OMP_NUM_THREADS environment variable or numbers of detected physical cores.</p>
+    <p>By default, maxNumCompThreads uses OMP_NUM_THREADS environment variable or numbers of detected physical cores on Windows and logical cores on others platforms.</p>
   </description>
 
 
