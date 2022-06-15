@@ -8,8 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
-#include "ImageTagHelpers.hpp"
-#include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/crc.hpp>
@@ -20,6 +18,9 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/xpressive/xpressive.hpp>
 #include <sstream>
+#include <fstream>
+#include "ImageTagHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

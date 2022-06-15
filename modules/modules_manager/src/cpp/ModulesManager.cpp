@@ -14,6 +14,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <semver.h>
+#include <fstream>
 #include "ModulesManager.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"

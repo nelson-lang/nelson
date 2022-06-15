@@ -14,6 +14,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <clocale>
+#include <fstream>
 #include "Localization.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"

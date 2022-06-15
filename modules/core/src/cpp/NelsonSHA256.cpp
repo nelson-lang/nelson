@@ -9,6 +9,7 @@
 //=============================================================================
 #include <picosha2.h>
 #include <vector>
+#include <fstream>
 #include "NelsonSHA256.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

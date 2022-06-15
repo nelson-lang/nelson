@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fstream>
 #include "XmlDocMainIndex.hpp"
 #include "HtmlTags.hpp"
 #include "RelativePath.hpp"
 #include "characters_encoding.hpp"
-#include <fstream>
 //=============================================================================
 namespace Nelson {
 XmlDocMainIndex::XmlDocMainIndex(const std::wstring& destdir, const std::wstring& _mainTitle,

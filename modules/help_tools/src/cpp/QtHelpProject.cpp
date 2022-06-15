@@ -7,15 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QtHelpProject.hpp"
-#include "HtmlTags.hpp"
-#include "RelativePath.hpp"
-#include "characters_encoding.hpp"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <fstream>
 #include <utility>
+#include "QtHelpProject.hpp"
+#include "HtmlTags.hpp"
+#include "RelativePath.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
