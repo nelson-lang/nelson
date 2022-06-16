@@ -7,14 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileDiff.hpp"
-#include "characters_encoding.hpp"
-#include "dtl/dtl.hpp"
+#include <dtl/dtl.hpp>
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "FileDiff.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

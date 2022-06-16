@@ -17,6 +17,7 @@
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 #include <algorithm>
+#include <fstream>
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"

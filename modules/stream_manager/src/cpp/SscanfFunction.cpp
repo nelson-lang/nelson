@@ -11,6 +11,7 @@
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
 #include <cstring>
+#include <fstream>
 #include "FileTell.hpp"
 #include "SscanfFunction.hpp"
 #include "characters_encoding.hpp"

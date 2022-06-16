@@ -18,15 +18,15 @@
 #ifndef _MSC_VER
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #endif
-#include "GetPreferencesPath.hpp"
-#include "HistoryManager.hpp"
-#include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include "GetPreferencesPath.hpp"
+#include "HistoryManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

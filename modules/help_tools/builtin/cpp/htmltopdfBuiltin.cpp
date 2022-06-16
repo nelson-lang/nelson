@@ -9,6 +9,7 @@
 //=============================================================================
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
+#include <fstream>
 #include "htmltopdfBuiltin.hpp"
 #include "Error.hpp"
 #include "HtmlToPdf.hpp"

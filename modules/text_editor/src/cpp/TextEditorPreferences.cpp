@@ -13,6 +13,7 @@
 #include <boost/foreach.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <fstream>
 #include "TextEditorPreferences.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "QStringConverter.hpp"

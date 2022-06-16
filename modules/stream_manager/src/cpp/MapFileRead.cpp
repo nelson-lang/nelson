@@ -7,11 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstdio>
+#include <fstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/iostreams/device/mapped_file.hpp>
-#include <cstdio>
 #include "MapFileRead.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
