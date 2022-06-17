@@ -183,7 +183,9 @@
     <ClCompile Include="..\cpp\backgroundPoolBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\backgroundPool_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\backgroundPool_structBuiltin.cpp" />
     <ClCompile Include="..\cpp\backgroundPool_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\fetchOutputsBuiltin.cpp" />
     <ClCompile Include="..\cpp\FevalFuture_displayBuiltin.cpp" />
@@ -238,7 +240,9 @@
     <ClInclude Include="..\include\backgroundPoolBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\backgroundPool_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_getBuiltin.hpp" />
+    <ClInclude Include="..\include\backgroundPool_structBuiltin.hpp" />
     <ClInclude Include="..\include\backgroundPool_usedBuiltin.hpp" />
     <ClInclude Include="..\include\fetchOutputsBuiltin.hpp" />
     <ClInclude Include="..\include\FevalFuture_displayBuiltin.hpp" />

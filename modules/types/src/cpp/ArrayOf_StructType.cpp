@@ -66,6 +66,17 @@ ArrayOf::setStructType(const std::string& structname)
 }
 //=============================================================================
 ArrayOf
+ArrayOf::structScalarConstructor(const wstringVector& fNames, const ArrayOfVector& values)
+{
+    stringVector fieldnames;
+    fieldnames.reserve(fNames.size());
+    for (auto name : fNames) { 
+      fieldnames.push_back(wstring_to_utf8(name));
+    }
+    return structScalarConstructor(fieldnames, values);
+}
+//=============================================================================
+ArrayOf
 ArrayOf::structScalarConstructor(const stringVector& fNames, const ArrayOfVector& values)
 {
     const ArrayOf* rptr;

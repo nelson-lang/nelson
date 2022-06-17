@@ -13,6 +13,8 @@
 #include "backgroundPool_displayBuiltin.hpp"
 #include "backgroundPool_usedBuiltin.hpp"
 #include "backgroundPool_deleteBuiltin.hpp"
+#include "backgroundPool_fieldnamesBuiltin.hpp"
+#include "backgroundPool_structBuiltin.hpp"
 #include "parfevalBuiltin.hpp"
 #include "FevalFuture_displayBuiltin.hpp"
 #include "FevalFuture_getBuiltin.hpp"
@@ -35,6 +37,10 @@ static const nlsGateway gateway[] = {
         1 },
     { "backgroundPool_used", (ptrBuiltin)Nelson::ParallelGateway::backgroundPool_usedBuiltin, 1,
         0 },
+    { "backgroundPool_fieldnames",
+        (ptrBuiltin)Nelson::ParallelGateway::backgroundPool_fieldnamesBuiltin, 1, 1 },
+    { "backgroundPool_struct", (ptrBuiltin)Nelson::ParallelGateway::backgroundPool_structBuiltin, 1,
+        1 },
     { "parfeval", (ptrBuiltin)Nelson::ParallelGateway::parfevalBuiltin, 1, -3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalFuture_display", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_displayBuiltin, 0, 2,

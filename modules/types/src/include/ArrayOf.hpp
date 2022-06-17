@@ -745,6 +745,8 @@ public:
 
     static ArrayOf
     structScalarConstructor(const stringVector& fNames, const ArrayOfVector& values);
+    static ArrayOf
+    structScalarConstructor(const wstringVector& fNames, const ArrayOfVector& values);
 
     /**
      * returns value as an array =A(index)

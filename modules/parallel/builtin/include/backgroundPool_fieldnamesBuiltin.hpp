@@ -10,14 +10,13 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace DataStructuresGateway {
+namespace ParallelGateway {
     //=============================================================================
     ArrayOfVector
-    structBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector& argIn);
+    backgroundPool_fieldnamesBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================

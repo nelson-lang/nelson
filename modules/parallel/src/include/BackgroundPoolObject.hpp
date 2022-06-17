@@ -47,6 +47,9 @@ public:
     size_t
     getNumberOfThreads();
 
+    wstringVector
+    fieldnames();
+
 private:
     BackgroundPoolObject();
     ~BackgroundPoolObject() override;

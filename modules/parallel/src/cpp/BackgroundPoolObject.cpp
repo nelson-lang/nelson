@@ -160,5 +160,11 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
     return retFuture;
 }
 //=============================================================================
+wstringVector
+BackgroundPoolObject::fieldnames()
+{
+    return propertiesNames;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
