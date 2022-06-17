@@ -15,7 +15,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::structBuiltin(Evaluator * eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval(nLhs);
     if (argIn.empty()) {

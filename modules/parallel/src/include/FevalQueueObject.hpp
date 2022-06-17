@@ -38,11 +38,17 @@ public:
     size_t
     getQueueLength();
 
+    bool
+    isMethod(const std::wstring& methodName) override;
+
     void
     display(Interface* io);
 
     std::vector<FevalFutureObject*>
     getQueue();
+
+    bool
+    get(const std::wstring& propertyName, ArrayOf& result);
 
 private:
     FevalQueueObject();

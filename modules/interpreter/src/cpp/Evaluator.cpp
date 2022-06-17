@@ -4369,7 +4369,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     }
     std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        Error(_W("Function not found."));
+        Error(_("Function not found: ") + functionNameGetHandle);
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         Error(_W("Type function not valid."));

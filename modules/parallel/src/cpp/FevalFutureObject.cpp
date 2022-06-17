@@ -33,7 +33,9 @@ static std::wstring
 epochToDateString(uint64 epoch)
 {
     std::time_t result = (std::time_t)epoch;
-    return utf8_to_wstring(std::asctime(std::localtime(&result)));
+    std::string asString = std::asctime(std::localtime(&result));
+    asString.pop_back();
+    return utf8_to_wstring(asString);
 }
 //=============================================================================
 static std::wstring
@@ -52,6 +54,17 @@ milliSecondsToDHMSMsString(uint64 n)
     return std::to_wstring(days) + L" days " + std::to_wstring(hours) + L"h "
         + std::to_wstring(minutes) + L"m " + std::to_wstring(seconds) + L"s " + std::to_wstring(ms)
         + L"ms";
+}
+//=============================================================================
+bool
+FevalFutureObject::isMethod(const std::wstring& methodName)
+{
+    for (auto name : propertiesNames) {
+        if (name == methodName) {
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
@@ -87,9 +100,9 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
         }
-        std::wstring message
-            = fmt::sprintf(_W("%4d %4d %10s %15s %30s %30s\n"), index, this->getID(),
-                this->getStateAsString(), finishedDateTime, L"@" + this->functionName, errorString);
+        std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
+            index, this->getID(), this->getStateAsString(), finishedDateTime,
+            L"@" + this->functionName, errorString);
         io->outputMessage(message);
     }
 }
@@ -112,13 +125,13 @@ FevalFutureObject::display(Interface* io)
             errorString = e.getMessage();
         }
         io->outputMessage(
-            BLANKS_AT_BOL + L"CreateDateTime: " + epochToDateString(creationDateTime));
+            BLANKS_AT_BOL + L"CreateDateTime: " + epochToDateString(creationDateTime) + L"\n");
 
-        std::wstring strStart = L"\n";
+        std::wstring strStart = L"";
         if (startDateTime > 0) {
             strStart = epochToDateString(startDateTime);
         }
-        io->outputMessage(BLANKS_AT_BOL + L"StartDateTime: " + strStart);
+        io->outputMessage(BLANKS_AT_BOL + L"StartDateTime: " + strStart + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"RunningDuration: "
             + milliSecondsToDHMSMsString(getRunningDuration()) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"State: " + stateString + L"\n");

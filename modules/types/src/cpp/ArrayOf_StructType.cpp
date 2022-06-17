@@ -70,8 +70,8 @@ ArrayOf::structScalarConstructor(const wstringVector& fNames, const ArrayOfVecto
 {
     stringVector fieldnames;
     fieldnames.reserve(fNames.size());
-    for (auto name : fNames) { 
-      fieldnames.push_back(wstring_to_utf8(name));
+    for (auto name : fNames) {
+        fieldnames.push_back(wstring_to_utf8(name));
     }
     return structScalarConstructor(fieldnames, values);
 }

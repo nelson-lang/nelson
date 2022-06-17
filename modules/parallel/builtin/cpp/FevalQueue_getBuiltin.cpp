@@ -7,15 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FevalFuture_getBuiltin.hpp"
-#include "FevalFutureObject.hpp"
+#include "FevalQueue_getBuiltin.hpp"
+#include "FevalQueueObject.hpp"
 #include "Error.hpp"
+#include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::FevalFuture_getBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::FevalQueue_getBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
@@ -23,24 +24,15 @@ Nelson::ParallelGateway::FevalFuture_getBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
-    if (param1.getHandleCategory() != FEVALFUTURE_CATEGORY_STR) {
-        Error(_W("FevalFuture handle expected."));
+    if (param1.getHandleCategory() != FEVALQUEUE_CATEGORY_STR) {
+        Error(_W("FevalQueue handle expected."));
     }
-
-    auto* ptr = (nelson_handle*)param1.getDataPointer();
-    indexType nbElements = param1.getElementCount();
-    std::wstring category = L"handle";
-    if (nbElements > 0) {
-        for (indexType k = 0; k < nbElements; k++) {
-            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
-            auto* objFevalFuture = (FevalFutureObject*)hlObj;
-            ArrayOf res;
-            if (!objFevalFuture->get(propertyName, res)) {
-                Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
-            }
-            retval << res;
-        }
+    auto* objFevalQueue = (FevalQueueObject*)param1.getContentAsHandleScalar();
+    ArrayOf res;
+    if (!objFevalQueue->get(propertyName, res)) {
+        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
     }
+    retval << res;
     return retval;
 }
 //=============================================================================

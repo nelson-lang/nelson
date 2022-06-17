@@ -73,17 +73,49 @@ ArrayOf::isHandleProperty(const std::wstring& propertyName) const
 bool
 ArrayOf::isHandleMethod(const std::wstring& methodName) const
 {
-    HandleGenericObject* obj = getContentAsHandleScalar();
-    return obj->isMethod(methodName);
+    if (!isHandle()) {
+        Error(_W("Expected a handle."));
+    }
+    auto* ptr = (nelson_handle*)getDataPointer();
+    indexType nbElements = getElementCount();
+    bool isMethod = false;
+    if (nbElements > 0) {
+        isMethod = true;
+        for (indexType k = 0; k < nbElements; k++) {
+            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
+            if (!hlObj->isMethod(methodName)) {
+                return false;
+            }
+        }
+    }
+    return isMethod;
 }
 //=============================================================================
 std::wstring
 ArrayOf::getHandleCategory() const
 {
-    HandleGenericObject* obj = getContentAsHandleScalar();
-    std::wstring category;
-    if (obj) {
-        category = obj->getCategory();
+    if (!isHandle()) {
+        Error(_W("Expected a handle."));
+    }
+    auto* qp = (nelson_handle*)dp->getData();
+    if (qp == nullptr) {
+        Error(_W("Expected a valid handle."));
+    }
+
+    auto* ptr = (nelson_handle*)getDataPointer();
+    indexType nbElements = getElementCount();
+    std::wstring category = L"handle";
+    if (nbElements > 0) {
+        for (indexType k = 0; k < nbElements; k++) {
+            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
+            if (k == 0) {
+                category = hlObj->getCategory();
+            } else {
+                if (hlObj->getCategory() != category) {
+                    return L"handle";
+                }
+            }
+        }
     }
     return category;
 }

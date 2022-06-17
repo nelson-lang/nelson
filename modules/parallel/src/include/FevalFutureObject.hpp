@@ -37,6 +37,10 @@ class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject
 public:
     FevalFutureObject(const std::wstring& functionName);
     ~FevalFutureObject() override;
+
+    bool
+    isMethod(const std::wstring& methodName) override;
+
     void
     setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f);
 
