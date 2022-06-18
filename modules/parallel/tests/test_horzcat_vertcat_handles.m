@@ -9,23 +9,18 @@
 %=============================================================================
 % <--WINDOWS ONLY-->
 %=============================================================================
-assert_isequal(nargin('COM_class'), 1);
-assert_isequal(nargout('COM_class'), 1);
-%=============================================================================
-pTextToSpeech = actxserver('Sapi.SpVoice');
-c1 = COM_class(pTextToSpeech);
-c2 = class(pTextToSpeech);
-assert_isequal(c1, c2);
-assert_isequal(c1, 'COM.SpeechLibSpVoice');
-%=============================================================================
 x = actxserver('Microsoft.XMLDOM');
+p = actxserver('Sapi.SpVoice');
 %=============================================================================
-R = [x, pTextToSpeech];
-assert_isequal(class(R), 'handle');
+R1 = [x, x];
+assert_isequal(size(R1), [1 2])
 %=============================================================================
-R = [x, x];
-assert_isequal(class(R), 'COM.MSXML2DOMDocument');
+R2 = [x; x];
+assert_isequal(size(R2), [2 1])
 %=============================================================================
-delete(x);
-delete(pTextToSpeech);
+R1 = [x, p];
+assert_isequal(size(R1), [1 2])
+%=============================================================================
+R2 = [x; p];
+assert_isequal(size(R2), [2 1])
 %=============================================================================

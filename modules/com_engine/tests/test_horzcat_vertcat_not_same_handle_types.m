@@ -7,19 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 p = str2func('pause');
 b = backgroundPool();
-NumWorkers = b.NumWorkers;
-for k = [1:(NumWorkers*2) + 2]
-    f(k) = parfeval(b, p, 0, 50);
-end
+f = parfeval(b, p, 0, 10);
 %=============================================================================
-K =  b.FevalQueue;
-assert_isequal(length(f), (NumWorkers*2) + 2);
+assert_checkerror('R = [b, f]', 'function backgroundPool_horzcat_FevalFuture undefined.')
 %=============================================================================
-R1 = K.RunningFutures;
-assert_isequal(length(R1), NumWorkers);
-%=============================================================================
-R2 = K.QueuedFutures;
-assert_isequal(length(R2), NumWorkers + 2);
+assert_checkerror('R = [b; f]', 'function backgroundPool_vertcat_FevalFuture undefined.')
 %=============================================================================

@@ -7,19 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-p = str2func('pause');
-b = backgroundPool();
-NumWorkers = b.NumWorkers;
-for k = [1:(NumWorkers*2) + 2]
-    f(k) = parfeval(b, p, 0, 50);
-end
+% <--WINDOWS ONLY-->
 %=============================================================================
-K =  b.FevalQueue;
-assert_isequal(length(f), (NumWorkers*2) + 2);
+pTextToSpeech = actxserver('Sapi.SpVoice');
 %=============================================================================
-R1 = K.RunningFutures;
-assert_isequal(length(R1), NumWorkers);
+p(1) = pTextToSpeech;
+p(2) = pTextToSpeech;
+assert_isequal(size(p), [1 2]);
 %=============================================================================
-R2 = K.QueuedFutures;
-assert_isequal(length(R2), NumWorkers + 2);
+K = [];
+K(1) = pTextToSpeech;
+K(2) = pTextToSpeech;
+assert_isequal(size(K), [1 2]);
 %=============================================================================
+

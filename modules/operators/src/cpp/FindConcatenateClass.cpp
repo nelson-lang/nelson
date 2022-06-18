@@ -22,6 +22,12 @@ FindConcatenateClass(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     NelsonType Aclass = A.getDataClass();
     NelsonType Bclass = B.getDataClass();
     if (Aclass == Bclass) {
+        if (A.isHandle()) {
+            if (A.getHandleCategory() != B.getHandleCategory()) {
+                needToOverload = true;
+                return NLS_NOT_TYPED;
+            }
+        }
         needToOverload = false;
         return Aclass;
     }
