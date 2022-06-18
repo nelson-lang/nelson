@@ -14,10 +14,11 @@ for k = [1:(NumWorkers*2) + 2]
     f(k) = parfeval(b, p, 0, 50);
 end
 %=============================================================================
-f
+assert_isequal(class(f), 'FevalFuture')
+assert_isequal(length(f), (NumWorkers*2) + 2);
 %=============================================================================
 K =  b.FevalQueue;
-assert_isequal(length(f), (NumWorkers*2) + 2);
+assert_isequal(size(K), [1 1]);
 %=============================================================================
 R1 = K.RunningFutures;
 assert_isequal(length(R1), NumWorkers);

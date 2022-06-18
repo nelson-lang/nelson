@@ -148,7 +148,7 @@ FevalFutureObject::get(bool& valid)
     if (state == THREAD_STATE::FINISHED) {
         valid = true;
         if (!wasReaded) {
-            wasReaded = true;
+            valid = read();
         }
     }
     return content;
@@ -160,12 +160,15 @@ FevalFutureObject::getID()
     return ID;
 }
 //=============================================================================
-void
+bool
 FevalFutureObject::read()
 {
     if (future.valid()) {
         content = future.get();
+        wasReaded = true;
+        return true;
     }
+    return false;
 }
 //=============================================================================
 THREAD_STATE

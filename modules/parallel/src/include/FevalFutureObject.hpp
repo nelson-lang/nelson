@@ -83,7 +83,7 @@ public:
     get(const std::wstring& propertyName, ArrayOf& result);
 
 private:
-    void
+    bool
     read();
     wstringVector propertiesNames;
     std::future<std::tuple<ArrayOfVector, Exception>> future;
