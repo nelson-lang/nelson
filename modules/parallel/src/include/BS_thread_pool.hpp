@@ -107,10 +107,10 @@ public:
      * hardware threads available, as reported by the implementation. This is usually determined by
      * the number of cores in the CPU. If a core is hyperthreaded, it will count as two threads.
      */
-    explicit thread_pool(const concurrency_t thread_count_ = std::thread::hardware_concurrency())
-        : thread_count(thread_count_ ? thread_count_ : std::thread::hardware_concurrency())
+    explicit thread_pool(const concurrency_t thread_count_)
+        : thread_count(thread_count_)
         , threads(std::make_unique<std::thread[]>(
-              thread_count_ ? thread_count_ : std::thread::hardware_concurrency()))
+              thread_count_))
     {
         create_threads();
     }
