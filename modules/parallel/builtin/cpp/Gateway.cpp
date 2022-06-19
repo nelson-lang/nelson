@@ -49,7 +49,7 @@ static const nlsGateway gateway[] = {
     { "FevalFuture_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_displayBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "fetchOutputs", (ptrBuiltin)Nelson::ParallelGateway::fetchOutputsBuiltin, -1, 1,
-        CPP_BUILTIN },
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalQueue_display", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalQueue_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 1,

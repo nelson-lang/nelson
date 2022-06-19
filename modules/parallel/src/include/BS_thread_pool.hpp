@@ -108,9 +108,7 @@ public:
      * the number of cores in the CPU. If a core is hyperthreaded, it will count as two threads.
      */
     explicit thread_pool(const concurrency_t thread_count_)
-        : thread_count(thread_count_)
-        , threads(std::make_unique<std::thread[]>(
-              thread_count_))
+        : thread_count(thread_count_), threads(std::make_unique<std::thread[]>(thread_count_))
     {
         create_threads();
     }

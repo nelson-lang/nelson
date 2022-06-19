@@ -7,15 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <tuple>
 #include "fetchOutputsBuiltin.hpp"
 #include "Error.hpp"
-#include "FevalFutureObject.hpp"
+#include "FutureFetchOutputs.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::fetchOutputsBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::fetchOutputsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
@@ -30,21 +29,7 @@ Nelson::ParallelGateway::fetchOutputsBuiltin(int nLhs, const ArrayOfVector& argI
     }
     auto* fevalFutureObject = (FevalFutureObject*)param1.getContentAsHandleScalar();
     if (fevalFutureObject) {
-        THREAD_STATE state = fevalFutureObject->getState();
-        bool wait = (state == THREAD_STATE::RUNNING) || (state == THREAD_STATE::QUEUED);
-        while (wait) {
-            state = fevalFutureObject->getState();
-            wait = (state == THREAD_STATE::RUNNING) || (state == THREAD_STATE::QUEUED);
-        }
-        bool valid = false;
-        std::tuple<ArrayOfVector, Exception> resultOrFuture = fevalFutureObject->get(valid);
-        retval = std::get<0>(resultOrFuture);
-        Exception e = std::get<1>(resultOrFuture);
-        if (!e.getMessage().empty()) {
-            std::wstring errorMessage
-                = _W("One or more futures resulted in an error.") + L"\n\n" + e.getMessage();
-            Error(errorMessage, L"Nelson:parallel:future:ExecutionError");
-        }
+        retval = FutureFetchOutputs(eval, fevalFutureObject);
     } else {
         Error(_W("FevalFuture not available"));
     }

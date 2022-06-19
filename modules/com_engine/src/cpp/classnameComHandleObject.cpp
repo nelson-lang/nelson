@@ -85,14 +85,14 @@ classnameComHandle(const ArrayOf& A, std::wstring& classname)
     classnameComHandle(A, classnames);
     std::wstring common;
     for (size_t k = 0; k < classnames.size(); ++k) {
-      
-      if (k == 0) {
+
+        if (k == 0) {
             common = classnames[0];
-      } else {
-          if (common != classnames[1]) {
-              return;
-          }
-      }
+        } else {
+            if (common != classnames[1]) {
+                return;
+            }
+        }
     }
     classname = common;
 }

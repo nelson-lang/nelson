@@ -224,9 +224,7 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
     case NLS_STRING_ARRAY:
         typeAsText = L"string";
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return typeAsText;
 }
 //=============================================================================
@@ -456,7 +454,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
             msg = L"{"
                 + summarizeCellEntry(
-                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat, true)
+                      elements[0], beginingLineLength + 1, termWidth, currentNumericFormat, true)
                 + L"}";
         } else if (A.isRowVector()) {
             ArrayOf* elements = (ArrayOf*)A.getDataPointer();
@@ -555,9 +553,7 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         msg = summarizeCellComplexEntry<single>(
             A, beginingLineLength, termWidth, currentNumericFormat, true);
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return msg;
 }
 //=============================================================================

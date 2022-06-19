@@ -9,17 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include "nlsParallel_exports.h"
 #include "Evaluator.hpp"
+#include "FevalFutureObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace ParallelGateway {
-    //=============================================================================
-    ArrayOfVector
-    fetchOutputsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSPARALLEL_IMPEXP
+ArrayOfVector
+FutureFetchOutputs(Evaluator* eval, FevalFutureObject* fevalFutureObject);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

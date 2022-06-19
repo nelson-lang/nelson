@@ -231,7 +231,7 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
     std::vector<std::atomic<bool>> runnings(nbCommands);
- 
+
     for (int k = 0; k < nbCommands; k++) {
         systemThreads[k] = pool.submit(internalSystemCommand, commands[k], &runnings[k]);
     }

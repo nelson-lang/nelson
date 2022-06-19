@@ -137,16 +137,19 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
     Context* context = new Context;
     Evaluator* eval = new Evaluator(context, nullptr, false);
     ArrayOfVector retValues;
+    THREAD_STATE finalState;
     Exception retException;
     try {
         retValues = fptr->evaluateFunction(eval, argIn, nLhs);
-        *s = THREAD_STATE::FINISHED;
+        finalState = THREAD_STATE::FINISHED;
     } catch (Exception& e) {
         retException = e;
-        *s = THREAD_STATE::FAILED;
+        finalState = THREAD_STATE::FAILED;
     }
+    std::tuple<ArrayOfVector, Exception> result = std::make_tuple(retValues, retException);
     *endRunningDate = (uint64)getEpoch();
-    return std::make_tuple(retValues, retException);
+    *s = finalState;
+    return result;
 }
 //=============================================================================
 FevalFutureObject*
