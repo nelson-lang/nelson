@@ -15,12 +15,13 @@
 #else
 #include <fcntl.h>
 #endif
+#include <thread>
+#include <chrono>
 #include <algorithm>
 #include <cstdio>
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
-#include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <BS_thread_pool.hpp>
 #include "nlsConfig.h"
@@ -53,8 +54,9 @@ static std::wstring
 readFile(const boost::filesystem::path& filePath);
 //=============================================================================
 static std::pair<int, std::wstring>
-internalSystemCommand(const std::wstring& command)
+internalSystemCommand(const std::wstring& command, std::atomic<bool>* running)
 {
+    *running = true;
     boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
     boost::filesystem::path tempOutputFile = pwd;
     boost::filesystem::path tempErrorFile = pwd;
@@ -91,7 +93,7 @@ internalSystemCommand(const std::wstring& command)
                 wasTerminated = true;
                 break;
             }
-            boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         if (wasTerminated) {
             ierr = SIGINT + 128;
@@ -113,6 +115,7 @@ internalSystemCommand(const std::wstring& command)
 
     result.first = ierr;
     result.second = outputResult;
+    running = false;
     return result;
 }
 //=============================================================================
@@ -122,6 +125,7 @@ SystemCommand(const std::wstring& command, bool withEventsLoop)
     std::vector<std::pair<int, std::wstring>> results;
     wstringVector commands;
     commands.push_back(command);
+
     results = ParallelSystemCommand(commands, withEventsLoop);
     return results[0];
 }
@@ -226,21 +230,17 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     BS::thread_pool pool(nbThreads);
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
+    std::vector<std::atomic<bool>> runnings(nbCommands);
+ 
     for (int k = 0; k < nbCommands; k++) {
-        systemThreads[k] = pool.submit(internalSystemCommand, commands[k]);
+        systemThreads[k] = pool.submit(internalSystemCommand, commands[k], &runnings[k]);
     }
     if (withEventsLoop) {
-        bool running = false;
+        bool running;
         do {
-            std::vector<bool> state;
-            state.reserve(nbCommands);
-            for (ompIndexType k = 0; k < nbCommands; k++) {
-                state.push_back((systemThreads[k].wait_for(std::chrono::milliseconds(10))
-                    != std::future_status::ready));
-            }
-            running = std::any_of(state.begin(), state.end(), [](bool v) { return v; });
+            running = std::any_of(runnings.begin(), runnings.end(), [](bool v) { return v; });
             ProcessEventsDynamicFunction();
-            boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         } while (running);
     } else {
         pool.wait_for_tasks();
