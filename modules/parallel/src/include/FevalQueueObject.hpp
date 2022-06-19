@@ -58,6 +58,12 @@ private:
 
     std::vector<FevalFutureObject*> fEvalQueue;
     wstringVector propertiesNames;
+
+    std::vector <nelson_handle>
+    searchThreadsByState(THREAD_STATE stateDesired);
+
+    ArrayOf
+    getThreadsByState(THREAD_STATE stateDesired);
 };
 //=============================================================================
 } // namespace Nelson

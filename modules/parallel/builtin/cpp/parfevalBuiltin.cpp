@@ -46,10 +46,6 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (!context->lookupFunction(fname, funcDef)) {
         Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
     }
-    if (funcDef->type() != NLS_BUILT_IN_FUNCTION) {
-        //       Error(_W("Only builtin "));
-    }
-
     ArrayOf param3 = argIn[2];
     bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;
     if (!isReal) {
@@ -65,8 +61,11 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
     FevalFutureObject* fevalFutureObj = backgroundPoolObject->feval(funcDef, ivalue, args);
-    retval << ArrayOf::handleConstructor(fevalFutureObj);
-
+    if (fevalFutureObj) {
+        ArrayOf result = ArrayOf::handleConstructor(fevalFutureObj);
+        fevalFutureObj->asArrayOf = result;
+        retval << result;
+    }
     return retval;
 }
 //=============================================================================

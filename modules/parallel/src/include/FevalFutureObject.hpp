@@ -79,6 +79,8 @@ public:
     std::atomic<uint64> endDateTime;
     std::atomic<uint64> runningDuration;
 
+    ArrayOf asArrayOf;
+
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
 
