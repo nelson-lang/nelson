@@ -130,9 +130,9 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
     std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
     std::atomic<uint64>* endRunningDate)
 {
+    *s = THREAD_STATE::RUNNING;
     *startRunningDate = getEpoch();
     *endRunningDate = (uint64)0;
-    *s = THREAD_STATE::RUNNING;
 
     Context* context = new Context;
     Evaluator* eval = new Evaluator(context, nullptr, false);

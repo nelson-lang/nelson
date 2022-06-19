@@ -115,7 +115,7 @@ internalSystemCommand(const std::wstring& command, std::atomic<bool>* running)
 
     result.first = ierr;
     result.second = outputResult;
-    running = false;
+    *running = false;
     return result;
 }
 //=============================================================================
