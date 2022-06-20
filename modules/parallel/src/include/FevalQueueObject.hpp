@@ -57,9 +57,11 @@ private:
     static FevalQueueObject* m_pInstance;
 
     std::vector<FevalFutureObject*> fEvalQueue;
+    std::vector<THREAD_STATE> fEvalQueueStates;
+
     wstringVector propertiesNames;
 
-    std::vector <nelson_handle>
+    std::vector<nelson_handle>
     searchThreadsByState(THREAD_STATE stateDesired);
 
     ArrayOf

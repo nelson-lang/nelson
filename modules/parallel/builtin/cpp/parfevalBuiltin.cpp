@@ -63,7 +63,8 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     FevalFutureObject* fevalFutureObj = backgroundPoolObject->feval(funcDef, ivalue, args);
     if (fevalFutureObj) {
         ArrayOf result = ArrayOf::handleConstructor(fevalFutureObj);
-        fevalFutureObj->asArrayOf = result;
+        nelson_handle* qp = (nelson_handle*)(result.getDataPointer());
+        fevalFutureObj->asNelsonHandle = qp[0];
         retval << result;
     }
     return retval;

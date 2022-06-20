@@ -156,10 +156,12 @@ FevalFutureObject*
 BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
     FevalFutureObject* retFuture = new FevalFutureObject(utf8_to_wstring(fptr->getName()));
+    retFuture->state = THREAD_STATE::QUEUED;
     std::future<std::tuple<ArrayOfVector, Exception>> f = threadPool->submit(FunctionEvalInternal,
         fptr, nLhs, argIn, &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime);
     retFuture->setFuture(std::move(f));
     FevalQueueObject::getInstance()->add(retFuture);
+
     return retFuture;
 }
 //=============================================================================

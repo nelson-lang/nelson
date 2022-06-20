@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "BackgroundPoolObject.hpp"
 #include "FevalQueueObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
@@ -44,17 +45,8 @@ FevalQueueObject::display(Interface* io)
 #define BLANKS_AT_BOL std::wstring(L"   ")
 
     if (io) {
-        size_t nbQueued = 0;
-        size_t nbRunning = 0;
-
-        for (size_t k = 0; k < fEvalQueue.size(); k++) {
-            if (fEvalQueue[k]->getState() == THREAD_STATE::QUEUED) {
-                nbQueued++;
-            }
-            if (fEvalQueue[k]->getState() == THREAD_STATE::RUNNING) {
-                nbRunning++;
-            }
-        }
+        size_t nbQueued = BackgroundPoolObject::getInstance()->getTasksQueued();
+        size_t nbRunning = BackgroundPoolObject::getInstance()->getTasksRunning();
         if (nbQueued) {
             io->outputMessage(BLANKS_AT_BOL
                 + L"QueuedFutures"
@@ -78,6 +70,7 @@ void
 FevalQueueObject::add(FevalFutureObject* fevalFutureObject)
 {
     fEvalQueue.push_back(fevalFutureObject);
+    fEvalQueueStates.push_back(fevalFutureObject->state);
 }
 //=============================================================================
 std::vector<FevalFutureObject*>
@@ -97,13 +90,10 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
 {
     std::vector<nelson_handle> handles;
     for (size_t k = 0; k < fEvalQueue.size(); k++) {
-        if (fEvalQueue[k]->getState() == stateDesired) {
-            ArrayOf asArrayOf = fEvalQueue[k]->asArrayOf;
-            auto* ptr = (nelson_handle*)asArrayOf.getDataPointer();
-            if (ptr) {
-                nelson_handle nh = ptr[0];
-                handles.push_back(nh);
-            }
+        if (fEvalQueue[k]->state == stateDesired) {
+            nelson_handle asNelsonHandle = fEvalQueue[k]->asNelsonHandle;
+            nelson_handle nh = asNelsonHandle;
+            handles.push_back(nh);
         }
     }
     return handles;
@@ -111,7 +101,7 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
 //=============================================================================
 ArrayOf
 FevalQueueObject::getThreadsByState(THREAD_STATE stateDesired)
-{   
+{
     std::vector<nelson_handle> fEvalFuturHandles = searchThreadsByState(stateDesired);
     nelson_handle* nh = nullptr;
     Dimensions dims;
@@ -124,7 +114,7 @@ FevalQueueObject::getThreadsByState(THREAD_STATE stateDesired)
     len = dims.getElementCount();
     nh = static_cast<nelson_handle*>(
         ArrayOf::allocateArrayOf(NLS_HANDLE, len, stringVector(), false));
- 
+
     for (indexType k = 0; k < len; k++) {
         nh[k] = fEvalFuturHandles[k];
     }

@@ -33,7 +33,7 @@ FutureFetchOutputs(Evaluator* eval, FevalFutureObject* fevalFutureObject)
     ArrayOfVector result;
     bool wait = true;
     do {
-        THREAD_STATE state = fevalFutureObject->getState();
+        THREAD_STATE state = fevalFutureObject->state;
         wait = (state == THREAD_STATE::RUNNING) || (state == THREAD_STATE::QUEUED);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         if (eval->haveEventsLoop()) {

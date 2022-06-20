@@ -74,6 +74,7 @@ FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"FinishDateTime",
         L"RunningDuration", L"State", L"Error" };
     this->functionName = functionName;
+    state = THREAD_STATE::UNAVAILABLE;
     _ID++;
     this->ID = _ID;
     wasReaded = false;
@@ -170,9 +171,6 @@ FevalFutureObject::read()
     }
     return false;
 }
-//=============================================================================
-THREAD_STATE
-FevalFutureObject::getState() { return state; }
 //=============================================================================
 uint64
 FevalFutureObject::getEpochCreateDateTime()

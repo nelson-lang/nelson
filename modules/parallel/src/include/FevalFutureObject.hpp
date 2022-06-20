@@ -55,9 +55,6 @@ public:
     size_t
     getID();
 
-    THREAD_STATE
-    getState();
-
     std::wstring
     getStateAsString();
 
@@ -79,7 +76,7 @@ public:
     std::atomic<uint64> endDateTime;
     std::atomic<uint64> runningDuration;
 
-    ArrayOf asArrayOf;
+    nelson_handle asNelsonHandle;
 
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
