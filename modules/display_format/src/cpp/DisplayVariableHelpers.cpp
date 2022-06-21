@@ -243,7 +243,9 @@ buildHeader(const ArrayOf& A)
             return msg;
         } break;
         case NLS_HANDLE: {
-            typeAsText = typeAsText + L" [" + A.getHandleCategory() + L"]";
+            if (A.getDataPointer() != nullptr) {
+                typeAsText = typeAsText + L" [" + A.getHandleCategory() + L"]";
+            }
         } break;
         case NLS_STRUCT_ARRAY: {
             stringVector fieldnames = A.getFieldNames();
