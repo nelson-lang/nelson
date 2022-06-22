@@ -2958,7 +2958,7 @@ Evaluator::functionExpression(
                         try {
                             keywordNdx = new int[keywords.size()];
                         } catch (std::bad_alloc&) {
-                            Error(_W("Memory allocation."));
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         int maxndx;
                         maxndx = 0;

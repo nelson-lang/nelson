@@ -152,17 +152,24 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
     return result;
 }
 //=============================================================================
-FevalFutureObject*
+ArrayOf 
 BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
-    FevalFutureObject* retFuture = new FevalFutureObject(utf8_to_wstring(fptr->getName()));
+    FevalFutureObject* retFuture = nullptr;
+    try {
+        retFuture = new FevalFutureObject(utf8_to_wstring(fptr->getName()));
+    }
+    catch (std::bad_alloc &) {
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
     retFuture->state = THREAD_STATE::QUEUED;
-    std::future<std::tuple<ArrayOfVector, Exception>> f = threadPool->submit(FunctionEvalInternal,
-        fptr, nLhs, argIn, &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime);
-    retFuture->setFuture(std::move(f));
+    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn,
+            &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
     FevalQueueObject::getInstance()->add(retFuture);
-
-    return retFuture;
+    ArrayOf result = ArrayOf::handleConstructor(retFuture);
+    nelson_handle* qp = (nelson_handle*)(result.getDataPointer());
+    retFuture->asNelsonHandle = qp[0];
+    return result;
 }
 //=============================================================================
 wstringVector

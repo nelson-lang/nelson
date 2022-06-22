@@ -60,12 +60,10 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Error(_W("non negative value expected."));
     }
     auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
-    FevalFutureObject* fevalFutureObj = backgroundPoolObject->feval(funcDef, ivalue, args);
-    if (fevalFutureObj) {
-        ArrayOf result = ArrayOf::handleConstructor(fevalFutureObj);
-        nelson_handle* qp = (nelson_handle*)(result.getDataPointer());
-        fevalFutureObj->asNelsonHandle = qp[0];
-        retval << result;
+    if (backgroundPoolObject) {
+        retval << backgroundPoolObject->feval(funcDef, ivalue, args);
+    } else {
+        Error(_W("Invalid backgroundPool handle."));
     }
     return retval;
 }

@@ -37,7 +37,7 @@ public:
     void
     display(Interface* io);
 
-    FevalFutureObject*
+    ArrayOf
     feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
 
     size_t
