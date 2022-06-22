@@ -28,13 +28,13 @@ file(GLOB PARALLEL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
 add_library(${module_library_name} SHARED ${PARALLEL_SRC})
 # ==============================================================================
 target_link_libraries(${module_library_name} 
+  nlsCharacters_encoding
   nlsError_manager
-  nlsTypes
-  nlsInterpreter
   nlsI18n
+  nlsInterpreter
   nlsNelson_manager
   nlsStream_manager
-  nlsCharacters_encoding)
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_name}
@@ -61,14 +61,14 @@ add_library(${module_library_builtin_name} SHARED ${PARALLEL_BUILTIN})
 target_link_libraries(
   ${module_library_builtin_name}
   ${module_library_name}
-  nlsError_manager
-  nlsInterpreter
-  nlsOverload
-  nlsHandle
-  nlsDisplay_format
-  nlsTypes
   nlsApi_nelson
-  nlsI18n)
+  nlsCharacters_encoding
+  nlsDisplay_format
+  nlsError_manager
+  nlsHandle
+  nlsI18n
+  nlsInterpreter
+  nlsTypes)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}

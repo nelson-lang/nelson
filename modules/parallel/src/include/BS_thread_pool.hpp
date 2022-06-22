@@ -52,7 +52,7 @@ public:
      *
      * @param num_futures_ The desired number of futures to store.
      */
-    explicit multi_future(const size_t num_futures_ = 0) : f(num_futures_) {}
+    explicit multi_future(const size_t num_futures_ = 0) : f(num_futures_) { }
 
     /**
      * @brief Get the results from all the futures stored in this multi_future object.
@@ -107,8 +107,10 @@ public:
      * hardware threads available, as reported by the implementation. This is usually determined by
      * the number of cores in the CPU. If a core is hyperthreaded, it will count as two threads.
      */
-    explicit thread_pool(const concurrency_t thread_count_)
-        : thread_count(thread_count_), threads(std::make_unique<std::thread[]>(thread_count_))
+    explicit thread_pool(const concurrency_t thread_count_ = std::thread::hardware_concurrency())
+        : thread_count(thread_count_ ? thread_count_ : std::thread::hardware_concurrency())
+        , threads(std::make_unique<std::thread[]>(
+              thread_count_ ? thread_count_ : std::thread::hardware_concurrency()))
     {
         create_threads();
     }
@@ -136,7 +138,7 @@ public:
     size_t
     get_tasks_queued() const
     {
-        const std::scoped_lock tasks_lock(tasks_mutex);
+        const std::scoped_lock<std::mutex> tasks_lock(tasks_mutex);
         return tasks.size();
     }
 
@@ -148,7 +150,7 @@ public:
     size_t
     get_tasks_running() const
     {
-        const std::scoped_lock tasks_lock(tasks_mutex);
+        const std::scoped_lock<std::mutex> tasks_lock(tasks_mutex);
         return tasks_total - tasks.size();
     }
 
@@ -244,7 +246,7 @@ public:
     push_task(const F& task, const A&... args)
     {
         {
-            const std::scoped_lock tasks_lock(tasks_mutex);
+            const std::scoped_lock<std::mutex> tasks_lock(tasks_mutex);
             if constexpr (sizeof...(args) == 0)
                 tasks.push(std::function<void()>(task));
             else
@@ -308,8 +310,7 @@ public:
             } catch (...) {
                 try {
                     task_promise->set_exception(std::current_exception());
-                } catch (...) {
-                }
+                } catch (...) { }
             }
         });
         return task_promise->get_future();
@@ -469,7 +470,7 @@ public:
      *
      * @param out_stream_ The output stream to print to. The default value is std::cout.
      */
-    explicit synced_stream(std::ostream& out_stream_ = std::cout) : out_stream(out_stream_){};
+    explicit synced_stream(std::ostream& out_stream_ = std::cout) : out_stream(out_stream_) { }
 
     /**
      * @brief Print any number of items into the output stream. Ensures that no other threads print
@@ -483,7 +484,7 @@ public:
     void
     print(const T&... items)
     {
-        const std::scoped_lock lock(stream_mutex);
+        const std::scoped_lock<std::mutex> lock(stream_mutex);
         (out_stream << ... << items);
     }
 

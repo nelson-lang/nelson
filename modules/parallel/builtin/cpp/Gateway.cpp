@@ -18,6 +18,7 @@
 #include "parfevalBuiltin.hpp"
 #include "FevalFuture_displayBuiltin.hpp"
 #include "FevalFuture_getBuiltin.hpp"
+#include "FevalFuture_usedBuiltin.hpp"
 #include "FevalQueue_displayBuiltin.hpp"
 #include "FevalQueue_getBuiltin.hpp"
 #include "fetchOutputsBuiltin.hpp"
@@ -55,6 +56,7 @@ static const nlsGateway gateway[] = {
     { "FevalQueue_disp", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalFuture_get", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_getBuiltin, 1, 2 },
+    { "FevalFuture_used", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_usedBuiltin, 1, 0 },
     { "FevalQueue_get", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_getBuiltin, 1, 2 },
 
 };
