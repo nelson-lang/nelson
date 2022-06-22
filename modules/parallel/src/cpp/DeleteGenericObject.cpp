@@ -7,14 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DeleteBackgroundPoolObject.hpp"
-#include "BackgroundPoolObject.hpp"
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
+#include "DeleteGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-DeleteBackgroundPoolObject(const ArrayOf& A)
+DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory)
 {
     bool res = false;
     if (A.isHandle()) {
@@ -26,15 +28,17 @@ DeleteBackgroundPoolObject(const ArrayOf& A)
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
-                    if (hlObj->getCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
-                        Error(_W("backgroundPool handle expected."));
+                    if (hlObj->getCategory() != handleCategory) {
+                        std::wstring msg = fmt::sprintf(_W("%s handle expected."), handleCategory);
+                        Error(msg);
                     }
                     HandleManager::getInstance()->removeHandle(hl);
                     res = true;
                 }
             }
         } else {
-            Error(_W("backgroundPool valid handle expected."));
+            std::wstring msg = fmt::sprintf(_W("%s valid handle expected."), handleCategory);
+            Error(msg);
         }
     }
     return res;

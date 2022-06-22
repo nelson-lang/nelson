@@ -24,7 +24,7 @@
     <ClCompile Include="..\cpp\BackgroundPoolObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\DeleteBackgroundPoolObject.cpp">
+    <ClCompile Include="..\cpp\DeleteGenericObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\FevalFutureObject.cpp">
@@ -47,7 +47,7 @@
     <ClInclude Include="..\include\BS_thread_pool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\DeleteBackgroundPoolObject.hpp">
+    <ClInclude Include="..\include\DeleteGenericObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\FevalFutureObject.hpp">

@@ -7,15 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "FevalQueue_usedBuiltin.hpp"
+#include "FevalQueueObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsParallel_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSPARALLEL_IMPEXP bool
-DeleteBackgroundPoolObject(const ArrayOf& A);
-//=============================================================================
-} // namespace Nelson
+ArrayOfVector
+Nelson::ParallelGateway::FevalQueue_usedBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
+    ArrayOfVector retval(1);
+    retval << usedHandle(FEVALQUEUE_CATEGORY_STR);
+    return retval;
+}
 //=============================================================================

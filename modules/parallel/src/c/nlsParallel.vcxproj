@@ -211,7 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BackgroundPoolObject.cpp" />
-    <ClCompile Include="..\cpp\DeleteBackgroundPoolObject.cpp" />
+    <ClCompile Include="..\cpp\DeleteGenericObject.cpp" />
     <ClCompile Include="..\cpp\FutureFetchOutputs.cpp" />
     <ClCompile Include="..\cpp\FevalFutureObject.cpp" />
     <ClCompile Include="..\cpp\FevalQueueObject.cpp" />
@@ -219,7 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BackgroundPoolObject.hpp" />
-    <ClInclude Include="..\include\DeleteBackgroundPoolObject.hpp" />
+    <ClInclude Include="..\include\DeleteGenericObject.hpp" />
     <ClInclude Include="..\include\FutureFetchOutputs.hpp" />
     <ClInclude Include="..\include\FevalFutureObject.hpp" />
     <ClInclude Include="..\include\FevalQueueObject.hpp" />

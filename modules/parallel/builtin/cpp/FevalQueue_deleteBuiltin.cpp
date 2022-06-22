@@ -7,20 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "backgroundPool_deleteBuiltin.hpp"
+#include "FevalQueue_deleteBuiltin.hpp"
 #include "DeleteGenericObject.hpp"
-#include "BackgroundPoolObject.hpp"
+#include "FevalQueueObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ParallelGateway::backgroundPool_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::ParallelGateway::FevalQueue_deleteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        DeleteGenericObject(param1, BACKGROUNDPOOL_CATEGORY_STR);
+        DeleteGenericObject(param1, FEVALQUEUE_CATEGORY_STR);
     }
     ArrayOfVector retval;
     return retval;

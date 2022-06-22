@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <thread>
 #include "BackgroundPoolObject.hpp"
 #include "FevalQueueObject.hpp"
 #include "HandleManager.hpp"
@@ -64,7 +65,7 @@ FevalQueueObject::display(Interface* io)
     }
 }
 //=============================================================================
-FevalQueueObject::~FevalQueueObject() {}
+FevalQueueObject::~FevalQueueObject() { }
 //=============================================================================
 void
 FevalQueueObject::add(FevalFutureObject* fevalFutureObject)
@@ -139,6 +140,7 @@ FevalQueueObject::isMethod(const std::wstring& methodName)
 void
 FevalQueueObject::refreshQueue()
 {
+    std::this_thread::sleep_for(std::chrono::nanoseconds(1));
     fEvalQueueStates.clear();
     std::vector<FevalFutureObject*> newQueue;
     for (auto f : fEvalQueue) {
