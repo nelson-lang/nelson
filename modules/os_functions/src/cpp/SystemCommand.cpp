@@ -54,9 +54,8 @@ static std::wstring
 readFile(const boost::filesystem::path& filePath);
 //=============================================================================
 static std::pair<int, std::wstring>
-internalSystemCommand(const std::wstring& command, std::atomic<bool>* running)
+internalSystemCommand(const std::wstring& command)
 {
-    *running = true;
     boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
     boost::filesystem::path tempOutputFile = pwd;
     boost::filesystem::path tempErrorFile = pwd;
@@ -115,7 +114,6 @@ internalSystemCommand(const std::wstring& command, std::atomic<bool>* running)
 
     result.first = ierr;
     result.second = outputResult;
-    *running = false;
     return result;
 }
 //=============================================================================
@@ -230,18 +228,14 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     BS::thread_pool pool(nbThreads);
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
-    std::vector<std::atomic<bool>> runnings(nbCommands);
-
     for (int k = 0; k < nbCommands; k++) {
-        systemThreads[k] = pool.submit(internalSystemCommand, commands[k], &runnings[k]);
+        systemThreads[k] = pool.submit(internalSystemCommand, commands[k]);
     }
     if (withEventsLoop) {
-        bool running;
         do {
-            running = std::any_of(runnings.begin(), runnings.end(), [](bool v) { return v; });
             ProcessEventsDynamicFunction();
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        } while (running);
+        } while (pool.get_tasks_running());
     } else {
         pool.wait_for_tasks();
     }

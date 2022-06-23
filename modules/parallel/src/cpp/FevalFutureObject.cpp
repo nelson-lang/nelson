@@ -140,7 +140,18 @@ FevalFutureObject::display(Interface* io)
     }
 }
 //=============================================================================
-FevalFutureObject::~FevalFutureObject() {}
+FevalFutureObject::~FevalFutureObject() {
+
+    state = THREAD_STATE::UNAVAILABLE;
+    creationDateTime = 0;
+    startDateTime = 0;
+    endDateTime = 0;
+    runningDuration = 0;
+    asNelsonHandle = 0;
+    ID = 0;
+    functionName.clear();
+    wasReaded = false;
+}
 //=============================================================================
 std::tuple<ArrayOfVector, Exception>
 FevalFutureObject::get(bool& valid)

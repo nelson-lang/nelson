@@ -11,6 +11,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "DeleteGenericObject.hpp"
+#include "BackgroundPoolObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
@@ -33,6 +34,10 @@ DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory)
                         Error(msg);
                     }
                     HandleManager::getInstance()->removeHandle(hl);
+                    if (hlObj->getCategory() != BACKGROUNDPOOL_CATEGORY_STR) {
+                        delete hlObj;
+                    }
+                    hlObj = nullptr;
                     res = true;
                 }
             }

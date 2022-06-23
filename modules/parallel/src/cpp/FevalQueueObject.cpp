@@ -140,7 +140,7 @@ FevalQueueObject::isMethod(const std::wstring& methodName)
 void
 FevalQueueObject::refreshQueue()
 {
-    std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+    std::this_thread::sleep_for(std::chrono::nanoseconds(10));
     fEvalQueueStates.clear();
     std::vector<FevalFutureObject*> newQueue;
     for (auto f : fEvalQueue) {

@@ -101,7 +101,6 @@ BackgroundPoolObject::display(Interface* io)
 bool
 BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 {
-
     if (propertyName == L"NumWorkers") {
         size_t numWorkers = threadPool->get_thread_count();
         result = ArrayOf::doubleConstructor((double)numWorkers);
