@@ -51,7 +51,6 @@ private:
     static FevalQueueObject* m_pInstance;
 
     std::vector<FevalFutureObject*> fEvalQueue;
-    std::vector<THREAD_STATE> fEvalQueueStates;
 
     wstringVector propertiesNames;
 

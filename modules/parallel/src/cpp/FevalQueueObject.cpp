@@ -72,7 +72,6 @@ FevalQueueObject::add(FevalFutureObject* fevalFutureObject)
 {
     refreshQueue();
     fEvalQueue.push_back(fevalFutureObject);
-    fEvalQueueStates.push_back(fevalFutureObject->state);
 }
 //=============================================================================
 std::vector<nelson_handle>
@@ -80,8 +79,8 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
 {
     refreshQueue();
     std::vector<nelson_handle> handles;
-    for (size_t k = 0; k < fEvalQueueStates.size(); k++) {
-        if (fEvalQueueStates[k] == stateDesired) {
+    for (size_t k = 0; k < fEvalQueue.size(); k++) {
+        if (fEvalQueue[k]->state == stateDesired) {
             nelson_handle asNelsonHandle = fEvalQueue[k]->asNelsonHandle;
             nelson_handle nh = asNelsonHandle;
             handles.push_back(nh);
@@ -141,13 +140,11 @@ void
 FevalQueueObject::refreshQueue()
 {
     std::this_thread::sleep_for(std::chrono::nanoseconds(10));
-    fEvalQueueStates.clear();
     std::vector<FevalFutureObject*> newQueue;
     for (auto f : fEvalQueue) {
         THREAD_STATE state = f->state;
         if (state == THREAD_STATE::QUEUED || state == THREAD_STATE::RUNNING) {
             newQueue.push_back(f);
-            fEvalQueueStates.push_back(state);
         }
     }
     fEvalQueue = newQueue;
