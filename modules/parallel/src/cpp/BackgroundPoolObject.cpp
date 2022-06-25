@@ -8,11 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <tuple>
-#include <ctime>
 #include "BackgroundPoolObject.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "FevalQueueObject.hpp"
+#include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
@@ -118,12 +118,6 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
     return false;
 }
 //=============================================================================
-static uint64
-getEpoch()
-{
-    return (uint64)std::time(nullptr);
-}
-//=============================================================================
 static std::tuple<ArrayOfVector, Exception>
 FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
     std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
@@ -151,19 +145,18 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
     return result;
 }
 //=============================================================================
-ArrayOf 
+ArrayOf
 BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
     FevalFutureObject* retFuture = nullptr;
     try {
         retFuture = new FevalFutureObject(utf8_to_wstring(fptr->getName()));
-    }
-    catch (std::bad_alloc &) {
+    } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     retFuture->state = THREAD_STATE::QUEUED;
     retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn,
-            &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
+        &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
     nelson_handle* qp = (nelson_handle*)(result.getDataPointer());

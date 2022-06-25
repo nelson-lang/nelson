@@ -7,16 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include <string>
-#include "ArrayOf.hpp"
-#include "nlsParallel_exports.h"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSPARALLEL_IMPEXP bool
-DeleteGenericObject(const ArrayOf& A, const std::wstring& handleCategory);
+uint64
+getEpoch();
 //=============================================================================
-} // namespace Nelson
+std::wstring
+epochToDateString(uint64 epoch);
+//=============================================================================
+std::wstring
+milliSecondsToDHMSMsString(uint64 n);
+//=============================================================================
+}
 //=============================================================================

@@ -52,7 +52,7 @@ public:
      *
      * @param num_futures_ The desired number of futures to store.
      */
-    explicit multi_future(const size_t num_futures_ = 0) : f(num_futures_) { }
+    explicit multi_future(const size_t num_futures_ = 0) : f(num_futures_) {}
 
     /**
      * @brief Get the results from all the futures stored in this multi_future object.
@@ -310,7 +310,8 @@ public:
             } catch (...) {
                 try {
                     task_promise->set_exception(std::current_exception());
-                } catch (...) { }
+                } catch (...) {
+                }
             }
         });
         return task_promise->get_future();
@@ -470,7 +471,7 @@ public:
      *
      * @param out_stream_ The output stream to print to. The default value is std::cout.
      */
-    explicit synced_stream(std::ostream& out_stream_ = std::cout) : out_stream(out_stream_) { }
+    explicit synced_stream(std::ostream& out_stream_ = std::cout) : out_stream(out_stream_) {}
 
     /**
      * @brief Print any number of items into the output stream. Ensures that no other threads print
