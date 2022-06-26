@@ -83,7 +83,7 @@ public:
 
 private:
     bool
-    read();
+    readContent();
     wstringVector propertiesNames;
     std::future<std::tuple<ArrayOfVector, Exception>> future;
     size_t ID;

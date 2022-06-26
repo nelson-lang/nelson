@@ -61,7 +61,7 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
         }
         std::wstring errorString = L"";
         if (this->state == THREAD_STATE::FAILED) {
-            read();
+            readContent();
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
         }
@@ -85,7 +85,7 @@ FevalFutureObject::display(Interface* io)
             stateString = wasReaded ? stateString + L" (read)" : stateString + L" (unread)";
         }
         if (state == THREAD_STATE::FAILED) {
-            read();
+            readContent();
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
         }
@@ -125,7 +125,7 @@ FevalFutureObject::get(bool& valid)
     if (state == THREAD_STATE::FINISHED) {
         valid = true;
         if (!wasReaded) {
-            valid = read();
+            valid = readContent();
         }
     }
     return content;
@@ -138,7 +138,7 @@ FevalFutureObject::getID()
 }
 //=============================================================================
 bool
-FevalFutureObject::read()
+FevalFutureObject::readContent()
 {
     if (future.valid()) {
         content = future.get();
@@ -256,7 +256,7 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         switch (this->state) {
         case THREAD_STATE::FINISHED:
         case THREAD_STATE::FAILED: {
-            read();
+            readContent();
             Exception e = std::get<1>(content);
             result = ExceptionToArrayOf(e);
         } break;

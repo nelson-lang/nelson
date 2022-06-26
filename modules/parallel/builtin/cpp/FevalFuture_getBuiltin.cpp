@@ -29,7 +29,6 @@ Nelson::ParallelGateway::FevalFuture_getBuiltin(int nLhs, const ArrayOfVector& a
 
     auto* ptr = (nelson_handle*)param1.getDataPointer();
     indexType nbElements = param1.getElementCount();
-    std::wstring category = L"handle";
     if (nbElements > 0) {
         for (indexType k = 0; k < nbElements; k++) {
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
