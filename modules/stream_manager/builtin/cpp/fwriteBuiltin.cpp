@@ -82,7 +82,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 Error(_W("Type not supported."));
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
-                Error(_W("Memory allocation error... You may have run out of memory!"));
+                Error(ERROR_MEMORY_ALLOCATION);
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {

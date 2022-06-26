@@ -429,9 +429,7 @@ ArrayOf::toOrdinalType()
         dp = dp->putData(NLS_UINT32, dp->getDimensions(), lp);
 #endif
     } break;
-    case NLS_GO_HANDLE: {
-        Error(_W("Cannot convert handle arrays to indices."));
-    } break;
+    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
         Error(_W("Cannot convert handle arrays to indices."));
     } break;
@@ -565,7 +563,7 @@ ArrayOf::getDataPointer() const
 void
 ArrayOf::ensureSingleOwner()
 {
-    if (dp->numberOfOwners() > 1) {
+    if (dp != nullptr && dp->numberOfOwners() > 1) {
         if (!dp->sparse) {
             std::string currentStructType = dp->getStructTypeName();
             void* np = allocateArrayOf(dp->dataClass, getElementCount(), dp->fieldNames, false);
@@ -755,7 +753,6 @@ ArrayOf::getElementSize() const
     }
     switch (dp->dataClass) {
     case NLS_GO_HANDLE:
-        return sizeof(nelson_handle);
     case NLS_HANDLE:
         return sizeof(nelson_handle);
     case NLS_STRING_ARRAY:

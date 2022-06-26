@@ -80,14 +80,21 @@ classnameComHandle(ComHandleObject* comHandle, std::wstring& classname)
 void
 classnameComHandle(const ArrayOf& A, std::wstring& classname)
 {
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+    classname = L"handle";
+    wstringVector classnames;
+    classnameComHandle(A, classnames);
+    std::wstring common;
+    for (size_t k = 0; k < classnames.size(); ++k) {
+
+        if (k == 0) {
+            common = classnames[0];
+        } else {
+            if (common != classnames[1]) {
+                return;
+            }
+        }
     }
-    auto* comhandleobj = (ComHandleObject*)hlObj;
-    if (comhandleobj) {
-        classnameComHandle(comhandleobj, classname);
-    }
+    classname = common;
 }
 //=============================================================================
 void

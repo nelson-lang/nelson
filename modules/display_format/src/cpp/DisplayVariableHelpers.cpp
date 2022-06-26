@@ -243,7 +243,7 @@ buildHeader(const ArrayOf& A)
             return msg;
         } break;
         case NLS_HANDLE: {
-            if (A.isScalar()) {
+            if (A.getDataPointer() != nullptr) {
                 typeAsText = typeAsText + L" [" + A.getHandleCategory() + L"]";
             }
         } break;

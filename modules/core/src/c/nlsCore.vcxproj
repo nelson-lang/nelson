@@ -191,6 +191,7 @@
     <ClInclude Include="..\include\NargOut.hpp" />
     <ClInclude Include="..\include\NelsonSHA256.hpp" />
     <ClInclude Include="..\include\Nelson_VERSION.h" />
+    <ClInclude Include="..\include\Pause.hpp" />
     <ClInclude Include="..\include\VersionCompilerFlags.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +237,7 @@
     <ClCompile Include="..\cpp\NargIn.cpp" />
     <ClCompile Include="..\cpp\NargOut.cpp" />
     <ClCompile Include="..\cpp\NelsonSHA256.cpp" />
+    <ClCompile Include="..\cpp\Pause.cpp" />
     <ClCompile Include="..\cpp\VersionCompilerFlags.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

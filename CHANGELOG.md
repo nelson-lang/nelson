@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 0.6.X (UNRELEASED)
+## 0.6.6 (UNRELEASED)
 
 ### Added
+
+- Parallel functions (part 1):
+
+  - `parfeval`: Run function on parallel background thread pool worker.
+  - `backgroundPool`: Environment for running code in the background.
+  - `fetchOutputs`: Retrieve results from function running in the background.
 
 - [#666](http://github.com/Nelson-numerical-software/nelson/issues/666): `ls` function: List folder contents.
 
@@ -19,6 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#662](http://github.com/Nelson-numerical-software/nelson/issues/662): Snap uses Core22 and Qt6 (all dependencies are up-to-date).
 
 - [#668](http://github.com/Nelson-numerical-software/nelson/issues/668): `maxNumCompThreads` detects numbers of physical cores on Windows.
+
+- matrix of handles supported.
 
 ### Fixed
 

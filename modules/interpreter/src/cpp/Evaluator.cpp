@@ -1739,30 +1739,26 @@ void
 Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
 {
     uint64 ticProfiling = Profiler::getInstance()->tic();
-    bool isHandle = false;
     ArrayOf b = expression(t->right);
     std::string variableName = t->text;
     if (t->down != nullptr) {
         b = assignExpression(t, b);
-        isHandle = b.isHandle();
     }
-    if (!isHandle) {
-        ArrayOf* var = context->lookupVariable(variableName);
-        if (var == nullptr) {
-            b.ensureSingleOwner();
-            bool bInserted = context->insertVariable(variableName, b);
-            if (!bInserted) {
-                if (IsValidVariableName(variableName, true)) {
-                    Error(_W("Redefining permanent variable."));
-                }
-                Error(_W("Valid variable name expected."));
-            }
-        } else {
-            if (context->isLockedVariable(variableName)) {
+    ArrayOf* var = context->lookupVariable(variableName);
+    if (var == nullptr) {
+        b.ensureSingleOwner();
+        bool bInserted = context->insertVariable(variableName, b);
+        if (!bInserted) {
+            if (IsValidVariableName(variableName, true)) {
                 Error(_W("Redefining permanent variable."));
             }
-            var->setValue(b);
+            Error(_W("Valid variable name expected."));
         }
+    } else {
+        if (context->isLockedVariable(variableName)) {
+            Error(_W("Redefining permanent variable."));
+        }
+        var->setValue(b);
     }
     if (printIt) {
         OverloadDisplay(this, b, utf8_to_wstring(variableName), false);
@@ -2962,7 +2958,7 @@ Evaluator::functionExpression(
                         try {
                             keywordNdx = new int[keywords.size()];
                         } catch (std::bad_alloc&) {
-                            Error(_W("Memory allocation."));
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         int maxndx;
                         maxndx = 0;
@@ -4373,7 +4369,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     }
     std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        Error(_W("Function not found."));
+        Error(_("Function not found: ") + functionNameGetHandle);
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         Error(_W("Type function not valid."));

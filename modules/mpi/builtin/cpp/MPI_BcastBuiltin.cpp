@@ -47,7 +47,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             free(cp);
             retval << A;
         } else {
-            Error(_W("Memory allocation."));
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     } else {
         int msgsize = 0;
@@ -59,7 +59,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << unpackMPI(cp, msgsize, &packpos, comm);
             free(cp);
         } else {
-            Error(_W("Memory allocation."));
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     }
     return retval;

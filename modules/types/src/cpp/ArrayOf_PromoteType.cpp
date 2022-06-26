@@ -253,15 +253,16 @@ promoteComplexAsInteger(NelsonType dstClass, const TIN* ptr, indexType count)
 void
 ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
 {
-    if (isEmpty()) {
-        dp = dp->putData(dstClass, dp->dimensions, nullptr, isSparse(), fNames);
-        return;
-    }
-    if (dp->dataClass != dstClass) {
+    if (dp->dataClass != dstClass && !isEmpty()) {
         if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
             || (dstClass == NLS_STRUCT_ARRAY)) {
             Error(_W("Cannot convert base types to reference types."));
         }
+    }
+
+    if (isEmpty()) {
+        dp = dp->putData(dstClass, dp->dimensions, nullptr, isSparse(), fNames);
+        return;
     }
     // Do nothing for promoting to same class (no-op).
     if (isSparse()) {
@@ -279,7 +280,12 @@ ArrayOf::promoteType(NelsonType dstClass, stringVector fNames)
             return;
         }
         Error(_W("Cannot convert handle-arrays to any other type."));
-
+    } break;
+    case NLS_GO_HANDLE: {
+        if (dstClass == NLS_GO_HANDLE) {
+            return;
+        }
+        Error(_W("Cannot convert graphic handle-arrays to any other type."));
     } break;
     case NLS_CELL_ARRAY: {
         if (dstClass == NLS_CELL_ARRAY) {

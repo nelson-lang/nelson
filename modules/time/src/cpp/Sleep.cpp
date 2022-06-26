@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/chrono/chrono.hpp>
-#include <boost/thread/thread.hpp>
+#include <chrono>
+#include <thread>
 #include <cmath>
 #include "Sleep.hpp"
 #include "NelsonConfiguration.hpp"
@@ -19,7 +19,7 @@ namespace Nelson {
 void
 SleepSeconds(uint64 tValue)
 {
-    boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
+    std::this_thread::sleep_for(std::chrono::seconds(tValue));
 }
 //=============================================================================
 bool
@@ -28,20 +28,20 @@ Sleep(Evaluator* eval, double tValue)
     if (tValue > 0) {
         if (std::isinf(tValue)) {
             while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
-                boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
+                std::this_thread::sleep_for(std::chrono::milliseconds(uint64(10)));
                 if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
             }
         } else {
-            boost::chrono::nanoseconds begin_time
-                = boost::chrono::high_resolution_clock::now().time_since_epoch();
+            std::chrono::nanoseconds begin_time
+                = std::chrono::high_resolution_clock::now().time_since_epoch();
             bool bContinue = true;
             do {
-                boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
-                boost::chrono::nanoseconds current_time
-                    = boost::chrono::high_resolution_clock::now().time_since_epoch();
-                boost::chrono::nanoseconds difftime = (current_time - begin_time);
+                std::this_thread::sleep_for(std::chrono::nanoseconds(uint64(10)));
+                std::chrono::nanoseconds current_time
+                    = std::chrono::high_resolution_clock::now().time_since_epoch();
+                std::chrono::nanoseconds difftime = (current_time - begin_time);
                 bContinue = !(difftime.count() > int64(tValue * 1e9));
                 if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
