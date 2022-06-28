@@ -23,7 +23,6 @@ compression: lzo
 architectures:
   - build-on: amd64
 
-
 plugs:
   gtk-3-themes:
     interface: content
@@ -50,7 +49,7 @@ parts:
     source: https://github.com/Nelson-numerical-software/nelson
     source-type: git
     source-branch: master
- 
+
     override-build: |
       craftctl default
 
@@ -67,11 +66,15 @@ parts:
       DESTDIR=$CRAFT_PART_INSTALL cmake --build . -- install
       #ln -sf libpsm_infinipath.so.1.16 $CRAFT_PART_INSTALL/usr/lib/libpsm1/libpsm_infinipath.so.1
       ln -s mpiexec.openmpi $CRAFT_PART_INSTALL/usr/bin/mpiexec
-    
+
       craftctl set grade=stable
       craftctl set version=0.6.6.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
+
+    override-prime: |
+      snapcraftctl prime
+      rm -vf usr/lib/x86_64-linux-gnu/libc_malloc_debug.so
 
     build-packages:
       - build-essential
@@ -87,7 +90,7 @@ parts:
       - libffi-dev
       - libicu-dev
       - libxml2-dev
-      - libblas-dev  
+      - libblas-dev
       - liblapack-dev
       - liblapacke-dev
       - fftw3-dev
@@ -98,20 +101,21 @@ parts:
       - alsa-utils
       - libslicot-dev
       - libsqlite3-dev
-      - libgl-dev
+      - libgl1
       - hdf5-tools
       - zlib1g-dev
       - libcurl4-openssl-dev
       - libgit2-dev
       - libeigen3-dev
-      - libmatio-dev      
+      - libmatio-dev
       - libboost-all-dev
       - libsqlite3-dev
       - qt6-base-dev
-      - libqt6svg6-dev
+      - libqt6svg6
       - libqt6sql6
       - libqt6sql6-mysql
       - libqt6sql6-sqlite
+      - libqt6quick6
       - libqt6opengl6-dev
       - qt6-declarative-dev
       - qt6-documentation-tools
@@ -127,46 +131,62 @@ parts:
       - cmake
 
     stage-packages:
+      - libc6
       - build-essential
       - locales-all
-      - libopenmpi-dev
-      - autotools-dev
+      - libopenmpi3
       - libtool
       - automake
       - openmpi-bin
       - gettext
       - pkg-config
-      - libffi-dev
-      - libicu-dev
-      - libxml2-dev
-      - libblas-dev  
-      - liblapack-dev
-      - liblapacke-dev
-      - fftw3-dev
+      - libffi7
+      - libxml2
+      - libblas3
+      - liblapack3
+      - liblapacke
+      - fftw3
       - libasound2-data
-      - libasound-dev
-      - portaudio19-dev
-      - libsndfile1-dev
-      - libtag1-dev
+      - libasound2
+      - libportaudio2
+      - libsndfile1
+      - libtag1v5
       - alsa-utils
-      - libslicot-dev
-      - libsqlite3-dev
-      - libgl-dev
+      - libslicot0
+      - libsqlite3-0
+      - libgl1
       - hdf5-tools
-      - zlib1g-dev
-      - libcurl4-openssl-dev
-      - libgit2-dev
-      - libeigen3-dev
-      - libmatio-dev      
-      - libboost-all-dev
-      - libsqlite3-dev
-      - qt6-base-dev
-      - libqt6svg6-dev
+      - zlib1g
+      - libicu70
+      - libcurl4
+      - libgit2-1.1
+      - libmatio11
+      - libqt6concurrent6
+      - libqt6core6
+      - libqt6dbus6
+      - libqt6gui6
+      - libqt6network6
+      - libqt6openglwidgets6
+      - libqt6printsupport6
       - libqt6sql6
       - libqt6sql6-mysql
       - libqt6sql6-sqlite
-      - libqt6opengl6-dev
-      - qt6-declarative-dev
+      - libqt6test6
+      - libqt6widgets6
+      - libqt6xml6
+      - qt6-qpa-plugins
+      - libqt6svg6
+      - libqt6quick6
+      - libqt63dquick6
+      - libqt6qml6
+      - libqt6qmlmodels6
+      - qt6-base-abi
+      - libqt6quickdialogs2-6
+      - libqt6quickcontrols2impl6
+      - libqt6quickdialogs2-6
+      - libqt6quickdialogs2quickimpl6
+      - libqt6quicklayouts6
+      - libqt6quickparticles6
       - qt6-documentation-tools
       - qml6-module-qtquick
       - qml6-module-qtquick-templates
@@ -175,10 +195,16 @@ parts:
       - qml6-module-qtquick-dialogs
       - qml6-module-qtqml-workerscript
       - qml6-module-qtquick-layouts
-      - qt6-tools-dev
       - qmlscene
       - cmake
-  
+      - libboost-chrono1.74.0
+      - libboost-date-time1.74.0
+      - libboost-filesystem1.74.0
+      - libboost-iostreams1.74.0
+      - libboost-locale1.74.0
+      - libboost-regex1.74.0
+      - libboost-serialization1.74.0
+      - libboost-thread1.74.0
 
 apps:
   nelson:
@@ -196,10 +222,10 @@ apps:
 
     plugs: &plugs
       - alsa
-      - jack1    
+      - jack1
       - audio-playback
       - audio-record
-      - pulseaudio      
+      - pulseaudio
       - desktop
       - desktop-legacy
       - home
@@ -229,7 +255,7 @@ layout:
 
   # Dynamic link (used for external modules and mex)
   /usr/include:
-    bind: $SNAP/usr/include  
+    bind: $SNAP/usr/include
   /usr/lib/x86_64-linux-gnu/libc_nonshared.a:
     symlink: $SNAP/usr/lib/x86_64-linux-gnu/libc_nonshared.a
   /usr/lib/x86_64-linux-gnu/libmvec_nonshared.a:
@@ -239,11 +265,11 @@ layout:
 
   # openmpi dependencies paths
   #/usr/share/openmpi:
-    #symlink: $SNAP/usr/share/openmpi
+  #symlink: $SNAP/usr/share/openmpi
   #/etc/openmpi:
-    #bind: $SNAP/etc/openmpi
+  #bind: $SNAP/etc/openmpi
   #/usr/lib/x86_64-linux-gnu/openmpi:
-    #bind: $SNAP/usr/lib/x86_64-linux-gnu/openmpi
+  #bind: $SNAP/usr/lib/x86_64-linux-gnu/openmpi
 
   #alsa
   /usr/lib/x86_64-linux-gnu/alsa-lib:
