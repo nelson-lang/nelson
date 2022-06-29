@@ -37,7 +37,7 @@
 <examples>
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>sequantial version</example_item_description>
+    <example_item_description>Sequential version</example_item_description>
     <example_item_data><![CDATA[
 tic()
 R1 = magic(5000);

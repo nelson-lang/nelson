@@ -101,19 +101,16 @@ ArrayOf::getHandleCategory() const
     if (qp == nullptr) {
         Error(_W("Expected a valid handle."));
     }
-
-    auto* ptr = (nelson_handle*)getDataPointer();
     indexType nbElements = getElementCount();
     std::wstring category = L"handle";
-    if (nbElements > 0) {
-        for (indexType k = 0; k < nbElements; k++) {
-            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
-            if (k == 0) {
-                category = hlObj->getCategory();
-            } else {
-                if (hlObj->getCategory() != category) {
-                    return L"handle";
-                }
+    /* handle can be 'handle' or another type but not mixed */
+    for (indexType k = 0; k < nbElements; k++) {
+        nelson_handle hl = qp[k];
+        HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj != nullptr) {
+            std::wstring current = hlObj->getCategory();
+            if (category != current && current != L"handle") {
+                category = std::move(current);
             }
         }
     }

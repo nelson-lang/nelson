@@ -20,6 +20,7 @@
 #include "FevalFuture_getBuiltin.hpp"
 #include "FevalFuture_usedBuiltin.hpp"
 #include "FevalFuture_deleteBuiltin.hpp"
+#include "FevalFuture_waitBuiltin.hpp"
 #include "FevalQueue_displayBuiltin.hpp"
 #include "FevalQueue_getBuiltin.hpp"
 #include "FevalQueue_usedBuiltin.hpp"
@@ -55,6 +56,8 @@ static const nlsGateway gateway[] = {
     { "FevalFuture_used", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_usedBuiltin, 1, 0 },
     { "FevalFuture_get", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_getBuiltin, 1, 2 },
     { "FevalFuture_delete", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_deleteBuiltin, 0, 1 },
+    { "wait", (ptrBuiltin)Nelson::ParallelGateway::FevalFuture_waitBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "fetchOutputs", (ptrBuiltin)Nelson::ParallelGateway::fetchOutputsBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "FevalQueue_display", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_displayBuiltin, 0, 2,

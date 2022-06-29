@@ -28,7 +28,7 @@ Sleep(Evaluator* eval, double tValue)
     if (tValue > 0) {
         if (std::isinf(tValue)) {
             while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(uint64(10)));
+                std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
                 if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
@@ -38,7 +38,7 @@ Sleep(Evaluator* eval, double tValue)
                 = std::chrono::high_resolution_clock::now().time_since_epoch();
             bool bContinue = true;
             do {
-                std::this_thread::sleep_for(std::chrono::nanoseconds(uint64(10)));
+                std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
                 std::chrono::nanoseconds current_time
                     = std::chrono::high_resolution_clock::now().time_since_epoch();
                 std::chrono::nanoseconds difftime = (current_time - begin_time);

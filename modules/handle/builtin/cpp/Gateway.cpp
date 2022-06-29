@@ -58,7 +58,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "ismethod", (ptrBuiltin)Nelson::HandleGateway::ismethodBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
-
     { "handle_vertcat_handle", (ptrBuiltin)Nelson::HandleGateway::handle_vertcat_handleBuiltin, 1,
         2 },
     { "handle_horzcat_handle", (ptrBuiltin)Nelson::HandleGateway::handle_horzcat_handleBuiltin, 1,

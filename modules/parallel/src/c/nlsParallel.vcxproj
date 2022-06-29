@@ -216,6 +216,7 @@
     <ClCompile Include="..\cpp\FevalFutureObject.cpp" />
     <ClCompile Include="..\cpp\FevalQueueObject.cpp" />
     <ClCompile Include="..\cpp\TimeHelpers.cpp" />
+    <ClCompile Include="..\cpp\WaitFutures.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +228,7 @@
     <ClInclude Include="..\include\FevalQueueObject.hpp" />
     <ClInclude Include="..\include\nlsParallel_exports.h" />
     <ClInclude Include="..\include\BS_thread_pool.hpp" />
+    <ClInclude Include="..\include\WaitFutures.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
