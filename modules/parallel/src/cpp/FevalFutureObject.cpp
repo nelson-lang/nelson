@@ -52,6 +52,15 @@ FevalFutureObject::setFuture(std::future<std::tuple<ArrayOfVector, Exception>> f
 }
 //=============================================================================
 void
+FevalFutureObject::displayOnOneLineEmpty(Interface* io, size_t index)
+{
+    std::wstring finishedDateTime = std::wstring(24, L' ');
+    std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
+        index, -1, L"unavailable", finishedDateTime, L"[]", L"");
+    io->outputMessage(message);
+}
+//=============================================================================
+void
 FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
 {
     if (io) {

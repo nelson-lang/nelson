@@ -234,7 +234,7 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     if (withEventsLoop) {
         do {
             ProcessEventsDynamicFunction();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
         } while (pool.get_tasks_running());
     } else {
         pool.wait_for_tasks();

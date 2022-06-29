@@ -49,6 +49,9 @@ public:
     void
     displayOnOneLine(Interface* io, size_t index);
 
+    static void
+    displayOnOneLineEmpty(Interface* io, size_t index);
+
     std::tuple<ArrayOfVector, Exception>
     get(bool& valid);
 

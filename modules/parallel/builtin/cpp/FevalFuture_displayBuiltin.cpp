@@ -52,9 +52,11 @@ Nelson::ParallelGateway::FevalFuture_displayBuiltin(
                     if (hlObj->getCategory() == FEVALFUTURE_CATEGORY_STR) {
                         auto* fevalFutureObject = (FevalFutureObject*)hlObj;
                         fevalFutureObject->displayOnOneLine(io, idx);
-                        idx++;
                     }
+                } else {
+                    FevalFutureObject::displayOnOneLineEmpty(io, idx);
                 }
+                idx++;
             }
         }
         DisplayVariableFooter(io, name.empty());

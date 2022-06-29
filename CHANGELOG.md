@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.X (UNRELEASED)
 
+### Added
+
+- Parallel functions (part 2):
+
+  - `wait`: Wait for futures to be completed.
+
 ### Changed
 
 - localization files `.pot`, `.po` updated.
