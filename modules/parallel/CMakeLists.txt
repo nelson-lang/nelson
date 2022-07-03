@@ -15,6 +15,7 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -29,6 +30,7 @@ add_library(${module_library_name} SHARED ${PARALLEL_SRC})
 # ==============================================================================
 target_link_libraries(${module_library_name} 
   nlsCharacters_encoding
+  nlsCore
   nlsError_manager
   nlsI18n
   nlsInterpreter
@@ -49,6 +51,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
@@ -101,6 +104,11 @@ install(
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
+  FILES_MATCHING
+  PATTERN "*.m")
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/functions
+  DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
   FILES_MATCHING
   PATTERN "*.m")
 # ==============================================================================

@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Parallel functions (part 2):
 
   - `wait`: Wait for futures to be completed.
+  - `Diary` property for `FevalFuture` object.
 
 ### Changed
 

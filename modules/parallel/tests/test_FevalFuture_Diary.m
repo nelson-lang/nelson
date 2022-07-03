@@ -7,13 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-p = str2func('pause');
-b = backgroundPool();
-NumWorkers = b.NumWorkers;
-for k = [1:(NumWorkers*2) + 2]
-    f(k) = parfeval(b, p, 0, 5);
-end
-R = {f.State};
-assert_istrue(iscellstr(R));
-assert_isequal(length(R), (NumWorkers*2) + 2);
+addpath([nelsonroot(), '/modules/parallel/tests/functions'])
+fptr = str2func('func_diary');
+f = parfeval(backgroundPool, fptr, 0, 5, 1000);
+R = f.Diary;
+assert_isequal(R, '')
+%=============================================================================
+sleep(6);
+R = f.Diary;
+assert_istrue(length(R) >= 8);
+%=============================================================================
+sleep(6);
+R = f.Diary;
+assert_istrue(length(R) >= 16);
 %=============================================================================
