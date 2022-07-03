@@ -7,13 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-p = str2func('pause');
-b = backgroundPool();
-NumWorkers = b.NumWorkers;
-for k = [1:(NumWorkers*2) + 2]
-    f(k) = parfeval(b, p, 0, 5);
+function func_diary(s, n)
+    for i = 1:n
+        pause(s)
+        disp(i)
+    end
 end
-R = {f.State};
-assert_istrue(iscellstr(R));
-assert_isequal(length(R), (NumWorkers*2) + 2);
 %=============================================================================

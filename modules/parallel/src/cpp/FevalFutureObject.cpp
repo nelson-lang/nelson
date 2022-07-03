@@ -36,7 +36,7 @@ FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
 {
     creationDateTime = getEpoch();
     propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"FinishDateTime",
-        L"RunningDuration", L"State", L"Error" };
+        L"RunningDuration", L"State", L"Error", L"Diary" };
     this->functionName = functionName;
     state = THREAD_STATE::UNAVAILABLE;
     _ID++;
@@ -115,7 +115,10 @@ FevalFutureObject::display(Interface* io)
 //=============================================================================
 FevalFutureObject::~FevalFutureObject()
 {
-
+    if (evaluateInterface) {
+        delete evaluateInterface;
+        evaluateInterface = nullptr;
+    }
     state = THREAD_STATE::UNAVAILABLE;
     creationDateTime = 0;
     startDateTime = 0;
@@ -229,7 +232,15 @@ FevalFutureObject::getStateAsString()
     return result;
 }
 //=============================================================================
-
+std::wstring
+FevalFutureObject::getDiary()
+{
+  if (evaluateInterface) {
+        return evaluateInterface->getOutputBuffer();
+  }
+  return L"";
+}
+//=============================================================================
 bool
 FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 {
@@ -238,6 +249,7 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         return true;
     }
     if (propertyName == L"Function") {
+        result = ArrayOf::functionHandleConstructor(this->functionName, L"");
         return true;
     }
     if (propertyName == L"CreateDateTime") {
@@ -276,6 +288,11 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
             result = ExceptionToArrayOf(e);
         } break;
         }
+        return true;
+    }
+
+    if (propertyName == L"Diary") { 
+        result = ArrayOf::characterArrayConstructor(getDiary());
         return true;
     }
 

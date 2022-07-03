@@ -16,6 +16,7 @@
 #include "Types.hpp"
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
+#include "EvaluateInterface.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -79,10 +80,14 @@ public:
     std::atomic<uint64> endDateTime;
     std::atomic<uint64> runningDuration;
 
+    EvaluateInterface* evaluateInterface;
     nelson_handle asNelsonHandle;
 
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
+
+    std::wstring
+    getDiary();
 
 private:
     bool

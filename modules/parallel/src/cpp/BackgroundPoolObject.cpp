@@ -14,6 +14,7 @@
 #include "FevalQueueObject.hpp"
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
+#include "EvaluateInterface.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -119,7 +120,7 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 }
 //=============================================================================
 static std::tuple<ArrayOfVector, Exception>
-FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
+FunctionEvalInternal(FunctionDef* fptr, EvaluateInterface *evaluatorIO, int nLhs, const ArrayOfVector& argIn,
     std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
     std::atomic<uint64>* endRunningDate)
 {
@@ -128,7 +129,8 @@ FunctionEvalInternal(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn,
     *endRunningDate = (uint64)0;
 
     Context* context = new Context;
-    Evaluator* eval = new Evaluator(context, nullptr, false);
+
+    Evaluator* eval = new Evaluator(context, evaluatorIO, false);
     ArrayOfVector retValues;
     THREAD_STATE finalState;
     Exception retException;
@@ -154,8 +156,17 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
     } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
+    EvaluateInterface *evaluatorIO = nullptr;
+    try {
+        evaluatorIO = new EvaluateInterface();
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+    retFuture->evaluateInterface = evaluatorIO;
     retFuture->state = THREAD_STATE::QUEUED;
-    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, nLhs, argIn,
+    retFuture->setFuture(
+        threadPool->submit(FunctionEvalInternal, fptr, evaluatorIO, nLhs,
+            argIn,
         &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
