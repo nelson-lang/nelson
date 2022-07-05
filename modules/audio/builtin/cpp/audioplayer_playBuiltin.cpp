@@ -75,8 +75,8 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
             if (eval->haveEventsLoop()) {
                 ProcessEventsDynamicFunctionWithoutWait();
             }
-        } while (
-            !NelsonConfiguration::getInstance()->getInterruptPending() && objPlayer->getRunning());
+        } while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())
+            && objPlayer->getRunning());
         objPlayer->stop();
     }
     return retval;

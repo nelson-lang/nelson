@@ -24,7 +24,7 @@ DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
@@ -32,15 +32,17 @@ DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& n
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
+Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplayLogical(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -56,12 +58,15 @@ DisplayLogical(Interface* io, const ArrayOf& A, const std::wstring& name, bool a
         }
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
         if (A.isSparse()) {
-            Display2dSparseLogical(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+            Display2dSparseLogical(
+                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         } else {
-            Display2dLogical(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+            Display2dLogical(
+                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         }
     } else {
-        DisplayNdLogical(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdLogical(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -72,7 +77,7 @@ DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
 {}
 //=============================================================================
 void
-Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -97,7 +102,7 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType block_page = 0;
     std::wstring buffer;
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
@@ -118,7 +123,7 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
         }
         for (indexType i = 0; i < rows && continueDisplay; i++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -164,7 +169,7 @@ Display2dLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -208,7 +213,8 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
             floor((termWidth - 1) / (static_cast<single>(lengthLogicalString))));
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-        for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending();
+        for (int k = 0;
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
              k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -228,7 +234,7 @@ DisplayNdLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending();
+                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
                      j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     std::wstring valueAsString;
@@ -267,8 +273,9 @@ DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& n
 {}
 //=============================================================================
 void
-Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType nbRows = A.getRows();
     indexType nbCols = A.getColumns();
@@ -291,12 +298,12 @@ Display2dSparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name
     size_t maxLenIndexString = indexAsString.length();
 
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             break;
         }
         for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
              ++it) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 break;
             }
             std::wstring asStr;

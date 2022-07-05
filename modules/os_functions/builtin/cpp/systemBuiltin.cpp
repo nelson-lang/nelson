@@ -41,7 +41,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         wstringVector commands = argIn[0].getContentAsWideStringVector(false);
         Dimensions outDims = argIn[0].getDimensions();
         std::vector<std::pair<int, std::wstring>> results
-            = ParallelSystemCommand(commands, eval->haveEventsLoop());
+            = ParallelSystemCommand(commands, eval->haveEventsLoop(), eval->getID());
         double* pdRes = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, commands.size());
         ArrayOf ret = ArrayOf(NLS_DOUBLE, outDims, pdRes);
         for (size_t k = 0; k < commands.size(); ++k) {
@@ -67,7 +67,8 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        std::pair<int, std::wstring> result = SystemCommand(cmd, eval->haveEventsLoop());
+        std::pair<int, std::wstring> result
+            = SystemCommand(cmd, eval->haveEventsLoop(), eval->getID());
         ArrayOf ret = ArrayOf::characterArrayConstructor(result.second);
         if (bEcho) {
             Interface* io = eval->getInterface();

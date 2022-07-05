@@ -48,7 +48,8 @@ OverloadDisplay(Evaluator* eval, const ArrayOf& a, const std::wstring& name, boo
     if (!bSuccess) {
         bool needToOverload;
         uint64 ticProfile = Profiler::getInstance()->tic();
-        DisplayVariable(eval->getInterface(), a, name, asDispBuiltin, needToOverload);
+        DisplayVariable(
+            eval->getID(), eval->getInterface(), a, name, asDispBuiltin, needToOverload);
         if (ticProfile != 0U) {
             internalProfileFunction stack
                 = computeProfileStack(eval, asDispBuiltin ? "disp" : "display", L"evaluator");

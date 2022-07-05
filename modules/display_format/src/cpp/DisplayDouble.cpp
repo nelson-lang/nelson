@@ -32,15 +32,16 @@ DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplayDouble(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -53,9 +54,9 @@ DisplayDouble(Interface* io, const ArrayOf& A, const std::wstring& name, bool as
     } else if (A.isScalar()) {
         DisplayScalarDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.is2D()) {
-        Display2dDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        Display2dDouble(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdDouble(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -90,7 +91,7 @@ DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
@@ -119,7 +120,7 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType block_page = 0;
     std::wstring buffer;
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
@@ -141,7 +142,7 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
 
         for (indexType i = 0; i < rows && continueDisplay; i++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -170,7 +171,7 @@ Display2dDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -201,7 +202,7 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         buffer.append(L"\n");
     }
     while (wdims.inside(dims)) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             break;
         }
         if (offset != 0) {
@@ -222,7 +223,7 @@ DisplayNdDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0; k < pageCount && continueDisplay; k++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }

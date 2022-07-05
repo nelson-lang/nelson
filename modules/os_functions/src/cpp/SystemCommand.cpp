@@ -54,7 +54,7 @@ static std::wstring
 readFile(const boost::filesystem::path& filePath);
 //=============================================================================
 static std::pair<int, std::wstring>
-internalSystemCommand(const std::wstring& command)
+internalSystemCommand(size_t evaluatorID, const std::wstring& command)
 {
     boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
     boost::filesystem::path tempOutputFile = pwd;
@@ -85,9 +85,9 @@ internalSystemCommand(const std::wstring& command)
             boost::process::std_err > tempErrorFile.generic_string().c_str(),
             boost::process::std_in < boost::process::null);
         bool wasTerminated = false;
-        while (
-            childProcess.running() && !NelsonConfiguration::getInstance()->getInterruptPending()) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        while (childProcess.running()
+            && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 childProcess.terminate();
                 wasTerminated = true;
                 break;
@@ -118,13 +118,13 @@ internalSystemCommand(const std::wstring& command)
 }
 //=============================================================================
 std::pair<int, std::wstring>
-SystemCommand(const std::wstring& command, bool withEventsLoop)
+SystemCommand(const std::wstring& command, bool withEventsLoop, size_t evaluatorID)
 {
     std::vector<std::pair<int, std::wstring>> results;
     wstringVector commands;
     commands.push_back(command);
 
-    results = ParallelSystemCommand(commands, withEventsLoop);
+    results = ParallelSystemCommand(commands, withEventsLoop, evaluatorID);
     return results[0];
 }
 //=============================================================================
@@ -217,7 +217,7 @@ ProcessEventsDynamicFunction()
 }
 //=============================================================================
 std::vector<std::pair<int, std::wstring>>
-ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
+ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop, size_t evaluatorID)
 {
     std::vector<std::pair<int, std::wstring>> results;
     int nbCommands = (int)commands.size();
@@ -229,7 +229,7 @@ ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop)
     std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
 
     for (int k = 0; k < nbCommands; k++) {
-        systemThreads[k] = pool.submit(internalSystemCommand, commands[k]);
+        systemThreads[k] = pool.submit(internalSystemCommand, evaluatorID, commands[k]);
     }
     if (withEventsLoop) {
         do {

@@ -18,10 +18,10 @@
 namespace Nelson {
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP std::pair<int, std::wstring>
-SystemCommand(const std::wstring& command, bool withLoopEvents);
+SystemCommand(const std::wstring& command, bool withLoopEvents, size_t evaluatorID);
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP std::vector<std::pair<int, std::wstring>>
-ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop);
+ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop, size_t evaluatorID);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

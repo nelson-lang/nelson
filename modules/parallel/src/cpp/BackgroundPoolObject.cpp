@@ -9,12 +9,11 @@
 //=============================================================================
 #include <tuple>
 #include "BackgroundPoolObject.hpp"
-#include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "FevalQueueObject.hpp"
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
-#include "EvaluateInterface.hpp"
+#include "ParallelEvaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -133,6 +132,9 @@ FunctionEvalInternal(FunctionDef* fptr, Evaluator* evaluator, int nLhs, const Ar
     try {
         retValues = fptr->evaluateFunction(evaluator, argIn, nLhs);
         finalState = THREAD_STATE::FINISHED;
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
+            retException = Exception("Interrupted");
+        }
     } catch (Exception& e) {
         retException = e;
         finalState = THREAD_STATE::FAILED;
@@ -153,19 +155,10 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
         Error(ERROR_MEMORY_ALLOCATION);
     }
 
-    Context* context = new Context;
-    EvaluateInterface* evaluatorIO = nullptr;
-    try {
-        evaluatorIO = new EvaluateInterface();
-    } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
-    }
-
-    Evaluator* evaluator = new Evaluator(context, evaluatorIO, false);
-    retFuture->evaluator = evaluator;
+    retFuture->evaluator = createParallelEvaluator();
     retFuture->state = THREAD_STATE::QUEUED;
-    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, evaluator, nLhs, argIn,
-        &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
+    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, retFuture->evaluator, nLhs,
+        argIn, &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
     nelson_handle* qp = (nelson_handle*)(result.getDataPointer());

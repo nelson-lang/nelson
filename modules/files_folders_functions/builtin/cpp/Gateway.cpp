@@ -33,7 +33,8 @@ const std::wstring gatewayName = L"files_folders_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "pwd", (ptrBuiltin)Nelson::FilesFoldersGateway::pwdBuiltin, 1, 0 },
-    { "dir", (ptrBuiltin)Nelson::FilesFoldersGateway::dirBuiltin, 1, 1 },
+    { "dir", (ptrBuiltin)Nelson::FilesFoldersGateway::dirBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "cd", (ptrBuiltin)Nelson::FilesFoldersGateway::cdBuiltin, 1, 1 },
     { "isdir", (ptrBuiltin)Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },
     { "isfolder", (ptrBuiltin)Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },

@@ -31,15 +31,16 @@ DisplayEmptyCell(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
 //=============================================================================
 static void
-Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayCell(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplayCell(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -50,9 +51,9 @@ DisplayCell(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDi
     if (A.isEmpty()) {
         DisplayEmptyCell(io, A, name, currentNumericFormat, currentLineSpacing);
     } else if (A.isScalar() || A.is2D()) {
-        Display2dCell(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        Display2dCell(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdCell(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdCell(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -65,7 +66,7 @@ DisplayEmptyCell(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     indexType rows = A.getRows();
@@ -99,7 +100,7 @@ Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
     std::wstring buffer;
 
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
@@ -120,7 +121,7 @@ Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
         }
         for (indexType i = 0; i < rows && continueDisplay; i++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -152,7 +153,7 @@ Display2dCell(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -197,7 +198,8 @@ DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
         indexType colsPerPage = getColsPerPage(vSize, termWidth);
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-        for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending();
+        for (int k = 0;
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
              k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -217,7 +219,7 @@ DisplayNdCell(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending();
+                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
                      j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;

@@ -16,6 +16,7 @@
 #include "MException.hpp"
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
+#include "ParallelEvaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -113,10 +114,7 @@ FevalFutureObject::display(Interface* io)
 //=============================================================================
 FevalFutureObject::~FevalFutureObject()
 {
-    if (evaluator) {
-        delete evaluator;
-        evaluator = nullptr;
-    }
+    evaluator = deleteParallelEvaluator(evaluator, cancel());
     state = THREAD_STATE::UNAVAILABLE;
     creationDateTime = 0;
     startDateTime = 0;
@@ -297,10 +295,26 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
     return false;
 }
 //=============================================================================
-void
-FevalFutureObject::cancel()
+bool
+FevalFutureObject::cancel(size_t timeoutSeconds)
 {
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
+    if (this->evaluator) {
+        this->evaluator->resetState();
+    }
+    std::chrono::nanoseconds begin_time
+        = std::chrono::high_resolution_clock::now().time_since_epoch();
+
+    while (this->state == THREAD_STATE::RUNNING || this->state == THREAD_STATE::QUEUED) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+        std::chrono::nanoseconds current_time
+            = std::chrono::high_resolution_clock::now().time_since_epoch();
+        std::chrono::nanoseconds difftime = (current_time - begin_time);
+        if (difftime.count() > int64(timeoutSeconds * 1e9)) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

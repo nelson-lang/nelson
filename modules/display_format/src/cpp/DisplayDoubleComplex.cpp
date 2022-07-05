@@ -33,15 +33,18 @@ DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
+Display2dDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
+DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplayDoubleComplex(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -54,9 +57,11 @@ DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, 
     } else if (A.isScalar()) {
         DisplayScalarDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.is2D() || A.isRowVector()) {
-        Display2dDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        Display2dDoubleComplex(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdDoubleComplex(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdDoubleComplex(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -83,8 +88,9 @@ DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
 }
 //=============================================================================
 void
-Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+Display2dDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
     const double* pValues = (const double*)A.getDataPointer();
@@ -114,7 +120,7 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     indexType block_page = 0;
     std::wstring buffer;
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
@@ -136,7 +142,7 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
         }
 
         for (indexType i = 0; i < rows && continueDisplay; i++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -167,8 +173,9 @@ Display2dDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
 }
 //=============================================================================
 void
-DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
     Dimensions dims = A.getDimensions();
@@ -195,7 +202,7 @@ DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
     indexType nominalWidth = getNominalWidth(formatInfo);
     const double* pValues = (const double*)A.getDataPointer();
     while (wdims.inside(dims)) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             break;
         }
         if (offset != 0) {
@@ -216,7 +223,7 @@ DisplayNdDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0; k < pageCount && continueDisplay; k++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }

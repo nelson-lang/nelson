@@ -9,15 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Interface.hpp"
-#include "nlsDisplay_format_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSDISPLAY_FORMAT_IMPEXP void
-DisplayString(
-    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp);
+Evaluator*
+createParallelEvaluator();
 //=============================================================================
-} // namespace Nelson
+Evaluator*
+deleteParallelEvaluator(Evaluator* evaluator, bool evaluatorWasCanceled);
+//=============================================================================
+}
 //=============================================================================

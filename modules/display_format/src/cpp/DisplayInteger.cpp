@@ -141,15 +141,16 @@ DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayInteger(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplayInteger(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -160,9 +161,11 @@ DisplayInteger(Interface* io, const ArrayOf& A, const std::wstring& name, bool a
     if (A.isEmpty()) {
         DisplayEmptyInteger(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
-        Display2dInteger(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        Display2dInteger(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdInteger(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdInteger(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -173,7 +176,7 @@ DisplayEmptyInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
 {}
 //=============================================================================
 void
-Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
@@ -201,7 +204,8 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
             = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+             k++) {
 
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -222,7 +226,8 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
                 io->outputMessage(msg);
             }
             for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
+                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                 i++) {
                 for (indexType j = 0; j < colsInThisPage; j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows;
                     std::wstring valueAsString
@@ -240,7 +245,7 @@ Display2dInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -274,7 +279,8 @@ DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
             (termWidth - 1) / (static_cast<single>(LENGTH_BLANKS_INTEGER_AT_BOL + nominalWidth))));
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-        for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending();
+        for (int k = 0;
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
              k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -294,7 +300,7 @@ DisplayNdInteger(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending();
+                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
                      j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     std::wstring valueAsString

@@ -41,7 +41,8 @@ Nelson::DisplayFormatGateway::generic_displayBuiltin(
         variableName = argIn[1].getContentAsWideString();
     }
     bool needToOverload;
-    DisplayVariable(eval->getInterface(), variable, variableName, false, needToOverload);
+    DisplayVariable(
+        eval->getID(), eval->getInterface(), variable, variableName, false, needToOverload);
     return retval;
 }
 //=============================================================================
