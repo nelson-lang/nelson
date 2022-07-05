@@ -16,8 +16,8 @@
 namespace Nelson {
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP void
-DisplayVariable(
-    Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp, bool& needToOverload);
+DisplayVariable(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
+    bool asDisp, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

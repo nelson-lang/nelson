@@ -18,7 +18,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     std::wstring wpath;
@@ -62,7 +62,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else {
             NelsonPrint("\n");
             for (auto& re : res) {
-                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())) {
                     break;
                 }
                 std::wstring filename;

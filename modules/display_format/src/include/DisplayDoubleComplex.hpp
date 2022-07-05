@@ -16,7 +16,8 @@
 namespace Nelson {
 //=============================================================================
 NLSDISPLAY_FORMAT_IMPEXP void
-DisplayDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp);
+DisplayDoubleComplex(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

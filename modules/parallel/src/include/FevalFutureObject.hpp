@@ -90,8 +90,8 @@ public:
     std::wstring
     getDiary();
 
-    void
-    cancel();
+    bool
+    cancel(size_t timeoutSeconds = 5);
 
 private:
     bool

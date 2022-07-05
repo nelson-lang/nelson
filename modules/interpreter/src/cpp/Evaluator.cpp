@@ -103,7 +103,7 @@ std::vector<endData> endStack;
 void
 sigInterrupt(int arg)
 {
-    NelsonConfiguration::getInstance()->setInterruptPending(true);
+    NelsonConfiguration::getInstance()->setInterruptPending(true, 0);
 }
 //=============================================================================
 void
@@ -1957,8 +1957,8 @@ Evaluator::block(AbstractSyntaxTreePtr t)
             resetState();
         }
         while ((state < NLS_STATE_QUIT) && s != nullptr) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                NelsonConfiguration::getInstance()->setInterruptPending(false);
+            if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
+                NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
                 Error(MSG_CTRL_C_DETECTED);
             }
             statement(s);
@@ -3875,7 +3875,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
 {
     AbstractSyntaxTreePtr tree = nullptr;
     ParserState parserState = ParseError;
-    NelsonConfiguration::getInstance()->setInterruptPending(false);
+    NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
     if (line.size() == 0) {
         return false;
     }
@@ -4178,7 +4178,7 @@ Evaluator::evalCLI()
                 while (!enoughInput) {
                     commandLine = io->getLine(L"");
                     if (commandLine == L"\n" || commandLine.empty()) {
-                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                             commandLine.clear();
                             return;
                         }

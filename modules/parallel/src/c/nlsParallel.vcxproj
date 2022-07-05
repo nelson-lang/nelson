@@ -218,11 +218,13 @@
     <ClCompile Include="..\cpp\FutureFetchOutputs.cpp" />
     <ClCompile Include="..\cpp\FevalFutureObject.cpp" />
     <ClCompile Include="..\cpp\FevalQueueObject.cpp" />
+    <ClCompile Include="..\cpp\ParallelEvaluator.cpp" />
     <ClCompile Include="..\cpp\TimeHelpers.cpp" />
     <ClCompile Include="..\cpp\WaitFutures.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\ParallelEvaluator.hpp" />
     <ClInclude Include="..\cpp\TimeHelpers.hpp" />
     <ClInclude Include="..\include\BackgroundPoolObject.hpp" />
     <ClInclude Include="..\include\DeleteGenericObject.hpp" />

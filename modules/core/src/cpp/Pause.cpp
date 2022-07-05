@@ -19,7 +19,7 @@ void
 Pause(Evaluator* eval, double seconds)
 {
     if (std::isinf(seconds)) {
-        while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
+        while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())) {
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             if (eval && eval->haveEventsLoop()) {
                 ProcessEventsDynamicFunctionWithoutWait();
@@ -40,7 +40,7 @@ Pause(Evaluator* eval, double seconds)
             if (eval != nullptr && eval->haveEventsLoop()) {
                 ProcessEventsDynamicFunctionWithoutWait();
             }
-        } while (!NelsonConfiguration::getInstance()->getInterruptPending()
+        } while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())
             && (static_cast<int>(bContinue) == true));
     }
 }

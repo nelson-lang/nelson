@@ -61,7 +61,7 @@ WaitFutures(Evaluator* eval, const std::vector<FevalFutureObject*>& fevalFutures
         if (!std::isinf(timeoutSeconds) && (difftime.count() > int64(timeoutSeconds * 1e9))) {
             return false;
         }
-        bool isInterrupted = NelsonConfiguration::getInstance()->getInterruptPending();
+        bool isInterrupted = NelsonConfiguration::getInstance()->getInterruptPending(eval->getID());
         if (isInterrupted) {
             return false;
         }

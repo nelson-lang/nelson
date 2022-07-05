@@ -385,13 +385,7 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
         return;
     } else if (event->matches(QKeySequence::Copy)) {
         if (!mCommandLineReady) {
-            if (eval == nullptr) {
-                void* veval = GetNelsonMainEvaluatorDynamicFunction();
-                eval = (Nelson::Evaluator*)veval;
-            }
-            if (eval) {
-                NelsonConfiguration::getInstance()->setInterruptPending(true);
-            }
+            NelsonConfiguration::getInstance()->setInterruptPending(true);
         }
     }
     if (isInEditionZone()) {
@@ -585,13 +579,7 @@ QtTerminal::clearLine()
 void
 QtTerminal::stopRun()
 {
-    if (eval == nullptr) {
-        void* veval = GetNelsonMainEvaluatorDynamicFunction();
-        eval = (Nelson::Evaluator*)veval;
-    }
-    if (eval) {
-        NelsonConfiguration::getInstance()->setInterruptPending(true);
-    }
+    NelsonConfiguration::getInstance()->setInterruptPending(true);
 }
 //=============================================================================
 void

@@ -75,7 +75,7 @@ SioClientCommand::createConnection(const std::string& ipAddress)
             sio::socket::event_listener_aux(
                 [&](std::string const& name, sio::message::ptr const& data, bool isAck,
                     sio::message::list& ack_resp) {
-                    NelsonConfiguration::getInstance()->setInterruptPending(true);
+                    NelsonConfiguration::getInstance()->setInterruptPending(true, 0);
                 }));
         _initialized = true;
         return true;

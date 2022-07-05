@@ -30,6 +30,12 @@ namespace Nelson {
 static bool bHaveEventsLoop = false;
 static std::unordered_map<std::string, std::string> unsafeCharacters;
 //=============================================================================
+struct WriteData
+{
+    FILE* fw;
+    size_t ID;
+};
+//=============================================================================
 static std::string
 protectCharacters(const std::string& str);
 static CURLcode
@@ -57,7 +63,7 @@ formEncode(
 std::wstring
 WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filename,
     const stringVector& names, const ArrayOfVector& values, WebOptions& options,
-    bool haveEventsLoop)
+    bool haveEventsLoop, size_t evaluatorID)
 {
     bool isWrite = !data.empty();
     std::wstring fullFilename;
@@ -194,7 +200,10 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         curl_easy_cleanup(curlObject);
         Error(msg);
     }
-    curlCode = curl_easy_setopt(curlObject, CURLOPT_WRITEDATA, fw);
+    WriteData writeData;
+    writeData.fw = fw;
+    writeData.ID = evaluatorID;
+    curlCode = curl_easy_setopt(curlObject, CURLOPT_WRITEDATA, &writeData);
     if (curlCode != CURLE_OK) {
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
@@ -390,8 +399,11 @@ setCurlURL(CURL* curlObject, const std::string& url)
 static size_t
 write_data(void* ptr, size_t size, size_t nmemb, void* stream)
 {
-    size_t written = fwrite(ptr, size, nmemb, static_cast<FILE*>(stream));
-    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+    WriteData* writeData = static_cast<WriteData*>(stream);
+    FILE* fw = writeData->fw;
+    size_t ID = writeData->ID;
+    size_t written = fwrite(ptr, size, nmemb, fw);
+    if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
         return 0;
     }
     if (bHaveEventsLoop) {

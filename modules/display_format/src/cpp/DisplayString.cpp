@@ -32,15 +32,16 @@ DisplayScalarString(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdString(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplayString(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplayString(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -53,9 +54,9 @@ DisplayString(Interface* io, const ArrayOf& A, const std::wstring& name, bool as
     } else if (A.isScalar()) {
         DisplayScalarString(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.is2D()) {
-        Display2dString(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        Display2dString(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdString(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdString(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -89,7 +90,7 @@ DisplayScalarString(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
@@ -99,8 +100,8 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
                 io->outputMessage(L"\n");
             }
         }
-        for (indexType k = 0;
-             k < A.getElementCount() && !NelsonConfiguration::getInstance()->getInterruptPending();
+        for (indexType k = 0; k < A.getElementCount()
+             && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
              ++k) {
             std::wstring msg;
             if (elements[k].isCharacterArray()) {
@@ -135,7 +136,8 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
 
         for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+             k++) {
 
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -156,7 +158,8 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
                 io->outputMessage(msg);
             }
             for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(); i++) {
+                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                 i++) {
                 for (indexType j = 0; j < colsInThisPage; j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
@@ -174,7 +177,7 @@ Display2dString(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdString(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -216,7 +219,8 @@ DisplayNdString(Interface* io, const ArrayOf& A, const std::wstring& name,
         indexType colsPerPage = getColsPerPage(vSize, termWidth);
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
-        for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending();
+        for (int k = 0;
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
              k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -236,7 +240,7 @@ DisplayNdString(Interface* io, const ArrayOf& A, const std::wstring& name,
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending();
+                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
                      j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;

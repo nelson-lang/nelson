@@ -25,9 +25,10 @@ SleepSeconds(uint64 tValue)
 bool
 Sleep(Evaluator* eval, double tValue)
 {
+    size_t ID = eval->getID();
     if (tValue > 0) {
         if (std::isinf(tValue)) {
-            while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
+            while (!NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
                 if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
@@ -46,7 +47,7 @@ Sleep(Evaluator* eval, double tValue)
                 if (eval != nullptr && eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
-            } while (!NelsonConfiguration::getInstance()->getInterruptPending()
+            } while (!NelsonConfiguration::getInstance()->getInterruptPending(ID)
                 && (static_cast<int>(bContinue) == true));
         }
     }

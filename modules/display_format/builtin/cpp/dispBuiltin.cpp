@@ -31,7 +31,7 @@ Nelson::DisplayFormatGateway::generic_dispBuiltin(
     ArrayOfVector retval;
     ArrayOf variable = argIn[0];
     bool needToOverload;
-    DisplayVariable(eval->getInterface(), variable, L"", true, needToOverload);
+    DisplayVariable(eval->getID(), eval->getInterface(), variable, L"", true, needToOverload);
     return retval;
 }
 //=============================================================================

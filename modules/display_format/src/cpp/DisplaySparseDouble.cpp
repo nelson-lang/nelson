@@ -26,7 +26,7 @@ DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& na
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
@@ -34,7 +34,8 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplaySparseDouble(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -49,7 +50,8 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name, b
             DisplaySparseDoubleScalar(
                 io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         } else {
-            DisplaySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+            DisplaySparseDouble(
+                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         }
     }
     DisplayVariableFooter(io, asDisp);
@@ -94,7 +96,7 @@ DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& n
 }
 //=============================================================================
 static void
-DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     if (A.getNonzeros() == 0) {
@@ -135,13 +137,13 @@ DisplaySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     std::wstring buffer;
 
     for (indexType k = 0; k < (indexType)spMat->outerSize() && continueDisplay; ++k) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
         for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
              it && continueDisplay; ++it) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }

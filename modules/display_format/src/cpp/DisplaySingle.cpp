@@ -33,15 +33,16 @@ DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dSingle(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdSingle(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplaySingle(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -57,9 +58,9 @@ DisplaySingle(Interface* io, const ArrayOf& A, const std::wstring& name, bool as
     } else if (A.isScalar()) {
         DisplayScalarSingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.is2D()) {
-        Display2dSingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        Display2dSingle(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        DisplayNdSingle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+        DisplayNdSingle(evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     }
     DisplayVariableFooter(io, asDisp);
 }
@@ -86,7 +87,7 @@ DisplayScalarSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
+Display2dSingle(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     Dimensions dims = A.getDimensions();
@@ -115,7 +116,7 @@ Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType block_page = 0;
     std::wstring buffer;
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
@@ -137,7 +138,7 @@ Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
 
         for (indexType i = 0; i < rows && continueDisplay; i++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -166,7 +167,7 @@ Display2dSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
 }
 //=============================================================================
 void
-DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplayNdSingle(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
@@ -194,7 +195,7 @@ DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
     indexType nominalWidth = getNominalWidth(formatInfo);
     const single* pValues = (const single*)A.getDataPointer();
     while (wdims.inside(dims)) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             break;
         }
         if (offset != 0) {
@@ -215,7 +216,7 @@ DisplayNdSingle(Interface* io, const ArrayOf& A, const std::wstring& name,
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0; k < pageCount && continueDisplay; k++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }

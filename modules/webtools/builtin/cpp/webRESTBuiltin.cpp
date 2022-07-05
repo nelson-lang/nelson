@@ -63,8 +63,10 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(_W("Wrong type for argument #5. weboptions object expected."));
     }
     WebOptions options(param5);
+    bool haveEventsLoop = eval->haveEventsLoop();
+    size_t evaluatorID = eval->getID();
     std::wstring fullFilename
-        = WebREST(url, data, filename, names, values, options, eval->haveEventsLoop());
+        = WebREST(url, data, filename, names, values, options, haveEventsLoop, evaluatorID);
     retval << ArrayOf::characterArrayConstructor(fullFilename);
     return retval;
 }

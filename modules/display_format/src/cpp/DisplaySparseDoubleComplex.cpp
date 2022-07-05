@@ -26,15 +26,17 @@ DisplayEmptySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstr
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
+DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
-DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
+DisplaySparseDoubleComplex(
+    size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name, bool asDisp)
 {
     NumericFormatDisplay currentNumericFormat
         = NelsonConfiguration::getInstance()->getNumericFormatDisplay();
@@ -51,7 +53,7 @@ DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
                 io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         } else {
             DisplaySparseDoubleComplex(
-                io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
         }
     }
     DisplayVariableFooter(io, asDisp);
@@ -98,8 +100,9 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
 }
 //=============================================================================
 static void
-DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
+    const std::wstring& name, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     if (A.getNonzeros() == 0) {
         std::wstring format = _W("All zero sparse: %s");
@@ -141,14 +144,14 @@ DisplaySparseDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
     std::wstring buffer;
 
     for (indexType k = 0; k < (indexType)spMat->outerSize() && continueDisplay; ++k) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
         for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
                  *spMat, k);
              it && continueDisplay; ++it) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }

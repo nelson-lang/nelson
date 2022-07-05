@@ -937,7 +937,7 @@ void
 QtTextEditor::stopRun()
 {
     if (!nlsEvaluator->getInterface()->isAtPrompt()) {
-        NelsonConfiguration::getInstance()->setInterruptPending(true);
+        NelsonConfiguration::getInstance()->setInterruptPending(true, nlsEvaluator->getID());
     }
 }
 //=============================================================================
