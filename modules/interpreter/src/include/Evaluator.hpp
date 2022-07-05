@@ -106,6 +106,9 @@ class NLSINTERPRETER_IMPEXP Evaluator
     bool overloadOnBasicTypes = false;
 
 public:
+    size_t
+    getID();
+
     std::vector<std::wstring> evaluatedFilenames;
 
     bool isReadyToUse = false;
@@ -863,6 +866,8 @@ private:
     needToOverloadOperator(const ArrayOf& a);
 
     bool _haveEventsLoop;
+
+    size_t ID;
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

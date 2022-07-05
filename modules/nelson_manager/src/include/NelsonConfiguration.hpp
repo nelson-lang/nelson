@@ -14,6 +14,7 @@
 #endif
 //=============================================================================
 #include <string>
+#include <map>
 #include "nlsNelson_manager_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -49,9 +50,9 @@ public:
     getInstance();
     //=============================================================================
     bool
-    getInterruptPending();
+    getInterruptPending(size_t evaluatorID = 0);
     bool
-    setInterruptPending(bool bInterruptPending);
+    setInterruptPending(bool bInterruptPending, size_t evaluatorID = 0);
     //=============================================================================
     NumericFormatDisplay
     setNumericFormatDisplay(NumericFormatDisplay desiredNumericFormatDisplay);
@@ -128,7 +129,7 @@ private:
     /**
      * Pending control-C
      */
-    bool InterruptPending;
+    std::map<size_t, bool> InterruptPending;
     //=============================================================================
     /**
      * Current numeric format

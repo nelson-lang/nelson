@@ -15,10 +15,9 @@
 #include "characters_encoding.hpp"
 #include "MException.hpp"
 #include "TimeHelpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static size_t _ID = 0;
 //=============================================================================
 bool
 FevalFutureObject::isMethod(const std::wstring& methodName)
@@ -39,8 +38,6 @@ FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
         L"RunningDuration", L"State", L"Error", L"Diary" };
     this->functionName = functionName;
     state = THREAD_STATE::UNAVAILABLE;
-    _ID++;
-    this->ID = _ID;
     wasReaded = false;
     content = std::make_tuple<ArrayOfVector, Exception>(ArrayOfVector(), Exception());
 }
@@ -75,7 +72,7 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
             errorString = e.getMessage();
         }
         std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
-            index, this->getID(), this->getStateAsString(), finishedDateTime,
+            index, this->evaluator->getID(), this->getStateAsString(), finishedDateTime,
             L"@" + this->functionName, errorString);
         io->outputMessage(message);
     }
@@ -86,7 +83,8 @@ FevalFutureObject::display(Interface* io)
 {
 #define BLANKS_AT_BOL std::wstring(L"   ")
     if (io) {
-        io->outputMessage(BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->ID) + L"\n");
+        io->outputMessage(
+            BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->evaluator->getID()) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"Function: " + L"@" + this->functionName + L"\n");
         std::wstring stateString = getStateAsString();
         std::wstring errorString = L"none";
@@ -115,9 +113,9 @@ FevalFutureObject::display(Interface* io)
 //=============================================================================
 FevalFutureObject::~FevalFutureObject()
 {
-    if (evaluateInterface) {
-        delete evaluateInterface;
-        evaluateInterface = nullptr;
+    if (evaluator) {
+        delete evaluator;
+        evaluator = nullptr;
     }
     state = THREAD_STATE::UNAVAILABLE;
     creationDateTime = 0;
@@ -125,7 +123,6 @@ FevalFutureObject::~FevalFutureObject()
     endDateTime = 0;
     runningDuration = 0;
     asNelsonHandle = 0;
-    ID = 0;
     functionName.clear();
     wasReaded = false;
 }
@@ -146,7 +143,7 @@ FevalFutureObject::get(bool& valid)
 size_t
 FevalFutureObject::getID()
 {
-    return ID;
+    return evaluator->getID();
 }
 //=============================================================================
 bool
@@ -235,17 +232,18 @@ FevalFutureObject::getStateAsString()
 std::wstring
 FevalFutureObject::getDiary()
 {
-  if (evaluateInterface) {
+    if (evaluator) {
+        EvaluateInterface* evaluateInterface = (EvaluateInterface*)evaluator->getInterface();
         return evaluateInterface->getOutputBuffer();
-  }
-  return L"";
+    }
+    return L"";
 }
 //=============================================================================
 bool
 FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 {
     if (propertyName == L"ID") {
-        result = ArrayOf::doubleConstructor((double)this->ID);
+        result = ArrayOf::doubleConstructor((double)this->evaluator->getID());
         return true;
     }
     if (propertyName == L"Function") {
@@ -291,12 +289,18 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
         return true;
     }
 
-    if (propertyName == L"Diary") { 
+    if (propertyName == L"Diary") {
         result = ArrayOf::characterArrayConstructor(getDiary());
         return true;
     }
 
     return false;
+}
+//=============================================================================
+void
+FevalFutureObject::cancel()
+{
+    NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
 }
 //=============================================================================
 } // namespace Nelson

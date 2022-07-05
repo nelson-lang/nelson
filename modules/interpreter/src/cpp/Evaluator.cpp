@@ -83,6 +83,8 @@
 #endif
 namespace Nelson {
 //=============================================================================
+static size_t counterIDs = 0;
+//=============================================================================
 /**
  * Stores the current array for which to apply the "end" expression to.
  */
@@ -3814,8 +3816,16 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
     return rv;
 }
 //=============================================================================
+size_t
+Evaluator::getID()
+{
+    return ID;
+}
+//=============================================================================
 Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLoop)
 {
+    ID = counterIDs;
+    counterIDs++;
     Exception e;
     lastErrorException = e;
     lastWarningException = e;

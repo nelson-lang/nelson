@@ -120,22 +120,18 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 }
 //=============================================================================
 static std::tuple<ArrayOfVector, Exception>
-FunctionEvalInternal(FunctionDef* fptr, EvaluateInterface *evaluatorIO, int nLhs, const ArrayOfVector& argIn,
+FunctionEvalInternal(FunctionDef* fptr, Evaluator* evaluator, int nLhs, const ArrayOfVector& argIn,
     std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
     std::atomic<uint64>* endRunningDate)
 {
     *s = THREAD_STATE::RUNNING;
     *startRunningDate = getEpoch();
     *endRunningDate = (uint64)0;
-
-    Context* context = new Context;
-
-    Evaluator* eval = new Evaluator(context, evaluatorIO, false);
     ArrayOfVector retValues;
     THREAD_STATE finalState;
     Exception retException;
     try {
-        retValues = fptr->evaluateFunction(eval, argIn, nLhs);
+        retValues = fptr->evaluateFunction(evaluator, argIn, nLhs);
         finalState = THREAD_STATE::FINISHED;
     } catch (Exception& e) {
         retException = e;
@@ -156,17 +152,19 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
     } catch (std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-    EvaluateInterface *evaluatorIO = nullptr;
+
+    Context* context = new Context;
+    EvaluateInterface* evaluatorIO = nullptr;
     try {
         evaluatorIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
-    retFuture->evaluateInterface = evaluatorIO;
+
+    Evaluator* evaluator = new Evaluator(context, evaluatorIO, false);
+    retFuture->evaluator = evaluator;
     retFuture->state = THREAD_STATE::QUEUED;
-    retFuture->setFuture(
-        threadPool->submit(FunctionEvalInternal, fptr, evaluatorIO, nLhs,
-            argIn,
+    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, evaluator, nLhs, argIn,
         &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
