@@ -17,7 +17,7 @@ NelsonConfiguration* NelsonConfiguration::m_pInstance = nullptr;
 //=============================================================================
 NelsonConfiguration::NelsonConfiguration()
 {
-    InterruptPending = false;
+    InterruptPending.clear();
     currentNumericFormatDisplay = NLS_NUMERIC_FORMAT_SHORT;
     currentLineSpacingDisplay = NLS_LINE_SPACING_LOOSE;
     modulesProtected = false;
@@ -53,16 +53,16 @@ NelsonConfiguration::destroy()
 }
 //=============================================================================
 bool
-NelsonConfiguration::getInterruptPending()
+NelsonConfiguration::getInterruptPending(size_t evaluatorID)
 {
-    return InterruptPending;
+    return InterruptPending[evaluatorID];
 }
 //=============================================================================
 bool
-NelsonConfiguration::setInterruptPending(bool bInterruptPending)
+NelsonConfiguration::setInterruptPending(bool bInterruptPending, size_t evaluatorID)
 {
-    bool bPrevious = InterruptPending;
-    InterruptPending = bInterruptPending;
+    bool bPrevious = InterruptPending[evaluatorID];
+    InterruptPending[evaluatorID] = bInterruptPending;
     return bPrevious;
 }
 //=============================================================================

@@ -17,6 +17,7 @@
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "EvaluateInterface.hpp"
+#include "Evaluator.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -80,7 +81,7 @@ public:
     std::atomic<uint64> endDateTime;
     std::atomic<uint64> runningDuration;
 
-    EvaluateInterface* evaluateInterface;
+    Evaluator* evaluator;
     nelson_handle asNelsonHandle;
 
     bool
@@ -89,12 +90,14 @@ public:
     std::wstring
     getDiary();
 
+    void
+    cancel();
+
 private:
     bool
     readContent();
     wstringVector propertiesNames;
     std::future<std::tuple<ArrayOfVector, Exception>> future;
-    size_t ID;
     std::wstring functionName;
     bool wasReaded;
     std::tuple<ArrayOfVector, Exception> content;
