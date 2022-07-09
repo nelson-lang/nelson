@@ -158,8 +158,9 @@ public:
     /**
      * Construct a Evaluator object with the given context to operate
      * in.
+     * ID must be unique
      */
-    Evaluator(Context* aContext, Interface* aInterface, bool haveEventLoop);
+    Evaluator(Context* aContext, Interface* aInterface, bool haveEventLoop, size_t ID);
     /**
      * Destruct the Evaluator object.
      */

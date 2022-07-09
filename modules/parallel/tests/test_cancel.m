@@ -7,10 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-delete(backgroundPool_used());
-delete(FevalFuture_used());
-delete(FevalQueue_used());
-%=============================================================================
-% rmpath(modulepath(nelsonroot(), 'parallel', 'functions'));
-removegateway(modulepath(nelsonroot(), 'parallel', 'builtin'));
-%=============================================================================
+p = str2func('pause');
+b = backgroundPool();
+NumWorkers = b.NumWorkers;
+for k = [1:(NumWorkers*2) + 2]
+    f(k) = parfeval(b, p, 0, 5);
+end
+fToStop = f(NumWorkers + 2); 
+assert_isequal(fToStop.State, 'queued');
+cancel(fToStop);
+assert_isequal(fToStop.State, 'finished');
+assert_isequal(class(fToStop.Error), 'MException');
+cancel(f);

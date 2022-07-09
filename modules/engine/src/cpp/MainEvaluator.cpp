@@ -35,6 +35,7 @@ static Evaluator* mainEvaluator = nullptr;
 Evaluator*
 createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow)
 {
+    size_t mainEvaluatorID = 0;
     setDefaultMaxNumCompThreads();
     if (mainEvaluator == nullptr) {
         Context* context = nullptr;
@@ -67,7 +68,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                     nlsTerm = nullptr;
                 }
                 if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, false);
+                    mainEvaluator = new Evaluator(context, nlsTerm, false, mainEvaluatorID);
                 }
             } break;
             case BASIC_TERMINAL: {
@@ -78,7 +79,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                     nlsTerm = nullptr;
                 }
                 if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, false);
+                    mainEvaluator = new Evaluator(context, nlsTerm, false, mainEvaluatorID);
                 }
             } break;
             case ADVANCED_TERMINAL: {
@@ -99,13 +100,13 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 }
 #endif
                 if (nlsTerm != nullptr) {
-                    mainEvaluator = new Evaluator(context, nlsTerm, true);
+                    mainEvaluator = new Evaluator(context, nlsTerm, true, mainEvaluatorID);
                 }
             } break;
             case GUI: {
                 InitGuiObjectsDynamic();
-                mainEvaluator = static_cast<Evaluator*>(
-                    CreateGuiEvaluatorDynamic((void*)context, _mode, minimizeWindow));
+                mainEvaluator = static_cast<Evaluator*>(CreateGuiEvaluatorDynamic(
+                    (void*)context, _mode, minimizeWindow, mainEvaluatorID));
             } break;
             default: {
                 std::string _msg = _("unknow engine.\n");

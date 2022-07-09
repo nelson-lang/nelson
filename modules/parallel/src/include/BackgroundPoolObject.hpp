@@ -50,6 +50,9 @@ public:
     wstringVector
     fieldnames();
 
+    void
+    resetThreadPool();
+
 private:
     BackgroundPoolObject();
     ~BackgroundPoolObject() override;

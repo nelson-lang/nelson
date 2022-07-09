@@ -1958,8 +1958,13 @@ Evaluator::block(AbstractSyntaxTreePtr t)
         }
         while ((state < NLS_STATE_QUIT) && s != nullptr) {
             if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
-                NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
-                Error(MSG_CTRL_C_DETECTED);
+                if (ID == 0) {
+                    NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
+                    Error(MSG_CTRL_C_DETECTED);
+                } else {
+                    Error(_W("Execution of the future was cancelled."),
+                        L"parallel:fevalqueue:ExecutionCancelled");
+                }
             }
             statement(s);
             if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE || state == NLS_STATE_RETURN
@@ -3822,10 +3827,9 @@ Evaluator::getID()
     return ID;
 }
 //=============================================================================
-Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLoop)
+Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLoop, size_t ID)
 {
-    ID = counterIDs;
-    counterIDs++;
+    this->ID = ID;
     Exception e;
     lastErrorException = e;
     lastWarningException = e;
