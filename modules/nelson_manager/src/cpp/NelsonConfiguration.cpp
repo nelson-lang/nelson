@@ -55,13 +55,16 @@ NelsonConfiguration::destroy()
 bool
 NelsonConfiguration::getInterruptPending(size_t evaluatorID)
 {
+    if (InterruptPending.find(evaluatorID) == InterruptPending.end()) {
+        return false;
+    }
     return InterruptPending[evaluatorID];
 }
 //=============================================================================
 bool
 NelsonConfiguration::setInterruptPending(bool bInterruptPending, size_t evaluatorID)
 {
-    bool bPrevious = InterruptPending[evaluatorID];
+    bool bPrevious = getInterruptPending(evaluatorID);
     InterruptPending[evaluatorID] = bInterruptPending;
     return bPrevious;
 }

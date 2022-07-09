@@ -9,13 +9,14 @@
 //=============================================================================
 #pragma once
 //===================================================================================
+#include <stddef.h>
 #include "NelSon_engine_mode.h"
 //===================================================================================
 namespace Nelson {
 void
 InitGuiObjectsDynamic();
 void*
-CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow);
+CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow, size_t ID);
 void
 DestroyMainGuiObjectDynamic(void* term);
 void*

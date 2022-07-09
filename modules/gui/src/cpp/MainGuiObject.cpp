@@ -94,7 +94,7 @@ InitGuiObjects(void)
 }
 //===================================================================================
 void*
-CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow)
+CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow, size_t ID)
 {
     CreateConsole();
     try {
@@ -113,7 +113,7 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow
         if (nlsTerm) {
             Evaluator* mainEvaluator = nullptr;
             try {
-                mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, true);
+                mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, true, ID);
             } catch (std::bad_alloc&) {
                 mainEvaluator = nullptr;
             }

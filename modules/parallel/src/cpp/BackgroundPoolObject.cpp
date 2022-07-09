@@ -14,6 +14,7 @@
 #include "TimeHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ParallelEvaluator.hpp"
+#include "EvaluateInterface.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,6 +33,10 @@ BackgroundPoolObject::getInstance()
 BackgroundPoolObject::~BackgroundPoolObject()
 {
     if (threadPool) {
+        threadPool->paused = true;
+        FevalQueueObject::getInstance()->reset();
+        threadPool->paused = false;
+        threadPool->reset();
         delete threadPool;
         threadPool = nullptr;
     }
@@ -119,26 +124,41 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 }
 //=============================================================================
 static std::tuple<ArrayOfVector, Exception>
-FunctionEvalInternal(FunctionDef* fptr, Evaluator* evaluator, int nLhs, const ArrayOfVector& argIn,
-    std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
+FunctionEvalInternal(FunctionDef* fptr, EvaluateInterface* evaluatorInterface, size_t ID, int nLhs,
+    const ArrayOfVector& argIn, std::atomic<THREAD_STATE>* s, std::atomic<uint64>* startRunningDate,
     std::atomic<uint64>* endRunningDate)
 {
-    *s = THREAD_STATE::RUNNING;
-    *startRunningDate = getEpoch();
-    *endRunningDate = (uint64)0;
     ArrayOfVector retValues;
     THREAD_STATE finalState;
     Exception retException;
+    *s = THREAD_STATE::RUNNING;
+
+    Evaluator* evaluator = createParallelEvaluator(evaluatorInterface, ID);
+
+    if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
+        evaluator = deleteParallelEvaluator(evaluator, true);
+        retException = Exception("Interrupted");
+        finalState = THREAD_STATE::FINISHED;
+        std::tuple<ArrayOfVector, Exception> result = std::make_tuple(retValues, retException);
+        *endRunningDate = (uint64)getEpoch();
+        *s = finalState;
+        return result;
+    }
+    *startRunningDate = getEpoch();
+    *endRunningDate = (uint64)0;
     try {
         retValues = fptr->evaluateFunction(evaluator, argIn, nLhs);
         finalState = THREAD_STATE::FINISHED;
-        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
-            retException = Exception("Interrupted");
-        }
     } catch (Exception& e) {
         retException = e;
         finalState = THREAD_STATE::FAILED;
     }
+    if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
+        finalState = THREAD_STATE::FINISHED;
+        retException = Exception(_W("Execution of the future was cancelled."),
+            L"parallel:fevalqueue:ExecutionCancelled");
+    }
+    evaluator = deleteParallelEvaluator(evaluator, true);
     std::tuple<ArrayOfVector, Exception> result = std::make_tuple(retValues, retException);
     *endRunningDate = (uint64)getEpoch();
     *s = finalState;
@@ -155,10 +175,18 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
         Error(ERROR_MEMORY_ALLOCATION);
     }
 
-    retFuture->evaluator = createParallelEvaluator();
+    EvaluateInterface* evaluateInterface = nullptr;
+    try {
+        evaluateInterface = new EvaluateInterface();
+    } catch (std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
+    }
+
+    retFuture->evaluateInterface = evaluateInterface;
     retFuture->state = THREAD_STATE::QUEUED;
-    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr, retFuture->evaluator, nLhs,
-        argIn, &retFuture->state, &retFuture->startDateTime, &retFuture->endDateTime));
+    retFuture->setFuture(threadPool->submit(FunctionEvalInternal, fptr,
+        retFuture->evaluateInterface, retFuture->getID(), nLhs, argIn, &retFuture->state,
+        &retFuture->startDateTime, &retFuture->endDateTime));
     FevalQueueObject::getInstance()->add(retFuture);
     ArrayOf result = ArrayOf::handleConstructor(retFuture);
     nelson_handle* qp = (nelson_handle*)(result.getDataPointer());
@@ -170,6 +198,15 @@ wstringVector
 BackgroundPoolObject::fieldnames()
 {
     return propertiesNames;
+}
+//=============================================================================
+void
+BackgroundPoolObject::resetThreadPool()
+{
+    threadPool->paused = true;
+    FevalQueueObject::getInstance()->reset();
+    threadPool->reset();
+    threadPool->paused = false;
 }
 //=============================================================================
 } // namespace Nelson

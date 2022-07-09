@@ -44,6 +44,9 @@ public:
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
 
+    void
+    reset();
+
 private:
     FevalQueueObject();
     ~FevalQueueObject() override;

@@ -20,6 +20,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static size_t counterIDs = 0;
+//=============================================================================
 bool
 FevalFutureObject::isMethod(const std::wstring& methodName)
 {
@@ -34,13 +36,16 @@ FevalFutureObject::isMethod(const std::wstring& methodName)
 FevalFutureObject::FevalFutureObject(const std::wstring& functionName)
     : HandleGenericObject(std::wstring(FEVALFUTURE_CATEGORY_STR), this, false)
 {
-    creationDateTime = getEpoch();
-    propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime", L"FinishDateTime",
-        L"RunningDuration", L"State", L"Error", L"Diary" };
+    counterIDs++;
+    this->ID = counterIDs;
+    this->evaluateInterface = nullptr;
+    this->creationDateTime = getEpoch();
+    this->propertiesNames = { L"ID", L"Function", L"CreateDateTime", L"StartDateTime",
+        L"FinishDateTime", L"RunningDuration", L"State", L"Error", L"Diary" };
     this->functionName = functionName;
-    state = THREAD_STATE::UNAVAILABLE;
-    wasReaded = false;
-    content = std::make_tuple<ArrayOfVector, Exception>(ArrayOfVector(), Exception());
+    this->state = THREAD_STATE::UNAVAILABLE;
+    this->wasReaded = false;
+    this->content = std::make_tuple<ArrayOfVector, Exception>(ArrayOfVector(), Exception());
 }
 //=============================================================================
 void
@@ -67,13 +72,13 @@ FevalFutureObject::displayOnOneLine(Interface* io, size_t index)
             finishedDateTime = epochToDateString(this->getEpochEndDateTime());
         }
         std::wstring errorString = L"";
-        if (this->state == THREAD_STATE::FAILED) {
+        if (this->state == THREAD_STATE::FINISHED || this->state == THREAD_STATE::FAILED) {
             readContent();
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
         }
         std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
-            index, this->evaluator->getID(), this->getStateAsString(), finishedDateTime,
+            index, this->getID(), this->getStateAsString(), finishedDateTime,
             L"@" + this->functionName, errorString);
         io->outputMessage(message);
     }
@@ -84,15 +89,14 @@ FevalFutureObject::display(Interface* io)
 {
 #define BLANKS_AT_BOL std::wstring(L"   ")
     if (io) {
-        io->outputMessage(
-            BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->evaluator->getID()) + L"\n");
+        io->outputMessage(BLANKS_AT_BOL + L"ID: " + std::to_wstring(this->getID()) + L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"Function: " + L"@" + this->functionName + L"\n");
         std::wstring stateString = getStateAsString();
         std::wstring errorString = L"none";
         if (state == THREAD_STATE::FINISHED) {
             stateString = wasReaded ? stateString + L" (read)" : stateString + L" (unread)";
         }
-        if (state == THREAD_STATE::FAILED) {
+        if (this->state == THREAD_STATE::FINISHED || this->state == THREAD_STATE::FAILED) {
             readContent();
             Exception e = std::get<1>(content);
             errorString = e.getMessage();
@@ -114,7 +118,11 @@ FevalFutureObject::display(Interface* io)
 //=============================================================================
 FevalFutureObject::~FevalFutureObject()
 {
-    evaluator = deleteParallelEvaluator(evaluator, cancel());
+    cancel();
+    if (evaluateInterface) {
+        delete evaluateInterface;
+        evaluateInterface = nullptr;
+    }
     state = THREAD_STATE::UNAVAILABLE;
     creationDateTime = 0;
     startDateTime = 0;
@@ -141,7 +149,7 @@ FevalFutureObject::get(bool& valid)
 size_t
 FevalFutureObject::getID()
 {
-    return evaluator->getID();
+    return this->ID;
 }
 //=============================================================================
 bool
@@ -230,8 +238,7 @@ FevalFutureObject::getStateAsString()
 std::wstring
 FevalFutureObject::getDiary()
 {
-    if (evaluator) {
-        EvaluateInterface* evaluateInterface = (EvaluateInterface*)evaluator->getInterface();
+    if (evaluateInterface) {
         return evaluateInterface->getOutputBuffer();
     }
     return L"";
@@ -241,7 +248,7 @@ bool
 FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 {
     if (propertyName == L"ID") {
-        result = ArrayOf::doubleConstructor((double)this->evaluator->getID());
+        result = ArrayOf::doubleConstructor((double)this->getID());
         return true;
     }
     if (propertyName == L"Function") {
@@ -295,17 +302,36 @@ FevalFutureObject::get(const std::wstring& propertyName, ArrayOf& result)
     return false;
 }
 //=============================================================================
+template <typename T>
+std::future<T>
+make_future(T&& t)
+{
+    auto fun = [val = std::forward<T>(t)]() { return val; };
+    std::packaged_task<T()> task(std::move(fun));
+    auto future = task.get_future();
+    task();
+    return future;
+}
+//=============================================================================
 bool
 FevalFutureObject::cancel(size_t timeoutSeconds)
 {
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
-    if (this->evaluator) {
-        this->evaluator->resetState();
+    this->endDateTime = getEpoch();
+    if (this->state == THREAD_STATE::QUEUED) {
+        this->state = THREAD_STATE::FINISHED;
+        ArrayOfVector retValues;
+        Exception retException = Exception(_W("Execution of the future was cancelled."),
+            L"parallel:fevalqueue:ExecutionCancelled");
+        setFuture(make_future<std::tuple<ArrayOfVector, Exception>>(
+            std::make_tuple(retValues, retException)));
+        return true;
     }
+
     std::chrono::nanoseconds begin_time
         = std::chrono::high_resolution_clock::now().time_since_epoch();
 
-    while (this->state == THREAD_STATE::RUNNING || this->state == THREAD_STATE::QUEUED) {
+    while (this->state == THREAD_STATE::RUNNING) {
         std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
         std::chrono::nanoseconds current_time
             = std::chrono::high_resolution_clock::now().time_since_epoch();

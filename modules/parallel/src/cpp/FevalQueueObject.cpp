@@ -150,5 +150,14 @@ FevalQueueObject::refreshQueue()
     fEvalQueue = newQueue;
 }
 //=============================================================================
+void
+FevalQueueObject::reset()
+{
+    std::vector<nelson_handle> handles;
+    for (size_t k = 0; k < fEvalQueue.size(); k++) {
+        fEvalQueue[k]->cancel();
+    }
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

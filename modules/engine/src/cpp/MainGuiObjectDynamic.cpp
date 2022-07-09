@@ -80,9 +80,9 @@ InitGuiObjectsDynamic()
 }
 //===================================================================================
 void*
-CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow)
+CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimizeWindow, size_t ID)
 {
-    using PROC_CreateGuiEvaluator = void* (*)(void*, NELSON_ENGINE_MODE, bool);
+    using PROC_CreateGuiEvaluator = void* (*)(void*, NELSON_ENGINE_MODE, bool, size_t);
     static PROC_CreateGuiEvaluator CreateGuiEvaluatorPtr = nullptr;
     initGuiDynamicLibrary();
     if (CreateGuiEvaluatorPtr == nullptr) {
@@ -96,7 +96,7 @@ CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode, bool minimiz
             exit(1);
         }
     }
-    return CreateGuiEvaluatorPtr(vcontext, _mode, minimizeWindow);
+    return CreateGuiEvaluatorPtr(vcontext, _mode, minimizeWindow, ID);
 }
 //===================================================================================
 void

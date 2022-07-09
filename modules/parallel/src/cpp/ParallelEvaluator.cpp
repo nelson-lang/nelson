@@ -14,21 +14,16 @@
 namespace Nelson {
 //=============================================================================
 Evaluator*
-createParallelEvaluator()
+createParallelEvaluator(EvaluateInterface* evaluatorInterface, size_t ID)
 {
     Context* context = nullptr;
-    EvaluateInterface* evaluatorIO = nullptr;
     Evaluator* evaluator = nullptr;
     try {
         context = new Context();
-        evaluatorIO = new EvaluateInterface();
-        evaluator = new Evaluator(context, evaluatorIO, false);
+        evaluator = new Evaluator(context, evaluatorInterface, false, ID);
     } catch (const std::bad_alloc&) {
         if (context) {
             delete context;
-        }
-        if (evaluatorIO) {
-            delete evaluatorIO;
         }
         if (evaluator) {
             delete evaluator;
@@ -43,16 +38,11 @@ deleteParallelEvaluator(Evaluator* evaluator, bool evaluatorWasCanceled)
 {
     if (evaluator && evaluatorWasCanceled) {
         Context* context = evaluator->getContext();
-        EvaluateInterface* io = (EvaluateInterface*)evaluator->getInterface();
         delete evaluator;
         evaluator = nullptr;
         if (context) {
             delete context;
             context = nullptr;
-        }
-        if (io) {
-            delete io;
-            io = nullptr;
         }
         return evaluator;
     }
