@@ -33,10 +33,7 @@ BackgroundPoolObject::getInstance()
 BackgroundPoolObject::~BackgroundPoolObject()
 {
     if (threadPool) {
-        threadPool->paused = true;
-        FevalQueueObject::getInstance()->reset();
-        threadPool->paused = false;
-        threadPool->reset();
+        resetThreadPool();
         delete threadPool;
         threadPool = nullptr;
     }

@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\FevalFuture_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\FevalFuture_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\FevalFuture_waitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\FevalQueue_cancelAllBuiltin.cpp" />
     <ClCompile Include="..\cpp\FevalQueue_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\FevalQueue_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\FevalQueue_getBuiltin.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="..\include\FevalFuture_getBuiltin.hpp" />
     <ClInclude Include="..\include\FevalFuture_usedBuiltin.hpp" />
     <ClInclude Include="..\include\FevalFuture_waitBuiltin.hpp" />
+    <ClInclude Include="..\include\FevalQueue_cancelAllBuiltin.hpp" />
     <ClInclude Include="..\include\FevalQueue_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\FevalQueue_displayBuiltin.hpp" />
     <ClInclude Include="..\include\FevalQueue_getBuiltin.hpp" />

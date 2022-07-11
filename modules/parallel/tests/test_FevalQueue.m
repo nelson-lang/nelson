@@ -19,11 +19,12 @@ assert_isequal(class(f), 'FevalFuture')
 assert_isequal(length(f), totalWorkers);
 %=============================================================================
 K =  b.FevalQueue;
+R1 = K.RunningFutures;
+R2 = K.QueuedFutures;
+%=============================================================================
 assert_isequal(size(K), [1 1]);
 %=============================================================================
-R1 = K.RunningFutures;
 assert_isequal(length(R1), NumWorkers);
 %=============================================================================
-R2 = K.QueuedFutures;
 assert_isequal(length(R2), NumWorkers + 2);
 %=============================================================================
