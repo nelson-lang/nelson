@@ -47,6 +47,9 @@ public:
     void
     reset();
 
+    void
+    cancelAll();
+
 private:
     FevalQueueObject();
     ~FevalQueueObject() override;

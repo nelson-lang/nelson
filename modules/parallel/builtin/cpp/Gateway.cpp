@@ -26,6 +26,7 @@
 #include "FevalQueue_getBuiltin.hpp"
 #include "FevalQueue_usedBuiltin.hpp"
 #include "FevalQueue_deleteBuiltin.hpp"
+#include "FevalQueue_cancelAllBuiltin.hpp"
 #include "fetchOutputsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -69,6 +70,8 @@ static const nlsGateway gateway[] = {
     { "FevalQueue_used", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_usedBuiltin, 1, 0 },
     { "FevalQueue_get", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_getBuiltin, 1, 2 },
     { "FevalQueue_delete", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_deleteBuiltin, 0, 1 },
+    { "cancelAll", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_cancelAllBuiltin, 0, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
