@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#655](http://github.com/Nelson-numerical-software/nelson/issues/655): help viewer embedded (available on all platforms).
 
+- CITATION.cff
+
 ### Changed
 
 - LGTM replaced by CodeQL (Thanks to Github for their support)
