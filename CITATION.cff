@@ -1,0 +1,49 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Nelson
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Allan
+    family-names: CORNET
+    email: nelson.numerical.computation@gmail.com
+    orcid: 'https://orcid.org/0000-0001-7383-8929'
+repository-code: 'https://github.com/Nelson-numerical-software/nelson'
+url: >-
+  https://nelson-numerical-software.github.io/nelson-website/
+repository: 'https://github.com/Nelson-numerical-software/nelson'
+repository-artifact: >-
+  https://github.com/Nelson-numerical-software/nelson/releases
+abstract: >-
+  Let's Nelson! Matrix language for engineering and
+  scientific applications.
+
+
+  Nelson is an array programming language providing a
+  powerful open computing environment for engineering
+  and scientific applications using modern C/C++
+  libraries (Boost, Eigen, …) and others state of art
+  numerical libraries.
+
+
+  It has sophisticated data structures (including
+  cell, struct, linear systems, …), an interpreter
+  and a high level programming language.
+
+
+  Nelson has been developed to be an open/modular
+  system where an user can define these own data
+  types and operations on these data types by using
+  overload.
+keywords:
+  - programming-language
+  - data-science
+  - scientific-computing
+  - mathematical-functions
+  - matrix-functions
+  - data-structures
+license: LGPL-3.0
