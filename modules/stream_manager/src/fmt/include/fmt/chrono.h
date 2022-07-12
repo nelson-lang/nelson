@@ -1693,9 +1693,9 @@ struct chrono_formatter {
     }
   }
 
-  void write_nan() { std::copy_n("nan", 3, out); }
-  void write_pinf() { std::copy_n("inf", 3, out); }
-  void write_ninf() { std::copy_n("-inf", 4, out); }
+  void write_nan() { std::copy_n("NaN", 3, out); }
+  void write_pinf() { std::copy_n("Inf", 3, out); }
+  void write_ninf() { std::copy_n("-Inf", 4, out); }
 
   template <typename Callback, typename... Args>
   void format_tm(const tm& time, Callback cb, Args... args) {

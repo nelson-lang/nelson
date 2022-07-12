@@ -2213,7 +2213,7 @@ FMT_CONSTEXPR20 auto write_nonfinite(OutputIt out, bool isnan,
                                      basic_format_specs<Char> specs,
                                      const float_specs& fspecs) -> OutputIt {
   auto str =
-      isnan ? (fspecs.upper ? "NAN" : "nan") : (fspecs.upper ? "INF" : "inf");
+      isnan ? (fspecs.upper ? "NAN" : "NaN") : (fspecs.upper ? "INF" : "Inf");
   constexpr size_t str_size = 3;
   auto sign = fspecs.sign;
   auto size = str_size + (sign ? 1 : 0);
