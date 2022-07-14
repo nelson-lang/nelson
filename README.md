@@ -26,11 +26,13 @@ these own data types and operations on these data types by using overload.
 
 ![Nelson environment](https://github.com/Nelson-numerical-software/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
-[Dedicated Web site](https://nelson-numerical-software.github.io/nelson-website/)
+## Website with dedicated to users
 
-## Starring it on GitHub!
+For more information go to [https://nelson-numerical-software.github.io/nelson-website/](https://nelson-numerical-software.github.io/nelson-website/).
 
-If you found this project useful, please consider starring it on GitHub! This allows me to see how many people are using my code, and motivates me to keep working to improve it.
+## Starring the repository
+
+If you found this project useful, please consider [starring it on GitHub !!!](https://github.com/Nelson-numerical-software/nelson/stargazers) This allows me to see how many people are using my code, and motivates me to keep working to improve it.
 
 ## Download
 
