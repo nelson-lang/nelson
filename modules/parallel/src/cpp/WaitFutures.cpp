@@ -40,7 +40,6 @@ WaitFutures(Evaluator* eval, const std::vector<FevalFutureObject*>& fevalFutures
     if (fevalFutures.empty()) {
         return true;
     }
-    bool bContinueToWait = true;
     std::chrono::nanoseconds begin_time
         = std::chrono::high_resolution_clock::now().time_since_epoch();
 
@@ -61,9 +60,12 @@ WaitFutures(Evaluator* eval, const std::vector<FevalFutureObject*>& fevalFutures
         if (!std::isinf(timeoutSeconds) && (difftime.count() > int64(timeoutSeconds * 1e9))) {
             return false;
         }
-        bool isInterrupted = NelsonConfiguration::getInstance()->getInterruptPending(eval->getID());
-        if (isInterrupted) {
-            return false;
+        if (eval != nullptr) {
+            bool isInterrupted
+                = NelsonConfiguration::getInstance()->getInterruptPending(eval->getID());
+            if (isInterrupted) {
+                return false;
+            }
         }
         if (eval != nullptr && eval->haveEventsLoop()) {
             ProcessEventsDynamicFunctionWithoutWait();

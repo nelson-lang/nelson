@@ -58,7 +58,6 @@ Nelson::ParallelGateway::FevalFuture_waitBuiltin(
     }
     if (nbElements > 0) {
         auto* ptr = (nelson_handle*)param1.getDataPointer();
-        bool bContinueToWait = true;
         futures.reserve(nbElements);
         for (indexType k = 0; k < nbElements; k++) {
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);

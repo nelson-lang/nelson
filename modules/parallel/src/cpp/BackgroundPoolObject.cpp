@@ -131,6 +131,14 @@ FunctionEvalInternal(FunctionDef* fptr, EvaluateInterface* evaluatorInterface, s
     *s = THREAD_STATE::RUNNING;
 
     Evaluator* evaluator = createParallelEvaluator(evaluatorInterface, ID);
+    if (evaluator == nullptr) {
+        finalState = THREAD_STATE::FINISHED;
+        retException = Exception("Cannot create evaluator.");
+        std::tuple<ArrayOfVector, Exception> result = std::make_tuple(retValues, retException);
+        *endRunningDate = (uint64)getEpoch();
+        *s = finalState;
+        return result;
+    }
 
     if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
         evaluator = deleteParallelEvaluator(evaluator, true);
