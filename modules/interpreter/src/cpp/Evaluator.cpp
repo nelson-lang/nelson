@@ -1879,7 +1879,11 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                 OverloadDisplay(this, b, L"ans", false);
             }
         } else if (t->opNum == OP_RHS) {
-            m = rhsExpression(t->down);
+            if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
+                m = rhsExpression(t->down, 0);
+            } else {
+                m = rhsExpression(t->down);
+            }
             if (m.size() == 0) {
                 b = ArrayOf::emptyConstructor();
             } else {
@@ -3598,7 +3602,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
 // a value of pi.
 //!
 ArrayOfVector
-Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
+Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
 {
     ArrayOf r;
     ArrayOfVector m;
@@ -3671,7 +3675,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t)
                     CallStack backupCallStack = this->callstack;
                     ArrayOfVector paramsIn(m);
                     paramsIn.push_front(r);
-                    ArrayOfVector rr = funcDef->evaluateFunction(this, paramsIn, 1);
+                    ArrayOfVector rr = funcDef->evaluateFunction(this, paramsIn, nLhs);
                     callstack = backupCallStack;
                     callstack.popID();
                     return rr;

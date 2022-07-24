@@ -14,6 +14,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "h5SaveString.hpp"
 #include "h5SaveVariable.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -55,7 +56,13 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         return false;
     }
     name = std::to_string(1);
-    ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(fh.anonymous);
+    std::string anonymousContent;
+    if (fh.anonymousHandle) {
+        AnonymousMacroFunctionDef* anonymousFunction
+            = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+        anonymousContent = anonymousFunction->getDefinition();
+    }
+    ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
     bSuccess
         = h5SaveVariable(fid, h5path + std::string("/"), name, anonymousElement, useCompression);
     if (!bSuccess) {

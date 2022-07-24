@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,10 +31,15 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
     if (!bSuccess) {
         if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
-            if (fh.anonymous.empty()) {
+            if (!fh.name.empty()) {
                 retval << ArrayOf::characterArrayConstructor(fh.name);
             } else {
-                retval << ArrayOf::characterArrayConstructor(fh.anonymous);
+                AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+                if (cp) {
+                    retval << ArrayOf::characterArrayConstructor(cp->getDefinition());
+                } else {
+                    Error(_W("Invalid anonymous function."));
+                }
             }
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);

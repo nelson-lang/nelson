@@ -86,7 +86,7 @@ WebOptions::~WebOptions()
     _headerFields.clear();
     _contentType.clear();
     _contentReader.name.clear();
-    _contentReader.anonymous.clear();
+    _contentReader.anonymousHandle = 0;
     _mediaType.clear();
     _requestMethod.clear();
     _arrayformat.clear();

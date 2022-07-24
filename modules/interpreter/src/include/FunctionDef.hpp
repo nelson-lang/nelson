@@ -20,6 +20,7 @@ namespace Nelson {
 enum FunctionType
 {
     NLS_MACRO_FUNCTION,
+    NLS_ANONYMOUS_MACRO_FUNCTION,
     NLS_BUILT_IN_FUNCTION,
     NLS_MEX_FUNCTION,
 };

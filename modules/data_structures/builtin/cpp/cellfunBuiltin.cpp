@@ -439,8 +439,10 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             }
         } else {
             function_handle fh = param1.getContentAsFunctionHandle();
-            if (fh.anonymous.empty()) {
+            if (!fh.name.empty()) {
                 eval->getContext()->lookupFunction(fh.name, funcDef);
+            } else if (fh.anonymousHandle != 0) {
+                funcDef = (FunctionDef*)fh.anonymousHandle;
             }
             if (funcDef == nullptr) {
                 Error(_W("A valid function name expected."));

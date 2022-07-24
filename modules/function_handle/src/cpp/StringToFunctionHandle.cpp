@@ -7,22 +7,44 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include "StringToFunctionHandle.hpp"
 #include "characters_encoding.hpp"
 #include "IsValidVariableName.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 function_handle
-StringToFunctionHandle(const std::wstring& functionName)
+StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
 {
     function_handle functionHandle;
+    functionHandle.name.clear();
+    functionHandle.anonymousHandle = 0;
+
     if (IsValidVariableName(functionName)) {
         functionHandle.name = wstring_to_utf8(functionName);
-        functionHandle.anonymous.clear();
     } else {
-        functionHandle.name.clear();
-        functionHandle.anonymous.clear();
+        std::string trimmed = wstring_to_utf8(functionName);
+        boost::algorithm::trim_left(trimmed);
+        boost::algorithm::trim_right(trimmed);
+        if (trimmed[0] == L'@') {
+            std::string withoutArobase = trimmed;
+            withoutArobase.erase(0, 1);
+            if (IsValidVariableName(withoutArobase)) {
+                functionHandle.name = withoutArobase;
+            } else {
+                AnonymousMacroFunctionDef* cp = nullptr;
+                try {
+                    cp = new AnonymousMacroFunctionDef(trimmed);
+                } catch (Exception&) {
+                    cp = nullptr;
+                }
+                if (cp) {
+                    functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
+                }
+            }
+        }
     }
     return functionHandle;
 }

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <mpi.h>
 #include "MPI_helpers.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
@@ -16,7 +17,7 @@
 #include "SparseConstructors.hpp"
 #include "SparseToIJV.hpp"
 #include "StringToFunctionHandle.hpp"
-#include <mpi.h>
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -107,7 +108,12 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 function_handle fh = A.getContentAsFunctionHandle();
                 ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(fh.name);
                 packMPI(nameAsArray, buffer, bufsize, packpos, comm);
-                ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(fh.anonymous);
+                AnonymousMacroFunctionDef* cp = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+                std::string anonymousDef;
+                if (cp) {
+                    anonymousDef = cp->getDefinition();
+                }
+                ArrayOf anonymousAsArray = ArrayOf::characterArrayConstructor(anonymousDef);
                 packMPI(anonymousAsArray, buffer, bufsize, packpos, comm);
             } else {
                 auto* dp = (ArrayOf*)A.getDataPointer();
@@ -285,8 +291,10 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 && anonymousArray.isRowVectorCharacterArray()) {
                 function_handle fptr;
                 fptr.name = nameArray.getContentAsCString();
-                fptr.anonymous = anonymousArray.getContentAsCString();
-                if (fptr.anonymous.empty() && fptr.name.empty()) {
+                AnonymousMacroFunctionDef* cp
+                    = new AnonymousMacroFunctionDef(anonymousArray.getContentAsCString());
+                fptr.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
+                if (fptr.anonymousHandle == 0 && fptr.name.empty()) {
                     Error(_W("A valid function name expected."));
                 }
                 return ArrayOf::functionHandleConstructor(fptr);
