@@ -75,7 +75,6 @@ GOFigure::resized()
 int
 GOFigure::computeYOuterInnerOffset()
 {
-    int yOffset = 0;
     QRect qGeometry = m_win->geometry();
     QRect qFrameGeometry = m_win->frameGeometry();
     QSize qOffset = qFrameGeometry.size() - qGeometry.size();
@@ -85,7 +84,6 @@ GOFigure::computeYOuterInnerOffset()
 int
 GOFigure::computeXOuterInnerOffset()
 {
-    int xOffset = 0;
     QRect qGeometry = m_win->geometry();
     QRect qFrameGeometry = m_win->frameGeometry();
     QSize qOffset = qFrameGeometry.size() - qGeometry.size();
