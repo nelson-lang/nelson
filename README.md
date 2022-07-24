@@ -26,7 +26,7 @@ these own data types and operations on these data types by using overload.
 
 ![Nelson environment](https://github.com/Nelson-numerical-software/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
-## Website with dedicated to users
+## Website dedicated to users
 
 For more information go to [https://nelson-numerical-software.github.io/nelson-website/](https://nelson-numerical-software.github.io/nelson-website/).
 
