@@ -309,7 +309,7 @@ public:
      *    -
      */
     ArrayOfVector
-    rhsExpression(AbstractSyntaxTreePtr t);
+    rhsExpression(AbstractSyntaxTreePtr t, int nLhs = 1);
     /**
      * Look up an identifier as a potential function name
      */

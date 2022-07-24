@@ -221,6 +221,7 @@
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AdditionOperator.cpp" />
     <ClCompile Include="..\cpp\AndOperator.cpp" />
+    <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\AsciiToDouble.cpp" />
     <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -336,6 +337,7 @@
     <ClInclude Include="..\grammar\ParseRHS.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
     <ClInclude Include="..\include\AbstractSyntaxTree.hpp" />
+    <ClInclude Include="..\include\AnonymousMacroFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />

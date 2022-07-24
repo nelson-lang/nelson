@@ -12,6 +12,7 @@
 #include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "characters_encoding.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,7 +27,12 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         ArrayOf anonymousStr = value.getField("anonymous");
         function_handle fh;
         fh.name = nameStr.getContentAsCString();
-        fh.anonymous = anonymousStr.getContentAsCString();
+        if (!fh.name.empty()) {
+            fh.anonymousHandle = 0;
+        } else {
+            fh.anonymousHandle
+                = (nelson_handle*)new AnonymousMacroFunctionDef(anonymousStr.getContentAsCString());
+        }
         VariableValue = ArrayOf::functionHandleConstructor(fh);
         bSuccess = true;
     }

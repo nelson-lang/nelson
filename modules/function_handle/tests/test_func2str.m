@@ -7,20 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('str2func'), 1);
-assert_isequal(nargout('str2func'), 1);
+F = str2func('cos');
+assert_isequal(func2str(F), 'cos');
 %=============================================================================
-FH = str2func('run');
-FHS = [FH; FH; FH];
-assert_isequal(size(FH), [1 1]);
-assert_isequal(size(FHS), [3 1]);
+F = str2func('@cos');
+assert_isequal(func2str(F), 'cos');
 %=============================================================================
-assert_isequal(length(FH), 1);
-assert_isequal(length(FHS), 3);
-%=============================================================================
-assert_isequal(length(FH), 1);
-assert_isequal(length(FHS), 3);
-%=============================================================================
-assert_isequal(ndims(FH), 2);
-assert_isequal(ndims(FHS), 2);
+F = str2func('@(x) x*sqrt(x);    ');
+assert_isequal(func2str(F), '@(x) x*sqrt(x);');
 %=============================================================================

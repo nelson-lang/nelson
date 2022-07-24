@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "NargIn.hpp"
 #include "characters_encoding.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,18 +35,26 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         std::wstring name;
         if (param1.isRowVectorCharacterArray()) {
             name = param1.getContentAsWideString();
+            retval << ArrayOf::doubleConstructor(NargIn(eval, name));
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
-            if (fh.anonymous.empty() && fh.name.empty()) {
+            if (fh.anonymousHandle == 0 && fh.name.empty()) {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
             }
-            if (fh.anonymous.empty()) {
+            if (!fh.name.empty()) {
                 name = utf8_to_wstring(fh.name);
+                retval << ArrayOf::doubleConstructor(NargIn(eval, name));
+
+            } else {
+                AnonymousMacroFunctionDef* anonymousFunction
+                    = (AnonymousMacroFunctionDef*)fh.anonymousHandle;
+                if (anonymousFunction) {
+                    retval << ArrayOf::doubleConstructor(anonymousFunction->nargin());
+                }
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
         }
-        retval << ArrayOf::doubleConstructor(NargIn(eval, name));
     }
     return retval;
 }

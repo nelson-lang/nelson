@@ -69,7 +69,7 @@ using nelson_handle = uint64_t;
 struct function_handle
 {
     std::string name;
-    std::string anonymous;
+    nelson_handle* anonymousHandle;
 };
 
 #define doublecomplex std::complex<double>

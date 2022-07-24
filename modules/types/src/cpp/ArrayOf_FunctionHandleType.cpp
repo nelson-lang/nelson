@@ -29,9 +29,10 @@ ArrayOf::getContentAsFunctionHandle() const
     std::string classString = this->getStructType();
     if (classString == NLS_FUNCTION_HANDLE_STR) {
         ArrayOf nameField = this->getField("name");
-        ArrayOf anonymousField = this->getField("anonymous");
+        ArrayOf anonymousHandle = this->getField("handle");
         fh.name = nameField.getContentAsCString();
-        fh.anonymous = anonymousField.getContentAsCString();
+        fh.anonymousHandle = (nelson_handle*)anonymousHandle.getContentAsUnsignedInteger64Scalar();
+
     } else {
         Error(_W("Expected a function_handle."));
     }
@@ -44,10 +45,10 @@ ArrayOf::functionHandleConstructor(const std::wstring& functionName, const std::
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
     fieldnames.push_back("name");
-    fieldnames.push_back("anonymous");
+    fieldnames.push_back("handle");
 
     fieldvalues.push_back(ArrayOf::characterArrayConstructor(functionName));
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(anonymous));
+    fieldvalues.push_back(ArrayOf::uint64Constructor(0));
 
     ArrayOf res = structConstructor(fieldnames, fieldvalues);
     res.setStructType(NLS_FUNCTION_HANDLE_STR);
@@ -60,10 +61,11 @@ ArrayOf::functionHandleConstructor(function_handle fptr)
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
     fieldnames.push_back("name");
-    fieldnames.push_back("anonymous");
+    fieldnames.push_back("handle");
 
     fieldvalues.push_back(ArrayOf::characterArrayConstructor(fptr.name));
-    fieldvalues.push_back(ArrayOf::characterArrayConstructor(fptr.anonymous));
+    nelson_handle fun_handle = reinterpret_cast<nelson_handle>(fptr.anonymousHandle);
+    fieldvalues.push_back(ArrayOf::uint64Constructor(fun_handle));
 
     ArrayOf res = structConstructor(fieldnames, fieldvalues);
     res.setStructType(NLS_FUNCTION_HANDLE_STR);

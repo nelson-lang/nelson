@@ -33,7 +33,7 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Error(_W("function handle handle expected."));
     }
     function_handle fh = param2.getContentAsFunctionHandle();
-    if (fh.anonymous.empty() && fh.name.empty()) {
+    if (fh.anonymousHandle == 0 && fh.name.empty()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     std::string fname = fh.name;
@@ -43,8 +43,17 @@ Nelson::ParallelGateway::parfevalBuiltin(Evaluator* eval, int nLhs, const ArrayO
     for (size_t k = 3; k < argIn.size(); ++k) {
         args << argIn[k];
     }
-    if (!context->lookupFunction(fname, funcDef)) {
-        Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
+    if (!fh.name.empty()) {
+        context->lookupFunction(fname, funcDef);
+    } else if (fh.anonymousHandle != 0) {
+        funcDef = (FunctionDef*)fh.anonymousHandle;
+    }
+    if (!funcDef) {
+        if (!fh.name.empty()) {
+            Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
+        } else {
+            Error(_W("Invalid anonymous function."));
+        }
     }
     ArrayOf param3 = argIn[2];
     bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;

@@ -12,20 +12,20 @@ format('short')
 fh = str2func('cos');
 %=============================================================================
 R = evalc('disp(fh)');
-REF = '         name: ''cos''
-    anonymous: ''''
+REF =  '      name: ''cos''
+    handle: 0
 
 ';
 assert_isequal(R, REF);
 %=============================================================================
 R = evalc('display(fh)');
-REF = '
+REF =  '
 fh =
 
   function_handle with properties:
 
-         name: ''cos''
-    anonymous: ''''
+      name: ''cos''
+    handle: 0
 
 ';
 assert_isequal(R, REF);

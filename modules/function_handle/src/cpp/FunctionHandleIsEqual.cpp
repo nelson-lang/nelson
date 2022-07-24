@@ -19,7 +19,7 @@ FunctionHandleIsEqual(const ArrayOf& A, const ArrayOf& B)
     if (A.isFunctionHandle() && B.isFunctionHandle()) {
         function_handle fhA = A.getContentAsFunctionHandle();
         function_handle fhB = B.getContentAsFunctionHandle();
-        bRes = (fhA.name == fhB.name) && (fhA.anonymous == fhB.anonymous);
+        bRes = (fhA.name == fhB.name) && (fhA.anonymousHandle == fhB.anonymousHandle);
     }
     return bRes;
 }
