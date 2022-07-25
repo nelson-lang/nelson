@@ -38,3 +38,28 @@ assert_isequal(R, REF_R);
 assert_isequal(C, REF_C);
 assert_checkerror('[R, C,d,e] = b(M, 0.9)', _('Wrong number of output arguments.'));
 %=============================================================================
+F = str2func('@  () 33');
+R = evalc('F()');
+REF = '
+ans =
+
+    33
+
+';
+F()
+assert_isequal(R, REF)
+B = F();
+assert_isequal(B, 33)
+%=============================================================================
+str = '@(x)7*x-13';
+fh = str2func(str);
+R = func2str(fh);
+assert_isequal(R, str)
+assert_isequal(fh(3), 8)
+%=============================================================================
+str = '@(x)7*x-13+a';
+fh = str2func(str);
+assert_checkerror('fh(3)', [_('Undefined variable:'), ' ', 'a']);
+%=============================================================================
+assert_checkerror('F = str2func(''@ (y) x= y+1'');', _('A valid function name expected.'))
+%=============================================================================

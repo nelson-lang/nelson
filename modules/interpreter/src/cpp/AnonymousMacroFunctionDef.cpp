@@ -9,6 +9,7 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include <regex>
 #include "AnonymousMacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "ParserInterface.hpp"
@@ -219,7 +220,9 @@ AnonymousMacroFunctionDef::convertToStandardFunction(int nLhs)
             outputVariablesList += "] = ";
         }
     }
-    boost::replace_first(modified, "@(", "function " + outputVariablesList + "anonymousFunction(");
+    std::regex rx("@\\s*\\(");
+    std::string replaceBy = "function " + outputVariablesList + "anonymousFunction(";
+    modified = std::regex_replace(modified, rx, replaceBy, std::regex_constants::format_first_only); 
     boost::replace_first(modified, ")", ")\n" + outputVariablesList);
     modified = modified + "\n";
     return modified;
