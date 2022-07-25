@@ -17,9 +17,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `wait`: Wait for futures to be completed.
   - `Diary` property for `FevalFuture` object.
 
+- CITATION.cff  with human- and machine-readable citation information for software. 
+
 ### Changed
 
 - localization files `.pot`, `.po` updated.
+
+### Fixed
+
+- [#679](http://github.com/Nelson-numerical-software/nelson/issues/679): uniformize path for includes and libraries.
 
 ## 0.6.6 (2022-06-27)
 
@@ -34,8 +40,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [#666](http://github.com/Nelson-numerical-software/nelson/issues/666): `ls` function: List folder contents.
 
 - [#655](http://github.com/Nelson-numerical-software/nelson/issues/655): help viewer embedded (available on all platforms).
-
-- CITATION.cff
 
 ### Changed
 
