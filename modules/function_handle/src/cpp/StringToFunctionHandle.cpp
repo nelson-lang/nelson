@@ -37,6 +37,8 @@ StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
                 AnonymousMacroFunctionDef* cp = nullptr;
                 try {
                     cp = new AnonymousMacroFunctionDef(trimmed);
+                } catch (std::bad_alloc&) {
+                    cp = nullptr;
                 } catch (Exception&) {
                     cp = nullptr;
                 }
