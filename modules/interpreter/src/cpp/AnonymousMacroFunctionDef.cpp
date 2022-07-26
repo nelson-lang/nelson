@@ -146,7 +146,7 @@ AnonymousMacroFunctionDef::evaluateFunction(
     bool backupEcho = eval->getEchoMode();
     eval->setEchoMode(false);
     try {
-        uint64 tic = Profiler::getInstance()->tic();
+        tic = Profiler::getInstance()->tic();
         eval->block(code);
         eval->setEchoMode(backupEcho);
         if (tic != 0) {
