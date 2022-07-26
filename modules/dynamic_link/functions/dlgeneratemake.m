@@ -11,7 +11,7 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'}, {'msvcrt.lib'},'Debug')
   % dlgeneratemake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'})
-
+  
   generatedfilename = [];
   status = false;
   message = '';
@@ -21,7 +21,7 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   if nargin > 10
     error(_('Wrong number of output arguments.'));
   end
-
+  
   maketype = 'dynamic_library';
   indexstart = 1;
   if strcmp(varargin{1}, 'executable') == true
@@ -32,7 +32,7 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
     maketype = 'dynamic_library';
     indexstart = 2;
   end
-
+  
   destinationdir = varargin{indexstart};
   libname = varargin{indexstart + 1};
   c_cpp_files = varargin{indexstart + 2};
@@ -73,7 +73,7 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   if isempty(cxx_flags)
     cxx_flags = '';
   end
-
+  
   r = checkDestinationDir(destinationdir);
   if ~r
     status = r;
@@ -176,7 +176,7 @@ function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
   c_cpp_files_modified = '';
   r = false;
   if ischar(c_cpp_files)
-    c_cpp_files = {c_cpp_files};
+    c_cpp_files = {uniformizePath(c_cpp_files)};
   end
   if isempty(c_cpp_files)
     c_cpp_files = {};
@@ -192,7 +192,7 @@ function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
         r = false;
         return
       end
-      c_cpp_files_modified = [c_cpp_files_modified, newline, ['"', k{1}, '"']];
+      c_cpp_files_modified = [c_cpp_files_modified, newline, ['"', uniformizePath(k{1}), '"']];
     end
     r = true;
   else
@@ -204,7 +204,7 @@ function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
   includes_modified = '';
   r = false;
   if ischar(includes)
-    includes = {includes};
+    includes = {uniformizePath(includes)};
   end
   if isempty(includes)
     includes = {};
@@ -220,7 +220,7 @@ function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
         r = false;
         return
       end
-      includes_modified = [includes_modified, newline, ['"', k{1}, '"']];
+      includes_modified = [includes_modified, newline, ['"', uniformizePath(k{1}), '"']];
     end
     r = true;
   else
@@ -271,7 +271,7 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
   external_libraries_modified = '';
   r = false;
   if ischar(external_libraries)
-    external_libraries = {addLibrarySuffix(external_libraries)};
+    external_libraries = {uniformizePath(addLibrarySuffix(external_libraries))};
   end
   if isempty(external_libraries)
     external_libraries = {};
@@ -287,7 +287,7 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
         r = false;
         return
       end
-      external_libraries_modified = [external_libraries_modified, newline, ['"', addLibrarySuffix(k{1}), '"']];
+      external_libraries_modified = [external_libraries_modified, newline, ['"', uniformizePath(addLibrarySuffix(k{1})), '"']];
     end
     r = true;
   else
@@ -325,7 +325,7 @@ function [r, c_flags_modified] = checkAndPrepareCflags(c_flags)
     if ischar(c_flags)
       r = true;
       c_flags_modified = ['set(CMAKE_C_FLAGS "', c_flags, '")'];
-   else
+    else
       r = false;
       c_flags_modified = '';
     end
@@ -340,10 +340,14 @@ function [r, cxx_flags_modified] = checkAndPrepareCppflags(cxx_flags)
     if ischar(cxx_flags)
       r = true;
       cxx_flags_modified = ['set(CMAKE_CXX_FLAGS "', cxx_flags, '")'];
-   else
+    else
       r = false;
       cxx_flags_modified = '';
     end
   end
+end
+%=============================================================================
+function pathOut = uniformizePath(pathIn)
+  pathOut = replace(pathIn, '\', '/');
 end
 %=============================================================================
