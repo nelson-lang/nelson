@@ -222,7 +222,7 @@ AnonymousMacroFunctionDef::convertToStandardFunction(int nLhs)
     }
     std::regex rx("@\\s*\\(");
     std::string replaceBy = "function " + outputVariablesList + "anonymousFunction(";
-    modified = std::regex_replace(modified, rx, replaceBy, std::regex_constants::format_first_only); 
+    modified = std::regex_replace(modified, rx, replaceBy, std::regex_constants::format_first_only);
     boost::replace_first(modified, ")", ")\n" + outputVariablesList);
     modified = modified + "\n";
     return modified;
