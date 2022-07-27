@@ -68,7 +68,7 @@ parts:
       ln -s mpiexec.openmpi $CRAFT_PART_INSTALL/usr/bin/mpiexec
 
       craftctl set grade=stable
-      craftctl set version=0.6.6.0
+      craftctl set version=0.6.7.0
       rm -rf $CRAFT_PART_INSTALL/usr/share/perl5/XML/
       rm -rf $CRAFT_PART_INSTALL/usr/share/texmf
 
@@ -208,7 +208,7 @@ parts:
 
 apps:
   nelson:
-    command: usr/Nelson-0.6.6/bin/linux/nelson
+    command: usr/Nelson-0.6.7/bin/linux/nelson
     desktop: usr/share/applications/org.nelson.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
