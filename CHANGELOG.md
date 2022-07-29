@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.6.8 (UNRELEASED)
+
+### Fixed
+
+- [#691](http://github.com/Nelson-numerical-software/nelson/issues/691): help generation crashs if copyright tag is empty.
+
 ## 0.6.7 (2022-07-27)
 
 ### Added
@@ -17,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `wait`: Wait for futures to be completed.
   - `Diary` property for `FevalFuture` object.
 
-- CITATION.cff  with human- and machine-readable citation information for software. 
+- CITATION.cff with human- and machine-readable citation information for software.
 
 ### Changed
 
