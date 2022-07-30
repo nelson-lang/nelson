@@ -18,7 +18,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
 {
     ArrayOfVector retval;
     if (argIn.empty()) {
-        nargoutcheck(nLhs, 3);
+        nargoutcheck(nLhs, 0, 3);
         if (nLhs >= 0) {
             retval << ArrayOf::characterArrayConstructor(GetArchitectureType());
         }

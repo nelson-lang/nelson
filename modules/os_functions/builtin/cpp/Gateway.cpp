@@ -39,7 +39,7 @@ static const nlsGateway gateway[] = {
     { "ispc", (ptrBuiltin)Nelson::OsFunctionsGateway::ispcBuiltin, 1, 0 },
     { "isunix", (ptrBuiltin)Nelson::OsFunctionsGateway::isunixBuiltin, 1, 0 },
     { "ismac", (ptrBuiltin)Nelson::OsFunctionsGateway::ismacBuiltin, 1, 0 },
-    { "computer", (ptrBuiltin)Nelson::OsFunctionsGateway::computerBuiltin, 1, 0 },
+    { "computer", (ptrBuiltin)Nelson::OsFunctionsGateway::computerBuiltin, 3, 0 },
     { "createGUID", (ptrBuiltin)Nelson::OsFunctionsGateway::createGUIDBuiltin, 1, 1 },
     { "winopen", (ptrBuiltin)Nelson::OsFunctionsGateway::winopenBuiltin, 0, 1 },
     { "winqueryreg", (ptrBuiltin)Nelson::OsFunctionsGateway::winqueryregBuiltin, 1, -2 },
