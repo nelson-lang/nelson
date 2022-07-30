@@ -1122,7 +1122,7 @@ XmlDocDocument::readFileCaseCopyright(xmlDocPtr doc, xmlNodePtr node)
         return false;
     }
     xmlNodePtr copyrightNode = node->children;
-    if (copyrightNode->children) {
+    if (copyrightNode && copyrightNode->children) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("line ") + std::to_wstring(copyrightNode->line) + _W(": ")
             + utf8_to_wstring(COPYRIGHT_TAG) + L" " + _W("has child."));
@@ -1130,13 +1130,18 @@ XmlDocDocument::readFileCaseCopyright(xmlDocPtr doc, xmlNodePtr node)
         return false;
     }
     std::string str;
-    if (copyrightNode->content) {
+    if (copyrightNode && copyrightNode->content) {
         str = std::string((char*)copyrightNode->content);
     }
     boost::trim(str);
     if (str.empty()) {
-        warningMessage.push_back(_W("line ") + std::to_wstring(copyrightNode->line) + _W(": ")
-            + utf8_to_wstring(COPYRIGHT_TAG) + L" " + _W("is empty."));
+        if (copyrightNode) {
+            warningMessage.push_back(_W("line ") + std::to_wstring(copyrightNode->line) + _W(": ")
+                + utf8_to_wstring(COPYRIGHT_TAG) + L" " + _W("is empty."));
+        } else {
+            warningMessage.push_back(
+                _W("line ") + _W(": ") + utf8_to_wstring(COPYRIGHT_TAG) + L" " + _W("is empty."));
+        }
     } else {
         items.push_back(new XmlDocCopyrightItem(utf8_to_wstring(str)));
     }

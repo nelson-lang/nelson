@@ -118,6 +118,11 @@ install(
   DESTINATION ${ROOT_OUTPUT}/modules/${module_name}
   FILES_MATCHING
   PATTERN "*.m")
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/xml
+    DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/tests
+    FILES_MATCHING
+    PATTERN "*.xml")
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources/about.txt
         DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/resources)
 install(

@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#689](http://github.com/Nelson-numerical-software/nelson/issues/689): `c = computer` returns an error.
 
+- [#691](http://github.com/Nelson-numerical-software/nelson/issues/691): help generation crashs if copyright tag is empty.
+
 ## 0.6.7 (2022-07-27)
 
 ### Added
