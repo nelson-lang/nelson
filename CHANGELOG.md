@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 0.6.8 (UNRELEASED)
 
+### Changed
+
+- [#687](http://github.com/Nelson-numerical-software/nelson/issues/687): Uses BS thread pool 3.2.0.
+
 ### Fixed
+
+- [#689](http://github.com/Nelson-numerical-software/nelson/issues/689): `c = computer` returns an error.
 
 - [#691](http://github.com/Nelson-numerical-software/nelson/issues/691): help generation crashs if copyright tag is empty.
 
