@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--SEQUENTIAL TEST REQUIRED-->
+%=============================================================================
 fptr = str2func('pause');
 for i = 1:15
  f(i) = parfeval(backgroundPool, fptr, 0, 5);

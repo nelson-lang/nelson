@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--SEQUENTIAL TEST REQUIRED-->
+%=============================================================================
 addpath([nelsonroot(), '/modules/parallel/tests/functions'])
 fptr = str2func('func_diary');
 f = parfeval(backgroundPool, fptr, 0, 5, 1000);

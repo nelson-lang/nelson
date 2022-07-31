@@ -7,10 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% destroy all background threads
-pool = backgroundPool();
-cancelAll(pool.FevalQueue);
-%=============================================================================
 delete(backgroundPool_used());
 delete(FevalFuture_used());
 delete(FevalQueue_used());

@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - [#687](http://github.com/Nelson-numerical-software/nelson/issues/687): Uses BS thread pool 3.2.0.
 
+- Windows 32 bits threads support: due to threading limitations with MKL, openMP and others threads
+  computation threads are limited to 4 threads on Windows 32 bits.
+
 ### Fixed
 
 - [#689](http://github.com/Nelson-numerical-software/nelson/issues/689): `c = computer` returns an error.

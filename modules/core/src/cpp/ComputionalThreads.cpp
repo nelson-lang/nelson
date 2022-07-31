@@ -65,6 +65,13 @@ getNumberOfPhysicalCores()
         offset += current_info->Size;
         ++nbPhysicalCores;
     } while (offset < length);
+
+#ifdef _WIN64
+#else
+    if (nbPhysicalCores > 4) {
+        nbPhysicalCores = 4;
+    }
+#endif
 #elif __APPLE__
     int nm[2];
     size_t len = 4;

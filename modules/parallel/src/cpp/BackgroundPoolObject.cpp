@@ -30,6 +30,12 @@ BackgroundPoolObject::getInstance()
     return m_pInstance;
 }
 //=============================================================================
+bool
+BackgroundPoolObject::isInitialized()
+{
+    return (m_pInstance != nullptr);
+}
+//=============================================================================
 BackgroundPoolObject::~BackgroundPoolObject()
 {
     if (threadPool) {
@@ -210,7 +216,7 @@ BackgroundPoolObject::resetThreadPool()
 {
     threadPool->paused = true;
     FevalQueueObject::getInstance()->reset();
-    threadPool->reset();
+    threadPool->reset(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
     threadPool->paused = false;
 }
 //=============================================================================
