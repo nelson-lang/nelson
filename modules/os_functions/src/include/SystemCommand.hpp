@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <tuple>
 #include <vector>
 #include <utility>
 #include "ArrayOf.hpp"
@@ -17,11 +18,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSOS_FUNCTIONS_IMPEXP std::pair<int, std::wstring>
-SystemCommand(const std::wstring& command, bool withLoopEvents, size_t evaluatorID);
+NLSOS_FUNCTIONS_IMPEXP std::tuple<int, std::wstring, uint64>
+SystemCommand(const std::wstring& command, uint64 timeout, bool withLoopEvents, size_t evaluatorID);
 //=============================================================================
-NLSOS_FUNCTIONS_IMPEXP std::vector<std::pair<int, std::wstring>>
-ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop, size_t evaluatorID);
+NLSOS_FUNCTIONS_IMPEXP std::vector<std::tuple<int, std::wstring, uint64>>
+ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& timeouts,
+    bool withEventsLoop, size_t evaluatorID);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
