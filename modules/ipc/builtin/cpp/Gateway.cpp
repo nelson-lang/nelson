@@ -33,8 +33,7 @@ initializeIpcModule(Nelson::Evaluator* eval)
     int currentPID = getCurrentPID();
     auto mode = (NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode();
     registerPidInSharedMemory(currentPID, mode);
-    createNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
-    return true;
+    return createNelsonInterprocessReceiver(currentPID, eval->haveEventsLoop());
 }
 //=============================================================================
 static bool

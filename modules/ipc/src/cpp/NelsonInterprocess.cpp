@@ -284,7 +284,15 @@ createNelsonInterprocessReceiver(int pid, bool withEventsLoop)
         isMessageQueueFails = true;
         isMessageQueueReady = false;
         return false;
+    } catch (const boost::thread_resource_error&) {
+        Warning(L"Nelson::ipc:resourcesNotAvailable", _W("IPC resources not available."));
+        receiver_thread = nullptr;
+        receiverLoopRunning = false;
+        isMessageQueueFails = true;
+        isMessageQueueReady = false;
+        return false;
     }
+
     if (receiver_thread) {
         receiver_thread->detach();
     }
