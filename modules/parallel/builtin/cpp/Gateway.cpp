@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BackgroundPoolObject.hpp"
 #include "backgroundPoolBuiltin.hpp"
 #include "backgroundPool_getBuiltin.hpp"
 #include "backgroundPool_displayBuiltin.hpp"
@@ -74,11 +75,20 @@ static const nlsGateway gateway[] = {
 
 };
 //=============================================================================
+static bool
+finishParallelModule(Nelson::Evaluator* eval)
+{
+    if (BackgroundPoolObject::isInitialized()) {
+        BackgroundPoolObject::getInstance()->resetThreadPool();
+    }
+    return true;
+}
+//=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishParallelModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

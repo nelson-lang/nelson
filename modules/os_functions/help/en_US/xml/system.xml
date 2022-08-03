@@ -11,17 +11,19 @@
 
   <syntax>
     <syntax_item>status = system(command)</syntax_item>
+    <syntax_item>status = system(command, timeout)</syntax_item>
     <syntax_item>status = dos(command)</syntax_item>
     <syntax_item>status = unix(command)</syntax_item>
-    <syntax_item>s = unix(commands, '-parallel')</syntax_item>
-    <syntax_item>[status, output] = system(command)</syntax_item>
-    <syntax_item>[status, output] = dos(command)</syntax_item>
-    <syntax_item>[status, output] = unix(command)</syntax_item>
-    <syntax_item>[status, output] = system(command, '-echo')</syntax_item>
-    <syntax_item>[status, output] = dos(command, '-echo')</syntax_item>
-    <syntax_item>[status, output] = unix(command, '-echo')</syntax_item>
-    <syntax_item>[s, outputs] = unix(commands, '-parallel')</syntax_item>
-  </syntax>
+    <syntax_item>status = unix(commands)</syntax_item>
+    <syntax_item>[status, output, duration] = system(command)</syntax_item>
+    <syntax_item>[status, output, duration] = dos(command)</syntax_item>
+    <syntax_item>[status, output, duration] = unix(command)</syntax_item>
+    <syntax_item>[status, output, duration] = system(command, '-echo')</syntax_item>
+    <syntax_item>[status, output, duration] = dos(command, '-echo')</syntax_item>
+    <syntax_item>[status, output, duration] = unix(command, '-echo')</syntax_item>
+    <syntax_item>[s, outputs, duration] = unix(commands)</syntax_item>
+    <syntax_item>[s, outputs, duration] = unix(commands, timeouts)</syntax_item>
+   </syntax>
 
   <param_input>
     <param_input_item>
@@ -32,7 +34,15 @@
       <param_name>commands</param_name>
       <param_description>a cell of string or a string array: commands to execute in command shell in parallel.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>timeout</param_name>
+      <param_description>an integer value (scalar): kill process using timeout in seconds.</param_description>
+    </param_input_item>
 
+    <param_input_item>
+      <param_name>timeouts</param_name>
+      <param_description>an integer value (scalar: applied to all commands or vector: one by command): kill process using timeout in seconds.</param_description>
+    </param_input_item>
   </param_input>
 
   <param_output>
@@ -44,6 +54,10 @@
       <param_name>output</param_name>
       <param_description>a string: output of the command.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>duration</param_name>
+      <param_description>integer value: duration (milliseconds).</param_description>
+    </param_output_item>
 
     <param_output_item>
       <param_name>s</param_name>
@@ -53,16 +67,20 @@
       <param_name>output</param_name>
       <param_description>a string array: output of the commands.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>duration</param_name>
+      <param_description>an matrix of integer value: duration of each execution (milliseconds).</param_description>
+    </param_output_item>
 
   </param_output>
-
 
   <description>
     <p><b>system</b> sends a string to the operating system for execution. Standard output and standard errors of the shell command are written in the calling shell.</p>
     <p><b>[status, output] = system(command, '-echo')</b> forces the output to the Command Window, even though it is also being assigned into a variable.</p>
     <p>Callback functions cannot be called until <b>system</b> command is not finished.</p>
     <p>Nelson will convert characters to the encoding that your operating system shell accepts (ANSI on Windows by default, UTF-8 on others systems).</p>
-    <p>command can be interrupted with <b>CTRL-C</b> key, in this case status code returned will be 130 (128 + SIGNINT).</p>
+    <p>command can be interrupted with <b>CTRL-C</b> key, in this case status code returned will be 130 (128 + SIGNINT) and <b>output </b> contains 'ABORTED'.</p>
+    <p>if timeout value is 0. timeout disabled.</p>
   </description>
 
   <used_function></used_function>
@@ -80,14 +98,21 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"], '-parallel')]]>
+    <example_item_data><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"])]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[tic();[s,w] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"], '-parallel'), toc()]]>
+    <example_item_data><![CDATA[tic();[s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"]), toc()]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[tic();[s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"], [1, 5, 3]), toc()]]>
     </example_item_data>
   </example_item>
 

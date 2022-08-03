@@ -53,6 +53,9 @@ public:
     void
     resetThreadPool();
 
+    static bool
+    isInitialized();
+
 private:
     BackgroundPoolObject();
     ~BackgroundPoolObject() override;

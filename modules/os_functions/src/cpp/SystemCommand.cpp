@@ -15,6 +15,8 @@
 #else
 #include <fcntl.h>
 #endif
+#include <BS_thread_pool.hpp>
+#include <ctime>
 #include <thread>
 #include <chrono>
 #include <algorithm>
@@ -23,7 +25,6 @@
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
 #include <boost/filesystem.hpp>
-#include <BS_thread_pool.hpp>
 #include "nlsConfig.h"
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
@@ -53,79 +54,201 @@ initGuiDynamicLibrary();
 static std::wstring
 readFile(const boost::filesystem::path& filePath);
 //=============================================================================
-static std::pair<int, std::wstring>
-internalSystemCommand(size_t evaluatorID, const std::wstring& command)
+class systemTask
 {
-    boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
-    boost::filesystem::path tempOutputFile = pwd;
-    boost::filesystem::path tempErrorFile = pwd;
-    tempOutputFile /= boost::filesystem::unique_path();
-    tempErrorFile /= boost::filesystem::unique_path();
+public:
+    //=============================================================================
+    void
+    terminate()
+    {
+        _terminate = true;
+        _running = false;
+    }
+    //=============================================================================
+    bool
+    isRunning()
+    {
+        return _running;
+    }
+    //=============================================================================
+    std::tuple<int, std::wstring, uint64>
+    getResult()
+    {
+        if (wasAborted) {
+            return std::make_tuple(_exitCode, L"ABORTED", _duration);
+        }
+        return std::make_tuple(_exitCode, _message, _duration);
+    };
+    //=============================================================================
+    uint64
+    getDuration()
+    {
+        if (_running) {
+            std::chrono::steady_clock::time_point _currentTimePoint
+                = std::chrono::steady_clock::now();
+            return std::chrono::duration_cast<std::chrono::milliseconds>(
+                _currentTimePoint - _beginTimePoint)
+                .count();
+        }
+        return std::chrono::duration_cast<std::chrono::milliseconds>(
+            _endTimePoint - _beginTimePoint)
+            .count();
+    }
+    //=============================================================================
+    void
+    evaluateCommand(const std::wstring& command, uint64 timeout)
+    {
+        _beginTimePoint = std::chrono::steady_clock::now();
 
-    std::pair<int, std::wstring> result;
-    bool mustDetach = false;
-    std::wstring _command = DetectDetachProcess(command, mustDetach);
-    std::wstring argsShell;
+        _terminate = false;
+        _running = true;
+        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
+        boost::filesystem::path tempOutputFile = pwd;
+        boost::filesystem::path tempErrorFile = pwd;
+        tempOutputFile /= boost::filesystem::unique_path();
+        tempErrorFile /= boost::filesystem::unique_path();
+        bool mustDetach = false;
+        std::wstring _command = DetectDetachProcess(command, mustDetach);
+        std::wstring argsShell;
 #ifdef _MSC_VER
-    argsShell = L" /a /c ";
+        argsShell = L" /a /c ";
 #else
-    argsShell = L" -c ";
+        argsShell = L" -c ";
 #endif
-    std::wstring cmd
-        = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command + L"\"";
-    std::wstring outputResult;
-    int ierr;
-    if (mustDetach) {
-        boost::process::child childProcess(cmd);
-        childProcess.detach();
-        ierr = 0;
-    } else {
-        boost::process::child childProcess(cmd,
-            boost::process::std_out > tempOutputFile.generic_string().c_str(),
-            boost::process::std_err > tempErrorFile.generic_string().c_str(),
-            boost::process::std_in < boost::process::null);
-        bool wasTerminated = false;
-        while (childProcess.running()
-            && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
-                childProcess.terminate();
-                wasTerminated = true;
-                break;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        if (wasTerminated) {
-            ierr = SIGINT + 128;
+        std::wstring cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\""
+            + _command + L"\"";
+        if (mustDetach) {
+            boost::process::child childProcess(cmd);
+            childProcess.detach();
+            _exitCode = 0;
         } else {
-            ierr = childProcess.exit_code();
-        }
-        FILE* pFile = nullptr;
-        if (ierr) {
-            outputResult = readFile(tempErrorFile);
-            if (outputResult.empty()) {
+            boost::process::child childProcess(cmd,
+                boost::process::std_out > tempOutputFile.generic_string().c_str(),
+                boost::process::std_err > tempErrorFile.generic_string().c_str(),
+                boost::process::std_in < boost::process::null);
+            while (childProcess.running()) {
+                std::chrono::steady_clock::time_point _currentTimePoint
+                    = std::chrono::steady_clock::now();
+                if ((timeout != 0)
+                    && (std::chrono::duration_cast<std::chrono::seconds>(
+                            _currentTimePoint - _beginTimePoint)
+                               .count()
+                           >= (long long)timeout)) {
+                    _terminate = true;
+                }
+                if (_terminate) {
+                    wasAborted = true;
+                    _endTimePoint = std::chrono::steady_clock::now();
+                    this->_duration = this->getDuration();
+                    this->_exitCode = int(SIGINT + 128);
+                    deleteFile(tempOutputFile);
+                    deleteFile(tempErrorFile);
+                    childProcess.terminate();
+                    _running = false;
+                    return;
+                } else {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                }
+            }
+            this->_exitCode = (int)childProcess.exit_code();
+
+            std::wstring outputResult;
+            if (this->_exitCode) {
+                outputResult = readFile(tempErrorFile);
+                if (outputResult.empty()) {
+                    outputResult = readFile(tempOutputFile);
+                }
+            } else {
                 outputResult = readFile(tempOutputFile);
             }
-        } else {
-            outputResult = readFile(tempOutputFile);
+            _message = outputResult.c_str();
         }
-    }
-    deleteFile(tempOutputFile);
-    deleteFile(tempErrorFile);
+        deleteFile(tempOutputFile);
+        deleteFile(tempErrorFile);
 
-    result.first = ierr;
-    result.second = outputResult;
-    return result;
-}
+        _running = false;
+        _endTimePoint = std::chrono::steady_clock::now();
+        _duration = this->getDuration();
+    }
+    //=============================================================================
+private:
+    //=============================================================================
+    std::atomic<bool> _running = false;
+    std::atomic<bool> _terminate = false;
+    int _exitCode = 0;
+    std::wstring _message = std::wstring();
+    uint64 _duration = uint64(0);
+    bool wasAborted = false;
+    std::chrono::steady_clock::time_point _beginTimePoint;
+    std::chrono::steady_clock::time_point _endTimePoint;
+    //=============================================================================
+};
 //=============================================================================
-std::pair<int, std::wstring>
-SystemCommand(const std::wstring& command, bool withEventsLoop, size_t evaluatorID)
+std::tuple<int, std::wstring, uint64>
+SystemCommand(const std::wstring& command, uint64 timeout, bool withEventsLoop, size_t evaluatorID)
 {
-    std::vector<std::pair<int, std::wstring>> results;
+    std::vector<std::tuple<int, std::wstring, uint64>> results;
     wstringVector commands;
     commands.push_back(command);
+    std::vector<uint64> timeouts;
+    timeouts.push_back(timeout);
 
-    results = ParallelSystemCommand(commands, withEventsLoop, evaluatorID);
+    results = ParallelSystemCommand(commands, timeouts, withEventsLoop, evaluatorID);
+    if (results.size() != 1) {
+        Error(_W("system does not return result."));
+    }
     return results[0];
+}
+//=============================================================================
+std::vector<std::tuple<int, std::wstring, uint64>>
+ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& timeouts,
+    bool withEventsLoop, size_t evaluatorID)
+{
+    std::vector<std::tuple<int, std::wstring, uint64>> results;
+    size_t nbCommands = commands.size();
+    results.resize(nbCommands);
+    size_t nbThreadsMax = (size_t)NelsonConfiguration::getInstance()->getMaxNumCompThreads();
+    size_t nbThreads = std::min(nbCommands, nbThreadsMax);
+
+    std::vector<systemTask*> taskList;
+    BS::thread_pool pool((BS::concurrency_t)nbThreads);
+    for (size_t k = 0; k < nbCommands; k++) {
+        try {
+            systemTask* task = new systemTask();
+            taskList.push_back(task);
+            pool.push_task(&systemTask::evaluateCommand, task, commands[k], timeouts[k]);
+        } catch (std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    }
+    do {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
+            for (size_t k = 0; k < nbCommands; k++) {
+                taskList[k]->terminate();
+            }
+            break;
+        }
+        if (withEventsLoop) {
+            ProcessEventsDynamicFunction();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+    } while (pool.get_tasks_total());
+
+    for (size_t k = 0; k < nbCommands; k++) {
+        if (taskList[k]) {
+            results[k] = taskList[k]->getResult();
+            taskList[k]->terminate();
+        }
+    }
+    for (systemTask* task : taskList) {
+        if (task) {
+            delete task;
+            task = nullptr;
+        }
+    }
+    taskList.clear();
+    pool.reset((BS::concurrency_t)nbThreads);
+    return results;
 }
 //=============================================================================
 std::wstring
@@ -214,36 +337,6 @@ void
 ProcessEventsDynamicFunction()
 {
     ProcessEventsDynamicFunction(false);
-}
-//=============================================================================
-std::vector<std::pair<int, std::wstring>>
-ParallelSystemCommand(const wstringVector& commands, bool withEventsLoop, size_t evaluatorID)
-{
-    std::vector<std::pair<int, std::wstring>> results;
-    int nbCommands = (int)commands.size();
-    results.resize(nbCommands);
-    int nbThreadsMax = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
-    const int nbThreads = std::min(nbCommands, nbThreadsMax);
-
-    BS::thread_pool pool(nbThreads);
-    std::vector<std::future<std::pair<int, std::wstring>>> systemThreads(nbCommands);
-
-    for (int k = 0; k < nbCommands; k++) {
-        systemThreads[k] = pool.submit(internalSystemCommand, evaluatorID, commands[k]);
-    }
-    if (withEventsLoop) {
-        do {
-            ProcessEventsDynamicFunction();
-            std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
-        } while (pool.get_tasks_running());
-    } else {
-        pool.wait_for_tasks();
-    }
-
-    for (ompIndexType k = 0; k < nbCommands; k++) {
-        results[k] = systemThreads[k].get();
-    }
-    return results;
 }
 //=============================================================================
 void

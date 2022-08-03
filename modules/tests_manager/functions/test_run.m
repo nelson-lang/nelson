@@ -102,7 +102,15 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
     accumulator = [accumulator; test_case];
     if (length(accumulator) == nbWorkers || count == nbTests - 1)
       commands = {accumulator(1:length(accumulator)).command};
-      [s, m] = unix(commands, '-parallel');
+      timeout = [];
+      for i = 1:length(accumulator)
+        if (accumulator(i).isbench)
+          timeout = [timeout, 360];
+        else
+          timeout = [timeout, 120];
+        end
+      end
+      [s, m] = unix(commands, timeout);
       for i = 1:length(accumulator)
         accumulator(i).msg = m{i};
         accumulator(i).res_cmd = s(i);
@@ -390,11 +398,6 @@ function test_case = create_test_case(filename)
       end
       redirect_err = [tempdir(), '' , f, '.err'];
       r = rmfile(redirect_err);
-      if test_case.isbench
-        timeout = int2str(360);
-      else
-        timeout = int2str(120);
-      end
       cmd = '';
 
       command_filename = [tempdir(), 'test_', createGUID(), '.m'];
@@ -418,7 +421,7 @@ function test_case = create_test_case(filename)
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
 
-      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
+      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case.options.gui_mode
         test_case.command = build_command_nelson_gui(cmd, test_case.options.mpi_mode);
       elseif test_case.options.adv_cli_mode

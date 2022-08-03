@@ -7,9 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--SEQUENTIAL TEST REQUIRED-->
+%=============================================================================
 p = str2func('cos');
 b = backgroundPool();
 A = parfeval(b, p, 1, pi);
 R = fetchOutputs(A);
-assert_isequal(R, -1);
+assert_isapprox(R, -1,1e-7);
 %=============================================================================

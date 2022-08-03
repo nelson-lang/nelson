@@ -52,12 +52,13 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
   ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 # ==============================================================================
 add_library(${module_library_builtin_name} SHARED ${OS_FUNCTONS_BUILTIN})
 # ==============================================================================
 target_link_libraries(${module_library_builtin_name} ${module_library_name}
-                      nlsInterpreter nlsTypes nlsApi_nelson nlsI18n)
+                      nlsInterpreter nlsTypes nlsApi_nelson nlsI18n nlsData_structures)
 # ==============================================================================
 set_target_properties(
   ${module_library_builtin_name}
